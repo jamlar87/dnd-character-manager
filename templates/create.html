@@ -38,6 +38,10 @@
       <div class="option-grid" id="subrace-grid"></div>
     </div>
     <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
+    <div style="margin-top:0.75rem;display:none" id="name-suggest-row">
+      <button class="btn btn-outline btn-sm" onclick="randomName()">🎲 Random Name</button>
+      <span id="name-suggest" style="margin-left:0.5rem;color:var(--accent);font-size:0.9rem"></span>
+    </div>
     <div class="wizard-nav"><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
@@ -78,7 +82,10 @@
   <div class="wizard-step" data-step="4">
     <h3>Character Details</h3>
     <div class="form-group"><label>Name</label><input type="text" id="char-name" placeholder="Character name" required></div>
-    <div class="form-group"><label>Background</label><select id="char-bg"></select></div>
+    <div class="form-group">
+      <label>Background</label>
+      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button></div>
+    </div>
     <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
     <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="prevStep()">Review →</button></div>
@@ -88,6 +95,7 @@
   <div class="wizard-step" data-step="5">
     <h3>Review & Create</h3>
     <div class="card" id="review-card"></div>
+    <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" onclick="autoEquip()">🎒 Auto-Equipment</button></div>
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" id="create-btn" onclick="createCharacter()">✓ Create Character</button></div>
   </div>
 </div>
@@ -103,7 +111,35 @@ const ALIGNMENTS = {{ alignments | tojson }};
 const STD_ARRAY = [15,14,13,12,10,8];
 const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", level: 1 };
+// Race name generator tables
+const RACE_NAMES = {
+  "Dwarf": {male:["Thorin","Durin","Balin","Dwalin","Oin","Gloin","Bofur","Bombur","Nori","Dori"],female:["Dis","Hilda","Brunhild","Gerta","Helga","Inga","Sigrid","Thyra","Yrsa","Kara"],clan:["Ironforge","Battlehammer","Bronzebeard","Darkiron","Stoutmantle","Deepdelve","Anvilmar","Stonebrow","Hammersmith","Forgefire"]},
+  "Elf": {male:["Elrond","Thranduil","Legolas","Finrod","Celeborn","Haldir","Fingolfin","Glorfindel","Cirdan","Eol"],female:["Galadriel","Arwen","Luthien","Idril","Nimrodel","Earwen","Aredhel","Elwing","Miriel","Finduilas"],clan:["Silverleaf","Moonshadow","Starbreeze","Dawnwhisper","Nightbreeze","Goldenoak","Swiftarrow","Brightsong","Dewdrop","Windwalker"]},
+  "Halfling": {male:["Bilbo","Frodo","Samwise","Meriadoc","Peregrin","Fredegar","Tobold","Hamfast","Drogo","Odo"],female:["Rosie","Belladonna","Primula","Lobelia","Daisy","Marigold","Pearl","Esmeralda","Pansy","Ruby"],clan:["Baggins","Took","Brandybuck","Gamgee","Bolger","Proudfoot","Greenhand","Brockhouse","Goodbody","Chubb"]},
+  "Human": {male:["Aldric","Cedric","Edmund","Garret","Harold","Lothar","Merek","Oswald","Roland","Theron"],female:["Alys","Brynn","Catelyn","Elara","Gwendolyn","Isolde","Liana","Morwen","Rowena","Seraphine"],clan:["Hawke","Blackwood","Stormwind","Ashford","Ravencroft","Thornfield","Westbrook","Northrend","Hightower","Greymane"]},
+  "Dragonborn": {male:["Kriv","Medrash","Nadarr","Pandjed","Patrin","Rhogar","Sora","Torrin","Ushar","Vrakas"],female:["Akra","Biri","Daar","Farideh","Harann","Jheri","Kava","Korinn","Nala","Sora"],clan:["Clethtinthiallor","Daardendrian","Delmirev","Drachedandion","Fenkenkabradon","Kepeshkmolik","Kerrhylon","Nemmonis","Verthisathurgiesh","Yarjerit"]},
+  "Gnome": {male:["Fizzwick","Gimble","Nackle","Orryn","Pock","Quill","Sprocket","Tinker","Wizzle","Zook"],female:["Bimpnottin","Caramip","Duvamil","Ellywick","Lilli","Loopmottin","Mardnab","Roywyn","Shamil","Zanna"],clan:["Beren","Daergel","Folkor","Garrick","Nackle","Raulnor","Scheppen","Turen","Warrick","Wiggens"]},
+  "Half-Elf": {male:["Aelar","Caelum","Doran","Eryndor","Fenris","Kael","Lorien","Myles","Theron","Varek"],female:["Aeris","Caelia","Elowen","Illyria","Kyra","Lyra","Maeris","Nyx","Seren","Vaela"],clan:["Amakiir","Ilphelkiir","Moonflower","Wintermere","Summerwind","Autumnvale","Springbrook","Truehart","Goodfellow","Whispermoon"]},
+  "Half-Orc": {male:["Durgash","Goruk","Hrogath","Krusk","Lurtz","Morg","Ogruk","Thokk","Ulfgrim","Zugor"],female:["Borga","Druga","Grenka","Hagra","Kella","Murook","Rogga","Sutha","Urzul","Vorga"],clan:["Bonecrusher","Doomhammer","Ironhide","Skullsplitter","Warsong","Bloodfist","Gorehowl","Dreadmaw","Stormrage","Blackrock"]},
+  "Tiefling": {male:["Akmenos","Damakos","Ekemon","Iados","Kairon","Leucis","Melech","Morthos","Phelan","Skamos"],female:["Akta","Anakis","Bryseis","Criella","Damaia","Ea","Kallista","Lerissa","Makaria","Nemeia"],clan:["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary"]}
+};
+
+const STARTING_EQUIPMENT = {
+  "Barbarian":["Greataxe","2 Handaxes","Explorer's Pack","4 Javelins"],
+  "Bard":["Rapier","Entertainer's Pack","Lute","Leather Armor","Dagger"],
+  "Cleric":["Mace","Scale Mail","Light Crossbow + 20 Bolts","Priest's Pack","Shield","Holy Symbol"],
+  "Druid":["Wooden Shield","Scimitar","Leather Armor","Explorer's Pack","Druidic Focus"],
+  "Fighter":["Chain Mail","Longsword","Shield","Light Crossbow + 20 Bolts","Dungeoneer's Pack"],
+  "Monk":["Shortsword","Dungeoneer's Pack","10 Darts"],
+  "Paladin":["Longsword","Shield","5 Javelins","Priest's Pack","Chain Mail","Holy Symbol"],
+  "Ranger":["Longbow + 20 Arrows","Shortsword","Scale Mail","Explorer's Pack"],
+  "Rogue":["Rapier","Shortbow + 20 Arrows","Burglar's Pack","Leather Armor","2 Daggers","Thieves' Tools"],
+  "Sorcerer":["Light Crossbow + 20 Bolts","Arcane Focus","Dungeoneer's Pack","2 Daggers"],
+  "Warlock":["Light Crossbow + 20 Bolts","Arcane Focus","Scholar's Pack","Leather Armor","Dagger"],
+  "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
+};
+
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [] };
 let step = 0;
 
 function updateDots() {
@@ -319,8 +355,9 @@ async function createCharacter() {
     class_name: state.class_name, subclass: state.subclass,
     abilities: state.abilities, skills: state.skills,
     asi_picks: state.asi_picks, background: state.background,
-    alignment: state.alignment, level: state.level,
-    equipment: []
+    alignment: state.alignment, personality: state.personality, backstory: state.backstory,
+    level: state.level,
+    equipment: state.equipment
   };
 
   const r = await fetch('/api/character/create', {
@@ -335,5 +372,52 @@ async function createCharacter() {
 buildRaces();
 buildClasses();
 buildAbilities();
+
+// ── Auto-fill functions ─────────────────────────────────────────────
+
+function randomName() {
+  const data = RACE_NAMES[state.race] || RACE_NAMES["Human"];
+  const gender = Math.random() < 0.5 ? 'male' : 'female';
+  const first = data[gender][Math.floor(Math.random() * data[gender].length)];
+  const clan = data.clan[Math.floor(Math.random() * data.clan.length)];
+  const name = first + ' ' + clan;
+  document.getElementById('name-suggest').textContent = name;
+  state.name = name;
+}
+
+async function autoFillDetails() {
+  const btn = event.target;
+  btn.textContent = '⏳...'; btn.disabled = true;
+  const name = document.getElementById('char-name').value || state.name || '';
+  try {
+    const r = await fetch('/api/ai/generate', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ race: state.race, subrace: state.subrace, class_name: state.class_name, subclass: state.subclass, name })
+    });
+    const data = await r.json();
+    if (data.name) { document.getElementById('char-name').value = data.name; state.name = data.name; }
+    if (data.background && [...document.getElementById('char-bg').options].some(o => o.value === data.background))
+      document.getElementById('char-bg').value = data.background;
+    if (data.alignment) document.getElementById('char-align').value = data.alignment;
+    state.personality = data.personality || '';
+    state.backstory = data.backstory || '';
+  } catch(e) { console.error(e); }
+  btn.textContent = '🤖 Auto-Fill'; btn.disabled = false;
+}
+
+function autoEquip() {
+  if (state.class_name && STARTING_EQUIPMENT[state.class_name]) {
+    state.equipment = STARTING_EQUIPMENT[state.class_name];
+    buildReview();
+  }
+}
+
+// Show/hide name suggest when race selected
+const origSelectRace = selectRace;
+selectRace = function(r) {
+  origSelectRace(r);
+  document.getElementById('name-suggest-row').style.display = 'block';
+  document.getElementById('name-suggest').textContent = '';
+};
 </script>
 {% endblock %}

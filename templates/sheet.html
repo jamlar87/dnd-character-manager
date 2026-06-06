@@ -28,10 +28,16 @@
     <h1 style="margin:0">{{ character.name }}</h1>
     <span class="badge badge-accent">Lv{{ character.level }} {{ character.race }}{% if character.subrace %} ({{ character.subrace }}){% endif %} {{ character.class_name }}</span>
     {% if character.subclass %}<span class="badge badge-muted">{{ character.subclass }}</span>{% endif %}
+    {% if character.background %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
   </div>
   <a href="/dashboard" class="btn btn-outline btn-sm">← Back</a>
 </div>
-
+{% if character.personality or character.backstory %}
+<div class="card" style="margin-bottom:1rem;padding:0.75rem 1rem;font-size:0.85rem">
+  {% if character.personality %}<p style="color:var(--accent);margin:0">{{ character.personality }}</p>{% endif %}
+  {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic">{{ character.backstory }}</p>{% endif %}
+</div>
+{% endif %}
 <div class="sheet-grid">
   <!-- HP Card -->
   <div class="card">

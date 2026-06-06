@@ -3,11 +3,13 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import httpx
 from fastapi import FastAPI, Request, Form, HTTPException, Response
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from jinja2 import Environment, FileSystemLoader
@@ -59,6 +61,8 @@ def init_db():
             level INTEGER DEFAULT 1,
             background TEXT DEFAULT '',
             alignment TEXT DEFAULT '',
+            personality TEXT DEFAULT '',
+            backstory TEXT DEFAULT '',
             strength INTEGER DEFAULT 10,
             dexterity INTEGER DEFAULT 10,
             constitution INTEGER DEFAULT 10,
@@ -105,6 +109,15 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
     """)
+    # Migration: add personality/backstory columns if missing
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN personality TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN backstory TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
     db.commit()
     db.close()
 
@@ -355,14 +368,14 @@ async def api_create_character(request: Request):
     db = get_db()
     cur = db.execute("""
         INSERT INTO characters (user_id, name, race, subrace, class_name, subclass,
-        level, background, alignment, strength, dexterity, constitution, intelligence,
+        level, background, alignment, personality, backstory, strength, dexterity, constitution, intelligence,
         wisdom, charisma, hp_max, hp_current, ac, speed,
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, inventory, equipped)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
-        data.get("background",""), data.get("alignment",""),
+        data.get("background",""), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
         stats["strength"], stats["dexterity"], stats["constitution"],
         stats["intelligence"], stats["wisdom"], stats["charisma"],
         hp_max, hp_max, ac_base, race_data.get("speed", 30),
@@ -464,6 +477,113 @@ async def delete_character(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+# ── Name Generators ─────────────────────────────────────────────────────────
+
+RACE_NAMES = {
+    "Dwarf": {"male": ["Thorin","Durin","Balin","Dwalin","Oin","Gloin","Bofur","Bombur","Nori","Dori"], "female": ["Dis","Hilda","Brunhild","Gerta","Helga","Inga","Sigrid","Thyra","Yrsa","Kara"], "clan": ["Ironforge","Battlehammer","Bronzebeard","Darkiron","Stoutmantle","Deepdelve","Anvilmar","Stonebrow","Hammersmith","Forgefire"]},
+    "Elf": {"male": ["Elrond","Thranduil","Legolas","Finrod","Celeborn","Haldir","Fingolfin","Glorfindel","Cirdan","Eol"], "female": ["Galadriel","Arwen","Luthien","Idril","Nimrodel","Earwen","Aredhel","Elwing","Miriel","Finduilas"], "clan": ["Silverleaf","Moonshadow","Starbreeze","Dawnwhisper","Nightbreeze","Goldenoak","Swiftarrow","Brightsong","Dewdrop","Windwalker"]},
+    "Halfling": {"male": ["Bilbo","Frodo","Samwise","Meriadoc","Peregrin","Fredegar","Tobold","Hamfast","Drogo","Odo"], "female": ["Rosie","Belladonna","Primula","Lobelia","Daisy","Marigold","Pearl","Esmeralda","Pansy","Ruby"], "clan": ["Baggins","Took","Brandybuck","Gamgee","Bolger","Proudfoot","Greenhand","Brockhouse","Goodbody","Chubb"]},
+    "Human": {"male": ["Aldric","Cedric","Edmund","Garret","Harold","Lothar","Merek","Oswald","Roland","Theron"], "female": ["Alys","Brynn","Catelyn","Elara","Gwendolyn","Isolde","Liana","Morwen","Rowena","Seraphine"], "clan": ["Hawke","Blackwood","Stormwind","Ashford","Ravencroft","Thornfield","Westbrook","Northrend","Hightower","Greymane"]},
+    "Dragonborn": {"male": ["Kriv","Medrash","Nadarr","Pandjed","Patrin","Rhogar","Sora","Torrin","Ushar","Vrakas"], "female": ["Akra","Biri","Daar","Farideh","Harann","Jheri","Kava","Korinn","Nala","Sora"], "clan": ["Clethtinthiallor","Daardendrian","Delmirev","Drachedandion","Fenkenkabradon","Kepeshkmolik","Kerrhylon","Nemmonis","Verthisathurgiesh","Yarjerit"]},
+    "Gnome": {"male": ["Fizzwick","Gimble","Nackle","Orryn","Pock","Quill","Sprocket","Tinker","Wizzle","Zook"], "female": ["Bimpnottin","Caramip","Duvamil","Ellywick","Lilli","Loopmottin","Mardnab","Roywyn","Shamil","Zanna"], "clan": ["Beren","Daergel","Folkor","Garrick","Nackle","Raulnor","Scheppen","Turen","Warrick","Wiggens"]},
+    "Half-Elf": {"male": ["Aelar","Caelum","Doran","Eryndor","Fenris","Kael","Lorien","Myles","Theron","Varek"], "female": ["Aeris","Caelia","Elowen","Illyria","Kyra","Lyra","Maeris","Nyx","Seren","Vaela"], "clan": ["Amakiir","Ilphelkiir","Moonflower","Wintermere","Summerwind","Autumnvale","Springbrook","Truehart","Goodfellow","Whispermoon"]},
+    "Half-Orc": {"male": ["Durgash","Goruk","Hrogath","Krusk","Lurtz","Morg","Ogruk","Thokk","Ulfgrim","Zugor"], "female": ["Borga","Druga","Grenka","Hagra","Kella","Murook","Rogga","Sutha","Urzul","Vorga"], "clan": ["Bonecrusher","Doomhammer","Ironhide","Skullsplitter","Warsong","Bloodfist","Gorehowl","Dreadmaw","Stormrage","Blackrock"]},
+    "Tiefling": {"male": ["Akmenos","Damakos","Ekemon","Iados","Kairon","Leucis","Melech","Morthos","Phelan","Skamos"], "female": ["Akta","Anakis","Bryseis","Criella","Damaia","Ea","Kallista","Lerissa","Makaria","Nemeia"], "clan": ["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary"]},
+}
+
+STARTING_EQUIPMENT = {
+    "Barbarian": ["Greataxe", "2 Handaxes", "Explorer's Pack", "4 Javelins"],
+    "Bard": ["Rapier", "Entertainer's Pack", "Lute", "Leather Armor", "Dagger"],
+    "Cleric": ["Mace", "Scale Mail", "Light Crossbow + 20 Bolts", "Priest's Pack", "Shield", "Holy Symbol"],
+    "Druid": ["Wooden Shield", "Scimitar", "Leather Armor", "Explorer's Pack", "Druidic Focus"],
+    "Fighter": ["Chain Mail", "Longsword", "Shield", "Light Crossbow + 20 Bolts", "Dungeoneer's Pack"],
+    "Monk": ["Shortsword", "Dungeoneer's Pack", "10 Darts"],
+    "Paladin": ["Longsword", "Shield", "5 Javelins", "Priest's Pack", "Chain Mail", "Holy Symbol"],
+    "Ranger": ["Longbow + 20 Arrows", "Shortsword", "Scale Mail", "Explorer's Pack"],
+    "Rogue": ["Rapier", "Shortbow + 20 Arrows", "Burglar's Pack", "Leather Armor", "2 Daggers", "Thieves' Tools"],
+    "Sorcerer": ["Light Crossbow + 20 Bolts", "Arcane Focus", "Dungeoneer's Pack", "2 Daggers"],
+    "Warlock": ["Light Crossbow + 20 Bolts", "Arcane Focus", "Scholar's Pack", "Leather Armor", "Dagger"],
+    "Wizard": ["Quarterstaff", "Arcane Focus", "Scholar's Pack", "Spellbook"],
+}
+
+def random_name(race: str, gender: str = "any") -> dict:
+    """Generate a random name for the given race."""
+    data = RACE_NAMES.get(race, RACE_NAMES["Human"])
+    if gender == "any":
+        gender = random.choice(["male", "female"])
+    first = random.choice(data[gender])
+    clan = random.choice(data["clan"])
+    return {"name": f"{first} {clan}", "first": first, "clan": clan}
+
+def random_equipment(class_name: str) -> list[str]:
+    return STARTING_EQUIPMENT.get(class_name, ["Explorer's Pack", "Dagger"])
+
+# ── AI Generation Endpoint ──────────────────────────────────────────────────
+
+@app.post("/api/ai/generate", response_class=JSONResponse)
+async def ai_generate(request: Request):
+    user = require_user(request)
+    data = await request.json()
+    race = data.get("race", "Human")
+    subrace = data.get("subrace", "")
+    class_name = data.get("class_name", "Fighter")
+    subclass = data.get("subclass", "")
+    name = data.get("name", "")  # if user already typed something
+
+    api_key = os.environ.get("GOOGLE_API_KEY", "")
+    if not api_key:
+        # Fallback: deterministic generation
+        return JSONResponse(_fallback_generate(race, class_name, subclass, name))
+
+    prompt = f"""Generate a D&D 5e character concept. Return ONLY valid JSON, no markdown.
+
+Race: {race}{' (' + subrace + ')' if subrace else ''}
+Class: {class_name}{' — ' + subclass if subclass else ''}
+{'Player suggested name: ' + name if name else 'Generate a fitting name.'}
+
+Return:
+{{
+  "name": "Firstname Lastname — race-appropriate, {'use the suggested name if good' if name else 'invent one'}",
+  "background": "PHB background name (Acolyte/Criminal/Sage/Soldier/etc)",
+  "alignment": "D&D alignment (e.g. Neutral Good)",
+  "personality": "2-3 personality traits",
+  "backstory": "Brief 2-3 sentence backstory connecting race, class, and background"
+}}
+
+JSON ONLY:"""
+
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
+                json={"contents": [{"parts": [{"text": prompt}]}]},
+            )
+            result = resp.json()
+            text = result["candidates"][0]["content"]["parts"][0]["text"]
+            # Extract JSON from response (Gemini sometimes wraps in ```json)
+            if "```" in text:
+                text = text.split("```")[1]
+                if text.startswith("json"):
+                    text = text[4:]
+            ai = json.loads(text.strip())
+            return JSONResponse(ai)
+    except Exception:
+        return JSONResponse(_fallback_generate(race, class_name, subclass, name))
+
+def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> dict:
+    """Deterministic fallback when AI is unavailable."""
+    if not name:
+        name = random_name(race)["name"]
+    bg = random.choice(BACKGROUNDS)
+    al = random.choice(ALIGNMENTS)
+    return {
+        "name": name,
+        "background": bg,
+        "alignment": al,
+        "personality": "Brave but reckless. Loyal to friends. Distrusts authority.",
+        "backstory": f"A {race} {class_name}{' of the ' + subclass if subclass else ''} who grew up as a {bg.lower()}. They seek adventure and glory, driven by a desire to prove themselves to the world."
+    }
 
 # ── Startup ─────────────────────────────────────────────────────────────────
 
