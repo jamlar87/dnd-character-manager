@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import asyncio
 import random
 import sqlite3
 import sys
@@ -209,7 +210,14 @@ def init_db():
                           ("spell_slot_data","TEXT DEFAULT '{}'"),
                           ("passive_perception","INTEGER DEFAULT 10"),
                           ("inspiration","INTEGER DEFAULT 0"),
-                          ("exhaustion","INTEGER DEFAULT 0")]:
+                          ("exhaustion","INTEGER DEFAULT 0"),
+                          ("portrait_url","TEXT DEFAULT ''"),
+                          ("portrait_prompt","TEXT DEFAULT ''"),
+                          ("save_proficiencies","TEXT DEFAULT '[]'"),
+                          ("damage_resistances","TEXT DEFAULT '[]'"),
+                          ("damage_immunities","TEXT DEFAULT '[]'"),
+                          ("damage_vulnerabilities","TEXT DEFAULT '[]'"),
+                          ("condition_immunities","TEXT DEFAULT '[]'")]:
         try:
             db.execute(f"ALTER TABLE characters ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
@@ -271,15 +279,15 @@ def _render(template: str, request: Request | None = None, **ctx) -> HTMLRespons
 
 # PHB Ch.2 p.17-43 — Races
 RACES = {
-    "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"]},
-    "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"]},
-    "Halfling": {"subraces": ["Lightfoot Halfling", "Stout Halfling"], "asi": {"dexterity": 2}, "speed": 25, "darkvision": 0, "languages": ["Common", "Halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"]},
-    "Human": {"subraces": [], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": []},
-    "Dragonborn": {"subraces": [], "asi": {"strength": 2, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common", "Draconic"], "traits": ["Draconic Ancestry", "Breath Weapon", "Damage Resistance"]},
-    "Gnome": {"subraces": ["Forest Gnome", "Rock Gnome"], "asi": {"intelligence": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Gnomish"], "traits": ["Gnome Cunning"]},
-    "Half-Elf": {"subraces": [], "asi": {"charisma": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Fey Ancestry", "Skill Versatility"]},
-    "Half-Orc": {"subraces": [], "asi": {"strength": 2, "constitution": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Orc"], "traits": ["Relentless Endurance", "Savage Attacks"]},
-    "Tiefling": {"subraces": [], "asi": {"charisma": 2, "intelligence": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Infernal"], "traits": ["Hellish Resistance", "Infernal Legacy"]},
+    "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"], "desc": "Stout and hardy, standing 4–5 feet tall. Dwarves are known for their skill in battle, resistance to poison, and expertise with stonework. They live in great mountain kingdoms and value tradition and craftsmanship.", "subrace_descs": {"Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. The hardier, wiser dwarf subrace.", "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants light and medium armor proficiency. The stronger, more martial dwarf."}},
+    "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"], "desc": "Graceful and long-lived, elves stand 5–6 feet tall with pointed ears. They are known for their keen senses, immunity to magical sleep, and trance-like meditation instead of sleep.", "subrace_descs": {"High Elf": "+1 Intelligence. Gain a wizard cantrip and an extra language. The most magical of the elves.", "Wood Elf": "+1 Wisdom. Fleet of Foot (+5ft speed) and Mask of the Wild (hide in light natural obscurement). The swift and stealthy elf.", "Dark Elf (Drow)": "+1 Charisma. Superior Darkvision (120ft), Sunlight Sensitivity, and Drow Magic (dancing lights, faerie fire, darkness)."}},
+    "Halfling": {"subraces": ["Lightfoot Halfling", "Stout Halfling"], "asi": {"dexterity": 2}, "speed": 25, "darkvision": 0, "languages": ["Common", "Halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"], "desc": "Small and nimble, standing about 3 feet tall. Halflings are famously lucky, brave despite their size, and able to move through the spaces of larger creatures.", "subrace_descs": {"Lightfoot Halfling": "+1 Charisma. Naturally Stealthy lets you hide behind larger creatures. The charming, sneaky halfling.", "Stout Halfling": "+1 Constitution. Stout Resilience grants advantage on poison saves and poison resistance. The durable halfling."}},
+    "Human": {"subraces": [], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": [], "desc": "The most adaptable and ambitious of the common races. Humans gain +1 to all six ability scores, learn quickly, and are found in every corner of the world."},
+    "Dragonborn": {"subraces": [], "asi": {"strength": 2, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common", "Draconic"], "traits": ["Draconic Ancestry", "Breath Weapon", "Damage Resistance"], "desc": "Tall, muscular humanoids with draconic features — scales, a breath weapon, and damage resistance tied to their draconic ancestry. Proud and honorable warriors."},
+    "Gnome": {"subraces": ["Forest Gnome", "Rock Gnome"], "asi": {"intelligence": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Gnomish"], "traits": ["Gnome Cunning"], "desc": "Small and clever, gnomes stand 3–4 feet tall. Known for their intellect, cunning against magic, and natural gift for invention or illusion.", "subrace_descs": {"Forest Gnome": "+1 Dexterity. Natural Illusionist grants a minor illusion cantrip. Speak with Small Beasts. The woodland trickster.", "Rock Gnome": "+1 Constitution. Artificer's Lore doubles proficiency on History checks for magical/tech items. Tinker lets you build tiny clockwork devices."}},
+    "Half-Elf": {"subraces": [], "asi": {"charisma": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Fey Ancestry", "Skill Versatility"], "desc": "Blending human ambition with elven grace. Half-elves gain +2 Charisma, two bonus skill proficiencies, Fey Ancestry, and Darkvision — highly versatile and natural diplomats."},
+    "Half-Orc": {"subraces": [], "asi": {"strength": 2, "constitution": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Orc"], "traits": ["Relentless Endurance", "Savage Attacks"], "desc": "Powerful and enduring, with gray-green skin and prominent tusks. Half-orcs are relentless in battle (dropping to 1 HP instead of 0) and deal extra damage on critical hits."},
+    "Tiefling": {"subraces": [], "asi": {"charisma": 2, "intelligence": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Infernal"], "traits": ["Hellish Resistance", "Infernal Legacy"], "desc": "Descended from infernal bloodlines, tieflings have horns, tails, and skin in shades of red or purple. They have innate resistance to fire damage and can cast thaumaturgy, hellish rebuke, and darkness."},
 }
 
 SUBASIS = {
@@ -295,18 +303,18 @@ SUBASIS = {
 }
 
 CLASSES = {
-    "Barbarian": {"hd": 12, "skills": ["Animal Handling","Athletics","Intimidation","Nature","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Path of the Berserker","Path of the Totem Warrior"]},
-    "Bard": {"hd": 8, "skills": "all", "skill_count": 3, "saves": ["dexterity","charisma"], "subclasses": ["College of Lore","College of Valor"]},
-    "Cleric": {"hd": 8, "skills": ["History","Insight","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain"]},
-    "Druid": {"hd": 8, "skills": ["Arcana","Animal Handling","Insight","Medicine","Nature","Perception","Religion","Survival"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Circle of the Land","Circle of the Moon"]},
-    "Fighter": {"hd": 10, "skills": ["Acrobatics","Animal Handling","Athletics","History","Insight","Intimidation","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Champion","Battle Master","Eldritch Knight"]},
-    "Monk": {"hd": 8, "skills": ["Acrobatics","Athletics","History","Insight","Religion","Stealth"], "skill_count": 2, "saves": ["strength","dexterity"], "subclasses": ["Way of the Open Hand","Way of Shadow","Way of the Four Elements"]},
-    "Paladin": {"hd": 10, "skills": ["Athletics","Insight","Intimidation","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Oath of Devotion","Oath of the Ancients","Oath of Vengeance"]},
-    "Ranger": {"hd": 10, "skills": ["Animal Handling","Athletics","Insight","Investigation","Nature","Perception","Stealth","Survival"], "skill_count": 3, "saves": ["strength","dexterity"], "subclasses": ["Hunter","Beast Master"]},
-    "Rogue": {"hd": 8, "skills": ["Acrobatics","Athletics","Deception","Insight","Intimidation","Investigation","Perception","Performance","Persuasion","Sleight of Hand","Stealth"], "skill_count": 4, "saves": ["dexterity","intelligence"], "subclasses": ["Thief","Assassin","Arcane Trickster"]},
-    "Sorcerer": {"hd": 6, "skills": ["Arcana","Deception","Insight","Intimidation","Persuasion","Religion"], "skill_count": 2, "saves": ["constitution","charisma"], "subclasses": ["Draconic Bloodline","Wild Magic"]},
-    "Warlock": {"hd": 8, "skills": ["Arcana","Deception","History","Intimidation","Investigation","Nature","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["The Archfey","The Fiend","The Great Old One"]},
-    "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"]},
+    "Barbarian": {"hd": 12, "skills": ["Animal Handling","Athletics","Intimidation","Nature","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Path of the Berserker","Path of the Totem Warrior"], "desc": "A fierce warrior of primitive background who can enter a battle rage. Barbarians are durable melee combatants who shrug off damage and hit hard.", "subclass_descs": {"Path of the Berserker": "The rage becomes frenzy — a bonus action attack each turn while raging, at the cost of exhaustion afterward. Pure offensive power.", "Path of the Totem Warrior": "Spirit totems (Bear, Eagle, Wolf) grant damage resistances, mobility, and ally buffs. Highly customizable natural warrior."}},
+    "Bard": {"hd": 8, "skills": "all", "skill_count": 3, "saves": ["dexterity","charisma"], "subclasses": ["College of Lore","College of Valor"], "desc": "A master of words, music, and magic. Bards inspire allies, manipulate minds, and have access to a versatile spell list — they can fill nearly any role in a party.", "subclass_descs": {"College of Lore": "Bonus skill proficiencies and Cutting Words to undermine enemy attacks. Steals spells from any class via Additional Magical Secrets.", "College of Valor": "Combat Inspiration lets allies add Bardic Inspiration to damage or AC. Gains Extra Attack and medium armor — the martial bard."}},
+    "Cleric": {"hd": 8, "skills": ["History","Insight","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain"], "desc": "A divine agent wielding the power of a god. Clerics are versatile spellcasters who can heal, protect, and smite — their domain choice dramatically shapes their role.", "subclass_descs": {"Knowledge Domain": "Mind-reading and skill expertise in two knowledge skills. The scholar-cleric who uncovers secrets.", "Life Domain": "Bonus healing on every spell, heavy armor proficiency. The quintessential healer.", "Light Domain": "Warding Flare imposes disadvantage on attackers. Gains scorching ray, fireball, and other blasting spells.", "Nature Domain": "A druid cantrip, charm animals/plants, and elemental damage resistance. Protector of the wilds.", "Tempest Domain": "Destructive Wrath maximizes lightning/thunder damage. Heavy armor, martial weapons, and storm rebuke.", "Trickery Domain": "Invoke Duplicity creates an illusory double. Domain spells full of illusion and deception magic.", "War Domain": "War Priest grants bonus action attacks. Channel Divinity: Guided Strike adds +10 to an attack roll."}},
+    "Druid": {"hd": 8, "skills": ["Arcana","Animal Handling","Insight","Medicine","Nature","Perception","Religion","Survival"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Circle of the Land","Circle of the Moon"], "desc": "A nature priest who draws power from the natural world. Druids are full spellcasters who can turn into animals (Wild Shape) and wield primal magic tied to the elements.", "subclass_descs": {"Circle of the Land": "Bonus cantrip, Natural Recovery (regain spell slots on short rest), and terrain-based circle spells. The caster druid.", "Circle of the Moon": "Combat Wild Shape as a bonus action with higher-CR beasts. Can expend spell slots to self-heal while transformed. The shapeshifter."}},
+    "Fighter": {"hd": 10, "skills": ["Acrobatics","Animal Handling","Athletics","History","Insight","Intimidation","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Champion","Battle Master","Eldritch Knight"], "desc": "A master of martial combat, skilled with a variety of weapons and armor. Fighters are versatile warriors who can specialize in any fighting style and get more attacks than any other class.", "subclass_descs": {"Champion": "Improved Critical (crits on 19–20, later 18–20). Remarkable Athlete adds half-proficiency to physical checks. Simple and deadly.", "Battle Master": "Combat Superiority grants maneuvers (Trip, Riposte, Precision Attack). The tactical fighter who controls the battlefield.", "Eldritch Knight": "Wizard spellcasting (abjuration/evocation) and Weapon Bond (can't be disarmed). Summon weapons across planes."}},
+    "Monk": {"hd": 8, "skills": ["Acrobatics","Athletics","History","Insight","Religion","Stealth"], "skill_count": 2, "saves": ["strength","dexterity"], "subclasses": ["Way of the Open Hand","Way of Shadow","Way of the Four Elements"], "desc": "A disciplined martial artist who channels inner energy (ki). Monks fight unarmed, move with supernatural speed, and can stun, deflect, and outmaneuver foes.", "subclass_descs": {"Way of the Open Hand": "Open Hand Technique knocks foes prone or pushes them back on Flurry of Blows. Gains self-healing and a sanctuary effect.", "Way of Shadow": "Shadow Arts casts darkness, darkvision, pass without trace, and silence using ki. Shadow Step teleports between shadows for advantage.", "Way of the Four Elements": "Elemental Disciplines channel ki into spell-like effects — water whip, fireball, flight. The elemental bender."}},
+    "Paladin": {"hd": 10, "skills": ["Athletics","Insight","Intimidation","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Oath of Devotion","Oath of the Ancients","Oath of Vengeance"], "desc": "A holy warrior bound by a sacred oath. Paladins combine martial prowess with divine magic — they smite enemies, heal allies, and project protective auras.", "subclass_descs": {"Oath of Devotion": "Sacred Weapon adds CHA to attack rolls. Aura of Devotion prevents charm. The classic holy knight.", "Oath of the Ancients": "Nature's Wrath restrains foes with vines. Aura of Warding grants resistance to all spell damage. The green knight.", "Oath of Vengeance": "Vow of Enmity gives advantage against one foe. Relentless Avenger lets you move after opportunity attacks. The relentless pursuer."}},
+    "Ranger": {"hd": 10, "skills": ["Animal Handling","Athletics","Insight","Investigation","Nature","Perception","Stealth","Survival"], "skill_count": 3, "saves": ["strength","dexterity"], "subclasses": ["Hunter","Beast Master"], "desc": "A wilderness scout and skilled tracker. Rangers blend martial ability with nature magic — they excel at exploration, favored enemy tactics, and ranged combat.", "subclass_descs": {"Hunter": "Choose from Colossus Slayer (extra damage to wounded foes), Horde Breaker (extra attack), or Giant Killer. Versatile combat specialist.", "Beast Master": "An animal companion fights alongside you, acting on your turn. Share spells and coordinate attacks with your bonded beast."}},
+    "Rogue": {"hd": 8, "skills": ["Acrobatics","Athletics","Deception","Insight","Intimidation","Investigation","Perception","Performance","Persuasion","Sleight of Hand","Stealth"], "skill_count": 4, "saves": ["dexterity","intelligence"], "subclasses": ["Thief","Assassin","Arcane Trickster"], "desc": "A stealthy trickster who exploits enemy weaknesses. Rogues deal massive Sneak Attack damage, have more skill proficiencies than any class, and excel at avoiding danger.", "subclass_descs": {"Thief": "Fast Hands lets you use items, pick pockets, and disarm traps as a bonus action. Second-Story Work adds climbing speed and jump distance.", "Assassin": "Assassinate auto-crits surprised creatures. Infiltration Expertise lets you create false identities. The lethal first-strike rogue.", "Arcane Trickster": "Wizard spellcasting (illusion/enchantment) plus invisible Mage Hand Legerdemain. Can steal spells and impose disadvantage on saves from stealth."}},
+    "Sorcerer": {"hd": 6, "skills": ["Arcana","Deception","Insight","Intimidation","Persuasion","Religion"], "skill_count": 2, "saves": ["constitution","charisma"], "subclasses": ["Draconic Bloodline","Wild Magic"], "desc": "A spellcaster born with innate magic in their blood. Sorcerers use Metamagic to bend spells in ways no other class can — twin spells, quicken them, or make them subtle.", "subclass_descs": {"Draconic Bloodline": "Draconic Resilience boosts HP and grants natural AC 13. Elemental Affinity adds CHA to damage of your chosen element. The durable blaster.", "Wild Magic": "Tides of Chaos grants advantage, but may trigger Wild Magic Surges — random effects from a d100 table. Unpredictable and explosive."}},
+    "Warlock": {"hd": 8, "skills": ["Arcana","Deception","History","Intimidation","Investigation","Nature","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["The Archfey","The Fiend","The Great Old One"], "desc": "A seeker of forbidden knowledge who made a pact with an otherworldly patron. Warlocks use Pact Magic — a few spell slots that recharge on short rests — plus Eldritch Invocations for unique abilities.", "subclass_descs": {"The Archfey": "Fey Presence charms or frightens nearby foes. Misty Escape lets you teleport and turn invisible when hit. The trickster patron.", "The Fiend": "Dark One's Blessing grants temp HP when you kill. Hurl Through Hell sends a target on a short, devastating trip to the lower planes.", "The Great Old One": "Awakened Mind grants telepathy. Entropic Ward imposes disadvantage on attackers. Create Thrall makes a permanent charmed servant."}},
+    "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"], "desc": "A scholarly spellcaster who learns magic through study. Wizards have the largest spell list and can learn new spells from scrolls — they prepare from a spellbook and can ritual cast without preparation.", "subclass_descs": {"Abjuration": "Arcane Ward absorbs damage as a magical HP buffer. Spell Resistance grants advantage on saves against spells. The defensive wizard.", "Conjuration": "Minor Conjuration creates nonmagical objects. Benign Transposition teleports you and swaps places with an ally. The summoner.", "Divination": "Portent lets you replace any d20 roll with one of two pre-rolled results. The fate manipulator.", "Enchantment": "Hypnotic Gaze incapacitates a creature. Instinctive Charm redirects attacks to other targets. The mind controller.", "Evocation": "Sculpt Spells protects allies from your area effects. Potent Cantrip deals half damage even on saves. The blaster.", "Illusion": "Improved Minor Illusion creates sound and image simultaneously. Malleable Illusions lets you reshape ongoing illusions.", "Necromancy": "Grim Harvest heals you when you kill with spells. Undead Thralls creates stronger undead and lets you raise more of them.", "Transmutation": "Minor Alchemy temporarily changes materials. Transmuter's Stone grants a buff (darkvision, speed, resistance, or CON saves)."}},
 }
 
 SKILL_ABILITIES = {
@@ -478,8 +486,8 @@ async def api_create_character(request: Request):
         wisdom, charisma, hp_max, hp_current, ac, speed,
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, inventory, equipped,
-        feature_data, attacks_data, spell_slot_data, passive_perception)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        feature_data, attacks_data, spell_slot_data, passive_perception, portrait_url, portrait_prompt)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -491,6 +499,7 @@ async def api_create_character(request: Request):
         json.dumps([]), json.dumps([]), json.dumps([]),
         json.dumps(data.get("equipment", [])), json.dumps([]),
         json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
+        data.get("portrait_url", ""), data.get("portrait_prompt", "")
     ))
     char_id = cur.lastrowid
     db.commit()
@@ -510,7 +519,8 @@ async def character_sheet(char_id: int, request: Request):
         raise HTTPException(status_code=404, detail="Character not found")
 
     char = dict(row)
-    for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies"):
+    for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
+              "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
@@ -532,8 +542,13 @@ async def character_sheet(char_id: int, request: Request):
     for stat in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
         char[f"{stat}_mod"] = (char[stat] - 10) // 2
 
+    # Merged save proficiencies (class-derived + user-toggled)
+    class_saves = CLASSES.get(char.get("class_name",""), {}).get("saves", [])
+    user_saves = char.get("save_proficiencies", [])
+    saves_class = list(set(class_saves) | set(user_saves))
+
     return _render("sheet.html", request=request, character=char, spells=spells,
-                   skill_abilities=SKILL_ABILITIES, classes=CLASSES)
+                   skill_abilities=SKILL_ABILITIES, classes=CLASSES, saves_class=saves_class)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -549,9 +564,19 @@ async def update_character(char_id: int, request: Request):
         db.close()
         return JSONResponse({"error": "Not found"}, status_code=404)
 
-    allowed = {"hp_current","hp_max","temp_hp","ac","notes","death_saves_success","death_saves_fail",
-               "hit_dice_used","strength","dexterity","constitution","intelligence","wisdom","charisma",
-               "level","proficiency_bonus"}
+    allowed = {
+        # Core stats
+        "hp_current","hp_max","temp_hp","ac","notes","death_saves_success","death_saves_fail",
+        "hit_dice_used","strength","dexterity","constitution","intelligence","wisdom","charisma",
+        "level","proficiency_bonus","speed","hit_dice","inspiration","exhaustion","passive_perception",
+        # Identity
+        "name","race","subrace","class_name","subclass","background","alignment",
+        "personality","backstory",
+        # JSON arrays (serialized as JSON strings)
+        "skills","save_proficiencies","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
+        "languages","features","inventory","equipped","feature_data","attacks_data",
+        "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
+    }
     updates = {}
     for k, v in data.items():
         if k in allowed:
@@ -1038,6 +1063,64 @@ async def _call_ollama(prompt: str) -> str | None:
     except Exception:
         return None
 
+async def _fetch_stable_horde_image(prompt: str, max_wait: int = 120) -> str | None:
+    """Generate image via Stable Horde (free, no API key, crowdsourced).
+    Returns base64 data URL or None.
+    Uses urllib in a thread to avoid httpx IPv6 issues."""
+    import base64, asyncio, json, urllib.request, urllib.error
+    payload = json.dumps({
+        "prompt": prompt[:1000],
+        "params": {
+            "width": 384, "height": 512,
+            "steps": 15, "n": 1,
+            "sampler_name": "k_euler_a",
+        }
+    }).encode()
+
+    def _sync_request(url, data=None, headers=None, timeout=30):
+        req = urllib.request.Request(url, data=data, headers=headers or {})
+        return urllib.request.urlopen(req, timeout=timeout)
+
+    try:
+        # Submit job
+        headers = {"apikey": "0000000000", "Content-Type": "application/json"}
+        resp = await asyncio.to_thread(_sync_request,
+            "https://stablehorde.net/api/v2/generate/async", payload, headers, 30)
+        if resp.status != 202:
+            print(f"[IMG] Stable Horde submit failed: {resp.status}")
+            return None
+        req_id = json.loads(resp.read()).get("id", "")
+        if not req_id:
+            return None
+        print(f"[IMG] Stable Horde job {req_id} submitted")
+
+        # Poll for result
+        for i in range(max_wait // 2):
+            await asyncio.sleep(2)
+            try:
+                sr = await asyncio.to_thread(_sync_request,
+                    f"https://stablehorde.net/api/v2/generate/status/{req_id}",
+                    None, {}, 15)
+                status = json.loads(sr.read())
+                if status.get("done"):
+                    gen = status.get("generations", [{}])[0]
+                    img_url = gen.get("img", "")
+                    if img_url:
+                        ir = await asyncio.to_thread(_sync_request, img_url, None, {}, 30)
+                        ct = ir.headers.get("Content-Type", "image/webp")
+                        b64 = base64.b64encode(ir.read()).decode()
+                        print(f"[IMG] Stable Horde done after {(i+1)*2}s")
+                        return f"data:{ct};base64,{b64}"
+                    break
+                if i % 5 == 0:
+                    print(f"[IMG] waiting... {i*2}s")
+            except Exception:
+                pass
+        print(f"[IMG] Stable Horde timed out after {max_wait}s")
+    except Exception as e:
+        print(f"[IMG] Stable Horde error: {e}")
+    return None
+
 def _extract_json(text: str) -> dict | None:
     """Extract JSON from LLM response, stripping markdown wrappers."""
     if not text:
@@ -1318,7 +1401,9 @@ def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict
 
 @app.post("/api/ai/portrait", response_class=JSONResponse)
 async def ai_portrait(request: Request):
-    """Generate a high-fantasy character portrait. Returns image URL."""
+    """Generate a high-fantasy character portrait. Returns image URL.
+    If custom_prompt provided, uses it directly (skips AI generation).
+    If character_id provided, persists the result to the DB."""
     user = require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
@@ -1330,53 +1415,81 @@ async def ai_portrait(request: Request):
     alignment = data.get("alignment", "")
     skills = data.get("skills", [])
     gender = data.get("gender", "")
+    custom_prompt = (data.get("custom_prompt") or "").strip()
+    character_id = data.get("character_id")
 
-    # Build a detailed image prompt
-    prompt = f"""Describe a D&D 5e character portrait in High Fantasy art style. Oil painting, dramatic lighting, detailed armor and clothing.
+    if custom_prompt:
+        # User-provided prompt — prepend style + framing directives
+        image_prompt = f"Bust portrait, upper body only, 3:4 aspect ratio, close-up composition. High fantasy oil painting, dramatic lighting. {custom_prompt}"
+        print(f"[AI portrait] custom_prompt race={race} class={class_name}")
+    else:
+        # Class-appropriate attire guidance
+        CLASS_ATTIRE = {
+            "Barbarian": "bare-chested or animal furs, NO heavy armor, tribal style, muscular and primal",
+            "Bard": "flamboyant colorful performer's clothing, stylish but light, musical instrument visible",
+            "Cleric": "robes with holy symbols, chainmail possible, divine motifs",
+            "Druid": "natural materials, hides and furs, NO metal armor, nature motifs, wooden staff",
+            "Fighter": "heavy armor, chainmail or plate, practical and battle-worn",
+            "Monk": "simple monastic robes, bare hands and feet, unarmored, disciplined posture",
+            "Paladin": "gleaming plate armor with holy symbols and divine motifs",
+            "Ranger": "leather armor in forest tones, hooded cloak, practical and rugged",
+            "Rogue": "dark leather armor, hooded, shadowy, stealthy, daggers visible",
+            "Sorcerer": "flowing robes, NO armor, innate magical energy visible",
+            "Warlock": "dark occult robes, eldritch symbols, NO heavy armor, arcane pact motifs",
+            "Wizard": "scholarly robes, NO armor, spellbook or arcane focus, studious appearance",
+        }
+        attire = CLASS_ATTIRE.get(class_name, "appropriate adventuring attire")
+
+        prompt = f"""Describe a D&D 5e character portrait in High Fantasy art style. Oil painting, dramatic lighting.
+
+CRITICAL: This is a BUST portrait — head and upper chest only, no full body. 3:4 portrait aspect ratio, close-up composition, character fills the frame from the top of their head to mid-chest.
 
 Character: {race}{' (' + subrace + ')' if subrace else ''} {class_name}{' — ' + subclass if subclass else ''}
 Background: {background}
 Alignment: {alignment or 'Unknown'}
 Skills: {', '.join(skills) if skills else 'various'}
 Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=lambda x:-x[1])[:3]) if abilities else 'balanced'}
+Class-appropriate attire: {attire}
 
-Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor style, weapon or focus if appropriate, pose, expression, lighting, background setting. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
+Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor visible on upper body, weapon or focus if it fits in frame, pose, expression, lighting, background setting. Remember: BUST ONLY — head to mid-chest, 3:4 ratio, no legs, no full body. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
 
-    TIER_NAMES = ["gemini", "openrouter", "ollama"]
-    text = None
-    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
-        text = await caller(prompt)
-        if text:
-            break
-    print(f"[AI portrait] tier={'AI' if text else 'fallback'} race={race} class={class_name}")
+        TIER_NAMES = ["gemini", "openrouter", "ollama"]
+        text = None
+        for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
+            text = await caller(prompt)
+            if text:
+                break
+        print(f"[AI portrait] tier={'AI' if text else 'fallback'} race={race} class={class_name}")
 
-    image_prompt = text.strip() if text else _fallback_portrait_prompt(race, class_name, subclass)
-    if len(image_prompt) > 800:
-        image_prompt = image_prompt[:797] + "..."
+        image_prompt = text.strip() if text else _fallback_portrait_prompt(race, class_name, subclass)
 
-    # Build Pollinations.ai URL (free, loads asynchronously in browser)
-    import urllib.parse
-    encoded = urllib.parse.quote(image_prompt)
-    # Use nologo + seed for cache-busting variant
-    import random as _random
-    seed = _random.randint(1, 999999)
-    image_url = f"https://image.pollinations.ai/prompt/{encoded}?width=512&height=768&nologo=true&seed={seed}"
+    # Generate image via Stable Horde (free, no API key)
+    image_data = await _fetch_stable_horde_image(image_prompt)
+    print(f"[AI portrait] image {'generated' if image_data else 'failed'} race={race} class={class_name}")
 
-    return JSONResponse({"prompt": image_prompt, "image_url": image_url})
+    # Persist to DB if character_id provided
+    if character_id:
+        db = get_db()
+        db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
+                   (image_data or "", image_prompt, character_id, user["id"]))
+        db.commit()
+        db.close()
+
+    return JSONResponse({"prompt": image_prompt, "image_url": image_data or ""})
 
 def _fallback_portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
-    """Deterministic portrait prompts by class/race."""
+    """Deterministic portrait prompts by class/race — all bust/upper-body framed."""
     prompts = {
-        ("Dwarf","Barbarian"): "A stout mountain dwarf barbarian with thick braided auburn hair and a scarred face. Wearing fur-lined leather armor with iron pauldrons. Gripping a massive greataxe, battle-ready stance. Snow-capped peaks in the background. Oil painting, dramatic lighting, high fantasy.",
-        ("Dwarf","Cleric"): "A venerable dwarf cleric with a silver-streaked beard and kind eyes. Robes of deep blue with gold embroidery, a holy symbol of Moradin hanging from a chain. One hand raised in blessing, warm candlelight glow. Stone temple interior. Oil painting, high fantasy.",
-        ("Dwarf","Fighter"): "A battle-hardened dwarf fighter in chainmail armor, shield strapped to one arm, warhammer resting on shoulder. Braided copper beard, stern expression. Standing before a mountain fortress gate. Oil painting, dramatic lighting.",
-        ("Elf","Wizard"): "A slender high elf wizard with silver-white hair flowing past pointed ears. Deep purple robes with arcane sigils, a crystal-topped staff in hand. Faint magical aura, ancient library backdrop. Oil painting, ethereal lighting.",
-        ("Elf","Ranger"): "A wood elf ranger with amber eyes and copper hair pulled back. Leather armor in forest greens, longbow in hand. Hood partially up, alert expression. Ancient forest with dappled sunlight. Oil painting, high fantasy.",
-        ("Elf","Rogue"): "A sleek elven rogue with dark cropped hair and a knowing smirk. Black leather armor, daggers at the belt, cloak half-drawn. Moonlit city rooftop, shadows dancing. Oil painting, chiaroscuro lighting.",
-        ("Human","Paladin"): "A noble human paladin with short-cropped blonde hair and a strong jaw. Gleaming plate armor with a sunburst emblem, longsword raised. Divine light radiating from behind. Oil painting, cinematic lighting.",
-        ("Human","Fighter"): "A weathered human fighter with close-cropped dark hair and a faint scar across the cheek. Well-worn scale mail, longsword at hip, shield on back. Standing guard before a castle wall. Oil painting, late afternoon light.",
-        ("Half-Orc","Barbarian"): "A towering half-orc barbarian with gray-green skin and tribal tattoos. Bald head, tusked jaw, fur mantle over bare chest. Massive axe in both hands, primal roar. Stormy sky background. Oil painting, dramatic lighting.",
-        ("Tiefling","Warlock"): "A tiefling warlock with deep purple skin and curved horns sweeping back. Eyes glowing with eldritch fire, dark robes with infernal patterns. A crackling tome in one hand. Shadowy ruins at midnight. Oil painting, occult atmosphere.",
+        ("Dwarf","Barbarian"): "Bust portrait, 3:4 aspect ratio. A stout mountain dwarf barbarian with thick braided auburn hair and a scarred face. Bare-chested with a heavy fur mantle across broad shoulders, tribal tattoos visible on muscular upper arms. Gripping a massive greataxe, battle-ready expression, primal fury in eyes. Snow-capped peaks and storm clouds behind. Oil painting, dramatic lighting, high fantasy.",
+        ("Dwarf","Cleric"): "Bust portrait, 3:4 aspect ratio. A venerable dwarf cleric with a silver-streaked beard and kind eyes. Robes of deep blue with gold embroidery across the chest, a holy symbol of Moradin hanging from a chain. One hand raised in blessing near the face, warm candlelight glow. Stone temple interior. Oil painting, high fantasy.",
+        ("Dwarf","Fighter"): "Bust portrait, 3:4 aspect ratio. A battle-hardened dwarf fighter in chainmail armor visible across shoulders and chest, warhammer resting on one shoulder. Braided copper beard, stern expression, scar across one eyebrow. Mountain fortress stonework behind. Oil painting, dramatic lighting.",
+        ("Elf","Wizard"): "Bust portrait, 3:4 aspect ratio. A slender high elf wizard with silver-white hair flowing past pointed ears. Deep purple robes with arcane sigils at the collar, a crystal-topped staff held diagonally across the frame. Faint magical aura, ancient library backdrop. Oil painting, ethereal lighting.",
+        ("Elf","Ranger"): "Bust portrait, 3:4 aspect ratio. A wood elf ranger with amber eyes and copper hair pulled back. Leather armor in forest greens across shoulders, longbow visible over one shoulder. Hood partially up, alert expression, dappled sunlight. Ancient forest bokeh behind. Oil painting, high fantasy.",
+        ("Elf","Rogue"): "Bust portrait, 3:4 aspect ratio. A sleek elven rogue with dark cropped hair and a knowing smirk. Black leather armor, dagger hilts visible at the collar, cloak half-drawn across shoulders. Moonlit shadows dancing across the face. Oil painting, chiaroscuro lighting.",
+        ("Human","Paladin"): "Bust portrait, 3:4 aspect ratio. A noble human paladin with short-cropped blonde hair and a strong jaw. Gleaming plate armor with a sunburst emblem on the chestplate, longsword held near the face reflecting divine light. Radiant glow from behind. Oil painting, cinematic lighting.",
+        ("Human","Fighter"): "Bust portrait, 3:4 aspect ratio. A weathered human fighter with close-cropped dark hair and a faint scar across the cheek. Well-worn scale mail across shoulders, longsword hilt visible at hip-level frame edge. Castle wall stonework behind. Oil painting, late afternoon light.",
+        ("Half-Orc","Barbarian"): "Bust portrait, 3:4 aspect ratio. A towering half-orc barbarian with gray-green skin and tribal tattoos across the face and shoulders. Bald head, tusked jaw, fur mantle over bare chest. Massive axe head visible, primal snarl. Stormy sky background. Oil painting, dramatic lighting.",
+        ("Tiefling","Warlock"): "Bust portrait, 3:4 aspect ratio. A tiefling warlock with deep purple skin and curved horns sweeping back from the forehead. Eyes glowing with eldritch fire, dark robes with infernal patterns at the collar. A crackling tome held near the chest. Shadowy ruins at midnight. Oil painting, occult atmosphere.",
     }
     key = (race, class_name)
     if key in prompts:
@@ -1394,7 +1507,25 @@ def _fallback_portrait_prompt(race: str, class_name: str, subclass: str = "") ->
         "Half-Elf": "slightly pointed ears, mixed heritage beauty",
     }
     rf = race_features.get(race, "adventurous look")
-    return f"A {race.lower()} {class_name.lower()} with {rf}. Wearing appropriate {class_name.lower()} attire. Confident pose, high fantasy oil painting style with dramatic lighting. Rich colors, detailed background suggesting their calling."
+    return f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. Wearing appropriate {class_name.lower()} attire, upper body visible. Confident expression, high fantasy oil painting style with dramatic lighting. Rich colors, detailed background bokeh."
+
+@app.post("/api/character/portrait", response_class=JSONResponse)
+async def save_portrait_image(request: Request):
+    """Save a client-generated portrait image (base64 data URL) to the DB."""
+    user = require_user(request)
+    data = await request.json()
+    character_id = data.get("character_id")
+    image_data = data.get("image_data", "")  # base64 data URL from Puter.js
+
+    if not character_id or not image_data:
+        return JSONResponse({"error": "character_id and image_data required"}, status_code=400)
+
+    db = get_db()
+    db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",
+               (image_data, character_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
 
 # ── Build Generation (PHB-grounded, level-aware) ────────────────────────────
 

@@ -11,6 +11,8 @@
 .option-card { background: var(--bg); border: 2px solid var(--border); border-radius: 8px; padding: 0.75rem; cursor: pointer; text-align: center; transition: border-color 0.2s; }
 .option-card:hover { border-color: var(--accent); }
 .option-card.selected { border-color: var(--accent); background: var(--accent2); }
+.option-card.locked { opacity: 0.4; cursor: default; border-style: dashed; }
+.option-card.locked:hover { border-color: var(--border); }
 .option-card .name { font-weight: 700; font-size: 0.95rem; }
 .option-card .detail { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
 .ability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
@@ -58,6 +60,7 @@
     <h3>Ability Scores <span style="font-size:0.85rem;color:var(--text-muted)">(Standard Array: 15,14,13,12,10,8)</span></h3>
     <div class="ability-grid" id="ability-grid"></div>
     <div id="asi-bonus" style="margin-top:0.5rem;color:var(--accent);font-size:0.85rem"></div>
+    <div id="ability-info" class="card" style="margin-top:0.75rem;display:none;font-size:0.85rem;line-height:1.5;color:var(--text-muted)"></div>
     {% if "Half-Elf" in races %}
     <div id="halfelf-picks" style="margin-top:1rem;display:none">
       <p style="font-size:0.9rem;color:var(--text-muted)">Half-Elf: +1 to two other abilities</p>
@@ -69,8 +72,9 @@
 
   <!-- Step 3: Skills -->
   <div class="wizard-step" data-step="3">
-    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span></h3>
+    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span> <button class="btn btn-outline btn-sm" onclick="toggleAllSkills()" id="show-all-skills-btn" style="margin-left:0.5rem">👁 Show All</button></h3>
     <div class="option-grid" id="skill-grid"></div>
+    <div id="skill-info" class="card" style="margin-top:0.75rem;display:none;font-size:0.85rem;line-height:1.5;color:var(--text-muted)"></div>
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealSkills()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeSkills()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
@@ -98,7 +102,13 @@
       <img id="portrait-img" src="" alt="Character Portrait" style="max-width:256px;max-height:384px;border-radius:8px;border:2px solid var(--border);display:none">
       <div id="portrait-loading" style="display:none;padding:2rem;color:var(--text-muted)">🎨 Generating portrait...</div>
     </div>
-    <div style="margin-bottom:0.5rem"><button class="btn btn-outline btn-sm" onclick="generatePortrait()">🎨 Generate Portrait</button> <span style="font-size:0.75rem;color:var(--text-muted)">*First attempt — high fantasy style</span></div>
+    <div style="margin-bottom:0.5rem;display:flex;gap:0.5rem;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <input type="text" id="portrait-custom" placeholder="Custom portrait details (optional) — e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="regeneratePortrait()">🔄 Regenerate</button>
+    </div>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time on the Character page</div>
     <div class="card" id="review-card"></div>
     <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" onclick="autoEquip()">🎒 Auto-Equipment</button> <span style="font-size:0.75rem;color:var(--text-muted)">*Add additional equipment on the Character page</span></div>
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" id="create-btn" onclick="createCharacter()">✓ Create Character</button></div>
@@ -111,6 +121,27 @@ const SUBASIS = {{ subasis | tojson }};
 const CLASSES = {{ classes | tojson }};
 const ALL_SKILLS = {{ all_skills | tojson }};
 const SKILL_ABILITIES = {{ skill_abilities | tojson }};
+
+const SKILL_DESCS = {
+  "Acrobatics": "Balance, flips, and staying on your feet. Escape grapples, walk tightropes, and land safely from falls. (Dex)",
+  "Animal Handling": "Calming animals, predicting behavior, and controlling mounts. Soothe a spooked horse or befriend a wild beast. (Wis)",
+  "Arcana": "Knowledge of spells, magic items, eldritch symbols, and the planes. Recall lore about magical traditions and identify spells. (Int)",
+  "Athletics": "Climbing, jumping, swimming, and feats of strength. Scale walls, break free of restraints, and win physical contests. (Str)",
+  "Deception": "Lying, misdirection, and concealing the truth. Bluff guards, disguise intentions, and pull off cons. (Cha)",
+  "History": "Knowledge of past events, legendary figures, ancient kingdoms, and wars. Recall historical context about people and places. (Int)",
+  "Insight": "Reading body language and sensing hidden motives. Detect lies, gauge intentions, and predict someone's next move. (Wis)",
+  "Intimidation": "Coercion through threats, menace, or implied violence. Interrogate prisoners, cow enemies, and project authority. (Cha)",
+  "Investigation": "Deduction, puzzle-solving, and searching for clues. Find hidden objects, piece together evidence, and spot traps. (Int)",
+  "Medicine": "Diagnosing illness, stabilizing the dying, and treating injuries. Identify poisons, perform first aid, and understand anatomy. (Wis)",
+  "Nature": "Knowledge of terrain, plants, animals, and weather. Identify flora/fauna, predict weather, and navigate wilderness. (Int)",
+  "Perception": "Spotting, hearing, and noticing details. The most-used skill — determines passive Perception, detects ambushes, and finds hidden threats. (Wis)",
+  "Performance": "Entertaining audiences through music, dance, or storytelling. Earn coin, distract crowds, and command attention. (Cha)",
+  "Persuasion": "Influencing people through charm, logic, or diplomacy. Negotiate deals, convince NPCs, and talk your way past guards. (Cha)",
+  "Religion": "Knowledge of gods, cults, rituals, and holy symbols. Recall lore about deities, undead, and divine magic. (Int)",
+  "Sleight of Hand": "Pickpocketing, palming objects, and manual trickery. Lift keys, conceal weapons, and perform stage magic. (Dex)",
+  "Stealth": "Moving silently and staying hidden. Sneak past guards, tail targets, and set ambushes. (Dex)",
+  "Survival": "Tracking, foraging, and navigating the wild. Follow trails, find food/water, and avoid natural hazards. (Wis)",
+};
 const BACKGROUNDS = {{ backgrounds | tojson }};
 const ALIGNMENTS = {{ alignments | tojson }};
 
@@ -133,6 +164,15 @@ const BACKGROUND_INFO = {
 };
 const STD_ARRAY = [15,14,13,12,10,8];
 const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
+
+const ABILITY_DESCS = {
+  "strength": "Measures bodily power and athletic training. Governs: melee attack & damage rolls, thrown weapons, Athletics skill, carrying capacity (STR × 15 lbs), and breaking objects. Key for Barbarians, Fighters, and Paladins.",
+  "dexterity": "Measures agility, reflexes, and balance. Governs: AC bonus (light/medium armor), ranged & finesse attack rolls, initiative, Stealth and Acrobatics, and Dex saves — the most common saving throw.",
+  "constitution": "Measures health, stamina, and vital force. Governs: HP gained per level (+CON mod each level), concentration checks for spellcasters, and enduring poison, disease, and extreme conditions. Important for EVERY class.",
+  "intelligence": "Measures mental acuity and reasoning. Governs: Wizard spellcasting DC/attacks, Arcana/History/Investigation/Nature/Religion skills, and recalling lore. Key for Wizards and knowledge-seekers.",
+  "wisdom": "Measures perception, intuition, and attunement to the world. Governs: Cleric/Druid/Ranger spellcasting, Perception/Insight/Survival/Medicine, passive Perception, and Wisdom saves (vs charm/fear).",
+  "charisma": "Measures confidence, eloquence, and force of personality. Governs: Bard/Paladin/Sorcerer/Warlock spellcasting, Deception/Intimidation/Performance/Persuasion, and all social interactions.",
+};
 
 // Ideal ability priority by class (standard array: 15→highest priority, 8→lowest)
 const CLASS_PRIORITY = {
@@ -194,7 +234,7 @@ const STARTING_EQUIPMENT = {
   "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
 };
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [] };
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [] };
 let step = 0;
 
 function updateDots() {
@@ -209,7 +249,7 @@ function showStep(n) {
   document.querySelector(`[data-step="${n}"]`).classList.add('active');
   step = n; updateDots();
   if (n === 3) buildSkills();
-  if (n === 5) buildReview();
+  if (n === 5) { buildReview(); if (!state.portraitGenerated) { state.portraitGenerated = true; generatePortrait(); } }
 }
 
 function nextStep() {
@@ -250,7 +290,9 @@ function selectRace(name) {
   document.getElementById('race-info').innerHTML = `
     <strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
     · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
-    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>`;
+    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
+    ${state.subrace && r.subrace_descs && r.subrace_descs[state.subrace] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${state.subrace}:</strong> ${r.subrace_descs[state.subrace]}</p>` : ''}
+    ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
   
   updateAsiPreview();
 }
@@ -263,7 +305,9 @@ function selectSubrace(s) {
   document.getElementById('race-info').innerHTML = `
     <strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
     · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
-    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>`;
+    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
+    ${r.subrace_descs && r.subrace_descs[s] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${s}:</strong> ${r.subrace_descs[s]}</p>` : ''}
+    ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
   updateAsiPreview();
 }
 
@@ -295,7 +339,8 @@ function selectClass(name) {
   document.getElementById('class-info').innerHTML = `
     <strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}
     · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
-    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>`;
+    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
+    ${c.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${c.desc}</p>` : ''}`;
 }
 
 function selectSubclass(s) {
@@ -306,7 +351,9 @@ function selectSubclass(s) {
   document.getElementById('class-info').innerHTML = `
     <strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}
     · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
-    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>`;
+    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
+    ${c.subclass_descs && c.subclass_descs[s] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${s}:</strong> ${c.subclass_descs[s]}</p>` : ''}
+    ${c.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${c.desc}</p>` : ''}`;
 }
 
 // ── Step 2: Abilities ──
@@ -322,6 +369,12 @@ function buildAbilities() {
   // Initialize all stats to 10
   ABILITIES.forEach(a => state.abilities[a] = 10);
   updateAsiPreview();
+  // Show all ability descriptions
+  const info = document.getElementById('ability-info');
+  info.style.display = 'block';
+  info.innerHTML = ABILITIES.map(a =>
+    `<div style="margin-bottom:0.5rem"><strong>${a.charAt(0).toUpperCase()+a.slice(1)}</strong>: ${ABILITY_DESCS[a]}</div>`
+  ).join('');
 }
 
 function updateAbility(a, v) {
@@ -361,15 +414,47 @@ function buildSkills() {
   const available = Array.isArray(c.skills) ? c.skills : ALL_SKILLS;
   const max = c.skill_count;
   document.getElementById('skill-count-label').textContent = `(pick ${max})`;
-  document.getElementById('skill-grid').innerHTML = available.map(s => `
-    <div class="option-card" onclick="toggleSkill('${s}')">
-      <div class="name">${s}</div>
-      <div class="detail">${SKILL_ABILITIES[s].slice(0,3).toUpperCase()}</div>
-    </div>`).join('');
+
+  const skills = state.showAllSkills ? ALL_SKILLS : [...new Set([...available, ...state.unlockedSkills])];
+  const availableSet = new Set(available);
+  const unlockedSet = new Set(state.unlockedSkills);
+  document.getElementById('skill-grid').innerHTML = skills.map(s => {
+    const inClass = availableSet.has(s);
+    const unlocked = unlockedSet.has(s);
+    const selectable = inClass || unlocked;
+    let cls = 'option-card';
+    let icon = '';
+    let onclick;
+    if (selectable) {
+      cls = 'option-card';
+      icon = unlocked && !inClass ? ' 🔓' : '';
+      onclick = `onclick="toggleSkill('${s}')"`;
+    } else {
+      cls = 'option-card locked';
+      icon = ' 🔒';
+      onclick = `onclick="unlockSkill('${s}')"`;
+    }
+    return `<div class="${cls}" ${onclick}><div class="name">${s}${icon}</div><div class="detail">${SKILL_ABILITIES[s].slice(0,3).toUpperCase()}</div></div>`;
+  }).join('');
+
   // Re-highlight previously selected skills
   document.querySelectorAll('#skill-grid .option-card').forEach(card => {
-    card.classList.toggle('selected', state.skills.includes(card.querySelector('.name').textContent));
+    const cardName = card.querySelector('.name').textContent.replace(/ [🔒🔓]/,'').trim();
+    card.classList.toggle('selected', state.skills.includes(cardName));
   });
+}
+
+function toggleAllSkills() {
+  state.showAllSkills = !state.showAllSkills;
+  const btn = document.getElementById('show-all-skills-btn');
+  btn.textContent = state.showAllSkills ? '👁 Class Skills' : '👁 Show All';
+  buildSkills();
+}
+
+function unlockSkill(s) {
+  if (!state.unlockedSkills.includes(s)) state.unlockedSkills.push(s);
+  buildSkills();
+  toggleSkill(s);
 }
 
 function toggleSkill(s) {
@@ -380,8 +465,19 @@ function toggleSkill(s) {
     state.skills.push(s);
   }
   document.querySelectorAll('#skill-grid .option-card').forEach(c => {
-    c.classList.toggle('selected', state.skills.includes(c.querySelector('.name').textContent));
+    const cardName = c.querySelector('.name').textContent.replace(/ [🔒🔓]/,'').trim();
+    c.classList.toggle('selected', state.skills.includes(cardName));
   });
+  showSkillInfo(s);
+}
+
+function showSkillInfo(_s) {
+  const info = document.getElementById('skill-info');
+  if (!state.skills.length) { info.style.display = 'none'; return; }
+  info.style.display = 'block';
+  info.innerHTML = state.skills.map(s =>
+    `<div style="margin-bottom:0.5rem"><strong>${s}</strong>: ${SKILL_DESCS[s]}</div>`
+  ).join('');
 }
 
 // ── Step 4: Details ──
@@ -443,7 +539,9 @@ async function createCharacter() {
     asi_picks: state.asi_picks, background: state.background,
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
     level: state.level,
-    equipment: state.equipment
+    equipment: state.equipment,
+    portrait_url: state.portrait_url || '',
+    portrait_prompt: state.portrait_prompt || ''
   };
 
   const r = await fetch('/api/character/create', {
@@ -622,9 +720,11 @@ async function generatePortrait() {
   const section = document.getElementById('portrait-section');
   const img = document.getElementById('portrait-img');
   const loading = document.getElementById('portrait-loading');
+  const custom = document.getElementById('portrait-custom').value.trim();
   section.style.display = 'block';
   img.style.display = 'none';
   loading.style.display = 'block';
+  loading.innerHTML = '🎨 Generating portrait (may take ~60s)...';
 
   try {
     const r = await fetch('/api/ai/portrait', {
@@ -633,20 +733,31 @@ async function generatePortrait() {
         race: state.race, subrace: state.subrace,
         class_name: state.class_name, subclass: state.subclass,
         abilities: state.abilities, background: state.background,
-        alignment: state.alignment, skills: state.skills
+        alignment: state.alignment, skills: state.skills,
+        custom_prompt: custom
       })
     });
     const data = await r.json();
-    img.src = data.image_url;
     state.portrait_prompt = data.prompt;
-    img.onload = () => { loading.style.display = 'none'; img.style.display = 'block'; };
-    img.onerror = () => {
-      loading.innerHTML = `<p style="font-size:0.8rem">⚠️ Image generation queued. Prompt:</p><p style="font-size:0.75rem;color:var(--text-muted);max-width:400px;margin:0 auto">${data.prompt.slice(0,300)}...</p>`;
-    };
+    state.portrait_url = data.image_url || '';
+
+    if (state.portrait_url) {
+      img.src = state.portrait_url;
+      loading.style.display = 'none';
+      img.style.display = 'block';
+    } else {
+      loading.innerHTML = '<p style="font-size:0.8rem">⚠️ Image generation unavailable. Try again.</p>';
+    }
   } catch(e) {
-    loading.innerHTML = '⚠️ Portrait generation failed.';
+    loading.innerHTML = '<p style="font-size:0.8rem">⚠️ Portrait failed: ' + (e.message || e) + '</p>';
     console.error(e);
   }
+}
+
+function regeneratePortrait() {
+  document.getElementById('portrait-img').src = '';
+  document.getElementById('portrait-img').style.display = 'none';
+  generatePortrait();
 }
 </script>
 {% endblock %}

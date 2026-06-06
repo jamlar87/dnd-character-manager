@@ -105,29 +105,38 @@
 .inspiration-btn { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: transparent; }
 .inspiration-btn.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
 .inspiration-btn.off { background: transparent; border-color: var(--border); color: var(--text-muted); }
+
+/* Editable fields */
+.editable { cursor: pointer; border-bottom: 1px dashed transparent; transition: border-color 0.15s; }
+.editable:hover { border-bottom-color: var(--text-muted); }
+.editable-input { background: transparent; border: none; border-bottom: 1px solid var(--accent); color: var(--text); font: inherit; padding: 0; margin: 0; outline: none; min-width: 2ch; }
+.editable-input.number { width: 3.5ch; text-align: center; }
+.prof-toggle { cursor: pointer; opacity: 0.3; transition: opacity 0.15s; user-select: none; }
+.prof-toggle.active { opacity: 1; color: var(--accent); }
+.prof-toggle:hover { opacity: 0.7; }
 {% endblock %}
 
 {% block content %}
 {% set prof = character.proficiency_bonus or 2 %}
-{% set saves_class = classes.get(character.class_name, {}).get("saves", []) %}
+{% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
 {% set char_skills = character.skills or [] %}
 
 <!-- Header -->
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
   <div>
-    <h1 style="margin:0;font-size:1.4rem">{{ character.name }}</h1>
-    <span class="badge badge-accent">Lv{{ character.level }} {{ character.race }}{% if character.subrace %} ({{ character.subrace }}){% endif %} {{ character.class_name }}</span>
-    {% if character.subclass %}<span class="badge badge-muted">{{ character.subclass }}</span>{% endif %}
-    {% if character.background %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
-    {% if character.alignment %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
+    <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
+    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable" data-field="race">{{ character.race }}</span>{% if character.subrace %} (<span class="editable" data-field="subrace">{{ character.subrace }}</span>){% endif %} <span class="editable" data-field="class_name">{{ character.class_name }}</span></span>
+    {% if character.subclass %}<span class="badge badge-muted editable" data-field="subclass">{{ character.subclass }}</span>{% endif %}
+    {% if character.background %}<span class="badge badge-muted editable" data-field="background" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
+    {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
   <a href="/dashboard" class="btn btn-outline btn-sm">← Back</a>
 </div>
 
 {% if character.personality or character.backstory %}
 <div class="card" style="margin-bottom:0.75rem;padding:0.75rem 1rem;font-size:0.85rem">
-  {% if character.personality %}<p style="color:var(--accent);margin:0">{{ character.personality }}</p>{% endif %}
-  {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic">{{ character.backstory }}</p>{% endif %}
+  {% if character.personality %}<p style="color:var(--accent);margin:0" class="editable" data-field="personality">{{ character.personality }}</p>{% endif %}
+  {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic" class="editable" data-field="backstory">{{ character.backstory }}</p>{% endif %}
 </div>
 {% endif %}
 
@@ -136,6 +145,17 @@
 
   <!-- ══════ LEFT SIDEBAR ══════ -->
   <div class="sheet-sidebar">
+
+    <!-- Portrait -->
+    <div class="sidebar-section" style="text-align:center">
+      {% if character.portrait_url %}
+      <img src="{{ character.portrait_url }}" alt="Character Portrait" style="max-width:100%;max-height:320px;border-radius:6px;border:1px solid var(--border)" id="sidebar-portrait">
+      <button class="btn btn-outline btn-sm" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
+      {% else %}
+      <div style="padding:2rem 1rem;color:var(--text-muted);font-size:0.8rem">No portrait yet</div>
+      <button class="btn btn-outline btn-sm" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
+      {% endif %}
+    </div>
 
     <!-- Ability Scores -->
     <div class="sidebar-section">
@@ -151,9 +171,12 @@
         <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
           <div class="ab-name">{{ label }}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
-          <div class="ab-score">{{ score }}</div>
+          <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
         </div>
         {% endfor %}
+      </div>
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient saving throw
       </div>
     </div>
 
@@ -163,7 +186,7 @@
       <div class="combat-quick">
         <div class="combat-quick-item">
           <div class="cq-label">AC</div>
-          <div class="cq-value">{{ character.ac or 10 }}</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
         </div>
         <div class="combat-quick-item">
           <div class="cq-label">Initiative</div>
@@ -171,7 +194,7 @@
         </div>
         <div class="combat-quick-item">
           <div class="cq-label">Speed</div>
-          <div class="cq-value">{{ character.speed or 30 }}ft</div>
+          <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
         </div>
         <div class="combat-quick-item">
           <div class="cq-label">Prof Bonus</div>
@@ -214,11 +237,14 @@
       {% set mod = (character[stat] - 10) // 2 %}
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
-      <div class="stat-row">
-        <span class="stat-name">{% if prof_save %}<span class="prof-dot">●</span>{% endif %}{{ label }}</span>
+      <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
+        <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}</span>
         <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
       </div>
       {% endfor %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient
+      </div>
       <!-- Conditional save notes -->
       {% if character.race and ('dwarf' in character.race.lower() or 'stout' in character.race.lower()) %}
       <div style="font-size:0.7rem;color:var(--success);margin-top:0.25rem">🛡️ Advantage vs Poison</div>
@@ -235,7 +261,7 @@
       {% set int_mod = (character.intelligence - 10) // 2 %}
       <div class="stat-row">
         <span class="stat-name">Passive Perception</span>
-        <span class="stat-val">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
+        <span class="stat-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
       </div>
       <div class="stat-row">
         <span class="stat-name">Passive Investigation</span>
@@ -281,9 +307,45 @@
         <span class="defense-badge defense-resist">💋 Charmed (adv)</span>
         {% set has_defenses = true %}
         {% endif %}
+        <!-- User-defined defenses -->
+        {% if character.damage_resistances %}
+        {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
+        {% set has_defenses = true %}
+        {% endif %}
+        {% if character.damage_immunities %}
+        {% for i in character.damage_immunities %}<span class="defense-badge defense-immune">✨ {{ i }}</span>{% endfor %}
+        {% set has_defenses = true %}
+        {% endif %}
+        {% if character.damage_vulnerabilities %}
+        {% for v in character.damage_vulnerabilities %}<span class="defense-badge" style="background:rgba(239,68,68,0.15);color:#ef4444">⚠️ {{ v }}</span>{% endfor %}
+        {% set has_defenses = true %}
+        {% endif %}
+        {% if character.condition_immunities %}
+        {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">🛡️ {{ c }}</span>{% endfor %}
+        {% set has_defenses = true %}
+        {% endif %}
         {% if not has_defenses %}
         <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
         {% endif %}
+      </div>
+      <!-- Edit defenses -->
+      <div style="margin-top:0.5rem;font-size:0.75rem">
+        <div class="stat-row" style="margin-bottom:0.15rem">
+          <span class="stat-name" style="font-size:0.7rem">Resistances</span>
+          <span class="stat-val editable" data-field="damage_resistances" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_resistances|join(', ') or '—' }}</span>
+        </div>
+        <div class="stat-row" style="margin-bottom:0.15rem">
+          <span class="stat-name" style="font-size:0.7rem">Immunities</span>
+          <span class="stat-val editable" data-field="damage_immunities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_immunities|join(', ') or '—' }}</span>
+        </div>
+        <div class="stat-row" style="margin-bottom:0.15rem">
+          <span class="stat-name" style="font-size:0.7rem">Vulnerabilities</span>
+          <span class="stat-val editable" data-field="damage_vulnerabilities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_vulnerabilities|join(', ') or '—' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-name" style="font-size:0.7rem">Condition Imm.</span>
+          <span class="stat-val editable" data-field="condition_immunities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.condition_immunities|join(', ') or '—' }}</span>
+        </div>
       </div>
     </div>
 
@@ -293,19 +355,19 @@
       <div style="font-size:0.8rem">
         <div class="stat-row">
           <span class="stat-name">Armor</span>
-          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.armor_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val editable" data-field="armor_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.armor_proficiencies|join(', ') or 'None' }}</span>
         </div>
         <div class="stat-row">
           <span class="stat-name">Weapons</span>
-          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.weapon_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val editable" data-field="weapon_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.weapon_proficiencies|join(', ') or 'None' }}</span>
         </div>
         <div class="stat-row">
           <span class="stat-name">Tools</span>
-          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.tool_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val editable" data-field="tool_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.tool_proficiencies|join(', ') or 'None' }}</span>
         </div>
         <div class="stat-row">
           <span class="stat-name">Languages</span>
-          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.languages|join(', ') or 'Common' }}</span>
+          <span class="stat-val editable" data-field="languages" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.languages|join(', ') or 'Common' }}</span>
         </div>
       </div>
     </div>
@@ -317,13 +379,16 @@
       {% set ab_mod = (character[skill_ab] - 10) // 2 %}
       {% set has_prof = skill_name in char_skills %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) %}
-      <div class="stat-row">
-        <span class="stat-name">{% if has_prof %}<span class="prof-dot">●</span>{% endif %}{{ skill_name }}</span>
+      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
+        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">●</span>{{ skill_name }}</span>
         <span class="stat-val" style="color:{% if has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
           {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
         </span>
       </div>
       {% endfor %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient
+      </div>
     </div>
 
     <!-- Death Saves (collapsible) -->
@@ -439,10 +504,13 @@
     <div class="tab-content" id="tab-features">
       {% if character.feature_data %}
       {% for feat in character.feature_data %}
-      <div class="feat-card">
+      <div class="feat-card" data-feat-index="{{ loop.index0 }}">
         <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
           <span><span class="feat-level">L{{ feat.level }}</span>{{ feat.name }}</span>
-          <span class="arrow">▶</span>
+          <span style="display:flex;align-items:center;gap:0.5rem">
+            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editFeature({{ loop.index0 }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+            <span class="arrow">▶</span>
+          </span>
         </div>
         <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
       </div>
@@ -508,17 +576,25 @@
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
       <div class="card">
-        <h3 style="margin-bottom:0.5rem">Equipment</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">Equipment</h3>
+          <div style="display:flex;gap:0.3rem">
+            <button class="btn btn-outline btn-sm" onclick="addInventoryItem()">+ Add</button>
+            <button class="btn btn-primary btn-sm" onclick="saveInventory()">💾 Save</button>
+          </div>
+        </div>
         {% if character.inventory %}
-        <ul style="list-style:none;padding:0;font-size:0.9rem">
+        <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem">
           {% for item in character.inventory %}
-          <li style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">
-            <span>{{ item.name or item }}</span>
-            {% if item.qty and item.qty > 1 %}<span style="color:var(--text-muted)">×{{ item.qty }}</span>{% endif %}
+          <li class="inv-item" style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
+            <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0" onchange="saveInventory()">
+            <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+            <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>
           </li>
           {% endfor %}
         </ul>
         {% else %}
+        <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem"></ul>
         <p style="color:var(--text-muted);font-size:0.85rem">Empty inventory</p>
         {% endif %}
       </div>
@@ -555,6 +631,49 @@
     </div>
   </div><!-- /sheet-main -->
 </div><!-- /sheet-layout -->
+
+<!-- Portrait Edit Modal -->
+<div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div class="card" style="max-width:480px;width:90%;max-height:90vh;overflow-y:auto">
+    <h3 style="margin-bottom:0.5rem">Character Portrait</h3>
+    {% if character.portrait_url %}
+    <img src="{{ character.portrait_url }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
+    {% else %}
+    <div id="modal-portrait-placeholder" style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem">No portrait yet</div>
+    <img id="modal-portrait-img" src="" alt="New Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">
+    {% endif %}
+    <div id="modal-portrait-loading" style="display:none;padding:1.5rem;text-align:center;color:var(--text-muted)">🎨 Generating...</div>
+
+    <!-- AI Prompt display (hidden until fetched) -->
+    <div id="prompt-display" style="display:none;margin-bottom:0.75rem">
+      <label style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.25rem;display:block">AI Image Prompt:</label>
+      <textarea id="prompt-text" readonly style="width:100%;height:60px;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.72rem;font-family:var(--font);resize:vertical"></textarea>
+      <button class="btn btn-outline btn-sm" onclick="copyPrompt()" style="margin-top:0.25rem;font-size:0.7rem">📋 Copy</button>
+      <span id="prompt-copied" style="display:none;color:var(--success);font-size:0.7rem;margin-left:0.5rem">Copied!</span>
+    </div>
+
+    <!-- Upload section (hidden until Upload clicked) -->
+    <div id="upload-section" style="display:none;margin-bottom:0.75rem;padding:0.75rem;background:var(--bg);border:1px dashed var(--border);border-radius:6px">
+      <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.5rem">Upload your own image:</label>
+      <input type="file" id="upload-file" accept="image/*" onchange="previewUpload()" style="width:100%;margin-bottom:0.5rem;color:var(--text);font-size:0.8rem">
+      <img id="upload-preview" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:4px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">
+      <button class="btn btn-primary btn-sm" onclick="saveUploadedPortrait()" style="font-size:0.75rem">💾 Save as Portrait</button>
+      <span id="upload-status" style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem"></span>
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:0.8rem;color:var(--text-muted)">Custom details (optional):</label>
+      <input type="text" id="modal-portrait-custom" placeholder="e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+    </div>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time</div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('portrait-modal').style.display='none'">Cancel</button>
+      <button class="btn btn-outline btn-sm" onclick="fetchPortraitPrompt()">📋 Get Prompt</button>
+      <button class="btn btn-outline btn-sm" onclick="toggleUpload()">📤 Upload</button>
+      <button class="btn btn-primary btn-sm" onclick="regenerateSheetPortrait()">🔄 Regenerate</button>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -660,5 +779,277 @@ function saveNotes() {
     await api('/update', { notes: document.getElementById('notes').value });
   }, 500);
 }
+
+// ── Portrait Modal ──
+function openPortraitModal() {
+  document.getElementById('portrait-modal').style.display = 'flex';
+  // Reset upload section
+  document.getElementById('upload-section').style.display = 'none';
+  document.getElementById('upload-preview').style.display = 'none';
+  document.getElementById('upload-file').value = '';
+  document.getElementById('upload-status').textContent = '';
+}
+
+function toggleUpload() {
+  const sec = document.getElementById('upload-section');
+  sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+}
+
+function previewUpload() {
+  const file = document.getElementById('upload-file').files[0];
+  const preview = document.getElementById('upload-preview');
+  if (!file) { preview.style.display = 'none'; return; }
+  const reader = new FileReader();
+  reader.onload = (e) => { preview.src = e.target.result; preview.style.display = 'block'; };
+  reader.readAsDataURL(file);
+}
+
+async function saveUploadedPortrait() {
+  const file = document.getElementById('upload-file').files[0];
+  const status = document.getElementById('upload-status');
+  if (!file) { status.textContent = 'Select a file first'; return; }
+
+  status.textContent = 'Uploading...';
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    try {
+      const r = await fetch('/api/character/portrait', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ character_id: {{ character.id }}, image_data: e.target.result })
+      });
+      if (r.ok) {
+        status.textContent = 'Saved!';
+        // Update modal + sidebar
+        document.getElementById('modal-portrait-img').src = e.target.result;
+        document.getElementById('modal-portrait-img').style.display = 'block';
+        const ph = document.getElementById('modal-portrait-placeholder');
+        if (ph) ph.style.display = 'none';
+        const sb = document.getElementById('sidebar-portrait');
+        if (sb) sb.src = e.target.result;
+      } else {
+        status.textContent = 'Error: ' + r.status;
+      }
+    } catch(err) {
+      status.textContent = 'Failed: ' + err.message;
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function fetchPortraitPrompt() {
+  const custom = document.getElementById('modal-portrait-custom').value.trim();
+  const display = document.getElementById('prompt-display');
+  const textarea = document.getElementById('prompt-text');
+  display.style.display = 'block';
+  textarea.value = 'Generating prompt...';
+
+  try {
+    const r = await fetch('/api/ai/portrait', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        race: '{{ character.race }}', subrace: '{{ character.subrace or "" }}',
+        class_name: '{{ character.class_name }}', subclass: '{{ character.subclass or "" }}',
+        background: '{{ character.background or "" }}', alignment: '{{ character.alignment or "" }}',
+        custom_prompt: custom
+      })
+    });
+    const data = await r.json();
+    textarea.value = data.prompt || '(no prompt returned)';
+  } catch(e) {
+    textarea.value = 'Error: ' + (e.message || e);
+  }
+}
+
+function copyPrompt() {
+  const ta = document.getElementById('prompt-text');
+  ta.select();
+  document.execCommand('copy');
+  const span = document.getElementById('prompt-copied');
+  span.style.display = 'inline';
+  setTimeout(() => { span.style.display = 'none'; }, 2000);
+}
+
+async function regenerateSheetPortrait() {
+  const custom = document.getElementById('modal-portrait-custom').value.trim();
+  const img = document.getElementById('modal-portrait-img');
+  const placeholder = document.getElementById('modal-portrait-placeholder');
+  const loading = document.getElementById('modal-portrait-loading');
+
+  if (placeholder) placeholder.style.display = 'none';
+  img.style.display = 'none';
+  loading.style.display = 'block';
+
+  try {
+    const r = await fetch('/api/ai/portrait', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        race: '{{ character.race }}', subrace: '{{ character.subrace or "" }}',
+        class_name: '{{ character.class_name }}', subclass: '{{ character.subclass or "" }}',
+        background: '{{ character.background or "" }}', alignment: '{{ character.alignment or "" }}',
+        custom_prompt: custom, character_id: {{ character.id }}
+      })
+    });
+    const data = await r.json();
+    const dataUrl = data.image_url || '';
+
+    if (dataUrl) {
+      img.src = dataUrl;
+      loading.style.display = 'none';
+      img.style.display = 'block';
+      // Update sidebar portrait
+      const sb = document.getElementById('sidebar-portrait');
+      if (sb) sb.src = dataUrl;
+    } else {
+      loading.innerHTML = '<p style="font-size:0.8rem">⚠️ Image generation unavailable.</p>';
+    }
+  } catch(e) {
+    loading.innerHTML = '⚠️ Failed: ' + (e.message || e);
+    console.error(e);
+  }
+}
+
+// ── Editable fields ──
+function makeEditable(el, field, isNum, isList) {
+  el.classList.add('editable');
+  el.addEventListener('click', () => {
+    if (el.querySelector('input')) return; // already editing
+    const current = el.textContent.trim();
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'editable-input' + (isNum ? ' number' : '');
+    input.value = isNum ? current.replace(/[^0-9-]/g,'') : current;
+    input.style.width = (Math.max(current.length, 3) + 2) + 'ch';
+    el.textContent = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+
+    const save = async () => {
+      let val = input.value.trim();
+      if (isNum) val = parseInt(val) || 0;
+      if (isList) {
+        const arr = val.split(',').map(s => s.trim()).filter(Boolean);
+        el.textContent = arr.join(', ') || 'None';
+        try { await api('/update', { [field]: JSON.stringify(arr) }); } catch(e) { console.error(e); }
+      } else {
+        el.textContent = isNum ? val : val || '—';
+        try { await api('/update', { [field]: isNum ? val : val }); } catch(e) { console.error(e); }
+      }
+    };
+    input.addEventListener('blur', save);
+    input.addEventListener('keydown', (e) => { if (e.key==='Enter') input.blur(); });
+  });
+}
+
+function initEditable() {
+  document.querySelectorAll('.editable[data-num]').forEach(el => {
+    makeEditable(el, el.dataset.field, true, el.dataset.list === '1');
+  });
+  document.querySelectorAll('.editable[data-text]').forEach(el => {
+    makeEditable(el, el.dataset.field, false, el.dataset.list === '1');
+  });
+  // Text fields without explicit data-text/data-num (identity, etc.)
+  document.querySelectorAll('.editable[data-field]:not([data-num]):not([data-text])').forEach(el => {
+    makeEditable(el, el.dataset.field, false, el.dataset.list === '1');
+  });
+}
+
+// ── Proficiency Toggles ──
+async function toggleSaveProf(stat) {
+  const rows = document.querySelectorAll('.save-row');
+  const active = [];
+  // Each save row needs a data-stat attribute — rebuild list from all active dots
+  document.querySelectorAll('.save-dot.active').forEach(d => {
+    if (d.dataset.stat !== stat) active.push(d.dataset.stat);
+  });
+  // If the clicked stat wasn't active, add it
+  const dot = document.querySelector(`.save-dot[data-stat="${stat}"]`);
+  if (!dot.classList.contains('active')) active.push(stat);
+  
+  await api('/update', { save_proficiencies: JSON.stringify(active) });
+  location.reload();
+}
+
+async function toggleSkillProf(skillName) {
+  const active = [];
+  document.querySelectorAll('.skill-dot.active').forEach(d => {
+    if (d.dataset.skill !== skillName) active.push(d.dataset.skill);
+  });
+  const dot = document.querySelector(`.skill-dot[data-skill="${skillName}"]`);
+  if (!dot.classList.contains('active')) active.push(skillName);
+  
+  await api('/update', { skills: JSON.stringify(active) });
+  location.reload();
+}
+
+// ── Feature Editing ──
+const featureData = {{ character.feature_data|tojson if character.feature_data else '[]' }};
+
+function editFeature(idx) {
+  const feat = featureData[idx];
+  if (!feat) return;
+  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+  const body = card.querySelector('.feat-body');
+  const current = feat.description || '';
+  
+  if (body.querySelector('textarea')) return; // already editing
+  body.innerHTML = `<textarea id="feat-edit-${idx}" style="width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:4px;font-family:var(--font);font-size:0.85rem">${current.replace(/`/g,'\\`').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+    <div style="margin-top:0.3rem;display:flex;gap:0.3rem">
+      <button class="btn btn-primary btn-sm" onclick="saveFeature(${idx})">Save</button>
+      <button class="btn btn-outline btn-sm" onclick="cancelFeature(${idx})">Cancel</button>
+    </div>`;
+}
+
+async function saveFeature(idx) {
+  const ta = document.getElementById(`feat-edit-${idx}`);
+  if (!ta) return;
+  const val = ta.value.trim();
+  featureData[idx].description = val;
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+  card.querySelector('.feat-body').textContent = val || 'No description available.';
+}
+
+function cancelFeature(idx) {
+  const feat = featureData[idx];
+  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+  card.querySelector('.feat-body').textContent = feat.description || 'No description available.';
+}
+
+// ── Inventory Management ──
+function addInventoryItem() {
+  const list = document.getElementById('inv-list');
+  const idx = list.children.length;
+  const li = document.createElement('li');
+  li.className = 'inv-item';
+  li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
+  li.innerHTML = `<input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0" onchange="saveInventory()">
+    <input type="number" value="1" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+    <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
+  list.appendChild(li);
+  // Hide "Empty inventory" text if present
+  const empty = list.nextElementSibling;
+  if (empty && empty.tagName === 'P') empty.style.display = 'none';
+}
+
+function removeInventoryItem(idx) {
+  const item = document.querySelector(`#inv-list li:nth-child(${idx + 1})`);
+  if (item) item.remove();
+  saveInventory();
+}
+
+async function saveInventory() {
+  const items = [];
+  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
+    const nameEl = li.querySelector('input[type="text"]');
+    const qtyEl = li.querySelector('input[type="number"]');
+    if (nameEl && nameEl.value.trim()) {
+      items.push({ name: nameEl.value.trim(), qty: parseInt(qtyEl?.value) || 1 });
+    }
+  });
+  await api('/update', { inventory: JSON.stringify(items) });
+  location.reload();
+}
+initEditable();
 </script>
 {% endblock %}
