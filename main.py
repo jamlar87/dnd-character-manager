@@ -1130,6 +1130,131 @@ def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> 
         "backstory": f"A {race} {class_name}{' of the ' + subclass if subclass else ''} who grew up as a {bg.lower()}. They seek adventure and glory, driven by a desire to prove themselves to the world."
     }
 
+# ── Custom Background Generation ──────────────────────────────────────────
+
+@app.post("/api/ai/generate-background", response_class=JSONResponse)
+async def ai_generate_background(request: Request):
+    """Generate a unique custom background based on character choices.
+    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
+    user = require_user(request)
+    data = await request.json()
+    race = data.get("race", "Human")
+    subrace = data.get("subrace", "")
+    class_name = data.get("class_name", "Fighter")
+    subclass = data.get("subclass", "")
+    abilities = data.get("abilities", {})
+    skills = data.get("skills", [])
+    alignment = data.get("alignment", "")
+
+    prompt = f"""Create a UNIQUE D&D 5e custom background for this character. Do NOT use any of the 13 standard PHB backgrounds (Acolyte, Charlatan, Criminal, Entertainer, Folk Hero, Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor, Soldier, Urchin). Invent something new and specific to this character.
+
+Race: {race}{' (' + subrace + ')' if subrace else ''}
+Class: {class_name}{' — ' + subclass if subclass else ''}
+Ability scores: {abilities}
+Skills: {skills}
+Alignment: {alignment or 'Any'}
+
+Return ONLY valid JSON (no markdown, no explanation):
+{{"name": "Background Name (2-4 words, creative and unique)", "description": "2-3 sentence description of this character's background and how it shaped them", "items": ["Item 1", "Item 2", "Item 3"], "gp": 15}}"""
+
+    TIER_NAMES = ["gemini", "openrouter", "ollama"]
+    text = None
+    used_tier = None
+    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
+        text = await caller(prompt)
+        if text:
+            used_tier = TIER_NAMES[tier]
+            break
+    print(f"[AI bg] tier={used_tier or 'fallback'} race={race} class={class_name}")
+
+    ai = _extract_json(text) if text else None
+    if ai and ai.get("name") and ai.get("description"):
+        # Ensure items and gp exist
+        if "items" not in ai or not isinstance(ai.get("items"), list):
+            ai["items"] = _random_items(class_name)
+        if "gp" not in ai:
+            ai["gp"] = random.randint(10, 25)
+        # Validate uniqueness — reject if it matches a PHB background name
+        if ai["name"] in BACKGROUNDS:
+            ai = _fallback_background(race, class_name, subclass)
+    else:
+        ai = _fallback_background(race, class_name, subclass)
+    return JSONResponse(ai)
+
+def _random_items(class_name: str) -> list:
+    """Generate 3 class-appropriate generic items."""
+    pools = {
+        "Barbarian":  ["Tribal totem","Hunting trap","Whetstone","Bear pelt","War paint","Bone dice"],
+        "Bard":       ["Lute strings","Sheet music","Stage makeup","Perfume vial","Love letter","Theater mask"],
+        "Cleric":     ["Holy water","Censer","Prayer beads","Votive candle","Sacred text","Blessed chalk"],
+        "Druid":      ["Sprig of mistletoe","Animal whisker","Preserved beetle","Clay pot","Woven grass doll","Bird call"],
+        "Fighter":    ["Whetstone","Spare bowstring","Unit insignia","Lucky coin","Maintenance oil","Tactical map"],
+        "Monk":       ["Meditation beads","Rice paper","Incense stick","Training manual","Tea brick","Focus crystal"],
+        "Paladin":    ["Order medallion","Blessed oil","Oath scroll","Silver mirror","White ribbon","Armor polish"],
+        "Ranger":     ["Animal call","Trail rations","Compass","Trapper's knife","Hand-drawn map","Foraging pouch"],
+        "Rogue":      ["Lockpicks","Caltrops","Disguise kit refill","Climbing chalk","Concealed pouch","Marked cards"],
+        "Sorcerer":   ["Crystal shard","Dragon scale","Spark dust","Elemental focus","Strange birthmark","Arcanic battery"],
+        "Warlock":    ["Pact token","Shadow essence","Whispering stone","Eldritch candle","Patron's sigil","Soul coin"],
+        "Wizard":     ["Spell ink","Arcane lens","Component pouch refill","Research notes","Elemental sample","Rune-etched pebble"],
+    }
+    pool = pools.get(class_name, ["Travel journal","Flint and steel","Small trinket","Worn map","Lucky charm","Sewing kit"])
+    items = random.sample(pool, min(3, len(pool)))
+    if len(items) < 3:
+        items += ["Flint and steel","Small trinket","Traveler's rations"][:3-len(items)]
+    return items
+
+def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict:
+    """Deterministic fallback — pool of unique backgrounds by class."""
+    bg_pool = {
+        "Barbarian": [
+            {"name":"Tribal Outcast","desc":"Exiled from their clan for refusing to follow a corrupt chieftain. They wander the wilds, honing their rage into a weapon of justice.","items":["Tribal totem","Hunting trap","War paint"],"gp":12},
+            {"name":"Spirit-Blessed Wanderer","desc":"Touched by ancestral spirits during a near-death experience. They follow visions across the land, guided by voices only they can hear.","items":["Spirit pouch","Whetstone","Bear pelt"],"gp":10},
+            {"name":"Arena Champion","desc":"Fought for survival in underground fighting pits. They earned their freedom through blood and now seek a greater purpose.","items":["Champion's belt","Bone dice","Healing salve"],"gp":18},
+        ],
+        "Bard": [
+            {"name":"Traveling Minstrel","desc":"Performed in taverns and courts across the realm. Their songs carry secrets overheard from nobles and commoners alike.","items":["Songbook","Perfume vial","Theater mask"],"gp":14},
+            {"name":"Disgraced Courtier","desc":"Once a trusted advisor who uncovered a conspiracy. Framed for treason, they now travel under a new identity, seeking the truth.","items":["Court ledger","Disguise kit refill","Sealed letter"],"gp":20},
+        ],
+        "Cleric": [
+            {"name":"Pilgrim of the Lost","desc":"Received a divine vision during a plague that wiped out their village. They now travel, healing the sick and seeking answers.","items":["Sacred relic","Prayer beads","Healer's kit"],"gp":11},
+            {"name":"Heretic Reformer","desc":"Cast out from their temple for questioning doctrine. Their faith remains unshaken, but they now serve their god outside the clergy's walls.","items":["Forbidden text","Holy symbol","Traveler's rations"],"gp":15},
+        ],
+        "Druid": [
+            {"name":"Grove Warden","desc":"Sworn protector of an ancient forest grove. The trees whisper warnings to them, and animals treat them as kin.","items":["Sprig of mistletoe","Clay pot","Animal whisker"],"gp":10},
+        ],
+        "Fighter": [
+            {"name":"Broken Legionnaire","desc":"The sole survivor of a massacre that destroyed their company. They carry the unit's standard, seeking to restore its honor.","items":["Unit insignia","Whetstone","Lucky coin"],"gp":13},
+            {"name":"Village Guardian","desc":"A small-town militia captain who stood against a monster incursion. They now seek proper training to protect others.","items":["Village charter","Maintenance oil","Tactical map"],"gp":16},
+        ],
+        "Monk": [
+            {"name":"Mountain Acolyte","desc":"Trained in a remote monastery hidden among the peaks. They descend to the world below on a mission of enlightenment.","items":["Meditation beads","Incense stick","Tea brick"],"gp":10},
+        ],
+        "Paladin": [
+            {"name":"Oathsworn Avenger","desc":"Witnessed their mentor fall to corruption. They swore an oath over the mentor's grave to root out evil wherever it hides.","items":["Order medallion","Oath scroll","Silver mirror"],"gp":14},
+        ],
+        "Ranger": [
+            {"name":"Frontier Scout","desc":"Mapped uncharted wilderness for a frontier settlement. They know every trail, every danger, and every safe haven for 50 miles.","items":["Hand-drawn map","Compass","Foraging pouch"],"gp":12},
+        ],
+        "Rogue": [
+            {"name":"Reformed Smuggler","desc":"Ran contraband through city sewers before a close call with the law. They now use their skills for more honest — but equally thrilling — work.","items":["Concealed pouch","Lockpick set","Climbing chalk"],"gp":15},
+        ],
+        "Sorcerer": [
+            {"name":"Wild Magic Prodigy","desc":"Their powers erupted during a childhood accident, destroying their home. They've spent years learning to control the chaos within.","items":["Crystal shard","Spark dust","Strange birthmark sketch"],"gp":12},
+        ],
+        "Warlock": [
+            {"name":"Reluctant Pact-Bearer","desc":"Made a desperate bargain to save a loved one. Now bound to a mysterious patron, they seek a way to break free — or at least understand the terms.","items":["Pact token","Whispering stone","Soul coin"],"gp":10},
+        ],
+        "Wizard": [
+            {"name":"Arcane Archivist","desc":"Apprenticed to an eccentric librarian who guarded forbidden knowledge. They inherited the library's secrets when the old mage vanished.","items":["Spell ink","Research notes","Arcane lens"],"gp":14},
+            {"name":"Failed Academy Student","desc":"Expelled from a prestigious magical academy for an experiment gone wrong. They continue their studies independently, determined to prove the academy wrong.","items":["Expulsion letter","Component pouch","Rune-etched pebble"],"gp":11},
+        ],
+    }
+    pool = bg_pool.get(class_name, [
+        {"name":"Wandering Adventurer","desc":"Grew up hearing tales of heroes and monsters. When tragedy struck their hometown, they took up arms and never looked back.","items":["Travel journal","Flint and steel","Small trinket"],"gp":10}
+    ])
+    bg = random.choice(pool)
+    return {"name": bg["name"], "description": bg["desc"], "items": list(bg["items"]), "gp": bg["gp"]}
+
 # ── Build Generation (PHB-grounded, level-aware) ────────────────────────────
 
 @app.post("/api/ai/build", response_class=JSONResponse)

@@ -80,7 +80,7 @@
     <div class="form-group"><label>Name</label><div style="display:flex;gap:0.5rem"><input type="text" id="char-name" placeholder="Character name" style="flex:1" required><button class="btn btn-outline btn-sm" onclick="randomName()" type="button">🎲 Random</button></div></div>
     <div class="form-group">
       <label>Background</label>
-      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" onchange="showBgInfo(this.value)"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button></div>
+      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" onchange="showBgInfo(this.value)"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button><button class="btn btn-outline btn-sm" onclick="aiGenerateBackground()">🤖 AI Generate</button></div>
       <div id="bg-info" class="card" style="margin-top:0.5rem;padding:0.75rem 1rem;display:none;font-size:0.85rem;color:var(--text-muted);line-height:1.5"></div>
       <div id="custom-bg-row" style="margin-top:0.5rem;display:none">
         <input type="text" id="custom-bg-name" placeholder="Enter your background name..." style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.95rem" oninput="state.custom_background = this.value">
@@ -573,6 +573,36 @@ async function autoFillDetails() {
     state.backstory = data.backstory || '';
   } catch(e) { console.error(e); }
   btn.textContent = '🤖 Auto-Fill'; btn.disabled = false;
+}
+
+async function aiGenerateBackground() {
+  const btn = event.target;
+  btn.textContent = '⏳...'; btn.disabled = true;
+  try {
+    const r = await fetch('/api/ai/generate-background', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        race: state.race, subrace: state.subrace,
+        class_name: state.class_name, subclass: state.subclass,
+        abilities: state.abilities, skills: state.skills,
+        alignment: document.getElementById('char-align').value
+      })
+    });
+    const data = await r.json();
+    // Set custom background
+    document.getElementById('char-bg').value = 'Custom';
+    document.getElementById('custom-bg-name').value = data.name || '';
+    state.custom_background = data.name || '';
+    // Show description
+    const el = document.getElementById('bg-info');
+    el.style.display = 'block';
+    el.innerHTML = `<strong>${data.name || 'Generated Background'}</strong><br>${data.description || ''}<br><span style="color:var(--success)">Items: ${(data.items||[]).join(', ')} · ${data.gp || 15} gp</span>`;
+    document.getElementById('custom-bg-row').style.display = 'block';
+    // Store equipment
+    state.bg_items = data.items || [];
+    state.bg_gp = data.gp || 15;
+  } catch(e) { console.error(e); }
+  btn.textContent = '🤖 AI Generate'; btn.disabled = false;
 }
 
 function autoEquip() {
