@@ -53,6 +53,54 @@ try:
 except Exception:
     SRD_SPELLS = []
 
+# ── SRD Magic Items & Features (from dnd5eapi.co 2014, cached locally) ──────
+
+def _load_json_cache(filename: str) -> list[dict]:
+    try:
+        with open(SRD_CACHE / filename) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+SRD_MAGIC_ITEMS: list[dict] = _load_json_cache("magic-items.json")
+SRD_FEATURES: list[dict] = _load_json_cache("features.json")
+
+# Build feature lookup by class+name for enrichment
+FEATURE_DESCRIPTIONS: dict[str, str] = {}
+for f in SRD_FEATURES:
+    key = f.get("name", "").lower()
+    desc = " ".join(f.get("desc", []))[:200]
+    if desc:
+        FEATURE_DESCRIPTIONS[key] = desc
+
+# Build magic item index by rarity
+from collections import defaultdict
+ITEMS_BY_RARITY: dict[str, list[dict]] = defaultdict(list)
+ITEM_WEAPONS: list[dict] = []
+ITEM_ARMOR: list[dict] = []
+ITEM_WONDROUS: list[dict] = []
+ITEM_RODS_STAVES_WANDS: list[dict] = []
+
+for item in SRD_MAGIC_ITEMS:
+    rarity = item.get("rarity", {}).get("name", "").lower()
+    ITEMS_BY_RARITY[rarity].append(item)
+    cat = item.get("equipment_category", {}).get("name", "").lower()
+    if cat == "weapon":
+        ITEM_WEAPONS.append(item)
+    elif cat == "armor":
+        ITEM_ARMOR.append(item)
+    elif cat in ("rod", "staff", "wand"):
+        ITEM_RODS_STAVES_WANDS.append(item)
+    elif cat == "wondrous item":
+        ITEM_WONDROUS.append(item)
+
+# Rarity tier by level bracket (PHB DMG p.135 magic item distribution)
+def _item_rarity_for_level(level: int) -> list[str]:
+    if level <= 4:   return []           # No magic items
+    if level <= 10:  return ["uncommon"]
+    if level <= 16:  return ["rare", "uncommon"]
+    return ["very rare", "rare", "uncommon"]
+
 # bcrypt 4.x native — avoid passlib (broken on Python 3.13)
 BCRYPT_MAX = 72  # bcrypt's byte limit; truncate to be safe
 
@@ -835,6 +883,71 @@ def get_equipment_for_level(class_name: str, level: int) -> list[str]:
             tier = t
     return SCALED_EQUIPMENT[class_name][tier]
 
+
+def pick_magic_items(class_name: str, level: int) -> list[dict]:
+    """Pick level-appropriate SRD magic items for this class."""
+    if not SRD_MAGIC_ITEMS:
+        return []
+    rarities = _item_rarity_for_level(level)
+    if not rarities:
+        return []
+    
+    items = []
+    # Determine what item types this class wants
+    is_martial = class_name in ("Barbarian", "Fighter", "Paladin", "Ranger")
+    is_caster = class_name in ("Wizard", "Sorcerer", "Warlock", "Bard", "Cleric", "Druid")
+    
+    for rarity in rarities:
+        pool = ITEMS_BY_RARITY.get(rarity, [])
+        if not pool:
+            continue
+        
+        # Pick 1 weapon for martials, 1 focus for casters, 1 armor, 1 wondrous
+        if is_martial:
+            weapons = [i for i in pool if i in ITEM_WEAPONS]
+            if weapons:
+                items.append(random.choice(weapons))
+        if is_caster:
+            foci = [i for i in pool if i in ITEM_RODS_STAVES_WANDS]
+            if foci:
+                items.append(random.choice(foci))
+        
+        armor = [i for i in pool if i in ITEM_ARMOR]
+        if armor and random.random() < 0.4:
+            items.append(random.choice(armor))
+        
+        wondrous = [i for i in pool if i in ITEM_WONDROUS]
+        if wondrous:
+            items.append(random.choice(wondrous))
+        
+        if len(items) >= 3:
+            break
+    
+    # Format as name + rarity + short description
+    result = []
+    for item in items[:5]:
+        name = item["name"]
+        rarity = item.get("rarity", {}).get("name", "")
+        desc = " ".join(item.get("desc", []))[:120]
+        result.append({"name": name, "rarity": rarity, "description": desc})
+    return result
+
+
+def enrich_features(feature_list: list[str]) -> list[dict]:
+    """Add SRD descriptions to feature names."""
+    enriched = []
+    for feat_str in feature_list:
+        # Parse "L3: Feature Name" format
+        if ": " in feat_str:
+            level_part, name = feat_str.split(": ", 1)
+        else:
+            level_part, name = feat_str, feat_str
+        key = name.lower()
+        desc = FEATURE_DESCRIPTIONS.get(key, "")
+        enriched.append({"name": name, "level": level_part, "description": desc})
+    return enriched
+
+
 async def _call_gemini(prompt: str) -> str | None:
     """Tier 1: Google Gemini. Requires GOOGLE_API_KEY."""
     key = os.environ.get("GOOGLE_API_KEY", "")
@@ -1010,12 +1123,16 @@ async def ai_build(request: Request):
 
     skills = _pick_skills(class_name, mods)
     equipment = get_equipment_for_level(class_name, level)
+    magic_items = pick_magic_items(class_name, level)
     feats = get_feats_for_level(class_name, level)
 
     spell_data = get_spells_for_level(class_name, level)
     spell_slots = get_spell_slots(class_name, level)
 
     attacks = _calculate_attacks(class_name, level, mods, pb, equipment)
+
+    raw_features = get_class_features(class_name, level, subclass)
+    enriched_features = enrich_features(raw_features)
 
     race_data = RACES.get(race, RACES["Human"])
     build = {
@@ -1035,12 +1152,13 @@ async def ai_build(request: Request):
         "saving_throws": saves,
         "skills": skills,
         "equipment": equipment,
+        "magic_items": magic_items,
         "feats": feats,
         "cantrips": spell_data.get("cantrips", []),
         "spells": spell_data.get("spells", {}),
         "spell_slots": spell_slots,
         "attacks": attacks,
-        "features": get_class_features(class_name, level, subclass),
+        "features": enriched_features,
     }
     return JSONResponse(build)
 
