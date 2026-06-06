@@ -408,6 +408,25 @@
       {% endif %}
     </div>
 
+    <!-- Skills -->
+    <div class="sidebar-section">
+      <h4>Skills</h4>
+      {% for skill_name, skill_ab in skill_abilities.items()|sort %}
+      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
+      {% set has_prof = skill_name in char_skills %}
+      {% set sk_val = ab_mod + (prof if has_prof else 0) %}
+      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
+        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">●</span>{{ skill_name }}</span>
+        <span class="stat-val" style="color:{% if has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
+          {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
+        </span>
+      </div>
+      {% endfor %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient
+      </div>
+    </div>
+
     <!-- Defenses -->
     <div class="sidebar-section">
       <h4>Defenses</h4>
@@ -497,25 +516,6 @@
           <span class="stat-name">Languages</span>
           <span class="stat-val editable" data-field="languages" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.languages|join(', ') or 'Common' }}</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Skills -->
-    <div class="sidebar-section">
-      <h4>Skills</h4>
-      {% for skill_name, skill_ab in skill_abilities.items()|sort %}
-      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
-      {% set has_prof = skill_name in char_skills %}
-      {% set sk_val = ab_mod + (prof if has_prof else 0) %}
-      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
-        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">●</span>{{ skill_name }}</span>
-        <span class="stat-val" style="color:{% if has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
-          {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
-        </span>
-      </div>
-      {% endfor %}
-      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
-        <span style="color:var(--accent)">●</span> = Proficient
       </div>
     </div>
 
