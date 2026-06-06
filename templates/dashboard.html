@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block title %}My Characters{% endblock %}
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+  <h1>My Characters</h1>
+  <a href="/create" class="btn btn-primary">+ Create Character</a>
+</div>
+
+{% if not characters %}
+<div class="card" style="text-align:center;padding:3rem">
+  <p style="font-size:1.2rem;color:var(--text-muted);margin-bottom:1rem">No characters yet</p>
+  <a href="/create" class="btn btn-primary">Create Your First Character</a>
+</div>
+{% else %}
+{% for c in characters %}
+<div class="card" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+    <div>
+      <strong style="font-size:1.15rem">{{ c.name }}</strong>
+      <span class="badge badge-accent" style="margin-left:0.5rem">Lv{{ c.level }}</span>
+      <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem">
+        {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
+        {% if c.background %} · {{ c.background }}{% endif %}
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem">
+      <div style="text-align:right">
+        <span style="font-size:1.2rem;font-weight:700">{{ c.hp_current }}/{{ c.hp_max }}</span>
+        <span style="color:var(--text-muted);font-size:0.8rem"> HP</span>
+        <div style="width:100px" class="hp-bar">
+          <div class="hp-bar-fill{% if c.hp_current < c.hp_max * 0.25 %} danger{% elif c.hp_current < c.hp_max * 0.5 %} warn{% endif %}" style="width:{{ (c.hp_current / c.hp_max * 100) if c.hp_max > 0 else 0 }}%"></div>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteChar({{ c.id }})" title="Delete">✕</button>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<script>
+async function deleteChar(id) {
+  if (!confirm('Permanently delete this character?')) return;
+  const r = await fetch('/api/character/' + id + '/delete', { method: 'POST' });
+  if (r.ok) location.reload();
+  else alert('Delete failed');
+}
+</script>
+{% endblock %}

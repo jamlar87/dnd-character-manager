@@ -1,0 +1,339 @@
+{% extends "layout.html" %}
+{% block title %}Create Character{% endblock %}
+{% block style %}
+.wizard-step { display: none; }
+.wizard-step.active { display: block; }
+.step-indicator { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
+.step-dot.active { background: var(--accent); }
+.step-dot.done { background: var(--success); }
+.option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.5rem; }
+.option-card { background: var(--bg); border: 2px solid var(--border); border-radius: 8px; padding: 0.75rem; cursor: pointer; text-align: center; transition: border-color 0.2s; }
+.option-card:hover { border-color: var(--accent); }
+.option-card.selected { border-color: var(--accent); background: var(--accent2); }
+.option-card .name { font-weight: 700; font-size: 0.95rem; }
+.option-card .detail { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+.ability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; text-align: center; }
+.ability-box .abl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+.ability-box .val { font-size: 1.3rem; font-weight: 700; }
+.wizard-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; }
+{% endblock %}
+{% block content %}
+<h1>Create Character</h1>
+
+<div class="step-indicator">
+  <div class="step-dot" id="dot-0">1</div><div class="step-dot" id="dot-1">2</div>
+  <div class="step-dot" id="dot-2">3</div><div class="step-dot" id="dot-3">4</div>
+  <div class="step-dot" id="dot-4">5</div><div class="step-dot" id="dot-5">6</div>
+</div>
+
+<div id="wizard">
+  <!-- Step 0: Race -->
+  <div class="wizard-step active" data-step="0">
+    <h3>Choose Your Race</h3>
+    <div class="option-grid" id="race-grid"></div>
+    <div id="subrace-section" style="margin-top:1rem;display:none">
+      <h4>Subrace</h4>
+      <div class="option-grid" id="subrace-grid"></div>
+    </div>
+    <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
+    <div class="wizard-nav"><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+  </div>
+
+  <!-- Step 1: Class -->
+  <div class="wizard-step" data-step="1">
+    <h3>Choose Your Class</h3>
+    <div class="option-grid" id="class-grid"></div>
+    <div id="subclass-section" style="margin-top:1rem;display:none">
+      <h4>Subclass</h4>
+      <div class="option-grid" id="subclass-grid"></div>
+    </div>
+    <div id="class-info" class="card" style="margin-top:1rem;display:none"></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+  </div>
+
+  <!-- Step 2: Abilities -->
+  <div class="wizard-step" data-step="2">
+    <h3>Ability Scores <span style="font-size:0.85rem;color:var(--text-muted)">(Standard Array: 15,14,13,12,10,8)</span></h3>
+    <div class="ability-grid" id="ability-grid"></div>
+    <div id="asi-bonus" style="margin-top:0.5rem;color:var(--accent);font-size:0.85rem"></div>
+    {% if "Half-Elf" in races %}
+    <div id="halfelf-picks" style="margin-top:1rem;display:none">
+      <p style="font-size:0.9rem;color:var(--text-muted)">Half-Elf: +1 to two other abilities</p>
+      <div class="grid-2" id="halfelf-grid"></div>
+    </div>
+    {% endif %}
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+  </div>
+
+  <!-- Step 3: Skills -->
+  <div class="wizard-step" data-step="3">
+    <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span></h3>
+    <div class="option-grid" id="skill-grid"></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+  </div>
+
+  <!-- Step 4: Details -->
+  <div class="wizard-step" data-step="4">
+    <h3>Character Details</h3>
+    <div class="form-group"><label>Name</label><input type="text" id="char-name" placeholder="Character name" required></div>
+    <div class="form-group"><label>Background</label><select id="char-bg"></select></div>
+    <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
+    <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="prevStep()">Review →</button></div>
+  </div>
+
+  <!-- Step 5: Review -->
+  <div class="wizard-step" data-step="5">
+    <h3>Review & Create</h3>
+    <div class="card" id="review-card"></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" id="create-btn" onclick="createCharacter()">✓ Create Character</button></div>
+  </div>
+</div>
+
+<script>
+const RACES = {{ races | tojson }};
+const SUBASIS = {{ subasis | tojson }};
+const CLASSES = {{ classes | tojson }};
+const ALL_SKILLS = {{ all_skills | tojson }};
+const SKILL_ABILITIES = {{ skill_abilities | tojson }};
+const BACKGROUNDS = {{ backgrounds | tojson }};
+const ALIGNMENTS = {{ alignments | tojson }};
+const STD_ARRAY = [15,14,13,12,10,8];
+const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
+
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", level: 1 };
+let step = 0;
+
+function updateDots() {
+  document.querySelectorAll('.step-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === step);
+    d.classList.toggle('done', i < step);
+  });
+}
+
+function showStep(n) {
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-step="${n}"]`).classList.add('active');
+  step = n; updateDots();
+  if (n === 3) buildSkills();
+  if (n === 5) buildReview();
+}
+
+function nextStep() {
+  if (step === 0 && !state.race) { alert('Choose a race'); return; }
+  if (step === 1 && !state.class_name) { alert('Choose a class'); return; }
+  showStep(Math.min(step + 1, 5));
+}
+
+function prevStep() { showStep(Math.max(step - 1, 0)); }
+
+// ── Step 0: Race ──
+function buildRaces() {
+  const grid = document.getElementById('race-grid');
+  grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
+    <div class="option-card" onclick="selectRace('${name}')">
+      <div class="name">${name}</div>
+      <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
+    </div>`).join('');
+}
+
+function selectRace(name) {
+  state.race = name; state.subrace = null; state.asi_picks = [];
+  document.querySelectorAll('#race-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === name));
+  
+  const r = RACES[name];
+  const subsec = document.getElementById('subrace-section');
+  const subgrid = document.getElementById('subrace-grid');
+  if (r.subraces && r.subraces.length) {
+    subsec.style.display = 'block';
+    subgrid.innerHTML = r.subraces.map(s => `
+      <div class="option-card" onclick="selectSubrace('${s}')">
+        <div class="name">${s}</div>
+        <div class="detail">${SUBASIS[s] ? Object.entries(SUBASIS[s]).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') : 'No extra ASI'}</div>
+      </div>`).join('');
+  } else { subsec.style.display = 'none'; }
+
+  document.getElementById('race-info').style.display = 'block';
+  document.getElementById('race-info').innerHTML = `
+    <strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
+    · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
+    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>`;
+  
+  updateAsiPreview();
+}
+
+function selectSubrace(s) {
+  state.subrace = s;
+  document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
+  selectRace(state.race); // refresh info
+}
+
+// ── Step 1: Class ──
+function buildClasses() {
+  const grid = document.getElementById('class-grid');
+  grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
+    <div class="option-card" onclick="selectClass('${name}')">
+      <div class="name">${name}</div>
+      <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>
+    </div>`).join('');
+}
+
+function selectClass(name) {
+  state.class_name = name; state.subclass = null;
+  const c = CLASSES[name];
+  const scgrid = document.getElementById('subclass-grid');
+  const scsec = document.getElementById('subclass-section');
+  if (c.subclasses && c.subclasses.length) {
+    scsec.style.display = 'block';
+    scgrid.innerHTML = c.subclasses.map(s => `
+      <div class="option-card" onclick="selectSubclass('${s}')">
+        <div class="name">${s}</div>
+      </div>`).join('');
+  } else { scsec.style.display = 'none'; }
+
+  document.getElementById('class-info').style.display = 'block';
+  document.getElementById('class-info').innerHTML = `
+    <strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}
+    · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
+    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>`;
+}
+
+function selectSubclass(s) {
+  state.subclass = s;
+  document.querySelectorAll('#subclass-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
+  selectClass(state.class_name);
+}
+
+// ── Step 2: Abilities ──
+function buildAbilities() {
+  const grid = document.getElementById('ability-grid');
+  grid.innerHTML = ABILITIES.map(a => `
+    <div class="ability-box">
+      <div class="abl">${a.slice(0,3).toUpperCase()}</div>
+      <select class="val" onchange="updateAbility('${a}', this.value)" style="font-size:1.1rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:0.3rem;width:100%;text-align:center">
+        ${STD_ARRAY.map(v => `<option value="${v}">${v}</option>`).join('')}
+      </select>
+    </div>`).join('');
+  // Initialize from STD_ARRAY
+  ABILITIES.forEach((a,i) => state.abilities[a] = STD_ARRAY[i]);
+  updateAsiPreview();
+}
+
+function updateAbility(a, v) {
+  state.abilities[a] = parseInt(v);
+  updateAsiPreview();
+}
+
+function updateAsiPreview() {
+  const r = state.race ? RACES[state.race] : null;
+  if (!r) return;
+  let bonuses = {...r.asi};
+  if (state.subrace && SUBASIS[state.subrace]) Object.entries(SUBASIS[state.subrace]).forEach(([k,v]) => bonuses[k] = (bonuses[k]||0)+v);
+  if (state.race === 'Half-Elf' && state.asi_picks.length === 2) state.asi_picks.forEach(a => bonuses[a] = (bonuses[a]||0)+1);
+  document.getElementById('asi-bonus').innerHTML = Object.entries(bonuses).map(([k,v]) => `${k.slice(0,3).toUpperCase()}+${v}`).join(' · ') || '';
+
+  // Half-Elf ASI picks
+  const he = document.getElementById('halfelf-picks');
+  if (state.race === 'Half-Elf') {
+    he.style.display = 'block';
+    document.getElementById('halfelf-grid').innerHTML = ABILITIES.filter(a => a !== 'charisma').map(a => `
+      <label class="option-card" style="cursor:pointer">
+        <input type="checkbox" onchange="toggleAsiPick('${a}', this.checked)" style="pointer-events:none">
+        ${a.slice(0,3).toUpperCase()} +1
+      </label>`).join('');
+  } else { he.style.display = 'none'; }
+}
+
+function toggleAsiPick(a, checked) {
+  if (checked) { if (state.asi_picks.length < 2) state.asi_picks.push(a); }
+  else { state.asi_picks = state.asi_picks.filter(x => x !== a); }
+  updateAsiPreview();
+}
+
+// ── Step 3: Skills ──
+function buildSkills() {
+  const c = CLASSES[state.class_name];
+  const available = Array.isArray(c.skills) ? c.skills : ALL_SKILLS;
+  const max = c.skill_count;
+  document.getElementById('skill-count-label').textContent = `(pick ${max})`;
+  state.skills = [];
+  document.getElementById('skill-grid').innerHTML = available.map(s => `
+    <div class="option-card" onclick="toggleSkill('${s}')">
+      <div class="name">${s}</div>
+      <div class="detail">${SKILL_ABILITIES[s].slice(0,3).toUpperCase()}</div>
+    </div>`).join('');
+}
+
+function toggleSkill(s) {
+  if (state.skills.includes(s)) { state.skills = state.skills.filter(x => x !== s); }
+  else {
+    const c = CLASSES[state.class_name];
+    if (state.skills.length >= c.skill_count) { alert(`Only ${c.skill_count} skills allowed`); return; }
+    state.skills.push(s);
+  }
+  document.querySelectorAll('#skill-grid .option-card').forEach(c => {
+    c.classList.toggle('selected', state.skills.includes(c.querySelector('.name').textContent));
+  });
+}
+
+// ── Step 4: Details ──
+(function() {
+  document.getElementById('char-bg').innerHTML = '<option value="">—</option>' + BACKGROUNDS.map(b => `<option>${b}</option>`).join('');
+  document.getElementById('char-align').innerHTML = ALIGNMENTS.map(a => `<option>${a}</option>`).join('');
+})();
+
+// ── Step 5: Review ──
+function buildReview() {
+  state.name = document.getElementById('char-name').value || 'Unnamed';
+  state.background = document.getElementById('char-bg').value;
+  state.alignment = document.getElementById('char-align').value;
+  state.level = parseInt(document.getElementById('char-level').value) || 1;
+
+  const r = RACES[state.race];
+  const c = CLASSES[state.class_name];
+  const con_mod = Math.floor(((state.abilities.constitution || 10) - 10) / 2);
+  const hp = c.hd + con_mod;
+
+  document.getElementById('review-card').innerHTML = `
+    <h3>${state.name}</h3>
+    <p><strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''} · <strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''} · <strong>Lv${state.level}</strong></p>
+    <p>${state.background || 'No background'} · ${state.alignment || 'Unaligned'}</p>
+    <h4 style="margin-top:0.5rem">Abilities</h4>
+    <div class="grid-3">${ABILITIES.map(a => `<div class="stat-box"><div class="abl">${a.slice(0,3).toUpperCase()}</div><div class="stat-num">${state.abilities[a]}</div><div class="stat-mod">${Math.floor((state.abilities[a]-10)/2) >= 0 ? '+' : ''}${Math.floor((state.abilities[a]-10)/2)}</div></div>`).join('')}</div>
+    <p style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted)">HP: ~${Math.max(1, hp)} · Hit Die: d${c.hd} · Speed: ${r.speed}ft</p>
+    <p style="font-size:0.85rem;color:var(--text-muted)">Skills: ${state.skills.join(', ') || 'none'}</p>
+    ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
+  `;
+}
+
+// ── Create ──
+async function createCharacter() {
+  buildReview();
+  const btn = document.getElementById('create-btn');
+  btn.textContent = 'Creating...'; btn.disabled = true;
+
+  const payload = {
+    name: state.name, race: state.race, subrace: state.subrace,
+    class_name: state.class_name, subclass: state.subclass,
+    abilities: state.abilities, skills: state.skills,
+    asi_picks: state.asi_picks, background: state.background,
+    alignment: state.alignment, level: state.level,
+    equipment: []
+  };
+
+  const r = await fetch('/api/character/create', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+  });
+  const data = await r.json();
+  if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
+  window.location.href = '/character/' + data.id;
+}
+
+// Init
+buildRaces();
+buildClasses();
+buildAbilities();
+</script>
+{% endblock %}
