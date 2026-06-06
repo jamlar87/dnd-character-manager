@@ -132,6 +132,8 @@
 .edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
 .inv-item .btn { display: none !important; }
 .edit-mode .inv-item .btn { display: inline-flex !important; }
+/* Weapon badge */
+.wpn-badge { display: inline-block; background: rgba(233,69,96,0.12); color: var(--accent); font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.4rem; font-weight: 600; vertical-align: middle; }
 /* Clickable info badges */
 .badge-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .badge-link:hover { filter: brightness(1.3); }
@@ -615,7 +617,10 @@
         <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem">
           {% for item in character.inventory %}
           <li class="inv-item" style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
-            <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0" onchange="saveInventory()">
+            <span style="display:flex;align-items:center;flex:1;min-width:0">
+              <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="saveInventory();tagWeapons()">
+              <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
+            </span>
             <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
             <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>
           </li>
@@ -1140,6 +1145,34 @@ function cancelFeature(idx) {
 }
 
 // ── Inventory Management ──
+const WEAPON_KEYWORDS = [
+  'sword', 'axe', 'hammer', 'bow', 'dagger', 'mace', 'spear', 'flail',
+  'rapier', 'scimitar', 'glaive', 'halberd', 'pike', 'lance', 'whip',
+  'club', 'staff', 'quarterstaff', 'crossbow', 'sling', 'dart', 'javelin',
+  'trident', 'war pick', 'morningstar', 'greatsword', 'longsword', 'shortsword',
+  'battleaxe', 'greataxe', 'warhammer', 'maul', 'handaxe', 'light hammer',
+  'sickle', 'blowgun', 'net', 'firearm', 'pistol', 'musket', 'rifle',
+  'arrow', 'bolt', 'blade', 'knife', 'katana', 'nunchaku', 'shuriken',
+];
+
+function isWeapon(name) {
+  const lower = name.toLowerCase();
+  return WEAPON_KEYWORDS.some(kw => lower.includes(kw));
+}
+
+function tagWeapons() {
+  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
+    const input = li.querySelector('input[type="text"]');
+    const badge = li.querySelector('.wpn-badge');
+    if (!input || !badge) return;
+    if (isWeapon(input.value)) {
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  });
+}
+
 function addInventoryItem() {
   if (!document.body.classList.contains('edit-mode')) return;
   const list = document.getElementById('inv-list');
@@ -1147,13 +1180,17 @@ function addInventoryItem() {
   const li = document.createElement('li');
   li.className = 'inv-item';
   li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
-  li.innerHTML = `<input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0" onchange="saveInventory()">
+  li.innerHTML = `<span style="display:flex;align-items:center;flex:1;min-width:0">
+    <input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="saveInventory();tagWeapons()">
+    <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
+  </span>
     <input type="number" value="1" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
     <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
   list.appendChild(li);
   // Hide "Empty inventory" text if present
   const empty = list.nextElementSibling;
   if (empty && empty.tagName === 'P') empty.style.display = 'none';
+  tagWeapons();
 }
 
 function removeInventoryItem(idx) {
@@ -1176,5 +1213,6 @@ async function saveInventory() {
   location.reload();
 }
 initEditable();
+tagWeapons();
 </script>
 {% endblock %}
