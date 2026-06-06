@@ -155,7 +155,7 @@
     <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
     <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail()">{{ character.class_name }}</span></span>
     {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
-    {% if character.background %}<span class="badge badge-muted editable" data-field="background" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
+    {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
     {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
   <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
@@ -948,7 +948,8 @@ async function regenerateSheetPortrait() {
 // ── Detail Popup ──
 const DESCRIPTIONS = {
   race: {{ races|tojson }},
-  class: {{ classes|tojson }}
+  class: {{ classes|tojson }},
+  bg: {{ bg_info|tojson }}
 };
 
 function showDetail() {
@@ -969,6 +970,7 @@ function showDetail() {
   let html = '';
   const raceData = DESCRIPTIONS.race[race];
   const classData = DESCRIPTIONS.class[cls];
+  const bgDesc = DESCRIPTIONS.bg[bg];
 
   // Race
   html += `<div style="margin-bottom:1rem"><strong style="color:var(--accent)">${race}</strong>`;
@@ -992,12 +994,16 @@ function showDetail() {
   }
   html += '</div>';
 
-  // Background + Alignment
-  if (bg || align) {
-    html += '<div style="font-size:0.85rem;color:var(--text-muted);border-top:1px solid var(--border);padding-top:0.75rem">';
-    if (bg) html += `<strong>Background:</strong> ${bg}<br>`;
-    if (align) html += `<strong>Alignment:</strong> ${align}`;
+  // Background
+  if (bg) {
+    html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><strong style="color:var(--accent)">Background: ${bg}</strong>`;
+    if (bgDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${bgDesc}</p>`;
     html += '</div>';
+  }
+
+  // Alignment
+  if (align) {
+    html += `<div style="font-size:0.85rem;color:var(--text-muted);border-top:1px solid var(--border);padding-top:0.75rem"><strong>Alignment:</strong> ${align}</div>`;
   }
 
   body.innerHTML = html;
