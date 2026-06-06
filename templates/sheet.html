@@ -153,8 +153,8 @@
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
   <div>
     <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
-    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail('race','{{ character.race }}')">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail('subrace','{{ character.subrace }}')">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail('class','{{ character.class_name }}')">{{ character.class_name }}</span></span>
-    {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail('subclass','{{ character.subclass }}')">{{ character.subclass }}</span>{% endif %}
+    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail()">{{ character.class_name }}</span></span>
+    {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
     {% if character.background %}<span class="badge badge-muted editable" data-field="background" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
     {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
@@ -951,45 +951,56 @@ const DESCRIPTIONS = {
   class: {{ classes|tojson }}
 };
 
-function showDetail(type, name) {
-  if (document.body.classList.contains('edit-mode')) return; // editing takes priority
+function showDetail() {
+  if (document.body.classList.contains('edit-mode')) return;
   const popup = document.getElementById('detail-popup');
   const title = document.getElementById('popup-title');
   const body = document.getElementById('popup-body');
 
-  if (type === 'race' || type === 'subrace') {
-    const raceData = DESCRIPTIONS.race[name] || DESCRIPTIONS.race[Object.keys(DESCRIPTIONS.race).find(r => (DESCRIPTIONS.race[r].subraces || []).includes(name))];
-    if (type === 'race' && raceData) {
-      title.textContent = name;
-      body.textContent = raceData.desc || 'No description available.';
-    } else if (type === 'subrace') {
-      // Find parent race
-      for (const [rname, rdata] of Object.entries(DESCRIPTIONS.race)) {
-        if ((rdata.subrace_descs || {})[name]) {
-          title.textContent = name + ' (' + rname + ')';
-          body.textContent = rdata.subrace_descs[name];
-          break;
-        }
-      }
-      if (!body.textContent) { title.textContent = name; body.textContent = 'No description available.'; }
-    }
-  } else if (type === 'class' || type === 'subclass') {
-    const classData = DESCRIPTIONS.class[name];
-    if (type === 'class' && classData) {
-      title.textContent = name;
-      body.textContent = classData.desc || 'No description available.';
-    } else if (type === 'subclass') {
-      for (const [cname, cdata] of Object.entries(DESCRIPTIONS.class)) {
-        if ((cdata.subclass_descs || {})[name]) {
-          title.textContent = name + ' (' + cname + ')';
-          body.textContent = cdata.subclass_descs[name];
-          break;
-        }
-      }
-      if (!body.textContent) { title.textContent = name; body.textContent = 'No description available.'; }
-    }
+  const race = '{{ character.race }}';
+  const subrace = '{{ character.subrace or "" }}';
+  const cls = '{{ character.class_name }}';
+  const subclass = '{{ character.subclass or "" }}';
+  const bg = '{{ character.background or "" }}';
+  const align = '{{ character.alignment or "" }}';
+
+  title.textContent = '{{ character.name }}';
+
+  let html = '';
+  const raceData = DESCRIPTIONS.race[race];
+  const classData = DESCRIPTIONS.class[cls];
+
+  // Race
+  html += `<div style="margin-bottom:1rem"><strong style="color:var(--accent)">${race}</strong>`;
+  if (raceData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${raceData.desc}</p>`;
+  if (subrace) {
+    html += `<div style="margin-top:0.5rem"><strong>${subrace}</strong>`;
+    const srDesc = (raceData?.subrace_descs || {})[subrace];
+    if (srDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${srDesc}</p>`;
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Class
+  html += `<div style="margin-bottom:1rem"><strong style="color:var(--accent)">${cls}</strong>`;
+  if (classData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${classData.desc}</p>`;
+  if (subclass) {
+    html += `<div style="margin-top:0.5rem"><strong>${subclass}</strong>`;
+    const scDesc = (classData?.subclass_descs || {})[subclass];
+    if (scDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${scDesc}</p>`;
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // Background + Alignment
+  if (bg || align) {
+    html += '<div style="font-size:0.85rem;color:var(--text-muted);border-top:1px solid var(--border);padding-top:0.75rem">';
+    if (bg) html += `<strong>Background:</strong> ${bg}<br>`;
+    if (align) html += `<strong>Alignment:</strong> ${align}`;
+    html += '</div>';
   }
 
+  body.innerHTML = html;
   popup.style.display = 'flex';
 }
 
