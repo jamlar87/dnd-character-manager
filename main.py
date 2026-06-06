@@ -9,11 +9,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import bcrypt
 import httpx
 from fastapi import FastAPI, Request, Form, HTTPException, Response
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from jinja2 import Environment, FileSystemLoader
-from passlib.context import CryptContext
 
 # ── Config ──────────────────────────────────────────────────────────────────
 
@@ -24,7 +24,15 @@ TEMPLATES = HERE / "templates"
 STATIC = HERE / "static"
 SECRET_KEY = os.environ.get("SECRET_KEY", "dnd-dev-secret-change-me")
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# bcrypt 4.x native — avoid passlib (broken on Python 3.13)
+BCRYPT_MAX = 72  # bcrypt's byte limit; truncate to be safe
+
+def _hash(password: str) -> str:
+    return bcrypt.hashpw(password.encode()[:BCRYPT_MAX], bcrypt.gensalt()).decode()
+
+def _verify(password: str, hash_: str) -> bool:
+    return bcrypt.checkpw(password.encode()[:BCRYPT_MAX], hash_.encode())
+
 _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)))
 
 # ── App ─────────────────────────────────────────────────────────────────────
@@ -120,14 +128,6 @@ def init_db():
         pass
     db.commit()
     db.close()
-
-# ── Auth ────────────────────────────────────────────────────────────────────
-
-def _hash(password: str) -> str:
-    return pwd_context.hash(password)
-
-def _verify(password: str, hash_: str) -> bool:
-    return pwd_context.verify(password, hash_)
 
 def _get_user(email: str) -> dict | None:
     db = get_db()
@@ -531,6 +531,308 @@ def random_equipment(class_name: str) -> list[str]:
 PHB_BACKGROUNDS = BACKGROUNDS  # PHB p.125-141
 PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
 
+# ── Character Build Optimization (PHB 2014) ─────────────────────────────────
+
+# Ability Score Priority (PHB Quick Build sections + optimal play)
+ABILITY_PRIORITY = {
+    "Barbarian":  ["strength","constitution","dexterity","wisdom","charisma","intelligence"],
+    "Bard":       ["charisma","dexterity","constitution","intelligence","wisdom","strength"],
+    "Cleric":     ["wisdom","strength","constitution","dexterity","charisma","intelligence"],
+    "Druid":      ["wisdom","constitution","dexterity","intelligence","charisma","strength"],
+    "Fighter":    ["strength","constitution","dexterity","wisdom","intelligence","charisma"],
+    "Monk":       ["dexterity","wisdom","constitution","strength","intelligence","charisma"],
+    "Paladin":    ["strength","charisma","constitution","wisdom","dexterity","intelligence"],
+    "Ranger":     ["dexterity","wisdom","constitution","strength","intelligence","charisma"],
+    "Rogue":      ["dexterity","constitution","intelligence","wisdom","charisma","strength"],
+    "Sorcerer":   ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
+    "Warlock":    ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
+    "Wizard":     ["intelligence","constitution","dexterity","wisdom","charisma","strength"],
+}
+
+# Standard array: 15,14,13,12,10,8 (PHB p.13)
+STANDARD_ARRAY = [15, 14, 13, 12, 10, 8]
+
+# Proficiency bonus by level (PHB p.15)
+PROFICIENCY_BONUS = {1:2,2:2,3:2,4:2,5:3,6:3,7:3,8:3,9:4,10:4,11:4,12:4,13:5,14:5,15:5,16:5,17:6,18:6,19:6,20:6}
+
+# Full caster spell slots per level (PHB p.21 Wizard table — same for all full casters)
+# Format: level -> [1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th]
+FULL_CASTER_SLOTS = {
+    1:[2,0,0,0,0,0,0,0,0],2:[3,0,0,0,0,0,0,0,0],3:[4,2,0,0,0,0,0,0,0],
+    4:[4,3,0,0,0,0,0,0,0],5:[4,3,2,0,0,0,0,0,0],6:[4,3,3,0,0,0,0,0,0],
+    7:[4,3,3,1,0,0,0,0,0],8:[4,3,3,2,0,0,0,0,0],9:[4,3,3,3,1,0,0,0,0],
+    10:[4,3,3,3,2,0,0,0,0],11:[4,3,3,3,2,1,0,0,0],12:[4,3,3,3,2,1,0,0,0],
+    13:[4,3,3,3,2,1,1,0,0],14:[4,3,3,3,2,1,1,0,0],15:[4,3,3,3,2,1,1,1,0],
+    16:[4,3,3,3,2,1,1,1,0],17:[4,3,3,3,2,1,1,1,1],18:[4,3,3,3,3,1,1,1,1],
+    19:[4,3,3,3,3,2,1,1,1],20:[4,3,3,3,3,2,2,1,1],
+}
+
+# Half caster spell slots (Paladin, Ranger — PHB p.83, p.90)
+HALF_CASTER_SLOTS = {
+    1:[0,0,0,0,0],2:[2,0,0,0,0],3:[3,0,0,0,0],4:[3,0,0,0,0],5:[4,2,0,0,0],
+    6:[4,2,0,0,0],7:[4,3,0,0,0],8:[4,3,0,0,0],9:[4,3,2,0,0],10:[4,3,2,0,0],
+    11:[4,3,3,0,0],12:[4,3,3,0,0],13:[4,3,3,1,0],14:[4,3,3,1,0],
+    15:[4,3,3,2,0],16:[4,3,3,2,0],17:[4,3,3,3,1],18:[4,3,3,3,1],
+    19:[4,3,3,3,2],20:[4,3,3,3,2],
+}
+
+# Warlock spell slots (PHB p.106 — Pact Magic)
+# Format: [slots, slot_level]
+WARLOCK_SLOTS = {
+    1:[1,1],2:[2,1],3:[2,2],4:[2,2],5:[2,3],6:[2,3],7:[2,4],8:[2,4],
+    9:[2,5],10:[2,5],11:[3,5],12:[3,5],13:[3,5],14:[3,5],15:[3,5],
+    16:[3,5],17:[4,5],18:[4,5],19:[4,5],20:[4,5],
+}
+# Warlock format: [slots, slot_level]
+
+# Recommended cantrips and spells by class+level (PHB-optimal picks)
+# Format: class -> level -> {"cantrips": [...], "spells": {...}}
+# Only spells that are clearly optimal / commonly recommended
+RECOMMENDED_SPELLS = {
+    "Bard": {
+        1: {"cantrips":["Vicious Mockery","Minor Illusion"],"spells":{1:["Healing Word","Faerie Fire","Dissonant Whispers","Tasha's Hideous Laughter"]}},
+        5: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand"],"spells":{1:["Healing Word","Faerie Fire","Dissonant Whispers"],2:["Suggestion","Invisibility","Heat Metal"],3:["Hypnotic Pattern","Dispel Magic"]}},
+        10: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"]}},
+        15: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"],6:["Mass Suggestion","Otto's Irresistible Dance"],7:["Forcecage","Teleport"],8:["Glibness","Feeblemind"]}},
+        20: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"],6:["Mass Suggestion"],7:["Forcecage","Teleport"],8:["Glibness"],9:["True Polymorph","Foresight"]}},
+    },
+    "Cleric": {
+        1: {"cantrips":["Guidance","Sacred Flame","Toll the Dead"],"spells":{1:["Bless","Healing Word","Guiding Bolt","Shield of Faith"]}},
+        5: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy"],"spells":{1:["Bless","Healing Word","Guiding Bolt"],2:["Spiritual Weapon","Aid","Lesser Restoration"],3:["Spirit Guardians","Revivify","Mass Healing Word"]}},
+        10: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy","Mending"],"spells":{1:["Bless","Healing Word"],2:["Spiritual Weapon","Aid"],3:["Spirit Guardians","Revivify"],4:["Death Ward","Banishment"],5:["Greater Restoration","Mass Cure Wounds","Scrying"]}},
+        20: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy","Mending"],"spells":{1:["Bless","Healing Word"],2:["Spiritual Weapon","Aid"],3:["Spirit Guardians","Revivify"],4:["Death Ward","Banishment"],5:["Greater Restoration","Mass Cure Wounds"],6:["Heal","Word of Recall"],7:["Divine Word","Plane Shift"],8:["Holy Aura","Antimagic Field"],9:["Mass Heal","Gate"]}},
+    },
+    "Druid": {
+        1: {"cantrips":["Guidance","Thorn Whip","Shillelagh"],"spells":{1:["Entangle","Goodberry","Healing Word","Faerie Fire"]}},
+        5: {"cantrips":["Guidance","Thorn Whip","Produce Flame"],"spells":{1:["Entangle","Goodberry","Healing Word"],2:["Spike Growth","Pass Without Trace","Moonbeam"],3:["Conjure Animals","Call Lightning"]}},
+        10: {"cantrips":["Guidance","Thorn Whip","Produce Flame","Druidcraft"],"spells":{1:["Entangle","Goodberry","Healing Word"],2:["Spike Growth","Pass Without Trace"],3:["Conjure Animals","Call Lightning"],4:["Polymorph","Conjure Woodland Beings"],5:["Wall of Stone","Greater Restoration"]}},
+        20: {"cantrips":["Guidance","Thorn Whip","Produce Flame","Druidcraft"],"spells":{1:["Entangle","Goodberry"],2:["Spike Growth","Pass Without Trace"],3:["Conjure Animals"],4:["Polymorph","Conjure Woodland Beings"],5:["Wall of Stone","Greater Restoration"],6:["Heal","Sunbeam"],7:["Plane Shift","Fire Storm"],8:["Feeblemind","Sunburst"],9:["Foresight","Shapechange"]}},
+    },
+    "Paladin": {
+        2: {"spells":{1:["Bless","Shield of Faith","Divine Favor","Thunderous Smite"]}},
+        5: {"spells":{1:["Bless","Shield of Faith","Wrathful Smite"],2:["Find Steed","Aid","Branding Smite"]}},
+        9: {"spells":{1:["Bless","Shield of Faith"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality","Crusader's Mantle"]}},
+        13: {"spells":{1:["Bless","Shield of Faith"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality"],4:["Find Greater Steed","Death Ward","Aura of Life"]}},
+        17: {"spells":{1:["Bless"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality"],4:["Find Greater Steed","Death Ward"],5:["Circle of Power","Holy Weapon","Banishing Smite"]}},
+    },
+    "Ranger": {
+        2: {"spells":{1:["Hunter's Mark","Absorb Elements","Goodberry"]}},
+        5: {"spells":{1:["Hunter's Mark","Absorb Elements","Goodberry"],2:["Pass Without Trace","Spike Growth","Silence"]}},
+        9: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace","Spike Growth"],3:["Conjure Animals","Lightning Arrow","Plant Growth"]}},
+        13: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace","Spike Growth"],3:["Conjure Animals","Lightning Arrow"],4:["Guardian of Nature","Freedom of Movement"]}},
+        17: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace"],3:["Conjure Animals"],4:["Guardian of Nature"],5:["Swift Quiver","Steel Wind Strike"]}},
+    },
+    "Sorcerer": {
+        1: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Shield","Magic Missile","Sleep"]}},
+        5: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Magic Missile","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Haste","Counterspell"]}},
+        10: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Haste","Counterspell"],4:["Polymorph","Greater Invisibility","Banishment"],5:["Wall of Stone","Animate Objects","Telekinesis"]}},
+        15: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Fireball","Counterspell"],4:["Polymorph","Greater Invisibility"],5:["Wall of Stone","Animate Objects"],6:["Chain Lightning","Mass Suggestion"],7:["Reverse Gravity","Plane Shift"],8:["Sunburst","Demiplane"]}},
+        20: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Fireball","Counterspell"],4:["Polymorph","Greater Invisibility"],5:["Wall of Stone"],6:["Chain Lightning","Mass Suggestion"],7:["Reverse Gravity","Plane Shift"],8:["Sunburst"],9:["Wish","Meteor Swarm","Time Stop"]}},
+    },
+    "Warlock": {
+        1: {"cantrips":["Eldritch Blast","Minor Illusion"],"spells":{1:["Hex","Armor of Agathys","Hellish Rebuke"]}},
+        5: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand"],"spells":{1:["Hex","Armor of Agathys"],2:["Darkness","Misty Step","Shatter"],3:["Hunger of Hadar","Counterspell","Hypnotic Pattern"]}},
+        10: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{3:["Hunger of Hadar","Counterspell","Hypnotic Pattern"],4:["Banishment","Dimension Door","Shadow of Moil"],5:["Synaptic Static","Hold Monster","Danse Macabre"]}},
+        15: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{5:["Synaptic Static","Hold Monster","Danse Macabre"],6:["Mass Suggestion","Mental Prison","Soul Cage"],7:["Forcecage","Finger of Death","Plane Shift"],8:["Demiplane","Glibness","Feeblemind"]}},
+        20: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{5:["Synaptic Static","Hold Monster","Danse Macabre"],6:["Mass Suggestion","Mental Prison"],7:["Forcecage","Finger of Death","Plane Shift"],8:["Demiplane","Feeblemind"],9:["True Polymorph","Foresight","Imprisonment"]}},
+    },
+    "Wizard": {
+        1: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Detect Magic"]}},
+        5: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Absorb Elements"],2:["Web","Misty Step","Mirror Image","Invisibility"],3:["Fireball","Counterspell","Haste","Hypnotic Pattern"]}},
+        10: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Counterspell","Haste","Hypnotic Pattern"],4:["Polymorph","Greater Invisibility","Banishment","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"]}},
+        15: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Counterspell","Hypnotic Pattern"],4:["Polymorph","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"],6:["Chain Lightning","Disintegrate","Contingency"],7:["Forcecage","Simulacrum","Teleport"],8:["Maze","Demiplane","Clone"]}},
+        20: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Counterspell","Hypnotic Pattern"],4:["Polymorph","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"],6:["Chain Lightning","Contingency"],7:["Forcecage","Simulacrum","Teleport"],8:["Maze","Demiplane","Clone"],9:["Wish","True Polymorph","Meteor Swarm"]}},
+    },
+}
+
+# Feats by class tier (PHB-optimal picks at ASI levels 4,8,12,16,19)
+RECOMMENDED_FEATS = {
+    "Barbarian":    ["Great Weapon Master","Polearm Master","Sentinel","Resilient (Wisdom)","Tough"],
+    "Bard":         ["Inspiring Leader","War Caster","Resilient (Constitution)","Lucky","Alert","Fey Touched"],
+    "Cleric":       ["War Caster","Resilient (Constitution)","Telekinetic","Lucky","Alert","Fey Touched"],
+    "Druid":        ["War Caster","Resilient (Constitution)","Observant","Lucky","Alert","Fey Touched"],
+    "Fighter":      ["Great Weapon Master","Polearm Master","Sentinel","Sharpshooter","Crossbow Expert","Tough"],
+    "Monk":         ["Mobile","Crusher","Sentinel","Alert","Tough"],
+    "Paladin":      ["Great Weapon Master","Polearm Master","Sentinel","Inspiring Leader","Resilient (Constitution)","Fey Touched"],
+    "Ranger":       ["Sharpshooter","Crossbow Expert","Fey Touched","Resilient (Constitution)","Alert","Lucky"],
+    "Rogue":        ["Sharpshooter","Crossbow Expert","Skulker","Lucky","Alert","Mobile"],
+    "Sorcerer":     ["War Caster","Metamagic Adept","Fey Touched","Lucky","Alert","Elemental Adept"],
+    "Warlock":      ["War Caster","Resilient (Constitution)","Fey Touched","Spell Sniper","Lucky","Alert"],
+    "Wizard":       ["War Caster","Resilient (Constitution)","Telekinetic","Lucky","Alert","Fey Touched"],
+}
+
+# Scaled equipment by class and level tier (PHB starting equipment + reasonable progression)
+# Levels: 1, 5, 10, 15, 20
+SCALED_EQUIPMENT = {
+    "Barbarian": {
+        1:  ["Greataxe","2 Handaxes","Explorer's Pack","4 Javelins"],
+        5:  ["+1 Greataxe","2 Handaxes","Explorer's Pack","4 Javelins","Breastplate"],
+        10: ["+2 Greataxe","Explorer's Pack","Half Plate","Javelin of Lightning","Cloak of Protection","Potion of Giant Strength (Hill)"],
+        15: ["+2 Greatsword","Half Plate +1","Cloak of Displacement","Belt of Giant Strength (Fire)","Ring of Protection","Boots of Speed"],
+        20: ["+3 Greataxe","Half Plate +2","Belt of Storm Giant Strength","Cloak of Displacement","Ring of Protection","Boots of Speed","Mantle of Spell Resistance"],
+    },
+    "Bard": {
+        1:  ["Rapier","Entertainer's Pack","Lute","Leather Armor","Dagger"],
+        5:  ["+1 Rapier","Studded Leather","Entertainer's Pack","Lute","Wand of Magic Missiles"],
+        10: ["+2 Rapier","Studded Leather +1","Instrument of the Bards (Cli Lyre)","Cloak of Protection","Wand of Web","Hat of Disguise"],
+        15: ["+2 Rapier","Studded Leather +2","Instrument of the Bards (Bandore)","Ring of Protection","Cloak of Displacement","Mantle of Spell Resistance"],
+        20: ["+3 Rapier","Studded Leather +3","Instrument of the Bards (Ollamh Harp)","Ring of Protection","Cloak of Displacement","Robe of the Archmagi"],
+    },
+    "Cleric": {
+        1:  ["Mace","Scale Mail","Light Crossbow + 20 Bolts","Priest's Pack","Shield","Holy Symbol"],
+        5:  ["+1 Mace","Splint Mail","Shield","Holy Symbol","Priest's Pack","Necklace of Prayer Beads"],
+        10: ["+2 Mace","Plate Armor","Shield +1","Necklace of Prayer Beads","Cloak of Protection","Periapt of Wound Closure"],
+        15: ["+2 Mace","Plate Armor +1","Shield +2","Amulet of the Devout +2","Cloak of Displacement","Ring of Spell Storing"],
+        20: ["+3 Mace","Plate Armor +2","Shield +3","Amulet of the Devout +3","Cloak of Displacement","Ring of Spell Storing","Rod of Resurrection"],
+    },
+    "Druid": {
+        1:  ["Wooden Shield","Scimitar","Leather Armor","Explorer's Pack","Druidic Focus"],
+        5:  ["+1 Scimitar","Hide Armor","Wooden Shield","Explorer's Pack","Moon Sickle +1","Cloak of Elvenkind"],
+        10: ["+2 Scimitar","Studded Leather","Wooden Shield +1","Moon Sickle +2","Staff of the Woodlands","Cloak of Protection"],
+        15: ["+2 Scimitar","Studded Leather +1","Wooden Shield +2","Moon Sickle +2","Staff of the Woodlands","Ring of Protection","Dragonhide Breastplate"],
+        20: ["+3 Scimitar","Dragonhide Half Plate","Wooden Shield +3","Moon Sickle +3","Staff of the Woodlands","Ring of Protection","Cloak of Displacement"],
+    },
+    "Fighter": {
+        1:  ["Chain Mail","Longsword","Shield","Light Crossbow + 20 Bolts","Dungeoneer's Pack"],
+        5:  ["Plate Armor","+1 Longsword","Shield","Longbow + 20 Arrows","Dungeoneer's Pack","Cloak of Protection"],
+        10: ["Plate Armor +1","+2 Longsword","Shield +1","Longbow +1","Cloak of Displacement","Ring of Protection","Gauntlets of Ogre Power"],
+        15: ["Plate Armor +2","+2 Greatsword","Longbow +2","Belt of Giant Strength (Hill)","Cloak of Displacement","Ring of Protection","Winged Boots"],
+        20: ["Plate Armor +3","+3 Greatsword","Longbow +3","Belt of Giant Strength (Storm)","Cloak of Displacement","Ring of Protection","Winged Boots","Mantle of Spell Resistance"],
+    },
+    "Monk": {
+        1:  ["Shortsword","Dungeoneer's Pack","10 Darts"],
+        5:  ["+1 Shortsword","Dungeoneer's Pack","10 Darts","Bracers of Defense","Cloak of Protection"],
+        10: ["+2 Shortsword","Bracers of Defense","Cloak of Displacement","Ring of Protection","Insignia of Claws","Boots of Speed"],
+        15: ["+2 Shortsword","Bracers of Defense +1","Cloak of Displacement","Ring of Protection","Insignia of Claws","Boots of Speed","Dragonhide Belt +2"],
+        20: ["+3 Shortsword","Bracers of Defense +2","Cloak of Displacement","Ring of Protection","Boots of Speed","Dragonhide Belt +3","Tome of Understanding"],
+    },
+    "Paladin": {
+        1:  ["Longsword","Shield","5 Javelins","Priest's Pack","Chain Mail","Holy Symbol"],
+        5:  ["+1 Longsword","Shield","Plate Armor","5 Javelins","Priest's Pack","Holy Symbol"],
+        10: ["+2 Longsword","Shield +1","Plate Armor +1","Cloak of Protection","Holy Avenger (base)","Necklace of Prayer Beads"],
+        15: ["+2 Greatsword","Plate Armor +2","Cloak of Displacement","Holy Avenger","Ring of Protection","Belt of Giant Strength (Hill)","Necklace of Prayer Beads"],
+        20: ["+3 Greatsword","Plate Armor +3","Holy Avenger","Belt of Giant Strength (Storm)","Cloak of Displacement","Ring of Protection","Mantle of Spell Resistance"],
+    },
+    "Ranger": {
+        1:  ["Longbow + 20 Arrows","Shortsword","Scale Mail","Explorer's Pack"],
+        5:  ["+1 Longbow","Breastplate","Shortsword","Explorer's Pack","Cloak of Elvenkind","Bracers of Archery"],
+        10: ["+2 Longbow","Studded Leather +1","Shortsword +1","Cloak of Elvenkind","Bracers of Archery","Ring of Protection","Boots of Elvenkind"],
+        15: ["+2 Longbow","Studded Leather +2","Cloak of Displacement","Bracers of Archery","Ring of Protection","Oathbow","Boots of Speed"],
+        20: ["+3 Longbow","Studded Leather +3","Cloak of Displacement","Bracers of Archery","Ring of Protection","Oathbow","Boots of Speed","Mantle of Spell Resistance"],
+    },
+    "Rogue": {
+        1:  ["Rapier","Shortbow + 20 Arrows","Burglar's Pack","Leather Armor","2 Daggers","Thieves' Tools"],
+        5:  ["+1 Rapier","Studded Leather","Shortbow","Burglar's Pack","Thieves' Tools","Cloak of Elvenkind","Gloves of Thievery"],
+        10: ["+2 Rapier","Studded Leather +1","Shortbow +1","Cloak of Elvenkind","Gloves of Thievery","Ring of Protection","Boots of Elvenkind"],
+        15: ["+2 Rapier","Studded Leather +2","Cloak of Displacement","Ring of Protection","Boots of Speed","Dagger of Venom","Hat of Disguise"],
+        20: ["+3 Rapier","Studded Leather +3","Cloak of Displacement","Ring of Protection","Boots of Speed","Dagger of Venom","Hat of Disguise","Mantle of Spell Resistance"],
+    },
+    "Sorcerer": {
+        1:  ["Light Crossbow + 20 Bolts","Arcane Focus","Dungeoneer's Pack","2 Daggers"],
+        5:  ["Arcane Focus","Dungeoneer's Pack","Cloak of Protection","Wand of Magic Missiles","Elven Chain"],
+        10: ["Bloodwell Vial +2","Elven Chain","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
+        15: ["Bloodwell Vial +2","Elven Chain +1","Cloak of Displacement","Ring of Spell Storing","Wand of Fireballs","Robe of Stars","Staff of Power"],
+        20: ["Bloodwell Vial +3","Robe of the Archmagi","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Tome of Leadership and Influence"],
+    },
+    "Warlock": {
+        1:  ["Light Crossbow + 20 Bolts","Arcane Focus","Scholar's Pack","Leather Armor","Dagger"],
+        5:  ["+1 Rod of the Pact Keeper","Studded Leather","Scholar's Pack","Cloak of Protection","Wand of Web"],
+        10: ["+2 Rod of the Pact Keeper","Studded Leather +1","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
+        15: ["+2 Rod of the Pact Keeper","Studded Leather +2","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Illusionist's Bracers"],
+        20: ["+3 Rod of the Pact Keeper","Studded Leather +3","Cloak of Displacement","Ring of Spell Storing","Robe of the Archmagi","Staff of Power","Illusionist's Bracers"],
+    },
+    "Wizard": {
+        1:  ["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"],
+        5:  ["Arcane Focus","Scholar's Pack","Spellbook","Cloak of Protection","Wand of Magic Missiles","Elven Chain"],
+        10: ["Arcane Grimoire +2","Elven Chain","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
+        15: ["Arcane Grimoire +2","Elven Chain +1","Cloak of Displacement","Ring of Spell Storing","Wand of Fireballs","Robe of Stars","Staff of Power"],
+        20: ["Arcane Grimoire +3","Robe of the Archmagi","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Tome of Clear Thought"],
+    },
+}
+
+# HP calculation: max at level 1, average (rounded up) thereafter
+def calc_hp(class_name: str, level: int, con_mod: int) -> int:
+    hd = CLASSES.get(class_name, {}).get("hd", 8)
+    avg_roll = (hd // 2) + 1  # PHB: half+1, effectively ceiling(average)
+    return hd + con_mod + (level - 1) * (avg_roll + con_mod)
+
+def allocate_ability_scores(class_name: str, race_name: str, subrace: str = "") -> dict:
+    """Allocate standard array optimally for class, then apply racial ASIs."""
+    priority = ABILITY_PRIORITY.get(class_name, ABILITY_PRIORITY["Fighter"])
+    scores = {ability: val for ability, val in zip(priority, sorted(STANDARD_ARRAY, reverse=True))}
+    # Apply racial ASIs (PHB p.12-40)
+    race_data = RACES.get(race_name, RACES["Human"])
+    for ability, bonus in race_data["asi"].items():
+        scores[ability] = scores.get(ability, 10) + bonus
+    if subrace and subrace in SUBASIS:
+        for ability, bonus in SUBASIS[subrace].items():
+            scores[ability] = scores.get(ability, 10) + bonus
+    # Fill any missing abilities
+    for ability in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
+        scores.setdefault(ability, 10)
+    return scores
+
+def modifier(score: int) -> int:
+    return (score - 10) // 2
+
+def get_spell_slots(class_name: str, level: int) -> dict:
+    """Return spell slots for this class at this level."""
+    if class_name == "Warlock":
+        warlock_data = WARLOCK_SLOTS.get(level, [0,0])
+        return {"slots": warlock_data[0], "slot_level": warlock_data[1],
+                "note": f"{warlock_data[0]} Pact Magic slots, all {_ordinal(warlock_data[1])} level",
+                "by_level": {}}
+    if class_name in ("Paladin", "Ranger"):
+        raw = HALF_CASTER_SLOTS.get(level, [0,0,0,0,0])
+        return {"slots": sum(raw), "slot_level": None, "by_level": {i+1: raw[i] for i in range(5)}}
+    if class_name in ("Bard", "Cleric", "Druid", "Sorcerer", "Wizard"):
+        raw = FULL_CASTER_SLOTS.get(level, [0]*9)
+        return {"slots": sum(raw), "slot_level": None, "by_level": {i+1: raw[i] for i in range(9)}}
+    # Non-caster / 1/3 caster placeholder
+    return {"slots": 0, "slot_level": None, "by_level": {}}
+
+def get_asi_levels(level: int, class_name: str = "") -> list[int]:
+    """List of ASI levels the character has passed."""
+    asis = {4,8,12,16,19}
+    if class_name == "Fighter": asis.update({6,14})  # Fighter gets extra ASIs (PHB p.71)
+    return sorted([a for a in asis if a <= level])
+
+def _ordinal(n: int) -> str:
+    """Return ordinal string: 1st, 2nd, 3rd, etc."""
+    if 11 <= n % 100 <= 13: return f"{n}th"
+    return f"{n}{['th','st','nd','rd','th','th','th','th','th','th'][n % 10]}"
+
+def get_feats_for_level(class_name: str, level: int) -> list[str]:
+    """Recommended feats based on how many ASIs the character has taken."""
+    asi_count = len(get_asi_levels(level, class_name))
+    all_feats = RECOMMENDED_FEATS.get(class_name, RECOMMENDED_FEATS["Fighter"])
+    # Pick top N feats (or fewer if not enough levels)
+    count = min(asi_count, len(all_feats))
+    return all_feats[:count]
+
+def get_spells_for_level(class_name: str, level: int) -> dict:
+    """Get recommended spells for this class at the closest tier."""
+    if class_name not in RECOMMENDED_SPELLS:
+        return {"cantrips": [], "spells": {}}
+    tiers = sorted(RECOMMENDED_SPELLS[class_name].keys())
+    # Find closest tier <= level
+    tier = 1
+    for t in tiers:
+        if t <= level:
+            tier = t
+    return RECOMMENDED_SPELLS[class_name][tier]
+
+def get_equipment_for_level(class_name: str, level: int) -> list[str]:
+    """Get scaled equipment for this class at the closest tier."""
+    if class_name not in SCALED_EQUIPMENT:
+        return ["Explorer's Pack", "Dagger"]
+    tiers = sorted(SCALED_EQUIPMENT[class_name].keys())
+    tier = 1
+    for t in tiers:
+        if t <= level:
+            tier = t
+    return SCALED_EQUIPMENT[class_name][tier]
+
 async def _call_gemini(prompt: str) -> str | None:
     """Tier 1: Google Gemini. Requires GOOGLE_API_KEY."""
     key = os.environ.get("GOOGLE_API_KEY", "")
@@ -548,7 +850,7 @@ async def _call_gemini(prompt: str) -> str | None:
         return None
 
 async def _call_openrouter(prompt: str) -> str | None:
-    """Tier 2: OpenRouter free model. Requires OPENROUTER_API_KEY."""
+    """Tier 2: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
         return None
@@ -556,16 +858,22 @@ async def _call_openrouter(prompt: str) -> str | None:
         async with httpx.AsyncClient(timeout=20) as client:
             resp = await client.post(
                 "https://openrouter.ai/api/v1/chat/completions",
-                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                headers={
+                    "Authorization": f"Bearer {key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://characters.jamlarnet.stream",
+                    "X-OpenRouter-Title": "D&D Character Manager",
+                },
                 json={
-                    "model": "google/gemma-3-27b-it:free",
+                    "model": "openrouter/free",  # auto-load-balances free models, can't charge
                     "messages": [{"role": "user", "content": prompt}],
                     "max_tokens": 300,
                 },
             )
             result = resp.json()
             return result["choices"][0]["message"]["content"]
-    except Exception:
+    except Exception as e:
+        print(f"[OR] error: {e}")
         return None
 
 async def _call_ollama(prompt: str) -> str | None:
@@ -642,11 +950,15 @@ Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Firstname Lastname", "background": "one from PHB list above", "alignment": "one from PHB list above", "personality": "2-3 personality traits", "backstory": "2-3 sentence backstory connecting race, class, and background"}}"""
 
     # Tiered model chain
+    TIER_NAMES = ["gemini", "openrouter", "ollama"]
     text = None
+    used_tier = None
     for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
         text = await caller(prompt)
         if text:
+            used_tier = TIER_NAMES[tier]
             break
+    print(f"[AI] tier={used_tier or 'fallback'} race={race} class={class_name}")
 
     ai = _extract_json(text) if text else None
     if ai:
@@ -668,6 +980,221 @@ def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> 
         "personality": "Brave but reckless. Loyal to friends. Distrusts authority.",
         "backstory": f"A {race} {class_name}{' of the ' + subclass if subclass else ''} who grew up as a {bg.lower()}. They seek adventure and glory, driven by a desire to prove themselves to the world."
     }
+
+# ── Build Generation (PHB-grounded, level-aware) ────────────────────────────
+
+@app.post("/api/ai/build", response_class=JSONResponse)
+async def ai_build(request: Request):
+    """Generate a complete optimized build for the given class/race/subclass/level."""
+    user = require_user(request)
+    data = await request.json()
+    race = data.get("race", "Human")
+    subrace = data.get("subrace", "")
+    class_name = data.get("class_name", "Fighter")
+    subclass = data.get("subclass", "")
+    level = min(max(int(data.get("level", 1)), 1), 20)
+
+    class_data = CLASSES.get(class_name, CLASSES["Fighter"])
+    abilities = allocate_ability_scores(class_name, race, subrace)
+    mods = {ability: modifier(score) for ability, score in abilities.items()}
+    pb = PROFICIENCY_BONUS.get(level, 2)
+
+    con_mod = mods["constitution"]
+    hp = calc_hp(class_name, level, con_mod)
+    ac = _calculate_ac(class_name, level, mods)
+
+    saves = {ability: mod + (pb if ability in class_data["saves"] else 0)
+             for ability, mod in mods.items()}
+
+    skills = _pick_skills(class_name, mods)
+    equipment = get_equipment_for_level(class_name, level)
+    feats = get_feats_for_level(class_name, level)
+
+    spell_data = get_spells_for_level(class_name, level)
+    spell_slots = get_spell_slots(class_name, level)
+
+    attacks = _calculate_attacks(class_name, level, mods, pb, equipment)
+
+    race_data = RACES.get(race, RACES["Human"])
+    build = {
+        "class": class_name,
+        "subclass": subclass or None,
+        "race": race,
+        "subrace": subrace or None,
+        "level": level,
+        "proficiency_bonus": pb,
+        "hit_points": hp,
+        "hit_dice": f"{level}d{class_data['hd']}",
+        "armor_class": ac,
+        "initiative": mods["dexterity"],
+        "speed": race_data["speed"],
+        "ability_scores": abilities,
+        "modifiers": mods,
+        "saving_throws": saves,
+        "skills": skills,
+        "equipment": equipment,
+        "feats": feats,
+        "cantrips": spell_data.get("cantrips", []),
+        "spells": spell_data.get("spells", {}),
+        "spell_slots": spell_slots,
+        "attacks": attacks,
+        "features": _get_class_features(class_name, level, subclass),
+    }
+    return JSONResponse(build)
+
+
+def _calculate_ac(class_name: str, level: int, mods: dict) -> int:
+    dex = mods["dexterity"]
+    if class_name == "Barbarian":
+        con = mods["constitution"]
+        base = 15 if level >= 20 else 14 if level >= 10 else 13 if level >= 5 else 12
+        return base + dex + con
+    if class_name == "Monk":
+        wis = mods["wisdom"]
+        return 10 + dex + wis
+    if class_name in ("Wizard", "Sorcerer"):
+        if level >= 5: return 13 + min(dex, 2)
+        return 10 + dex
+    if class_name == "Warlock":
+        if level >= 20: return 12 + dex + 3
+        if level >= 15: return 12 + min(dex, 5) + 2
+        if level >= 10: return 12 + min(dex, 5) + 1
+        if level >= 5: return 12 + min(dex, 5)
+        return 11 + min(dex, 5)
+    if class_name in ("Bard", "Rogue", "Ranger"):
+        if level >= 20: return 12 + min(dex, 5) + 3
+        if level >= 15: return 12 + min(dex, 5) + 2
+        if level >= 10: return 12 + min(dex, 5) + 1
+        if level >= 5: return 12 + min(dex, 5)
+        return 11 + min(dex, 5)
+    if class_name == "Druid":
+        if level >= 20: return 15 + min(dex, 2) + 3
+        if level >= 10: return 12 + min(dex, 5) + 1
+        return 11 + min(dex, 5)
+    if class_name == "Cleric":
+        if level >= 20: return 18 + 3 + 2
+        if level >= 10: return 18 + 1 + 2
+        return 14 + min(dex, 2) + 2
+    if level >= 20: return 18 + 3
+    if level >= 15: return 18 + 2
+    if level >= 10: return 18 + 1
+    if level >= 5: return 18
+    return 16 + 2
+
+
+def _calculate_attacks(class_name: str, level: int, mods: dict, pb: int, equipment: list) -> list:
+    str_mod = mods["strength"]
+    dex_mod = mods["dexterity"]
+    magic = 3 if level >= 20 else 2 if level >= 10 else 1 if level >= 5 else 0
+
+    if class_name == "Warlock":
+        beams = 4 if level >= 17 else 3 if level >= 11 else 2 if level >= 5 else 1
+        cha = mods["charisma"]
+        return [{"name": f"Eldritch Blast ({beams} beam{'s' if beams > 1 else ''})",
+                 "attack_bonus": cha + pb, "damage": f"1d10+{cha} per beam",
+                 "type": "force", "range": "120 ft"}]
+
+    if class_name == "Ranger":
+        return [{"name": f"Longbow +{magic}" if magic else "Longbow",
+                 "attack_bonus": dex_mod + pb + magic, "damage": f"1d8+{dex_mod + magic}",
+                 "type": "piercing", "range": "150/600"}]
+
+    if class_name in ("Rogue", "Monk"):
+        atk = dex_mod
+        weapon = "Shortsword" if class_name == "Monk" else "Rapier"
+        die = "1d6" if class_name == "Monk" else "1d8"
+        return [{"name": f"{weapon} +{magic}" if magic else weapon,
+                 "attack_bonus": atk + pb + magic, "damage": f"{die}+{atk + magic}",
+                 "type": "piercing"}]
+
+    atk = str_mod
+    if class_name in ("Barbarian", "Fighter", "Paladin"):
+        weapon = "Greatsword" if level >= 15 else "Longsword"
+        die = "2d6" if level >= 15 else "1d8"
+        if class_name == "Fighter" and dex_mod > str_mod:
+            atk = dex_mod
+    elif class_name == "Bard":
+        atk = max(dex_mod, str_mod)
+        weapon = "Rapier"
+        die = "1d8"
+    else:
+        atk = max(str_mod, dex_mod)
+        weapon = "Mace" if class_name == "Cleric" else "Quarterstaff"
+        die = "1d6"
+
+    return [{"name": f"{weapon} +{magic}" if magic else weapon,
+             "attack_bonus": atk + pb + magic, "damage": f"{die}+{atk + magic}",
+             "type": "slashing" if weapon in ("Greatsword", "Longsword") else "bludgeoning"}]
+
+
+def _pick_skills(class_name: str, mods: dict) -> list[str]:
+    class_data = CLASSES.get(class_name, CLASSES["Fighter"])
+    available = class_data["skills"]
+    if available == "all":
+        available = ALL_SKILLS
+    count = class_data["skill_count"]
+    scored = [(skill, mods.get(SKILL_ABILITIES.get(skill, "intelligence"), 0))
+              for skill in available]
+    scored.sort(key=lambda x: -x[1])
+    return [s[0] for s in scored[:count]]
+
+
+def _get_class_features(class_name: str, level: int, subclass: str = "") -> list[str]:
+    feats = {
+        "Barbarian": {1:["Rage","Unarmored Defense"],2:["Reckless Attack","Danger Sense"],
+            3:["Primal Path"],5:["Extra Attack","Fast Movement"],7:["Feral Instinct"],
+            9:["Brutal Critical (1 die)"],11:["Relentless Rage"],13:["Brutal Critical (2 dice)"],
+            15:["Persistent Rage"],17:["Brutal Critical (3 dice)"],18:["Indomitable Might"],
+            20:["Primal Champion"]},
+        "Fighter": {1:["Fighting Style","Second Wind"],2:["Action Surge"],
+            3:["Martial Archetype"],5:["Extra Attack (1)"],9:["Indomitable (1)"],
+            11:["Extra Attack (2)"],13:["Indomitable (2)"],17:["Action Surge (2)","Indomitable (3)"],
+            20:["Extra Attack (3)"]},
+        "Paladin": {1:["Divine Sense","Lay on Hands"],2:["Fighting Style","Spellcasting","Divine Smite"],
+            3:["Divine Health","Sacred Oath"],5:["Extra Attack"],6:["Aura of Protection"],
+            7:["Sacred Oath feature"],10:["Aura of Courage"],11:["Improved Divine Smite"],
+            14:["Cleansing Touch"],18:["Aura improvements"],20:["Sacred Oath capstone"]},
+        "Ranger": {1:["Favored Enemy","Natural Explorer"],2:["Fighting Style","Spellcasting"],
+            3:["Ranger Archetype","Primeval Awareness"],5:["Extra Attack"],
+            8:["Land's Stride"],10:["Hide in Plain Sight"],14:["Vanish"],
+            18:["Feral Senses"],20:["Foe Slayer"]},
+        "Rogue": {1:["Expertise","Sneak Attack (1d6)","Thieves' Cant"],
+            2:["Cunning Action"],3:["Roguish Archetype"],
+            5:["Uncanny Dodge"],7:["Evasion"],11:["Reliable Talent"],
+            14:["Blindsense"],15:["Slippery Mind"],18:["Elusive"],20:["Stroke of Luck"]},
+        "Monk": {1:["Martial Arts","Unarmored Defense"],2:["Ki","Unarmored Movement"],
+            3:["Monastic Tradition","Deflect Missiles"],4:["Slow Fall"],
+            5:["Extra Attack","Stunning Strike"],6:["Ki-Empowered Strikes"],
+            7:["Evasion","Stillness of Mind"],10:["Purity of Body"],
+            13:["Tongue of the Sun and Moon"],14:["Diamond Soul"],
+            15:["Timeless Body"],18:["Empty Body"],20:["Perfect Self"]},
+        "Cleric": {1:["Spellcasting","Divine Domain"],2:["Channel Divinity"],
+            5:["Destroy Undead (CR 1/2)"],8:["Divine Strike / Potent Spellcasting"],
+            10:["Divine Intervention"],20:["Divine Intervention improvement"]},
+        "Druid": {1:["Druidic","Spellcasting"],2:["Wild Shape","Druid Circle"],
+            18:["Timeless Body","Beast Spells"],20:["Archdruid"]},
+        "Bard": {1:["Spellcasting","Bardic Inspiration (d6)"],2:["Jack of All Trades","Song of Rest"],
+            3:["Bard College","Expertise"],5:["Font of Inspiration"],
+            10:["Magical Secrets"],14:["Magical Secrets"],18:["Magical Secrets"],
+            20:["Superior Inspiration"]},
+        "Sorcerer": {1:["Spellcasting","Sorcerous Origin"],2:["Font of Magic"],
+            3:["Metamagic"],10:["Metamagic"],17:["Metamagic"],20:["Sorcerous Restoration"]},
+        "Warlock": {1:["Otherworldly Patron","Pact Magic"],2:["Eldritch Invocations"],
+            3:["Pact Boon"],11:["Mystic Arcanum (6th)"],13:["Mystic Arcanum (7th)"],
+            15:["Mystic Arcanum (8th)"],17:["Mystic Arcanum (9th)"],20:["Eldritch Master"]},
+        "Wizard": {1:["Spellcasting","Arcane Recovery"],2:["Arcane Tradition"],
+            18:["Spell Mastery"],20:["Signature Spells"]},
+    }
+    fmap = feats.get(class_name, {})
+    gained = []
+    for lvl in sorted(fmap):
+        if lvl <= level:
+            for f in fmap[lvl]:
+                gained.append(f"L{lvl}: {f}")
+    if subclass and level >= 3:
+        gained.insert(0, f"L3: {subclass}")
+    return gained
+
 
 # ── Startup ─────────────────────────────────────────────────────────────────
 
