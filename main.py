@@ -5,6 +5,7 @@ import json
 import os
 import random
 import sqlite3
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,34 @@ DB_PATH = DATA_DIR / "characters.db"
 TEMPLATES = HERE / "templates"
 STATIC = HERE / "static"
 SECRET_KEY = os.environ.get("SECRET_KEY", "dnd-dev-secret-change-me")
+SRD_CACHE = DATA_DIR / "srd_cache"
+
+# ── SRD Class Data (from dnd5eapi.co 2014, cached locally) ──────────────────
+
+def _load_srd_class_data() -> tuple[dict, dict]:
+    """Load cached SRD class levels and metadata."""
+    try:
+        with open(SRD_CACHE / "class_levels.json") as f:
+            levels = json.load(f)
+        with open(SRD_CACHE / "class_meta.json") as f:
+            meta = json.load(f)
+        return levels, meta
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}, {}
+
+SRD_LEVELS, SRD_META = _load_srd_class_data()
+
+# ── Campaign Expert imports (reuse existing engine data) ────────────────────
+
+_CE_PATH = Path("/home/james/dnd-campaign-expert")
+if str(_CE_PATH) not in sys.path:
+    sys.path.insert(0, str(_CE_PATH))
+
+try:
+    from engine.spells import _load_spell_cache as _ce_load_spells
+    SRD_SPELLS: list[dict] = _ce_load_spells()
+except Exception:
+    SRD_SPELLS = []
 
 # bcrypt 4.x native — avoid passlib (broken on Python 3.13)
 BCRYPT_MAX = 72  # bcrypt's byte limit; truncate to be safe
@@ -555,95 +584,96 @@ STANDARD_ARRAY = [15, 14, 13, 12, 10, 8]
 # Proficiency bonus by level (PHB p.15)
 PROFICIENCY_BONUS = {1:2,2:2,3:2,4:2,5:3,6:3,7:3,8:3,9:4,10:4,11:4,12:4,13:5,14:5,15:5,16:5,17:6,18:6,19:6,20:6}
 
-# Full caster spell slots per level (PHB p.21 Wizard table — same for all full casters)
-# Format: level -> [1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th]
-FULL_CASTER_SLOTS = {
-    1:[2,0,0,0,0,0,0,0,0],2:[3,0,0,0,0,0,0,0,0],3:[4,2,0,0,0,0,0,0,0],
-    4:[4,3,0,0,0,0,0,0,0],5:[4,3,2,0,0,0,0,0,0],6:[4,3,3,0,0,0,0,0,0],
-    7:[4,3,3,1,0,0,0,0,0],8:[4,3,3,2,0,0,0,0,0],9:[4,3,3,3,1,0,0,0,0],
-    10:[4,3,3,3,2,0,0,0,0],11:[4,3,3,3,2,1,0,0,0],12:[4,3,3,3,2,1,0,0,0],
-    13:[4,3,3,3,2,1,1,0,0],14:[4,3,3,3,2,1,1,0,0],15:[4,3,3,3,2,1,1,1,0],
-    16:[4,3,3,3,2,1,1,1,0],17:[4,3,3,3,2,1,1,1,1],18:[4,3,3,3,3,1,1,1,1],
-    19:[4,3,3,3,3,2,1,1,1],20:[4,3,3,3,3,2,2,1,1],
-}
+# ── SRD-Backed Functions (replace hand-coded PHB tables) ─────────────────────
 
-# Half caster spell slots (Paladin, Ranger — PHB p.83, p.90)
-HALF_CASTER_SLOTS = {
-    1:[0,0,0,0,0],2:[2,0,0,0,0],3:[3,0,0,0,0],4:[3,0,0,0,0],5:[4,2,0,0,0],
-    6:[4,2,0,0,0],7:[4,3,0,0,0],8:[4,3,0,0,0],9:[4,3,2,0,0],10:[4,3,2,0,0],
-    11:[4,3,3,0,0],12:[4,3,3,0,0],13:[4,3,3,1,0],14:[4,3,3,1,0],
-    15:[4,3,3,2,0],16:[4,3,3,2,0],17:[4,3,3,3,1],18:[4,3,3,3,1],
-    19:[4,3,3,3,2],20:[4,3,3,3,2],
-}
+def get_spell_slots(class_name: str, level: int) -> dict:
+    """Return spell slots from SRD API cache. Falls back to empty if class not found."""
+    key = class_name.lower()
+    levels = SRD_LEVELS.get(key, [])
+    entry = None
+    for l in levels:
+        if l.get("level") == level:
+            entry = l
+            break
+    if not entry:
+        return {"slots": 0, "slot_level": None, "by_level": {}}
 
-# Warlock spell slots (PHB p.106 — Pact Magic)
-# Format: [slots, slot_level]
-WARLOCK_SLOTS = {
-    1:[1,1],2:[2,1],3:[2,2],4:[2,2],5:[2,3],6:[2,3],7:[2,4],8:[2,4],
-    9:[2,5],10:[2,5],11:[3,5],12:[3,5],13:[3,5],14:[3,5],15:[3,5],
-    16:[3,5],17:[4,5],18:[4,5],19:[4,5],20:[4,5],
-}
-# Warlock format: [slots, slot_level]
+    sc = entry.get("spellcasting", {})
+    # Warlock uses Pact Magic — different slot structure
+    if key == "warlock":
+        slot_count = 0
+        slot_level = 0
+        # Find max non-zero slot
+        for i in range(1, 10):
+            slots = sc.get(f"spell_slots_level_{i}", 0)
+            if slots > 0:
+                slot_count = slots
+                slot_level = i
+        note = f"{slot_count} Pact Magic slots, all {_ordinal(slot_level)} level" if slot_count else "No Pact Magic yet"
+        return {"slots": slot_count, "slot_level": slot_level, "note": note, "by_level": {}}
 
-# Recommended cantrips and spells by class+level (PHB-optimal picks)
-# Format: class -> level -> {"cantrips": [...], "spells": {...}}
-# Only spells that are clearly optimal / commonly recommended
-RECOMMENDED_SPELLS = {
-    "Bard": {
-        1: {"cantrips":["Vicious Mockery","Minor Illusion"],"spells":{1:["Healing Word","Faerie Fire","Dissonant Whispers","Tasha's Hideous Laughter"]}},
-        5: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand"],"spells":{1:["Healing Word","Faerie Fire","Dissonant Whispers"],2:["Suggestion","Invisibility","Heat Metal"],3:["Hypnotic Pattern","Dispel Magic"]}},
-        10: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"]}},
-        15: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"],6:["Mass Suggestion","Otto's Irresistible Dance"],7:["Forcecage","Teleport"],8:["Glibness","Feeblemind"]}},
-        20: {"cantrips":["Vicious Mockery","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Healing Word","Faerie Fire"],2:["Suggestion","Invisibility"],3:["Hypnotic Pattern","Dispel Magic"],4:["Polymorph","Dimension Door"],5:["Animate Objects","Mass Cure Wounds"],6:["Mass Suggestion"],7:["Forcecage","Teleport"],8:["Glibness"],9:["True Polymorph","Foresight"]}},
-    },
-    "Cleric": {
-        1: {"cantrips":["Guidance","Sacred Flame","Toll the Dead"],"spells":{1:["Bless","Healing Word","Guiding Bolt","Shield of Faith"]}},
-        5: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy"],"spells":{1:["Bless","Healing Word","Guiding Bolt"],2:["Spiritual Weapon","Aid","Lesser Restoration"],3:["Spirit Guardians","Revivify","Mass Healing Word"]}},
-        10: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy","Mending"],"spells":{1:["Bless","Healing Word"],2:["Spiritual Weapon","Aid"],3:["Spirit Guardians","Revivify"],4:["Death Ward","Banishment"],5:["Greater Restoration","Mass Cure Wounds","Scrying"]}},
-        20: {"cantrips":["Guidance","Sacred Flame","Toll the Dead","Thaumaturgy","Mending"],"spells":{1:["Bless","Healing Word"],2:["Spiritual Weapon","Aid"],3:["Spirit Guardians","Revivify"],4:["Death Ward","Banishment"],5:["Greater Restoration","Mass Cure Wounds"],6:["Heal","Word of Recall"],7:["Divine Word","Plane Shift"],8:["Holy Aura","Antimagic Field"],9:["Mass Heal","Gate"]}},
-    },
-    "Druid": {
-        1: {"cantrips":["Guidance","Thorn Whip","Shillelagh"],"spells":{1:["Entangle","Goodberry","Healing Word","Faerie Fire"]}},
-        5: {"cantrips":["Guidance","Thorn Whip","Produce Flame"],"spells":{1:["Entangle","Goodberry","Healing Word"],2:["Spike Growth","Pass Without Trace","Moonbeam"],3:["Conjure Animals","Call Lightning"]}},
-        10: {"cantrips":["Guidance","Thorn Whip","Produce Flame","Druidcraft"],"spells":{1:["Entangle","Goodberry","Healing Word"],2:["Spike Growth","Pass Without Trace"],3:["Conjure Animals","Call Lightning"],4:["Polymorph","Conjure Woodland Beings"],5:["Wall of Stone","Greater Restoration"]}},
-        20: {"cantrips":["Guidance","Thorn Whip","Produce Flame","Druidcraft"],"spells":{1:["Entangle","Goodberry"],2:["Spike Growth","Pass Without Trace"],3:["Conjure Animals"],4:["Polymorph","Conjure Woodland Beings"],5:["Wall of Stone","Greater Restoration"],6:["Heal","Sunbeam"],7:["Plane Shift","Fire Storm"],8:["Feeblemind","Sunburst"],9:["Foresight","Shapechange"]}},
-    },
-    "Paladin": {
-        2: {"spells":{1:["Bless","Shield of Faith","Divine Favor","Thunderous Smite"]}},
-        5: {"spells":{1:["Bless","Shield of Faith","Wrathful Smite"],2:["Find Steed","Aid","Branding Smite"]}},
-        9: {"spells":{1:["Bless","Shield of Faith"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality","Crusader's Mantle"]}},
-        13: {"spells":{1:["Bless","Shield of Faith"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality"],4:["Find Greater Steed","Death Ward","Aura of Life"]}},
-        17: {"spells":{1:["Bless"],2:["Find Steed","Aid"],3:["Revivify","Aura of Vitality"],4:["Find Greater Steed","Death Ward"],5:["Circle of Power","Holy Weapon","Banishing Smite"]}},
-    },
-    "Ranger": {
-        2: {"spells":{1:["Hunter's Mark","Absorb Elements","Goodberry"]}},
-        5: {"spells":{1:["Hunter's Mark","Absorb Elements","Goodberry"],2:["Pass Without Trace","Spike Growth","Silence"]}},
-        9: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace","Spike Growth"],3:["Conjure Animals","Lightning Arrow","Plant Growth"]}},
-        13: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace","Spike Growth"],3:["Conjure Animals","Lightning Arrow"],4:["Guardian of Nature","Freedom of Movement"]}},
-        17: {"spells":{1:["Hunter's Mark","Absorb Elements"],2:["Pass Without Trace"],3:["Conjure Animals"],4:["Guardian of Nature"],5:["Swift Quiver","Steel Wind Strike"]}},
-    },
-    "Sorcerer": {
-        1: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Shield","Magic Missile","Sleep"]}},
-        5: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Magic Missile","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Haste","Counterspell"]}},
-        10: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Haste","Counterspell"],4:["Polymorph","Greater Invisibility","Banishment"],5:["Wall of Stone","Animate Objects","Telekinesis"]}},
-        15: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Fireball","Counterspell"],4:["Polymorph","Greater Invisibility"],5:["Wall of Stone","Animate Objects"],6:["Chain Lightning","Mass Suggestion"],7:["Reverse Gravity","Plane Shift"],8:["Sunburst","Demiplane"]}},
-        20: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost","Chill Touch"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Fireball","Counterspell"],4:["Polymorph","Greater Invisibility"],5:["Wall of Stone"],6:["Chain Lightning","Mass Suggestion"],7:["Reverse Gravity","Plane Shift"],8:["Sunburst"],9:["Wish","Meteor Swarm","Time Stop"]}},
-    },
-    "Warlock": {
-        1: {"cantrips":["Eldritch Blast","Minor Illusion"],"spells":{1:["Hex","Armor of Agathys","Hellish Rebuke"]}},
-        5: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand"],"spells":{1:["Hex","Armor of Agathys"],2:["Darkness","Misty Step","Shatter"],3:["Hunger of Hadar","Counterspell","Hypnotic Pattern"]}},
-        10: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{3:["Hunger of Hadar","Counterspell","Hypnotic Pattern"],4:["Banishment","Dimension Door","Shadow of Moil"],5:["Synaptic Static","Hold Monster","Danse Macabre"]}},
-        15: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{5:["Synaptic Static","Hold Monster","Danse Macabre"],6:["Mass Suggestion","Mental Prison","Soul Cage"],7:["Forcecage","Finger of Death","Plane Shift"],8:["Demiplane","Glibness","Feeblemind"]}},
-        20: {"cantrips":["Eldritch Blast","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{5:["Synaptic Static","Hold Monster","Danse Macabre"],6:["Mass Suggestion","Mental Prison"],7:["Forcecage","Finger of Death","Plane Shift"],8:["Demiplane","Feeblemind"],9:["True Polymorph","Foresight","Imprisonment"]}},
-    },
-    "Wizard": {
-        1: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Detect Magic"]}},
-        5: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Absorb Elements"],2:["Web","Misty Step","Mirror Image","Invisibility"],3:["Fireball","Counterspell","Haste","Hypnotic Pattern"]}},
-        10: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Magic Missile","Find Familiar","Mage Armor","Absorb Elements"],2:["Web","Misty Step","Mirror Image"],3:["Fireball","Counterspell","Haste","Hypnotic Pattern"],4:["Polymorph","Greater Invisibility","Banishment","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"]}},
-        15: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Counterspell","Hypnotic Pattern"],4:["Polymorph","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"],6:["Chain Lightning","Disintegrate","Contingency"],7:["Forcecage","Simulacrum","Teleport"],8:["Maze","Demiplane","Clone"]}},
-        20: {"cantrips":["Fire Bolt","Minor Illusion","Mage Hand","Prestidigitation","Ray of Frost"],"spells":{1:["Shield","Absorb Elements"],2:["Misty Step","Mirror Image"],3:["Counterspell","Hypnotic Pattern"],4:["Polymorph","Dimension Door"],5:["Wall of Force","Animate Objects","Bigby's Hand"],6:["Chain Lightning","Contingency"],7:["Forcecage","Simulacrum","Teleport"],8:["Maze","Demiplane","Clone"],9:["Wish","True Polymorph","Meteor Swarm"]}},
-    },
-}
+    # Standard spell slots
+    by_level = {}
+    for i in range(1, 10):
+        by_level[i] = sc.get(f"spell_slots_level_{i}", 0)
+    return {"slots": sum(by_level.values()), "slot_level": None, "by_level": by_level}
+
+
+def get_class_features(class_name: str, level: int, subclass: str = "") -> list[str]:
+    """Return class features gained by this level from SRD API cache."""
+    key = class_name.lower()
+    levels = SRD_LEVELS.get(key, [])
+    gained = []
+    for l in levels:
+        lvl = l.get("level", 0)
+        if lvl <= level:
+            for feat in l.get("features", []):
+                name = feat.get("name", "")
+                if name:
+                    gained.append(f"L{lvl}: {name}")
+    if subclass and level >= 3:
+        gained.insert(0, f"L3: {subclass}")
+    return gained
+
+
+def get_srd_spells_for_class(class_name: str, max_level: int) -> dict:
+    """Get SRD spells (cantrips + leveled) for a class, filtered by max spell level available."""
+    if not SRD_SPELLS:
+        return {"cantrips": [], "spells": {}}
+    cls_lower = class_name.lower()
+    # Determine max spell level this class can cast at the given level
+    spell_slots = get_spell_slots(class_name, max_level)
+    if class_name == "Warlock":
+        max_spell_level = spell_slots.get("slot_level", 0)
+    else:
+        by_level = spell_slots.get("by_level", {})
+        max_spell_level = max((lvl for lvl, slots in by_level.items() if slots > 0), default=0)
+
+    cantrips = []
+    leveled = {i: [] for i in range(1, 10)}
+    for spell in SRD_SPELLS:
+        spell_classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+        if cls_lower not in spell_classes:
+            continue
+        spell_level = spell.get("level", 0)
+        spell_name = spell.get("name", "")
+        if spell_level == 0:
+            cantrips.append(spell_name)
+        elif spell_level <= max_spell_level:
+            leveled[spell_level].append(spell_name)
+
+    # Limit to top spells (first 6 per level to keep output manageable)
+    for lvl in leveled:
+        leveled[lvl] = leveled[lvl][:6]
+
+    return {"cantrips": cantrips[:8], "spells": leveled}
+
+
+# ── Spells also available as tiered recommendations (from SRD cache) ──────────
+
+def get_spells_for_level(class_name: str, level: int) -> dict:
+    """Get recommended spells for this class from SRD data."""
+    return get_srd_spells_for_class(class_name, level)
 
 # Feats by class tier (PHB-optimal picks at ASI levels 4,8,12,16,19)
 RECOMMENDED_FEATS = {
@@ -775,22 +805,6 @@ def allocate_ability_scores(class_name: str, race_name: str, subrace: str = "") 
 def modifier(score: int) -> int:
     return (score - 10) // 2
 
-def get_spell_slots(class_name: str, level: int) -> dict:
-    """Return spell slots for this class at this level."""
-    if class_name == "Warlock":
-        warlock_data = WARLOCK_SLOTS.get(level, [0,0])
-        return {"slots": warlock_data[0], "slot_level": warlock_data[1],
-                "note": f"{warlock_data[0]} Pact Magic slots, all {_ordinal(warlock_data[1])} level",
-                "by_level": {}}
-    if class_name in ("Paladin", "Ranger"):
-        raw = HALF_CASTER_SLOTS.get(level, [0,0,0,0,0])
-        return {"slots": sum(raw), "slot_level": None, "by_level": {i+1: raw[i] for i in range(5)}}
-    if class_name in ("Bard", "Cleric", "Druid", "Sorcerer", "Wizard"):
-        raw = FULL_CASTER_SLOTS.get(level, [0]*9)
-        return {"slots": sum(raw), "slot_level": None, "by_level": {i+1: raw[i] for i in range(9)}}
-    # Non-caster / 1/3 caster placeholder
-    return {"slots": 0, "slot_level": None, "by_level": {}}
-
 def get_asi_levels(level: int, class_name: str = "") -> list[int]:
     """List of ASI levels the character has passed."""
     asis = {4,8,12,16,19}
@@ -809,18 +823,6 @@ def get_feats_for_level(class_name: str, level: int) -> list[str]:
     # Pick top N feats (or fewer if not enough levels)
     count = min(asi_count, len(all_feats))
     return all_feats[:count]
-
-def get_spells_for_level(class_name: str, level: int) -> dict:
-    """Get recommended spells for this class at the closest tier."""
-    if class_name not in RECOMMENDED_SPELLS:
-        return {"cantrips": [], "spells": {}}
-    tiers = sorted(RECOMMENDED_SPELLS[class_name].keys())
-    # Find closest tier <= level
-    tier = 1
-    for t in tiers:
-        if t <= level:
-            tier = t
-    return RECOMMENDED_SPELLS[class_name][tier]
 
 def get_equipment_for_level(class_name: str, level: int) -> list[str]:
     """Get scaled equipment for this class at the closest tier."""
@@ -1038,7 +1040,7 @@ async def ai_build(request: Request):
         "spells": spell_data.get("spells", {}),
         "spell_slots": spell_slots,
         "attacks": attacks,
-        "features": _get_class_features(class_name, level, subclass),
+        "features": get_class_features(class_name, level, subclass),
     }
     return JSONResponse(build)
 
@@ -1137,63 +1139,6 @@ def _pick_skills(class_name: str, mods: dict) -> list[str]:
               for skill in available]
     scored.sort(key=lambda x: -x[1])
     return [s[0] for s in scored[:count]]
-
-
-def _get_class_features(class_name: str, level: int, subclass: str = "") -> list[str]:
-    feats = {
-        "Barbarian": {1:["Rage","Unarmored Defense"],2:["Reckless Attack","Danger Sense"],
-            3:["Primal Path"],5:["Extra Attack","Fast Movement"],7:["Feral Instinct"],
-            9:["Brutal Critical (1 die)"],11:["Relentless Rage"],13:["Brutal Critical (2 dice)"],
-            15:["Persistent Rage"],17:["Brutal Critical (3 dice)"],18:["Indomitable Might"],
-            20:["Primal Champion"]},
-        "Fighter": {1:["Fighting Style","Second Wind"],2:["Action Surge"],
-            3:["Martial Archetype"],5:["Extra Attack (1)"],9:["Indomitable (1)"],
-            11:["Extra Attack (2)"],13:["Indomitable (2)"],17:["Action Surge (2)","Indomitable (3)"],
-            20:["Extra Attack (3)"]},
-        "Paladin": {1:["Divine Sense","Lay on Hands"],2:["Fighting Style","Spellcasting","Divine Smite"],
-            3:["Divine Health","Sacred Oath"],5:["Extra Attack"],6:["Aura of Protection"],
-            7:["Sacred Oath feature"],10:["Aura of Courage"],11:["Improved Divine Smite"],
-            14:["Cleansing Touch"],18:["Aura improvements"],20:["Sacred Oath capstone"]},
-        "Ranger": {1:["Favored Enemy","Natural Explorer"],2:["Fighting Style","Spellcasting"],
-            3:["Ranger Archetype","Primeval Awareness"],5:["Extra Attack"],
-            8:["Land's Stride"],10:["Hide in Plain Sight"],14:["Vanish"],
-            18:["Feral Senses"],20:["Foe Slayer"]},
-        "Rogue": {1:["Expertise","Sneak Attack (1d6)","Thieves' Cant"],
-            2:["Cunning Action"],3:["Roguish Archetype"],
-            5:["Uncanny Dodge"],7:["Evasion"],11:["Reliable Talent"],
-            14:["Blindsense"],15:["Slippery Mind"],18:["Elusive"],20:["Stroke of Luck"]},
-        "Monk": {1:["Martial Arts","Unarmored Defense"],2:["Ki","Unarmored Movement"],
-            3:["Monastic Tradition","Deflect Missiles"],4:["Slow Fall"],
-            5:["Extra Attack","Stunning Strike"],6:["Ki-Empowered Strikes"],
-            7:["Evasion","Stillness of Mind"],10:["Purity of Body"],
-            13:["Tongue of the Sun and Moon"],14:["Diamond Soul"],
-            15:["Timeless Body"],18:["Empty Body"],20:["Perfect Self"]},
-        "Cleric": {1:["Spellcasting","Divine Domain"],2:["Channel Divinity"],
-            5:["Destroy Undead (CR 1/2)"],8:["Divine Strike / Potent Spellcasting"],
-            10:["Divine Intervention"],20:["Divine Intervention improvement"]},
-        "Druid": {1:["Druidic","Spellcasting"],2:["Wild Shape","Druid Circle"],
-            18:["Timeless Body","Beast Spells"],20:["Archdruid"]},
-        "Bard": {1:["Spellcasting","Bardic Inspiration (d6)"],2:["Jack of All Trades","Song of Rest"],
-            3:["Bard College","Expertise"],5:["Font of Inspiration"],
-            10:["Magical Secrets"],14:["Magical Secrets"],18:["Magical Secrets"],
-            20:["Superior Inspiration"]},
-        "Sorcerer": {1:["Spellcasting","Sorcerous Origin"],2:["Font of Magic"],
-            3:["Metamagic"],10:["Metamagic"],17:["Metamagic"],20:["Sorcerous Restoration"]},
-        "Warlock": {1:["Otherworldly Patron","Pact Magic"],2:["Eldritch Invocations"],
-            3:["Pact Boon"],11:["Mystic Arcanum (6th)"],13:["Mystic Arcanum (7th)"],
-            15:["Mystic Arcanum (8th)"],17:["Mystic Arcanum (9th)"],20:["Eldritch Master"]},
-        "Wizard": {1:["Spellcasting","Arcane Recovery"],2:["Arcane Tradition"],
-            18:["Spell Mastery"],20:["Signature Spells"]},
-    }
-    fmap = feats.get(class_name, {})
-    gained = []
-    for lvl in sorted(fmap):
-        if lvl <= level:
-            for f in fmap[lvl]:
-                gained.append(f"L{lvl}: {f}")
-    if subclass and level >= 3:
-        gained.insert(0, f"L3: {subclass}")
-    return gained
 
 
 # ── Startup ─────────────────────────────────────────────────────────────────
