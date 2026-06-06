@@ -1616,13 +1616,53 @@ async def dm_campaign_create(request: Request):
 
 @app.get("/api/dm/campaigns", response_class=JSONResponse)
 async def dm_campaigns_list(request: Request):
-    """List all campaigns."""
+    """List all campaigns with live character stats."""
     user = require_user(request)
     db = get_db()
     rows = [dict(r) for r in db.execute(
         "SELECT * FROM dm_campaigns WHERE user_id = ? ORDER BY created_at DESC",
         (user["id"],)
     ).fetchall()]
+
+    # Enrich each campaign's characters with live data from the characters table
+    for camp in rows:
+        try:
+            char_ids = json.loads(camp.get("characters") or "[]")
+        except (json.JSONDecodeError, TypeError):
+            camp["characters"] = []
+            continue
+
+        enriched = []
+        for entry in char_ids:
+            cid = entry.get("id") if isinstance(entry, dict) else entry
+            row = db.execute("""
+                SELECT id, name, race, subrace, class_name, subclass, level,
+                       hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
+                       intelligence, wisdom, charisma, proficiency_bonus, speed,
+                       inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used
+                FROM characters WHERE id=? AND user_id=?
+            """, (cid, user["id"])).fetchone()
+            if row:
+                ch = dict(row)
+                # Compute modifiers
+                mods = {s: (ch[s] - 10) // 2 for s in
+                        ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
+                ch["modifiers"] = mods
+                ch["status"] = entry.get("status", "active") if isinstance(entry, dict) else "active"
+                ch["subrace"] = ch.get("subrace") or ""
+                ch["subclass"] = ch.get("subclass") or ""
+                # Get spell slots if caster
+                cls = ch.get("class_name", "")
+                lvl = ch.get("level", 1)
+                if cls and get_caster_type(cls) != "none":
+                    slots = get_spell_slots(cls, lvl)
+                    ch["spell_slots"] = slots.get("by_level", {})
+                else:
+                    ch["spell_slots"] = {}
+                enriched.append(ch)
+
+        camp["characters"] = enriched
+
     db.close()
     return JSONResponse({"campaigns": rows})
 

@@ -267,6 +267,18 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <span>📍 {{ camp.locations|length }} locations</span>
       </div>
       {% if camp.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem">{{ camp.description }}</p>{% endif %}
+      <div style="margin-bottom:0.5rem">
+        <strong style="font-size:0.75rem;color:var(--text-muted)">Party:</strong>
+        <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem">
+          {% for ch in camp.characters %}
+          <span class="badge badge-muted" style="font-size:0.75rem" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · HP {{ ch.hp_current }}/{{ ch.hp_max }} AC {{ ch.ac }}">
+            {{ ch.name }} ({{ ch.hp_current }}/{{ ch.hp_max }})
+          </span>
+          {% else %}
+          <span style="font-size:0.75rem;color:var(--text-muted)">No characters</span>
+          {% endfor %}
+        </div>
+      </div>
       <div style="display:flex;gap:0.3rem;margin-top:0.5rem">
         <button class="btn btn-outline btn-sm" onclick="openCampaign({{ camp.id }})">Open</button>
         <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ camp.id }})">✕</button>
@@ -1089,13 +1101,41 @@ async function openCampaign(id) {
       <div style="display:flex;flex-direction:column;gap:0.3rem">`;
     if (chars.length) {
       chars.forEach(ch => {
-        html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
-          <span>
-            <strong>${ch.name}</strong>
-            <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race} ${ch.class_name}</span>
-            <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
-          </span>
-          <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign(${camp.id}, ${ch.id})">✕</button>
+        const hpPct = ch.hp_max > 0 ? Math.round(ch.hp_current / ch.hp_max * 100) : 0;
+        const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'danger' : hpPct < 50 ? 'warn' : 'ok';
+        const mod = s => ch.modifiers && ch.modifiers[s] !== undefined ? (ch.modifiers[s] >= 0 ? '+' + ch.modifiers[s] : ch.modifiers[s]) : '?';
+        const slotStr = ch.spell_slots && Object.entries(ch.spell_slots).filter(([k,v]) => v > 0).length
+          ? ' · 🔮 ' + Object.entries(ch.spell_slots).filter(([k,v]) => v > 0).map(([k,v]) => `${k}:${v}`).join(' ')
+          : '';
+        html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
+            <span>
+              <strong>${ch.name}</strong>
+              <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race}${ch.subrace ? ' (' + ch.subrace + ')' : ''} ${ch.class_name}${ch.subclass ? ' — ' + ch.subclass : ''}</span>
+              <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
+            </span>
+            <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign(${camp.id}, ${ch.id})">✕</button>
+          </div>
+          <div style="display:flex;gap:0.75rem;margin-top:0.3rem;flex-wrap:wrap;align-items:center;font-size:0.8rem">
+            <span><strong>HP</strong> ${ch.hp_current}/${ch.hp_max}${ch.temp_hp > 0 ? ' (+' + ch.temp_hp + ' temp)' : ''}</span>
+            <span><strong>AC</strong> ${ch.ac}</span>
+            <span><strong>Speed</strong> ${ch.speed || 30}</span>
+            <span><strong>PB</strong> +${ch.proficiency_bonus || 2}</span>
+            <span><strong>Initiative</strong> ${mod('dexterity')}</span>
+            ${ch.passive_perception ? `<span><strong>PP</strong> ${ch.passive_perception}</span>` : ''}
+            ${ch.inspiration ? `<span class="badge badge-accent" style="font-size:0.65rem">✨ Inspiration</span>` : ''}
+            ${ch.exhaustion > 0 ? `<span style="color:var(--warn);font-size:0.75rem">Exhaustion: ${ch.exhaustion}</span>` : ''}
+          </div>
+          <div style="display:flex;gap:0.3rem;margin-top:0.25rem;font-size:0.75rem">
+            <span class="ability-tag">STR ${ch.strength} (${mod('strength')})</span>
+            <span class="ability-tag">DEX ${ch.dexterity} (${mod('dexterity')})</span>
+            <span class="ability-tag">CON ${ch.constitution} (${mod('constitution')})</span>
+            <span class="ability-tag">INT ${ch.intelligence} (${mod('intelligence')})</span>
+            <span class="ability-tag">WIS ${ch.wisdom} (${mod('wisdom')})</span>
+            <span class="ability-tag">CHA ${ch.charisma} (${mod('charisma')})</span>
+          </div>
+          <div class="hp-bar-mini" style="width:100%;margin-top:0.25rem"><div class="hp-bar-mini-fill ${hpClass}" style="width:${Math.max(0, hpPct)}%"></div></div>
+          ${slotStr ? `<div style="font-size:0.7rem;color:var(--accent);margin-top:0.15rem">🔮 Spell slots: ${slotStr}</div>` : ''}
         </div>`;
       });
     } else {
