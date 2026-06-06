@@ -289,11 +289,11 @@ function buildAbilities() {
     <div class="ability-box">
       <div class="abl">${a.slice(0,3).toUpperCase()}</div>
       <select class="val" onchange="updateAbility('${a}', this.value)" style="font-size:1.1rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:0.3rem;width:100%;text-align:center">
-        ${STD_ARRAY.map(v => `<option value="${v}">${v}</option>`).join('')}
+        ${STD_ARRAY.map(v => `<option value="${v}"${v===10?' selected':''}>${v}</option>`).join('')}
       </select>
     </div>`).join('');
-  // Initialize from STD_ARRAY
-  ABILITIES.forEach((a,i) => state.abilities[a] = STD_ARRAY[i]);
+  // Initialize all stats to 10
+  ABILITIES.forEach(a => state.abilities[a] = 10);
   updateAsiPreview();
 }
 
