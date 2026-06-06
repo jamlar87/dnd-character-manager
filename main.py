@@ -262,8 +262,18 @@ def init_db():
             session_notes TEXT DEFAULT '',
             quests TEXT DEFAULT '[]',
             locations TEXT DEFAULT '[]',
+            characters TEXT DEFAULT '[]',
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS dm_campaign_characters (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER NOT NULL,
+            character_id INTEGER NOT NULL,
+            status TEXT DEFAULT 'active',
+            notes TEXT DEFAULT '',
+            FOREIGN KEY (campaign_id) REFERENCES dm_campaigns(id) ON DELETE CASCADE,
+            FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -309,6 +319,11 @@ def init_db():
             db.execute(f"ALTER TABLE dm_encounter_npcs ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
             pass
+    # Migration: dm_campaigns characters column
+    try:
+        db.execute("ALTER TABLE dm_campaigns ADD COLUMN characters TEXT DEFAULT '[]'")
+    except sqlite3.OperationalError:
+        pass
     db.commit()
     db.close()
 
@@ -1580,8 +1595,8 @@ async def dm_campaign_create(request: Request):
     data = await request.json()
     db = get_db()
     cur = db.execute("""
-        INSERT INTO dm_campaigns (user_id, name, description, party_level, party_size, notes, quests, locations)
-        VALUES (?,?,?,?,?,?,?,?)
+        INSERT INTO dm_campaigns (user_id, name, description, party_level, party_size, notes, quests, locations, characters)
+        VALUES (?,?,?,?,?,?,?,?,?)
     """, (
         user["id"],
         data.get("name", "New Campaign"),
@@ -1591,6 +1606,7 @@ async def dm_campaign_create(request: Request):
         data.get("notes", ""),
         json.dumps(data.get("quests", [])),
         json.dumps(data.get("locations", [])),
+        json.dumps(data.get("characters", [])),
     ))
     db.commit()
     cid = cur.lastrowid
@@ -1616,7 +1632,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
     """Update campaign — supports field updates and array mutations."""
     user = require_user(request)
     data = await request.json()
-    allowed = {"name","description","party_level","party_size","notes","session_notes","quests","locations"}
+    allowed = {"name","description","party_level","party_size","notes","session_notes","quests","locations","characters"}
     updates = {}
 
     # Handle add/remove quest operations
@@ -1691,6 +1707,76 @@ async def dm_campaign_delete(camp_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/add-character", response_class=JSONResponse)
+async def dm_campaign_add_character(camp_id: int, request: Request):
+    """Add a character to a campaign."""
+    user = require_user(request)
+    data = await request.json()
+    char_id = int(data.get("character_id", 0))
+    db = get_db()
+    # Verify campaign ownership
+    camp = db.execute("SELECT * FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    # Verify character ownership
+    char_row = db.execute("SELECT id, name, class_name, level, race FROM characters WHERE id=? AND user_id=?",
+                          (char_id, user["id"])).fetchone()
+    if not char_row:
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
+
+    chars = json.loads(camp["characters"] or "[]")
+    # Don't add duplicates
+    if any(c.get("id") == char_id for c in chars):
+        db.close()
+        return JSONResponse({"ok": True, "message": "Already added"})
+    chars.append({
+        "id": char_id,
+        "name": char_row["name"],
+        "class_name": char_row["class_name"],
+        "level": char_row["level"],
+        "race": char_row["race"],
+        "status": "active",
+    })
+    db.execute("UPDATE dm_campaigns SET characters=? WHERE id=?", (json.dumps(chars), camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/remove-character", response_class=JSONResponse)
+async def dm_campaign_remove_character(camp_id: int, request: Request):
+    """Remove a character from a campaign."""
+    user = require_user(request)
+    data = await request.json()
+    char_id = int(data.get("character_id", 0))
+    db = get_db()
+    camp = db.execute("SELECT characters FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    chars = json.loads(camp["characters"] or "[]")
+    chars = [c for c in chars if c.get("id") != char_id]
+    db.execute("UPDATE dm_campaigns SET characters=? WHERE id=?", (json.dumps(chars), camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.get("/api/dm/user-characters", response_class=JSONResponse)
+async def dm_user_characters(request: Request):
+    """List user's characters (for campaign party picker)."""
+    user = require_user(request)
+    db = get_db()
+    rows = [dict(r) for r in db.execute(
+        "SELECT id, name, race, class_name, level, subclass FROM characters WHERE user_id=? ORDER BY name",
+        (user["id"],)
+    ).fetchall()]
+    db.close()
+    return JSONResponse({"characters": rows})
 
 
 # ── Routes: Character Sheet ────────────────────────────────────────────────

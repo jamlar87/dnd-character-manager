@@ -1048,11 +1048,17 @@ async function openCampaign(id) {
 
     const quests = typeof camp.quests === 'string' ? (JSON.parse(camp.quests) || []) : (camp.quests || []);
     const locations = typeof camp.locations === 'string' ? (JSON.parse(camp.locations) || []) : (camp.locations || []);
+    const chars = typeof camp.characters === 'string' ? (JSON.parse(camp.characters) || []) : (camp.characters || []);
+
+    // Fetch user's characters for the party picker
+    const cr = await fetch('/api/dm/user-characters');
+    const cd = await cr.json();
+    const allChars = cd.characters || [];
 
     let html = `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <div>
         <h2 style="margin:0">📜 ${camp.name}</h2>
-        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${camp.party_level} · ${camp.party_size} players</p>
+        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${camp.party_level} · ${camp.party_size} players · ${chars.length} characters</p>
       </div>
       <div style="display:flex;gap:0.3rem">
         <button class="btn btn-outline btn-sm" onclick="editCampaignMeta(${camp.id})">Edit</button>
@@ -1062,6 +1068,40 @@ async function openCampaign(id) {
       </div>
     </div>`;
     if (camp.description) html += `<p style="margin-bottom:1rem">${camp.description}</p>`;
+
+    // ── Party Characters Section ──
+    html += `<div style="margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+        <h4 style="margin:0">👥 Party Characters</h4>
+        <div style="display:flex;gap:0.3rem">
+          <select id="charPicker" style="padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+            <option value="">— Add character —</option>`;
+    allChars.forEach(ch => {
+      const inCamp = chars.some(c => c.id === ch.id);
+      if (!inCamp) {
+        html += `<option value="${ch.id}">${ch.name} (L${ch.level} ${ch.race} ${ch.class_name})</option>`;
+      }
+    });
+    html += `</select>
+          <button class="btn btn-primary btn-sm" onclick="addCharToCampaign(${camp.id})">+ Add</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem">`;
+    if (chars.length) {
+      chars.forEach(ch => {
+        html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
+          <span>
+            <strong>${ch.name}</strong>
+            <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race} ${ch.class_name}</span>
+            <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
+          </span>
+          <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign(${camp.id}, ${ch.id})">✕</button>
+        </div>`;
+      });
+    } else {
+      html += `<p style="color:var(--text-muted);font-size:0.85rem">No characters in this campaign yet. Add from your character list above.</p>`;
+    }
+    html += `</div></div>`;
 
     if (camp.session_notes) {
       html += `<h4>Session Notes</h4>
@@ -1103,6 +1143,24 @@ async function openCampaign(id) {
   } catch(e) {
     document.getElementById('campaignDetail').innerHTML = '<p style="color:var(--danger)">Failed to load campaign.</p>';
   }
+}
+
+function addCharToCampaign(campId) {
+  const sel = document.getElementById('charPicker');
+  const charId = parseInt(sel.value);
+  if (!charId) return;
+  fetch(`/api/dm/campaign/${campId}/add-character`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({character_id: charId})
+  }).then(r => r.json()).then(() => openCampaign(campId));
+}
+
+function removeCharFromCampaign(campId, charId) {
+  if (!confirm('Remove this character from the campaign?')) return;
+  fetch(`/api/dm/campaign/${campId}/remove-character`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({character_id: charId})
+  }).then(r => r.json()).then(() => openCampaign(campId));
 }
 
 function editCampaignMeta(id) {
