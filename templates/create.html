@@ -80,7 +80,8 @@
     <div class="form-group"><label>Name</label><div style="display:flex;gap:0.5rem"><input type="text" id="char-name" placeholder="Character name" style="flex:1" required><button class="btn btn-outline btn-sm" onclick="randomName()" type="button">🎲 Random</button></div></div>
     <div class="form-group">
       <label>Background</label>
-      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button></div>
+      <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" onchange="showBgInfo(this.value)"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button></div>
+      <div id="bg-info" class="card" style="margin-top:0.5rem;padding:0.75rem 1rem;display:none;font-size:0.85rem;color:var(--text-muted);line-height:1.5"></div>
     </div>
     <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
     <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
@@ -104,6 +105,23 @@ const ALL_SKILLS = {{ all_skills | tojson }};
 const SKILL_ABILITIES = {{ skill_abilities | tojson }};
 const BACKGROUNDS = {{ backgrounds | tojson }};
 const ALIGNMENTS = {{ alignments | tojson }};
+
+// PHB 2014 p.125-141 — Background descriptions
+const BACKGROUND_INFO = {
+  "Acolyte":       "You served in a temple. Skill Proficiencies: Insight, Religion. Languages: Two of your choice. Equipment: Holy symbol, prayer book, 5 sticks of incense, vestments, common clothes, 15 gp. Feature: Shelter of the Faithful.",
+  "Charlatan":     "You've made a living by your wits. Skill Proficiencies: Deception, Sleight of Hand. Tool Proficiencies: Disguise kit, forgery kit. Equipment: Fine clothes, disguise kit, tools of the con, 15 gp. Feature: False Identity.",
+  "Criminal":      "You are an experienced criminal. Skill Proficiencies: Deception, Stealth. Tool Proficiencies: One gaming set, thieves' tools. Equipment: Crowbar, dark clothes, 15 gp. Feature: Criminal Contact.",
+  "Entertainer":   "You thrive before an audience. Skill Proficiencies: Acrobatics, Performance. Tool Proficiencies: Disguise kit, one musical instrument. Equipment: Musical instrument, costume, 15 gp. Feature: By Popular Demand.",
+  "Folk Hero":     "You come from a humble social rank. Skill Proficiencies: Animal Handling, Survival. Tool Proficiencies: One artisan's tools, land vehicles. Equipment: Artisan's tools, shovel, iron pot, common clothes, 10 gp. Feature: Rustic Hospitality.",
+  "Guild Artisan": "You are a member of an artisan's guild. Skill Proficiencies: Insight, Persuasion. Tool Proficiencies: One artisan's tools. Languages: One of your choice. Equipment: Artisan's tools, letter of introduction, traveler's clothes, 15 gp. Feature: Guild Membership.",
+  "Hermit":        "You lived in seclusion. Skill Proficiencies: Medicine, Religion. Tool Proficiencies: Herbalism kit. Equipment: Scroll case of notes, winter blanket, common clothes, herbalism kit, 5 gp. Feature: Discovery.",
+  "Noble":         "You were born into wealth and power. Skill Proficiencies: History, Persuasion. Tool Proficiencies: One gaming set. Languages: One of your choice. Equipment: Fine clothes, signet ring, scroll of pedigree, 25 gp. Feature: Position of Privilege.",
+  "Outlander":     "You grew up in the wilds. Skill Proficiencies: Athletics, Survival. Tool Proficiencies: One musical instrument. Languages: One of your choice. Equipment: Staff, hunting trap, trophy, traveler's clothes, 10 gp. Feature: Wanderer.",
+  "Sage":          "You spent years learning lore. Skill Proficiencies: Arcana, History. Languages: Two of your choice. Equipment: Black ink, quill, small knife, letter from dead colleague, common clothes, 10 gp. Feature: Researcher.",
+  "Sailor":        "You have sailed the high seas. Skill Proficiencies: Athletics, Perception. Tool Proficiencies: Navigator's tools, water vehicles. Equipment: Belaying pin, 50 ft silk rope, lucky charm, common clothes, 10 gp. Feature: Ship's Passage.",
+  "Soldier":       "You served in a military force. Skill Proficiencies: Athletics, Intimidation. Tool Proficiencies: One gaming set, land vehicles. Equipment: Insignia of rank, trophy, bone dice, common clothes, 10 gp. Feature: Military Rank.",
+  "Urchin":        "You grew up on the streets alone. Skill Proficiencies: Sleight of Hand, Stealth. Tool Proficiencies: Disguise kit, thieves' tools. Equipment: Small knife, city map, pet mouse, token of parents, common clothes, 10 gp. Feature: City Secrets.",
+};
 const STD_ARRAY = [15,14,13,12,10,8];
 const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
 
@@ -360,6 +378,16 @@ function toggleSkill(s) {
   document.getElementById('char-align').innerHTML = ALIGNMENTS.map(a => `<option>${a}</option>`).join('');
 })();
 
+function showBgInfo(bg) {
+  const el = document.getElementById('bg-info');
+  if (bg && BACKGROUND_INFO[bg]) {
+    el.style.display = 'block';
+    el.innerHTML = `<strong>${bg}</strong><br>${BACKGROUND_INFO[bg]}`;
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 // ── Step 5: Review ──
 function buildReview() {
   state.name = document.getElementById('char-name').value || 'Unnamed';
@@ -508,6 +536,7 @@ function idealSkills() {
 function randomizeDetails() {
   randomName();
   document.getElementById('char-bg').value = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
+  showBgInfo(document.getElementById('char-bg').value);
   document.getElementById('char-align').value = ALIGNMENTS[Math.floor(Math.random() * ALIGNMENTS.length)];
 }
 
@@ -522,8 +551,10 @@ async function autoFillDetails() {
     });
     const data = await r.json();
     if (data.name) { document.getElementById('char-name').value = data.name; state.name = data.name; }
-    if (data.background && [...document.getElementById('char-bg').options].some(o => o.value === data.background))
+    if (data.background && [...document.getElementById('char-bg').options].some(o => o.value === data.background)) {
       document.getElementById('char-bg').value = data.background;
+      showBgInfo(data.background);
+    }
     if (data.alignment) document.getElementById('char-align').value = data.alignment;
     state.personality = data.personality || '';
     state.backstory = data.backstory || '';
