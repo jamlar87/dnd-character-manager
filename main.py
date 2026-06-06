@@ -1969,6 +1969,64 @@ async def toggle_prepared(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True})
 
+@app.post("/api/character/{char_id}/use-feature", response_class=JSONResponse)
+async def use_feature(char_id: int, request: Request):
+    """Use one charge of a limited-use feature. Returns updated uses count."""
+    user = require_user(request)
+    data = await request.json()
+    feat_name = data.get("name", "")
+    db = get_db()
+    row = db.execute(
+        "SELECT feature_data, user_id FROM characters WHERE id = ?", (char_id,)
+    ).fetchone()
+    if not row or row["user_id"] != user["id"]:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    features = json.loads(row["feature_data"] or "[]")
+    new_uses = 0
+    for feat in features:
+        if feat.get("name") == feat_name:
+            current = feat.get("uses", 0)
+            if current > 0:
+                feat["uses"] = current - 1
+            new_uses = feat["uses"]
+            break
+    db.execute(
+        "UPDATE characters SET feature_data = ? WHERE id = ?",
+        (json.dumps(features), char_id),
+    )
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "uses": new_uses})
+
+@app.post("/api/character/{char_id}/reset-features", response_class=JSONResponse)
+async def reset_features(char_id: int, request: Request):
+    """Reset all limited-use features to max (e.g., after long rest)."""
+    user = require_user(request)
+    data = await request.json()
+    recharge_filter = data.get("recharge", None)  # "short", "long", or None=all
+    db = get_db()
+    row = db.execute(
+        "SELECT feature_data, user_id FROM characters WHERE id = ?", (char_id,)
+    ).fetchone()
+    if not row or row["user_id"] != user["id"]:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    features = json.loads(row["feature_data"] or "[]")
+    for feat in features:
+        if "uses_max" not in feat or "recharge" not in feat:
+            continue
+        if recharge_filter and feat["recharge"] != recharge_filter:
+            continue
+        feat["uses"] = feat["uses_max"]
+    db.execute(
+        "UPDATE characters SET feature_data = ? WHERE id = ?",
+        (json.dumps(features), char_id),
+    )
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
 @app.post("/api/character/{char_id}/delete", response_class=JSONResponse)
 async def delete_character(char_id: int, request: Request):
     user = require_user(request)
@@ -2176,6 +2234,33 @@ LIMITED_USE = {
     "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
     # Wizard (PHB p.112-120)
     "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+}
+
+# ── Feature → Combat Action mapping ──────────────────────────────────
+# Maps feature name (lowercase) to (action_type, short_action_label)
+# action_type: "Action", "Bonus Action", or "Reaction"
+FEATURE_ACTION_TYPES = {
+    # Barbarian
+    "rage":                 ("Bonus Action", "Rage — advantage on STR, +2 dmg, resist B/P/S"),
+    # Bard
+    "bardic inspiration":   ("Bonus Action", "Bardic Inspiration — grant 1d6 to ally"),
+    # Cleric / Paladin
+    "channel divinity":     ("Action", "Channel Divinity — invoke divine power"),
+    # Druid
+    "wild shape":           ("Action", "Wild Shape — transform into a beast"),
+    # Fighter
+    "action surge":         ("Action", "Action Surge — take an additional action"),
+    "second wind":          ("Bonus Action", "Second Wind — regain 1d10 + level HP"),
+    # Paladin
+    "divine sense":         ("Action", "Divine Sense — detect celestials/fiends/undead"),
+    "lay on hands":         ("Action", "Lay on Hands — heal 5×level HP"),
+    # Rogue (features not in LIMITED_USE but present in get_class_features)
+    "cunning action":       ("Bonus Action", "Cunning Action — Dash, Disengage, or Hide"),
+    "uncanny dodge":        ("Reaction", "Uncanny Dodge — halve damage from one attack"),
+    # Monk
+    "flurry of blows":      ("Bonus Action", "Flurry of Blows — two unarmed strikes (1 ki)"),
+    "patient defense":      ("Bonus Action", "Patient Defense — Dodge as bonus action (1 ki)"),
+    "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
 }
 
 # ── PHB scale functions per feature ──
@@ -2524,6 +2609,11 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                         entry["uses"] = uses_max
                         entry["recharge"] = lu["recharge"]
                     break
+        # Check if this feature is a combat action
+        action_info = FEATURE_ACTION_TYPES.get(key)
+        if action_info:
+            entry["action_type"] = action_info[0]
+            entry["action_desc"] = action_info[1]
         enriched.append(entry)
     return enriched
 

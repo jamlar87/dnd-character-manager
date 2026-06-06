@@ -575,6 +575,14 @@
       </div>
 
       <!-- Actions in Combat -->
+      {% set feature_actions = [] %}
+      {% if character.feature_data %}
+        {% for feat in character.feature_data %}
+          {% if feat.get("action_type") %}
+            {% set _ = feature_actions.append(feat) %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin-bottom:0.5rem">Actions in Combat</h3>
         <div class="action-grid">
@@ -582,25 +590,37 @@
           <div class="action-chip" onclick="showActionDetail('{{ a }}')">{{ a }}</div>
           {% endfor %}
         </div>
-      </div>
-
-      <!-- Bonus Actions -->
-      {% if character.class_name in ['Rogue','Monk','Barbarian'] or (attacks and attacks|length > 1) %}
-      <div class="card" style="margin-top:0.5rem">
-        <h3 style="margin-bottom:0.5rem">Bonus Actions</h3>
-        <div style="font-size:0.85rem;color:var(--text-muted)">
-          {% if character.class_name == 'Rogue' %}
-          <p><strong>Cunning Action:</strong> Dash, Disengage, or Hide.</p>
-          {% endif %}
-          {% if character.class_name == 'Monk' and character.level >= 2 %}
-          <p><strong>Martial Arts / Flurry of Blows:</strong> Unarmed strike or two unarmed strikes (1 Ki).</p>
-          {% endif %}
-          {% if character.class_name == 'Barbarian' %}
-          <p><strong>Rage:</strong> Enter a rage. Advantage on STR checks/saves, +2 melee damage, resistance to B/P/S.</p>
-          {% endif %}
+        {% if feature_actions %}
+        <!-- Feature Actions -->
+        <div style="margin-top:0.75rem">
+          {% for fa in feature_actions %}
+          {% set atype = fa.get("action_type","Action") %}
+          {% set uses = fa.get("uses",0) %}
+          {% set uses_max = fa.get("uses_max",0) %}
+          {% set depleted = uses_max > 0 and uses == 0 %}
+          <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
+               onclick="{% if not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if depleted %}default{% else %}pointer{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
+            <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
+              <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
+              <span style="font-size:0.85rem;font-weight:600">{{ fa.name }}</span>
+              {% if fa.get("action_desc") %}
+              <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">{{ fa.action_desc }}</span>
+              {% endif %}
+            </span>
+            {% if uses_max > 0 %}
+            <span class="feat-uses-dots" style="font-size:0.75rem;font-family:monospace;margin-left:0.5rem;white-space:nowrap">
+              {% for i in range(uses_max) %}
+              <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %}"></span>
+              {% endfor %}
+              <span style="margin-left:0.25rem;color:var(--text-muted)">{{ uses }}/{{ uses_max }}</span>
+            </span>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
 
     <!-- ✨ FEATURES TAB -->
@@ -1992,6 +2012,39 @@ async function saveEquipped() {
   // Refresh item badges
   tagArmor();
   tagWeapons();
+}
+
+// ── Feature Action (use limited-use feature from Actions in Combat) ──
+async function useFeature(name, btn) {
+  try {
+    const resp = await api('/use-feature', { name });
+    const data = await resp.json();
+    if (!data.ok) return;
+    // Update client-side featureData
+    const feat = featureData.find(f => f.name === name);
+    if (feat) feat.uses = data.uses;
+    // Update the dots display on this button
+    const dots = btn.querySelectorAll('.use-dot');
+    for (let i = dots.length - 1; i >= 0; i--) {
+      if (dots[i].classList.contains('active')) {
+        dots[i].classList.remove('active');
+        break;
+      }
+    }
+    const countSpan = btn.querySelector('.feat-uses-dots span:last-child');
+    if (countSpan) {
+      countSpan.textContent = `${data.uses}/${dots.length}`;
+    }
+    if (data.uses === 0) {
+      btn.classList.add('depleted');
+      btn.style.opacity = '0.45';
+      btn.style.cursor = 'default';
+      btn.onclick = null;
+    }
+    // Sync features tab dots via render
+    const idx = featureData.indexOf(feat);
+    if (idx >= 0) renderFeatureDots(idx);
+  } catch(e) { console.error(e); }
 }
 
 function renderEquipped() {
