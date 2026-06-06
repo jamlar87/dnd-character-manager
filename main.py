@@ -1132,6 +1132,78 @@ def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> 
 
 # ── Custom Background Generation ──────────────────────────────────────────
 
+# Background-appropriate items (common magic + mundane equipment from SRD/PHB)
+# Format: "Name (SRD reference)" for magic items, plain name for mundane
+BACKGROUND_ITEM_POOL = [
+    # Potions (common)
+    "Potion of Healing (SRD: Potion of Healing)",
+    "Potion of Climbing (SRD: Potion of Climbing)",
+    # Scrolls (common)
+    "Spell Scroll — Cantrip (SRD: Spell Scroll Cantrip)",
+    "Spell Scroll — 1st level (SRD: Spell Scroll 1st)",
+    # Minor magic items (uncommon, not overpowered)
+    "Hat of Disguise (SRD: Hat of Disguise)",
+    "Goggles of Night (SRD: Goggles of Night)",
+    "Rope of Climbing (SRD: Rope of Climbing)",
+    "Helm of Comprehending Languages (SRD: Helm of Comprehending Languages)",
+    "Lantern of Revealing (SRD: Lantern of Revealing)",
+    "Potion of Animal Friendship (SRD: Potion of Animal Friendship)",
+    "Potion of Water Breathing (SRD: Potion of Water Breathing)",
+    "Potion of Growth (SRD: Potion of Growth)",
+    "Oil of Slipperiness (SRD: Oil of Slipperiness)",
+    "Dust of Disappearance (SRD: Dust of Disappearance)",
+    "Restorative Ointment (SRD: Restorative Ointment)",
+    # Mundane equipment / tools (PHB)
+    "Healer's Kit",
+    "Climber's Kit",
+    "Disguise Kit",
+    "Herbalism Kit",
+    "Navigator's Tools",
+    "Thieves' Tools",
+    "Hunting Trap",
+    "Magnifying Glass",
+    "Spyglass",
+    "Signal Whistle",
+    "Grappling Hook",
+    "Crowbar",
+    "Block and Tackle",
+    "Abacus",
+    "Sealing Wax",
+    "Merchant's Scale",
+    "Fishing Tackle",
+    "Hourglass",
+    "Steel Mirror",
+    "Vial of Perfume",
+    "Vial of Acid",
+    "Vial of Alchemist's Fire",
+    "Vial of Antitoxin",
+    "Flask of Holy Water",
+    "Blanket",
+    "Tinderbox",
+    "Waterskin",
+    "Rations (2 days)",
+    "Chalk (5 pieces)",
+    "String (10 feet)",
+    "Bell",
+    "Candle",
+    "Soap",
+    "Iron Pot",
+    "Shovel",
+    "Whetstone",
+    "Two-Person Tent",
+    # Trinkets and flavor
+    "Silver locket with a portrait inside",
+    "Small mechanical bird that chirps",
+    "Bag of polished river stones",
+    "Bone dice set with a worn leather cup",
+    "Lucky rabbit's foot",
+    "Old brass compass that doesn't point north",
+    "Glass orb filled with swirling smoke",
+    "Carved wooden whistle shaped like a dragon",
+    "Sealed letter with a wax sigil",
+    "Worn journal with cryptic entries",
+]
+
 @app.post("/api/ai/generate-background", response_class=JSONResponse)
 async def ai_generate_background(request: Request):
     """Generate a unique custom background based on character choices.
@@ -1154,8 +1226,13 @@ Ability scores: {abilities}
 Skills: {skills}
 Alignment: {alignment or 'Any'}
 
+Choose exactly 3 items from this approved list. You may add flavor/rename them (e.g., "Granny's Healer's Kit"), but ALWAYS include the SRD reference in parentheses — e.g., "Granny's Kit (SRD: Healer's Kit)". Mundane items don't need an SRD reference. Do NOT invent items not on this list. Do NOT include armor, weapons, or powerful magic items.
+
+Available items:
+{chr(10).join('- ' + it for it in BACKGROUND_ITEM_POOL)}
+
 Return ONLY valid JSON (no markdown, no explanation):
-{{"name": "Background Name (2-4 words, creative and unique)", "description": "2-3 sentence description of this character's background and how it shaped them", "items": ["Item 1", "Item 2", "Item 3"], "gp": 15}}"""
+{{"name": "Background Name (2-4 words, creative and unique)", "description": "2-3 sentence description of this character's background and how it shaped them", "items": ["Flavored Name (SRD: Reference)", "Item 2", "Item 3"], "gp": 15}}"""
 
     TIER_NAMES = ["gemini", "openrouter", "ollama"]
     text = None
@@ -1182,75 +1259,57 @@ Return ONLY valid JSON (no markdown, no explanation):
     return JSONResponse(ai)
 
 def _random_items(class_name: str) -> list:
-    """Generate 3 class-appropriate generic items."""
-    pools = {
-        "Barbarian":  ["Tribal totem","Hunting trap","Whetstone","Bear pelt","War paint","Bone dice"],
-        "Bard":       ["Lute strings","Sheet music","Stage makeup","Perfume vial","Love letter","Theater mask"],
-        "Cleric":     ["Holy water","Censer","Prayer beads","Votive candle","Sacred text","Blessed chalk"],
-        "Druid":      ["Sprig of mistletoe","Animal whisker","Preserved beetle","Clay pot","Woven grass doll","Bird call"],
-        "Fighter":    ["Whetstone","Spare bowstring","Unit insignia","Lucky coin","Maintenance oil","Tactical map"],
-        "Monk":       ["Meditation beads","Rice paper","Incense stick","Training manual","Tea brick","Focus crystal"],
-        "Paladin":    ["Order medallion","Blessed oil","Oath scroll","Silver mirror","White ribbon","Armor polish"],
-        "Ranger":     ["Animal call","Trail rations","Compass","Trapper's knife","Hand-drawn map","Foraging pouch"],
-        "Rogue":      ["Lockpicks","Caltrops","Disguise kit refill","Climbing chalk","Concealed pouch","Marked cards"],
-        "Sorcerer":   ["Crystal shard","Dragon scale","Spark dust","Elemental focus","Strange birthmark","Arcanic battery"],
-        "Warlock":    ["Pact token","Shadow essence","Whispering stone","Eldritch candle","Patron's sigil","Soul coin"],
-        "Wizard":     ["Spell ink","Arcane lens","Component pouch refill","Research notes","Elemental sample","Rune-etched pebble"],
-    }
-    pool = pools.get(class_name, ["Travel journal","Flint and steel","Small trinket","Worn map","Lucky charm","Sewing kit"])
-    items = random.sample(pool, min(3, len(pool)))
-    if len(items) < 3:
-        items += ["Flint and steel","Small trinket","Traveler's rations"][:3-len(items)]
-    return items
+    """Pick 3 random background-appropriate items from the pool."""
+    return random.sample(BACKGROUND_ITEM_POOL, min(3, len(BACKGROUND_ITEM_POOL)))
 
 def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict:
     """Deterministic fallback — pool of unique backgrounds by class."""
     bg_pool = {
         "Barbarian": [
-            {"name":"Tribal Outcast","desc":"Exiled from their clan for refusing to follow a corrupt chieftain. They wander the wilds, honing their rage into a weapon of justice.","items":["Tribal totem","Hunting trap","War paint"],"gp":12},
-            {"name":"Spirit-Blessed Wanderer","desc":"Touched by ancestral spirits during a near-death experience. They follow visions across the land, guided by voices only they can hear.","items":["Spirit pouch","Whetstone","Bear pelt"],"gp":10},
-            {"name":"Arena Champion","desc":"Fought for survival in underground fighting pits. They earned their freedom through blood and now seek a greater purpose.","items":["Champion's belt","Bone dice","Healing salve"],"gp":18},
+            {"name":"Tribal Outcast","desc":"Exiled from their clan for refusing to follow a corrupt chieftain. They wander the wilds, honing their rage into a weapon of justice.","items":["Clan Hunter's Trap (SRD: Hunting Trap)","Bone Dice Set (SRD: Bone dice set with a worn leather cup)","Whetstone"],"gp":12},
+            {"name":"Spirit-Blessed Wanderer","desc":"Touched by ancestral spirits during a near-death experience. They follow visions across the land, guided by voices only they can hear.","items":["Spirit Ward Pouch (SRD: Restorative Ointment)","Blanket","Tinderbox"],"gp":10},
+            {"name":"Arena Champion","desc":"Fought for survival in underground fighting pits. They earned their freedom through blood and now seek a greater purpose.","items":["Victor's Brew (SRD: Potion of Healing)","Iron Pot","Soap"],"gp":18},
         ],
         "Bard": [
-            {"name":"Traveling Minstrel","desc":"Performed in taverns and courts across the realm. Their songs carry secrets overheard from nobles and commoners alike.","items":["Songbook","Perfume vial","Theater mask"],"gp":14},
-            {"name":"Disgraced Courtier","desc":"Once a trusted advisor who uncovered a conspiracy. Framed for treason, they now travel under a new identity, seeking the truth.","items":["Court ledger","Disguise kit refill","Sealed letter"],"gp":20},
+            {"name":"Traveling Minstrel","desc":"Performed in taverns and courts across the realm. Their songs carry secrets overheard from nobles and commoners alike.","items":["Disguise Kit","Vial of Perfume","Signal Whistle"],"gp":14},
+            {"name":"Disgraced Courtier","desc":"Once a trusted advisor who uncovered a conspiracy. Framed for treason, they now travel under a new identity, seeking the truth.","items":["Courtier's Veil (SRD: Hat of Disguise)","Sealing Wax","Sealed letter with a wax sigil"],"gp":20},
         ],
         "Cleric": [
-            {"name":"Pilgrim of the Lost","desc":"Received a divine vision during a plague that wiped out their village. They now travel, healing the sick and seeking answers.","items":["Sacred relic","Prayer beads","Healer's kit"],"gp":11},
-            {"name":"Heretic Reformer","desc":"Cast out from their temple for questioning doctrine. Their faith remains unshaken, but they now serve their god outside the clergy's walls.","items":["Forbidden text","Holy symbol","Traveler's rations"],"gp":15},
+            {"name":"Pilgrim of the Lost","desc":"Received a divine vision during a plague that wiped out their village. They now travel, healing the sick and seeking answers.","items":["Sacred Salve (SRD: Restorative Ointment)","Healer's Kit","Candle"],"gp":11},
+            {"name":"Heretic Reformer","desc":"Cast out from their temple for questioning doctrine. Their faith remains unshaken, but they now serve their god outside the clergy's walls.","items":["Forbidden Scroll (SRD: Spell Scroll — 1st level)","Flask of Holy Water","Worn journal with cryptic entries"],"gp":15},
         ],
         "Druid": [
-            {"name":"Grove Warden","desc":"Sworn protector of an ancient forest grove. The trees whisper warnings to them, and animals treat them as kin.","items":["Sprig of mistletoe","Clay pot","Animal whisker"],"gp":10},
+            {"name":"Grove Warden","desc":"Sworn protector of an ancient forest grove. The trees whisper warnings to them, and animals treat them as kin.","items":["Herbalism Kit","Fishing Tackle","Carved wooden whistle shaped like a dragon"],"gp":10},
         ],
         "Fighter": [
-            {"name":"Broken Legionnaire","desc":"The sole survivor of a massacre that destroyed their company. They carry the unit's standard, seeking to restore its honor.","items":["Unit insignia","Whetstone","Lucky coin"],"gp":13},
-            {"name":"Village Guardian","desc":"A small-town militia captain who stood against a monster incursion. They now seek proper training to protect others.","items":["Village charter","Maintenance oil","Tactical map"],"gp":16},
+            {"name":"Broken Legionnaire","desc":"The sole survivor of a massacre that destroyed their company. They carry the unit's standard, seeking to restore its honor.","items":["Whetstone","Crowbar","Blanket"],"gp":13},
+            {"name":"Village Guardian","desc":"A small-town militia captain who stood against a monster incursion. They now seek proper training to protect others.","items":["Healer's Kit","Signal Whistle","Iron Pot"],"gp":16},
         ],
         "Monk": [
-            {"name":"Mountain Acolyte","desc":"Trained in a remote monastery hidden among the peaks. They descend to the world below on a mission of enlightenment.","items":["Meditation beads","Incense stick","Tea brick"],"gp":10},
+            {"name":"Mountain Acolyte","desc":"Trained in a remote monastery hidden among the peaks. They descend to the world below on a mission of enlightenment.","items":["Meditation Scroll (SRD: Spell Scroll — Cantrip)","Hourglass","Bell"],"gp":10},
         ],
         "Paladin": [
-            {"name":"Oathsworn Avenger","desc":"Witnessed their mentor fall to corruption. They swore an oath over the mentor's grave to root out evil wherever it hides.","items":["Order medallion","Oath scroll","Silver mirror"],"gp":14},
+            {"name":"Oathsworn Avenger","desc":"Witnessed their mentor fall to corruption. They swore an oath over the mentor's grave to root out evil wherever it hides.","items":["Blessed Vial (SRD: Flask of Holy Water)","Steel Mirror","Candle"],"gp":14},
         ],
         "Ranger": [
-            {"name":"Frontier Scout","desc":"Mapped uncharted wilderness for a frontier settlement. They know every trail, every danger, and every safe haven for 50 miles.","items":["Hand-drawn map","Compass","Foraging pouch"],"gp":12},
+            {"name":"Frontier Scout","desc":"Mapped uncharted wilderness for a frontier settlement. They know every trail, every danger, and every safe haven for 50 miles.","items":["Climber's Kit","Old brass compass that doesn't point north","Tinderbox"],"gp":12},
         ],
         "Rogue": [
-            {"name":"Reformed Smuggler","desc":"Ran contraband through city sewers before a close call with the law. They now use their skills for more honest — but equally thrilling — work.","items":["Concealed pouch","Lockpick set","Climbing chalk"],"gp":15},
+            {"name":"Reformed Smuggler","desc":"Ran contraband through city sewers before a close call with the law. They now use their skills for more honest — but equally thrilling — work.","items":["Thieves' Tools","Grappling Hook","Chalk (5 pieces)"],"gp":15},
         ],
         "Sorcerer": [
-            {"name":"Wild Magic Prodigy","desc":"Their powers erupted during a childhood accident, destroying their home. They've spent years learning to control the chaos within.","items":["Crystal shard","Spark dust","Strange birthmark sketch"],"gp":12},
+            {"name":"Wild Magic Prodigy","desc":"Their powers erupted during a childhood accident, destroying their home. They've spent years learning to control the chaos within.","items":["Arcanic Spark (SRD: Spell Scroll — Cantrip)","Glass orb filled with swirling smoke","Chalk (5 pieces)"],"gp":12},
         ],
         "Warlock": [
-            {"name":"Reluctant Pact-Bearer","desc":"Made a desperate bargain to save a loved one. Now bound to a mysterious patron, they seek a way to break free — or at least understand the terms.","items":["Pact token","Whispering stone","Soul coin"],"gp":10},
+            {"name":"Reluctant Pact-Bearer","desc":"Made a desperate bargain to save a loved one. Now bound to a mysterious patron, they seek a way to break free — or at least understand the terms.","items":["Patron's Token (SRD: Sealed letter with a wax sigil)","Candle","Silver locket with a portrait inside"],"gp":10},
         ],
         "Wizard": [
-            {"name":"Arcane Archivist","desc":"Apprenticed to an eccentric librarian who guarded forbidden knowledge. They inherited the library's secrets when the old mage vanished.","items":["Spell ink","Research notes","Arcane lens"],"gp":14},
-            {"name":"Failed Academy Student","desc":"Expelled from a prestigious magical academy for an experiment gone wrong. They continue their studies independently, determined to prove the academy wrong.","items":["Expulsion letter","Component pouch","Rune-etched pebble"],"gp":11},
+            {"name":"Arcane Archivist","desc":"Apprenticed to an eccentric librarian who guarded forbidden knowledge. They inherited the library's secrets when the old mage vanished.","items":["Scholar's Scroll (SRD: Spell Scroll — 1st level)","Magnifying Glass","Worn journal with cryptic entries"],"gp":14},
+            {"name":"Failed Academy Student","desc":"Expelled from a prestigious magical academy for an experiment gone wrong. They continue their studies independently, determined to prove the academy wrong.","items":["Practitioner's Lens (SRD: Magnifying Glass)","Vial of Acid","Abacus"],"gp":11},
         ],
     }
     pool = bg_pool.get(class_name, [
-        {"name":"Wandering Adventurer","desc":"Grew up hearing tales of heroes and monsters. When tragedy struck their hometown, they took up arms and never looked back.","items":["Travel journal","Flint and steel","Small trinket"],"gp":10}
+        {"name":"Wandering Adventurer","desc":"Grew up hearing tales of heroes and monsters. When tragedy struck their hometown, they took up arms and never looked back.","items":["Healer's Kit","Tinderbox","Waterskin"],"gp":10}
     ])
     bg = random.choice(pool)
     return {"name": bg["name"], "description": bg["desc"], "items": list(bg["items"]), "gp": bg["gp"]}
