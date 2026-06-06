@@ -187,6 +187,84 @@ def init_db():
             slots_used INTEGER DEFAULT 0,
             FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS dm_npcs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            race TEXT NOT NULL DEFAULT 'Human',
+            class_name TEXT DEFAULT '',
+            subclass TEXT DEFAULT '',
+            level INTEGER DEFAULT 1,
+            is_enemy INTEGER DEFAULT 0,
+            is_party_npc INTEGER DEFAULT 0,
+            strength INTEGER DEFAULT 10,
+            dexterity INTEGER DEFAULT 10,
+            constitution INTEGER DEFAULT 10,
+            intelligence INTEGER DEFAULT 10,
+            wisdom INTEGER DEFAULT 10,
+            charisma INTEGER DEFAULT 10,
+            hp_max INTEGER DEFAULT 10,
+            hp_current INTEGER DEFAULT 10,
+            temp_hp INTEGER DEFAULT 0,
+            ac INTEGER DEFAULT 10,
+            speed INTEGER DEFAULT 30,
+            proficiency_bonus INTEGER DEFAULT 2,
+            hit_dice TEXT DEFAULT '1d8',
+            hit_dice_used INTEGER DEFAULT 0,
+            skills TEXT DEFAULT '[]',
+            features TEXT DEFAULT '[]',
+            inventory TEXT DEFAULT '[]',
+            notes TEXT DEFAULT '',
+            portrait_url TEXT DEFAULT '',
+            alignment TEXT DEFAULT 'True Neutral',
+            role TEXT DEFAULT 'NPC',
+            faction TEXT DEFAULT '',
+            xp_reward INTEGER DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS dm_encounters (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT DEFAULT '',
+            location TEXT DEFAULT '',
+            environment TEXT DEFAULT '',
+            difficulty TEXT DEFAULT 'medium',
+            status TEXT DEFAULT 'planned',
+            xp_total INTEGER DEFAULT 0,
+            notes TEXT DEFAULT '',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS dm_encounter_npcs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            encounter_id INTEGER NOT NULL,
+            npc_id INTEGER NOT NULL,
+            initiative INTEGER DEFAULT 0,
+            hp_current INTEGER DEFAULT 0,
+            hp_max INTEGER DEFAULT 0,
+            ac INTEGER DEFAULT 10,
+            defeated INTEGER DEFAULT 0,
+            spell_slots_used TEXT DEFAULT '{}',
+            notes TEXT DEFAULT '',
+            FOREIGN KEY (encounter_id) REFERENCES dm_encounters(id) ON DELETE CASCADE,
+            FOREIGN KEY (npc_id) REFERENCES dm_npcs(id) ON DELETE CASCADE
+        );
+        CREATE TABLE IF NOT EXISTS dm_campaigns (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT DEFAULT '',
+            party_level INTEGER DEFAULT 1,
+            party_size INTEGER DEFAULT 4,
+            notes TEXT DEFAULT '',
+            session_notes TEXT DEFAULT '',
+            quests TEXT DEFAULT '[]',
+            locations TEXT DEFAULT '[]',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
         CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -218,9 +296,17 @@ def init_db():
                           ("damage_immunities","TEXT DEFAULT '[]'"),
                           ("damage_vulnerabilities","TEXT DEFAULT '[]'"),
                           ("condition_immunities","TEXT DEFAULT '[]'"),
-                          ("background_data","TEXT DEFAULT ''")]:
+                          ("background_data","TEXT DEFAULT ''"),
+                          ("spell_slots_used","TEXT DEFAULT '{}'")]:
         try:
             db.execute(f"ALTER TABLE characters ADD COLUMN {col} {coltype}")
+        except sqlite3.OperationalError:
+            pass
+    # Migration: dm_encounter_npcs new columns
+    for col, coltype in [("defeated", "INTEGER DEFAULT 0"),
+                          ("spell_slots_used", "TEXT DEFAULT '{}'")]:
+        try:
+            db.execute(f"ALTER TABLE dm_encounter_npcs ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
             pass
     db.commit()
@@ -631,7 +717,7 @@ async def api_create_character(request: Request):
 
     # Generate build data (features, attacks, spell slots)
     build_features = get_class_features(class_name, level, subclass)
-    enriched = enrich_features(build_features)
+    enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats})
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
         data.get("equipment", []))
@@ -700,6 +786,913 @@ async def api_create_character(request: Request):
     db.close()
     return JSONResponse({"id": char_id, "name": name})
 
+# ── DM Tools: Monster helpers ──────────────────────────────────────────────
+
+def _load_monster_cache() -> list[dict]:
+    return _load_json_cache("monsters.json")
+
+def _monster_cr_sort_key(m: dict) -> float:
+    cr = m.get("challenge_rating", 0)
+    if isinstance(cr, dict):
+        cr = cr.get("challenge_rating", cr)
+    try:
+        return float(cr)
+    except (TypeError, ValueError):
+        return 99.0
+
+def _xp_for_cr(cr) -> int:
+    """Return XP reward for a challenge rating (PHB p.274 / DMG p.275)."""
+    table = {0: 10, 0.125: 25, 0.25: 50, 0.5: 100, 1: 200, 2: 450, 3: 700,
+             4: 1100, 5: 1800, 6: 2300, 7: 2900, 8: 3900, 9: 5000, 10: 5900,
+             11: 7200, 12: 8400, 13: 10000, 14: 11500, 15: 13000, 16: 15000,
+             17: 18000, 18: 20000, 19: 22000, 20: 25000, 21: 33000, 22: 41000,
+             23: 50000, 24: 62000, 25: 75000, 26: 90000, 27: 105000, 28: 120000,
+             29: 135000, 30: 155000}
+    try:
+        return table.get(float(cr), 0)
+    except (TypeError, ValueError):
+        return 0
+
+def _format_monster_action(action: dict) -> dict:
+    """Flatten a monster action for template display."""
+    return {
+        "name": action.get("name", ""),
+        "desc": action.get("desc", ""),
+        "attack_bonus": action.get("attack_bonus"),
+        "damage": ", ".join(
+            f"{d.get('damage_dice','')} {d.get('damage_type',{}).get('name','').lower()}"
+            for d in action.get("damage", [])
+        ) if action.get("damage") else "",
+        "dc": action.get("dc", {}).get("dc_value") if action.get("dc") else None,
+    }
+
+@app.get("/dm-tools", response_class=HTMLResponse)
+async def dm_tools(request: Request):
+    """DM Tools main page — encounter builder, NPC manager, monster lookup."""
+    user = require_user(request)
+    db = get_db()
+
+    # Load monsters from SRD cache
+    all_monsters = _load_monster_cache()
+    monsters_by_env = {}
+    for m in all_monsters:
+        m_type = m.get("type", "other")
+        monsters_by_env.setdefault(m_type, []).append(m)
+
+    # Load DM's NPCs
+    npcs = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
+        (user["id"],)
+    ).fetchall()]
+
+    # Load encounters
+    encounters = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_encounters WHERE user_id = ? ORDER BY created_at DESC",
+        (user["id"],)
+    ).fetchall()]
+
+    # Load campaigns
+    campaigns = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_campaigns WHERE user_id = ? ORDER BY created_at DESC",
+        (user["id"],)
+    ).fetchall()]
+
+    # Parse JSON fields
+    for npc in npcs:
+        for f in ("skills", "features", "inventory"):
+            try: npc[f] = json.loads(npc[f])
+            except (json.JSONDecodeError, TypeError): npc[f] = []
+    for c in campaigns:
+        for f in ("quests", "locations"):
+            try: c[f] = json.loads(c[f])
+            except (json.JSONDecodeError, TypeError): c[f] = []
+
+    # Monster types for filtering
+    monster_types = sorted(monsters_by_env.keys())
+    # Challenge rating options
+    cr_ranges = [(0, 0.25), (0.5, 2), (3, 5), (6, 10), (11, 16), (17, 30)]
+
+    db.close()
+    return _render("dm_tools.html", request=request,
+                   monsters=all_monsters, monster_types=monster_types,
+                   cr_ranges=cr_ranges, npcs=npcs,
+                   encounters=encounters, campaigns=campaigns)
+
+
+@app.get("/api/dm/monster/{index}", response_class=JSONResponse)
+async def dm_monster_detail(index: str, request: Request):
+    """Full monster detail from SRD cache."""
+    user = require_user(request)
+    all_monsters = _load_monster_cache()
+    for m in all_monsters:
+        if m.get("index", "").lower() == index.lower():
+            return JSONResponse(m)
+    raise HTTPException(status_code=404, detail="Monster not found")
+
+
+@app.get("/api/dm/monsters", response_class=JSONResponse)
+async def dm_monster_list(request: Request):
+    """List monsters with optional filters."""
+    user = require_user(request)
+    all_monsters = _load_monster_cache()
+    return JSONResponse({"count": len(all_monsters), "monsters": all_monsters})
+
+
+@app.get("/api/dm/monsters/search", response_class=JSONResponse)
+async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = ""):
+    """Search/filter monsters by name, type, and CR range."""
+    user = require_user(request)
+    all_monsters = _load_monster_cache()
+    results = []
+
+    # Parse CR from string param as alternative
+    if cr:
+        try:
+            cr_f = float(cr)
+            cr_min = cr_f
+            cr_max = cr_f
+        except (TypeError, ValueError):
+            pass
+
+    for m in all_monsters:
+        name = m.get("name", "").lower()
+        m_type = m.get("type", "").lower()
+        try:
+            m_cr = float(m.get("challenge_rating", 0))
+        except (TypeError, ValueError):
+            m_cr = 0
+
+        if q and q.lower() not in name:
+            continue
+        if type and type.lower() != m_type:
+            continue
+        if m_cr < cr_min or m_cr > cr_max:
+            continue
+        # Flatten for display
+        results.append({
+            "index": m["index"],
+            "name": m["name"],
+            "type": m.get("type", ""),
+            "size": m.get("size", ""),
+            "armor_class": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
+            "hit_points": m.get("hit_points", 0),
+            "challenge_rating": m.get("challenge_rating", 0),
+            "xp": m.get("xp", 0),
+        })
+
+    return JSONResponse({"count": len(results), "monsters": results, "total": len(all_monsters)})
+
+
+@app.get("/api/dm/monsters/by-cr", response_class=JSONResponse)
+async def dm_monsters_by_cr(request: Request):
+    """Grouped monsters by CR tier for encounter building."""
+    user = require_user(request)
+    all_monsters = _load_monster_cache()
+    tiers = {
+        "trivial": [m for m in all_monsters if _monster_cr_sort_key(m) <= 0.25],
+        "low": [m for m in all_monsters if 0.5 <= _monster_cr_sort_key(m) <= 2],
+        "medium": [m for m in all_monsters if 3 <= _monster_cr_sort_key(m) <= 5],
+        "high": [m for m in all_monsters if 6 <= _monster_cr_sort_key(m) <= 10],
+        "deadly": [m for m in all_monsters if 11 <= _monster_cr_sort_key(m) <= 16],
+        "legendary": [m for m in all_monsters if _monster_cr_sort_key(m) >= 17],
+    }
+    result = {}
+    for tier, monsters in tiers.items():
+        result[tier] = [{
+            "index": m["index"], "name": m["name"], "cr": m.get("challenge_rating", 0),
+            "type": m.get("type", ""), "size": m.get("size", ""),
+            "hp": m.get("hit_points", 0), "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
+        } for m in sorted(monsters, key=_monster_cr_sort_key)]
+    return JSONResponse(result)
+
+
+# ── DM Tools: NPC Management ─────────────────────────────────────────────
+
+@app.post("/api/dm/npc/create", response_class=JSONResponse)
+async def dm_npc_create(request: Request):
+    """Create a new NPC (or enemy)."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    cur = db.execute("""
+        INSERT INTO dm_npcs (user_id, name, race, class_name, subclass, level, is_enemy, is_party_npc,
+            strength, dexterity, constitution, intelligence, wisdom, charisma,
+            hp_max, hp_current, ac, speed, proficiency_bonus, hit_dice,
+            skills, features, inventory, notes, alignment, role, faction, xp_reward)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, (
+        user["id"],
+        data.get("name", "New NPC"),
+        data.get("race", "Human"),
+        data.get("class_name", ""),
+        data.get("subclass", ""),
+        int(data.get("level", 1)),
+        1 if data.get("is_enemy") else 0,
+        1 if data.get("is_party_npc") else 0,
+        int(data.get("strength", 10)),
+        int(data.get("dexterity", 10)),
+        int(data.get("constitution", 10)),
+        int(data.get("intelligence", 10)),
+        int(data.get("wisdom", 10)),
+        int(data.get("charisma", 10)),
+        int(data.get("hp_max", 10)),
+        int(data.get("hp_current", int(data.get("hp_max", 10)))),
+        int(data.get("ac", 10)),
+        int(data.get("speed", 30)),
+        int(data.get("proficiency_bonus", 2)),
+        data.get("hit_dice", "1d8"),
+        json.dumps(data.get("skills", [])),
+        json.dumps(data.get("features", [])),
+        json.dumps(data.get("inventory", [])),
+        data.get("notes", ""),
+        data.get("alignment", "True Neutral"),
+        data.get("role", "NPC"),
+        data.get("faction", ""),
+        int(data.get("xp_reward", 0)),
+    ))
+    db.commit()
+    npc_id = cur.lastrowid
+    db.close()
+    return JSONResponse({"id": npc_id, "ok": True})
+
+
+@app.get("/api/dm/npcs", response_class=JSONResponse)
+async def dm_npcs_list(request: Request):
+    """List all DM's NPCs."""
+    user = require_user(request)
+    db = get_db()
+    rows = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
+        (user["id"],)
+    ).fetchall()]
+    db.close()
+    for r in rows:
+        for f in ("skills", "features", "inventory"):
+            try: r[f] = json.loads(r[f])
+            except: r[f] = []
+    return JSONResponse({"npcs": rows})
+
+
+@app.get("/api/dm/npc/{npc_id}", response_class=JSONResponse)
+async def dm_npc_detail(npc_id: int, request: Request):
+    """Full NPC detail."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM dm_npcs WHERE id = ? AND user_id = ?",
+                     (npc_id, user["id"])).fetchone()
+    db.close()
+    if not row:
+        raise HTTPException(status_code=404, detail="NPC not found")
+    npc = dict(row)
+    for f in ("skills", "features", "inventory"):
+        try: npc[f] = json.loads(npc[f])
+        except: npc[f] = []
+    return JSONResponse(npc)
+
+
+@app.post("/api/dm/npc/{npc_id}/update", response_class=JSONResponse)
+async def dm_npc_update(npc_id: int, request: Request):
+    """Update NPC fields."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT id FROM dm_npcs WHERE id = ? AND user_id = ?",
+                     (npc_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="NPC not found")
+
+    allowed = {"name","race","class_name","subclass","level","strength","dexterity","constitution",
+               "intelligence","wisdom","charisma","hp_max","hp_current","temp_hp","ac","speed",
+               "proficiency_bonus","hit_dice","hit_dice_used","skills","features","inventory",
+               "notes","alignment","role","faction","xp_reward","portrait_url",
+               "is_enemy","is_party_npc"}
+    updates = {}
+    for k, v in data.items():
+        if k in allowed:
+            # Serialize list fields
+            if isinstance(v, (list, dict)):
+                v = json.dumps(v)
+            updates[k] = v
+
+    if updates:
+        sets = ", ".join(f"{k}=?" for k in updates)
+        vals = list(updates.values()) + [npc_id, user["id"]]
+        db.execute(f"UPDATE dm_npcs SET {sets} WHERE id=? AND user_id=?", vals)
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/npc/{npc_id}/delete", response_class=JSONResponse)
+async def dm_npc_delete(npc_id: int, request: Request):
+    """Delete an NPC."""
+    user = require_user(request)
+    db = get_db()
+    db.execute("DELETE FROM dm_npcs WHERE id = ? AND user_id = ?", (npc_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/ai/build-encounter", response_class=JSONResponse)
+async def dm_ai_build_encounter(request: Request):
+    """AI-suggested encounter composition based on party size/level, environment, and difficulty."""
+    user = require_user(request)
+    data = await request.json()
+    party_level = int(data.get("party_level", 5))
+    party_size = int(data.get("party_size", 4))
+    environment = data.get("environment", "dungeon")
+    difficulty = data.get("difficulty", "medium")
+    theme = data.get("theme", "")
+    tone = data.get("tone", "")
+
+    # XP budgets (DMG p.82 — Adjusted XP thresholds for party of N)
+    # Per-character thresholds for medium encounters at each level
+    MEDIUM_XP = {1: 50, 2: 100, 3: 150, 4: 250, 5: 500, 6: 600, 7: 750, 8: 900,
+                 9: 1100, 10: 1200, 11: 1600, 12: 2000, 13: 2200, 14: 2500,
+                 15: 2800, 16: 3200, 17: 3900, 18: 4200, 19: 4900, 20: 5700}
+    HARD_XP = {1: 75, 2: 150, 3: 225, 4: 375, 5: 750, 6: 900, 7: 1100, 8: 1400,
+               9: 1600, 10: 1900, 11: 2400, 12: 3000, 13: 3400, 14: 3800,
+               15: 4300, 16: 4800, 17: 5900, 18: 6300, 19: 7300, 20: 8500}
+    DEADLY_XP = {1: 100, 2: 200, 3: 400, 4: 500, 5: 1100, 6: 1400, 7: 1700, 8: 2100,
+                 9: 2400, 10: 2800, 11: 3600, 12: 4500, 13: 5100, 14: 5700,
+                 15: 6400, 16: 7200, 17: 8800, 18: 9500, 19: 10900, 20: 12700}
+
+    xp_budgets = {"easy": MEDIUM_XP, "medium": MEDIUM_XP, "hard": HARD_XP, "deadly": DEADLY_XP}
+    if difficulty == "easy":
+        xp_per_char = int(MEDIUM_XP.get(party_level, 500) * 0.5)
+    else:
+        xp_per_char = xp_budgets.get(difficulty, MEDIUM_XP).get(party_level, 500)
+    xp_budget = xp_per_char * party_size
+
+    # Load monsters
+    all_monsters = _load_monster_cache()
+
+    # Filter by environment/theme hints
+    candidates = []
+    for m in all_monsters:
+        m_type = m.get("type", "").lower()
+        m_name = m.get("name", "").lower()
+        m_env = m.get("environment", [])
+        if isinstance(m_env, list):
+            m_env = [e.lower() for e in m_env]
+
+        # Environment/climate matching
+        env_match = True
+        if environment and environment.lower() not in ("any", ""):
+            env_keywords = {
+                "dungeon": ["dungeon", "underdark", "cavern", "underground"],
+                "forest": ["forest", "woodland", "jungle"],
+                "mountain": ["mountain", "hill", "peak"],
+                "coastal": ["coastal", "coast", "ocean", "sea", "water"],
+                "swamp": ["swamp", "marsh", "wetland"],
+                "arctic": ["arctic", "tundra", "ice", "cold", "frozen"],
+                "desert": ["desert", "sandy", "arid"],
+                "grassland": ["grassland", "plain", "savanna"],
+                "urban": ["urban", "city", "town", "settlement"],
+                "underdark": ["underdark", "cavern", "underground", "dark"],
+                "planar": ["planar", "outer", "inner", "abyss", "heaven"],
+            }
+            env_words = env_keywords.get(environment.lower(), [environment.lower()])
+            # Check monster type alignment against environment
+            type_env_map = {
+                "aberration": ["underdark", "dungeon"],
+                "beast": ["forest", "grassland", "mountain", "arctic", "desert", "coastal", "swamp"],
+                "celestial": ["planar"],
+                "construct": ["dungeon", "urban"],
+                "dragon": ["mountain", "coastal", "forest", "swamp", "arctic", "desert"],
+                "elemental": ["planar", "mountain"],
+                "fey": ["forest", "grassland"],
+                "fiend": ["planar", "underdark"],
+                "giant": ["mountain", "hill", "grassland"],
+                "humanoid": ["urban", "dungeon", "grassland", "mountain", "forest", "arctic", "desert", "swamp", "coastal"],
+                "monstrosity": ["underdark", "dungeon", "forest", "mountain", "swamp", "desert"],
+                "ooze": ["underdark", "dungeon", "swamp"],
+                "plant": ["forest", "swamp", "jungle"],
+                "undead": ["underdark", "dungeon", "urban", "swamp"],
+            }
+            suitable = type_env_map.get(m_type, [])
+            if not any(e in env_words or e in suitable for e in env_words) and not any(kw in m_name for kw in env_words):
+                env_match = False
+
+        if not env_match:
+            continue
+
+        # CR within reasonable range of party level
+        try:
+            m_cr = float(m.get("challenge_rating", 0))
+        except (TypeError, ValueError):
+            continue
+
+        # Allow monsters up to party_level+2 CR for tough fights, down to 1/8
+        max_cr = party_level + 2
+        min_cr = max(0, party_level - 3)
+        if m_cr > max_cr or (m_cr < min_cr and m_cr > 0.125):
+            continue
+        if m_cr < 0.125:
+            continue
+
+        m_xp = _xp_for_cr(m_cr)
+        if m_xp == 0:
+            continue
+
+        candidates.append({
+            "index": m["index"], "name": m["name"], "cr": m_cr, "xp": m_xp,
+            "type": m_type, "size": m.get("size", ""),
+            "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
+            "hp": m.get("hit_points", 0),
+        })
+
+    # AI composition suggestion
+    ai_prompt = f"""Suggest a D&D 5e encounter for a party of {party_size} level {party_level} characters.
+Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}' if tone else ''}
+Difficulty target: {difficulty}
+
+Available monsters (pick 2-4 types, vary roles — one boss-type, some support, some minions):
+{candidates[:50]}
+
+Return ONLY valid JSON (no markdown):
+{{"name": "encounter name (atmospheric, location-based)", "description": "1-2 sentence setup vignette", 
+"composition": [{{"index": "monster index from list", "count": 2}}],
+"tactics": "1-2 sentence tactics for this encounter"}}"""
+
+    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    ai = _extract_json(text) if text else None
+
+    composition = []
+    xp_total = 0
+    if ai and ai.get("composition"):
+        for entry in ai.get("composition", []):
+            count = int(entry.get("count", 1))
+            idx = entry.get("index", "").lower()
+            # Find matching monster
+            m = next((c for c in candidates if c["index"].lower() == idx), None)
+            if m:
+                xp_total += m["xp"] * count
+                composition.append({
+                    "index": m["index"], "name": m["name"], "cr": m["cr"],
+                    "xp": m["xp"], "count": count,
+                    "ac": m["ac"], "hp": m["hp"], "type": m["type"], "size": m["size"],
+                })
+
+    # Fallback: algorithmic composition if AI fails
+    if not composition:
+        import random
+        # Pick a boss-appropriate monster (CR ≈ party level ± 1)
+        boss_candidates = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1]
+        if not boss_candidates:
+            boss_candidates = candidates[:20]
+        boss = random.choice(boss_candidates) if boss_candidates else None
+        if boss:
+            boss_count = 1
+            composition.append({**boss, "count": boss_count})
+            xp_total += boss["xp"] * boss_count
+
+        # Add minions (lower CR)
+        remaining = xp_budget - xp_total
+        minion_candidates = [c for c in candidates if c["cr"] < (party_level - 1 if party_level > 1 else 0.5)]
+        minion_count = 0
+        while remaining > 0 and minion_candidates and minion_count < 6:
+            minion = random.choice(minion_candidates)
+            if minion["xp"] <= remaining:
+                c = min(3, max(1, remaining // minion["xp"]))
+                composition.append({**minion, "count": c})
+                xp_total += minion["xp"] * c
+                remaining -= minion["xp"] * c
+                minion_count += c
+            else:
+                minion_candidates.remove(minion)
+
+    # Calculate adjusted XP multiplier (DMG p.83 — Encounter Multipliers)
+    total_monsters = sum(c.get("count", 1) for c in composition)
+    if total_monsters == 1: mult = 1.0
+    elif total_monsters == 2: mult = 1.5
+    elif 3 <= total_monsters <= 6: mult = 2.0
+    elif 7 <= total_monsters <= 10: mult = 2.5
+    elif 11 <= total_monsters <= 14: mult = 3.0
+    else: mult = 4.0
+    adjusted_xp = int(xp_total * mult)
+    budget_pct = int((adjusted_xp / xp_budget * 100)) if xp_budget > 0 else 100
+
+    # Difficulty label (DMG p.82)
+    if budget_pct < 50: diff_label = "Easy"
+    elif budget_pct < 100: diff_label = "Medium"
+    elif budget_pct < 150: diff_label = "Hard"
+    else: diff_label = "Deadly"
+
+    return JSONResponse({
+        "name": ai.get("name", f"Random {environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
+        "description": ai.get("description", f"A {difficulty} encounter in {environment}.") if ai else "",
+        "tactics": ai.get("tactics", "") if ai else "",
+        "composition": composition,
+        "xp": {"raw_total": xp_total, "adjusted": adjusted_xp, "budget": xp_budget, "budget_pct": budget_pct},
+        "difficulty": diff_label,
+        "party": {"level": party_level, "size": party_size},
+    })
+
+
+@app.post("/api/dm/ai/build-npc", response_class=JSONResponse)
+async def dm_ai_build_npc(request: Request):
+    """AI-generated NPC with full build. Uses same PHB-grounded engine as character builder."""
+    user = require_user(request)
+    data = await request.json()
+    race = data.get("race", "Human")
+    subrace = data.get("subrace", "")
+    class_name = data.get("class_name", "Fighter")
+    subclass = data.get("subclass", "")
+    level = min(max(int(data.get("level", 1)), 1), 20)
+    is_enemy = data.get("is_enemy", False)
+    personality_hint = data.get("personality_hint", "")
+    role_hint = data.get("role", "NPC")
+
+    # Use the same build engine as PCs
+    abilities = allocate_ability_scores(class_name, race, subrace)
+    mods = {ability: (abilities[ability] - 10) // 2 for ability in abilities}
+    pb = PROFICIENCY_BONUS.get(level, 2)
+    con_mod = mods["constitution"]
+    hp = calc_hp(class_name, level, con_mod)
+    ac = _calculate_ac(class_name, level, mods)
+    class_data = CLASSES.get(class_name, CLASSES["Fighter"])
+    saves = {ability: mod + (pb if ability in class_data.get("saves", []) else 0)
+             for ability, mod in mods.items()}
+    skills = _pick_skills(class_name, mods)
+    equipment = get_equipment_for_level(class_name, level)
+    raw_features = get_class_features(class_name, level, subclass)
+    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods)
+    spells = get_spells_for_level(class_name, level) if get_caster_type(class_name) != "none" else {}
+    spell_slots = get_spell_slots(class_name, level) if get_caster_type(class_name) != "none" else {}
+
+    # AI flavor
+    ai_prompt = f"""Generate a D&D 5e NPC concept for a {'villain/enemy' if is_enemy else 'friendly NPC'}.
+Race: {race}{' (' + subrace + ')' if subrace else ''}
+Class: {class_name} L{level}{' — ' + subclass if subclass else ''}
+Role: {role_hint}
+{personality_hint}
+Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": \"1-2 sentences\", \"alignment\": \"one from PHB list\", \"faction\": \"group name or empty\"}}"""
+
+    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    ai = _extract_json(text) if text else None
+    if ai:
+        if ai.get("alignment") not in ALIGNMENTS:
+            ai["alignment"] = random.choice(ALIGNMENTS)
+
+    return JSONResponse({
+        "name": ai.get("name", f"{race} {role_hint}") if ai else f"{race} {role_hint}",
+        "personality": ai.get("personality", "") if ai else "",
+        "backstory": ai.get("backstory", "") if ai else "",
+        "alignment": ai.get("alignment", "True Neutral") if ai else "True Neutral",
+        "faction": ai.get("faction", "") if ai else "",
+        "build": {
+            "level": level,
+            "class": class_name,
+            "subclass": subclass or None,
+            "race": race,
+            "subrace": subrace or None,
+            "ability_scores": abilities,
+            "modifiers": mods,
+            "hit_points": hp,
+            "armor_class": ac,
+            "proficiency_bonus": pb,
+            "saving_throws": saves,
+            "skills": skills,
+            "equipment": equipment,
+            "features": enriched_features,
+            "spells": spells.get("spells", {}),
+            "cantrips": spells.get("cantrips", []),
+            "spell_slots": spell_slots.get("by_level", {}),
+            "hit_dice": f"{level}d{class_data['hd']}",
+            "speed": RACES.get(race, RACES["Human"]).get("speed", 30),
+        }
+    })
+
+
+# ── DM Tools: Encounter Management ───────────────────────────────────────
+
+@app.post("/api/dm/encounter/create", response_class=JSONResponse)
+async def dm_encounter_create(request: Request):
+    """Create a new encounter."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    cur = db.execute("""
+        INSERT INTO dm_encounters (user_id, name, description, location, environment, difficulty, notes)
+        VALUES (?,?,?,?,?,?,?)
+    """, (
+        user["id"],
+        data.get("name", "New Encounter"),
+        data.get("description", ""),
+        data.get("location", ""),
+        data.get("environment", ""),
+        data.get("difficulty", "medium"),
+        data.get("notes", ""),
+    ))
+    db.commit()
+    enc_id = cur.lastrowid
+    db.close()
+    return JSONResponse({"id": enc_id, "ok": True})
+
+
+@app.get("/api/dm/encounters", response_class=JSONResponse)
+async def dm_encounters_list(request: Request):
+    """List all encounters."""
+    user = require_user(request)
+    db = get_db()
+    rows = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_encounters WHERE user_id = ? ORDER BY created_at DESC",
+        (user["id"],)
+    ).fetchall()]
+    # Count participants
+    for r in rows:
+        npcs = db.execute(
+            "SELECT COUNT(*) as cnt FROM dm_encounter_npcs WHERE encounter_id = ?",
+            (r["id"],)
+        ).fetchone()
+        r["npc_count"] = npcs["cnt"] if npcs else 0
+    db.close()
+    return JSONResponse({"encounters": rows})
+
+
+@app.get("/api/dm/encounter/{enc_id}", response_class=JSONResponse)
+async def dm_encounter_detail(enc_id: int, request: Request):
+    """Full encounter detail with NPC participants."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM dm_encounters WHERE id = ? AND user_id = ?",
+                     (enc_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404)
+    enc = dict(row)
+    # Get NPC participants
+    participants = [dict(r) for r in db.execute("""
+        SELECT en.*, n.name as npc_name, n.race, n.class_name, n.level, n.is_enemy,
+               n.hp_max as npc_hp_max, n.ac as npc_ac, n.role, n.xp_reward
+        FROM dm_encounter_npcs en
+        JOIN dm_npcs n ON n.id = en.npc_id
+        WHERE en.encounter_id = ?
+        ORDER BY en.initiative DESC
+    """, (enc_id,)).fetchall()]
+    # Compute spell slots for caster NPCs
+    for p in participants:
+        cls = p.get("class_name", "")
+        lvl = p.get("level", 1)
+        if cls and get_caster_type(cls) != "none":
+            slots = get_spell_slots(cls, lvl)
+            p["npc_spell_slots"] = slots.get("by_level", {})
+        else:
+            p["npc_spell_slots"] = {}
+    enc["participants"] = participants
+    xp_total = sum(p.get("xp_reward", 0) or 0 for p in participants)
+    db.close()
+    return JSONResponse({"encounter": enc, "xp_total": xp_total})
+
+
+@app.post("/api/dm/encounter/{enc_id}/add-npc", response_class=JSONResponse)
+async def dm_encounter_add_npc(enc_id: int, request: Request):
+    """Add an NPC to an encounter."""
+    user = require_user(request)
+    data = await request.json()
+    npc_id = int(data.get("npc_id", 0))
+    db = get_db()
+    # Verify encounter exists
+    enc = db.execute("SELECT id FROM dm_encounters WHERE id = ? AND user_id = ?",
+                     (enc_id, user["id"])).fetchone()
+    if not enc:
+        db.close()
+        raise HTTPException(status_code=404, detail="Encounter not found")
+    # Verify NPC exists
+    npc = db.execute("SELECT * FROM dm_npcs WHERE id = ? AND user_id = ?",
+                     (npc_id, user["id"])).fetchone()
+    if not npc:
+        db.close()
+        raise HTTPException(status_code=404, detail="NPC not found")
+    # Add to encounter
+    init = int(data.get("initiative", 0))
+    db.execute("""
+        INSERT INTO dm_encounter_npcs (encounter_id, npc_id, initiative, hp_current, hp_max, ac)
+        VALUES (?,?,?,?,?,?)
+    """, (enc_id, npc_id, init, npc["hp_current"], npc["hp_max"], npc["ac"]))
+    db.commit()
+    en_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
+    db.close()
+    return JSONResponse({"id": en_id, "ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/remove-npc", response_class=JSONResponse)
+async def dm_encounter_remove_npc(enc_id: int, request: Request):
+    """Remove an NPC from an encounter."""
+    user = require_user(request)
+    data = await request.json()
+    en_id = int(data.get("en_id", 0))
+    db = get_db()
+    db.execute("""
+        DELETE FROM dm_encounter_npcs
+        WHERE id = ? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id = ?)
+    """, (en_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/update-initiative", response_class=JSONResponse)
+async def dm_encounter_update_init(enc_id: int, request: Request):
+    """Update initiative, HP, defeated state, and individual spell slots for encounter NPCs."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    for entry in data.get("participants", []):
+        en_id = int(entry.get("id", 0))
+        init = int(entry.get("initiative", 0))
+        hp_cur = int(entry.get("hp_current", 0))
+        defeated = 1 if entry.get("defeated", False) else 0
+        spell_slots_used = entry.get("spell_slots_used", {})
+        if isinstance(spell_slots_used, dict):
+            spell_slots_used = json.dumps(spell_slots_used)
+        db.execute("""
+            UPDATE dm_encounter_npcs SET initiative=?, hp_current=?, defeated=?, spell_slots_used=?
+            WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
+        """, (init, hp_cur, defeated, spell_slots_used, en_id, user["id"]))
+
+    # If a single participant should be updated (mark defeated / update HP)
+    if "single" in data:
+        s = data["single"]
+        en_id = int(s.get("id", 0))
+        updates = []
+        vals = []
+        if "hp_current" in s:
+            updates.append("hp_current=?")
+            vals.append(int(s["hp_current"]))
+        if "defeated" in s:
+            updates.append("defeated=?")
+            vals.append(1 if s["defeated"] else 0)
+        if "spell_slots_used" in s:
+            up = s["spell_slots_used"]
+            if isinstance(up, dict):
+                up = json.dumps(up)
+            updates.append("spell_slots_used=?")
+            vals.append(up)
+        if updates:
+            vals += [en_id, user["id"]]
+            db.execute(f"UPDATE dm_encounter_npcs SET {', '.join(updates)} WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)", vals)
+
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/update", response_class=JSONResponse)
+async def dm_encounter_update(enc_id: int, request: Request):
+    """Update encounter fields."""
+    user = require_user(request)
+    data = await request.json()
+    allowed = {"name","description","location","environment","difficulty","status","notes"}
+    updates = {k: v for k, v in data.items() if k in allowed}
+    if updates:
+        db = get_db()
+        sets = ", ".join(f"{k}=?" for k in updates)
+        vals = list(updates.values()) + [enc_id, user["id"]]
+        db.execute(f"UPDATE dm_encounters SET {sets} WHERE id=? AND user_id=?", vals)
+        db.commit()
+        db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/delete", response_class=JSONResponse)
+async def dm_encounter_delete(enc_id: int, request: Request):
+    """Delete an encounter."""
+    user = require_user(request)
+    db = get_db()
+    db.execute("DELETE FROM dm_encounter_npcs WHERE encounter_id IN (SELECT id FROM dm_encounters WHERE id=? AND user_id=?)",
+               (enc_id, user["id"]))
+    db.execute("DELETE FROM dm_encounters WHERE id=? AND user_id=?", (enc_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+# ── DM Tools: Campaign Management ────────────────────────────────────────
+
+@app.post("/api/dm/campaign/create", response_class=JSONResponse)
+async def dm_campaign_create(request: Request):
+    """Create a new campaign."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    cur = db.execute("""
+        INSERT INTO dm_campaigns (user_id, name, description, party_level, party_size, notes, quests, locations)
+        VALUES (?,?,?,?,?,?,?,?)
+    """, (
+        user["id"],
+        data.get("name", "New Campaign"),
+        data.get("description", ""),
+        int(data.get("party_level", 1)),
+        int(data.get("party_size", 4)),
+        data.get("notes", ""),
+        json.dumps(data.get("quests", [])),
+        json.dumps(data.get("locations", [])),
+    ))
+    db.commit()
+    cid = cur.lastrowid
+    db.close()
+    return JSONResponse({"id": cid, "ok": True})
+
+
+@app.get("/api/dm/campaigns", response_class=JSONResponse)
+async def dm_campaigns_list(request: Request):
+    """List all campaigns."""
+    user = require_user(request)
+    db = get_db()
+    rows = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_campaigns WHERE user_id = ? ORDER BY created_at DESC",
+        (user["id"],)
+    ).fetchall()]
+    db.close()
+    return JSONResponse({"campaigns": rows})
+
+
+@app.post("/api/dm/campaign/{camp_id}/update", response_class=JSONResponse)
+async def dm_campaign_update(camp_id: int, request: Request):
+    """Update campaign — supports field updates and array mutations."""
+    user = require_user(request)
+    data = await request.json()
+    allowed = {"name","description","party_level","party_size","notes","session_notes","quests","locations"}
+    updates = {}
+
+    # Handle add/remove quest operations
+    if "addQuest" in data:
+        new_quest = json.loads(data["addQuest"])
+        db = get_db()
+        row = db.execute("SELECT quests FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        if row:
+            quests = json.loads(row["quests"] or "[]")
+            quests.append(new_quest)
+            updates["quests"] = json.dumps(quests)
+        db.close()
+    elif "removeQuest" in data:
+        idx = int(data["removeQuest"])
+        db = get_db()
+        row = db.execute("SELECT quests FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        if row:
+            quests = json.loads(row["quests"] or "[]")
+            if 0 <= idx < len(quests):
+                quests.pop(idx)
+            updates["quests"] = json.dumps(quests)
+        db.close()
+
+    # Handle add/remove location operations
+    if "addLocation" in data:
+        new_loc = json.loads(data["addLocation"])
+        db = get_db()
+        row = db.execute("SELECT locations FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        if row:
+            locs = json.loads(row["locations"] or "[]")
+            locs.append(new_loc)
+            updates["locations"] = json.dumps(locs)
+        db.close()
+    elif "removeLocation" in data:
+        idx = int(data["removeLocation"])
+        db = get_db()
+        row = db.execute("SELECT locations FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        if row:
+            locs = json.loads(row["locations"] or "[]")
+            if 0 <= idx < len(locs):
+                locs.pop(idx)
+            updates["locations"] = json.dumps(locs)
+        db.close()
+
+    # Regular field updates
+    for k, v in data.items():
+        if k in allowed and k not in ("quests", "locations"):
+            if isinstance(v, (list, dict)):
+                v = json.dumps(v)
+            updates[k] = v
+        elif k in allowed and k in ("quests", "locations") and k not in updates:
+            if isinstance(v, (list, dict)):
+                v = json.dumps(v)
+            updates[k] = v
+
+    if updates:
+        db = get_db()
+        sets = ", ".join(f"{k}=?" for k in updates)
+        vals = list(updates.values()) + [camp_id, user["id"]]
+        db.execute(f"UPDATE dm_campaigns SET {sets} WHERE id=? AND user_id=?", vals)
+        db.commit()
+        db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/delete", response_class=JSONResponse)
+async def dm_campaign_delete(camp_id: int, request: Request):
+    """Delete a campaign."""
+    user = require_user(request)
+    db = get_db()
+    db.execute("DELETE FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
 # ── Routes: Character Sheet ────────────────────────────────────────────────
 
 @app.get("/character/{char_id}", response_class=HTMLResponse)
@@ -726,6 +1719,11 @@ async def character_sheet(char_id: int, request: Request):
         except (json.JSONDecodeError, TypeError):
             char[f] = [] if f != "spell_slot_data" else {}
     # Load background data
+    # Load spell_slots_used
+    try:
+        char["spell_slots_used"] = json.loads(char.get("spell_slots_used") or "{}")
+    except (json.JSONDecodeError, TypeError):
+        char["spell_slots_used"] = {}
     try:
         char["background_data"] = json.loads(char["background_data"] or "")
     except (json.JSONDecodeError, TypeError):
@@ -749,9 +1747,23 @@ async def character_sheet(char_id: int, request: Request):
     # Build attacks from inventory weapons + existing attacks_data
     all_attacks = _build_inventory_attacks(char)
 
+    # Caster type detection (PHB rules)
+    class_name = char.get("class_name", "")
+    level = char.get("level", 1)
+    mods = {s: char.get(f"{s}_mod", 0) for s in
+            ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
+    caster_type = get_caster_type(class_name)
+    sc_mod = get_spellcasting_mod(class_name, mods)
+    prepared_max = get_prepared_max(class_name, level, sc_mod)
+    spells_known_max = get_spells_known_max(class_name, level)
+    cantrips_max = get_cantrips_known_max(class_name, level)
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
-                   bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks)
+                   bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
+                   armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
+                   spells_known_max=spells_known_max, cantrips_max=cantrips_max,
+                   sc_mod=sc_mod)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -777,7 +1789,7 @@ async def update_character(char_id: int, request: Request):
         "personality","backstory",
         # JSON arrays (serialized as JSON strings)
         "skills","save_proficiencies","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
-        "languages","features","inventory","equipped","feature_data","attacks_data",
+        "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
     }
     updates = {}
@@ -810,6 +1822,26 @@ async def add_spell(char_id: int, request: Request):
     sp_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
     db.close()
     return JSONResponse({"id": sp_id})
+
+@app.post("/api/character/{char_id}/toggle-prepared", response_class=JSONResponse)
+async def toggle_prepared(char_id: int, request: Request):
+    user = require_user(request)
+    data = await request.json()
+    spell_id = data.get("id")
+    prepared = 1 if data.get("prepared", False) else 0
+    db = get_db()
+    row = db.execute(
+        "SELECT id FROM character_spells WHERE id=? AND character_id=?",
+        (spell_id, char_id)
+    ).fetchone()
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Spell not found"}, status_code=404)
+    db.execute("UPDATE character_spells SET prepared=? WHERE id=?",
+               (prepared, spell_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
 
 @app.post("/api/character/{char_id}/delete", response_class=JSONResponse)
 async def delete_character(char_id: int, request: Request):
@@ -978,6 +2010,152 @@ def get_srd_spells_for_class(class_name: str, max_level: int) -> dict:
 
     return {"cantrips": cantrips[:8], "spells": leveled}
 
+
+# ── Caster type detection & prepared spell computation ────────────────────
+
+FULL_CASTERS = {"Bard", "Cleric", "Druid", "Sorcerer", "Wizard"}
+HALF_CASTERS = {"Paladin", "Ranger"}
+PACT_CASTERS = {"Warlock"}
+PREPARED_CASTERS = {"Cleric", "Druid", "Paladin", "Wizard"}
+SPELLS_KNOWN_CASTERS = {"Bard", "Ranger", "Sorcerer", "Warlock"}
+
+# ── PHB 2014 Limited-Use Feature Definitions ─────────────────────────────
+# (feature_key_lower, (min_level_uses, max_cap, recharge_type))
+# recharge_type: 'short' (short or long rest), 'long' (long rest only), 'dawn' (at dawn)
+# max_cap of 99 means scales with character level (capped by level-based formula)
+
+# PHB Limited-Use Abilities (p.186+ per class)
+LIMITED_USE = {
+    # Barbarian (PHB p.46-50)
+    "rage":                {"min": 2, "max": 99, "recharge": "long", "class": "Barbarian", "per": "level"},
+    # Bard (PHB p.51-55) — Bardic Inspiration die increases at L5/10/15
+    "bardic inspiration":  {"min": 3, "max": 99, "recharge": "short", "class": "Bard", "per": "level"},
+    # Cleric (PHB p.56-62)
+    "channel divinity":    {"min": 1, "max": 3,  "recharge": "short", "class": "Cleric", "per": "level"},
+    # Druid (PHB p.63-68)
+    "wild shape":          {"min": 2, "max": 99, "recharge": "short", "class": "Druid", "per": "level"},
+    # Fighter (PHB p.69-75)
+    "action surge":        {"min": 1, "max": 2,  "recharge": "short", "class": "Fighter", "per": "fixed"},
+    "second wind":         {"min": 1, "max": 1,  "recharge": "short", "class": "Fighter", "per": "fixed"},
+    "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "level"},
+    # Monk (PHB p.76-82)
+    "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level"},
+    # Paladin (PHB p.83-89)
+    "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
+    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
+    "channel divinity":    {"min": 1, "max": 1,  "recharge": "short", "class": "Paladin", "per": "fixed"},
+    # Sorcerer (PHB p.99-105)
+    "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level"},
+    # Warlock (PHB p.105-112)
+    "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    # Wizard (PHB p.112-120)
+    "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+}
+
+# ── PHB scale functions per feature ──
+def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
+    """Return the number of uses for a limited-use feature at this level."""
+    lu = LIMITED_USE.get(feat_key, {})
+    if not lu or lu.get("class", "") != class_name:
+        return 0
+    if lu["per"] == "fixed":
+        # Fixed-scaling features: use level thresholds
+        if feat_key == "action surge":
+            return 1 if level < 17 else 2  # PHB p.72: L2=1, L17=2
+        if feat_key == "indomitable":
+            return 1 if level < 13 else 2 if level < 17 else 3  # PHB p.72: L9=1, L13=2, L17=3
+        if feat_key == "second wind":
+            return 1  # Always 1 use
+        if feat_key == "mystic arcanum":
+            return 1  # 1 per mystic arcanum level (but each is a separate feature)
+    if lu["per"] == "level":
+        # Level-scaling features
+        if feat_key == "rage":
+            # PHB Barbarian table: L1-2=2, L3-5=3, L6-11=4, L12-16=5, L17-20=6
+            if level >= 17: return 6
+            if level >= 12: return 5
+            if level >= 6:  return 4
+            if level >= 3:  return 3
+            return 2
+        if feat_key == "bardic inspiration":
+            # PHB Bard table: L1-4=3, L5-9=4, L10-14=5, L15-20=6
+            if level >= 15: return 6
+            if level >= 10: return 5
+            if level >= 5:  return 4
+            return 3
+        if feat_key == "channel divinity":
+            # Cleric: L1-5=1, L6-17=2, L18+=3
+            if class_name == "Cleric":
+                if level >= 18: return 3
+                if level >= 6:  return 2
+                return 1
+            # Paladin: always 1 use per short rest (PHB p.85)
+            return 1
+        if feat_key == "wild shape":
+            # Druid: L1-3=2, +1 at L4, L8, L12, L16, L20
+            extra = (level >= 4) + (level >= 8) + (level >= 12) + (level >= 16) + (level >= 20)
+            return 2 + extra
+        if feat_key == "ki":
+            # Ki = monk level (PHB p.78)
+            return level
+        if feat_key == "divine sense":
+            # Paladin: 1 + Cha mod (min 1). We return 1 as base, Cha mod handled separately
+            return 1  # + Cha mod added at enrichment time
+        if feat_key == "lay on hands":
+            # Paladin: 5 * level (HP pool, not per-use)
+            return level * 5
+        if feat_key == "sorcery points":
+            # Sorcery points = sorcerer level (PHB p.101)
+            return level
+    return lu.get("min", 1)
+
+
+def get_caster_type(class_name: str) -> str:
+    """Return 'full', 'half', 'pact', 'third', or 'none'."""
+    if class_name in FULL_CASTERS:
+        return "full"
+    if class_name in HALF_CASTERS:
+        return "half"
+    if class_name in PACT_CASTERS:
+        return "pact"
+    return "none"
+
+def get_prepared_max(class_name: str, level: int, spellcasting_mod: int) -> int:
+    """PHB p.xxx: prepared casters prepare = level + spellcasting_mod spells.
+    Paladin uses Cha mod, Cleric/Druid use Wis mod, Wizard uses Int mod."""
+    if class_name not in PREPARED_CASTERS:
+        return 0
+    return max(1, level + spellcasting_mod)
+
+def get_spellcasting_mod(class_name: str, mods: dict) -> int:
+    """Return the spellcasting ability modifier for this class (PHB p.xxx)."""
+    if class_name in ("Bard", "Paladin", "Sorcerer", "Warlock"):
+        return mods.get("charisma", 0)
+    if class_name in ("Cleric", "Druid", "Ranger"):
+        return mods.get("wisdom", 0)
+    if class_name in ("Wizard",):
+        return mods.get("intelligence", 0)
+    return 0
+
+def get_spells_known_max(class_name: str, level: int) -> int:
+    """Return max spells known at this level from SRD data, or 0 if prepared caster / non-caster."""
+    if class_name not in SPELLS_KNOWN_CASTERS:
+        return 0
+    key = class_name.lower()
+    entries = SRD_LEVELS.get(key, [])
+    for e in entries:
+        if e.get("level") == level:
+            return e.get("spellcasting", {}).get("spells_known", 0)
+    return 0
+
+def get_cantrips_known_max(class_name: str, level: int) -> int:
+    """Return max cantrips known at this level from SRD data."""
+    key = class_name.lower()
+    entries = SRD_LEVELS.get(key, [])
+    for e in entries:
+        if e.get("level") == level:
+            return e.get("spellcasting", {}).get("cantrips_known", 0)
+    return 0
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────
 
@@ -1195,18 +2373,32 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
     return result
 
 
-def enrich_features(feature_list: list[str]) -> list[dict]:
-    """Add SRD descriptions to feature names."""
+def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None) -> list[dict]:
+    """Add SRD descriptions to feature names, and track limited-use abilities.
+    When class_name/level provided, uses the full PHB scaling system above."""
     enriched = []
     for feat_str in feature_list:
-        # Parse "L3: Feature Name" format
         if ": " in feat_str:
             level_part, name = feat_str.split(": ", 1)
         else:
             level_part, name = feat_str, feat_str
         key = name.lower()
         desc = FEATURE_DESCRIPTIONS.get(key, "")
-        enriched.append({"name": name, "level": level_part, "description": desc})
+        entry = {"name": name, "level": level_part, "description": desc}
+        # Check limited-use features from the module-level LIMITED_USE dict
+        if class_name and level > 0:
+            for lkey, lu in LIMITED_USE.items():
+                if lkey in key or key.startswith(lkey) or lkey.startswith(key):
+                    uses_max = get_uses_for_level(lkey, class_name, level)
+                    if uses_max > 0:
+                        if lkey == "divine sense":
+                            cha_mod = (mods or {}).get("charisma", 0)
+                            uses_max = max(1, uses_max + cha_mod)
+                        entry["uses_max"] = uses_max
+                        entry["uses"] = uses_max
+                        entry["recharge"] = lu["recharge"]
+                    break
+        enriched.append(entry)
     return enriched
 
 
@@ -1766,7 +2958,7 @@ async def ai_build(request: Request):
     attacks = _calculate_attacks(class_name, level, mods, pb, equipment)
 
     raw_features = get_class_features(class_name, level, subclass)
-    enriched_features = enrich_features(raw_features)
+    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods)
 
     race_data = RACES.get(race, RACES["Human"])
     build = {

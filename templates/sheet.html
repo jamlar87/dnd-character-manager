@@ -5,6 +5,33 @@
 .container { max-width: 1100px; margin: 1rem auto; }
 @media (max-width: 768px) { .container { margin: 0.5rem auto; } }
 
+/* ── Top row: portrait + HP + combat ── */
+.sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
+.top-portrait { width: 160px; flex-shrink: 0; }
+.top-portrait img { width: 100%; object-fit: cover; }
+.top-hp { width: 260px; flex-shrink: 0; }
+.top-longrest { width: 80px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:column; gap:0.35rem; }
+.top-combat { flex: 1; min-width: 0; }
+.top-combat-grid { grid-template-columns: repeat(6, 1fr) !important; }
+@media (max-width: 768px) {
+  .sheet-top-row { flex-direction: column; }
+  .top-portrait { width: 100%; max-width: 200px; margin: 0 auto; }
+  .top-hp { width: 100%; }
+  .top-longrest { width: 100%; max-width: 200px; margin: 0 auto; }
+  .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+
+/* ── Abilities row ── */
+.sheet-abilities-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
+.top-abilities-grid { grid-template-columns: repeat(6, 1fr) !important; flex: 1; min-width: 0; }
+
+/* ── Senses section box ── */
+.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; flex-shrink: 0; display: flex; align-items: center; gap: 0.75rem; }
+.senses-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
+.sense-row { display: flex; gap: 0.3rem; align-items: baseline; font-size: 0.8rem; white-space: nowrap; }
+.sense-label { color: var(--text-muted); }
+.sense-val { font-family: monospace; font-weight: 600; }
+
 /* Two-column layout */
 .sheet-layout { display: flex; gap: 1rem; min-height: calc(100vh - 140px); }
 @media (max-width: 768px) { .sheet-layout { flex-direction: column; } }
@@ -82,6 +109,12 @@
 .feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
+/* Feature use checkbox dots */
+.feat-use-dot { width: 14px; height: 14px; border-radius: 3px; border: 2px solid var(--border); background: var(--bg); cursor: pointer; transition: all 0.12s; display: inline-block; }
+.feat-use-dot:hover { border-color: var(--accent); }
+.feat-use-dot.filled { background: var(--accent); border-color: var(--accent); }
+.feat-use-dot.filled:hover { background: var(--danger); border-color: var(--danger); opacity: 0.7; }
+
 /* Attacks */
 .atk-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.4rem; }
 .atk-card .atk-name { font-weight: 600; font-size: 0.9rem; }
@@ -91,7 +124,8 @@
 
 /* Action list */
 .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.3rem; }
-.action-chip { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.75rem; text-align: center; color: var(--text-muted); }
+.action-chip { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.75rem; text-align: center; color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+.action-chip:hover { border-color: var(--accent); color: var(--text); }
 
 /* Spell slots */
 .slot-level { margin-bottom: 0.5rem; }
@@ -127,13 +161,13 @@
 .edit-only { display: none !important; }
 .edit-mode .edit-only { display: inline-flex !important; }
 .edit-mode .edit-only-block { display: block !important; }
-/* Inventory — readonly outside edit mode */
+/* Inventory — add/delete/equip always active, name editing in edit mode, qty always editable */
 .inv-item input { pointer-events: none; border-color: transparent !important; }
+.inv-item input.inv-qty { pointer-events: auto; border-color: var(--border) !important; }
 .edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
-.inv-item .btn { display: none !important; }
-.edit-mode .inv-item .btn { display: inline-flex !important; }
-/* Weapon badge */
+/* Weapon & Armor badges */
 .wpn-badge { display: inline-block; background: rgba(233,69,96,0.12); color: var(--accent); font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.4rem; font-weight: 600; vertical-align: middle; }
+.arm-badge { display: inline-block; background: rgba(59,130,246,0.12); color: #60a5fa; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.3rem; font-weight: 600; vertical-align: middle; }
 /* Clickable info badges */
 .badge-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
 .badge-link:hover { filter: brightness(1.3); }
@@ -170,97 +204,181 @@
 </div>
 {% endif %}
 
-<!-- Two-column layout -->
-<div class="sheet-layout">
+<!-- Top row: portrait + combat + abilities -->
+<div class="sheet-top-row">
+  <!-- Portrait -->
+  <div class="top-portrait">
+    {% if character.portrait_url %}
+    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid var(--border)" id="sidebar-portrait">
+    <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
+    {% else %}
+    <div style="padding:1rem 0.5rem;color:var(--text-muted);font-size:0.75rem;text-align:center">No portrait yet</div>
+    <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
+    {% endif %}
+  </div>
 
-  <!-- ══════ LEFT SIDEBAR ══════ -->
-  <div class="sheet-sidebar">
-
-    <!-- Portrait -->
-    <div class="sidebar-section" style="text-align:center">
-      {% if character.portrait_url %}
-      <img src="{{ character.portrait_url }}" alt="Character Portrait" style="max-width:100%;max-height:320px;border-radius:6px;border:1px solid var(--border)" id="sidebar-portrait">
-      <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
-      {% else %}
-      <div style="padding:2rem 1rem;color:var(--text-muted);font-size:0.8rem">No portrait yet</div>
-      <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
-      {% endif %}
-    </div>
-
-    <!-- Ability Scores -->
-    <div class="sidebar-section">
-      <h4>Ability Scores</h4>
-      <div class="abilities-grid">
-        {% set stats = [
-          ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
-          ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
-        ] %}
-        {% for label, stat in stats %}
-        {% set score = character[stat] %}
-        {% set mod = (score - 10) // 2 %}
-        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
-          <div class="ab-name">{{ label }}</div>
-          <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
-          <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
-        </div>
-        {% endfor %}
+  <!-- HP Section -->
+  <div class="top-hp">
+    <div class="sidebar-section" style="margin:0;padding:0.5rem 0.7rem">
+      <h4>Hit Points</h4>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.3rem">
+        <span class="hp-nums"><span id="hp-cur">{{ character.hp_current }}</span><span class="sep"> / {{ character.hp_max }}</span></span>
+        {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.75rem">+{{ character.temp_hp }} tmp</span>{% endif %}
       </div>
-      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
-        <span style="color:var(--accent)">●</span> = Proficient saving throw
+      <div class="hp-bar" style="margin-bottom:0.4rem">
+        <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar-side" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
       </div>
-    </div>
-
-    <!-- Core Combat Stats -->
-    <div class="sidebar-section">
-      <h4>Combat</h4>
-      <div class="combat-quick">
-        <div class="combat-quick-item">
-          <div class="cq-label">AC</div>
-          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
+      <!-- HP adjust controls -->
+      <div class="hp-controls">
+        <input type="number" id="hp-delta" value="1" min="1"
+          style="width:5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:0.3rem 0.2rem;font-size:0.95rem;-moz-appearance:textfield;appearance:textfield"
+          onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+        <style>.hp-controls input[type=number]::-webkit-inner-spin-button,.hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
+        <button class="hp-btn heal" onclick="applyHP()" title="Add HP">+</button>
+        <button class="hp-btn dmg" onclick="applyHP(-1)" title="Subtract HP">−</button>
+        <button class="hp-btn" onclick="resetHP()" title="Reset to full HP"
+          style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.7rem;padding:0 0.5rem;width:auto">↺ Full</button>
+      </div>
+      <!-- Hit Dice (collapsible) -->
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" onclick="toggleHitDice()">
+        <span id="hd-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Hit Dice</span>
+      </div>
+      <div id="hd-body" style="display:none;margin-top:0.35rem">
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:0.78rem;color:var(--text-muted)">Remaining: <strong id="hd-remaining" style="color:var(--text)">{{ (character.hit_dice|int) - (character.hit_dice_used|int) }}</strong> / <span id="hd-total">{{ character.hit_dice }}</span></span>
+            <span style="font-size:0.68rem;color:var(--text-muted)">Used: {{ character.hit_dice_used or 0 }}</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--text-muted)">
+            Roll: <strong id="hd-die">{{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else '8' }}</strong> · Con mod: <strong id="hd-con-mod">{{ ((character.constitution or 10) - 10) // 2 }}</strong>
+          </div>
+          <div style="display:flex;gap:0.25rem;align-items:center;flex-wrap:wrap">
+            <button class="hp-btn heal" onclick="spendHitDice()" title="Spend one Hit Die during a Short Rest" id="hd-spend-btn"
+              style="font-size:0.7rem;width:auto;padding:0.2rem 0.5rem">Spend 1 HD</button>
+            <button class="hp-btn heal" onclick="rollMax()" title="Spend one HD and take max result (feat/spell)"
+              style="font-size:0.6rem;width:auto;padding:0.2rem 0.4rem;background:var(--accent2);color:var(--text);border:1px solid var(--border)">Max</button>
+          </div>
+          <div id="hd-result" style="display:none;font-size:0.78rem;padding:0.25rem 0.4rem;border-radius:6px;background:var(--bg);border:1px solid var(--border)"></div>
         </div>
-        <div class="combat-quick-item">
-          <div class="cq-label">Initiative</div>
-          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
-        </div>
-        <div class="combat-quick-item">
-          <div class="cq-label">Speed</div>
-          <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
-        </div>
-        <div class="combat-quick-item">
-          <div class="cq-label">Prof Bonus</div>
-          <div class="cq-value">+{{ prof }}</div>
-        </div>
-        <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
-          <div class="cq-label">Inspiration</div>
-          <div style="display:flex;justify-content:center;margin-top:0.1rem">
-            <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
+      </div>
+      <!-- Death Saves (collapsible) -->
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid var(--border);user-select:none" onclick="toggleDeathSaves()">
+        <span id="ds-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Death Saving Throws</span>
+      </div>
+      <div id="ds-body" style="display:none;margin-top:0.35rem">
+        <div style="display:flex;gap:1rem;margin-bottom:0.35rem">
+          <div>
+            <div style="font-size:0.68rem;color:var(--success);margin-bottom:0.15rem">Successes</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
+            {% endfor %}</div>
+          </div>
+          <div>
+            <div style="font-size:0.68rem;color:var(--danger);margin-bottom:0.15rem">Failures</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
+            {% endfor %}</div>
           </div>
         </div>
-        <div class="combat-quick-item">
-          <div class="cq-label">HP</div>
-          <div class="cq-value" id="sidebar-hp">{{ character.hp_current or character.hp_max }}</div>
-        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset</button>
       </div>
-      <!-- HP bar -->
-      <div class="sidebar-hp">
-        <div style="display:flex;justify-content:space-between;align-items:baseline">
-          <span class="hp-nums"><span id="hp-cur">{{ character.hp_current }}</span><span class="sep"> / {{ character.hp_max }}</span></span>
-          {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.75rem">+{{ character.temp_hp }} tmp</span>{% endif %}
-        </div>
-        <div class="hp-bar" style="margin-top:0.3rem">
-          <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar-side" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
-        </div>
-        <!-- HP adjust buttons -->
-        <div class="hp-controls">
-          <button class="hp-btn dmg" onclick="adjustHP(-1)">−</button>
-          <button class="hp-btn dmg" onclick="adjustHP(-5)">−5</button>
-          <button class="hp-btn heal" onclick="adjustHP(1)">+</button>
-          <button class="hp-btn heal" onclick="adjustHP(5)">+5</button>
+    </div>
+  </div>
+
+  <!-- Combat stats in a single line -->
+  <div class="top-combat">
+    <div class="combat-quick top-combat-grid">
+      <div class="combat-quick-item">
+        <div class="cq-label">AC</div>
+        <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
+      </div>
+      <div class="combat-quick-item">
+        <div class="cq-label">Initiative</div>
+        <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+      </div>
+      <div class="combat-quick-item">
+        <div class="cq-label">Speed</div>
+        <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
+      </div>
+      <div class="combat-quick-item">
+        <div class="cq-label">Prof Bonus</div>
+        <div class="cq-value">+{{ prof }}</div>
+      </div>
+      <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
+        <div class="cq-label">Inspiration</div>
+        <div style="display:flex;justify-content:center;margin-top:0.1rem">
+          <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Saving Throws -->
+  <!-- Rest buttons column -->
+  <div class="top-longrest">
+    <button onclick="longRestConfirm()" title="Take a long rest — full heal, recover Hit Dice, reset Death Saves"
+      style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
+      onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.1rem">🛌</span>
+      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Long Rest</span>
+    </button>
+    <button onclick="shortRestConfirm()" title="Take a short rest — spend Hit Dice to heal, reset short-rest features"
+      style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
+      onmouseover="this.style.borderColor='var(--success)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.1rem">☕</span>
+      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
+    </button>
+  </div>
+</div>
+
+<!-- Ability Scores + Senses row -->
+<div class="sheet-abilities-row">
+  <div class="abilities-grid top-abilities-grid">
+    {% set stats = [
+      ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
+      ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
+    ] %}
+    {% for label, stat in stats %}
+    {% set score = character[stat] %}
+    {% set mod = (score - 10) // 2 %}
+    <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
+      <div class="ab-name">{{ label }}</div>
+      <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
+      <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="senses-section">
+    <h4>Senses</h4>
+    {% set wis_mod = (character.wisdom - 10) // 2 %}
+    {% set int_mod = (character.intelligence - 10) // 2 %}
+    <div class="sense-row">
+      <span class="sense-label">Passive Perception</span>
+      <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
+    </div>
+    <div class="sense-row">
+      <span class="sense-label">Passive Investigation</span>
+      <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
+    </div>
+    <div class="sense-row">
+      <span class="sense-label">Passive Insight</span>
+      <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
+    </div>
+    {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
+    <div class="sense-row">
+      <span class="sense-label">Darkvision</span>
+      <span class="sense-val">60 ft</span>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Two-column layout for remaining content -->
+<div class="sheet-layout">
+<!-- ══════ LEFT SIDEBAR ══════ -->
+  <div class="sheet-sidebar">
+
     <div class="sidebar-section">
       <h4>Saving Throws</h4>
       {% for label, stat in stats %}
@@ -281,32 +399,6 @@
       {% endif %}
       {% if character.class_name == 'Barbarian' and character.level >= 2 %}
       <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
-      {% endif %}
-    </div>
-
-    <!-- Senses -->
-    <div class="sidebar-section">
-      <h4>Senses</h4>
-      {% set wis_mod = (character.wisdom - 10) // 2 %}
-      {% set int_mod = (character.intelligence - 10) // 2 %}
-      <div class="stat-row">
-        <span class="stat-name">Passive Perception</span>
-        <span class="stat-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">Passive Investigation</span>
-        <span class="stat-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">Passive Insight</span>
-        <span class="stat-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
-      </div>
-      <!-- Darkvision -->
-      {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
-      <div class="stat-row">
-        <span class="stat-name">Darkvision</span>
-        <span class="stat-val">60 ft</span>
-      </div>
       {% endif %}
     </div>
 
@@ -421,31 +513,6 @@
       </div>
     </div>
 
-    <!-- Death Saves (collapsible) -->
-    <div class="sidebar-section">
-      <h4 style="cursor:pointer" onclick="document.getElementById('ds-body').classList.toggle('hidden')">Death Saves ▾</h4>
-      <div id="ds-body">
-        <div style="display:flex;gap:1rem;margin-bottom:0.4rem">
-          <div>
-            <div style="font-size:0.7rem;color:var(--success);margin-bottom:0.2rem">Successes</div>
-            <div class="ds-box">{% for i in range(3) %}
-              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
-            {% endfor %}</div>
-          </div>
-          <div>
-            <div style="font-size:0.7rem;color:var(--danger);margin-bottom:0.2rem">Failures</div>
-            <div class="ds-box">{% for i in range(3) %}
-              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
-            {% endfor %}</div>
-          </div>
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset</button>
-        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem">
-          Hit Dice: {{ character.hit_dice }} · Used: {{ character.hit_dice_used or 0 }} · Exhaustion: {{ character.exhaustion or 0 }}
-        </div>
-      </div>
-    </div>
-
     <!-- Hidden inspiration toggle -->
     <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
   </div>
@@ -506,7 +573,7 @@
         <h3 style="margin-bottom:0.5rem">Actions in Combat</h3>
         <div class="action-grid">
           {% for a in ["Attack","Dash","Disengage","Dodge","Grapple","Help","Hide","Improvise","Ready","Search","Shove","Study","Utilize"] %}
-          <div class="action-chip">{{ a }}</div>
+          <div class="action-chip" onclick="showActionDetail('{{ a }}')">{{ a }}</div>
           {% endfor %}
         </div>
       </div>
@@ -533,16 +600,38 @@
     <!-- ✨ FEATURES TAB -->
     <div class="tab-content" id="tab-features">
       {% if character.feature_data %}
-      {% for feat in character.feature_data %}
-      <div class="feat-card" data-feat-index="{{ loop.index0 }}">
-        <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-          <span><span class="feat-level">L{{ feat.level }}</span>{{ feat.name }}</span>
-          <span style="display:flex;align-items:center;gap:0.5rem">
-            <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ loop.index0 }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
-            <span class="arrow">▶</span>
-          </span>
+      {% set grouped = character.feature_data|groupby("level") %}
+      {% set ns = namespace(feat_idx=0) %}
+      {% for level_group in grouped %}
+      <div style="margin-bottom:0.5rem">
+        <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem">{{ level_group.grouper }}</h4>
+        {% for feat in level_group.list %}
+        <div class="feat-card" data-feat-index="{{ ns.feat_idx }}">
+          <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+              {% if feat.recharge == "short" %}
+              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
+              {% elif feat.recharge == "long" %}
+              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
+              {% endif %}
+            </span>
+            <span style="display:flex;align-items:center;gap:0.5rem">
+              {% if feat.uses_max is defined and feat.uses_max > 0 %}
+              <span class="feat-uses-box" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-family:monospace" id="feat-uses-box-{{ ns.feat_idx }}">
+                {% for i in range(feat.uses_max) %}
+                <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ ns.feat_idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ ns.feat_idx }}, {{ i }})" title="{% if i < feat.uses %}Used — click to restore{% else %}Available — click to expend{% endif %}"></span>
+                {% endfor %}
+              </span>
+              <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ ns.feat_idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
+              {% endif %}
+              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ ns.feat_idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+              <span class="arrow">▶</span>
+            </span>
+          </div>
+          <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
         </div>
-        <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
+        {% set ns.feat_idx = ns.feat_idx + 1 %}
+        {% endfor %}
       </div>
       {% endfor %}
       {% else %}
@@ -552,11 +641,59 @@
 
     <!-- 🔮 SPELLS TAB -->
     <div class="tab-content" id="tab-spells">
-      {% if character.spell_slot_data and character.spell_slot_data.slots %}
+      {% if caster_type != "none" %}
+      <!-- Caster Info Header -->
+      <div class="card" style="margin-bottom:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
+          <h3 style="margin:0">Spellcasting</h3>
+          <span class="badge badge-muted" style="font-size:0.7rem">
+            {{ caster_type|capitalize }} Caster
+            {% if caster_type == "full" %}(9 levels){% elif caster_type == "half" %}(5 levels){% elif caster_type == "pact" %}(Pact Magic){% endif %}
+          </span>
+        </div>
+        {% if caster_type == "pact" and character.spell_slot_data.note %}
+        <p style="font-size:0.85rem;color:var(--accent);margin:0.25rem 0 0.5rem 0">{{ character.spell_slot_data.note }}</p>
+        {% endif %}
+        {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") and prepared_max > 0 %}
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
+          Prepared Spells: <span id="prepared-count">{{ spells|selectattr("prepared")|list|length }}</span> / {{ prepared_max }}
+          <span style="font-size:0.72rem;margin-left:0.3rem">
+            (max = level {{ character.level }} + {{ sc_mod|string }} modifier)
+          </span>
+        </div>
+        {% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") and spells_known_max > 0 %}
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
+          Spells Known: <span id="spells-known-count">{{ spells|selectattr("spell_level","gt",0)|list|length }}</span> / {{ spells_known_max }}
+        </div>
+        {% endif %}
+        {% if cantrips_max > 0 %}
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.15rem">
+          Cantrips Known: <span id="cantrips-known-count">{{ spells|selectattr("spell_level","eq",0)|list|length }}</span> / {{ cantrips_max }}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Spell Slots -->
+      {% if character.spell_slot_data and (character.spell_slot_data.slots or character.spell_slot_data.by_level) %}
       <div class="card" style="margin-bottom:0.75rem">
         <h3 style="margin-bottom:0.5rem">Spell Slots</h3>
-        {% if character.spell_slot_data.note %}
-        <p style="font-size:0.85rem;color:var(--accent);margin-bottom:0.5rem">{{ character.spell_slot_data.note }}</p>
+        {% if caster_type == "pact" %}
+          {% if character.spell_slot_data.slot_level and character.spell_slot_data.slots %}
+          {% set lvl = character.spell_slot_data.slot_level %}
+          {% set slots = character.spell_slot_data.slots %}
+          {% set used_count = character.spell_slots_used.get("1", 0) or character.spell_slots_used.get(1, 0) %}
+          {% if character.spell_slot_data.note %}
+          <p style="font-size:0.85rem;color:var(--accent);margin-bottom:0.5rem">{{ character.spell_slot_data.note }}</p>
+          {% endif %}
+          <div class="slot-level">
+            <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
+            <div class="slot-tracker" id="slots-lvl-1">
+              {% for i in range(slots) %}
+              <div class="slot-box{% if i < used_count %} used{% endif %}" onclick="toggleSpellSlot(1,{{ i+1 }},{{ slots }})"></div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
         {% elif character.spell_slot_data.by_level %}
         {% for lvl in range(1, 10) %}
         {% set slots = character.spell_slot_data.by_level.get(lvl|string, 0) or character.spell_slot_data.by_level.get(lvl, 0) %}
@@ -565,7 +702,8 @@
           <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
           <div class="slot-tracker" id="slots-lvl-{{ lvl }}">
             {% for i in range(slots) %}
-            <div class="slot-box" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
+            {% set used_count = character.spell_slots_used.get(lvl|string, 0) or character.spell_slots_used.get(lvl, 0) %}
+            <div class="slot-box{% if i < used_count %} used{% endif %}" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
             {% endfor %}
           </div>
         </div>
@@ -575,18 +713,33 @@
       </div>
       {% endif %}
 
+      <!-- Known / Prepared Spells List -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-          <h3 style="margin:0">Spells</h3>
+          <h3 style="margin:0">
+            {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}Prepared Spells{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
+          </h3>
           <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
         </div>
         {% if spells %}
+        {% set use_prepared = character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
         {% for sp in spells %}
-        <div class="spell-row">
-          <div>
-            <strong>{{ sp.spell_name }}</strong>
-            <span class="badge badge-muted" style="margin-left:0.5rem">Lv{{ sp.spell_level }}</span>
-            {% if sp.prepared %}<span style="color:var(--success);font-size:0.75rem;margin-left:0.3rem">prepared</span>{% endif %}
+        <div class="spell-row" id="spell-row-{{ sp.id }}">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:0.3rem">
+              {% if use_prepared %}
+              <input type="checkbox" id="prep-{{ sp.id }}" onchange="togglePrepared({{ sp.id }}, this)"
+                {% if sp.prepared %}checked{% endif %} style="cursor:pointer"
+                {% if sp.spell_level == 0 %}disabled checked title="Cantrips are always prepared"{% endif %}>
+              {% endif %}
+              <strong>{{ sp.spell_name }}</strong>
+              <span class="badge badge-muted" style="margin-left:0.3rem">
+                {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
+              </span>
+              {% if use_prepared and sp.prepared and sp.spell_level > 0 %}
+              <span style="color:var(--success);font-size:0.7rem">✓ prepared</span>
+              {% endif %}
+            </div>
           </div>
           {% if sp.slots_max > 0 %}
           <div class="slot-tracker" id="sp-slots-{{ sp.id }}">
@@ -601,27 +754,69 @@
         <p style="color:var(--text-muted);font-size:0.85rem">No spells added. Use the build planner or add manually.</p>
         {% endif %}
       </div>
-    </div>
+      {% else %}
+      <!-- Non-caster display -->
+      <div class="card">
+        <h3 style="margin-bottom:0.5rem">🔮 Spellcasting</h3>
+        <p style="color:var(--text-muted);font-size:0.85rem">
+          {% if character.class_name in ("Barbarian","Fighter","Monk","Rogue") %}
+          This class does not have innate spellcasting ability.
+          {% if character.class_name == "Fighter" %}
+          The Eldritch Knight subclass grants arcane magic at level 3.
+          {% elif character.class_name == "Rogue" %}
+          The Arcane Trickster subclass grants arcane magic at level 3.
+          {% elif character.class_name == "Monk" %}
+          The Way of Shadow and Way of the Four Elements grant ki-fueled spell-like abilities.
+          {% endif %}
+          {% else %}
+          This character has no spellcasting ability.
+          {% endif %}
+        </p>
+        {% if spells %}
+        <div style="margin-top:0.5rem">
+          <h4 style="font-size:0.8rem;margin-bottom:0.3rem">Added Spells</h4>
+          {% for sp in spells %}
+          <div class="spell-row">
+            <strong>{{ sp.spell_name }}</strong>
+            <span class="badge badge-muted" style="margin-left:0.5rem">
+              {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
+            </span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
 
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">Equipment</h3>
-          <div style="display:flex;gap:0.3rem" class="edit-only">
-            <button class="btn btn-outline btn-sm" onclick="addInventoryItem()">+ Add</button>
-            <button class="btn btn-primary btn-sm" onclick="saveInventory()">💾 Save</button>
+          <div style="display:flex;gap:0.3rem;align-items:center">
+            <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
           </div>
+        </div>
+        <!-- Item Search Bar (hidden by default) -->
+        <div id="item-search-bar" style="display:none;position:relative;margin-bottom:0.5rem">
+          <input type="text" id="item-search-input" placeholder="Search 600+ items..." 
+            style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none"
+            oninput="searchItems(this.value)" onkeydown="handleSearchKey(event)"
+            onblur="setTimeout(() => document.getElementById('item-search-results').style.display='none', 200)">
+          <div id="item-search-results" style="display:none;position:absolute;top:100%;left:0;right:0;max-height:220px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:0 0 6px 6px;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,0.4)"></div>
         </div>
         {% if character.inventory %}
         <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem">
           {% for item in character.inventory %}
           <li class="inv-item" style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
             <span style="display:flex;align-items:center;flex:1;min-width:0">
-              <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="saveInventory();tagWeapons()">
+              <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0 0.25rem;margin-left:0;line-height:1" title="Item Info">ℹ️</button>
               <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
+              <span class="arm-badge" style="display:none">🛡️ Armor</span>
             </span>
-            <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+            <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+            <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
             <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>
           </li>
           {% endfor %}
@@ -632,14 +827,21 @@
         {% endif %}
       </div>
 
-      {% if character.equipped %}
-      <div class="card" style="margin-top:0.75rem">
+      <div class="card" style="margin-top:0.75rem" id="equipped-section">
         <h3 style="margin-bottom:0.5rem">Equipped</h3>
-        <ul style="list-style:none;padding:0;font-size:0.9rem">{% for item in character.equipped %}
-          <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05)">{{ item }}</li>
-        {% endfor %}</ul>
+        <ul id="equipped-list" style="list-style:none;padding:0;font-size:0.9rem">
+          {% if character.equipped %}
+          {% for item in character.equipped %}
+          <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
+            <span>{{ item }}</span>
+            <button class="btn btn-outline btn-sm" onclick="unequipItem('{{ item }}')" style="font-size:0.65rem;padding:0.1rem 0.35rem">✕</button>
+          </li>
+          {% endfor %}
+          {% else %}
+          <li style="color:var(--text-muted);font-size:0.85rem;padding:0.3rem 0">Nothing equipped</li>
+          {% endif %}
+        </ul>
       </div>
-      {% endif %}
 
       <div class="card" style="margin-top:0.75rem">
         <h3 style="margin-bottom:0.5rem">Notes</h3>
@@ -722,6 +924,12 @@
 <script>
 const CHAR_ID = {{ character.id }};
 const HP_MAX = {{ character.hp_max }};
+const HD_TOTAL = {{ character.hit_dice|int }};
+const HD_DIE = {{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else 8 }};
+const HD_USED = {{ character.hit_dice_used|default(0)|int }};
+const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
+const PREPARED_MAX = {{ prepared_max }};
+const CASTER_TYPE = '{{ caster_type }}';
 
 function api(path, data) {
   return fetch('/api/character/' + CHAR_ID + path, {
@@ -741,26 +949,414 @@ const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
 if (savedTab) switchTab(savedTab);
 
 // ── HP (updates both sidebar mini and bar) ──
-async function adjustHP(delta) {
+async function applyHP(sign) {
+  const deltaEl = document.getElementById('hp-delta');
+  const raw = parseInt(deltaEl.value) || 1;
+  const delta = sign === -1 ? -raw : raw;
   const curEl = document.getElementById('hp-cur');
-  const sidebarEl = document.getElementById('sidebar-hp');
-  let hp = parseInt(curEl.textContent);
-  hp = Math.max(0, Math.min(HP_MAX, hp + delta));
+  let hp = parseInt(curEl.textContent) + delta;
+  // Can go above max, but floor at 0
+  hp = Math.max(0, hp);
   curEl.textContent = hp;
-  sidebarEl.textContent = hp;
-  const pct = hp / HP_MAX * 100;
+  const pct = Math.min(hp, HP_MAX) / HP_MAX * 100;
   ['hp-bar-side'].forEach(id => {
     const bar = document.getElementById(id);
     if (bar) {
       bar.style.width = pct + '%';
-      bar.classList.toggle('danger', pct < 25);
-      bar.classList.toggle('warn', pct >= 25 && pct < 50);
+      bar.classList.toggle('danger', hp > 0 && pct < 25);
+      bar.classList.toggle('warn', hp > 0 && pct >= 25 && pct < 50);
+    }
+  });
+  // Auto-expand death saves when HP hits 0
+  if (hp === 0) {
+    const dsBody = document.getElementById('ds-body');
+    if (dsBody) {
+      dsBody.style.display = 'block';
+      document.getElementById('ds-toggle').textContent = '▾';
+    }
+  }
+  await api('/update', { hp_current: hp });
+}
+
+async function resetHP() {
+  const curEl = document.getElementById('hp-cur');
+  const hp = HP_MAX;
+  curEl.textContent = hp;
+  ['hp-bar-side'].forEach(id => {
+    const bar = document.getElementById(id);
+    if (bar) {
+      bar.style.width = '100%';
+      bar.classList.remove('danger', 'warn');
     }
   });
   await api('/update', { hp_current: hp });
 }
 
 // ── Death Saves ──
+function toggleDeathSaves() {
+  const body = document.getElementById('ds-body');
+  const toggle = document.getElementById('ds-toggle');
+  if (!body || !toggle) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  toggle.textContent = open ? '▸' : '▾';
+}
+
+// ── Hit Dice ──
+function toggleHitDice() {
+  const body = document.getElementById('hd-body');
+  const toggle = document.getElementById('hd-toggle');
+  if (!body || !toggle) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  toggle.textContent = open ? '▸' : '▾';
+}
+
+let hdUsed = HD_USED;
+
+function showHDResult(msg, isGood) {
+  const el = document.getElementById('hd-result');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.borderColor = isGood ? 'var(--success)' : 'var(--text-muted)';
+}
+
+async function spendHitDice() {
+  const remaining = HD_TOTAL - hdUsed;
+  if (remaining <= 0) {
+    showHDResult('No Hit Dice remaining. Take a Long Rest to recover some.', false);
+    return;
+  }
+  const roll = Math.floor(Math.random() * HD_DIE) + 1;
+  const heal = roll + CON_MOD;
+  const gain = Math.max(0, heal);
+
+  // Update HP
+  const curEl = document.getElementById('hp-cur');
+  const hp = Math.min(parseInt(curEl.textContent) + gain, HP_MAX);
+  curEl.textContent = hp;
+
+  // Update HP bar
+  const pct = HP_MAX > 0 ? (hp / HP_MAX * 100) : 0;
+  const bar = document.getElementById('hp-bar-side');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.classList.toggle('danger', hp > 0 && pct < 25);
+    bar.classList.toggle('warn', hp > 0 && pct >= 25 && pct < 50);
+  }
+
+  // Increment used counter
+  hdUsed++;
+  const remainEl = document.getElementById('hd-remaining');
+  if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
+
+  // API call
+  await api('/update', { hp_current: hp, hit_dice_used: hdUsed });
+
+  showHDResult(`Rolled ${roll} on d${HD_DIE} + ${CON_MOD} = ${heal} HP regained (${remaining - 1} HD remaining)`, true);
+}
+
+async function rollMax() {
+  const remaining = HD_TOTAL - hdUsed;
+  if (remaining <= 0) {
+    showHDResult('No Hit Dice remaining.', false);
+    return;
+  }
+  const heal = HD_DIE + CON_MOD;
+  const gain = Math.max(0, heal);
+
+  const curEl = document.getElementById('hp-cur');
+  const hp = Math.min(parseInt(curEl.textContent) + gain, HP_MAX);
+  curEl.textContent = hp;
+
+  const pct = HP_MAX > 0 ? (hp / HP_MAX * 100) : 0;
+  const bar = document.getElementById('hp-bar-side');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.classList.toggle('danger', hp > 0 && pct < 25);
+    bar.classList.toggle('warn', hp > 0 && pct >= 25 && pct < 50);
+  }
+
+  hdUsed++;
+  const remainEl = document.getElementById('hd-remaining');
+  if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
+
+  await api('/update', { hp_current: hp, hit_dice_used: hdUsed });
+
+  showHDResult(`Max roll on d${HD_DIE} + ${CON_MOD} = ${heal} HP regained (${remaining - 1} HD remaining)`, true);
+}
+
+function longRestConfirm() {
+  // Show modal overlay
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+  const modal = document.createElement('div');
+  modal.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;max-width:400px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+
+  const recover = Math.max(1, Math.floor(HD_TOTAL / 2));
+  const curHp = parseInt(document.getElementById('hp-cur').textContent);
+  const hpRestore = HP_MAX - curHp;
+
+  modal.innerHTML = `
+    <div style="font-size:1.2rem;font-weight:700;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem">
+      <span>🛌</span> Long Rest
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">
+      <div style="margin-bottom:0.3rem">• Restore <strong style="color:var(--success)">${hpRestore} HP</strong> (full heal)</div>
+      <div style="margin-bottom:0.3rem">• Recover up to <strong style="color:var(--accent)">${recover}</strong> Hit Dice</div>
+      <div style="margin-bottom:0.3rem">• Reset <strong style="color:var(--danger)">Death Saves</strong> (successes & failures)</div>
+      <div style="margin-bottom:0.3rem">• Reset <strong style="color:var(--accent)">Spell Slots</strong> (all levels)</div>
+      <div style="margin-bottom:0.3rem">• Restore <strong>Class Features</strong> (Channel Divinity, Rage, etc.)</div>
+      <div style="margin-bottom:0.3rem">• Reduce <strong>Exhaustion</strong> by 1</div>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);opacity:0.7">This action cannot be undone.</div>
+    </div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+      <button id="lr-cancel" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Cancel</button>
+      <button id="lr-confirm" style="padding:0.4rem 1rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600">Long Rest</button>
+    </div>
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  document.getElementById('lr-cancel').onclick = () => overlay.remove();
+  document.getElementById('lr-confirm').onclick = () => {
+    overlay.remove();
+    executeLongRest();
+  };
+}
+
+async function executeLongRest() {
+  // 1. Restore HP to max
+  const hp = HP_MAX;
+  const curEl = document.getElementById('hp-cur');
+  curEl.textContent = hp;
+  const pct = HP_MAX > 0 ? 100 : 0;
+  const bar = document.getElementById('hp-bar-side');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.classList.remove('danger', 'warn');
+  }
+
+  // 2. Recover up to half total Hit Dice
+  const recover = Math.max(1, Math.floor(HD_TOTAL / 2));
+  const newUsed = Math.max(0, hdUsed - recover);
+  const recovered = hdUsed - newUsed;
+
+  hdUsed = newUsed;
+  const remainEl = document.getElementById('hd-remaining');
+  if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
+
+  // 3. Reset death saves
+  const dsSuccessDots = document.querySelectorAll('#ds-body .ds-dot.filled-success');
+  const dsFailDots = document.querySelectorAll('#ds-body .ds-dot.filled-fail');
+  dsSuccessDots.forEach(d => d.classList.remove('filled-success'));
+  dsFailDots.forEach(d => d.classList.remove('filled-fail'));
+
+  // 4. Reset spell slots — clear all level-based and per-spell used dots
+  document.querySelectorAll('.slot-box.used').forEach(d => d.classList.remove('used'));
+
+  // Reset per-spell slots_used in DB — collect all spell IDs and reset to 0
+  const spellSlotElements = document.querySelectorAll('[id^="sp-slots-"]');
+  const spellResets = [];
+  spellSlotElements.forEach(el => {
+    const id = el.id.replace('sp-slots-', '');
+    if (id) spellResets.push({ id: parseInt(id), slots_used: 0 });
+  });
+
+  // 5. Reset limited-use class features (Channel Divinity, Rage, etc.)
+  resetAllFeatureUses();
+
+  // 6. Reduce exhaustion by 1 (floor at 0) — also in DB
+  const exhaustionEl = document.querySelector('#hd-body [style*="font-size:0.78rem"]');
+  // We track it in the DB update below
+
+  // API: update HP, hit_dice_used, death saves reset, spell slots, exhaustion
+  await api('/update', {
+    hp_current: hp,
+    hit_dice_used: hdUsed,
+    death_saves_success: 0,
+    death_saves_fail: 0,
+    spell_slots_used: {},
+    spells: spellResets
+  });
+
+  // Save reset feature uses to DB separately
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+
+  // Show result notification
+  const hdResult = document.getElementById('hd-result');
+  if (hdResult) {
+    const lines = [];
+    lines.push(`Restored ${HP_MAX} HP`);
+    if (recovered > 0) lines.push(`Recovered ${recovered} Hit Dice`);
+    lines.push('Reset Death Saves, Spell Slots, Class Features');
+    hdResult.textContent = 'Long Rest complete — ' + lines.join(', ');
+    hdResult.style.display = 'block';
+    hdResult.style.borderColor = 'var(--success)';
+    hdResult.style.background = 'rgba(0,200,83,0.05)';
+  }
+}
+
+// ── Short Rest ──
+let _srRolls = [];  // module-level roll storage
+
+function shortRestConfirm() {
+  const curHp = parseInt(document.getElementById('hp-cur').textContent);
+  const hpMissing = HP_MAX - curHp;
+  const available = HD_TOTAL - hdUsed;
+  _srRolls = [];
+  let diceToSpend = Math.min(available, Math.max(0, Math.ceil(hpMissing / (HD_DIE / 2 + 2))));
+  if (diceToSpend < 0) diceToSpend = 0;
+
+  if (available <= 0 && hpMissing <= 0) {
+    doShortRest(0, []);
+    return;
+  }
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+  const modal = document.createElement('div');
+  modal.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+
+  function render() {
+    const canSpend = Math.min(available, Math.max(0, diceToSpend));
+    let totalHeal = 0;
+    const rollDetails = _srRolls.map((r) => {
+      const hv = r + Math.max(0, CON_MOD);
+      totalHeal += hv;
+      return `<span style="color:var(--success)">d${HD_DIE}: ${r} + ${Math.max(0, CON_MOD)} = ${hv}</span>`;
+    }).join(', ');
+
+    const finalHp = Math.min(HP_MAX, curHp + totalHeal);
+    const actualHeal = finalHp - curHp;
+
+    modal.innerHTML = `
+      <div style="font-size:1.2rem;font-weight:700;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem">
+        <span>☕</span> Short Rest
+      </div>
+      <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem">
+        <div style="margin-bottom:0.4rem;display:flex;justify-content:space-between;align-items:center">
+          <span>Spend Hit Dice:</span>
+          <div style="display:flex;gap:0.3rem;align-items:center">
+            <button class="sr-adjust" data-delta="-1" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-weight:700;font-size:1rem">−</button>
+            <span style="font-weight:700;font-size:1.1rem;color:var(--text);min-width:2rem;text-align:center">${canSpend}</span>
+            <button class="sr-adjust" data-delta="+1" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-weight:700;font-size:1rem">+</button>
+            <button class="sr-max" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.65rem">Max</button>
+          </div>
+        </div>
+        <div style="margin-bottom:0.4rem;font-size:0.75rem">
+          Available: <strong style="color:var(--text)">${available}</strong> d${HD_DIE} · Con mod: <strong style="color:var(--text)">+${Math.max(0, CON_MOD)}</strong>
+        </div>
+        ${_srRolls.length > 0 ? `
+          <div style="margin-bottom:0.4rem;padding:0.35rem;background:var(--bg);border-radius:6px;border:1px solid var(--border);font-size:0.78rem;line-height:1.6">
+            <div style="color:var(--text-muted);font-size:0.65rem;margin-bottom:0.15rem">Roll results:</div>
+            ${rollDetails}
+            <div style="margin-top:0.3rem;border-top:1px solid var(--border);padding-top:0.3rem;font-weight:600">
+              Total heal: <strong style="color:var(--success)">+${actualHeal} HP</strong>
+              <span style="color:var(--text-muted);font-weight:400"> (${curHp} → ${finalHp})</span>
+            </div>
+          </div>
+        ` : ''}
+        <div style="margin-top:0.4rem;display:flex;gap:0.25rem;">
+          ${canSpend > 0 ? `<button id="sr-roll-btn" style="padding:0.3rem 0.8rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;font-size:0.8rem">🎲 Roll ${canSpend} HD</button>` : ''}
+          <button id="sr-skip-btn" style="padding:0.3rem 0.8rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.8rem">Skip Rolls</button>
+        </div>
+      </div>
+      <div style="margin-bottom:0.5rem;font-size:0.75rem;color:var(--text-muted);opacity:0.7">
+        • Short rest: at least 1 hour of downtime<br>
+        • Reset features &amp; spell slots (Channel Divinity, Action Surge, Ki, Pact Magic, etc.)
+      </div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+        <button id="sr-cancel-btn" style="padding:0.4rem 1rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer">Cancel</button>
+        <button id="sr-confirm-btn" style="padding:0.4rem 1rem;border-radius:6px;border:none;background:var(--success);color:#fff;cursor:pointer;font-weight:600">Take Short Rest</button>
+      </div>
+    `;
+
+    // Wire event listeners
+    modal.querySelectorAll('.sr-adjust').forEach(btn => {
+      btn.onclick = () => {
+        diceToSpend = Math.max(0, Math.min(available, diceToSpend + parseInt(btn.dataset.delta)));
+        render();
+      };
+    });
+    modal.querySelector('.sr-max').onclick = () => { diceToSpend = available; render(); };
+    const rollBtn = modal.querySelector('#sr-roll-btn');
+    if (rollBtn) rollBtn.onclick = () => {
+      const n = Math.min(available, Math.max(0, diceToSpend));
+      for (let i = 0; i < n; i++) {
+        _srRolls.push(Math.floor(Math.random() * HD_DIE) + 1);
+      }
+      diceToSpend = 0;
+      render();
+    };
+    modal.querySelector('#sr-skip-btn').onclick = () => { overlay.remove(); doShortRest(0, _srRolls); };
+    modal.querySelector('#sr-cancel-btn').onclick = () => overlay.remove();
+    modal.querySelector('#sr-confirm-btn').onclick = () => {
+      const healAmt = _srRolls.reduce((s, r) => s + r + Math.max(0, CON_MOD), 0);
+      overlay.remove();
+      doShortRest(healAmt, _srRolls);
+    };
+  }
+
+  render();
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+async function doShortRest(healed, rolls) {
+  const curHp = parseInt(document.getElementById('hp-cur').textContent);
+  const newHp = Math.min(HP_MAX, curHp + healed);
+  const diceUsed = rolls ? rolls.length : 0;
+
+  // Apply HP
+  const curEl = document.getElementById('hp-cur');
+  curEl.textContent = newHp;
+  const pct = HP_MAX > 0 ? (newHp / HP_MAX * 100) : 0;
+  const bar = document.getElementById('hp-bar-side');
+  if (bar) {
+    bar.style.width = pct + '%';
+    bar.classList.toggle('danger', newHp > 0 && pct < 25);
+    bar.classList.toggle('warn', newHp > 0 && pct >= 25 && pct < 50);
+  }
+
+  // Update Hit Dice used
+  if (diceUsed > 0) {
+    hdUsed += diceUsed;
+    const remainEl = document.getElementById('hd-remaining');
+    if (remainEl) remainEl.textContent = HD_TOTAL - hdUsed;
+  }
+
+  // Reset short-rest features (Channel Divinity, Action Surge, Ki, etc.)
+  resetShortRestFeatures();
+
+  // Reset all expended spell slots too (handles Warlock Pact Magic, also harmless for regular casters who won't click SR without needing it)
+  document.querySelectorAll('.slot-box.used').forEach(d => d.classList.remove('used'));
+  const ssu = {};  // empty used slots
+
+  // API: save HP, hit_dice_used, and feature_data
+  await api('/update', { hp_current: newHp, hit_dice_used: hdUsed, spell_slots_used: {} });
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+
+  // Show result
+  const hdResult = document.getElementById('hd-result');
+  if (hdResult) {
+    const parts = [];
+    if (healed > 0) parts.push(`Regained ${healed} HP (${diceUsed} HD spent)`);
+    if (diceUsed > 0) parts.push(`${diceUsed} HD used`);
+    parts.push('Features reset');
+    hdResult.textContent = 'Short Rest — ' + parts.join(', ');
+    hdResult.style.display = 'block';
+    hdResult.style.borderColor = 'var(--success)';
+    hdResult.style.background = 'rgba(0,200,83,0.05)';
+  }
+}
+
 async function toggleDS(type, n) {
   await api('/update', { death_saves_success: type==='success' ? n : 0, death_saves_fail: type==='fail' ? n : 0 });
   location.reload();
@@ -811,6 +1407,43 @@ async function addSpell() {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
   });
   if (r.ok) location.reload();
+}
+
+// ── Toggle Prepared Spell ──
+async function togglePrepared(spellId, checkbox) {
+  const prepared = checkbox.checked;
+  const r = await fetch('/api/character/' + CHAR_ID + '/toggle-prepared', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id: spellId, prepared: prepared })
+  });
+  if (r.ok) {
+    // Update the prepared label and counter
+    const row = document.getElementById('spell-row-' + spellId);
+    const label = row ? row.querySelector('.badge-success, [style*=\"color:var(--success)\"]') : null;
+    if (label) {
+      label.style.display = prepared ? 'inline' : 'none';
+    } else if (prepared && row) {
+      const nameDiv = row.querySelector('strong');
+      if (nameDiv) {
+        const prepSpan = document.createElement('span');
+        prepSpan.style.cssText = 'color:var(--success);font-size:0.7rem';
+        prepSpan.textContent = ' ✓ prepared';
+        nameDiv.parentNode.insertBefore(prepSpan, nameDiv.nextSibling);
+      }
+    }
+    // Update prepared count
+    const countEl = document.getElementById('prepared-count');
+    if (countEl) {
+      if (prepared) {
+        countEl.textContent = parseInt(countEl.textContent) + 1;
+      } else {
+        countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+      }
+      // Enforce limit — highlight in red if exceeded
+      const current = parseInt(countEl.textContent);
+      countEl.style.color = current > PREPARED_MAX ? 'var(--danger)' : 'var(--text-muted)';
+    }
+  }
 }
 
 // ── Notes ──
@@ -957,6 +1590,9 @@ const DESCRIPTIONS = {
   bg: {{ bg_info|tojson }}
 };
 
+const ARMOR_NAMES = {{ armor_names|tojson }};  // from Campaign Expert equipment_data
+
+// ── Action Detail Popup ──
 function showDetail() {
   if (document.body.classList.contains('edit-mode')) return;
   const popup = document.getElementById('detail-popup');
@@ -1016,6 +1652,56 @@ function showDetail() {
 
   body.innerHTML = html;
   popup.style.display = 'flex';
+}
+
+// ── Action Detail Popup ──
+const ACTION_DESCRIPTIONS = {
+  "Attack": "Make one melee or ranged attack. Certain features, such as Extra Attack, allow multiple attacks as part of this action. You can also substitute a grapple or shove for one of your attacks if you have the Extra Attack feature. (PHB p.192, 195)",
+  "Dash": "Gain extra movement equal to your speed (after applying any modifiers) for the current turn. If you have a speed of 30 feet, you can move up to 60 feet on your turn when you Dash. (PHB p.192)",
+  "Disengage": "Your movement does not provoke opportunity attacks for the rest of the turn. Use this to safely retreat from melee or reposition without drawing attacks. (PHB p.192)",
+  "Dodge": "Until the start of your next turn, any attack roll made against you has disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage. You lose this benefit if you are incapacitated or your speed drops to 0. (PHB p.192)",
+  "Grapple": "Attempt to grab a creature. Make a Strength (Athletics) check contested by the target's Strength (Athletics) or Dexterity (Acrobatics). You must have at least one free hand, and the target must be no more than one size larger than you. On success, the target is grappled (speed becomes 0). You can release the grapple at any time (no action). (PHB p.195)",
+  "Help": "Aid another creature with a task or in attacking an enemy. The target gains advantage on the next ability check it makes to perform the task you are helping with. Alternatively, you can aid a friendly creature in attacking a creature within 5 feet of you — the ally's first attack roll against that creature before your next turn has advantage. (PHB p.192)",
+  "Hide": "Make a Dexterity (Stealth) check to become hidden. You can't hide from a creature that can see you clearly, and you give away your position if you make noise or approach. While hidden, you have advantage on attack rolls against creatures that can't see you, and they have disadvantage on attacks against you. (PHB p.192, 194-195)",
+  "Improvise": "Attempt any action not covered by the other standard options. Describe what you want to do, and the DM decides whether it's possible and what kind of ability check (if any) is required. Examples: intimidate an enemy, block a doorway, swing from a chandelier. (PHB p.193)",
+  "Ready": "Choose a trigger you can perceive and a response action you will take when the trigger occurs. When the trigger happens, you can use your reaction to perform the readied action right after the trigger finishes, or you can ignore the trigger. If you Ready a spell, you must cast it as normal (expending the slot) and hold its energy using concentration — if your concentration is broken, the spell dissipates without effect. (PHB p.193)",
+  "Search": "Devote your attention to finding something. The DM might call for a Wisdom (Perception) check to spot a hidden creature or object, or an Intelligence (Investigation) check to deduce clues from examining an area. (PHB p.193)",
+  "Shove": "Attempt to push a creature 5 feet away from you or knock it prone. Make a Strength (Athletics) check contested by the target's Strength (Athletics) or Dexterity (Acrobatics). The target must be no more than one size larger than you. You have disadvantage if the target is two or more sizes larger. (PHB p.195)",
+  "Study": "Deduce information or recall lore about a creature, object, or phenomenon. Make an Intelligence check appropriate to the knowledge area: Arcana (magic, planes), History (past events, wars), Nature (terrain, beasts), or Religion (deities, holy rites). The DM sets the DC based on how obscure the knowledge is. (2024 PHB — Action)",
+  "Utilize": "Use a nonmagical object or interact with the environment in a way that requires your action. Examples: drink a potion, pull a lever, open a stuck door, light a torch, or activate a magic item that requires an action. Simple object interactions (drawing a weapon, opening an unlocked door) can typically be done for free once per turn as part of your move or action. (2024 PHB — Utilize Action)"
+};
+
+function showActionDetail(action) {
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+  const desc = ACTION_DESCRIPTIONS[action] || 'No description available.';
+  title.textContent = action;
+  body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
+  popup.style.display = 'flex';
+}
+
+// ── Item Info Popup ──
+async function showItemInfo(name) {
+  if (!name || !name.trim()) return;
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+  
+  title.textContent = name;
+  body.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Loading...</p>';
+  popup.style.display = 'flex';
+  
+  try {
+    const resp = await fetch(`/api/items/describe?name=${encodeURIComponent(name.trim())}`);
+    const data = await resp.json();
+    title.textContent = data.name || name;
+    const typeTag = data.type ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem">${data.type}</span>` : '';
+    body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted)">${typeTag}</div>`;
+  } catch(e) {
+    body.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Unable to load description.</p>';
+  }
 }
 
 // ── Edit Mode Toggle ──
@@ -1144,6 +1830,57 @@ function cancelFeature(idx) {
   card.querySelector('.feat-body').textContent = feat.description || 'No description available.';
 }
 
+// ── Limited-Use Features (Channel Divinity, Rage, etc.) — toggle dots ──
+async function toggleFeatureUse(idx, dotIdx) {
+  const feat = featureData[idx];
+  if (!feat || !feat.uses_max) return;
+  // dotIdx < feat.uses means the dot is currently filled (used) → click restores
+  // dotIdx >= feat.uses means the dot is empty → click expends
+  if (dotIdx < feat.uses) {
+    // Restore this use: decrease uses
+    feat.uses--;
+  } else {
+    // Expend this use: increase uses
+    feat.uses++;
+  }
+  renderFeatureDots(idx);
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+}
+
+function renderFeatureDots(idx) {
+  const feat = featureData[idx];
+  if (!feat) return;
+  // Update each dot class
+  const box = document.getElementById(`feat-uses-box-${idx}`);
+  if (!box) return;
+  box.querySelectorAll('.feat-use-dot').forEach((dot, i) => {
+    dot.classList.toggle('filled', i < feat.uses);
+    dot.title = i < feat.uses ? 'Used — click to restore' : 'Available — click to expend';
+  });
+  // Update text counter
+  const text = document.getElementById(`feat-uses-text-${idx}`);
+  if (text) text.textContent = `${feat.uses}/${feat.uses_max}`;
+}
+
+function resetAllFeatureUses() {
+  featureData.forEach((feat, i) => {
+    if (feat.uses_max) {
+      feat.uses = feat.uses_max;
+      renderFeatureDots(i);
+    }
+  });
+}
+
+// Reset only short-rest features (for short rest action)
+function resetShortRestFeatures() {
+  featureData.forEach((feat, i) => {
+    if (feat.uses_max && feat.recharge === 'short') {
+      feat.uses = feat.uses_max;
+      renderFeatureDots(i);
+    }
+  });
+}
+
 // ── Inventory Management ──
 const WEAPON_KEYWORDS = [
   'sword', 'axe', 'hammer', 'bow', 'dagger', 'mace', 'spear', 'flail',
@@ -1171,20 +1908,113 @@ function tagWeapons() {
       badge.style.display = 'none';
     }
   });
+  tagArmor();
+}
+
+// ── Armor Detection ──
+function isArmor(name) {
+  const lower = name.toLowerCase().trim();
+  // Check against Campaign Expert armor table
+  if (ARMOR_NAMES.some(n => n === lower)) return true;
+  // Check singular form
+  if (lower.endsWith('s') && !lower.endsWith('ss')) {
+    const singular = lower.slice(0, -1);
+    if (ARMOR_NAMES.some(n => n === singular)) return true;
+  }
+  // Generic shield catch
+  if (lower.includes('shield')) return true;
+  return false;
+}
+
+function isBodyArmor(name) {
+  // Returns true if this is body armor (not a shield)
+  return isArmor(name) && !name.toLowerCase().includes('shield');
+}
+
+function isShieldItem(name) {
+  return isArmor(name) && name.toLowerCase().includes('shield');
+}
+
+function tagArmor() {
+  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
+    const input = li.querySelector('input[type="text"]');
+    const badge = li.querySelector('.arm-badge');
+    if (!input || !badge) return;
+    if (isArmor(input.value)) {
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  });
+}
+
+// ── Equip/Unequip System ──
+let equippedItems = {{ character.equipped|tojson if character.equipped else '[]' }};
+if (!Array.isArray(equippedItems)) equippedItems = [];
+
+function equipItem(name) {
+  name = name.trim();
+  if (!name) return;
+
+  // Don't duplicate
+  if (equippedItems.includes(name)) return;
+
+  // Armor exclusivity: if equipping body armor, unequip any existing body armor
+  if (isBodyArmor(name)) {
+    equippedItems = equippedItems.filter(item => !isBodyArmor(item));
+  }
+
+  equippedItems.push(name);
+  saveEquipped();
+}
+
+function unequipItem(name) {
+  equippedItems = equippedItems.filter(item => item !== name);
+  saveEquipped();
+}
+
+async function saveEquipped() {
+  await api('/update', { equipped: JSON.stringify(equippedItems) });
+  renderEquipped();
+  // Refresh item badges
+  tagArmor();
+  tagWeapons();
+}
+
+function renderEquipped() {
+  const container = document.getElementById('equipped-section');
+  const list = document.getElementById('equipped-list');
+  if (!container || !list) return;
+
+  if (equippedItems.length === 0) {
+    list.innerHTML = '<li style="color:var(--text-muted);font-size:0.85rem;padding:0.3rem 0">Nothing equipped</li>';
+  } else {
+    list.innerHTML = equippedItems.map(item => {
+      const isArm = isArmor(item);
+      const badge = isArm ? '<span style="font-size:0.7rem;margin-right:0.3rem">🛡️</span>' : '';
+      return `<li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
+        <span>${badge}${item}</span>
+        <button class="btn btn-outline btn-sm" onclick="unequipItem('${item.replace(/'/g, "\\'")}')" style="font-size:0.65rem;padding:0.1rem 0.35rem">✕</button>
+      </li>`;
+    }).join('');
+  }
+  container.style.display = 'block';
 }
 
 function addInventoryItem() {
-  if (!document.body.classList.contains('edit-mode')) return;
   const list = document.getElementById('inv-list');
   const idx = list.children.length;
   const li = document.createElement('li');
   li.className = 'inv-item';
   li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
   li.innerHTML = `<span style="display:flex;align-items:center;flex:1;min-width:0">
-    <input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="saveInventory();tagWeapons()">
+    <input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
+    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
     <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
+    <span class="arm-badge" style="display:none">🛡️ Armor</span>
   </span>
-    <input type="number" value="1" min="1" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+    <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+    <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
     <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
   list.appendChild(li);
   // Hide "Empty inventory" text if present
@@ -1200,19 +2030,174 @@ function removeInventoryItem(idx) {
 }
 
 async function saveInventory() {
-  if (!document.body.classList.contains('edit-mode')) return;
   const items = [];
+  let hasEmpty = false;
   document.querySelectorAll('#inv-list .inv-item').forEach(li => {
     const nameEl = li.querySelector('input[type="text"]');
     const qtyEl = li.querySelector('input[type="number"]');
-    if (nameEl && nameEl.value.trim()) {
-      items.push({ name: nameEl.value.trim(), qty: parseInt(qtyEl?.value) || 1 });
+    if (nameEl) {
+      const name = nameEl.value.trim();
+      if (name) {
+        items.push({ name, qty: parseInt(qtyEl?.value) || 1 });
+      } else {
+        hasEmpty = true;
+      }
     }
   });
-  await api('/update', { inventory: JSON.stringify(items) });
-  location.reload();
+  // Don't save if any name is empty — prevents accidental data loss
+  // Use the delete (✕) button instead to remove items
+  if (hasEmpty) return;
+
+  // Remove zero-qty items from inventory and auto-unequip them
+  const zeroQtyNames = items.filter(i => i.qty < 1).map(i => i.name);
+  if (zeroQtyNames.length) {
+    equippedItems = equippedItems.filter(n => !zeroQtyNames.includes(n));
+  }
+  const activeItems = items.filter(i => i.qty > 0);
+
+  _invSavePending = true;
+  try {
+    await api('/update', {
+      inventory: JSON.stringify(activeItems),
+      equipped: JSON.stringify(equippedItems)
+    });
+    renderEquipped();
+  } finally {
+    _invSavePending = false;
+  }
+}
+
+// Debounced auto-save for name/qty input changes
+let invSaveTimeout = null;
+let _invSavePending = false;
+function autoSaveInventory() {
+  clearTimeout(invSaveTimeout);
+  invSaveTimeout = setTimeout(saveInventory, 200);
+}
+
+// ── Flush pending save on page unload (reload, navigate away) ──
+window.addEventListener('beforeunload', () => {
+  // Flush any pending debounced save
+  if (invSaveTimeout) {
+    clearTimeout(invSaveTimeout);
+    invSaveTimeout = null;
+    const items = [];
+    document.querySelectorAll('#inv-list .inv-item').forEach(li => {
+      const nameEl = li.querySelector('input[type="text"]');
+      const qtyEl = li.querySelector('input[type="number"]');
+      if (nameEl && nameEl.value.trim()) {
+        const qty = parseInt(qtyEl?.value) || 1;
+        if (qty > 0) items.push({ name: nameEl.value.trim(), qty });
+      }
+    });
+    const blob = new Blob([JSON.stringify({ inventory: JSON.stringify(items) })], {type: 'application/json'});
+    navigator.sendBeacon('/api/character/' + CHAR_ID + '/update', blob);
+  }
+  // If a direct save (delete/add/qty) is still in-flight, sendBeacon with current DOM
+  if (_invSavePending) {
+    const items = [];
+    document.querySelectorAll('#inv-list .inv-item').forEach(li => {
+      const nameEl = li.querySelector('input[type="text"]');
+      const qtyEl = li.querySelector('input[type="number"]');
+      if (nameEl && nameEl.value.trim()) {
+        const qty = parseInt(qtyEl?.value) || 1;
+        if (qty > 0) items.push({ name: nameEl.value.trim(), qty });
+      }
+    });
+    const blob = new Blob([JSON.stringify({ inventory: JSON.stringify(items) })], {type: 'application/json'});
+    navigator.sendBeacon('/api/character/' + CHAR_ID + '/update', blob);
+  }
+});
+
+// ── Item Search Autocomplete ──
+let searchTimeout = null;
+
+function toggleItemSearch() {
+  const bar = document.getElementById('item-search-bar');
+  const input = document.getElementById('item-search-input');
+  const visible = bar.style.display === 'block';
+  bar.style.display = visible ? 'none' : 'block';
+  if (!visible) {
+    input.value = '';
+    input.focus();
+    document.getElementById('item-search-results').style.display = 'none';
+  }
+}
+
+async function searchItems(query) {
+  clearTimeout(searchTimeout);
+  const results = document.getElementById('item-search-results');
+  
+  if (!query || query.trim().length < 2) {
+    results.style.display = 'none';
+    return;
+  }
+  
+  searchTimeout = setTimeout(async () => {
+    try {
+      const resp = await fetch(`/api/items/search?q=${encodeURIComponent(query.trim())}&limit=12`);
+      const data = await resp.json();
+      
+      if (!data.results || !data.results.length) {
+        results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No items found</div>';
+        results.style.display = 'block';
+        return;
+      }
+      
+      results.innerHTML = data.results.map(item => {
+        const name = item.name.replace(/'/g, "\\'");
+        return `<div class="search-result-row" onclick="selectItem('${name}')" 
+          style="padding:0.4rem 0.6rem;cursor:pointer;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;align-items:center"
+          onmouseenter="this.style.background='var(--bg)'" 
+          onmouseleave="this.style.background='none'">
+          <span>${item.name}</span>
+          <span style="font-size:0.65rem;color:var(--text-muted)">${item.type}</span>
+        </div>`;
+      }).join('');
+      results.style.display = 'block';
+    } catch(e) {
+      results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">Search unavailable</div>';
+      results.style.display = 'block';
+    }
+  }, 200);
+}
+
+function handleSearchKey(event) {
+  if (event.key === 'Enter') {
+    const first = document.querySelector('#item-search-results .search-result-row');
+    if (first) first.click();
+  } else if (event.key === 'Escape') {
+    toggleItemSearch();
+  }
+}
+
+async function selectItem(name) {
+  // Add item to inventory
+  const list = document.getElementById('inv-list');
+  const li = document.createElement('li');
+  li.className = 'inv-item';
+  li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
+  li.innerHTML = `<span style="display:flex;align-items:center;flex:1;min-width:0">
+    <input type="text" value="${name.replace(/"/g, '&quot;')}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
+    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
+    <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
+    <span class="arm-badge" style="display:none">🛡️ Armor</span>
+  </span>
+    <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
+    <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
+    <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
+  list.appendChild(li);
+  // Hide empty text
+  const empty = list.nextElementSibling;
+  if (empty && empty.tagName === 'P') empty.style.display = 'none';
+  tagWeapons();
+  // Close search
+  toggleItemSearch();
+  // Auto-save (await so item persists before navigating away)
+  await saveInventory();
 }
 initEditable();
 tagWeapons();
+renderEquipped();
 </script>
 {% endblock %}

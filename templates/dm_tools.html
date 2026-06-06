@@ -1,0 +1,1168 @@
+{% extends "layout.html" %}
+{% block title %}DM Tools{% endblock %}
+{% block style %}
+.container { max-width: 1400px; }
+.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+.dm-tab { padding: 0.6rem 1.4rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+  color: var(--text-muted); border: none; background: none; border-bottom: 2px solid transparent;
+  margin-bottom: -2px; transition: all 0.2s; }
+.dm-tab:hover { color: var(--text); }
+.dm-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.dm-panel { display: none; }
+.dm-panel.active { display: block; }
+
+/* Monster cards */
+.monster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+.monster-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem; cursor: pointer; transition: border-color 0.2s; }
+.monster-card:hover { border-color: var(--accent); }
+.monster-card .m-name { font-weight: 700; font-size: 1rem; }
+.monster-card .m-type { font-size: 0.8rem; color: var(--text-muted); }
+.monster-card .m-stats { display: flex; gap: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; flex-wrap: wrap; }
+.monster-card .m-stat { background: var(--bg); padding: 0.15rem 0.5rem; border-radius: 4px; }
+
+/* Monster detail modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; }
+.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
+.modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; max-width: 800px; width: 100%; padding: 1.5rem; max-height: 90vh; overflow-y: auto; }
+.modal-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+.modal-close:hover { color: var(--accent); }
+
+/* NPC rows */
+.npc-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.npc-row { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.npc-row.enemy { border-color: rgba(255,23,68,0.3); }
+.npc-row .npc-info { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; flex: 1; }
+.npc-row .npc-actions { display: flex; gap: 0.3rem; }
+.npc-badge { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.npc-badge.enemy { background: rgba(255,23,68,0.2); color: var(--danger); }
+.npc-badge.npc { background: rgba(0,200,83,0.2); color: var(--success); }
+
+/* Forms inline */
+.inline-form { display: flex; gap: 0.5rem; align-items: flex-end; flex-wrap: wrap; }
+.inline-form .form-group { margin-bottom: 0; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+/* Encounter card */
+.encounter-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+.encounter-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem; }
+.encounter-participants { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.5rem; }
+.participant-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.5rem; background: var(--bg); border-radius: 4px; }
+.participant-row .init-input { width: 50px; padding: 0.15rem 0.3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); text-align: center; }
+.participant-row .hp-input { width: 60px; padding: 0.15rem 0.3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); text-align: center; }
+
+/* Campaign cards */
+.campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.75rem; }
+.campaign-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+.campaign-card h3 { margin: 0 0 0.5rem 0; }
+.campaign-card .camp-stat { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.camp-quest { padding: 0.5rem; background: var(--bg); border-radius: 4px; margin-bottom: 0.3rem; display: flex; justify-content: space-between; align-items: center; }
+
+/* Search bar */
+.search-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.search-bar input, .search-bar select { padding: 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); }
+
+/* Scrollable table */
+.table-wrap { overflow-x: auto; }
+table.dm-table { width: 100%; border-collapse: collapse; }
+table.dm-table th, table.dm-table td { padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; white-space: nowrap; }
+table.dm-table th { color: var(--text-muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
+
+/* Stat grid for detail */
+.stat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.3rem; margin-bottom: 0.75rem; }
+.stat-item { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem; text-align: center; }
+.stat-item .si-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.stat-item .si-val { font-size: 1.1rem; font-weight: 700; }
+.stat-item .si-mod { font-size: 0.75rem; color: var(--text-muted); }
+.ability-tag { display: inline-block; padding: 0.1rem 0.3rem; margin: 0.1rem; border-radius: 3px; font-size: 0.75rem; background: var(--accent2); color: var(--text); }
+
+/* Encounter builder sidebar layout */
+.encounter-builder { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 900px) { .encounter-builder { grid-template-columns: 1fr; } }
+.monster-palette { max-height: 60vh; overflow-y: auto; }
+.encounter-tracking { max-height: 60vh; overflow-y: auto; }
+
+/* Toolbar */
+.toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+.toolbar .btn-group { display: flex; gap: 0; }
+.toolbar .btn-group .btn:not(:last-child) { border-radius: 6px 0 0 6px; }
+.toolbar .btn-group .btn:not(:first-child) { border-radius: 0 6px 6px 0; margin-left: -1px; }
+
+/* HP bar with color */
+.hp-bar-mini { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; margin-top: 2px; }
+.hp-bar-mini-fill { height: 100%; border-radius: 3px; transition: width 0.3s, background 0.3s; }
+.hp-bar-mini-fill.ok { background: var(--success); }
+.hp-bar-mini-fill.warn { background: var(--warn); }
+.hp-bar-mini-fill.danger { background: var(--danger); }
+
+/* Participant row refinements */
+.participant-row { cursor: pointer; }
+.participant-row.defeated { opacity: 0.4; }
+.participant-row.defeated .p-name { text-decoration: line-through; }
+
+/* Collapsable per-participant stat block */
+.p-stats { display: none; padding: 0.5rem; margin-top: 0.3rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; }
+.p-stats.open { display: block; }
+.p-stats .ps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-bottom: 0.5rem; }
+.p-stats .ps-stat { text-align: center; padding: 0.2rem; background: var(--card-bg); border-radius: 4px; }
+.p-stats .ps-stat .ps-lbl { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); }
+.p-stats .ps-stat .ps-val { font-weight: 600; }
+
+/* Spell slot trackers */
+.spell-slot-row { display: flex; gap: 0.3rem; align-items: center; margin: 0.2rem 0; }
+.spell-slot-track { display: flex; gap: 2px; }
+.spell-slot-dot { width: 12px; height: 12px; border-radius: 2px; border: 1px solid var(--border); background: var(--bg); cursor: pointer; }
+.spell-slot-dot.used { background: var(--accent); border-color: var(--accent); }
+.spell-slot-dot:hover { border-color: var(--accent); }
+
+/* Defeat button */
+.defeat-btn { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; border: none; cursor: pointer; }
+.defeat-btn.alive { background: var(--danger); color: #fff; }
+.defeat-btn.dead { background: var(--success); color: #fff; }
+
+/* Encounter toolbar with active count */
+.encounter-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.3rem; }
+
+/* Stat box for NPC palette */
+.palette-stat { font-size: 0.7rem; color: var(--text-muted); }
+.empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+.empty-state p { font-size: 1.1rem; margin-bottom: 1rem; }
+{% endblock %}
+
+{% block content %}
+<h1 style="margin-bottom:0">⚔️ DM Tools</h1>
+<p style="color:var(--text-muted);margin-bottom:1.5rem;font-size:0.9rem">Monster library · Encounter builder · NPC manager · Campaign tracker</p>
+
+<div class="dm-tabs" id="dmTabs">
+  <button class="dm-tab active" data-tab="monsters">🐉 Monsters</button>
+  <button class="dm-tab" data-tab="encounters">⚡ Encounters</button>
+  <button class="dm-tab" data-tab="npcs">👤 NPCs</button>
+  <button class="dm-tab" data-tab="campaigns">📜 Campaign</button>
+</div>
+
+{# ───── MONSTERS PANEL ───── #}
+<div class="dm-panel active" id="panel-monsters">
+  <div class="search-bar">
+    <input type="text" id="monsterSearch" placeholder="Search monsters..." style="flex:1;min-width:200px" oninput="filterMonsters()">
+    <select id="monsterTypeFilter" onchange="filterMonsters()">
+      <option value="">All Types</option>
+      {% for t in monster_types %}<option value="{{ t }}">{{ t|capitalize }}</option>{% endfor %}
+    </select>
+    <select id="monsterCrFilter" onchange="filterMonsters()">
+      <option value="">All CR</option>
+      <option value="0-0.25">CR 0–¼ (Trivial)</option>
+      <option value="0.5-2">CR ½–2 (Low)</option>
+      <option value="3-5">CR 3–5 (Medium)</option>
+      <option value="6-10">CR 6–10 (High)</option>
+      <option value="11-16">CR 11–16 (Deadly)</option>
+      <option value="17-30">CR 17+ (Legendary)</option>
+    </select>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="monsterCount">{{ monsters|length }} monsters</span>
+  </div>
+
+  <div class="monster-grid" id="monsterGrid">
+    {% for m in monsters %}
+    <div class="monster-card" data-name="{{ m.name|lower }}" data-type="{{ m.type|lower }}"
+         data-cr="{{ m.challenge_rating }}" onclick="showMonster('{{ m.index }}')">
+      <div class="m-name">{{ m.name }}</div>
+      <div class="m-type">{{ m.size }} {{ m.type }}{% if m.alignment %} · {{ m.alignment }}{% endif %}</div>
+      <div class="m-stats">
+        <span class="m-stat">CR {{ m.challenge_rating }}</span>
+        <span class="m-stat">AC {{ m.armor_class[0].value if m.armor_class else '?' }}</span>
+        <span class="m-stat">HP {{ m.hit_points }}</span>
+        <span class="m-stat">XP {{ m.xp }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ───── ENCOUNTERS PANEL ───── #}
+<div class="dm-panel" id="panel-encounters">
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="showCreateEncounter()">+ New Encounter</button>
+    <button class="btn btn-outline" onclick="showAiEncounterBuilder()">🤖 AI Encounter</button>
+    <select id="encounterFilter" onchange="filterEncounters()" style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+      <option value="">All Encounters</option>
+      <option value="planned">Planned</option>
+      <option value="active">Active</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+
+  <div id="encounterList">
+    {% for enc in encounters %}
+    <div class="encounter-card" style="margin-bottom:0.75rem" data-status="{{ enc.status }}">
+      <div class="encounter-header">
+        <div>
+          <strong>{{ enc.name }}</strong>
+          <span class="badge badge-{{ 'accent' if enc.status == 'active' else 'muted' }}">{{ enc.status|capitalize }}</span>
+          {% if enc.difficulty %}<span class="badge badge-muted">{{ enc.difficulty|capitalize }}</span>{% endif %}
+        </div>
+        <div style="display:flex;gap:0.3rem">
+          <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕</button>
+        </div>
+      </div>
+      {% if enc.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin:0.3rem 0">{{ enc.description }}</p>{% endif %}
+      {% if enc.location %}<p style="font-size:0.8rem;color:var(--text-muted)">📍 {{ enc.location }}</p>{% endif %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>No encounters yet</p>
+      <button class="btn btn-primary" onclick="showCreateEncounter()">Create Your First Encounter</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ───── NPCS PANEL ───── #}
+<div class="dm-panel" id="panel-npcs">
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="showCreateNpc()">+ New NPC</button>
+    <button class="btn btn-outline" onclick="showAiNpcWizard()">🤖 AI Build NPC</button>
+    <input type="text" id="npcSearch" placeholder="Search NPCs..." style="padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)" oninput="filterNpcs()">
+  </div>
+
+  <div class="npc-list" id="npcList">
+    {% for npc in npcs %}
+    <div class="npc-row {{ 'enemy' if npc.is_enemy else '' }}" data-name="{{ npc.name|lower }}">
+      <div class="npc-info">
+        <span class="npc-badge {{ 'enemy' if npc.is_enemy else 'npc' }}">{{ 'Enemy' if npc.is_enemy else 'NPC' }}</span>
+        <strong>{{ npc.name }}</strong>
+        <span style="color:var(--text-muted);font-size:0.85rem">
+          {{ npc.race }}{% if npc.class_name %} · L{{ npc.level }} {{ npc.class_name }}{% if npc.subclass %} ({{ npc.subclass }}){% endif %}{% endif %}
+        </span>
+        {% if npc.role %}<span class="badge badge-muted">{{ npc.role }}</span>{% endif %}
+        {% if npc.alignment %}<span style="font-size:0.75rem;color:var(--text-muted)">{{ npc.alignment }}</span>{% endif %}
+        <span style="font-size:0.8rem">HP {{ npc.hp_current }}/{{ npc.hp_max }} AC {{ npc.ac }}</span>
+      </div>
+      <div class="npc-actions">
+        <button class="btn btn-outline btn-sm" onclick="editNpc({{ npc.id }})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteNpc({{ npc.id }})">✕</button>
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>No NPCs yet</p>
+      <button class="btn btn-primary" onclick="showCreateNpc()">Create Your First NPC</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ───── CAMPAIGN PANEL ───── #}
+<div class="dm-panel" id="panel-campaigns">
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="showCreateCampaign()">+ New Campaign</button>
+  </div>
+
+  <div class="campaign-grid" id="campaignList">
+    {% for camp in campaigns %}
+    <div class="campaign-card">
+      <h3>{{ camp.name }}</h3>
+      <div class="camp-stat">
+        <span>👥 L{{ camp.party_level }} · {{ camp.party_size }} players</span>
+        <span>📋 {{ camp.quests|length }} quests</span>
+        <span>📍 {{ camp.locations|length }} locations</span>
+      </div>
+      {% if camp.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem">{{ camp.description }}</p>{% endif %}
+      <div style="display:flex;gap:0.3rem;margin-top:0.5rem">
+        <button class="btn btn-outline btn-sm" onclick="openCampaign({{ camp.id }})">Open</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ camp.id }})">✕</button>
+      </div>
+    </div>
+    {% else %}
+    <div class="empty-state" style="grid-column:1/-1">
+      <p>No campaigns yet</p>
+      <button class="btn btn-primary" onclick="showCreateCampaign()">Create Your First Campaign</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ───── MONSTER DETAIL MODAL ───── #}
+<div class="modal-overlay" id="monsterModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('monsterModal')">✕</button>
+    <div id="monsterDetail"></div>
+  </div>
+</div>
+
+{# ───── CREATE ENCOUNTER MODAL ───── #}
+<div class="modal-overlay" id="encounterModal">
+  <div class="modal-content" style="max-width:1200px">
+    <button class="modal-close" onclick="closeModal('encounterModal')">✕</button>
+    <div id="encounterDetail">
+      <div style="text-align:center;padding:2rem">Loading...</div>
+    </div>
+  </div>
+</div>
+
+{# ───── NPC EDITOR MODAL ───── #}
+<div class="modal-overlay" id="npcModal">
+  <div class="modal-content" style="max-width:700px">
+    <button class="modal-close" onclick="closeModal('npcModal')">✕</button>
+    <div id="npcEditor"></div>
+  </div>
+</div>
+
+{# ───── AI ENCOUNTER BUILDER MODAL ───── #}
+<div class="modal-overlay" id="aiEncounterModal">
+  <div class="modal-content" style="max-width:600px">
+    <button class="modal-close" onclick="closeModal('aiEncounterModal')">✕</button>
+    <div id="aiEncounterBuilder">
+      <h2 style="margin:0 0 1rem 0">🤖 AI Encounter Builder</h2>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">Generates a balanced encounter with SRD monsters filtered by environment, scaled to your party.</p>
+      <form id="aiEncounterForm" onsubmit="return generateAiEncounter(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Party Level</label><input name="party_level" type="number" min="1" max="20" value="5"></div>
+          <div class="form-group"><label>Party Size</label><input name="party_size" type="number" min="1" max="10" value="4"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Environment</label>
+            <select name="environment">
+              <option value="dungeon">Dungeon</option>
+              <option value="forest">Forest</option>
+              <option value="mountain">Mountain</option>
+              <option value="coastal">Coastal</option>
+              <option value="swamp">Swamp</option>
+              <option value="arctic">Arctic</option>
+              <option value="desert">Desert</option>
+              <option value="grassland">Grassland</option>
+              <option value="urban">Urban</option>
+              <option value="underdark">Underdark</option>
+              <option value="planar">Planar</option>
+              <option value="any">Any</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Difficulty</label>
+            <select name="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+              <option value="deadly">Deadly</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Theme (optional)</label><input name="theme" placeholder="e.g. undead horde, dragon cult"></div>
+          <div class="form-group"><label>Tone (optional)</label><input name="tone" placeholder="e.g. sinister, heroic, tragic"></div>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:1rem">
+          <button type="submit" class="btn btn-primary">🤖 Generate Encounter</button>
+          <button type="button" class="btn btn-outline" onclick="closeModal('aiEncounterModal')">Cancel</button>
+        </div>
+      </form>
+      <div id="aiEncounterResult" style="display:none;margin-top:1rem"></div>
+    </div>
+  </div>
+</div>
+
+{# ───── CAMPAIGN MODAL ───── #}
+<div class="modal-overlay" id="campaignModal">
+  <div class="modal-content" style="max-width:700px">
+    <button class="modal-close" onclick="closeModal('campaignModal')">✕</button>
+    <div id="campaignDetail"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ── Tab switching ──
+document.querySelectorAll('.dm-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.dm-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.dm-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Modal helpers ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ── Monster filtering ──
+function filterMonsters() {
+  const q = document.getElementById('monsterSearch').value.toLowerCase();
+  const type = document.getElementById('monsterTypeFilter').value.toLowerCase();
+  const crRaw = document.getElementById('monsterCrFilter').value;
+  let crMin = 0, crMax = 99;
+  if (crRaw) { const parts = crRaw.split('-'); crMin = parseFloat(parts[0]); crMax = parseFloat(parts[1]); }
+
+  let count = 0;
+  document.querySelectorAll('.monster-card').forEach(card => {
+    const name = card.dataset.name;
+    const mtype = card.dataset.type;
+    const cr = parseFloat(card.dataset.cr);
+    const match = (!q || name.includes(q)) && (!type || mtype === type) && cr >= crMin && cr <= crMax;
+    card.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  document.getElementById('monsterCount').textContent = count + ' monsters';
+}
+
+// ── Monster detail ──
+async function showMonster(index) {
+  openModal('monsterModal');
+  document.getElementById('monsterDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+  try {
+    const r = await fetch('/api/dm/monster/' + encodeURIComponent(index));
+    const m = await r.json();
+    const ac = m.armor_class ? m.armor_class.map(a => a.value + (a.type ? ' (' + a.type + ')' : '')).join(', ') : '?';
+    const mod = s => Math.floor((s - 10) / 2);
+    const sign = v => v >= 0 ? '+' + v : '' + v;
+
+    let html = `<h2 style="margin:0">${m.name}</h2>
+      <p style="color:var(--text-muted);margin:0.3rem 0">${m.size} ${m.type} · ${m.alignment || 'Unaligned'}</p>
+      <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
+        <span><strong>AC</strong> ${ac}</span>
+        <span><strong>HP</strong> ${m.hit_points} (${m.hit_dice})</span>
+        <span><strong>Speed</strong> ${Object.values(m.speed || {}).join(', ') || '?'}</span>
+        <span><strong>CR</strong> ${m.challenge_rating} (${m.xp || 0} XP)</span>
+        <span><strong>PB</strong> ${m.proficiency_bonus || '+' + Math.ceil(m.challenge_rating / 4)}</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-item"><div class="si-label">STR</div><div class="si-val">${m.strength}</div><div class="si-mod">${sign(mod(m.strength))}</div></div>
+        <div class="stat-item"><div class="si-label">DEX</div><div class="si-val">${m.dexterity}</div><div class="si-mod">${sign(mod(m.dexterity))}</div></div>
+        <div class="stat-item"><div class="si-label">CON</div><div class="si-val">${m.constitution}</div><div class="si-mod">${sign(mod(m.constitution))}</div></div>
+        <div class="stat-item"><div class="si-label">INT</div><div class="si-val">${m.intelligence}</div><div class="si-mod">${sign(mod(m.intelligence))}</div></div>
+        <div class="stat-item"><div class="si-label">WIS</div><div class="si-val">${m.wisdom}</div><div class="si-mod">${sign(mod(m.wisdom))}</div></div>
+        <div class="stat-item"><div class="si-label">CHA</div><div class="si-val">${m.charisma}</div><div class="si-mod">${sign(mod(m.charisma))}</div></div>
+      </div>`;
+
+    // Saving throws & skills
+    if (m.proficiencies && m.proficiencies.length) {
+      html += `<div style="margin-bottom:0.5rem"><strong>Saves & Skills:</strong> `;
+      html += m.proficiencies.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Saving Throw: ', '')} +${p.value}</span>`).join(' ');
+      html += `</div>`;
+    }
+
+    // Damage & condition stuff
+    if (m.damage_resistances && m.damage_resistances.length) html += `<p><strong>Resistances:</strong> ${m.damage_resistances.join(', ')}</p>`;
+    if (m.damage_immunities && m.damage_immunities.length) html += `<p><strong>Immunities:</strong> ${m.damage_immunities.join(', ')}</p>`;
+    if (m.condition_immunities && m.condition_immunities.length) html += `<p><strong>Condition Immunities:</strong> ${m.condition_immunities.map(c => c.name || c).join(', ')}</p>`;
+    if (m.languages) html += `<p><strong>Languages:</strong> ${m.languages}</p>`;
+    if (m.senses) html += `<p><strong>Senses:</strong> ${Object.entries(m.senses).map(([k,v]) => k.replace(/_/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()) + ' ' + v).join(', ')}</p>`;
+
+    // Special abilities
+    if (m.special_abilities && m.special_abilities.length) {
+      html += `<h3 style="margin-top:0.75rem">Special Abilities</h3>`;
+      m.special_abilities.forEach(a => {
+        html += `<div style="margin-bottom:0.5rem"><strong>${a.name}.</strong> <span style="font-size:0.85rem">${a.desc}</span></div>`;
+      });
+    }
+
+    // Actions
+    if (m.actions && m.actions.length) {
+      html += `<h3 style="margin-top:0.75rem">Actions</h3>`;
+      m.actions.forEach(a => {
+        const atkInfo = a.attack_bonus ? `+${a.attack_bonus} to hit` : '';
+        const dmgInfo = a.damage && a.damage.length ? a.damage.map(d => d.damage_dice + ' ' + (d.damage_type?.name || '')).join(', ') : '';
+        html += `<div style="margin-bottom:0.5rem;font-size:0.85rem">
+          <strong>${a.name}.</strong> ${a.desc}
+          ${a.attack_bonus ? '<br><span style="color:var(--text-muted)">Attack: +' + a.attack_bonus + (a.range ? ', Range: ' + a.range : '') + '</span>' : ''}
+          ${dmgInfo ? '<br><span style="color:var(--success)">Damage: ' + dmgInfo + '</span>' : ''}
+        </div>`;
+      });
+    }
+
+    // Legendary actions
+    if (m.legendary_actions && m.legendary_actions.length) {
+      html += `<h3 style="margin-top:0.75rem">Legendary Actions</h3>`;
+      m.legendary_actions.forEach(a => {
+        html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><strong>${a.name}.</strong> ${a.desc}</div>`;
+      });
+    }
+
+    document.getElementById('monsterDetail').innerHTML = html;
+  } catch(e) {
+    document.getElementById('monsterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load monster details.</p>';
+  }
+}
+
+// ── Encounters ──
+function showCreateEncounter() {
+  const name = prompt('Encounter name:');
+  if (!name) return;
+  fetch('/api/dm/encounter/create', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, description: '', location: '', environment: '', difficulty: 'medium'})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) location.reload();
+  });
+}
+
+// ── AI Encounter Builder ──
+function showAiEncounterBuilder() {
+  openModal('aiEncounterModal');
+  document.getElementById('aiEncounterResult').style.display = 'none';
+}
+
+async function generateAiEncounter(event) {
+  event.preventDefault();
+  const form = document.getElementById('aiEncounterForm');
+  const data = Object.fromEntries(new FormData(form));
+  data.party_level = parseInt(data.party_level) || 5;
+  data.party_size = parseInt(data.party_size) || 4;
+
+  const resultDiv = document.getElementById('aiEncounterResult');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = '<div style="text-align:center;padding:2rem">🧙 Crafting encounter...</div>';
+
+  try {
+    const r = await fetch('/api/dm/ai/build-encounter', {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)
+    });
+    const enc = await r.json();
+
+    const difficultyColors = {Easy: 'var(--success)', Medium: 'var(--warn)', Hard: 'var(--danger)', Deadly: 'var(--danger)'};
+    const diffColor = difficultyColors[enc.difficulty] || 'var(--text-muted)';
+
+    let html = `<div style="border-top:1px solid var(--border);padding-top:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+        <h3 style="margin:0">${enc.name}</h3>
+        <div style="display:flex;gap:0.3rem;align-items:center">
+          <span class="badge badge-accent">${enc.difficulty}</span>
+          <span style="font-size:0.8rem;color:var(--text-muted)">L${enc.party.level} · ${enc.party.size} players</span>
+        </div>
+      </div>`;
+
+    if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.85rem;margin:0.5rem 0">${enc.description}</p>`;
+
+    // XP breakdown
+    html += `<div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.85rem;flex-wrap:wrap">
+      <span><strong>Raw XP:</strong> ${enc.xp.raw_total}</span>
+      <span><strong>Adjusted XP:</strong> ${enc.xp.adjusted}</span>
+      <span><strong>Budget:</strong> ${enc.xp.budget}</span>
+      <span><strong>Budget used:</strong> <span style="color:${diffColor}">${enc.xp.budget_pct}%</span></span>
+    </div>`;
+
+    // Composition
+    html += `<div style="margin:0.5rem 0"><strong>Composition:</strong></div>`;
+    enc.composition.forEach(m => {
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.3rem">
+        <span><strong>${m.count}× ${m.name}</strong> <span style="color:var(--text-muted);font-size:0.8rem">${m.size} ${m.type} · CR ${m.cr}</span></span>
+        <span style="font-size:0.8rem;color:var(--text-muted)">AC ${m.ac} HP ${m.hp} · ${m.xp * m.count} XP</span>
+      </div>`;
+    });
+
+    if (enc.tactics) html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Tactics:</strong> ${enc.tactics}</p>`;
+
+    // Save button
+    html += `<div style="margin-top:1rem;display:flex;gap:0.5rem">
+      <button class="btn btn-primary" onclick="saveAiEncounter('${enc.name.replace(/'/g, "\\'")}', '${enc.description.replace(/'/g, "\\'")}', '${data.environment}', '${enc.difficulty.toLowerCase()}')">💾 Save as Encounter</button>
+      <button class="btn btn-outline" onclick="closeModal('aiEncounterModal')">Close</button>
+    </div></div>`;
+
+    resultDiv.innerHTML = html;
+  } catch(e) {
+    resultDiv.innerHTML = '<p style="color:var(--danger)">Failed to generate encounter. Try again.</p>';
+  }
+  return false;
+}
+
+async function saveAiEncounter(name, description, environment, difficulty) {
+  const r = await fetch('/api/dm/encounter/create', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, description, environment, difficulty, location: ''})
+  });
+  const d = await r.json();
+  if (d.ok) { closeModal('aiEncounterModal'); location.reload(); }
+}
+
+async function openEncounter(id) {
+  openModal('encounterModal');
+  document.getElementById('encounterDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+  try {
+    const r = await fetch(`/api/dm/encounter/${id}`);
+    const d = await r.json();
+    const enc = d.encounter;
+
+    // Fetch available NPCs for adding
+    const nr = await fetch('/api/dm/npcs');
+    const nd = await nr.json();
+    const allNpcs = nd.npcs || [];
+
+    let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+      <h2 style="margin:0">${enc.name}</h2>
+      <div style="display:flex;gap:0.3rem">
+        <button class="btn btn-outline btn-sm" onclick="editEncounterMeta(${id})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">Delete</button>
+      </div>
+    </div>`;
+    if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.5rem">${enc.description}</p>`;
+
+    // Encounter builder: palette + tracking
+    html += `<div class="encounter-builder">
+      <div>
+        <h4 style="margin-bottom:0.5rem">📋 Available NPCs</h4>
+        <div class="monster-palette">`;
+    allNpcs.forEach(n => {
+      const inEnc = enc.participants.some(p => p.npc_id === n.id);
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.3rem;${inEnc ? 'opacity:0.5' : ''}">
+        <span><strong>${n.name}</strong> ${n.race} L${n.level} ${n.class_name} · HP ${n.hp_current}/${n.hp_max}</span>
+        ${inEnc ? '<span style="color:var(--success);font-size:0.8rem">Added ✓</span>' :
+          `<button class="btn btn-primary btn-sm" onclick="addNpcToEncounter(${id}, ${n.id})">+ Add</button>`}
+      </div>`;
+    });
+    html += `</div></div>
+      <div>
+        <h4 style="margin-bottom:0.5rem">⚡ Combat Tracker</h4>
+        <div class="encounter-tracking">`;
+
+    if (enc.participants && enc.participants.length) {
+      const alive = enc.participants.filter(p => !p.defeated).length;
+      html += `<div class="encounter-toolbar">
+        <span style="font-size:0.8rem;color:var(--text-muted)">${alive}/${enc.participants.length} active · ${d.xp_total || 0} XP</span>
+        <button class="btn btn-outline btn-sm" onclick="updateInitiatives(${id})">💾 Save All</button>
+      </div>`;
+      enc.participants.sort((a, b) => {
+        // Sort: alive first (by initiative desc), then defeated
+        if ((a.defeated || 0) !== (b.defeated || 0)) return (a.defeated ? 1 : -1);
+        return (b.initiative || 0) - (a.initiative || 0);
+      });
+      enc.participants.forEach((p, idx) => {
+        const hpPct = p.hp_max > 0 ? Math.round(p.hp_current / p.hp_max * 100) : 0;
+        const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'danger' : hpPct < 50 ? 'warn' : 'ok';
+        const isDefeated = p.defeated || hpPct <= 0;
+        // Parse NPC spell slot data
+        let npcSlots = {};
+        try { npcSlots = typeof p.npc_spell_slots === 'string' ? JSON.parse(p.npc_spell_slots || '{}') : (p.npc_spell_slots || {}); } catch(e) {}
+        // Parse encounter-level spell_slots_used for this participant
+        let usedSlots = {};
+        try { usedSlots = typeof p.spell_slots_used === 'string' ? JSON.parse(p.spell_slots_used || '{}') : (p.spell_slots_used || {}); } catch(e) {}
+        // Detect if NPC has spells (has class_name that's a caster, or has spell_slot_data)
+        const hasSpells = p.class_name && ['Bard','Cleric','Druid','Paladin','Ranger','Sorcerer','Warlock','Wizard','Artificer'].includes(p.class_name);
+        const isCaster = hasSpells && Object.keys(npcSlots).length > 0;
+
+        html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" onclick="toggleParticipantStats(${idx})">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+              <span class="badge ${p.is_enemy ? 'badge-accent' : 'badge-muted'}" style="font-size:0.65rem">${p.is_enemy ? 'ENEMY' : 'ALLY'}</span>
+              <strong class="p-name" style="font-size:0.85rem">${p.npc_name || '?'}</strong>
+              <span style="font-size:0.75rem;color:var(--text-muted)">L${p.level} ${p.role || ''}</span>
+              <span style="font-size:0.75rem;color:var(--text-muted)">AC ${p.ac || p.npc_ac || '?'}</span>
+              ${isCaster ? '<span style="font-size:0.7rem;color:var(--accent)">🔮 Caster</span>' : ''}
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;margin-top:0.15rem;flex-wrap:wrap">
+              <input type="number" class="init-input" value="${p.initiative || 0}" data-enid="${p.id}" placeholder="Init" onclick="event.stopPropagation()" onchange="markDirty()">
+              <span style="font-size:0.75rem">HP</span>
+              <input type="number" class="hp-input" value="${p.hp_current}" data-enid="${p.id}" placeholder="HP" onclick="event.stopPropagation()" onchange="markDirty()" style="width:50px">
+              <span style="font-size:0.75rem">/${p.hp_max}</span>
+              <div class="hp-bar-mini" style="width:80px"><div class="hp-bar-mini-fill ${hpClass}" style="width:${Math.max(0, hpPct)}%"></div></div>
+              <button class="defeat-btn ${isDefeated ? 'dead' : 'alive'}" onclick="event.stopPropagation();toggleDefeated(${id}, ${p.id}, ${idx})">${isDefeated ? '✓ Alive' : '💀 Defeat'}</button>
+              <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();removeNpcFromEncounter(${id}, ${p.id})" title="Remove">✕</button>
+            </div>
+          </div>
+        </div>
+        <div class="p-stats" id="p-stats-${idx}">
+          <div class="ps-grid">
+            <div class="ps-stat"><div class="ps-lbl">Initiative</div><div class="ps-val">${p.initiative || '-'}</div></div>
+            <div class="ps-stat"><div class="ps-lbl">AC</div><div class="ps-val">${p.ac || p.npc_ac || '?'}</div></div>
+            <div class="ps-stat"><div class="ps-lbl">HP</div><div class="ps-val">${p.hp_current}/${p.hp_max}</div></div>
+            <div class="ps-stat"><div class="ps-lbl">Race</div><div class="ps-val">${p.race || '?'}</div></div>
+            <div class="ps-stat"><div class="ps-lbl">Class</div><div class="ps-val">${p.class_name || '—'}</div></div>
+            <div class="ps-stat"><div class="ps-lbl">Level</div><div class="ps-val">${p.level || '?'}</div></div>
+          </div>`;
+
+
+        // Spell slot trackers (for caster NPCs)
+        if (isCaster) {
+          html += `<div style="margin-top:0.3rem"><strong style="font-size:0.75rem">🔮 Spell Slots</strong>`;
+          // Determine max spell level from slots data
+          const maxLevel = Math.max(...Object.keys(npcSlots).map(Number).filter(k => k > 0 && k < 10), 0);
+          for (let lvl = 1; lvl <= maxLevel; lvl++) {
+            const max = npcSlots[lvl] || 0;
+            const used = usedSlots[lvl] || 0;
+            if (max > 0) {
+              html += `<div class="spell-slot-row">
+                <span style="font-size:0.7rem;width:24px">L${lvl}</span>
+                <div class="spell-slot-track">`;
+              for (let s = 0; s < max; s++) {
+                html += `<div class="spell-slot-dot ${s < used ? 'used' : ''}" onclick="event.stopPropagation();toggleSlot(${id}, ${p.id}, ${idx}, ${lvl}, ${s}, ${max})" title="${s < used ? 'Used — click to restore' : 'Available — click to expend'}"></div>`;
+              }
+              html += `</div>
+                <span style="font-size:0.65rem;color:var(--text-muted)">${used}/${max}</span>
+              </div>`;
+            }
+          }
+          html += `</div>`;
+        }
+
+        html += `</div>`;
+      });
+    } else {
+      html += `<div class="empty-state" style="padding:1rem"><p>No participants. Add NPCs from the palette.</p></div>`;
+    }
+
+    html += `</div></div></div>`;
+    document.getElementById('encounterDetail').innerHTML = html;
+  } catch(e) {
+    document.getElementById('encounterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load encounter.</p>';
+  }
+}
+
+function editEncounterMeta(id) {
+  const name = prompt('Encounter name:');
+  if (!name) return;
+  const location = prompt('Location:', '') || '';
+  const difficulty = prompt('Difficulty (easy/medium/hard/deadly):', 'medium') || 'medium';
+  fetch(`/api/dm/encounter/${id}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, location, difficulty, status: 'active'})
+  }).then(r => r.json()).then(() => openEncounter(id));
+}
+
+function addNpcToEncounter(encId, npcId) {
+  fetch(`/api/dm/encounter/${encId}/add-npc`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId})
+  }).then(r => r.json()).then(() => openEncounter(encId));
+}
+
+function removeNpcFromEncounter(encId, enId) {
+  fetch(`/api/dm/encounter/${encId}/remove-npc`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({en_id: enId})
+  }).then(r => r.json()).then(() => openEncounter(encId));
+}
+
+function updateInitiatives(encId) {
+  const participants = [];
+  document.querySelectorAll('.participant-row').forEach(row => {
+    const initInput = row.querySelector('.init-input');
+    const hpInput = row.querySelector('.hp-input');
+    if (initInput) {
+      participants.push({
+        id: parseInt(initInput.dataset.enid),
+        initiative: parseInt(initInput.value) || 0,
+        hp_current: parseInt(hpInput?.value) || 0,
+        defeated: row.classList.contains('defeated') ? true : false,
+      });
+    }
+  });
+  fetch(`/api/dm/encounter/${encId}/update-initiative`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({participants})
+  }).then(r => r.json()).then(() => { /* done */ });
+}
+
+// ── Participant helpers ──
+function toggleParticipantStats(idx) {
+  const el = document.getElementById('p-stats-' + idx);
+  if (el) el.classList.toggle('open');
+}
+
+function toggleDefeated(encId, enId, idx) {
+  const row = document.querySelector(`.participant-row input[data-enid="${enId}"]`)?.closest('.participant-row');
+  const isDead = row ? row.classList.contains('defeated') : false;
+  if (row) {
+    row.classList.toggle('defeated');
+    const btn = row.querySelector('.defeat-btn');
+    if (btn) {
+      btn.textContent = isDead ? '💀 Defeat' : '✓ Alive';
+      btn.className = 'defeat-btn ' + (isDead ? 'alive' : 'dead');
+    }
+  }
+  // Save immediately
+  fetch(`/api/dm/encounter/${encId}/update-initiative`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({single: {id: enId, defeated: !isDead}})
+  }).then(r => r.json()).then(() => {});
+}
+
+function toggleSlot(encId, enId, idx, level, slotIdx, max) {
+  // Get the stat block
+  const statBlock = document.getElementById('p-stats-' + idx);
+  if (!statBlock) return;
+  // Find the dots for this level
+  const levelRow = statBlock.querySelectorAll('.spell-slot-row')[level - 1];
+  if (!levelRow) return;
+  const dots = levelRow.querySelectorAll('.spell-slot-dot');
+  if (slotIdx < dots.length) {
+    const dot = dots[slotIdx];
+    const wasUsed = dot.classList.contains('used');
+    // Toggle this dot
+    if (wasUsed) {
+      dot.classList.remove('used');
+    } else {
+      dot.classList.add('used');
+    }
+    // Recompute used count for this level
+    let used = 0;
+    dots.forEach((d, i) => {
+      if (i < dots.length && d.classList.contains('used')) used++;
+    });
+    // Update the text
+    const textSpan = levelRow.querySelector('span:last-child');
+    if (textSpan) textSpan.textContent = used + '/' + max;
+  }
+  // Save
+  const newUsed = {};
+  statBlock.querySelectorAll('.spell-slot-row').forEach((row, lvl) => {
+    const lvlNum = lvl + 1;
+    const used = row.querySelectorAll('.spell-slot-dot.used').length;
+    if (used > 0) newUsed[lvlNum] = used;
+  });
+  fetch(`/api/dm/encounter/${encId}/update-initiative`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({single: {id: enId, spell_slots_used: newUsed}})
+  }).then(r => r.json()).then(() => {});
+}
+
+function markDirty() {
+  // Visual indicator that unsaved changes exist — could add a dot
+}
+
+function deleteEncounter(id) {
+  if (!confirm('Delete this encounter?')) return;
+  fetch(`/api/dm/encounter/${id}/delete`, {method: 'POST'})
+    .then(r => r.json()).then(() => location.reload());
+}
+
+function filterEncounters() {
+  const status = document.getElementById('encounterFilter').value;
+  document.querySelectorAll('.encounter-card').forEach(card => {
+    card.style.display = (!status || card.dataset.status === status) ? '' : 'none';
+  });
+}
+
+// ── NPCs ──
+function showCreateNpc() {
+  showNpcEditor(null);
+}
+
+function editNpc(id) {
+  showNpcEditor(id);
+}
+
+async function showNpcEditor(id) {
+  openModal('npcModal');
+  document.getElementById('npcEditor').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+
+  let npc = {name: '', race: 'Human', class_name: 'Fighter', subclass: '', level: 1,
+    strength: 10, dexterity: 10, constitution: 10, intelligence: 10, wisdom: 10, charisma: 10,
+    hp_max: 10, hp_current: 10, ac: 10, speed: 30, alignment: 'True Neutral', role: 'NPC',
+    faction: '', notes: '', is_enemy: false, xp_reward: 0};
+
+  if (id) {
+    try {
+      const r = await fetch(`/api/dm/npc/${id}`);
+      npc = await r.json();
+    } catch(e) {}
+  }
+
+  const races = ['Dwarf','Elf','Halfling','Human','Dragonborn','Gnome','Half-Elf','Half-Orc','Tiefling'];
+  const classes = ['Barbarian','Bard','Cleric','Druid','Fighter','Monk','Paladin','Ranger','Rogue','Sorcerer','Warlock','Wizard'];
+  const alignments = ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','True Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil'];
+  const roles = ['NPC','Guard','Merchant','Artisan','Noble','Cultist','Bandit','Assassin','Spy','Prisoner','Guardian','Villain','Lieutenant','Boss','Minion'];
+
+  let html = `<h2 style="margin:0 0 1rem 0">${id ? '✏️ Edit' : '➕ Create'} NPC</h2>
+    <form id="npcForm" onsubmit="return saveNpc(event, ${id || 'null'})">
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input name="name" value="${npc.name || ''}" required></div>
+        <div style="display:flex;gap:1rem;align-items:center;padding-top:1.5rem">
+          <label><input type="checkbox" name="is_enemy" ${npc.is_enemy ? 'checked' : ''}> Enemy/Villain</label>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Race</label><select name="race">${races.map(r => `<option value="${r}" ${npc.race === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div>
+        <div class="form-group"><label>Class</label><select name="class_name">${classes.map(c => `<option value="${c}" ${npc.class_name === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Subclass</label><input name="subclass" value="${npc.subclass || ''}"></div>
+        <div class="form-group"><label>Level</label><input name="level" type="number" min="1" max="20" value="${npc.level}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Role</label><select name="role">${roles.map(r => `<option value="${r}" ${npc.role === r ? 'selected' : ''}>${r}</option>`).join('')}</select></div>
+        <div class="form-group"><label>Alignment</label><select name="alignment">${alignments.map(a => `<option value="${a}" ${npc.alignment === a ? 'selected' : ''}>${a}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Faction</label><input name="faction" value="${npc.faction || ''}"></div>
+        <div class="form-group"><label>XP Reward</label><input name="xp_reward" type="number" min="0" value="${npc.xp_reward || 0}"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin:0.75rem 0">
+        ${['strength','dexterity','constitution','intelligence','wisdom','charisma'].map(s => `
+          <div class="form-group"><label style="font-size:0.7rem;text-align:center">${s.slice(0,3).toUpperCase()}</label>
+          <input name="${s}" type="number" min="1" max="30" value="${npc[s] || 10}" style="text-align:center"></div>
+        `).join('')}
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>HP Max</label><input name="hp_max" type="number" value="${npc.hp_max}" min="1"></div>
+        <div class="form-group"><label>HP Current</label><input name="hp_current" type="number" value="${npc.hp_current}" min="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>AC</label><input name="ac" type="number" value="${npc.ac}" min="1"></div>
+        <div class="form-group"><label>Speed</label><input name="speed" type="number" value="${npc.speed}" min="0"></div>
+      </div>
+      <div class="form-group"><label>Notes</label><textarea name="notes" rows="3" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">${npc.notes || ''}</textarea></div>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <button type="submit" class="btn btn-primary">Save NPC</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('npcModal')">Cancel</button>
+      </div>
+    </form>`;
+  document.getElementById('npcEditor').innerHTML = html;
+}
+
+async function saveNpc(event, id) {
+  event.preventDefault();
+  const form = document.getElementById('npcForm');
+  const data = Object.fromEntries(new FormData(form));
+  data.is_enemy = form.querySelector('[name="is_enemy"]').checked ? true : false;
+  data.level = parseInt(data.level) || 1;
+
+  const url = id ? `/api/dm/npc/${id}/update` : '/api/dm/npc/create';
+  const r = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
+  const result = await r.json();
+  if (result.ok) { closeModal('npcModal'); location.reload(); }
+  return false;
+}
+
+function deleteNpc(id) {
+  if (!confirm('Delete this NPC?')) return;
+  fetch(`/api/dm/npc/${id}/delete`, {method: 'POST'}).then(r => r.json()).then(() => location.reload());
+}
+
+function filterNpcs() {
+  const q = document.getElementById('npcSearch').value.toLowerCase();
+  document.querySelectorAll('.npc-row').forEach(row => {
+    row.style.display = row.dataset.name.includes(q) ? '' : 'none';
+  });
+}
+
+// ── AI NPC Builder ──
+function showAiNpcWizard() {
+  openModal('npcModal');
+  const races = ['Human','Elf','Dwarf','Halfling','Dragonborn','Gnome','Half-Elf','Half-Orc','Tiefling'];
+  const classes = ['Barbarian','Bard','Cleric','Druid','Fighter','Monk','Paladin','Ranger','Rogue','Sorcerer','Warlock','Wizard'];
+
+  let html = `<h2 style="margin:0 0 1rem 0">🤖 AI Build NPC</h2>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">AI generates name, personality, backstory + full PHB-grounded build.</p>
+    <form id="aiNpcForm" onsubmit="return generateAiNpc(event)">
+      <div class="form-row">
+        <div class="form-group"><label>Race</label><select name="race">${races.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div>
+        <div class="form-group"><label>Class</label><select name="class_name">${classes.map(c => `<option value="${c}">${c}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Subclass (optional)</label><input name="subclass" placeholder="e.g. Champion, Lore"></div>
+        <div class="form-group"><label>Level</label><input name="level" type="number" min="1" max="20" value="5"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Role</label>
+          <select name="role"><option value="NPC">Friendly NPC</option><option value="Guard">Guard</option><option value="Bandit">Bandit</option><option value="Cultist">Cultist</option><option value="Merchant">Merchant</option><option value="Villain" selected>Villain</option></select></div>
+        <div class="form-group"><label>Type</label>
+          <select name="is_enemy"><option value="0">Friendly NPC</option><option value="1" selected>Enemy / Monster</option></select></div>
+      </div>
+      <div class="form-group"><label>Personality hint (optional)</label><input name="personality_hint" placeholder="e.g. sinister, greedy, wise"></div>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <button type="submit" class="btn btn-primary">🤖 Generate NPC</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('npcModal')">Cancel</button>
+      </div>
+    </form>`;
+  document.getElementById('npcEditor').innerHTML = html;
+}
+
+async function generateAiNpc(event) {
+  event.preventDefault();
+  const form = document.getElementById('aiNpcForm');
+  const data = Object.fromEntries(new FormData(form));
+  data.is_enemy = data.is_enemy === '1';
+  data.level = parseInt(data.level) || 5;
+
+  document.getElementById('npcEditor').innerHTML = '<div style="text-align:center;padding:2rem">🧙 Generating NPC...</div>';
+
+  try {
+    const r = await fetch('/api/dm/ai/build-npc', {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)
+    });
+    const result = await r.json();
+    const build = result.build || {};
+
+    // Save to DB
+    const saveData = {
+      name: result.name || data.race + ' ' + data.role,
+      race: data.race,
+      class_name: data.class_name,
+      subclass: data.subclass || '',
+      level: data.level,
+      is_enemy: data.is_enemy,
+      role: data.role,
+      alignment: result.alignment || 'True Neutral',
+      faction: result.faction || '',
+      notes: (result.personality ? 'Personality: ' + result.personality + '\n' : '') + (result.backstory ? 'Backstory: ' + result.backstory : ''),
+      xp_reward: build.hit_points || 0,
+      strength: build.ability_scores?.strength || 10,
+      dexterity: build.ability_scores?.dexterity || 10,
+      constitution: build.ability_scores?.constitution || 10,
+      intelligence: build.ability_scores?.intelligence || 10,
+      wisdom: build.ability_scores?.wisdom || 10,
+      charisma: build.ability_scores?.charisma || 10,
+      hp_max: build.hit_points || 10,
+      hp_current: build.hit_points || 10,
+      ac: build.armor_class || 10,
+      speed: build.speed || 30,
+      proficiency_bonus: build.proficiency_bonus || 2,
+      hit_dice: build.hit_dice || '1d8',
+      skills: build.skills || [],
+      features: build.features || [],
+      inventory: build.equipment || [],
+    };
+
+    const sr = await fetch('/api/dm/npc/create', {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(saveData)
+    });
+    const saveResult = await sr.json();
+    if (saveResult.ok) { closeModal('npcModal'); location.reload(); }
+  } catch(e) {
+    document.getElementById('npcEditor').innerHTML = '<p style="color:var(--danger)">Failed to generate NPC. Try again.</p>';
+  }
+}
+
+// ── Campaigns ──
+function showCreateCampaign() {
+  const name = prompt('Campaign name:');
+  if (!name) return;
+  fetch('/api/dm/campaign/create', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, description: '', party_level: 1, party_size: 4})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) location.reload();
+  });
+}
+
+async function openCampaign(id) {
+  openModal('campaignModal');
+  document.getElementById('campaignDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+
+  try {
+    const r = await fetch('/api/dm/campaigns');
+    const d = await r.json();
+    const camp = (d.campaigns || []).find(c => c.id === id);
+    if (!camp) throw 'Not found';
+
+    const quests = typeof camp.quests === 'string' ? (JSON.parse(camp.quests) || []) : (camp.quests || []);
+    const locations = typeof camp.locations === 'string' ? (JSON.parse(camp.locations) || []) : (camp.locations || []);
+
+    let html = `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+      <div>
+        <h2 style="margin:0">📜 ${camp.name}</h2>
+        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${camp.party_level} · ${camp.party_size} players</p>
+      </div>
+      <div style="display:flex;gap:0.3rem">
+        <button class="btn btn-outline btn-sm" onclick="editCampaignMeta(${camp.id})">Edit</button>
+        <button class="btn btn-outline btn-sm" onclick="addCampQuest(${camp.id})">+ Quest</button>
+        <button class="btn btn-outline btn-sm" onclick="addCampLocation(${camp.id})">+ Location</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCampaign(${camp.id});closeModal('campaignModal')">✕</button>
+      </div>
+    </div>`;
+    if (camp.description) html += `<p style="margin-bottom:1rem">${camp.description}</p>`;
+
+    if (camp.session_notes) {
+      html += `<h4>Session Notes</h4>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.75rem;margin-bottom:1rem;font-size:0.85rem;white-space:pre-wrap">${camp.session_notes}</div>`;
+    }
+
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">`;
+
+    // Quests
+    html += `<div><h4 style="margin-bottom:0.5rem">📋 Quests (${quests.length})</h4>`;
+    if (quests.length) {
+      quests.forEach((q, i) => {
+        html += `<div class="camp-quest">
+          <span>${q.name || 'Quest ' + (i+1)} ${q.status ? '<span class="badge badge-' + (q.status === 'completed' ? 'accent' : 'muted') + '">' + q.status + '</span>' : ''}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeCampQuest(${camp.id}, ${i})">✕</button>
+        </div>`;
+      });
+    } else { html += '<p style="color:var(--text-muted);font-size:0.85rem">No quests yet</p>'; }
+    html += `</div>`;
+
+    // Locations
+    html += `<div><h4 style="margin-bottom:0.5rem">📍 Locations (${locations.length})</h4>`;
+    if (locations.length) {
+      locations.forEach((l, i) => {
+        html += `<div class="camp-quest">
+          <span>${l.name || 'Location ' + (i+1)}${l.type ? ' <span class="badge badge-muted">' + l.type + '</span>' : ''}</span>
+          <button class="btn btn-danger btn-sm" onclick="removeCampLocation(${camp.id}, ${i})">✕</button>
+        </div>`;
+      });
+    } else { html += '<p style="color:var(--text-muted);font-size:0.85rem">No locations yet</p>'; }
+    html += `</div></div>`;
+
+    // Notes editor
+    html += `<h4>Campaign Notes</h4>
+      <textarea id="campNotes" rows="4" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem">${camp.notes || ''}</textarea>
+      <button class="btn btn-outline btn-sm" onclick="saveCampNotes(${camp.id})">Save Notes</button>`;
+
+    document.getElementById('campaignDetail').innerHTML = html;
+  } catch(e) {
+    document.getElementById('campaignDetail').innerHTML = '<p style="color:var(--danger)">Failed to load campaign.</p>';
+  }
+}
+
+function editCampaignMeta(id) {
+  const name = prompt('Campaign name:');
+  if (!name) return;
+  const pl = prompt('Party level:', '1') || '1';
+  const ps = prompt('Party size:', '4') || '4';
+  fetch(`/api/dm/campaign/${id}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, party_level: parseInt(pl), party_size: parseInt(ps)})
+  }).then(r => r.json()).then(() => openCampaign(id));
+}
+
+function addCampQuest(id) {
+  const qName = prompt('Quest name:');
+  if (!qName) return;
+  const status = prompt('Status (active/completed):', 'active') || 'active';
+  fetch(`/api/dm/campaign/${id}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({addQuest: JSON.stringify({name: qName, status})})
+  }).then(r => r.json()).then(() => openCampaign(id));
+}
+
+function removeCampQuest(campId, idx) {
+  if (!confirm('Remove quest?')) return;
+  fetch(`/api/dm/campaign/${campId}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({removeQuest: idx})
+  }).then(r => r.json()).then(() => openCampaign(campId));
+}
+
+function addCampLocation(id) {
+  const lName = prompt('Location name:');
+  if (!lName) return;
+  const type = prompt('Type (city/dungeon/forest/etc):', '') || '';
+  fetch(`/api/dm/campaign/${id}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({addLocation: JSON.stringify({name: lName, type})})
+  }).then(r => r.json()).then(() => openCampaign(id));
+}
+
+function removeCampLocation(campId, idx) {
+  if (!confirm('Remove location?')) return;
+  fetch(`/api/dm/campaign/${campId}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({removeLocation: idx})
+  }).then(r => r.json()).then(() => openCampaign(campId));
+}
+
+function saveCampNotes(id) {
+  const notes = document.getElementById('campNotes').value;
+  fetch(`/api/dm/campaign/${id}/update`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({notes})
+  }).then(r => r.json()).then(() => { /* saved */ });
+}
+
+function deleteCampaign(id) {
+  if (!confirm('Delete this campaign?')) return;
+  fetch(`/api/dm/campaign/${id}/delete`, {method: 'POST'}).then(r => r.json()).then(() => location.reload());
+}
+</script>
+{% endblock %}
