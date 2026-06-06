@@ -5,22 +5,26 @@
 .container { max-width: 1100px; margin: 1rem auto; }
 @media (max-width: 768px) { .container { margin: 0.5rem auto; } }
 
-/* ── Top row: HP + combat ── */
+/* ── Top row: rest + center + HP ── */
 .sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
 .top-hp { width: 260px; flex-shrink: 0; }
 .top-longrest { width: 80px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:column; gap:0.35rem; }
-.top-combat { flex: 1; min-width: 0; }
+.top-center { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .top-combat-grid { grid-template-columns: repeat(6, 1fr) !important; }
+.top-abilities-grid { grid-template-columns: repeat(6, 1fr) !important; }
+
+/* Combat + Abilities sub-row */
+.center-combat { }
+.center-abilities-senses { display: flex; gap: 1rem; align-items: flex-start; }
+.center-abilities-senses .abilities-grid { flex: 1; min-width: 0; }
+
 @media (max-width: 768px) {
   .sheet-top-row { flex-direction: column; }
   .top-hp { width: 100%; }
   .top-longrest { width: 100%; max-width: 200px; margin: 0 auto; }
   .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; }
 }
-
-/* ── Abilities row ── */
-.sheet-abilities-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
-.top-abilities-grid { grid-template-columns: repeat(6, 1fr) !important; flex: 1; min-width: 0; }
 
 /* ── Senses section box ── */
 .senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; flex-shrink: 0; display: flex; align-items: center; gap: 0.75rem; }
@@ -284,32 +288,79 @@
     </div>
   </div>
 
-  <!-- Combat stats in a single line -->
-  <div class="top-combat">
-    <div class="combat-quick top-combat-grid">
-      <div class="combat-quick-item">
-        <div class="cq-label">AC</div>
-        <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
-      </div>
-      <div class="combat-quick-item">
-        <div class="cq-label">Initiative</div>
-        <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
-      </div>
-      <div class="combat-quick-item">
-        <div class="cq-label">Speed</div>
-        <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
-      </div>
-      <div class="combat-quick-item">
-        <div class="cq-label">Prof Bonus</div>
-        <div class="cq-value">+{{ prof }}</div>
-      </div>
-      <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
-        <div class="cq-label">Inspiration</div>
-        <div style="display:flex;justify-content:center;margin-top:0.1rem">
-          <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
+  <!-- Combat stats + Abilities stacked in center -->
+  <div class="top-center">
+
+    <!-- Combat quick-stats row -->
+    <div class="center-combat">
+      <div class="combat-quick top-combat-grid">
+        <div class="combat-quick-item">
+          <div class="cq-label">AC</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Initiative</div>
+          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Speed</div>
+          <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Prof Bonus</div>
+          <div class="cq-value">+{{ prof }}</div>
+        </div>
+        <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
+          <div class="cq-label">Inspiration</div>
+          <div style="display:flex;justify-content:center;margin-top:0.1rem">
+            <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Ability scores + Senses stacked below combat -->
+    <div class="center-abilities-senses">
+      <div class="abilities-grid top-abilities-grid">
+        {% set stats = [
+          ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
+          ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
+        ] %}
+        {% for label, stat in stats %}
+        {% set score = character[stat] %}
+        {% set mod = (score - 10) // 2 %}
+        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
+          <div class="ab-name">{{ label }}</div>
+          <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
+          <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="senses-section">
+        <h4>Senses</h4>
+        {% set wis_mod = (character.wisdom - 10) // 2 %}
+        {% set int_mod = (character.intelligence - 10) // 2 %}
+        <div class="sense-row">
+          <span class="sense-label">Passive Perception</span>
+          <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
+        </div>
+        <div class="sense-row">
+          <span class="sense-label">Passive Investigation</span>
+          <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
+        </div>
+        <div class="sense-row">
+          <span class="sense-label">Passive Insight</span>
+          <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
+        </div>
+        {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
+        <div class="sense-row">
+          <span class="sense-label">Darkvision</span>
+          <span class="sense-val">60 ft</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
   </div>
 
   <!-- Rest buttons column -->
@@ -326,48 +377,6 @@
       <span style="font-size:1.1rem">☕</span>
       <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
     </button>
-  </div>
-</div>
-
-<!-- Ability Scores + Senses row -->
-<div class="sheet-abilities-row">
-  <div class="abilities-grid top-abilities-grid">
-    {% set stats = [
-      ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
-      ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
-    ] %}
-    {% for label, stat in stats %}
-    {% set score = character[stat] %}
-    {% set mod = (score - 10) // 2 %}
-    <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
-      <div class="ab-name">{{ label }}</div>
-      <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
-      <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
-    </div>
-    {% endfor %}
-  </div>
-  <div class="senses-section">
-    <h4>Senses</h4>
-    {% set wis_mod = (character.wisdom - 10) // 2 %}
-    {% set int_mod = (character.intelligence - 10) // 2 %}
-    <div class="sense-row">
-      <span class="sense-label">Passive Perception</span>
-      <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
-    </div>
-    <div class="sense-row">
-      <span class="sense-label">Passive Investigation</span>
-      <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
-    </div>
-    <div class="sense-row">
-      <span class="sense-label">Passive Insight</span>
-      <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
-    </div>
-    {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
-    <div class="sense-row">
-      <span class="sense-label">Darkvision</span>
-      <span class="sense-val">60 ft</span>
-    </div>
-    {% endif %}
   </div>
 </div>
 
