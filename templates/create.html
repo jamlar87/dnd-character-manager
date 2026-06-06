@@ -94,6 +94,11 @@
   <!-- Step 5: Review -->
   <div class="wizard-step" data-step="5">
     <h3>Review & Create</h3>
+    <div id="portrait-section" style="margin-bottom:0.75rem;text-align:center;display:none">
+      <img id="portrait-img" src="" alt="Character Portrait" style="max-width:256px;max-height:384px;border-radius:8px;border:2px solid var(--border);display:none">
+      <div id="portrait-loading" style="display:none;padding:2rem;color:var(--text-muted)">🎨 Generating portrait...</div>
+    </div>
+    <div style="margin-bottom:0.5rem"><button class="btn btn-outline btn-sm" onclick="generatePortrait()">🎨 Generate Portrait</button> <span style="font-size:0.75rem;color:var(--text-muted)">*First attempt — high fantasy style</span></div>
     <div class="card" id="review-card"></div>
     <div style="margin:0.5rem 0"><button class="btn btn-outline btn-sm" onclick="autoEquip()">🎒 Auto-Equipment</button> <span style="font-size:0.75rem;color:var(--text-muted)">*Add additional equipment on the Character page</span></div>
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" id="create-btn" onclick="createCharacter()">✓ Create Character</button></div>
@@ -610,6 +615,37 @@ function autoEquip() {
   if (state.class_name && STARTING_EQUIPMENT[state.class_name]) {
     state.equipment = STARTING_EQUIPMENT[state.class_name];
     buildReview();
+  }
+}
+
+async function generatePortrait() {
+  const section = document.getElementById('portrait-section');
+  const img = document.getElementById('portrait-img');
+  const loading = document.getElementById('portrait-loading');
+  section.style.display = 'block';
+  img.style.display = 'none';
+  loading.style.display = 'block';
+
+  try {
+    const r = await fetch('/api/ai/portrait', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        race: state.race, subrace: state.subrace,
+        class_name: state.class_name, subclass: state.subclass,
+        abilities: state.abilities, background: state.background,
+        alignment: state.alignment, skills: state.skills
+      })
+    });
+    const data = await r.json();
+    img.src = data.image_url;
+    state.portrait_prompt = data.prompt;
+    img.onload = () => { loading.style.display = 'none'; img.style.display = 'block'; };
+    img.onerror = () => {
+      loading.innerHTML = `<p style="font-size:0.8rem">⚠️ Image generation queued. Prompt:</p><p style="font-size:0.75rem;color:var(--text-muted);max-width:400px;margin:0 auto">${data.prompt.slice(0,300)}...</p>`;
+    };
+  } catch(e) {
+    loading.innerHTML = '⚠️ Portrait generation failed.';
+    console.error(e);
   }
 }
 </script>

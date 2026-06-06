@@ -1314,6 +1314,88 @@ def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict
     bg = random.choice(pool)
     return {"name": bg["name"], "description": bg["desc"], "items": list(bg["items"]), "gp": bg["gp"]}
 
+# ── Character Portrait Generation ────────────────────────────────────────
+
+@app.post("/api/ai/portrait", response_class=JSONResponse)
+async def ai_portrait(request: Request):
+    """Generate a high-fantasy character portrait. Returns image URL."""
+    user = require_user(request)
+    data = await request.json()
+    race = data.get("race", "Human")
+    subrace = data.get("subrace", "")
+    class_name = data.get("class_name", "Fighter")
+    subclass = data.get("subclass", "")
+    abilities = data.get("abilities", {})
+    background = data.get("background", "")
+    alignment = data.get("alignment", "")
+    skills = data.get("skills", [])
+    gender = data.get("gender", "")
+
+    # Build a detailed image prompt
+    prompt = f"""Describe a D&D 5e character portrait in High Fantasy art style. Oil painting, dramatic lighting, detailed armor and clothing.
+
+Character: {race}{' (' + subrace + ')' if subrace else ''} {class_name}{' — ' + subclass if subclass else ''}
+Background: {background}
+Alignment: {alignment or 'Unknown'}
+Skills: {', '.join(skills) if skills else 'various'}
+Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=lambda x:-x[1])[:3]) if abilities else 'balanced'}
+
+Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor style, weapon or focus if appropriate, pose, expression, lighting, background setting. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
+
+    TIER_NAMES = ["gemini", "openrouter", "ollama"]
+    text = None
+    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
+        text = await caller(prompt)
+        if text:
+            break
+    print(f"[AI portrait] tier={'AI' if text else 'fallback'} race={race} class={class_name}")
+
+    image_prompt = text.strip() if text else _fallback_portrait_prompt(race, class_name, subclass)
+    if len(image_prompt) > 800:
+        image_prompt = image_prompt[:797] + "..."
+
+    # Build Pollinations.ai URL (free, loads asynchronously in browser)
+    import urllib.parse
+    encoded = urllib.parse.quote(image_prompt)
+    # Use nologo + seed for cache-busting variant
+    import random as _random
+    seed = _random.randint(1, 999999)
+    image_url = f"https://image.pollinations.ai/prompt/{encoded}?width=512&height=768&nologo=true&seed={seed}"
+
+    return JSONResponse({"prompt": image_prompt, "image_url": image_url})
+
+def _fallback_portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
+    """Deterministic portrait prompts by class/race."""
+    prompts = {
+        ("Dwarf","Barbarian"): "A stout mountain dwarf barbarian with thick braided auburn hair and a scarred face. Wearing fur-lined leather armor with iron pauldrons. Gripping a massive greataxe, battle-ready stance. Snow-capped peaks in the background. Oil painting, dramatic lighting, high fantasy.",
+        ("Dwarf","Cleric"): "A venerable dwarf cleric with a silver-streaked beard and kind eyes. Robes of deep blue with gold embroidery, a holy symbol of Moradin hanging from a chain. One hand raised in blessing, warm candlelight glow. Stone temple interior. Oil painting, high fantasy.",
+        ("Dwarf","Fighter"): "A battle-hardened dwarf fighter in chainmail armor, shield strapped to one arm, warhammer resting on shoulder. Braided copper beard, stern expression. Standing before a mountain fortress gate. Oil painting, dramatic lighting.",
+        ("Elf","Wizard"): "A slender high elf wizard with silver-white hair flowing past pointed ears. Deep purple robes with arcane sigils, a crystal-topped staff in hand. Faint magical aura, ancient library backdrop. Oil painting, ethereal lighting.",
+        ("Elf","Ranger"): "A wood elf ranger with amber eyes and copper hair pulled back. Leather armor in forest greens, longbow in hand. Hood partially up, alert expression. Ancient forest with dappled sunlight. Oil painting, high fantasy.",
+        ("Elf","Rogue"): "A sleek elven rogue with dark cropped hair and a knowing smirk. Black leather armor, daggers at the belt, cloak half-drawn. Moonlit city rooftop, shadows dancing. Oil painting, chiaroscuro lighting.",
+        ("Human","Paladin"): "A noble human paladin with short-cropped blonde hair and a strong jaw. Gleaming plate armor with a sunburst emblem, longsword raised. Divine light radiating from behind. Oil painting, cinematic lighting.",
+        ("Human","Fighter"): "A weathered human fighter with close-cropped dark hair and a faint scar across the cheek. Well-worn scale mail, longsword at hip, shield on back. Standing guard before a castle wall. Oil painting, late afternoon light.",
+        ("Half-Orc","Barbarian"): "A towering half-orc barbarian with gray-green skin and tribal tattoos. Bald head, tusked jaw, fur mantle over bare chest. Massive axe in both hands, primal roar. Stormy sky background. Oil painting, dramatic lighting.",
+        ("Tiefling","Warlock"): "A tiefling warlock with deep purple skin and curved horns sweeping back. Eyes glowing with eldritch fire, dark robes with infernal patterns. A crackling tome in one hand. Shadowy ruins at midnight. Oil painting, occult atmosphere.",
+    }
+    key = (race, class_name)
+    if key in prompts:
+        return prompts[key]
+    # Generic fallback
+    race_features = {
+        "Dwarf": "stout build, braided hair or beard",
+        "Elf": "slender build, pointed ears, graceful",
+        "Human": "determined expression, practical",
+        "Half-Orc": "tusked, muscular, gray-green skin",
+        "Halfling": "small stature, curly hair, cheerful",
+        "Gnome": "small, bright-eyed, clever expression",
+        "Tiefling": "horns, tail, otherworldly presence",
+        "Dragonborn": "draconic features, scales, reptilian",
+        "Half-Elf": "slightly pointed ears, mixed heritage beauty",
+    }
+    rf = race_features.get(race, "adventurous look")
+    return f"A {race.lower()} {class_name.lower()} with {rf}. Wearing appropriate {class_name.lower()} attire. Confident pose, high fantasy oil painting style with dramatic lighting. Rich colors, detailed background suggesting their calling."
+
 # ── Build Generation (PHB-grounded, level-aware) ────────────────────────────
 
 @app.post("/api/ai/build", response_class=JSONResponse)
