@@ -38,7 +38,7 @@
       <div class="option-grid" id="subrace-grid"></div>
     </div>
     <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
-    <div class="wizard-nav"><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline btn-sm" onclick="randomizeRace()">🎲 Randomize</button><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 1: Class -->
@@ -50,7 +50,7 @@
       <div class="option-grid" id="subclass-grid"></div>
     </div>
     <div id="class-info" class="card" style="margin-top:1rem;display:none"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeClass()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 2: Abilities -->
@@ -64,14 +64,14 @@
       <div class="grid-2" id="halfelf-grid"></div>
     </div>
     {% endif %}
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 3: Skills -->
   <div class="wizard-step" data-step="3">
     <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span></h3>
     <div class="option-grid" id="skill-grid"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeSkills()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 4: Details -->
@@ -84,7 +84,7 @@
     </div>
     <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
     <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-primary" onclick="prevStep()">Review →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeDetails()">🎲 Randomize</button><button class="btn btn-primary" onclick="prevStep()">Review →</button></div>
   </div>
 
   <!-- Step 5: Review -->
@@ -390,6 +390,67 @@ function randomName() {
   const name = first + ' ' + clan;
   document.getElementById('char-name').value = name;
   state.name = name;
+}
+
+// ── Randomize buttons ────────────────────────────────────────────────
+
+function randomizeRace() {
+  const races = Object.keys(RACES);
+  const race = races[Math.floor(Math.random() * races.length)];
+  selectRace(race);
+  const subs = RACES[race].subraces;
+  if (subs && subs.length) {
+    const sub = subs[Math.floor(Math.random() * subs.length)];
+    selectSubrace(sub);
+  }
+}
+
+function randomizeClass() {
+  const classes = Object.keys(CLASSES);
+  const cls = classes[Math.floor(Math.random() * classes.length)];
+  selectClass(cls);
+  const subs = CLASSES[cls].subclasses;
+  if (subs && subs.length) {
+    const sub = subs[Math.floor(Math.random() * subs.length)];
+    selectSubclass(sub);
+  }
+}
+
+function randomizeAbilities() {
+  // Fisher-Yates shuffle of standard array
+  const arr = [...STD_ARRAY];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  const selects = document.querySelectorAll('#ability-grid select');
+  ABILITIES.forEach((a, i) => {
+    state.abilities[a] = arr[i];
+    if (selects[i]) selects[i].value = arr[i];
+  });
+  state.asi_picks = [];
+  updateAsiPreview();
+}
+
+function randomizeSkills() {
+  const c = CLASSES[state.class_name];
+  if (!c) return;
+  const available = Array.isArray(c.skills) ? [...c.skills] : [...ALL_SKILLS];
+  // Shuffle and pick
+  for (let i = available.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [available[i], available[j]] = [available[j], available[i]];
+  }
+  state.skills = available.slice(0, c.skill_count);
+  document.querySelectorAll('#skill-grid .option-card').forEach(card => {
+    card.classList.toggle('selected', state.skills.includes(card.querySelector('.name').textContent));
+  });
+}
+
+function randomizeDetails() {
+  randomName();
+  document.getElementById('char-bg').value = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
+  document.getElementById('char-align').value = ALIGNMENTS[Math.floor(Math.random() * ALIGNMENTS.length)];
 }
 
 async function autoFillDetails() {
