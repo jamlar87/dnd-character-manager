@@ -132,6 +132,16 @@
 .edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
 .inv-item .btn { display: none !important; }
 .edit-mode .inv-item .btn { display: inline-flex !important; }
+/* Clickable info badges */
+.badge-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+.badge-link:hover { filter: brightness(1.3); }
+/* Detail popup */
+#detail-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; }
+#detail-popup .popup-card { max-width: 480px; width: 90%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; max-height: 80vh; overflow-y: auto; }
+#detail-popup h3 { margin: 0 0 0.75rem 0; color: var(--accent); }
+#detail-popup p { font-size: 0.9rem; line-height: 1.5; color: var(--text); margin: 0; }
+#detail-popup .popup-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 0 0.25rem; }
+#detail-popup .popup-close:hover { color: var(--text); }
 {% endblock %}
 
 {% block content %}
@@ -143,8 +153,8 @@
 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
   <div>
     <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
-    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable" data-field="race">{{ character.race }}</span>{% if character.subrace %} (<span class="editable" data-field="subrace">{{ character.subrace }}</span>){% endif %} <span class="editable" data-field="class_name">{{ character.class_name }}</span></span>
-    {% if character.subclass %}<span class="badge badge-muted editable" data-field="subclass">{{ character.subclass }}</span>{% endif %}
+    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail('race','{{ character.race }}')">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail('subrace','{{ character.subrace }}')">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail('class','{{ character.class_name }}')">{{ character.class_name }}</span></span>
+    {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail('subclass','{{ character.subclass }}')">{{ character.subclass }}</span>{% endif %}
     {% if character.background %}<span class="badge badge-muted editable" data-field="background" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
     {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
@@ -650,6 +660,15 @@
   </div><!-- /sheet-main -->
 </div><!-- /sheet-layout -->
 
+<!-- Detail Popup -->
+<div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
+  <div class="popup-card">
+    <button class="popup-close" onclick="document.getElementById('detail-popup').style.display='none'">✕</button>
+    <h3 id="popup-title"></h3>
+    <p id="popup-body"></p>
+  </div>
+</div>
+
 <!-- Portrait Edit Modal -->
 <div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
   <div class="card" style="max-width:480px;width:90%;max-height:90vh;overflow-y:auto">
@@ -924,6 +943,54 @@ async function regenerateSheetPortrait() {
     loading.innerHTML = '⚠️ Failed: ' + (e.message || e);
     console.error(e);
   }
+}
+
+// ── Detail Popup ──
+const DESCRIPTIONS = {
+  race: {{ races|tojson }},
+  class: {{ classes|tojson }}
+};
+
+function showDetail(type, name) {
+  if (document.body.classList.contains('edit-mode')) return; // editing takes priority
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+
+  if (type === 'race' || type === 'subrace') {
+    const raceData = DESCRIPTIONS.race[name] || DESCRIPTIONS.race[Object.keys(DESCRIPTIONS.race).find(r => (DESCRIPTIONS.race[r].subraces || []).includes(name))];
+    if (type === 'race' && raceData) {
+      title.textContent = name;
+      body.textContent = raceData.desc || 'No description available.';
+    } else if (type === 'subrace') {
+      // Find parent race
+      for (const [rname, rdata] of Object.entries(DESCRIPTIONS.race)) {
+        if ((rdata.subrace_descs || {})[name]) {
+          title.textContent = name + ' (' + rname + ')';
+          body.textContent = rdata.subrace_descs[name];
+          break;
+        }
+      }
+      if (!body.textContent) { title.textContent = name; body.textContent = 'No description available.'; }
+    }
+  } else if (type === 'class' || type === 'subclass') {
+    const classData = DESCRIPTIONS.class[name];
+    if (type === 'class' && classData) {
+      title.textContent = name;
+      body.textContent = classData.desc || 'No description available.';
+    } else if (type === 'subclass') {
+      for (const [cname, cdata] of Object.entries(DESCRIPTIONS.class)) {
+        if ((cdata.subclass_descs || {})[name]) {
+          title.textContent = name + ' (' + cname + ')';
+          body.textContent = cdata.subclass_descs[name];
+          break;
+        }
+      }
+      if (!body.textContent) { title.textContent = name; body.textContent = 'No description available.'; }
+    }
+  }
+
+  popup.style.display = 'flex';
 }
 
 // ── Edit Mode Toggle ──

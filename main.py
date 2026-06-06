@@ -548,7 +548,7 @@ async def character_sheet(char_id: int, request: Request):
     saves_class = list(set(class_saves) | set(user_saves))
 
     return _render("sheet.html", request=request, character=char, spells=spells,
-                   skill_abilities=SKILL_ABILITIES, classes=CLASSES, saves_class=saves_class)
+                   skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES, saves_class=saves_class)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
