@@ -15,7 +15,7 @@
 
 /* Combat + Abilities sub-row */
 .center-combat { }
-.center-abilities-senses { display: flex; gap: 1rem; align-items: flex-start; }
+.center-abilities-senses { display: flex; flex-direction: column; gap: 0.5rem; }
 .center-abilities-senses .abilities-grid { flex: 1; min-width: 0; }
 
 @media (max-width: 768px) {
@@ -27,7 +27,7 @@
 }
 
 /* ── Senses section box ── */
-.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; flex-shrink: 0; display: flex; align-items: center; gap: 0.75rem; }
+.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; }
 .senses-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
 .sense-row { display: flex; gap: 0.3rem; align-items: baseline; font-size: 0.8rem; white-space: nowrap; }
 .sense-label { color: var(--text-muted); }
