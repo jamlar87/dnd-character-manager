@@ -646,18 +646,25 @@ async def api_create_character(request: Request):
 
     # Merge background items into inventory (normalize to {name, qty} dicts)
     def _parse_item(item):
-        """Parse item string: '4 Javelins' → {name: 'Javelins', qty: 4}.
-        Leaves measurements alone: '50 ft Rope' stays as-is."""
+        """Parse item string: '4 Javelins' → {name: 'Javelin', qty: 4}.
+        Strips leading quantity, trailing plural 's', and measurement units."""
         if isinstance(item, str):
             import re
-            m = re.match(r'^(\d+)\s+(.+)', item.strip())
+            s = item.strip()
+            m = re.match(r'^(\d+)\s+(.+)', s)
             if m:
                 qty = int(m.group(1))
                 rest = m.group(2)
-                # Don't parse if the next word is a unit (ft, lb, gp, etc.)
                 if not re.match(r'^(ft|lb|oz|gp|sp|cp|mi|yd|in|gal|feet|inch|mile|yard|pound|ounce)', rest, re.IGNORECASE):
+                    # Strip trailing 's' for plurals (but not 'ss' endings like 'cross')
+                    if rest.endswith('s') and not rest.endswith('ss') and len(rest) > 3:
+                        rest = rest[:-1]
                     return {"name": rest, "qty": qty}
-            return {"name": item.strip(), "qty": 1}
+            # No quantity prefix — still singularize
+            name = s
+            if name.endswith('s') and not name.endswith('ss') and len(name) > 3:
+                name = name[:-1]
+            return {"name": name, "qty": 1}
         return item
 
     inventory = [_parse_item(item) for item in data.get("equipment", [])]
