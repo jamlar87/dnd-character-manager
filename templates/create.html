@@ -352,12 +352,15 @@ function buildSkills() {
   const available = Array.isArray(c.skills) ? c.skills : ALL_SKILLS;
   const max = c.skill_count;
   document.getElementById('skill-count-label').textContent = `(pick ${max})`;
-  state.skills = [];
   document.getElementById('skill-grid').innerHTML = available.map(s => `
     <div class="option-card" onclick="toggleSkill('${s}')">
       <div class="name">${s}</div>
       <div class="detail">${SKILL_ABILITIES[s].slice(0,3).toUpperCase()}</div>
     </div>`).join('');
+  // Re-highlight previously selected skills
+  document.querySelectorAll('#skill-grid .option-card').forEach(card => {
+    card.classList.toggle('selected', state.skills.includes(card.querySelector('.name').textContent));
+  });
 }
 
 function toggleSkill(s) {
