@@ -952,7 +952,9 @@ function switchTab(name) {
   localStorage.setItem('char-tab-' + CHAR_ID, name);
 }
 const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
-if (savedTab) switchTab(savedTab);
+if (savedTab && ['actions','features','spells','inventory'].includes(savedTab)) {
+  switchTab(savedTab);
+}
 
 // ── HP (updates both sidebar mini and bar) ──
 async function applyHP(sign) {
