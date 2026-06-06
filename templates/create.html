@@ -71,7 +71,7 @@
   <div class="wizard-step" data-step="3">
     <h3>Choose Skills <span id="skill-count-label" style="font-size:0.85rem;color:var(--text-muted)"></span></h3>
     <div class="option-grid" id="skill-grid"></div>
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeSkills()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealSkills()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeSkills()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 4: Details -->
@@ -121,6 +121,22 @@ const CLASS_PRIORITY = {
   "Sorcerer":   ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
   "Warlock":    ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
   "Wizard":     ["intelligence","constitution","dexterity","wisdom","charisma","strength"],
+};
+
+// Ideal skill picks by class (in priority order, picks up to skill_count)
+const CLASS_IDEAL_SKILLS = {
+  "Barbarian":  ["Athletics","Perception","Survival","Intimidation","Nature","Animal Handling"],
+  "Bard":       ["Persuasion","Deception","Performance","Insight","Acrobatics","Stealth"],
+  "Cleric":     ["Insight","Persuasion","Medicine","Religion","History"],
+  "Druid":      ["Perception","Survival","Nature","Animal Handling","Insight","Medicine"],
+  "Fighter":    ["Athletics","Perception","Survival","Intimidation","Acrobatics","Insight"],
+  "Monk":       ["Acrobatics","Stealth","Insight","Athletics","Religion","History"],
+  "Paladin":    ["Athletics","Persuasion","Insight","Intimidation","Religion","Medicine"],
+  "Ranger":     ["Perception","Stealth","Survival","Nature","Animal Handling","Investigation"],
+  "Rogue":      ["Stealth","Perception","Sleight of Hand","Investigation","Acrobatics","Deception"],
+  "Sorcerer":   ["Persuasion","Deception","Intimidation","Insight","Arcana","Religion"],
+  "Warlock":    ["Deception","Intimidation","Persuasion","Arcana","Investigation","Religion"],
+  "Wizard":     ["Arcana","Investigation","Insight","History","Religion","Medicine"],
 };
 
 // Race name generator tables
@@ -472,6 +488,18 @@ function randomizeSkills() {
     [available[i], available[j]] = [available[j], available[i]];
   }
   state.skills = available.slice(0, c.skill_count);
+  document.querySelectorAll('#skill-grid .option-card').forEach(card => {
+    card.classList.toggle('selected', state.skills.includes(card.querySelector('.name').textContent));
+  });
+}
+
+function idealSkills() {
+  const c = CLASSES[state.class_name];
+  if (!c) { alert('Choose a class first (go back to Step 1)'); return; }
+  const available = new Set(Array.isArray(c.skills) ? c.skills : ALL_SKILLS);
+  const ideal = CLASS_IDEAL_SKILLS[state.class_name] || CLASS_IDEAL_SKILLS["Fighter"];
+  // Pick first N ideal skills that are in the class's available list
+  state.skills = ideal.filter(s => available.has(s)).slice(0, c.skill_count);
   document.querySelectorAll('#skill-grid .option-card').forEach(card => {
     card.classList.toggle('selected', state.skills.includes(card.querySelector('.name').textContent));
   });
