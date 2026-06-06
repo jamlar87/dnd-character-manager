@@ -203,7 +203,13 @@ function selectRace(name) {
 function selectSubrace(s) {
   state.subrace = s;
   document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
-  selectRace(state.race); // refresh info
+  // Refresh race info without resetting subrace
+  const r = RACES[state.race];
+  document.getElementById('race-info').innerHTML = `
+    <strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
+    · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
+    <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>`;
+  updateAsiPreview();
 }
 
 // ── Step 1: Class ──
@@ -239,7 +245,12 @@ function selectClass(name) {
 function selectSubclass(s) {
   state.subclass = s;
   document.querySelectorAll('#subclass-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
-  selectClass(state.class_name);
+  // Refresh class info without resetting subclass
+  const c = CLASSES[state.class_name];
+  document.getElementById('class-info').innerHTML = `
+    <strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}
+    · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
+    <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>`;
 }
 
 // ── Step 2: Abilities ──
