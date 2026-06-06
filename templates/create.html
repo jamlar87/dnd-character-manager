@@ -64,7 +64,7 @@
       <div class="grid-2" id="halfelf-grid"></div>
     </div>
     {% endif %}
-    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
+    <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealAbilities()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
   <!-- Step 3: Skills -->
@@ -106,6 +106,22 @@ const BACKGROUNDS = {{ backgrounds | tojson }};
 const ALIGNMENTS = {{ alignments | tojson }};
 const STD_ARRAY = [15,14,13,12,10,8];
 const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
+
+// Ideal ability priority by class (standard array: 15→highest priority, 8→lowest)
+const CLASS_PRIORITY = {
+  "Barbarian":  ["strength","constitution","dexterity","wisdom","charisma","intelligence"],
+  "Bard":       ["charisma","dexterity","constitution","wisdom","intelligence","strength"],
+  "Cleric":     ["wisdom","strength","constitution","dexterity","charisma","intelligence"],
+  "Druid":      ["wisdom","constitution","dexterity","intelligence","strength","charisma"],
+  "Fighter":    ["strength","constitution","dexterity","wisdom","charisma","intelligence"],
+  "Monk":       ["dexterity","wisdom","constitution","strength","intelligence","charisma"],
+  "Paladin":    ["strength","charisma","constitution","wisdom","dexterity","intelligence"],
+  "Ranger":     ["dexterity","wisdom","constitution","strength","intelligence","charisma"],
+  "Rogue":      ["dexterity","constitution","wisdom","intelligence","charisma","strength"],
+  "Sorcerer":   ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
+  "Warlock":    ["charisma","constitution","dexterity","wisdom","intelligence","strength"],
+  "Wizard":     ["intelligence","constitution","dexterity","wisdom","charisma","strength"],
+};
 
 // Race name generator tables
 const RACE_NAMES = {
@@ -428,6 +444,19 @@ function randomizeAbilities() {
   ABILITIES.forEach((a, i) => {
     state.abilities[a] = arr[i];
     if (selects[i]) selects[i].value = arr[i];
+  });
+  state.asi_picks = [];
+  updateAsiPreview();
+}
+
+function idealAbilities() {
+  if (!state.class_name) { alert('Choose a class first (go back to Step 1)'); return; }
+  const priority = CLASS_PRIORITY[state.class_name] || CLASS_PRIORITY["Fighter"];
+  const selects = document.querySelectorAll('#ability-grid select');
+  ABILITIES.forEach((a, i) => {
+    const rank = priority.indexOf(a);  // 0 = highest priority
+    state.abilities[a] = STD_ARRAY[rank];
+    if (selects[i]) selects[i].value = STD_ARRAY[rank];
   });
   state.asi_picks = [];
   updateAsiPreview();
