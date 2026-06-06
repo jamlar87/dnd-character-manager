@@ -5,17 +5,14 @@
 .container { max-width: 1100px; margin: 1rem auto; }
 @media (max-width: 768px) { .container { margin: 0.5rem auto; } }
 
-/* ── Top row: portrait + HP + combat ── */
+/* ── Top row: HP + combat ── */
 .sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
-.top-portrait { width: 160px; flex-shrink: 0; }
-.top-portrait img { width: 100%; object-fit: cover; }
 .top-hp { width: 260px; flex-shrink: 0; }
 .top-longrest { width: 80px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:column; gap:0.35rem; }
 .top-combat { flex: 1; min-width: 0; }
 .top-combat-grid { grid-template-columns: repeat(6, 1fr) !important; }
 @media (max-width: 768px) {
   .sheet-top-row { flex-direction: column; }
-  .top-portrait { width: 100%; max-width: 200px; margin: 0 auto; }
   .top-hp { width: 100%; }
   .top-longrest { width: 100%; max-width: 200px; margin: 0 auto; }
   .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
@@ -185,37 +182,37 @@
 {% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
 {% set char_skills = character.skills or [] %}
 
-<!-- Header -->
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
-  <div>
-    <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
-    <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail()">{{ character.class_name }}</span></span>
-    {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
-    {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
-    {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
-  </div>
-  <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
-</div>
-
-{% if character.personality or character.backstory %}
-<div class="card" style="margin-bottom:0.75rem;padding:0.75rem 1rem;font-size:0.85rem">
-  {% if character.personality %}<p style="color:var(--accent);margin:0" class="editable" data-field="personality">{{ character.personality }}</p>{% endif %}
-  {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic" class="editable" data-field="backstory">{{ character.backstory }}</p>{% endif %}
-</div>
-{% endif %}
-
-<!-- Top row: portrait + combat + abilities -->
-<div class="sheet-top-row">
-  <!-- Portrait -->
-  <div class="top-portrait">
+<!-- Header with portrait + name -->
+<div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+  <div style="width:80px;flex-shrink:0">
     {% if character.portrait_url %}
-    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid var(--border)" id="sidebar-portrait">
-    <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
+    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
     {% else %}
-    <div style="padding:1rem 0.5rem;color:var(--text-muted);font-size:0.75rem;text-align:center">No portrait yet</div>
-    <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
+    <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" onclick="openPortraitModal()" title="Add portrait">🎨</div>
     {% endif %}
   </div>
+  <div style="flex:1;min-width:0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
+      <div>
+        <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
+        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail()">{{ character.class_name }}</span></span>
+        {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
+        {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
+        {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
+      </div>
+      <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
+    </div>
+    {% if character.personality or character.backstory %}
+    <div style="margin-top:0.5rem;font-size:0.85rem">
+      {% if character.personality %}<p style="color:var(--accent);margin:0" class="editable" data-field="personality">{{ character.personality }}</p>{% endif %}
+      {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic" class="editable" data-field="backstory">{{ character.backstory }}</p>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Top row: HP + combat + abilities (portrait moved to header) -->
+<div class="sheet-top-row">
 
   <!-- HP Section -->
   <div class="top-hp">
