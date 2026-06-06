@@ -645,16 +645,26 @@ async def api_create_character(request: Request):
     passive = 10 + wis_mod + (prof_bonus if "Perception" in skills_list else 0)
 
     # Merge background items into inventory (normalize to {name, qty} dicts)
-    inventory = []
-    for item in data.get("equipment", []):
+    def _parse_item(item):
+        """Parse item string: '4 Javelins' → {name: 'Javelins', qty: 4}.
+        Leaves measurements alone: '50 ft Rope' stays as-is."""
         if isinstance(item, str):
-            inventory.append({"name": item, "qty": 1})
-        else:
-            inventory.append(item)
+            import re
+            m = re.match(r'^(\d+)\s+(.+)', item.strip())
+            if m:
+                qty = int(m.group(1))
+                rest = m.group(2)
+                # Don't parse if the next word is a unit (ft, lb, gp, etc.)
+                if not re.match(r'^(ft|lb|oz|gp|sp|cp|mi|yd|in|gal|feet|inch|mile|yard|pound|ounce)', rest, re.IGNORECASE):
+                    return {"name": rest, "qty": qty}
+            return {"name": item.strip(), "qty": 1}
+        return item
+
+    inventory = [_parse_item(item) for item in data.get("equipment", [])]
     bg_data_raw = data.get("background_data", "")
     if bg_data_raw and isinstance(bg_data_raw, dict):
         for item in bg_data_raw.get("items", []):
-            inventory.append({"name": item, "qty": 1})
+            inventory.append(_parse_item(item))
 
     db = get_db()
     cur = db.execute("""
