@@ -5,6 +5,7 @@ import json
 import os
 import asyncio
 import random
+import re
 import sqlite3
 import sys
 from datetime import datetime, timezone
@@ -2027,6 +2028,278 @@ async def reset_features(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True})
 
+# ── Level-Up API ────────────────────────────────────────────────────────────
+
+@app.get("/api/character/{char_id}/level-up-info", response_class=JSONResponse)
+async def level_up_info(char_id: int, request: Request):
+    """Return everything needed for the level-up wizard."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    db.close()
+    
+    cls = char.get("class_name", "Fighter")
+    current_level = char.get("level", 1)
+    new_level = current_level + 1
+    
+    if current_level >= 20:
+        return JSONResponse({"error": "Already max level (20)"}, status_code=400)
+    
+    # HP
+    hd = CLASSES.get(cls, {}).get("hd", 8)
+    con_mod = (char.get("constitution", 10) - 10) // 2
+    avg_hp = (hd // 2) + 1 + con_mod
+    hp_options = {"hit_die": f"d{hd}", "con_mod": con_mod, "average": avg_hp, "max_roll": hd + con_mod}
+    
+    # Features
+    old_features = get_class_features(cls, current_level, char.get("subclass", ""))
+    new_features = get_class_features(cls, new_level, char.get("subclass", ""))
+    gained_features = [f for f in new_features if f not in old_features]
+    
+    # Proficiency bonus
+    old_pb = PROFICIENCY_BONUS.get(current_level, 2)
+    new_pb = PROFICIENCY_BONUS.get(new_level, 2)
+    pb_change = new_pb != old_pb
+    
+    # ASI
+    is_asi = new_level in ASI_LEVELS.get(cls, [])
+    asi_info = None
+    feats_available = []
+    if is_asi:
+        abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
+        asi_info = {
+            "level": new_level,
+            "abilities": abilities,
+            "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
+        }
+        # Filter feats by prerequisites
+        for key, feat in FEATS.items():
+            prereq = feat.get("prereq")
+            if prereq and not _feat_prereq_met(char, prereq):
+                continue
+            feats_available.append({
+                "key": key, "name": feat["name"], "desc": feat["desc"],
+                "asi": feat.get("asi"), "prereq": prereq,
+            })
+    
+    # Subclass
+    subclass_info = None
+    if current_level < new_level:
+        sc = SUBCLASS_LEVELS.get(cls)
+        if sc and sc["level"] == new_level and not char.get("subclass"):
+            subclass_info = {"level": new_level, "label": sc["label"], "options": sc["options"]}
+    
+    # Spell changes
+    spell_info = None
+    caster_type = get_caster_type(cls)
+    if caster_type != "none":
+        try:
+            old_slots = get_spell_slots(cls, current_level)
+            new_slots = get_spell_slots(cls, new_level)
+        except:
+            old_slots = {}; new_slots = {}
+        spell_info = {
+            "caster_type": caster_type,
+            "spellcasting_ability": _spellcasting_ability(cls),
+            "old_slots": old_slots, "new_slots": new_slots,
+        }
+        # Spells known changes
+        if caster_type in ("full", "half"):
+            old_known = get_spells_known_max(cls, current_level)
+            new_known = get_spells_known_max(cls, new_level)
+            spell_info["spells_known_change"] = max(0, new_known - old_known)
+        # Cantrip changes
+        cantrip_key = "cleric" if cls == "Cleric" else ("warlock" if cls == "Warlock" else "full")
+        if caster_type in ("full", "warlock") or cls == "Cleric":
+            ct = CANTRIPS_PROGRESSION.get(cantrip_key, {})
+            old_cantrips = sum(v for k, v in ct.items() if k <= current_level)
+            new_cantrips = sum(v for k, v in ct.items() if k <= new_level)
+            spell_info["cantrips_change"] = max(0, new_cantrips - old_cantrips)
+    
+    return JSONResponse({
+        "class_name": cls,
+        "current_level": current_level,
+        "new_level": new_level,
+        "hp": hp_options,
+        "features_gained": gained_features,
+        "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": pb_change},
+        "asi": asi_info,
+        "feats": feats_available,
+        "subclass": subclass_info,
+        "spells": spell_info,
+        "has_subclass": bool(char.get("subclass")),
+    })
+
+
+def _feat_prereq_met(char: dict, prereq: str) -> bool:
+    """Check if a character meets a feat prerequisite string."""
+    if not prereq:
+        return True
+    if "Strength" in prereq:
+        raw = prereq.replace("Strength ", "").replace("+", "").strip()
+        try:
+            return char.get("strength", 10) >= int(raw)
+        except ValueError:
+            pass
+    if "Dexterity" in prereq:
+        raw = prereq.replace("Dexterity ", "").replace("+", "").strip()
+        try:
+            return char.get("dexterity", 10) >= int(raw)
+        except ValueError:
+            pass
+    if "Intelligence" in prereq:
+        raw = prereq.replace("Intelligence ", "").replace("+", "").strip()
+        try:
+            return char.get("intelligence", 10) >= int(raw)
+        except ValueError:
+            pass
+    if "Wisdom" in prereq:
+        raw = prereq.replace("Wisdom ", "").replace("+", "").strip()
+        try:
+            return char.get("wisdom", 10) >= int(raw)
+        except ValueError:
+            pass
+    if "Charisma" in prereq:
+        raw = prereq.replace("Charisma ", "").replace("+", "").strip()
+        try:
+            return char.get("charisma", 10) >= int(raw)
+        except ValueError:
+            pass
+    if "Constitution" in prereq:
+        raw = prereq.replace("Constitution ", "").replace("+", "").strip()
+        try:
+            return char.get("constitution", 10) >= int(raw)
+        except ValueError:
+            pass
+    # Spellcasting prereq
+    if "spell" in prereq.lower() or "cast" in prereq.lower():
+        caster = get_caster_type(char.get("class_name", ""))
+        return caster != "none"
+    if "armor" in prereq.lower():
+        armors = char.get("armor_proficiencies", [])
+        if isinstance(armors, str):
+            armors = json.loads(armors)
+        return prereq.split(" ")[0].lower() in [a.lower() for a in armors]
+    return True
+
+
+def _spellcasting_ability(class_name: str) -> str:
+    spell_map = {
+        "Bard": "Charisma", "Cleric": "Wisdom", "Druid": "Wisdom",
+        "Paladin": "Charisma", "Ranger": "Wisdom", "Sorcerer": "Charisma",
+        "Warlock": "Charisma", "Wizard": "Intelligence",
+    }
+    return spell_map.get(class_name, "Wisdom")
+
+
+@app.post("/api/character/{char_id}/apply-level-up", response_class=JSONResponse)
+async def apply_level_up(char_id: int, request: Request):
+    """Apply all level-up choices and update the character."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    cls = char.get("class_name", "Fighter")
+    old_level = char.get("level", 1)
+    new_level = old_level + 1
+    
+    updates = {"level": new_level}
+    changes = []
+    
+    # HP
+    hp_choice = data.get("hp", "average")
+    hd = CLASSES.get(cls, {}).get("hd", 8)
+    con_mod = (char.get("constitution", 10) - 10) // 2
+    if hp_choice == "max":
+        hp_gain = hd + con_mod
+    elif hp_choice == "roll":
+        hp_gain = random.randint(1, hd) + con_mod
+    else:
+        hp_gain = (hd // 2) + 1 + con_mod
+    
+    updates["hp_max"] = char.get("hp_max", 10) + hp_gain
+    updates["hp_current"] = updates["hp_max"]  # Full heal on level up
+    changes.append(f"HP +{hp_gain}")
+    
+    # Proficiency bonus
+    updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(new_level, 2)
+    
+    # Subclass
+    subclass_choice = data.get("subclass")
+    if subclass_choice:
+        updates["subclass"] = subclass_choice
+        changes.append(f"Subclass: {subclass_choice}")
+    
+    # ASI / Feat
+    asi_choice = data.get("asi")
+    if asi_choice:
+        if isinstance(asi_choice, dict):
+            for ability, increase in asi_choice.items():
+                key = ability.lower()
+                old_val = char.get(key, 10)
+                updates[key] = old_val + increase
+                changes.append(f"{ability} {old_val} → {old_val + increase}")
+        elif isinstance(asi_choice, str) and asi_choice.startswith("feat:"):
+            feat_key = asi_choice[5:]
+            feat = FEATS.get(feat_key, {})
+            changes.append(f"Feat: {feat.get('name', feat_key)}")
+            # Apply half-feat ASI if applicable
+            feat_asi = feat.get("asi")
+            if feat_asi:
+                # Use first choice if not specified
+                chosen_abi = data.get("feat_asi_choice", feat_asi["choices"][0])
+                if chosen_abi in ABILITY_NAMES:
+                    key = chosen_abi.lower()
+                    updates[key] = char.get(key, 10) + feat_asi["amount"]
+    
+    # Features — rebuild
+    features_list = get_class_features(cls, new_level, updates.get("subclass", char.get("subclass", "")))
+    updates["features"] = json.dumps(features_list)
+    
+    # Rebuild enriched feature_data
+    enriched = enrich_features(features_list, class_name=cls, level=new_level, 
+                               mods={a: ((updates.get(a.lower(), char.get(a.lower(), 10))) - 10) // 2 for a in ABILITY_NAMES})
+    updates["feature_data"] = json.dumps(enriched)
+    
+    # Spell slots
+    caster_type = get_caster_type(cls)
+    if caster_type != "none":
+        try:
+            new_slots = get_spell_slots(cls, new_level)
+            updates["spell_slot_data"] = json.dumps(new_slots)
+        except:
+            pass
+    
+    # Hit dice
+    old_hd = char.get("hit_dice", f"1d{hd}")
+    hd_match = re.match(r"(\d+)d(\d+)", str(old_hd))
+    if hd_match:
+        new_count = int(hd_match.group(1)) + 1
+        updates["hit_dice"] = f"{new_count}d{hd}"
+    else:
+        updates["hit_dice"] = f"{new_level}d{hd}"
+    
+    # Apply updates
+    set_clauses = ", ".join(f"{k} = ?" for k in updates)
+    values = list(updates.values()) + [char_id]
+    db.execute(f"UPDATE characters SET {set_clauses} WHERE id = ?", values)
+    db.commit()
+    db.close()
+    
+    return JSONResponse({
+        "ok": True,
+        "new_level": new_level,
+        "changes": changes,
+    })
+
 @app.post("/api/character/{char_id}/delete", response_class=JSONResponse)
 async def delete_character(char_id: int, request: Request):
     user = require_user(request)
@@ -2234,6 +2507,108 @@ LIMITED_USE = {
     "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
     # Wizard (PHB p.112-120)
     "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+}
+
+# ── Level-Up Data ──────────────────────────────────────────────────────
+ABILITY_NAMES = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
+
+# Which levels grant ASI per class (PHB 2014)
+ASI_LEVELS: dict[str, list[int]] = {
+    "Barbarian": [4,8,12,16,19],
+    "Bard": [4,8,12,16,19],
+    "Cleric": [4,8,12,16,19],
+    "Druid": [4,8,12,16,19],
+    "Fighter": [4,6,8,12,14,16,19],
+    "Monk": [4,8,12,16,19],
+    "Paladin": [4,8,12,16,19],
+    "Ranger": [4,8,12,16,19],
+    "Rogue": [4,8,10,12,16,19],
+    "Sorcerer": [4,8,12,16,19],
+    "Warlock": [4,8,12,16,19],
+    "Wizard": [4,8,12,16,19],
+}
+
+# Subclass selection levels + options per class (PHB 2014)
+SUBCLASS_LEVELS: dict[str, dict] = {
+    "Barbarian": {"level": 3, "label": "Primal Path",
+        "options": ["Path of the Berserker","Path of the Totem Warrior"]},
+    "Bard": {"level": 3, "label": "Bard College",
+        "options": ["College of Lore","College of Valor"]},
+    "Cleric": {"level": 1, "label": "Divine Domain",
+        "options": ["Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain"]},
+    "Druid": {"level": 2, "label": "Druid Circle",
+        "options": ["Circle of the Land","Circle of the Moon"]},
+    "Fighter": {"level": 3, "label": "Martial Archetype",
+        "options": ["Champion","Battle Master","Eldritch Knight"]},
+    "Monk": {"level": 3, "label": "Monastic Tradition",
+        "options": ["Way of the Open Hand","Way of Shadow","Way of the Four Elements"]},
+    "Paladin": {"level": 3, "label": "Sacred Oath",
+        "options": ["Oath of Devotion","Oath of the Ancients","Oath of Vengeance"]},
+    "Ranger": {"level": 3, "label": "Ranger Archetype",
+        "options": ["Hunter","Beast Master"]},
+    "Rogue": {"level": 3, "label": "Roguish Archetype",
+        "options": ["Thief","Assassin","Arcane Trickster"]},
+    "Sorcerer": {"level": 1, "label": "Sorcerous Origin",
+        "options": ["Draconic Bloodline","Wild Magic"]},
+    "Warlock": {"level": 1, "label": "Otherworldly Patron",
+        "options": ["The Archfey","The Fiend","The Great Old One"]},
+    "Wizard": {"level": 2, "label": "Arcane Tradition",
+        "options": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"]},
+}
+
+# Cantrip progression
+CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
+    "full": {1: 2, 4: 3, 10: 4},
+    "warlock": {1: 2, 4: 3, 10: 4},
+    "cleric": {1: 3, 4: 4, 10: 5},
+}
+
+# ── PHB 2014 Feats ─────────────────────────────────────────────────────
+FEATS: dict[str, dict] = {
+    "alert": {"name":"Alert","desc":"+5 initiative, can't be surprised, hidden creatures don't get advantage on attack rolls","prereq":None},
+    "athlete": {"name":"Athlete","desc":"+1 Str/Dex, standing from prone costs 5 ft, climbing doesn't cost extra movement, running jump only needs 5 ft","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
+    "actor": {"name":"Actor","desc":"+1 Cha, adv on Deception/Performance to pass as someone else, mimic speech","prereq":None,"asi":{"choices":["Charisma"],"amount":1}},
+    "charger": {"name":"Charger","desc":"When you Dash, bonus action melee attack with +5 dmg or shove 10 ft","prereq":None},
+    "crossbow_expert": {"name":"Crossbow Expert","desc":"Ignore loading, no disadv on ranged attacks in melee, bonus action hand crossbow attack","prereq":None},
+    "defensive_duelist": {"name":"Defensive Duelist","desc":"While wielding finesse weapon, add prof to AC as reaction vs melee attack","prereq":"Dexterity 13+"},
+    "dual_wielder": {"name":"Dual Wielder","desc":"+1 AC while dual wielding, use non-light one-handed weapons, draw/stow two at once","prereq":None},
+    "dungeon_delver": {"name":"Dungeon Delver","desc":"Adv on Perception/Investigation vs secret doors & traps, adv on trap saves, resist trap dmg","prereq":None},
+    "durable": {"name":"Durable","desc":"+1 Con, min heal from Hit Die = 2×Con mod","prereq":None,"asi":{"choices":["Constitution"],"amount":1}},
+    "elemental_adept": {"name":"Elemental Adept","desc":"Pick one damage type; spells ignore resistance, treat 1s as 2s on dmg dice","prereq":"Ability to cast at least one spell"},
+    "fey_touched": {"name":"Fey Touched","desc":"+1 Int/Wis/Cha, learn Misty Step + 1 L1 div/ench spell, free 1/day each","prereq":None,"asi":{"choices":["Intelligence","Wisdom","Charisma"],"amount":1}},
+    "grappler": {"name":"Grappler","desc":"Adv on attacks vs grappled targets, can pin restrained creature","prereq":"Strength 13+"},
+    "great_weapon_master": {"name":"Great Weapon Master","desc":"On crit/kill with heavy melee, bonus action attack. -5 atk for +10 dmg on heavy attacks","prereq":None},
+    "healer": {"name":"Healer","desc":"Stabilize → 1 HP. Use healer's kit: 1d6+4+target's HD HP per short rest","prereq":None},
+    "heavily_armored": {"name":"Heavily Armored","desc":"+1 Str, gain heavy armor proficiency","prereq":"Medium armor proficiency","asi":{"choices":["Strength"],"amount":1}},
+    "heavy_armor_master": {"name":"Heavy Armor Master","desc":"+1 Str, B/P/S from nonmagical weapons reduced by 3 while in heavy armor","prereq":"Heavy armor proficiency","asi":{"choices":["Strength"],"amount":1}},
+    "inspiring_leader": {"name":"Inspiring Leader","desc":"10-min speech gives up to 6 allies temp HP = level + Cha mod","prereq":"Charisma 13+"},
+    "keen_mind": {"name":"Keen Mind","desc":"+1 Int, always know north, time till sunrise/sunset, recall past month perfectly","prereq":None,"asi":{"choices":["Intelligence"],"amount":1}},
+    "lightly_armored": {"name":"Lightly Armored","desc":"+1 Str/Dex, gain light armor proficiency","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
+    "linguist": {"name":"Linguist","desc":"+1 Int, learn 3 languages, create written ciphers","prereq":None,"asi":{"choices":["Intelligence"],"amount":1}},
+    "lucky": {"name":"Lucky","desc":"3 luck points per long rest, spend to reroll any d20 or force enemy reroll","prereq":None},
+    "mage_slayer": {"name":"Mage Slayer","desc":"Reaction melee attack vs adjacent caster, adv on saves vs adjacent spells","prereq":None},
+    "magic_initiate": {"name":"Magic Initiate","desc":"Learn 2 cantrips + 1 L1 spell from one class's list; free 1/day casting","prereq":None},
+    "martial_adept": {"name":"Martial Adept","desc":"Learn 2 Battle Master maneuvers, one d6 superiority die","prereq":None},
+    "medium_armor_master": {"name":"Medium Armor Master","desc":"No disadv on Stealth in medium armor, Dex cap +3 instead of +2","prereq":"Medium armor proficiency"},
+    "mobile": {"name":"Mobile","desc":"Speed +10 ft, Dash ignores difficult terrain, no OA from targets you attacked","prereq":None},
+    "moderately_armored": {"name":"Moderately Armored","desc":"+1 Str/Dex, gain medium armor + shield proficiency","prereq":"Light armor proficiency","asi":{"choices":["Strength","Dexterity"],"amount":1}},
+    "mounted_combatant": {"name":"Mounted Combatant","desc":"Adv on melee vs unmounted smaller than mount, redirect attacks to you, mount takes half/zero AoE","prereq":None},
+    "observant": {"name":"Observant","desc":"+1 Int/Wis, +5 passive Perception and Investigation, read lips","prereq":None,"asi":{"choices":["Intelligence","Wisdom"],"amount":1}},
+    "polearm_master": {"name":"Polearm Master","desc":"Bonus action 1d4 butt attack, OA when creatures enter reach with polearms","prereq":None},
+    "resilient": {"name":"Resilient","desc":"+1 to one ability, gain proficiency in that ability's saving throw","prereq":None,"asi":{"choices":["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"],"amount":1}},
+    "ritual_caster": {"name":"Ritual Caster","desc":"Gain ritual book; learn 2 L1 rituals, can add more from scrolls","prereq":"Intelligence or Wisdom 13+"},
+    "savage_attacker": {"name":"Savage Attacker","desc":"Once per turn, reroll melee weapon damage dice and use either total","prereq":None},
+    "sentinel": {"name":"Sentinel","desc":"OA reduces speed to 0, OA even vs Disengage, reaction attack vs attackers who target allies","prereq":None},
+    "shadow_touched": {"name":"Shadow Touched","desc":"+1 Int/Wis/Cha, learn Invisibility + one L1 necro/illusion spell, free 1/day each","prereq":None,"asi":{"choices":["Intelligence","Wisdom","Charisma"],"amount":1}},
+    "sharpshooter": {"name":"Sharpshooter","desc":"No disadv at long range, ignore half/three-quarters cover, -5 atk for +10 dmg","prereq":None},
+    "shield_master": {"name":"Shield Master","desc":"Bonus action shove after Attack, add shield AC to Dex saves vs single-target spells, take zero dmg instead of half on successful AoE Dex save","prereq":None},
+    "skilled": {"name":"Skilled","desc":"Gain proficiency in any 3 skills or tools","prereq":None},
+    "skulker": {"name":"Skulker","desc":"Ranged attacks in dim light don't reveal position, hiding only needs light obscurement","prereq":"Dexterity 13+"},
+    "spell_sniper": {"name":"Spell Sniper","desc":"Ranged spell attacks ignore half/three-quarters cover, range doubled, learn one attack cantrip","prereq":"Ability to cast at least one spell"},
+    "tavern_brawler": {"name":"Tavern Brawler","desc":"+1 Str/Con, proficient in improvised weps (d4), bonus action grapple on unarmed hit","prereq":None,"asi":{"choices":["Strength","Constitution"],"amount":1}},
+    "tough": {"name":"Tough","desc":"HP maximum increases by 2 per character level (retroactive)","prereq":None},
+    "war_caster": {"name":"War Caster","desc":"Adv on Con saves for concentration, somatic components with weapon/shield, cast spell as OA","prereq":"Ability to cast at least one spell"},
+    "weapon_master": {"name":"Weapon Master","desc":"+1 Str/Dex, gain proficiency with 4 weapons","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
 }
 
 # ── Feature → Combat Action mapping ──────────────────────────────────

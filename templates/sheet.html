@@ -205,6 +205,9 @@
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
       <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
+      {% if character.level < 20 %}
+      <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
+      {% endif %}
     </div>
     {% if character.personality or character.backstory %}
     <div style="margin-top:0.5rem;font-size:0.85rem">
@@ -944,6 +947,27 @@
       <button class="btn btn-primary btn-sm" onclick="regenerateSheetPortrait()">🔄 Regenerate</button>
     </div>
   </div>
+</div>
+
+<!-- Level-Up Modal -->
+<div id="levelup-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center" onclick="if(event.target===this)closeLevelUp()">
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.2rem" id="lu-title">⬆ Level Up — L1 → L2</h2>
+    <button onclick="closeLevelUp()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <!-- Step dots -->
+  <div id="lu-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
+  <!-- Content -->
+  <div id="lu-content" style="min-height:150px"></div>
+  <!-- Navigation -->
+  <div id="lu-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
+    <button id="lu-back" class="btn btn-outline btn-sm" style="display:none" onclick="levelUpStep(-1)">← Back</button>
+    <div style="flex:1"></div>
+    <button id="lu-next" class="btn btn-primary btn-sm" onclick="levelUpStep(1)">Next →</button>
+    <button id="lu-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyLevelUp()">✅ Confirm Level Up</button>
+  </div>
+</div>
 </div>
 {% endblock %}
 
@@ -2265,5 +2289,295 @@ async function selectItem(name) {
 initEditable();
 tagWeapons();
 renderEquipped();
+
+// ── Level Up Wizard ───────────────────────────────────────────────────
+let luData = null;
+let luStep = 0;
+let luSteps = [];       // [{label, render}]
+let luChoices = {};     // accumulated choices
+
+async function openLevelUp() {
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info`);
+    luData = await resp.json();
+    if (luData.error) { alert(luData.error); return; }
+  } catch(e) { console.error(e); alert('Failed to load level-up info'); return; }
+  
+  luStep = 0;
+  luChoices = {};
+  
+  // Update title
+  document.getElementById('lu-title').textContent = `⬆ Level Up — L${luData.current_level} → L${luData.new_level}`;
+  
+  // Build steps
+  luSteps = [];
+  luSteps.push({label: 'Overview', render: renderLuOverview});
+  luSteps.push({label: 'HP', render: renderLuHP});
+  if (luData.asi) luSteps.push({label: 'ASI/Feat', render: renderLuASI});
+  if (luData.subclass) luSteps.push({label: luData.subclass.label, render: renderLuSubclass});
+  if (luData.spells) luSteps.push({label: 'Spells', render: renderLuSpells});
+  luSteps.push({label: 'Confirm', render: renderLuConfirm});
+  
+  // Render step dots
+  const dots = document.getElementById('lu-steps');
+  dots.innerHTML = luSteps.map((s, i) => 
+    `<span class="lu-step-dot" id="lu-dot-${i}" style="display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-size:0.7rem;font-weight:600;background:var(--bg);border:2px solid var(--border);color:var(--text-muted)">${i+1}</span>`
+  ).join(' ');
+  
+  // Show modal
+  document.getElementById('levelup-modal').style.display = 'flex';
+  renderLevelUpStep();
+}
+
+function closeLevelUp() {
+  document.getElementById('levelup-modal').style.display = 'none';
+  luData = null;
+}
+
+function levelUpStep(delta) {
+  if (delta > 0 && luStep >= luSteps.length - 1) return;
+  if (delta < 0 && luStep <= 0) return;
+  luStep += delta;
+  renderLevelUpStep();
+}
+
+function renderLevelUpStep() {
+  const content = document.getElementById('lu-content');
+  content.innerHTML = '';
+  
+  // Step dots
+  document.querySelectorAll('.lu-step-dot').forEach((d, i) => {
+    d.style.background = i === luStep ? 'var(--accent)' : (i < luStep ? 'var(--success)' : 'var(--bg)');
+    d.style.borderColor = i === luStep ? 'var(--accent)' : (i < luStep ? 'var(--success)' : 'var(--border)');
+    d.style.color = i <= luStep ? '#fff' : 'var(--text-muted)';
+  });
+  
+  // Show/hide nav
+  document.getElementById('lu-back').style.display = luStep > 0 ? '' : 'none';
+  document.getElementById('lu-next').style.display = luStep < luSteps.length - 1 ? '' : 'none';
+  document.getElementById('lu-confirm').style.display = luStep === luSteps.length - 1 ? '' : 'none';
+  
+  // Render step content
+  if (luSteps[luStep] && luSteps[luStep].render) {
+    luSteps[luStep].render(content);
+  }
+}
+
+function renderLuOverview(el) {
+  const d = luData;
+  let html = `<div style="font-size:0.9rem;line-height:1.6">`;
+  html += `<p><strong>Class:</strong> ${d.class_name}</p>`;
+  html += `<p><strong>New Level:</strong> ${d.new_level}</p>`;
+  html += `<p><strong>HP:</strong> Gain 1d12 + CON (average ${d.hp.average}, max ${d.hp.max_roll})</p>`;
+  if (d.features_gained.length) {
+    html += `<p><strong>New Features:</strong></p><ul>`;
+    d.features_gained.forEach(f => html += `<li>${f}</li>`);
+    html += `</ul>`;
+  }
+  if (d.proficiency_bonus.changed) {
+    html += `<p><strong>Proficiency Bonus:</strong> +${d.proficiency_bonus.old} → <strong style="color:var(--accent)">+${d.proficiency_bonus.new}</strong></p>`;
+  }
+  if (d.asi) html += `<p><strong>Ability Score Improvement</strong> at this level!</p>`;
+  if (d.subclass) html += `<p><strong>${d.subclass.label}</strong> choice at this level!</p>`;
+  if (d.spells) html += `<p><strong>Spellcasting</strong> updates available.</p>`;
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function renderLuHP(el) {
+  const d = luData;
+  const avg = d.hp.average;
+  const max = d.hp.max_roll;
+  let html = `<div>
+    <p style="margin-bottom:1rem">Roll ${d.hp.hit_die} + CON (${d.hp.con_mod >= 0 ? '+' : ''}${d.hp.con_mod}) for HP.</p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem">`;
+  
+  ['average','roll','max'].forEach(opt => {
+    const label = opt === 'average' ? `Take Average (${avg})` : opt === 'max' ? `Take Max (${max})` : 'Roll (1d12 + CON)';
+    const checked = luChoices.hp === opt || (!luChoices.hp && opt === 'average');
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      <input type="radio" name="lu-hp" value="${opt}" ${checked ? 'checked' : ''} onchange="luChoices.hp=this.value">
+      <span>${label}</span>
+    </label>`;
+  });
+  
+  html += `</div></div>`;
+  el.innerHTML = html;
+  if (!luChoices.hp) luChoices.hp = 'average';
+}
+
+function renderLuASI(el) {
+  const d = luData.asi;
+  const feats = luData.feats;
+  let html = `<div>
+    <p style="margin-bottom:0.75rem;font-weight:600">Ability Score Improvement (Level ${d.level})</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">Choose +2 to one ability, +1 to two abilities, or pick a feat.</p>`;
+  
+  // Option 1: +2 to one
+  html += `<div style="margin-bottom:1rem">
+    <label style="font-weight:600;display:block;margin-bottom:0.3rem">+2 to one ability:</label>
+    <select id="lu-asi-plus2" onchange="luChoices.asi = {[this.value]: 2}" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+      <option value="">— Choose —</option>`;
+  for (const [a, v] of Object.entries(d.abilities)) {
+    const capped = d.max_20.includes(a);
+    html += `<option value="${a}">${a} (${v} → ${v+2})${capped ? ' [max]' : ''}</option>`;
+  }
+  html += `</select></div>`;
+  
+  // Option 2: +1 to two
+  html += `<div style="margin-bottom:1rem">
+    <label style="font-weight:600;display:block;margin-bottom:0.3rem">+1 to two abilities:</label>
+    <div style="display:flex;gap:0.5rem">`;
+  html += `<select id="lu-asi-plus1a" onchange="updateASIplus1()" style="flex:1;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+    <option value="">— A —</option>`;
+  for (const [a, v] of Object.entries(d.abilities)) {
+    html += `<option value="${a}">${a} (${v} → ${v+1})</option>`;
+  }
+  html += `</select>`;
+  html += `<select id="lu-asi-plus1b" onchange="updateASIplus1()" style="flex:1;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+    <option value="">— B —</option>`;
+  for (const [a, v] of Object.entries(d.abilities)) {
+    html += `<option value="${a}">${a} (${v} → ${v+1})</option>`;
+  }
+  html += `</select></div></div>`;
+  
+  // Option 3: Feat
+  if (feats.length) {
+    html += `<div style="margin-bottom:1rem">
+      <label style="font-weight:600;display:block;margin-bottom:0.3rem">Or pick a Feat (${feats.length} available):</label>
+      <select id="lu-feat" onchange="onFeatSelect(this.value)" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+        <option value="">— Choose feat —</option>`;
+    feats.forEach(f => {
+      html += `<option value="${f.key}">${f.name}${f.prereq ? ' [' + f.prereq + ']' : ''}</option>`;
+    });
+    html += `</select>
+      <div id="lu-feat-desc" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.3rem"></div>`;
+    // Half-feat ASI choice
+    html += `<div id="lu-feat-asi-choice" style="display:none;margin-top:0.5rem"></div>`;
+    html += `</div>`;
+  }
+  
+  el.innerHTML = html;
+}
+
+function updateASIplus1() {
+  const a = document.getElementById('lu-asi-plus1a')?.value;
+  const b = document.getElementById('lu-asi-plus1b')?.value;
+  if (a && b && a !== b) {
+    luChoices.asi = {[a]: 1, [b]: 1};
+  }
+}
+
+function onFeatSelect(key) {
+  if (!key) { return; }
+  const feat = luData.feats.find(f => f.key === key);
+  const descEl = document.getElementById('lu-feat-desc');
+  const asiEl = document.getElementById('lu-feat-asi-choice');
+  if (feat) {
+    descEl.textContent = feat.desc;
+    luChoices.asi = 'feat:' + key;
+    if (feat.asi && feat.asi.choices) {
+      let asiHtml = `<label style="font-weight:600;display:block;margin-bottom:0.3rem;font-size:0.85rem">+${feat.asi.amount} to:</label>
+        <select id="lu-feat-asi" onchange="luChoices.feat_asi_choice=this.value" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+          <option value="">— Choose —</option>`;
+      feat.asi.choices.forEach(a => {
+        asiHtml += `<option value="${a}">${a}</option>`;
+      });
+      asiHtml += '</select>';
+      asiEl.innerHTML = asiHtml;
+      asiEl.style.display = '';
+    } else {
+      asiEl.style.display = 'none';
+    }
+  }
+}
+
+function renderLuSubclass(el) {
+  const sc = luData.subclass;
+  let html = `<div>
+    <p style="font-weight:600;margin-bottom:0.75rem">Choose your ${sc.label}</p>
+    <div style="display:flex;flex-direction:column;gap:0.4rem">`;
+  sc.options.forEach(opt => {
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      <input type="radio" name="lu-subclass" value="${opt}" onchange="luChoices.subclass=this.value">
+      <span>${opt}</span>
+    </label>`;
+  });
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+function renderLuSpells(el) {
+  const s = luData.spells;
+  let html = `<div style="font-size:0.9rem;line-height:1.6">`;
+  html += `<p><strong>Spellcasting Ability:</strong> ${s.spellcasting_ability}</p>`;
+  if (s.cantrips_change) html += `<p><strong>New Cantrips:</strong> +${s.cantrips_change}</p>`;
+  if (s.spells_known_change) html += `<p><strong>New Spells Known:</strong> +${s.spells_known_change}</p>`;
+  html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">New spell slots will be automatically applied. Add specific spells on the Spells tab after leveling up.</p>`;
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function renderLuConfirm(el) {
+  let html = `<div style="font-size:0.9rem;line-height:1.6">
+    <h3 style="margin-bottom:0.75rem">Confirm Changes</h3>
+    <p><strong>Level:</strong> ${luData.current_level} → <strong style="color:var(--accent)">${luData.new_level}</strong></p>
+    <p><strong>HP:</strong> ${luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? `Max (+${luData.hp.max_roll})` : `Average (+${luData.hp.average})`)}</p>`;
+  
+  if (luData.features_gained.length) {
+    html += `<p><strong>Features:</strong> ${luData.features_gained.join(', ')}</p>`;
+  }
+  if (luData.proficiency_bonus.changed) {
+    html += `<p><strong>Proficiency:</strong> +${luData.proficiency_bonus.old} → +${luData.proficiency_bonus.new}</p>`;
+  }
+  if (luChoices.subclass) {
+    html += `<p><strong>Subclass:</strong> ${luChoices.subclass}</p>`;
+  }
+  if (luChoices.asi) {
+    if (typeof luChoices.asi === 'string' && luChoices.asi.startsWith('feat:')) {
+      const featKey = luChoices.asi.substring(5);
+      const feat = luData.feats.find(f => f.key === featKey);
+      html += `<p><strong>Feat:</strong> ${feat ? feat.name : featKey}</p>`;
+    } else if (typeof luChoices.asi === 'object') {
+      for (const [a, inc] of Object.entries(luChoices.asi)) {
+        html += `<p><strong>ASI:</strong> ${a} +${inc}</p>`;
+      }
+    }
+  }
+  if (luData.spells) {
+    html += `<p><strong>Spell Slots:</strong> Updated automatically</p>`;
+  }
+  
+  html += `<p style="color:var(--warn);font-size:0.8rem;margin-top:1rem">⚠ This cannot be undone. HP will be fully restored.</p>`;
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+async function applyLevelUp() {
+  const btn = document.getElementById('lu-confirm');
+  btn.disabled = true;
+  btn.textContent = 'Applying...';
+  
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(luChoices),
+    });
+    const result = await resp.json();
+    if (result.ok) {
+      alert(`Level Up complete! ${result.changes.join(', ')}`);
+      location.reload();
+    } else {
+      alert('Level up failed');
+      btn.disabled = false;
+      btn.textContent = '✅ Confirm Level Up';
+    }
+  } catch(e) {
+    console.error(e);
+    btn.disabled = false;
+    btn.textContent = '✅ Confirm Level Up';
+  }
+}
 </script>
 {% endblock %}
