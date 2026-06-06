@@ -420,6 +420,7 @@ function buildReview() {
     <div class="grid-3">${ABILITIES.map(a => `<div class="stat-box"><div class="abl">${a.slice(0,3).toUpperCase()}</div><div class="stat-num">${state.abilities[a]}</div><div class="stat-mod">${Math.floor((state.abilities[a]-10)/2) >= 0 ? '+' : ''}${Math.floor((state.abilities[a]-10)/2)}</div></div>`).join('')}</div>
     <p style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted)">HP: ~${Math.max(1, hp)} · Hit Die: d${c.hd} · Speed: ${r.speed}ft</p>
     <p style="font-size:0.85rem;color:var(--text-muted)">Skills: ${state.skills.join(', ') || 'none'}</p>
+    ${state.equipment && state.equipment.length ? `<p style="font-size:0.85rem;color:var(--text-muted)">Equipment: ${state.equipment.join(', ')}</p>` : ''}
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
   `;
 }
