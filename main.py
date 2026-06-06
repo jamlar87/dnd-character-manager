@@ -496,6 +496,18 @@ async def api_create_character(request: Request):
     wis_mod = (stats["wisdom"] - 10) // 2
     passive = 10 + wis_mod + (prof_bonus if "Perception" in skills_list else 0)
 
+    # Merge background items into inventory (normalize to {name, qty} dicts)
+    inventory = []
+    for item in data.get("equipment", []):
+        if isinstance(item, str):
+            inventory.append({"name": item, "qty": 1})
+        else:
+            inventory.append(item)
+    bg_data_raw = data.get("background_data", "")
+    if bg_data_raw and isinstance(bg_data_raw, dict):
+        for item in bg_data_raw.get("items", []):
+            inventory.append({"name": item, "qty": 1})
+
     db = get_db()
     cur = db.execute("""
         INSERT INTO characters (user_id, name, race, subrace, class_name, subclass,
@@ -514,7 +526,7 @@ async def api_create_character(request: Request):
         prof_bonus, f"1d{hd}",
         json.dumps(skills_list), json.dumps(build_features), json.dumps(race_data.get("languages",["Common"])),
         json.dumps([]), json.dumps([]), json.dumps([]),
-        json.dumps(data.get("equipment", [])), json.dumps([]),
+        json.dumps(inventory), json.dumps([]),
         json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
         data.get("portrait_url", ""), data.get("portrait_prompt", "")
     ))
