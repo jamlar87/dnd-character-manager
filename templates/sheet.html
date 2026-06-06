@@ -1,51 +1,117 @@
 {% extends "layout.html" %}
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
-.sheet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.sheet-full { grid-column: 1 / -1; }
-@media (max-width: 700px) { .sheet-grid { grid-template-columns: 1fr; } }
-.hp-controls { display: flex; gap: 0.3rem; align-items: center; }
-.hp-btn { width: 32px; height: 32px; border-radius: 4px; border: none; cursor: pointer; font-weight: 700; font-size: 1rem; }
-.hp-btn.heal { background: var(--success); color: #fff; }
-.hp-btn.dmg { background: var(--danger); color: #fff; }
-.ds-box { display: flex; gap: 0.3rem; }
-.ds-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; }
-.ds-dot.filled-success { background: var(--success); border-color: var(--success); }
-.ds-dot.filled-fail { background: var(--danger); border-color: var(--danger); }
-.spell-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-.slot-tracker { display: flex; gap: 0.2rem; }
-.slot-box { width: 18px; height: 18px; border: 1px solid var(--border); border-radius: 3px; cursor: pointer; background: var(--bg); }
-.slot-box.used { background: var(--accent); }
-.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 1rem; }
-.tab-btn { padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 4px 4px 0 0; background: var(--bg); color: var(--text); cursor: pointer; font-size: 0.85rem; }
-.tab-btn.active { background: var(--card-bg); border-bottom-color: var(--card-bg); font-weight: 700; }
+.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
+.tab-btn { padding: 0.5rem 1.2rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; }
+.tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.tab-btn.active { color: var(--accent); background: var(--card-bg); border-bottom: 2px solid var(--accent); margin-bottom: -2px; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
+
+/* HP */
+.hp-controls { display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; }
+.hp-btn { width: 36px; height: 36px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; font-size: 1.1rem; transition: all 0.1s; }
+.hp-btn:active { transform: scale(0.95); }
+.hp-btn.heal { background: var(--success); color: #fff; }
+.hp-btn.dmg { background: var(--danger); color: #fff; }
+
+/* Death saves */
+.ds-box { display: flex; gap: 0.4rem; }
+.ds-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.15s; }
+.ds-dot.filled-success { background: var(--success); border-color: var(--success); }
+.ds-dot.filled-fail { background: var(--danger); border-color: var(--danger); }
+
+/* Feature cards */
+.feat-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.4rem; overflow: hidden; }
+.feat-header { padding: 0.6rem 0.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; }
+.feat-header:hover { background: rgba(255,255,255,0.03); }
+.feat-header .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--text-muted); }
+.feat-header.open .arrow { transform: rotate(90deg); }
+.feat-body { padding: 0 0.8rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+.feat-body.open { max-height: 300px; padding: 0.5rem 0.8rem 0.8rem; }
+.feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
+
+/* Attacks */
+.atk-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+.atk-name { font-weight: 600; }
+.atk-stats { font-family: monospace; color: var(--text-muted); font-size: 0.85rem; }
+
+/* Spell slots */
+.slot-level { margin-bottom: 0.5rem; }
+.slot-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.15rem; text-transform: uppercase; }
+.slot-tracker { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+.slot-box { width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: var(--bg); transition: all 0.1s; }
+.slot-box.used { background: var(--accent); border-color: var(--accent); }
+
+/* Combat stats grid */
+.combat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+.combat-stat { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; text-align: center; }
+.combat-stat .label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; }
+.combat-stat .value { font-size: 1.3rem; font-weight: 700; margin-top: 0.15rem; }
+
+/* Misc */
+.stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.3rem; text-align: center; }
+.stat-num { font-size: 1.4rem; font-weight: 700; }
+.stat-mod { font-size: 0.85rem; color: var(--accent); margin-top: 0.1rem; }
+.spell-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.inspiration-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.inspiration-btn.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
+.inspiration-btn.off { background: transparent; border-color: var(--border); color: var(--text-muted); }
 {% endblock %}
+
 {% block content %}
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
   <div>
     <h1 style="margin:0">{{ character.name }}</h1>
     <span class="badge badge-accent">Lv{{ character.level }} {{ character.race }}{% if character.subrace %} ({{ character.subrace }}){% endif %} {{ character.class_name }}</span>
     {% if character.subclass %}<span class="badge badge-muted">{{ character.subclass }}</span>{% endif %}
     {% if character.background %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
+    {% if character.alignment %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
   <a href="/dashboard" class="btn btn-outline btn-sm">← Back</a>
 </div>
+
 {% if character.personality or character.backstory %}
 <div class="card" style="margin-bottom:1rem;padding:0.75rem 1rem;font-size:0.85rem">
   {% if character.personality %}<p style="color:var(--accent);margin:0">{{ character.personality }}</p>{% endif %}
   {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic">{{ character.backstory }}</p>{% endif %}
 </div>
 {% endif %}
-<div class="sheet-grid">
-  <!-- HP Card -->
-  <div class="card">
+
+<!-- Tabs -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('combat')">⚔️ Combat</button>
+  <button class="tab-btn" onclick="switchTab('features')">✨ Features</button>
+  <button class="tab-btn" onclick="switchTab('spells')">🔮 Spells</button>
+  <button class="tab-btn" onclick="switchTab('inventory')">🎒 Gear</button>
+  <button class="tab-btn" onclick="switchTab('abilities')">📊 Abilities</button>
+</div>
+
+<!-- ⚔️ COMBAT TAB -->
+<div class="tab-content active" id="tab-combat">
+  <!-- Quick stats -->
+  <div class="combat-grid">
+    <div class="combat-stat"><div class="label">Armor Class</div><div class="value">{{ character.ac }}</div></div>
+    <div class="combat-stat"><div class="label">Initiative</div><div class="value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div></div>
+    <div class="combat-stat"><div class="label">Speed</div><div class="value">{{ character.speed }}ft</div></div>
+    <div class="combat-stat"><div class="label">Passive Perc.</div><div class="value">{{ character.passive_perception or 10 }}</div></div>
+    <div class="combat-stat"><div class="label">Prof Bonus</div><div class="value">+{{ character.proficiency_bonus }}</div></div>
+    <div class="combat-stat">
+      <div class="label">Inspiration</div>
+      <div style="display:flex;justify-content:center;margin-top:0.2rem">
+        <button class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" id="insp-btn" title="Toggle Inspiration">★</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HP -->
+  <div class="card" style="margin-bottom:0.75rem">
     <h3 style="margin-bottom:0.5rem">Hit Points</h3>
     <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
       <div>
         <span style="font-size:2rem;font-weight:700" id="hp-current">{{ character.hp_current }}</span>
         <span style="color:var(--text-muted)"> / {{ character.hp_max }}</span>
+        {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.85rem;margin-left:0.5rem">+{{ character.temp_hp }} temp</span>{% endif %}
       </div>
       <div class="hp-controls">
         <button class="hp-btn dmg" onclick="adjustHP(-1)">−</button>
@@ -59,76 +125,102 @@
     <div class="hp-bar" style="margin-top:0.5rem">
       <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
     </div>
-    {% if character.temp_hp %}<div style="margin-top:0.25rem;font-size:0.85rem;color:var(--accent)">Temp HP: {{ character.temp_hp }}</div>{% endif %}
-    <div style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted)">Hit Dice: {{ character.hit_dice }} · Used: {{ character.hit_dice_used }} · AC: {{ character.ac }} · Speed: {{ character.speed }}ft</div>
+    <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted)">Hit Dice: {{ character.hit_dice }} · Used: {{ character.hit_dice_used or 0 }} · Exhaustion: {{ character.exhaustion or 0 }}</div>
   </div>
 
   <!-- Death Saves -->
-  <div class="card">
+  <div class="card" style="margin-bottom:0.75rem">
     <h3 style="margin-bottom:0.5rem">Death Saves</h3>
-    <div style="display:flex;gap:1rem">
+    <div style="display:flex;gap:1.5rem">
       <div>
         <div style="font-size:0.8rem;color:var(--success);margin-bottom:0.25rem">Successes</div>
-        <div class="ds-box" id="ds-success">
-          {% for i in range(3) %}<div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})" title="Success {{ i+1 }}"></div>{% endfor %}
-        </div>
+        <div class="ds-box">{% for i in range(3) %}
+          <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
+        {% endfor %}</div>
       </div>
       <div>
         <div style="font-size:0.8rem;color:var(--danger);margin-bottom:0.25rem">Failures</div>
-        <div class="ds-box" id="ds-fail">
-          {% for i in range(3) %}<div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})" title="Fail {{ i+1 }}"></div>{% endfor %}
-        </div>
+        <div class="ds-box">{% for i in range(3) %}
+          <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
+        {% endfor %}</div>
       </div>
     </div>
-    <div style="margin-top:0.5rem">
-      <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset Death Saves</button>
-    </div>
+    <button class="btn btn-outline btn-sm" onclick="resetDS()" style="margin-top:0.5rem">Reset</button>
   </div>
 
-  <!-- Abilities -->
-  <div class="card sheet-full">
-    <h3 style="margin-bottom:0.5rem">Ability Scores</h3>
-    <div class="grid-3" style="grid-template-columns:repeat(6, 1fr)">
-      {% for s in ["strength","dexterity","constitution","intelligence","wisdom","charisma"] %}
-      <div class="stat-box">
-        <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">{{ s[:3] }}</div>
-        <div class="stat-num">{{ character[s] }}</div>
-        <div class="stat-mod">{% set m = (character[s] - 10) // 2 %}{% if m >= 0 %}+{% endif %}{{ m }}</div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  <!-- Skills -->
+  <!-- Attacks -->
   <div class="card">
-    <h3 style="margin-bottom:0.5rem">Skills</h3>
-    {% for skill in skill_abilities %}
-    {% set ab = skill_abilities[skill] %}
-    {% set mod = (character[ab] - 10) // 2 %}
-    {% set prof = skill in character.skills %}
-    <div style="display:flex;justify-content:space-between;padding:0.2rem 0;font-size:0.9rem;border-bottom:1px solid rgba(255,255,255,0.05)">
-      <span>{% if prof %}●{% else %}○{% endif %} {{ skill }}</span>
-      <span style="font-family:monospace;color:var(--text-muted)">{% if prof %}{% if mod+character.proficiency_bonus >=0 %}+{% endif %}{{ mod+character.proficiency_bonus }}{% else %}{% if mod>=0 %}+{% endif %}{{ mod }}{% endif %}</span>
+    <h3 style="margin-bottom:0.5rem">Attacks & Actions</h3>
+    {% if character.attacks_data %}
+    {% for atk in character.attacks_data %}
+    <div class="atk-row">
+      <span class="atk-name">{{ atk.name }}</span>
+      <span class="atk-stats">{% if atk.attack_bonus is defined %}+{{ atk.attack_bonus }} to hit{% endif %} · {{ atk.damage }}</span>
     </div>
     {% endfor %}
+    {% else %}
+    <p style="color:var(--text-muted);font-size:0.85rem">No attacks calculated. Attacks auto-populate for new characters.</p>
+    {% endif %}
   </div>
+</div>
 
-  <!-- Features & Proficiencies -->
-  <div class="card">
-    <h3 style="margin-bottom:0.5rem">Proficiencies & Features</h3>
-    <p style="font-size:0.85rem"><strong>Saves:</strong> {% if character.class_name in classes %}{{ classes[character.class_name].saves|join(', ') }}{% else %}—{% endif %}</p>
+<!-- ✨ FEATURES TAB -->
+<div class="tab-content" id="tab-features">
+  {% if character.feature_data %}
+  {% for feat in character.feature_data %}
+  <div class="feat-card">
+    <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+      <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}</span>
+      <span class="arrow">▶</span>
+    </div>
+    <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <div class="card"><p style="color:var(--text-muted);font-size:0.85rem">No features data. Features auto-populate for new characters.</p></div>
+  {% endif %}
+
+  {% if character.features %}
+  <div class="card" style="margin-top:1rem">
+    <h3 style="margin-bottom:0.5rem">Proficiencies</h3>
     <p style="font-size:0.85rem"><strong>Languages:</strong> {{ character.languages|join(', ') or 'Common' }}</p>
     <p style="font-size:0.85rem"><strong>Tools:</strong> {{ character.tool_proficiencies|join(', ') or 'None' }}</p>
     <p style="font-size:0.85rem"><strong>Armor:</strong> {{ character.armor_proficiencies|join(', ') or 'None' }}</p>
     <p style="font-size:0.85rem"><strong>Weapons:</strong> {{ character.weapon_proficiencies|join(', ') or 'None' }}</p>
-    <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Features:</strong> {{ character.features|join(', ') or 'None yet' }}</p>
   </div>
+  {% endif %}
+</div>
+
+<!-- 🔮 SPELLS TAB -->
+<div class="tab-content" id="tab-spells">
+  <!-- Spell slots -->
+  {% if character.spell_slot_data and character.spell_slot_data.slots %}
+  <div class="card" style="margin-bottom:0.75rem">
+    <h3 style="margin-bottom:0.5rem">Spell Slots</h3>
+    {% if character.spell_slot_data.note %}
+    <p style="font-size:0.85rem;color:var(--accent);margin-bottom:0.5rem">{{ character.spell_slot_data.note }}</p>
+    {% elif character.spell_slot_data.by_level %}
+    {% for lvl in range(1, 10) %}
+    {% set slots = character.spell_slot_data.by_level.get(lvl|string, 0) or character.spell_slot_data.by_level.get(lvl, 0) %}
+    {% if slots > 0 %}
+    <div class="slot-level">
+      <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
+      <div class="slot-tracker" id="slots-lvl-{{ lvl }}">
+        {% for i in range(slots) %}
+        <div class="slot-box{% if i < (character.spell_slots_used or {}).get(lvl|string, 0) %} used{% endif %}" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  </div>
+  {% endif %}
 
   <!-- Spells -->
-  <div class="card sheet-full">
-    <h3 style="margin-bottom:0.5rem">Spells</h3>
+  <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-      <span style="font-size:0.85rem;color:var(--text-muted)">Click slot boxes to mark used/available</span>
+      <h3 style="margin:0">Spells</h3>
       <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
     </div>
     {% if spells %}
@@ -140,26 +232,31 @@
         {% if sp.prepared %}<span style="color:var(--success);font-size:0.75rem;margin-left:0.3rem">prepared</span>{% endif %}
       </div>
       {% if sp.slots_max > 0 %}
-      <div class="slot-tracker" id="slots-{{ sp.id }}">
+      <div class="slot-tracker" id="sp-slots-{{ sp.id }}">
         {% for i in range(sp.slots_max) %}
-        <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSlot({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})" title="Slot {{ i+1 }}"></div>
+        <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
         {% endfor %}
       </div>
       {% endif %}
     </div>
     {% endfor %}
     {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">No spells added yet</p>
+    <p style="color:var(--text-muted);font-size:0.85rem">No spells added. Use the build planner or add manually.</p>
     {% endif %}
   </div>
+</div>
 
-  <!-- Inventory -->
+<!-- 🎒 INVENTORY TAB -->
+<div class="tab-content" id="tab-inventory">
   <div class="card">
-    <h3 style="margin-bottom:0.5rem">Inventory</h3>
+    <h3 style="margin-bottom:0.5rem">Equipment</h3>
     {% if character.inventory %}
     <ul style="list-style:none;padding:0;font-size:0.9rem">
       {% for item in character.inventory %}
-      <li style="padding:0.2rem 0;border-bottom:1px solid rgba(255,255,255,0.05)">{{ item.name or item }}{% if item.qty and item.qty > 1 %} (×{{ item.qty }}){% endif %}</li>
+      <li style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">
+        <span>{{ item.name or item }}</span>
+        {% if item.qty and item.qty > 1 %}<span style="color:var(--text-muted)">×{{ item.qty }}</span>{% endif %}
+      </li>
       {% endfor %}
     </ul>
     {% else %}
@@ -167,11 +264,51 @@
     {% endif %}
   </div>
 
-  <!-- Notes -->
-  <div class="card">
-    <h3 style="margin-bottom:0.5rem">Session Notes</h3>
-    <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:4px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
+  {% if character.equipped %}
+  <div class="card" style="margin-top:0.75rem">
+    <h3 style="margin-bottom:0.5rem">Equipped</h3>
+    <ul style="list-style:none;padding:0;font-size:0.9rem">{% for item in character.equipped %}
+      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05)">{{ item }}</li>
+    {% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <div class="card" style="margin-top:0.75rem">
+    <h3 style="margin-bottom:0.5rem">Notes</h3>
+    <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
     <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
+  </div>
+</div>
+
+<!-- 📊 ABILITIES TAB -->
+<div class="tab-content" id="tab-abilities">
+  <div class="card" style="margin-bottom:0.75rem">
+    <h3 style="margin-bottom:0.5rem">Ability Scores</h3>
+    <div style="display:grid;grid-template-columns:repeat(6, 1fr);gap:0.4rem">
+      {% for s in ["strength","dexterity","constitution","intelligence","wisdom","charisma"] %}
+      <div class="stat-box">
+        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase">{{ s[:3] }}</div>
+        <div class="stat-num">{{ character[s] }}</div>
+        <div class="stat-mod">{% set m = (character[s] - 10) // 2 %}{% if m >= 0 %}+{% endif %}{{ m }}</div>
+        {% if s in (classes[character.class_name].saves if character.class_name in classes else []) %}
+        <div style="font-size:0.6rem;color:var(--accent);margin-top:0.1rem">SAVE +{{ m + character.proficiency_bonus }}</div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:0.5rem">Skills</h3>
+    {% for skill in skill_abilities %}
+    {% set ab = skill_abilities[skill] %}
+    {% set mod = (character[ab] - 10) // 2 %}
+    {% set prof = skill in character.skills %}
+    <div style="display:flex;justify-content:space-between;padding:0.25rem 0;font-size:0.9rem;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <span>{% if prof %}●{% else %}○{% endif %} {{ skill }}</span>
+      <span style="font-family:monospace;color:var(--text-muted)">{% if prof %}{% if mod+character.proficiency_bonus >=0 %}+{% endif %}{{ mod+character.proficiency_bonus }}{% else %}{% if mod>=0 %}+{% endif %}{{ mod }}{% endif %}</span>
+    </div>
+    {% endfor %}
   </div>
 </div>
 
@@ -199,6 +336,18 @@ function api(path, data) {
   });
 }
 
+// ── Tabs ──
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  localStorage.setItem('char-tab-' + CHAR_ID, name);
+}
+// Restore last tab
+const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
+if (savedTab) switchTab(savedTab);
+
 // ── HP ──
 async function adjustHP(delta) {
   const el = document.getElementById('hp-current');
@@ -223,9 +372,25 @@ async function resetDS() {
   location.reload();
 }
 
+// ── Inspiration ──
+async function toggleInspiration() {
+  const btn = document.getElementById('insp-btn');
+  const on = btn.classList.contains('on');
+  btn.classList.toggle('on', !on);
+  btn.classList.toggle('off', on);
+  await api('/update', { inspiration: on ? 0 : 1 });
+}
+
 // ── Spell Slots ──
-async function toggleSlot(spellId, n, max) {
-  const boxes = document.querySelectorAll(`#slots-${spellId} .slot-box`);
+async function toggleSpellSlot(lvl, n, max) {
+  const boxes = document.querySelectorAll(`#slots-lvl-${lvl} .slot-box`);
+  const used = boxes[n-1].classList.contains('used') ? n-1 : n;
+  boxes.forEach((b, i) => b.classList.toggle('used', i < used));
+  await api('/update', { spell_slots_used: { [lvl]: used } });
+}
+
+async function toggleSpellSlotById(spellId, n, max) {
+  const boxes = document.querySelectorAll(`#sp-slots-${spellId} .slot-box`);
   const used = boxes[n-1].classList.contains('used') ? n-1 : n;
   boxes.forEach((b, i) => b.classList.toggle('used', i < used));
   await api('/update', { spells: [{ id: spellId, slots_used: used }] });

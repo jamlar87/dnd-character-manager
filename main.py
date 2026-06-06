@@ -203,6 +203,17 @@ def init_db():
         db.execute("ALTER TABLE characters ADD COLUMN backstory TEXT DEFAULT ''")
     except sqlite3.OperationalError:
         pass
+    # Migration: build data columns
+    for col, coltype in [("feature_data","TEXT DEFAULT '[]'"),
+                          ("attacks_data","TEXT DEFAULT '[]'"),
+                          ("spell_slot_data","TEXT DEFAULT '{}'"),
+                          ("passive_perception","INTEGER DEFAULT 10"),
+                          ("inspiration","INTEGER DEFAULT 0"),
+                          ("exhaustion","INTEGER DEFAULT 0")]:
+        try:
+            db.execute(f"ALTER TABLE characters ADD COLUMN {col} {coltype}")
+        except sqlite3.OperationalError:
+            pass
     db.commit()
     db.close()
 
@@ -445,14 +456,30 @@ async def api_create_character(request: Request):
     prof_bonus = 2 + (level - 1) // 4
     ac_base = 10 + (stats["dexterity"] - 10) // 2
 
+    # Generate build data (features, attacks, spell slots)
+    build_features = get_class_features(class_name, level, subclass)
+    enriched = enrich_features(build_features)
+    build_attacks = _calculate_attacks(class_name, level,
+        {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
+        data.get("equipment", []))
+
+    # Spell slots from SRD data
+    spell_slots = get_spell_slots(class_name, level)
+
+    # Passive perception: 10 + WIS mod + proficiency if Perception proficient
+    skills_list = data.get("skills", [])
+    wis_mod = (stats["wisdom"] - 10) // 2
+    passive = 10 + wis_mod + (prof_bonus if "Perception" in skills_list else 0)
+
     db = get_db()
     cur = db.execute("""
         INSERT INTO characters (user_id, name, race, subrace, class_name, subclass,
         level, background, alignment, personality, backstory, strength, dexterity, constitution, intelligence,
         wisdom, charisma, hp_max, hp_current, ac, speed,
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
-        weapon_proficiencies, armor_proficiencies, inventory, equipped)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        weapon_proficiencies, armor_proficiencies, inventory, equipped,
+        feature_data, attacks_data, spell_slot_data, passive_perception)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -460,9 +487,10 @@ async def api_create_character(request: Request):
         stats["intelligence"], stats["wisdom"], stats["charisma"],
         hp_max, hp_max, ac_base, race_data.get("speed", 30),
         prof_bonus, f"1d{hd}",
-        json.dumps(data.get("skills", [])), json.dumps([]), json.dumps(race_data.get("languages",["Common"])),
+        json.dumps(skills_list), json.dumps(build_features), json.dumps(race_data.get("languages",["Common"])),
         json.dumps([]), json.dumps([]), json.dumps([]),
         json.dumps(data.get("equipment", [])), json.dumps([]),
+        json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
     ))
     char_id = cur.lastrowid
     db.commit()
@@ -487,6 +515,12 @@ async def character_sheet(char_id: int, request: Request):
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
             char[f] = []
+    # Load enriched build data
+    for f in ("feature_data", "attacks_data", "spell_slot_data"):
+        try:
+            char[f] = json.loads(char[f] or "[]")
+        except (json.JSONDecodeError, TypeError):
+            char[f] = [] if f != "spell_slot_data" else {}
 
     spells = [dict(r) for r in db.execute(
         "SELECT * FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
