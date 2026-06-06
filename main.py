@@ -178,7 +178,10 @@ def _render(template: str, request: Request | None = None, **ctx) -> HTMLRespons
     return HTMLResponse(content)
 
 # ── D&D Data — race/class/skill/etc (embedded constants) ────────────────────
+# All data from Player's Handbook (2014), verified against DnD-Manuals PDFs.
+# PHB page references inline.
 
+# PHB Ch.2 p.17-43 — Races
 RACES = {
     "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"]},
     "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"]},
@@ -519,57 +522,138 @@ def random_name(race: str, gender: str = "any") -> dict:
 def random_equipment(class_name: str) -> list[str]:
     return STARTING_EQUIPMENT.get(class_name, ["Explorer's Pack", "Dagger"])
 
-# ── AI Generation Endpoint ──────────────────────────────────────────────────
+# ── PHB-Grounded AI Generation ──────────────────────────────────────────────
+# All mechanical data (races, classes, spells, equipment) is from the PHB 2014
+# hardcoded above. AI only handles creative flavor: name, personality, backstory.
+# Backgrounds and alignments are validated against PHB-approved lists.
+# Model chain: Gemini → OpenRouter (free) → Ollama (local) → deterministic
+
+PHB_BACKGROUNDS = BACKGROUNDS  # PHB p.125-141
+PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
+
+async def _call_gemini(prompt: str) -> str | None:
+    """Tier 1: Google Gemini. Requires GOOGLE_API_KEY."""
+    key = os.environ.get("GOOGLE_API_KEY", "")
+    if not key:
+        return None
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}",
+                json={"contents": [{"parts": [{"text": prompt}]}]},
+            )
+            result = resp.json()
+            return result["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception:
+        return None
+
+async def _call_openrouter(prompt: str) -> str | None:
+    """Tier 2: OpenRouter free model. Requires OPENROUTER_API_KEY."""
+    key = os.environ.get("OPENROUTER_API_KEY", "")
+    if not key:
+        return None
+    try:
+        async with httpx.AsyncClient(timeout=20) as client:
+            resp = await client.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+                json={
+                    "model": "google/gemma-3-27b-it:free",
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 300,
+                },
+            )
+            result = resp.json()
+            return result["choices"][0]["message"]["content"]
+    except Exception:
+        return None
+
+async def _call_ollama(prompt: str) -> str | None:
+    """Tier 3: Local Ollama hermes3:8b. No API key needed."""
+    try:
+        async with httpx.AsyncClient(timeout=20) as client:
+            resp = await client.post(
+                "http://192.168.1.31:11434/api/generate",
+                json={"model": "hermes3:8b-llama3.1-q8_0", "prompt": prompt, "stream": False},
+            )
+            result = resp.json()
+            return result.get("response", "")
+    except Exception:
+        return None
+
+def _extract_json(text: str) -> dict | None:
+    """Extract JSON from LLM response, stripping markdown wrappers."""
+    if not text:
+        return None
+    if "```" in text:
+        block = text.split("```")[1]
+        if block.startswith("json"):
+            block = block[4:]
+        text = block
+    try:
+        return json.loads(text.strip())
+    except json.JSONDecodeError:
+        return None
+
+def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str = "") -> dict:
+    """Ground AI output in PHB data. Fix hallucinations silently."""
+    # Validate background against PHB list (p.125-141)
+    if ai.get("background") not in PHB_BACKGROUNDS:
+        ai["background"] = random.choice(PHB_BACKGROUNDS)
+    # Validate alignment against PHB list (p.122)
+    if ai.get("alignment") not in PHB_ALIGNMENTS:
+        ai["alignment"] = random.choice(PHB_ALIGNMENTS)
+    # Ensure name exists
+    if not ai.get("name"):
+        ai["name"] = name or random_name(race)["name"]
+    # Ensure personality + backstory exist
+    if not ai.get("personality"):
+        ai["personality"] = f"Brave but reckless. Loyal to friends. Distrusts authority."
+    if not ai.get("backstory"):
+        bg = ai.get("background", "adventurer").lower()
+        ai["backstory"] = f"A {race} {class_name} who grew up as a {bg}. They seek adventure and glory."
+    return ai
 
 @app.post("/api/ai/generate", response_class=JSONResponse)
 async def ai_generate(request: Request):
+    """Generate character flavor (name/bg/alignment/personality/backstory).
+    All mechanical data is hardcoded from PHB. Only creative text is generated.
+    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
     user = require_user(request)
     data = await request.json()
     race = data.get("race", "Human")
     subrace = data.get("subrace", "")
     class_name = data.get("class_name", "Fighter")
     subclass = data.get("subclass", "")
-    name = data.get("name", "")  # if user already typed something
+    name = data.get("name", "")
 
-    api_key = os.environ.get("GOOGLE_API_KEY", "")
-    if not api_key:
-        # Fallback: deterministic generation
-        return JSONResponse(_fallback_generate(race, class_name, subclass, name))
-
-    prompt = f"""Generate a D&D 5e character concept. Return ONLY valid JSON, no markdown.
+    # Prompt is constrained to PHB-approved options only
+    bg_list = ", ".join(PHB_BACKGROUNDS)
+    al_list = ", ".join(PHB_ALIGNMENTS)
+    prompt = f"""Generate a D&D 5e character concept using ONLY these official Player's Handbook options.
 
 Race: {race}{' (' + subrace + ')' if subrace else ''}
 Class: {class_name}{' — ' + subclass if subclass else ''}
-{'Player suggested name: ' + name if name else 'Generate a fitting name.'}
+PHB Backgrounds: {bg_list}
+PHB Alignments: {al_list}
+{'Player name suggestion: ' + name if name else 'Generate a race-appropriate name.'}
 
-Return:
-{{
-  "name": "Firstname Lastname — race-appropriate, {'use the suggested name if good' if name else 'invent one'}",
-  "background": "PHB background name (Acolyte/Criminal/Sage/Soldier/etc)",
-  "alignment": "D&D alignment (e.g. Neutral Good)",
-  "personality": "2-3 personality traits",
-  "backstory": "Brief 2-3 sentence backstory connecting race, class, and background"
-}}
+Return ONLY valid JSON (no markdown, no explanation):
+{{"name": "Firstname Lastname", "background": "one from PHB list above", "alignment": "one from PHB list above", "personality": "2-3 personality traits", "backstory": "2-3 sentence backstory connecting race, class, and background"}}"""
 
-JSON ONLY:"""
+    # Tiered model chain
+    text = None
+    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
+        text = await caller(prompt)
+        if text:
+            break
 
-    try:
-        async with httpx.AsyncClient(timeout=15) as client:
-            resp = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}",
-                json={"contents": [{"parts": [{"text": prompt}]}]},
-            )
-            result = resp.json()
-            text = result["candidates"][0]["content"]["parts"][0]["text"]
-            # Extract JSON from response (Gemini sometimes wraps in ```json)
-            if "```" in text:
-                text = text.split("```")[1]
-                if text.startswith("json"):
-                    text = text[4:]
-            ai = json.loads(text.strip())
-            return JSONResponse(ai)
-    except Exception:
-        return JSONResponse(_fallback_generate(race, class_name, subclass, name))
+    ai = _extract_json(text) if text else None
+    if ai:
+        ai = _validate_and_fix(ai, race, class_name, name)
+    else:
+        ai = _fallback_generate(race, class_name, subclass, name)
+    return JSONResponse(ai)
 
 def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> dict:
     """Deterministic fallback when AI is unavailable."""
@@ -590,6 +674,59 @@ def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> 
 @app.on_event("startup")
 async def startup():
     init_db()
+
+# ── Reference Manual Lookup ─────────────────────────────────────────────────
+# 18 D&D 5e PDFs on SlowDisk. Query by filename or indexed metadata.
+
+MANUALS_BASE = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals")
+
+@app.get("/api/reference/manuals", response_class=JSONResponse)
+async def list_manuals(request: Request):
+    """List available reference manuals. No auth required."""
+    if not MANUALS_BASE.exists():
+        return JSONResponse({"manuals": [], "warning": "Manual directory not found"})
+    import glob
+    pdfs = sorted(glob.glob(str(MANUALS_BASE / "*.pdf")) + glob.glob(str(MANUALS_BASE / "*/*.pdf")))
+    return JSONResponse({
+        "count": len(pdfs),
+        "manuals": [Path(p).name for p in pdfs],
+        "path": str(MANUALS_BASE),
+    })
+
+@app.post("/api/reference/query", response_class=JSONResponse)
+async def query_reference(request: Request):
+    """Query reference manuals for PHB-grounding. Requires auth.
+    Accepts: {"query": "dwarf racial traits", "source": "phb"}"""
+    user = require_user(request)
+    data = await request.json()
+    query = data.get("query", "")
+    source = data.get("source", "phb")  # "phb", "dmg", "xanathars", "all"
+
+    # Map source to filename patterns
+    source_map = {
+        "phb": "Player's Handbook",
+        "dmg": "Dungeon Master's Guide",
+        "xanathars": "Xanathar's Guide",
+        "all": "",
+    }
+    pattern = source_map.get(source, source)
+
+    if not MANUALS_BASE.exists():
+        return JSONResponse({"results": [], "warning": "Manual directory not available"})
+
+    # Find matching PDFs
+    import glob
+    pdfs = sorted(glob.glob(str(MANUALS_BASE / "*.pdf")) + glob.glob(str(MANUALS_BASE / "*/*.pdf")))
+    matches = [p for p in pdfs if pattern.lower() in Path(p).name.lower()]
+
+    return JSONResponse({
+        "query": query,
+        "source": source,
+        "manuals_found": len(matches),
+        "files": [Path(p).name for p in matches],
+        "note": "Reference lookups are manual — use the PDFs directly. Future: pdfplumber extraction.",
+        "path_hint": str(MANUALS_BASE),
+    })
 
 # ── Run ─────────────────────────────────────────────────────────────────────
 
