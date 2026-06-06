@@ -1,16 +1,67 @@
 {% extends "layout.html" %}
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
-.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border); }
-.tab-btn { padding: 0.5rem 1.2rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; }
+/* Override container for sheet layout */
+.container { max-width: 1100px; margin: 1rem auto; }
+@media (max-width: 768px) { .container { margin: 0.5rem auto; } }
+
+/* Two-column layout */
+.sheet-layout { display: flex; gap: 1rem; min-height: calc(100vh - 140px); }
+@media (max-width: 768px) { .sheet-layout { flex-direction: column; } }
+
+/* ── Sidebar ── */
+.sheet-sidebar { width: 280px; flex-shrink: 0; }
+@media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
+
+.sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; }
+.sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+
+/* Abilities grid */
+.abilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
+.ability-box .ab-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
+.ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
+.ability-box.proficient { border-color: var(--accent); }
+.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.45rem; color: var(--accent); }
+
+/* Combat quick-stats */
+.combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
+.combat-quick-item .cq-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
+
+/* HP bar in sidebar */
+.sidebar-hp { margin-top: 0.4rem; }
+.sidebar-hp .hp-nums { font-size: 1rem; font-weight: 700; }
+.sidebar-hp .hp-nums .sep { color: var(--text-muted); font-weight: 400; }
+
+/* Saves & skills row */
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.stat-row .stat-name { color: var(--text-muted); flex: 1; }
+.stat-row .stat-val { font-family: monospace; font-weight: 600; min-width: 2.2rem; text-align: right; }
+.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size: 0.5rem; }
+
+/* Defenses */
+.defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
+.defense-resist { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
+.defense-immune { background: rgba(255,174,0,0.15); border: 1px solid #ffae00; color: #ffae00; }
+.defense-vuln { background: rgba(255,23,68,0.15); border: 1px solid var(--danger); color: var(--danger); }
+
+/* ── Main panel ── */
+.sheet-main { flex: 1; min-width: 0; }
+
+/* Tabs */
+.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); }
+.tab-btn { padding: 0.5rem 1rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; }
 .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
 .tab-btn.active { color: var(--accent); background: var(--card-bg); border-bottom: 2px solid var(--accent); margin-bottom: -2px; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* HP */
-.hp-controls { display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; }
-.hp-btn { width: 36px; height: 36px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; font-size: 1.1rem; transition: all 0.1s; }
+/* HP controls */
+.hp-controls { display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; margin-top: 0.35rem; }
+.hp-btn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.1s; }
 .hp-btn:active { transform: scale(0.95); }
 .hp-btn.heal { background: var(--success); color: #fff; }
 .hp-btn.dmg { background: var(--danger); color: #fff; }
@@ -28,13 +79,19 @@
 .feat-header .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--text-muted); }
 .feat-header.open .arrow { transform: rotate(90deg); }
 .feat-body { padding: 0 0.8rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
-.feat-body.open { max-height: 300px; padding: 0.5rem 0.8rem 0.8rem; }
+.feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Attacks */
-.atk-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
-.atk-name { font-weight: 600; }
-.atk-stats { font-family: monospace; color: var(--text-muted); font-size: 0.85rem; }
+.atk-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.4rem; }
+.atk-card .atk-name { font-weight: 600; font-size: 0.9rem; }
+.atk-card .atk-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+.atk-card .atk-props { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.atk-prop { font-size: 0.65rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.35rem; color: var(--text-muted); }
+
+/* Action list */
+.action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.3rem; }
+.action-chip { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.75rem; text-align: center; color: var(--text-muted); }
 
 /* Spell slots */
 .slot-level { margin-bottom: 0.5rem; }
@@ -43,26 +100,22 @@
 .slot-box { width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: var(--bg); transition: all 0.1s; }
 .slot-box.used { background: var(--accent); border-color: var(--accent); }
 
-/* Combat stats grid */
-.combat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
-.combat-stat { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; text-align: center; }
-.combat-stat .label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; }
-.combat-stat .value { font-size: 1.3rem; font-weight: 700; margin-top: 0.15rem; }
-
 /* Misc */
-.stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.3rem; text-align: center; }
-.stat-num { font-size: 1.4rem; font-weight: 700; }
-.stat-mod { font-size: 0.85rem; color: var(--accent); margin-top: 0.1rem; }
 .spell-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-.inspiration-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.inspiration-btn { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: transparent; }
 .inspiration-btn.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
 .inspiration-btn.off { background: transparent; border-color: var(--border); color: var(--text-muted); }
 {% endblock %}
 
 {% block content %}
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+{% set prof = character.proficiency_bonus or 2 %}
+{% set saves_class = classes.get(character.class_name, {}).get("saves", []) %}
+{% set char_skills = character.skills or [] %}
+
+<!-- Header -->
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
   <div>
-    <h1 style="margin:0">{{ character.name }}</h1>
+    <h1 style="margin:0;font-size:1.4rem">{{ character.name }}</h1>
     <span class="badge badge-accent">Lv{{ character.level }} {{ character.race }}{% if character.subrace %} ({{ character.subrace }}){% endif %} {{ character.class_name }}</span>
     {% if character.subclass %}<span class="badge badge-muted">{{ character.subclass }}</span>{% endif %}
     {% if character.background %}<span class="badge badge-muted" style="margin-left:0.25rem">{{ character.background }}</span>{% endif %}
@@ -72,263 +125,442 @@
 </div>
 
 {% if character.personality or character.backstory %}
-<div class="card" style="margin-bottom:1rem;padding:0.75rem 1rem;font-size:0.85rem">
+<div class="card" style="margin-bottom:0.75rem;padding:0.75rem 1rem;font-size:0.85rem">
   {% if character.personality %}<p style="color:var(--accent);margin:0">{{ character.personality }}</p>{% endif %}
   {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic">{{ character.backstory }}</p>{% endif %}
 </div>
 {% endif %}
 
-<!-- Tabs -->
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('combat')">⚔️ Combat</button>
-  <button class="tab-btn" onclick="switchTab('features')">✨ Features</button>
-  <button class="tab-btn" onclick="switchTab('spells')">🔮 Spells</button>
-  <button class="tab-btn" onclick="switchTab('inventory')">🎒 Gear</button>
-  <button class="tab-btn" onclick="switchTab('abilities')">📊 Abilities</button>
-</div>
+<!-- Two-column layout -->
+<div class="sheet-layout">
 
-<!-- ⚔️ COMBAT TAB -->
-<div class="tab-content active" id="tab-combat">
-  <!-- Quick stats -->
-  <div class="combat-grid">
-    <div class="combat-stat"><div class="label">Armor Class</div><div class="value">{{ character.ac }}</div></div>
-    <div class="combat-stat"><div class="label">Initiative</div><div class="value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div></div>
-    <div class="combat-stat"><div class="label">Speed</div><div class="value">{{ character.speed }}ft</div></div>
-    <div class="combat-stat"><div class="label">Passive Perc.</div><div class="value">{{ character.passive_perception or 10 }}</div></div>
-    <div class="combat-stat"><div class="label">Prof Bonus</div><div class="value">+{{ character.proficiency_bonus }}</div></div>
-    <div class="combat-stat">
-      <div class="label">Inspiration</div>
-      <div style="display:flex;justify-content:center;margin-top:0.2rem">
-        <button class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" id="insp-btn" title="Toggle Inspiration">★</button>
-      </div>
-    </div>
-  </div>
+  <!-- ══════ LEFT SIDEBAR ══════ -->
+  <div class="sheet-sidebar">
 
-  <!-- HP -->
-  <div class="card" style="margin-bottom:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Hit Points</h3>
-    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-      <div>
-        <span style="font-size:2rem;font-weight:700" id="hp-current">{{ character.hp_current }}</span>
-        <span style="color:var(--text-muted)"> / {{ character.hp_max }}</span>
-        {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.85rem;margin-left:0.5rem">+{{ character.temp_hp }} temp</span>{% endif %}
-      </div>
-      <div class="hp-controls">
-        <button class="hp-btn dmg" onclick="adjustHP(-1)">−</button>
-        <button class="hp-btn dmg" onclick="adjustHP(-5)">−5</button>
-        <button class="hp-btn dmg" onclick="adjustHP(-10)">−10</button>
-        <button class="hp-btn heal" onclick="adjustHP(1)">+</button>
-        <button class="hp-btn heal" onclick="adjustHP(5)">+5</button>
-        <button class="hp-btn heal" onclick="adjustHP(10)">+10</button>
-      </div>
-    </div>
-    <div class="hp-bar" style="margin-top:0.5rem">
-      <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
-    </div>
-    <div style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted)">Hit Dice: {{ character.hit_dice }} · Used: {{ character.hit_dice_used or 0 }} · Exhaustion: {{ character.exhaustion or 0 }}</div>
-  </div>
-
-  <!-- Death Saves -->
-  <div class="card" style="margin-bottom:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Death Saves</h3>
-    <div style="display:flex;gap:1.5rem">
-      <div>
-        <div style="font-size:0.8rem;color:var(--success);margin-bottom:0.25rem">Successes</div>
-        <div class="ds-box">{% for i in range(3) %}
-          <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
-        {% endfor %}</div>
-      </div>
-      <div>
-        <div style="font-size:0.8rem;color:var(--danger);margin-bottom:0.25rem">Failures</div>
-        <div class="ds-box">{% for i in range(3) %}
-          <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
-        {% endfor %}</div>
-      </div>
-    </div>
-    <button class="btn btn-outline btn-sm" onclick="resetDS()" style="margin-top:0.5rem">Reset</button>
-  </div>
-
-  <!-- Attacks -->
-  <div class="card">
-    <h3 style="margin-bottom:0.5rem">Attacks & Actions</h3>
-    {% if character.attacks_data %}
-    {% for atk in character.attacks_data %}
-    <div class="atk-row">
-      <span class="atk-name">{{ atk.name }}</span>
-      <span class="atk-stats">{% if atk.attack_bonus is defined %}+{{ atk.attack_bonus }} to hit{% endif %} · {{ atk.damage }}</span>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">No attacks calculated. Attacks auto-populate for new characters.</p>
-    {% endif %}
-  </div>
-</div>
-
-<!-- ✨ FEATURES TAB -->
-<div class="tab-content" id="tab-features">
-  {% if character.feature_data %}
-  {% for feat in character.feature_data %}
-  <div class="feat-card">
-    <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-      <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}</span>
-      <span class="arrow">▶</span>
-    </div>
-    <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
-  </div>
-  {% endfor %}
-  {% else %}
-  <div class="card"><p style="color:var(--text-muted);font-size:0.85rem">No features data. Features auto-populate for new characters.</p></div>
-  {% endif %}
-
-  {% if character.features %}
-  <div class="card" style="margin-top:1rem">
-    <h3 style="margin-bottom:0.5rem">Proficiencies</h3>
-    <p style="font-size:0.85rem"><strong>Languages:</strong> {{ character.languages|join(', ') or 'Common' }}</p>
-    <p style="font-size:0.85rem"><strong>Tools:</strong> {{ character.tool_proficiencies|join(', ') or 'None' }}</p>
-    <p style="font-size:0.85rem"><strong>Armor:</strong> {{ character.armor_proficiencies|join(', ') or 'None' }}</p>
-    <p style="font-size:0.85rem"><strong>Weapons:</strong> {{ character.weapon_proficiencies|join(', ') or 'None' }}</p>
-  </div>
-  {% endif %}
-</div>
-
-<!-- 🔮 SPELLS TAB -->
-<div class="tab-content" id="tab-spells">
-  <!-- Spell slots -->
-  {% if character.spell_slot_data and character.spell_slot_data.slots %}
-  <div class="card" style="margin-bottom:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Spell Slots</h3>
-    {% if character.spell_slot_data.note %}
-    <p style="font-size:0.85rem;color:var(--accent);margin-bottom:0.5rem">{{ character.spell_slot_data.note }}</p>
-    {% elif character.spell_slot_data.by_level %}
-    {% for lvl in range(1, 10) %}
-    {% set slots = character.spell_slot_data.by_level.get(lvl|string, 0) or character.spell_slot_data.by_level.get(lvl, 0) %}
-    {% if slots > 0 %}
-    <div class="slot-level">
-      <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
-      <div class="slot-tracker" id="slots-lvl-{{ lvl }}">
-        {% for i in range(slots) %}
-        <div class="slot-box{% if i < (character.spell_slots_used or {}).get(lvl|string, 0) %} used{% endif %}" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
+    <!-- Ability Scores -->
+    <div class="sidebar-section">
+      <h4>Ability Scores</h4>
+      <div class="abilities-grid">
+        {% set stats = [
+          ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
+          ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
+        ] %}
+        {% for label, stat in stats %}
+        {% set score = character[stat] %}
+        {% set mod = (score - 10) // 2 %}
+        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
+          <div class="ab-name">{{ label }}</div>
+          <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
+          <div class="ab-score">{{ score }}</div>
+        </div>
         {% endfor %}
       </div>
     </div>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-  </div>
-  {% endif %}
 
-  <!-- Spells -->
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-      <h3 style="margin:0">Spells</h3>
-      <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
-    </div>
-    {% if spells %}
-    {% for sp in spells %}
-    <div class="spell-row">
-      <div>
-        <strong>{{ sp.spell_name }}</strong>
-        <span class="badge badge-muted" style="margin-left:0.5rem">Lv{{ sp.spell_level }}</span>
-        {% if sp.prepared %}<span style="color:var(--success);font-size:0.75rem;margin-left:0.3rem">prepared</span>{% endif %}
+    <!-- Core Combat Stats -->
+    <div class="sidebar-section">
+      <h4>Combat</h4>
+      <div class="combat-quick">
+        <div class="combat-quick-item">
+          <div class="cq-label">AC</div>
+          <div class="cq-value">{{ character.ac or 10 }}</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Initiative</div>
+          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Speed</div>
+          <div class="cq-value">{{ character.speed or 30 }}ft</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">Prof Bonus</div>
+          <div class="cq-value">+{{ prof }}</div>
+        </div>
+        <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
+          <div class="cq-label">Inspiration</div>
+          <div style="display:flex;justify-content:center;margin-top:0.1rem">
+            <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
+          </div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label">HP</div>
+          <div class="cq-value" id="sidebar-hp">{{ character.hp_current or character.hp_max }}</div>
+        </div>
       </div>
-      {% if sp.slots_max > 0 %}
-      <div class="slot-tracker" id="sp-slots-{{ sp.id }}">
-        {% for i in range(sp.slots_max) %}
-        <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
-        {% endfor %}
+      <!-- HP bar -->
+      <div class="sidebar-hp">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="hp-nums"><span id="hp-cur">{{ character.hp_current }}</span><span class="sep"> / {{ character.hp_max }}</span></span>
+          {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.75rem">+{{ character.temp_hp }} tmp</span>{% endif %}
+        </div>
+        <div class="hp-bar" style="margin-top:0.3rem">
+          <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar-side" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
+        </div>
+        <!-- HP adjust buttons -->
+        <div class="hp-controls">
+          <button class="hp-btn dmg" onclick="adjustHP(-1)">−</button>
+          <button class="hp-btn dmg" onclick="adjustHP(-5)">−5</button>
+          <button class="hp-btn heal" onclick="adjustHP(1)">+</button>
+          <button class="hp-btn heal" onclick="adjustHP(5)">+5</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saving Throws -->
+    <div class="sidebar-section">
+      <h4>Saving Throws</h4>
+      {% for label, stat in stats %}
+      {% set mod = (character[stat] - 10) // 2 %}
+      {% set prof_save = stat in saves_class %}
+      {% set save_val = mod + (prof if prof_save else 0) %}
+      <div class="stat-row">
+        <span class="stat-name">{% if prof_save %}<span class="prof-dot">●</span>{% endif %}{{ label }}</span>
+        <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
+      </div>
+      {% endfor %}
+      <!-- Conditional save notes -->
+      {% if character.race and ('dwarf' in character.race.lower() or 'stout' in character.race.lower()) %}
+      <div style="font-size:0.7rem;color:var(--success);margin-top:0.25rem">🛡️ Advantage vs Poison</div>
+      {% endif %}
+      {% if character.class_name == 'Barbarian' and character.level >= 2 %}
+      <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
+      {% endif %}
+    </div>
+
+    <!-- Senses -->
+    <div class="sidebar-section">
+      <h4>Senses</h4>
+      {% set wis_mod = (character.wisdom - 10) // 2 %}
+      {% set int_mod = (character.intelligence - 10) // 2 %}
+      <div class="stat-row">
+        <span class="stat-name">Passive Perception</span>
+        <span class="stat-val">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Passive Investigation</span>
+        <span class="stat-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Passive Insight</span>
+        <span class="stat-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
+      </div>
+      <!-- Darkvision -->
+      {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
+      <div class="stat-row">
+        <span class="stat-name">Darkvision</span>
+        <span class="stat-val">60 ft</span>
       </div>
       {% endif %}
     </div>
-    {% endfor %}
-    {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">No spells added. Use the build planner or add manually.</p>
-    {% endif %}
-  </div>
-</div>
 
-<!-- 🎒 INVENTORY TAB -->
-<div class="tab-content" id="tab-inventory">
-  <div class="card">
-    <h3 style="margin-bottom:0.5rem">Equipment</h3>
-    {% if character.inventory %}
-    <ul style="list-style:none;padding:0;font-size:0.9rem">
-      {% for item in character.inventory %}
-      <li style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">
-        <span>{{ item.name or item }}</span>
-        {% if item.qty and item.qty > 1 %}<span style="color:var(--text-muted)">×{{ item.qty }}</span>{% endif %}
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p style="color:var(--text-muted);font-size:0.85rem">Empty inventory</p>
-    {% endif %}
-  </div>
-
-  {% if character.equipped %}
-  <div class="card" style="margin-top:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Equipped</h3>
-    <ul style="list-style:none;padding:0;font-size:0.9rem">{% for item in character.equipped %}
-      <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05)">{{ item }}</li>
-    {% endfor %}</ul>
-  </div>
-  {% endif %}
-
-  <div class="card" style="margin-top:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Notes</h3>
-    <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
-    <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
-  </div>
-</div>
-
-<!-- 📊 ABILITIES TAB -->
-<div class="tab-content" id="tab-abilities">
-  <div class="card" style="margin-bottom:0.75rem">
-    <h3 style="margin-bottom:0.5rem">Ability Scores</h3>
-    <div style="display:grid;grid-template-columns:repeat(6, 1fr);gap:0.4rem">
-      {% for s in ["strength","dexterity","constitution","intelligence","wisdom","charisma"] %}
-      <div class="stat-box">
-        <div style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase">{{ s[:3] }}</div>
-        <div class="stat-num">{{ character[s] }}</div>
-        <div class="stat-mod">{% set m = (character[s] - 10) // 2 %}{% if m >= 0 %}+{% endif %}{{ m }}</div>
-        {% if s in (classes[character.class_name].saves if character.class_name in classes else []) %}
-        <div style="font-size:0.6rem;color:var(--accent);margin-top:0.1rem">SAVE +{{ m + character.proficiency_bonus }}</div>
+    <!-- Defenses -->
+    <div class="sidebar-section">
+      <h4>Defenses</h4>
+      <div style="font-size:0.8rem">
+        {% set has_defenses = false %}
+        <!-- Dwarf poison resistance -->
+        {% if character.race and ('dwarf' in character.race.lower()) %}
+        <span class="defense-badge defense-resist">🛡️ Poison</span>
+        {% set has_defenses = true %}
         {% endif %}
+        <!-- Halfling - Brave -->
+        {% if character.race and 'halfling' in character.race.lower() %}
+        <span class="defense-badge defense-resist">😨 Frightened (adv)</span>
+        {% set has_defenses = true %}
+        {% endif %}
+        <!-- Elf - charm/sleep -->
+        {% if character.race and ('elf' in character.race.lower()) %}
+        <span class="defense-badge defense-immune">💤 Sleep</span>
+        <span class="defense-badge defense-resist">💋 Charmed (adv)</span>
+        {% set has_defenses = true %}
+        {% endif %}
+        <!-- Half-Elf - same as elf -->
+        {% if character.race and 'half-elf' in character.race.lower() %}
+        <span class="defense-badge defense-immune">💤 Sleep</span>
+        <span class="defense-badge defense-resist">💋 Charmed (adv)</span>
+        {% set has_defenses = true %}
+        {% endif %}
+        {% if not has_defenses %}
+        <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Proficiencies -->
+    <div class="sidebar-section">
+      <h4>Proficiencies</h4>
+      <div style="font-size:0.8rem">
+        <div class="stat-row">
+          <span class="stat-name">Armor</span>
+          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.armor_proficiencies|join(', ') or 'None' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-name">Weapons</span>
+          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.weapon_proficiencies|join(', ') or 'None' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-name">Tools</span>
+          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.tool_proficiencies|join(', ') or 'None' }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-name">Languages</span>
+          <span class="stat-val" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.languages|join(', ') or 'Common' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="sidebar-section">
+      <h4>Skills</h4>
+      {% for skill_name, skill_ab in skill_abilities.items()|sort %}
+      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
+      {% set has_prof = skill_name in char_skills %}
+      {% set sk_val = ab_mod + (prof if has_prof else 0) %}
+      <div class="stat-row">
+        <span class="stat-name">{% if has_prof %}<span class="prof-dot">●</span>{% endif %}{{ skill_name }}</span>
+        <span class="stat-val" style="color:{% if has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
+          {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
+        </span>
       </div>
       {% endfor %}
     </div>
-  </div>
 
-  <div class="card">
-    <h3 style="margin-bottom:0.5rem">Skills</h3>
-    {% for skill in skill_abilities %}
-    {% set ab = skill_abilities[skill] %}
-    {% set mod = (character[ab] - 10) // 2 %}
-    {% set prof = skill in character.skills %}
-    <div style="display:flex;justify-content:space-between;padding:0.25rem 0;font-size:0.9rem;border-bottom:1px solid rgba(255,255,255,0.05)">
-      <span>{% if prof %}●{% else %}○{% endif %} {{ skill }}</span>
-      <span style="font-family:monospace;color:var(--text-muted)">{% if prof %}{% if mod+character.proficiency_bonus >=0 %}+{% endif %}{{ mod+character.proficiency_bonus }}{% else %}{% if mod>=0 %}+{% endif %}{{ mod }}{% endif %}</span>
+    <!-- Death Saves (collapsible) -->
+    <div class="sidebar-section">
+      <h4 style="cursor:pointer" onclick="document.getElementById('ds-body').classList.toggle('hidden')">Death Saves ▾</h4>
+      <div id="ds-body">
+        <div style="display:flex;gap:1rem;margin-bottom:0.4rem">
+          <div>
+            <div style="font-size:0.7rem;color:var(--success);margin-bottom:0.2rem">Successes</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
+            {% endfor %}</div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem;color:var(--danger);margin-bottom:0.2rem">Failures</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
+            {% endfor %}</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset</button>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem">
+          Hit Dice: {{ character.hit_dice }} · Used: {{ character.hit_dice_used or 0 }} · Exhaustion: {{ character.exhaustion or 0 }}
+        </div>
+      </div>
     </div>
-    {% endfor %}
-  </div>
-</div>
 
-<!-- Add Spell Modal -->
-<div id="add-spell-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-  <div class="card" style="max-width:400px;width:90%">
-    <h3>Add Spell</h3>
-    <div class="form-group"><label>Spell Name</label><input type="text" id="spell-name"></div>
-    <div class="form-group"><label>Level</label><select id="spell-level">{% for i in range(10) %}<option value="{{ i }}">{{ i }}{% if i==0 %} (Cantrip){% endif %}</option>{% endfor %}</select></div>
-    <div class="form-group"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
-    <div class="form-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9"></div>
-    <div style="display:flex;gap:0.5rem;justify-content:flex-end">
-      <button class="btn btn-outline btn-sm" onclick="document.getElementById('add-spell-modal').style.display='none'">Cancel</button>
-      <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
+    <!-- Hidden inspiration toggle -->
+    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
+  </div>
+
+  <!-- ══════ MAIN PANEL ══════ -->
+  <div class="sheet-main">
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('actions')">⚔️ Actions</button>
+      <button class="tab-btn" onclick="switchTab('features')">✨ Features</button>
+      <button class="tab-btn" onclick="switchTab('spells')">🔮 Spells</button>
+      <button class="tab-btn" onclick="switchTab('inventory')">🎒 Inventory</button>
     </div>
-  </div>
-</div>
 
+    <!-- ⚔️ ACTIONS TAB -->
+    <div class="tab-content active" id="tab-actions">
+      {% set attacks = character.attacks_data or [] %}
+      {% if attacks %}
+      <div class="card" style="margin-bottom:0.5rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">Weapon Attacks</h3>
+          <span style="font-size:0.75rem;color:var(--text-muted)">Attacks per Action: 1</span>
+        </div>
+        {% for atk in attacks %}
+        <div class="atk-card">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span class="atk-name">{{ atk.name }}</span>
+            <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
+          </div>
+          <div class="atk-detail">
+            {% if atk.range %}<span>Range: {{ atk.range }}</span>{% endif %}
+            {% if atk.damage %}<span> · {{ atk.damage }}</span>{% endif %}
+          </div>
+          {% if atk.properties %}
+          <div class="atk-props">
+            {% for prop in atk.properties %}<span class="atk-prop">{{ prop }}</span>{% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Unarmed Strike -->
+      <div class="atk-card">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="atk-name">Unarmed Strike</span>
+          <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ prof + ((character.strength - 10) // 2) }} to hit</span>
+        </div>
+        <div class="atk-detail">Range: 5 ft · 1 + STR Bludgeoning</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem">
+          Damage: {{ 1 + ((character.strength - 10) // 2) }} Bludgeoning · Can also Grapple (DC {{ 8 + prof + ((character.strength - 10) // 2) }}) or Shove
+        </div>
+      </div>
+
+      <!-- Actions in Combat -->
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.5rem">Actions in Combat</h3>
+        <div class="action-grid">
+          {% for a in ["Attack","Dash","Disengage","Dodge","Grapple","Help","Hide","Improvise","Ready","Search","Shove","Study","Utilize"] %}
+          <div class="action-chip">{{ a }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Bonus Actions -->
+      {% if character.class_name in ['Rogue','Monk','Barbarian'] or (attacks and attacks|length > 1) %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.5rem">Bonus Actions</h3>
+        <div style="font-size:0.85rem;color:var(--text-muted)">
+          {% if character.class_name == 'Rogue' %}
+          <p><strong>Cunning Action:</strong> Dash, Disengage, or Hide.</p>
+          {% endif %}
+          {% if character.class_name == 'Monk' and character.level >= 2 %}
+          <p><strong>Martial Arts / Flurry of Blows:</strong> Unarmed strike or two unarmed strikes (1 Ki).</p>
+          {% endif %}
+          {% if character.class_name == 'Barbarian' %}
+          <p><strong>Rage:</strong> Enter a rage. Advantage on STR checks/saves, +2 melee damage, resistance to B/P/S.</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ✨ FEATURES TAB -->
+    <div class="tab-content" id="tab-features">
+      {% if character.feature_data %}
+      {% for feat in character.feature_data %}
+      <div class="feat-card">
+        <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+          <span><span class="feat-level">L{{ feat.level }}</span>{{ feat.name }}</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="card"><p style="color:var(--text-muted);font-size:0.85rem">No features data. Features auto-populate for new characters.</p></div>
+      {% endif %}
+    </div>
+
+    <!-- 🔮 SPELLS TAB -->
+    <div class="tab-content" id="tab-spells">
+      {% if character.spell_slot_data and character.spell_slot_data.slots %}
+      <div class="card" style="margin-bottom:0.75rem">
+        <h3 style="margin-bottom:0.5rem">Spell Slots</h3>
+        {% if character.spell_slot_data.note %}
+        <p style="font-size:0.85rem;color:var(--accent);margin-bottom:0.5rem">{{ character.spell_slot_data.note }}</p>
+        {% elif character.spell_slot_data.by_level %}
+        {% for lvl in range(1, 10) %}
+        {% set slots = character.spell_slot_data.by_level.get(lvl|string, 0) or character.spell_slot_data.by_level.get(lvl, 0) %}
+        {% if slots != none and slots > 0 %}
+        <div class="slot-level">
+          <div class="slot-label">Level {{ lvl }} ({{ slots }} slot{{ 's' if slots != 1 }})</div>
+          <div class="slot-tracker" id="slots-lvl-{{ lvl }}">
+            {% for i in range(slots) %}
+            <div class="slot-box" onclick="toggleSpellSlot({{ lvl }},{{ i+1 }},{{ slots }})"></div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">Spells</h3>
+          <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
+        </div>
+        {% if spells %}
+        {% for sp in spells %}
+        <div class="spell-row">
+          <div>
+            <strong>{{ sp.spell_name }}</strong>
+            <span class="badge badge-muted" style="margin-left:0.5rem">Lv{{ sp.spell_level }}</span>
+            {% if sp.prepared %}<span style="color:var(--success);font-size:0.75rem;margin-left:0.3rem">prepared</span>{% endif %}
+          </div>
+          {% if sp.slots_max > 0 %}
+          <div class="slot-tracker" id="sp-slots-{{ sp.id }}">
+            {% for i in range(sp.slots_max) %}
+            <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p style="color:var(--text-muted);font-size:0.85rem">No spells added. Use the build planner or add manually.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- 🎒 INVENTORY TAB -->
+    <div class="tab-content" id="tab-inventory">
+      <div class="card">
+        <h3 style="margin-bottom:0.5rem">Equipment</h3>
+        {% if character.inventory %}
+        <ul style="list-style:none;padding:0;font-size:0.9rem">
+          {% for item in character.inventory %}
+          <li style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">
+            <span>{{ item.name or item }}</span>
+            {% if item.qty and item.qty > 1 %}<span style="color:var(--text-muted)">×{{ item.qty }}</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p style="color:var(--text-muted);font-size:0.85rem">Empty inventory</p>
+        {% endif %}
+      </div>
+
+      {% if character.equipped %}
+      <div class="card" style="margin-top:0.75rem">
+        <h3 style="margin-bottom:0.5rem">Equipped</h3>
+        <ul style="list-style:none;padding:0;font-size:0.9rem">{% for item in character.equipped %}
+          <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05)">{{ item }}</li>
+        {% endfor %}</ul>
+      </div>
+      {% endif %}
+
+      <div class="card" style="margin-top:0.75rem">
+        <h3 style="margin-bottom:0.5rem">Notes</h3>
+        <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
+        <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
+      </div>
+    </div>
+
+    <!-- Add Spell Modal -->
+    <div id="add-spell-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+      <div class="card" style="max-width:400px;width:90%">
+        <h3>Add Spell</h3>
+        <div class="form-group"><label>Spell Name</label><input type="text" id="spell-name"></div>
+        <div class="form-group"><label>Level</label><select id="spell-level">{% for i in range(10) %}<option value="{{ i }}">{{ i }}{% if i==0 %} (Cantrip){% endif %}</option>{% endfor %}</select></div>
+        <div class="form-group"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
+        <div class="form-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9"></div>
+        <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('add-spell-modal').style.display='none'">Cancel</button>
+          <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- /sheet-main -->
+</div><!-- /sheet-layout -->
+{% endblock %}
+
+{% block scripts %}
 <script>
 const CHAR_ID = {{ character.id }};
+const HP_MAX = {{ character.hp_max }};
 
 function api(path, data) {
   return fetch('/api/character/' + CHAR_ID + path, {
@@ -344,21 +576,26 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
   localStorage.setItem('char-tab-' + CHAR_ID, name);
 }
-// Restore last tab
 const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
 if (savedTab) switchTab(savedTab);
 
-// ── HP ──
+// ── HP (updates both sidebar mini and bar) ──
 async function adjustHP(delta) {
-  const el = document.getElementById('hp-current');
-  let hp = parseInt(el.textContent);
-  hp = Math.max(0, Math.min({{ character.hp_max }}, hp + delta));
-  el.textContent = hp;
-  const pct = hp / {{ character.hp_max }} * 100;
-  const bar = document.getElementById('hp-bar');
-  bar.style.width = pct + '%';
-  bar.classList.toggle('danger', pct < 25);
-  bar.classList.toggle('warn', pct >= 25 && pct < 50);
+  const curEl = document.getElementById('hp-cur');
+  const sidebarEl = document.getElementById('sidebar-hp');
+  let hp = parseInt(curEl.textContent);
+  hp = Math.max(0, Math.min(HP_MAX, hp + delta));
+  curEl.textContent = hp;
+  sidebarEl.textContent = hp;
+  const pct = hp / HP_MAX * 100;
+  ['hp-bar-side'].forEach(id => {
+    const bar = document.getElementById(id);
+    if (bar) {
+      bar.style.width = pct + '%';
+      bar.classList.toggle('danger', pct < 25);
+      bar.classList.toggle('warn', pct >= 25 && pct < 50);
+    }
+  });
   await api('/update', { hp_current: hp });
 }
 
@@ -378,6 +615,9 @@ async function toggleInspiration() {
   const on = btn.classList.contains('on');
   btn.classList.toggle('on', !on);
   btn.classList.toggle('off', on);
+  // Also update sidebar icon
+  const sidebarIcon = document.querySelector('.combat-quick-item span[style*="font-size:1rem"]');
+  if (sidebarIcon) sidebarIcon.textContent = !on ? '⭐' : '☆';
   await api('/update', { inspiration: on ? 0 : 1 });
 }
 
