@@ -537,6 +537,7 @@ async function createCharacter() {
     class_name: state.class_name, subclass: state.subclass,
     abilities: state.abilities, skills: state.skills,
     asi_picks: state.asi_picks, background: state.background,
+    background_data: state.background_data || '',
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
     level: state.level,
     equipment: state.equipment,
@@ -697,6 +698,13 @@ async function aiGenerateBackground() {
     document.getElementById('char-bg').value = 'Custom';
     document.getElementById('custom-bg-name').value = data.name || '';
     state.custom_background = data.name || '';
+    // Store full background data for persistence
+    state.background_data = {
+      name: data.name || '',
+      description: data.description || '',
+      items: data.items || [],
+      gp: data.gp || 15
+    };
     // Show description
     const el = document.getElementById('bg-info');
     el.style.display = 'block';

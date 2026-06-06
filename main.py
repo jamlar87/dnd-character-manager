@@ -217,7 +217,8 @@ def init_db():
                           ("damage_resistances","TEXT DEFAULT '[]'"),
                           ("damage_immunities","TEXT DEFAULT '[]'"),
                           ("damage_vulnerabilities","TEXT DEFAULT '[]'"),
-                          ("condition_immunities","TEXT DEFAULT '[]'")]:
+                          ("condition_immunities","TEXT DEFAULT '[]'"),
+                          ("background_data","TEXT DEFAULT ''")]:
         try:
             db.execute(f"ALTER TABLE characters ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
@@ -498,15 +499,15 @@ async def api_create_character(request: Request):
     db = get_db()
     cur = db.execute("""
         INSERT INTO characters (user_id, name, race, subrace, class_name, subclass,
-        level, background, alignment, personality, backstory, strength, dexterity, constitution, intelligence,
+        level, background, background_data, alignment, personality, backstory, strength, dexterity, constitution, intelligence,
         wisdom, charisma, hp_max, hp_current, ac, speed,
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, inventory, equipped,
         feature_data, attacks_data, spell_slot_data, passive_perception, portrait_url, portrait_prompt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
-        data.get("background",""), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
+        data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
         stats["strength"], stats["dexterity"], stats["constitution"],
         stats["intelligence"], stats["wisdom"], stats["charisma"],
         hp_max, hp_max, ac_base, race_data.get("speed", 30),
@@ -547,6 +548,11 @@ async def character_sheet(char_id: int, request: Request):
             char[f] = json.loads(char[f] or "[]")
         except (json.JSONDecodeError, TypeError):
             char[f] = [] if f != "spell_slot_data" else {}
+    # Load background data
+    try:
+        char["background_data"] = json.loads(char["background_data"] or "")
+    except (json.JSONDecodeError, TypeError):
+        char["background_data"] = {}
 
     spells = [dict(r) for r in db.execute(
         "SELECT * FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
@@ -554,7 +560,7 @@ async def character_sheet(char_id: int, request: Request):
     ).fetchall()]
     db.close()
 
-    # Ability modifiers
+    # Compute modifiers
     for stat in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
         char[f"{stat}_mod"] = (char[stat] - 10) // 2
 

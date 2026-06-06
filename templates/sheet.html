@@ -964,6 +964,7 @@ function showDetail() {
   const subclass = '{{ character.subclass or "" }}';
   const bg = '{{ character.background or "" }}';
   const align = '{{ character.alignment or "" }}';
+  const bgData = {{ character.background_data|tojson if character.background_data else '{}' }};
 
   title.textContent = '{{ character.name }}';
 
@@ -997,7 +998,9 @@ function showDetail() {
   // Background
   if (bg) {
     html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><strong style="color:var(--accent)">Background: ${bg}</strong>`;
-    if (bgDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${bgDesc}</p>`;
+    const desc = (bgData && bgData.description) ? bgData.description : bgDesc;
+    if (desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${desc}</p>`;
+    if (bgData && bgData.items && bgData.items.length) html += `<p style="margin:0.25rem 0 0 0;font-size:0.8rem;color:var(--text-muted)">Items: ${bgData.items.join(', ')} · ${bgData.gp || 15} gp</p>`;
     html += '</div>';
   }
 
