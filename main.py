@@ -396,19 +396,26 @@ WEAPONS = {
 def _find_weapon(item_name: str) -> dict | None:
     """Match an inventory item name to a known SRD weapon. Fuzzy match."""
     name = item_name.lower().strip()
+    # Strip leading quantity (e.g., "2 Handaxes" → "Handaxes")
+    import re
+    name = re.sub(r'^\d+\s+', '', name)
+    # Strip trailing 's' for plural matching (Handaxes → Handaxe)
+    name_singular = name.rstrip('s') if name.endswith('s') and len(name) > 3 else name
     # Direct match
     if name in WEAPONS:
         return WEAPONS[name]
+    if name_singular in WEAPONS:
+        return WEAPONS[name_singular]
     # Substring match — check if any known weapon name appears in the item
     for wpn_name, wpn_data in WEAPONS.items():
-        if wpn_name in name or name in wpn_name:
+        if wpn_name in name or name in wpn_name or wpn_name in name_singular or name_singular in wpn_name:
             return wpn_data
-    # Keyword fallback — match single-word weapon types
+    # Keyword fallback
     keywords = ["sword","axe","hammer","bow","dagger","mace","spear","flail",
-                "rapier","scimitar","glaive","halberd","pike","lance","whip"]
+                "rapier","scimitar","glaive","halberd","pike","lance","whip",
+                "javelin","crossbow","club","staff","sling","dart","trident"]
     for kw in keywords:
-        if kw in name:
-            # Return a generic stat block for the keyword
+        if kw in name or kw in name_singular:
             generic = {
                 "sword": WEAPONS["longsword"], "axe": WEAPONS["battleaxe"],
                 "hammer": WEAPONS["warhammer"], "bow": WEAPONS["shortbow"],
@@ -417,7 +424,10 @@ def _find_weapon(item_name: str) -> dict | None:
                 "rapier": WEAPONS["rapier"], "scimitar": WEAPONS["scimitar"],
                 "glaive": WEAPONS["glaive"], "halberd": WEAPONS["halberd"],
                 "pike": WEAPONS["pike"], "lance": WEAPONS["lance"],
-                "whip": WEAPONS["whip"],
+                "whip": WEAPONS["whip"], "javelin": WEAPONS["javelin"],
+                "crossbow": WEAPONS["crossbow, light"], "club": WEAPONS["club"],
+                "staff": WEAPONS["quarterstaff"], "sling": WEAPONS["sling"],
+                "dart": WEAPONS["dart"], "trident": WEAPONS["trident"],
             }
             if kw in generic:
                 return generic[kw]
@@ -468,24 +478,22 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
     }
 
 def _build_inventory_attacks(character: dict) -> list:
-    """Scan inventory for weapons and build attack entries. Merge with existing attacks_data."""
-    existing = character.get("attacks_data", []) or []
-    existing_names = {a.get("name","").lower() for a in existing}
+    """Scan inventory for weapons and build attack entries."""
     abilities = {a: character.get(a, 10) for a in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
     prof_bonus = character.get("proficiency_bonus", 2)
 
-    attacks = list(existing)
+    attacks = []
+    seen = set()
     inventory = character.get("inventory", []) or []
     for item in inventory:
         name = item.get("name", item) if isinstance(item, dict) else str(item)
-        # Skip if this weapon already has an attack card (fuzzy match)
-        if any(name.lower() in en or en in name.lower() for en in existing_names):
+        key = name.lower()
+        if key in seen:
             continue
         wpn = _find_weapon(name)
         if wpn:
-            atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus)
-            attacks.append(atk)
-            existing_names.add(name.lower())
+            attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus))
+            seen.add(key)
     return attacks
 
 # ── Routes: Auth ────────────────────────────────────────────────────────────
