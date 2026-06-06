@@ -462,7 +462,7 @@
 
     <!-- ⚔️ ACTIONS TAB -->
     <div class="tab-content active" id="tab-actions">
-      {% set attacks = character.attacks_data or [] %}
+      {% set attacks = attacks or character.attacks_data or [] %}
       {% if attacks %}
       <div class="card" style="margin-bottom:0.5rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">

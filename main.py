@@ -348,6 +348,146 @@ BACKGROUND_INFO = {
 }
 ALIGNMENTS = ["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"]
 
+# ── SRD Weapons (PHB p.149) ─────────────────────────────────────────────────
+WEAPONS = {
+    # Simple Melee
+    "club":            {"damage":"1d4","type":"bludgeoning","props":["light"],"category":"simple melee"},
+    "dagger":          {"damage":"1d4","type":"piercing","props":["finesse","light","thrown (20/60)"],"category":"simple melee"},
+    "greatclub":       {"damage":"1d8","type":"bludgeoning","props":["two-handed"],"category":"simple melee"},
+    "handaxe":         {"damage":"1d6","type":"slashing","props":["light","thrown (20/60)"],"category":"simple melee"},
+    "javelin":         {"damage":"1d6","type":"piercing","props":["thrown (30/120)"],"category":"simple melee"},
+    "light hammer":    {"damage":"1d4","type":"bludgeoning","props":["light","thrown (20/60)"],"category":"simple melee"},
+    "mace":            {"damage":"1d6","type":"bludgeoning","props":[],"category":"simple melee"},
+    "quarterstaff":    {"damage":"1d6","type":"bludgeoning","props":["versatile (1d8)"],"category":"simple melee"},
+    "sickle":          {"damage":"1d4","type":"slashing","props":["light"],"category":"simple melee"},
+    "spear":           {"damage":"1d6","type":"piercing","props":["thrown (20/60)","versatile (1d8)"],"category":"simple melee"},
+    # Simple Ranged
+    "crossbow, light": {"damage":"1d8","type":"piercing","props":["ammunition (80/320)","loading","two-handed"],"category":"simple ranged"},
+    "dart":            {"damage":"1d4","type":"piercing","props":["finesse","thrown (20/60)"],"category":"simple ranged"},
+    "shortbow":        {"damage":"1d6","type":"piercing","props":["ammunition (80/320)","two-handed"],"category":"simple ranged"},
+    "sling":           {"damage":"1d4","type":"bludgeoning","props":["ammunition (30/120)"],"category":"simple ranged"},
+    # Martial Melee
+    "battleaxe":       {"damage":"1d8","type":"slashing","props":["versatile (1d10)"],"category":"martial melee"},
+    "flail":           {"damage":"1d8","type":"bludgeoning","props":[],"category":"martial melee"},
+    "glaive":          {"damage":"1d10","type":"slashing","props":["heavy","reach","two-handed"],"category":"martial melee"},
+    "greataxe":        {"damage":"1d12","type":"slashing","props":["heavy","two-handed"],"category":"martial melee"},
+    "greatsword":      {"damage":"2d6","type":"slashing","props":["heavy","two-handed"],"category":"martial melee"},
+    "halberd":         {"damage":"1d10","type":"slashing","props":["heavy","reach","two-handed"],"category":"martial melee"},
+    "lance":           {"damage":"1d12","type":"piercing","props":["reach","special"],"category":"martial melee"},
+    "longsword":       {"damage":"1d8","type":"slashing","props":["versatile (1d10)"],"category":"martial melee"},
+    "maul":            {"damage":"2d6","type":"bludgeoning","props":["heavy","two-handed"],"category":"martial melee"},
+    "morningstar":     {"damage":"1d8","type":"piercing","props":[],"category":"martial melee"},
+    "pike":            {"damage":"1d10","type":"piercing","props":["heavy","reach","two-handed"],"category":"martial melee"},
+    "rapier":          {"damage":"1d8","type":"piercing","props":["finesse"],"category":"martial melee"},
+    "scimitar":        {"damage":"1d6","type":"slashing","props":["finesse","light"],"category":"martial melee"},
+    "shortsword":      {"damage":"1d6","type":"piercing","props":["finesse","light"],"category":"martial melee"},
+    "trident":         {"damage":"1d6","type":"piercing","props":["thrown (20/60)","versatile (1d8)"],"category":"martial melee"},
+    "war pick":        {"damage":"1d8","type":"piercing","props":[],"category":"martial melee"},
+    "warhammer":       {"damage":"1d8","type":"bludgeoning","props":["versatile (1d10)"],"category":"martial melee"},
+    "whip":            {"damage":"1d4","type":"slashing","props":["finesse","reach"],"category":"martial melee"},
+    # Martial Ranged
+    "blowgun":         {"damage":"1","type":"piercing","props":["ammunition (25/100)","loading"],"category":"martial ranged"},
+    "crossbow, hand":  {"damage":"1d6","type":"piercing","props":["ammunition (30/120)","light","loading"],"category":"martial ranged"},
+    "crossbow, heavy": {"damage":"1d10","type":"piercing","props":["ammunition (100/400)","heavy","loading","two-handed"],"category":"martial ranged"},
+    "longbow":         {"damage":"1d8","type":"piercing","props":["ammunition (150/600)","heavy","two-handed"],"category":"martial ranged"},
+    "net":             {"damage":"—","type":"special","props":["thrown (5/15)","special"],"category":"martial ranged"},
+}
+
+def _find_weapon(item_name: str) -> dict | None:
+    """Match an inventory item name to a known SRD weapon. Fuzzy match."""
+    name = item_name.lower().strip()
+    # Direct match
+    if name in WEAPONS:
+        return WEAPONS[name]
+    # Substring match — check if any known weapon name appears in the item
+    for wpn_name, wpn_data in WEAPONS.items():
+        if wpn_name in name or name in wpn_name:
+            return wpn_data
+    # Keyword fallback — match single-word weapon types
+    keywords = ["sword","axe","hammer","bow","dagger","mace","spear","flail",
+                "rapier","scimitar","glaive","halberd","pike","lance","whip"]
+    for kw in keywords:
+        if kw in name:
+            # Return a generic stat block for the keyword
+            generic = {
+                "sword": WEAPONS["longsword"], "axe": WEAPONS["battleaxe"],
+                "hammer": WEAPONS["warhammer"], "bow": WEAPONS["shortbow"],
+                "dagger": WEAPONS["dagger"], "mace": WEAPONS["mace"],
+                "spear": WEAPONS["spear"], "flail": WEAPONS["flail"],
+                "rapier": WEAPONS["rapier"], "scimitar": WEAPONS["scimitar"],
+                "glaive": WEAPONS["glaive"], "halberd": WEAPONS["halberd"],
+                "pike": WEAPONS["pike"], "lance": WEAPONS["lance"],
+                "whip": WEAPONS["whip"],
+            }
+            if kw in generic:
+                return generic[kw]
+    return None
+
+def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict, prof_bonus: int) -> dict:
+    """Build an attack entry from weapon data and character stats."""
+    damage = weapon_data["damage"]
+    dmg_type = weapon_data["type"]
+    props = weapon_data.get("props", [])
+
+    # Determine attack ability
+    is_ranged = "ranged" in weapon_data.get("category", "")
+    is_thrown = any("thrown" in p for p in props)
+    is_finesse = "finesse" in props
+
+    if is_ranged and not is_thrown:
+        ability = "dexterity"
+    elif is_finesse:
+        # Finesse: use better of STR or DEX
+        ability = "dexterity" if abilities.get("dexterity",10) > abilities.get("strength",10) else "strength"
+    else:
+        ability = "strength"
+
+    ab_mod = (abilities.get(ability, 10) - 10) // 2
+    attack_bonus = ab_mod + prof_bonus
+
+    # Damage string
+    if damage == "—":
+        dmg_str = "Special"
+    else:
+        dmg_str = f"{damage} + {ab_mod} {dmg_type}"
+
+    # Range
+    range_str = None
+    for p in props:
+        if "thrown" in p:
+            range_str = p.replace("thrown ","Thrown ").replace("(","").replace(")","")
+        elif "ammunition" in p:
+            range_str = p.replace("ammunition ","Range ").replace("(","").replace(")","")
+
+    return {
+        "name": item_name,
+        "attack_bonus": attack_bonus,
+        "damage": dmg_str,
+        "range": range_str,
+        "properties": [p for p in props if not ("thrown" in p or "ammunition" in p)],
+    }
+
+def _build_inventory_attacks(character: dict) -> list:
+    """Scan inventory for weapons and build attack entries. Merge with existing attacks_data."""
+    existing = character.get("attacks_data", []) or []
+    existing_names = {a.get("name","").lower() for a in existing}
+    abilities = {a: character.get(a, 10) for a in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
+    prof_bonus = character.get("proficiency_bonus", 2)
+
+    attacks = list(existing)
+    inventory = character.get("inventory", []) or []
+    for item in inventory:
+        name = item.get("name", item) if isinstance(item, dict) else str(item)
+        # Skip if this weapon already has an attack card (fuzzy match)
+        if any(name.lower() in en or en in name.lower() for en in existing_names):
+            continue
+        wpn = _find_weapon(name)
+        if wpn:
+            atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus)
+            attacks.append(atk)
+            existing_names.add(name.lower())
+    return attacks
+
 # ── Routes: Auth ────────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
@@ -581,9 +721,12 @@ async def character_sheet(char_id: int, request: Request):
     user_saves = char.get("save_proficiencies", [])
     saves_class = list(set(class_saves) | set(user_saves))
 
+    # Build attacks from inventory weapons + existing attacks_data
+    all_attacks = _build_inventory_attacks(char)
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
-                   bg_info=BACKGROUND_INFO, saves_class=saves_class)
+                   bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
