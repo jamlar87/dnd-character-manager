@@ -82,6 +82,9 @@
       <label>Background</label>
       <div style="display:flex;gap:0.5rem"><select id="char-bg" style="flex:1" onchange="showBgInfo(this.value)"></select><button class="btn btn-outline btn-sm" onclick="autoFillDetails()">🤖 Auto-Fill</button></div>
       <div id="bg-info" class="card" style="margin-top:0.5rem;padding:0.75rem 1rem;display:none;font-size:0.85rem;color:var(--text-muted);line-height:1.5"></div>
+      <div id="custom-bg-row" style="margin-top:0.5rem;display:none">
+        <input type="text" id="custom-bg-name" placeholder="Enter your background name..." style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.95rem" oninput="state.custom_background = this.value">
+      </div>
     </div>
     <div class="form-group"><label>Alignment</label><select id="char-align"></select></div>
     <div class="form-group"><label>Level</label><input type="number" id="char-level" value="1" min="1" max="20"></div>
@@ -121,6 +124,7 @@ const BACKGROUND_INFO = {
   "Sailor":        "You have sailed the high seas. Skill Proficiencies: Athletics, Perception. Tool Proficiencies: Navigator's tools, water vehicles. Equipment: Belaying pin, 50 ft silk rope, lucky charm, common clothes, 10 gp. Feature: Ship's Passage.",
   "Soldier":       "You served in a military force. Skill Proficiencies: Athletics, Intimidation. Tool Proficiencies: One gaming set, land vehicles. Equipment: Insignia of rank, trophy, bone dice, common clothes, 10 gp. Feature: Military Rank.",
   "Urchin":        "You grew up on the streets alone. Skill Proficiencies: Sleight of Hand, Stealth. Tool Proficiencies: Disguise kit, thieves' tools. Equipment: Small knife, city map, pet mouse, token of parents, common clothes, 10 gp. Feature: City Secrets.",
+  "Custom":        "Define your own background. Equipment: 3 useful items of your choice, traveler's clothes, 10 gp. Feature: Your own unique story.",
 };
 const STD_ARRAY = [15,14,13,12,10,8];
 const ABILITIES = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
@@ -383,18 +387,23 @@ function toggleSkill(s) {
 
 function showBgInfo(bg) {
   const el = document.getElementById('bg-info');
-  if (bg && BACKGROUND_INFO[bg]) {
-    el.style.display = 'block';
-    el.innerHTML = `<strong>${bg}</strong><br>${BACKGROUND_INFO[bg]}`;
+  if (!bg) { el.style.display = 'none'; document.getElementById('custom-bg-row').style.display = 'none'; return; }
+  el.style.display = 'block';
+  if (bg === 'Custom') {
+    el.innerHTML = `<strong>Custom Background</strong><br>${BACKGROUND_INFO['Custom']}`;
+    document.getElementById('custom-bg-row').style.display = 'block';
   } else {
-    el.style.display = 'none';
+    el.innerHTML = `<strong>${bg}</strong><br>${BACKGROUND_INFO[bg] || ''}`;
+    document.getElementById('custom-bg-row').style.display = 'none';
   }
 }
 
 // ── Step 5: Review ──
 function buildReview() {
   state.name = document.getElementById('char-name').value || 'Unnamed';
-  state.background = document.getElementById('char-bg').value;
+  const bgVal = document.getElementById('char-bg').value;
+  state.background = bgVal === 'Custom' ? (document.getElementById('custom-bg-name').value || 'Custom') : bgVal;
+  state.custom_background = bgVal === 'Custom' ? document.getElementById('custom-bg-name').value : '';
   state.alignment = document.getElementById('char-align').value;
   state.level = parseInt(document.getElementById('char-level').value) || 1;
 
@@ -538,7 +547,8 @@ function idealSkills() {
 
 function randomizeDetails() {
   randomName();
-  document.getElementById('char-bg').value = BACKGROUNDS[Math.floor(Math.random() * BACKGROUNDS.length)];
+  const bgs = BACKGROUNDS.filter(b => b !== 'Custom');
+  document.getElementById('char-bg').value = bgs[Math.floor(Math.random() * bgs.length)];
   showBgInfo(document.getElementById('char-bg').value);
   document.getElementById('char-align').value = ALIGNMENTS[Math.floor(Math.random() * ALIGNMENTS.length)];
 }
