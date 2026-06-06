@@ -950,6 +950,7 @@ function switchTab(name) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
+  console.log('tab-' + name, 'style.display after:', document.getElementById('tab-' + name).style.display, 'computed:', window.getComputedStyle(document.getElementById('tab-' + name)).display);
   localStorage.setItem('char-tab-' + CHAR_ID, name);
 }
 const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
