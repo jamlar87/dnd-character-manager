@@ -220,6 +220,7 @@ function buildClasses() {
 
 function selectClass(name) {
   state.class_name = name; state.subclass = null;
+  document.querySelectorAll('#class-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === name));
   const c = CLASSES[name];
   const scgrid = document.getElementById('subclass-grid');
   const scsec = document.getElementById('subclass-section');
