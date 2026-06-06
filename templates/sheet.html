@@ -106,14 +106,32 @@
 .inspiration-btn.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
 .inspiration-btn.off { background: transparent; border-color: var(--border); color: var(--text-muted); }
 
-/* Editable fields */
-.editable { cursor: pointer; border-bottom: 1px dashed transparent; transition: border-color 0.15s; }
-.editable:hover { border-bottom-color: var(--text-muted); }
+/* Editable fields — locked by default, unlocked in edit mode */
+.editable { cursor: default; border-bottom: 1px dashed transparent; transition: border-color 0.15s; }
+.edit-mode .editable { cursor: pointer; }
+.edit-mode .editable:hover { border-bottom-color: var(--text-muted); }
 .editable-input { background: transparent; border: none; border-bottom: 1px solid var(--accent); color: var(--text); font: inherit; padding: 0; margin: 0; outline: none; min-width: 2ch; }
 .editable-input.number { width: 3.5ch; text-align: center; }
-.prof-toggle { cursor: pointer; opacity: 0.3; transition: opacity 0.15s; user-select: none; }
-.prof-toggle.active { opacity: 1; color: var(--accent); }
-.prof-toggle:hover { opacity: 0.7; }
+/* Proficiency dots — only clickable in edit mode */
+.save-row, .stat-row[onclick*="toggleSkill"] { cursor: default; }
+.edit-mode .save-row, .edit-mode .stat-row[onclick*="toggleSkill"] { cursor: pointer; }
+.save-dot, .skill-dot { opacity: 0.3; transition: opacity 0.15s; user-select: none; }
+.edit-mode .save-dot, .edit-mode .skill-dot { cursor: pointer; }
+.edit-mode .save-dot:hover, .edit-mode .skill-dot:hover { opacity: 0.7; }
+.save-dot.active, .skill-dot.active { opacity: 1; color: var(--accent); }
+/* Edit toggle button */
+#edit-toggle { padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); background: none; color: var(--text); transition: all 0.15s; }
+#edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.edit-mode #edit-toggle { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* Edit-only elements — hidden outside edit mode */
+.edit-only { display: none !important; }
+.edit-mode .edit-only { display: inline-flex !important; }
+.edit-mode .edit-only-block { display: block !important; }
+/* Inventory — readonly outside edit mode */
+.inv-item input { pointer-events: none; border-color: transparent !important; }
+.edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
+.inv-item .btn { display: none !important; }
+.edit-mode .inv-item .btn { display: inline-flex !important; }
 {% endblock %}
 
 {% block content %}
@@ -131,6 +149,7 @@
     {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
   </div>
   <a href="/dashboard" class="btn btn-outline btn-sm">← Back</a>
+  <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
 </div>
 
 {% if character.personality or character.backstory %}
@@ -150,10 +169,10 @@
     <div class="sidebar-section" style="text-align:center">
       {% if character.portrait_url %}
       <img src="{{ character.portrait_url }}" alt="Character Portrait" style="max-width:100%;max-height:320px;border-radius:6px;border:1px solid var(--border)" id="sidebar-portrait">
-      <button class="btn btn-outline btn-sm" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
+      <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="margin-top:0.35rem;width:100%">✏️ Edit Portrait</button>
       {% else %}
       <div style="padding:2rem 1rem;color:var(--text-muted);font-size:0.8rem">No portrait yet</div>
-      <button class="btn btn-outline btn-sm" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
+      <button class="btn btn-outline btn-sm edit-only" onclick="openPortraitModal()" style="width:100%">🎨 Generate Portrait</button>
       {% endif %}
     </div>
 
@@ -329,7 +348,7 @@
         {% endif %}
       </div>
       <!-- Edit defenses -->
-      <div style="margin-top:0.5rem;font-size:0.75rem">
+      <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
         <div class="stat-row" style="margin-bottom:0.15rem">
           <span class="stat-name" style="font-size:0.7rem">Resistances</span>
           <span class="stat-val editable" data-field="damage_resistances" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_resistances|join(', ') or '—' }}</span>
@@ -508,7 +527,7 @@
         <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
           <span><span class="feat-level">L{{ feat.level }}</span>{{ feat.name }}</span>
           <span style="display:flex;align-items:center;gap:0.5rem">
-            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editFeature({{ loop.index0 }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+            <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ loop.index0 }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
             <span class="arrow">▶</span>
           </span>
         </div>
@@ -578,7 +597,7 @@
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">Equipment</h3>
-          <div style="display:flex;gap:0.3rem">
+          <div style="display:flex;gap:0.3rem" class="edit-only">
             <button class="btn btn-outline btn-sm" onclick="addInventoryItem()">+ Add</button>
             <button class="btn btn-primary btn-sm" onclick="saveInventory()">💾 Save</button>
           </div>
@@ -908,11 +927,27 @@ async function regenerateSheetPortrait() {
   }
 }
 
+// ── Edit Mode Toggle ──
+function toggleEditMode() {
+  const isEdit = document.body.classList.toggle('edit-mode');
+  const btn = document.getElementById('edit-toggle');
+  btn.textContent = isEdit ? '🔓 Done' : '🔒 Edit';
+  // Persist preference for this character
+  localStorage.setItem('edit-mode-' + CHAR_ID, isEdit ? '1' : '0');
+}
+
+// Restore edit mode preference
+if (localStorage.getItem('edit-mode-' + CHAR_ID) === '1') {
+  document.body.classList.add('edit-mode');
+  document.getElementById('edit-toggle').textContent = '🔓 Done';
+}
+
 // ── Editable fields ──
 function makeEditable(el, field, isNum, isList) {
   el.classList.add('editable');
   el.addEventListener('click', () => {
-    if (el.querySelector('input')) return; // already editing
+    if (!document.body.classList.contains('edit-mode')) return; // locked
+    if (el.querySelector('input')) return;
     const current = el.textContent.trim();
     const input = document.createElement('input');
     input.type = 'text';
@@ -956,7 +991,7 @@ function initEditable() {
 
 // ── Proficiency Toggles ──
 async function toggleSaveProf(stat) {
-  const rows = document.querySelectorAll('.save-row');
+  if (!document.body.classList.contains('edit-mode')) return;
   const active = [];
   // Each save row needs a data-stat attribute — rebuild list from all active dots
   document.querySelectorAll('.save-dot.active').forEach(d => {
@@ -971,6 +1006,7 @@ async function toggleSaveProf(stat) {
 }
 
 async function toggleSkillProf(skillName) {
+  if (!document.body.classList.contains('edit-mode')) return;
   const active = [];
   document.querySelectorAll('.skill-dot.active').forEach(d => {
     if (d.dataset.skill !== skillName) active.push(d.dataset.skill);
@@ -986,6 +1022,7 @@ async function toggleSkillProf(skillName) {
 const featureData = {{ character.feature_data|tojson if character.feature_data else '[]' }};
 
 function editFeature(idx) {
+  if (!document.body.classList.contains('edit-mode')) return;
   const feat = featureData[idx];
   if (!feat) return;
   const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
@@ -1018,6 +1055,7 @@ function cancelFeature(idx) {
 
 // ── Inventory Management ──
 function addInventoryItem() {
+  if (!document.body.classList.contains('edit-mode')) return;
   const list = document.getElementById('inv-list');
   const idx = list.children.length;
   const li = document.createElement('li');
@@ -1039,6 +1077,7 @@ function removeInventoryItem(idx) {
 }
 
 async function saveInventory() {
+  if (!document.body.classList.contains('edit-mode')) return;
   const items = [];
   document.querySelectorAll('#inv-list .inv-item').forEach(li => {
     const nameEl = li.querySelector('input[type="text"]');
