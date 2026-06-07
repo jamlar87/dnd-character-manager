@@ -546,8 +546,22 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <button class="btn btn-sm" id="btnEndCombat" onclick="endCombat()" style="background:var(--danger);color:#fff">End Combat</button>
     </div>
 
-    <!-- Initiative track -->
-    <div id="initiativeTrack" style="display:flex;flex-direction:column;gap:0.35rem"></div>
+    <!-- Main combat layout: initiative track + players panel -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <!-- Initiative Track (left) -->
+      <div style="flex:1;min-width:400px">
+        <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">⚔️ Initiative Order</h4>
+        <div id="initiativeTrack" style="display:flex;flex-direction:column;gap:0.35rem;min-height:4rem"></div>
+      </div>
+
+      <!-- Players Panel (right) -->
+      <div style="width:300px;flex-shrink:0" id="playersPanel">
+        <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">👤 Players</h4>
+        <div id="playersWaiting" style="display:flex;flex-direction:column;gap:0.35rem;min-height:3rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px">
+          <span style="color:var(--text-muted);font-size:0.75rem;text-align:center">Select a campaign to load players</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Quick add participant -->
     <div style="margin-top:0.75rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
@@ -1872,9 +1886,16 @@ async function initCombatPanel() {
 async function loadCombatEncounter() {
   const sel = document.getElementById('combatEncounterSelect');
   _combatEncId = sel.value ? parseInt(sel.value) : null;
-  if (!_combatEncId) {
+  if (!_combatEncId && !_combatCampId) {
     document.getElementById('combatTracker').style.display = 'none';
     return;
+  }
+
+  document.getElementById('combatTracker').style.display = '';
+  if (_combatEncId) {
+    document.getElementById('btnRollInit').style.display = '';
+    document.getElementById('btnRerollInit').style.display = 'none';
+    document.getElementById('combatStatus').textContent = '';
   }
 
   // Also populate NPC dropdown
@@ -1902,98 +1923,180 @@ async function loadCombatEncounter() {
     _combatOrder = d.initiative_order || [];
   } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; }
 
-  document.getElementById('combatTracker').style.display = '';
-  document.getElementById('btnRollInit').style.display = '';
-  document.getElementById('btnRerollInit').style.display = 'none';
-  document.getElementById('combatStatus').textContent = '';
-
   // Load participants from encounter
   await refreshCombatParticipants();
 }
 
 // ── Load campaign player characters ──
+let _campaignPlayers = []; // {char_id, name, race, class_name, level, ac, hp_current, hp_max, dex_mod, initiative}
+
 async function loadCombatCampaign() {
   const campSel = document.getElementById('combatCampaignSelect');
   _combatCampId = campSel.value ? parseInt(campSel.value) : null;
 
-  // If no encounter selected either, just hide tracker
-  if (!_combatEncId && !_combatCampId) {
-    document.getElementById('combatTracker').style.display = 'none';
+  if (!_combatCampId) {
+    document.getElementById('playersWaiting').innerHTML =
+      '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center">Select a campaign to load players</span>';
+    _campaignPlayers = [];
     return;
   }
 
   // Fetch campaign characters
-  if (_combatCampId) {
-    try {
-      const r = await fetch('/api/dm/campaigns');
-      const d = await r.json();
-      const camp = (d.campaigns || []).find(c => c.id === _combatCampId);
-      if (camp && camp.characters) {
-        // Merge player characters into participants (avoiding duplicates)
-        const existingNpcIds = new Set(_combatParticipants.filter(p => !p.is_player).map(p => p.en_id));
-        for (const ch of camp.characters) {
-          // Use negative char_id as key to avoid collision with encounter NPC IDs
-          const key = -ch.id;
-          if (!_combatParticipants.find(p => p.is_player && p.char_id === ch.id)) {
-            _combatParticipants.push({
-              en_id: key,
-              char_id: ch.id,
-              name: ch.name,
-              race: ch.race || '',
-              class_name: ch.class_name || '',
-              level: ch.level || 1,
-              is_enemy: 0,
-              is_player: true,
-              role: ch.subclass || ch.class_name || '',
-              ac: ch.ac || 10,
-              hp_current: ch.hp_current || 1,
-              hp_max: ch.hp_max || 1,
-              defeated: 0,
-              initiative: (ch.modifiers?.dexterity || 0),
-              dex_mod: ch.modifiers?.dexterity || 0
-            });
-          }
-        }
+  try {
+    const r = await fetch('/api/dm/campaigns');
+    const d = await r.json();
+    const camp = (d.campaigns || []).find(c => c.id === _combatCampId);
+    _campaignPlayers = [];
+    if (camp && camp.characters) {
+      for (const ch of camp.characters) {
+        _campaignPlayers.push({
+          char_id: ch.id,
+          name: ch.name,
+          race: ch.race || '',
+          class_name: ch.class_name || '',
+          level: ch.level || 1,
+          ac: ch.ac || 10,
+          hp_current: ch.hp_current || 1,
+          hp_max: ch.hp_max || 1,
+          dex_mod: ch.modifiers?.dexterity || 0,
+          initiative: 0,
+          defeated: 0
+        });
       }
-    } catch(e) {}
+    }
+  } catch(e) {}
+
+  renderPlayersPanel();
+}
+
+function renderPlayersPanel() {
+  const panel = document.getElementById('playersWaiting');
+  if (_campaignPlayers.length === 0) {
+    panel.innerHTML = '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center">No players in campaign</span>';
+    return;
   }
 
-  if (_combatParticipants.length > 0) {
-    document.getElementById('combatTracker').style.display = '';
-    document.getElementById('btnRollInit').style.display = '';
-    document.getElementById('btnRerollInit').style.display = 'none';
-    document.getElementById('combatStatus').textContent =
-      `${_combatParticipants.length} combatants loaded`;
+  // Don't show players already in the initiative track
+  const inTrackIds = new Set(_combatParticipants.filter(p => p.is_player).map(p => p.char_id));
+
+  const available = _campaignPlayers.filter(p => !inTrackIds.has(p.char_id));
+
+  if (available.length === 0) {
+    panel.innerHTML = '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center">All players in initiative ✓</span>';
+    return;
   }
-  renderInitiativeTrack();
+
+  panel.innerHTML = available.map(p => {
+    return `<div class="initiative-card player-waiting" draggable="true"
+      data-char-id="${p.char_id}"
+      ondragstart="playerDragStart(event, ${p.char_id})"
+      ondragend="playerDragEnd(event)"
+      style="cursor:grab;border-style:dashed">
+      <div class="init-turn-marker" style="background:var(--accent2);color:var(--text)">👤</div>
+      <div class="init-info" style="flex:1">
+        <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem">PC</span></div>
+        <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.3rem">
+        <span style="font-size:0.65rem;color:var(--text-muted)">Init</span>
+        <input type="number" class="init-hp-input" value="${p.initiative || ''}" placeholder="?"
+          style="width:36px"
+          onchange="playerSetInit(${p.char_id}, this.value)" onclick="event.stopPropagation()">
+      </div>
+      <div class="init-hp-group" style="min-width:80px">
+        <span style="font-size:0.7rem">${p.hp_current}/${p.hp_max}</span>
+        <div class="init-hp-bar"><div class="init-hp-bar-fill ok" style="width:${Math.round(p.hp_current/p.hp_max*100)}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
 }
+
+// ── Player drag from panel into initiative track ──
+let _playerDragCharId = null;
+
+function playerSetInit(charId, val) {
+  const p = _campaignPlayers.find(p => p.char_id === charId);
+  if (p) p.initiative = parseInt(val) || 0;
+}
+
+function playerDragStart(e, charId) {
+  _playerDragCharId = charId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.closest('.initiative-card')?.classList.add('dragging');
+}
+
+function playerDragEnd(e) {
+  document.querySelectorAll('.initiative-card.dragging').forEach(c => c.classList.remove('dragging'));
+  _playerDragCharId = null;
+}
+
+// Make initiative track a drop target for player cards
+const initTrackEl = document.getElementById('initiativeTrack');
+initTrackEl.addEventListener('dragover', e => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+});
+initTrackEl.addEventListener('drop', async e => {
+  e.preventDefault();
+  if (!_playerDragCharId) return;
+  const cp = _campaignPlayers.find(p => p.char_id === _playerDragCharId);
+  if (!cp) return;
+
+  const init = cp.initiative || 0;
+  if (!init && !confirm(`${cp.name} has no initiative set. Add with initiative 0?`)) return;
+
+  // Add to track participants
+  _combatParticipants.push({
+    en_id: -cp.char_id,  // negative to avoid collision
+    char_id: cp.char_id,
+    name: cp.name,
+    race: cp.race,
+    class_name: cp.class_name,
+    level: cp.level,
+    is_enemy: 0,
+    is_player: true,
+    role: '',
+    ac: cp.ac,
+    hp_current: cp.hp_current,
+    hp_max: cp.hp_max,
+    defeated: cp.defeated || 0,
+    initiative: init,
+    roll: init,
+    dex_mod: cp.dex_mod || 0
+  });
+
+  // Re-sort
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  renderInitiativeTrack();
+  renderPlayersPanel();
+  saveCombatState();
+  _playerDragCharId = null;
+});
 
 // ── Roll initiative ──
 async function rollInitiative() {
-  if (!_combatEncId && !_combatCampId) return alert('Select an encounter or campaign first');
+  if (!_combatEncId) return alert('Select an encounter first');
 
-  // Roll for encounter NPCs (server-side)
-  if (_combatEncId) {
-    try {
-      const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
-      const d = await r.json();
-      if (!d.ok) return alert(d.error || 'Failed to roll');
-      // Replace NPC participants
-      _combatParticipants = _combatParticipants.filter(p => p.is_player);
-      for (const npc of d.participants) {
-        _combatParticipants.push({...npc, is_player: false, char_id: null});
-      }
-    } catch(e) { alert('Failed to roll NPC initiative'); return; }
-  }
-
-  // Roll for player characters (client-side)
-  for (const p of _combatParticipants) {
-    if (p.is_player) {
-      const roll = Math.floor(Math.random() * 20) + 1;
-      p.roll = roll;
-      p.initiative = roll + (p.dex_mod || 0);
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
+    const d = await r.json();
+    if (!d.ok) return alert(d.error || 'Failed to roll');
+    // Keep player characters that were already dragged into the track
+    const inTrack = _combatParticipants.filter(p => p.is_player);
+    _combatParticipants = [];
+    for (const npc of d.participants) {
+      _combatParticipants.push({...npc, is_player: false, char_id: null});
     }
-  }
+    // Re-add players that were already in the track
+    for (const p of inTrack) {
+      _combatParticipants.push(p);
+    }
+  } catch(e) { alert('Failed to roll NPC initiative'); return; }
 
   _combatParticipants.sort((a, b) => {
     if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
@@ -2008,35 +2111,30 @@ async function rollInitiative() {
   document.getElementById('btnRollInit').style.display = 'none';
   document.getElementById('btnRerollInit').style.display = '';
   document.getElementById('combatStatus').textContent =
-    `🎲 ${_combatParticipants.length} participants rolled`;
+    `🎲 ${_combatParticipants.length} in initiative`;
 }
 
 // ── Refresh participants from DB (used after HP changes, adding NPCs, etc.) ──
 async function refreshCombatParticipants() {
-  if (!_combatEncId && !_combatCampId) return;
-  // Preserve player characters
+  if (!_combatEncId) return;
+  // Preserve player characters already in the track
   const players = _combatParticipants.filter(p => p.is_player);
 
-  if (_combatEncId) {
-    try {
-      const r = await fetch(`/api/dm/encounter/${_combatEncId}`);
-      const d = await r.json();
-      const npcs = (d.encounter.participants || []).map(p => ({
-        en_id: p.id, npc_id: p.npc_id, name: p.npc_name,
-        race: p.race || '', class_name: p.class_name || '',
-        level: p.level || 1, is_enemy: p.is_enemy, role: p.role || '',
-        ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
-        hp_max: p.hp_max || p.npc_hp_max || 10,
-        defeated: p.defeated || 0, initiative: p.initiative || 0,
-        is_player: false, char_id: null
-      }));
-      _combatParticipants = [...players, ...npcs];
-    } catch(e) {}
-  } else {
-    _combatParticipants = [...players];
-  }
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}`);
+    const d = await r.json();
+    const npcs = (d.encounter.participants || []).map(p => ({
+      en_id: p.id, npc_id: p.npc_id, name: p.npc_name,
+      race: p.race || '', class_name: p.class_name || '',
+      level: p.level || 1, is_enemy: p.is_enemy, role: p.role || '',
+      ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
+      hp_max: p.hp_max || p.npc_hp_max || 10,
+      defeated: p.defeated || 0, initiative: p.initiative || 0,
+      is_player: false, char_id: null
+    }));
+    _combatParticipants = [...players, ...npcs];
+  } catch(e) {}
 
-  // Sort by initiative desc, alive first
   _combatParticipants.sort((a, b) => {
     if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
     return (b.initiative||0) - (a.initiative||0);
