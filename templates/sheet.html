@@ -107,6 +107,8 @@
 .feat-header .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--text-muted); }
 .feat-header.open .arrow { transform: rotate(90deg); }
 .feat-body { padding: 0 0.8rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+.passive-chip-body { display: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
+.passive-chip-body.open { display: block; }
 .feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
@@ -199,7 +201,7 @@
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
       <div>
         <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
-        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="editable badge-link" data-field="class_name" onclick="showDetail()">{{ character.class_name }}</span></span>
+        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
         {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
         {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
@@ -207,6 +209,9 @@
       <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
       {% if character.level < 20 %}
       <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
+      {% endif %}
+      {% if character.level > 1 %}
+      <button id="delevel-btn" onclick="openDeLevel()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">🔻 De-Level</button>
       {% endif %}
     </div>
     {% if character.personality or character.backstory %}
@@ -534,6 +539,7 @@
       <button class="tab-btn" onclick="switchTab('features')">✨ Features</button>
       <button class="tab-btn" onclick="switchTab('spells')">🔮 Spells</button>
       <button class="tab-btn" onclick="switchTab('inventory')">🎒 Inventory</button>
+      <button class="tab-btn" onclick="switchTab('history')">📜 History</button>
     </div>
 
     <!-- ⚔️ ACTIONS TAB -->
@@ -602,6 +608,7 @@
           {% set uses_max = fa.get("uses_max",0) %}
           {% set depleted = uses_max > 0 and uses == 0 %}
           <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
+               data-feat-name="{{ fa.name }}"
                onclick="{% if not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
                style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if depleted %}default{% else %}pointer{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
@@ -629,40 +636,80 @@
     <!-- ✨ FEATURES TAB -->
     <div class="tab-content" id="tab-features">
       {% if character.feature_data %}
-      {% set grouped = character.feature_data|groupby("level") %}
-      {% set ns = namespace(feat_idx=0) %}
-      {% for level_group in grouped %}
-      <div style="margin-bottom:0.5rem">
-        <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem">{{ level_group.grouper }}</h4>
-        {% for feat in level_group.list %}
-        <div class="feat-card" data-feat-index="{{ ns.feat_idx }}">
-          <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
-              {% if feat.recharge == "short" %}
-              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
-              {% elif feat.recharge == "long" %}
-              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
-              {% endif %}
-            </span>
-            <span style="display:flex;align-items:center;gap:0.5rem">
-              {% if feat.uses_max is defined and feat.uses_max > 0 %}
-              <span class="feat-uses-box" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-family:monospace" id="feat-uses-box-{{ ns.feat_idx }}">
-                {% for i in range(feat.uses_max) %}
-                <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ ns.feat_idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ ns.feat_idx }}, {{ i }})" title="{% if i < feat.uses %}Used — click to restore{% else %}Available — click to expend{% endif %}"></span>
-                {% endfor %}
-              </span>
-              <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ ns.feat_idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
-              {% endif %}
-              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ ns.feat_idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
-              <span class="arrow">▶</span>
-            </span>
-          </div>
-          <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
-        </div>
+      {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
+      {% set ns = namespace(feat_idx=0, passives=[], tracked=[]) %}
+      {% for feat in character.feature_data %}
+        {% if feat.uses_max is defined and feat.uses_max > 0 %}
+          {% set _ = ns.tracked.append((ns.feat_idx, feat)) %}
+        {% else %}
+          {% set _ = ns.passives.append((ns.feat_idx, feat)) %}
+        {% endif %}
         {% set ns.feat_idx = ns.feat_idx + 1 %}
-        {% endfor %}
-      </div>
       {% endfor %}
+
+      {# ── Passive features: compact grid, grouped by level ── #}
+      {% if ns.passives %}
+      <div class="card" style="margin-bottom:0.75rem">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Passive Features</h3>
+        <div class="passive-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:0.3rem">
+          {% for idx, feat in ns.passives %}
+          <div>
+            <div class="passive-chip" data-feat-index="{{ idx }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;cursor:pointer;transition:border-color 0.15s" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+              <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
+                <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ feat.name }}</span>
+                {% if feat.recharge == "short" %}
+                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
+                {% elif feat.recharge == "long" %}
+                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--success);padding:0.05rem 0.25rem">LR</span>
+                {% endif %}
+              </span>
+              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
+              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.15rem;flex-shrink:0">▶</span>
+            </div>
+            <div class="passive-chip-body">{{ feat.description or 'No description available.' }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {# ── Tracked features (uses): keep current card layout ── #}
+      {% if ns.tracked %}
+      <div class="card">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Limited-Use Features</h3>
+        {% set _ns = namespace(last_level='') %}
+        {% for idx, feat in ns.tracked %}
+        {% if feat.level != _ns.last_level %}
+        {% set _ns.last_level = feat.level %}
+        <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem;margin-top:{% if not loop.first %}0.4rem{% else %}0{% endif %}">{{ feat.level }}</h4>
+        {% endif %}
+          <div class="feat-card" data-feat-index="{{ idx }}">
+            <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+              <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.recharge == "short" %}
+                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
+                {% elif feat.recharge == "long" %}
+                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
+                {% endif %}
+              </span>
+              <span style="display:flex;align-items:center;gap:0.5rem">
+                <span class="feat-uses-box" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-family:monospace" id="feat-uses-box-{{ idx }}">
+                  {% for i in range(feat.uses_max) %}
+                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Used — click to restore{% else %}Available — click to expend{% endif %}"></span>
+                  {% endfor %}
+                </span>
+                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
+                <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+                <span class="arrow">▶</span>
+              </span>
+            </div>
+            <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
+          </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+
       {% else %}
       <div class="card"><p style="color:var(--text-muted);font-size:0.85rem">No features data. Features auto-populate for new characters.</p></div>
       {% endif %}
@@ -897,12 +944,71 @@
   </div><!-- /sheet-main -->
 </div><!-- /sheet-layout -->
 
+<!-- 📜 HISTORY & RELATIONSHIPS TAB -->
+<div class="tab-content" id="tab-history">
+  <div style="margin-bottom:1.5rem">
+    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History</h3>
+    <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
+    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">Write your character's history, key life events, or backstory details.</div>
+  </div>
+
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+      <h3 style="margin:0;font-size:1rem">Relationships</h3>
+      <button class="btn btn-outline btn-sm" onclick="openAddRelationship()" style="font-size:0.8rem">+ Add NPC</button>
+    </div>
+    <div id="relationships-list" style="display:flex;flex-direction:column;gap:0.5rem">
+      <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1rem">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Add Relationship Modal -->
+  <div id="rel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeRelModal()">
+    <div class="card" style="max-width:500px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+      <h3 id="rel-modal-title" style="margin-bottom:1rem">Add Relationship</h3>
+      <div class="form-group">
+        <label>Relationship Type</label>
+        <select id="rel-type" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+          <option value="ally">🤝 Ally / Friend</option>
+          <option value="mentor">👨‍🏫 Mentor / Teacher</option>
+          <option value="family">👪 Family</option>
+          <option value="rival">⚔️ Rival</option>
+          <option value="antagonist">💀 Antagonist / Enemy</option>
+          <option value="other">📋 Other</option>
+        </select>
+      </div>
+      <div class="form-group" id="rel-manual-fields">
+        <label>NPC Name</label>
+        <input type="text" id="rel-name" placeholder="e.g. Master Theron" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+        <label style="margin-top:0.75rem">Description</label>
+        <textarea id="rel-desc" placeholder="Who they are to your character..." style="width:100%;min-height:80px;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);resize:vertical"></textarea>
+      </div>
+      <div style="margin-bottom:1rem">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.85rem">
+          <input type="checkbox" id="rel-use-ai" onchange="toggleRelAIMode()">
+          🤖 AI-generate from description
+        </label>
+      </div>
+      <div class="form-group" id="rel-ai-fields" style="display:none">
+        <label>Describe who you want (be vivid):</label>
+        <textarea id="rel-prompt" placeholder="e.g. An aging sword master with a missing eye who trained me in the mountains. He's stern but secretly proud of me." style="width:100%;min-height:80px;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);resize:vertical"></textarea>
+        <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="margin-top:0.5rem;font-size:0.8rem">🪄 Generate NPC</button>
+        <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
+      </div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+        <button class="btn btn-outline btn-sm" onclick="closeRelModal()">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="rel-save-btn" onclick="saveRelationship()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Detail Popup -->
 <div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
   <div class="popup-card">
     <button class="popup-close" onclick="document.getElementById('detail-popup').style.display='none'">✕</button>
     <h3 id="popup-title"></h3>
-    <p id="popup-body"></p>
+    <div id="popup-body"></div>
   </div>
 </div>
 
@@ -971,6 +1077,27 @@
 </div>
 {% endblock %}
 
+<!-- De-Level Modal -->
+<div id="delevel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:501;align-items:center;justify-content:center" onclick="if(event.target===this)closeDeLevel()">
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.2rem" id="dl-title">🔻 Level Down</h2>
+    <button onclick="closeDeLevel()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <!-- Step dots -->
+  <div id="dl-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
+  <!-- Content -->
+  <div id="dl-content" style="min-height:150px"></div>
+  <!-- Navigation -->
+  <div id="dl-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
+    <button id="dl-back" class="btn btn-outline btn-sm" style="display:none" onclick="deLevelStep(-1)">← Back</button>
+    <div style="flex:1"></div>
+    <button id="dl-next" class="btn btn-primary btn-sm" onclick="deLevelStep(1)">Next →</button>
+    <button id="dl-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyDeLevel()">✅ Confirm De-Level</button>
+  </div>
+</div>
+</div>
+
 {% block scripts %}
 <script>
 const CHAR_ID = {{ character.id }};
@@ -1000,7 +1127,7 @@ function switchTab(name) {
 }
 const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
 console.log('savedTab:', savedTab, 'char-tab-' + CHAR_ID);
-if (savedTab && ['actions','features','spells','inventory'].includes(savedTab)) {
+if (savedTab && ['actions','features','spells','inventory','history'].includes(savedTab)) {
   console.log('restoring saved tab:', savedTab);
   switchTab(savedTab);
 }
@@ -1901,6 +2028,8 @@ async function toggleFeatureUse(idx, dotIdx) {
     feat.uses++;
   }
   renderFeatureDots(idx);
+  // Sync actions tab button
+  if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
   await api('/update', { feature_data: JSON.stringify(featureData) });
 }
 
@@ -1926,6 +2055,32 @@ function resetAllFeatureUses() {
       renderFeatureDots(i);
     }
   });
+  // Sync actions tab buttons
+  featureData.forEach(f => { if (f.action_type) syncActionButton(f.name, f.uses, f.uses_max); });
+}
+
+// ── Sync Actions tab button when Features tab toggles uses ──
+function syncActionButton(name, uses, usesMax) {
+  const btn = document.querySelector(`.feat-action-btn[data-feat-name="${name}"]`);
+  if (!btn) return;
+  // Update dots
+  const dots = btn.querySelectorAll('.use-dot');
+  dots.forEach((dot, i) => dot.classList.toggle('active', i < uses));
+  // Update count text
+  const countSpan = btn.querySelector('.feat-uses-dots span:last-child');
+  if (countSpan) countSpan.textContent = `${uses}/${usesMax}`;
+  // Toggle depleted state
+  if (uses === 0 && usesMax > 0) {
+    btn.classList.add('depleted');
+    btn.style.opacity = '0.45';
+    btn.style.cursor = 'default';
+    btn.onclick = null;
+  } else {
+    btn.classList.remove('depleted');
+    btn.style.opacity = '';
+    btn.style.cursor = 'pointer';
+    btn.onclick = function() { useFeature(name, btn); };
+  }
 }
 
 // Reset only short-rest features (for short rest action)
@@ -2295,6 +2450,7 @@ let luData = null;
 let luStep = 0;
 let luSteps = [];       // [{label, render}]
 let luChoices = {};     // accumulated choices
+let luClassToLevel = null;  // multiclass: which class to level
 
 async function openLevelUp() {
   try {
@@ -2312,6 +2468,13 @@ async function openLevelUp() {
   // Build steps
   luSteps = [];
   luSteps.push({label: 'Overview', render: renderLuOverview});
+  
+  // Multiclass class picker — insert after Overview if options exist
+  if (luData.multiclass && luData.multiclass.options && luData.multiclass.options.length > 0) {
+    luClassToLevel = luData.multiclass.class_to_level;
+    luSteps.push({label: 'Class', render: renderLuClassPick});
+  }
+  
   luSteps.push({label: 'HP', render: renderLuHP});
   if (luData.asi) luSteps.push({label: 'ASI/Feat', render: renderLuASI});
   if (luData.subclass) luSteps.push({label: luData.subclass.label, render: renderLuSubclass});
@@ -2381,6 +2544,62 @@ function renderLuOverview(el) {
   if (d.subclass) html += `<p><strong>${d.subclass.label}</strong> choice at this level!</p>`;
   if (d.spells) html += `<p><strong>Spellcasting</strong> updates available.</p>`;
   html += `</div>`;
+  el.innerHTML = html;
+}
+
+function renderLuClassPick(el) {
+  const mc = luData.multiclass;
+  const cl = mc.class_levels || {};
+  
+  // Build current class levels display
+  const lvlDisplay = Object.entries(cl).map(([c, l]) => `${c} ${l}`).join(' / ');
+  
+  let html = `<div style="font-size:0.9rem;line-height:1.6">
+    <h3 style="margin-bottom:0.5rem">Choose Class to Level</h3>
+    <p style="color:var(--text-muted);margin-bottom:1rem">Current: <strong>${lvlDisplay}</strong></p>
+    <div style="display:flex;flex-direction:column;gap:0.5rem">`;
+  
+  // Build list of options: current class first, then multiclass options
+  const allOpts = [];
+  // Current class option
+  const curClass = mc.class_to_level;
+  if (curClass) {
+    allOpts.push({
+      class: curClass,
+      hit_die: luData.hp ? luData.hp.hit_die : '?',
+      primary_ability: '',
+      spellcasting: '',
+      proficiencies: [],
+      is_current: true
+    });
+  }
+  // Multiclass options
+  if (mc.options) {
+    mc.options.forEach(opt => {
+      allOpts.push({...opt, is_current: (opt.class === curClass)});
+    });
+  }
+  
+  allOpts.forEach((opt, idx) => {
+    const checked = luClassToLevel === opt.class;
+    const extraInfo = [];
+    if (opt.hit_die) extraInfo.push(`Hit Die: ${opt.hit_die}`);
+    if (opt.primary_ability) extraInfo.push(`Primary: ${opt.primary_ability}`);
+    if (opt.spellcasting) extraInfo.push(`Spells: ${opt.spellcasting}`);
+    if (opt.proficiencies && opt.proficiencies.length && opt.proficiencies[0] !== 'None') {
+      extraInfo.push(`Prof: ${opt.proficiencies.join(', ')}`);
+    }
+    
+    html += `<label style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.6rem;background:var(--bg);border:1px solid ${checked ? 'var(--accent)' : 'var(--border)'};border-radius:6px;cursor:pointer">
+      <input type="radio" name="lu-class" value="${opt.class}" ${checked ? 'checked' : ''} onchange="luClassToLevel=this.value" style="margin-top:0.15rem">
+      <div>
+        <strong>${opt.class}</strong>${opt.is_current ? ' <span style="font-size:0.75rem;color:var(--text-muted)">(current focus)</span>' : ''}
+        ${extraInfo.length ? `<div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem">${extraInfo.join(' · ')}</div>` : ''}
+      </div>
+    </label>`;
+  });
+  
+  html += `</div></div>`;
   el.innerHTML = html;
 }
 
@@ -2522,7 +2741,8 @@ function renderLuConfirm(el) {
   let html = `<div style="font-size:0.9rem;line-height:1.6">
     <h3 style="margin-bottom:0.75rem">Confirm Changes</h3>
     <p><strong>Level:</strong> ${luData.current_level} → <strong style="color:var(--accent)">${luData.new_level}</strong></p>
-    <p><strong>HP:</strong> ${luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? `Max (+${luData.hp.max_roll})` : `Average (+${luData.hp.average})`)}</p>`;
+    ${luClassToLevel ? '<p><strong>Leveling:</strong> ' + luClassToLevel + '</p>' : ''}
+    <p><strong>HP:</strong> ${luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? 'Max (+' + luData.hp.max_roll + ')' : 'Average (+' + luData.hp.average + ')')}</p>`;
   
   if (luData.features_gained.length) {
     html += `<p><strong>Features:</strong> ${luData.features_gained.join(', ')}</p>`;
@@ -2562,7 +2782,7 @@ async function applyLevelUp() {
     const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(luChoices),
+      body: JSON.stringify({...luChoices, class_to_level: luClassToLevel}),
     });
     const result = await resp.json();
     if (result.ok) {
@@ -2579,5 +2799,378 @@ async function applyLevelUp() {
     btn.textContent = '✅ Confirm Level Up';
   }
 }
+
+// ── History & Relationships ─────────────────────────────────────────────
+
+let relationships = [];
+
+async function loadRelationships() {
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/relationships`);
+    relationships = await resp.json();
+    renderRelationships();
+  } catch(e) { console.error(e); }
+}
+
+const REL_TYPE_ICONS = {ally:'🤝',mentor:'👨‍🏫',family:'👪',rival:'⚔️',antagonist:'💀',other:'📋'};
+const REL_TYPE_LABELS = {ally:'Ally',mentor:'Mentor',family:'Family',rival:'Rival',antagonist:'Antagonist',other:'Other'};
+
+function renderRelationships() {
+  const el = document.getElementById('relationships-list');
+  if (!relationships.length) {
+    el.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1rem">No relationships yet. Add NPCs from your character\'s past.</div>';
+    return;
+  }
+  el.innerHTML = relationships.map(r => {
+    const npc = JSON.parse(r.npc_data || '{}');
+    const extra = npc.race ? `${npc.race} ${npc.class || ''} L${npc.level || '?'}` : '';
+    return `<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <strong>${REL_TYPE_ICONS[r.relationship_type] || '📋'} ${r.name}</strong>
+          <span style="color:var(--accent);font-size:0.8rem;margin-left:0.5rem">${REL_TYPE_LABELS[r.relationship_type] || r.relationship_type}</span>
+          ${extra ? `<span style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem">${extra}</span>` : ''}
+        </div>
+        <button onclick="deleteRelationship(${r.id})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.8rem" title="Delete">✕</button>
+      </div>
+      ${r.description ? `<p style="margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--text);line-height:1.4">${r.description}</p>` : ''}
+      ${r.ai_generated ? '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI-generated</span>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function openAddRelationship() {
+  document.getElementById('rel-modal-title').textContent = 'Add Relationship';
+  document.getElementById('rel-type').value = 'ally';
+  document.getElementById('rel-name').value = '';
+  document.getElementById('rel-desc').value = '';
+  document.getElementById('rel-prompt').value = '';
+  document.getElementById('rel-use-ai').checked = false;
+  document.getElementById('rel-ai-fields').style.display = 'none';
+  document.getElementById('rel-manual-fields').style.display = '';
+  document.getElementById('rel-gen-status').textContent = '';
+  document.getElementById('rel-modal').style.display = 'flex';
+}
+
+function closeRelModal() {
+  document.getElementById('rel-modal').style.display = 'none';
+}
+
+function toggleRelAIMode() {
+  const ai = document.getElementById('rel-use-ai').checked;
+  document.getElementById('rel-ai-fields').style.display = ai ? '' : 'none';
+  document.getElementById('rel-manual-fields').style.display = ai ? 'none' : '';
+}
+
+async function generateRelationship() {
+  const prompt = document.getElementById('rel-prompt').value.trim();
+  if (!prompt) { alert('Describe the NPC you want'); return; }
+  const status = document.getElementById('rel-gen-status');
+  status.textContent = 'Generating...';
+  const btn = document.querySelector('#rel-ai-fields .btn');
+  btn.disabled = true;
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/relationships/generate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        prompt: prompt,
+        relationship_type: document.getElementById('rel-type').value,
+      }),
+    });
+    const result = await resp.json();
+    if (result.error) { alert(result.error); return; }
+    document.getElementById('rel-name').value = result.name;
+    document.getElementById('rel-desc').value = result.description || '';
+    document.getElementById('rel-use-ai').checked = false;
+    document.getElementById('rel-ai-fields').style.display = 'none';
+    document.getElementById('rel-manual-fields').style.display = '';
+    status.textContent = '✓ Generated!';
+  } catch(e) { status.textContent = 'Failed'; console.error(e); }
+  btn.disabled = false;
+}
+
+async function saveRelationship() {
+  const name = document.getElementById('rel-name').value.trim();
+  const desc = document.getElementById('rel-desc').value.trim();
+  const prompt = document.getElementById('rel-prompt').value.trim();
+  if (!name && !desc) { alert('Enter a name or description'); return; }
+  try {
+    await fetch(`/api/character/${CHAR_ID}/relationships`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: name || prompt.substring(0, 50),
+        relationship_type: document.getElementById('rel-type').value,
+        description: desc,
+        prompt: prompt,
+      }),
+    });
+    closeRelModal();
+    loadRelationships();
+  } catch(e) { console.error(e); }
+}
+
+async function deleteRelationship(relId) {
+  if (!confirm('Delete this relationship?')) return;
+  try {
+    await fetch(`/api/character/${CHAR_ID}/relationships/${relId}`, {method: 'DELETE'});
+    loadRelationships();
+  } catch(e) { console.error(e); }
+}
+
+async function saveBackstory() {
+  const text = document.getElementById('history-backstory').value;
+  try {
+    await fetch(`/api/character/${CHAR_ID}/update`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({backstory: text}),
+    });
+  } catch(e) { console.error(e); }
+}
+
+// Override switchTab to load relationships when history tab opens
+const _origSwitchTab = switchTab;
+switchTab = function(name) {
+  _origSwitchTab(name);
+  if (name === 'history') loadRelationships();
+};
+
+// Also trigger on initial load if history was saved tab
+if (savedTab === 'history') setTimeout(loadRelationships, 300);
+
+// ── De-Level Wizard ───────────────────────────────────────────────────
+let dlData = null;
+let dlChoices = {target_level: null, abilities: null, hp_max: null};
+let dlStep = 0;
+let dlSteps = [];
+
+async function openDeLevel() {
+  const levelEl = document.querySelector('.badge-accent .editable[data-field="level"]');
+  const currentLevel = levelEl ? parseInt(levelEl.textContent) : 1;
+
+  dlStep = 0;
+  dlChoices = {target_level: null, abilities: null, hp_max: null};
+
+  dlData = {current_level: currentLevel};
+  dlSteps = [{label: 'Target', render: renderDlTarget}];
+
+  document.getElementById('dl-title').textContent = '🔻 Level Down';
+
+  const dots = document.getElementById('dl-steps');
+  dots.innerHTML = dlSteps.map((s, i) =>
+    `<span class="dl-step-dot" id="dl-dot-${i}" style="display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-size:0.7rem;font-weight:600;background:var(--bg);border:2px solid var(--border);color:var(--text-muted)">${i+1}</span>`
+  ).join(' ');
+
+  document.getElementById('delevel-modal').style.display = 'flex';
+  renderDeLevelStep();
+}
+
+function closeDeLevel() {
+  document.getElementById('delevel-modal').style.display = 'none';
+  dlData = null;
+}
+
+function deLevelStep(delta) {
+  if (delta > 0 && dlStep >= dlSteps.length - 1) return;
+  if (delta < 0 && dlStep <= 0) return;
+  dlStep += delta;
+  renderDeLevelStep();
+}
+
+function renderDeLevelStep() {
+  const content = document.getElementById('dl-content');
+  content.innerHTML = '';
+
+  document.querySelectorAll('.dl-step-dot').forEach((d, i) => {
+    d.style.background = i === dlStep ? 'var(--accent)' : (i < dlStep ? 'var(--success)' : 'var(--bg)');
+    d.style.borderColor = i === dlStep ? 'var(--accent)' : (i < dlStep ? 'var(--success)' : 'var(--border)');
+    d.style.color = i <= dlStep ? '#fff' : 'var(--text-muted)';
+  });
+
+  document.getElementById('dl-back').style.display = dlStep > 0 ? '' : 'none';
+  document.getElementById('dl-next').style.display = dlStep < dlSteps.length - 1 ? '' : 'none';
+  document.getElementById('dl-confirm').style.display = dlStep === dlSteps.length - 1 ? '' : 'none';
+
+  if (dlSteps[dlStep] && dlSteps[dlStep].render) {
+    dlSteps[dlStep].render(content);
+  }
+}
+
+function renderDlTarget(el) {
+  const currentLevel = dlData.current_level;
+  let html = `<div>
+    <p style="margin-bottom:1rem">Select a level to de-level down to:</p>
+    <select id="dl-target-select" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);margin-bottom:1rem" onchange="dlChoices.target_level=this.value">
+      <option value="">— Select target level —</option>`;
+  for (let l = 1; l < currentLevel; l++) {
+    const sel = dlChoices.target_level == l ? ' selected' : '';
+    html += `<option value="${l}"${sel}>Level ${l}</option>`;
+  }
+  html += `</select>
+    <button class="btn btn-primary" onclick="loadDlDataAndAdvance()" style="width:100%">🔍 Load Preview</button>
+  </div>`;
+  el.innerHTML = html;
+}
+
+async function loadDlDataAndAdvance() {
+  const target = parseInt(dlChoices.target_level);
+  if (!target) { alert('Please select a target level'); return; }
+
+  const btn = document.querySelector('#dl-content .btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
+
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/de-level-info?target_level=${target}`);
+    dlData = await resp.json();
+    if (dlData.error) { alert(dlData.error); if (btn) { btn.disabled = false; btn.textContent = '🔍 Load Preview'; } return; }
+  } catch(e) {
+    console.error(e);
+    alert('Failed to load de-level info');
+    if (btn) { btn.disabled = false; btn.textContent = '🔍 Load Preview'; }
+    return;
+  }
+
+  dlChoices.hp_max = dlData.hp_estimate;
+  dlChoices.abilities = dlData.current_abilities ? {...dlData.current_abilities} : null;
+
+  dlSteps = [
+    {label: 'Target', render: renderDlTarget},
+    {label: 'Preview', render: renderDlPreview}
+  ];
+  if (dlData.lost_asi_levels && dlData.lost_asi_levels.length > 0) {
+    dlSteps.push({label: 'Abilities', render: renderDlAbilities});
+  }
+  dlSteps.push({label: 'Confirm', render: renderDlConfirm});
+
+  document.getElementById('dl-title').textContent = `🔻 Level Down — L${dlData.current_level} → L${dlData.target_level}`;
+
+  const dots = document.getElementById('dl-steps');
+  dots.innerHTML = dlSteps.map((s, i) =>
+    `<span class="dl-step-dot" id="dl-dot-${i}" style="display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-size:0.7rem;font-weight:600;background:var(--bg);border:2px solid var(--border);color:var(--text-muted)">${i+1}</span>`
+  ).join(' ');
+
+  dlStep = 1;
+  renderDeLevelStep();
+}
+
+function renderDlPreview(el) {
+  const d = dlData;
+  let html = `<div style="font-size:0.9rem;line-height:1.6">
+    <p><strong>New Level:</strong> <span style="color:var(--danger)">${d.target_level}</span> (losing ${d.levels_lost} level${d.levels_lost > 1 ? 's' : ''})</p>
+    <p><strong>HP Estimate:</strong> ${d.hp_estimate} (${d.hp_per_level_avg} avg/level × ${d.levels_lost} levels lost)</p>`;
+
+  if (d.features_lost && d.features_lost.length) {
+    html += `<p><strong>Features Lost:</strong></p><ul>`;
+    d.features_lost.forEach(f => html += `<li style="color:var(--danger)">${f}</li>`);
+    html += `</ul>`;
+  }
+
+  if (d.proficiency_bonus && d.proficiency_bonus.changed) {
+    html += `<p><strong>Proficiency Bonus:</strong> +${d.proficiency_bonus.old} → <span style="color:var(--danger)">+${d.proficiency_bonus.new}</span></p>`;
+  }
+
+  if (d.subclass_note) {
+    html += `<p style="color:var(--warn)"><strong>⚠ Subclass:</strong> ${d.subclass_note}</p>`;
+  }
+
+  if (d.lost_asi_levels && d.lost_asi_levels.length) {
+    html += `<p style="color:var(--warn)"><strong>⚠ ASI Levels Lost:</strong> ${d.lost_asi_levels.map(l => 'L' + l).join(', ')} — You'll need to revert ability score changes on the next step.</p>`;
+  }
+
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function renderDlAbilities(el) {
+  const abilities = dlData.current_abilities;
+  if (!abilities) { el.innerHTML = '<p>No ability data available.</p>'; return; }
+
+  if (!dlChoices.abilities) dlChoices.abilities = {...abilities};
+
+  let html = `<div>
+    <p style="font-weight:600;margin-bottom:0.75rem">Revert Ability Scores</p>
+    <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">These levels included ASI improvements. Adjust ability scores down to what they were before those levels.</p>
+    <button class="btn btn-outline btn-sm" onclick="resetDlAbilities()" style="margin-bottom:1rem">🔄 Reset to Current</button>`;
+
+  for (const [name, value] of Object.entries(abilities)) {
+    const currentVal = dlChoices.abilities[name] !== undefined ? dlChoices.abilities[name] : value;
+    html += `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+      <label style="width:100px;font-weight:600">${name}</label>
+      <input type="number" min="1" max="30" value="${currentVal}"
+        onchange="dlChoices.abilities['${name}']=parseInt(this.value)||0"
+        style="width:80px;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center">
+    </div>`;
+  }
+
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function resetDlAbilities() {
+  if (dlData && dlData.current_abilities) {
+    dlChoices.abilities = {...dlData.current_abilities};
+    renderDeLevelStep();
+  }
+}
+
+function renderDlConfirm(el) {
+  const d = dlData;
+  let html = `<div style="font-size:0.9rem;line-height:1.6">
+    <h3 style="margin-bottom:0.75rem">Confirm De-Level</h3>
+    <p><strong>Level:</strong> ${d.current_level} → <span style="color:var(--danger)">${d.target_level}</span> (lose ${d.levels_lost} level${d.levels_lost > 1 ? 's' : ''})</p>
+    <p><strong>HP:</strong> → ${dlChoices.hp_max}</p>`;
+
+  if (d.features_lost && d.features_lost.length) {
+    html += `<p><strong>Features Lost:</strong> ${d.features_lost.join(', ')}</p>`;
+  }
+
+  if (d.proficiency_bonus && d.proficiency_bonus.changed) {
+    html += `<p><strong>Proficiency:</strong> +${d.proficiency_bonus.old} → +${d.proficiency_bonus.new}</p>`;
+  }
+
+  if (dlChoices.abilities && d.lost_asi_levels && d.lost_asi_levels.length) {
+    html += `<p><strong>Adjusted Abilities:</strong></p>`;
+    for (const [name, value] of Object.entries(dlChoices.abilities)) {
+      const orig = d.current_abilities[name];
+      if (value !== orig) {
+        html += `<p style="margin-left:1rem">${name}: ${orig} → <span style="color:var(--danger)">${value}</span></p>`;
+      }
+    }
+  }
+
+  html += `<p style="color:var(--warn);font-size:0.8rem;margin-top:1rem">⚠ This cannot be undone. HP will be fully restored. All features and spells from lost levels will be removed.</p>`;
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+async function applyDeLevel() {
+  const btn = document.getElementById('dl-confirm');
+  btn.disabled = true;
+  btn.textContent = 'Applying...';
+
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/de-level`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dlChoices),
+    });
+    const result = await resp.json();
+    if (result.ok) {
+      alert(`De-Level complete! ${result.changes.join(', ')}`);
+      location.reload();
+    } else {
+      alert('De-level failed: ' + (result.error || 'Unknown error'));
+      btn.disabled = false;
+      btn.textContent = '✅ Confirm De-Level';
+    }
+  } catch(e) {
+    console.error(e);
+    btn.disabled = false;
+    btn.textContent = '✅ Confirm De-Level';
+  }
+}
+
 </script>
 {% endblock %}

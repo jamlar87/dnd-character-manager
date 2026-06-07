@@ -164,6 +164,7 @@ def init_db():
             proficiency_bonus INTEGER DEFAULT 2,
             hit_dice TEXT DEFAULT '1d8',
             hit_dice_used INTEGER DEFAULT 0,
+            class_levels TEXT DEFAULT '{}',
             death_saves_success INTEGER DEFAULT 0,
             death_saves_fail INTEGER DEFAULT 0,
             skills TEXT DEFAULT '[]',
@@ -325,6 +326,30 @@ def init_db():
         db.execute("ALTER TABLE dm_campaigns ADD COLUMN characters TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
+    # Migration: class_levels for multiclass support
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN class_levels TEXT DEFAULT '{}'")
+    except sqlite3.OperationalError:
+        pass
+    # Backfill: populate class_levels from class_name + level for existing characters
+    db.execute("UPDATE characters SET class_levels = json_object(class_name, level) WHERE class_levels = '{}' OR class_levels IS NULL OR class_levels = ''")
+    # Migration: character_relationships for History & Relationships tab
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS character_relationships (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            character_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            relationship_type TEXT DEFAULT 'ally',
+            description TEXT DEFAULT '',
+            prompt TEXT DEFAULT '',
+            npc_data TEXT DEFAULT '{}',
+            ai_generated INTEGER DEFAULT 0,
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )
+    """)
     db.commit()
     db.close()
 
@@ -385,7 +410,7 @@ RACES = {
     "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"], "desc": "Stout and hardy, standing 4–5 feet tall. Dwarves are known for their skill in battle, resistance to poison, and expertise with stonework. They live in great mountain kingdoms and value tradition and craftsmanship.", "subrace_descs": {"Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. The hardier, wiser dwarf subrace.", "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants light and medium armor proficiency. The stronger, more martial dwarf."}},
     "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"], "desc": "Graceful and long-lived, elves stand 5–6 feet tall with pointed ears. They are known for their keen senses, immunity to magical sleep, and trance-like meditation instead of sleep.", "subrace_descs": {"High Elf": "+1 Intelligence. Gain a wizard cantrip and an extra language. The most magical of the elves.", "Wood Elf": "+1 Wisdom. Fleet of Foot (+5ft speed) and Mask of the Wild (hide in light natural obscurement). The swift and stealthy elf.", "Dark Elf (Drow)": "+1 Charisma. Superior Darkvision (120ft), Sunlight Sensitivity, and Drow Magic (dancing lights, faerie fire, darkness)."}},
     "Halfling": {"subraces": ["Lightfoot Halfling", "Stout Halfling"], "asi": {"dexterity": 2}, "speed": 25, "darkvision": 0, "languages": ["Common", "Halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"], "desc": "Small and nimble, standing about 3 feet tall. Halflings are famously lucky, brave despite their size, and able to move through the spaces of larger creatures.", "subrace_descs": {"Lightfoot Halfling": "+1 Charisma. Naturally Stealthy lets you hide behind larger creatures. The charming, sneaky halfling.", "Stout Halfling": "+1 Constitution. Stout Resilience grants advantage on poison saves and poison resistance. The durable halfling."}},
-    "Human": {"subraces": [], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": [], "desc": "The most adaptable and ambitious of the common races. Humans gain +1 to all six ability scores, learn quickly, and are found in every corner of the world."},
+    "Human": {"subraces": ["Variant Human"], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": [], "desc": "The most adaptable and ambitious of the common races. Humans gain +1 to all six ability scores, learn quickly, and are found in every corner of the world.", "subrace_descs": {"Variant Human": "+1 to two abilities, one feat, one extra skill proficiency. The customizable human — trades the all-around +1s for focused specialization."}},
     "Dragonborn": {"subraces": [], "asi": {"strength": 2, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common", "Draconic"], "traits": ["Draconic Ancestry", "Breath Weapon", "Damage Resistance"], "desc": "Tall, muscular humanoids with draconic features — scales, a breath weapon, and damage resistance tied to their draconic ancestry. Proud and honorable warriors."},
     "Gnome": {"subraces": ["Forest Gnome", "Rock Gnome"], "asi": {"intelligence": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Gnomish"], "traits": ["Gnome Cunning"], "desc": "Small and clever, gnomes stand 3–4 feet tall. Known for their intellect, cunning against magic, and natural gift for invention or illusion.", "subrace_descs": {"Forest Gnome": "+1 Dexterity. Natural Illusionist grants a minor illusion cantrip. Speak with Small Beasts. The woodland trickster.", "Rock Gnome": "+1 Constitution. Artificer's Lore doubles proficiency on History checks for magical/tech items. Tinker lets you build tiny clockwork devices."}},
     "Half-Elf": {"subraces": [], "asi": {"charisma": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Fey Ancestry", "Skill Versatility"], "desc": "Blending human ambition with elven grace. Half-elves gain +2 Charisma, two bonus skill proficiencies, Fey Ancestry, and Darkvision — highly versatile and natural diplomats."},
@@ -417,7 +442,7 @@ CLASSES = {
     "Rogue": {"hd": 8, "skills": ["Acrobatics","Athletics","Deception","Insight","Intimidation","Investigation","Perception","Performance","Persuasion","Sleight of Hand","Stealth"], "skill_count": 4, "saves": ["dexterity","intelligence"], "subclasses": ["Thief","Assassin","Arcane Trickster"], "desc": "A stealthy trickster who exploits enemy weaknesses. Rogues deal massive Sneak Attack damage, have more skill proficiencies than any class, and excel at avoiding danger.", "subclass_descs": {"Thief": "Fast Hands lets you use items, pick pockets, and disarm traps as a bonus action. Second-Story Work adds climbing speed and jump distance.", "Assassin": "Assassinate auto-crits surprised creatures. Infiltration Expertise lets you create false identities. The lethal first-strike rogue.", "Arcane Trickster": "Wizard spellcasting (illusion/enchantment) plus invisible Mage Hand Legerdemain. Can steal spells and impose disadvantage on saves from stealth."}},
     "Sorcerer": {"hd": 6, "skills": ["Arcana","Deception","Insight","Intimidation","Persuasion","Religion"], "skill_count": 2, "saves": ["constitution","charisma"], "subclasses": ["Draconic Bloodline","Wild Magic"], "desc": "A spellcaster born with innate magic in their blood. Sorcerers use Metamagic to bend spells in ways no other class can — twin spells, quicken them, or make them subtle.", "subclass_descs": {"Draconic Bloodline": "Draconic Resilience boosts HP and grants natural AC 13. Elemental Affinity adds CHA to damage of your chosen element. The durable blaster.", "Wild Magic": "Tides of Chaos grants advantage, but may trigger Wild Magic Surges — random effects from a d100 table. Unpredictable and explosive."}},
     "Warlock": {"hd": 8, "skills": ["Arcana","Deception","History","Intimidation","Investigation","Nature","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["The Archfey","The Fiend","The Great Old One"], "desc": "A seeker of forbidden knowledge who made a pact with an otherworldly patron. Warlocks use Pact Magic — a few spell slots that recharge on short rests — plus Eldritch Invocations for unique abilities.", "subclass_descs": {"The Archfey": "Fey Presence charms or frightens nearby foes. Misty Escape lets you teleport and turn invisible when hit. The trickster patron.", "The Fiend": "Dark One's Blessing grants temp HP when you kill. Hurl Through Hell sends a target on a short, devastating trip to the lower planes.", "The Great Old One": "Awakened Mind grants telepathy. Entropic Ward imposes disadvantage on attackers. Create Thrall makes a permanent charmed servant."}},
-    "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Abjuration","Conjuration","Divination","Enchantment","Evocation","Illusion","Necromancy","Transmutation"], "desc": "A scholarly spellcaster who learns magic through study. Wizards have the largest spell list and can learn new spells from scrolls — they prepare from a spellbook and can ritual cast without preparation.", "subclass_descs": {"Abjuration": "Arcane Ward absorbs damage as a magical HP buffer. Spell Resistance grants advantage on saves against spells. The defensive wizard.", "Conjuration": "Minor Conjuration creates nonmagical objects. Benign Transposition teleports you and swaps places with an ally. The summoner.", "Divination": "Portent lets you replace any d20 roll with one of two pre-rolled results. The fate manipulator.", "Enchantment": "Hypnotic Gaze incapacitates a creature. Instinctive Charm redirects attacks to other targets. The mind controller.", "Evocation": "Sculpt Spells protects allies from your area effects. Potent Cantrip deals half damage even on saves. The blaster.", "Illusion": "Improved Minor Illusion creates sound and image simultaneously. Malleable Illusions lets you reshape ongoing illusions.", "Necromancy": "Grim Harvest heals you when you kill with spells. Undead Thralls creates stronger undead and lets you raise more of them.", "Transmutation": "Minor Alchemy temporarily changes materials. Transmuter's Stone grants a buff (darkvision, speed, resistance, or CON saves)."}},
+    "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"], "desc": "A scholarly spellcaster who learns magic through study. Wizards have the largest spell list and can learn new spells from scrolls — they prepare from a spellbook and can ritual cast without preparation.", "subclass_descs": {"School of Abjuration": "Arcane Ward absorbs damage as a magical HP buffer. Spell Resistance grants advantage on saves against spells. The defensive wizard.", "School of Conjuration": "Minor Conjuration creates nonmagical objects. Benign Transposition teleports you and swaps places with an ally. The summoner.", "School of Divination": "Portent lets you replace any d20 roll with one of two pre-rolled results. The fate manipulator.", "School of Enchantment": "Hypnotic Gaze incapacitates a creature. Instinctive Charm redirects attacks to other targets. The mind controller.", "School of Evocation": "Sculpt Spells protects allies from your area effects. Potent Cantrip deals half damage even on saves. The blaster.", "School of Illusion": "Improved Minor Illusion creates sound and image simultaneously. Malleable Illusions lets you reshape ongoing illusions.", "School of Necromancy": "Grim Harvest heals you when you kill with spells. Undead Thralls creates stronger undead and lets you raise more of them.", "School of Transmutation": "Minor Alchemy temporarily changes materials. Transmuter's Stone grants a buff (darkvision, speed, resistance, or CON saves)."}},
 }
 
 SKILL_ABILITIES = {
@@ -1885,12 +1910,14 @@ async def character_sheet(char_id: int, request: Request):
     spells_known_max = get_spells_known_max(class_name, level)
     cantrips_max = get_cantrips_known_max(class_name, level)
 
+    class_levels_data = parse_class_levels(char)
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
-                   sc_mod=sc_mod)
+                   sc_mod=sc_mod, class_levels=class_levels_data)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -2005,7 +2032,7 @@ async def reset_features(char_id: int, request: Request):
     """Reset all limited-use features to max (e.g., after long rest)."""
     user = require_user(request)
     data = await request.json()
-    recharge_filter = data.get("recharge", None)  # "short", "long", or None=all
+    recharge_filter = data.get("recharge", None)
     db = get_db()
     row = db.execute(
         "SELECT feature_data, user_id FROM characters WHERE id = ?", (char_id,)
@@ -2028,11 +2055,136 @@ async def reset_features(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True})
 
+
+# ── History & Relationships API ────────────────────────────────────────────
+
+@app.get("/api/character/{char_id}/relationships", response_class=JSONResponse)
+async def get_relationships(char_id: int, request: Request):
+    user = require_user(request)
+    db = get_db()
+    rows = db.execute(
+        "SELECT * FROM character_relationships WHERE character_id = ? AND user_id = ? ORDER BY created_at DESC",
+        (char_id, user["id"])
+    ).fetchall()
+    db.close()
+    return JSONResponse([dict(r) for r in rows])
+
+@app.post("/api/character/{char_id}/relationships", response_class=JSONResponse)
+async def create_relationship(char_id: int, request: Request):
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT id FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    name = data.get("name", "").strip()
+    if not name:
+        db.close()
+        return JSONResponse({"error": "Name required"}, status_code=400)
+    rel_type = data.get("relationship_type", "ally")
+    description = data.get("description", "")
+    npc_data = data.get("npc_data", {})
+    cursor = db.execute(
+        "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, npc_data, ai_generated) VALUES (?,?,?,?,?,?,0)",
+        (char_id, user["id"], name, rel_type, description, json.dumps(npc_data))
+    )
+    rel_id = cursor.lastrowid
+    db.commit()
+    rel_row = dict(db.execute("SELECT * FROM character_relationships WHERE id = ?", (rel_id,)).fetchone())
+    db.close()
+    return JSONResponse(rel_row)
+
+@app.post("/api/character/{char_id}/relationships/generate", response_class=JSONResponse)
+async def generate_relationship(char_id: int, request: Request):
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    db.close()
+    prompt = data.get("prompt", "").strip()
+    if not prompt:
+        return JSONResponse({"error": "Prompt required"}, status_code=400)
+    rel_type = data.get("relationship_type", "ally")
+    char_name = char.get("name", "the character")
+    char_race = char.get("race", "Human")
+    char_class = char.get("class_name", "Fighter")
+    char_level = char.get("level", 1)
+    ai_prompt = f"""Create a D&D NPC for a character's backstory.
+Character: {char_name}, {char_race} {char_class} L{char_level}.
+Relationship type: {rel_type}.
+Player's description: "{prompt}"
+
+Generate a vivid NPC. Return ONLY valid JSON (no markdown):
+{{"name": "NPC Name", "race": "D&D race", "class": "class or occupation", "level": 1-20, "description": "2-3 sentence description of appearance and personality", "relationship_detail": "1-2 sentences about their history with {char_name}"}}"""
+    ai_text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    npc_data = {}
+    name = prompt[:50]
+    description = ""
+    if ai_text:
+        try:
+            cleaned = ai_text.strip().removeprefix("```json").removesuffix("```").strip()
+            ai_json = json.loads(cleaned)
+            name = ai_json.get("name", name)
+            description = (ai_json.get("description", "") + "\n\n" + ai_json.get("relationship_detail", "")).strip()
+            npc_data = {"race": ai_json.get("race", ""), "class": ai_json.get("class", ""), "level": ai_json.get("level", 1)}
+        except (json.JSONDecodeError, AttributeError):
+            description = ai_text[:500]
+    db = get_db()
+    cursor = db.execute(
+        "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, prompt, npc_data, ai_generated) VALUES (?,?,?,?,?,?,?,1)",
+        (char_id, user["id"], name, rel_type, description, prompt, json.dumps(npc_data))
+    )
+    rel_id = cursor.lastrowid
+    db.commit()
+    rel_row = dict(db.execute("SELECT * FROM character_relationships WHERE id = ?", (rel_id,)).fetchone())
+    db.close()
+    return JSONResponse(rel_row)
+
+@app.put("/api/character/{char_id}/relationships/{rel_id}", response_class=JSONResponse)
+async def update_relationship(char_id: int, rel_id: int, request: Request):
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT id FROM character_relationships WHERE id = ? AND character_id = ? AND user_id = ?",
+                     (rel_id, char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Relationship not found")
+    updates = {}
+    for field in ["name", "relationship_type", "description"]:
+        if field in data:
+            updates[field] = data[field]
+    if "npc_data" in data:
+        updates["npc_data"] = json.dumps(data["npc_data"])
+    if updates:
+        set_clause = ", ".join(f"{k} = ?" for k in updates)
+        db.execute(f"UPDATE character_relationships SET {set_clause} WHERE id = ?", list(updates.values()) + [rel_id])
+        db.commit()
+    rel_row = dict(db.execute("SELECT * FROM character_relationships WHERE id = ?", (rel_id,)).fetchone())
+    db.close()
+    return JSONResponse(rel_row)
+
+@app.delete("/api/character/{char_id}/relationships/{rel_id}", response_class=JSONResponse)
+async def delete_relationship(char_id: int, rel_id: int, request: Request):
+    user = require_user(request)
+    db = get_db()
+    db.execute("DELETE FROM character_relationships WHERE id = ? AND character_id = ? AND user_id = ?",
+               (rel_id, char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
 # ── Level-Up API ────────────────────────────────────────────────────────────
 
 @app.get("/api/character/{char_id}/level-up-info", response_class=JSONResponse)
 async def level_up_info(char_id: int, request: Request):
-    """Return everything needed for the level-up wizard."""
+    """Return everything needed for the level-up wizard. Supports multi-level via ?target=N."""
     user = require_user(request)
     db = get_db()
     row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
@@ -2042,64 +2194,113 @@ async def level_up_info(char_id: int, request: Request):
     char = dict(row)
     db.close()
     
-    cls = char.get("class_name", "Fighter")
-    current_level = char.get("level", 1)
-    new_level = current_level + 1
+    cl = parse_class_levels(char)
+    current_level = total_level(cl)
+    cls = char.get("class_name", "Fighter")  # primary class for backward compat
+    
+    # Parse target level (default next level, cap at 20)
+    target_level = int(request.query_params.get("target", current_level + 1))
+    target_level = max(current_level + 1, min(target_level, 20))
     
     if current_level >= 20:
         return JSONResponse({"error": "Already max level (20)"}, status_code=400)
     
-    # HP
+    # Which class to level? Default: primary class, or specified via ?class_to_level=
+    class_to_level = request.query_params.get("class_to_level", cls)
+    if class_to_level not in cl:
+        # If specified class isn't in the character's class list, it's a multiclass attempt
+        # Check prerequisites
+        abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
+        if not meets_multiclass_prereq(abilities, class_to_level):
+            prereqs = MULTICLASS_PREREQS.get(class_to_level, {})
+            return JSONResponse({
+                "error": f"Prerequisites not met for {class_to_level}: {prereqs}",
+                "prerequisites": prereqs,
+                "abilities": abilities,
+            }, status_code=400)
+    
+    # Multiclass eligible classes (for UI)
+    multiclass_options = []
+    if target_level > current_level:
+        abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
+        for mc_class in MULTICLASS_PREREQS:
+            if mc_class not in cl and meets_multiclass_prereq(abilities, mc_class):
+                profs = get_multiclass_proficiencies(mc_class)
+                multiclass_options.append({
+                    "class": mc_class,
+                    "prerequisites": MULTICLASS_PREREQS.get(mc_class, {}),
+                    "proficiencies": profs,
+                    "available": True,
+                })
+    
+    cls = class_to_level  # the class gaining a level
+    class_level = cl.get(cls, 0)  # current level IN that class
+    
+    # HP info (new class HD + CON mod)
     hd = CLASSES.get(cls, {}).get("hd", 8)
     con_mod = (char.get("constitution", 10) - 10) // 2
     avg_hp = (hd // 2) + 1 + con_mod
     hp_options = {"hit_die": f"d{hd}", "con_mod": con_mod, "average": avg_hp, "max_roll": hd + con_mod}
     
-    # Features
-    old_features = get_class_features(cls, current_level, char.get("subclass", ""))
-    new_features = get_class_features(cls, new_level, char.get("subclass", ""))
-    gained_features = [f for f in new_features if f not in old_features]
+    # Accumulate per-level gains
+    levels_gained = []
+    all_features = []
+    levels_gained_count = target_level - current_level
     
-    # Proficiency bonus
-    old_pb = PROFICIENCY_BONUS.get(current_level, 2)
-    new_pb = PROFICIENCY_BONUS.get(new_level, 2)
-    pb_change = new_pb != old_pb
+    for offset in range(1, levels_gained_count + 1):
+        char_lvl = current_level + offset
+        cls_lvl = class_level + offset  # level IN the class being leveled
+        old_f = get_class_features(cls, cls_lvl - 1, char.get("subclass", ""))
+        new_f = get_class_features(cls, cls_lvl, char.get("subclass", ""))
+        gained = [f for f in new_f if f not in old_f]
+        is_asi = cls_lvl in ASI_LEVELS.get(cls, [])
+        levels_gained.append({
+            "level": char_lvl,
+            "class_level": cls_lvl,
+            "class_name": cls,
+            "features": gained,
+            "is_asi": is_asi,
+        })
+        all_features.extend(gained)
     
-    # ASI
-    is_asi = new_level in ASI_LEVELS.get(cls, [])
-    asi_info = None
-    feats_available = []
-    if is_asi:
-        abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
-        asi_info = {
-            "level": new_level,
-            "abilities": abilities,
+    # ASI levels — these are the character levels where ASIs fire
+    asi_levels = [lvl["level"] for lvl in levels_gained if lvl["is_asi"]]
+    
+    # Pre-compute ASI info for each ASI level
+    asi_infos = {}
+    abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
+    for lvl in asi_levels:
+        asi_infos[str(lvl)] = {
+            "level": lvl,
+            "abilities": dict(abilities),  # snapshot
             "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
         }
-        # Filter feats by prerequisites
-        for key, feat in FEATS.items():
-            prereq = feat.get("prereq")
-            if prereq and not _feat_prereq_met(char, prereq):
-                continue
-            feats_available.append({
-                "key": key, "name": feat["name"], "desc": feat["desc"],
-                "asi": feat.get("asi"), "prereq": prereq,
-            })
+    
+    # Feats — return ALL, JS filters by running abilities per ASI step
+    feats_available = []
+    for key, feat in FEATS.items():
+        feats_available.append({
+            "key": key, "name": feat["name"], "desc": feat["desc"],
+            "asi": feat.get("asi"), "prereq": feat.get("prereq"),
+        })
     
     # Subclass
     subclass_info = None
-    if current_level < new_level:
-        sc = SUBCLASS_LEVELS.get(cls)
-        if sc and sc["level"] == new_level and not char.get("subclass"):
-            subclass_info = {"level": new_level, "label": sc["label"], "options": sc["options"]}
+    sc = SUBCLASS_LEVELS.get(cls)
+    if sc and current_level < sc["level"] <= target_level and not char.get("subclass"):
+        subclass_info = {"level": sc["level"], "label": sc["label"], "options": sc["options"]}
     
-    # Spell changes
+    # Proficiency bonus
+    old_pb = PROFICIENCY_BONUS.get(current_level, 2)
+    new_pb = PROFICIENCY_BONUS.get(target_level, 2)
+    
+    # Spell changes (aggregate across all levels)
     spell_info = None
     caster_type = get_caster_type(cls)
     if caster_type != "none":
         try:
             old_slots = get_spell_slots(cls, current_level)
-            new_slots = get_spell_slots(cls, new_level)
+            new_slots = get_spell_slots(cls, target_level)
         except:
             old_slots = {}; new_slots = {}
         spell_info = {
@@ -2107,31 +2308,40 @@ async def level_up_info(char_id: int, request: Request):
             "spellcasting_ability": _spellcasting_ability(cls),
             "old_slots": old_slots, "new_slots": new_slots,
         }
-        # Spells known changes
+        # Spells known
         if caster_type in ("full", "half"):
             old_known = get_spells_known_max(cls, current_level)
-            new_known = get_spells_known_max(cls, new_level)
+            new_known = get_spells_known_max(cls, target_level)
             spell_info["spells_known_change"] = max(0, new_known - old_known)
-        # Cantrip changes
+        # Cantrips
         cantrip_key = "cleric" if cls == "Cleric" else ("warlock" if cls == "Warlock" else "full")
-        if caster_type in ("full", "warlock") or cls == "Cleric":
+        if caster_type in ("full", "pact") or cls == "Cleric":
             ct = CANTRIPS_PROGRESSION.get(cantrip_key, {})
             old_cantrips = sum(v for k, v in ct.items() if k <= current_level)
-            new_cantrips = sum(v for k, v in ct.items() if k <= new_level)
+            new_cantrips = sum(v for k, v in ct.items() if k <= target_level)
             spell_info["cantrips_change"] = max(0, new_cantrips - old_cantrips)
     
     return JSONResponse({
         "class_name": cls,
         "current_level": current_level,
-        "new_level": new_level,
+        "class_level": class_level,  # level IN this class (0 for new multiclass)
+        "target_level": target_level,
+        "levels": levels_gained,
+        "all_features": all_features,
         "hp": hp_options,
-        "features_gained": gained_features,
-        "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": pb_change},
-        "asi": asi_info,
+        "asi_levels": asi_levels,
+        "asi_info": asi_infos,
         "feats": feats_available,
         "subclass": subclass_info,
+        "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": old_pb != new_pb},
         "spells": spell_info,
         "has_subclass": bool(char.get("subclass")),
+        "multiclass": {
+            "class_levels": cl,
+            "class_to_level": class_to_level,
+            "is_multiclass": class_to_level not in cl or len(cl) > 1,
+            "options": multiclass_options,
+        },
     })
 
 
@@ -2198,7 +2408,7 @@ def _spellcasting_ability(class_name: str) -> str:
 
 @app.post("/api/character/{char_id}/apply-level-up", response_class=JSONResponse)
 async def apply_level_up(char_id: int, request: Request):
-    """Apply all level-up choices and update the character."""
+    """Apply all level-up choices across potentially multiple levels."""
     user = require_user(request)
     data = await request.json()
     db = get_db()
@@ -2207,30 +2417,84 @@ async def apply_level_up(char_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
-    cls = char.get("class_name", "Fighter")
-    old_level = char.get("level", 1)
-    new_level = old_level + 1
     
-    updates = {"level": new_level}
+    cl = parse_class_levels(char)
+    old_total = total_level(cl)
+    target_level = int(data.get("target_level", old_total + 1))
+    target_level = max(old_total + 1, min(target_level, 20))
+    
+    # Which class gains the level?
+    class_to_level = data.get("class_to_level", char.get("class_name", "Fighter"))
+    is_multiclass = class_to_level not in cl
+    
+    if is_multiclass:
+        abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
+        if not meets_multiclass_prereq(abilities, class_to_level):
+            db.close()
+            return JSONResponse({"error": f"Prerequisites not met for {class_to_level}"}, status_code=400)
+    
+    updates = {"level": target_level}
     changes = []
     
-    # HP
-    hp_choice = data.get("hp", "average")
-    hd = CLASSES.get(cls, {}).get("hd", 8)
-    con_mod = (char.get("constitution", 10) - 10) // 2
-    if hp_choice == "max":
-        hp_gain = hd + con_mod
-    elif hp_choice == "roll":
-        hp_gain = random.randint(1, hd) + con_mod
-    else:
-        hp_gain = (hd // 2) + 1 + con_mod
+    # Track cumulative ability scores (start from current, apply ASIs in level order)
+    cumulative = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
     
-    updates["hp_max"] = char.get("hp_max", 10) + hp_gain
+    # Process levels in order — apply ASIs at each level BEFORE computing HP for that level
+    hp_choices = data.get("hp_choices", {})
+    asi_choices = data.get("asi_choices", {})
+    feat_asi_choices = data.get("feat_asi_choices", {})
+    
+    total_hp_gain = 0
+    hd = CLASSES.get(class_to_level, {}).get("hd", 8)
+    levels_gained = target_level - old_total
+    
+    for offset in range(levels_gained):
+        lvl_num = old_total + offset + 1
+        lvl_str = str(lvl_num)
+        if lvl_str in asi_choices:
+            choice = asi_choices[lvl_str]
+            if isinstance(choice, dict):
+                for ability, increase in choice.items():
+                    cumulative[ability] = cumulative.get(ability, 10) + increase
+                    updates[ability.lower()] = cumulative[ability]
+                    changes.append(f"L{lvl_str}: {ability} +{increase}")
+            elif isinstance(choice, str) and choice.startswith("feat:"):
+                feat_key = choice[5:]
+                feat = FEATS.get(feat_key, {})
+                changes.append(f"L{lvl_str}: Feat — {feat.get('name', feat_key)}")
+                feat_asi = feat.get("asi")
+                if feat_asi:
+                    chosen_abi = feat_asi_choices.get(lvl_str)
+                    if chosen_abi and chosen_abi in ABILITY_NAMES:
+                        cumulative[chosen_abi] = cumulative.get(chosen_abi, 10) + feat_asi["amount"]
+                        updates[chosen_abi.lower()] = cumulative[chosen_abi]
+        
+        # Now compute HP with current CON (includes this level's ASI if any)
+        con_mod = (cumulative.get("Constitution", 10) - 10) // 2
+        choice = hp_choices.get(lvl_str, "average")
+        if choice == "max":
+            hp_gain = hd + con_mod
+        elif choice == "roll":
+            hp_gain = random.randint(1, hd) + con_mod
+        else:
+            hp_gain = (hd // 2) + 1 + con_mod
+        total_hp_gain += hp_gain
+    
+    updates["hp_max"] = char.get("hp_max", 10) + total_hp_gain
     updates["hp_current"] = updates["hp_max"]  # Full heal on level up
-    changes.append(f"HP +{hp_gain}")
+    changes.append(f"HP +{total_hp_gain}")
     
-    # Proficiency bonus
-    updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(new_level, 2)
+    # Tough feat: +2 HP per character level (PHB p.170)
+    tough_level = None
+    for lvl_str, choice in asi_choices.items():
+        if isinstance(choice, str) and choice == "feat:tough":
+            tough_level = int(lvl_str)
+            break
+    if tough_level:
+        tough_hp = tough_level * 2
+        updates["hp_max"] += tough_hp
+        updates["hp_current"] += tough_hp
+        changes.append(f"Tough feat: +{tough_hp} HP")
     
     # Subclass
     subclass_choice = data.get("subclass")
@@ -2238,54 +2502,66 @@ async def apply_level_up(char_id: int, request: Request):
         updates["subclass"] = subclass_choice
         changes.append(f"Subclass: {subclass_choice}")
     
-    # ASI / Feat
-    asi_choice = data.get("asi")
-    if asi_choice:
-        if isinstance(asi_choice, dict):
-            for ability, increase in asi_choice.items():
-                key = ability.lower()
-                old_val = char.get(key, 10)
-                updates[key] = old_val + increase
-                changes.append(f"{ability} {old_val} → {old_val + increase}")
-        elif isinstance(asi_choice, str) and asi_choice.startswith("feat:"):
-            feat_key = asi_choice[5:]
-            feat = FEATS.get(feat_key, {})
-            changes.append(f"Feat: {feat.get('name', feat_key)}")
-            # Apply half-feat ASI if applicable
-            feat_asi = feat.get("asi")
-            if feat_asi:
-                # Use first choice if not specified
-                chosen_abi = data.get("feat_asi_choice", feat_asi["choices"][0])
-                if chosen_abi in ABILITY_NAMES:
-                    key = chosen_abi.lower()
-                    updates[key] = char.get(key, 10) + feat_asi["amount"]
+    # Update class_levels
+    new_cl = dict(cl)
+    new_cl[class_to_level] = new_cl.get(class_to_level, 0) + levels_gained
+    updates["class_levels"] = json.dumps(new_cl)
+    # Keep class_name as primary for backward compat
+    if not is_multiclass:
+        updates["class_name"] = class_to_level
     
-    # Features — rebuild
-    features_list = get_class_features(cls, new_level, updates.get("subclass", char.get("subclass", "")))
-    updates["features"] = json.dumps(features_list)
+    # Proficiency bonus
+    updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
     
-    # Rebuild enriched feature_data
-    enriched = enrich_features(features_list, class_name=cls, level=new_level, 
-                               mods={a: ((updates.get(a.lower(), char.get(a.lower(), 10))) - 10) // 2 for a in ABILITY_NAMES})
+    # Features — rebuild from all classes
+    all_features = []
+    for cls_n, cls_lvl in new_cl.items():
+        sub = updates.get("subclass", char.get("subclass", ""))
+        features = get_class_features(cls_n, cls_lvl, sub)
+        # Wrap string features as dicts for dedup
+        wrapped = [{"name": f, "source_class": cls_n} if isinstance(f, str) else dict(f, source_class=cls_n) for f in features]
+        all_features.extend(wrapped)
+    all_features = _deduplicate_multiclass_features(all_features, new_cl)
+    # Unwrap back to strings for DB storage
+    all_feature_names = [f["name"] if isinstance(f, dict) else str(f) for f in all_features]
+    updates["features"] = json.dumps(all_feature_names)
+    
+    # Enriched feature_data
+    mods = {a: (cumulative.get(a, 10) - 10) // 2 for a in ABILITY_NAMES}
+    enriched = enrich_features(all_feature_names, class_name=class_to_level, level=target_level, mods=mods, class_levels=new_cl)
     updates["feature_data"] = json.dumps(enriched)
     
-    # Spell slots
-    caster_type = get_caster_type(cls)
-    if caster_type != "none":
-        try:
-            new_slots = get_spell_slots(cls, new_level)
-            updates["spell_slot_data"] = json.dumps(new_slots)
-        except:
-            pass
+    # Spell slots — multiclass-aware
+    char_copy = dict(char)
+    char_copy["class_levels"] = json.dumps(new_cl)
+    char_copy["level"] = target_level
+    spell_slots = get_character_spell_slots(char_copy)
+    updates["spell_slot_data"] = json.dumps(spell_slots)
     
-    # Hit dice
-    old_hd = char.get("hit_dice", f"1d{hd}")
-    hd_match = re.match(r"(\d+)d(\d+)", str(old_hd))
-    if hd_match:
-        new_count = int(hd_match.group(1)) + 1
-        updates["hit_dice"] = f"{new_count}d{hd}"
-    else:
-        updates["hit_dice"] = f"{new_level}d{hd}"
+    # Hit dice — per class (e.g. "3d10 + 2d8")
+    hd_parts = []
+    for cls_n, cls_lvl in new_cl.items():
+        cls_hd = CLASSES.get(cls_n, {}).get("hd", 8)
+        hd_parts.append(f"{cls_lvl}d{cls_hd}")
+    updates["hit_dice"] = " + ".join(hd_parts)
+    
+    # Grant multiclass proficiencies
+    if is_multiclass:
+        profs = get_multiclass_proficiencies(class_to_level)
+        cur_weapons = json.loads(char.get("weapon_proficiencies", "[]") or "[]")
+        cur_armor = json.loads(char.get("armor_proficiencies", "[]") or "[]")
+        if profs.get("weapons"):
+            for w in profs["weapons"].split(","):
+                if w.strip() not in cur_weapons:
+                    cur_weapons.append(w.strip())
+            updates["weapon_proficiencies"] = json.dumps(cur_weapons)
+            changes.append(f"Multiclass {class_to_level}: gained weapon proficiencies")
+        if profs.get("armor"):
+            for a in profs["armor"].split(","):
+                if a.strip() not in cur_armor:
+                    cur_armor.append(a.strip())
+            updates["armor_proficiencies"] = json.dumps(cur_armor)
+            changes.append(f"Multiclass {class_to_level}: gained armor proficiencies")
     
     # Apply updates
     set_clauses = ", ".join(f"{k} = ?" for k in updates)
@@ -2296,7 +2572,182 @@ async def apply_level_up(char_id: int, request: Request):
     
     return JSONResponse({
         "ok": True,
-        "new_level": new_level,
+        "new_level": target_level,
+        "changes": changes,
+    })
+
+# ── De-Level (rollback) ──────────────────────────────────────────────
+
+@app.get("/api/character/{char_id}/de-level-info", response_class=JSONResponse)
+async def de_level_info(char_id: int, request: Request):
+    """Return what the character would look like at a lower level."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    db.close()
+    
+    cls = char.get("class_name", "Fighter")
+    current_level = char.get("level", 1)
+    target_level = int(request.query_params.get("target", current_level - 1))
+    target_level = max(1, min(target_level, current_level - 1))
+    
+    if current_level <= 1:
+        return JSONResponse({"error": "Already at level 1"}, status_code=400)
+    
+    hd = CLASSES.get(cls, {}).get("hd", 8)
+    con_mod = (char.get("constitution", 10) - 10) // 2
+    avg_hp = (hd // 2) + 1 + con_mod
+    
+    # Features lost (at current but not at target)
+    old_features = get_class_features(cls, target_level, char.get("subclass", ""))
+    new_features = get_class_features(cls, current_level, char.get("subclass", ""))
+    features_lost = [f for f in new_features if f not in old_features]
+    
+    # Get what target-level features look like
+    target_features = get_class_features(cls, target_level, char.get("subclass", ""))
+    
+    # ASI levels being rolled back
+    lost_asi_levels = [lvl for lvl in range(target_level + 1, current_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
+    
+    # Current ability scores
+    abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
+    
+    # Subclass note
+    subclass_note = None
+    sc = SUBCLASS_LEVELS.get(cls)
+    current_subclass = char.get("subclass", "")
+    if sc and current_subclass and sc["level"] > target_level:
+        subclass_note = f"{sc['label']}: {current_subclass} (chosen at L{sc['level']} — will be cleared since target < L{sc['level']})"
+    
+    # Proficiency
+    old_pb = PROFICIENCY_BONUS.get(current_level, 2)
+    new_pb = PROFICIENCY_BONUS.get(target_level, 2)
+    
+    # Spell changes
+    spell_info = None
+    caster_type = get_caster_type(cls)
+    if caster_type != "none":
+        try:
+            old_slots = get_spell_slots(cls, current_level)
+            new_slots = get_spell_slots(cls, target_level)
+        except:
+            old_slots = {}; new_slots = {}
+        spell_info = {
+            "caster_type": caster_type,
+            "old_slots": old_slots, "new_slots": new_slots,
+        }
+    
+    # HP estimate: subtract average per level rolled back
+    levels_lost = current_level - target_level
+    estimated_hp = max(1, char.get("hp_max", 10) - levels_lost * avg_hp)
+    
+    return JSONResponse({
+        "class_name": cls,
+        "current_level": current_level,
+        "target_level": target_level,
+        "levels_lost": levels_lost,
+        "features_lost": features_lost,
+        "target_features": target_features,
+        "hp_estimate": estimated_hp,
+        "hp_per_level_avg": avg_hp,
+        "hit_die": f"d{hd}",
+        "current_abilities": abilities,
+        "lost_asi_levels": lost_asi_levels,
+        "subclass": char.get("subclass", ""),
+        "subclass_note": subclass_note,
+        "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": old_pb != new_pb},
+        "spells": spell_info,
+    })
+
+
+@app.post("/api/character/{char_id}/de-level", response_class=JSONResponse)
+async def apply_de_level(char_id: int, request: Request):
+    """Roll back the character to a lower level."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    cls = char.get("class_name", "Fighter")
+    old_level = char.get("level", 1)
+    target_level = int(data.get("target_level", old_level - 1))
+    target_level = max(1, min(target_level, old_level - 1))
+    
+    updates = {"level": target_level}
+    changes = []
+    
+    # HP: use user-provided value or estimate
+    hd = CLASSES.get(cls, {}).get("hd", 8)
+    con_mod = (char.get("constitution", 10) - 10) // 2
+    avg_hp = (hd // 2) + 1 + con_mod
+    estimated_hp = max(1, char.get("hp_max", 10) - (old_level - target_level) * avg_hp)
+    new_hp = int(data.get("hp_max", estimated_hp))
+    new_hp = max(1, new_hp)  # Floor at 1
+    updates["hp_max"] = new_hp
+    updates["hp_current"] = new_hp
+    changes.append(f"HP set to {new_hp}")
+    
+    # Ability scores: user-specified or keep current (user should adjust manually)
+    ability_updates = data.get("abilities", {})
+    for a in ABILITY_NAMES:
+        key = a.lower()
+        if a in ability_updates:
+            updates[key] = int(ability_updates[a])
+            if updates[key] != char.get(key, 10):
+                changes.append(f"{a}: {char.get(key, 10)} → {updates[key]}")
+    
+    # Subclass: keep if target >= subclass level, clear otherwise
+    sc = SUBCLASS_LEVELS.get(cls)
+    if sc and sc["level"] > target_level:
+        updates["subclass"] = ""
+        if char.get("subclass"):
+            changes.append(f"Subclass cleared ({char.get('subclass')})")
+    
+    # Proficiency
+    updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
+    
+    # Features rebuild
+    features_list = get_class_features(cls, target_level, updates.get("subclass", char.get("subclass", "")))
+    updates["features"] = json.dumps(features_list)
+    
+    # Feature data rebuild
+    final_mods = {}
+    for a in ABILITY_NAMES:
+        key = a.lower()
+        val = updates.get(key, char.get(key, 10))
+        final_mods[a] = (val - 10) // 2
+    enriched = enrich_features(features_list, class_name=cls, level=target_level, mods=final_mods)
+    updates["feature_data"] = json.dumps(enriched)
+    
+    # Spell slots
+    caster_type = get_caster_type(cls)
+    if caster_type != "none":
+        try:
+            new_slots = get_spell_slots(cls, target_level)
+            updates["spell_slot_data"] = json.dumps(new_slots)
+        except:
+            pass
+    
+    # Hit dice
+    updates["hit_dice"] = f"{target_level}d{hd}"
+    
+    # Apply
+    set_clauses = ", ".join(f"{k} = ?" for k in updates)
+    values = list(updates.values()) + [char_id]
+    db.execute(f"UPDATE characters SET {set_clauses} WHERE id = ?", values)
+    db.commit()
+    db.close()
+    
+    return JSONResponse({
+        "ok": True,
+        "new_level": target_level,
         "changes": changes,
     })
 
@@ -2417,22 +2868,271 @@ def get_spell_slots(class_name: str, level: int) -> dict:
         by_level[i] = sc.get(f"spell_slots_level_{i}", 0)
     return {"slots": sum(by_level.values()), "slot_level": None, "by_level": by_level}
 
+def get_character_spell_slots(char_dict: dict) -> dict:
+    """Return spell slots for a character, handling multiclass via PHB p.165.
+    Single class: delegates to get_spell_slots. Multiclass: uses multiclass table.
+    Warlock Pact Magic always tracked separately — returned as 'pact_slots' key."""
+    cl = parse_class_levels(char_dict)
+    total_lvl = total_level(cl)
+    
+    if len(cl) == 1:
+        # Single class — use existing logic
+        cls, lvl = next(iter(cl.items()))
+        return get_spell_slots(cls, lvl)
+    
+    # Multiclass — separate Warlock from other casters
+    result = {"slots": 0, "slot_level": None, "by_level": {}, "multiclass": True}
+    pact_slots = {"slots": 0, "slot_level": 0, "note": "No Pact Magic"}
+    
+    # Warlock Pact Magic
+    if "Warlock" in cl:
+        warlock_level = cl["Warlock"]
+        pact_result = get_spell_slots("Warlock", warlock_level)
+        pact_slots = pact_result
+        # Remove Warlock from caster level computation
+        non_pact = {k: v for k, v in cl.items() if k != "Warlock"}
+        if non_pact and has_casters(non_pact):
+            result = get_multiclass_spell_slots(non_pact)
+        result["pact_slots"] = pact_slots
+        result["slots"] += pact_slots.get("slots", 0)
+    else:
+        if has_casters(cl):
+            result = get_multiclass_spell_slots(cl)
+    
+    result["total_level"] = total_lvl
+    return result
+
+def has_casters(class_levels: dict[str, int]) -> bool:
+    """Return True if any class in the dict is a spellcaster (full, half, or pact)."""
+    return any(get_caster_type(cls) in ("full", "half", "pact") for cls in class_levels)
+
+
+# ── Subclass Feature Names (PHB 2014) ─────────────────────────────────
+# Maps subclass → {level: [feature names]}.
+# Used to replace generic SRD names ("Martial Archetype feature") with real names.
+SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
+    # Barbarian
+    "Path of the Berserker": {3: ["Frenzy"], 6: ["Mindless Rage"], 10: ["Intimidating Presence"], 14: ["Retaliation"]},
+    "Path of the Totem Warrior": {3: ["Spirit Seeker", "Totem Spirit"], 6: ["Aspect of the Beast"], 10: ["Spirit Walker"], 14: ["Totemic Attunement"]},
+    # Bard
+    "College of Lore": {3: ["Bonus Proficiencies", "Cutting Words"], 6: ["Additional Magical Secrets"], 14: ["Peerless Skill"]},
+    "College of Valor": {3: ["Bonus Proficiencies", "Combat Inspiration"], 6: ["Extra Attack"], 14: ["Battle Magic"]},
+    # Cleric
+    "Knowledge Domain": {1: ["Blessings of Knowledge"], 2: ["Channel Divinity: Knowledge of the Ages"], 6: ["Channel Divinity: Read Thoughts"], 8: ["Potent Spellcasting"], 17: ["Visions of the Past"]},
+    "Life Domain": {1: ["Disciple of Life"], 2: ["Channel Divinity: Preserve Life"], 6: ["Blessed Healer"], 8: ["Divine Strike"], 17: ["Supreme Healing"]},
+    "Light Domain": {1: ["Warding Flare"], 2: ["Channel Divinity: Radiance of the Dawn"], 6: ["Improved Flare"], 8: ["Potent Spellcasting"], 17: ["Corona of Light"]},
+    "Nature Domain": {1: ["Acolyte of Nature"], 2: ["Channel Divinity: Charm Animals and Plants"], 6: ["Dampen Elements"], 8: ["Divine Strike"], 17: ["Master of Nature"]},
+    "Tempest Domain": {1: ["Wrath of the Storm"], 2: ["Channel Divinity: Destructive Wrath"], 6: ["Thunderbolt Strike"], 8: ["Divine Strike"], 17: ["Stormborn"]},
+    "Trickery Domain": {1: ["Blessing of the Trickster"], 2: ["Channel Divinity: Invoke Duplicity"], 6: ["Channel Divinity: Cloak of Shadows"], 8: ["Divine Strike"], 17: ["Improved Duplicity"]},
+    "War Domain": {1: ["War Priest"], 2: ["Channel Divinity: Guided Strike"], 6: ["Channel Divinity: War God's Blessing"], 8: ["Divine Strike"], 17: ["Avatar of Battle"]},
+    # Druid
+    "Circle of the Land": {2: ["Bonus Cantrip", "Natural Recovery"], 6: ["Land's Stride"], 10: ["Nature's Ward"], 14: ["Nature's Sanctuary"]},
+    "Circle of the Moon": {2: ["Combat Wild Shape", "Circle Forms"], 6: ["Primal Strike"], 10: ["Elemental Wild Shape"], 14: ["Thousand Forms"]},
+    # Fighter
+    "Champion": {3: ["Improved Critical"], 7: ["Remarkable Athlete"], 10: ["Additional Fighting Style"], 15: ["Superior Critical"], 18: ["Survivor"]},
+    "Battle Master": {3: ["Combat Superiority"], 7: ["Know Your Enemy"], 10: ["Improved Combat Superiority"], 15: ["Relentless"]},
+    "Eldritch Knight": {3: ["Spellcasting", "Weapon Bond"], 7: ["War Magic"], 10: ["Eldritch Strike"], 15: ["Arcane Charge"], 18: ["Improved War Magic"]},
+    # Monk
+    "Way of the Open Hand": {3: ["Open Hand Technique"], 6: ["Wholeness of Body"], 11: ["Tranquility"], 17: ["Quivering Palm"]},
+    "Way of Shadow": {3: ["Shadow Arts"], 6: ["Shadow Step"], 11: ["Cloak of Shadows"], 17: ["Opportunist"]},
+    "Way of the Four Elements": {3: ["Disciple of the Elements"]},
+    # Paladin
+    "Oath of Devotion": {3: ["Channel Divinity: Sacred Weapon", "Channel Divinity: Turn the Unholy"], 7: ["Aura of Devotion"], 15: ["Purity of Spirit"], 20: ["Holy Nimbus"]},
+    "Oath of the Ancients": {3: ["Channel Divinity: Nature's Wrath", "Channel Divinity: Turn the Faithless"], 7: ["Aura of Warding"], 15: ["Undying Sentinel"], 20: ["Elder Champion"]},
+    "Oath of Vengeance": {3: ["Channel Divinity: Abjure Enemy", "Channel Divinity: Vow of Enmity"], 7: ["Relentless Avenger"], 15: ["Soul of Vengeance"], 20: ["Avenging Angel"]},
+    # Ranger
+    "Hunter": {3: ["Hunter's Prey"], 7: ["Defensive Tactics"], 11: ["Multiattack"], 15: ["Superior Hunter's Defense"]},
+    "Beast Master": {3: ["Ranger's Companion"], 7: ["Exceptional Training"], 11: ["Bestial Fury"], 15: ["Share Spells"]},
+    # Rogue
+    "Thief": {3: ["Fast Hands", "Second-Story Work"], 9: ["Supreme Sneak"], 13: ["Use Magic Device"], 17: ["Thief's Reflexes"]},
+    "Assassin": {3: ["Assassinate", "Bonus Proficiencies"], 9: ["Infiltration Expertise"], 13: ["Impostor"], 17: ["Death Strike"]},
+    "Arcane Trickster": {3: ["Spellcasting", "Mage Hand Legerdemain"], 9: ["Magical Ambush"], 13: ["Versatile Trickster"], 17: ["Spell Thief"]},
+    # Sorcerer
+    "Draconic Bloodline": {1: ["Dragon Ancestor", "Draconic Resilience"], 6: ["Elemental Affinity"], 14: ["Dragon Wings"], 18: ["Draconic Presence"]},
+    "Wild Magic": {1: ["Wild Magic Surge", "Tides of Chaos"], 6: ["Bend Luck"], 14: ["Controlled Chaos"], 18: ["Spell Bombardment"]},
+    # Warlock
+    "The Archfey": {1: ["Fey Presence"], 6: ["Misty Escape"], 10: ["Beguiling Defenses"], 14: ["Dark Delirium"]},
+    "The Fiend": {1: ["Dark One's Blessing"], 6: ["Dark One's Own Luck"], 10: ["Fiendish Resilience"], 14: ["Hurl Through Hell"]},
+    "The Great Old One": {1: ["Awakened Mind"], 6: ["Entropic Ward"], 10: ["Thought Shield"], 14: ["Create Thrall"]},
+    # Wizard
+    "School of Abjuration": {2: ["Abjuration Savant", "Arcane Ward"], 6: ["Projected Ward"], 10: ["Improved Abjuration"], 14: ["Spell Resistance"]},
+    "School of Conjuration": {2: ["Conjuration Savant", "Minor Conjuration"], 6: ["Benign Transposition"], 10: ["Focused Conjuration"], 14: ["Durable Summons"]},
+    "School of Divination": {2: ["Divination Savant", "Portent"], 6: ["Expert Divination"], 10: ["The Third Eye"], 14: ["Greater Portent"]},
+    "School of Enchantment": {2: ["Enchantment Savant", "Hypnotic Gaze"], 6: ["Instinctive Charm"], 10: ["Split Enchantment"], 14: ["Alter Memories"]},
+    "School of Evocation": {2: ["Evocation Savant", "Sculpt Spells"], 6: ["Potent Cantrip"], 10: ["Empowered Evocation"], 14: ["Overchannel"]},
+    "School of Illusion": {2: ["Illusion Savant", "Improved Minor Illusion"], 6: ["Malleable Illusions"], 10: ["Illusory Self"], 14: ["Illusory Reality"]},
+    "School of Necromancy": {2: ["Necromancy Savant", "Grim Harvest"], 6: ["Undead Thralls"], 10: ["Inured to Undeath"], 14: ["Command Undead"]},
+    "School of Transmutation": {2: ["Transmutation Savant", "Minor Alchemy"], 6: ["Transmuter's Stone"], 10: ["Shapechanger"], 14: ["Master Transmuter"]},
+}
+
+
+def _deduplicate_multiclass_features(features: list[dict], class_levels: dict[str, int]) -> list[dict]:
+    """PHB 2014 p.164: Deduplicate features across classes.
+    - Channel Divinity: keep all options, cap uses at max single-class value
+    - Extra Attack: keep one (max 2), unless Fighter 11+ (3) or Fighter 20 (4)
+    - Unarmored Defense: keep only first class's version
+    Tags each feature with source_class for display."""
+    import re
+    seen = {}
+    result = []
+    has_extra_attack = False
+    has_uad = False
+    fighter_level = class_levels.get("Fighter", 0)
+    
+    for f in features:
+        name = f.get("name", "")
+        name_lower = name.lower()
+        source = f.get("source_class", "")
+        
+        if not source and "/" not in name:  # skip if already merged
+            # Infer source_class from feature name context (set by caller)
+            pass
+        
+        # Channel Divinity — keep all entries, first one sets max uses
+        if "channel divinity" in name_lower:
+            key = "channel_divinity"
+            if key not in seen:
+                seen[key] = f
+                result.append(f)
+            else:
+                existing = seen[key]
+                # Merge options into name
+                if name not in existing["name"]:
+                    existing["name"] = existing["name"] + " | " + name
+            continue
+        
+        # Extra Attack — no stacking (PHB p.164)
+        if "extra attack" in name_lower:
+            if has_extra_attack:
+                continue
+            has_extra_attack = True
+            if fighter_level >= 20:
+                f["name"] = "Extra Attack (4)"
+            elif fighter_level >= 11:
+                f["name"] = "Extra Attack (3)"
+            result.append(f)
+            continue
+        
+        # Unarmored Defense — first class only (PHB p.164)
+        if "unarmored defense" in name_lower:
+            if has_uad:
+                continue
+            has_uad = True
+            result.append(f)
+            continue
+        
+        # General dedup — strip use-count suffix differences
+        base = re.sub(r'\s*\(\d+\s+(use|ki|point)s?\)', '', name).strip()
+        key = (base.lower(), source)
+        if key in seen:
+            existing = seen[key]
+            # Keep higher uses
+            if f.get("uses", 0) > existing.get("uses", 0):
+                result[result.index(existing)] = f
+                seen[key] = f
+            continue
+        
+        seen[key] = f
+        result.append(f)
+    
+    return result
+
 
 def get_class_features(class_name: str, level: int, subclass: str = "") -> list[str]:
-    """Return class features gained by this level from SRD API cache."""
+    """Return class features gained by this level from SRD API cache.
+    Deduplicates features that differ only by use count, and replaces
+    generic subclass names with real feature names from SUBCLASS_FEATURES."""
+    import re
     key = class_name.lower()
     levels = SRD_LEVELS.get(key, [])
-    gained = []
+    gained_raw = []
     for l in levels:
         lvl = l.get("level", 0)
         if lvl <= level:
             for feat in l.get("features", []):
                 name = feat.get("name", "")
                 if name:
-                    gained.append(f"L{lvl}: {name}")
-    if subclass and level >= 3:
-        gained.insert(0, f"L3: {subclass}")
+                    gained_raw.append((lvl, name))
+    
+    # Deduplicate: strip use-count suffixes, keep highest-level entry
+    # Only deduplicate when the original name had a use-count suffix
+    import re
+    _use_suffix_re = re.compile(r'\s*\(\d+\s+uses?(\s+per\s+rest)?\s*\)\s*$')
+    
+    def _strip_uses(name: str) -> str:
+        return _use_suffix_re.sub('', name).strip()
+    
+    seen = {}  # base_name → (level, original_name, had_use_suffix)
+    for lvl, name in gained_raw:
+        base = _strip_uses(name)
+        had_suffix = bool(_use_suffix_re.search(name))
+        # Only deduplicate if the original had a use suffix
+        if had_suffix:
+            if base not in seen or lvl > seen[base][0]:
+                seen[base] = (lvl, name, True)
+        else:
+            # Keep all entries that don't have use suffixes
+            # Use a compound key to avoid collisions
+            ckey = f"{base}__{lvl}"
+            seen[ckey] = (lvl, name, False)
+    
+    # Build list sorted by level
+    gained = []
+    for key, (lvl, name, _had_suffix) in sorted(seen.items(), key=lambda x: x[1][0]):
+        # Replace generic subclass names with real ones
+        name = _replace_subclass_name(name, class_name, subclass, lvl)
+        gained.append(f"L{lvl}: {name}")
+    
+    # Add subclass features that SRD doesn't include
+    if subclass and subclass in SUBCLASS_FEATURES:
+        sc_feats = SUBCLASS_FEATURES[subclass]
+        for sc_lvl, feat_names in sc_feats.items():
+            if sc_lvl <= level:
+                for fn in feat_names:
+                    entry = f"L{sc_lvl}: {fn}"
+                    if entry not in gained:
+                        # Insert at correct position
+                        insert_at = 0
+                        for i, g in enumerate(gained):
+                            g_lvl = int(g.split(":")[0][1:])
+                            if g_lvl > sc_lvl:
+                                insert_at = i
+                                break
+                            insert_at = i + 1
+                        gained.insert(insert_at, entry)
+    
     return gained
+
+
+_GENERIC_SUBCLASS_NAMES: dict[str, list[str]] = {
+    "Barbarian": ["Primal Path", "Path feature"],
+    "Bard": ["Bard College", "Bard College feature", "Countercharm"],
+    "Cleric": ["Divine Domain"],
+    "Druid": ["Druid Circle"],
+    "Fighter": ["Martial Archetype", "Martial Archetype feature"],
+    "Monk": ["Monastic Tradition"],
+    "Paladin": ["Sacred Oath"],
+    "Ranger": ["Ranger Archetype"],
+    "Rogue": ["Roguish Archetype"],
+    "Sorcerer": ["Sorcerous Origin"],
+    "Warlock": ["Otherworldly Patron"],
+    "Wizard": ["Arcane Tradition"],
+}
+
+
+def _replace_subclass_name(name: str, class_name: str, subclass: str, level: int) -> str:
+    """Replace generic SRD subclass feature names with real ones from SUBCLASS_FEATURES."""
+    if not subclass or subclass not in SUBCLASS_FEATURES:
+        return name
+    generics = _GENERIC_SUBCLASS_NAMES.get(class_name, [])
+    # Check if this name matches a generic pattern
+    name_clean = name.strip()
+    for gen in generics:
+        if name_clean == gen or name_clean.startswith(gen):
+            sc_feats = SUBCLASS_FEATURES[subclass]
+            if level in sc_feats:
+                return sc_feats[level][0]  # Replace with first real feature
+    return name
 
 
 def get_srd_spells_for_class(class_name: str, max_level: int) -> dict:
@@ -2487,27 +3187,155 @@ LIMITED_USE = {
     "rage":                {"min": 2, "max": 99, "recharge": "long", "class": "Barbarian", "per": "level"},
     # Bard (PHB p.51-55) — Bardic Inspiration die increases at L5/10/15
     "bardic inspiration":  {"min": 3, "max": 99, "recharge": "short", "class": "Bard", "per": "level"},
-    # Cleric (PHB p.56-62)
-    "channel divinity":    {"min": 1, "max": 3,  "recharge": "short", "class": "Cleric", "per": "level"},
+    # Cleric (PHB p.56-62) / Paladin (PHB p.83-89) — single entry, class-differentiated in get_uses_for_level
+    "channel divinity":    {"min": 1, "max": 3,  "recharge": "short", "class": "", "per": "level"},
     # Druid (PHB p.63-68)
     "wild shape":          {"min": 2, "max": 99, "recharge": "short", "class": "Druid", "per": "level"},
     # Fighter (PHB p.69-75)
     "action surge":        {"min": 1, "max": 2,  "recharge": "short", "class": "Fighter", "per": "fixed"},
     "second wind":         {"min": 1, "max": 1,  "recharge": "short", "class": "Fighter", "per": "fixed"},
-    "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "level"},
+    "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "fixed"},
     # Monk (PHB p.76-82)
     "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level"},
     # Paladin (PHB p.83-89)
     "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
     "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
-    "channel divinity":    {"min": 1, "max": 1,  "recharge": "short", "class": "Paladin", "per": "fixed"},
+    # (channel divinity merged above — class-differentiated in get_uses_for_level)
     # Sorcerer (PHB p.99-105)
     "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level"},
     # Warlock (PHB p.105-112)
     "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
     # Wizard (PHB p.112-120)
     "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Dragonborn (PHB p.34) — Breath Weapon, 1/short rest
+    "breath weapon":       {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
 }
+
+
+# ── Multiclass Support (PHB 2014 p.163-165) ──────────────────────────────
+
+MULTICLASS_PREREQS = {
+    "Barbarian": {"Strength": 13},
+    "Bard": {"Charisma": 13},
+    "Cleric": {"Wisdom": 13},
+    "Druid": {"Wisdom": 13},
+    "Fighter": {"Strength": 13, "Dexterity": 13},  # OR — either meets requirement
+    "Monk": {"Dexterity": 13, "Wisdom": 13},
+    "Paladin": {"Strength": 13, "Charisma": 13},
+    "Ranger": {"Dexterity": 13, "Wisdom": 13},
+    "Rogue": {"Dexterity": 13},
+    "Sorcerer": {"Charisma": 13},
+    "Warlock": {"Charisma": 13},
+    "Wizard": {"Intelligence": 13},
+}
+
+# Proficiencies gained when multiclassing INTO a class (PHB p.164)
+# None of these grant saving throw proficiencies
+MULTICLASS_PROFICIENCIES = {
+    "Barbarian": {"weapons": "simple,martial", "armor": "shields"},
+    "Bard": {"armor": "light", "skills": 1},
+    "Cleric": {"armor": "light,medium,shields"},
+    "Druid": {"armor": "light,medium,shields"},
+    "Fighter": {"weapons": "simple,martial", "armor": "light,medium,shields"},
+    "Monk": {"weapons": "simple,shortswords"},
+    "Paladin": {"weapons": "simple,martial", "armor": "light,medium,shields"},
+    "Ranger": {"weapons": "simple,martial", "armor": "light,medium,shields", "skills": 1},
+    "Rogue": {"armor": "light", "skills": 1},
+    "Sorcerer": {},
+    "Warlock": {"weapons": "simple", "armor": "light"},
+    "Wizard": {},
+}
+
+def parse_class_levels(char_dict: dict) -> dict[str, int]:
+    """Parse class_levels JSON from DB. Falls back to {class_name: level} for old chars."""
+    import json as _json
+    raw = char_dict.get("class_levels")
+    if raw and raw not in ("{}", "", None):
+        try:
+            parsed = _json.loads(raw)
+            if isinstance(parsed, dict) and parsed:
+                return parsed
+        except (_json.JSONDecodeError, TypeError):
+            pass
+    # Fallback: old single-class character
+    cls = char_dict.get("class_name", "Fighter")
+    lvl = char_dict.get("level", 1)
+    return {cls: int(lvl)} if cls else {"Fighter": 1}
+
+def total_level(class_levels: dict[str, int]) -> int:
+    """Total character level = sum of all class levels."""
+    return sum(class_levels.values())
+
+def primary_class(class_levels: dict[str, int]) -> tuple[str, int]:
+    """Return (class_name, level) for the highest-level class. Ties go to first class taken."""
+    if not class_levels:
+        return ("Fighter", 0)
+    # Return first key (insertion order = first class taken)
+    for cls, lvl in class_levels.items():
+        return (cls, lvl)
+    return ("Fighter", 0)
+
+def meets_multiclass_prereq(char_abilities: dict, new_class: str) -> bool:
+    """Check if character meets ability prerequisites to multiclass INTO new_class."""
+    prereqs = MULTICLASS_PREREQS.get(new_class, {})
+    if not prereqs:
+        return True
+    # Fighter: either STR 13 OR DEX 13
+    if new_class == "Fighter":
+        return (char_abilities.get("strength", 10) >= 13 or
+                char_abilities.get("dexterity", 10) >= 13)
+    for ability, minimum in prereqs.items():
+        if char_abilities.get(ability.lower(), 10) < minimum:
+            return False
+    return True
+
+def get_multiclass_proficiencies(new_class: str) -> dict:
+    """Return proficiencies gained when multiclassing INTO new_class."""
+    return MULTICLASS_PROFICIENCIES.get(new_class, {})
+
+# PHB 2014 p.165 — Multiclass Spellcaster: Spell Slots per Spell Level
+# Key = combined caster level. Value = [1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th]
+MULTICLASS_SPELL_SLOTS = {
+    1:  [2, 0, 0, 0, 0, 0, 0, 0, 0],
+    2:  [3, 0, 0, 0, 0, 0, 0, 0, 0],
+    3:  [4, 2, 0, 0, 0, 0, 0, 0, 0],
+    4:  [4, 3, 0, 0, 0, 0, 0, 0, 0],
+    5:  [4, 3, 2, 0, 0, 0, 0, 0, 0],
+    6:  [4, 3, 3, 0, 0, 0, 0, 0, 0],
+    7:  [4, 3, 3, 1, 0, 0, 0, 0, 0],
+    8:  [4, 3, 3, 2, 0, 0, 0, 0, 0],
+    9:  [4, 3, 3, 3, 1, 0, 0, 0, 0],
+    10: [4, 3, 3, 3, 2, 0, 0, 0, 0],
+    11: [4, 3, 3, 3, 2, 1, 0, 0, 0],
+    12: [4, 3, 3, 3, 2, 1, 0, 0, 0],
+    13: [4, 3, 3, 3, 2, 1, 1, 0, 0],
+    14: [4, 3, 3, 3, 2, 1, 1, 0, 0],
+    15: [4, 3, 3, 3, 2, 1, 1, 1, 0],
+    16: [4, 3, 3, 3, 2, 1, 1, 1, 0],
+    17: [4, 3, 3, 3, 2, 1, 1, 1, 1],
+    18: [4, 3, 3, 3, 3, 1, 1, 1, 1],
+    19: [4, 3, 3, 3, 3, 2, 1, 1, 1],
+    20: [4, 3, 3, 3, 3, 2, 2, 1, 1],
+}
+
+def compute_multiclass_caster_level(class_levels: dict[str, int]) -> int:
+    """PHB p.165: Full = level, Half = floor(level/2), Third = floor(level/3). Warlock excluded."""
+    import math
+    total = 0
+    for cls, level in class_levels.items():
+        if cls in FULL_CASTERS:
+            total += level
+        elif cls in HALF_CASTERS:
+            total += int(math.floor(level / 2))
+    return total
+
+def get_multiclass_spell_slots(class_levels: dict[str, int]) -> dict:
+    """Return spell slots using PHB p.165 multiclass table. Same shape as get_spell_slots."""
+    caster_level = compute_multiclass_caster_level(class_levels)
+    slots = MULTICLASS_SPELL_SLOTS.get(min(caster_level, 20), MULTICLASS_SPELL_SLOTS[1])
+    by_level = {i+1: slots[i] for i in range(9)}
+    return {"slots": sum(slots), "slot_level": None, "by_level": by_level,
+            "caster_level": caster_level, "multiclass": True}
 
 # ── Level-Up Data ──────────────────────────────────────────────────────
 ABILITY_NAMES = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
@@ -2636,13 +3464,18 @@ FEATURE_ACTION_TYPES = {
     "flurry of blows":      ("Bonus Action", "Flurry of Blows — two unarmed strikes (1 ki)"),
     "patient defense":      ("Bonus Action", "Patient Defense — Dodge as bonus action (1 ki)"),
     "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
+    # Dragonborn
+    "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
 }
 
 # ── PHB scale functions per feature ──
 def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
     """Return the number of uses for a limited-use feature at this level."""
     lu = LIMITED_USE.get(feat_key, {})
-    if not lu or lu.get("class", "") != class_name:
+    if not lu:
+        return 0
+    lu_class = lu.get("class", "")
+    if lu_class and lu_class != class_name:
         return 0
     if lu["per"] == "fixed":
         # Fixed-scaling features: use level thresholds
@@ -2678,9 +3511,8 @@ def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
             # Paladin: always 1 use per short rest (PHB p.85)
             return 1
         if feat_key == "wild shape":
-            # Druid: L1-3=2, +1 at L4, L8, L12, L16, L20
-            extra = (level >= 4) + (level >= 8) + (level >= 12) + (level >= 16) + (level >= 20)
-            return 2 + extra
+            # PHB p.66: always 2 uses per short rest. (Archdruid at L20 = unlimited)
+            return 2
         if feat_key == "ki":
             # Ki = monk level (PHB p.78)
             return level
@@ -2697,7 +3529,7 @@ def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
 
 
 def get_caster_type(class_name: str) -> str:
-    """Return 'full', 'half', 'pact', 'third', or 'none'."""
+    """Return 'full', 'half', 'pact', 'third', or 'none' for a single class."""
     if class_name in FULL_CASTERS:
         return "full"
     if class_name in HALF_CASTERS:
@@ -2705,6 +3537,21 @@ def get_caster_type(class_name: str) -> str:
     if class_name in PACT_CASTERS:
         return "pact"
     return "none"
+
+def get_multiclass_caster_types(class_levels: dict[str, int]) -> dict:
+    """Return dict of {caster_type: total_level} for multiclass character.
+    e.g. {'full': 5, 'pact': 3, 'none': 2} for Wizard 5 / Warlock 3 / Barb 2."""
+    types = {}
+    for cls, level in class_levels.items():
+        ct = get_caster_type(cls)
+        types[ct] = types.get(ct, 0) + level
+    return types
+
+def is_multiclass_caster(class_levels: dict[str, int]) -> bool:
+    """Return True if character has 2+ spellcasting classes (pact + normal counts)."""
+    types = get_multiclass_caster_types(class_levels)
+    caster_count = sum(1 for ct in types if ct != "none")
+    return caster_count >= 2
 
 def get_prepared_max(class_name: str, level: int, spellcasting_mod: int) -> int:
     """PHB p.xxx: prepared casters prepare = level + spellcasting_mod spells.
@@ -2959,9 +3806,9 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
     return result
 
 
-def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None) -> list[dict]:
+def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None) -> list[dict]:
     """Add SRD descriptions to feature names, and track limited-use abilities.
-    When class_name/level provided, uses the full PHB scaling system above."""
+    When class_levels dict provided, uses per-class levels for multiclass limited uses."""
     enriched = []
     for feat_str in feature_list:
         if ": " in feat_str:
@@ -2971,11 +3818,27 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         key = name.lower()
         desc = FEATURE_DESCRIPTIONS.get(key, "")
         entry = {"name": name, "level": level_part, "description": desc}
-        # Check limited-use features from the module-level LIMITED_USE dict
-        if class_name and level > 0:
+        # Determine source class + level for limited-use computation
+        source_class = None
+        source_level = 0
+        if class_levels and len(class_levels) > 1:
+            # Multiclass: infer source from feature context or use primary
+            for cls_name in class_levels:
+                if cls_name.lower() in key or key in cls_name.lower():
+                    source_class = cls_name
+                    source_level = class_levels[cls_name]
+                    break
+            if not source_class:
+                source_class = class_name
+                source_level = class_levels.get(class_name, level)
+        else:
+            source_class = class_name
+            source_level = level
+        # Check limited-use features
+        if source_class and source_level > 0:
             for lkey, lu in LIMITED_USE.items():
                 if lkey in key or key.startswith(lkey) or lkey.startswith(key):
-                    uses_max = get_uses_for_level(lkey, class_name, level)
+                    uses_max = get_uses_for_level(lkey, source_class, source_level)
                     if uses_max > 0:
                         if lkey == "divine sense":
                             cha_mod = (mods or {}).get("charisma", 0)

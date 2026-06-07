@@ -252,7 +252,27 @@ def sweep_manual(manual_filename):
     print("  Refreshing SRD cache...")
     refresh_srd_cache()
     
-    # 4. Save sweep state
+    # 4. Run full character-manager audit
+    print("  Running character-manager audit...")
+    audit_script = HERE / "audit.py"
+    if audit_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(audit_script), "--json"],
+            capture_output=True, text=True, timeout=60,
+            cwd=str(HERE)
+        )
+        if result.returncode == 0:
+            try:
+                audit_data = json.loads(result.stdout)
+                report_parts.append(f"\n### Audit Results: ✓ {audit_data['passed']} checks passed")
+            except json.JSONDecodeError:
+                report_parts.append(f"\n### Audit Results: ✓ passed\n```\n{result.stdout[:500]}\n```")
+        else:
+            report_parts.append(f"\n### Audit Results: ✗ FAILURES\n```\n{result.stdout[:500]}\n{result.stderr[:500]}\n```")
+    else:
+        report_parts.append("\n### Audit Results: ⚠ audit.py not found — skipping")
+    
+    # 5. Save sweep state
     report = "\n".join(report_parts)
     state = load_state()
     state[target["filename"]] = {

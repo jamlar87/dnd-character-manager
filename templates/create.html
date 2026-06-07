@@ -539,7 +539,7 @@ async function createCharacter() {
     asi_picks: state.asi_picks, background: state.background,
     background_data: state.background_data || '',
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
-    level: state.level,
+    level: 1,  // Always create at L1 — level-up wizard handles higher levels
     equipment: state.equipment,
     portrait_url: state.portrait_url || '',
     portrait_prompt: state.portrait_prompt || ''
@@ -550,7 +550,13 @@ async function createCharacter() {
   });
   const data = await r.json();
   if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
-  window.location.href = '/character/' + data.id;
+  // If target level > 1, redirect to sheet with auto-level-up
+  const targetLevel = parseInt(document.getElementById('char-level').value) || 1;
+  if (targetLevel > 1) {
+    window.location.href = '/character/' + data.id + '?level-up=' + targetLevel;
+  } else {
+    window.location.href = '/character/' + data.id;
+  }
 }
 
 // Init
