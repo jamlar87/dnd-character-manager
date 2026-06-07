@@ -594,6 +594,9 @@ Return ONLY this JSON (empty arrays where nothing found):
   "npcs": [{
     "name": "NPC Name",
     "race": "Human",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 4,
     "alignment": "Lawful Good",
     "armor_class": 15,
     "hit_points": "45 (6d8+12)",
@@ -607,6 +610,8 @@ Return ONLY this JSON (empty arrays where nothing found):
     "spellcasting": null,
     "description": "Brief description",
     "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
     "source": "Adventure Name p.12"
   }],
   "feats": [{

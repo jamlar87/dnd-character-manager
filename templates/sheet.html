@@ -260,9 +260,16 @@
 #detail-popup p { font-size: 0.9rem; line-height: 1.5; color: var(--text); margin: 0; }
 #detail-popup .popup-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 0 0.25rem; }
 #detail-popup .popup-close:hover { color: var(--text); }
+/* DM Preview — hide edit controls */
+.dm-preview #edit-toggle { display: none !important; }
+.dm-preview #level-up-btn { display: none !important; }
+.dm-preview #delevel-btn { display: none !important; }
+.dm-preview #sidebar-portrait { cursor: default !important; }
+.dm-preview .portrait-placeholder { cursor: default !important; }
 {% endblock %}
 
 {% block content %}
+{% if dm_preview %}<script>document.body.classList.add('dm-preview');</script>{% endif %}
 {% set prof = character.proficiency_bonus or 2 %}
 {% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
 {% set char_skills = character.skills or [] %}
@@ -2390,8 +2397,8 @@ function toggleEditMode() {
   localStorage.setItem('edit-mode-' + CHAR_ID, isEdit ? '1' : '0');
 }
 
-// Restore edit mode preference
-if (localStorage.getItem('edit-mode-' + CHAR_ID) === '1') {
+// Restore edit mode preference (skip in DM preview)
+if (!document.body.classList.contains('dm-preview') && localStorage.getItem('edit-mode-' + CHAR_ID) === '1') {
   document.body.classList.add('edit-mode');
   document.getElementById('edit-toggle').textContent = '🔓 Done';
 }

@@ -768,7 +768,8 @@ def init_db():
             pass
     # Migration: dm_encounter_npcs new columns
     for col, coltype in [("defeated", "INTEGER DEFAULT 0"),
-                          ("spell_slots_used", "TEXT DEFAULT '{}'")]:
+                          ("spell_slots_used", "TEXT DEFAULT '{}'"),
+                          ("creature_data", "TEXT DEFAULT ''")]:
         try:
             db.execute(f"ALTER TABLE dm_encounter_npcs ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
@@ -1641,6 +1642,10 @@ def _load_monster_cache() -> list[dict]:
 
 def _normalize_manual_monster(m: dict):
     """Normalize a manually-extracted monster to match SRD cache format."""
+    # Generate index from name
+    if not m.get("index"):
+        m["index"] = re.sub(r"[^a-z0-9]+", "-", m.get("name", "").lower().strip()).strip("-")
+
     # armor_class: int → [{value: int, type: "natural"}]
     ac = m.get("armor_class")
     if isinstance(ac, (int, float)):
@@ -1651,20 +1656,28 @@ def _normalize_manual_monster(m: dict):
         except ValueError:
             m["armor_class"] = [{"value": 10, "type": "natural"}]
 
-    # hit_points: str "75 (10d10 + 20)" → int 75, keep dice as hit_points_roll
+    # hit_points: str "75 (10d10 + 20)" → int 75, extract dice
     hp = m.get("hit_points")
     if isinstance(hp, str):
         match = re.match(r"(\d+)", hp)
         if match:
             m["hit_points"] = int(match.group(1))
-            m["hit_points_roll"] = hp  # keep original for display
+        # Extract hit dice from parenthetical: "45 (10d8)" → "10d8"
+        dice_match = re.search(r"\((\d+d\d+[^)]*)\)", hp)
+        if dice_match and not m.get("hit_dice"):
+            m["hit_dice"] = dice_match.group(1)
 
-    # challenge_rating: {"cr": "5"} or float → SRD dict format
+    # challenge_rating: normalize to float
     cr = m.get("challenge_rating")
     if cr is None:
         m["challenge_rating"] = 0
     elif isinstance(cr, (int, float)):
         m["challenge_rating"] = float(cr)
+    elif isinstance(cr, str):
+        try:
+            m["challenge_rating"] = float(cr)
+        except ValueError:
+            m["challenge_rating"] = 0
     elif isinstance(cr, dict):
         cr_val = cr.get("cr") or cr.get("challenge_rating") or cr.get("value") or 0
         try:
@@ -1672,11 +1685,47 @@ def _normalize_manual_monster(m: dict):
         except (ValueError, TypeError):
             m["challenge_rating"] = 0
 
+    # Compute proficiency bonus from CR
+    cr_val = m.get("challenge_rating", 0)
+    if not m.get("proficiency_bonus"):
+        m["proficiency_bonus"] = max(2, 2 + int((cr_val - 1) / 4))
+
     # Ensure required SRD fields exist with defaults
     m.setdefault("type", "humanoid")
     m.setdefault("size", "Medium")
     m.setdefault("alignment", "unaligned")
-    m.setdefault("speed", {"walk": "30 ft."})
+
+    # Speed: normalize string "0 ft., fly 40 ft." → dict
+    speed = m.get("speed")
+    if isinstance(speed, str):
+        speed_dict = {}
+        for part in speed.split(","):
+            part = part.strip()
+            sp_match = re.match(r"(\d+)\s*ft\.?\s*(.*)", part)
+            if sp_match:
+                val = int(sp_match.group(1))
+                label = sp_match.group(2).strip().lower()
+                # Strip parenthetical annotations like "(hover)"
+                label = re.sub(r"\(.*\)", "", label).strip()
+                if label in ("fly", "flying"):
+                    speed_dict["fly"] = f"{val} ft."
+                    if "hover" in sp_match.group(2).lower():
+                        speed_dict["fly"] += " (hover)"
+                elif label in ("swim", "swimming"):
+                    speed_dict["swim"] = f"{val} ft."
+                elif label in ("burrow", "burrowing"):
+                    speed_dict["burrow"] = f"{val} ft."
+                elif label in ("climb", "climbing"):
+                    speed_dict["climb"] = f"{val} ft."
+                else:
+                    speed_dict["walk"] = f"{val} ft."
+        if speed_dict:
+            m["speed"] = speed_dict
+        else:
+            m["speed"] = {"walk": "30 ft."}
+    elif not isinstance(speed, dict):
+        m["speed"] = {"walk": "30 ft."}
+
     m.setdefault("actions", [])
     m.setdefault("special_abilities", [])
     m.setdefault("senses", {})
@@ -1685,21 +1734,83 @@ def _normalize_manual_monster(m: dict):
     m.setdefault("damage_resistances", [])
     m.setdefault("damage_immunities", [])
     m.setdefault("condition_immunities", [])
+    m.setdefault("proficiencies", [])
+    m.setdefault("legendary_actions", [])
 
-    # ability_scores: normalize keys (str → dex, etc.)
+    # senses: string "darkvision 60 ft., passive Perception 11" → dict
+    senses = m.get("senses")
+    if isinstance(senses, str) and senses:
+        sense_dict = {}
+        for part in senses.split(","):
+            part = part.strip()
+            if "passive" in part.lower():
+                m["passive_perception"] = int(re.search(r"(\d+)", part).group(1)) if re.search(r"(\d+)", part) else 10
+            else:
+                match = re.match(r"(\w[\w\s]*?)\s+(\d+)\s*ft\.?", part)
+                if match:
+                    key = match.group(1).strip().lower().replace(" ", "_")
+                    sense_dict[key] = f"{match.group(2)} ft."
+        if sense_dict:
+            m["senses"] = sense_dict
+        elif not sense_dict:
+            m["senses"] = {}
+    elif not isinstance(senses, dict):
+        m["senses"] = {}
+
+    # actions: rename description → desc (SRD format)
+    for action in m.get("actions", []):
+        if "description" in action and "desc" not in action:
+            action["desc"] = action.pop("description")
+        # Normalize damage format if present
+        damage = action.get("damage")
+        if isinstance(damage, str):
+            action["damage"] = [{"damage_dice": damage, "damage_type": {"name": "bludgeoning"}}]
+
+    # features → special_abilities: rename description → desc
+    for feat in m.get("features", []):
+        if "description" in feat and "desc" not in feat:
+            feat["desc"] = feat.pop("description")
+    if m.get("features") and not m.get("special_abilities"):
+        m["special_abilities"] = m.pop("features")
+    elif m.get("features"):
+        m["special_abilities"].extend(m.pop("features"))
+
+    # reactions
+    for rxn in m.get("reactions", []):
+        if "description" in rxn and "desc" not in rxn:
+            rxn["desc"] = rxn.pop("description")
+
+    # legendary_actions
+    for la in m.get("legendary_actions", []):
+        if "description" in la and "desc" not in la:
+            la["desc"] = la.pop("description")
+
+    # ability_scores: flatten to top-level strength/dex/con/int/wis/cha
     scores = m.get("ability_scores", {})
     if scores:
-        norm_scores = {}
+        stat_map = {
+            "str": "strength", "strength": "strength",
+            "dex": "dexterity", "dexterity": "dexterity",
+            "con": "constitution", "constitution": "constitution",
+            "int": "intelligence", "intelligence": "intelligence",
+            "wis": "wisdom", "wisdom": "wisdom",
+            "cha": "charisma", "charisma": "charisma",
+        }
         for k, v in scores.items():
-            k = k.lower().strip()
-            if k in ("str", "strength"): norm_scores["strength"] = v
-            elif k in ("dex", "dexterity"): norm_scores["dexterity"] = v
-            elif k in ("con", "constitution"): norm_scores["constitution"] = v
-            elif k in ("int", "intelligence"): norm_scores["intelligence"] = v
-            elif k in ("wis", "wisdom"): norm_scores["wisdom"] = v
-            elif k in ("cha", "charisma"): norm_scores["charisma"] = v
-        if norm_scores:
-            m["ability_scores"] = norm_scores
+            target = stat_map.get(k.lower().strip())
+            if target and target not in m:
+                m[target] = int(v) if isinstance(v, (int, float, str)) and str(v).replace("-", "").isdigit() else 10
+    # Ensure all six stats exist
+    for stat in ("strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"):
+        m.setdefault(stat, 10)
+
+    # hit_dice fallback
+    m.setdefault("hit_dice", "1d8")
+
+    # xp from CR if missing
+    if not m.get("xp"):
+        cr_val = m.get("challenge_rating", 0)
+        m["xp"] = _xp_for_cr(cr_val)
 
 def _monster_cr_sort_key(m: dict) -> float:
     cr = m.get("challenge_rating", 0)
@@ -1849,11 +1960,55 @@ async def dm_tools(request: Request):
         m_type = m.get("type", "other")
         monsters_by_env.setdefault(m_type, []).append(m)
 
-    # Load DM's NPCs
+    # Load DM's NPCs (DB)
     npcs = [dict(r) for r in db.execute(
         "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
         (user["id"],)
     ).fetchall()]
+
+    # Merge manual NPCs from extracted data
+    manual_npcs = _load_manual_json("npcs.json")
+    for i, mn in enumerate(manual_npcs):
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
+        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
+        except: hp = 10
+        # Detect narrative NPCs (no combat stat block)
+        scores = mn.get("ability_scores", {})
+        has_stats = scores and any(v != 0 and v is not None for v in scores.values())
+        is_narrative = not has_stats and str(hp_raw).lower() in ("unknown", "?", "0", "")
+        npcs.append({
+            "id": -(i + 1),  # negative ID = manual NPC
+            "user_id": user["id"],
+            "name": mn.get("name", "Unknown"),
+            "race": mn.get("race", "Unknown"),
+            "class_name": mn.get("class_name", ""),
+            "subclass": mn.get("subclass", ""),
+            "level": mn.get("level", 1),
+            "hp_current": hp,
+            "hp_max": hp,
+            "ac": mn.get("ac", mn.get("armor_class", 10)) if has_stats else 10,
+            "is_enemy": 0,
+            "is_party_npc": 0,
+            "role": mn.get("role", "NPC"),
+            "alignment": mn.get("alignment", ""),
+            "speed": mn.get("speed", "30 ft."),
+            "skills": json.dumps(mn.get("skills", [])),
+            "features": json.dumps(mn.get("features", [])),
+            "inventory": json.dumps(mn.get("equipment", [])),
+            "notes": mn.get("description", ""),
+            "source": mn.get("source", "Manual"),
+            "xp_reward": mn.get("xp_reward", 0),
+            "strength": scores.get("strength", 0) if has_stats else 0,
+            "dexterity": scores.get("dexterity", 0) if has_stats else 0,
+            "constitution": scores.get("constitution", 0) if has_stats else 0,
+            "intelligence": scores.get("intelligence", 0) if has_stats else 0,
+            "wisdom": scores.get("wisdom", 0) if has_stats else 0,
+            "charisma": scores.get("charisma", 0) if has_stats else 0,
+            "proficiency_bonus": 2, "hit_dice": "1d8", "hit_dice_used": 0,
+            "temp_hp": 0, "portrait_url": "", "faction": "",
+            "_manual": True,
+            "_narrative": is_narrative,
+        })
 
     # Load encounters
     encounters = [dict(r) for r in db.execute(
@@ -2040,13 +2195,94 @@ async def dm_npcs_list(request: Request):
         for f in ("skills", "features", "inventory"):
             try: r[f] = json.loads(r[f])
             except: r[f] = []
+    # Merge manual NPCs from extracted data
+    manual_npcs = _load_manual_json("npcs.json")
+    for i, mn in enumerate(manual_npcs):
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
+        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
+        except: hp = 10
+        scores = mn.get("ability_scores", {})
+        has_stats = scores and any(v != 0 and v is not None for v in scores.values())
+        rows.append({
+            "id": -(i + 1),  # negative ID to distinguish manual NPCs
+            "user_id": user["id"],
+            "name": mn.get("name", "Unknown"),
+            "race": mn.get("race", "Unknown"),
+            "class_name": mn.get("class_name", ""),
+            "level": mn.get("level", 1),
+            "hp_current": hp,
+            "hp_max": hp,
+            "ac": mn.get("ac", mn.get("armor_class", 10)),
+            "is_enemy": 0,
+            "role": mn.get("role", "NPC"),
+            "alignment": mn.get("alignment", ""),
+            "speed": mn.get("speed", "30 ft."),
+            "skills": mn.get("skills", []),
+            "features": mn.get("features", []),
+            "inventory": mn.get("equipment", []),
+            "notes": mn.get("description", ""),
+            "source": mn.get("source", "Manual"),
+            "xp_reward": mn.get("xp_reward", 0),
+            "_narrative": not has_stats,
+        })
     return JSONResponse({"npcs": rows})
 
 
 @app.get("/api/dm/npc/{npc_id}", response_class=JSONResponse)
 async def dm_npc_detail(npc_id: int, request: Request):
-    """Full NPC detail."""
+    """Full NPC detail — DB NPCs and manual extracted NPCs."""
     user = require_user(request)
+
+    # Manual NPCs use negative IDs
+    if npc_id < 0:
+        manual_npcs = _load_manual_json("npcs.json")
+        idx = -(npc_id) - 1  # id -1 → idx 0, id -2 → idx 1
+        if idx < 0 or idx >= len(manual_npcs):
+            raise HTTPException(status_code=404, detail="Manual NPC not found")
+        mn = manual_npcs[idx]
+        scores = mn.get("ability_scores", {})
+        hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
+        try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
+        except: hp = 10
+        has_stats = scores and any(v != 0 and v is not None for v in scores.values())
+        return JSONResponse({
+            "id": npc_id,
+            "user_id": user["id"],
+            "name": mn.get("name", "Unknown"),
+            "race": mn.get("race", "Unknown"),
+            "class_name": mn.get("class_name", ""),
+            "subclass": mn.get("subclass", ""),
+            "level": mn.get("level", 1),
+            "hp_current": hp,
+            "hp_max": hp,
+            "ac": mn.get("ac", mn.get("armor_class", 10)),
+            "is_enemy": 0,
+            "is_party_npc": 0,
+            "role": mn.get("role", "NPC"),
+            "alignment": mn.get("alignment", ""),
+            "speed": mn.get("speed", "30 ft."),
+            "skills": mn.get("skills", []),
+            "features": mn.get("features", []),
+            "inventory": mn.get("equipment", []),
+            "notes": mn.get("description", ""),
+            "source": mn.get("source", "Manual"),
+            "xp_reward": mn.get("xp_reward", 0),
+            "strength": scores.get("strength", 0) if has_stats else 0,
+            "dexterity": scores.get("dexterity", 0) if has_stats else 0,
+            "constitution": scores.get("constitution", 0) if has_stats else 0,
+            "intelligence": scores.get("intelligence", 0) if has_stats else 0,
+            "wisdom": scores.get("wisdom", 0) if has_stats else 0,
+            "charisma": scores.get("charisma", 0) if has_stats else 0,
+            "proficiency_bonus": 2,
+            "hit_dice": "1d8",
+            "hit_dice_used": 0,
+            "temp_hp": 0,
+            "portrait_url": "",
+            "faction": "",
+            "_manual": True,
+            "_narrative": not has_stats,
+        })
+
     db = get_db()
     row = db.execute("SELECT * FROM dm_npcs WHERE id = ? AND user_id = ?",
                      (npc_id, user["id"])).fetchone()
@@ -2543,10 +2779,23 @@ async def dm_encounter_detail(enc_id: int, request: Request):
         SELECT en.*, n.name as npc_name, n.race, n.class_name, n.level, n.is_enemy,
                n.hp_max as npc_hp_max, n.ac as npc_ac, n.role, n.xp_reward
         FROM dm_encounter_npcs en
-        JOIN dm_npcs n ON n.id = en.npc_id
+        LEFT JOIN dm_npcs n ON n.id = en.npc_id
         WHERE en.encounter_id = ?
         ORDER BY en.initiative DESC
     """, (enc_id,)).fetchall()]
+    for p in participants:
+        if not p.get("npc_name"):
+            try: cd = json.loads(p.get("creature_data") or "{}")
+            except: cd = {}
+            p["npc_name"] = cd.get("name", "Unknown")
+            p["race"] = cd.get("race", "")
+            p["class_name"] = cd.get("class_name", "")
+            p["level"] = cd.get("level", 1)
+            p["is_enemy"] = cd.get("is_enemy", 0)
+            p["npc_hp_max"] = cd.get("hp_max", p.get("hp_max", 10))
+            p["npc_ac"] = cd.get("ac", p.get("ac", 10))
+            p["role"] = cd.get("role", "")
+            p["xp_reward"] = cd.get("xp_reward", 0)
     # Compute spell slots for caster NPCs
     for p in participants:
         cls = p.get("class_name", "")
@@ -2587,6 +2836,42 @@ async def dm_encounter_add_npc(enc_id: int, request: Request):
         INSERT INTO dm_encounter_npcs (encounter_id, npc_id, initiative, hp_current, hp_max, ac)
         VALUES (?,?,?,?,?,?)
     """, (enc_id, npc_id, init, npc["hp_current"], npc["hp_max"], npc["ac"]))
+    db.commit()
+    en_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
+    db.close()
+    return JSONResponse({"id": en_id, "ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/add-creature", response_class=JSONResponse)
+async def dm_encounter_add_creature(enc_id: int, request: Request):
+    """Add a monster or manual NPC to an encounter — doesn't need a dm_npcs row."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    enc = db.execute("SELECT id FROM dm_encounters WHERE id = ? AND user_id = ?",
+                     (enc_id, user["id"])).fetchone()
+    if not enc:
+        db.close()
+        raise HTTPException(status_code=404, detail="Encounter not found")
+    init = int(data.get("initiative", 0))
+    hp = int(data.get("hp", data.get("hp_current", 10)))
+    hp_max = int(data.get("hp_max", hp))
+    ac = int(data.get("ac", 10))
+    creature_data = json.dumps({
+        "name": data.get("name", "Unknown"),
+        "race": data.get("race", ""),
+        "class_name": data.get("class_name", ""),
+        "level": data.get("level", 1),
+        "is_enemy": data.get("is_enemy", 0),
+        "hp_max": hp_max,
+        "ac": ac,
+        "role": data.get("role", ""),
+        "xp_reward": data.get("xp_reward", 0),
+    })
+    db.execute("""
+        INSERT INTO dm_encounter_npcs (encounter_id, npc_id, initiative, hp_current, hp_max, ac, creature_data)
+        VALUES (?, 0, ?, ?, ?, ?, ?)
+    """, (enc_id, init, hp, hp_max, ac, creature_data))
     db.commit()
     en_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
     db.close()
@@ -3280,9 +3565,22 @@ async def campaign_roll_loot(camp_id: int, request: Request):
 @app.get("/character/{char_id}", response_class=HTMLResponse)
 async def character_sheet(char_id: int, request: Request):
     user = require_user(request)
+    dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
-                     (char_id, user["id"])).fetchone()
+    if dm_preview:
+        # DM preview: allow viewing characters the DM owns OR characters in DM's campaigns
+        row = db.execute("""
+            SELECT * FROM characters WHERE id = ? AND (
+                user_id = ?
+                OR EXISTS (
+                    SELECT 1 FROM dm_campaigns
+                    WHERE user_id = ? AND characters LIKE '%"id": ' || ? || ',%'
+                )
+            )
+        """, (char_id, user["id"], user["id"], char_id)).fetchone()
+    else:
+        row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
+                         (char_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
@@ -3473,6 +3771,7 @@ async def character_sheet(char_id: int, request: Request):
             merged_tool_profs.append(v)
 
     return _render("sheet.html", request=request, character=char, spells=spells,
+                   dm_preview=dm_preview,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,

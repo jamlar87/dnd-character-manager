@@ -365,18 +365,37 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     {% for npc in npcs %}
     <div class="npc-row {{ 'enemy' if npc.is_enemy else '' }}" data-name="{{ npc.name|lower }}">
       <div class="npc-info">
+        {% if npc.get('_manual') %}
+        <span class="npc-badge" style="background:var(--accent2);color:var(--text)">📖 Manual</span>
+        {% else %}
         <span class="npc-badge {{ 'enemy' if npc.is_enemy else 'npc' }}">{{ 'Enemy' if npc.is_enemy else 'NPC' }}</span>
+        {% endif %}
         <strong>{{ npc.name }}</strong>
         <span style="color:var(--text-muted);font-size:0.85rem">
           {{ npc.race }}{% if npc.class_name %} · L{{ npc.level }} {{ npc.class_name }}{% if npc.subclass %} ({{ npc.subclass }}){% endif %}{% endif %}
         </span>
         {% if npc.role %}<span class="badge badge-muted">{{ npc.role }}</span>{% endif %}
         {% if npc.alignment %}<span style="font-size:0.75rem;color:var(--text-muted)">{{ npc.alignment }}</span>{% endif %}
+        {% if npc.get('_narrative') %}
+        <span style="font-size:0.8rem;color:var(--text-muted)">Narrative NPC — no combat stats</span>
+        {% else %}
         <span style="font-size:0.8rem">HP {{ npc.hp_current }}/{{ npc.hp_max }} AC {{ npc.ac }}</span>
+        {% endif %}
+        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted)">📚 {{ npc.source }}</span>{% endif %}
+        {% if npc.get('notes') %}
+        <details class="npc-desc-toggle" style="margin-top:0.3rem">
+          <summary style="cursor:pointer;font-size:0.75rem;color:var(--accent);user-select:none">📝 Description</summary>
+          <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.5;margin-top:0.25rem;padding-left:0.25rem;border-left:2px solid var(--accent);max-width:60ch">{{ npc.notes }}</div>
+        </details>
+        {% endif %}
       </div>
       <div class="npc-actions">
+        {% if npc.get('_manual') %}
+        <span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>
+        {% else %}
         <button class="btn btn-outline btn-sm" onclick="editNpc({{ npc.id }})">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="deleteNpc({{ npc.id }})">✕</button>
+        {% endif %}
       </div>
     </div>
     {% else %}
@@ -408,7 +427,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <strong style="font-size:0.75rem;color:var(--text-muted)">Party:</strong>
         <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem">
           {% for ch in camp.characters %}
-          <span class="badge badge-muted" style="font-size:0.75rem" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · HP {{ ch.hp_current }}/{{ ch.hp_max }} AC {{ ch.ac }}">
+          <span class="badge badge-muted" style="font-size:0.75rem;cursor:pointer" title="L{{ ch.level }} {{ ch.race }} {{ ch.class_name }} · Click to view sheet" onclick="previewCharSheet({{ ch.id }}, '{{ ch.name }}')">
             {{ ch.name }} ({{ ch.hp_current }}/{{ ch.hp_max }})
           </span>
           {% else %}
@@ -416,8 +435,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
           {% endfor %}
         </div>
       </div>
+      <textarea id="campNotes-{{ camp.id }}" rows="3" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-top:0.5rem;font-size:0.8rem;resize:vertical" placeholder="Campaign notes…">{{ camp.notes or '' }}</textarea>
       <div style="display:flex;gap:0.3rem;margin-top:0.5rem">
         <button class="btn btn-outline btn-sm" onclick="openCampaign({{ camp.id }})">Open</button>
+        <button class="btn btn-outline btn-sm" onclick="saveCampNotes({{ camp.id }}, 'campNotes-{{ camp.id }}')">💾 Save</button>
         <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ camp.id }})">✕</button>
       </div>
     </div>
@@ -435,6 +456,17 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('monsterModal')">✕</button>
     <div id="monsterDetail"></div>
+  </div>
+</div>
+
+{# ───── CHARACTER SHEET PREVIEW MODAL ───── #}
+<div class="modal-overlay" id="charSheetModal" onclick="if(event.target===this)closeModal('charSheetModal')">
+  <div class="modal-content" style="max-width:1100px;width:95vw;height:90vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0">
+      <span style="font-weight:600" id="charSheetTitle">Character Sheet</span>
+      <button class="modal-close" onclick="closeModal('charSheetModal')" style="position:static">✕</button>
+    </div>
+    <iframe id="charSheetFrame" src="" style="flex:1;width:100%;border:none" title="Character Sheet Preview"></iframe>
   </div>
 </div>
 
@@ -662,6 +694,13 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); });
 });
 
+// ── Character Sheet Preview ──
+function previewCharSheet(charId, charName) {
+  document.getElementById('charSheetTitle').textContent = charName || 'Character Sheet';
+  document.getElementById('charSheetFrame').src = `/character/${charId}?dm_preview=1`;
+  openModal('charSheetModal');
+}
+
 // ── Monster filtering ──
 function filterMonsters() {
   const q = document.getElementById('monsterSearch').value.toLowerCase();
@@ -859,10 +898,24 @@ async function openEncounter(id) {
     const d = await r.json();
     const enc = d.encounter;
 
-    // Fetch available NPCs for adding
-    const nr = await fetch('/api/dm/npcs');
-    const nd = await nr.json();
-    const allNpcs = nd.npcs || [];
+    // Fetch available NPCs and monsters for adding
+    const [nr, mr] = await Promise.all([
+      fetch('/api/dm/npcs').then(r => r.json()),
+      fetch('/api/dm/monsters').then(r => r.json())
+    ]);
+    const allNpcs = (nr.npcs || []).map(n => ({...n, _kind: 'npc'}));
+    const allMonsters = (mr.monsters || []).map(m => ({
+      id: `m_${m.index || m.name}`, name: m.name,
+      race: m.type || '', class_name: '', level: (m.challenge_rating || '?'),
+      hp_current: m.hit_points || 10, hp_max: m.hit_points || 10,
+      ac: (m.armor_class && m.armor_class[0] ? m.armor_class[0].value : 10),
+      is_enemy: 1, role: (m.size || '') + ' ' + (m.type || ''),
+      xp_reward: m.xp || 0, _kind: 'monster',
+      _raw: m  // preserve full monster data
+    }));
+    const allCreatures = [...allNpcs, ...allMonsters];
+    window._creatureCache = allCreatures;  // store for onclick lookups
+    const inEncNames = new Set((enc.participants || []).map(p => p.npc_name?.toLowerCase()));
 
     let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <h2 style="margin:0">${enc.name}</h2>
@@ -873,17 +926,40 @@ async function openEncounter(id) {
     </div>`;
     if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.5rem">${enc.description}</p>`;
 
-    // Encounter builder: palette + tracking
+    // Encounter builder: searchable palette + tracking
     html += `<div class="encounter-builder">
       <div>
-        <h4 style="margin-bottom:0.5rem">📋 Available NPCs</h4>
-        <div class="monster-palette">`;
-    allNpcs.forEach(n => {
-      const inEnc = enc.participants.some(p => p.npc_id === n.id);
-      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.3rem;${inEnc ? 'opacity:0.5' : ''}">
-        <span><strong>${n.name}</strong> ${n.race} L${n.level} ${n.class_name} · HP ${n.hp_current}/${n.hp_max}</span>
-        ${inEnc ? '<span style="color:var(--success);font-size:0.8rem">Added ✓</span>' :
-          `<button class="btn btn-primary btn-sm" onclick="addNpcToEncounter(${id}, ${n.id})">+ Add</button>`}
+        <h4 style="margin-bottom:0.5rem">📋 Available Creatures</h4>
+        <div style="margin-bottom:0.5rem;display:flex;gap:0.4rem;flex-wrap:wrap">
+          <input type="text" id="creatureSearch" placeholder="Search creatures..."
+            style="flex:1;min-width:150px;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem"
+            oninput="filterCreaturePalette()">
+          <select id="creatureKindFilter" onchange="filterCreaturePalette()"
+            style="padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+            <option value="all">All</option>
+            <option value="npc">NPCs</option>
+            <option value="monster">Monsters</option>
+          </select>
+          <span style="font-size:0.75rem;color:var(--text-muted);align-self:center" id="creatureCount">${allCreatures.length}</span>
+        </div>
+        <div class="monster-palette" id="creaturePalette" style="max-height:400px;overflow-y:auto">`;
+    allCreatures.forEach((c, ci) => {
+      const inEnc = inEncNames.has(c.name.toLowerCase());
+      const kindBadge = c._kind === 'monster'
+        ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
+        : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
+      const hpDisplay = c._kind === 'monster'
+        ? `HP ${c.hp_current}`
+        : `HP ${c.hp_current}/${c.hp_max}`;
+      const crDisplay = c._kind === 'monster' && c.level ? `CR ${c.level} · ` : '';
+      const detailDisplay = c._kind === 'monster'
+        ? `${crDisplay}AC ${c.ac} · ${c.race || '?'}`
+        : `${c.race}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
+      html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}"
+        style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem;${inEnc ? 'opacity:0.5' : ''}">
+        <span style="font-size:0.8rem">${kindBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
+        ${inEnc ? '<span style="color:var(--success);font-size:0.75rem">Added ✓</span>' :
+          `<button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>`}
       </div>`;
     });
     html += `</div></div>
@@ -999,6 +1075,43 @@ function addNpcToEncounter(encId, npcId) {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({npc_id: npcId})
   }).then(r => r.json()).then(() => openEncounter(encId));
+}
+
+// ── Add creature (monster or manual NPC) to encounter ──
+function addCreatureToEncounter(encId, creatureIndex) {
+  const c = window._creatureCache && window._creatureCache[creatureIndex];
+  if (!c) return;
+  if (c._kind === 'npc' && c.id > 0) {
+    // DB NPC — use add-npc
+    return addNpcToEncounter(encId, c.id);
+  }
+  // Monster or manual NPC — use add-creature
+  fetch(`/api/dm/encounter/${encId}/add-creature`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      name: c.name, race: c.race, class_name: c.class_name,
+      level: typeof c.level === 'number' ? c.level : 1,
+      hp: c.hp_current, hp_max: c.hp_max, ac: c.ac,
+      is_enemy: c.is_enemy || 0, role: c.role || '',
+      xp_reward: c.xp_reward || 0
+    })
+  }).then(r => r.json()).then(() => openEncounter(encId));
+}
+
+// ── Filter creature palette ──
+function filterCreaturePalette() {
+  const q = (document.getElementById('creatureSearch')?.value || '').toLowerCase();
+  const kind = document.getElementById('creatureKindFilter')?.value || 'all';
+  let count = 0;
+  document.querySelectorAll('.creature-row').forEach(row => {
+    const name = row.dataset.name || '';
+    const rowKind = row.dataset.kind || '';
+    const match = (!q || name.includes(q)) && (kind === 'all' || rowKind === kind);
+    row.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  const countEl = document.getElementById('creatureCount');
+  if (countEl) countEl.textContent = count;
 }
 
 function removeNpcFromEncounter(encId, enId) {
@@ -1430,10 +1543,11 @@ async function openCampaign(id) {
         html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
             <span>
-              <strong>${ch.name}</strong>
+              <strong style="cursor:pointer" onclick="previewCharSheet(${ch.id}, '${ch.name}')" title="View character sheet">${ch.name}</strong>
               <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race}${ch.subrace ? ' (' + ch.subrace + ')' : ''} ${ch.class_name}${ch.subclass ? ' — ' + ch.subclass : ''}</span>
               <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
             </span>
+            <button class="btn btn-outline btn-sm" onclick="previewCharSheet(${ch.id}, '${ch.name}')" title="View sheet">📋</button>
             <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign(${camp.id}, ${ch.id})">✕</button>
           </div>
           <div style="display:flex;gap:0.75rem;margin-top:0.3rem;flex-wrap:wrap;align-items:center;font-size:0.8rem">
@@ -1570,8 +1684,9 @@ function removeCampLocation(campId, idx) {
   }).then(r => r.json()).then(() => openCampaign(campId));
 }
 
-function saveCampNotes(id) {
-  const notes = document.getElementById('campNotes').value;
+function saveCampNotes(id, elementId) {
+  const elId = elementId || 'campNotes';
+  const notes = document.getElementById(elId).value;
   fetch(`/api/dm/campaign/${id}/update`, {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({notes})
@@ -2223,6 +2338,7 @@ function renderPlayersPanel() {
         <span style="font-size:0.7rem">${p.hp_current}/${p.hp_max}</span>
         <div class="init-hp-bar"><div class="init-hp-bar-fill ok" style="width:${Math.round(p.hp_current/p.hp_max*100)}%"></div></div>
       </div>
+      <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
     </div>`;
   }).join('');
 }
@@ -2449,6 +2565,7 @@ function renderInitiativeTrack() {
         <button class="init-btn heal-btn" onclick="combatApplyHP(${p.en_id}, 1)" title="Heal">+</button>
         <button class="init-btn dmg-btn" onclick="combatApplyHP(${p.en_id}, -1)" title="Damage">−</button>
         <button class="init-btn" onclick="combatResetHP(${p.en_id})" title="Reset to full HP">↺</button>
+        ${p.is_player ? `<button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet">📋</button>` : ''}
         <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated">${isDefeated ? '⬆' : '💀'}</button>
       </div>
     </div>`;
