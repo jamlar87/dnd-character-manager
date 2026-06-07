@@ -1126,7 +1126,7 @@
 const CHAR_ID = {{ character.id }};
 const CHAR_LEVEL = {{ character.level }};
 const HP_MAX = {{ character.hp_max }};
-const HD_TOTAL = {{ character.hit_dice|int }};
+const HD_TOTAL = {{ character.hit_dice.split('d')[0] if 'd' in (character.hit_dice or '') else 0 }};
 const HD_DIE = {{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else 8 }};
 const HD_USED = {{ character.hit_dice_used|default(0)|int }};
 const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
@@ -1388,7 +1388,7 @@ async function executeLongRest() {
     hit_dice_used: hdUsed,
     death_saves_success: 0,
     death_saves_fail: 0,
-    spell_slots_used: {},
+    spell_slots_used: JSON.stringify({}),
     spells: spellResets
   });
 
@@ -1548,7 +1548,7 @@ async function doShortRest(healed, rolls) {
   const ssu = {};  // empty used slots
 
   // API: save HP, hit_dice_used, and feature_data
-  await api('/update', { hp_current: newHp, hit_dice_used: hdUsed, spell_slots_used: {} });
+  await api('/update', { hp_current: newHp, hit_dice_used: hdUsed, spell_slots_used: JSON.stringify({}) });
   await api('/update', { feature_data: JSON.stringify(featureData) });
 
   // Show result
@@ -1591,7 +1591,7 @@ async function toggleSpellSlot(lvl, n, max) {
   const boxes = document.querySelectorAll(`#slots-lvl-${lvl} .slot-box`);
   const used = boxes[n-1].classList.contains('used') ? n-1 : n;
   boxes.forEach((b, i) => b.classList.toggle('used', i < used));
-  await api('/update', { spell_slots_used: { [lvl]: used } });
+  await api('/update', { spell_slots_used: JSON.stringify({ [lvl]: used }) });
 }
 
 async function toggleSpellSlotById(spellId, n, max) {
