@@ -74,7 +74,57 @@
 .defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
 .defense-resist { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
 .defense-immune { background: rgba(255,174,0,0.15); border: 1px solid #ffae00; color: #ffae00; }
-.defense-vuln { background: rgba(255,23,68,0.15); border: 1px solid var(--danger); color: var(--danger); }
+/* Drop zones */
+.drop-zone { transition: box-shadow 0.15s; }
+.drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
+.drop-zone-active .item-card { opacity: 0.85; }
+
+/* Item cards */
+.item-card {
+  display: inline-flex; align-items: center; gap: 0.2rem;
+  padding: 0.2rem 0.35rem; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  font-size: 0.8rem; cursor: default; transition: all 0.12s;
+  user-select: none; max-width: 100%;
+}
+.item-card:hover { border-color: var(--text-muted); }
+.item-card.dragging { opacity: 0.4; transform: scale(0.95); }
+.item-card.editing { border-color: var(--accent); }
+.item-card.equipped-card { background: rgba(0,200,83,0.08); border-color: rgba(0,200,83,0.2); }
+.item-card .drag-handle {
+  cursor: grab; color: var(--text-muted); font-size: 0.6rem;
+  letter-spacing: -0.1rem; padding: 0 0.1rem; line-height: 1;
+}
+.item-card .drag-handle:active { cursor: grabbing; }
+.item-card .item-card-name {
+  background: transparent; border: none; color: var(--text);
+  font-size: 0.8rem; padding: 0.1rem 0; min-width: 3ch; max-width: 120px;
+  outline: none; font-family: var(--font);
+}
+.item-card .item-qty {
+  background: var(--accent); color: #000; border-radius: 8px;
+  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  min-width: 1.2rem; text-align: center;
+}
+.item-card .item-card-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
+  border-radius: 3px; line-height: 1;
+}
+.item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.item-card .item-card-del:hover { color: var(--danger); }
+.item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
+.item-card .item-attune-badge {
+  font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
+  color: var(--warn);
+}
+.item-card .item-attune-badge.attuned { color: var(--success); }
+
+/* Empty state text inside drop zones */
+.drop-zone .empty-text { color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem 0; }
+
+/* Proficiency badges */
+.prof-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 10px; font-size: 0.7rem; font-weight: 500; margin: 0.1rem 0.2rem 0.1rem 0; background: rgba(100,149,237,0.1); border: 1px solid rgba(100,149,237,0.25); color: #90b4f0; }
 
 /* ── Main panel ── */
 .sheet-main { flex: 1; min-width: 0; }
@@ -306,7 +356,7 @@
       <div class="combat-quick top-combat-grid">
         <div class="combat-quick-item">
           <div class="cq-label">AC</div>
-          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}</div>
         </div>
         <div class="combat-quick-item">
           <div class="cq-label">Initiative</div>
@@ -455,29 +505,43 @@
       </div>
       <div id="defenses-body">
       <div style="font-size:0.8rem" id="defenses-section">
-        <!-- Race damage resistances (populated by JS from server data) -->
-        {% if character.damage_resistances %}
+        {% set ns = namespace(has_fd_resist=false, has_fd_immune=false) %}
+        {% for fd in feature_defenses %}
+          {% if fd.resist %}{% set ns.has_fd_resist = true %}{% endif %}
+          {% if fd.immune %}{% set ns.has_fd_immune = true %}{% endif %}
+        {% endfor %}
+        <!-- Resistances -->
+        {% set has_resist = character.damage_resistances or ns.has_fd_resist or item_effects.resist %}
+        {% if has_resist %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Resistances</div>
         {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.resist %}{% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for r in item_effects.resist %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
         {% endif %}
-        {% if character.damage_immunities %}
+        <!-- Immunities -->
+        {% set has_immune = character.damage_immunities or ns.has_fd_immune or item_effects.immune %}
+        {% if has_immune %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Immunities</div>
         {% for i in character.damage_immunities %}<span class="defense-badge defense-immune">✨ {{ i }}</span>{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.immune %}{% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for i in item_effects.immune %}<span class="defense-badge defense-immune">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
         {% endif %}
+        <!-- Vulnerabilities -->
         {% if character.damage_vulnerabilities %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Vulnerabilities</div>
         {% for v in character.damage_vulnerabilities %}<span class="defense-badge defense-vuln">⚠️ {{ v }}</span>{% endfor %}
         {% endif %}
+        <!-- Condition Immunities -->
         {% if character.condition_immunities %}
-        {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">🛡️ {{ c }}</span>{% endfor %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Condition Imm.</div>
+        {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">✨ {{ c }}</span>{% endfor %}
         {% endif %}
-        <!-- Feature-derived defenses (e.g. Rage → B/P/S resist) -->
-        {% for fd in feature_defenses %}
-        {% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}
-        {% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}
-        {% endfor %}
-        <!-- Saving Throw Proficiencies -->
+        <!-- Save Proficiencies -->
         {% if character.save_proficiencies %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Save Prof.</div>
         {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}
         {% endif %}
-        {% set has_defenses = character.damage_resistances or character.damage_immunities or character.damage_vulnerabilities or character.condition_immunities or character.save_proficiencies %}
+        {% set has_defenses = has_resist or has_immune or character.damage_vulnerabilities or character.condition_immunities or character.save_proficiencies or item_effects.notes %}
         {% if not has_defenses %}
         <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
         {% endif %}
@@ -524,25 +588,74 @@
       </div>
       <div id="profs-body">
       <div style="font-size:0.8rem" id="prof-section">
-        <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-          <span class="stat-name">Armor</span>
-          <span class="stat-val prof-display" data-field="armor_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.armor_proficiencies|join(', ') or '—' }}</span>
-        </div>
-        <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-          <span class="stat-name">Weapons</span>
-          <span class="stat-val prof-display" data-field="weapon_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.weapon_proficiencies|join(', ') or '—' }}</span>
-        </div>
-        <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-          <span class="stat-name">Tools</span>
-          <span class="stat-val prof-display" data-field="tool_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.tool_proficiencies|join(', ') or '—' }}</span>
-        </div>
-        <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-          <span class="stat-name">Languages</span>
-          <span class="stat-val prof-display" data-field="languages" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.languages|join(', ') or 'Common' }}</span>
+        <!-- Armor -->
+        {% if character.armor_proficiencies %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
+        {% for a in character.armor_proficiencies %}<span class="prof-badge">{{ a }}</span>{% endfor %}
+        {% endif %}
+        <!-- Weapons -->
+        {% if character.weapon_proficiencies %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
+        {% for w in character.weapon_proficiencies %}<span class="prof-badge">{{ w }}</span>{% endfor %}
+        {% endif %}
+        <!-- Tools -->
+        {% if character.tool_proficiencies %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
+        {% for t in character.tool_proficiencies %}<span class="prof-badge">{{ t }}</span>{% endfor %}
+        {% endif %}
+        <!-- Languages -->
+        {% if character.languages %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
+        {% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}
+        {% endif %}
+        {% set has_profs = character.armor_proficiencies or character.weapon_proficiencies or character.tool_proficiencies or character.languages %}
+        {% if not has_profs %}
+        <span style="color:var(--text-muted);font-size:0.8rem">No proficiencies</span>
+        {% endif %}
+        <!-- Edit pickers (edit mode only) -->
+        <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
+          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Armor</span>
+            <span class="stat-val prof-display" data-field="armor_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.armor_proficiencies|join(', ') or '—' }}</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Weapons</span>
+            <span class="stat-val prof-display" data-field="weapon_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.weapon_proficiencies|join(', ') or '—' }}</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Tools</span>
+            <span class="stat-val prof-display" data-field="tool_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.tool_proficiencies|join(', ') or '—' }}</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Languages</span>
+            <span class="stat-val prof-display" data-field="languages" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.languages|join(', ') or '—' }}</span>
+          </div>
         </div>
       </div>
       </div>
     </div>
+
+    <!-- Attunement -->
+    {% if item_effects.notes or item_effects.attunement_slots_used > 0 or item_effects.ac_bonus or item_effects.save_bonus %}
+    <div class="sidebar-section" style="margin-top:0.25rem">
+      <div style="display:flex;align-items:center;gap:0.3rem">
+        <h4 style="margin:0;font-size:0.75rem">Attunement <span style="font-size:0.55rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h4>
+      </div>
+      <div id="attunement-slots" style="display:flex;gap:0.3rem;margin-top:0.2rem">
+        {% for i in range(3) %}
+        <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" style="width:14px;height:14px;border-radius:3px;border:2px solid var(--border);display:inline-block;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
+        {% endfor %}
+        <span style="font-size:0.55rem;color:var(--text-muted);margin-left:0.3rem">{{ item_effects.attunement_slots_used }}/3</span>
+      </div>
+      {% if item_effects.notes %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem">
+        {% for note in item_effects.notes %}
+        <div>• {{ note }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
 
     <!-- Hidden inspiration toggle -->
     <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
@@ -904,14 +1017,16 @@
 
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
-      <div class="card">
+      <!-- EQUIPMENT CARD (drop zone for unequip + team claims) -->
+      <div class="card drop-zone" id="inv-card"
+           ondragover="handleDragOver(event, 'inventory')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'inventory')">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-          <h3 style="margin:0">Equipment</h3>
-          <div style="display:flex;gap:0.3rem;align-items:center">
-            <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
-          </div>
+          <h3 style="margin:0">🎒 Inventory</h3>
+          <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
         </div>
-        <!-- Item Search Bar (hidden by default) -->
+        <!-- Item Search Bar -->
         <div id="item-search-bar" style="display:none;position:relative;margin-bottom:0.5rem">
           <input type="text" id="item-search-input" placeholder="Search 600+ items..." 
             style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none"
@@ -919,46 +1034,82 @@
             onblur="setTimeout(() => document.getElementById('item-search-results').style.display='none', 200)">
           <div id="item-search-results" style="display:none;position:absolute;top:100%;left:0;right:0;max-height:220px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:0 0 6px 6px;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,0.4)"></div>
         </div>
-        {% if character.inventory %}
-        <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem">
+        <div id="inv-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
+          {% if character.inventory %}
           {% for item in character.inventory %}
-          <li class="inv-item" style="padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
-            <span style="display:flex;align-items:center;flex:1;min-width:0">
-              <input type="text" value="{{ item.name if item.name is defined else item }}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
-              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0 0.25rem;margin-left:0;line-height:1" title="Item Info">ℹ️</button>
-              <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
-              <span class="arm-badge" style="display:none">🛡️ Armor</span>
-              <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
-            </span>
-            <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
-            <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
-            <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>
-          </li>
+          {% set item_name = item.name if item.name is defined else item %}
+          {% set item_qty = item.qty if item.qty is defined else 1 %}
+          <div class="item-card" draggable="true"
+               data-item-name="{{ item_name }}"
+               ondragstart="handleDragStart(event, '{{ item_name|replace("'", "\\'") }}', 'inventory', {{ item_qty }})"
+               ondragend="handleDragEnd(event)">
+            <span class="drag-handle" title="Drag to move">⋮⋮</span>
+            <input type="text" value="{{ item_name }}" class="item-card-name"
+                   onchange="autoSaveInventory();tagWeapons()"
+                   onfocus="this.closest('.item-card').classList.add('editing')"
+                   onblur="this.closest('.item-card').classList.remove('editing')">
+            {% if item_qty > 1 %}<span class="item-qty">{{ item_qty }}</span>{% endif %}
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('{{ item_name|replace("'", "\\'") }}')" title="Info">ℹ️</button>
+            <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+            <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            <button class="item-card-btn" onclick="equipItem('{{ item_name|replace("'", "\\'") }}')" title="Equip">⬆️</button>
+            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam('{{ item_name|replace("'", "\\'") }}', {{ item_qty }})" title="Share to team">↗</button>{% endif %}
+            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('{{ item_name|replace("'", "\\'") }}')" title="Delete">✕</button>
+          </div>
           {% endfor %}
-        </ul>
-        {% else %}
-        <ul id="inv-list" style="list-style:none;padding:0;font-size:0.9rem"></ul>
-        <p style="color:var(--text-muted);font-size:0.85rem">Empty inventory</p>
-        {% endif %}
+          {% endif %}
+        </div>
+        <div id="inv-empty" style="display:{{ 'none' if character.inventory else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drop items here or click +Add</div>
       </div>
 
-      <div class="card" style="margin-top:0.75rem" id="equipped-section">
-        <h3 style="margin-bottom:0.5rem">Equipped</h3>
-        <ul id="equipped-list" style="list-style:none;padding:0;font-size:0.9rem">
+      <!-- EQUIPPED CARD (drop zone for equipping) -->
+      <div class="card drop-zone" id="equipped-card" style="margin-top:0.75rem"
+           ondragover="handleDragOver(event, 'equipped')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'equipped')">
+        <h3 style="margin:0 0 0.5rem 0">⬆️ Equipped</h3>
+        <div id="equipped-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
           {% if character.equipped %}
           {% for item in character.equipped %}
-          <li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
-            <span>{{ item }}</span>
-            <button class="btn btn-outline btn-sm" onclick="unequipItem('{{ item }}')" style="font-size:0.65rem;padding:0.1rem 0.35rem">✕</button>
-          </li>
+          <div class="item-card equipped-card" draggable="true"
+               data-item-name="{{ item }}"
+               ondragstart="handleDragStart(event, '{{ item|replace("'", "\\'") }}', 'equipped', 1)"
+               ondragend="handleDragEnd(event)">
+            <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
+            <span class="item-card-name" style="cursor:default">{{ item }}</span>
+            {% if item in item_attunement_dict %}
+              {% if item in character.attuned_items %}
+              <span class="item-attune-badge attuned" onclick="toggleAttune('{{ item|replace("'", "\\'") }}')" title="Attuned — click to break">◆</span>
+              {% else %}
+              <span class="item-attune-badge" onclick="toggleAttune('{{ item|replace("'", "\\'") }}')" title="Needs attunement — click to attune">◇</span>
+              {% endif %}
+            {% endif %}
+            <button class="item-card-btn" onclick="unequipItem('{{ item|replace("'", "\\'") }}')" title="Unequip">⬇️</button>
+          </div>
           {% endfor %}
-          {% else %}
-          <li style="color:var(--text-muted);font-size:0.85rem;padding:0.3rem 0">Nothing equipped</li>
           {% endif %}
-        </ul>
+        </div>
+        <div id="equipped-empty" style="display:{{ 'none' if character.equipped else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drag items here to equip</div>
       </div>
 
-      <div class="card" style="margin-top:0.75rem">
+      {% if campaign_info %}
+      <!-- TEAM ITEMS CARD (drop zone for sharing) -->
+      <div class="card drop-zone" id="team-card" style="margin-top:0.75rem"
+           ondragover="handleDragOver(event, 'team')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'team')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">📦 Team <span style="font-size:0.65rem;color:var(--text-muted);font-weight:400">{{ campaign_info.name }}</span></h3>
+          <button class="btn btn-outline btn-sm" onclick="loadTeamItems()">🔄</button>
+        </div>
+        <div id="team-items-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
+          <span style="color:var(--text-muted);font-size:0.8rem">Loading...</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- NOTES CARD -->
+      <div class="card" style="margin-top:0.75rem" id="notes-card">
         <h3 style="margin-bottom:0.5rem">Notes</h3>
         <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
         <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
@@ -1143,6 +1294,10 @@ const CHAR_ID = {{ character.id }};
 const CHAR_LEVEL = {{ character.level }};
 const HP_MAX = {{ character.hp_max }};
 const HD_TOTAL = {{ character.hit_dice.split('d')[0] if 'd' in (character.hit_dice or '') else 0 }};
+const ATTUNED_ITEMS = {{ character.attuned_items|tojson }};
+const ATTUNEMENT_SLOTS_MAX = 3;
+const ITEM_NEEDS_ATTUNEMENT = {{ item_attunement_json|safe if item_attunement_json else '{}' }};
+const CAMPAIGN_ID = {{ campaign_info.id if campaign_info else 'null' }};
 const HD_DIE = {{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else 8 }};
 const HD_USED = {{ character.hit_dice_used|default(0)|int }};
 const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
@@ -2461,10 +2616,10 @@ function tagWeapons() {
   const hasSimple = weaponProfs.some(p => p.toLowerCase() === 'simple weapons');
   const hasMartial = weaponProfs.some(p => p.toLowerCase() === 'martial weapons');
   
-  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
-    const input = li.querySelector('input[type="text"]');
-    const badge = li.querySelector('.wpn-badge');
-    const npBadge = li.querySelector('.np-badge');
+  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+    const input = card.querySelector('.item-card-name');
+    const badge = card.querySelector('.wpn-badge');
+    const npBadge = card.querySelector('.np-badge');
     if (!input || !badge) return;
     const name = input.value.trim();
     const wpnInfo = getWeaponInfo(name);
@@ -2535,10 +2690,10 @@ function isArmorProficient(armorName) {
 
 function tagArmor() {
   const armors = getCurrentProfs('armor_proficiencies');
-  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
-    const input = li.querySelector('input[type="text"]');
+  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+    const input = card.querySelector('.item-card-name');
     const badge = li.querySelector('.arm-badge');
-    const npBadge = li.querySelector('.np-badge');
+    const npBadge = card.querySelector('.np-badge');
     if (!input || !badge) return;
     if (isArmor(input.value)) {
       badge.style.display = 'inline-block';
@@ -2649,225 +2804,196 @@ async function useFeature(name, btn) {
 }
 
 function renderEquipped() {
-  const container = document.getElementById('equipped-section');
   const list = document.getElementById('equipped-list');
-  if (!container || !list) return;
+  const emptyEl = document.getElementById('equipped-empty');
+  if (!list) return;
 
   if (equippedItems.length === 0) {
-    list.innerHTML = '<li style="color:var(--text-muted);font-size:0.85rem;padding:0.3rem 0">Nothing equipped</li>';
-  } else {
-    list.innerHTML = equippedItems.map(item => {
-      const isArm = isArmor(item);
-      const badge = isArm ? '<span style="font-size:0.7rem;margin-right:0.3rem">🛡️</span>' : '';
-      return `<li style="padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center">
-        <span>${badge}${item}</span>
-        <button class="btn btn-outline btn-sm" onclick="unequipItem('${item.replace(/'/g, "\\'")}')" style="font-size:0.65rem;padding:0.1rem 0.35rem">✕</button>
-      </li>`;
-    }).join('');
+    list.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
   }
-  container.style.display = 'block';
+  if (emptyEl) emptyEl.style.display = 'none';
+  list.innerHTML = equippedItems.map(item => {
+    const needsAttune = ITEM_NEEDS_ATTUNEMENT[item];
+    const isAttuned = ATTUNED_ITEMS.includes(item);
+    let attuneHtml = '';
+    if (needsAttune) {
+      if (isAttuned) {
+        attuneHtml = `<span class="item-attune-badge attuned" onclick="toggleAttune('${item.replace(/'/g, "\\'")}')" title="Attuned — click to break">◆</span>`;
+      } else {
+        attuneHtml = `<span class="item-attune-badge" onclick="toggleAttune('${item.replace(/'/g, "\\'")}')" title="Needs attunement — click to attune">◇</span>`;
+      }
+    }
+    return `<div class="item-card equipped-card" draggable="true"
+      data-item-name="${item.replace(/"/g, '&quot;')}"
+      ondragstart="handleDragStart(event, '${item.replace(/'/g, "\\'")}', 'equipped', 1)"
+      ondragend="handleDragEnd(event)">
+      <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
+      <span class="item-card-name" style="cursor:default">${item}</span>
+      ${attuneHtml}
+      <button class="item-card-btn" onclick="unequipItem('${item.replace(/'/g, "\\'")}')" title="Unequip">⬇️</button>
+    </div>`;
+  }).join('');
 }
 
-function addInventoryItem() {
-  const list = document.getElementById('inv-list');
-  const idx = list.children.length;
-  const li = document.createElement('li');
-  li.className = 'inv-item';
-  li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
-  li.innerHTML = `<span style="display:flex;align-items:center;flex:1;min-width:0">
-    <input type="text" placeholder="Item name" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
-    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
-    <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
-    <span class="arm-badge" style="display:none">🛡️ Armor</span>
-    <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
-  </span>
-    <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
-    <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
-    <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
-  list.appendChild(li);
-  // Hide "Empty inventory" text if present
-  const empty = list.nextElementSibling;
-  if (empty && empty.tagName === 'P') empty.style.display = 'none';
-  tagWeapons();
+// Auto-load team items when opening inventory tab (merged with history tab hook below)
+
+// ── Drag & Drop handlers ──
+let _dragItem = null; // { name, source, qty }
+
+function handleDragStart(e, name, source, qty) {
+  _dragItem = { name, source, qty };
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', name);
+  e.target.closest('.item-card')?.classList.add('dragging');
 }
 
-function removeInventoryItem(idx) {
-  const item = document.querySelector(`#inv-list li:nth-child(${idx + 1})`);
-  if (item) item.remove();
+function handleDragEnd(e) {
+  e.target.closest('.item-card')?.classList.remove('dragging');
+  document.querySelectorAll('.drop-zone-active').forEach(el => el.classList.remove('drop-zone-active'));
+  _dragItem = null;
+}
+
+function handleDragOver(e, zone) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const card = e.currentTarget;
+  if (!card.classList.contains('drop-zone-active')) {
+    card.classList.add('drop-zone-active');
+  }
+}
+
+function handleDragLeave(e) {
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    e.currentTarget.classList.remove('drop-zone-active');
+  }
+}
+
+async function handleDrop(e, targetZone) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drop-zone-active');
+  if (!_dragItem) return;
+
+  const { name, source, qty } = _dragItem;
+  if (source === targetZone) return;
+
+  if (source === 'inventory' && targetZone === 'equipped') {
+    equipItem(name);
+  } else if (source === 'equipped' && targetZone === 'inventory') {
+    unequipItem(name);
+  } else if (source === 'inventory' && targetZone === 'team') {
+    await shareToTeam(name, qty);
+  } else if (source === 'team' && targetZone === 'inventory') {
+    const teamCard = document.querySelector(`.team-item-card[data-item-name="${CSS.escape(name)}"]`);
+    const itemId = teamCard?.dataset?.itemId;
+    if (itemId) await claimTeamItem(parseInt(itemId), name);
+  }
+  _dragItem = null;
+}
+
+// ── Delete inventory item ──
+function deleteInventoryItem(name) {
+  if (!confirm(`Remove "${name}" from inventory?`)) return;
+  const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
+  if (card) card.remove();
   saveInventory();
 }
 
-async function saveInventory() {
-  const items = [];
-  let hasEmpty = false;
-  document.querySelectorAll('#inv-list .inv-item').forEach(li => {
-    const nameEl = li.querySelector('input[type="text"]');
-    const qtyEl = li.querySelector('input[type="number"]');
-    if (nameEl) {
-      const name = nameEl.value.trim();
-      if (name) {
-        items.push({ name, qty: parseInt(qtyEl?.value) || 1 });
-      } else {
-        hasEmpty = true;
-      }
-    }
-  });
-  // Don't save if any name is empty — prevents accidental data loss
-  // Use the delete (✕) button instead to remove items
-  if (hasEmpty) return;
-
-  // Remove zero-qty items from inventory and auto-unequip them
-  const zeroQtyNames = items.filter(i => i.qty < 1).map(i => i.name);
-  if (zeroQtyNames.length) {
-    equippedItems = equippedItems.filter(n => !zeroQtyNames.includes(n));
-  }
-  const activeItems = items.filter(i => i.qty > 0);
-
-  _invSavePending = true;
-  try {
-    await api('/update', {
-      inventory: JSON.stringify(activeItems),
-      equipped: JSON.stringify(equippedItems)
-    });
-    renderEquipped();
-  } finally {
-    _invSavePending = false;
-  }
-}
-
-// Debounced auto-save for name/qty input changes
-let invSaveTimeout = null;
+// ── Save inventory (card-based) ──
 let _invSavePending = false;
-function autoSaveInventory() {
-  clearTimeout(invSaveTimeout);
-  invSaveTimeout = setTimeout(saveInventory, 200);
-}
-
-// ── Flush pending save on page unload (reload, navigate away) ──
-window.addEventListener('beforeunload', () => {
-  // Flush any pending debounced save
-  if (invSaveTimeout) {
-    clearTimeout(invSaveTimeout);
-    invSaveTimeout = null;
-    const items = [];
-    document.querySelectorAll('#inv-list .inv-item').forEach(li => {
-      const nameEl = li.querySelector('input[type="text"]');
-      const qtyEl = li.querySelector('input[type="number"]');
-      if (nameEl && nameEl.value.trim()) {
-        const qty = parseInt(qtyEl?.value) || 1;
-        if (qty > 0) items.push({ name: nameEl.value.trim(), qty });
-      }
-    });
-    const blob = new Blob([JSON.stringify({ inventory: JSON.stringify(items) })], {type: 'application/json'});
-    navigator.sendBeacon('/api/character/' + CHAR_ID + '/update', blob);
-  }
-  // If a direct save (delete/add/qty) is still in-flight, sendBeacon with current DOM
-  if (_invSavePending) {
-    const items = [];
-    document.querySelectorAll('#inv-list .inv-item').forEach(li => {
-      const nameEl = li.querySelector('input[type="text"]');
-      const qtyEl = li.querySelector('input[type="number"]');
-      if (nameEl && nameEl.value.trim()) {
-        const qty = parseInt(qtyEl?.value) || 1;
-        if (qty > 0) items.push({ name: nameEl.value.trim(), qty });
-      }
-    });
-    const blob = new Blob([JSON.stringify({ inventory: JSON.stringify(items) })], {type: 'application/json'});
-    navigator.sendBeacon('/api/character/' + CHAR_ID + '/update', blob);
-  }
-});
-
-// ── Item Search Autocomplete ──
-let searchTimeout = null;
-
-function toggleItemSearch() {
-  const bar = document.getElementById('item-search-bar');
-  const input = document.getElementById('item-search-input');
-  const visible = bar.style.display === 'block';
-  bar.style.display = visible ? 'none' : 'block';
-  if (!visible) {
-    input.value = '';
-    input.focus();
-    document.getElementById('item-search-results').style.display = 'none';
-  }
-}
-
-async function searchItems(query) {
-  clearTimeout(searchTimeout);
-  const results = document.getElementById('item-search-results');
-  
-  if (!query || query.trim().length < 2) {
-    results.style.display = 'none';
-    return;
-  }
-  
-  searchTimeout = setTimeout(async () => {
-    try {
-      const resp = await fetch(`/api/items/search?q=${encodeURIComponent(query.trim())}&limit=12`);
-      const data = await resp.json();
-      
-      if (!data.results || !data.results.length) {
-        results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No items found</div>';
-        results.style.display = 'block';
-        return;
-      }
-      
-      results.innerHTML = data.results.map(item => {
-        const name = item.name.replace(/'/g, "\\'");
-        return `<div class="search-result-row" onclick="selectItem('${name}')" 
-          style="padding:0.4rem 0.6rem;cursor:pointer;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;align-items:center"
-          onmouseenter="this.style.background='var(--bg)'" 
-          onmouseleave="this.style.background='none'">
-          <span>${item.name}</span>
-          <span style="font-size:0.65rem;color:var(--text-muted)">${item.type}</span>
-        </div>`;
-      }).join('');
-      results.style.display = 'block';
-    } catch(e) {
-      results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">Search unavailable</div>';
-      results.style.display = 'block';
-    }
-  }, 200);
-}
-
-function handleSearchKey(event) {
-  if (event.key === 'Enter') {
-    const first = document.querySelector('#item-search-results .search-result-row');
-    if (first) first.click();
-  } else if (event.key === 'Escape') {
-    toggleItemSearch();
-  }
-}
-
-async function selectItem(name) {
-  // Add item to inventory
-  const list = document.getElementById('inv-list');
-  const li = document.createElement('li');
-  li.className = 'inv-item';
-  li.style = 'padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center';
-  li.innerHTML = `<span style="display:flex;align-items:center;flex:1;min-width:0">
-    <input type="text" value="${name.replace(/"/g, '&quot;')}" style="background:transparent;border:none;color:var(--text);font-size:0.9rem;flex:1;padding:0.2rem 0;min-width:0" onchange="autoSaveInventory();tagWeapons()">
-    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
-    <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
-    <span class="arm-badge" style="display:none">🛡️ Armor</span>
-    <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
-  </span>
-    <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
-    <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
-    <button class="btn btn-outline btn-sm" onclick="this.closest('li').remove();saveInventory()" style="font-size:0.7rem;padding:0.1rem 0.4rem;margin-left:0.3rem">✕</button>`;
-  list.appendChild(li);
-  // Hide empty text
-  const empty = list.nextElementSibling;
-  if (empty && empty.tagName === 'P') empty.style.display = 'none';
+async function saveInventory() {
+  if (_invSavePending) return;
+  _invSavePending = true;
+  await new Promise(r => setTimeout(r, 50));
+  const items = [];
+  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+    const nameEl = card.querySelector('.item-card-name');
+    const qtyBadge = card.querySelector('.item-qty');
+    const name = (nameEl?.value || nameEl?.textContent || '').trim();
+    if (!name) return;
+    const qty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
+    items.push({ name, qty });
+  });
+  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+    const nameEl = card.querySelector('.item-card-name');
+    if (!(nameEl?.value || nameEl?.textContent || '').trim()) card.remove();
+  });
+  const emptyEl = document.getElementById('inv-empty');
+  if (emptyEl) emptyEl.style.display = items.length === 0 ? 'block' : 'none';
+  await api('/update', { inventory: JSON.stringify(items) });
   tagWeapons();
-  // Close search
-  toggleItemSearch();
-  // Auto-save (await so item persists before navigating away)
-  await saveInventory();
+  _invSavePending = false;
 }
-initEditable();
-tagWeapons();
-renderEquipped();
+
+function autoSaveInventory() {
+  clearTimeout(window._invSaveTimeout);
+  window._invSaveTimeout = setTimeout(saveInventory, 600);
+}
+
+// ── Add inventory item (card-based) ──
+function addInventoryItem() {
+  const list = document.getElementById('inv-list');
+  const emptyEl = document.getElementById('inv-empty');
+  if (emptyEl) emptyEl.style.display = 'none';
+  const card = document.createElement('div');
+  card.className = 'item-card';
+  card.draggable = true;
+  card.setAttribute('ondragstart', "handleDragStart(event, this.querySelector('.item-card-name').value, 'inventory', 1)");
+  card.setAttribute('ondragend', 'handleDragEnd(event)');
+  card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
+    <input type="text" placeholder="Item name" class="item-card-name"
+      onchange="autoSaveInventory();tagWeapons()"
+      onfocus="this.closest('.item-card').classList.add('editing')"
+      onblur="this.closest('.item-card').classList.remove('editing')">
+    <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
+    <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+    <span class="arm-badge item-tag" style="display:none">🛡️</span>
+    <button class="item-card-btn" onclick="equipItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Equip">⬆️</button>
+    ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Share to team">↗</button>` : ''}
+    <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>`;
+  list.appendChild(card);
+  card.querySelector('.item-card-name').focus();
+}
+
+function selectItem(name) {
+  const list = document.getElementById('inv-list');
+  const emptyEl = document.getElementById('inv-empty');
+  if (emptyEl) emptyEl.style.display = 'none';
+  const existing = list.querySelector(`.item-card[data-item-name="${CSS.escape(name)}"]`);
+  if (existing) {
+    const qtyBadge = existing.querySelector('.item-qty');
+    if (qtyBadge) {
+      qtyBadge.textContent = parseInt(qtyBadge.textContent) + 1;
+    } else {
+      const span = document.createElement('span');
+      span.className = 'item-qty';
+      span.textContent = '2';
+      existing.insertBefore(span, existing.querySelector('.item-card-btn'));
+    }
+  } else {
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.draggable = true;
+    card.setAttribute('data-item-name', name);
+    card.setAttribute('ondragstart', `handleDragStart(event, '${name.replace(/'/g, "\\'")}', 'inventory', 1)`);
+    card.setAttribute('ondragend', 'handleDragEnd(event)');
+    card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
+      <input type="text" value="${name.replace(/"/g, '&quot;')}" class="item-card-name"
+        onchange="autoSaveInventory();tagWeapons()"
+        onfocus="this.closest('.item-card').classList.add('editing')"
+        onblur="this.closest('.item-card').classList.remove('editing')">
+      <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('${name.replace(/'/g, "\\'")}')" title="Info">ℹ️</button>
+      <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+      <span class="arm-badge item-tag" style="display:none">🛡️</span>
+      <button class="item-card-btn" onclick="equipItem('${name.replace(/'/g, "\\'")}')" title="Equip">⬆️</button>
+      ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam('${name.replace(/'/g, "\\'")}', 1)" title="Share to team">↗</button>` : ''}
+      <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('${name.replace(/'/g, "\\'")}')" title="Delete">✕</button>`;
+    list.appendChild(card);
+  }
+  toggleItemSearch();
+  saveInventory();
+}
 
 // ── Level Up Wizard ───────────────────────────────────────────────────
 let luData = null;
@@ -3382,10 +3508,12 @@ const _origSwitchTab = switchTab;
 switchTab = function(name) {
   _origSwitchTab(name);
   if (name === 'history') loadRelationships();
+  if (name === 'inventory' && CAMPAIGN_ID) setTimeout(loadTeamItems, 100);
 };
 
 // Also trigger on initial load if history was saved tab
 if (savedTab === 'history') setTimeout(loadRelationships, 300);
+if (savedTab === 'inventory' && CAMPAIGN_ID) setTimeout(loadTeamItems, 300);
 
 // ── De-Level Wizard ───────────────────────────────────────────────────
 let dlData = null;

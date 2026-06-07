@@ -588,6 +588,17 @@ def init_db():
             FOREIGN KEY (campaign_id) REFERENCES dm_campaigns(id) ON DELETE CASCADE,
             FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS campaign_team_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            campaign_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            qty INTEGER DEFAULT 1,
+            description TEXT DEFAULT '',
+            gp_value INTEGER DEFAULT 0,
+            added_by_user_id INTEGER,
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (campaign_id) REFERENCES dm_campaigns(id) ON DELETE CASCADE
+        );
         CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -640,6 +651,11 @@ def init_db():
     # Migration: class_levels for multiclass support
     try:
         db.execute("ALTER TABLE characters ADD COLUMN class_levels TEXT DEFAULT '{}'")
+    except sqlite3.OperationalError:
+        pass
+    # Migration: attuned_items for item attunement tracking
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN attuned_items TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
     # Backfill: populate class_levels from class_name + level for existing characters
@@ -2185,6 +2201,227 @@ async def dm_user_characters(request: Request):
     return JSONResponse({"characters": rows})
 
 
+# ── Routes: Campaign Team Items ─────────────────────────────────────────────
+
+@app.get("/api/character/{char_id}/campaign", response_class=JSONResponse)
+async def character_campaign(char_id: int, request: Request):
+    """Get the campaign this character belongs to (if any)."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("""
+        SELECT c.id, c.name, c.user_id as dm_user_id
+        FROM dm_campaigns c
+        JOIN dm_campaign_characters cc ON cc.campaign_id = c.id
+        WHERE cc.character_id = ?
+    """, (char_id,)).fetchone()
+    db.close()
+    if not row:
+        return JSONResponse({"campaign": None})
+    return JSONResponse({"campaign": {"id": row[0], "name": row[1], "dm_user_id": row[2]}})
+
+
+@app.get("/api/campaign/{camp_id}/team-items", response_class=JSONResponse)
+async def campaign_team_items(camp_id: int, request: Request):
+    """List all team items for a campaign (any campaign member can view)."""
+    user = require_user(request)
+    db = get_db()
+    # Verify user is in this campaign (either DM or has a character in it)
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
+                       (camp_id, user["id"])).fetchone()
+    is_member = db.execute("""
+        SELECT 1 FROM dm_campaign_characters cc
+        JOIN characters ch ON ch.id = cc.character_id
+        WHERE cc.campaign_id = ? AND ch.user_id = ?
+    """, (camp_id, user["id"])).fetchone()
+    if not is_dm and not is_member:
+        db.close()
+        return JSONResponse({"error": "Not a member of this campaign"}, status_code=403)
+
+    items = [dict(r) for r in db.execute(
+        "SELECT * FROM campaign_team_items WHERE campaign_id=? ORDER BY created_at DESC",
+        (camp_id,)
+    ).fetchall()]
+    db.close()
+    return JSONResponse({"items": items})
+
+
+@app.post("/api/campaign/{camp_id}/team-items", response_class=JSONResponse)
+async def campaign_add_team_item(camp_id: int, request: Request):
+    """Add an item to the campaign team pool (DM or player)."""
+    user = require_user(request)
+    data = await request.json()
+    name = (data.get("name") or "").strip()
+    if not name:
+        return JSONResponse({"error": "Item name required"}, status_code=400)
+    qty = max(1, int(data.get("qty", 1)))
+    gp_value = int(data.get("gp_value", 0))
+
+    db = get_db()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
+                       (camp_id, user["id"])).fetchone()
+    is_member = db.execute("""
+        SELECT 1 FROM dm_campaign_characters cc
+        JOIN characters ch ON ch.id = cc.character_id
+        WHERE cc.campaign_id = ? AND ch.user_id = ?
+    """, (camp_id, user["id"])).fetchone()
+    if not is_dm and not is_member:
+        db.close()
+        return JSONResponse({"error": "Not a member of this campaign"}, status_code=403)
+
+    cur = db.execute(
+        "INSERT INTO campaign_team_items (campaign_id, name, qty, gp_value, added_by_user_id) VALUES (?,?,?,?,?)",
+        (camp_id, name, qty, gp_value, user["id"])
+    )
+    db.commit()
+    item_id = cur.lastrowid
+    db.close()
+    return JSONResponse({"ok": True, "id": item_id})
+
+
+@app.post("/api/campaign/{camp_id}/team-items/{item_id}/claim", response_class=JSONResponse)
+async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request):
+    """Claim a team item — moves it to the claiming character's inventory."""
+    user = require_user(request)
+    data = await request.json()
+    char_id = int(data.get("character_id", 0))
+    if not char_id:
+        return JSONResponse({"error": "character_id required"}, status_code=400)
+
+    db = get_db()
+    # Verify character belongs to user
+    char = db.execute("SELECT id, inventory FROM characters WHERE id=? AND user_id=?",
+                      (char_id, user["id"])).fetchone()
+    if not char:
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
+
+    # Verify character is in the campaign
+    member = db.execute(
+        "SELECT 1 FROM dm_campaign_characters WHERE campaign_id=? AND character_id=?",
+        (camp_id, char_id)
+    ).fetchone()
+    if not member:
+        db.close()
+        return JSONResponse({"error": "Character is not in this campaign"}, status_code=403)
+
+    # Get the team item
+    item = db.execute(
+        "SELECT id, name, qty FROM campaign_team_items WHERE id=? AND campaign_id=?",
+        (item_id, camp_id)
+    ).fetchone()
+    if not item:
+        db.close()
+        return JSONResponse({"error": "Item not found"}, status_code=404)
+
+    item_name, item_qty = item[1], item[2]
+
+    # Add to character inventory
+    inv = json.loads(char[1] or "[]")
+    # Check if already has this item — stack if so
+    found = False
+    for inv_item in inv:
+        if isinstance(inv_item, dict) and inv_item.get("name", "").lower() == item_name.lower():
+            inv_item["qty"] = inv_item.get("qty", 1) + item_qty
+            found = True
+            break
+    if not found:
+        inv.append({"name": item_name, "qty": item_qty})
+    db.execute("UPDATE characters SET inventory=? WHERE id=?", (json.dumps(inv), char_id))
+
+    # Remove from team pool (or decrement qty)
+    if item_qty > 1 and data.get("take_all") is not True:
+        db.execute("UPDATE campaign_team_items SET qty=qty-1 WHERE id=?", (item_id,))
+    else:
+        db.execute("DELETE FROM campaign_team_items WHERE id=?", (item_id,))
+
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "added": item_name, "qty": 1 if item_qty > 1 and data.get("take_all") is not True else item_qty})
+
+
+@app.post("/api/character/{char_id}/share-to-team", response_class=JSONResponse)
+async def character_share_to_team(char_id: int, request: Request):
+    """Move an item from character inventory to the campaign team pool."""
+    user = require_user(request)
+    data = await request.json()
+    item_name = (data.get("name") or "").strip()
+    if not item_name:
+        return JSONResponse({"error": "Item name required"}, status_code=400)
+
+    db = get_db()
+    char = db.execute("SELECT id, inventory, user_id FROM characters WHERE id=?",
+                      (char_id,)).fetchone()
+    if not char:
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
+
+    # Find the campaign this character is in
+    camp = db.execute("""
+        SELECT campaign_id FROM dm_campaign_characters WHERE character_id=?
+    """, (char_id,)).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Character is not in a campaign"}, status_code=400)
+
+    camp_id = camp[0]
+
+    # Find and remove item from inventory
+    inv = json.loads(char[1] or "[]")
+    qty_to_share = int(data.get("qty", 1))
+    removed = None
+    new_inv = []
+    for inv_item in inv:
+        if isinstance(inv_item, dict) and inv_item.get("name", "").lower() == item_name.lower():
+            current_qty = inv_item.get("qty", 1)
+            if qty_to_share >= current_qty:
+                removed = {"name": inv_item["name"], "qty": current_qty}
+                continue  # remove entirely
+            else:
+                inv_item["qty"] = current_qty - qty_to_share
+                removed = {"name": inv_item["name"], "qty": qty_to_share}
+        new_inv.append(inv_item)
+
+    if not removed:
+        db.close()
+        return JSONResponse({"error": "Item not found in inventory"}, status_code=404)
+
+    db.execute("UPDATE characters SET inventory=? WHERE id=?", (json.dumps(new_inv), char_id))
+
+    # Check if item already exists in team pool — stack
+    existing = db.execute(
+        "SELECT id, qty FROM campaign_team_items WHERE campaign_id=? AND LOWER(name)=LOWER(?)",
+        (camp_id, removed["name"])
+    ).fetchone()
+    if existing:
+        db.execute("UPDATE campaign_team_items SET qty=qty+? WHERE id=?",
+                   (removed["qty"], existing[0]))
+    else:
+        db.execute(
+            "INSERT INTO campaign_team_items (campaign_id, name, qty, added_by_user_id) VALUES (?,?,?,?)",
+            (camp_id, removed["name"], removed["qty"], user["id"])
+        )
+
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "shared": removed["name"], "qty": removed["qty"]})
+
+
+@app.delete("/api/campaign/{camp_id}/team-items/{item_id}", response_class=JSONResponse)
+async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request):
+    """Remove a team item (DM only)."""
+    user = require_user(request)
+    db = get_db()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
+                       (camp_id, user["id"])).fetchone()
+    if not is_dm:
+        db.close()
+        return JSONResponse({"error": "Only the DM can remove team items"}, status_code=403)
+    db.execute("DELETE FROM campaign_team_items WHERE id=? AND campaign_id=?", (item_id, camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
 # ── Routes: Character Sheet ────────────────────────────────────────────────
 
 @app.get("/character/{char_id}", response_class=HTMLResponse)
@@ -2204,6 +2441,11 @@ async def character_sheet(char_id: int, request: Request):
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
             char[f] = []
+    # Load attuned_items
+    try:
+        char["attuned_items"] = json.loads(char.get("attuned_items") or "[]")
+    except (json.JSONDecodeError, TypeError):
+        char["attuned_items"] = []
     # Load enriched build data
     for f in ("feature_data", "attacks_data", "spell_slot_data"):
         try:
@@ -2284,13 +2526,50 @@ async def character_sheet(char_id: int, request: Request):
         if fd:
             feature_defenses.append({"name": fname, **fd})
 
+    # Item-granted effects (equipped + attuned)
+    item_effects = compute_item_effects(
+        char.get("equipped", []),
+        char.get("attuned_items", []),
+        char.get("inventory", [])
+    )
+
+    # Build attunement lookup for JS — which equipped/inventory items need attunement
+    item_attunement_json = {}
+    for inv_item in char.get("inventory", []):
+        name = inv_item.get("name", "") if isinstance(inv_item, dict) else str(inv_item)
+        if name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[name.lower()]:
+            item_attunement_json[name] = True
+    for eq_name in char.get("equipped", []):
+        if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
+            item_attunement_json[eq_name] = True
+    item_attunement_json = json.dumps(item_attunement_json)
+
+    # Build a dict version for template use (checking attunement on equipped items)
+    item_attunement_dict = {}
+    for eq_name in char.get("equipped", []):
+        if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
+            item_attunement_dict[eq_name] = True
+
+    # Check if character is in a campaign
+    db2 = get_db()
+    campaign_row = db2.execute("""
+        SELECT c.id, c.name FROM dm_campaigns c
+        JOIN dm_campaign_characters cc ON cc.campaign_id = c.id
+        WHERE cc.character_id = ?
+    """, (char_id,)).fetchone()
+    db2.close()
+    campaign_info = {"id": campaign_row[0], "name": campaign_row[1]} if campaign_row else None
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
                    sc_mod=sc_mod, class_levels=class_levels_data,
-                   feature_defenses=feature_defenses)
+                   feature_defenses=feature_defenses, item_effects=item_effects,
+                   item_attunement_json=item_attunement_json,
+                   item_attunement_dict=item_attunement_dict,
+                   campaign_info=campaign_info)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -2318,6 +2597,7 @@ async def update_character(char_id: int, request: Request):
         "skills","save_proficiencies","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
         "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
+        "attuned_items",
     }
     updates = {}
     for k, v in data.items():
@@ -2369,6 +2649,59 @@ async def toggle_prepared(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+@app.post("/api/character/{char_id}/toggle-attune", response_class=JSONResponse)
+async def toggle_attune(char_id: int, request: Request):
+    """Toggle attunement for an equipped item. Max 3 attuned items (PHB p.138)."""
+    user = require_user(request)
+    data = await request.json()
+    item_name = data.get("item", "").strip()
+    if not item_name:
+        return JSONResponse({"error": "Missing item name"}, status_code=400)
+
+    db = get_db()
+    row = db.execute(
+        "SELECT attuned_items, equipped, user_id FROM characters WHERE id = ?",
+        (char_id,)
+    ).fetchone()
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
+
+    attuned = json.loads(row[0] or "[]")
+    equipped = json.loads(row[1] or "[]")
+    item_lower = item_name.lower()
+
+    # Check if item is equipped
+    if item_name not in equipped:
+        db.close()
+        return JSONResponse({"error": "Item is not equipped"}, status_code=400)
+
+    # Check if item requires attunement
+    props = ITEM_PROPERTIES.get(item_lower, {})
+    if not props.get("requires_attunement"):
+        db.close()
+        return JSONResponse({"error": "This item does not require attunement"}, status_code=400)
+
+    if item_name in attuned:
+        # Break attunement
+        attuned.remove(item_name)
+        action = "broken"
+    else:
+        # Attune — check slot limit (max 3)
+        if len(attuned) >= 3:
+            db.close()
+            return JSONResponse({"error": "Attunement slots full (max 3, PHB p.138). Break attunement to another item first."}, status_code=400)
+        attuned.append(item_name)
+        action = "attuned"
+
+    db.execute("UPDATE characters SET attuned_items = ? WHERE id = ?",
+               (json.dumps(attuned), char_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "action": action, "attuned": attuned,
+                         "slots_used": len(attuned)})
+
 
 @app.post("/api/character/{char_id}/use-feature", response_class=JSONResponse)
 async def use_feature(char_id: int, request: Request):
@@ -4236,6 +4569,209 @@ FEATURE_DEFENSES = {
     "Totem Spirit: Bear": {"resist": ["All except Psychic"], "note": "while raging"},
     "Empty Body": {"resist": ["All except Force"], "note": "while invisible (4 ki, 1 min)"},
 }
+
+# ── Item Attunement & Properties (PHB 2014 p.136-138) ──
+# Auto-built at startup from SRD magic items desc text.
+# Items that say "requires attunement" in their description.
+ITEM_ATTUNEMENT: dict[str, bool] = {}
+
+# Item → mechanical effects when equipped AND attuned (if required).
+# Keys are lowercase item names. Properties merged into character sheet.
+# Supported keys: resist, immune, ac_bonus, save_bonus,
+#   str_override, dex_override, con_override, int_override, wis_override, cha_override,
+#   str_bonus, con_bonus, adv_skill, note
+ITEM_PROPERTIES: dict[str, dict] = {}
+
+
+def _build_item_properties():
+    """Parse SRD magic items for attunement + known property patterns."""
+    global ITEM_ATTUNEMENT, ITEM_PROPERTIES
+    import re
+
+    # ── Attunement detection from desc ──
+    for item in SRD_MAGIC_ITEMS:
+        name = item.get("name", "")
+        if not name:
+            continue
+        desc = " ".join(item.get("desc", []))
+        ITEM_ATTUNEMENT[name.lower()] = "requires attunement" in desc.lower()
+
+    # ── Hand-curated item properties ──
+    _props = {
+        # === Resistance items ===
+        "armor of resistance": {
+            "resist": ["*"], "note": "One type (GM chooses). Requires attunement.",
+        },
+        "ring of resistance": {
+            "resist": ["*"], "note": "One type (gem indicates). Requires attunement.",
+        },
+        "ring of warmth": {"resist": ["Cold"]},
+        "boots of the winterlands": {"resist": ["Cold"]},
+        "armor of invulnerability": {
+            "resist": ["Bludgeoning", "Piercing", "Slashing"],
+            "note": "Nonmagical only. Requires attunement.",
+        },
+        "brooch of shielding": {
+            "immune": ["Force"],
+            "note": "Also immune to Magic Missile. Requires attunement.",
+        },
+        "belt of dwarvenkind": {
+            "con_bonus": 2, "resist": ["Poison"],
+            "adv_skill": "Persuasion (dwarves)",
+            "note": "Also 50% chance to grow beard. Requires attunement.",
+        },
+        "dragon scale mail": {
+            "resist": ["*"], "note": "Matches dragon color. Requires attunement.",
+        },
+        "ring of evasion": {"note": "3 charges, Dex save → half/no damage. Requires attunement."},
+        "ring of feather falling": {"note": "Falls at 60 ft/round, no fall damage. Requires attunement."},
+        "ring of free action": {"note": "Immune to difficult terrain, paralysis, restraint. Requires attunement."},
+        "periapt of proof against poison": {"immune": ["Poison", "Poisoned"]},
+        "periapt of wound closure": {"note": "Stabilize at start of turn, double HP from HD. Requires attunement."},
+
+        # === Ability score items ===
+        "belt of hill giant strength": {"str_override": 21},
+        "belt of stone giant strength": {"str_override": 23},
+        "belt of frost giant strength": {"str_override": 23},
+        "belt of fire giant strength": {"str_override": 25},
+        "belt of cloud giant strength": {"str_override": 27},
+        "belt of storm giant strength": {"str_override": 29},
+        "gauntlets of ogre power": {"str_override": 19},
+        "headband of intellect": {"int_override": 19},
+        "amulet of health": {"con_override": 19},
+        "ioun stone of strength": {"str_bonus": 2},
+        "ioun stone of dexterity": {"dex_bonus": 2},
+        "ioun stone of constitution": {"con_bonus": 2},
+        "ioun stone of intelligence": {"int_bonus": 2},
+        "ioun stone of wisdom": {"wis_bonus": 2},
+        "ioun stone of charisma": {"cha_bonus": 2},
+        "manual of bodily health": {"con_bonus": 2, "note": "Permanent. +2 max CON."},
+        "manual of gainful exercise": {"str_bonus": 2, "note": "Permanent. +2 max STR."},
+        "manual of quickness of action": {"dex_bonus": 2, "note": "Permanent. +2 max DEX."},
+        "tome of clear thought": {"int_bonus": 2, "note": "Permanent. +2 max INT."},
+        "tome of leadership and influence": {"cha_bonus": 2, "note": "Permanent. +2 max CHA."},
+        "tome of understanding": {"wis_bonus": 2, "note": "Permanent. +2 max WIS."},
+
+        # === AC / Save bonuses ===
+        "ring of protection": {"ac_bonus": 1, "save_bonus": 1},
+        "cloak of protection": {"ac_bonus": 1, "save_bonus": 1},
+        "ioun stone of protection": {"ac_bonus": 1, "save_bonus": 1},
+        "cloak of displacement": {"note": "Disadvantage on attacks vs you. Requires attunement."},
+        "bracers of defense": {"ac_bonus": 2, "note": "Only when wearing no armor/shield. Requires attunement."},
+
+        # === Skill / utility items ===
+        "boots of elvenkind": {"adv_skill": "Stealth (moving silently)"},
+        "cloak of elvenkind": {"adv_skill": "Stealth (hiding)"},
+        "gloves of thievery": {"adv_skill": "Sleight of Hand, Thieves' Tools"},
+        "eyes of the eagle": {"adv_skill": "Perception (sight)"},
+        "stone of good luck": {"save_bonus": 1, "adv_skill": "Ability checks +1"},
+        "luck blade": {"save_bonus": "1 (reroll 1/day)", "note": "Also has wishes. Requires attunement."},
+
+        # === Armor of Vulnerability (negative property) ===
+        "armor of vulnerability": {
+            "resist": ["*"],
+            "note": "Resist one type BUT vulnerable to two others. Requires attunement.",
+        },
+
+        # === Cursed items ===
+        "shield of missile attraction": {
+            "resist": ["Ranged weapon damage"],
+            "note": "Also attracts ALL ranged attacks within 10 ft. Cursed. Requires attunement.",
+        },
+        "armor of vulnerability (slashing)": {
+            "resist": ["Slashing"],
+            "note": "Vulnerable to Bludgeoning and Piercing.",
+        },
+    }
+
+    for k, v in _props.items():
+        if "requires_attunement" not in v:
+            # Infer from ITEM_ATTUNEMENT if not explicitly set
+            v["requires_attunement"] = ITEM_ATTUNEMENT.get(k, False)
+        ITEM_PROPERTIES[k] = v
+
+    # ── Auto-detect remaining attunement-only items (no curated properties yet) ──
+    for name, needs_attune in ITEM_ATTUNEMENT.items():
+        if needs_attune and name not in ITEM_PROPERTIES:
+            ITEM_PROPERTIES[name] = {"requires_attunement": True, "note": ""}
+
+
+def compute_item_effects(equipped: list[str], attuned: list[str],
+                         inventory: list[dict] = None) -> dict:
+    """Compute combined mechanical effects from equipped+attuned items.
+
+    Args:
+        equipped: list of equipped item names
+        attuned: list of attuned item names
+        inventory: full inventory list (for item lookup with quantities)
+
+    Returns dict with keys: resist, immune, ac_bonus, save_bonus,
+        str_override, dex_override, con_override, int_override, wis_override, cha_override,
+        str_bonus, dex_bonus, con_bonus, int_bonus, wis_bonus, cha_bonus,
+        adv_skills (list), notes (list), attunement_slots_used (int)
+    """
+    result = {
+        "resist": [], "immune": [],
+        "ac_bonus": 0, "save_bonus": 0,
+        "str_override": None, "dex_override": None, "con_override": None,
+        "int_override": None, "wis_override": None, "cha_override": None,
+        "str_bonus": 0, "dex_bonus": 0, "con_bonus": 0,
+        "int_bonus": 0, "wis_bonus": 0, "cha_bonus": 0,
+        "adv_skills": [], "notes": [],
+        "attunement_slots_used": 0,
+    }
+    attuned_set = set(a.lower() for a in attuned)
+
+    for item_name in equipped:
+        key = item_name.lower()
+        props = ITEM_PROPERTIES.get(key, {})
+        if not props:
+            continue
+
+        # Attunement gating
+        if props.get("requires_attunement"):
+            if key not in attuned_set:
+                continue  # skip — equipped but not attuned
+            result["attunement_slots_used"] += 1
+
+        # Resistances / immunities
+        for r in props.get("resist", []):
+            if r not in result["resist"]:
+                result["resist"].append(r)
+        for i in props.get("immune", []):
+            if i not in result["immune"]:
+                result["immune"].append(i)
+
+        # AC / save bonuses
+        result["ac_bonus"] += props.get("ac_bonus", 0)
+        if isinstance(props.get("save_bonus"), (int, float)):
+            result["save_bonus"] += props["save_bonus"]
+
+        # Ability overrides (highest wins)
+        for abv in ["str", "dex", "con", "int", "wis", "cha"]:
+            ov_key = f"{abv}_override"
+            if props.get(ov_key):
+                current = result[ov_key]
+                if current is None or props[ov_key] > current:
+                    result[ov_key] = props[ov_key]
+
+        # Ability bonuses (stackable)
+        for abv in ["str", "dex", "con", "int", "wis", "cha"]:
+            bon_key = f"{abv}_bonus"
+            result[bon_key] += props.get(bon_key, 0)
+
+        # Skill advantage
+        if props.get("adv_skill"):
+            result["adv_skills"].append(f"{item_name}: {props['adv_skill']}")
+
+        # Notes
+        if props.get("note"):
+            result["notes"].append(f"{item_name}: {props['note']}")
+
+    return result
+
+# Initialize item properties at module load
+_build_item_properties()
 
 
 def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None) -> list[dict]:
