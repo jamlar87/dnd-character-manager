@@ -454,6 +454,11 @@
         {% if character.condition_immunities %}
         {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">🛡️ {{ c }}</span>{% endfor %}
         {% endif %}
+        <!-- Feature-derived defenses (e.g. Rage → B/P/S resist) -->
+        {% for fd in feature_defenses %}
+        {% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}
+        {% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}
+        {% endfor %}
         <!-- Saving Throw Proficiencies -->
         {% if character.save_proficiencies %}
         {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}

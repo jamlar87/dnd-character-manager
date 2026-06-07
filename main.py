@@ -2275,12 +2275,22 @@ async def character_sheet(char_id: int, request: Request):
     spells_known_max = get_spells_known_max(class_name, level)
     cantrips_max = get_cantrips_known_max(class_name, level)
 
+    # Feature-derived defenses (e.g. Rage → B/P/S resist)
+    feature_defenses = []
+    for fname in char.get("features", []):
+        # Strip "LN: " prefix (features stored as "L1: Rage")
+        bare_name = fname.split(": ", 1)[-1] if ": " in fname else fname
+        fd = FEATURE_DEFENSES.get(bare_name)
+        if fd:
+            feature_defenses.append({"name": fname, **fd})
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
-                   sc_mod=sc_mod, class_levels=class_levels_data)
+                   sc_mod=sc_mod, class_levels=class_levels_data,
+                   feature_defenses=feature_defenses)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -4217,6 +4227,15 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
         desc = " ".join(item.get("desc", []))
         result.append({"name": name, "rarity": rarity, "description": desc})
     return result
+
+# ── Feature → Defense Mappings (PHB 2014) ──
+# Maps feature names to resistances/immunities they grant.
+# Format: {"resist": [...], "immune": [...], "note": "while raging"}
+FEATURE_DEFENSES = {
+    "Rage": {"resist": ["Bludgeoning", "Piercing", "Slashing"], "note": "while raging"},
+    "Totem Spirit: Bear": {"resist": ["All except Psychic"], "note": "while raging"},
+    "Empty Body": {"resist": ["All except Force"], "note": "while invisible (4 ki, 1 min)"},
+}
 
 
 def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None) -> list[dict]:
