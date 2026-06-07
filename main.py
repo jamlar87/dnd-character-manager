@@ -2424,7 +2424,7 @@ async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request
 
 @app.post("/api/campaign/{camp_id}/roll-loot", response_class=JSONResponse)
 async def campaign_roll_loot(camp_id: int, request: Request):
-    """Roll a treasure hoard (DMG 2014 p.137-139) and add to team pool."""
+    """Roll a treasure hoard (DMG 2014 p.137-139) and return results. Items are NOT auto-added to pool — the DM picks which to keep."""
     user = require_user(request)
     db = get_db()
     is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
@@ -2440,22 +2440,6 @@ async def campaign_roll_loot(camp_id: int, request: Request):
         return JSONResponse({"error": "Invalid CR bracket"}, status_code=400)
 
     hoard = roll_treasure_hoard(cr_bracket)
-
-    # Auto-add coins as gold pieces item
-    if hoard["total_gp_value"] > 0:
-        db.execute(
-            "INSERT INTO campaign_team_items (campaign_id, name, qty, gp_value, added_by_user_id) VALUES (?,?,?,?,?)",
-            (camp_id, "Gold (hoard)", 1, hoard["total_gp_value"], user["id"])
-        )
-
-    # Add magic items to team pool
-    for mi in hoard.get("magic_items", []):
-        db.execute(
-            "INSERT INTO campaign_team_items (campaign_id, name, qty, added_by_user_id) VALUES (?,?,?,?)",
-            (camp_id, mi["name"], 1, user["id"])
-        )
-
-    db.commit()
     db.close()
     return JSONResponse({"ok": True, "hoard": hoard})
 

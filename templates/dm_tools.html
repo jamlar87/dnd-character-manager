@@ -435,8 +435,16 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="11-16">CR 11–16</option>
       <option value="17+">CR 17+</option>
     </select>
-    <button class="btn btn-accent btn-sm" onclick="rollLoot()">🎲 Roll Loot</button>
+    <button class="btn btn-accent btn-sm" id="btnRollLoot" onclick="rollLoot()">🎲 Roll Loot</button>
+    <button class="btn btn-accent btn-sm" id="btnRerollLoot" onclick="rerollLoot()" style="display:none">🎲 Reroll Loot</button>
     <button class="btn btn-outline btn-sm" onclick="loadItemsPanel()">🔄 Refresh</button>
+  </div>
+  <div id="lootStaging" style="display:none;margin-bottom:0.75rem;padding:0.75rem;background:var(--card-bg);border:1px solid var(--accent);border-radius:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+      <strong id="lootStagingLabel">🎲 Loot Staging</strong>
+      <button class="btn btn-sm btn-primary" onclick="keepAllLoot()">📥 Keep All</button>
+    </div>
+    <div id="lootStagingItems" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2rem"></div>
   </div>
   <div id="itemsPanelContent" style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap">
     <div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>
@@ -1527,10 +1535,11 @@ async function deleteTeamItem(itemId) {
 }
 
 // ── Roll Loot ──
+let _currentHoard = null; // {coins: [], gems: [], magic_items: [], total_gp_value: N}
+
 async function rollLoot() {
   if (!_itemsCampId) return alert('Select a campaign first');
   const bracket = document.getElementById('lootCrBracket').value;
-  if (!confirm(`Roll a treasure hoard for CR ${bracket} and add to the team pool?`)) return;
   const resp = await fetch(`/api/campaign/${_itemsCampId}/roll-loot`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1538,26 +1547,144 @@ async function rollLoot() {
   });
   const data = await resp.json();
   if (data.ok) {
-    const h = data.hoard;
-    let msg = '🎲 Treasure Hoard Rolled!\\n\\n';
-    if (h.coins && h.coins.length) {
-      msg += '💰 Coins:\\n';
-      h.coins.forEach(c => msg += `  ${c.label} (≈${c.gp_value} gp)\\n`);
-    }
-    if (h.gems && h.gems.length) {
-      msg += '\\n💎 Gems/Art:\\n';
-      h.gems.forEach(g => msg += `  ${g.label}\\n`);
-    }
-    if (h.magic_items && h.magic_items.length) {
-      msg += '\\n✨ Magic Items:\\n';
-      h.magic_items.forEach(m => msg += `  ${m.name} (${m.rarity})\n`);
-    }
-    msg += `\\n📊 Total: ≈${h.total_gp_value.toLocaleString()} gp`;
-    alert(msg);
-    loadItemsPanel();
+    _currentHoard = data.hoard;
+    renderLootStaging(data.hoard, bracket);
+    document.getElementById('btnRollLoot').style.display = 'none';
+    document.getElementById('btnRerollLoot').style.display = '';
   } else {
     alert(data.error || 'Failed to roll loot');
   }
+}
+
+async function rerollLoot() {
+  if (!_itemsCampId) return alert('Select a campaign first');
+  const bracket = document.getElementById('lootCrBracket').value;
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/roll-loot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cr_bracket: bracket })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    _currentHoard = data.hoard;
+    renderLootStaging(data.hoard, bracket);
+  } else {
+    alert(data.error || 'Failed to reroll loot');
+  }
+}
+
+function renderLootStaging(hoard, bracket) {
+  const staging = document.getElementById('lootStaging');
+  const items = document.getElementById('lootStagingItems');
+  const label = document.getElementById('lootStagingLabel');
+  staging.style.display = '';
+  label.textContent = `🎲 Loot Staging — CR ${bracket}`;
+
+  let html = '';
+
+  // Coins
+  if (hoard.coins && hoard.coins.length) {
+    hoard.coins.forEach((c, i) => {
+      html += `<div class="item-card" style="border-color:#ffd700">
+        <span class="item-card-name">${c.label}</span>
+        <span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">≈${c.gp_value.toLocaleString()} gp</span>
+        <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('coin', ${i})" title="Keep">📥</button>
+      </div>`;
+    });
+  }
+
+  // Gems
+  if (hoard.gems && hoard.gems.length) {
+    hoard.gems.forEach((g, i) => {
+      html += `<div class="item-card" style="border-color:#00bcd4">
+        <span class="item-card-name">${g.label}</span>
+        <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('gem', ${i})" title="Keep">📥</button>
+      </div>`;
+    });
+  }
+
+  // Magic items
+  if (hoard.magic_items && hoard.magic_items.length) {
+    hoard.magic_items.forEach((m, i) => {
+      html += `<div class="item-card" style="border-color:#ce93d8">
+        <span class="item-card-name">${m.name}</span>
+        <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
+        <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
+      </div>`;
+    });
+  }
+
+  if (!html) {
+    html = '<span style="color:var(--text-muted);font-size:0.85rem">No treasure found — the hoard was empty!</span>';
+  }
+
+  items.innerHTML = html;
+}
+
+async function keepLootItem(type, index) {
+  if (!_currentHoard) return;
+
+  let name, gpValue = 0;
+
+  if (type === 'coin') {
+    const c = _currentHoard.coins[index];
+    name = c.label;
+    gpValue = c.gp_value;
+    // Remove from hoard
+    _currentHoard.coins.splice(index, 1);
+  } else if (type === 'gem') {
+    const g = _currentHoard.gems[index];
+    name = g.label;
+    _currentHoard.gems.splice(index, 1);
+  } else if (type === 'magic') {
+    const m = _currentHoard.magic_items[index];
+    name = m.name;
+    _currentHoard.magic_items.splice(index, 1);
+  }
+
+  // Add to team pool via API
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, qty: 1, gp_value: gpValue })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    // Re-render staging and pool
+    renderLootStaging(_currentHoard, document.getElementById('lootCrBracket').value);
+    loadItemsPanel();
+  } else {
+    alert(data.error || 'Failed to keep item');
+  }
+}
+
+async function keepAllLoot() {
+  if (!_currentHoard) return;
+  if (!confirm('Add ALL staged items to the team pool?')) return;
+
+  const items = [];
+  (_currentHoard.coins || []).forEach(c => items.push({ name: c.label, gp_value: c.gp_value }));
+  (_currentHoard.gems || []).forEach(g => items.push({ name: g.label, gp_value: 0 }));
+  (_currentHoard.magic_items || []).forEach(m => items.push({ name: m.name, gp_value: 0 }));
+
+  if (items.length === 0) return;
+
+  let failed = 0;
+  for (const item of items) {
+    const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: item.name, qty: 1, gp_value: item.gp_value })
+    });
+    if (!(await resp.json()).ok) failed++;
+  }
+
+  // Clear hoard and re-render
+  _currentHoard = { coins: [], gems: [], magic_items: [], total_gp_value: 0 };
+  renderLootStaging(_currentHoard, document.getElementById('lootCrBracket').value);
+  loadItemsPanel();
+
+  if (failed) alert(`${failed} item(s) failed to add.`);
 }
 </script>
 {% endblock %}
