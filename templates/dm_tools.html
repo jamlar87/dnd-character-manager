@@ -175,6 +175,26 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 }
 .item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 .item-card .item-card-del:hover { color: var(--danger); }
+
+/* Expandable item details */
+.item-card { flex-wrap: wrap; }
+.item-card .item-expand-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 0.5rem; padding: 0.1rem;
+  border-radius: 3px; line-height: 1; transition: transform 0.15s;
+}
+.item-card .item-expand-btn:hover { color: var(--text); }
+.item-card.expanded .item-expand-btn { transform: rotate(90deg); }
+.item-card .item-detail {
+  display: none; flex-basis: 100%; margin-top: 0.3rem; padding-top: 0.3rem;
+  border-top: 1px solid var(--border); font-size: 0.7rem; line-height: 1.45;
+  color: var(--text-muted); min-width: 180px;
+}
+.item-card.expanded .item-detail { display: block; }
+.item-card .item-detail .detail-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--text-muted); opacity: 0.6;
+}
 .drop-zone { transition: box-shadow 0.15s; }
 .drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
 {% endblock %}
@@ -1586,9 +1606,11 @@ function renderLootStaging(hoard, bracket) {
   if (hoard.coins && hoard.coins.length) {
     hoard.coins.forEach((c, i) => {
       html += `<div class="item-card" style="border-color:#ffd700">
+        <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${c.label}</span>
         <span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">≈${c.gp_value.toLocaleString()} gp</span>
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('coin', ${i})" title="Keep">📥</button>
+        <div class="item-detail"><span class="detail-label">Value</span> ≈${c.gp_value.toLocaleString()} gp (${c.amount} ${c.type})</div>
       </div>`;
     });
   }
@@ -1597,8 +1619,10 @@ function renderLootStaging(hoard, bracket) {
   if (hoard.gems && hoard.gems.length) {
     hoard.gems.forEach((g, i) => {
       html += `<div class="item-card" style="border-color:#00bcd4">
+        <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${g.label}</span>
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('gem', ${i})" title="Keep">📥</button>
+        <div class="item-detail"><span class="detail-label">Value</span> ${g.total_value.toLocaleString()} gp (${g.count} × ${g.value_per} gp each)</div>
       </div>`;
     });
   }
@@ -1606,10 +1630,17 @@ function renderLootStaging(hoard, bracket) {
   // Magic items
   if (hoard.magic_items && hoard.magic_items.length) {
     hoard.magic_items.forEach((m, i) => {
+      const attune = /requires attunement/i.test(m.description || '') ? ' ◆ Attunement required' : '';
+      const desc = (m.description || 'No description available.').replace(/'/g, "\\'");
       html += `<div class="item-card" style="border-color:#ce93d8">
+        <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${m.name}</span>
         <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
+        <div class="item-detail">
+          <span class="detail-label">Rarity</span> ${m.rarity}${attune ? '<br><span class="detail-label">Attunement</span>' + attune : ''}
+          <br><span style="font-size:0.65rem;line-height:1.4;color:var(--text)">${m.description || 'No description available.'}</span>
+        </div>
       </div>`;
     });
   }
@@ -1619,6 +1650,13 @@ function renderLootStaging(hoard, bracket) {
   }
 
   items.innerHTML = html;
+}
+
+// ── Expand/collapse item cards ──
+function toggleItemExpand(btn) {
+  const card = btn.closest('.item-card');
+  if (!card) return;
+  card.classList.toggle('expanded');
 }
 
 async function keepLootItem(type, index) {
