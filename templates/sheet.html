@@ -703,7 +703,7 @@
         {% for atk in attacks %}
         <div class="atk-card">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <span class="atk-name">{{ atk.name }}</span>
+            <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}</span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
           </div>
           <div class="atk-detail">

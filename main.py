@@ -892,7 +892,7 @@ def _find_weapon(item_name: str) -> dict | None:
                 return generic[kw]
     return None
 
-def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict, prof_bonus: int) -> dict:
+def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict, prof_bonus: int, qty: int = 1) -> dict:
     """Build an attack entry from weapon data and character stats."""
     damage = weapon_data["damage"]
     dmg_type = weapon_data["type"]
@@ -924,9 +924,9 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
     range_str = None
     for p in props:
         if "thrown" in p:
-            range_str = p.replace("thrown ","Thrown ").replace("(","").replace(")","")
+            range_str = p.replace("thrown ", "Thrown ").replace("(", "").replace(")", "")
         elif "ammunition" in p:
-            range_str = p.replace("ammunition ","Range ").replace("(","").replace(")","")
+            range_str = p.replace("ammunition ", "Range ").replace("(", "").replace(")", "")
 
     return {
         "name": item_name,
@@ -934,6 +934,7 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
         "damage": dmg_str,
         "range": range_str,
         "properties": [p for p in props if not ("thrown" in p or "ammunition" in p)],
+        "qty": qty,
     }
 
 def _build_inventory_attacks(character: dict) -> list:
@@ -945,13 +946,18 @@ def _build_inventory_attacks(character: dict) -> list:
     seen = set()
     inventory = character.get("inventory", []) or []
     for item in inventory:
-        name = item.get("name", item) if isinstance(item, dict) else str(item)
+        if isinstance(item, dict):
+            name = item.get("name", "")
+            qty = item.get("qty", 1)
+        else:
+            name = str(item)
+            qty = 1
         key = name.lower()
         if key in seen:
             continue
         wpn = _find_weapon(name)
         if wpn:
-            attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus))
+            attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty))
             seen.add(key)
     return attacks
 
