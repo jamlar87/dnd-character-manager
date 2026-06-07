@@ -105,6 +105,50 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .p-stats.open { display: block; }
 .p-stats .ps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-bottom: 0.5rem; }
 .p-stats .ps-stat { text-align: center; padding: 0.2rem; background: var(--card-bg); border-radius: 4px; }
+
+/* Initiative track cards */
+.initiative-card {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.75rem; border-radius: 8px;
+  background: var(--card-bg); border: 2px solid var(--border);
+  transition: border-color 0.15s, box-shadow 0.15s; cursor: grab;
+  flex-wrap: wrap;
+}
+.initiative-card:active { cursor: grabbing; }
+.initiative-card.current-turn {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(233,69,96,0.25);
+}
+.initiative-card.current-turn .init-turn-marker {
+  background: var(--accent); color: #000; font-weight: 700;
+}
+.initiative-card.defeated-card { opacity: 0.45; border-style: dashed; }
+.initiative-card.defeated-card .init-name { text-decoration: line-through; }
+.initiative-card.dragging { opacity: 0.4; transform: scale(0.97); }
+.initiative-card .init-turn-marker {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 600;
+  background: var(--bg); border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.initiative-card .init-info { flex: 1; min-width: 0; }
+.initiative-card .init-name { font-weight: 600; font-size: 0.85rem; }
+.initiative-card .init-meta { font-size: 0.7rem; color: var(--text-muted); }
+.initiative-card .init-roll { font-size: 0.7rem; color: var(--accent); min-width: 3rem; text-align: center; }
+.initiative-card .init-hp-group { display: flex; align-items: center; gap: 0.3rem; min-width: 120px; }
+.initiative-card .init-hp-input { width: 42px; padding: 0.15rem 0.2rem; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); font-size: 0.75rem; text-align: center; }
+.initiative-card .init-hp-bar { width: 50px; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.initiative-card .init-hp-bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+.initiative-card .init-actions { display: flex; gap: 0.2rem; flex-shrink: 0; }
+.initiative-card .init-btn {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  cursor: pointer; font-size: 0.6rem; padding: 0.15rem 0.35rem;
+  border-radius: 4px; white-space: nowrap;
+}
+.initiative-card .init-btn:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+.initiative-card .init-btn.dmg-btn:hover { color: var(--danger); border-color: var(--danger); }
+.initiative-card .init-btn.heal-btn:hover { color: var(--success); border-color: var(--success); }
 .p-stats .ps-stat .ps-lbl { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); }
 .p-stats .ps-stat .ps-val { font-weight: 600; }
 
@@ -209,6 +253,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <button class="dm-tab" data-tab="npcs">👤 NPCs</button>
   <button class="dm-tab" data-tab="campaigns">📜 Campaign</button>
   <button class="dm-tab" data-tab="items">🎒 Items</button>
+  <button class="dm-tab" data-tab="combat">⚔️ Combat</button>
 </div>
 
 {# ───── MONSTERS PANEL ───── #}
@@ -468,6 +513,43 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   </div>
   <div id="itemsPanelContent" style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap">
     <div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>
+  </div>
+</div>
+
+{# ───── COMBAT PANEL ───── #}
+<div class="dm-panel" id="panel-combat">
+  <div class="toolbar" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+    <select id="combatEncounterSelect" onchange="loadCombatEncounter()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
+      <option value="">— Select encounter —</option>
+    </select>
+    <button class="btn btn-accent btn-sm" id="btnRollInit" onclick="rollInitiative()">🎲 Roll Initiative</button>
+    <button class="btn btn-outline btn-sm" id="btnRerollInit" onclick="rollInitiative()" style="display:none">🎲 Reroll</button>
+    <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
+  </div>
+
+  <div id="combatTracker" style="display:none;margin-top:0.75rem">
+    <!-- Round + Turn controls -->
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:0.4rem">
+        <button class="btn btn-outline btn-sm" onclick="prevTurn()" title="Previous turn">◀</button>
+        <span id="combatRoundLabel" style="font-size:1rem;font-weight:700">Round 1</span>
+        <button class="btn btn-outline btn-sm" onclick="nextTurn()" title="Next turn">▶</button>
+      </div>
+      <span id="combatTurnLabel" style="font-size:0.85rem;color:var(--text-muted)">Turn 0/0</span>
+      <div style="flex:1"></div>
+      <button class="btn btn-sm" id="btnEndCombat" onclick="endCombat()" style="background:var(--danger);color:#fff">End Combat</button>
+    </div>
+
+    <!-- Initiative track -->
+    <div id="initiativeTrack" style="display:flex;flex-direction:column;gap:0.35rem"></div>
+
+    <!-- Quick add participant -->
+    <div style="margin-top:0.75rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+      <select id="combatAddNpc" style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;min-width:180px">
+        <option value="">+ Add NPC to combat...</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="addNpcToCombat()">Add</button>
+    </div>
   </div>
 </div>
 
@@ -1723,6 +1805,388 @@ async function keepAllLoot() {
   loadItemsPanel();
 
   if (failed) alert(`${failed} item(s) failed to add.`);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ⚔️ COMBAT TRACKER
+// ═══════════════════════════════════════════════════════════
+let _combatEncId = null;
+let _combatParticipants = [];  // {en_id, name, initiative, hp_current, hp_max, ac, defeated, ...}
+let _combatRound = 1;
+let _combatTurnIdx = 0;        // index into alive participants
+let _combatOrder = [];         // en_id order array
+
+// ── Init: populate encounter dropdown when Combat tab opened ──
+const combatTabObserver = new MutationObserver(() => {
+  if (document.getElementById('panel-combat').classList.contains('active')) {
+    initCombatPanel();
+  }
+});
+document.querySelectorAll('.dm-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    setTimeout(() => {
+      if (document.getElementById('panel-combat').classList.contains('active')) {
+        initCombatPanel();
+      }
+    }, 50);
+  });
+});
+
+async function initCombatPanel() {
+  const sel = document.getElementById('combatEncounterSelect');
+  if (sel.dataset.loaded) return;
+  sel.dataset.loaded = '1';
+  try {
+    const r = await fetch('/api/dm/encounters');
+    const d = await r.json();
+    (d.encounters || []).forEach(e => {
+      const opt = document.createElement('option');
+      opt.value = e.id; opt.textContent = e.name;
+      sel.appendChild(opt);
+    });
+  } catch(e) { /* silent */ }
+}
+
+// ── Load encounter for combat ──
+async function loadCombatEncounter() {
+  const sel = document.getElementById('combatEncounterSelect');
+  _combatEncId = sel.value ? parseInt(sel.value) : null;
+  if (!_combatEncId) {
+    document.getElementById('combatTracker').style.display = 'none';
+    return;
+  }
+
+  // Also populate NPC dropdown
+  try {
+    const nr = await fetch('/api/dm/npcs');
+    const nd = await nr.json();
+    const addSel = document.getElementById('combatAddNpc');
+    addSel.innerHTML = '<option value="">+ Add NPC to combat...</option>';
+    (nd.npcs || []).forEach(n => {
+      const opt = document.createElement('option');
+      opt.value = n.id; opt.textContent = `${n.name} (L${n.level} ${n.class_name || 'NPC'})`;
+      addSel.appendChild(opt);
+    });
+  } catch(e) {}
+
+  // Load existing combat state
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({action:'load'})
+    });
+    const d = await r.json();
+    _combatRound = d.round || 1;
+    _combatTurnIdx = d.turn_index || 0;
+    _combatOrder = d.initiative_order || [];
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; }
+
+  document.getElementById('combatTracker').style.display = '';
+  document.getElementById('btnRollInit').style.display = '';
+  document.getElementById('btnRerollInit').style.display = 'none';
+  document.getElementById('combatStatus').textContent = '';
+
+  // Load participants from encounter
+  await refreshCombatParticipants();
+}
+
+// ── Roll initiative ──
+async function rollInitiative() {
+  if (!_combatEncId) return alert('Select an encounter first');
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
+    const d = await r.json();
+    if (!d.ok) return alert(d.error || 'Failed to roll');
+    _combatParticipants = d.participants;
+    _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+    _combatRound = 1;
+    _combatTurnIdx = 0;
+    renderInitiativeTrack();
+    saveCombatState();
+    document.getElementById('btnRollInit').style.display = 'none';
+    document.getElementById('btnRerollInit').style.display = '';
+    document.getElementById('combatStatus').textContent =
+      `🎲 ${_combatParticipants.length} participants rolled`;
+  } catch(e) { alert('Failed to roll initiative'); }
+}
+
+// ── Refresh participants from DB (used after HP changes, adding NPCs, etc.) ──
+async function refreshCombatParticipants() {
+  if (!_combatEncId) return;
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}`);
+    const d = await r.json();
+    _combatParticipants = (d.encounter.participants || []).map(p => ({
+      en_id: p.id, npc_id: p.npc_id, name: p.npc_name,
+      race: p.race || '', class_name: p.class_name || '',
+      level: p.level || 1, is_enemy: p.is_enemy, role: p.role || '',
+      ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
+      hp_max: p.hp_max || p.npc_hp_max || 10,
+      defeated: p.defeated || 0, initiative: p.initiative || 0
+    }));
+    // Sort by initiative desc, alive first
+    _combatParticipants.sort((a, b) => {
+      if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+      return (b.initiative||0) - (a.initiative||0);
+    });
+    // Rebuild order from combat state if available
+    if (_combatOrder.length === 0) {
+      _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+    }
+    renderInitiativeTrack();
+  } catch(e) {}
+}
+
+// ── Render initiative track ──
+function renderInitiativeTrack() {
+  const track = document.getElementById('initiativeTrack');
+  const alive = _combatParticipants.filter(p => !p.defeated);
+
+  // Clamp turn index
+  if (_combatTurnIdx >= alive.length) _combatTurnIdx = alive.length - 1;
+  if (_combatTurnIdx < 0) _combatTurnIdx = 0;
+
+  document.getElementById('combatRoundLabel').textContent = `Round ${_combatRound}`;
+  document.getElementById('combatTurnLabel').textContent =
+    alive.length > 0 ? `Turn ${_combatTurnIdx + 1}/${alive.length}` : 'No active combatants';
+
+  // Build in initiative_order sequence (if set), then alphabetical fallback
+  const ordered = [];
+  const used = new Set();
+  // First, participants in stored order
+  for (const enId of _combatOrder) {
+    const p = _combatParticipants.find(p => p.en_id === enId);
+    if (p && !used.has(p.en_id)) { ordered.push(p); used.add(p.en_id); }
+  }
+  // Then any remaining (newly added) sorted by initiative
+  for (const p of _combatParticipants) {
+    if (!used.has(p.en_id)) ordered.push(p);
+  }
+
+  if (ordered.length === 0) {
+    track.innerHTML = '<div style="color:var(--text-muted);padding:1rem;text-align:center">No participants. Roll initiative or add NPCs.</div>';
+    return;
+  }
+
+  const currentEnId = alive.length > 0 && _combatTurnIdx < alive.length
+    ? alive[_combatTurnIdx].en_id : null;
+
+  track.innerHTML = ordered.map((p, i) => {
+    const isDefeated = p.defeated || p.hp_current <= 0;
+    const isCurrent = p.en_id === currentEnId;
+    const hpPct = p.hp_max > 0 ? Math.max(0, Math.round(p.hp_current / p.hp_max * 100)) : 0;
+    const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'warn' : hpPct < 50 ? 'warn' : 'ok';
+    const badge = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
+      : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
+    const role = p.role ? ` · ${p.role}` : '';
+    const cls = p.class_name ? `L${p.level} ${p.class_name}${role}` : `L${p.level}${role}`;
+
+    return `<div class="initiative-card${isCurrent ? ' current-turn' : ''}${isDefeated ? ' defeated-card' : ''}"
+      draggable="true"
+      data-en-id="${p.en_id}"
+      ondragstart="initDragStart(event, ${p.en_id})"
+      ondragend="initDragEnd(event)"
+      ondragover="initDragOver(event)"
+      ondrop="initDrop(event, ${p.en_id})">
+      <div class="init-turn-marker">${isCurrent ? '▶' : (i+1)}</div>
+      <div class="init-roll" title="d20 + DEX">🎲 ${p.initiative}</div>
+      <div class="init-info">
+        <div class="init-name">${p.name} ${badge}</div>
+        <div class="init-meta">${cls} · AC ${p.ac}</div>
+      </div>
+      <div class="init-hp-group">
+        <input type="number" class="init-hp-input" value="${p.hp_current}"
+          onchange="adjustHp(${p.en_id}, this.value)" onclick="event.stopPropagation()">
+        <span style="font-size:0.7rem;color:var(--text-muted)">/${p.hp_max}</span>
+        <div class="init-hp-bar"><div class="init-hp-bar-fill ${hpClass}" style="width:${hpPct}%"></div></div>
+      </div>
+      <div class="init-actions">
+        <button class="init-btn dmg-btn" onclick="quickDmg(${p.en_id}, -5)" title="-5 damage">-5</button>
+        <button class="init-btn dmg-btn" onclick="quickDmg(${p.en_id}, -1)" title="-1 damage">-1</button>
+        <button class="init-btn heal-btn" onclick="quickDmg(${p.en_id}, 5)" title="+5 heal">+5</button>
+        <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated">${isDefeated ? '⬆' : '💀'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Turn navigation ──
+function nextTurn() {
+  const alive = _combatParticipants.filter(p => !p.defeated);
+  if (alive.length === 0) return;
+  _combatTurnIdx++;
+  if (_combatTurnIdx >= alive.length) {
+    _combatTurnIdx = 0;
+    _combatRound++;
+  }
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+function prevTurn() {
+  const alive = _combatParticipants.filter(p => !p.defeated);
+  if (alive.length === 0) return;
+  _combatTurnIdx--;
+  if (_combatTurnIdx < 0) {
+    if (_combatRound > 1) {
+      _combatRound--;
+      _combatTurnIdx = alive.length - 1;
+    } else {
+      _combatTurnIdx = 0;
+    }
+  }
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+// ── HP management ──
+async function adjustHp(enId, newHp) {
+  const p = _combatParticipants.find(p => p.en_id === enId);
+  if (!p) return;
+  const hp = Math.max(0, Math.min(p.hp_max, parseInt(newHp) || 0));
+  p.hp_current = hp;
+  if (hp <= 0) p.defeated = 1;
+
+  try {
+    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({single:{id:enId, hp_current:hp, defeated: hp<=0?1:0}})
+    });
+  } catch(e) {}
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+async function quickDmg(enId, delta) {
+  const p = _combatParticipants.find(p => p.en_id === enId);
+  if (!p || p.defeated) return;
+  const hp = Math.max(0, Math.min(p.hp_max, p.hp_current + delta));
+  p.hp_current = hp;
+  if (hp <= 0) p.defeated = 1;
+
+  try {
+    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({single:{id:enId, hp_current:hp, defeated: hp<=0?1:0}})
+    });
+  } catch(e) {}
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+// ── Defeated toggle ──
+async function toggleDefeatedCombat(enId) {
+  const p = _combatParticipants.find(p => p.en_id === enId);
+  if (!p) return;
+  p.defeated = p.defeated ? 0 : 1;
+
+  try {
+    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({single:{id:enId, defeated: p.defeated}})
+    });
+  } catch(e) {}
+
+  // Rebuild order excluding defeated
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  const alive = _combatParticipants.filter(p => !p.defeated);
+  if (_combatTurnIdx >= alive.length) _combatTurnIdx = Math.max(0, alive.length - 1);
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+// ── Drag-and-drop reorder ──
+let _initDragEnId = null;
+
+function initDragStart(e, enId) {
+  _initDragEnId = enId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.closest('.initiative-card')?.classList.add('dragging');
+}
+
+function initDragEnd(e) {
+  document.querySelectorAll('.initiative-card.dragging').forEach(c => c.classList.remove('dragging'));
+  _initDragEnId = null;
+}
+
+function initDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+function initDrop(e, targetEnId) {
+  e.preventDefault();
+  if (!_initDragEnId || _initDragEnId === targetEnId) return;
+
+  // Reorder in _combatOrder
+  const dragIdx = _combatOrder.indexOf(_initDragEnId);
+  const targetIdx = _combatOrder.indexOf(targetEnId);
+  if (dragIdx === -1 || targetIdx === -1) return;
+
+  _combatOrder.splice(dragIdx, 1);
+  _combatOrder.splice(targetIdx, 0, _initDragEnId);
+
+  // If current turn was affected, adjust
+  const alive = _combatParticipants.filter(p => !p.defeated);
+  const currentEnId = alive[_combatTurnIdx]?.en_id;
+  if (currentEnId) {
+    _combatTurnIdx = _combatOrder.indexOf(currentEnId);
+    if (_combatTurnIdx < 0) _combatTurnIdx = 0;
+  }
+
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+// ── Add NPC to combat ──
+async function addNpcToCombat() {
+  if (!_combatEncId) return alert('Select an encounter first');
+  const sel = document.getElementById('combatAddNpc');
+  const npcId = parseInt(sel.value);
+  if (!npcId) return;
+
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}/add-npc`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({npc_id: npcId, initiative: 0})
+    });
+    const d = await r.json();
+    if (!d.ok) return alert(d.error || 'Failed to add');
+
+    // Refresh participants
+    await refreshCombatParticipants();
+
+    // Rebuild order including new NPC
+    const newEnId = d.id;
+    if (newEnId && !_combatOrder.includes(newEnId)) {
+      _combatOrder.push(newEnId);
+    }
+    sel.value = '';
+    saveCombatState();
+  } catch(e) { alert('Failed to add NPC'); }
+}
+
+// ── Save combat state ──
+function saveCombatState() {
+  if (!_combatEncId) return;
+  fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      action: 'save', round: _combatRound, turn_index: _combatTurnIdx,
+      initiative_order: _combatOrder
+    })
+  }).catch(() => {});
+}
+
+// ── End combat ──
+async function endCombat() {
+  if (!confirm('End this combat? State will be saved for later.')) return;
+  _combatRound = 1;
+  _combatTurnIdx = 0;
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  renderInitiativeTrack();
+  saveCombatState();
+  document.getElementById('combatStatus').textContent = 'Combat ended — initiative saved';
 }
 </script>
 {% endblock %}

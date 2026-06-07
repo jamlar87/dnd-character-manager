@@ -643,6 +643,11 @@ def init_db():
             db.execute(f"ALTER TABLE dm_encounter_npcs ADD COLUMN {col} {coltype}")
         except sqlite3.OperationalError:
             pass
+    # Migration: dm_encounters combat_state
+    try:
+        db.execute("ALTER TABLE dm_encounters ADD COLUMN combat_state TEXT DEFAULT '{}'")
+    except sqlite3.OperationalError:
+        pass
     # Migration: dm_campaigns characters column
     try:
         db.execute("ALTER TABLE dm_campaigns ADD COLUMN characters TEXT DEFAULT '[]'")
@@ -1936,6 +1941,101 @@ async def dm_encounter_update_init(enc_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/roll-initiative", response_class=JSONResponse)
+async def dm_encounter_roll_initiative(enc_id: int, request: Request):
+    """Roll d20 + DEX modifier for all encounter participants. PHB p.189."""
+    import random
+    user = require_user(request)
+    db = get_db()
+    enc = db.execute("SELECT id FROM dm_encounters WHERE id = ? AND user_id = ?",
+                     (enc_id, user["id"])).fetchone()
+    if not enc:
+        db.close()
+        raise HTTPException(status_code=404)
+
+    participants = [dict(r) for r in db.execute("""
+        SELECT en.id as en_id, en.initiative, en.hp_current, en.hp_max, en.ac, en.defeated,
+               n.id as npc_id, n.name, n.race, n.class_name, n.level, n.is_enemy,
+               n.dexterity, n.role, n.hp_max as npc_hp_max
+        FROM dm_encounter_npcs en
+        JOIN dm_npcs n ON n.id = en.npc_id
+        WHERE en.encounter_id = ?
+    """, (enc_id,)).fetchall()]
+
+    results = []
+    for p in participants:
+        dex_mod = (p.get("dexterity", 10) - 10) // 2
+        roll = random.randint(1, 20)
+        total = roll + dex_mod
+        results.append({
+            "en_id": p["en_id"],
+            "npc_id": p["npc_id"],
+            "name": p["name"],
+            "race": p.get("race", ""),
+            "class_name": p.get("class_name", ""),
+            "level": p.get("level", 1),
+            "is_enemy": p.get("is_enemy", 0),
+            "role": p.get("role", ""),
+            "ac": p.get("ac", 10),
+            "hp_current": p["hp_current"],
+            "hp_max": p["hp_max"],
+            "defeated": p.get("defeated", 0),
+            "dex_mod": dex_mod,
+            "roll": roll,
+            "initiative": total
+        })
+
+    # Sort: alive first by initiative desc, then defeated
+    results.sort(key=lambda r: (r["defeated"] or 0, -(r["initiative"])))
+
+    # Save to DB
+    for r in results:
+        db.execute("UPDATE dm_encounter_npcs SET initiative=? WHERE id=?",
+                   (r["initiative"], r["en_id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"participants": results, "ok": True})
+
+
+@app.post("/api/dm/encounter/{enc_id}/combat-state", response_class=JSONResponse)
+async def dm_encounter_combat_state(enc_id: int, request: Request):
+    """Save or load combat state (round, turn_index, participant order)."""
+    user = require_user(request)
+    db = get_db()
+    enc = db.execute("SELECT id, combat_state FROM dm_encounters WHERE id = ? AND user_id = ?",
+                     (enc_id, user["id"])).fetchone()
+    if not enc:
+        db.close()
+        raise HTTPException(status_code=404)
+
+    data = await request.json()
+    action = data.get("action", "load")
+
+    if action == "save":
+        state = json.dumps({
+            "round": data.get("round", 1),
+            "turn_index": data.get("turn_index", 0),
+            "initiative_order": data.get("initiative_order", [])
+        })
+        db.execute("UPDATE dm_encounters SET combat_state=? WHERE id=?", (state, enc_id))
+        db.commit()
+        db.close()
+        return JSONResponse({"ok": True})
+
+    # Load
+    try:
+        state = json.loads(enc["combat_state"] or "{}")
+    except (json.JSONDecodeError, TypeError):
+        state = {}
+    db.close()
+    return JSONResponse({
+        "round": state.get("round", 1),
+        "turn_index": state.get("turn_index", 0),
+        "initiative_order": state.get("initiative_order", []),
+        "ok": True
+    })
 
 
 @app.post("/api/dm/encounter/{enc_id}/update", response_class=JSONResponse)
