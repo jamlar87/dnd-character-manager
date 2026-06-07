@@ -913,6 +913,7 @@
               <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0 0.25rem;margin-left:0;line-height:1" title="Item Info">ℹ️</button>
               <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
               <span class="arm-badge" style="display:none">🛡️ Armor</span>
+              <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
             </span>
             <input type="number" value="{{ item.qty if item.qty is defined else 1 }}" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
             <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
@@ -2103,13 +2104,17 @@ async function toggleProfItem(cb, field, type) {
   if (displayEl) displayEl.textContent = profs.join(', ') || '—';
   // Save
   await api('/update', { [field]: JSON.stringify(profs) });
+  // Refresh proficiency-based UI
+  if (field === 'weapon_proficiencies') tagWeapons();
+  if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
 }
 
 async function clearAllProfs(field, type) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = '—';
   await api('/update', { [field]: JSON.stringify([]) });
-  // Refresh picker checkboxes
+  if (field === 'weapon_proficiencies') tagWeapons();
+  if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
   const overlay = document.querySelector('.prof-picker-overlay');
   if (overlay) overlay.remove();
 }
@@ -2123,6 +2128,8 @@ async function selectAllProfs(field, type) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = master.join(', ');
   await api('/update', { [field]: JSON.stringify(master) });
+  if (field === 'weapon_proficiencies') tagWeapons();
+  if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
   const overlay = document.querySelector('.prof-picker-overlay');
   if (overlay) overlay.remove();
 }
@@ -2287,14 +2294,33 @@ function isWeapon(name) {
 }
 
 function tagWeapons() {
+  // Read current proficiencies from display
+  const weaponProfs = getCurrentProfs('weapon_proficiencies');
+  const hasSimple = weaponProfs.some(p => p.toLowerCase() === 'simple weapons');
+  const hasMartial = weaponProfs.some(p => p.toLowerCase() === 'martial weapons');
+  
   document.querySelectorAll('#inv-list .inv-item').forEach(li => {
     const input = li.querySelector('input[type="text"]');
     const badge = li.querySelector('.wpn-badge');
+    const npBadge = li.querySelector('.np-badge');
     if (!input || !badge) return;
-    if (isWeapon(input.value)) {
+    const name = input.value.trim();
+    const wpnInfo = getWeaponInfo(name);
+    if (wpnInfo) {
       badge.style.display = 'inline-block';
+      // Check proficiency
+      let proficient = weaponProfs.some(p => p.toLowerCase() === name.toLowerCase());
+      if (!proficient && wpnInfo.category === 'Simple' && hasSimple) proficient = true;
+      if (!proficient && wpnInfo.category === 'Martial' && hasMartial) proficient = true;
+      if (!proficient && npBadge) {
+        npBadge.style.display = 'inline-block';
+        npBadge.textContent = '⚠️ Non-Proficient';
+      } else if (npBadge) {
+        npBadge.style.display = 'none';
+      }
     } else {
       badge.style.display = 'none';
+      if (npBadge) npBadge.style.display = 'none';
     }
   });
   tagArmor();
@@ -2303,20 +2329,16 @@ function tagWeapons() {
 // ── Armor Detection ──
 function isArmor(name) {
   const lower = name.toLowerCase().trim();
-  // Check against Campaign Expert armor table
   if (ARMOR_NAMES.some(n => n === lower)) return true;
-  // Check singular form
   if (lower.endsWith('s') && !lower.endsWith('ss')) {
     const singular = lower.slice(0, -1);
     if (ARMOR_NAMES.some(n => n === singular)) return true;
   }
-  // Generic shield catch
   if (lower.includes('shield')) return true;
   return false;
 }
 
 function isBodyArmor(name) {
-  // Returns true if this is body armor (not a shield)
   return isArmor(name) && !name.toLowerCase().includes('shield');
 }
 
@@ -2324,17 +2346,78 @@ function isShieldItem(name) {
   return isArmor(name) && name.toLowerCase().includes('shield');
 }
 
+// Maps armor names to proficiency categories
+function getArmorCategory(armorName) {
+  const lower = armorName.toLowerCase().trim();
+  const light = ['padded armor', 'padded', 'leather armor', 'leather', 'studded leather armor', 'studded leather'];
+  const medium = ['hide armor', 'hide', 'chain shirt', 'scale mail', 'breastplate', 'half plate armor', 'half plate'];
+  const heavy = ['ring mail', 'chain mail', 'splint armor', 'splint', 'plate armor', 'plate'];
+  if (light.some(n => lower.includes(n))) return 'Light armor';
+  if (medium.some(n => lower.includes(n))) return 'Medium armor';
+  if (heavy.some(n => lower.includes(n))) return 'Heavy armor';
+  return null;
+}
+
+function isArmorProficient(armorName) {
+  const armors = getCurrentProfs('armor_proficiencies');
+  const lower = armorName.toLowerCase().trim();
+  // Direct match
+  if (armors.some(a => a.toLowerCase() === lower)) return true;
+  // Category match
+  const cat = getArmorCategory(armorName);
+  if (cat && armors.some(a => a.toLowerCase() === cat.toLowerCase())) return true;
+  // Shield check
+  if (lower.includes('shield') && armors.some(a => a.toLowerCase() === 'shields')) return true;
+  return false;
+}
+
 function tagArmor() {
+  const armors = getCurrentProfs('armor_proficiencies');
   document.querySelectorAll('#inv-list .inv-item').forEach(li => {
     const input = li.querySelector('input[type="text"]');
     const badge = li.querySelector('.arm-badge');
+    const npBadge = li.querySelector('.np-badge');
     if (!input || !badge) return;
     if (isArmor(input.value)) {
       badge.style.display = 'inline-block';
+      if (!isArmorProficient(input.value) && npBadge) {
+        npBadge.style.display = 'inline-block';
+        npBadge.textContent = '⚠️ Non-Proficient';
+      } else if (npBadge) {
+        npBadge.style.display = 'none';
+      }
     } else {
       badge.style.display = 'none';
     }
   });
+  // Also update AC warning
+  updateAcWarning();
+}
+
+function updateAcWarning() {
+  const acEl = document.querySelector('.cq-value[data-field="ac"]');
+  if (!acEl) return;
+  const armorProfs = getCurrentProfs('armor_proficiencies');
+  // Find equipped armor
+  const equipped = equippedItems || [];
+  const wornArmor = equipped.find(item => isBodyArmor(item));
+  const wornShield = equipped.find(item => isShieldItem(item));
+  
+  let warning = '';
+  if (wornArmor && !isArmorProficient(wornArmor)) {
+    warning = ' ⚠️ (non-proficient: disadv on STR/DEX, no spells)';
+  }
+  // Only add warning, don't change AC value
+  const existingWarning = acEl.querySelector('.ac-warn');
+  if (warning && !existingWarning) {
+    const span = document.createElement('span');
+    span.className = 'ac-warn';
+    span.style.cssText = 'font-size:0.6rem;color:var(--warn);font-weight:400;display:block;white-space:normal;max-width:200px';
+    span.textContent = warning;
+    acEl.appendChild(span);
+  } else if (!warning && existingWarning) {
+    existingWarning.remove();
+  }
 }
 
 // ── Equip/Unequip System ──
@@ -2434,6 +2517,7 @@ function addInventoryItem() {
     <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
     <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
     <span class="arm-badge" style="display:none">🛡️ Armor</span>
+    <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
   </span>
     <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
     <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
@@ -2604,6 +2688,7 @@ async function selectItem(name) {
     <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showItemInfo(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.3rem;margin-left:0.2rem" title="Item Info">ℹ️</button>
     <span class="wpn-badge" style="display:none">⚔️ Weapon</span>
     <span class="arm-badge" style="display:none">🛡️ Armor</span>
+    <span class="np-badge" style="display:none;font-size:0.6rem;color:var(--warn);margin-left:0.2rem;white-space:nowrap"></span>
   </span>
     <input type="number" value="1" min="1" class="inv-qty" style="background:transparent;border:1px solid var(--border);color:var(--text);width:3.5ch;text-align:center;border-radius:3px;font-size:0.85rem;margin-left:0.5rem" onchange="saveInventory()">
     <button class="btn btn-outline btn-sm" onclick="equipItem(this.closest('.inv-item').querySelector('input[type=text]').value)" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:0.3rem" title="Equip">⬆️</button>
