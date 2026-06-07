@@ -54,6 +54,44 @@ VALID_SKILLS = ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Decepti
 # Still cached for search, just skip LLM extraction
 SKIP_EXTRACTION = {"PHB", "DMG", "MM"}  # SRD covers these
 
+# Telegram notification (optional — set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID in env)
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Telegram notification
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _notify_telegram(text: str):
+    """Send a Telegram message via Bot API. Silent no-op if not configured."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    try:
+        data = json.dumps({
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": text,
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True,
+        }).encode()
+        req = urllib.request.Request(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            data=data,
+            headers={"Content-Type": "application/json"},
+        )
+        urllib.request.urlopen(req, timeout=10)
+    except Exception:
+        pass  # never let notification failure block extraction
+
+
+def _send_readout(text: str):
+    """Print to stdout AND send to Telegram if configured."""
+    print(text)
+    # Strip box-drawing chars for Telegram (they render poorly)
+    clean = text.replace("┌─", "──").replace("─┐", "──").replace("├─", "──") \
+                .replace("─┤", "──").replace("└─", "──").replace("─┘", "──") \
+                .replace("│", " ").replace("⚠", "⚠️")
+    _notify_telegram(clean)
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # LLM Callers (sync, urllib — no httpx dependency)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -310,17 +348,21 @@ def extract_text(manual: dict) -> str | None:
 
 
 def _extract_pymupdf(pdf_path: str, cache_path: str) -> str | None:
-    """Try pymupdf (fitz) for better multi-column text extraction."""
+    """Try pymupdf (fitz) for better multi-column text extraction.
+    Injects page markers for chapter detection."""
     try:
         import fitz
         doc = fitz.open(pdf_path)
-        text = ""
-        for page in doc:
-            text += page.get_text("text") + "\n"
+        pages = []
+        for i, page in enumerate(doc):
+            page_text = page.get_text("text").strip()
+            if page_text:
+                pages.append(f"--- PAGE {i + 1} ---\n{page_text}")
         doc.close()
+        text = "\n\n".join(pages)
         if len(text) > 500:
             Path(cache_path).write_text(text, encoding="utf-8", errors="replace")
-            print(f"  Extracted {len(text):,} chars via pymupdf → {Path(cache_path).name}")
+            print(f"  Extracted {len(text):,} chars ({len(pages)} pages) via pymupdf → {Path(cache_path).name}")
             return text
     except ImportError:
         pass
@@ -1051,14 +1093,15 @@ def _normalize_name(name: str) -> str:
 
 
 def dedup_extraction(data: dict, base_names: dict[str, set]) -> dict:
-    """Remove entries whose name already exists in base data. Uses fuzzy matching."""
+    """Remove entries whose name already exists in base data. Uses fuzzy matching.
+    Does NOT mutate base_names — works on a copy to prevent cross-chapter contamination."""
     new_data = {}
     total_removed = 0
 
     for category in data:
         items = data[category]
-        known = base_names.get(category, set())
-        # Also build normalized-version set for fuzzy matching
+        # Copy to avoid mutating the caller's base_names (critical for chapter-by-chapter mode)
+        known = set(base_names.get(category, set()))
         known_normalized = {_normalize_name(n) for n in known}
         new_items = []
         for item in items:
@@ -1112,11 +1155,265 @@ def _dedup_within_extraction(data: dict) -> dict:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Chapter detection
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _detect_chapters(text: str, manual: dict) -> list[dict]:
+    """Detect chapter/section boundaries using fitz TOC + page markers in text.
+
+    Returns [{title, start_page, end_page, text}].
+    Falls back to a single 'Full Book' chapter if no TOC or page markers.
+    """
+    slug = manual["slug"]
+    pdf_path = Path(manual["abs_path"])
+
+    # Try fitz TOC
+    chapters = _detect_from_toc(pdf_path)
+    if chapters:
+        # Split text by page markers
+        page_texts = _split_by_page(text)
+        for ch in chapters:
+            ch["text"] = _extract_chapter_text(page_texts, ch["start_page"], ch["end_page"])
+        # Filter out chapters with no extractable text (maps, image-only pages)
+        chapters = [ch for ch in chapters if ch["text"] and len(ch["text"]) >= 100]
+        if chapters:
+            print(f"  {len(chapters)} chapter(s) with text retained")
+            return chapters
+
+    # Fallback: check for text-based chapter markers
+    chapters = _detect_from_text(text)
+    if chapters and len(chapters) > 1:
+        return chapters
+
+    # Ultimate fallback: single chapter
+    return [{"title": manual["title"], "start_page": 1, "end_page": 9999, "text": text}]
+
+
+def _detect_from_toc(pdf_path: Path) -> list[dict] | None:
+    """Use fitz Table of Contents to get chapter boundaries."""
+    try:
+        import fitz
+        doc = fitz.open(str(pdf_path))
+        toc = doc.get_toc()
+        doc.close()
+
+        if not toc or len(toc) < 2:
+            return None
+
+        # Collect top-level (L1) entries as chapters
+        chapters = []
+        for i, (level, title, page) in enumerate(toc):
+            if level != 1:
+                continue
+            # Clean title
+            title = title.strip()
+            if not title or title.lower() in ("credits", "table of contents", "contents", "back cover"):
+                continue
+            chapters.append({"title": title, "start_page": page, "end_page": 9999})
+
+        if not chapters:
+            return None
+
+        # Set end pages (each chapter ends at the next chapter's start - 1)
+        for i in range(len(chapters) - 1):
+            chapters[i]["end_page"] = chapters[i + 1]["start_page"] - 1
+
+        print(f"  Detected {len(chapters)} chapters from TOC:")
+        for ch in chapters:
+            print(f"    p{ch['start_page']}-{ch['end_page']}: {ch['title']}")
+        return chapters
+
+    except Exception as e:
+        print(f"  TOC detection skipped: {e}")
+        return None
+
+
+def _detect_from_text(text: str) -> list[dict] | None:
+    """Fallback: use regex chapter markers in text."""
+    marker_pattern = re.compile(
+        r'^--- PAGE (\d+) ---.*?\n'           # page number
+        r'(?:CHAPTER|Ch\.|Chapter)\s+(\d+)[:\s]',  # chapter marker
+        re.MULTILINE | re.IGNORECASE
+    )
+    matches = list(marker_pattern.finditer(text))
+    if not matches:
+        return None
+
+    chapters = []
+    for i, m in enumerate(matches):
+        page = int(m.group(1))
+        ch_num = m.group(2)
+        title = f"Chapter {ch_num}"
+        chapters.append({"title": title, "start_page": page, "end_page": 9999})
+
+    for i in range(len(chapters) - 1):
+        chapters[i]["end_page"] = chapters[i + 1]["start_page"] - 1
+
+    print(f"  Detected {len(chapters)} chapters from text markers")
+    return chapters
+
+
+def _split_by_page(text: str) -> dict[int, str]:
+    """Split text with page markers into {page_num: page_text}."""
+    pages = {}
+    pattern = re.compile(r'--- PAGE (\d+) ---\n(.*?)(?=\n--- PAGE \d+ ---|\Z)', re.DOTALL)
+    for m in pattern.finditer(text):
+        page_num = int(m.group(1))
+        page_text = m.group(2).strip()
+        pages[page_num] = page_text
+    return pages
+
+
+def _extract_chapter_text(page_texts: dict[int, str], start: int, end: int) -> str:
+    """Extract text for page range [start, end]."""
+    parts = []
+    for p in range(start, end + 1):
+        if p in page_texts:
+            parts.append(page_texts[p])
+    return "\n\n".join(parts)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Per-chapter processing
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _process_chapter(chapter: dict, slug: str, base_names: dict) -> dict:
+    """Run the full extraction pipeline on a single chapter's text.
+    Returns {chapter_title, new_entries: {category: [items]}, issues, stats}."""
+    ch_title = chapter["title"]
+    ch_text = chapter["text"]
+
+    if not ch_text or len(ch_text) < 200:
+        return {
+            "chapter": ch_title,
+            "new_entries": {},
+            "issues": [f"Chapter text too short ({len(ch_text)} chars), skipped"],
+            "stats": {"chunks": 0, "extracted": 0, "valid": 0, "new": 0,
+                      "intra_deduped": 0, "srd_deduped": 0, "rejected": 0},
+        }
+
+    # 1. Chunk
+    chunks = chunk_text(ch_text)
+    if not chunks:
+        return {
+            "chapter": ch_title,
+            "new_entries": {},
+            "issues": ["No chunkable text"],
+            "stats": {"chunks": 0, "extracted": 0, "valid": 0, "new": 0,
+                      "intra_deduped": 0, "srd_deduped": 0, "rejected": 0},
+        }
+
+    # 2. Extract from each chunk
+    accumulated = {
+        "races": [], "spells": [], "magic_items": [], "equipment": [],
+        "monsters": [], "npcs": [], "feats": [], "backgrounds": [], "subclasses": []
+    }
+
+    for chunk in chunks:
+        result = extract_from_chunk(chunk, slug)
+        for cat in accumulated:
+            if cat in result and result[cat]:
+                accumulated[cat].extend(result[cat])
+        time.sleep(0.5)
+
+    # 3. Intra-chapter dedup
+    before_counts = {cat: len(items) for cat, items in accumulated.items()}
+    accumulated = _dedup_within_extraction(accumulated)
+    after_counts = {cat: len(items) for cat, items in accumulated.items()}
+    intra_deduped = sum(before_counts[c] - after_counts[c] for c in before_counts)
+
+    # 4. Validate
+    validated = validate_extraction(accumulated, slug)
+    total_extracted = sum(len(v) for v in accumulated.values())
+    total_validated = sum(len(v) for v in validated.values())
+    rejected = total_extracted - total_validated
+
+    # 5. Dedup vs SRD/base
+    new_data = dedup_extraction(validated, base_names)
+    total_new = sum(len(v) for v in new_data.values())
+    srd_deduped = total_validated - total_new
+
+    # 6. Build readout & return
+    return {
+        "chapter": ch_title,
+        "new_entries": new_data,
+        "stats": {
+            "chunks": len(chunks),
+            "extracted": total_extracted,
+            "valid": total_validated,
+            "new": total_new,
+            "intra_deduped": intra_deduped,
+            "srd_deduped": srd_deduped,
+            "rejected": rejected,
+        },
+        "issues": [],
+    }
+
+
+def _print_chapter_readout(result: dict):
+    """Print a human-readable chapter result readout + notify Telegram."""
+    ch = result["chapter"]
+    stats = result["stats"]
+    new_data = result["new_entries"]
+
+    lines = []
+    lines.append(f"\n── Chapter Readout: {ch} ──")
+    lines.append(f"Stats: {stats['chunks']} chunks → {stats['extracted']} raw → "
+                 f"{stats['valid']} valid → {stats['new']} new")
+    if stats["intra_deduped"]:
+        lines.append(f"  {stats['intra_deduped']} intra-chapter duplicates removed")
+    if stats["srd_deduped"]:
+        lines.append(f"  {stats['srd_deduped']} SRD/base duplicates removed")
+    if stats["rejected"]:
+        lines.append(f"  {stats['rejected']} entries rejected by validation")
+
+    if stats["new"] == 0:
+        lines.append("No new entries in this chapter.")
+        _send_readout("\n".join(lines))
+        return
+
+    for cat, items in sorted(new_data.items()):
+        if not items:
+            continue
+        names = [i.get("name", "?") for i in items[:8]]
+        extra = f" (+{len(items) - 8} more)" if len(items) > 8 else ""
+        lines.append(f"  {cat}: {len(items)} — {', '.join(names)}{extra}")
+
+    flags = _check_chapter_quality(new_data)
+    if flags:
+        for f in flags:
+            lines.append(f"  ⚠️ {f}")
+
+    _send_readout("\n".join(lines))
+
+
+def _check_chapter_quality(data: dict) -> list[str]:
+    """Quick quality checks on extracted data."""
+    flags = []
+    for race in data.get("races", []):
+        if not race.get("asi"):
+            flags.append(f"Race '{race['name']}' missing ASI")
+        if not race.get("traits"):
+            flags.append(f"Race '{race['name']}' has no traits")
+    for spell in data.get("spells", []):
+        if not spell.get("level") and spell.get("level") != 0:
+            flags.append(f"Spell '{spell['name']}' missing level")
+        if not spell.get("school"):
+            flags.append(f"Spell '{spell['name']}' missing school")
+    for monster in data.get("monsters", []):
+        if not monster.get("armor_class"):
+            flags.append(f"Monster '{monster['name']}' missing AC")
+        if not monster.get("hit_points"):
+            flags.append(f"Monster '{monster['name']}' missing HP")
+    return flags
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Main extraction pipeline
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def process_manual(manual: dict) -> dict | None:
-    """Full extraction pipeline for one manual."""
+    """Full extraction pipeline for one manual — chapter by chapter."""
     slug = manual["slug"]
     print(f"\n{'='*60}")
     print(f"Processing: {manual['title']} ({slug})")
@@ -1124,27 +1421,48 @@ def process_manual(manual: dict) -> dict | None:
 
     if slug in SKIP_EXTRACTION:
         print(f"  SKIPPED: {slug} is covered by SRD base data")
-        # Still cache text for search
         extract_text(manual)
         return None
 
-    # 1. Extract text
+    # 1. Extract text (with page markers)
     text = extract_text(manual)
     if not text:
         return None
 
-    # 2. Chunk
-    chunks = chunk_text(text)
-    print(f"  Split into {len(chunks)} chunks")
+    # 2. Detect chapters
+    chapters = _detect_chapters(text, manual)
+    base_names = _load_base_names()
 
-    # 3. Check for existing partial extraction
+    # 3. Check for existing extraction (chapter-aware state)
     extracted_path = CACHE_DIR / f"{slug}_extracted.json"
     existing = _load_json(extracted_path) if extracted_path.exists() else {}
     if not isinstance(existing, dict):
         existing = {}
 
-    # Accumulate results
-    accumulated = {
+    # Detect if old-style extraction exists (flat chunks, no chapters)
+    is_old_format = "_chunks_processed" in existing and "_chapters_completed" not in existing
+    if is_old_format:
+        print(f"  Old-format extraction found (flat chunks). Starting fresh with chapter mode.\n")
+        existing = {}
+
+    chapters_completed = set(existing.get("_chapters_completed", []))
+    chapter_errors = existing.get("_chapter_errors", {})
+
+    # Crash recovery: if a chapter was in progress when script died, flag it
+    stalled_chapter = existing.get("_current_chapter", "")
+    if stalled_chapter and stalled_chapter not in chapters_completed:
+        print(f"  ⚠️ Detected interrupted chapter: '{stalled_chapter}' — will re-process\n")
+        chapter_errors[stalled_chapter] = "Interrupted (crash/timeout) — re-processing"
+        # Remove any partial data from the stalled chapter from accumulated state
+        # (since we can't track per-chapter items, we just note it for the readout)
+
+    print(f"  {len(chapters)} chapter(s), {len(chapters_completed)} completed, "
+          f"{len(chapter_errors)} with errors\n")
+
+    # 4. Process each chapter
+    all_results = []
+    total_new = 0
+    base_accumulated = {
         "races": existing.get("races", []),
         "spells": existing.get("spells", []),
         "magic_items": existing.get("magic_items", []),
@@ -1156,37 +1474,70 @@ def process_manual(manual: dict) -> dict | None:
         "subclasses": existing.get("subclasses", []),
     }
 
-    # 4. Extract from each chunk
-    base_names = _load_base_names()
-    processed = existing.get("_chunks_processed", [])
-
-    for chunk in chunks:
-        if chunk["index"] in processed:
-            print(f"    Chunk {chunk['index']}: already processed, skipping")
+    for i, chapter in enumerate(chapters):
+        ch_title = chapter["title"]
+        if ch_title in chapters_completed:
+            print(f"  [{i+1}/{len(chapters)}] {ch_title} — already completed, skipping")
             continue
 
-        result = extract_from_chunk(chunk, slug)
+        print(f"  [{i+1}/{len(chapters)}] {ch_title} "
+              f"({len(chapter['text']):,} chars)")
+
+        # Save current-chapter marker BEFORE processing (crash detection)
+        _save_json(extracted_path, {**base_accumulated,
+                   "_chapters_completed": list(chapters_completed),
+                   "_current_chapter": ch_title,
+                   "_total_chapters": len(chapters),
+                   "_book_slug": slug, "_book_title": manual["title"],
+                   "_completed": False, "_timestamp": time.time()})
+
+        try:
+            result = _process_chapter(chapter, slug, base_names)
+        except Exception as e:
+            print(f"  ✖ ERROR processing chapter: {e}")
+            chapter_errors[ch_title] = str(e)[:200]
+            # Save error state and continue to next chapter
+            saved = {**base_accumulated,
+                     "_chapters_completed": list(chapters_completed),
+                     "_chapter_errors": chapter_errors,
+                     "_current_chapter": "",
+                     "_total_chapters": len(chapters),
+                     "_book_slug": slug, "_book_title": manual["title"],
+                     "_completed": False, "_timestamp": time.time()}
+            _save_json(extracted_path, saved)
+            continue
+
+        all_results.append(result)
+        _print_chapter_readout(result)
 
         # Accumulate
-        for cat in accumulated:
-            if cat in result and result[cat]:
-                accumulated[cat].extend(result[cat])
+        for cat, items in result["new_entries"].items():
+            if cat in base_accumulated:
+                base_accumulated[cat].extend(items)
 
-        processed.append(chunk["index"])
+        total_new += result["stats"]["new"]
+        chapters_completed.add(ch_title)
 
-        # Save intermediate progress after each chunk
-        accumulated["_chunks_processed"] = processed
-        accumulated["_last_chunk"] = chunk["index"]
-        accumulated["_total_chunks"] = len(chunks)
-        accumulated["_book_slug"] = slug
-        accumulated["_book_title"] = manual["title"]
-        _save_json(extracted_path, accumulated)
+        # Save incremental state after each chapter
+        saved = {**base_accumulated,
+                 "_chapters_completed": list(chapters_completed),
+                 "_chapter_errors": chapter_errors,
+                 "_current_chapter": "",  # cleared: chapter completed successfully
+                 "_total_chapters": len(chapters),
+                 "_book_slug": slug,
+                 "_book_title": manual["title"],
+                 "_completed": False,
+                 "_timestamp": time.time()}
+        _save_json(extracted_path, saved)
 
-        # Brief pause between chunks to avoid rate limits
-        time.sleep(0.5)
+        if len(chapters) > 1:
+            time.sleep(1)  # breathe between chapters
 
-    # 5. Race second-pass extraction
-    races_found = accumulated.get("races", [])
+    if not chapters_completed:
+        return None
+
+    # 5. Race second-pass extraction (on full book text, catches multi-chapter races)
+    races_found = base_accumulated.get("races", [])
     if races_found and text:
         print(f"\n  Race detail extraction for {len(races_found)} race(s)...")
         for i, race in enumerate(races_found):
@@ -1196,15 +1547,15 @@ def process_manual(manual: dict) -> dict | None:
             details = _extract_race_details(race_name, text)
             if details:
                 races_found[i] = _merge_race_details(race, details)
-        accumulated["races"] = races_found
+        base_accumulated["races"] = races_found
 
-    # 6. Intra-book dedup (same book, different chunks)
-    accumulated = _dedup_within_extraction(accumulated)
+    # 6. Final cross-chapter dedup
+    base_accumulated = _dedup_within_extraction(base_accumulated)
 
-    # 7. Validate
-    validated = validate_extraction(accumulated, slug)
+    # 7. Final validate
+    validated = validate_extraction(base_accumulated, slug)
 
-    # 8. Dedup vs SRD/base
+    # 8. Final dedup vs SRD/base
     new_data = dedup_extraction(validated, base_names)
 
     # 9. Trait effects auto-wiring
@@ -1218,17 +1569,19 @@ def process_manual(manual: dict) -> dict | None:
 
     # 10. Final save
     final = {**new_data,
-             "_chunks_processed": processed,
-             "_total_chunks": len(chunks),
+             "_chapters_completed": list(chapters_completed),
+             "_chapter_errors": chapter_errors,
+             "_current_chapter": "",  # all done
+             "_total_chapters": len(chapters),
              "_book_slug": slug,
              "_book_title": manual["title"],
              "_completed": True,
              "_timestamp": time.time()}
     _save_json(extracted_path, final)
 
-    # 11. Report
+    # 11. Final report
     total_new = sum(len(v) for v in new_data.values())
-    print(f"\n  ✓ Extraction complete: {total_new} new entries")
+    print(f"\n  ✓ Extraction complete: {total_new} new entries across {len(chapters)} chapter(s)")
     for cat, items in sorted(new_data.items()):
         if items:
             names = [i.get("name", "?") for i in items[:5]]
@@ -1317,12 +1670,24 @@ def list_manuals():
             if data.get("_completed"):
                 total = sum(len(v) for k, v in data.items()
                            if isinstance(v, list) and not k.startswith("_"))
-                chunks = f"{data.get('_total_chunks', '?')} chunks"
-                status = f"✅ {total}e"
+                chapters_done = len(data.get('_chapters_completed', []))
+                chapters_total = data.get('_total_chapters', '?')
+                errors = len(data.get('_chapter_errors', {}))
+                extra = f"{chapters_done}/{chapters_total} chapters, {total} entries"
+                if errors:
+                    extra += f", {errors} errors"
+                status = f"✅ done"
+                chunks = extra
             else:
-                done = len(data.get("_chunks_processed", []))
-                total_c = data.get("_total_chunks", "?")
-                status = f"🔄 {done}/{total_c}"
+                chapters_done = len(data.get("_chapters_completed", []))
+                chapters_total = data.get("_total_chapters", "?")
+                errors = len(data.get("_chapter_errors", {}))
+                current = data.get("_current_chapter", "")
+                status = f"🔄 {chapters_done}/{chapters_total}ch"
+                if current:
+                    status += f" @{current[:12]}"
+                if errors:
+                    status += f" ⚠️{errors}"
                 chunks = ""
         elif m["slug"] in SKIP_EXTRACTION:
             status = "⏭️ SKIP"
