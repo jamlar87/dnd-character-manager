@@ -3071,7 +3071,7 @@ function deleteInventoryItem(name) {
   if (!confirm(`Remove "${name}" from inventory?`)) return;
   const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
   if (card) card.remove();
-  saveInventory();
+  _flushInventory();
 }
 
 // ── Save inventory (card-based) ──
