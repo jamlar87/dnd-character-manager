@@ -575,14 +575,14 @@
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Resistances</span>
-          <span class="stat-val defense-display" data-field="damage_resistances" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_resistances|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="damage_resistances" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ merged_resist|join(', ') or '—' }}</span>
         </div>
         <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
              onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Immunities</span>
-          <span class="stat-val defense-display" data-field="damage_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_immunities|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="damage_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ merged_immune|join(', ') or '—' }}</span>
         </div>
         <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
              onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"

@@ -2682,13 +2682,38 @@ async def character_sheet(char_id: int, request: Request):
     db2.close()
     campaign_info = {"id": campaign_row[0], "name": campaign_row[1]} if campaign_row else None
 
-    return _render("sheet.html", request=request, character=char, spells=spells,
+    # Merge all resistance/immunity sources for edit-picker display values
+    merged_resist = list(char.get("damage_resistances", []))
+    for fd in feature_defenses:
+        for r in fd.get("resist", []):
+            if r not in merged_resist:
+                merged_resist.append(r)
+    for r in item_effects.get("resist", []):
+        if r not in merged_resist:
+            merged_resist.append(r)
+
+    merged_immune = list(char.get("damage_immunities", []))
+    for fd in feature_defenses:
+        for i in fd.get("immune", []):
+            if i not in merged_immune:
+                merged_immune.append(i)
+    for i in item_effects.get("immune", []):
+        if i not in merged_immune:
+            merged_immune.append(i)
+
+    return _render("sheet.html", request=request, character=char,
+                   spells=spells, modifiers=mods, spell_slots=slots,
+                   spell_attack_bonus=spell_attack_bonus, spell_save_dc=sdc,
+                   color_map=COLOR_MAP, passive_perception=percep,
+                   ac_calculation=ac_calc, stat_boxes_html=stat_boxes_html,
+                   skills_html=skills_html, avatar_url=avatar_url,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
                    sc_mod=sc_mod, class_levels=class_levels_data,
                    feature_defenses=feature_defenses, item_effects=item_effects,
+                   merged_resist=merged_resist, merged_immune=merged_immune,
                    item_attunement_json=item_attunement_json,
                    item_attunement_dict=item_attunement_dict,
                    campaign_info=campaign_info)
@@ -2942,13 +2967,16 @@ async def generate_relationship(char_id: int, request: Request):
     char_race = char.get("race", "Human")
     char_class = char.get("class_name", "Fighter")
     char_level = char.get("level", 1)
-    ai_prompt = f"""Create a D&D NPC for a character's backstory.
-Character: {char_name}, {char_race} {char_class} L{char_level}.
-Relationship type: {rel_type}.
-Player's description: "{prompt}"
-
-Generate a vivid NPC. Return ONLY valid JSON (no markdown):
-{{"name": "NPC Name", "race": "D&D race", "class": "class or occupation", "level": 1-20, "description": "2-3 sentence description of appearance and personality", "relationship_detail": "1-2 sentences about their history with {char_name}"}}"""
+    ai_prompt = (
+        f"Create a D&D NPC for a character's backstory.\n"
+        f"Character: {char_name}, {char_race} {char_class} L{char_level}.\n"
+        f"Relationship type: {rel_type}.\n"
+        f'Player\'s description: "{prompt}"\n\n'
+        "Generate a vivid NPC. Return ONLY valid JSON (no markdown):\n"
+        '{"name": "NPC Name", "race": "D&D race", "class": "class or occupation", '
+        '"level": 1-20, "description": "2-3 sentence description of appearance and personality", '
+        f'"relationship_detail": "1-2 sentences about their history with {char_name}"' + "}"
+    )
     ai_text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
     npc_data = {}
     name = prompt[:50]
