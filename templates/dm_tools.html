@@ -522,6 +522,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <select id="combatEncounterSelect" onchange="loadCombatEncounter()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
       <option value="">— Select encounter —</option>
     </select>
+    <select id="combatCampaignSelect" onchange="loadCombatCampaign()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
+      <option value="">— Select campaign —</option>
+    </select>
     <button class="btn btn-accent btn-sm" id="btnRollInit" onclick="rollInitiative()">🎲 Roll Initiative</button>
     <button class="btn btn-outline btn-sm" id="btnRerollInit" onclick="rollInitiative()" style="display:none">🎲 Reroll</button>
     <span style="margin-left:0.5rem;font-size:0.85rem;color:var(--text-muted)" id="combatStatus"></span>
@@ -1814,7 +1817,8 @@ async function keepAllLoot() {
 // ⚔️ COMBAT TRACKER
 // ═══════════════════════════════════════════════════════════
 let _combatEncId = null;
-let _combatParticipants = [];  // {en_id, name, initiative, hp_current, hp_max, ac, defeated, ...}
+let _combatCampId = null;
+let _combatParticipants = [];  // {en_id, name, initiative, hp_current, hp_max, ac, defeated, is_player, ...}
 let _combatRound = 1;
 let _combatTurnIdx = 0;        // index into alive participants
 let _combatOrder = [];         // en_id order array
@@ -1848,6 +1852,20 @@ async function initCombatPanel() {
       sel.appendChild(opt);
     });
   } catch(e) { /* silent */ }
+
+  // Also populate campaign dropdown
+  const campSel = document.getElementById('combatCampaignSelect');
+  if (campSel.dataset.loaded) return;
+  campSel.dataset.loaded = '1';
+  try {
+    const r = await fetch('/api/dm/campaigns');
+    const d = await r.json();
+    (d.campaigns || []).forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id; opt.textContent = c.name;
+      campSel.appendChild(opt);
+    });
+  } catch(e) {}
 }
 
 // ── Load encounter for combat ──
@@ -1893,51 +1911,140 @@ async function loadCombatEncounter() {
   await refreshCombatParticipants();
 }
 
+// ── Load campaign player characters ──
+async function loadCombatCampaign() {
+  const campSel = document.getElementById('combatCampaignSelect');
+  _combatCampId = campSel.value ? parseInt(campSel.value) : null;
+
+  // If no encounter selected either, just hide tracker
+  if (!_combatEncId && !_combatCampId) {
+    document.getElementById('combatTracker').style.display = 'none';
+    return;
+  }
+
+  // Fetch campaign characters
+  if (_combatCampId) {
+    try {
+      const r = await fetch('/api/dm/campaigns');
+      const d = await r.json();
+      const camp = (d.campaigns || []).find(c => c.id === _combatCampId);
+      if (camp && camp.characters) {
+        // Merge player characters into participants (avoiding duplicates)
+        const existingNpcIds = new Set(_combatParticipants.filter(p => !p.is_player).map(p => p.en_id));
+        for (const ch of camp.characters) {
+          // Use negative char_id as key to avoid collision with encounter NPC IDs
+          const key = -ch.id;
+          if (!_combatParticipants.find(p => p.is_player && p.char_id === ch.id)) {
+            _combatParticipants.push({
+              en_id: key,
+              char_id: ch.id,
+              name: ch.name,
+              race: ch.race || '',
+              class_name: ch.class_name || '',
+              level: ch.level || 1,
+              is_enemy: 0,
+              is_player: true,
+              role: ch.subclass || ch.class_name || '',
+              ac: ch.ac || 10,
+              hp_current: ch.hp_current || 1,
+              hp_max: ch.hp_max || 1,
+              defeated: 0,
+              initiative: (ch.modifiers?.dexterity || 0),
+              dex_mod: ch.modifiers?.dexterity || 0
+            });
+          }
+        }
+      }
+    } catch(e) {}
+  }
+
+  if (_combatParticipants.length > 0) {
+    document.getElementById('combatTracker').style.display = '';
+    document.getElementById('btnRollInit').style.display = '';
+    document.getElementById('btnRerollInit').style.display = 'none';
+    document.getElementById('combatStatus').textContent =
+      `${_combatParticipants.length} combatants loaded`;
+  }
+  renderInitiativeTrack();
+}
+
 // ── Roll initiative ──
 async function rollInitiative() {
-  if (!_combatEncId) return alert('Select an encounter first');
-  try {
-    const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
-    const d = await r.json();
-    if (!d.ok) return alert(d.error || 'Failed to roll');
-    _combatParticipants = d.participants;
-    _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
-    _combatRound = 1;
-    _combatTurnIdx = 0;
-    renderInitiativeTrack();
-    saveCombatState();
-    document.getElementById('btnRollInit').style.display = 'none';
-    document.getElementById('btnRerollInit').style.display = '';
-    document.getElementById('combatStatus').textContent =
-      `🎲 ${_combatParticipants.length} participants rolled`;
-  } catch(e) { alert('Failed to roll initiative'); }
+  if (!_combatEncId && !_combatCampId) return alert('Select an encounter or campaign first');
+
+  // Roll for encounter NPCs (server-side)
+  if (_combatEncId) {
+    try {
+      const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
+      const d = await r.json();
+      if (!d.ok) return alert(d.error || 'Failed to roll');
+      // Replace NPC participants
+      _combatParticipants = _combatParticipants.filter(p => p.is_player);
+      for (const npc of d.participants) {
+        _combatParticipants.push({...npc, is_player: false, char_id: null});
+      }
+    } catch(e) { alert('Failed to roll NPC initiative'); return; }
+  }
+
+  // Roll for player characters (client-side)
+  for (const p of _combatParticipants) {
+    if (p.is_player) {
+      const roll = Math.floor(Math.random() * 20) + 1;
+      p.roll = roll;
+      p.initiative = roll + (p.dex_mod || 0);
+    }
+  }
+
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  _combatRound = 1;
+  _combatTurnIdx = 0;
+  renderInitiativeTrack();
+  saveCombatState();
+  document.getElementById('btnRollInit').style.display = 'none';
+  document.getElementById('btnRerollInit').style.display = '';
+  document.getElementById('combatStatus').textContent =
+    `🎲 ${_combatParticipants.length} participants rolled`;
 }
 
 // ── Refresh participants from DB (used after HP changes, adding NPCs, etc.) ──
 async function refreshCombatParticipants() {
-  if (!_combatEncId) return;
-  try {
-    const r = await fetch(`/api/dm/encounter/${_combatEncId}`);
-    const d = await r.json();
-    _combatParticipants = (d.encounter.participants || []).map(p => ({
-      en_id: p.id, npc_id: p.npc_id, name: p.npc_name,
-      race: p.race || '', class_name: p.class_name || '',
-      level: p.level || 1, is_enemy: p.is_enemy, role: p.role || '',
-      ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
-      hp_max: p.hp_max || p.npc_hp_max || 10,
-      defeated: p.defeated || 0, initiative: p.initiative || 0
-    }));
-    // Sort by initiative desc, alive first
-    _combatParticipants.sort((a, b) => {
-      if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
-      return (b.initiative||0) - (a.initiative||0);
-    });
-    // Rebuild order from combat state if available
-    if (_combatOrder.length === 0) {
-      _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
-    }
-    renderInitiativeTrack();
-  } catch(e) {}
+  if (!_combatEncId && !_combatCampId) return;
+  // Preserve player characters
+  const players = _combatParticipants.filter(p => p.is_player);
+
+  if (_combatEncId) {
+    try {
+      const r = await fetch(`/api/dm/encounter/${_combatEncId}`);
+      const d = await r.json();
+      const npcs = (d.encounter.participants || []).map(p => ({
+        en_id: p.id, npc_id: p.npc_id, name: p.npc_name,
+        race: p.race || '', class_name: p.class_name || '',
+        level: p.level || 1, is_enemy: p.is_enemy, role: p.role || '',
+        ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
+        hp_max: p.hp_max || p.npc_hp_max || 10,
+        defeated: p.defeated || 0, initiative: p.initiative || 0,
+        is_player: false, char_id: null
+      }));
+      _combatParticipants = [...players, ...npcs];
+    } catch(e) {}
+  } else {
+    _combatParticipants = [...players];
+  }
+
+  // Sort by initiative desc, alive first
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+  if (_combatOrder.length === 0) {
+    _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  }
+  renderInitiativeTrack();
 }
 
 // ── Render initiative track ──
@@ -1979,7 +2086,8 @@ function renderInitiativeTrack() {
     const isCurrent = p.en_id === currentEnId;
     const hpPct = p.hp_max > 0 ? Math.max(0, Math.round(p.hp_current / p.hp_max * 100)) : 0;
     const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'warn' : hpPct < 50 ? 'warn' : 'ok';
-    const badge = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
+    const badge = p.is_player ? '<span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem">PC</span>'
+      : p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
       : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
     const role = p.role ? ` · ${p.role}` : '';
     const cls = p.class_name ? `L${p.level} ${p.class_name}${role}` : `L${p.level}${role}`;
@@ -1992,7 +2100,7 @@ function renderInitiativeTrack() {
       ondragover="initDragOver(event)"
       ondrop="initDrop(event, ${p.en_id})">
       <div class="init-turn-marker">${isCurrent ? '▶' : (i+1)}</div>
-      <div class="init-roll" title="d20 + DEX">🎲 ${p.initiative}</div>
+      <div class="init-roll" title="d20${p.dex_mod >= 0 ? '+' + p.dex_mod : p.dex_mod}">🎲 ${p.initiative}${p.roll ? ' <span style=\"font-size:0.55rem;opacity:0.6\">(' + p.roll + (p.dex_mod >= 0 ? '+' : '') + p.dex_mod + ')</span>' : ''}</div>
       <div class="init-info">
         <div class="init-name">${p.name} ${badge}</div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
@@ -2050,12 +2158,7 @@ async function adjustHp(enId, newHp) {
   p.hp_current = hp;
   if (hp <= 0) p.defeated = 1;
 
-  try {
-    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({single:{id:enId, hp_current:hp, defeated: hp<=0?1:0}})
-    });
-  } catch(e) {}
+  await saveCombatHp(p, hp);
   renderInitiativeTrack();
   saveCombatState();
 }
@@ -2070,12 +2173,7 @@ async function combatApplyHP(enId, sign) {
   p.hp_current = hp;
   if (hp <= 0) p.defeated = 1;
 
-  try {
-    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({single:{id:enId, hp_current:hp, defeated: hp<=0?1:0}})
-    });
-  } catch(e) {}
+  await saveCombatHp(p, hp);
   renderInitiativeTrack();
   saveCombatState();
 }
@@ -2086,17 +2184,31 @@ async function combatResetHP(enId) {
   p.hp_current = p.hp_max;
   p.defeated = 0;
 
-  try {
-    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({single:{id:enId, hp_current: p.hp_max, defeated: 0}})
-    });
-  } catch(e) {}
-
+  await saveCombatHp(p, p.hp_max);
   // Rebuild order (might have been defeated)
   _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
   renderInitiativeTrack();
   saveCombatState();
+}
+
+async function saveCombatHp(p, hp) {
+  if (p.is_player && p.char_id) {
+    // Save to character table
+    try {
+      await fetch('/api/update', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({character_id: p.char_id, hp_current: hp})
+      });
+    } catch(e) {}
+  } else if (p.en_id > 0 && _combatEncId) {
+    // Save to encounter NPC table
+    try {
+      await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({single:{id:p.en_id, hp_current:hp, defeated: p.defeated?1:0}})
+      });
+    } catch(e) {}
+  }
 }
 
 // ── Defeated toggle ──
@@ -2105,12 +2217,16 @@ async function toggleDefeatedCombat(enId) {
   if (!p) return;
   p.defeated = p.defeated ? 0 : 1;
 
-  try {
-    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({single:{id:enId, defeated: p.defeated}})
-    });
-  } catch(e) {}
+  if (p.is_player && p.char_id) {
+    // Just track locally for players — no server-side defeated state on character table
+  } else if (p.en_id > 0 && _combatEncId) {
+    try {
+      await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({single:{id:p.en_id, defeated: p.defeated}})
+      });
+    } catch(e) {}
+  }
 
   // Rebuild order excluding defeated
   _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
