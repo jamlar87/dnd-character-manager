@@ -1124,6 +1124,7 @@
 {% block scripts %}
 <script>
 const CHAR_ID = {{ character.id }};
+const CHAR_LEVEL = {{ character.level }};
 const HP_MAX = {{ character.hp_max }};
 const HD_TOTAL = {{ character.hit_dice|int }};
 const HD_DIE = {{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else 8 }};
@@ -2476,8 +2477,18 @@ let luChoices = {};     // accumulated choices
 let luClassToLevel = null;  // multiclass: which class to level
 
 async function openLevelUp() {
+  // Ask for target level
+  const maxTarget = 20;
+  const target = prompt(`Level to? (${CHAR_LEVEL + 1}–${maxTarget})`, CHAR_LEVEL + 1);
+  if (!target) return;
+  const targetNum = parseInt(target);
+  if (isNaN(targetNum) || targetNum <= CHAR_LEVEL || targetNum > 20) {
+    alert(`Enter a level between ${CHAR_LEVEL + 1} and 20`);
+    return;
+  }
+  
   try {
-    const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info`);
+    const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info?target=${targetNum}`);
     luData = await resp.json();
     if (luData.error) { alert(luData.error); return; }
   } catch(e) { console.error(e); alert('Failed to load level-up info'); return; }
