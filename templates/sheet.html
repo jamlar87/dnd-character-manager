@@ -2503,8 +2503,13 @@ async function openLevelUp() {
   luSteps = [];
   luSteps.push({label: 'Overview', render: renderLuOverview});
   
-  // Multiclass class picker — insert after Overview if options exist
-  if (luData.multiclass && luData.multiclass.options && luData.multiclass.options.length > 0) {
+  // Class picker — only when character already has multiple classes,
+  // or when doing a multi-level jump where multiclassing is plausible
+  const hasExistingClasses = luData.multiclass && luData.multiclass.class_levels && 
+    Object.keys(luData.multiclass.class_levels).length > 1;
+  const isMultiJump = (luData.target_level - luData.current_level) > 1;
+  const hasOptions = luData.multiclass && luData.multiclass.options && luData.multiclass.options.length > 0;
+  if (hasExistingClasses || (isMultiJump && hasOptions)) {
     luClassToLevel = luData.multiclass.class_to_level;
     luSteps.push({label: 'Class', render: renderLuClassPick});
   }
@@ -2584,57 +2589,49 @@ function renderLuOverview(el) {
 function renderLuClassPick(el) {
   const mc = luData.multiclass;
   const cl = mc.class_levels || {};
+  const curClass = mc.class_to_level;
   
   // Build current class levels display
   const lvlDisplay = Object.entries(cl).map(([c, l]) => `${c} ${l}`).join(' / ');
   
   let html = `<div style="font-size:0.9rem;line-height:1.6">
     <h3 style="margin-bottom:0.5rem">Choose Class to Level</h3>
-    <p style="color:var(--text-muted);margin-bottom:1rem">Current: <strong>${lvlDisplay}</strong></p>
-    <div style="display:flex;flex-direction:column;gap:0.5rem">`;
+    <p style="color:var(--text-muted);margin-bottom:1rem">Current: <strong>${lvlDisplay}</strong></p>`;
   
-  // Build list of options: current class first, then multiclass options
-  const allOpts = [];
-  // Current class option
-  const curClass = mc.class_to_level;
-  if (curClass) {
-    allOpts.push({
-      class: curClass,
-      hit_die: luData.hp ? luData.hp.hit_die : '?',
-      primary_ability: '',
-      spellcasting: '',
-      proficiencies: [],
-      is_current: true
-    });
-  }
-  // Multiclass options
-  if (mc.options) {
-    mc.options.forEach(opt => {
-      allOpts.push({...opt, is_current: (opt.class === curClass)});
-    });
-  }
-  
-  allOpts.forEach((opt, idx) => {
-    const checked = luClassToLevel === opt.class;
-    const extraInfo = [];
-    if (opt.hit_die) extraInfo.push(`Hit Die: ${opt.hit_die}`);
-    if (opt.primary_ability) extraInfo.push(`Primary: ${opt.primary_ability}`);
-    if (opt.spellcasting) extraInfo.push(`Spells: ${opt.spellcasting}`);
-    if (opt.proficiencies && opt.proficiencies.length && opt.proficiencies[0] !== 'None') {
-      extraInfo.push(`Prof: ${opt.proficiencies.join(', ')}`);
-    }
-    
-    html += `<label style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.6rem;background:var(--bg);border:1px solid ${checked ? 'var(--accent)' : 'var(--border)'};border-radius:6px;cursor:pointer">
-      <input type="radio" name="lu-class" value="${opt.class}" ${checked ? 'checked' : ''} onchange="luClassToLevel=this.value" style="margin-top:0.15rem">
-      <div>
-        <strong>${opt.class}</strong>${opt.is_current ? ' <span style="font-size:0.75rem;color:var(--text-muted)">(current focus)</span>' : ''}
-        ${extraInfo.length ? `<div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem">${extraInfo.join(' · ')}</div>` : ''}
-      </div>
+  // ── Existing classes (always shown first) ──
+  html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem">Continue existing class:</p>`;
+  html += `<div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem">`;
+  for (const [clsName, clsLvl] of Object.entries(cl)) {
+    const checked = luClassToLevel === clsName;
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      <input type="radio" name="lu-class" value="${clsName}" ${checked ? 'checked' : ''} onchange="luClassToLevel=this.value">
+      <strong>${clsName}</strong>
+      <span style="font-size:0.75rem;color:var(--text-muted)">Lv ${clsLvl} → Lv ${clsLvl + 1}</span>
     </label>`;
-  });
+  }
+  html += `</div>`;
   
-  html += `</div></div>`;
+  // ── New multiclass options ──
+  if (mc.options && mc.options.length > 0) {
+    const newOpts = mc.options.filter(o => !cl[o.class]);
+    if (newOpts.length > 0) {
+      html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem">Multiclass into a new class:</p>`;
+      html += `<div style="display:flex;flex-direction:column;gap:0.4rem">`;
+      newOpts.forEach(opt => {
+        const checked = luClassToLevel === opt.class;
+        html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+          <input type="radio" name="lu-class" value="${opt.class}" ${checked ? 'checked' : ''} onchange="luClassToLevel=this.value">
+          <strong>${opt.class}</strong>
+          <span style="font-size:0.7rem;color:var(--accent)">(new)</span>
+        </label>`;
+      });
+      html += `</div>`;
+    }
+  }
+  
+  html += `</div>`;
   el.innerHTML = html;
+  if (!luClassToLevel) luClassToLevel = curClass;
 }
 
 function renderLuHP(el) {
