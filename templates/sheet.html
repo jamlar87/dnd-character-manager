@@ -815,6 +815,18 @@
           Species Traits
           <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted);margin-left:0.3rem">({{ character.race }}{% if character.subrace %} — {{ character.subrace }}{% endif %})</span>
         </h3>
+        {% if character.race == 'Dragonborn' %}
+        <div class="edit-only-block" style="margin-bottom:0.5rem;font-size:0.75rem">
+          <label style="color:var(--text-muted);font-size:0.7rem;display:block;margin-bottom:0.15rem">Draconic Ancestry</label>
+          <select id="dragonborn-ancestry" onchange="saveAncestry(this.value)"
+                  style="font-size:0.7rem;padding:0.2rem 0.4rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:4px">
+            <option value="" {% if not character.dragonborn_ancestry %}selected{% endif %}>— Choose ancestry —</option>
+            {% for color, data in draconic_ancestries.items() %}
+            <option value="{{ color }}" {% if character.dragonborn_ancestry == color %}selected{% endif %}>{{ color }} ({{ data.resist }}, {{ data.shape }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
         <div class="passive-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:0.3rem">
           {% for rt in racial_traits %}
           <div>
@@ -1428,6 +1440,11 @@ function api(path, data) {
   return fetch('/api/character/' + CHAR_ID + path, {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
   });
+}
+
+async function saveAncestry(ancestry) {
+  await api('/update', { dragonborn_ancestry: ancestry });
+  location.reload();
 }
 
 // ── Tabs ──

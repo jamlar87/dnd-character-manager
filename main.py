@@ -663,6 +663,11 @@ def init_db():
         db.execute("ALTER TABLE characters ADD COLUMN attuned_items TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
+    # Migration: dragonborn_ancestry for Dragonborn draconic ancestry choice
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN dragonborn_ancestry TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
     # Backfill: populate class_levels from class_name + level for existing characters
     db.execute("UPDATE characters SET class_levels = json_object(class_name, level) WHERE class_levels = '{}' OR class_levels IS NULL OR class_levels = ''")
     # Migration: character_relationships for History & Relationships tab
@@ -880,11 +885,14 @@ RACIAL_TRAIT_EFFECTS = {
 }
 
 
-def get_racial_trait_effects(race_name: str, subrace: str = "") -> dict:
+def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = "") -> dict:
     """Return merged mechanical effects for a race/subrace combination.
 
     Returns {armor_profs, weapon_profs, tool_profs, skill_profs,
              damage_resist, condition_immune, speed, darkvision, hp_per_level}.
+
+    For Dragonborn, pass the draconic ancestry color (e.g. 'Gold') to get
+    the correct damage resistance from the Draconic Ancestry table (PHB p.34).
 
     Callers should merge these into DB-stored values for display (render-time)
     and into the character record at creation time.
@@ -932,7 +940,29 @@ def get_racial_trait_effects(race_name: str, subrace: str = "") -> dict:
                 result[key] = effects[key]
         result["hp_per_level"] += effects.get("hp_per_level", 0)
 
+    # ── Dragonborn ancestry resistance (PHB p.34) ──
+    if ancestry and ancestry in DRACONIC_ANCESTRIES:
+        resist_type = DRACONIC_ANCESTRIES[ancestry]["resist"]
+        if resist_type not in result["damage_resist"]:
+            result["damage_resist"].append(resist_type)
+
     return result
+
+
+# PHB p.34 — Draconic Ancestry table
+# color → {resist, damage_type, shape, save_stat}
+DRACONIC_ANCESTRIES = {
+    "Black":     {"resist": "Acid",      "damage": "Acid",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
+    "Blue":      {"resist": "Lightning", "damage": "Lightning",  "shape": "5 by 30 ft. line",  "save": "Dexterity"},
+    "Brass":     {"resist": "Fire",      "damage": "Fire",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
+    "Bronze":    {"resist": "Lightning", "damage": "Lightning",  "shape": "5 by 30 ft. line",  "save": "Dexterity"},
+    "Copper":    {"resist": "Acid",      "damage": "Acid",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
+    "Gold":      {"resist": "Fire",      "damage": "Fire",       "shape": "15 ft. cone",       "save": "Dexterity"},
+    "Green":     {"resist": "Poison",    "damage": "Poison",     "shape": "15 ft. cone",       "save": "Constitution"},
+    "Red":       {"resist": "Fire",      "damage": "Fire",       "shape": "15 ft. cone",       "save": "Dexterity"},
+    "Silver":    {"resist": "Cold",      "damage": "Cold",       "shape": "15 ft. cone",       "save": "Constitution"},
+    "White":     {"resist": "Cold",      "damage": "Cold",       "shape": "15 ft. cone",       "save": "Constitution"},
+}
 
 
 def _build_racial_traits(char: dict) -> list:
@@ -1272,7 +1302,8 @@ async def create_character_page(request: Request):
     return _render("create.html", request=request,
         races=RACES, subasis=SUBASIS, classes=CLASSES,
         all_skills=ALL_SKILLS, skill_abilities=SKILL_ABILITIES,
-        backgrounds=BACKGROUNDS, alignments=ALIGNMENTS)
+        backgrounds=BACKGROUNDS, alignments=ALIGNMENTS,
+        draconic_ancestries=DRACONIC_ANCESTRIES)
 
 @app.post("/api/character/create", response_class=JSONResponse)
 async def api_create_character(request: Request):
@@ -1349,7 +1380,8 @@ async def api_create_character(request: Request):
     save_profs = class_data.get("saves", [])
 
     # ── Racial trait effects (PHB 2014) ──
-    racial_effects = get_racial_trait_effects(race_name, subrace)
+    racial_effects = get_racial_trait_effects(race_name, subrace,
+                                               data.get("dragonborn_ancestry", ""))
     damage_resist = racial_effects["damage_resist"]
     condition_immune = racial_effects["condition_immune"]
     damage_immune = []
@@ -1404,8 +1436,8 @@ async def api_create_character(request: Request):
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
         damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
-        feature_data, attacks_data, spell_slot_data, passive_perception, portrait_url, portrait_prompt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -1418,6 +1450,7 @@ async def api_create_character(request: Request):
         json.dumps(inventory), json.dumps([]),
         json.dumps(damage_resist), json.dumps(damage_immune), json.dumps(damage_vuln), json.dumps(condition_immune),
         json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
+        data.get("dragonborn_ancestry", ""),
         data.get("portrait_url", ""), data.get("portrait_prompt", "")
     ))
     char_id = cur.lastrowid
@@ -2942,7 +2975,8 @@ async def character_sheet(char_id: int, request: Request):
 
     # Merge all resistance/immunity sources for edit-picker display values
     # Start with DB-stored + racial effects + feature-derived + item-granted
-    racial_effects = get_racial_trait_effects(char.get("race", ""), char.get("subrace", ""))
+    racial_effects = get_racial_trait_effects(char.get("race", ""), char.get("subrace", ""),
+                                              char.get("dragonborn_ancestry", ""))
 
     merged_resist = list(char.get("damage_resistances", []))
     for r in racial_effects["damage_resist"]:
@@ -3001,7 +3035,8 @@ async def character_sheet(char_id: int, request: Request):
                    item_attunement_json=item_attunement_json,
                    item_attunement_dict=item_attunement_dict,
                    campaign_info=campaign_info,
-                   racial_traits=_build_racial_traits(char))
+                   racial_traits=_build_racial_traits(char),
+                   draconic_ancestries=DRACONIC_ANCESTRIES)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -3030,6 +3065,7 @@ async def update_character(char_id: int, request: Request):
         "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
         "attuned_items",
+        "dragonborn_ancestry",
     }
     updates = {}
     for k, v in data.items():

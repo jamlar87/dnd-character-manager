@@ -40,6 +40,7 @@
       <div class="option-grid" id="subrace-grid"></div>
     </div>
     <div id="race-info" class="card" style="margin-top:1rem;display:none"></div>
+    <div id="ancestry-section" style="display:none;margin-top:0.5rem"></div>
     <div class="wizard-nav"><button class="btn btn-outline btn-sm" onclick="randomizeRace()">🎲 Randomize</button><span></span><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
@@ -294,6 +295,16 @@ function selectRace(name) {
     ${state.subrace && r.subrace_descs && r.subrace_descs[state.subrace] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${state.subrace}:</strong> ${r.subrace_descs[state.subrace]}</p>` : ''}
     ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
   
+  // Dragonborn ancestry picker
+  const ancestryDiv = document.getElementById('ancestry-section');
+  if (name === 'Dragonborn') {
+    ancestryDiv.style.display = 'block';
+    buildAncestryDropdown();
+  } else {
+    ancestryDiv.style.display = 'none';
+    state.dragonborn_ancestry = '';
+  }
+
   updateAsiPreview();
 }
 
@@ -309,6 +320,19 @@ function selectSubrace(s) {
     ${r.subrace_descs && r.subrace_descs[s] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${s}:</strong> ${r.subrace_descs[s]}</p>` : ''}
     ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
   updateAsiPreview();
+}
+
+function buildAncestryDropdown() {
+  const div = document.getElementById('ancestry-section');
+  div.innerHTML = `
+    <label style="font-size:0.8rem;color:var(--text-muted);display:block;margin-bottom:0.2rem">Draconic Ancestry (determines resistance & breath weapon)</label>
+    <select id="ancestry-pick" onchange="state.dragonborn_ancestry=this.value"
+            style="font-size:0.8rem;padding:0.25rem 0.5rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:4px">
+      <option value="">— Choose ancestry —</option>
+      ${Object.entries(DRACONIC_ANCESTRIES).map(([color, data]) => 
+        `<option value="${color}" ${state.dragonborn_ancestry === color ? 'selected' : ''}>${color} Dragon — ${data.resist} resist, ${data.shape} (${data.save} save)</option>`
+      ).join('')}
+    </select>`;
 }
 
 // ── Step 1: Class ──
@@ -541,6 +565,7 @@ async function createCharacter() {
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
     level: 1,  // Always create at L1 — level-up wizard handles higher levels
     equipment: state.equipment,
+    dragonborn_ancestry: state.dragonborn_ancestry || '',
     portrait_url: state.portrait_url || '',
     portrait_prompt: state.portrait_prompt || ''
   };
