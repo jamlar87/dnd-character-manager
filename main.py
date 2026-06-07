@@ -2321,7 +2321,13 @@ async def level_up_info(char_id: int, request: Request):
     subclass_info = None
     sc = SUBCLASS_LEVELS.get(cls)
     if sc and current_level < sc["level"] <= target_level and not char.get("subclass"):
-        subclass_info = {"level": sc["level"], "label": sc["label"], "options": sc["options"]}
+        descs = CLASSES.get(cls, {}).get("subclass_descs", {})
+        subclass_info = {
+            "level": sc["level"],
+            "label": sc["label"],
+            "options": sc["options"],
+            "descriptions": {opt: descs.get(opt, "") for opt in sc["options"]},
+        }
     
     # Proficiency bonus
     old_pb = PROFICIENCY_BONUS.get(current_level, 2)

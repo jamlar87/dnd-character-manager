@@ -2758,11 +2758,15 @@ function renderLuSubclass(el) {
   const sc = luData.subclass;
   let html = `<div>
     <p style="font-weight:600;margin-bottom:0.75rem">Choose your ${sc.label}</p>
-    <div style="display:flex;flex-direction:column;gap:0.4rem">`;
+    <div style="display:flex;flex-direction:column;gap:0.5rem">`;
   sc.options.forEach(opt => {
-    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
-      <input type="radio" name="lu-subclass" value="${opt}" onchange="luChoices.subclass=this.value">
-      <span>${opt}</span>
+    const desc = (sc.descriptions && sc.descriptions[opt]) || '';
+    html += `<label style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      <input type="radio" name="lu-subclass" value="${opt}" onchange="luChoices.subclass=this.value" style="margin-top:0.15rem;flex-shrink:0">
+      <div>
+        <strong>${opt}</strong>
+        ${desc ? `<p style="margin:0.25rem 0 0 0;font-size:0.8rem;color:var(--text-muted);line-height:1.4">${desc}</p>` : ''}
+      </div>
     </label>`;
   });
   html += `</div></div>`;
