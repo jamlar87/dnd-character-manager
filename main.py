@@ -1772,12 +1772,32 @@ async def dm_ai_build_encounter(request: Request):
     """AI-suggested encounter composition based on party size/level, environment, and difficulty."""
     user = require_user(request)
     data = await request.json()
-    party_level = int(data.get("party_level", 5))
-    party_size = int(data.get("party_size", 4))
-    environment = data.get("environment", "dungeon")
-    difficulty = data.get("difficulty", "medium")
-    theme = data.get("theme", "")
-    tone = data.get("tone", "")
+    party_level = int(data.get('party_level', 5))
+    party_size = int(data.get('party_size', 4))
+    environment = data.get('environment', 'dungeon')
+    difficulty = data.get('difficulty', 'medium')
+    theme = data.get('theme', '')
+    tone = data.get('tone', '')
+    target_cr_raw = data.get('target_cr', '')
+
+    # Determine effective CR range for filtering
+    if target_cr_raw:
+        try:
+            if '/' in target_cr_raw:
+                parts = target_cr_raw.split('/')
+                target_cr = float(parts[0]) / float(parts[1])
+            else:
+                target_cr = float(target_cr_raw)
+        except (ValueError, ZeroDivisionError):
+            target_cr = None
+    else:
+        target_cr = None
+
+    # Effective level for XP budget lookup
+    if target_cr is not None:
+        eff_level = min(20, max(1, int(target_cr * 2) + 1))
+    else:
+        eff_level = party_level
 
     # XP budgets (DMG p.82 — Adjusted XP thresholds for party of N)
     # Per-character thresholds for medium encounters at each level
@@ -1793,9 +1813,9 @@ async def dm_ai_build_encounter(request: Request):
 
     xp_budgets = {"easy": MEDIUM_XP, "medium": MEDIUM_XP, "hard": HARD_XP, "deadly": DEADLY_XP}
     if difficulty == "easy":
-        xp_per_char = int(MEDIUM_XP.get(party_level, 500) * 0.5)
+        xp_per_char = int(MEDIUM_XP.get(eff_level, 500) * 0.5)
     else:
-        xp_per_char = xp_budgets.get(difficulty, MEDIUM_XP).get(party_level, 500)
+        xp_per_char = xp_budgets.get(difficulty, MEDIUM_XP).get(eff_level, 500)
     xp_budget = xp_per_char * party_size
 
     # Load monsters
@@ -1851,15 +1871,18 @@ async def dm_ai_build_encounter(request: Request):
         if not env_match:
             continue
 
-        # CR within reasonable range of party level
+        # CR within reasonable range (target CR ±2, or party level ±2 if no target)
         try:
             m_cr = float(m.get("challenge_rating", 0))
         except (TypeError, ValueError):
             continue
 
-        # Allow monsters up to party_level+2 CR for tough fights, down to 1/8
-        max_cr = party_level + 2
-        min_cr = max(0, party_level - 3)
+        if target_cr is not None:
+            max_cr = target_cr + 3
+            min_cr = max(0, target_cr - 2)
+        else:
+            max_cr = party_level + 2
+            min_cr = max(0, party_level - 3)
         if m_cr > max_cr or (m_cr < min_cr and m_cr > 0.125):
             continue
         if m_cr < 0.125:
@@ -1877,7 +1900,8 @@ async def dm_ai_build_encounter(request: Request):
         })
 
     # AI composition suggestion
-    ai_prompt = f"""Suggest a D&D 5e encounter for a party of {party_size} level {party_level} characters.
+    cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
+    ai_prompt = f"""Suggest a D&D 5e encounter for {cr_info} characters.
 Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}' if tone else ''}
 Difficulty target: {difficulty}
 
@@ -1969,14 +1993,31 @@ async def dm_ai_build_npc(request: Request):
     """AI-generated NPC with full build. Uses same PHB-grounded engine as character builder."""
     user = require_user(request)
     data = await request.json()
-    race = data.get("race", "Human")
-    subrace = data.get("subrace", "")
-    class_name = data.get("class_name", "Fighter")
-    subclass = data.get("subclass", "")
-    level = min(max(int(data.get("level", 1)), 1), 20)
-    is_enemy = data.get("is_enemy", False)
-    personality_hint = data.get("personality_hint", "")
-    role_hint = data.get("role", "NPC")
+    race = data.get('race', 'Human')
+    subrace = data.get('subrace', '')
+    class_name = data.get('class_name', 'Fighter')
+    subclass = data.get('subclass', '')
+    is_enemy = data.get('is_enemy', False)
+    personality_hint = data.get('personality_hint', '')
+    role_hint = data.get('role', 'NPC')
+    target_cr_raw = data.get('target_cr', '')
+
+    # If target CR provided, auto-derive level; otherwise use manual level
+    if target_cr_raw:
+        try:
+            if '/' in target_cr_raw:
+                parts = target_cr_raw.split('/')
+                target_cr = float(parts[0]) / float(parts[1])
+            else:
+                target_cr = float(target_cr_raw)
+            # Rough CR→level mapping: L ≈ CR*2 + 1 (DMG p.274 approximation)
+            level = min(20, max(1, int(target_cr * 2) + 1))
+        except (ValueError, ZeroDivisionError):
+            level = min(max(int(data.get('level', 1)), 1), 20)
+            target_cr = None
+    else:
+        level = min(max(int(data.get('level', 1)), 1), 20)
+        target_cr = None
 
     # Use the same build engine as PCs
     abilities = allocate_ability_scores(class_name, race, subrace)
@@ -1996,7 +2037,8 @@ async def dm_ai_build_npc(request: Request):
     spell_slots = get_spell_slots(class_name, level) if get_caster_type(class_name) != "none" else {}
 
     # AI flavor
-    ai_prompt = f"""Generate a D&D 5e NPC concept for a {'villain/enemy' if is_enemy else 'friendly NPC'}.
+    cr_note = f' (target CR {target_cr_raw})' if target_cr_raw else ''
+    ai_prompt = f"""Generate a D&D 5e NPC concept for a {'villain/enemy' if is_enemy else 'friendly NPC'}{cr_note}.
 Race: {race}{' (' + subrace + ')' if subrace else ''}
 Class: {class_name} L{level}{' — ' + subclass if subclass else ''}
 Role: {role_hint}
@@ -2021,6 +2063,7 @@ Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": 
             "subclass": subclass or None,
             "race": race,
             "subrace": subrace or None,
+            "target_cr": target_cr_raw or None,
             "ability_scores": abilities,
             "modifiers": mods,
             "hit_points": hp,
@@ -2038,7 +2081,7 @@ Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": 
         }
     })
 
-
+# ── DM Tools: Encounter Management
 # ── DM Tools: Encounter Management ───────────────────────────────────────
 
 @app.post("/api/dm/encounter/create", response_class=JSONResponse)
