@@ -821,13 +821,6 @@
             {% if use_prepared and sp.prepared and sp.spell_level > 0 %}
             <span style="color:var(--success);font-size:0.65rem">prepared</span>
             {% endif %}
-            {% if sp.slots_max > 0 %}
-            <div class="slot-tracker" id="sp-slots-{{ sp.id }}" style="margin-left:0.3rem" onclick="event.stopPropagation()">
-              {% for i in range(sp.slots_max) %}
-              <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
-              {% endfor %}
-            </div>
-            {% endif %}
             <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
           </div>
           <div class="spell-body" style="padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
