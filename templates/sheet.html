@@ -2486,7 +2486,7 @@ async function openLevelUp() {
   luChoices = {};
   
   // Update title
-  document.getElementById('lu-title').textContent = `⬆ Level Up — L${luData.current_level} → L${luData.new_level}`;
+  document.getElementById('lu-title').textContent = `⬆ Level Up — L${luData.current_level} → L${luData.target_level}`;
   
   // Build steps
   luSteps = [];
@@ -2553,11 +2553,11 @@ function renderLuOverview(el) {
   const d = luData;
   let html = `<div style="font-size:0.9rem;line-height:1.6">`;
   html += `<p><strong>Class:</strong> ${d.class_name}</p>`;
-  html += `<p><strong>New Level:</strong> ${d.new_level}</p>`;
+  html += `<p><strong>New Level:</strong> ${d.target_level}</p>`;
   html += `<p><strong>HP:</strong> Gain 1d12 + CON (average ${d.hp.average}, max ${d.hp.max_roll})</p>`;
-  if (d.features_gained.length) {
+  if (d.all_features && d.all_features.length) {
     html += `<p><strong>New Features:</strong></p><ul>`;
-    d.features_gained.forEach(f => html += `<li>${f}</li>`);
+    d.all_features.forEach(f => html += `<li>${f}</li>`);
     html += `</ul>`;
   }
   if (d.proficiency_bonus.changed) {
@@ -2763,12 +2763,12 @@ function renderLuSpells(el) {
 function renderLuConfirm(el) {
   let html = `<div style="font-size:0.9rem;line-height:1.6">
     <h3 style="margin-bottom:0.75rem">Confirm Changes</h3>
-    <p><strong>Level:</strong> ${luData.current_level} → <strong style="color:var(--accent)">${luData.new_level}</strong></p>
+    <p><strong>Level:</strong> ${luData.current_level} → <strong style="color:var(--accent)">${luData.target_level}</strong></p>
     ${luClassToLevel ? '<p><strong>Leveling:</strong> ' + luClassToLevel + '</p>' : ''}
     <p><strong>HP:</strong> ${luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? 'Max (+' + luData.hp.max_roll + ')' : 'Average (+' + luData.hp.average + ')')}</p>`;
   
-  if (luData.features_gained.length) {
-    html += `<p><strong>Features:</strong> ${luData.features_gained.join(', ')}</p>`;
+  if (luData.all_features && luData.all_features.length) {
+    html += `<p><strong>Features:</strong> ${luData.all_features.join(', ')}</p>`;
   }
   if (luData.proficiency_bonus.changed) {
     html += `<p><strong>Proficiency:</strong> +${luData.proficiency_bonus.old} → +${luData.proficiency_bonus.new}</p>`;
