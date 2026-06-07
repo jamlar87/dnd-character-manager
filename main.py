@@ -143,6 +143,7 @@ def load_manual_data():
                     "speed": eff.get("speed"),
                     "darkvision": eff.get("darkvision"),
                     "hp_per_level": eff.get("hp_per_level", 0),
+                    "natural_armor": eff.get("natural_armor"),
                 }
                 RACIAL_TRAIT_EFFECTS[tname] = mapped
         print(f"  + Race: {name} ({len(traits)} traits)")
@@ -1057,6 +1058,7 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
         "speed": None,
         "darkvision": None,
         "hp_per_level": 0,
+        "natural_armor": None,
     }
 
     rl = race_name.lower()
@@ -1089,6 +1091,10 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
             if effects.get(key) is not None:
                 result[key] = effects[key]
         result["hp_per_level"] += effects.get("hp_per_level", 0)
+        # Natural armor: first trait wins (typically highest base AC)
+        na = effects.get("natural_armor")
+        if na and result["natural_armor"] is None:
+            result["natural_armor"] = na
 
     # ── Dragonborn ancestry resistance (PHB p.34) ──
     if ancestry and ancestry in DRACONIC_ANCESTRIES:
@@ -1548,6 +1554,15 @@ async def api_create_character(request: Request):
     if racial_effects.get("speed"):
         race_data = dict(race_data)
         race_data["speed"] = racial_effects["speed"]
+
+    # Racial natural armor (Tortle, Lizardfolk, etc.)
+    natural_armor = racial_effects.get("natural_armor")
+    if natural_armor:
+        ac_base = natural_armor.get("base_ac", 17)
+        # If armor allows DEX bonus (like Lizardfolk 13+DEX)
+        max_dex = natural_armor.get("max_dex")
+        if max_dex is not None:
+            ac_base += min((stats["dexterity"] - 10) // 2, max_dex)
 
     # Merge background items into inventory (normalize to {name, qty} dicts)
     def _parse_item(item):
@@ -2282,7 +2297,8 @@ async def dm_ai_build_npc(request: Request):
     pb = PROFICIENCY_BONUS.get(level, 2)
     con_mod = mods["constitution"]
     hp = calc_hp(class_name, level, con_mod)
-    ac = _calculate_ac(class_name, level, mods)
+    racial_eff = get_racial_trait_effects(race, subrace)
+    ac = _calculate_ac(class_name, level, mods, racial_eff.get("natural_armor"))
     class_data = CLASSES.get(class_name, CLASSES["Fighter"])
     saves = {ability: mod + (pb if ability in class_data.get("saves", []) else 0)
              for ability, mod in mods.items()}
@@ -3247,6 +3263,17 @@ async def character_sheet(char_id: int, request: Request):
     # Compute modifiers
     for stat in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
         char[f"{stat}_mod"] = (char[stat] - 10) // 2
+
+    # Recalculate AC for natural armor races (Tortle, Lizardfolk, etc.)
+    racial_effects = get_racial_trait_effects(
+        char.get("race", ""), char.get("subrace", ""),
+        char.get("dragonborn_ancestry", ""))
+    natural_armor = racial_effects.get("natural_armor")
+    if natural_armor:
+        char["ac"] = natural_armor.get("base_ac", 17)
+        max_dex = natural_armor.get("max_dex")
+        if max_dex is not None:
+            char["ac"] += min(char["dexterity_mod"], max_dex)
 
     # Merged save proficiencies (class-derived + user-toggled)
     class_saves = CLASSES.get(char.get("class_name",""), {}).get("saves", [])
@@ -6458,7 +6485,8 @@ async def ai_build(request: Request):
 
     con_mod = mods["constitution"]
     hp = calc_hp(class_name, level, con_mod)
-    ac = _calculate_ac(class_name, level, mods)
+    racial_eff = get_racial_trait_effects(race, subrace)
+    ac = _calculate_ac(class_name, level, mods, racial_eff.get("natural_armor"))
 
     saves = {ability: mod + (pb if ability in class_data["saves"] else 0)
              for ability, mod in mods.items()}
@@ -6505,7 +6533,18 @@ async def ai_build(request: Request):
     return JSONResponse(build)
 
 
-def _calculate_ac(class_name: str, level: int, mods: dict) -> int:
+def _calculate_ac(class_name: str, level: int, mods: dict, natural_armor: dict | None = None) -> int:
+    # Natural armor (Tortle, Lizardfolk, etc.) overrides class-based AC
+    if natural_armor:
+        ac = natural_armor.get("base_ac", 17)
+        # If armor allows DEX bonus
+        max_dex = natural_armor.get("max_dex")
+        if max_dex is not None:
+            dex = mods["dexterity"]
+            ac += min(dex, max_dex)
+        # Shield bonus is handled separately by equipment system
+        return ac
+
     dex = mods["dexterity"]
     if class_name == "Barbarian":
         con = mods["constitution"]
