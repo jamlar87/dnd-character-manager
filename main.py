@@ -1498,6 +1498,106 @@ def _format_monster_action(action: dict) -> dict:
         "dc": action.get("dc", {}).get("dc_value") if action.get("dc") else None,
     }
 
+MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+MANUAL_CACHE = DATA_DIR / "manual_cache"
+
+
+def _ensure_manual_cache() -> dict[str, Path]:
+    """Ensure all manual PDFs have been extracted to text cache.
+    Returns {book_label: path_to_txt}.
+    """
+    MANUAL_CACHE.mkdir(parents=True, exist_ok=True)
+    book_labels = {
+        "D&D 5E - Player's Handbook.pdf": "PHB",
+        "D&D 5E - Dungeon Master's Guide.pdf": "DMG",
+        "D&D 5E - Monster Manual.pdf": "MM",
+        "D&D 5E - Xanathar's Guide to Everything.pdf": "XGE",
+        "D&D 5E - Volo's Guide to Monsters.pdf": "VGM",
+        "D&D 5E - Mordenkainen's Tome of Foes.pdf": "MTF",
+        "D&D 5E - Sword Coast Adventurer's Guide.pdf": "SCAG",
+        "D&D 5E - Elemental Evil Player's Companion.pdf": "EEPC",
+        "D&D 5E - Guildmasters' Guide to Ravnica.pdf": "GGR",
+        "D&D 5E - Wayfinders Guide to Eberron.pdf": "WGE",
+        "D&D 5E - The Tortle Package.pdf": "TTP",
+    }
+    cached = {}
+    for pdf_name, label in book_labels.items():
+        pdf_path = MANUALS_DIR / pdf_name
+        txt_path = MANUAL_CACHE / f"{label}.txt"
+        if pdf_path.exists():
+            if not txt_path.exists() or pdf_path.stat().st_mtime > txt_path.stat().st_mtime:
+                _extract_pdf(pdf_path, txt_path)
+            if txt_path.exists():
+                cached[label] = txt_path
+    return cached
+
+
+def _extract_pdf(pdf_path: Path, txt_path: Path):
+    """Extract text from a PDF using pdftotext."""
+    import subprocess
+    try:
+        subprocess.run(
+            ["pdftotext", "-layout", str(pdf_path), str(txt_path)],
+            capture_output=True, timeout=120
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        pass
+
+
+def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
+    """Search all cached manual text files for a query.
+    Returns [{book, snippet, line_number, estimated_page}].
+    """
+    import subprocess, re
+    cached = _ensure_manual_cache()
+    if not cached:
+        return []
+
+    results = []
+    for label, txt_path in cached.items():
+        try:
+            proc = subprocess.run(
+                ["rg", "-i", "-n", "-C", "1", "--max-count", str(max_results),
+                 "-e", query, str(txt_path)],
+                capture_output=True, text=True, timeout=30
+            )
+            if proc.returncode == 0 and proc.stdout.strip():
+                blocks = proc.stdout.strip().split("\n--\n")
+                for block in blocks[:max_results]:
+                    lines = block.strip().split("\n")
+                    context_lines = []
+                    line_num = 0
+                    for line in lines:
+                        m = re.match(r'^\s*(\d+)([-:])\s*(.*)', line)
+                        if m:
+                            line_num = int(m.group(1))
+                            text = m.group(3).strip()
+                            if text:
+                                context_lines.append(text)
+                    snippet = " ".join(context_lines)[:300]
+                    if snippet:
+                        est_page = max(1, line_num // 45) if line_num else None
+                        results.append({
+                            "book": label,
+                            "snippet": snippet,
+                            "line": line_num,
+                            "page": est_page,
+                        })
+        except subprocess.TimeoutExpired:
+            continue
+
+    # Deduplicate and sort by book
+    seen = set()
+    deduped = []
+    for r in results:
+        key = (r["book"], r["snippet"][:60])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(r)
+    deduped.sort(key=lambda r: r["book"])
+    return deduped[:max_results]
+
+
 @app.get("/dm-tools", response_class=HTMLResponse)
 async def dm_tools(request: Request):
     """DM Tools main page — encounter builder, NPC manager, monster lookup."""
@@ -2080,6 +2180,66 @@ Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": 
             "speed": RACES.get(race, RACES["Human"]).get("speed", 30),
         }
     })
+
+# ── DM Tools: Manual Search ───────────────────────────────────────────────
+
+@app.post("/api/dm/search-manuals", response_class=JSONResponse)
+async def dm_search_manuals(request: Request):
+    """Full-text search across all D&D reference manuals (cached PDF text)."""
+    user = require_user(request)
+    data = await request.json()
+    query = (data.get("query", "") or "").strip()
+    if not query or len(query) < 2:
+        return JSONResponse({"results": [], "error": "Query too short"})
+
+    results = _search_manuals(query, max_results=25)
+    return JSONResponse({"results": results, "query": query, "total": len(results)})
+
+
+@app.post("/api/dm/search-manuals/summarize", response_class=JSONResponse)
+async def dm_search_manuals_summarize(request: Request):
+    """AI-powered research summary: search manuals, then distill with LLM."""
+    user = require_user(request)
+    data = await request.json()
+    query = (data.get("query", "") or "").strip()
+    if not query or len(query) < 2:
+        return JSONResponse({"summary": "", "error": "Query too short"})
+
+    results = _search_manuals(query, max_results=30)
+
+    if not results:
+        return JSONResponse({"summary": "No matches found across any reference manuals.", "results": []})
+
+    # Build a research context from the search results
+    context_blocks = []
+    for r in results:
+        page_str = f" (est. p.{r['page']})" if r.get("page") else ""
+        context_blocks.append(f"[{r['book']}{page_str}] {r['snippet']}")
+    research_text = "\n\n".join(context_blocks[:4000])  # cap for token budget
+
+    ai_prompt = f"""You are a D&D 5e rules researcher. The user searched the reference manuals for:
+\"{query}\"
+
+Below are the relevant excerpts found across the manuals. Synthesize them into a comprehensive, well-organized summary. Include:
+1. A clear, concise answer to what was searched
+2. Key rules, mechanics, and page references where available
+3. Any nuances, edge cases, or related rules
+4. Differences between sources if applicable (e.g. PHB vs DMG vs XGE)
+
+Format the response in plain text with clear section breaks. Keep it grounded in the excerpts — don't invent rules not present.
+
+RESEARCH EXCERPTS:
+{research_text}
+
+RULES SUMMARY:"""
+
+    summary = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    if not summary:
+        # Fallback: return raw results without AI
+        return JSONResponse({"summary": None, "results": results, "note": "AI unavailable — raw results shown"})
+
+    return JSONResponse({"summary": summary.strip(), "results": results, "query": query})
+
 
 # ── DM Tools: Encounter Management
 # ── DM Tools: Encounter Management ───────────────────────────────────────
