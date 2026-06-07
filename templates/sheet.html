@@ -110,6 +110,7 @@
 .passive-chip-body { display: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
 .passive-chip-body.open { display: block; }
 .feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
+.spell-body.open { display: block; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Feature use checkbox dots */
@@ -800,30 +801,57 @@
         {% if spells %}
         {% set use_prepared = character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
         {% for sp in spells %}
-        <div class="spell-row" id="spell-row-{{ sp.id }}">
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:0.3rem">
-              {% if use_prepared %}
-              <input type="checkbox" id="prep-{{ sp.id }}" onchange="togglePrepared({{ sp.id }}, this)"
-                {% if sp.prepared %}checked{% endif %} style="cursor:pointer"
-                {% if sp.spell_level == 0 %}disabled checked title="Cantrips are always prepared"{% endif %}>
-              {% endif %}
-              <strong>{{ sp.spell_name }}</strong>
-              <span class="badge badge-muted" style="margin-left:0.3rem">
-                {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
-              </span>
-              {% if use_prepared and sp.prepared and sp.spell_level > 0 %}
-              <span style="color:var(--success);font-size:0.7rem">✓ prepared</span>
+        <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
+          <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
+               style="display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
+            <strong style="flex:1;min-width:0;font-size:0.85rem">{{ sp.spell_name }}</strong>
+            <span class="badge badge-muted" style="font-size:0.65rem">
+              {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
+            </span>
+            {% if sp.srd and sp.srd.school %}
+            <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
+            {% endif %}
+            {% if sp.srd and sp.srd.ritual %}
+            <span class="badge badge-muted" style="font-size:0.6rem">Ritual</span>
+            {% endif %}
+            {% if sp.srd and sp.srd.concentration %}
+            <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
+            {% endif %}
+            {% if use_prepared and sp.prepared and sp.spell_level > 0 %}
+            <span style="color:var(--success);font-size:0.65rem">prepared</span>
+            {% endif %}
+            {% if sp.slots_max > 0 %}
+            <div class="slot-tracker" id="sp-slots-{{ sp.id }}" style="margin-left:0.3rem" onclick="event.stopPropagation()">
+              {% for i in range(sp.slots_max) %}
+              <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
+          </div>
+          <div class="spell-body" style="display:none;padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
+            {% if sp.srd %}
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
+              <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Range:</span><span>{{ sp.srd.range }}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Components:</span><span>{{ sp.srd.components|join(', ') }}{% if sp.srd.material %} ({{ sp.srd.material }}){% endif %}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Duration:</span><span>{{ sp.srd.duration }}{% if sp.srd.concentration %} (concentration){% endif %}</span>
+              {% if sp.srd.attack_type %}
+              <span style="color:var(--text-muted);font-size:0.72rem">Attack:</span><span>{{ sp.srd.attack_type|capitalize }}</span>
               {% endif %}
             </div>
-          </div>
-          {% if sp.slots_max > 0 %}
-          <div class="slot-tracker" id="sp-slots-{{ sp.id }}">
-            {% for i in range(sp.slots_max) %}
-            <div class="slot-box{% if i < sp.slots_used %} used{% endif %}" onclick="toggleSpellSlotById({{ sp.id }},{{ i+1 }},{{ sp.slots_max }})"></div>
+            {% for line in sp.srd.desc %}
+            <p style="margin:0.3rem 0;line-height:1.45">{{ line }}</p>
             {% endfor %}
+            {% if sp.srd.higher_level %}
+            <p style="margin:0.3rem 0;line-height:1.45;color:var(--accent);font-size:0.78rem">
+              <strong>At Higher Levels.</strong> {{ sp.srd.higher_level|join(' ') }}
+            </p>
+            {% endif %}
+            {% else %}
+            <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
+            {% endif %}
           </div>
-          {% endif %}
         </div>
         {% endfor %}
         {% else %}

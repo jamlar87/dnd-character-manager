@@ -1885,6 +1885,8 @@ async def character_sheet(char_id: int, request: Request):
         "SELECT * FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
         (char_id,)
     ).fetchall()]
+    # Enrich spells with full SRD descriptions
+    enrich_spells(spells)
     db.close()
 
     # Compute modifiers
@@ -3596,6 +3598,33 @@ def get_cantrips_known_max(class_name: str, level: int) -> int:
         if e.get("level") == level:
             return e.get("spellcasting", {}).get("cantrips_known", 0)
     return 0
+
+# ── Spell enrichment (SRD descriptions) ───────────────────────────────────
+
+def enrich_spells(spells: list[dict]) -> None:
+    """Add full SRD spell data to each spell dict in-place."""
+    if not SRD_SPELLS:
+        return
+    # Build lookup by lowercase name
+    srd_lookup = {s.get("name", "").lower(): s for s in SRD_SPELLS}
+    for sp in spells:
+        name = sp.get("spell_name", "")
+        srd = srd_lookup.get(name.lower())
+        if srd:
+            sp["srd"] = {
+                "desc": srd.get("desc", []),
+                "higher_level": srd.get("higher_level", []),
+                "range": srd.get("range", ""),
+                "components": srd.get("components", []),
+                "material": srd.get("material", ""),
+                "ritual": srd.get("ritual", False),
+                "duration": srd.get("duration", ""),
+                "concentration": srd.get("concentration", False),
+                "casting_time": srd.get("casting_time", ""),
+                "school": (srd.get("school") or {}).get("name", ""),
+                "attack_type": srd.get("attack_type", ""),
+                "damage": srd.get("damage"),
+            }
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────
 
