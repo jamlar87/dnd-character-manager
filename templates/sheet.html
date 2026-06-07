@@ -2610,9 +2610,13 @@ function renderLuClassPick(el) {
   if (mc.options && mc.options.length > 0) {
     const newOpts = mc.options.filter(o => !cl[o.class]);
     if (newOpts.length > 0) {
+      // Split eligible vs ineligible
+      const eligible = newOpts.filter(o => o.available);
+      const ineligible = newOpts.filter(o => !o.available);
       html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem">Multiclass into a new class:</p>`;
-      html += `<div style="display:flex;flex-direction:column;gap:0.4rem">`;
-      newOpts.forEach(opt => {
+      html += `<div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem">`;
+      // Eligible first
+      eligible.forEach(opt => {
         const checked = luClassToLevel === opt.class;
         html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
           <input type="radio" name="lu-class" value="${opt.class}" ${checked ? 'checked' : ''} onchange="luClassToLevel=this.value">
@@ -2621,6 +2625,19 @@ function renderLuClassPick(el) {
         </label>`;
       });
       html += `</div>`;
+      // Ineligible (grayed out)
+      if (ineligible.length > 0) {
+        html += `<p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.3rem">Locked (missing prerequisites):</p>`;
+        html += `<div style="display:flex;flex-direction:column;gap:0.3rem;opacity:0.5">`;
+        ineligible.forEach(opt => {
+          const missing = opt.missing ? Object.entries(opt.missing).map(([s,v]) => `${s} ${v}`).join(', ') : 'prerequisites not met';
+          html += `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
+            <span style="font-size:0.8rem;color:var(--text-muted)">🔒 <strong>${opt.class}</strong></span>
+            <span style="font-size:0.65rem;color:var(--text-muted)">needs ${missing}</span>
+          </div>`;
+        });
+        html += `</div>`;
+      }
     }
   }
   

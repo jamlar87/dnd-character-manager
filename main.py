@@ -2247,13 +2247,23 @@ async def level_up_info(char_id: int, request: Request):
     if target_level > current_level:
         abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
         for mc_class in MULTICLASS_PREREQS:
-            if mc_class not in cl and meets_multiclass_prereq(abilities, mc_class):
+            if mc_class not in cl:
+                meets = meets_multiclass_prereq(abilities, mc_class)
                 profs = get_multiclass_proficiencies(mc_class)
+                prereqs = MULTICLASS_PREREQS.get(mc_class, {})
+                # Show all classes — eligible and ineligible (grayed out)
+                missing = {}
+                if not meets:
+                    for stat, val in prereqs.items():
+                        abil = abilities.get(stat.lower(), 10)
+                        if abil < val:
+                            missing[stat] = f"{abil}/{val}"
                 multiclass_options.append({
                     "class": mc_class,
-                    "prerequisites": MULTICLASS_PREREQS.get(mc_class, {}),
+                    "prerequisites": prereqs,
                     "proficiencies": profs,
-                    "available": True,
+                    "available": meets,
+                    "missing": missing,
                 })
     
     cls = class_to_level  # the class gaining a level
