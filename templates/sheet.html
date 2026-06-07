@@ -804,6 +804,44 @@
         </div>
         {% endif %}
       </div>
+
+      <!-- Reactions Rules Reference -->
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin:0;cursor:pointer;display:flex;align-items:center;gap:0.3rem"
+            onclick="var b=document.getElementById('reactions-body');var a=this.querySelector('.toggle-arrow');if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)'}else{b.style.display='none';a.style.transform=''}">
+          <span class="toggle-arrow" style="display:inline-block;transition:transform 0.2s;font-size:0.7rem">▶</span>
+          Reactions
+          <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted)">(PHB p.190, 193, 195)</span>
+        </h3>
+        <div id="reactions-body" style="display:none;margin-top:0.5rem;font-size:0.8rem;line-height:1.6;color:var(--text-muted)">
+          <p style="margin:0 0 0.5rem 0"><strong>What is a Reaction?</strong> A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's. You can take <strong>one reaction per round</strong>, and you regain it at the start of your turn (PHB p.190).</p>
+
+          <p style="margin:0 0 0.5rem 0"><strong>⚔️ Opportunity Attack</strong> (PHB p.195)<br>
+          When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it. The attack interrupts the creature's movement, occurring right before it leaves your reach. A creature doesn't provoke an opportunity attack when:</p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li>It takes the Disengage action before moving</li>
+            <li>It teleports or is moved without using its movement, action, or reaction</li>
+            <li>You can't see it (invisible, heavily obscured)</li>
+            <li>It's out of your reach to begin with</li>
+          </ul>
+
+          <p style="margin:0 0 0.5rem 0"><strong>🎯 Ready Action</strong> (PHB p.193)<br>
+          On your turn, you can use your action to ready an action to be used as a reaction before the start of your next turn. You decide what perceivable circumstance will trigger your reaction, and you choose the action you will take in response. When the trigger occurs, you can either take your reaction right after the trigger finishes, or ignore the trigger.</p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li><strong>Readied spells require concentration</strong> — even if the spell normally doesn't. If your concentration is broken, the spell dissipates without taking effect, but the spell slot is still expended (PHB p.193)</li>
+            <li>If you ready a spell of 1st level or higher, you cast it on your turn (expending the slot) and hold its energy to release as a reaction</li>
+          </ul>
+
+          <p style="margin:0 0 0.5rem 0"><strong>⚠️ Important Rules</strong></p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li>If you're surprised at the start of combat, you <strong>cannot use reactions</strong> until after your first turn ends</li>
+            <li>If a reaction interrupts another creature's turn, that creature can continue its turn right after the reaction resolves</li>
+            <li>You can use a reaction on your own turn (e.g., casting <em>shield</em> against an opportunity attack you provoked)</li>
+          </ul>
+
+          <p style="margin:0"><strong>Common Reactions</strong> — Opportunity Attack · <em>Shield</em> (+5 AC) · <em>Absorb Elements</em> · <em>Counterspell</em> · Uncanny Dodge (Rogue 5) · Deflect Missiles (Monk 3) · Protection Fighting Style · Cutting Words (Bard 3) · <em>Feather Fall</em> · <em>Hellish Rebuke</em> · War Caster (feat: spell as OA) · Sentinel (feat: stop movement on OA)</p>
+        </div>
+      </div>
     </div>
 
     <!-- ✨ FEATURES TAB -->
