@@ -1032,9 +1032,19 @@ def _load_base_names() -> dict[str, set]:
 
 
 def _normalize_name(name: str) -> str:
-    """Normalize for dedup: lowercase, strip trailing 's' (singular/plural)."""
+    """Normalize for dedup: lowercase, strip parentheticals, normalize dashes,
+    strip trailing 's' (singular/plural), remove punctuation."""
     n = name.lower().strip()
+    # Strip parenthetical content: "Fireball (5th-level)" → "fireball"
+    n = re.sub(r'\s*\([^)]*\)', '', n).strip()
+    # Normalize dashes to spaces: "Half-Elf" → "half elf"
+    n = n.replace('-', ' ').replace('–', ' ').replace('—', ' ')
+    # Collapse multiple spaces
+    n = re.sub(r'\s+', ' ', n).strip()
+    # Strip trailing punctuation
+    n = n.rstrip('.,;:!?')
     # Strip trailing 's' for plural dedup (Geonid/Geonids, Cannibal/Cannibals)
+    # But not if it would leave a too-short word or the word ends in 'ss'
     if n.endswith('s') and not n.endswith('ss') and len(n) > 4:
         n = n[:-1]
     return n
@@ -1072,6 +1082,33 @@ def dedup_extraction(data: dict, base_names: dict[str, set]) -> dict:
     if total_removed:
         print(f"    Deduped {total_removed} entries already in base data")
     return new_data
+
+
+def _dedup_within_extraction(data: dict) -> dict:
+    """Remove duplicates *within* a single extraction (same book, different chunks).
+    Uses the same _normalize_name logic for fuzzy matching."""
+    deduped = {}
+    total_removed = 0
+    for category, items in data.items():
+        if category.startswith("_"):
+            continue
+        seen = set()
+        new_items = []
+        for item in items:
+            name = item.get("name", "")
+            name_norm = _normalize_name(name)
+            if not name_norm:
+                new_items.append(item)
+                continue
+            if name_norm in seen:
+                total_removed += 1
+                continue
+            seen.add(name_norm)
+            new_items.append(item)
+        deduped[category] = new_items
+    if total_removed:
+        print(f"    Intra-book dedup: removed {total_removed} duplicate(s)")
+    return deduped
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1161,13 +1198,16 @@ def process_manual(manual: dict) -> dict | None:
                 races_found[i] = _merge_race_details(race, details)
         accumulated["races"] = races_found
 
-    # 6. Validate
+    # 6. Intra-book dedup (same book, different chunks)
+    accumulated = _dedup_within_extraction(accumulated)
+
+    # 7. Validate
     validated = validate_extraction(accumulated, slug)
 
-    # 7. Dedup
+    # 8. Dedup vs SRD/base
     new_data = dedup_extraction(validated, base_names)
 
-    # 8. Trait effects auto-wiring
+    # 9. Trait effects auto-wiring
     races_to_wire = new_data.get("races", [])
     if races_to_wire:
         print(f"\n  Auto-wiring trait effects for {len(races_to_wire)} race(s)...")
@@ -1176,7 +1216,7 @@ def process_manual(manual: dict) -> dict | None:
             if wired:
                 race["_effects"] = wired
 
-    # 9. Final save
+    # 10. Final save
     final = {**new_data,
              "_chunks_processed": processed,
              "_total_chunks": len(chunks),
@@ -1186,7 +1226,7 @@ def process_manual(manual: dict) -> dict | None:
              "_timestamp": time.time()}
     _save_json(extracted_path, final)
 
-    # 8. Report
+    # 11. Report
     total_new = sum(len(v) for v in new_data.values())
     print(f"\n  ✓ Extraction complete: {total_new} new entries")
     for cat, items in sorted(new_data.items()):
@@ -1214,7 +1254,8 @@ def merge_all_extractions():
     }
 
     seen = {cat: set() for cat in merged}
-    sources = {cat: {} for cat in merged}  # track which book each entry came from
+    raw_names = {cat: set() for cat in merged}  # track actual names for source reporting
+    sources = {cat: {} for cat in merged}
 
     for ext_file in sorted(CACHE_DIR.glob("*_extracted.json")):
         data = _load_json(ext_file)
@@ -1224,11 +1265,13 @@ def merge_all_extractions():
         slug = data.get("_book_slug", ext_file.stem.replace("_extracted", ""))
         for cat in merged:
             for item in data.get(cat, []):
-                name = item.get("name", "").lower()
-                if name and name not in seen[cat]:
-                    seen[cat].add(name)
+                name = item.get("name", "")
+                name_norm = _normalize_name(name)
+                if name_norm and name_norm not in seen[cat]:
+                    seen[cat].add(name_norm)
+                    raw_names[cat].add(name.lower())
                     merged[cat].append(item)
-                    sources[cat][name] = slug
+                    sources[cat][name_norm] = slug
 
     # Save merged files
     for cat, items in merged.items():
