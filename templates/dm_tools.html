@@ -537,6 +537,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       </div>
       <span id="combatTurnLabel" style="font-size:0.85rem;color:var(--text-muted)">Turn 0/0</span>
       <div style="flex:1"></div>
+      <input type="number" id="combatHpDelta" value="1" min="1"
+        style="width:4ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:0.25rem 0.15rem;font-size:0.85rem;-moz-appearance:textfield;appearance:textfield">
+      <span style="font-size:0.75rem;color:var(--text-muted)">dmg/heal</span>
       <button class="btn btn-sm" id="btnEndCombat" onclick="endCombat()" style="background:var(--danger);color:#fff">End Combat</button>
     </div>
 
@@ -2001,9 +2004,9 @@ function renderInitiativeTrack() {
         <div class="init-hp-bar"><div class="init-hp-bar-fill ${hpClass}" style="width:${hpPct}%"></div></div>
       </div>
       <div class="init-actions">
-        <button class="init-btn dmg-btn" onclick="quickDmg(${p.en_id}, -5)" title="-5 damage">-5</button>
-        <button class="init-btn dmg-btn" onclick="quickDmg(${p.en_id}, -1)" title="-1 damage">-1</button>
-        <button class="init-btn heal-btn" onclick="quickDmg(${p.en_id}, 5)" title="+5 heal">+5</button>
+        <button class="init-btn heal-btn" onclick="combatApplyHP(${p.en_id}, 1)" title="Heal">+</button>
+        <button class="init-btn dmg-btn" onclick="combatApplyHP(${p.en_id}, -1)" title="Damage">−</button>
+        <button class="init-btn" onclick="combatResetHP(${p.en_id})" title="Reset to full HP">↺</button>
         <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated">${isDefeated ? '⬆' : '💀'}</button>
       </div>
     </div>`;
@@ -2043,7 +2046,7 @@ function prevTurn() {
 async function adjustHp(enId, newHp) {
   const p = _combatParticipants.find(p => p.en_id === enId);
   if (!p) return;
-  const hp = Math.max(0, Math.min(p.hp_max, parseInt(newHp) || 0));
+  const hp = Math.max(0, parseInt(newHp) || 0);
   p.hp_current = hp;
   if (hp <= 0) p.defeated = 1;
 
@@ -2057,10 +2060,13 @@ async function adjustHp(enId, newHp) {
   saveCombatState();
 }
 
-async function quickDmg(enId, delta) {
+async function combatApplyHP(enId, sign) {
   const p = _combatParticipants.find(p => p.en_id === enId);
   if (!p || p.defeated) return;
-  const hp = Math.max(0, Math.min(p.hp_max, p.hp_current + delta));
+  const deltaEl = document.getElementById('combatHpDelta');
+  const raw = parseInt(deltaEl.value) || 1;
+  const delta = sign === -1 ? -raw : raw;
+  const hp = Math.max(0, p.hp_current + delta);
   p.hp_current = hp;
   if (hp <= 0) p.defeated = 1;
 
@@ -2070,6 +2076,25 @@ async function quickDmg(enId, delta) {
       body: JSON.stringify({single:{id:enId, hp_current:hp, defeated: hp<=0?1:0}})
     });
   } catch(e) {}
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+async function combatResetHP(enId) {
+  const p = _combatParticipants.find(p => p.en_id === enId);
+  if (!p) return;
+  p.hp_current = p.hp_max;
+  p.defeated = 0;
+
+  try {
+    await fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({single:{id:enId, hp_current: p.hp_max, defeated: 0}})
+    });
+  } catch(e) {}
+
+  // Rebuild order (might have been defeated)
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
   renderInitiativeTrack();
   saveCombatState();
 }
