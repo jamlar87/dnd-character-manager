@@ -2995,9 +2995,15 @@ async function handleDrop(e, targetZone) {
   if (source === targetZone) return;
 
   if (source === 'inventory' && targetZone === 'equipped') {
+    // Move card from inventory to equipped: remove from DOM, add to equipped list
+    const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
+    if (card) card.remove();
+    saveInventory();
     equipItem(name);
   } else if (source === 'equipped' && targetZone === 'inventory') {
+    // Move from equipped to inventory: add card back, remove from equipped list
     unequipItem(name);
+    addInventoryCard(name, qty || 1);
   } else if (source === 'inventory' && targetZone === 'team') {
     await shareToTeam(name, qty);
   } else if (source === 'team' && targetZone === 'inventory') {
@@ -3006,6 +3012,40 @@ async function handleDrop(e, targetZone) {
     if (itemId) await claimTeamItem(parseInt(itemId), name);
   }
   _dragItem = null;
+}
+
+// ── Add a card to the inventory DOM ──
+function addInventoryCard(name, qty) {
+  const list = document.getElementById('inv-list');
+  if (!list) return;
+  const emptyEl = document.getElementById('inv-empty');
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  const qtyBadge = qty > 1 ? `<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${qty}</span>` : '';
+  const safeName = name.replace(/"/g, '&quot;');
+  const safeNameAttr = name.replace(/'/g, "\\'");
+
+  const card = document.createElement('div');
+  card.className = 'item-card';
+  card.draggable = true;
+  card.setAttribute('data-item-name', safeName);
+  card.setAttribute('ondragstart', `handleDragStart(event, '${safeNameAttr}', 'inventory', ${qty})`);
+  card.setAttribute('ondragend', 'handleDragEnd(event)');
+  card.innerHTML = `<span class="drag-handle" title="Drag to equip">⋮⋮</span>
+    <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+    <input type="text" value="${safeName}" class="item-card-name"
+      onchange="autoSaveInventory();tagWeapons()"
+      onfocus="this.closest('.item-card').classList.add('editing')"
+      onblur="this.closest('.item-card').classList.remove('editing')">
+    ${qtyBadge}
+    <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
+    <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+    <span class="arm-badge item-tag" style="display:none">🛡️</span>
+    ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, ${qty})" title="Share to team">↗</button>` : ''}
+    <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
+    <div class="item-detail"></div>`;
+  list.appendChild(card);
+  saveInventory();
 }
 
 // ── Delete inventory item ──
