@@ -3874,7 +3874,7 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
     for item in items[:5]:
         name = item["name"]
         rarity = item.get("rarity", {}).get("name", "")
-        desc = " ".join(item.get("desc", []))[:120]
+        desc = " ".join(item.get("desc", []))
         result.append({"name": name, "rarity": rarity, "description": desc})
     return result
 
