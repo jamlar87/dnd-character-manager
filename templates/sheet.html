@@ -587,7 +587,7 @@
       {% set feature_actions = [] %}
       {% if character.feature_data %}
         {% for feat in character.feature_data %}
-          {% if feat.get("action_type") %}
+          {% if feat.get("uses_max", 0) > 0 %}
             {% set _ = feature_actions.append(feat) %}
           {% endif %}
         {% endfor %}

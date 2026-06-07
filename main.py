@@ -3467,6 +3467,12 @@ FEATURE_ACTION_TYPES = {
     "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
     # Dragonborn
     "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
+    # Resource pools (not combat actions per se, but tracked on Actions tab)
+    "ki":                   ("Resource", "Ki — spend on Flurry, Patient Defense, Step of the Wind"),
+    "sorcery points":       ("Resource", "Sorcery Points — spend on Metamagic options"),
+    # Recovery / out-of-combat features
+    "mystic arcanum":       ("Action", "Mystic Arcanum — cast a high-level Warlock spell (1/LR)"),
+    "arcane recovery":      ("Short Rest", "Arcane Recovery — regain spell slots on short rest"),
 }
 
 # ── PHB scale functions per feature ──
