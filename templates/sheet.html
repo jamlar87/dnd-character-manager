@@ -430,7 +430,7 @@
         {% endfor %}
       </div>
       <div class="senses-section">
-        <h4>Senses</h4>
+        <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.6rem;opacity:0.5">▸</span></h4>
         {% set wis_mod = (character.wisdom - 10) // 2 %}
         {% set int_mod = (character.intelligence - 10) // 2 %}
         <div class="sense-row">
@@ -451,6 +451,18 @@
           <span class="sense-val">60 ft</span>
         </div>
         {% endif %}
+      </div>
+      <div id="senses-blurb" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;margin-top:0.35rem;font-size:0.68rem;color:var(--text-muted);line-height:1.5">
+        <strong style="color:var(--text)">Passive Checks</strong><br>
+        A passive check is a special ability check without a roll — the average result for a task done repeatedly (like searching for secret doors), or when the DM wants to secretly determine success without dice (noticing a hidden monster).<br><br>
+        <strong style="color:var(--text)">Darkvision</strong><br>
+        See in darkness within radius as if dim light, and dim light as if bright light. Cannot discern color in darkness — only shades of gray.<br><br>
+        <strong style="color:var(--text)">Blindsight</strong><br>
+        Perceive surroundings without sight, within a specific radius. Creatures without eyes (oozes, grimlocks) or with echolocation (bats, dragons) typically have this sense.<br><br>
+        <strong style="color:var(--text)">Tremorsense</strong><br>
+        Detect and pinpoint vibrations within a radius, so long as both creature and source touch the same ground or substance. Cannot detect flying or incorporeal creatures.<br><br>
+        <strong style="color:var(--text)">Truesight</strong><br>
+        See in normal and magical darkness, see invisible creatures and objects, auto-detect visual illusions (and succeed on saves against them), perceive shapechangers' original forms, and see into the Ethereal Plane — all within a specific range.
       </div>
     </div>
 
@@ -1450,6 +1462,15 @@ async function resetHP() {
 function toggleDeathSaves() {
   const body = document.getElementById('ds-body');
   const toggle = document.getElementById('ds-toggle');
+  if (!body || !toggle) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  toggle.textContent = open ? '▸' : '▾';
+}
+
+function toggleSensesBlurb() {
+  const body = document.getElementById('senses-blurb');
+  const toggle = document.getElementById('senses-blurb-toggle');
   if (!body || !toggle) return;
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
