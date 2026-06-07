@@ -494,6 +494,7 @@
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
         <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
         <h4 style="margin:0">Saving Throws</h4>
+        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="saves-body">
       {% for label, stat in stats %}
@@ -515,6 +516,10 @@
       {% if character.class_name == 'Barbarian' and character.level >= 2 %}
       <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
       {% endif %}
+      <div id="saves-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        A saving throw represents an attempt to resist a spell, trap, poison, or similar threat. Roll d20 + ability modifier + proficiency (if proficient).<br><br>
+        Each class grants proficiency in two saves. The DC is set by the effect (e.g. a spell's DC = 8 + caster's proficiency + ability mod). Usually a success means no harm or reduced harm.
+      </div>
       </div>
     </div>
 
@@ -1475,6 +1480,12 @@ function toggleSensesBlurb() {
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
   toggle.textContent = open ? '▸' : '▾';
+}
+
+function toggleSavesBlurb() {
+  const body = document.getElementById('saves-blurb');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
 }
 
 // ── Sidebar Section Toggles ──
