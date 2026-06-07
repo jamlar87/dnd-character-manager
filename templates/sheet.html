@@ -110,6 +110,7 @@
 .passive-chip-body { display: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
 .passive-chip-body.open { display: block; }
 .feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
+.spell-body { display: none; }
 .spell-body.open { display: block; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
@@ -829,7 +830,7 @@
             {% endif %}
             <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
           </div>
-          <div class="spell-body" style="display:none;padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
+          <div class="spell-body" style="padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
             {% if sp.srd %}
             <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
               <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
