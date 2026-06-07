@@ -726,7 +726,7 @@
           <h3 style="margin:0">Spellcasting</h3>
           <span class="badge badge-muted" style="font-size:0.7rem">
             {{ caster_type|capitalize }} Caster
-            {% if caster_type == "full" %}(9 levels){% elif caster_type == "half" %}(5 levels){% elif caster_type == "pact" %}(Pact Magic){% endif %}
+            {% if caster_type == "full" %}(1st–9th spells){% elif caster_type == "half" %}(1st–5th spells){% elif caster_type == "pact" %}(Pact Magic){% endif %}
           </span>
         </div>
         {% if caster_type == "pact" and character.spell_slot_data.note %}
