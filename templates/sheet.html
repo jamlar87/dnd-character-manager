@@ -2881,13 +2881,13 @@ function equipItem(name, qty) {
 
   equippedItems.push({name, qty: qty || 1});
   _equippedQtys[name] = qty || 1;
-  saveEquipped();
+  return saveEquipped();
 }
 
 function unequipItem(name) {
   equippedItems = equippedItems.filter(eq => (typeof eq === 'object' ? eq.name : eq) !== name);
   delete _equippedQtys[name];
-  saveEquipped();
+  return saveEquipped();
 }
 
 async function saveEquipped() {
@@ -3012,16 +3012,17 @@ async function handleDrop(e, targetZone) {
   if (source === targetZone) return;
 
   if (source === 'inventory' && targetZone === 'equipped') {
-    // Move card from inventory to equipped: remove from DOM, add to equipped list
+    // Move card from inventory to equipped: remove from DOM, save inventory, then equip
     const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
     if (card) card.remove();
-    saveInventory();
-    equipItem(name, qty);
+    await _flushInventory();
+    await equipItem(name, qty);
   } else if (source === 'equipped' && targetZone === 'inventory') {
-    // Move from equipped to inventory: add card back, remove from equipped list
+    // Move from equipped to inventory: unequip first, then add card + save
     const eqQty = _equippedQtys[name] || 1;
-    unequipItem(name);
+    await unequipItem(name);
     addInventoryCard(name, eqQty);
+    await _flushInventory();
   } else if (source === 'inventory' && targetZone === 'team') {
     await shareToTeam(name, qty);
   } else if (source === 'team' && targetZone === 'inventory') {
@@ -3063,7 +3064,6 @@ function addInventoryCard(name, qty) {
     <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
     <div class="item-detail"></div>`;
   list.appendChild(card);
-  saveInventory();
 }
 
 // ── Delete inventory item ──
@@ -3080,6 +3080,11 @@ async function saveInventory() {
   if (_invSavePending) return;
   _invSavePending = true;
   await new Promise(r => setTimeout(r, 50));
+  await _flushInventory();
+  _invSavePending = false;
+}
+
+async function _flushInventory() {
   const items = [];
   document.querySelectorAll('#inv-list .item-card').forEach(card => {
     const nameEl = card.querySelector('.item-card-name');
@@ -3097,7 +3102,6 @@ async function saveInventory() {
   if (emptyEl) emptyEl.style.display = items.length === 0 ? 'block' : 'none';
   await api('/update', { inventory: JSON.stringify(items) });
   tagWeapons();
-  _invSavePending = false;
 }
 
 function autoSaveInventory() {
