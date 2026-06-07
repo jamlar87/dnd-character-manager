@@ -1901,18 +1901,39 @@ async def character_sheet(char_id: int, request: Request):
     # Build attacks from inventory weapons + existing attacks_data
     all_attacks = _build_inventory_attacks(char)
 
-    # Caster type detection (PHB rules)
+    # Caster type detection (PHB rules) — multiclass aware
     class_name = char.get("class_name", "")
     level = char.get("level", 1)
     mods = {s: char.get(f"{s}_mod", 0) for s in
             ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
-    caster_type = get_caster_type(class_name)
+    class_levels_data = parse_class_levels(char)
+    
+    if len(class_levels_data) > 1:
+        # Multiclass: detect caster types present
+        types = get_multiclass_caster_types(class_levels_data)
+        has_full = types.get("full", 0) > 0
+        has_half = types.get("half", 0) > 0
+        has_pact = types.get("pact", 0) > 0
+        has_any = has_full or has_half or has_pact
+        if has_full and (has_half or has_pact):
+            caster_type = "multiclass"
+        elif has_half and has_pact:
+            caster_type = "multiclass"
+        elif has_full:
+            caster_type = "full"
+        elif has_half:
+            caster_type = "half"
+        elif has_pact:
+            caster_type = "pact"
+        else:
+            caster_type = "none"
+    else:
+        caster_type = get_caster_type(class_name)
+    
     sc_mod = get_spellcasting_mod(class_name, mods)
     prepared_max = get_prepared_max(class_name, level, sc_mod)
     spells_known_max = get_spells_known_max(class_name, level)
     cantrips_max = get_cantrips_known_max(class_name, level)
-
-    class_levels_data = parse_class_levels(char)
 
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
