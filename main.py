@@ -750,6 +750,86 @@ RACES = {
     "Tiefling": {"subraces": [], "asi": {"charisma": 2, "intelligence": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Infernal"], "traits": ["Hellish Resistance", "Infernal Legacy"], "desc": "Descended from infernal bloodlines, tieflings have horns, tails, and skin in shades of red or purple. They have innate resistance to fire damage and can cast thaumaturgy, hellish rebuke, and darkness."},
 }
 
+# PHB p.17-43 — Racial trait descriptions
+RACIAL_TRAIT_DESCS = {
+    # Dwarf
+    "Dwarven Resilience": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+    "Stonecunning": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.",
+    "Dwarven Toughness": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+    "Dwarven Armor Training": "You have proficiency with light and medium armor.",
+    # Elf
+    "Keen Senses": "You have proficiency in the Perception skill.",
+    "Fey Ancestry": "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
+    "Trance": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
+    "Elf Weapon Training": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+    "Cantrip (High Elf)": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
+    "Fleet of Foot": "Your base walking speed increases to 35 feet.",
+    "Mask of the Wild": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
+    "Superior Darkvision": "Your darkvision has a radius of 120 feet.",
+    "Sunlight Sensitivity": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
+    "Drow Magic": "You know the dancing lights cantrip. At 3rd level, you can cast faerie fire once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
+    # Halfling
+    "Lucky": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.",
+    "Brave": "You have advantage on saving throws against being frightened.",
+    "Halfling Nimbleness": "You can move through the space of any creature that is of a size larger than yours.",
+    "Naturally Stealthy": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
+    "Stout Resilience": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+    # Dragonborn
+    "Draconic Ancestry": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type.",
+    "Breath Weapon": "You can use your action to exhale destructive energy in a 15 ft cone or 5 by 30 ft line (by ancestry). Each creature in the area must make a saving throw (DC = 8 + Con mod + proficiency bonus). A creature takes 2d6 damage on a failed save, half on success. Damage increases to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th. Recharges on a short or long rest.",
+    "Damage Resistance": "You have resistance to the damage type associated with your draconic ancestry.",
+    # Gnome
+    "Gnome Cunning": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.",
+    "Natural Illusionist": "You know the minor illusion cantrip. Intelligence is your spellcasting ability for it.",
+    "Speak with Small Beasts": "Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts.",
+    "Artificer's Lore": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus.",
+    "Tinker": "You have proficiency with tinker's tools. Using those tools, you can spend 1 hour and 10 gp to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours. You can have up to three such devices active at a time.",
+    # Half-Elf
+    "Skill Versatility": "You gain proficiency in two skills of your choice.",
+    # Half-Orc
+    "Relentless Endurance": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest.",
+    "Savage Attacks": "When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.",
+    # Tiefling
+    "Hellish Resistance": "You have resistance to fire damage.",
+    "Infernal Legacy": "You know the thaumaturgy cantrip. At 3rd level, you can cast hellish rebuke as a 2nd-level spell once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
+}
+
+# Subrace-specific trait lists
+SUBRACE_TRAITS = {
+    "Hill Dwarf": ["Dwarven Toughness"],
+    "Mountain Dwarf": ["Dwarven Armor Training"],
+    "High Elf": ["Elf Weapon Training", "Cantrip (High Elf)"],
+    "Wood Elf": ["Elf Weapon Training", "Fleet of Foot", "Mask of the Wild"],
+    "Dark Elf (Drow)": ["Superior Darkvision", "Sunlight Sensitivity", "Drow Magic"],
+    "Lightfoot Halfling": ["Naturally Stealthy"],
+    "Stout Halfling": ["Stout Resilience"],
+    "Forest Gnome": ["Natural Illusionist", "Speak with Small Beasts"],
+    "Rock Gnome": ["Artificer's Lore", "Tinker"],
+    "Variant Human": [],
+}
+
+def _build_racial_traits(char: dict) -> list:
+    """Build a list of {name, desc} for the character's race and subrace traits."""
+    result = []
+    race_name = char.get("race", "")
+    subrace = char.get("subrace", "")
+
+    race_data = RACES.get(race_name)
+    if race_data:
+        for t in race_data.get("traits", []):
+            desc = RACIAL_TRAIT_DESCS.get(t)
+            if desc:
+                result.append({"name": t, "desc": desc, "source": race_name})
+
+    if subrace:
+        sub_traits = SUBRACE_TRAITS.get(subrace, [])
+        for t in sub_traits:
+            desc = RACIAL_TRAIT_DESCS.get(t)
+            if desc:
+                result.append({"name": t, "desc": desc, "source": subrace})
+
+    return result
+
 SUBASIS = {
     "Hill Dwarf": {"wisdom": 1},
     "Mountain Dwarf": {"strength": 2},
@@ -2758,7 +2838,8 @@ async def character_sheet(char_id: int, request: Request):
                    merged_resist=merged_resist, merged_immune=merged_immune,
                    item_attunement_json=item_attunement_json,
                    item_attunement_dict=item_attunement_dict,
-                   campaign_info=campaign_info)
+                   campaign_info=campaign_info,
+                   racial_traits=_build_racial_traits(char))
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 

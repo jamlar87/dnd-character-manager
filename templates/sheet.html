@@ -807,6 +807,33 @@
 
     <!-- ✨ FEATURES TAB -->
     <div class="tab-content" id="tab-features">
+      <!-- Species Traits -->
+      {% if racial_traits %}
+      <div class="card" style="margin-bottom:0.75rem">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">
+          Species Traits
+          <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted);margin-left:0.3rem">({{ character.race }}{% if character.subrace %} — {{ character.subrace }}{% endif %})</span>
+        </h3>
+        <div class="passive-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:0.3rem">
+          {% for rt in racial_traits %}
+          <div>
+            <div class="passive-chip" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;cursor:pointer;transition:border-color 0.15s"
+                 onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+              <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rt.name }}</span>
+              </span>
+              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.15rem;flex-shrink:0">▶</span>
+            </div>
+            <div class="passive-chip-body">
+              {{ rt.desc }}
+              <div style="margin-top:0.2rem;font-size:0.6rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
       {% if character.feature_data %}
       {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
       {% set ns = namespace(feat_idx=0, passives=[], tracked=[]) %}
