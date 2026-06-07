@@ -76,6 +76,132 @@ for f in SRD_FEATURES:
         FEATURE_DESCRIPTIONS[key] = desc
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Manual Data Loader — ingest extracted data from manual PDFs
+# ═══════════════════════════════════════════════════════════════════════════════
+
+MANUAL_DATA = HERE / "data" / "manual_data"
+
+def _load_manual_json(filename: str) -> list[dict]:
+    try:
+        with open(MANUAL_DATA / filename) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+
+def load_manual_data():
+    """Merge extracted manual data into runtime structures. Called at startup."""
+    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS
+
+    meta = _load_manual_json("_meta.json")
+    if not meta or isinstance(meta, list):
+        return  # No manual data yet
+
+    print(f"[manual_data] Loading from {meta.get('source_manuals', [])}")
+
+    # ── Races ── merge into RACES dict
+    manual_races = _load_manual_json("races.json")
+    for race in manual_races:
+        name = race.get("name", "")
+        if not name or name in RACES:
+            continue
+        # Map extracted format → RACES format
+        asi_map = {"strength": "strength", "dexterity": "dexterity",
+                   "constitution": "constitution", "intelligence": "intelligence",
+                   "wisdom": "wisdom", "charisma": "charisma"}
+        asi = {}
+        for k, v in race.get("asi", {}).items():
+            if v and k in asi_map:
+                asi[asi_map[k]] = v
+        traits = [t.get("name", "") for t in race.get("traits", [])]
+        RACES[name] = {
+            "subraces": [],
+            "asi": asi,
+            "speed": race.get("speed", 30),
+            "darkvision": race.get("darkvision", 0),
+            "languages": race.get("languages", ["Common"]),
+            "traits": traits,
+            "desc": race.get("description", ""),
+        }
+        # Add trait descriptions
+        for t in race.get("traits", []):
+            tname = t.get("name", "")
+            tdesc = t.get("description", "")
+            if tname and tdesc and tname not in RACIAL_TRAIT_DESCS:
+                RACIAL_TRAIT_DESCS[tname] = tdesc
+        # Add trait effects
+        effects = race.get("_effects", {})
+        for tname, eff in effects.items():
+            if tname not in RACIAL_TRAIT_EFFECTS:
+                mapped = {
+                    "armor_profs": eff.get("armor_profs", []),
+                    "weapon_profs": eff.get("weapon_profs", []),
+                    "tool_profs": eff.get("tool_profs", []),
+                    "skill_profs": eff.get("skill_profs", []),
+                    "damage_resist": eff.get("damage_resist", []),
+                    "condition_immune": eff.get("condition_immune", []),
+                    "speed": eff.get("speed"),
+                    "darkvision": eff.get("darkvision"),
+                    "hp_per_level": eff.get("hp_per_level", 0),
+                }
+                RACIAL_TRAIT_EFFECTS[tname] = mapped
+        print(f"  + Race: {name} ({len(traits)} traits)")
+
+    # ── Spells ── append to SRD_SPELLS
+    manual_spells = _load_manual_json("spells.json")
+    existing_spell_names = {s.get("name", "").lower() for s in SRD_SPELLS}
+    for spell in manual_spells:
+        if spell.get("name", "").lower() not in existing_spell_names:
+            SRD_SPELLS.append(spell)
+            existing_spell_names.add(spell["name"].lower())
+    if manual_spells:
+        print(f"  + Spells: {len(manual_spells)}")
+
+    # ── Magic Items ── append to SRD_MAGIC_ITEMS (ITEM_INDEX auto-picks them up)
+    manual_items = _load_manual_json("magic_items.json")
+    existing_item_names = {i.get("name", "").lower() for i in SRD_MAGIC_ITEMS}
+    for item in manual_items:
+        if item.get("name", "").lower() not in existing_item_names:
+            # Map to SRD format
+            mapped = {
+                "name": item.get("name", ""),
+                "desc": [item.get("description", "")],
+                "rarity": {"name": item.get("rarity", "varies")},
+                "equipment_category": {"name": item.get("type", "Wondrous item")},
+            }
+            SRD_MAGIC_ITEMS.append(mapped)
+            existing_item_names.add(item["name"].lower())
+    if manual_items:
+        print(f"  + Magic Items: {len(manual_items)}")
+
+    # ── Feats ── merge into FEATS dict
+    manual_feats = _load_manual_json("feats.json")
+    for feat in manual_feats:
+        name = feat.get("name", "")
+        if name and name not in FEATS:
+            FEATS[name] = {
+                "name": name,
+                "prerequisite": feat.get("prerequisite", ""),
+                "description": feat.get("description", ""),
+                "source": feat.get("source", ""),
+            }
+    if manual_feats:
+        print(f"  + Feats: {len(manual_feats)}")
+
+    # ── Backgrounds ── append to BACKGROUNDS list
+    manual_backgrounds = _load_manual_json("backgrounds.json")
+    for bg in manual_backgrounds:
+        name = bg.get("name", "")
+        if name and name not in BACKGROUNDS:
+            BACKGROUNDS.append(name)
+    if manual_backgrounds:
+        print(f"  + Backgrounds: {len(manual_backgrounds)}")
+
+    print(f"  Manual data loaded: {meta.get('totals', {})}")
+
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # ITEM INDEX — unified equipment + magic items with SRD/PHB 2014 descriptions
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -533,6 +659,9 @@ def init_db():
             role TEXT DEFAULT 'NPC',
             faction TEXT DEFAULT '',
             xp_reward INTEGER DEFAULT 0,
+            source TEXT DEFAULT '',
+            source_book TEXT DEFAULT '',
+            source_page TEXT DEFAULT '',
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
@@ -689,6 +818,27 @@ def init_db():
     """)
     db.commit()
     db.close()
+
+    # ── Migration: add source columns to dm_npcs (manual ingestion) ──
+    _migrate_npc_source_columns()
+
+
+def _migrate_npc_source_columns():
+    """Add source tracking columns to dm_npcs if they don't exist."""
+    db = get_db()
+    try:
+        cols = {r[1] for r in db.execute("PRAGMA table_info(dm_npcs)")}
+        for col, col_type in [("source", "TEXT DEFAULT ''"),
+                              ("source_book", "TEXT DEFAULT ''"),
+                              ("source_page", "TEXT DEFAULT ''")]:
+            if col not in cols:
+                db.execute(f"ALTER TABLE dm_npcs ADD COLUMN {col} {col_type}")
+                print(f"[migration] Added dm_npcs.{col}")
+        db.commit()
+    except Exception as e:
+        print(f"[migration] dm_npcs source columns: {e}")
+    finally:
+        db.close()
 
 def _get_user(email: str) -> dict | None:
     db = get_db()
@@ -1460,8 +1610,15 @@ async def api_create_character(request: Request):
 
 # ── DM Tools: Monster helpers ──────────────────────────────────────────────
 
+MANUAL_MONSTERS: list[dict] = []
+
 def _load_monster_cache() -> list[dict]:
-    return _load_json_cache("monsters.json")
+    global MANUAL_MONSTERS
+    base = _load_json_cache("monsters.json")
+    if not MANUAL_MONSTERS:
+        manual = _load_manual_json("monsters.json")
+        MANUAL_MONSTERS = manual
+    return base + MANUAL_MONSTERS
 
 def _monster_cr_sort_key(m: dict) -> float:
     cr = m.get("challenge_rating", 0)
@@ -4869,8 +5026,11 @@ FEATURE_ACTION_TYPES = {
     "sorcery points":       ("Resource", "Sorcery Points — spend on Metamagic options"),
     # Recovery / out-of-combat features
     "mystic arcanum":       ("Action", "Mystic Arcanum — cast a high-level Warlock spell (1/LR)"),
-    "arcane recovery":      ("Short Rest", "Arcane Recovery — regain spell slots on short rest"),
+    "arcane_recovery":      ("Short Rest", "Arcane Recovery — regain spell slots on short rest"),
 }
+
+# Call manual data loader after all data structures are defined
+load_manual_data()
 
 # ── PHB scale functions per feature ──
 def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
