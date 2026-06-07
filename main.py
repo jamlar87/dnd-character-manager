@@ -961,6 +961,22 @@ def _build_inventory_attacks(character: dict) -> list:
             seen.add(key)
     return attacks
 
+def _normalize_equipped(equipped: list) -> list:
+    """Convert equipped items to [{name, qty}] format. Handles old string-list format."""
+    if not equipped:
+        return []
+    result = []
+    for item in equipped:
+        if isinstance(item, dict):
+            result.append({"name": item.get("name", ""), "qty": item.get("qty", 1)})
+        else:
+            result.append({"name": str(item), "qty": 1})
+    return result
+
+def _equipped_names(equipped: list) -> list:
+    """Extract just the names from a [{name, qty}] equipped list."""
+    return [e["name"] for e in equipped if isinstance(e, dict) and e.get("name")]
+
 # ── Routes: Auth ────────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
@@ -2588,6 +2604,8 @@ async def character_sheet(char_id: int, request: Request):
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
             char[f] = []
+    # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
+    char["equipped"] = _normalize_equipped(char["equipped"])
     # Load attuned_items
     try:
         char["attuned_items"] = json.loads(char.get("attuned_items") or "[]")
@@ -2675,7 +2693,7 @@ async def character_sheet(char_id: int, request: Request):
 
     # Item-granted effects (equipped + attuned)
     item_effects = compute_item_effects(
-        char.get("equipped", []),
+        _equipped_names(char.get("equipped", [])),
         char.get("attuned_items", []),
         char.get("inventory", [])
     )
@@ -2686,14 +2704,14 @@ async def character_sheet(char_id: int, request: Request):
         name = inv_item.get("name", "") if isinstance(inv_item, dict) else str(inv_item)
         if name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[name.lower()]:
             item_attunement_json[name] = True
-    for eq_name in char.get("equipped", []):
+    for eq_name in _equipped_names(char.get("equipped", [])):
         if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
             item_attunement_json[eq_name] = True
     item_attunement_json = json.dumps(item_attunement_json)
 
     # Build a dict version for template use (checking attunement on equipped items)
     item_attunement_dict = {}
-    for eq_name in char.get("equipped", []):
+    for eq_name in _equipped_names(char.get("equipped", [])):
         if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
             item_attunement_dict[eq_name] = True
 
@@ -2836,11 +2854,12 @@ async def toggle_attune(char_id: int, request: Request):
         return JSONResponse({"error": "Character not found"}, status_code=404)
 
     attuned = json.loads(row[0] or "[]")
-    equipped = json.loads(row[1] or "[]")
+    equipped = _normalize_equipped(json.loads(row[1] or "[]"))
     item_lower = item_name.lower()
 
     # Check if item is equipped
-    if item_name not in equipped:
+    eq_names = _equipped_names(equipped)
+    if item_name not in eq_names:
         db.close()
         return JSONResponse({"error": "Item is not equipped"}, status_code=400)
 
