@@ -2173,7 +2173,9 @@ async function toggleItemExpand(btn) {
 
     // Use cache if available
     if (_itemDetailCache[name]) {
-      detail.innerHTML = _itemDetailCache[name];
+      const qtyBadge2 = card.querySelector('.item-qty');
+      const currentQty2 = qtyBadge2 ? parseInt(qtyBadge2.textContent) || 1 : 1;
+      detail.innerHTML = _itemDetailCache[name] + buildQtyRow(currentQty2);
       detail.dataset.loaded = '1';
       return;
     }
@@ -2183,15 +2185,55 @@ async function toggleItemExpand(btn) {
       const resp = await fetch(`/api/items/describe?name=${encodeURIComponent(name)}`);
       const data = await resp.json();
       const typeTag = data.type ? ` · ${data.type}` : '';
-      const html = `<span class="detail-label">${data.name || name}</span>${typeTag}
+      const qtyBadge = card.querySelector('.item-qty');
+      const currentQty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
+      const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}
         <br><span style="color:var(--text);font-size:0.65rem;line-height:1.4">${data.description || 'No description available.'}</span>`;
-      _itemDetailCache[name] = html;
-      detail.innerHTML = html;
+      _itemDetailCache[name] = descHtml;
+      detail.innerHTML = descHtml + buildQtyRow(currentQty);
     } catch(e) {
       detail.innerHTML = '<span style="color:var(--text-muted);font-size:0.65rem">Unable to load details.</span>';
     }
     detail.dataset.loaded = '1';
   }
+}
+
+// ── Quantity input inside expanded item detail ──
+function buildQtyRow(qty) {
+  return `<div style="margin-top:0.4rem;display:flex;align-items:center;gap:0.3rem">
+    <span class="detail-label">Qty</span>
+    <input type="number" class="qty-detail-input" value="${qty}" min="1" max="999"
+      style="width:4ch;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.65rem;-moz-appearance:textfield;appearance:textfield"
+      onchange="updateItemQty(this)" onclick="event.stopPropagation()">
+  </div>`;
+}
+
+async function updateItemQty(input) {
+  const card = input.closest('.item-card');
+  if (!card) return;
+  const qty = Math.max(1, parseInt(input.value) || 1);
+  input.value = qty;
+
+  // Update or remove qty badge on the card
+  let badge = card.querySelector('.item-qty');
+  if (qty > 1) {
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'item-qty';
+      const btn = card.querySelector('.item-card-btn');
+      card.insertBefore(badge, btn);
+    }
+    badge.textContent = qty;
+  } else if (badge) {
+    badge.remove();
+  }
+
+  // Update drag data with new qty
+  const nameEl = card.querySelector('.item-card-name');
+  const name = (nameEl?.value || nameEl?.textContent || '').trim();
+  card.setAttribute('ondragstart', `handleDragStart(event, '${name.replace(/'/g, "\\'")}', 'inventory', ${qty})`);
+
+  saveInventory();
 }
 
 // ── Edit Mode Toggle ──
