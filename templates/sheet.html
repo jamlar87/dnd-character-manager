@@ -396,7 +396,11 @@
   <div class="sheet-sidebar">
 
     <div class="sidebar-section">
-      <h4>Saving Throws</h4>
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
+        <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0">Saving Throws</h4>
+      </div>
+      <div id="saves-body">
       {% for label, stat in stats %}
       {% set mod = (character[stat] - 10) // 2 %}
       {% set prof_save = stat in saves_class %}
@@ -416,11 +420,16 @@
       {% if character.class_name == 'Barbarian' and character.level >= 2 %}
       <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
       {% endif %}
+      </div>
     </div>
 
     <!-- Skills -->
     <div class="sidebar-section">
-      <h4>Skills</h4>
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
+        <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0">Skills</h4>
+      </div>
+      <div id="skills-body">
       {% for skill_name, skill_ab in skill_abilities.items()|sort %}
       {% set ab_mod = (character[skill_ab] - 10) // 2 %}
       {% set has_prof = skill_name in char_skills %}
@@ -435,11 +444,16 @@
       <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
         <span style="color:var(--accent)">●</span> = Proficient
       </div>
+      </div>
     </div>
 
     <!-- Defenses -->
     <div class="sidebar-section">
-      <h4>Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
+        <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0">Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
+      </div>
+      <div id="defenses-body">
       <div style="font-size:0.8rem" id="defenses-section">
         <!-- Race damage resistances (populated by JS from server data) -->
         {% if character.damage_resistances %}
@@ -499,11 +513,16 @@
           <span class="stat-val defense-display" data-field="condition_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.condition_immunities|join(', ') or '—' }}</span>
         </div>
       </div>
+      </div>
     </div>
 
     <!-- Proficiencies -->
     <div class="sidebar-section">
-      <h4>Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
+        <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0">Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
+      </div>
+      <div id="profs-body">
       <div style="font-size:0.8rem" id="prof-section">
         <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Armor</span>
@@ -521,6 +540,7 @@
           <span class="stat-name">Languages</span>
           <span class="stat-val prof-display" data-field="languages" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.languages|join(', ') or 'Common' }}</span>
         </div>
+      </div>
       </div>
     </div>
 
@@ -1249,6 +1269,20 @@ function toggleDeathSaves() {
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
   toggle.textContent = open ? '▸' : '▾';
+}
+
+// ── Sidebar Section Toggles ──
+function toggleSection(bodyId, arrowId) {
+  const body = document.getElementById(bodyId);
+  const arrow = document.getElementById(arrowId);
+  if (!body || !arrow) return;
+  if (body.style.display === 'none') {
+    body.style.display = '';
+    arrow.textContent = '▾';
+  } else {
+    body.style.display = 'none';
+    arrow.textContent = '▸';
+  }
 }
 
 // ── Hit Dice ──
