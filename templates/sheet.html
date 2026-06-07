@@ -1061,7 +1061,7 @@
                    onchange="autoSaveInventory();tagWeapons()"
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
-            {% if item_qty > 1 %}<span class="item-qty">{{ item_qty }}</span>{% endif %}
+            {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('{{ item_name|replace("\\'", "\\\\\\'") }}')" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
@@ -2220,6 +2220,9 @@ async function updateItemQty(input) {
     if (!badge) {
       badge = document.createElement('span');
       badge.className = 'item-qty';
+      badge.style.cursor = 'pointer';
+      badge.title = 'Click to expand';
+      badge.onclick = function(e) { e.stopPropagation(); toggleItemExpand(card.querySelector('.item-expand-btn')); };
       const btn = card.querySelector('.item-card-btn');
       card.insertBefore(badge, btn);
     }
@@ -3065,6 +3068,9 @@ function selectItem(name) {
     } else {
       const span = document.createElement('span');
       span.className = 'item-qty';
+      span.style.cursor = 'pointer';
+      span.title = 'Click to expand';
+      span.onclick = function(e) { e.stopPropagation(); toggleItemExpand(existing.querySelector('.item-expand-btn')); };
       span.textContent = '2';
       existing.insertBefore(span, existing.querySelector('.item-card-btn'));
     }
