@@ -239,6 +239,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--text-muted); opacity: 0.6;
 }
+.qty-stepper {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  color: var(--text); border-radius: 4px; cursor: pointer;
+  font-size: 0.7rem; width: 1.4rem; height: 1.4rem; padding: 0;
+  line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+}
+.qty-stepper:hover { background: var(--accent); color: #000; }
 .drop-zone { transition: box-shadow 0.15s; }
 .drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
 {% endblock %}
@@ -1531,15 +1538,17 @@ function renderItemsPanel(items, chars) {
   } else {
     poolHtml += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2rem">';
     items.forEach(item => {
-      const qtyBadge = item.qty > 1 ? `<span class="item-qty">${item.qty}</span>` : '';
+      const qtyBadge = `<span class="item-qty" onclick="event.stopPropagation();dmToggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${item.qty}</span>`;
       const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
       poolHtml += `<div class="item-card" draggable="true"
         data-item-name="${item.name.replace(/"/g, '&quot;')}" data-item-id="${item.id}"
         ondragstart="itemsDragStart(event, '${item.name.replace(/'/g, "\\'")}', 'pool', ${item.id})"
         ondragend="itemsDragEnd(event)">
+        <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
         <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
         <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
+        <div class="item-detail" data-item-name="${item.name.replace(/"/g, '&quot;')}"></div>
       </div>`;
     });
     poolHtml += '</div>';
@@ -1763,11 +1772,106 @@ function renderLootStaging(hoard, bracket) {
   items.innerHTML = html;
 }
 
-// ── Expand/collapse item cards ──
+// ── Expand/collapse staging item cards ──
 function toggleItemExpand(btn) {
   const card = btn.closest('.item-card');
   if (!card) return;
   card.classList.toggle('expanded');
+}
+
+// ── Expand/collapse team pool item cards (with fetch + qty) ──
+const _dmItemDetailCache = {};
+
+async function dmToggleItemExpand(btn) {
+  const card = btn.closest('.item-card');
+  if (!card) return;
+  const isExpanded = card.classList.toggle('expanded');
+  if (!isExpanded) return;
+
+  const nameEl = card.querySelector('.item-card-name');
+  const name = (nameEl?.value || nameEl?.textContent || '').trim();
+  if (!name) return;
+
+  const detail = card.querySelector('.item-detail');
+  if (!detail) return;
+
+  // Show qty row immediately from existing badge
+  let currentQty = 1;
+  const qtyBadge = card.querySelector('.item-qty');
+  if (qtyBadge) currentQty = parseInt(qtyBadge.textContent) || 1;
+
+  if (_dmItemDetailCache[name]) {
+    detail.innerHTML = _dmItemDetailCache[name] + dmBuildQtyRow(currentQty);
+    return;
+  }
+
+  // Fetch from API
+  try {
+    const resp = await fetch(`/api/items/describe?name=${encodeURIComponent(name)}`);
+    const data = await resp.json();
+    let descHtml = '';
+    if (data.description) {
+      descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4">${data.description}</p>`;
+      if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
+    } else {
+      descHtml = `<span class="detail-label">No description available</span>`;
+    }
+    _dmItemDetailCache[name] = descHtml;
+    detail.innerHTML = descHtml + dmBuildQtyRow(currentQty);
+  } catch {
+    detail.innerHTML = `<span class="detail-label">Description unavailable</span>` + dmBuildQtyRow(currentQty);
+  }
+}
+
+function dmBuildQtyRow(qty) {
+  return `<div style="margin-top:0.4rem;display:flex;align-items:center;gap:0.3rem">
+    <span class="detail-label">Qty</span>
+    <button class="qty-stepper" onclick="event.stopPropagation();dmStepQty(this, -1)">−</button>
+    <input type="number" class="qty-detail-input" value="${qty}" min="1" max="999"
+      style="width:4ch;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.65rem;-moz-appearance:textfield;appearance:textfield;text-align:center"
+      onchange="dmUpdateItemQty(this)" onclick="event.stopPropagation()">
+    <button class="qty-stepper" onclick="event.stopPropagation();dmStepQty(this, 1)">+</button>
+  </div>`;
+}
+
+function dmStepQty(btn, delta) {
+  const input = btn.parentElement.querySelector('.qty-detail-input');
+  if (!input) return;
+  let val = parseInt(input.value) || 1;
+  val = Math.max(1, Math.min(999, val + delta));
+  input.value = val;
+  dmUpdateItemQty(input);
+}
+
+async function dmUpdateItemQty(input) {
+  const card = input.closest('.item-card');
+  if (!card) return;
+  const qty = Math.max(1, parseInt(input.value) || 1);
+  input.value = qty;
+
+  // Update badge
+  let badge = card.querySelector('.item-qty');
+  if (!badge) {
+    badge = document.createElement('span');
+    badge.className = 'item-qty';
+    badge.style.cursor = 'pointer';
+    badge.title = 'Click to expand';
+    badge.onclick = function(e) { e.stopPropagation(); dmToggleItemExpand(card.querySelector('.item-expand-btn')); };
+    const btn = card.querySelector('.item-card-btn');
+    card.insertBefore(badge, btn);
+  }
+  badge.textContent = qty;
+
+  // Save to server
+  const itemId = card.getAttribute('data-item-id');
+  if (!itemId || !_itemsCampId) return;
+  try {
+    await fetch(`/api/campaign/${_itemsCampId}/team-items/${itemId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ qty })
+    });
+  } catch (e) { /* silently fail */ }
 }
 
 async function keepLootItem(type, index) {

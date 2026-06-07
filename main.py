@@ -2506,6 +2506,25 @@ async def character_share_to_team(char_id: int, request: Request):
     return JSONResponse({"ok": True, "shared": removed["name"], "qty": removed["qty"]})
 
 
+@app.put("/api/campaign/{camp_id}/team-items/{item_id}", response_class=JSONResponse)
+async def campaign_update_team_item_qty(camp_id: int, item_id: int, request: Request):
+    """Update team item quantity (DM only)."""
+    user = require_user(request)
+    db = get_db()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
+                       (camp_id, user["id"])).fetchone()
+    if not is_dm:
+        db.close()
+        return JSONResponse({"error": "Only the DM can update team items"}, status_code=403)
+    data = await request.json()
+    qty = max(1, int(data.get("qty", 1)))
+    db.execute("UPDATE campaign_team_items SET qty=? WHERE id=? AND campaign_id=?",
+               (qty, item_id, camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "qty": qty})
+
+
 @app.delete("/api/campaign/{camp_id}/team-items/{item_id}", response_class=JSONResponse)
 async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request):
     """Remove a team item (DM only)."""
