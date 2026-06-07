@@ -1632,8 +1632,74 @@ def _load_monster_cache() -> list[dict]:
     base = _load_json_cache("monsters.json")
     if not MANUAL_MONSTERS:
         manual = _load_manual_json("monsters.json")
+        # Normalize manual monster format to SRD format
+        for m in manual:
+            _normalize_manual_monster(m)
         MANUAL_MONSTERS = manual
     return base + MANUAL_MONSTERS
+
+
+def _normalize_manual_monster(m: dict):
+    """Normalize a manually-extracted monster to match SRD cache format."""
+    # armor_class: int → [{value: int, type: "natural"}]
+    ac = m.get("armor_class")
+    if isinstance(ac, (int, float)):
+        m["armor_class"] = [{"value": int(ac), "type": "natural"}]
+    elif isinstance(ac, str):
+        try:
+            m["armor_class"] = [{"value": int(ac), "type": "natural"}]
+        except ValueError:
+            m["armor_class"] = [{"value": 10, "type": "natural"}]
+
+    # hit_points: str "75 (10d10 + 20)" → int 75, keep dice as hit_points_roll
+    hp = m.get("hit_points")
+    if isinstance(hp, str):
+        match = re.match(r"(\d+)", hp)
+        if match:
+            m["hit_points"] = int(match.group(1))
+            m["hit_points_roll"] = hp  # keep original for display
+
+    # challenge_rating: {"cr": "5"} or float → SRD dict format
+    cr = m.get("challenge_rating")
+    if cr is None:
+        m["challenge_rating"] = 0
+    elif isinstance(cr, (int, float)):
+        m["challenge_rating"] = float(cr)
+    elif isinstance(cr, dict):
+        cr_val = cr.get("cr") or cr.get("challenge_rating") or cr.get("value") or 0
+        try:
+            m["challenge_rating"] = float(cr_val)
+        except (ValueError, TypeError):
+            m["challenge_rating"] = 0
+
+    # Ensure required SRD fields exist with defaults
+    m.setdefault("type", "humanoid")
+    m.setdefault("size", "Medium")
+    m.setdefault("alignment", "unaligned")
+    m.setdefault("speed", {"walk": "30 ft."})
+    m.setdefault("actions", [])
+    m.setdefault("special_abilities", [])
+    m.setdefault("senses", {})
+    m.setdefault("languages", "")
+    m.setdefault("damage_vulnerabilities", [])
+    m.setdefault("damage_resistances", [])
+    m.setdefault("damage_immunities", [])
+    m.setdefault("condition_immunities", [])
+
+    # ability_scores: normalize keys (str → dex, etc.)
+    scores = m.get("ability_scores", {})
+    if scores:
+        norm_scores = {}
+        for k, v in scores.items():
+            k = k.lower().strip()
+            if k in ("str", "strength"): norm_scores["strength"] = v
+            elif k in ("dex", "dexterity"): norm_scores["dexterity"] = v
+            elif k in ("con", "constitution"): norm_scores["constitution"] = v
+            elif k in ("int", "intelligence"): norm_scores["intelligence"] = v
+            elif k in ("wis", "wisdom"): norm_scores["wisdom"] = v
+            elif k in ("cha", "charisma"): norm_scores["charisma"] = v
+        if norm_scores:
+            m["ability_scores"] = norm_scores
 
 def _monster_cr_sort_key(m: dict) -> float:
     cr = m.get("challenge_rating", 0)
