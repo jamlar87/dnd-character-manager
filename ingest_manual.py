@@ -780,7 +780,7 @@ def _wire_trait_effects(race: dict) -> dict | None:
         name = t.get("name", "")
         desc = t.get("description", "")
         if name and desc:
-            traits_summary.append({"name": name, "description": desc[:300]})
+            traits_summary.append({"name": name, "description": desc})
 
     if not traits_summary:
         return None
