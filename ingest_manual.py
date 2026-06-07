@@ -300,17 +300,48 @@ def extract_text(manual: dict) -> str | None:
             print(f"  Text cached ({len(text):,} chars)")
             return text
 
+    print(f"  Extracting text...")
+    text = _extract_pymupdf(str(pdf_path), str(cache_path))
+    if not text:
+        text = _extract_pdftotext(str(pdf_path), str(cache_path))
+    if not text:
+        return None
+    return text
+
+
+def _extract_pymupdf(pdf_path: str, cache_path: str) -> str | None:
+    """Try pymupdf (fitz) for better multi-column text extraction."""
+    try:
+        import fitz
+        doc = fitz.open(pdf_path)
+        text = ""
+        for page in doc:
+            text += page.get_text("text") + "\n"
+        doc.close()
+        if len(text) > 500:
+            Path(cache_path).write_text(text, encoding="utf-8", errors="replace")
+            print(f"  Extracted {len(text):,} chars via pymupdf → {Path(cache_path).name}")
+            return text
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"  pymupdf error: {e}")
+    return None
+
+
+def _extract_pdftotext(pdf_path: str, cache_path: str) -> str | None:
+    """Fallback: pdftotext extraction."""
     print(f"  Extracting text via pdftotext...")
     try:
         result = subprocess.run(
-            ["pdftotext", "-layout", str(pdf_path), str(cache_path)],
+            ["pdftotext", "-layout", pdf_path, cache_path],
             capture_output=True, text=True, timeout=180
         )
         if result.returncode != 0:
             print(f"  pdftotext error: {result.stderr[:200]}")
             return None
-        text = cache_path.read_text(encoding="utf-8", errors="replace")
-        print(f"  Extracted {len(text):,} chars → {cache_path.name}")
+        text = Path(cache_path).read_text(encoding="utf-8", errors="replace")
+        print(f"  Extracted {len(text):,} chars → {Path(cache_path).name}")
         return text
     except FileNotFoundError:
         print("  ERROR: pdftotext not installed. Install poppler-utils.")
@@ -595,7 +626,10 @@ Return ONLY this JSON:
 CRITICAL:
 - Extract EVERY trait — a D&D race typically has 3-8 traits. Finding only 0-1 means FAILURE.
 - Copy trait descriptions VERBATIM. Do not summarize or truncate.
-- ASI must include EVERY ability score bonus mentioned (e.g. "+2 Strength, +1 Wisdom" = both).
+- ASI: find the "Ability Score Increase" section. Even if text is garbled/corrupted,
+  look for ability names (Strength, Dexterity, etc.) and nearby numbers.
+  Common patterns: "Your X score increases by N" or "+N to X".
+  ALWAYS extract ASI — every race has one. Empty asi{{}} = FAILURE.
 - Languages: include ALL listed languages, not just Common.
 - If the race has natural armor (e.g. "Your base AC is 17"), note it in the relevant trait.
 - If the race has natural weapons (e.g. claws dealing 1d4+Str), include them as a trait.
