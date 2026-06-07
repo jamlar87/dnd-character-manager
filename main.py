@@ -938,27 +938,31 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
     }
 
 def _build_inventory_attacks(character: dict) -> list:
-    """Scan inventory for weapons and build attack entries."""
+    """Scan inventory and equipped items for weapons and build attack entries."""
     abilities = {a: character.get(a, 10) for a in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
     prof_bonus = character.get("proficiency_bonus", 2)
 
     attacks = []
     seen = set()
-    inventory = character.get("inventory", []) or []
-    for item in inventory:
-        if isinstance(item, dict):
-            name = item.get("name", "")
-            qty = item.get("qty", 1)
-        else:
-            name = str(item)
-            qty = 1
-        key = name.lower()
-        if key in seen:
-            continue
-        wpn = _find_weapon(name)
-        if wpn:
-            attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty))
-            seen.add(key)
+
+    def _scan(items):
+        for item in (items or []):
+            if isinstance(item, dict):
+                name = item.get("name", "")
+                qty = item.get("qty", 1)
+            else:
+                name = str(item)
+                qty = 1
+            key = name.lower()
+            if key in seen:
+                continue
+            wpn = _find_weapon(name)
+            if wpn:
+                attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty))
+                seen.add(key)
+
+    _scan(character.get("inventory", []))
+    _scan(character.get("equipped", []))
     return attacks
 
 def _normalize_equipped(equipped: list) -> list:
