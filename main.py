@@ -2701,12 +2701,7 @@ async def character_sheet(char_id: int, request: Request):
         if i not in merged_immune:
             merged_immune.append(i)
 
-    return _render("sheet.html", request=request, character=char,
-                   spells=spells, modifiers=mods, spell_slots=slots,
-                   spell_attack_bonus=spell_attack_bonus, spell_save_dc=sdc,
-                   color_map=COLOR_MAP, passive_perception=percep,
-                   ac_calculation=ac_calc, stat_boxes_html=stat_boxes_html,
-                   skills_html=skills_html, avatar_url=avatar_url,
+    return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
