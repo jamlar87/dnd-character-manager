@@ -808,6 +808,133 @@ SUBRACE_TRAITS = {
     "Variant Human": [],
 }
 
+# PHB p.17-43 — Racial trait mechanical effects for automatic application
+# Each key is a trait name; value is {armor_profs, weapon_profs, tool_profs,
+#   skill_profs, damage_resist, condition_immune, speed, darkvision, hp_per_level}
+RACIAL_TRAIT_EFFECTS = {
+    # ── Dwarf (base) ──
+    "Dwarven Resilience": {"damage_resist": ["Poison"]},
+    "Stonecunning": {},  # ribbon
+
+    # ── Hill Dwarf ──
+    "Dwarven Toughness": {"hp_per_level": 1},
+
+    # ── Mountain Dwarf ──
+    "Dwarven Armor Training": {"armor_profs": ["Light armor", "Medium armor"]},
+
+    # ── Elf (base) ──
+    "Keen Senses": {"skill_profs": ["Perception"]},
+    "Fey Ancestry": {"condition_immune": ["Sleep"]},
+    "Trance": {},  # ribbon
+
+    # ── High Elf ──
+    "Elf Weapon Training": {"weapon_profs": ["Longsword", "Shortsword", "Shortbow", "Longbow"]},
+    "Cantrip (High Elf)": {},  # choice-based
+
+    # ── Wood Elf ──
+    "Fleet of Foot": {"speed": 35},
+    "Mask of the Wild": {},  # ribbon
+
+    # ── Dark Elf (Drow) ──
+    "Superior Darkvision": {"darkvision": 120},
+    "Sunlight Sensitivity": {},  # ribbon
+    "Drow Magic": {},  # ribbon
+
+    # ── Halfling (base) ──
+    "Lucky": {},  # ribbon
+    "Brave": {},
+    "Halfling Nimbleness": {},  # ribbon
+
+    # ── Lightfoot Halfling ──
+    "Naturally Stealthy": {},  # ribbon
+
+    # ── Stout Halfling ──
+    "Stout Resilience": {"damage_resist": ["Poison"]},
+
+    # ── Dragonborn ──
+    "Draconic Ancestry": {},  # choice-based resistance
+    "Breath Weapon": {},  # ribbon (attack feature)
+    "Damage Resistance": {},  # handled by ancestry choice
+
+    # ── Gnome (base) ──
+    "Gnome Cunning": {},  # advantage on INT/WIS/CHA saves vs magic
+
+    # ── Forest Gnome ──
+    "Natural Illusionist": {},  # ribbon
+    "Speak with Small Beasts": {},  # ribbon
+
+    # ── Rock Gnome ──
+    "Artificer's Lore": {},  # ribbon
+    "Tinker": {"tool_profs": ["Tinker's tools"]},
+
+    # ── Half-Elf ──
+    "Skill Versatility": {},  # choice-based
+
+    # ── Half-Orc ──
+    "Relentless Endurance": {},  # ribbon
+    "Savage Attacks": {},  # ribbon
+
+    # ── Tiefling ──
+    "Hellish Resistance": {"damage_resist": ["Fire"]},
+    "Infernal Legacy": {},  # ribbon
+}
+
+
+def get_racial_trait_effects(race_name: str, subrace: str = "") -> dict:
+    """Return merged mechanical effects for a race/subrace combination.
+
+    Returns {armor_profs, weapon_profs, tool_profs, skill_profs,
+             damage_resist, condition_immune, speed, darkvision, hp_per_level}.
+
+    Callers should merge these into DB-stored values for display (render-time)
+    and into the character record at creation time.
+    """
+    result = {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "condition_immune": [],
+        "speed": None,
+        "darkvision": None,
+        "hp_per_level": 0,
+    }
+
+    rl = race_name.lower()
+
+    # ── Base racial effects not tied to named traits ──
+
+    # Dwarf: Dwarven Combat Training (PHB p.20)
+    if "dwarf" in rl:
+        result["weapon_profs"].extend(["Battleaxe", "Handaxe", "Light Hammer", "Warhammer"])
+
+    # Dark Elf (Drow): Drow Weapon Training (PHB p.24)
+    sub_lower = subrace.lower() if subrace else ""
+    if "drow" in rl or "dark elf" in rl or "drow" in sub_lower or "dark elf" in sub_lower:
+        result["weapon_profs"].extend(["Rapier", "Shortsword", "Hand Crossbow"])
+
+    # ── Collect all named traits for this race + subrace ──
+    race_data = RACES.get(race_name, {})
+    all_traits = list(race_data.get("traits", []))
+    if subrace:
+        all_traits.extend(SUBRACE_TRAITS.get(subrace, []))
+
+    for trait_name in all_traits:
+        effects = RACIAL_TRAIT_EFFECTS.get(trait_name, {})
+        for key in ("armor_profs", "weapon_profs", "tool_profs", "skill_profs",
+                     "damage_resist", "condition_immune"):
+            for val in effects.get(key, []):
+                if val not in result[key]:
+                    result[key].append(val)
+        for key in ("speed", "darkvision"):
+            if effects.get(key) is not None:
+                result[key] = effects[key]
+        result["hp_per_level"] += effects.get("hp_per_level", 0)
+
+    return result
+
+
 def _build_racial_traits(char: dict) -> list:
     """Build a list of {name, desc} for the character's race and subrace traits."""
     result = []
@@ -1221,20 +1348,24 @@ async def api_create_character(request: Request):
     tool_profs = _parse_prof_list(class_data.get("tools", ""))
     save_profs = class_data.get("saves", [])
 
-    # Starting defenses from race (PHB 2014)
-    # Damage resistance: Dwarf→Poison, Tiefling→Fire
-    # Condition immunity: Elf/Half-Elf→Sleep (magical)
-    damage_resist = []
-    condition_immune = []
+    # ── Racial trait effects (PHB 2014) ──
+    racial_effects = get_racial_trait_effects(race_name, subrace)
+    damage_resist = racial_effects["damage_resist"]
+    condition_immune = racial_effects["condition_immune"]
     damage_immune = []
     damage_vuln = []
-    race_lower = race_name.lower()
-    if 'dwarf' in race_lower:
-        damage_resist = ['Poison']
-    elif 'tiefling' in race_lower:
-        damage_resist = ['Fire']
-    elif 'elf' in race_lower or 'half-elf' in race_lower:
-        condition_immune = ['Sleep']
+
+    # Merge racial proficiencies into class-granted ones
+    for key, lst in [("armor_profs", armor_profs), ("weapon_profs", weapon_profs),
+                      ("tool_profs", tool_profs), ("skill_profs", skills_list)]:
+        for v in racial_effects.get(key, []):
+            if v not in lst:
+                lst.append(v)
+
+    # Racial speed override (Wood Elf: 35 ft)
+    if racial_effects.get("speed"):
+        race_data = dict(race_data)
+        race_data["speed"] = racial_effects["speed"]
 
     # Merge background items into inventory (normalize to {name, qty} dicts)
     def _parse_item(item):
@@ -2810,7 +2941,13 @@ async def character_sheet(char_id: int, request: Request):
     campaign_info = {"id": campaign_row[0], "name": campaign_row[1]} if campaign_row else None
 
     # Merge all resistance/immunity sources for edit-picker display values
+    # Start with DB-stored + racial effects + feature-derived + item-granted
+    racial_effects = get_racial_trait_effects(char.get("race", ""), char.get("subrace", ""))
+
     merged_resist = list(char.get("damage_resistances", []))
+    for r in racial_effects["damage_resist"]:
+        if r not in merged_resist:
+            merged_resist.append(r)
     for fd in feature_defenses:
         for r in fd.get("resist", []):
             if r not in merged_resist:
@@ -2828,6 +2965,26 @@ async def character_sheet(char_id: int, request: Request):
         if i not in merged_immune:
             merged_immune.append(i)
 
+    # Condition immunities: DB-stored + racial effects
+    merged_condition_immune = list(char.get("condition_immunities", []))
+    for c in racial_effects["condition_immune"]:
+        if c not in merged_condition_immune:
+            merged_condition_immune.append(c)
+
+    # Merge racial proficiencies for display (DB-stored + racial)
+    merged_armor_profs = list(char.get("armor_proficiencies", []))
+    for v in racial_effects["armor_profs"]:
+        if v not in merged_armor_profs:
+            merged_armor_profs.append(v)
+    merged_weapon_profs = list(char.get("weapon_proficiencies", []))
+    for v in racial_effects["weapon_profs"]:
+        if v not in merged_weapon_profs:
+            merged_weapon_profs.append(v)
+    merged_tool_profs = list(char.get("tool_proficiencies", []))
+    for v in racial_effects["tool_profs"]:
+        if v not in merged_tool_profs:
+            merged_tool_profs.append(v)
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
@@ -2836,6 +2993,11 @@ async def character_sheet(char_id: int, request: Request):
                    sc_mod=sc_mod, class_levels=class_levels_data,
                    feature_defenses=feature_defenses, item_effects=item_effects,
                    merged_resist=merged_resist, merged_immune=merged_immune,
+                   merged_condition_immune=merged_condition_immune,
+                   merged_armor_profs=merged_armor_profs,
+                   merged_weapon_profs=merged_weapon_profs,
+                   merged_tool_profs=merged_tool_profs,
+                   racial_effects=racial_effects,
                    item_attunement_json=item_attunement_json,
                    item_attunement_dict=item_attunement_dict,
                    campaign_info=campaign_info,

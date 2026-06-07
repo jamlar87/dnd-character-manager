@@ -561,10 +561,11 @@
           {% if fd.immune %}{% set ns.has_fd_immune = true %}{% endif %}
         {% endfor %}
         <!-- Resistances -->
-        {% set has_resist = character.damage_resistances or ns.has_fd_resist or item_effects.resist %}
+        {% set has_resist = character.damage_resistances or ns.has_fd_resist or item_effects.resist or racial_effects.damage_resist %}
         {% if has_resist %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Resistances</div>
         {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
+        {% for r in racial_effects.damage_resist %}{% if r not in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(racial)</span></span>{% endif %}{% endfor %}
         {% for fd in feature_defenses %}{% if fd.resist %}{% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
         {% for r in item_effects.resist %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
         {% endif %}
@@ -582,16 +583,16 @@
         {% for v in character.damage_vulnerabilities %}<span class="defense-badge defense-vuln">⚠️ {{ v }}</span>{% endfor %}
         {% endif %}
         <!-- Condition Immunities -->
-        {% if character.condition_immunities %}
+        {% if merged_condition_immune %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Condition Imm.</div>
-        {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">✨ {{ c }}</span>{% endfor %}
+        {% for c in merged_condition_immune %}<span class="defense-badge defense-immune">✨ {{ c }}{% if c in racial_effects.condition_immune and c not in character.condition_immunities %} <span style="font-size:0.55rem;opacity:0.7">(racial)</span>{% endif %}</span>{% endfor %}
         {% endif %}
         <!-- Save Proficiencies -->
         {% if character.save_proficiencies %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Save Prof.</div>
         {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}
         {% endif %}
-        {% set has_defenses = has_resist or has_immune or character.damage_vulnerabilities or character.condition_immunities or character.save_proficiencies or item_effects.notes %}
+        {% set has_defenses = has_resist or has_immune or character.damage_vulnerabilities or merged_condition_immune or character.save_proficiencies or item_effects.notes %}
         {% if not has_defenses %}
         <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
         {% endif %}
@@ -635,26 +636,26 @@
       <div id="profs-body">
       <div style="font-size:0.8rem" id="prof-section">
         <!-- Armor -->
-        {% if character.armor_proficiencies %}
+        {% if merged_armor_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
-        {% for a in character.armor_proficiencies %}<span class="prof-badge">{{ a }}</span>{% endfor %}
+        {% for a in merged_armor_profs %}<span class="prof-badge">{{ a }}{% if a in racial_effects.armor_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
         {% endif %}
         <!-- Weapons -->
-        {% if character.weapon_proficiencies %}
+        {% if merged_weapon_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
-        {% for w in character.weapon_proficiencies %}<span class="prof-badge">{{ w }}</span>{% endfor %}
+        {% for w in merged_weapon_profs %}<span class="prof-badge">{{ w }}{% if w in racial_effects.weapon_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
         {% endif %}
         <!-- Tools -->
-        {% if character.tool_proficiencies %}
+        {% if merged_tool_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
-        {% for t in character.tool_proficiencies %}<span class="prof-badge">{{ t }}</span>{% endfor %}
+        {% for t in merged_tool_profs %}<span class="prof-badge">{{ t }}{% if t in racial_effects.tool_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
         {% endif %}
         <!-- Languages -->
         {% if character.languages %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
         {% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}
         {% endif %}
-        {% set has_profs = character.armor_proficiencies or character.weapon_proficiencies or character.tool_proficiencies or character.languages %}
+        {% set has_profs = merged_armor_profs or merged_weapon_profs or merged_tool_profs or character.languages %}
         {% if not has_profs %}
         <span style="color:var(--text-muted);font-size:0.8rem">No proficiencies</span>
         {% endif %}
