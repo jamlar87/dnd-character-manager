@@ -1062,12 +1062,11 @@
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
             {% if item_qty > 1 %}<span class="item-qty">{{ item_qty }}</span>{% endif %}
-            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('{{ item_name|replace("\'", "\\\\\'") }}')" title="Info">ℹ️</button>
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('{{ item_name|replace("\\'", "\\\\\\'") }}')" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
-            <button class="item-card-btn" onclick="equipItem('{{ item_name|replace("\'", "\\\\\'") }}')" title="Equip">⬆️</button>
-            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam('{{ item_name|replace("\'", "\\\\\'") }}', {{ item_qty }})" title="Share to team">↗</button>{% endif %}
-            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('{{ item_name|replace("\'", "\\\\\'") }}')" title="Delete">✕</button>
+            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam('{{ item_name|replace("\\'", "\\\\\\'") }}', {{ item_qty }})" title="Share to team">↗</button>{% endif %}
+            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('{{ item_name|replace("\\'", "\\\\\\'") }}')" title="Delete">✕</button>
             <div class="item-detail" data-item-name="{{ item_name }}"></div>
           </div>
           {% endfor %}
@@ -1099,7 +1098,6 @@
               <span class="item-attune-badge" onclick="toggleAttune('{{ item|replace("\'", "\\\\\'") }}')" title="Needs attunement — click to attune">◇</span>
               {% endif %}
             {% endif %}
-            <button class="item-card-btn" onclick="unequipItem('{{ item|replace("\'", "\\\\\'") }}')" title="Unequip">⬇️</button>
             <div class="item-detail" data-item-name="{{ item }}"></div>
           </div>
           {% endfor %}
@@ -2887,7 +2885,6 @@ function renderEquipped() {
       <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
       <span class="item-card-name" style="cursor:default">${item}</span>
       ${attuneHtml}
-      <button class="item-card-btn" onclick="unequipItem('${item.replace(/'/g, "\\'")}')" title="Unequip">⬇️</button>
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
   }).join('');
@@ -3044,10 +3041,9 @@ function selectItem(name) {
       <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('${name.replace(/'/g, "\\'")}')" title="Info">ℹ️</button>
       <span class="wpn-badge item-tag" style="display:none">⚔️</span>
       <span class="arm-badge item-tag" style="display:none">🛡️</span>
-      <button class="item-card-btn" onclick="equipItem('${name.replace(/'/g, "\\'")}')" title="Equip">⬆️</button>
       ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam('${name.replace(/'/g, "\\'")}', 1)" title="Share to team">↗</button>` : ''}
-      <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('${name.replace(/'/g, "\\'")}')" title="Delete">✕</button>`;
-    list.appendChild(card);
+      <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('${name.replace(/'/g, "\\'")}')" title="Delete">✕</button>
+      <div class="item-detail"></div>`;
   }
   toggleItemSearch();
   saveInventory();
