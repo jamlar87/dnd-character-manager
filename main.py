@@ -71,7 +71,7 @@ SRD_FEATURES: list[dict] = _load_json_cache("features.json")
 FEATURE_DESCRIPTIONS: dict[str, str] = {}
 for f in SRD_FEATURES:
     key = f.get("name", "").lower()
-    desc = " ".join(f.get("desc", []))[:200]
+    desc = " ".join(f.get("desc", []))
     if desc:
         FEATURE_DESCRIPTIONS[key] = desc
 
