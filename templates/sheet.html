@@ -152,8 +152,8 @@
 .editable-input { background: transparent; border: none; border-bottom: 1px solid var(--accent); color: var(--text); font: inherit; padding: 0; margin: 0; outline: none; min-width: 2ch; }
 .editable-input.number { width: 3.5ch; text-align: center; }
 /* Proficiency dots — only clickable in edit mode */
-.save-row, .stat-row[onclick*="toggleSkill"] { cursor: default; }
-.edit-mode .save-row, .edit-mode .stat-row[onclick*="toggleSkill"] { cursor: pointer; }
+.save-row, .stat-row[onclick*="toggleSkill"], .stat-row[onclick*="showProfPicker"] { cursor: default; }
+.edit-mode .save-row, .edit-mode .stat-row[onclick*="toggleSkill"], .edit-mode .stat-row[onclick*="showProfPicker"] { cursor: pointer; }
 .save-dot, .skill-dot { opacity: 0.3; transition: opacity 0.15s; user-select: none; }
 .edit-mode .save-dot, .edit-mode .skill-dot { cursor: pointer; }
 .edit-mode .save-dot:hover, .edit-mode .skill-dot:hover { opacity: 0.7; }
@@ -509,22 +509,22 @@
     <!-- Proficiencies -->
     <div class="sidebar-section">
       <h4>Proficiencies</h4>
-      <div style="font-size:0.8rem">
-        <div class="stat-row">
+      <div style="font-size:0.8rem" id="prof-section">
+        <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Armor</span>
-          <span class="stat-val editable" data-field="armor_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.armor_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val prof-display" data-field="armor_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.armor_proficiencies|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row">
+        <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Weapons</span>
-          <span class="stat-val editable" data-field="weapon_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.weapon_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val prof-display" data-field="weapon_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.weapon_proficiencies|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row">
+        <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Tools</span>
-          <span class="stat-val editable" data-field="tool_proficiencies" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.tool_proficiencies|join(', ') or 'None' }}</span>
+          <span class="stat-val prof-display" data-field="tool_proficiencies" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.tool_proficiencies|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row">
+        <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Languages</span>
-          <span class="stat-val editable" data-field="languages" data-list="1" style="font-weight:400;color:var(--text-muted);min-width:auto">{{ character.languages|join(', ') or 'Common' }}</span>
+          <span class="stat-val prof-display" data-field="languages" style="font-weight:400;color:var(--text-muted);min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.languages|join(', ') or 'Common' }}</span>
         </div>
       </div>
     </div>
@@ -1132,6 +1132,39 @@ const HD_USED = {{ character.hit_dice_used|default(0)|int }};
 const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
 const PREPARED_MAX = {{ prepared_max }};
 const CASTER_TYPE = '{{ caster_type }}';
+
+// ── Proficiency Master Lists (PHB 2014) ──
+const ALL_ARMOR_PROFS = [
+  'Light armor', 'Medium armor', 'Heavy armor', 'Shields'
+];
+const ALL_WEAPON_PROFS = [
+  'Simple weapons', 'Martial weapons',
+  'Clubs', 'Daggers', 'Greatclubs', 'Handaxes', 'Javelins', 'Light hammers',
+  'Maces', 'Quarterstaffs', 'Sickles', 'Spears', 'Light crossbows', 'Darts',
+  'Shortbows', 'Slings',
+  'Battleaxes', 'Flails', 'Glaives', 'Greataxes', 'Greatswords', 'Halberds',
+  'Lances', 'Longswords', 'Mauls', 'Morningstars', 'Pikes', 'Rapiers',
+  'Scimitars', 'Shortswords', 'Tridents', 'War picks', 'Warhammers', 'Whips',
+  'Blowguns', 'Hand crossbows', 'Heavy crossbows', 'Longbows', 'Nets'
+];
+const ALL_TOOL_PROFS = [
+  "Alchemist's supplies", "Brewer's supplies", "Calligrapher's supplies",
+  "Carpenter's tools", "Cartographer's tools", "Cobbler's tools",
+  "Cook's utensils", "Glassblower's tools", "Jeweler's tools",
+  "Leatherworker's tools", "Mason's tools", "Painter's supplies",
+  "Potter's tools", "Smith's tools", "Tinker's tools", "Weaver's tools",
+  "Woodcarver's tools", "Navigator's tools", "Thieves' tools",
+  "Disguise kit", "Forgery kit", "Herbalism kit", "Poisoner's kit",
+  "Bagpipes", "Drum", "Dulcimer", "Flute", "Horn", "Lute", "Lyre",
+  "Pan flute", "Shawm", "Viol",
+  "Dice set", "Dragonchess set", "Playing card set", "Three-Dragon Ante set",
+  "Land vehicles", "Water vehicles"
+];
+const ALL_LANGUAGES = [
+  'Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling',
+  'Orc', 'Abyssal', 'Celestial', 'Draconic', 'Deep Speech', 'Infernal',
+  'Primordial', 'Sylvan', 'Undercommon', 'Druidic', "Thieves' cant"
+];
 
 function api(path, data) {
   return fetch('/api/character/' + CHAR_ID + path, {
@@ -1972,6 +2005,117 @@ function initEditable() {
   document.querySelectorAll('.editable[data-field]:not([data-num]):not([data-text])').forEach(el => {
     makeEditable(el, el.dataset.field, false, el.dataset.list === '1');
   });
+}
+
+// ── Proficiency Picker (click row → checkbox dropdown) ──
+function showProfPicker(type, title, masterList, field) {
+  if (!document.body.classList.contains('edit-mode')) return;
+  
+  // Remove any existing pickers
+  document.querySelectorAll('.prof-picker-overlay').forEach(o => o.remove());
+  
+  // Parse current proficiencies from the display span
+  const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
+  const currentText = displayEl ? displayEl.textContent.trim() : '';
+  const current = currentText === '—' || currentText === 'None' ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
+  const curSet = new Set(current.map(s => s.toLowerCase()));
+  
+  const overlay = document.createElement('div');
+  overlay.className = 'prof-picker-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;display:flex;align-items:center;justify-content:center';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  
+  const panel = document.createElement('div');
+  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+  
+  // Search/filter input
+  let html = `<h4 style="margin:0 0 0.5rem 0;font-size:0.95rem">${title}</h4>`;
+  if (masterList.length > 12) {
+    html += `<input type="text" id="prof-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none" oninput="filterProfPicker(this.value)">`;
+  }
+  html += `<div id="prof-options" style="display:flex;flex-direction:column;gap:0.15rem;max-height:50vh;overflow-y:auto">`;
+  
+  const sorted = [...masterList].sort((a,b) => {
+    const aHas = curSet.has(a.toLowerCase());
+    const bHas = curSet.has(b.toLowerCase());
+    if (aHas !== bHas) return bHas ? 1 : -1;  // checked items at bottom
+    return a.localeCompare(b);
+  });
+  
+  sorted.forEach(name => {
+    const checked = curSet.has(name.toLowerCase());
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.4rem;border-radius:4px;cursor:pointer;font-size:0.82rem${checked ? ';background:rgba(255,255,255,0.04)' : ''}" 
+      onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='${checked ? 'rgba(255,255,255,0.04)' : 'none'}'">
+      <input type="checkbox" ${checked ? 'checked' : ''} value="${name.replace(/"/g, '&quot;')}" onchange="toggleProfItem(this, '${field}', '${type}')" style="accent-color:var(--accent)">
+      <span>${name}</span>
+    </label>`;
+  });
+  html += `</div>`;
+  
+  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+    <button onclick="clearAllProfs('${field}', '${type}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Clear All</button>
+    <button onclick="selectAllProfs('${field}', '${type}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Select All</button>
+    <button onclick="document.querySelector('.prof-picker-overlay').remove()" style="padding:0.3rem 0.8rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;font-size:0.8rem">Done</button>
+  </div>`;
+  
+  panel.innerHTML = html;
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+}
+
+function filterProfPicker(q) {
+  const opts = document.getElementById('prof-options');
+  if (!opts) return;
+  const labels = opts.querySelectorAll('label');
+  const lq = q.toLowerCase();
+  labels.forEach(l => {
+    l.style.display = l.textContent.toLowerCase().includes(lq) ? '' : 'none';
+  });
+}
+
+function getCurrentProfs(field) {
+  const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
+  if (!displayEl) return [];
+  const t = displayEl.textContent.trim();
+  return t === '—' || t === 'None' ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+async function toggleProfItem(cb, field, type) {
+  let profs = getCurrentProfs(field);
+  const name = cb.value;
+  const idx = profs.findIndex(p => p.toLowerCase() === name.toLowerCase());
+  if (cb.checked && idx === -1) {
+    profs.push(name);
+  } else if (!cb.checked && idx !== -1) {
+    profs.splice(idx, 1);
+  }
+  // Update display
+  const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
+  if (displayEl) displayEl.textContent = profs.join(', ') || '—';
+  // Save
+  await api('/update', { [field]: JSON.stringify(profs) });
+}
+
+async function clearAllProfs(field, type) {
+  const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
+  if (displayEl) displayEl.textContent = '—';
+  await api('/update', { [field]: JSON.stringify([]) });
+  // Refresh picker checkboxes
+  const overlay = document.querySelector('.prof-picker-overlay');
+  if (overlay) overlay.remove();
+}
+
+async function selectAllProfs(field, type) {
+  let master;
+  if (type === 'armor') master = ALL_ARMOR_PROFS;
+  else if (type === 'weapon') master = ALL_WEAPON_PROFS;
+  else if (type === 'tool') master = ALL_TOOL_PROFS;
+  else master = ALL_LANGUAGES;
+  const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
+  if (displayEl) displayEl.textContent = master.join(', ');
+  await api('/update', { [field]: JSON.stringify(master) });
+  const overlay = document.querySelector('.prof-picker-overlay');
+  if (overlay) overlay.remove();
 }
 
 // ── Proficiency Toggles ──
