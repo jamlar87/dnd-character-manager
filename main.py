@@ -2422,6 +2422,44 @@ async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request
     return JSONResponse({"ok": True})
 
 
+@app.post("/api/campaign/{camp_id}/roll-loot", response_class=JSONResponse)
+async def campaign_roll_loot(camp_id: int, request: Request):
+    """Roll a treasure hoard (DMG 2014 p.137-139) and add to team pool."""
+    user = require_user(request)
+    db = get_db()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
+                       (camp_id, user["id"])).fetchone()
+    if not is_dm:
+        db.close()
+        return JSONResponse({"error": "Only the DM can roll loot"}, status_code=403)
+
+    data = await request.json()
+    cr_bracket = data.get("cr_bracket", "0-4")
+    if cr_bracket not in ("0-4", "5-10", "11-16", "17+"):
+        db.close()
+        return JSONResponse({"error": "Invalid CR bracket"}, status_code=400)
+
+    hoard = roll_treasure_hoard(cr_bracket)
+
+    # Auto-add coins as gold pieces item
+    if hoard["total_gp_value"] > 0:
+        db.execute(
+            "INSERT INTO campaign_team_items (campaign_id, name, qty, gp_value, added_by_user_id) VALUES (?,?,?,?,?)",
+            (camp_id, "Gold (hoard)", 1, hoard["total_gp_value"], user["id"])
+        )
+
+    # Add magic items to team pool
+    for mi in hoard.get("magic_items", []):
+        db.execute(
+            "INSERT INTO campaign_team_items (campaign_id, name, qty, added_by_user_id) VALUES (?,?,?,?)",
+            (camp_id, mi["name"], 1, user["id"])
+        )
+
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "hoard": hoard})
+
+
 # ── Routes: Character Sheet ────────────────────────────────────────────────
 
 @app.get("/character/{char_id}", response_class=HTMLResponse)
@@ -4559,6 +4597,262 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
         rarity = item.get("rarity", {}).get("name", "")
         desc = " ".join(item.get("desc", []))
         result.append({"name": name, "rarity": rarity, "description": desc})
+    return result
+
+# ── Treasure Hoard Engine (DMG 2014 p.137-139) ──
+
+# Coin formulas per CR bracket: {cp, sp, ep, gp, pp} dice expressions
+TREASURE_HOARD_COINS = {
+    "0-4":   {"cp": "6d6*100", "sp": "3d6*100", "gp": "2d6*10"},
+    "5-10":  {"cp": "2d6*100", "sp": "2d6*1000", "gp": "6d6*100", "pp": "3d6*10"},
+    "11-16": {"gp": "4d6*1000", "pp": "5d6*100"},
+    "17+":   {"gp": "12d6*1000", "pp": "8d6*1000"},
+}
+
+# Hoard d100 table: (range_low, range_high, gems_or_art, magic_table, magic_count)
+# gems_or_art: tuple of (dice_expr, gp_per) or None
+# magic_table: "A"-"I" or None
+TREASURE_HOARD_TABLE = {
+    "0-4": [
+        (1, 6, None, None, 0),
+        (7, 16, ("2d6", 10), None, 0),
+        (17, 26, ("2d4", 25), None, 0),
+        (27, 36, ("2d6", 50), None, 0),
+        (37, 44, ("2d6", 10), "A", "1d6"),
+        (45, 52, ("2d4", 25), "A", "1d6"),
+        (53, 60, ("2d6", 50), "A", "1d6"),
+        (61, 65, ("2d6", 10), "B", "1d4"),
+        (66, 70, ("2d4", 25), "B", "1d4"),
+        (71, 75, ("2d6", 50), "B", "1d4"),
+        (76, 78, ("2d6", 10), "C", "1d4"),
+        (79, 80, ("2d4", 25), "C", "1d4"),
+        (81, 85, ("2d6", 50), "C", "1d4"),
+        (86, 92, ("2d4", 25), "F", "1d4"),
+        (93, 97, ("2d6", 50), "F", "1d4"),
+        (98, 99, ("2d4", 25), "G", "1"),
+        (100, 100, ("2d6", 50), "G", "1"),
+    ],
+    "5-10": [
+        (1, 4, None, None, 0),
+        (5, 10, ("2d4", 25), None, 0),
+        (11, 16, ("3d6", 50), None, 0),
+        (17, 22, ("3d6", 100), None, 0),
+        (23, 28, ("2d4", 250), None, 0),
+        (29, 32, ("2d4", 25), "A", "1d6"),
+        (33, 36, ("3d6", 50), "A", "1d6"),
+        (37, 40, ("3d6", 100), "A", "1d6"),
+        (41, 44, ("2d4", 250), "A", "1d6"),
+        (45, 49, ("2d4", 25), "B", "1d4"),
+        (50, 54, ("3d6", 50), "B", "1d4"),
+        (55, 59, ("3d6", 100), "B", "1d4"),
+        (60, 63, ("2d4", 250), "B", "1d4"),
+        (64, 66, ("2d4", 25), "C", "1d4"),
+        (67, 69, ("3d6", 50), "C", "1d4"),
+        (70, 72, ("3d6", 100), "C", "1d4"),
+        (73, 74, ("2d4", 250), "C", "1d4"),
+        (75, 76, ("2d4", 25), "D", "1"),
+        (77, 78, ("3d6", 50), "D", "1"),
+        (79, 79, ("3d6", 100), "D", "1"),
+        (80, 80, ("2d4", 250), "D", "1"),
+        (81, 84, ("2d4", 25), "F", "1d4"),
+        (85, 88, ("3d6", 50), "F", "1d4"),
+        (89, 91, ("3d6", 100), "F", "1d4"),
+        (92, 94, ("2d4", 250), "F", "1d4"),
+        (95, 96, ("3d6", 100), "G", "1d4"),
+        (97, 98, ("2d4", 250), "G", "1d4"),
+        (99, 99, ("3d6", 100), "H", "1"),
+        (100, 100, ("2d4", 250), "H", "1"),
+    ],
+    "11-16": [
+        (1, 3, None, None, 0),
+        (4, 6, ("2d4", 250), None, 0),
+        (7, 9, ("2d4", 750), None, 0),
+        (10, 12, ("3d6", 500), None, 0),
+        (13, 15, ("2d4", 1000), None, 0),
+        (16, 19, ("2d4", 250), "A", "1d4"),
+        (20, 23, ("2d4", 750), "A", "1d4"),
+        (24, 26, ("3d6", 500), "A", "1d4"),
+        (27, 29, ("2d4", 1000), "A", "1d4"),
+        (30, 35, ("2d4", 250), "B", "1d6"),
+        (36, 40, ("2d4", 750), "B", "1d6"),
+        (41, 45, ("3d6", 500), "B", "1d6"),
+        (46, 50, ("2d4", 1000), "B", "1d6"),
+        (51, 54, ("2d4", 250), "C", "1d6"),
+        (55, 58, ("2d4", 750), "C", "1d6"),
+        (59, 62, ("3d6", 500), "C", "1d6"),
+        (63, 66, ("2d4", 1000), "C", "1d6"),
+        (67, 69, ("2d4", 250), "D", "1d4"),
+        (70, 72, ("2d4", 750), "D", "1d4"),
+        (73, 74, ("3d6", 500), "D", "1d4"),
+        (75, 76, ("2d4", 1000), "D", "1d4"),
+        (77, 78, ("2d4", 250), "E", "1d6"),
+        (79, 80, ("2d4", 750), "E", "1d6"),
+        (81, 82, ("3d6", 500), "E", "1d6"),
+        (83, 84, ("2d4", 1000), "E", "1d6"),
+        (85, 86, ("2d4", 250), "F", "1d4"),
+        (87, 88, ("2d4", 750), "F", "1d4"),
+        (89, 90, ("3d6", 500), "F", "1d4"),
+        (91, 92, ("2d4", 1000), "F", "1d4"),
+        (93, 94, ("3d6", 500), "G", "1d4"),
+        (95, 96, ("2d4", 1000), "G", "1d4"),
+        (97, 97, ("3d6", 500), "H", "1d4"),
+        (98, 98, ("2d4", 1000), "H", "1d4"),
+        (99, 99, ("3d6", 500), "I", "1"),
+        (100, 100, ("2d4", 1000), "I", "1"),
+    ],
+    "17+": [
+        (1, 2, None, None, 0),
+        (3, 5, ("3d6", 1000), None, 0),
+        (6, 8, ("2d4", 2500), None, 0),
+        (9, 11, ("2d4", 7500), None, 0),
+        (12, 14, ("3d6", 5000), None, 0),
+        (15, 22, ("3d6", 1000), "C", "1d8"),
+        (23, 30, ("2d4", 2500), "C", "1d8"),
+        (31, 38, ("2d4", 7500), "C", "1d8"),
+        (39, 46, ("3d6", 5000), "C", "1d8"),
+        (47, 52, ("3d6", 1000), "D", "1d6"),
+        (53, 58, ("2d4", 2500), "D", "1d6"),
+        (59, 63, ("2d4", 7500), "D", "1d6"),
+        (64, 68, ("3d6", 5000), "D", "1d6"),
+        (69, 72, ("3d6", 1000), "E", "1d6"),
+        (73, 76, ("2d4", 2500), "E", "1d6"),
+        (77, 79, ("2d4", 7500), "E", "1d6"),
+        (80, 82, ("3d6", 5000), "E", "1d6"),
+        (83, 85, ("3d6", 1000), "F", "1d6"),
+        (86, 88, ("2d4", 2500), "F", "1d6"),
+        (89, 90, ("2d4", 7500), "F", "1d6"),
+        (91, 92, ("3d6", 5000), "F", "1d6"),
+        (93, 94, ("3d6", 1000), "G", "1d6"),
+        (95, 96, ("2d4", 2500), "G", "1d6"),
+        (97, 97, ("2d4", 7500), "G", "1d6"),
+        (98, 98, ("3d6", 5000), "G", "1d6"),
+        (99, 99, ("3d6", 1000), "H", "1d6"),
+        (100, 100, ("2d4", 2500), "I", "1d6"),
+    ],
+}
+
+# Magic item table → rarity/category filter for SRD pool
+MAGIC_TABLE_POOLS = {
+    "A": {"rarity": ["common", "uncommon"], "category": ["potion", "scroll", "wand", "wondrous item"]},
+    "B": {"rarity": ["uncommon", "rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
+    "C": {"rarity": ["rare", "very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
+    "D": {"rarity": ["very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
+    "E": {"rarity": ["uncommon", "rare"], "category": ["weapon", "armor", "rod", "staff", "wand"]},
+    "F": {"rarity": ["rare", "very rare"], "category": ["weapon", "armor", "wondrous item"]},
+    "G": {"rarity": ["very rare"], "category": ["weapon", "armor", "wondrous item", "ring", "rod", "staff"]},
+    "H": {"rarity": ["legendary"], "category": None},
+    "I": {"rarity": ["legendary", "artifact"], "category": None},
+}
+
+
+def _roll_dice(expr: str) -> int:
+    """Roll a dice expression like '3d6*100' or '2d4' or '1'."""
+    import random, re
+    expr = expr.strip()
+    if expr.isdigit():
+        return int(expr)
+    # Handle multiplier suffix: 3d6*100
+    mult = 1
+    m = re.match(r"(.+?)\*(\d+)", expr)
+    if m:
+        expr = m.group(1)
+        mult = int(m.group(2))
+    # Parse NdX
+    m = re.match(r"(\d+)d(\d+)", expr)
+    if m:
+        count, sides = int(m.group(1)), int(m.group(2))
+        return sum(random.randint(1, sides) for _ in range(count)) * mult
+    return 0
+
+
+def _pick_magic_item(table: str) -> dict | None:
+    """Pick one random magic item from the SRD pool matching the table."""
+    import random
+    pool_cfg = MAGIC_TABLE_POOLS.get(table, {})
+    rarities = pool_cfg.get("rarity", [])
+    categories = pool_cfg.get("category")
+    # Filter SRD_MAGIC_ITEMS
+    candidates = []
+    for item in SRD_MAGIC_ITEMS:
+        item_rarity = (item.get("rarity", {}) or {}).get("name", "").lower()
+        if rarities and item_rarity not in rarities:
+            continue
+        if categories:
+            cat = (item.get("equipment_category", {}) or {}).get("name", "").lower()
+            if cat not in categories:
+                continue
+        candidates.append(item)
+    if not candidates:
+        return None
+    item = random.choice(candidates)
+    rarity = (item.get("rarity", {}) or {}).get("name", "")
+    desc = " ".join(item.get("desc", [])[:3])  # first 3 sentences
+    return {
+        "name": item.get("name", "Unknown"),
+        "rarity": rarity,
+        "description": desc[:200],
+    }
+
+
+def roll_treasure_hoard(cr_bracket: str) -> dict:
+    """Roll a full treasure hoard per DMG 2014 p.137-139.
+
+    Args:
+        cr_bracket: one of '0-4', '5-10', '11-16', '17+'
+
+    Returns dict with: coins (list of {type, amount, gp_value}), gems (list of {count, value}),
+        magic_items (list of {name, rarity, description}), total_gp_value
+    """
+    import random
+
+    coins = TREASURE_HOARD_COINS.get(cr_bracket, {})
+    table = TREASURE_HOARD_TABLE.get(cr_bracket, [])
+    if not table:
+        return {"coins": [], "gems": [], "magic_items": [], "total_gp_value": 0}
+
+    result = {"coins": [], "gems": [], "magic_items": [], "total_gp_value": 0}
+
+    # Roll coins
+    for coin_type, expr in coins.items():
+        if expr:
+            amount = _roll_dice(expr)
+            if amount > 0:
+                gp_conv = {"cp": 0.01, "sp": 0.1, "ep": 0.5, "gp": 1, "pp": 10}
+                gp_value = int(amount * gp_conv.get(coin_type, 0))
+                result["coins"].append({
+                    "type": coin_type.upper(),
+                    "amount": amount,
+                    "gp_value": gp_value,
+                    "label": f"{amount:,} {coin_type.upper()}",
+                })
+                result["total_gp_value"] += gp_value
+
+    # Roll d100 for gems/art + magic items
+    d100 = random.randint(1, 100)
+    for lo, hi, gems_expr, magic_table, magic_count_expr in table:
+        if lo <= d100 <= hi:
+            # Gems / art objects
+            if gems_expr:
+                dice, gp_per = gems_expr
+                count = _roll_dice(dice)
+                value = count * gp_per
+                result["gems"].append({
+                    "count": count,
+                    "value_per": gp_per,
+                    "total_value": value,
+                    "label": f"{count} × {gp_per}gp {'gems' if gp_per < 100 else 'art objects'}",
+                })
+                result["total_gp_value"] += value
+
+            # Magic items
+            if magic_table:
+                item_count = _roll_dice(magic_count_expr)
+                for _ in range(item_count):
+                    mi = _pick_magic_item(magic_table)
+                    if mi:
+                        result["magic_items"].append(mi)
+            break
+
     return result
 
 # ── Feature → Defense Mappings (PHB 2014) ──

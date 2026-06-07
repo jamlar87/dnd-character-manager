@@ -127,6 +127,56 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .palette-stat { font-size: 0.7rem; color: var(--text-muted); }
 .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
 .empty-state p { font-size: 1.1rem; margin-bottom: 1rem; }
+
+/* ── Items Panel ── */
+.item-pool { flex: 2; min-width: 300px; }
+.party-drops { flex: 1; min-width: 250px; }
+.party-drop-zone {
+  padding: 0.6rem; border: 2px dashed var(--border); border-radius: 8px;
+  margin-bottom: 0.5rem; min-height: 3rem; transition: all 0.15s;
+  display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: flex-start;
+}
+.party-drop-zone.drop-zone-active {
+  border-color: var(--accent); background: rgba(233,69,96,0.06);
+}
+.party-member-label {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.2rem; font-size: 0.8rem;
+}
+/* Item cards (shared with sheet) */
+.item-card {
+  display: inline-flex; align-items: center; gap: 0.2rem;
+  padding: 0.2rem 0.35rem; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  font-size: 0.8rem; cursor: default; transition: all 0.12s;
+  user-select: none; max-width: 100%;
+}
+.item-card:hover { border-color: var(--text-muted); }
+.item-card.dragging { opacity: 0.4; transform: scale(0.95); }
+.item-card .drag-handle {
+  cursor: grab; color: var(--text-muted); font-size: 0.6rem;
+  letter-spacing: -0.1rem; padding: 0 0.1rem; line-height: 1;
+}
+.item-card .drag-handle:active { cursor: grabbing; }
+.item-card .item-card-name {
+  background: transparent; border: none; color: var(--text);
+  font-size: 0.8rem; padding: 0.1rem 0; min-width: 3ch; max-width: 120px;
+  outline: none; font-family: var(--font);
+}
+.item-card .item-qty {
+  background: var(--accent); color: #000; border-radius: 8px;
+  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  min-width: 1.2rem; text-align: center;
+}
+.item-card .item-card-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
+  border-radius: 3px; line-height: 1;
+}
+.item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.item-card .item-card-del:hover { color: var(--danger); }
+.drop-zone { transition: box-shadow 0.15s; }
+.drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
 {% endblock %}
 
 {% block content %}
@@ -138,6 +188,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <button class="dm-tab" data-tab="encounters">⚡ Encounters</button>
   <button class="dm-tab" data-tab="npcs">👤 NPCs</button>
   <button class="dm-tab" data-tab="campaigns">📜 Campaign</button>
+  <button class="dm-tab" data-tab="items">🎒 Items</button>
 </div>
 
 {# ───── MONSTERS PANEL ───── #}
@@ -368,6 +419,27 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       </form>
       <div id="aiEncounterResult" style="display:none;margin-top:1rem"></div>
     </div>
+  </div>
+</div>
+
+{# ───── ITEMS PANEL ───── #}
+<div class="dm-panel" id="panel-items">
+  <div class="toolbar" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+    <select id="itemsCampaignSelect" onchange="loadItemsPanel()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
+      <option value="">— Select campaign —</option>
+    </select>
+    <button class="btn btn-primary btn-sm" onclick="addTeamItem()">+ Add Item</button>
+    <select id="lootCrBracket" style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem">
+      <option value="0-4">CR 0–4</option>
+      <option value="5-10">CR 5–10</option>
+      <option value="11-16">CR 11–16</option>
+      <option value="17+">CR 17+</option>
+    </select>
+    <button class="btn btn-accent btn-sm" onclick="rollLoot()">🎲 Roll Loot</button>
+    <button class="btn btn-outline btn-sm" onclick="loadItemsPanel()">🔄 Refresh</button>
+  </div>
+  <div id="itemsPanelContent" style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap">
+    <div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>
   </div>
 </div>
 
@@ -1261,6 +1333,231 @@ function saveCampNotes(id) {
 function deleteCampaign(id) {
   if (!confirm('Delete this campaign?')) return;
   fetch(`/api/dm/campaign/${id}/delete`, {method: 'POST'}).then(r => r.json()).then(() => location.reload());
+}
+
+// ── Items Panel ──
+let _itemsDragItem = null;
+let _itemsCampId = null;
+let _itemsPartyChars = [];
+
+async function loadItemsPanel() {
+  const sel = document.getElementById('itemsCampaignSelect');
+  _itemsCampId = sel.value;
+  if (!_itemsCampId) {
+    document.getElementById('itemsPanelContent').innerHTML =
+      '<div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>';
+    return;
+  }
+  const content = document.getElementById('itemsPanelContent');
+  content.innerHTML = '<div style="text-align:center;padding:2rem;width:100%">Loading...</div>';
+
+  // Fetch campaigns for the dropdown
+  try {
+    const cr = await fetch('/api/dm/campaigns');
+    const cd = await cr.json();
+    const camps = cd.campaigns || [];
+    if (sel.options.length <= 1) {
+      camps.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id; opt.textContent = c.name;
+        if (c.id == _itemsCampId) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    }
+
+    // Find selected campaign
+    const camp = camps.find(c => c.id == _itemsCampId);
+    if (!camp) { content.innerHTML = '<p>Campaign not found</p>'; return; }
+    const chars = typeof camp.characters === 'string' ? JSON.parse(camp.characters) : (camp.characters || []);
+    _itemsPartyChars = chars;
+
+    // Fetch team items
+    const tr = await fetch(`/api/campaign/${_itemsCampId}/team-items`);
+    const td = await tr.json();
+    const items = td.items || [];
+
+    renderItemsPanel(items, chars);
+  } catch (e) {
+    content.innerHTML = '<p style="color:var(--danger)">Failed to load. Are you the DM?</p>';
+  }
+}
+
+function renderItemsPanel(items, chars) {
+  const content = document.getElementById('itemsPanelContent');
+
+  // Team items pool (left)
+  let poolHtml = '<div class="item-pool"><div class="card"><h3 style="margin:0 0 0.5rem 0">📦 Team Items Pool</h3>';
+  if (items.length === 0) {
+    poolHtml += '<div style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0">No items in pool. Click +Add or drag items from characters below.</div>';
+  } else {
+    poolHtml += '<div style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2rem">';
+    items.forEach(item => {
+      const qtyBadge = item.qty > 1 ? `<span class="item-qty">${item.qty}</span>` : '';
+      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
+      poolHtml += `<div class="item-card" draggable="true"
+        data-item-name="${item.name.replace(/"/g, '&quot;')}" data-item-id="${item.id}"
+        ondragstart="itemsDragStart(event, '${item.name.replace(/'/g, "\\'")}', 'pool', ${item.id})"
+        ondragend="itemsDragEnd(event)">
+        <span class="drag-handle" title="Drag to award">⋮⋮</span>
+        <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
+        <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
+      </div>`;
+    });
+    poolHtml += '</div>';
+  }
+  poolHtml += '</div></div>';
+
+  // Party members (right)
+  let partyHtml = '<div class="party-drops"><div class="card"><h3 style="margin:0 0 0.5rem 0">👥 Party</h3>';
+  if (chars.length === 0) {
+    partyHtml += '<div style="color:var(--text-muted);font-size:0.85rem">No characters in party. Add them in the Campaign tab.</div>';
+  } else {
+    chars.forEach(ch => {
+      partyHtml += `<div style="margin-bottom:0.5rem">
+        <div class="party-member-label">
+          <strong>${ch.name}</strong>
+          <span style="color:var(--text-muted);font-size:0.75rem">L${ch.level} ${ch.class_name}</span>
+        </div>
+        <div class="party-drop-zone"
+          ondragover="itemsDragOver(event)"
+          ondragleave="itemsDragLeave(event)"
+          ondrop="itemsDrop(event, ${ch.id}, '${ch.name.replace(/'/g, "\\'")}')"
+          id="party-zone-${ch.id}">
+          <span style="color:var(--text-muted);font-size:0.7rem">Drop items here to award</span>
+        </div>
+      </div>`;
+    });
+  }
+  partyHtml += '</div></div>';
+
+  content.innerHTML = `<div style="display:flex;gap:1rem;flex-wrap:wrap">${poolHtml}${partyHtml}</div>`;
+
+  // Initialize campaigns dropdown on first load
+  if (!document.getElementById('itemsCampaignSelect').dataset.loaded) {
+    document.getElementById('itemsCampaignSelect').dataset.loaded = '1';
+    fetch('/api/dm/campaigns').then(r => r.json()).then(d => {
+      const sel = document.getElementById('itemsCampaignSelect');
+      (d.campaigns || []).forEach(c => {
+        if (!sel.querySelector(`option[value="${c.id}"]`)) {
+          const opt = document.createElement('option');
+          opt.value = c.id; opt.textContent = c.name;
+          sel.appendChild(opt);
+        }
+      });
+    });
+  }
+}
+
+// ── Items drag/drop ──
+function itemsDragStart(e, name, source, itemId) {
+  _itemsDragItem = { name, source, itemId };
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', name);
+  e.target.closest('.item-card')?.classList.add('dragging');
+}
+
+function itemsDragEnd(e) {
+  e.target.closest('.item-card')?.classList.remove('dragging');
+  document.querySelectorAll('.drop-zone-active').forEach(el => el.classList.remove('drop-zone-active'));
+  _itemsDragItem = null;
+}
+
+function itemsDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const zone = e.currentTarget;
+  if (!zone.classList.contains('drop-zone-active')) zone.classList.add('drop-zone-active');
+}
+
+function itemsDragLeave(e) {
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    e.currentTarget.classList.remove('drop-zone-active');
+  }
+}
+
+async function itemsDrop(e, charId, charName) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drop-zone-active');
+  if (!_itemsDragItem || !_itemsCampId) return;
+
+  const { name, source, itemId } = _itemsDragItem;
+  if (source !== 'pool') return;
+
+  // Confirm award
+  if (!confirm(`Award "${name}" to ${charName}?`)) return;
+  
+  // Claim on behalf of character
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items/${itemId}/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ character_id: charId })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    loadItemsPanel(); // Refresh
+  } else {
+    alert(data.error || 'Failed to award item');
+  }
+  _itemsDragItem = null;
+}
+
+// ── Add / delete team items ──
+async function addTeamItem() {
+  if (!_itemsCampId) return alert('Select a campaign first');
+  const name = prompt('Item name:');
+  if (!name) return;
+  const qty = parseInt(prompt('Quantity:', '1')) || 1;
+  const gp = parseInt(prompt('Gold piece value (0 = none):', '0')) || 0;
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, qty, gp_value: gp })
+  });
+  const data = await resp.json();
+  if (data.ok) loadItemsPanel();
+  else alert(data.error || 'Failed to add item');
+}
+
+async function deleteTeamItem(itemId) {
+  if (!confirm('Remove this item from the pool?')) return;
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items/${itemId}`, { method: 'DELETE' });
+  const data = await resp.json();
+  if (data.ok) loadItemsPanel();
+  else alert(data.error || 'Failed to remove item');
+}
+
+// ── Roll Loot ──
+async function rollLoot() {
+  if (!_itemsCampId) return alert('Select a campaign first');
+  const bracket = document.getElementById('lootCrBracket').value;
+  if (!confirm(`Roll a treasure hoard for CR ${bracket} and add to the team pool?`)) return;
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/roll-loot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cr_bracket: bracket })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    const h = data.hoard;
+    let msg = '🎲 Treasure Hoard Rolled!\\n\\n';
+    if (h.coins && h.coins.length) {
+      msg += '💰 Coins:\\n';
+      h.coins.forEach(c => msg += `  ${c.label} (≈${c.gp_value} gp)\\n`);
+    }
+    if (h.gems && h.gems.length) {
+      msg += '\\n💎 Gems/Art:\\n';
+      h.gems.forEach(g => msg += `  ${g.label}\\n`);
+    }
+    if (h.magic_items && h.magic_items.length) {
+      msg += '\\n✨ Magic Items:\\n';
+      h.magic_items.forEach(m => msg += `  ${m.name} (${m.rarity})\n`);
+    }
+    msg += `\\n📊 Total: ≈${h.total_gp_value.toLocaleString()} gp`;
+    alert(msg);
+    loadItemsPanel();
+  } else {
+    alert(data.error || 'Failed to roll loot');
+  }
 }
 </script>
 {% endblock %}
