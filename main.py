@@ -1094,6 +1094,21 @@ async def api_create_character(request: Request):
     tool_profs = _parse_prof_list(class_data.get("tools", ""))
     save_profs = class_data.get("saves", [])
 
+    # Starting defenses from race (PHB 2014)
+    # Damage resistance: Dwarf→Poison, Tiefling→Fire
+    # Condition immunity: Elf/Half-Elf→Sleep (magical)
+    damage_resist = []
+    condition_immune = []
+    damage_immune = []
+    damage_vuln = []
+    race_lower = race_name.lower()
+    if 'dwarf' in race_lower:
+        damage_resist = ['Poison']
+    elif 'tiefling' in race_lower:
+        damage_resist = ['Fire']
+    elif 'elf' in race_lower or 'half-elf' in race_lower:
+        condition_immune = ['Sleep']
+
     # Merge background items into inventory (normalize to {name, qty} dicts)
     def _parse_item(item):
         """Parse item string: '4 Javelins' → {name: 'Javelin', qty: 4}.
@@ -1130,8 +1145,9 @@ async def api_create_character(request: Request):
         wisdom, charisma, hp_max, hp_current, ac, speed,
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
+        damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
         feature_data, attacks_data, spell_slot_data, passive_perception, portrait_url, portrait_prompt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -1142,6 +1158,7 @@ async def api_create_character(request: Request):
         json.dumps(skills_list), json.dumps(build_features), json.dumps(race_data.get("languages",["Common"])),
         json.dumps(tool_profs), json.dumps(weapon_profs), json.dumps(armor_profs), json.dumps(save_profs),
         json.dumps(inventory), json.dumps([]),
+        json.dumps(damage_resist), json.dumps(damage_immune), json.dumps(damage_vuln), json.dumps(condition_immune),
         json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
         data.get("portrait_url", ""), data.get("portrait_prompt", "")
     ))

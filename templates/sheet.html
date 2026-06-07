@@ -439,69 +439,59 @@
 
     <!-- Defenses -->
     <div class="sidebar-section">
-      <h4>Defenses</h4>
-      <div style="font-size:0.8rem">
-        {% set has_defenses = false %}
-        <!-- Dwarf poison resistance -->
-        {% if character.race and ('dwarf' in character.race.lower()) %}
-        <span class="defense-badge defense-resist">🛡️ Poison</span>
-        {% set has_defenses = true %}
-        {% endif %}
-        <!-- Halfling - Brave -->
-        {% if character.race and 'halfling' in character.race.lower() %}
-        <span class="defense-badge defense-resist">😨 Frightened (adv)</span>
-        {% set has_defenses = true %}
-        {% endif %}
-        <!-- Elf - charm/sleep -->
-        {% if character.race and ('elf' in character.race.lower()) %}
-        <span class="defense-badge defense-immune">💤 Sleep</span>
-        <span class="defense-badge defense-resist">💋 Charmed (adv)</span>
-        {% set has_defenses = true %}
-        {% endif %}
-        <!-- Half-Elf - same as elf -->
-        {% if character.race and 'half-elf' in character.race.lower() %}
-        <span class="defense-badge defense-immune">💤 Sleep</span>
-        <span class="defense-badge defense-resist">💋 Charmed (adv)</span>
-        {% set has_defenses = true %}
-        {% endif %}
-        <!-- User-defined defenses -->
+      <h4>Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
+      <div style="font-size:0.8rem" id="defenses-section">
+        <!-- Race damage resistances (populated by JS from server data) -->
         {% if character.damage_resistances %}
         {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
-        {% set has_defenses = true %}
         {% endif %}
         {% if character.damage_immunities %}
         {% for i in character.damage_immunities %}<span class="defense-badge defense-immune">✨ {{ i }}</span>{% endfor %}
-        {% set has_defenses = true %}
         {% endif %}
         {% if character.damage_vulnerabilities %}
-        {% for v in character.damage_vulnerabilities %}<span class="defense-badge" style="background:rgba(239,68,68,0.15);color:#ef4444">⚠️ {{ v }}</span>{% endfor %}
-        {% set has_defenses = true %}
+        {% for v in character.damage_vulnerabilities %}<span class="defense-badge defense-vuln">⚠️ {{ v }}</span>{% endfor %}
         {% endif %}
         {% if character.condition_immunities %}
         {% for c in character.condition_immunities %}<span class="defense-badge defense-immune">🛡️ {{ c }}</span>{% endfor %}
-        {% set has_defenses = true %}
         {% endif %}
+        <!-- Saving Throw Proficiencies -->
+        {% if character.save_proficiencies %}
+        {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s|upper }} save</span>{% endfor %}
+        {% endif %}
+        {% set has_defenses = character.damage_resistances or character.damage_immunities or character.damage_vulnerabilities or character.condition_immunities or character.save_proficiencies %}
         {% if not has_defenses %}
         <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
         {% endif %}
       </div>
       <!-- Edit defenses -->
       <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-        <div class="stat-row" style="margin-bottom:0.15rem">
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default" 
+             onclick="showDefensePicker('Damage Resistances', ALL_DAMAGE_TYPES, 'damage_resistances', '🛡️', 'Halves damage of this type (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Resistances</span>
-          <span class="stat-val editable" data-field="damage_resistances" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_resistances|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="damage_resistances" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_resistances|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem">
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
+             onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Immunities</span>
-          <span class="stat-val editable" data-field="damage_immunities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_immunities|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="damage_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_immunities|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem">
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
+             onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Vulnerabilities</span>
-          <span class="stat-val editable" data-field="damage_vulnerabilities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.damage_vulnerabilities|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="damage_vulnerabilities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_vulnerabilities|join(', ') or '—' }}</span>
         </div>
-        <div class="stat-row">
+        <div class="stat-row" style="cursor:default"
+             onclick="showDefensePicker('Condition Immunities', ALL_CONDITIONS, 'condition_immunities', '🛡️', 'Immune to this condition\'s effects — magic can\'t put an elf to sleep, poison can\'t paralyze a creature immune to the poisoned condition (PHB p.290-292)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
           <span class="stat-name" style="font-size:0.7rem">Condition Imm.</span>
-          <span class="stat-val editable" data-field="condition_immunities" data-list="1" style="font-weight:400;font-size:0.75rem;min-width:auto">{{ character.condition_immunities|join(', ') or '—' }}</span>
+          <span class="stat-val defense-display" data-field="condition_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.condition_immunities|join(', ') or '—' }}</span>
         </div>
       </div>
     </div>
@@ -1165,6 +1155,18 @@ const ALL_LANGUAGES = [
   'Common', 'Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling',
   'Orc', 'Abyssal', 'Celestial', 'Draconic', 'Deep Speech', 'Infernal',
   'Primordial', 'Sylvan', 'Undercommon', 'Druidic', "Thieves' cant"
+];
+
+// ── Defense Master Lists (PHB 2014 p.196, p.290-292) ──
+const ALL_DAMAGE_TYPES = [
+  'Acid', 'Bludgeoning', 'Cold', 'Fire', 'Force',
+  'Lightning', 'Necrotic', 'Piercing', 'Poison', 'Psychic',
+  'Radiant', 'Slashing', 'Thunder'
+];
+const ALL_CONDITIONS = [
+  'Blinded', 'Charmed', 'Deafened', 'Exhaustion', 'Frightened',
+  'Grappled', 'Incapacitated', 'Invisible', 'Paralyzed', 'Petrified',
+  'Poisoned', 'Prone', 'Restrained', 'Stunned', 'Unconscious'
 ];
 
 function api(path, data) {
@@ -2132,6 +2134,127 @@ async function selectAllProfs(field, type) {
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
   const overlay = document.querySelector('.prof-picker-overlay');
   if (overlay) overlay.remove();
+}
+
+// ── Defense Picker (click row → checkbox overlay) ──
+function showDefensePicker(title, masterList, field, icon, helpText) {
+  if (!document.body.classList.contains('edit-mode')) return;
+  
+  // Remove any existing pickers
+  document.querySelectorAll('.defense-picker-overlay').forEach(o => o.remove());
+  
+  // Parse current values from the display span
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  const currentText = displayEl ? displayEl.textContent.trim() : '';
+  const current = currentText === '—' || currentText === 'None' ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
+  const curSet = new Set(current.map(s => s.toLowerCase()));
+  
+  const overlay = document.createElement('div');
+  overlay.className = 'defense-picker-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;display:flex;align-items:center;justify-content:center';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  
+  const panel = document.createElement('div');
+  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+  
+  let html = `<h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
+    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpText || ''}</p>`;
+  if (masterList.length > 12) {
+    html += `<input type="text" id="def-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none" oninput="filterDefensePicker(this.value)">`;
+  }
+  html += `<div id="def-options" style="display:flex;flex-direction:column;gap:0.15rem;max-height:50vh;overflow-y:auto">`;
+  
+  const sorted = [...masterList].sort((a,b) => {
+    const aHas = curSet.has(a.toLowerCase());
+    const bHas = curSet.has(b.toLowerCase());
+    if (aHas !== bHas) return bHas ? 1 : -1;
+    return a.localeCompare(b);
+  });
+  
+  sorted.forEach(name => {
+    const checked = curSet.has(name.toLowerCase());
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.4rem;border-radius:4px;cursor:pointer;font-size:0.82rem${checked ? ';background:rgba(255,255,255,0.04)' : ''}" 
+      onmouseenter="this.style.background='rgba(255,255,255,0.06)'" onmouseleave="this.style.background='${checked ? 'rgba(255,255,255,0.04)' : 'none'}'">
+      <input type="checkbox" ${checked ? 'checked' : ''} value="${name.replace(/"/g, '&quot;')}" onchange="toggleDefenseItem(this, '${field}', '${icon}')" style="accent-color:var(--accent)">
+      <span>${name}</span>
+    </label>`;
+  });
+  html += `</div>`;
+  
+  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+    <button onclick="clearAllDefenses('${field}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Clear All</button>
+    <button onclick="selectAllDefenses('${field}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Select All</button>
+    <button onclick="document.querySelector('.defense-picker-overlay').remove()" style="padding:0.3rem 0.8rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;font-size:0.8rem">Done</button>
+  </div>`;
+  
+  panel.innerHTML = html;
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+}
+
+function filterDefensePicker(q) {
+  const opts = document.getElementById('def-options');
+  if (!opts) return;
+  const labels = opts.querySelectorAll('label');
+  const lq = q.toLowerCase();
+  labels.forEach(l => {
+    l.style.display = l.textContent.toLowerCase().includes(lq) ? '' : 'none';
+  });
+}
+
+function getCurrentDefenses(field) {
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  if (!displayEl) return [];
+  const t = displayEl.textContent.trim();
+  return t === '—' || t === 'None' ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+async function toggleDefenseItem(cb, field, icon) {
+  // Get current from display (live state)
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  if (!displayEl) return;
+  const curText = displayEl.textContent.trim();
+  let items = curText === '—' || curText === 'None' ? [] : curText.split(',').map(s => s.trim()).filter(Boolean);
+  
+  const name = cb.value;
+  const idx = items.findIndex(p => p.toLowerCase() === name.toLowerCase());
+  if (cb.checked && idx === -1) {
+    items.push(name);
+  } else if (!cb.checked && idx !== -1) {
+    items.splice(idx, 1);
+  }
+  // Update display
+  displayEl.textContent = items.join(', ') || '—';
+  // Save to server
+  await api('/update', { [field]: JSON.stringify(items) });
+  // Refresh the defense badge area (reload page or update inline)
+  refreshDefenseBadges();
+}
+
+async function clearAllDefenses(field) {
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  if (displayEl) displayEl.textContent = '—';
+  await api('/update', { [field]: JSON.stringify([]) });
+  refreshDefenseBadges();
+  document.querySelector('.defense-picker-overlay')?.remove();
+}
+
+async function selectAllDefenses(field) {
+  // Determine which master list to use based on field name
+  let master;
+  if (field.includes('condition')) master = ALL_CONDITIONS;
+  else master = ALL_DAMAGE_TYPES;
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  if (displayEl) displayEl.textContent = master.join(', ');
+  await api('/update', { [field]: JSON.stringify(master) });
+  refreshDefenseBadges();
+  document.querySelector('.defense-picker-overlay')?.remove();
+}
+
+function refreshDefenseBadges() {
+  // Reload the page to refresh server-rendered badges
+  // (Defense badges are server-rendered from DB fields)
+  location.reload();
 }
 
 // ── Proficiency Toggles ──
