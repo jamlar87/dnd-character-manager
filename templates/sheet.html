@@ -941,18 +941,15 @@
         </div>
       </div>
     </div>
-  </div><!-- /sheet-main -->
-</div><!-- /sheet-layout -->
-
 <!-- 📜 HISTORY & RELATIONSHIPS TAB -->
 <div class="tab-content" id="tab-history">
-  <div style="margin-bottom:1.5rem">
+  <div class="card" style="margin-bottom:1rem">
     <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History</h3>
     <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
     <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">Write your character's history, key life events, or backstory details.</div>
   </div>
 
-  <div>
+  <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
       <h3 style="margin:0;font-size:1rem">Relationships</h3>
       <button class="btn btn-outline btn-sm" onclick="openAddRelationship()" style="font-size:0.8rem">+ Add NPC</button>
@@ -1002,6 +999,10 @@
     </div>
   </div>
 </div>
+
+
+<!-- /sheet-main -->
+</div><!-- /sheet-layout -->
 
 <!-- Detail Popup -->
 <div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
