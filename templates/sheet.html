@@ -236,8 +236,6 @@
 .edit-only { display: none !important; }
 .edit-mode .edit-only { display: inline-flex !important; }
 .edit-mode .edit-only-block { display: block !important; }
-/* View-only elements — hidden in edit mode (prevents dupes with edit pickers) */
-.edit-mode .view-only-block { display: none !important; }
 /* Inventory — add/delete/equip always active, name editing in edit mode, qty always editable */
 .inv-item input { pointer-events: none; border-color: transparent !important; }
 .inv-item input.inv-qty { pointer-events: auto; border-color: var(--border) !important; }
@@ -526,7 +524,7 @@
         <h4 style="margin:0">Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
       </div>
       <div id="defenses-body">
-      <div class="view-only-block" style="font-size:0.8rem" id="defenses-section">
+      <div style="font-size:0.8rem" id="defenses-section">
         {% set ns = namespace(has_fd_resist=false, has_fd_immune=false) %}
         {% for fd in feature_defenses %}
           {% if fd.resist %}{% set ns.has_fd_resist = true %}{% endif %}
@@ -609,7 +607,7 @@
         <h4 style="margin:0">Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
       </div>
       <div id="profs-body">
-      <div class="view-only-block" style="font-size:0.8rem" id="prof-section">
+      <div style="font-size:0.8rem" id="prof-section">
         <!-- Armor -->
         {% if character.armor_proficiencies %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
