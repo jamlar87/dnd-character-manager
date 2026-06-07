@@ -3453,6 +3453,7 @@ FEATURE_ACTION_TYPES = {
     "wild shape":           ("Action", "Wild Shape — transform into a beast"),
     # Fighter
     "action surge":         ("Action", "Action Surge — take an additional action"),
+    "indomitable":          ("Reaction", "Indomitable — reroll a failed saving throw"),
     "second wind":          ("Bonus Action", "Second Wind — regain 1d10 + level HP"),
     # Paladin
     "divine sense":         ("Action", "Divine Sense — detect celestials/fiends/undead"),
@@ -3848,7 +3849,10 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                         entry["recharge"] = lu["recharge"]
                     break
         # Check if this feature is a combat action
-        action_info = FEATURE_ACTION_TYPES.get(key)
+        # Strip use-count suffix for matching (e.g. "Action Surge (2 uses)" -> "action surge")
+        import re
+        _clean_key = re.sub(r'\s*\(\d+\s+uses?(?:\s+per\s+rest)?\s*\)\s*$', '', key, flags=re.IGNORECASE).strip()
+        action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(key)
         if action_info:
             entry["action_type"] = action_info[0]
             entry["action_desc"] = action_info[1]
