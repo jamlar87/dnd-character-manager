@@ -2503,13 +2503,8 @@ async function openLevelUp() {
   luSteps = [];
   luSteps.push({label: 'Overview', render: renderLuOverview});
   
-  // Class picker — only when character already has multiple classes,
-  // or when doing a multi-level jump where multiclassing is plausible
-  const hasExistingClasses = luData.multiclass && luData.multiclass.class_levels && 
-    Object.keys(luData.multiclass.class_levels).length > 1;
-  const isMultiJump = (luData.target_level - luData.current_level) > 1;
-  const hasOptions = luData.multiclass && luData.multiclass.options && luData.multiclass.options.length > 0;
-  if (hasExistingClasses || (isMultiJump && hasOptions)) {
+  // Class picker — show whenever multiclass options exist (PHB p.163: any level-up)
+  if (luData.multiclass && luData.multiclass.options && luData.multiclass.options.length > 0) {
     luClassToLevel = luData.multiclass.class_to_level;
     luSteps.push({label: 'Class', render: renderLuClassPick});
   }
