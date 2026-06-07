@@ -1873,7 +1873,7 @@ async def dm_tools(request: Request):
             try: npc[f] = json.loads(npc[f])
             except (json.JSONDecodeError, TypeError): npc[f] = []
     for c in campaigns:
-        for f in ("quests", "locations"):
+        for f in ("quests", "locations", "characters"):
             try: c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError): c[f] = []
 
