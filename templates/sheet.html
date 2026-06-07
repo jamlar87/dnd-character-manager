@@ -568,33 +568,29 @@
       </div>
       <!-- Edit defenses -->
       <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default" 
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer" 
              onclick="showDefensePicker('Damage Resistances', ALL_DAMAGE_TYPES, 'damage_resistances', '🛡️', 'Halves damage of this type (PHB p.197)')"
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
-          <span class="stat-name" style="font-size:0.7rem">Resistances</span>
-          <span class="stat-val defense-display" data-field="damage_resistances" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ merged_resist|join(', ') or '—' }}</span>
+          <span class="stat-name" style="font-size:0.7rem">Resistances ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
              onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
-          <span class="stat-name" style="font-size:0.7rem">Immunities</span>
-          <span class="stat-val defense-display" data-field="damage_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ merged_immune|join(', ') or '—' }}</span>
+          <span class="stat-name" style="font-size:0.7rem">Immunities ✎</span>
         </div>
-        <div class="stat-row" style="margin-bottom:0.15rem;cursor:default"
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
              onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
-          <span class="stat-name" style="font-size:0.7rem">Vulnerabilities</span>
-          <span class="stat-val defense-display" data-field="damage_vulnerabilities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.damage_vulnerabilities|join(', ') or '—' }}</span>
+          <span class="stat-name" style="font-size:0.7rem">Vulnerabilities ✎</span>
         </div>
-        <div class="stat-row" style="cursor:default"
+        <div class="stat-row" style="cursor:pointer"
              onclick="showDefensePicker('Condition Immunities', ALL_CONDITIONS, 'condition_immunities', '🛡️', 'Immune to this condition\'s effects — magic can\'t put an elf to sleep, poison can\'t paralyze a creature immune to the poisoned condition (PHB p.290-292)')"
              onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
              onmouseleave="this.style.background='none'">
-          <span class="stat-name" style="font-size:0.7rem">Condition Imm.</span>
-          <span class="stat-val defense-display" data-field="condition_immunities" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.condition_immunities|join(', ') or '—' }}</span>
+          <span class="stat-name" style="font-size:0.7rem">Condition Imm. ✎</span>
         </div>
       </div>
       </div>
@@ -634,21 +630,17 @@
         {% endif %}
         <!-- Edit pickers (edit mode only) -->
         <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
-          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-            <span class="stat-name" style="font-size:0.7rem">Armor</span>
-            <span class="stat-val prof-display" data-field="armor_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.armor_proficiencies|join(', ') or '—' }}</span>
+          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Armor ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-            <span class="stat-name" style="font-size:0.7rem">Weapons</span>
-            <span class="stat-val prof-display" data-field="weapon_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.weapon_proficiencies|join(', ') or '—' }}</span>
+          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Weapons ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:default;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-            <span class="stat-name" style="font-size:0.7rem">Tools</span>
-            <span class="stat-val prof-display" data-field="tool_proficiencies" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.tool_proficiencies|join(', ') or '—' }}</span>
+          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Tools ✎</span>
           </div>
-          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
-            <span class="stat-name" style="font-size:0.7rem">Languages</span>
-            <span class="stat-val prof-display" data-field="languages" style="font-weight:400;font-size:0.75rem;min-width:auto;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ character.languages|join(', ') or '—' }}</span>
+          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:pointer" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Languages ✎</span>
           </div>
         </div>
       </div>
