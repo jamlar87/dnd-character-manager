@@ -2855,8 +2855,11 @@ function updateAcWarning() {
 // ── Equip/Unequip System ──
 let equippedItems = {{ character.equipped|tojson if character.equipped else '[]' }};
 if (!Array.isArray(equippedItems)) equippedItems = [];
+// Client-side qty map — survives page load (equipped from server is name-only, default to 1)
+const _equippedQtys = {};
+equippedItems.forEach(name => { _equippedQtys[name] = 1; });
 
-function equipItem(name) {
+function equipItem(name, qty) {
   name = name.trim();
   if (!name) return;
 
@@ -2869,11 +2872,13 @@ function equipItem(name) {
   }
 
   equippedItems.push(name);
+  _equippedQtys[name] = qty || 1;
   saveEquipped();
 }
 
 function unequipItem(name) {
   equippedItems = equippedItems.filter(item => item !== name);
+  delete _equippedQtys[name];
   saveEquipped();
 }
 
@@ -2930,6 +2935,7 @@ function renderEquipped() {
   }
   if (emptyEl) emptyEl.style.display = 'none';
   list.innerHTML = equippedItems.map(item => {
+    const eqQty = _equippedQtys[item] || 1;
     const needsAttune = ITEM_NEEDS_ATTUNEMENT[item];
     const isAttuned = ATTUNED_ITEMS.includes(item);
     let attuneHtml = '';
@@ -2940,13 +2946,15 @@ function renderEquipped() {
         attuneHtml = `<span class="item-attune-badge" onclick="toggleAttune('${item.replace(/'/g, "\\'")}')" title="Needs attunement — click to attune">◇</span>`;
       }
     }
+    const qtyBadge = eqQty > 1 ? `<span class="item-qty" style="cursor:default">${eqQty}</span>` : '';
     return `<div class="item-card equipped-card" draggable="true"
       data-item-name="${item.replace(/"/g, '&quot;')}"
-      ondragstart="handleDragStart(event, '${item.replace(/'/g, "\\'")}', 'equipped', 1)"
+      ondragstart="handleDragStart(event, '${item.replace(/'/g, "\\'")}', 'equipped', ${eqQty})"
       ondragend="handleDragEnd(event)">
       <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
       <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
       <span class="item-card-name" style="cursor:default">${item}</span>
+      ${qtyBadge}
       ${attuneHtml}
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
@@ -2999,11 +3007,12 @@ async function handleDrop(e, targetZone) {
     const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
     if (card) card.remove();
     saveInventory();
-    equipItem(name);
+    equipItem(name, qty);
   } else if (source === 'equipped' && targetZone === 'inventory') {
     // Move from equipped to inventory: add card back, remove from equipped list
+    const eqQty = _equippedQtys[name] || 1;
     unequipItem(name);
-    addInventoryCard(name, qty || 1);
+    addInventoryCard(name, eqQty);
   } else if (source === 'inventory' && targetZone === 'team') {
     await shareToTeam(name, qty);
   } else if (source === 'team' && targetZone === 'inventory') {
