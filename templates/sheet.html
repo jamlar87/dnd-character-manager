@@ -508,7 +508,7 @@
 
     <!-- Proficiencies -->
     <div class="sidebar-section">
-      <h4>Proficiencies</h4>
+      <h4>Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
       <div style="font-size:0.8rem" id="prof-section">
         <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:default" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
           <span class="stat-name">Armor</span>
@@ -2028,8 +2028,17 @@ function showProfPicker(type, title, masterList, field) {
   const panel = document.createElement('div');
   panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
   
+  // Category-specific help
+  const helpBlurbs = {
+    armor: "Without proficiency: disadvantage on STR/DEX ability checks, saving throws, and attack rolls — and you can't cast spells while wearing it.",
+    weapon: "Add your proficiency bonus (+{{ character.proficiency_bonus }}) to attack rolls with proficient weapons. You can still use non-proficient weapons, but without the bonus.",
+    tool: "Add your proficiency bonus to ability checks made with these tools. Tool proficiency often stacks with relevant skill proficiency for advantage.",
+    language: "You can speak, read, and write these languages fluently. Secret languages (Druidic, Thieves' cant) require special class features to learn.",
+  };
+  
   // Search/filter input
-  let html = `<h4 style="margin:0 0 0.5rem 0;font-size:0.95rem">${title}</h4>`;
+  let html = `<h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
+    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpBlurbs[type] || ''}</p>`;
   if (masterList.length > 12) {
     html += `<input type="text" id="prof-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none" oninput="filterProfPicker(this.value)">`;
   }
