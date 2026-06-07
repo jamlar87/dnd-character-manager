@@ -552,12 +552,21 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div style="flex:1;min-width:400px">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">⚔️ Initiative Order</h4>
         <div id="initiativeTrack" style="display:flex;flex-direction:column;gap:0.35rem;min-height:4rem"></div>
+        <!-- Benched NPCs (dragged out of combat) -->
+        <h4 style="margin:0.75rem 0 0.5rem 0;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">🛑 Benched</h4>
+        <div id="benchedNpcs" style="display:flex;flex-direction:column;gap:0.35rem;min-height:2rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px"
+          ondragover="event.preventDefault(); event.dataTransfer.dropEffect='move'"
+          ondrop="dropOnBenched(event)">
+          <span style="color:var(--text-muted);font-size:0.7rem;text-align:center">Drag NPCs here to remove from combat</span>
+        </div>
       </div>
 
       <!-- Players Panel (right) -->
       <div style="width:300px;flex-shrink:0" id="playersPanel">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">👤 Players</h4>
-        <div id="playersWaiting" style="display:flex;flex-direction:column;gap:0.35rem;min-height:3rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px">
+        <div id="playersWaiting" style="display:flex;flex-direction:column;gap:0.35rem;min-height:3rem;padding:0.5rem;background:var(--bg);border:1px dashed var(--border);border-radius:8px"
+          ondragover="event.preventDefault(); event.dataTransfer.dropEffect='move'"
+          ondrop="dropOnPlayersPanel(event)">
           <span style="color:var(--text-muted);font-size:0.75rem;text-align:center">Select a campaign to load players</span>
         </div>
       </div>
@@ -1929,6 +1938,7 @@ async function loadCombatEncounter() {
 
 // ── Load campaign player characters ──
 let _campaignPlayers = []; // {char_id, name, race, class_name, level, ac, hp_current, hp_max, dex_mod, initiative}
+let _benchedNpcs = [];     // NPCs dragged out of combat — can be dragged back in
 
 async function loadCombatCampaign() {
   const campSel = document.getElementById('combatCampaignSelect');
@@ -2038,6 +2048,26 @@ initTrackEl.addEventListener('dragover', e => {
 });
 initTrackEl.addEventListener('drop', async e => {
   e.preventDefault();
+
+  // ── Benched NPC dragged back into initiative ──
+  if (_benchedDragEnId) {
+    const bp = _benchedNpcs.find(p => p.en_id === _benchedDragEnId);
+    if (!bp) { _benchedDragEnId = null; return; }
+    _benchedNpcs = _benchedNpcs.filter(p => p.en_id !== _benchedDragEnId);
+    _combatParticipants.push(bp);
+    _combatParticipants.sort((a, b) => {
+      if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+      return (b.initiative||0) - (a.initiative||0);
+    });
+    _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+    renderInitiativeTrack();
+    renderBenchedNpcs();
+    saveCombatState();
+    _benchedDragEnId = null;
+    return;
+  }
+
+  // ── Player dragged from panel into initiative ──
   if (!_playerDragCharId) return;
   const cp = _campaignPlayers.find(p => p.char_id === _playerDragCharId);
   if (!cp) return;
@@ -2334,6 +2364,87 @@ async function toggleDefeatedCombat(enId) {
   saveCombatState();
 }
 
+// ── Drop on benched area: remove NPC from combat ──
+function dropOnBenched(e) {
+  e.preventDefault();
+  if (!_initDragEnId) return;
+  const p = _combatParticipants.find(p => p.en_id === _initDragEnId);
+  if (!p || p.is_player) return; // players go to players panel, not benched
+
+  // Remove from participants and order
+  _combatParticipants = _combatParticipants.filter(x => x.en_id !== _initDragEnId);
+  _combatOrder = _combatOrder.filter(id => id !== _initDragEnId);
+
+  // Add to benched
+  _benchedNpcs.push(p);
+
+  // Fix turn index
+  const alive = _combatParticipants.filter(x => !x.defeated);
+  if (_combatTurnIdx >= alive.length) _combatTurnIdx = Math.max(0, alive.length - 1);
+
+  renderInitiativeTrack();
+  renderBenchedNpcs();
+  saveCombatState();
+}
+
+// ── Drop on players panel: remove player from combat, return to waiting ──
+function dropOnPlayersPanel(e) {
+  e.preventDefault();
+  if (!_initDragEnId) return;
+  const p = _combatParticipants.find(p => p.en_id === _initDragEnId);
+  if (!p || !p.is_player) return;
+
+  // Remove from participants and order
+  _combatParticipants = _combatParticipants.filter(x => x.en_id !== _initDragEnId);
+  _combatOrder = _combatOrder.filter(id => id !== _initDragEnId);
+
+  // Fix turn index
+  const alive = _combatParticipants.filter(x => !x.defeated);
+  if (_combatTurnIdx >= alive.length) _combatTurnIdx = Math.max(0, alive.length - 1);
+
+  renderInitiativeTrack();
+  renderPlayersPanel();
+  saveCombatState();
+}
+
+// ── Render benched NPCs ──
+function renderBenchedNpcs() {
+  const container = document.getElementById('benchedNpcs');
+  if (_benchedNpcs.length === 0) {
+    container.innerHTML = '<span style="color:var(--text-muted);font-size:0.7rem;text-align:center">Drag NPCs here to remove from combat</span>';
+    return;
+  }
+  container.innerHTML = _benchedNpcs.map(p => {
+    const badge = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
+      : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
+    return `<div class="initiative-card benched-card" draggable="true"
+      data-en-id="${p.en_id}"
+      ondragstart="benchedDragStart(event, ${p.en_id})"
+      ondragend="benchedDragEnd(event)"
+      style="cursor:grab;opacity:0.7;border-style:dashed">
+      <div class="init-turn-marker" style="background:var(--text-muted);color:var(--bg)">⏸</div>
+      <div class="init-info" style="flex:1">
+        <div class="init-name">${p.name} ${badge}</div>
+        <div class="init-meta">AC ${p.ac} · HP ${p.hp_current}/${p.hp_max}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Benched NPC drag back into initiative track ──
+let _benchedDragEnId = null;
+
+function benchedDragStart(e, enId) {
+  _benchedDragEnId = enId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.closest('.initiative-card')?.classList.add('dragging');
+}
+
+function benchedDragEnd(e) {
+  document.querySelectorAll('.initiative-card.dragging').forEach(c => c.classList.remove('dragging'));
+  _benchedDragEnId = null;
+}
+
 // ── Drag-and-drop reorder ──
 let _initDragEnId = null;
 
@@ -2423,7 +2534,10 @@ async function endCombat() {
   _combatRound = 1;
   _combatTurnIdx = 0;
   _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  _benchedNpcs = [];
   renderInitiativeTrack();
+  renderPlayersPanel();
+  renderBenchedNpcs();
   saveCombatState();
   document.getElementById('combatStatus').textContent = 'Combat ended — initiative saved';
 }
