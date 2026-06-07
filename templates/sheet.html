@@ -456,7 +456,7 @@
         {% endif %}
         <!-- Saving Throw Proficiencies -->
         {% if character.save_proficiencies %}
-        {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s|upper }} save</span>{% endfor %}
+        {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}
         {% endif %}
         {% set has_defenses = character.damage_resistances or character.damage_immunities or character.damage_vulnerabilities or character.condition_immunities or character.save_proficiencies %}
         {% if not has_defenses %}
