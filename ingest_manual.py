@@ -370,14 +370,17 @@ def extract_text(manual: dict) -> str | None:
         print(f"  ERROR: PDF not found: {pdf_path}")
         return None
 
-    # Use cache if valid
+    # Use cache if valid AND has page markers (pdftotext caches lack markers)
     if cache_path.exists():
         pdf_mtime = pdf_path.stat().st_mtime
         cache_mtime = cache_path.stat().st_mtime
         if cache_mtime >= pdf_mtime:
             text = cache_path.read_text(encoding="utf-8", errors="replace")
-            print(f"  Text cached ({len(text):,} chars)")
-            return text
+            if "--- PAGE " in text:
+                print(f"  Text cached ({len(text):,} chars)")
+                return text
+            else:
+                print(f"  Cache has no page markers (old pdftotext cache) — re-extracting with pymupdf")
 
     print(f"  Extracting text...")
     text = _extract_pymupdf(str(pdf_path), str(cache_path))
