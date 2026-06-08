@@ -953,7 +953,6 @@ async function openEncounter(id) {
     }));
     const allCreatures = [...allNpcs, ...allMonsters];
     window._creatureCache = allCreatures;  // store for onclick lookups
-    const inEncNames = new Set((enc.participants || []).map(p => p.npc_name?.toLowerCase()));
 
     let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <h2 style="margin:0">${enc.name}</h2>
@@ -982,7 +981,6 @@ async function openEncounter(id) {
         </div>
         <div class="monster-palette" id="creaturePalette" style="max-height:400px;overflow-y:auto">`;
     allCreatures.forEach((c, ci) => {
-      const inEnc = inEncNames.has(c.name.toLowerCase());
       const kindBadge = c._kind === 'monster'
         ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
         : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
@@ -994,10 +992,9 @@ async function openEncounter(id) {
         ? `${crDisplay}AC ${c.ac} · ${c.race || '?'}`
         : `${c.race}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}"
-        style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem;${inEnc ? 'opacity:0.5' : ''}">
+        style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
         <span style="font-size:0.8rem">${kindBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
-        ${inEnc ? '<span style="color:var(--success);font-size:0.75rem">Added ✓</span>' :
-          `<button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>`}
+        <button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
       </div>`;
     });
     html += `</div></div>
