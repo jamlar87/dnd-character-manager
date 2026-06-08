@@ -145,10 +145,29 @@ def load_manual_data():
     print(f"[manual_data] Loading from {meta.get('source_manuals', [])}")
 
     # ── Races ── merge into RACES dict
+    # Build set of known subrace names so we don't add them as top-level races
+    _known_subraces = set()
+    for _rdata in RACES.values():
+        for _sr in _rdata.get("subraces", []):
+            _known_subraces.add(_sr)
+            _known_subraces.add(_sr.lower())  # case-insensitive check
+    # Map known aliases / plural forms to prevent duplicates
+    _subrace_aliases = {
+        "ghostwise halflings": "Ghostwise Halfling",
+        "strongheart halfling": "Stout Halfling",  # FR name
+        "gray dwarf (duergar)": "Duergar",
+    }
+    
     manual_races = _load_manual_json("races.json")
     for race in manual_races:
         name = race.get("name", "")
         if not name or name in RACES:
+            continue
+        # Skip if this is a known subrace (e.g. "Wood Elf" is an Elf subrace)
+        if name in _known_subraces or name.lower() in _known_subraces:
+            continue
+        # Skip known aliases (e.g. "Ghostwise Halflings" → Ghostwise Halfling)
+        if name.lower() in _subrace_aliases:
             continue
         # Map extracted format → RACES format
         asi_map = {"strength": "strength", "dexterity": "dexterity",
