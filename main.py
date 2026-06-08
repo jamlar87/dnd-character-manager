@@ -5720,6 +5720,7 @@ SUBCLASS_PROFICIENCIES = {
     "College of Valor": {"armor_profs": ["Medium armor", "Shields"], "weapon_profs": ["Martial weapons"]},
     "College of Lore": {"skill_profs": []},
     "Knowledge Domain": {"skill_profs": []},
+    "Assassin": {"tool_profs": ["Disguise kit", "Poisoner's kit"]},
 }
 
 
