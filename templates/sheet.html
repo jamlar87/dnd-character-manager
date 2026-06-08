@@ -1253,37 +1253,37 @@
         <div id="equipped-empty" style="display:{{ 'none' if character.equipped else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drag items here to equip</div>
       </div>
 
-      <!-- CP TRACKER CARD -->
-      <div class="card" id="cp-card" style="margin-top:0.75rem">
+      <!-- GP TRACKER CARD -->
+      <div class="card" id="gp-card" style="margin-top:0.75rem">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 style="margin:0">🪙 Copper</h3>
-          <span id="cp-display" onclick="openCpPopup()" style="font-size:1.2rem;font-weight:700;color:var(--accent);cursor:pointer;border-bottom:1px dashed var(--accent)">{{ character.cp|default(0) }}</span>
+          <h3 style="margin:0">🪙 Gold</h3>
+          <span id="gp-display" onclick="openGpPopup()" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700">{{ character.gp|default(0) }}</span>
         </div>
         <div style="display:flex;gap:0.3rem;margin-top:0.4rem">
-          <button class="btn btn-outline btn-sm" onclick="adjustCp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustCp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustCp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustCp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
-          <button class="btn btn-outline btn-sm" onclick="openCpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem;margin-left:auto">⋯</button>
+          <button class="btn btn-outline btn-sm" onclick="adjustGp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
+          <button class="btn btn-outline btn-sm" onclick="adjustGp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
+          <button class="btn btn-outline btn-sm" onclick="adjustGp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
+          <button class="btn btn-outline btn-sm" onclick="adjustGp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
+          <button class="btn btn-outline btn-sm" onclick="openGpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem;margin-left:auto">⋯</button>
         </div>
       </div>
 
-      <!-- CP Popup -->
-      <div id="cp-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)closeCpPopup()">
+      <!-- GP Popup -->
+      <div id="gp-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)closeGpPopup()">
         <div class="card" style="max-width:320px;width:90%">
-          <h3 style="margin:0 0 0.75rem 0">🪙 Copper Pieces</h3>
-          <div style="font-size:1.8rem;font-weight:700;color:var(--accent);text-align:center;margin-bottom:0.75rem" id="cp-popup-total">0</div>
+          <h3 style="margin:0 0 0.75rem 0">🪙 Gold Pieces</h3>
+          <div style="font-size:1.8rem;font-weight:700;color:#ffd700;text-align:center;margin-bottom:0.75rem" id="gp-popup-total">0</div>
           <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem">
-            <input type="number" id="cp-amount" placeholder="Amount" min="1" style="flex:1;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
-          </div>
+            <input type="number" id="gp-amount" placeholder="Amount" min="1" style="flex:1;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
+           </div>
           <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem">
-            <button class="btn btn-primary btn-sm" onclick="adjustCpPopup('add')" style="flex:1">+ Add</button>
-            <button class="btn btn-outline btn-sm" onclick="adjustCpPopup('sub')" style="flex:1">− Subtract</button>
+            <button class="btn btn-primary btn-sm" onclick="adjustGpPopup('add')" style="flex:1">+ Add</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGpPopup('sub')" style="flex:1">− Subtract</button>
           </div>
           {% if campaign_info %}
-          <button class="btn btn-outline btn-sm" onclick="giftCpToTeam()" style="width:100%;margin-bottom:0.5rem">🎁 Gift to Party Pool</button>
+          <button class="btn btn-outline btn-sm" onclick="giftGpToTeam()" style="width:100%;margin-bottom:0.5rem">🎁 Gift to Party Pool</button>
           {% endif %}
-          <button class="btn btn-outline btn-sm" onclick="closeCpPopup()" style="width:100%">Close</button>
+          <button class="btn btn-outline btn-sm" onclick="closeGpPopup()" style="width:100%">Close</button>
         </div>
       </div>
 
@@ -1498,7 +1498,7 @@ const HD_USED = {{ character.hit_dice_used|default(0)|int }};
 const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
 const PREPARED_MAX = {{ prepared_max }};
 const CASTER_TYPE = '{{ caster_type }}';
-let CHARACTER_CP = {{ character.cp|default(0)|int }};
+let CHARACTER_GP = {{ character.gp|default(0)|int }};
 
 // ── Proficiency Master Lists (PHB 2014) ──
 const ALL_ARMOR_PROFS = [
@@ -3915,12 +3915,16 @@ async function claimFromTeam(itemId, itemName) {
     });
     const d = await r.json();
     if (d.ok) {
-      // Instant CP update for CP-named items
-      const cpMatch = itemName.match(/(\d+)\s*cp/i);
-      if (cpMatch) { CHARACTER_CP += parseInt(cpMatch[1]); renderCpDisplay(); }
+      // Instant GP update for currency claims
+      if (d.currency && d.gp_added) { CHARACTER_GP += d.gp_added; renderGpDisplay(); }
+      // Fallback: client-side parse for older items
+      else {
+        const gpMatch = itemName.match(/(\d[\d,]*)\s*gp/i);
+        if (gpMatch) { CHARACTER_GP += parseInt(gpMatch[1].replace(/,/g,'')); renderGpDisplay(); }
+      }
       try { loadTeamItems(); } catch(e) {}
       try { renderInventory(); } catch(e) {}
-      try { reloadCp(); } catch(e) {}
+      try { reloadGp(); } catch(e) {}
     } else {
       alert(d.error || 'Failed to claim');
     }
@@ -3941,85 +3945,85 @@ async function shareToTeam(name, qty) {
   } catch(e) { alert('Failed to share item'); }
 }
 
-// ── CP Tracker ──
-async function reloadCp() {
+// ── GP Tracker ──
+async function reloadGp() {
   try {
-    const r = await fetch(`/api/character/${CHAR_ID}/cp`, {credentials: 'same-origin'});
+    const r = await fetch(`/api/character/${CHAR_ID}/gp`, {credentials: 'same-origin'});
     const d = await r.json();
-    if (d.cp !== undefined) { CHARACTER_CP = d.cp; renderCpDisplay(); }
+    if (d.gp !== undefined) { CHARACTER_GP = d.gp; renderGpDisplay(); }
   } catch(e) { /* ignore — non-critical */ }
 }
 
-function renderCpDisplay() {
-  const el = document.getElementById('cp-display');
-  if (el) el.textContent = CHARACTER_CP;
-  const popup = document.getElementById('cp-popup-total');
-  if (popup) popup.textContent = CHARACTER_CP;
+function renderGpDisplay() {
+  const el = document.getElementById('gp-display');
+  if (el) el.textContent = CHARACTER_GP;
+  const popup = document.getElementById('gp-popup-total');
+  if (popup) popup.textContent = CHARACTER_GP;
 }
 
-async function adjustCp(delta) {
-  CHARACTER_CP = Math.max(0, CHARACTER_CP + delta);
-  renderCpDisplay();
-  await saveCp();
+async function adjustGp(delta) {
+  CHARACTER_GP = Math.max(0, CHARACTER_GP + delta);
+  renderGpDisplay();
+  await saveGp();
 }
 
-function openCpPopup() {
-  const popup = document.getElementById('cp-popup');
+function openGpPopup() {
+  const popup = document.getElementById('gp-popup');
   if (!popup) return;
-  document.getElementById('cp-popup-total').textContent = CHARACTER_CP;
-  document.getElementById('cp-amount').value = '';
+  document.getElementById('gp-popup-total').textContent = CHARACTER_GP;
+  document.getElementById('gp-amount').value = '';
   popup.style.display = 'flex';
 }
 
-function closeCpPopup() {
-  document.getElementById('cp-popup').style.display = 'none';
+function closeGpPopup() {
+  document.getElementById('gp-popup').style.display = 'none';
 }
 
-async function adjustCpPopup(mode) {
-  const inp = document.getElementById('cp-amount');
+async function adjustGpPopup(mode) {
+  const inp = document.getElementById('gp-amount');
   const amt = parseInt(inp.value) || 0;
   if (amt <= 0) return;
   if (mode === 'sub') {
-    if (amt > CHARACTER_CP && !confirm(`You only have ${CHARACTER_CP} cp. Subtract all?`)) return;
-    CHARACTER_CP = Math.max(0, CHARACTER_CP - amt);
+    if (amt > CHARACTER_GP && !confirm(`You only have ${CHARACTER_GP} gp. Subtract all?`)) return;
+    CHARACTER_GP = Math.max(0, CHARACTER_GP - amt);
   } else {
-    CHARACTER_CP += amt;
+    CHARACTER_GP += amt;
   }
-  renderCpDisplay();
+  renderGpDisplay();
   inp.value = '';
-  await saveCp();
+  await saveGp();
 }
 
-async function giftCpToTeam() {
-  const inp = document.getElementById('cp-amount');
+async function giftGpToTeam() {
+  const inp = document.getElementById('gp-amount');
   const amt = parseInt(inp.value) || 0;
   if (amt <= 0) { alert('Enter an amount to gift'); return; }
-  if (amt > CHARACTER_CP) { alert(`You only have ${CHARACTER_CP} cp`); return; }
-  if (!confirm(`Gift ${amt} cp to the party pool?`)) return;
+  if (amt > CHARACTER_GP) { alert(`You only have ${CHARACTER_GP} gp`); return; }
+  if (!confirm(`Gift ${amt} gp to the party pool?`)) return;
   try {
     const r = await fetch(`/api/campaign/${CAMPAIGN_ID}/team-items/add`, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name: `${amt} cp`, qty: 1, gp_value: 0})
+      body: JSON.stringify({name: `${amt} gp`, qty: 1, gp_value: amt})
     });
     const d = await r.json();
     if (d.ok) {
-      CHARACTER_CP -= amt;
-      renderCpDisplay();
-      await saveCp();
+      CHARACTER_GP -= amt;
+      renderGpDisplay();
+      await saveGp();
       loadTeamItems();
       inp.value = '';
-      closeCpPopup();
+      closeGpPopup();
     } else {
       alert(d.error || 'Failed to gift');
     }
-  } catch(e) { alert('Failed to gift cp'); }
+  } catch(e) { alert('Failed to gift gp'); }
 }
 
-async function saveCp() {
+async function saveGp() {
   try {
     await fetch(`/api/character/${CHAR_ID}/update`, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({cp: CHARACTER_CP})
+      body: JSON.stringify({gp: CHARACTER_GP})
     });
   } catch(e) { /* ignore */ }
 }

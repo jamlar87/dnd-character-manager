@@ -615,6 +615,7 @@ def init_db():
             equipped TEXT DEFAULT '[]',
             notes TEXT DEFAULT '',
             cp INTEGER DEFAULT 0,
+            gp INTEGER DEFAULT 0,
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
@@ -793,6 +794,11 @@ def init_db():
     # Migration: cp tracker for copper pieces
     try:
         db.execute("ALTER TABLE characters ADD COLUMN cp INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
+    # Migration: gp tracker for gold pieces
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN gp INTEGER DEFAULT 0")
     except sqlite3.OperationalError:
         pass
     # Migration: attuned_items for item attunement tracking
@@ -3524,9 +3530,25 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
 
     item_name, item_qty = item[1], item[2]
 
-    # Add to character inventory
+    # Detect currency — absorb as GP instead of adding to inventory
+    import re as _re
+    currency_match = _re.search(r'(\d[\d,]*)\s*(cp|sp|ep|gp|pp)', item_name.lower().replace(',', ''))
+    is_currency = bool(currency_match)
+
+    if is_currency:
+        amount = int(currency_match.group(1))
+        denom = currency_match.group(2)
+        gp_conv = {"cp": 0.01, "sp": 0.1, "ep": 0.5, "gp": 1, "pp": 10}
+        gp_val = int(amount * gp_conv.get(denom, 1)) * item_qty
+        db.execute("UPDATE characters SET gp = COALESCE(gp, 0) + ? WHERE id=?", (gp_val, char_id))
+        # Delete from team pool
+        db.execute("DELETE FROM campaign_team_items WHERE id=?", (item_id,))
+        db.commit()
+        db.close()
+        return JSONResponse({"ok": True, "added": item_name, "qty": item_qty, "currency": True, "gp_added": gp_val})
+
+    # Normal item — add to character inventory
     inv = json.loads(char[1] or "[]")
-    # Check if already has this item — stack if so
     found = False
     for inv_item in inv:
         if isinstance(inv_item, dict) and inv_item.get("name", "").lower() == item_name.lower():
@@ -3536,13 +3558,6 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
     if not found:
         inv.append({"name": item_name, "qty": item_qty})
     db.execute("UPDATE characters SET inventory=? WHERE id=?", (json.dumps(inv), char_id))
-
-    # Auto-detect CP items and add to character's cp total
-    import re as _re
-    cp_match = _re.search(r'(\d+)\s*cp', item_name.lower())
-    if cp_match:
-        cp_val = int(cp_match.group(1)) * item_qty
-        db.execute("UPDATE characters SET cp = COALESCE(cp, 0) + ? WHERE id=?", (cp_val, char_id))
 
     # Remove from team pool (or decrement qty)
     if item_qty > 1 and data.get("take_all") is not True:
@@ -3949,6 +3964,7 @@ async def update_character(char_id: int, request: Request):
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
         "attuned_items",
         "cp",
+        "gp",
         "dragonborn_ancestry",
     }
     updates = {}
@@ -4003,16 +4019,16 @@ async def toggle_prepared(char_id: int, request: Request):
     return JSONResponse({"ok": True})
 
 
-@app.get("/api/character/{char_id}/cp", response_class=JSONResponse)
-async def get_character_cp(char_id: int, request: Request):
-    """Return just the cp value for a character (lightweight)."""
+@app.get("/api/character/{char_id}/gp", response_class=JSONResponse)
+async def get_character_gp(char_id: int, request: Request):
+    """Return just the gp value for a character (lightweight)."""
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT cp FROM characters WHERE id=? AND user_id=?", (char_id, user["id"])).fetchone()
+    row = db.execute("SELECT gp FROM characters WHERE id=? AND user_id=?", (char_id, user["id"])).fetchone()
     db.close()
     if not row:
-        return JSONResponse({"cp": 0})
-    return JSONResponse({"cp": row["cp"] or 0})
+        return JSONResponse({"gp": 0})
+    return JSONResponse({"gp": row["gp"] or 0})
 
 
 @app.post("/api/character/{char_id}/toggle-attune", response_class=JSONResponse)

@@ -2289,7 +2289,8 @@ async function keepLootItem(type, index) {
 
   if (type === 'coin') {
     const c = _currentHoard.coins[index];
-    name = c.label;
+    // Standardize currency to GP
+    name = `${c.gp_value.toLocaleString()} gp`;
     gpValue = c.gp_value;
     // Remove from hoard
     _currentHoard.coins.splice(index, 1);
@@ -2324,7 +2325,7 @@ async function keepAllLoot() {
   if (!confirm('Add ALL staged items to the team pool?')) return;
 
   const items = [];
-  (_currentHoard.coins || []).forEach(c => items.push({ name: c.label, gp_value: c.gp_value }));
+  (_currentHoard.coins || []).forEach(c => items.push({ name: `${c.gp_value.toLocaleString()} gp`, gp_value: c.gp_value }));
   (_currentHoard.gems || []).forEach(g => items.push({ name: g.label, gp_value: 0 }));
   (_currentHoard.magic_items || []).forEach(m => items.push({ name: m.name, gp_value: 0 }));
 
