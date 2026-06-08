@@ -614,6 +614,7 @@ def init_db():
             inventory TEXT DEFAULT '[]',
             equipped TEXT DEFAULT '[]',
             notes TEXT DEFAULT '',
+            cp INTEGER DEFAULT 0,
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
@@ -787,6 +788,11 @@ def init_db():
     # Migration: class_levels for multiclass support
     try:
         db.execute("ALTER TABLE characters ADD COLUMN class_levels TEXT DEFAULT '{}'")
+    except sqlite3.OperationalError:
+        pass
+    # Migration: cp tracker for copper pieces
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN cp INTEGER DEFAULT 0")
     except sqlite3.OperationalError:
         pass
     # Migration: attuned_items for item attunement tracking
@@ -3531,6 +3537,13 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
         inv.append({"name": item_name, "qty": item_qty})
     db.execute("UPDATE characters SET inventory=? WHERE id=?", (json.dumps(inv), char_id))
 
+    # Auto-detect CP items and add to character's cp total
+    import re as _re
+    cp_match = _re.search(r'(\d+)\s*cp', item_name.lower())
+    if cp_match:
+        cp_val = int(cp_match.group(1)) * item_qty
+        db.execute("UPDATE characters SET cp = COALESCE(cp, 0) + ? WHERE id=?", (cp_val, char_id))
+
     # Remove from team pool (or decrement qty)
     if item_qty > 1 and data.get("take_all") is not True:
         db.execute("UPDATE campaign_team_items SET qty=qty-1 WHERE id=?", (item_id,))
@@ -3935,6 +3948,7 @@ async def update_character(char_id: int, request: Request):
         "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
         "attuned_items",
+        "cp",
         "dragonborn_ancestry",
     }
     updates = {}
@@ -3987,6 +4001,19 @@ async def toggle_prepared(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+@app.get("/api/character/{char_id}/cp", response_class=JSONResponse)
+async def get_character_cp(char_id: int, request: Request):
+    """Return just the cp value for a character (lightweight)."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT cp FROM characters WHERE id=? AND user_id=?", (char_id, user["id"])).fetchone()
+    db.close()
+    if not row:
+        return JSONResponse({"cp": 0})
+    return JSONResponse({"cp": row["cp"] or 0})
+
 
 @app.post("/api/character/{char_id}/toggle-attune", response_class=JSONResponse)
 async def toggle_attune(char_id: int, request: Request):
