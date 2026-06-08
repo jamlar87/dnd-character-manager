@@ -2868,6 +2868,7 @@ async def dm_encounter_add_creature(enc_id: int, request: Request):
         "ac": ac,
         "role": data.get("role", ""),
         "xp_reward": data.get("xp_reward", 0),
+        "_monster_index": data.get("_monster_index", ""),
     })
     # Ensure a placeholder NPC exists for creature-only entries (FK constraint)
     sentinel = db.execute("SELECT id FROM dm_npcs WHERE id = -1").fetchone()
@@ -2965,10 +2966,11 @@ async def dm_encounter_roll_initiative(enc_id: int, request: Request):
 
     participants = [dict(r) for r in db.execute("""
         SELECT en.id as en_id, en.initiative, en.hp_current, en.hp_max, en.ac, en.defeated,
+               en.creature_data,
                n.id as npc_id, n.name, n.race, n.class_name, n.level, n.is_enemy,
                n.dexterity, n.role, n.hp_max as npc_hp_max
         FROM dm_encounter_npcs en
-        JOIN dm_npcs n ON n.id = en.npc_id
+        LEFT JOIN dm_npcs n ON n.id = en.npc_id
         WHERE en.encounter_id = ?
     """, (enc_id,)).fetchall()]
 
@@ -2992,7 +2994,8 @@ async def dm_encounter_roll_initiative(enc_id: int, request: Request):
             "defeated": p.get("defeated", 0),
             "dex_mod": dex_mod,
             "roll": roll,
-            "initiative": total
+            "initiative": total,
+            "creature_data": p.get("creature_data"),
         })
 
     # Sort: alive first by initiative desc, then defeated
