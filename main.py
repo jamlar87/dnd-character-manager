@@ -75,6 +75,51 @@ for f in SRD_FEATURES:
     if desc:
         FEATURE_DESCRIPTIONS[key] = desc
 
+# ── Quality-aware description replacement ──────────────────────────────────
+# Used when ingested data has a description that competes with a hardcoded one.
+# Prefer the ingested version when it's substantially richer (50%+ longer + has
+# more D&D mechanical keywords), but keep hardcoded when it's comparable.
+
+_DND_KEYWORDS = [
+    "saving throw", "attack roll", "bonus action", "ability check",
+    "damage", "resistance", "immunity", "vulnerability", "concentration",
+    "spell slot", "proficiency", "advantage", "disadvantage",
+    "hit points", "armor class", "initiative", "reaction",
+    "ritual", "cantrip", "melee", "ranged",
+]
+
+
+def _count_keywords(text: str) -> int:
+    """Count D&D mechanical keyword occurrences in text."""
+    t = text.lower()
+    return sum(t.count(kw) for kw in _DND_KEYWORDS)
+
+
+def _should_replace_description(existing: str, new: str) -> bool:
+    """Return True if the new description is substantively better than existing.
+    Requires: new is >50% longer AND has more mechanical keywords."""
+    if not new or not new.strip():
+        return False
+    if not existing or not existing.strip():
+        # Existing is empty — new wins regardless
+        return True
+
+    len_ratio = len(new) / max(len(existing), 1)
+    new_kw = _count_keywords(new)
+    existing_kw = _count_keywords(existing)
+
+    # New must be >50% longer AND have more (or equal) keywords
+    if len_ratio > 1.5 and new_kw >= existing_kw:
+        return True
+    # Or new is dramatically longer (>3x)
+    if len_ratio > 3.0:
+        return True
+    # Or existing has zero keywords and new has some
+    if existing_kw == 0 and new_kw > 0:
+        return True
+
+    return False
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Manual Data Loader — ingest extracted data from manual PDFs
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -130,12 +175,14 @@ def load_manual_data():
                 sr_trait_names = [st.get("name", "") for st in sr.get("traits", [])]
                 if sr_trait_names and sr_name not in SUBRACE_TRAITS:
                     SUBRACE_TRAITS[sr_name] = sr_trait_names
-                # Add subrace trait descriptions to RACIAL_TRAIT_DESCS
+                # Add subrace trait descriptions to RACIAL_TRAIT_DESCS (quality-aware)
                 for st in sr.get("traits", []):
                     stname = st.get("name", "")
                     stdesc = st.get("description", "")
-                    if stname and stdesc and stname not in RACIAL_TRAIT_DESCS:
-                        RACIAL_TRAIT_DESCS[stname] = stdesc
+                    if stname and stdesc:
+                        existing = RACIAL_TRAIT_DESCS.get(stname, "")
+                        if not existing or _should_replace_description(existing, stdesc):
+                            RACIAL_TRAIT_DESCS[stname] = stdesc
                 # Add subrace trait effects
                 sr_effects = sr.get("_effects", {})
                 for stname, eff in sr_effects.items():
@@ -162,12 +209,14 @@ def load_manual_data():
             "desc": race.get("description", ""),
             "subrace_descs": subrace_descs,
         }
-        # Add trait descriptions
+        # Add trait descriptions (quality-aware)
         for t in race.get("traits", []):
             tname = t.get("name", "")
             tdesc = t.get("description", "")
-            if tname and tdesc and tname not in RACIAL_TRAIT_DESCS:
-                RACIAL_TRAIT_DESCS[tname] = tdesc
+            if tname and tdesc:
+                existing = RACIAL_TRAIT_DESCS.get(tname, "")
+                if not existing or _should_replace_description(existing, tdesc):
+                    RACIAL_TRAIT_DESCS[tname] = tdesc
         # Add trait effects
         effects = race.get("_effects", {})
         for tname, eff in effects.items():
@@ -286,9 +335,14 @@ def load_manual_data():
                 fdesc = feat.get("description", "")
                 if fname and lvl > 0:  # skip L0 "atonement" meta-features
                     by_level.setdefault(lvl, []).append(fname)
-                    # Store description for lookup (skip if already hardcoded)
-                    if fdesc and fname.lower() not in FEATURE_DESCRIPTIONS:
-                        FEATURE_DESCRIPTIONS[fname.lower()] = fdesc
+                    # Store description for lookup (replace hardcoded if ingested is better)
+                    if fdesc:
+                        key = fname.lower()
+                        existing = FEATURE_DESCRIPTIONS.get(key, "")
+                        if not existing or _should_replace_description(existing, fdesc):
+                            if existing and _should_replace_description(existing, fdesc):
+                                pass  # Ingested version is better, will overwrite
+                            FEATURE_DESCRIPTIONS[key] = fdesc
                     # Register limited-use subclass features
                     fuses = feat.get("uses", 0)
                     frecharge = feat.get("recharge", "")
