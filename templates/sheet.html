@@ -3915,6 +3915,9 @@ async function claimFromTeam(itemId, itemName) {
     });
     const d = await r.json();
     if (d.ok) {
+      // Instant CP update for CP-named items
+      const cpMatch = itemName.match(/(\d+)\s*cp/i);
+      if (cpMatch) { CHARACTER_CP += parseInt(cpMatch[1]); renderCpDisplay(); }
       try { loadTeamItems(); } catch(e) {}
       try { renderInventory(); } catch(e) {}
       try { reloadCp(); } catch(e) {}
