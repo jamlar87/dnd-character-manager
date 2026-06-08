@@ -3328,6 +3328,53 @@ function addInventoryItem() {
   card.querySelector('.item-card-name').focus();
 }
 
+// ── Item Search (inline bar on inventory tab) ──
+function toggleItemSearch() {
+  const bar = document.getElementById('item-search-bar');
+  if (!bar) return;
+  const isOpen = bar.style.display !== 'none';
+  bar.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    document.getElementById('item-search-input').value = '';
+    document.getElementById('item-search-input').focus();
+  }
+}
+
+let _searchTimer = null;
+function searchItems(query) {
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(async () => {
+    const q = query.trim();
+    const results = document.getElementById('item-search-results');
+    if (!results) return;
+    if (q.length < 1) { results.style.display = 'none'; return; }
+    try {
+      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}&limit=20`);
+      const d = await r.json();
+      if (!d.results || !d.results.length) {
+        results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No items found</div>';
+        results.style.display = 'block';
+        return;
+      }
+      results.innerHTML = d.results.map(item =>
+        `<div class="search-result" onclick="selectItem('${item.name.replace(/'/g, "\\'")}')" style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.name} <span style="color:var(--text-muted);font-size:0.7rem">${item.type}</span></div>`
+      ).join('');
+      results.style.display = 'block';
+    } catch(e) { /* ignore */ }
+  }, 200);
+}
+
+function handleSearchKey(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('item-search-results').style.display = 'none';
+    document.getElementById('item-search-input').blur();
+  }
+  if (e.key === 'Enter') {
+    const first = document.querySelector('#item-search-results .search-result');
+    if (first) first.click();
+  }
+}
+
 function selectItem(name) {
   const list = document.getElementById('inv-list');
   const emptyEl = document.getElementById('inv-empty');

@@ -7171,14 +7171,15 @@ def _pick_skills(class_name: str, mods: dict) -> list[str]:
 # ── Item search & description endpoints ──────────────────────────────────────
 
 @app.get("/api/items/search", response_class=JSONResponse)
-async def search_items(q: str = "", limit: int = 12):
-    """Search equipment + magic items by name (fuzzy prefix match)."""
-    if not q or len(q.strip()) < 2:
-        return JSONResponse({"results": []})
+async def search_items(q: str = "", limit: int = 200):
+    """Search equipment + magic items by name (fuzzy substring match).
+    When q is empty, returns all items alphabetically (up to limit)."""
     query = q.strip().lower()
     results = []
-    for key, item in ITEM_INDEX.items():
-        if query in key:
+    if not query:
+        # Return all items alphabetically
+        for key in sorted(ITEM_INDEX.keys()):
+            item = ITEM_INDEX[key]
             results.append({
                 "name": item["name"],
                 "type": item["type"],
@@ -7186,8 +7187,19 @@ async def search_items(q: str = "", limit: int = 12):
             })
             if len(results) >= limit:
                 break
-    # Boost exact matches to top
-    results.sort(key=lambda r: (0 if r["name"].lower().startswith(query) else 1, r["name"]))
+    else:
+        for key, item in ITEM_INDEX.items():
+            if query in key:
+                results.append({
+                    "name": item["name"],
+                    "type": item["type"],
+                    "rarity": item.get("rarity", ""),
+                })
+                if len(results) >= limit:
+                    break
+        # Boost exact matches to top
+        results.sort(key=lambda r: (0 if r["name"].lower().startswith(query) else 1, r["name"]))
+
     return JSONResponse({"results": results[:limit], "total": len(ITEM_INDEX)})
 
 
