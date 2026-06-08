@@ -91,7 +91,7 @@ def _load_manual_json(filename: str) -> list[dict]:
 
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
-    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES
+    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE
 
     meta = _load_manual_json("_meta.json")
     if not meta or isinstance(meta, list):
@@ -185,6 +185,28 @@ def load_manual_data():
                     "natural_armor": eff.get("natural_armor"),
                 }
                 RACIAL_TRAIT_EFFECTS[tname] = mapped
+        # Register limited-use race traits into LIMITED_USE
+        for t in race.get("traits", []):
+            tname = t.get("name", "")
+            tuses = t.get("uses", 0)
+            trecharge = t.get("recharge", "")
+            if tname and tuses > 0 and trecharge:
+                key = tname.lower()
+                if key not in LIMITED_USE:
+                    LIMITED_USE[key] = {"min": tuses, "max": tuses,
+                        "recharge": "short" if "short" in trecharge.lower() else "long",
+                        "class": "", "per": "fixed"}
+        for sr in race.get("subraces", []):
+            for st in sr.get("traits", []):
+                stname = st.get("name", "")
+                stuses = st.get("uses", 0)
+                strecharge = st.get("recharge", "")
+                if stname and stuses > 0 and strecharge:
+                    key = stname.lower()
+                    if key not in LIMITED_USE:
+                        LIMITED_USE[key] = {"min": stuses, "max": stuses,
+                            "recharge": "short" if "short" in strecharge.lower() else "long",
+                            "class": "", "per": "fixed"}
         sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
         print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
 
@@ -267,6 +289,15 @@ def load_manual_data():
                     # Store description for lookup (skip if already hardcoded)
                     if fdesc and fname.lower() not in FEATURE_DESCRIPTIONS:
                         FEATURE_DESCRIPTIONS[fname.lower()] = fdesc
+                    # Register limited-use subclass features
+                    fuses = feat.get("uses", 0)
+                    frecharge = feat.get("recharge", "")
+                    if fuses > 0 and frecharge:
+                        key = fname.lower()
+                        if key not in LIMITED_USE:
+                            LIMITED_USE[key] = {"min": fuses, "max": fuses,
+                                "recharge": "short" if "short" in frecharge.lower() else "long",
+                                "class": parent_class, "per": "fixed"}
             if by_level and sc_name not in SUBCLASS_FEATURES:
                 SUBCLASS_FEATURES[sc_name] = by_level
     if manual_subclasses:
