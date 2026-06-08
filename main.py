@@ -5401,15 +5401,51 @@ async def delete_character(char_id: int, request: Request):
 # ── Name Generators ─────────────────────────────────────────────────────────
 
 RACE_NAMES = {
-    "Dwarf": {"male": ["Thorin","Durin","Balin","Dwalin","Oin","Gloin","Bofur","Bombur","Nori","Dori"], "female": ["Dis","Hilda","Brunhild","Gerta","Helga","Inga","Sigrid","Thyra","Yrsa","Kara"], "clan": ["Ironforge","Battlehammer","Bronzebeard","Darkiron","Stoutmantle","Deepdelve","Anvilmar","Stonebrow","Hammersmith","Forgefire"]},
-    "Elf": {"male": ["Elrond","Thranduil","Legolas","Finrod","Celeborn","Haldir","Fingolfin","Glorfindel","Cirdan","Eol"], "female": ["Galadriel","Arwen","Luthien","Idril","Nimrodel","Earwen","Aredhel","Elwing","Miriel","Finduilas"], "clan": ["Silverleaf","Moonshadow","Starbreeze","Dawnwhisper","Nightbreeze","Goldenoak","Swiftarrow","Brightsong","Dewdrop","Windwalker"]},
-    "Halfling": {"male": ["Bilbo","Frodo","Samwise","Meriadoc","Peregrin","Fredegar","Tobold","Hamfast","Drogo","Odo"], "female": ["Rosie","Belladonna","Primula","Lobelia","Daisy","Marigold","Pearl","Esmeralda","Pansy","Ruby"], "clan": ["Baggins","Took","Brandybuck","Gamgee","Bolger","Proudfoot","Greenhand","Brockhouse","Goodbody","Chubb"]},
-    "Human": {"male": ["Aldric","Cedric","Edmund","Garret","Harold","Lothar","Merek","Oswald","Roland","Theron"], "female": ["Alys","Brynn","Catelyn","Elara","Gwendolyn","Isolde","Liana","Morwen","Rowena","Seraphine"], "clan": ["Hawke","Blackwood","Stormwind","Ashford","Ravencroft","Thornfield","Westbrook","Northrend","Hightower","Greymane"]},
-    "Dragonborn": {"male": ["Kriv","Medrash","Nadarr","Pandjed","Patrin","Rhogar","Sora","Torrin","Ushar","Vrakas"], "female": ["Akra","Biri","Daar","Farideh","Harann","Jheri","Kava","Korinn","Nala","Sora"], "clan": ["Clethtinthiallor","Daardendrian","Delmirev","Drachedandion","Fenkenkabradon","Kepeshkmolik","Kerrhylon","Nemmonis","Verthisathurgiesh","Yarjerit"]},
-    "Gnome": {"male": ["Fizzwick","Gimble","Nackle","Orryn","Pock","Quill","Sprocket","Tinker","Wizzle","Zook"], "female": ["Bimpnottin","Caramip","Duvamil","Ellywick","Lilli","Loopmottin","Mardnab","Roywyn","Shamil","Zanna"], "clan": ["Beren","Daergel","Folkor","Garrick","Nackle","Raulnor","Scheppen","Turen","Warrick","Wiggens"]},
-    "Half-Elf": {"male": ["Aelar","Caelum","Doran","Eryndor","Fenris","Kael","Lorien","Myles","Theron","Varek"], "female": ["Aeris","Caelia","Elowen","Illyria","Kyra","Lyra","Maeris","Nyx","Seren","Vaela"], "clan": ["Amakiir","Ilphelkiir","Moonflower","Wintermere","Summerwind","Autumnvale","Springbrook","Truehart","Goodfellow","Whispermoon"]},
-    "Half-Orc": {"male": ["Durgash","Goruk","Hrogath","Krusk","Lurtz","Morg","Ogruk","Thokk","Ulfgrim","Zugor"], "female": ["Borga","Druga","Grenka","Hagra","Kella","Murook","Rogga","Sutha","Urzul","Vorga"], "clan": ["Bonecrusher","Doomhammer","Ironhide","Skullsplitter","Warsong","Bloodfist","Gorehowl","Dreadmaw","Stormrage","Blackrock"]},
-    "Tiefling": {"male": ["Akmenos","Damakos","Ekemon","Iados","Kairon","Leucis","Melech","Morthos","Phelan","Skamos"], "female": ["Akta","Anakis","Bryseis","Criella","Damaia","Ea","Kallista","Lerissa","Makaria","Nemeia"], "clan": ["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary"]},
+    "Dwarf": {
+        "male": ["Thorin","Durin","Balin","Dwalin","Oin","Gloin","Bofur","Bombur","Nori","Dori","Fili","Kili","Gimli","Dain","Thrain","Thror","Fundin","Gror","Farin","Borin","Nain","Bifur","Floi","Loni","Frar","Onar","Brokk","Eitri","Sindri","Thekk","Vist"],
+        "female": ["Dis","Hilda","Brunhild","Gerta","Helga","Inga","Sigrid","Thyra","Yrsa","Kara","Freya","Astrid","Ragna","Gudrun","Sif","Bodil","Dagmar","Frida","Ingrid","Sigrun","Thora","Aldis","Eira","Liv","Revna","Solveig","Torunn","Unn","Ylva","Brynhild"],
+        "clan": ["Ironforge","Battlehammer","Bronzebeard","Darkiron","Stoutmantle","Deepdelve","Anvilmar","Stonebrow","Hammersmith","Forgefire","Thunderaxe","Runefist","Steelmantle","Goldshaper","Coppervault","Grimstone","Boulderhelm","Firebeard","Frostforge","Shieldbreaker","Oathkeeper","Rubyhelm","Stormshield","Ironfist"]
+    },
+    "Elf": {
+        "male": ["Elrond","Thranduil","Legolas","Finrod","Celeborn","Haldir","Fingolfin","Glorfindel","Cirdan","Eol","Maedhros","Fingon","Turgon","Thingol","Beleg","Gwindor","Amroth","Oropher","Galathil","Angrod","Aegnor","Caranthir","Celegorm","Curufin","Maglor","Daeron","Saeros","Voronwe","Edrahil","Gildor","Lindir"],
+        "female": ["Galadriel","Arwen","Luthien","Idril","Nimrodel","Earwen","Aredhel","Elwing","Miriel","Finduilas","Melian","Elenwe","Nienna","Varda","Yavanna","Este","Nessa","Indis","Nerdanel","Anaire","Lalwen","Amarie","Celebrian","Elanor","Morwen","Nienor","Rian","Silmarien","Tar-Miriel","Beruthiel","Ilmare"],
+        "clan": ["Silverleaf","Moonshadow","Starbreeze","Dawnwhisper","Nightbreeze","Goldenoak","Swiftarrow","Brightsong","Dewdrop","Windwalker","Starlight","Moonsong","Dawnmist","Silverbrook","Summerstar","Wintershade","Crystalbrook","Amberwave","Fairbreeze","Lightfoot","Silverveil","Dreamweaver","Moonrise","Starfall"]
+    },
+    "Halfling": {
+        "male": ["Bilbo","Frodo","Samwise","Meriadoc","Peregrin","Fredegar","Tobold","Hamfast","Drogo","Odo","Adelard","Andwise","Blanco","Bodo","Carl","Cottar","Dinodas","Dodinas","Everard","Falco","Ferdinand","Ferumbras","Folco","Fortinbras","Gormadoc","Halfred","Harding","Holman","Isembard","Largo","Lotho","Madoc","Marmadas","Mungo","Nob","Olo","Paladin","Posco","Reginard","Robin","Rorimac","Rudigar","Saradas","Saradoc","Tolman","Wilcome"],
+        "female": ["Rosie","Belladonna","Primula","Lobelia","Daisy","Marigold","Pearl","Esmeralda","Pansy","Ruby","Amaranth","Angelica","Asphodel","Belba","Camellia","Celandine","Cora","Dahlia","Donnamira","Eglantine","Elanor","Estella","Gilly","Hanna","Ivy","Jasmine","Lily","Linda","Malva","Mirabella","Myrtle","Petunia","Poppy","Primrose","Rosa","Rosamunda","Rowan","Salvia","Sapphire","Tulip","Viola","Zinnia"],
+        "clan": ["Baggins","Took","Brandybuck","Gamgee","Bolger","Proudfoot","Greenhand","Brockhouse","Goodbody","Chubb","Banks","Boffin","Bracegirdle","Bunce","Burrows","Cotton","Fairbairn","Goold","Grubb","Hayward","Hornblower","Longbottom","Maggot","Noakes","Pott","Roper","Sandyman","Smallburrow","Twofoot","Whitfoot"]
+    },
+    "Human": {
+        "male": ["Aldric","Cedric","Edmund","Garret","Harold","Lothar","Merek","Oswald","Roland","Theron","Alaric","Baldwin","Beric","Caspian","Conrad","Corwin","Darius","Darian","Eddard","Eldric","Emmerich","Ewald","Florian","Gareth","Gawain","Geraint","Gregor","Hadrian","Hartwin","Jorah","Kendrick","Leofric","Manfred","Mathis","Odric","Ormund","Percival","Ragnar","Reinhardt","Roderick","Sigismund","Talbot","Thaddeus","Tobias","Tybalt","Ulric","Valerian","Victor","Wilfred","Wolfram"],
+        "female": ["Alys","Brynn","Catelyn","Elara","Gwendolyn","Isolde","Liana","Morwen","Rowena","Seraphine","Adela","Anya","Beatrix","Celandra","Daria","Eleanora","Elyse","Freya","Geneva","Helena","Ilyana","Jessamy","Katrin","Lenore","Lisette","Lyanna","Magnolia","Margot","Mira","Odette","Petra","Ravenna","Renata","Sabine","Selene","Tanith","Tatiana","Thessaly","Valeria","Vesper","Yvette","Zelda"],
+        "clan": ["Hawke","Blackwood","Stormwind","Ashford","Ravencroft","Thornfield","Westbrook","Northrend","Hightower","Greymane","Brightshield","Coldwater","Dawnguard","Eastwatch","Falconer","Frost","Goldcrest","Highcastle","Ironwood","Kingsley","Lockwood","Mistvale","Oakheart","Redmane","Shadowvale","Silverton","Starling","Steel","Strong","Swift","Warbringer","Weatherby","Whiteoak","Windham","Wolfhart"]
+    },
+    "Dragonborn": {
+        "male": ["Kriv","Medrash","Nadarr","Pandjed","Patrin","Rhogar","Sora","Torrin","Ushar","Vrakas","Adrex","Bharash","Donaar","Durir","Erash","Faar","Ghesh","Harann","Heskan","Kava","Korinn","Korth","Maaz","Menereth","Mishann","Naar","Orin","Orn","Perra","Rhas","Shamash","Shedinn","Tarhun","Thava","Uadjit","Vaal","Verin","Vrondiss","Zaan","Zarosh","Zorath"],
+        "female": ["Akra","Biri","Daar","Farideh","Harann","Jheri","Kava","Korinn","Nala","Sora","Arileth","Baylith","Ceras","Dira","Erris","Fenrys","Ghesha","Havilar","Iris","Kass","Kethra","Lorath","Maeris","Nalass","Ophir","Paela","Quila","Raiann","Shaena","Tazith","Uri","Vessa","Welsa","Xyra","Yrissa","Zofie"],
+        "clan": ["Clethtinthiallor","Daardendrian","Delmirev","Drachedandion","Fenkenkabradon","Kepeshkmolik","Kerrhylon","Nemmonis","Verthisathurgiesh","Yarjerit","Akambherylliax","Bhergav","Cheth","Daar","Dendi","Esthanaar","Gix","Kanjentellequor","Linxakasendalor","Myastan","Norixius","Ophinshtalajiir","Prexijandilin","Shestendeliath","Turnuroth","Vayemniri","Weryon"]
+    },
+    "Gnome": {
+        "male": ["Fizzwick","Gimble","Nackle","Orryn","Pock","Quill","Sprocket","Tinker","Wizzle","Zook","Alston","Boddynock","Coggle","Dabble","Eldon","Fiddle","Gadget","Hobble","Jingle","Kettle","Loopmottin","Mender","Nix","Oddle","Pibble","Rumble","Snibble","Thimble","Vex","Wobble","Yonkle"],
+        "female": ["Bimpnottin","Caramip","Duvamil","Ellywick","Lilli","Loopmottin","Mardnab","Roywyn","Shamil","Zanna","Arinda","Breena","Carlin","Donella","Ellyjobell","Frug","Gilla","Helva","Joybell","Kithri","Lolly","Mopsa","Nyxie","Orla","Pippa","Quinby","Roslin","Tana","Ummy","Vexia","Wenna","Xelli","Yoli","Zina"],
+        "clan": ["Beren","Daergel","Folkor","Garrick","Nackle","Raulnor","Scheppen","Turen","Warrick","Wiggens","Aleslosh","Ashhearth","Bafflestone","Cogglepot","Dappledew","Fapplestamp","Gimble","Higgle","Jumble","Kettlewhistle","Nimblefizz","Pockle","Quibble","Rangle","Scattercloak","Sparklegem","Thimblegear","Tosslecoat","Whizzle","Zenick"]
+    },
+    "Half-Elf": {
+        "male": ["Aelar","Caelum","Doran","Eryndor","Fenris","Kael","Lorien","Myles","Theron","Varek","Arannis","Berrian","Coren","Darian","Elrohir","Faelan","Garel","Hadrian","Ilphas","Jorah","Keth","Lirien","Maethor","Nalion","Orin","Peren","Quillan","Raegar","Soril","Talasin","Uldred","Varis","Westin","Xandor","Yorin","Zephyr"],
+        "female": ["Aeris","Caelia","Elowen","Illyria","Kyra","Lyra","Maeris","Nyx","Seren","Vaela","Arwyn","Berenice","Corinne","Delphine","Elara","Fianna","Gwyneth","Iris","Jessara","Kethra","Lunara","Miriel","Nerys","Ophelia","Phaedra","Quinna","Rowena","Sylvie","Thalia","Una","Vianne","Wisteria","Xanthe","Ysolde","Zara"],
+        "clan": ["Amakiir","Ilphelkiir","Moonflower","Wintermere","Summerwind","Autumnvale","Springbrook","Truehart","Goodfellow","Whispermoon","Brightwood","Dawnfield","Evernight","Fairmeadow","Goldengrove","Highhollow","Ivywood","Mistral","Riverstone","Shadowglen","Silvermist","Starfall","Thornwood","Wildrose"]
+    },
+    "Half-Orc": {
+        "male": ["Durgash","Goruk","Hrogath","Krusk","Lurtz","Morg","Ogruk","Thokk","Ulfgrim","Zugor","Azog","Borgakh","Durgath","Garoth","Grishnak","Huruk","Kazrak","Khargol","Magra","Mog","Nargol","Ogol","Ront","Shagrol","Taruk","Uloth","Vorgak","Wurzak","Xarg","Yagak","Zog"],
+        "female": ["Borga","Druga","Grenka","Hagra","Kella","Murook","Rogga","Sutha","Urzul","Vorga","Azuk","Baggi","Durgath","Ekk","Forga","Gruna","Hurki","Kansif","Lurka","Neega","Ovak","Prug","Quagg","Rendar","Shautha","Taruk","Ugga","Wrek","Yatur","Zogga"],
+        "clan": ["Bonecrusher","Doomhammer","Ironhide","Skullsplitter","Warsong","Bloodfist","Gorehowl","Dreadmaw","Stormrage","Blackrock","Bloodaxe","Bonechewer","Corpsegrinder","Dreadskull","Frostrider","Gorefiend","Hatefury","Ironskin","Killgore","Maul","Ragehowl","Sever","Skullcrusher","Spinebreaker","Thundertusk","Warhowl"]
+    },
+    "Tiefling": {
+        "male": ["Akmenos","Damakos","Ekemon","Iados","Kairon","Leucis","Melech","Morthos","Phelan","Skamos","Amnon","Arkan","Barachiel","Carac","Caim","Dama","Ged","Hadran","Incus","Israfel","Kallik","Levistus","Malkizid","Mammon","Merodach","Moloch","Naberius","Orias","Raum","Rhyxali","Sallos","Shax","Sitri","Valafar","Vapula","Vepar","Verin","Xaphan","Zagan","Zepar"],
+        "female": ["Akta","Anakis","Bryseis","Criella","Damaia","Ea","Kallista","Lerissa","Makaria","Nemeia","Akriel","Arista","Belladonna","Calista","Demeter","Eris","Fiera","Gorgona","Hecate","Jezebel","Kali","Lamia","Lilith","Medea","Naamah","Nyx","Onyx","Persephone","Raven","Sable","Tempest","Vespera","Willow","Xenia","Yama","Zara"],
+        "clan": ["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary","Anguish","Beauty","Chaos","Darkness","Ecstasy","Fury","Grief","Harmony","Infinity","Justice","Knowledge","Liberty","Madness","Nightmare","Oblivion","Pain","Quest","Ruin","Silence","Twilight","Vengeance","Whimsy"]
+    },
 }
 
 STARTING_EQUIPMENT = {
@@ -5429,12 +5465,53 @@ STARTING_EQUIPMENT = {
 
 def random_name(race: str, gender: str = "any") -> dict:
     """Generate a random name for the given race."""
-    data = RACE_NAMES.get(race, RACE_NAMES["Human"])
+    data = RACE_NAMES.get(race)
+    if data:
+        if gender == "any":
+            gender = random.choice(["male", "female"])
+        first = random.choice(data[gender])
+        # 30% chance: no clan name (not every character needs a surname)
+        if random.random() < 0.3:
+            return {"name": first, "first": first, "clan": ""}
+        clan = random.choice(data["clan"])
+        return {"name": f"{first} {clan}", "first": first, "clan": clan}
+
+    # Fallback: syllable-based generator for any race not in RACE_NAMES
+    syllables = {
+        "prefix": ["Al","Ar","Bal","Bel","Cal","Cel","Dar","Dor","El","Er","Far","Gal","Gar","Hel","Il","Jal","Kal",
+                    "Kel","Kor","Lan","Lor","Mal","Mar","Mel","Mir","Mor","Nal","Nor","Or","Pal","Per","Quel","Ral",
+                    "Rel","Ril","Sal","Sar","Sel","Sil","Tal","Tar","Tel","Thal","Ther","Tor","Ul","Val","Var","Vel",
+                    "Ver","Vil","Vor","Wal","Wil","Xal","Yel","Yor","Zal","Zel","Zor"],
+        "mid": ["a","ae","ai","an","ar","e","ea","ei","en","er","i","ia","ian","ien","il","in","ir","o","oa","on",
+                 "or","u","ua","un","ur","y","yr"],
+        "suffix": ["a","ac","ad","aer","al","an","ar","as","ath","en","er","es","eth","ian","ien","il","in","ion",
+                    "ir","is","ith","on","or","os","uin","um","us","ya","yr"],
+    }
+
+    def _build(c):
+        # Build a name with c components
+        parts = [random.choice(syllables["prefix"])]
+        for _ in range(c - 2):
+            parts.append(random.choice(syllables["mid"]))
+        parts.append(random.choice(syllables["suffix"]))
+        # Post-process: join and normalize
+        name = "".join(parts)
+        # Capitalize
+        return name[0].upper() + name[1:] if name else name
+
     if gender == "any":
-        gender = random.choice(["male", "female"])
-    first = random.choice(data[gender])
-    clan = random.choice(data["clan"])
-    return {"name": f"{first} {clan}", "first": first, "clan": clan}
+        gender = "male"
+    # Male names: 2-3 syllable parts, female: 2-4 with more vowels
+    if gender == "female":
+        n_parts = random.choice([3, 4])
+    else:
+        n_parts = random.choice([2, 3])
+    first = _build(n_parts)
+    # Sometimes add a clan-like second name
+    if random.random() < 0.6:
+        clan = _build(random.choice([2, 3]))
+        return {"name": f"{first} {clan}", "first": first, "clan": clan}
+    return {"name": first, "first": first, "clan": ""}
 
 def random_equipment(class_name: str) -> list[str]:
     return STARTING_EQUIPMENT.get(class_name, ["Explorer's Pack", "Dagger"])
