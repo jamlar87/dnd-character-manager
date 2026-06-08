@@ -1082,6 +1082,7 @@
             {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}Prepared Spells{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
           </h3>
           <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
+          <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent)">🤖 AI Assist</button>
         </div>
         {% if spells %}
         {% set use_prepared = character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
@@ -1330,9 +1331,6 @@
         <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem">
           <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
-        </div>
-        <div style="text-align:center;margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid var(--border)">
-          <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="width:100%">🤖 AI Assist — Auto-Select All Spells</button>
         </div>
       </div>
     </div>
@@ -2170,21 +2168,23 @@ async function addSpell() {
 }
 
 async function aiSelectSpells() {
-  const btn = event.target;
+  const btn = document.querySelector('#tab-spells button[onclick*=\"aiSelectSpells\"]') || event.target;
   btn.disabled = true;
-  btn.textContent = '🤖 Selecting spells...';
+  const orig = btn.textContent;
+  btn.textContent = '🤖 Thinking...';
   try {
     const r = await fetch('/api/character/' + CHAR_ID + '/ai-spells', { method: 'POST' });
     const data = await r.json();
     if (data.added > 0) {
       location.reload();
     } else {
-      btn.textContent = data.message || '🤖 No spells to add';
-      setTimeout(() => { btn.textContent = '🤖 AI Assist — Auto-Select All Spells'; btn.disabled = false; }, 2000);
+      btn.textContent = data.message || 'Already full';
+      setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
     }
   } catch(e) {
-    btn.textContent = '🤖 Error — try again';
+    btn.textContent = 'Error';
     btn.disabled = false;
+    setTimeout(() => { btn.textContent = orig; }, 1500);
   }
 }
 
