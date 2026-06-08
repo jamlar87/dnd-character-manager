@@ -91,7 +91,7 @@ def _load_manual_json(filename: str) -> list[dict]:
 
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
-    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS
+    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES
 
     meta = _load_manual_json("_meta.json")
     if not meta or isinstance(meta, list):
@@ -197,6 +197,24 @@ def load_manual_data():
             BACKGROUNDS.append(name)
     if manual_backgrounds:
         print(f"  + Backgrounds: {len(manual_backgrounds)}")
+
+    # ── Subclasses ── append to CLASSES[class_name]["subclasses"] + descriptions
+    manual_subclasses = _load_manual_json("subclasses.json")
+    for sc in manual_subclasses:
+        sc_name = sc.get("name", "")
+        parent_class = sc.get("class", "")
+        if not sc_name or not parent_class:
+            continue
+        if parent_class not in CLASSES:
+            print(f"  ⚠ Subclass '{sc_name}' references unknown class '{parent_class}' — skipping")
+            continue
+        subs = CLASSES[parent_class].setdefault("subclasses", [])
+        descs = CLASSES[parent_class].setdefault("subclass_descs", {})
+        if sc_name not in subs:
+            subs.append(sc_name)
+        descs[sc_name] = sc.get("description", "")
+    if manual_subclasses:
+        print(f"  + Subclasses: {len(manual_subclasses)}")
 
     print(f"  Manual data loaded: {meta.get('totals', {})}")
 
