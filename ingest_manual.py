@@ -1015,6 +1015,26 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
         m = _ensure_dict(m)
         if not m or not m.get("name"):
             continue
+        # Redirect objects/siege equipment to equipment
+        mtype = str(m.get("type", "")).lower()
+        if mtype in ("object", "vehicle", "siege equipment", "siege weapon"):
+            eq = {
+                "name": m.get("name", ""),
+                "type": "Vehicle",
+                "subtype": "Siege Equipment",
+                "damage": str(m.get("hit_points", "")),
+                "properties": [f"AC {m.get('armor_class', '?')}", f"HP {m.get('hit_points', '?')}"],
+                "cost": "—",
+                "weight": 0,
+                "source": m.get("source", book_slug),
+            }
+            if m.get("actions"):
+                for a in m["actions"]:
+                    if isinstance(a, dict) and a.get("name"):
+                        eq.setdefault("description", "")
+                        eq["description"] += f"{a['name']}: {a.get('description','')}\n"
+            cleaned["equipment"].append(eq)
+            continue
         # Reject monsters without stat blocks (name-only mentions)
         ac = m.get("armor_class")
         hp = m.get("hit_points")
