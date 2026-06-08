@@ -1731,7 +1731,13 @@ def _detect_chapters(text: str, manual: dict) -> list[dict]:
     # Fallback: check for text-based chapter markers
     chapters = _detect_from_text(text)
     if chapters and len(chapters) > 1:
-        return chapters
+        page_texts = _split_by_page(text)
+        for ch in chapters:
+            ch["text"] = _extract_chapter_text(page_texts, ch["start_page"], ch["end_page"])
+        chapters = [ch for ch in chapters if ch.get("text") and len(ch["text"]) >= 100]
+        if chapters:
+            print(f"  {len(chapters)} chapter(s) from text markers retained")
+            return chapters
 
     # Ultimate fallback: single chapter
     return [{"title": manual["title"], "start_page": 1, "end_page": 9999, "text": text}]
