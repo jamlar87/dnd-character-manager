@@ -91,7 +91,7 @@ def _load_manual_json(filename: str) -> list[dict]:
 
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
-    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES
+    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES
 
     meta = _load_manual_json("_meta.json")
     if not meta or isinstance(meta, list):
@@ -213,6 +213,18 @@ def load_manual_data():
         if sc_name not in subs:
             subs.append(sc_name)
         descs[sc_name] = sc.get("description", "")
+
+        # Populate SUBCLASS_FEATURES from extracted feature data
+        features = sc.get("features", [])
+        if features and sc_name not in SUBCLASS_FEATURES:
+            by_level: dict[int, list[str]] = {}
+            for feat in features:
+                lvl = feat.get("level", 0)
+                fname = feat.get("name", "")
+                if fname and lvl > 0:  # skip L0 "atonement" meta-features
+                    by_level.setdefault(lvl, []).append(fname)
+            if by_level:
+                SUBCLASS_FEATURES[sc_name] = by_level
     if manual_subclasses:
         print(f"  + Subclasses: {len(manual_subclasses)}")
 
@@ -5088,6 +5100,9 @@ SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
     "School of Illusion": {2: ["Illusion Savant", "Improved Minor Illusion"], 6: ["Malleable Illusions"], 10: ["Illusory Self"], 14: ["Illusory Reality"]},
     "School of Necromancy": {2: ["Necromancy Savant", "Grim Harvest"], 6: ["Undead Thralls"], 10: ["Inured to Undeath"], 14: ["Command Undead"]},
     "School of Transmutation": {2: ["Transmutation Savant", "Minor Alchemy"], 6: ["Transmuter's Stone"], 10: ["Shapechanger"], 14: ["Master Transmuter"]},
+    # DMG
+    "Death Domain": {1: ["Death Domain Spells", "Bonus Proficiency", "Reaper"], 2: ["Channel Divinity: Touch of Death"], 6: ["Inescapable Destruction"], 8: ["Divine Strike"], 17: ["Improved Reaper"]},
+    "Oathbreaker": {3: ["Oathbreaker Spells", "Channel Divinity: Control Undead", "Channel Divinity: Dreadful Aspect"], 7: ["Aura of Hate"], 15: ["Supernatural Resistance"], 20: ["Dread Lord"]},
 }
 
 
