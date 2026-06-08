@@ -1553,6 +1553,20 @@ const PREPARED_MAX = {{ prepared_max }};
 const CASTER_TYPE = '{{ caster_type }}';
 let CHARACTER_GP = {{ character.gp|default(0)|int }};
 
+// Auto-open level-up wizard if ?level-up=N in URL (from character creation)
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const luTarget = parseInt(params.get('level-up'));
+  if (luTarget && luTarget > CHAR_LEVEL && luTarget <= 20) {
+    // Clean URL
+    const url = new URL(window.location);
+    url.searchParams.delete('level-up');
+    window.history.replaceState({}, '', url);
+    // Wait for DOM then open wizard
+    setTimeout(() => openLevelUpDirect(luTarget), 500);
+  }
+})();
+
 // ── Proficiency Master Lists (PHB 2014) ──
 const ALL_ARMOR_PROFS = [
   'Light armor', 'Medium armor', 'Heavy armor', 'Shields'
@@ -3731,11 +3745,14 @@ async function openLevelUp() {
   const target = prompt(`Level to? (${CHAR_LEVEL + 1}–${maxTarget})`, CHAR_LEVEL + 1);
   if (!target) return;
   const targetNum = parseInt(target);
-  if (isNaN(targetNum) || targetNum <= CHAR_LEVEL || targetNum > 20) {
-    alert(`Enter a level between ${CHAR_LEVEL + 1} and 20`);
+  if (isNaN(targetNum) || targetNum <= CHAR_LEVEL || targetNum > maxTarget) {
+    alert(`Enter a level between ${CHAR_LEVEL + 1} and ${maxTarget}`);
     return;
   }
-  
+  return openLevelUpDirect(targetNum);
+}
+
+async function openLevelUpDirect(targetNum) {
   try {
     const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info?target=${targetNum}`);
     luData = await resp.json();

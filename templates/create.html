@@ -117,6 +117,26 @@
   </div>
 </div>
 
+<!-- Spell Picker Overlay (shown for known casters during creation) -->
+<div id="spell-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:650px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.75rem">🔮 Choose Your Starting Spells</h3>
+    <p id="spell-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem"></p>
+    <input id="sp-pick-search" type="text" placeholder="Search spells..." 
+      style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none;margin-bottom:0.5rem"
+      oninput="filterCreateSpells()">
+    <div id="sp-pick-selected" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem"></div>
+    <div id="sp-pick-results" style="max-height:250px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
+      <div style="padding:0.5rem;color:var(--text-muted);text-align:center">Loading...</div>
+    </div>
+    <p id="sp-pick-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipSpellPicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmSpellPicker()">Confirm Spells</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
@@ -257,6 +277,11 @@ function showStep(n) {
 function nextStep() {
   if (step === 0 && !state.race) { alert('Choose a race'); return; }
   if (step === 1 && !state.class_name) { alert('Choose a class'); return; }
+  // Intercept: known casters go to spell picker before review
+  if (step === 4 && isKnownCaster()) {
+    showSpellPicker();
+    return;
+  }
   showStep(Math.min(step + 1, 5));
 }
 
@@ -551,6 +576,132 @@ function buildReview() {
   `;
 }
 
+// ── Spell Picker for Creation ──────────────────────────────────────────
+const KNOWN_CASTERS = ['Bard','Sorcerer','Warlock','Ranger'];
+const L1_SPELLS_KNOWN = {Bard:4, Sorcerer:2, Warlock:2, Ranger:0};  // Ranger starts at L2
+const L1_CANTRIPS = {Bard:2, Sorcerer:4, Warlock:2, Ranger:0};
+
+function isKnownCaster() {
+  return KNOWN_CASTERS.includes(state.class_name);
+}
+
+let _createSpellList = [];
+
+async function showSpellPicker() {
+  const className = state.class_name;
+  const needSpells = L1_SPELLS_KNOWN[className] || 0;
+  const needCantrips = L1_CANTRIPS[className] || 0;
+  const total = needSpells + needCantrips;
+  
+  if (total === 0) { showStep(5); return; }  // No spells to pick
+  
+  if (!state.spells) state.spells = [];
+  
+  document.getElementById('spell-picker-info').textContent = 
+    `Your ${className} starts with ${total} spell${total>1?'s':''} (${needCantrips>0?needCantrips+' cantrip'+ (needCantrips>1?'s':'') + (needSpells>0?' + ':''):''}${needSpells>0?needSpells+' L1 spell'+ (needSpells>1?'s':''):''}).`;
+  
+  document.getElementById('spell-picker-overlay').style.display = 'flex';
+  document.getElementById('sp-pick-search').value = '';
+  
+  try {
+    const r = await fetch(`/api/spells/starting?class_name=${className}&level=1`);
+    _createSpellList = await r.json();
+    filterCreateSpells();
+    renderCreateSelected();
+  } catch(e) {
+    document.getElementById('sp-pick-results').innerHTML = '<div style="padding:0.5rem;color:var(--danger);text-align:center">Failed to load spells</div>';
+  }
+}
+
+function filterCreateSpells() {
+  const q = (document.getElementById('sp-pick-search')?.value || '').toLowerCase().trim();
+  const div = document.getElementById('sp-pick-results');
+  if (!div) return;
+  
+  let spells = _createSpellList;
+  if (q) {
+    spells = spells.filter(s => s.name.toLowerCase().includes(q) || (s.school||'').toLowerCase().includes(q));
+  }
+  
+  if (!spells.length) {
+    div.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);text-align:center">No spells match</div>';
+    return;
+  }
+  
+  const selected = state.spells || [];
+  const className = state.class_name;
+  const needSpells = L1_SPELLS_KNOWN[className] || 0;
+  const needCantrips = L1_CANTRIPS[className] || 0;
+  const total = needSpells + needCantrips;
+  
+  div.innerHTML = spells.slice(0, 30).map(s => {
+    const isSel = selected.some(x => x.name === s.name);
+    const lvlBadge = s.level === 0
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    const bg = isSel ? 'background:rgba(99,102,241,0.15);' : '';
+    return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem;${bg}"
+      onclick="toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})">
+      <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSel?'✅':'☐'}</span>
+      <strong style="flex:1;min-width:0">${s.name}</strong> ${lvlBadge}
+      <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
+    </div>`;
+  }).join('');
+  
+  document.getElementById('sp-pick-count').textContent = `${selected.length}/${total} selected`;
+}
+
+function toggleCreateSpell(name, level) {
+  if (!state.spells) state.spells = [];
+  const idx = state.spells.findIndex(x => x.name === name);
+  const className = state.class_name;
+  const needSpells = L1_SPELLS_KNOWN[className] || 0;
+  const needCantrips = L1_CANTRIPS[className] || 0;
+  const total = needSpells + needCantrips;
+  
+  if (idx >= 0) {
+    state.spells.splice(idx, 1);
+  } else {
+    if (state.spells.length >= total) return;
+    const selCantrips = state.spells.filter(x => x.level === 0).length;
+    const selLeveled = state.spells.filter(x => x.level > 0).length;
+    if (level === 0 && selCantrips >= needCantrips) return;
+    if (level > 0 && selLeveled >= needSpells) return;
+    state.spells.push({name, level});
+  }
+  
+  filterCreateSpells();
+  renderCreateSelected();
+}
+
+function renderCreateSelected() {
+  const div = document.getElementById('sp-pick-selected');
+  if (!div) return;
+  const selected = state.spells || [];
+  div.innerHTML = selected.map(s => {
+    const lvlBadge = s.level === 0 
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : '<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv'+s.level+'</span>';
+    return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
+      <strong>${s.name}</strong> ${lvlBadge}
+      <button onclick="event.stopPropagation();toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})"
+        style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;padding:0;line-height:1">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function skipSpellPicker() {
+  if (!state.spells) state.spells = [];
+  document.getElementById('spell-picker-overlay').style.display = 'none';
+  showStep(5);
+}
+
+function confirmSpellPicker() {
+  if (!state.spells) state.spells = [];
+  document.getElementById('spell-picker-overlay').style.display = 'none';
+  showStep(5);
+}
+
 // ── Create ──
 async function createCharacter() {
   buildReview();
@@ -565,6 +716,7 @@ async function createCharacter() {
     background_data: state.background_data || '',
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
     level: 1,  // Always create at L1 — level-up wizard handles higher levels
+    spells: state.spells || [],  // Starting spells from picker
     equipment: state.equipment,
     dragonborn_ancestry: state.dragonborn_ancestry || '',
     portrait_url: state.portrait_url || '',

@@ -1663,8 +1663,56 @@ async def api_create_character(request: Request):
     ))
     char_id = cur.lastrowid
     db.commit()
+    
+    # Insert starting spells if provided
+    spell_choices = data.get("spells", [])
+    if spell_choices:
+        for sp in spell_choices:
+            db.execute(
+                "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+                (char_id, sp.get("name", ""), sp.get("level", 0), 0, 0, 0))
+        db.commit()
+    
     db.close()
     return JSONResponse({"id": char_id, "name": name})
+
+# ── Starting spells lookup (no character needed — creation wizard) ──────────
+
+@app.get("/api/spells/starting", response_class=JSONResponse)
+async def starting_spells(request: Request, class_name: str = "", level: int = 1):
+    """Return L1+spells available to a class at a given level. Public — no auth needed."""
+    if class_name not in SPELLS_KNOWN_CASTERS:
+        return JSONResponse([])
+    level = max(1, min(level, 20))
+    max_slot = 0
+    slots = get_spell_slots(class_name, level)
+    if slots and slots.get("by_level"):
+        max_slot = max((int(lvl) for lvl, cnt in slots["by_level"].items() if cnt > 0), default=0)
+    results = []
+    seen = set()
+    for spell in SRD_SPELLS:
+        name = spell.get("name", "")
+        if not name or name.lower() in seen:
+            continue
+        seen.add(name.lower())
+        sp_level = spell.get("level", 0)
+        if sp_level > max_slot:
+            continue
+        classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+        if class_name.lower() not in classes:
+            continue
+        results.append({
+            "name": name, "level": sp_level,
+            "school": spell.get("school", {}).get("name", ""),
+            "source": "SRD",
+            "casting_time": spell.get("casting_time", ""),
+            "range": spell.get("range", ""),
+            "duration": spell.get("duration", ""),
+            "concentration": spell.get("concentration", False),
+            "ritual": spell.get("ritual", False),
+        })
+    results.sort(key=lambda s: (s["level"], s["name"]))
+    return JSONResponse(results)
 
 # ── DM Tools: Monster helpers ──────────────────────────────────────────────
 
