@@ -993,6 +993,12 @@ RACIAL_TRAIT_DESCS = {
     "Infernal Legacy": "You know the thaumaturgy cantrip. At 3rd level, you can cast hellish rebuke as a 2nd-level spell once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
 }
 
+# Merge racial trait descriptions into the feature lookup so Breath Weapon etc. show descriptions
+for trait_name, trait_desc in RACIAL_TRAIT_DESCS.items():
+    key = trait_name.lower()
+    if key not in FEATURE_DESCRIPTIONS:
+        FEATURE_DESCRIPTIONS[key] = trait_desc
+
 # Subrace-specific trait lists
 SUBRACE_TRAITS = {
     "Hill Dwarf": ["Dwarven Toughness"],
@@ -7155,6 +7161,10 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             level_part, name = feat_str, feat_str
         key = name.lower()
         desc = FEATURE_DESCRIPTIONS.get(key, "")
+        # If composite name from multiclass dedup, try first segment
+        if not desc and " | " in key:
+            first_seg = key.split(" | ")[0].strip()
+            desc = FEATURE_DESCRIPTIONS.get(first_seg, "")
         entry = {"name": name, "level": level_part, "description": desc}
         # Determine source class + level for limited-use computation
         source_class = None
