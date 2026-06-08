@@ -1237,6 +1237,123 @@ def _normalize_ability_key(k: str) -> str:
     return mapping.get(k, k)
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# Cross-contamination guard — feature → correct subclass mapping
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Maps feature names to their CORRECT subclass. Any feature appearing in a
+# different subclass will be stripped during validation. Covers the most common
+# LLM cross-contamination patterns (adjacent subclasses of the same class).
+_FEATURE_OWNER: dict[str, str] = {
+    # Cleric domains (PHB)
+    "warding flare": "Light Domain",
+    "radiance of the dawn": "Light Domain",
+    "improved flare": "Light Domain",
+    "corona of light": "Light Domain",
+    "acolyte of nature": "Nature Domain",
+    "charm animals and plants": "Nature Domain",
+    "dampen elements": "Nature Domain",
+    "master of nature": "Nature Domain",
+    "blessings of knowledge": "Knowledge Domain",
+    "knowledge of the ages": "Knowledge Domain",
+    "read thoughts": "Knowledge Domain",
+    "visions of the past": "Knowledge Domain",
+    "wrath of the storm": "Tempest Domain",
+    "destructive wrath": "Tempest Domain",
+    "thunderbolt strike": "Tempest Domain",
+    "stormborn": "Tempest Domain",
+    "blessing of the trickster": "Trickery Domain",
+    "invoke duplicity": "Trickery Domain",
+    "cloak of shadows": "Trickery Domain",
+    "improved duplicity": "Trickery Domain",
+    "war priest": "War Domain",
+    "guided strike": "War Domain",
+    "war god's blessing": "War Domain",
+    "avatar of battle": "War Domain",
+    # Barbarian paths (PHB)
+    "frenzy": "Path of the Berserker",
+    "mindless rage": "Path of the Berserker",
+    "intimidating presence": "Path of the Berserker",
+    "retaliation": "Path of the Berserker",
+    "totem spirit": "Path of the Totem Warrior",
+    "aspect of the beast": "Path of the Totem Warrior",
+    "spirit walker": "Path of the Totem Warrior",
+    "totemic attunement": "Path of the Totem Warrior",
+    # Wizard schools — features that clearly identify their school
+    "arcane ward": "School of Abjuration",
+    "projected ward": "School of Abjuration",
+    "improved abjuration": "School of Abjuration",
+    "spell resistance": "School of Abjuration",
+    "minor conjuration": "School of Conjuration",
+    "benign transposition": "School of Conjuration",
+    "focused conjuration": "School of Conjuration",
+    "durable summons": "School of Conjuration",
+    "portent": "School of Divination",
+    "expert divination": "School of Divination",
+    "the third eye": "School of Divination",
+    "greater portent": "School of Divination",
+    "hypnotic gaze": "School of Enchantment",
+    "instinctive charm": "School of Enchantment",
+    "split enchantment": "School of Enchantment",
+    "alter memories": "School of Enchantment",
+    "sculpt spells": "School of Evocation",
+    "potent cantrip": "School of Evocation",
+    "empowered evocation": "School of Evocation",
+    "overchannel": "School of Evocation",
+    "improved minor illusion": "School of Illusion",
+    "malleable illusions": "School of Illusion",
+    "illusory self": "School of Illusion",
+    "illusory reality": "School of Illusion",
+    "grim harvest": "School of Necromancy",
+    "undead thralls": "School of Necromancy",
+    "inured to undeath": "School of Necromancy",
+    "command undead": "School of Necromancy",
+    "minor alchemy": "School of Transmutation",
+    "transmuter's stone": "School of Transmutation",
+    "shapechanger": "School of Transmutation",
+    "master transmuter": "School of Transmutation",
+}
+
+
+def _strip_wrong_features(subclass_name: str, parent_class: str, features: list) -> list:
+    """Remove features that clearly belong to a different subclass of the same class.
+    Uses _FEATURE_OWNER mapping + heuristic checks."""
+    if not features:
+        return features
+
+    cleaned = []
+    sc_lower = subclass_name.lower()
+    removed = []
+
+    for feat in features:
+        if not isinstance(feat, dict):
+            continue
+        fname = feat.get("name", "").lower()
+
+        # Check: does this feature belong to a DIFFERENT subclass?
+        owner = _FEATURE_OWNER.get(fname)
+        if owner and owner.lower() != sc_lower:
+            removed.append(feat.get("name", fname))
+            continue
+
+        # Heuristic: feature name contains a different domain/path/school name
+        # e.g., "Channel Divinity: Radiance of the Dawn" in Nature Domain
+        if "channel divinity:" in fname and parent_class.lower() == "cleric":
+            # Known cleric CD options — check if they match any domain
+            cd_check = fname.replace("channel divinity:", "").strip()
+            cd_owner = _FEATURE_OWNER.get(cd_check)
+            if cd_owner and cd_owner.lower() != sc_lower:
+                removed.append(feat.get("name", fname))
+                continue
+
+        cleaned.append(feat)
+
+    if removed:
+        print(f"      ⚠ Stripped {len(removed)} cross-contaminated feature(s) from {subclass_name}: {removed}")
+
+    return cleaned
+
+
 def validate_extraction(data: dict, book_slug: str) -> dict:
     """Post-process and validate extracted data. Removes invalid entries."""
     cleaned = {
@@ -1392,6 +1509,8 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
         if not sc or not sc.get("name"):
             continue
         sc.setdefault("source", book_slug)
+        # Strip features that belong to a different subclass (cross-contamination guard)
+        sc["features"] = _strip_wrong_features(sc.get("name", ""), sc.get("class", ""), sc.get("features", []))
         cleaned["subclasses"].append(sc)
 
     if issues:
