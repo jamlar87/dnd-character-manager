@@ -138,6 +138,8 @@
 }
 .item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 .item-card .item-card-del:hover { color: var(--danger); }
+.item-card .item-card-award { color: var(--success); }
+.item-card .item-card-award:hover { background: rgba(76,175,80,0.15); }
 .item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
 .item-card .item-attune-badge {
   font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
@@ -3838,6 +3840,61 @@ async function saveBackstory() {
       body: JSON.stringify({backstory: text}),
     });
   } catch(e) { console.error(e); }
+}
+
+// ── Team Items (campaign pool) ──
+async function loadTeamItems() {
+  if (!CAMPAIGN_ID) return;
+  const list = document.getElementById('team-items-list');
+  if (!list) return;
+  list.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem">Loading...</span>';
+  try {
+    const r = await fetch(`/api/campaign/${CAMPAIGN_ID}/team-items`);
+    const d = await r.json();
+    if (d.error) { list.innerHTML = `<span style="color:var(--text-muted);font-size:0.8rem">${d.error}</span>`; return; }
+    const items = d.items || [];
+    if (items.length === 0) {
+      list.innerHTML = '<span style="color:var(--text-muted);font-size:0.8rem">No items in team pool</span>';
+      return;
+    }
+    list.innerHTML = items.map(item => {
+      const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
+      const qtyBadge = item.qty > 1 ? `<span class="item-qty" style="cursor:default">${item.qty}</span>` : '';
+      return `<div class="item-card">
+        <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+        <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
+        <button class="item-card-btn item-card-award" onclick="claimFromTeam(${item.id}, '${item.name.replace(/'/g, "\\'")}')" title="Claim item" style="color:var(--success)">📥</button>
+        <div class="item-detail" data-item-name="${item.name}"></div>
+      </div>`;
+    }).join('');
+  } catch(e) { list.innerHTML = '<span style="color:var(--danger);font-size:0.8rem">Failed to load</span>'; }
+}
+
+async function claimFromTeam(itemId, itemName) {
+  if (!confirm(`Claim "${itemName}" from the team pool?`)) return;
+  try {
+    const r = await fetch(`/api/campaign/${CAMPAIGN_ID}/team-items/${itemId}/claim`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({character_id: CHAR_ID})
+    });
+    const d = await r.json();
+    if (d.ok) { loadTeamItems(); renderInventory(); }
+    else alert(d.error || 'Failed to claim');
+  } catch(e) { alert('Failed to claim item'); }
+}
+
+async function shareToTeam(name, qty) {
+  if (!CAMPAIGN_ID) return;
+  if (!confirm(`Share "${name}" (x${qty}) with the team?`)) return;
+  try {
+    const r = await fetch(`/api/character/${CHAR_ID}/share-to-team`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name, qty})
+    });
+    const d = await r.json();
+    if (d.ok) { renderInventory(); loadTeamItems(); }
+    else alert(d.error || 'Failed to share');
+  } catch(e) { alert('Failed to share item'); }
 }
 
 // Override switchTab to load relationships when history tab opens

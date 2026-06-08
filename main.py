@@ -3371,12 +3371,23 @@ async def character_campaign(char_id: int, request: Request):
     """Get the campaign this character belongs to (if any)."""
     user = require_user(request)
     db = get_db()
+    # Check legacy table first, then JSON field
     row = db.execute("""
         SELECT c.id, c.name, c.user_id as dm_user_id
         FROM dm_campaigns c
         JOIN dm_campaign_characters cc ON cc.campaign_id = c.id
         WHERE cc.character_id = ?
     """, (char_id,)).fetchone()
+    if not row:
+        all_camps = db.execute("SELECT id, name, user_id, characters FROM dm_campaigns").fetchall()
+        for c in all_camps:
+            try:
+                chars = json.loads(c["characters"] or "[]")
+                if any(ch.get("id") == char_id for ch in chars if isinstance(ch, dict)):
+                    row = (c["id"], c["name"], c["user_id"])
+                    break
+            except (json.JSONDecodeError, TypeError):
+                pass
     db.close()
     if not row:
         return JSONResponse({"campaign": None})
@@ -3388,15 +3399,30 @@ async def campaign_team_items(camp_id: int, request: Request):
     """List all team items for a campaign (any campaign member can view)."""
     user = require_user(request)
     db = get_db()
-    # Verify user is in this campaign (either DM or has a character in it)
+    # Verify user is in this campaign — DM, JSON characters, or legacy table
     is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
                        (camp_id, user["id"])).fetchone()
+    # Check JSON characters field for membership
+    in_json = False
+    camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
+    if camp_row:
+        try:
+            chars = json.loads(camp_row["characters"] or "[]")
+            char_ids = [c.get("id") for c in chars if isinstance(c, dict)]
+            if char_ids:
+                owned = db.execute(
+                    "SELECT 1 FROM characters WHERE id IN ({}) AND user_id=?".format(','.join('?'*len(char_ids))),
+                    char_ids + [user["id"]]
+                ).fetchone()
+                in_json = bool(owned)
+        except (json.JSONDecodeError, TypeError):
+            pass
     is_member = db.execute("""
         SELECT 1 FROM dm_campaign_characters cc
         JOIN characters ch ON ch.id = cc.character_id
         WHERE cc.campaign_id = ? AND ch.user_id = ?
     """, (camp_id, user["id"])).fetchone()
-    if not is_dm and not is_member:
+    if not is_dm and not in_json and not is_member:
         db.close()
         return JSONResponse({"error": "Not a member of this campaign"}, status_code=403)
 
@@ -3532,15 +3558,24 @@ async def character_share_to_team(char_id: int, request: Request):
         db.close()
         return JSONResponse({"error": "Character not found"}, status_code=404)
 
-    # Find the campaign this character is in
-    camp = db.execute("""
-        SELECT campaign_id FROM dm_campaign_characters WHERE character_id=?
-    """, (char_id,)).fetchone()
-    if not camp:
+    # Find the campaign this character is in (check JSON field + legacy table)
+    camp = db.execute("SELECT campaign_id FROM dm_campaign_characters WHERE character_id=?",
+                      (char_id,)).fetchone()
+    camp_id = camp[0] if camp else None
+    if not camp_id:
+        # Check campaigns' JSON characters field
+        all_camps = db.execute("SELECT id, characters FROM dm_campaigns").fetchall()
+        for c in all_camps:
+            try:
+                chars = json.loads(c["characters"] or "[]")
+                if any(ch.get("id") == char_id for ch in chars if isinstance(ch, dict)):
+                    camp_id = c["id"]
+                    break
+            except (json.JSONDecodeError, TypeError):
+                pass
+    if not camp_id:
         db.close()
         return JSONResponse({"error": "Character is not in a campaign"}, status_code=400)
-
-    camp_id = camp[0]
 
     # Find and remove item from inventory
     inv = json.loads(char[1] or "[]")
@@ -3787,13 +3822,23 @@ async def character_sheet(char_id: int, request: Request):
         if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
             item_attunement_dict[eq_name] = True
 
-    # Check if character is in a campaign
+    # Check if character is in a campaign (JSON field + legacy table)
     db2 = get_db()
     campaign_row = db2.execute("""
         SELECT c.id, c.name FROM dm_campaigns c
         JOIN dm_campaign_characters cc ON cc.campaign_id = c.id
         WHERE cc.character_id = ?
     """, (char_id,)).fetchone()
+    if not campaign_row:
+        all_camps = db2.execute("SELECT id, name, characters FROM dm_campaigns").fetchall()
+        for c in all_camps:
+            try:
+                chars = json.loads(c["characters"] or "[]")
+                if any(ch.get("id") == char_id for ch in chars if isinstance(ch, dict)):
+                    campaign_row = (c["id"], c["name"])
+                    break
+            except (json.JSONDecodeError, TypeError):
+                pass
     db2.close()
     campaign_info = {"id": campaign_row[0], "name": campaign_row[1]} if campaign_row else None
 
