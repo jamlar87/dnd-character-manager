@@ -2974,6 +2974,23 @@ async def dm_encounter_roll_initiative(enc_id: int, request: Request):
         WHERE en.encounter_id = ?
     """, (enc_id,)).fetchall()]
 
+    # Override sentinel data for creature-only entries (npc_id = -1)
+    for p in participants:
+        if p.get("npc_id") == -1 or not p.get("name"):
+            try: cd = json.loads(p.get("creature_data") or "{}")
+            except: cd = {}
+            p["name"] = cd.get("name", p.get("name") or "Unknown")
+            p["race"] = cd.get("race", p.get("race") or "")
+            p["class_name"] = cd.get("class_name", p.get("class_name") or "")
+            p["level"] = cd.get("level", p.get("level") or 1)
+            p["is_enemy"] = cd.get("is_enemy", p.get("is_enemy") or 0)
+            p["npc_hp_max"] = cd.get("hp_max", p.get("npc_hp_max") or p.get("hp_max", 10))
+            p["ac"] = cd.get("ac", p.get("ac") or 10)
+            p["role"] = cd.get("role", p.get("role") or "")
+            # Use creature DEX for initiative if available, otherwise default to 10
+            if not p.get("dexterity"):
+                p["dexterity"] = 10
+
     results = []
     for p in participants:
         dex_mod = (p.get("dexterity", 10) - 10) // 2
