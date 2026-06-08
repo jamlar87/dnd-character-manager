@@ -1311,16 +1311,24 @@
       </div>
     </div>
 
-    <!-- Add Spell Modal -->
+    <!-- Add Spell Modal — searchable dropdown -->
     <div id="add-spell-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
-      <div class="card" style="max-width:400px;width:90%">
-        <h3>Add Spell</h3>
-        <div class="form-group"><label>Spell Name</label><input type="text" id="spell-name"></div>
-        <div class="form-group"><label>Level</label><select id="spell-level">{% for i in range(10) %}<option value="{{ i }}">{{ i }}{% if i==0 %} (Cantrip){% endif %}</option>{% endfor %}</select></div>
+      <div class="card" style="max-width:480px;width:92%;max-height:85vh;display:flex;flex-direction:column">
+        <h3 style="margin:0 0 0.5rem 0">Add Spell</h3>
+        <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem">Loading available spells...</div>
+        <div style="position:relative;margin-bottom:0.5rem">
+          <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
+            style="width:100%;padding:0.5rem 0.75rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.9rem;outline:none"
+            oninput="filterSpellResults()" onkeydown="handleSpellKey(event)">
+          <div id="spell-results" style="max-height:280px;overflow-y:auto;margin-top:0.25rem"></div>
+        </div>
+        <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto"></div>
         <div class="form-group"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
-        <div class="form-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9"></div>
-        <div style="display:flex;gap:0.5rem;justify-content:flex-end">
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('add-spell-modal').style.display='none'">Cancel</button>
+        <div class="form-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
+        <input type="hidden" id="spell-name" value="">
+        <input type="hidden" id="spell-level" value="0">
+        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem">
+          <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
         </div>
       </div>
@@ -2047,8 +2055,103 @@ async function toggleSpellSlotById(spellId, n, max) {
   await api('/update', { spells: [{ id: spellId, slots_used: used }] });
 }
 
-// ── Add Spell ──
-function showAddSpell() { document.getElementById('add-spell-modal').style.display='flex'; }
+// ── Add Spell (searchable dropdown) ──
+let _spellCache = [];
+
+async function showAddSpell() {
+  document.getElementById('add-spell-modal').style.display = 'flex';
+  document.getElementById('spell-search').value = '';
+  document.getElementById('spell-name').value = '';
+  document.getElementById('spell-level').value = '0';
+  document.getElementById('spell-detail').style.display = 'none';
+  document.getElementById('spell-results').innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">Loading...</div>';
+  document.getElementById('spell-source-info').textContent = 'Loading available spells...';
+  document.getElementById('spell-search').focus();
+
+  try {
+    const r = await fetch('/api/character/' + CHAR_ID + '/available-spells');
+    _spellCache = await r.json();
+    const counts = {};
+    _spellCache.forEach(s => { counts[s.source] = (counts[s.source]||0) + 1; });
+    const parts = Object.entries(counts).map(([k,v]) => `${v} ${k}`);
+    document.getElementById('spell-source-info').textContent = parts.join(' · ') || 'No spells available';
+    filterSpellResults();
+  } catch(e) {
+    document.getElementById('spell-results').innerHTML = '<div style="padding:0.5rem;color:var(--error)">Failed to load spells</div>';
+  }
+}
+
+function closeAddSpell() {
+  document.getElementById('add-spell-modal').style.display = 'none';
+  _spellCache = [];
+}
+
+function filterSpellResults() {
+  const q = document.getElementById('spell-search').value.toLowerCase().trim();
+  const div = document.getElementById('spell-results');
+  let spells = _spellCache;
+  if (q) {
+    spells = spells.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      s.school.toLowerCase().includes(q) ||
+      s.source.toLowerCase().includes(q)
+    );
+  }
+  if (!spells.length) {
+    div.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No spells match</div>';
+    return;
+  }
+  // Show max 30
+  const shown = spells.slice(0, 30);
+  div.innerHTML = shown.map((s, i) => {
+    const lvlBadge = s.level === 0
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    const schoolBadge = s.school ? `<span style="font-size:0.65rem;color:var(--text-muted)">${s.school}</span>` : '';
+    const srcBadge = `<span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>`;
+    const concIcon = s.concentration ? '🔷' : '';
+    const ritIcon = s.ritual ? '📖' : '';
+    return `<div class="spell-option" data-idx="${i}"
+      style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap"
+      onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background=''"
+      onclick="selectSpell(${i})">
+      <strong style="flex:1;min-width:0">${s.name}</strong>
+      ${concIcon}${ritIcon} ${lvlBadge} ${schoolBadge} ${srcBadge}
+    </div>`;
+  }).join('');
+  if (spells.length > 30) {
+    div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">+${spells.length-30} more — type to narrow</div>`;
+  }
+}
+
+function handleSpellKey(e) {
+  if (e.key === 'Escape') { closeAddSpell(); return; }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const first = document.querySelector('.spell-option');
+    if (first) { first.focus(); first.style.background = 'var(--accent2)'; }
+  }
+}
+
+function selectSpell(idx) {
+  const s = _spellCache[idx];
+  if (!s) return;
+  document.getElementById('spell-name').value = s.name;
+  document.getElementById('spell-level').value = s.level;
+  document.getElementById('spell-search').value = s.name;
+  document.getElementById('spell-results').innerHTML = '';
+
+  // Show spell detail
+  const detail = document.getElementById('spell-detail');
+  detail.style.display = 'block';
+  const parts = [];
+  if (s.casting_time) parts.push(`<strong>Cast:</strong> ${s.casting_time}`);
+  if (s.range) parts.push(`<strong>Range:</strong> ${s.range}`);
+  if (s.duration) parts.push(`<strong>Duration:</strong> ${s.duration}${s.concentration ? ' (concentration)' : ''}`);
+  if (s.ritual) parts.push('<strong>Ritual</strong>');
+  detail.innerHTML = parts.join(' · ') + '<br><br>' + (s.description || 'No description available');
+}
+
 async function addSpell() {
   const name = document.getElementById('spell-name').value.trim();
   if (!name) return;

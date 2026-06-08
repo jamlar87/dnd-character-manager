@@ -4028,6 +4028,158 @@ async def add_spell(char_id: int, request: Request):
     db.close()
     return JSONResponse({"id": sp_id})
 
+
+@app.get("/api/character/{char_id}/available-spells", response_class=JSONResponse)
+async def available_spells(char_id: int, request: Request):
+    """Return spells this character can learn — filtered by class, level, race, subclass.
+    Excludes spells already known."""
+    import re
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
+                     (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    char = dict(row)
+    class_name = char["class_name"] or ""
+    subclass = char["subclass"] or ""
+    race_name = char["race"] or ""
+    level = max(1, int(char.get("level", 1) or 1))
+
+    # Get already-known spell names
+    known_rows = db.execute("SELECT spell_name FROM character_spells WHERE character_id = ?",
+                            (char_id,)).fetchall()
+    known_names = {r[0].lower() for r in known_rows}
+    db.close()
+
+    # Determine max spell level this character can cast
+    max_spell_level = 0
+    cantrips_ok = True
+    if class_name in SPELLS_KNOWN_CASTERS or class_name in PREPARED_CASTERS or class_name == "Warlock":
+        slots = get_spell_slots(class_name, level)
+        if class_name == "Warlock":
+            max_spell_level = slots.get("slot_level", 0) if slots else 0
+        elif slots and slots.get("by_level"):
+            max_spell_level = max((int(lvl) for lvl, cnt in slots["by_level"].items() if cnt > 0), default=0)
+
+    # Build available spells list
+    available = []
+    seen = set()
+
+    # 1. Class spell list
+    cls_spells = get_srd_spells_for_class(class_name, level)
+    for spell in SRD_SPELLS:
+        name = spell.get("name", "")
+        if not name or name.lower() in known_names:
+            continue
+        classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+        if class_name.lower() not in classes:
+            continue
+        slvl = int(spell.get("level", 0) or 0)
+        if slvl > 0 and slvl > max_spell_level:
+            continue
+        key = name.lower()
+        if key not in seen:
+            seen.add(key)
+            available.append({
+                "name": name,
+                "level": slvl,
+                "school": (spell.get("school") or {}).get("name", "") if isinstance(spell.get("school"), dict) else "",
+                "casting_time": spell.get("casting_time", ""),
+                "range": spell.get("range", ""),
+                "duration": spell.get("duration", ""),
+                "ritual": spell.get("ritual", False),
+                "concentration": spell.get("concentration", False),
+                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+                "source": "class",
+            })
+
+    # 2. Subclass bonus spells (e.g. Death Domain Spells, Oathbreaker Spells)
+    if subclass and subclass in SUBCLASS_FEATURES:
+        sc_feats = SUBCLASS_FEATURES[subclass]
+        for sc_lvl, feat_names in sc_feats.items():
+            for fn in feat_names:
+                if "spell" not in fn.lower():
+                    continue
+                # Find the full spell description from SRD
+                for spell in SRD_SPELLS:
+                    sname = spell.get("name", "")
+                    if not sname or sname.lower() in known_names:
+                        continue
+                    # Check if this spell is mentioned in subclass spell list
+                    # Match from the SUBCLASS_FEATURES descriptions
+                    key = sname.lower()
+                    if key not in seen:
+                        slvl = int(spell.get("level", 0) or 0)
+                        if slvl > 0 and slvl > max_spell_level:
+                            continue
+                        # Check if this spell appears in subclass domain spells
+                        found = False
+                        for feat_name2 in feat_names:
+                            if "spell" in feat_name2.lower():
+                                found = True
+                                break
+                        if found and sc_lvl <= level:
+                            seen.add(key)
+                            available.append({
+                                "name": sname,
+                                "level": slvl,
+                                "school": (spell.get("school") or {}).get("name", "") if isinstance(spell.get("school"), dict) else "",
+                                "casting_time": spell.get("casting_time", ""),
+                                "range": spell.get("range", ""),
+                                "duration": spell.get("duration", ""),
+                                "ritual": spell.get("ritual", False),
+                                "concentration": spell.get("concentration", False),
+                                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+                                "source": f"subclass ({subclass})",
+                            })
+
+    # 3. Race spells (e.g. Tiefling: Hellish Rebuke, Darkness; Drow: Faerie Fire)
+    race_innate_spells = {
+        "tiefling": {1: ["hellish rebuke"], 2: ["darkness"]},
+        "drow": {1: ["faerie fire"], 2: ["darkness"]},
+        "high elf": {0: ["any wizard cantrip"]},
+        "forest gnome": {0: ["minor illusion"]},
+        "deep gnome": {1: ["disguise self"], 2: ["nondetection"]},
+        "duergar": {1: ["enlarge/reduce"], 2: ["invisibility"]},
+        "firbolg": {0: ["detect magic"], 1: ["disguise self"]},
+        "githyanki": {0: ["mage hand"], 1: ["jump"], 2: ["misty step"]},
+        "githzerai": {0: ["mage hand"], 1: ["shield"], 2: ["detect thoughts"]},
+        "yuan-ti pureblood": {0: ["poison spray"], 1: ["animal friendship"], 2: ["suggestion"]},
+        "aasimar": {0: ["light"], 1: ["lesser restoration"]},
+    }
+    race_key = race_name.lower()
+    if race_key in race_innate_spells:
+        for req_lvl, spell_names in race_innate_spells[race_key].items():
+            if req_lvl > level:
+                continue
+            for sname in spell_names:
+                key = sname.lower()
+                if key in known_names or key in seen:
+                    continue
+                seen.add(key)
+                # Look up in SRD
+                srd = next((s for s in SRD_SPELLS if s.get("name","").lower() == key), None)
+                available.append({
+                    "name": sname,
+                    "level": req_lvl if req_lvl > 0 else 0,
+                    "school": (srd.get("school") or {}).get("name", "") if srd and isinstance(srd.get("school"), dict) else "",
+                    "casting_time": srd.get("casting_time", "") if srd else "",
+                    "range": srd.get("range", "") if srd else "",
+                    "duration": srd.get("duration", "") if srd else "",
+                    "ritual": srd.get("ritual", False) if srd else False,
+                    "concentration": srd.get("concentration", False) if srd else False,
+                    "description": " ".join(srd.get("desc", [])) if srd and isinstance(srd.get("desc"), list) else "Racial innate spell",
+                    "source": f"race ({race_name})",
+                })
+
+    # Sort: cantrips first, then by level, then by name
+    available.sort(key=lambda s: (s["level"], s["name"].lower()))
+
+    return JSONResponse(available)
+
 @app.post("/api/character/{char_id}/toggle-prepared", response_class=JSONResponse)
 async def toggle_prepared(char_id: int, request: Request):
     user = require_user(request)
