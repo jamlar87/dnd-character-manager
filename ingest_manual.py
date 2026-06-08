@@ -636,9 +636,22 @@ Return ONLY this JSON (empty arrays where nothing found):
     "name": "Subclass Name",
     "class": "Parent Class",
     "description": "Brief description",
-    "features": [{"name": "Feature Name", "level": 3, "description": "..."}],
+    "features": [
+      {"name": "Feature Name", "level": 3, "description": "Full feature text verbatim"},
+      {"name": "Another Feature", "level": 3, "description": "Full feature text verbatim"},
+      {"name": "Higher-Level Feature", "level": 7, "description": "Full feature text verbatim"}
+    ],
     "source": "XGE p.50"
   }]
+
+CRITICAL — SUBCLASSES:
+- Extract EVERY feature at EVERY level. A subclass section lists features at
+  multiple levels (1st, 2nd, 3rd, 6th, 10th, 14th, 17th, etc.) — capture ALL.
+  The example above shows 3 features at 2 levels as a minimum; real entries
+  should have 4–7 features across 4–5 levels.
+- If a feature references a spell or table, include that reference verbatim.
+- If the subclass has domain/oath/pact spells, extract them as a feature
+  named "Death Domain Spells" (or similar) at the level they're gained.
 }
 
 Rules:
