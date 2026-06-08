@@ -2784,7 +2784,8 @@ async def dm_encounter_detail(enc_id: int, request: Request):
         ORDER BY en.initiative DESC
     """, (enc_id,)).fetchall()]
     for p in participants:
-        if not p.get("npc_name"):
+        # Creature-only entries (npc_id = -1) use creature_data, not the sentinel NPC
+        if p.get("npc_id") == -1 or not p.get("npc_name"):
             try: cd = json.loads(p.get("creature_data") or "{}")
             except: cd = {}
             p["npc_name"] = cd.get("name", "Unknown")
@@ -2868,9 +2869,13 @@ async def dm_encounter_add_creature(enc_id: int, request: Request):
         "role": data.get("role", ""),
         "xp_reward": data.get("xp_reward", 0),
     })
+    # Ensure a placeholder NPC exists for creature-only entries (FK constraint)
+    sentinel = db.execute("SELECT id FROM dm_npcs WHERE id = -1").fetchone()
+    if not sentinel:
+        db.execute("INSERT INTO dm_npcs (id, user_id, name, race, class_name, level, hp_current, hp_max, ac) VALUES (-1, ?, '__sentinel__', '', '', 0, 1, 1, 10)", (user["id"],))
     db.execute("""
         INSERT INTO dm_encounter_npcs (encounter_id, npc_id, initiative, hp_current, hp_max, ac, creature_data)
-        VALUES (?, 0, ?, ?, ?, ?, ?)
+        VALUES (?, -1, ?, ?, ?, ?, ?)
     """, (enc_id, init, hp, hp_max, ac, creature_data))
     db.commit()
     en_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
@@ -2903,15 +2908,21 @@ async def dm_encounter_update_init(enc_id: int, request: Request):
     for entry in data.get("participants", []):
         en_id = int(entry.get("id", 0))
         init = int(entry.get("initiative", 0))
-        hp_cur = int(entry.get("hp_current", 0))
         defeated = 1 if entry.get("defeated", False) else 0
         spell_slots_used = entry.get("spell_slots_used", {})
         if isinstance(spell_slots_used, dict):
             spell_slots_used = json.dumps(spell_slots_used)
-        db.execute("""
-            UPDATE dm_encounter_npcs SET initiative=?, hp_current=?, defeated=?, spell_slots_used=?
-            WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
-        """, (init, hp_cur, defeated, spell_slots_used, en_id, user["id"]))
+        if "hp_current" in entry:
+            hp_cur = int(entry["hp_current"])
+            db.execute("""
+                UPDATE dm_encounter_npcs SET initiative=?, hp_current=?, defeated=?, spell_slots_used=?
+                WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
+            """, (init, hp_cur, defeated, spell_slots_used, en_id, user["id"]))
+        else:
+            db.execute("""
+                UPDATE dm_encounter_npcs SET initiative=?, defeated=?, spell_slots_used=?
+                WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
+            """, (init, defeated, spell_slots_used, en_id, user["id"]))
 
     # If a single participant should be updated (mark defeated / update HP)
     if "single" in data:
