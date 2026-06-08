@@ -3028,7 +3028,8 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
         state = json.dumps({
             "round": data.get("round", 1),
             "turn_index": data.get("turn_index", 0),
-            "initiative_order": data.get("initiative_order", [])
+            "initiative_order": data.get("initiative_order", []),
+            "benched_en_ids": data.get("benched_en_ids", [])
         })
         db.execute("UPDATE dm_encounters SET combat_state=? WHERE id=?", (state, enc_id))
         db.commit()
@@ -3045,6 +3046,7 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
         "round": state.get("round", 1),
         "turn_index": state.get("turn_index", 0),
         "initiative_order": state.get("initiative_order", []),
+        "benched_en_ids": state.get("benched_en_ids", []),
         "ok": True
     })
 

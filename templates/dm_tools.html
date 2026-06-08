@@ -2235,6 +2235,7 @@ let _combatParticipants = [];  // {en_id, name, initiative, hp_current, hp_max, 
 let _combatRound = 1;
 let _combatTurnIdx = 0;        // index into alive participants
 let _combatOrder = [];         // en_id order array
+let _savedBenchedEnIds = [];   // restored from combat_state on load
 
 // ── Init: populate encounter dropdown when Combat tab opened ──
 const combatTabObserver = new MutationObserver(() => {
@@ -2320,10 +2321,22 @@ async function loadCombatEncounter() {
     _combatRound = d.round || 1;
     _combatTurnIdx = d.turn_index || 0;
     _combatOrder = d.initiative_order || [];
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; }
+    _savedBenchedEnIds = d.benched_en_ids || [];
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; }
 
   // Load participants from encounter
   await refreshCombatParticipants();
+
+  // Restore benched state: move benched participants out of the track
+  if (_savedBenchedEnIds.length > 0) {
+    const benchedSet = new Set(_savedBenchedEnIds);
+    _benchedNpcs = _combatParticipants.filter(p => benchedSet.has(p.en_id));
+    _combatParticipants = _combatParticipants.filter(p => !benchedSet.has(p.en_id));
+    _combatOrder = _combatOrder.filter(id => !benchedSet.has(id));
+    renderInitiativeTrack();
+    renderPlayersPanel();
+    renderBenchedNpcs();
+  }
 }
 
 // ── Load campaign player characters ──
@@ -2527,12 +2540,16 @@ initTrackEl.addEventListener('drop', async e => {
 async function rollInitiative() {
   if (!_combatEncId) return alert('Select an encounter first');
 
+  // Preserve benched en_ids so they stay benched after reroll
+  const benchedIds = new Set(_benchedNpcs.map(p => p.en_id));
+
   try {
     const r = await fetch(`/api/dm/encounter/${_combatEncId}/roll-initiative`, {method:'POST'});
     const d = await r.json();
     if (!d.ok) return alert(d.error || 'Failed to roll');
     // Keep player characters that were already dragged into the track
     const inTrack = _combatParticipants.filter(p => p.is_player);
+    // Preserve benched en_ids so they stay benched after reroll
     _combatParticipants = [];
     for (const npc of d.participants) {
       _combatParticipants.push({...npc, is_player: false, char_id: null});
@@ -2547,6 +2564,12 @@ async function rollInitiative() {
     if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
     return (b.initiative||0) - (a.initiative||0);
   });
+
+  // Restore benched state: move benched NPCs out of combat participants
+  if (benchedIds.size > 0) {
+    _benchedNpcs = _combatParticipants.filter(p => benchedIds.has(p.en_id));
+    _combatParticipants = _combatParticipants.filter(p => !benchedIds.has(p.en_id));
+  }
 
   _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
   _combatRound = 1;
@@ -2680,6 +2703,7 @@ function renderInitiativeTrack() {
         ${p.is_player ? `<button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet">📋</button>`
           : `<button class="init-btn" onclick="showCombatantDetails(${p.en_id})" title="View details">📋</button>`}
         <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated">${isDefeated ? '⬆' : '💀'}</button>
+        <button class="init-btn" onclick="benchCombatant(${p.en_id})" title="Bench (remove from combat)" style="color:var(--text-muted)">⏸</button>
       </div>
     </div>`;
   }
@@ -2931,6 +2955,39 @@ function showFullMonsterCard(monster, combatant) {
   openModal('charSheetModal');
 }
 
+// ── Bench / unbench buttons (mobile-friendly, preserves initiative) ──
+function benchCombatant(enId) {
+  const idx = _combatParticipants.findIndex(p => p.en_id === enId);
+  if (idx === -1) return;
+  const [p] = _combatParticipants.splice(idx, 1);
+  _benchedNpcs.push(p);
+  _combatOrder = _combatOrder.filter(id => id !== enId);
+  // Fix turn index
+  const alive = _combatParticipants.filter(x => !x.defeated);
+  if (_combatTurnIdx >= alive.length) _combatTurnIdx = Math.max(0, alive.length - 1);
+  renderInitiativeTrack();
+  renderPlayersPanel();
+  renderBenchedNpcs();
+  saveCombatState();
+}
+
+function unbenchCombatant(enId) {
+  const idx = _benchedNpcs.findIndex(p => p.en_id === enId);
+  if (idx === -1) return;
+  const [p] = _benchedNpcs.splice(idx, 1);
+  _combatParticipants.push(p);
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+  // Restore to initiative order in the correct spot (by initiative)
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  renderInitiativeTrack();
+  renderPlayersPanel();
+  renderBenchedNpcs();
+  saveCombatState();
+}
+
 // ── Drop on benched area: remove NPC from combat ──
 function dropOnBenched(e) {
   e.preventDefault();
@@ -2995,6 +3052,7 @@ function renderBenchedNpcs() {
         <div class="init-meta">AC ${p.ac} · HP ${p.hp_current}/${p.hp_max}</div>
       </div>
       <button class="init-btn" onclick="event.stopPropagation();showCombatantDetails(${p.en_id})" title="View details">📋</button>
+      <button class="init-btn" onclick="event.stopPropagation();unbenchCombatant(${p.en_id})" title="Return to combat" style="color:var(--success)">▶</button>
     </div>`;
   }).join('');
 }
@@ -3091,7 +3149,8 @@ function saveCombatState() {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
       action: 'save', round: _combatRound, turn_index: _combatTurnIdx,
-      initiative_order: _combatOrder
+      initiative_order: _combatOrder,
+      benched_en_ids: _benchedNpcs.map(p => p.en_id)
     })
   }).catch(() => {});
 }
