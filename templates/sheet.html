@@ -3753,11 +3753,18 @@ async function openLevelUp() {
 }
 
 async function openLevelUpDirect(targetNum) {
+  // Always level up one at a time — frontend wizard handles single-level jumps
+  const stepTarget = CHAR_LEVEL + 1;
+  if (stepTarget > 20) return;
+  
   try {
-    const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info?target=${targetNum}`);
+    const resp = await fetch(`/api/character/${CHAR_ID}/level-up-info?target=${stepTarget}`);
     luData = await resp.json();
     if (luData.error) { alert(luData.error); return; }
   } catch(e) { console.error(e); alert('Failed to load level-up info'); return; }
+  
+  // Stash the ultimate goal so applyLevelUp knows where we're headed
+  luData._ultimate_target = targetNum;
   
   luStep = 0;
   luChoices = {};
@@ -4251,16 +4258,23 @@ async function applyLevelUp() {
   btn.disabled = true;
   btn.textContent = 'Applying...';
   
+  const nextLevel = (luData?.current_level || CHAR_LEVEL) + 1;
+  const ultimateTarget = luData?._ultimate_target;
+  
   try {
     const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...luChoices, class_to_level: luClassToLevel}),
+      body: JSON.stringify({...luChoices, class_to_level: luClassToLevel, target_level: nextLevel}),
     });
     const result = await resp.json();
     if (result.ok) {
-      alert(`Level Up complete! ${result.changes.join(', ')}`);
-      location.reload();
+      // Chain to next level if we haven't reached the ultimate target
+      if (ultimateTarget && nextLevel < ultimateTarget && nextLevel < 20) {
+        location.href = `/character/${CHAR_ID}?level-up=${ultimateTarget}`;
+      } else {
+        location.reload();
+      }
     } else {
       alert('Level up failed');
       btn.disabled = false;
