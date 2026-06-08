@@ -3451,19 +3451,33 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
         return JSONResponse({"error": "character_id required"}, status_code=400)
 
     db = get_db()
-    # Verify character belongs to user
-    char = db.execute("SELECT id, inventory FROM characters WHERE id=? AND user_id=?",
-                      (char_id, user["id"])).fetchone()
+    # Allow character's owner OR the campaign's DM to award items
+    char = db.execute("SELECT id, inventory FROM characters WHERE id=?", (char_id,)).fetchone()
     if not char:
         db.close()
         return JSONResponse({"error": "Character not found"}, status_code=404)
 
-    # Verify character is in the campaign
-    member = db.execute(
+    # Check: user is the character's owner, OR user is the DM of this campaign
+    is_owner = db.execute("SELECT 1 FROM characters WHERE id=? AND user_id=?", (char_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not is_owner and not is_dm:
+        db.close()
+        return JSONResponse({"error": "Not authorized to award items to this character"}, status_code=403)
+
+    # Verify character is in the campaign (check JSON characters field + legacy table)
+    camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
+    in_json = False
+    if camp_row:
+        try:
+            chars = json.loads(camp_row["characters"] or "[]")
+            in_json = any(c.get("id") == char_id for c in chars)
+        except (json.JSONDecodeError, TypeError):
+            pass
+    in_table = db.execute(
         "SELECT 1 FROM dm_campaign_characters WHERE campaign_id=? AND character_id=?",
         (camp_id, char_id)
     ).fetchone()
-    if not member:
+    if not in_json and not in_table:
         db.close()
         return JSONResponse({"error": "Character is not in this campaign"}, status_code=403)
 

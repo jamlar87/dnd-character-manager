@@ -257,6 +257,26 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 }
 .item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
 .item-card .item-card-del:hover { color: var(--danger); }
+.item-card .item-card-award { color: var(--accent); }
+.item-card .item-card-award:hover { color: var(--accent2); background: rgba(233,69,96,0.1); }
+
+/* Award popover */
+.award-popover {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+}
+.award-popover-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem; min-width: 280px; max-width: 360px; width: 90%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.award-char-card {
+  display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.6rem;
+  border-radius: 6px; cursor: pointer; border: 1.5px solid var(--border);
+  background: var(--bg); transition: all 0.15s;
+}
+.award-char-card:hover { border-color: var(--accent); background: rgba(233,69,96,0.05); }
+.award-char-card.selected { border-color: var(--accent); background: rgba(233,69,96,0.1); }
 
 /* Expandable item details */
 .item-card { flex-wrap: wrap; }
@@ -635,6 +655,20 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   </div>
   <div id="itemsPanelContent" style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap">
     <div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>
+  </div>
+  <!-- Award item character picker popover -->
+  <div id="awardPopover" class="award-popover" style="display:none">
+    <div class="award-popover-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+        <strong id="awardPopoverTitle" style="font-size:0.9rem">Award item</strong>
+        <button onclick="closeAwardPopover()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem">&times;</button>
+      </div>
+      <div id="awardPopoverChars" style="display:flex;flex-direction:column;gap:0.4rem;max-height:280px;overflow-y:auto;margin-bottom:0.75rem"></div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+        <button class="btn btn-outline btn-sm" onclick="closeAwardPopover()">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="awardConfirmBtn" onclick="confirmAwardItem()" disabled>✅ Award</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1788,7 +1822,21 @@ let _itemsPartyChars = [];
 
 async function loadItemsPanel() {
   const sel = document.getElementById('itemsCampaignSelect');
-  _itemsCampId = sel.value;
+  _itemsCampId = sel.value ? parseInt(sel.value) : null;
+
+  // Always populate campaign dropdown if empty
+  if (sel.options.length <= 1) {
+    try {
+      const cr = await fetch('/api/dm/campaigns');
+      const cd = await cr.json();
+      (cd.campaigns || []).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id; opt.textContent = c.name;
+        sel.appendChild(opt);
+      });
+    } catch(e) {}
+  }
+
   if (!_itemsCampId) {
     document.getElementById('itemsPanelContent').innerHTML =
       '<div style="color:var(--text-muted);padding:2rem;text-align:center;width:100%">Select a campaign to manage items</div>';
@@ -1797,19 +1845,10 @@ async function loadItemsPanel() {
   const content = document.getElementById('itemsPanelContent');
   content.innerHTML = '<div style="text-align:center;padding:2rem;width:100%">Loading...</div>';
 
-  // Fetch campaigns for the dropdown
   try {
     const cr = await fetch('/api/dm/campaigns');
     const cd = await cr.json();
     const camps = cd.campaigns || [];
-    if (sel.options.length <= 1) {
-      camps.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.id; opt.textContent = c.name;
-        if (c.id == _itemsCampId) opt.selected = true;
-        sel.appendChild(opt);
-      });
-    }
 
     // Find selected campaign
     const camp = camps.find(c => c.id == _itemsCampId);
@@ -1847,6 +1886,7 @@ function renderItemsPanel(items, chars) {
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
         <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
+        <button class="item-card-btn item-card-award" onclick="event.stopPropagation();openAwardPopover(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.qty})" title="Award to character">🎁</button>
         <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
         <div class="item-detail" data-item-name="${item.name.replace(/"/g, '&quot;')}"></div>
       </div>`;
@@ -1972,6 +2012,74 @@ async function deleteTeamItem(itemId) {
   const data = await resp.json();
   if (data.ok) loadItemsPanel();
   else alert(data.error || 'Failed to remove item');
+}
+
+// ── Award item to character (popover picker) ──
+let _awardItemId = null, _awardItemName = null, _awardItemQty = null, _awardSelectedChar = null;
+
+function openAwardPopover(itemId, itemName, itemQty) {
+  if (!_itemsCampId) return;
+  const chars = _itemsPartyChars;
+  if (chars.length === 0) { alert('No characters in this campaign'); return; }
+  if (chars.length === 1) {
+    claimTeamItem(itemId, chars[0].id, itemName, itemQty);
+    return;
+  }
+  _awardItemId = itemId;
+  _awardItemName = itemName;
+  _awardItemQty = itemQty;
+  _awardSelectedChar = null;
+
+  document.getElementById('awardPopoverTitle').textContent = `Award "${itemName}" to:`;
+  const container = document.getElementById('awardPopoverChars');
+  container.innerHTML = chars.map(c => `
+    <div class="award-char-card" data-char-id="${c.id}" onclick="selectAwardChar(this, ${c.id})">
+      <span style="font-size:1.1rem">👤</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:600;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted)">L${c.level} ${c.class_name}${c.race ? ' · ' + c.race : ''}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('awardConfirmBtn').disabled = true;
+  document.getElementById('awardPopover').style.display = 'flex';
+}
+
+function selectAwardChar(el, charId) {
+  document.querySelectorAll('#awardPopoverChars .award-char-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  _awardSelectedChar = charId;
+  document.getElementById('awardConfirmBtn').disabled = false;
+}
+
+function closeAwardPopover() {
+  document.getElementById('awardPopover').style.display = 'none';
+  _awardSelectedChar = null;
+}
+
+async function confirmAwardItem() {
+  if (!_awardSelectedChar || !_awardItemId) return;
+  await claimTeamItem(_awardItemId, _awardSelectedChar, _awardItemName, _awardItemQty);
+  closeAwardPopover();
+}
+
+// Close popover on backdrop click
+document.getElementById('awardPopover').addEventListener('click', function(e) {
+  if (e.target === this) closeAwardPopover();
+});
+
+async function claimTeamItem(itemId, charId, itemName, itemQty) {
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items/${itemId}/claim`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ character_id: charId })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    loadItemsPanel();
+  } else {
+    alert(data.error || 'Failed to award item');
+  }
 }
 
 // ── Roll Loot ──
@@ -2262,6 +2370,9 @@ document.querySelectorAll('.dm-tab').forEach(tab => {
     setTimeout(() => {
       if (document.getElementById('panel-combat').classList.contains('active')) {
         initCombatPanel();
+      }
+      if (document.getElementById('panel-items').classList.contains('active')) {
+        loadItemsPanel();
       }
     }, 50);
   });
