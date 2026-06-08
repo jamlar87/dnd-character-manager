@@ -4180,6 +4180,233 @@ async def available_spells(char_id: int, request: Request):
 
     return JSONResponse(available)
 
+
+@app.post("/api/character/{char_id}/ai-spells", response_class=JSONResponse)
+async def ai_select_spells(char_id: int, request: Request):
+    """AI-assisted spell selection — auto-picks optimal spells based on
+    class, subclass, level, and race. Respects preparation limits for
+    prepared casters and spells-known limits for known casters."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
+                     (char_id, user["id"])).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    char = dict(row)
+    class_name = char["class_name"] or ""
+    subclass = char["subclass"] or ""
+    level = max(1, int(char.get("level", 1) or 1))
+
+    # Get existing spells
+    known_rows = db.execute("SELECT spell_name, spell_level FROM character_spells WHERE character_id = ?",
+                            (char_id,)).fetchall()
+    known_names = {r[0].lower() for r in known_rows}
+
+    # Determine limits
+    caster_class = class_name
+    if caster_class not in PREPARED_CASTERS and caster_class not in SPELLS_KNOWN_CASTERS and caster_class != "Warlock":
+        db.close()
+        return JSONResponse({"added": 0, "message": f"{class_name} is not a spellcaster"})
+
+    is_prepared = caster_class in PREPARED_CASTERS
+    sc_mod = max(1, ((char.get("wisdom", 10) - 10) // 2) if caster_class in ("Cleric", "Druid") else
+                    ((char.get("charisma", 10) - 10) // 2) if caster_class in ("Paladin",) else
+                    ((char.get("intelligence", 10) - 10) // 2))  # Wizard
+
+    # Calculate limits
+    if is_prepared:
+        prep_max = level + sc_mod  # Cleric/Druid/Paladin/Wizard: level + mod
+        if caster_class == "Paladin":
+            prep_max = max(1, (level // 2) + sc_mod)  # Paladin: half level + CHA
+        current_prepared = sum(1 for r in known_rows if r[1] is not None)
+        can_add = max(0, prep_max - current_prepared)
+    else:
+        # Spells known
+        spells_known = _spells_known_for_class(caster_class, level)
+        current_known = sum(1 for r in known_rows if (r[1] or 0) > 0)  # exclude cantrips
+        can_add = max(0, spells_known - current_known)
+
+    if can_add <= 0:
+        db.close()
+        return JSONResponse({"added": 0, "message": "Already at spell limit"})
+
+    # Get available spells (reuse available_spells logic — fetch from SRD)
+    slots = get_spell_slots(caster_class, level)
+    max_spell_level = 0
+    if caster_class == "Warlock":
+        max_spell_level = slots.get("slot_level", 0) if slots else 0
+    elif slots and slots.get("by_level"):
+        max_spell_level = max((int(lvl) for lvl, cnt in slots["by_level"].items() if cnt > 0), default=0)
+
+    # Build candidate pool from SRD
+    pool = []
+    for spell in SRD_SPELLS:
+        name = spell.get("name", "")
+        if not name or name.lower() in known_names:
+            continue
+        classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+        if caster_class.lower() not in classes:
+            continue
+        slvl = int(spell.get("level", 0) or 0)
+        if slvl > 0 and slvl > max_spell_level:
+            continue
+        pool.append({"name": name, "level": slvl, "spell": spell})
+
+    # Score each spell by class-specific priority
+    def _score(spell_name: str, slvl: int, spell: dict) -> int:
+        name_lower = spell_name.lower()
+        score = 0
+        # Class-specific priority lists
+        priorities = CLASS_SPELL_PRIORITIES.get(caster_class, {}).get(slvl, [])
+        if name_lower in [s.lower() for s in priorities]:
+            score += 100
+        elif any(p.lower() in name_lower for p in priorities):
+            score += 50
+
+        # Subclass synergy (domain spells etc.)
+        if subclass and subclass in SUBCLASS_FEATURES:
+            sc_feats = SUBCLASS_FEATURES[subclass]
+            for feat_names in sc_feats.values():
+                for fn in feat_names:
+                    if "spell" in fn.lower():
+                        score += 30
+
+        # General quality heuristics
+        desc = " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else ""
+        if "heal" in desc.lower() or "restore" in desc.lower():
+            score += 15
+        if "damage" in desc.lower() and "d" in desc.lower():
+            score += 10
+        if spell.get("ritual"):
+            score += 20
+
+        return score
+
+    # Score and sort
+    for item in pool:
+        sp = item["spell"]
+        item["score"] = _score(item["name"], item["level"], sp)
+        item["name"] = sp.get("name", "")
+        item["school"] = (sp.get("school") or {}).get("name", "") if isinstance(sp.get("school"), dict) else ""
+
+    # Sort: prioritize spells with scores, then by level (higher first), then alphabetically
+    pool.sort(key=lambda x: (-x["score"], -x["level"], x["name"].lower()))
+
+    # Pick top spells up to limit
+    selected = pool[:can_add]
+
+    # Batch insert
+    added = 0
+    for item in selected:
+        db.execute(
+            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+            (char_id, item["name"], item["level"], 1 if is_prepared else 0, 0, 0))
+        added += 1
+
+    db.commit()
+    db.close()
+
+    names = [s["name"] for s in selected]
+    return JSONResponse({
+        "added": added,
+        "spells": names,
+        "message": f"Added {added} spells for {class_name} L{level}" + (f" ({subclass})" if subclass else ""),
+    })
+
+
+# Class-specific priority spell picks (PHB 2014, curated by tier)
+CLASS_SPELL_PRIORITIES = {
+    "Cleric": {
+        1: ["Bless", "Healing Word", "Guiding Bolt", "Shield of Faith"],
+        2: ["Spiritual Weapon", "Aid", "Lesser Restoration", "Silence"],
+        3: ["Spirit Guardians", "Revivify", "Mass Healing Word"],
+        4: ["Banishment", "Death Ward", "Guardian of Faith"],
+        5: ["Mass Cure Wounds", "Flame Strike", "Greater Restoration"],
+        6: ["Heal", "Harm", "Word of Recall"],
+        7: ["Divine Word", "Fire Storm", "Resurrection"],
+        8: ["Holy Aura", "Antimagic Field"],
+        9: ["Mass Heal", "Gate", "True Resurrection"],
+    },
+    "Wizard": {
+        1: ["Mage Armor", "Shield", "Magic Missile", "Find Familiar", "Detect Magic"],
+        2: ["Misty Step", "Web", "Mirror Image", "Invisibility"],
+        3: ["Fireball", "Counterspell", "Fly", "Haste", "Dispel Magic"],
+        4: ["Polymorph", "Dimension Door", "Greater Invisibility", "Banishment"],
+        5: ["Wall of Force", "Animate Objects", "Cone of Cold"],
+        6: ["Disintegrate", "Chain Lightning", "Globe of Invulnerability"],
+        7: ["Forcecage", "Teleport", "Delayed Blast Fireball"],
+        8: ["Maze", "Demiplane", "Power Word Stun"],
+        9: ["Wish", "Meteor Swarm", "Time Stop", "Prismatic Wall"],
+    },
+    "Druid": {
+        1: ["Entangle", "Goodberry", "Faerie Fire", "Healing Word"],
+        2: ["Spike Growth", "Moonbeam", "Pass Without Trace", "Heat Metal"],
+        3: ["Conjure Animals", "Call Lightning", "Plant Growth"],
+        4: ["Conjure Woodland Beings", "Ice Storm", "Polymorph"],
+        5: ["Wall of Stone", "Mass Cure Wounds", "Awaken"],
+        6: ["Heal", "Sunbeam", "Transport via Plants"],
+        7: ["Fire Storm", "Reverse Gravity"],
+        8: ["Feeblemind", "Sunburst"],
+        9: ["Shapechange", "Storm of Vengeance"],
+    },
+    "Bard": {
+        1: ["Healing Word", "Dissonant Whispers", "Faerie Fire", "Tasha's Hideous Laughter"],
+        2: ["Suggestion", "Invisibility", "Shatter"],
+        3: ["Hypnotic Pattern", "Dispel Magic", "Slow"],
+        4: ["Polymorph", "Dimension Door", "Greater Invisibility"],
+        5: ["Animate Objects", "Hold Monster", "Mass Cure Wounds"],
+        6: ["Otto's Irresistible Dance", "Mass Suggestion"],
+        7: ["Forcecage", "Teleport"],
+        8: ["Dominate Monster", "Power Word Stun"],
+        9: ["Foresight", "True Polymorph"],
+    },
+    "Sorcerer": {
+        1: ["Shield", "Magic Missile", "Burning Hands"],
+        2: ["Scorching Ray", "Misty Step", "Mirror Image"],
+        3: ["Fireball", "Haste", "Counterspell", "Fly"],
+        4: ["Polymorph", "Dimension Door", "Greater Invisibility"],
+        5: ["Cone of Cold", "Animate Objects"],
+        6: ["Chain Lightning", "Disintegrate"],
+        7: ["Delayed Blast Fireball", "Reverse Gravity"],
+        8: ["Sunburst", "Power Word Stun"],
+        9: ["Wish", "Meteor Swarm"],
+    },
+    "Warlock": {
+        1: ["Hex", "Armor of Agathys", "Hellish Rebuke"],
+        2: ["Misty Step", "Darkness", "Hold Person"],
+        3: ["Fireball", "Counterspell", "Fly", "Hunger of Hadar"],
+        4: ["Dimension Door", "Banishment", "Shadow of Moil"],
+        5: ["Synaptic Static", "Hold Monster"],
+    },
+    "Paladin": {
+        1: ["Bless", "Shield of Faith", "Divine Favor", "Cure Wounds"],
+        2: ["Find Steed", "Aid", "Lesser Restoration"],
+        3: ["Aura of Vitality", "Revivify", "Crusader's Mantle"],
+        4: ["Find Greater Steed", "Death Ward", "Aura of Life"],
+        5: ["Destructive Wave", "Banishing Smite", "Raise Dead"],
+    },
+    "Ranger": {
+        1: ["Hunter's Mark", "Goodberry", "Absorb Elements", "Hail of Thorns"],
+        2: ["Pass Without Trace", "Spike Growth", "Silence"],
+        3: ["Conjure Animals", "Lightning Arrow", "Plant Growth"],
+        4: ["Guardian of Nature", "Conjure Woodland Beings"],
+        5: ["Swift Quiver", "Steel Wind Strike"],
+    },
+}
+
+def _spells_known_for_class(class_name: str, level: int) -> int:
+    """PHB 2014 spells known progression."""
+    known = {
+        "Bard":    {1:4,2:5,3:6,4:7,5:8,6:9,7:10,8:11,9:12,10:14,11:15,12:15,13:16,14:18,15:19,16:19,17:20,18:22,19:22,20:22},
+        "Sorcerer":{1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9,9:10,10:11,11:12,12:12,13:13,14:13,15:14,16:14,17:15,18:15,19:15,20:15},
+        "Warlock": {1:2,2:3,3:4,4:5,5:6,6:7,7:8,8:9,9:10,10:10,11:11,12:11,13:12,14:12,15:13,16:13,17:14,18:14,19:15,20:15},
+        "Ranger":  {2:2,3:3,4:3,5:4,6:4,7:5,8:5,9:6,10:6,11:7,12:7,13:8,14:8,15:9,16:9,17:10,18:10,19:11,20:11},
+    }
+    return known.get(class_name, {}).get(level, 0)
+
+
 @app.post("/api/character/{char_id}/toggle-prepared", response_class=JSONResponse)
 async def toggle_prepared(char_id: int, request: Request):
     user = require_user(request)

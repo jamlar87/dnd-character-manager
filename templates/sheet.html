@@ -1331,6 +1331,9 @@
           <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
         </div>
+        <div style="text-align:center;margin-top:0.75rem;padding-top:0.5rem;border-top:1px solid var(--border)">
+          <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="width:100%">🤖 AI Assist — Auto-Select All Spells</button>
+        </div>
       </div>
     </div>
 <!-- 📜 HISTORY & RELATIONSHIPS TAB -->
@@ -2164,6 +2167,25 @@ async function addSpell() {
     method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
   });
   if (r.ok) location.reload();
+}
+
+async function aiSelectSpells() {
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '🤖 Selecting spells...';
+  try {
+    const r = await fetch('/api/character/' + CHAR_ID + '/ai-spells', { method: 'POST' });
+    const data = await r.json();
+    if (data.added > 0) {
+      location.reload();
+    } else {
+      btn.textContent = data.message || '🤖 No spells to add';
+      setTimeout(() => { btn.textContent = '🤖 AI Assist — Auto-Select All Spells'; btn.disabled = false; }, 2000);
+    }
+  } catch(e) {
+    btn.textContent = '🤖 Error — try again';
+    btn.disabled = false;
+  }
 }
 
 // ── Toggle Prepared Spell ──
