@@ -3785,6 +3785,9 @@ async function openLevelUpDirect(targetNum) {
   luSteps.push({label: 'HP', render: renderLuHP});
   if (luData.asi) luSteps.push({label: 'ASI/Feat', render: renderLuASI});
   if (luData.subclass) luSteps.push({label: luData.subclass.label, render: renderLuSubclass});
+  if (luData.subclass_bonus_map && Object.keys(luData.subclass_bonus_map).length > 0) {
+    luSteps.push({label: 'Bonuses', render: renderLuSubclassBonus});
+  }
   if (luData.spells) luSteps.push({label: 'Spells', render: renderLuSpells});
   luSteps.push({label: 'Confirm', render: renderLuConfirm});
   
@@ -4046,6 +4049,52 @@ function renderLuSubclass(el) {
   el.innerHTML = html;
 }
 
+function renderLuSubclassBonus(el) {
+  const chosen = luChoices.subclass;
+  const bonus = chosen && luData.subclass_bonus_map ? luData.subclass_bonus_map[chosen] : null;
+  
+  if (!bonus) {
+    el.innerHTML = `<div><p style="color:var(--text-muted)">No bonus proficiencies for this subclass.</p></div>`;
+    return;
+  }
+  
+  if (!luChoices.subclass_bonus) luChoices.subclass_bonus = [];
+  const selected = luChoices.subclass_bonus;
+  
+  let html = `<div>
+    <p style="font-weight:600;margin-bottom:0.5rem">${bonus.label}</p>
+    <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem">Pick ${bonus.count} ${bonus.type === 'skills' ? 'skill proficiencies' : 'languages'}.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem">`;
+  
+  bonus.options.forEach(opt => {
+    const isSel = selected.includes(opt);
+    const atMax = selected.length >= bonus.count && !isSel;
+    html += `<label style="display:inline-block;padding:0.3rem 0.6rem;background:${isSel ? 'var(--accent2)' : 'var(--bg)'};border:1px solid var(--border);border-radius:4px;font-size:0.8rem;cursor:${atMax ? 'not-allowed' : 'pointer'};opacity:${atMax ? '0.5' : '1'}"
+      onclick="event.preventDefault();toggleLuBonus(this,${bonus.count})" data-opt="${opt}">
+      ${isSel ? '✅ ' : ''}${opt}
+    </label>`;
+  });
+  
+  html += `</div>
+    <p style="font-size:0.75rem;color:var(--text-muted)">Selected: ${selected.length}/${bonus.count}</p>
+  </div>`;
+  el.innerHTML = html;
+}
+
+function toggleLuBonus(el, max) {
+  const opt = el.getAttribute('data-opt');
+  if (!opt) return;
+  if (!luChoices.subclass_bonus) luChoices.subclass_bonus = [];
+  const idx = luChoices.subclass_bonus.indexOf(opt);
+  if (idx >= 0) {
+    luChoices.subclass_bonus.splice(idx, 1);
+  } else if (luChoices.subclass_bonus.length < max) {
+    luChoices.subclass_bonus.push(opt);
+  }
+  // Re-render current step
+  renderLevelUpStep();
+}
+
 function renderLuSpells(el) {
   const s = luData.spells;
   const needSpells = s.spells_known_change || 0;
@@ -4229,6 +4278,9 @@ function renderLuConfirm(el) {
   }
   if (luChoices.subclass) {
     html += `<p><strong>Subclass:</strong> ${luChoices.subclass}</p>`;
+  }
+  if (luChoices.subclass_bonus && luChoices.subclass_bonus.length) {
+    html += `<p><strong>Bonus Proficiencies:</strong> ${luChoices.subclass_bonus.join(', ')}</p>`;
   }
   if (luChoices.asi) {
     if (typeof luChoices.asi === 'string' && luChoices.asi.startsWith('feat:')) {

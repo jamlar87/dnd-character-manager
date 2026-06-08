@@ -1224,6 +1224,10 @@ SKILL_ABILITIES = {
 
 ALL_SKILLS = sorted(SKILL_ABILITIES.keys())
 
+# PHB standard languages (p.123)
+LANGUAGES = ["Common", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc",
+             "Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan", "Undercommon"]
+
 BACKGROUNDS = ["Acolyte","Charlatan","Criminal","Entertainer","Folk Hero","Guild Artisan","Hermit","Noble","Outlander","Sage","Sailor","Soldier","Urchin","Custom"]
 BACKGROUND_INFO = {
     "Acolyte":       "You served in a temple. Skill Proficiencies: Insight, Religion. Languages: Two of your choice. Equipment: Holy symbol, prayer book, 5 sticks of incense, vestments, common clothes, 15 gp. Feature: Shelter of the Faithful.",
@@ -4891,6 +4895,24 @@ async def level_up_info(char_id: int, request: Request):
             "descriptions": {opt: descs.get(opt, "") for opt in sc["options"]},
         }
     
+    # Map of subclass → bonus proficiency picker info
+    subclass_bonus_map = {}
+    for sc_name, sc_profs in SUBCLASS_PROFICIENCIES.items():
+        if "skill_profs" in sc_profs and sc_profs["skill_profs"] == []:
+            subclass_bonus_map[sc_name] = {
+                "type": "skills",
+                "count": 3 if "Lore" in sc_name else 2,
+                "label": "Bonus Proficiencies",
+                "options": ALL_SKILLS,
+            }
+        if "languages" in sc_profs:
+            subclass_bonus_map[sc_name] = {
+                "type": "languages",
+                "count": sc_profs["languages"],
+                "label": "Bonus Languages",
+                "options": LANGUAGES,
+            }
+    
     # Proficiency bonus
     old_pb = PROFICIENCY_BONUS.get(current_level, 2)
     new_pb = PROFICIENCY_BONUS.get(target_level, 2)
@@ -4935,6 +4957,7 @@ async def level_up_info(char_id: int, request: Request):
         "asi_info": asi_infos,
         "feats": feats_available,
         "subclass": subclass_info,
+        "subclass_bonus_map": subclass_bonus_map,
         "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": old_pb != new_pb},
         "spells": spell_info,
         "has_subclass": bool(char.get("subclass")),
@@ -5113,6 +5136,24 @@ async def apply_level_up(char_id: int, request: Request):
                     current.append(v)
                     updates[col] = json.dumps(current)
                     changes.append(f"Proficiency: {v}")
+        # Handle chosen bonus proficiencies (skills/languages from picker)
+        bonus_choices = data.get("subclass_bonus", [])
+        if bonus_choices:
+            bonus_map = SUBCLASS_PROFICIENCIES.get(subclass_choice, {})
+            if "skill_profs" in bonus_map:
+                current_skills = json.loads(char.get("skills", "[]"))
+                for v in bonus_choices:
+                    if v not in current_skills:
+                        current_skills.append(v)
+                updates["skills"] = json.dumps(current_skills)
+                changes.append(f"Skills: {', '.join(bonus_choices)}")
+            if "languages" in bonus_map:
+                current_langs = json.loads(char.get("languages", "[]"))
+                for v in bonus_choices:
+                    if v not in current_langs:
+                        current_langs.append(v)
+                updates["languages"] = json.dumps(current_langs)
+                changes.append(f"Languages: {', '.join(bonus_choices)}")
     
     # Update class_levels
     new_cl = dict(cl)
@@ -5719,7 +5760,7 @@ SUBCLASS_PROFICIENCIES = {
     "War Domain": {"armor_profs": ["Heavy armor"]},
     "College of Valor": {"armor_profs": ["Medium armor", "Shields"], "weapon_profs": ["Martial weapons"]},
     "College of Lore": {"skill_profs": []},
-    "Knowledge Domain": {"skill_profs": []},
+    "Knowledge Domain": {"skill_profs": [], "languages": 2},
     "Assassin": {"tool_profs": ["Disguise kit", "Poisoner's kit"]},
 }
 
