@@ -1132,7 +1132,7 @@ function addCreatureToEncounter(encId, creatureIndex) {
       hp: c.hp_current, hp_max: c.hp_max, ac: c.ac,
       is_enemy: c.is_enemy || 0, role: c.role || '',
       xp_reward: c.xp_reward || 0,
-      _monster_index: c._raw?.index || c.id || ''
+      _monster_index: c.id || c._raw?.index || ''
     })
   }).then(r => r.json()).then(() => openEncounter(encId));
 }
@@ -2322,10 +2322,23 @@ async function loadCombatEncounter() {
     _combatTurnIdx = d.turn_index || 0;
     _combatOrder = d.initiative_order || [];
     _savedBenchedEnIds = d.benched_en_ids || [];
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; }
+    _savedPlayerParticipants = d.player_participants || [];
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; }
 
   // Load participants from encounter
   await refreshCombatParticipants();
+
+  // Restore player characters from saved state
+  for (const pp of _savedPlayerParticipants) {
+    if (!_combatParticipants.find(p => p.en_id === pp.en_id)) {
+      _combatParticipants.push({...pp, is_player: true, is_enemy: 0, role: '', roll: pp.initiative});
+    }
+  }
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+  renderInitiativeTrack();
 
   // Restore benched state: move benched participants out of the track
   if (_savedBenchedEnIds.length > 0) {
@@ -3145,12 +3158,19 @@ async function addNpcToCombat() {
 // ── Save combat state ──
 function saveCombatState() {
   if (!_combatEncId) return;
+  const players = _combatParticipants.filter(p => p.is_player).map(p => ({
+    en_id: p.en_id, char_id: p.char_id, name: p.name, race: p.race || '',
+    class_name: p.class_name || '', level: p.level || 1, ac: p.ac || 10,
+    hp_current: p.hp_current, hp_max: p.hp_max, defeated: p.defeated || 0,
+    initiative: p.initiative || 0, dex_mod: p.dex_mod || 0
+  }));
   fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
       action: 'save', round: _combatRound, turn_index: _combatTurnIdx,
       initiative_order: _combatOrder,
-      benched_en_ids: _benchedNpcs.map(p => p.en_id)
+      benched_en_ids: _benchedNpcs.map(p => p.en_id),
+      player_participants: players
     })
   }).catch(() => {});
 }
