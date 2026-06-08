@@ -259,11 +259,19 @@ def load_manual_data():
         sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
         print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
 
-    # ── Spells ── append to SRD_SPELLS
+    # ── Spells ── append to SRD_SPELLS (normalize classes/school to dict format)
     manual_spells = _load_manual_json("spells.json")
     existing_spell_names = {s.get("name", "").lower() for s in SRD_SPELLS}
     for spell in manual_spells:
         if spell.get("name", "").lower() not in existing_spell_names:
+            # Normalize classes: strings → {name: ...} dicts matching SRD format
+            raw_classes = spell.get("classes", [])
+            if raw_classes and isinstance(raw_classes[0], str):
+                spell["classes"] = [{"name": c, "index": c.lower().replace(" ", "-")} for c in raw_classes]
+            # Normalize school: string → {name: ...} dict
+            school = spell.get("school")
+            if isinstance(school, str):
+                spell["school"] = {"name": school}
             SRD_SPELLS.append(spell)
             existing_spell_names.add(spell["name"].lower())
     if manual_spells:
@@ -1653,7 +1661,8 @@ async def create_character_page(request: Request):
         races=RACES, subasis=SUBASIS, classes=CLASSES,
         all_skills=ALL_SKILLS, skill_abilities=SKILL_ABILITIES,
         backgrounds=BACKGROUNDS, alignments=ALIGNMENTS,
-        draconic_ancestries=DRACONIC_ANCESTRIES)
+        draconic_ancestries=DRACONIC_ANCESTRIES,
+        race_names=RACE_NAMES)
 
 @app.post("/api/character/create", response_class=JSONResponse)
 async def api_create_character(request: Request):
@@ -1884,7 +1893,7 @@ async def api_create_character(request: Request):
 @app.get("/api/spells/starting", response_class=JSONResponse)
 async def starting_spells(request: Request, class_name: str = "", level: int = 1):
     """Return L1+spells available to a class at a given level. Public — no auth needed."""
-    if class_name not in SPELLS_KNOWN_CASTERS:
+    if class_name not in SPELLS_KNOWN_CASTERS and class_name not in PREPARED_CASTERS:
         return JSONResponse([])
     level = max(1, min(level, 20))
     max_slot = 0
@@ -5681,6 +5690,19 @@ RACE_NAMES = {
         "clan": ["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary","Anguish","Beauty","Chaos","Darkness","Ecstasy","Fury","Grief","Harmony","Infinity","Justice","Knowledge","Liberty","Madness","Nightmare","Oblivion","Pain","Quest","Ruin","Silence","Twilight","Vengeance","Whimsy"]
     },
 }
+
+# Extend RACE_NAMES with expanded data covering all ingested races
+# Loads from data/race_names.json; graceful fallback if file is missing.
+_expanded_path = DATA_DIR / "race_names.json"
+if _expanded_path.exists():
+    try:
+        with open(_expanded_path) as f:
+            _expanded = json.load(f)
+        for race_key, names in _expanded.items():
+            if race_key not in RACE_NAMES:
+                RACE_NAMES[race_key] = names
+    except (json.JSONDecodeError, OSError):
+        pass  # Keep existing RACE_NAMES as-is
 
 STARTING_EQUIPMENT = {
     "Barbarian": ["Greataxe", "2 Handaxes", "Explorer's Pack", "4 Javelins"],
