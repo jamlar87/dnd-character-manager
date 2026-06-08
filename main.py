@@ -5083,8 +5083,9 @@ async def level_up_info(char_id: int, request: Request):
     feats_available = []
     for key, feat in FEATS.items():
         feats_available.append({
-            "key": key, "name": feat["name"], "desc": feat["desc"],
-            "asi": feat.get("asi"), "prereq": feat.get("prereq"),
+            "key": key, "name": feat["name"],
+            "desc": feat.get("desc") or feat.get("description", ""),
+            "asi": feat.get("asi"), "prereq": feat.get("prereq") or feat.get("prerequisite"),
         })
     
     # Subclass
