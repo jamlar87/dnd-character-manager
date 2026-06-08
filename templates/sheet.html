@@ -4077,7 +4077,11 @@ function renderLuSpells(el) {
       ${selected.length}/${totalNeeded} selected
     </p>`;
   } else {
-    html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">No new spells this level. Add specific spells on the Spells tab after leveling up.</p>`;
+    if (['Cleric','Druid','Paladin','Wizard'].includes(s.class_name)) {
+      html += `<p style="font-size:0.85rem;color:var(--success);margin-top:1rem">Your spellbook will be automatically updated with new spells from your class list. Prepare your daily spells on the Spells tab.</p>`;
+    } else {
+      html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">No new spells this level.</p>`;
+    }
   }
   
   html += `</div>`;

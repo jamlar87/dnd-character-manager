@@ -1673,6 +1673,31 @@ async def api_create_character(request: Request):
                 (char_id, sp.get("name", ""), sp.get("level", 0), 0, 0, 0))
         db.commit()
     
+    # Prepared casters: auto-populate entire class spell list
+    if class_name in PREPARED_CASTERS:
+        slots = get_spell_slots(class_name, level)
+        max_slot = 0
+        if slots and slots.get("by_level"):
+            max_slot = max((int(lvl) for lvl, cnt in slots["by_level"].items() if cnt > 0), default=0)
+        added = 0
+        seen = set()
+        for spell in SRD_SPELLS:
+            name = spell.get("name", "")
+            if not name or name.lower() in seen:
+                continue
+            seen.add(name.lower())
+            sp_level = spell.get("level", 0)
+            if sp_level < 1 or sp_level > max_slot:
+                continue  # Cantrips handled separately; only L1+ auto-loaded
+            classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+            if class_name.lower() not in classes:
+                continue
+            db.execute(
+                "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+                (char_id, name, sp_level, 0, 0, 0))
+            added += 1
+        db.commit()
+    
     db.close()
     return JSONResponse({"id": char_id, "name": name})
 
@@ -5115,6 +5140,41 @@ async def apply_level_up(char_id: int, request: Request):
         # Enrich with SRD data for the changes log
         spell_names = [sp.get("name", "") for sp in spell_choices]
         changes.append(f"Spells: {', '.join(spell_names)}")
+    
+    # Prepared casters: auto-add newly available class spells from higher slots
+    if class_to_level in PREPARED_CASTERS:
+        old_slots_data = get_spell_slots(class_to_level, old_total)
+        new_slots_data = get_spell_slots(class_to_level, target_level)
+        old_max = 0
+        new_max = 0
+        if old_slots_data and old_slots_data.get("by_level"):
+            old_max = max((int(lvl) for lvl, cnt in old_slots_data["by_level"].items() if cnt > 0), default=0)
+        if new_slots_data and new_slots_data.get("by_level"):
+            new_max = max((int(lvl) for lvl, cnt in new_slots_data["by_level"].items() if cnt > 0), default=0)
+        if new_max > old_max:
+            # Get already-known spell names
+            known = {r[0].lower() for r in db.execute(
+                "SELECT spell_name FROM character_spells WHERE character_id = ?", (char_id,)
+            ).fetchall()}
+            added = 0
+            seen = set()
+            for spell in SRD_SPELLS:
+                name = spell.get("name", "")
+                if not name or name.lower() in seen or name.lower() in known:
+                    continue
+                seen.add(name.lower())
+                sp_level = spell.get("level", 0)
+                if sp_level < 1 or sp_level > new_max:
+                    continue
+                classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+                if class_to_level.lower() not in classes:
+                    continue
+                db.execute(
+                    "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+                    (char_id, name, sp_level, 0, 0, 0))
+                added += 1
+            if added:
+                changes.append(f"Spellbook: +{added} new spells (up to L{new_max})")
     
     # Hit dice — per class (e.g. "3d10 + 2d8")
     hd_parts = []
