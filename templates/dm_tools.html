@@ -2850,36 +2850,69 @@ async function toggleDefeatedCombat(enId) {
   saveCombatState();
 }
 
-// ── Quick detail popup for NPCs/monsters in combat ──
+// ── Full creature/NPC detail popup for combat cards ──
 async function showCombatantDetails(enId) {
+  console.log('showCombatantDetails called with enId:', enId);
   const p = _combatParticipants.find(p => p.en_id === enId);
-  if (!p) return;
+  if (!p) { console.warn('Participant not found for enId:', enId, '_combatParticipants:', _combatParticipants); return; }
+  console.log('Participant:', {en_id: p.en_id, name: p.name, npc_id: p.npc_id, is_player: p.is_player, has_creature_data: !!p.creature_data});
+  
   // For real NPCs, open the full NPC editor
-  if (p.npc_id && p.npc_id > 0) { editNpc(p.npc_id); return; }
+  if (p.npc_id && p.npc_id > 0) { console.log('Opening NPC editor for npc_id:', p.npc_id); editNpc(p.npc_id); return; }
 
   // Try to get the full SRD monster card
   let monsterIndex = null;
+  let creatureName = p.name || '';
   if (p.creature_data) {
     try {
       const cd = typeof p.creature_data === 'string' ? JSON.parse(p.creature_data) : p.creature_data;
       monsterIndex = cd._monster_index || '';
-    } catch(e) {}
+      if (!creatureName && cd.name) creatureName = cd.name;
+      console.log('Parsed creature_data:', {monsterIndex, name: cd.name});
+    } catch(e) { console.warn('Failed to parse creature_data:', e); }
   }
 
+  // Try SRD fetch by monster index
   if (monsterIndex && monsterIndex.startsWith('m_')) {
-    // It's a monster — fetch full SRD data
-    const srdIndex = monsterIndex.slice(2); // remove "m_" prefix
+    const srdIndex = monsterIndex.slice(2);
+    console.log('Fetching SRD monster:', srdIndex);
     try {
       const r = await fetch(`/api/dm/monster/${srdIndex}`);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const monster = await r.json();
       if (monster && monster.name) {
+        console.log('Got SRD monster:', monster.name);
         showFullMonsterCard(monster, p);
         return;
       }
-    } catch(e) { /* fall through to basic view */ }
+      console.warn('SRD response had no name:', monster);
+    } catch(e) { console.warn('SRD fetch failed:', e); }
+  } else if (creatureName) {
+    // Fallback: try name-based SRD lookup via the monster list
+    console.log('No m_ index, trying name lookup for:', creatureName);
+    try {
+      const r = await fetch(`/api/dm/monsters/search?q=${encodeURIComponent(creatureName)}`);
+      if (r.ok) {
+        const d = await r.json();
+        const match = (d.monsters || []).find(m => m.name.toLowerCase() === creatureName.toLowerCase());
+        if (match && match.index) {
+          console.log('Found by name:', match.name, 'index:', match.index);
+          // Fetch full detail by index
+          const r2 = await fetch(`/api/dm/monster/${match.index}`);
+          if (r2.ok) {
+            const full = await r2.json();
+            if (full && full.name) {
+              showFullMonsterCard(full, p);
+              return;
+            }
+          }
+        }
+      }
+    } catch(e) { console.warn('Name search failed:', e); }
   }
 
   // Fallback: basic stat popup for creature-only entries
+  console.log('Showing basic stat popup for:', p.name);
   const isEnemy = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.65rem">ENEMY</span>'
     : '<span class="badge badge-muted" style="font-size:0.65rem">ALLY</span>';
   const hpPct = p.hp_max > 0 ? Math.round(p.hp_current / p.hp_max * 100) : 0;
