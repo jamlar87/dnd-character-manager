@@ -24,6 +24,17 @@ import json, os, re, sys, time, hashlib, urllib.request, urllib.error
 from pathlib import Path
 from typing import Any
 
+# ── Force line-buffered output (prevents stall with pipe-based runners) ──────
+# Without this, Hermes's process manager can't see output until the buffer fills
+# (8KB+), making long extraction runs appear hung. Log file is a fallback.
+try:
+    sys.stdout.reconfigure(line_buffering=True)   # Python 3.7+
+except Exception:
+    try:
+        sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 1)  # line-buffered
+    except Exception:
+        pass  # Last resort: callers should use PYTHONUNBUFFERED=1 or redirect
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Config
 # ═══════════════════════════════════════════════════════════════════════════════
