@@ -2424,6 +2424,7 @@ async function loadCombatCampaign() {
   } catch(e) {}
 
   renderPlayersPanel();
+  saveCombatState();  // persist campaign link immediately
 }
 
 function renderPlayersPanel() {
