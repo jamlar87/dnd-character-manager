@@ -2303,6 +2303,10 @@ async function initCombatPanel() {
 async function loadCombatEncounter() {
   const sel = document.getElementById('combatEncounterSelect');
   _combatEncId = sel.value ? parseInt(sel.value) : null;
+  // Persist selection so page reload auto-restores
+  if (_combatEncId) {
+    try { localStorage.setItem('combatLastEncounterId', _combatEncId); } catch(e) {}
+  }
   if (!_combatEncId && !_combatCampId) {
     document.getElementById('combatTracker').style.display = 'none';
     return;
@@ -2340,10 +2344,20 @@ async function loadCombatEncounter() {
     _combatOrder = d.initiative_order || [];
     _savedBenchedEnIds = d.benched_en_ids || [];
     _savedPlayerParticipants = d.player_participants || [];
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; }
+    _savedCampaignId = d.campaign_id || null;
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; _savedCampaignId = null; }
 
   // Load participants from encounter
   await refreshCombatParticipants();
+
+  // Auto-select linked campaign so players can be restored
+  if (_savedCampaignId) {
+    const campSel = document.getElementById('combatCampaignSelect');
+    if (campSel && campSel.value != _savedCampaignId) {
+      campSel.value = _savedCampaignId;
+      await loadCombatCampaign();
+    }
+  }
 
   // Restore player characters from saved state
   for (const pp of _savedPlayerParticipants) {
@@ -3264,7 +3278,8 @@ function saveCombatState() {
       action: 'save', round: _combatRound, turn_index: _combatTurnIdx,
       initiative_order: _combatOrder,
       benched_en_ids: _benchedNpcs.map(p => p.en_id),
-      player_participants: players
+      player_participants: players,
+      campaign_id: _combatCampId || null
     })
   }).catch(() => {});
 }
@@ -3355,6 +3370,23 @@ document.addEventListener('click', function(e) {
   const input = document.getElementById('manualSearchInput');
   if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== input) {
     resultsDiv.style.display = 'none';
+  }
+});
+
+// ── Page load: auto-restore last combat encounter + campaign ──
+document.addEventListener('DOMContentLoaded', async function() {
+  let lastEncId = null;
+  try { lastEncId = localStorage.getItem('combatLastEncounterId'); } catch(e) {}
+  if (lastEncId) {
+    const sel = document.getElementById('combatEncounterSelect');
+    if (sel) {
+      // Check if the option still exists
+      const opt = sel.querySelector(`option[value="${lastEncId}"]`);
+      if (opt) {
+        sel.value = lastEncId;
+        await loadCombatEncounter();
+      }
+    }
   }
 });
 </script>
