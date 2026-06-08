@@ -2319,17 +2319,34 @@ async function loadCombatEncounter() {
     document.getElementById('combatStatus').textContent = '';
   }
 
-  // Always auto-load the linked campaign when encounter is selected
-  if (_combatEncId) {
-    let linkedCampId = null;
-    try { linkedCampId = localStorage.getItem('combatEncounterCampaign_' + _combatEncId); } catch(e) {}
+  // Load combat state first — needed for campaign link + player restore
+  try {
+    const r = await fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({action:'load'})
+    });
+    const d = await r.json();
+    _combatRound = d.round || 1;
+    _combatTurnIdx = d.turn_index || 0;
+    _combatOrder = d.initiative_order || [];
+    _savedBenchedEnIds = d.benched_en_ids || [];
+    _savedPlayerParticipants = d.player_participants || [];
+    _savedCampaignId = d.campaign_id || null;
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; _savedCampaignId = null; }
+
+  // Auto-load linked campaign (localStorage first, combat_state fallback)
+  let linkedCampId = null;
+  try { linkedCampId = localStorage.getItem('combatEncounterCampaign_' + _combatEncId); } catch(e) {}
+  if (!linkedCampId && _savedCampaignId) {
+    linkedCampId = _savedCampaignId;
+    try { localStorage.setItem('combatEncounterCampaign_' + _combatEncId, _savedCampaignId); } catch(e) {}
+  }
+  if (linkedCampId) {
     const campSel = document.getElementById('combatCampaignSelect');
-    if (linkedCampId && campSel) {
-      const opt = campSel.querySelector('option[value="' + linkedCampId + '"]');
-      if (opt && campSel.value != linkedCampId) {
-        campSel.value = linkedCampId;
-        await loadCombatCampaign();
-      }
+    const opt = campSel && campSel.querySelector('option[value="' + linkedCampId + '"]');
+    if (opt) {
+      campSel.value = linkedCampId;
+      await loadCombatCampaign();
     }
   }
 
@@ -2345,20 +2362,6 @@ async function loadCombatEncounter() {
       addSel.appendChild(opt);
     });
   } catch(e) {}
-
-  // Load existing combat state
-  try {
-    const r = await fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({action:'load'})
-    });
-    const d = await r.json();
-    _combatRound = d.round || 1;
-    _combatTurnIdx = d.turn_index || 0;
-    _combatOrder = d.initiative_order || [];
-    _savedBenchedEnIds = d.benched_en_ids || [];
-    _savedPlayerParticipants = d.player_participants || [];
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; }
 
   // Load participants from encounter
   await refreshCombatParticipants();
