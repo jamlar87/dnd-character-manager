@@ -2319,6 +2319,20 @@ async function loadCombatEncounter() {
     document.getElementById('combatStatus').textContent = '';
   }
 
+  // Always auto-load the linked campaign when encounter is selected
+  if (_combatEncId) {
+    let linkedCampId = null;
+    try { linkedCampId = localStorage.getItem('combatEncounterCampaign_' + _combatEncId); } catch(e) {}
+    const campSel = document.getElementById('combatCampaignSelect');
+    if (linkedCampId && campSel) {
+      const opt = campSel.querySelector('option[value="' + linkedCampId + '"]');
+      if (opt && campSel.value != linkedCampId) {
+        campSel.value = linkedCampId;
+        await loadCombatCampaign();
+      }
+    }
+  }
+
   // Also populate NPC dropdown
   try {
     const nr = await fetch('/api/dm/npcs');
@@ -2344,20 +2358,10 @@ async function loadCombatEncounter() {
     _combatOrder = d.initiative_order || [];
     _savedBenchedEnIds = d.benched_en_ids || [];
     _savedPlayerParticipants = d.player_participants || [];
-    _savedCampaignId = d.campaign_id || null;
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; _savedCampaignId = null; }
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; }
 
   // Load participants from encounter
   await refreshCombatParticipants();
-
-  // Auto-select linked campaign so players can be restored
-  if (_savedCampaignId) {
-    const campSel = document.getElementById('combatCampaignSelect');
-    if (campSel && campSel.value != _savedCampaignId) {
-      campSel.value = _savedCampaignId;
-      await loadCombatCampaign();
-    }
-  }
 
   // Restore player characters from saved state
   for (const pp of _savedPlayerParticipants) {
@@ -2424,7 +2428,11 @@ async function loadCombatCampaign() {
   } catch(e) {}
 
   renderPlayersPanel();
-  saveCombatState();  // persist campaign link immediately
+  // Persist encounter→campaign link so encounter auto-loads this campaign
+  if (_combatEncId && _combatCampId) {
+    try { localStorage.setItem('combatEncounterCampaign_' + _combatEncId, _combatCampId); } catch(e) {}
+  }
+  saveCombatState();
 }
 
 function renderPlayersPanel() {
