@@ -3910,11 +3910,17 @@ async function claimFromTeam(itemId, itemName) {
   try {
     const r = await fetch(`/api/campaign/${CAMPAIGN_ID}/team-items/${itemId}/claim`, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({character_id: CHAR_ID})
+      body: JSON.stringify({character_id: CHAR_ID}),
+      credentials: 'same-origin'
     });
     const d = await r.json();
-    if (d.ok) { loadTeamItems(); renderInventory(); reloadCp(); }
-    else alert(d.error || 'Failed to claim');
+    if (d.ok) {
+      try { loadTeamItems(); } catch(e) {}
+      try { renderInventory(); } catch(e) {}
+      try { reloadCp(); } catch(e) {}
+    } else {
+      alert(d.error || 'Failed to claim');
+    }
   } catch(e) { alert('Failed to claim item'); }
 }
 
@@ -3935,11 +3941,10 @@ async function shareToTeam(name, qty) {
 // ── CP Tracker ──
 async function reloadCp() {
   try {
-    const r = await fetch(`/api/character/${CHAR_ID}/cp`);
+    const r = await fetch(`/api/character/${CHAR_ID}/cp`, {credentials: 'same-origin'});
     const d = await r.json();
-    CHARACTER_CP = d.cp || 0;
-    renderCpDisplay();
-  } catch(e) { /* ignore */ }
+    if (d.cp !== undefined) { CHARACTER_CP = d.cp; renderCpDisplay(); }
+  } catch(e) { /* ignore — non-critical */ }
 }
 
 function renderCpDisplay() {
