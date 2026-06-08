@@ -2374,6 +2374,15 @@ async function loadCombatEncounter() {
     return (b.initiative||0) - (a.initiative||0);
   });
   renderInitiativeTrack();
+  renderPlayersPanel();  // hide players already in initiative from waiting area
+
+  // Restore button state: show Reroll if combat already started
+  if (_combatParticipants.length > 0 && _combatParticipants.some(p => (p.initiative || 0) > 0)) {
+    document.getElementById('btnRollInit').style.display = 'none';
+    document.getElementById('btnRerollInit').style.display = '';
+    document.getElementById('combatStatus').textContent =
+      `🎲 ${_combatParticipants.length} in initiative`;
+  }
 
   // Restore benched state: move benched participants out of the track
   if (_savedBenchedEnIds.length > 0) {
