@@ -344,8 +344,8 @@ def load_manual_data():
                                 pass  # Ingested version is better, will overwrite
                             FEATURE_DESCRIPTIONS[key] = fdesc
                     # Register limited-use subclass features
-                    fuses = feat.get("uses", 0)
-                    frecharge = feat.get("recharge", "")
+                    fuses = feat.get("uses") or 0
+                    frecharge = feat.get("recharge") or ""
                     if fuses > 0 and frecharge:
                         key = fname.lower()
                         if key not in LIMITED_USE:
@@ -5865,7 +5865,7 @@ SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
     "Knowledge Domain": {1: ["Blessings of Knowledge"], 2: ["Channel Divinity: Knowledge of the Ages"], 6: ["Channel Divinity: Read Thoughts"], 8: ["Potent Spellcasting"], 17: ["Visions of the Past"]},
     "Life Domain": {1: ["Disciple of Life"], 2: ["Channel Divinity: Preserve Life"], 6: ["Blessed Healer"], 8: ["Divine Strike"], 17: ["Supreme Healing"]},
     "Light Domain": {1: ["Warding Flare"], 2: ["Channel Divinity: Radiance of the Dawn"], 6: ["Improved Flare"], 8: ["Potent Spellcasting"], 17: ["Corona of Light"]},
-    "Nature Domain": {1: ["Acolyte of Nature"], 2: ["Channel Divinity: Charm Animals and Plants"], 6: ["Dampen Elements"], 8: ["Divine Strike"], 17: ["Master of Nature"]},
+    "Nature Domain": {1: ["Acolyte of Nature", "Bonus Proficiency"], 2: ["Channel Divinity: Charm Animals and Plants"], 6: ["Dampen Elements"], 8: ["Divine Strike"], 17: ["Master of Nature"]},
     "Tempest Domain": {1: ["Wrath of the Storm"], 2: ["Channel Divinity: Destructive Wrath"], 6: ["Thunderbolt Strike"], 8: ["Divine Strike"], 17: ["Stormborn"]},
     "Trickery Domain": {1: ["Blessing of the Trickster"], 2: ["Channel Divinity: Invoke Duplicity"], 6: ["Channel Divinity: Cloak of Shadows"], 8: ["Divine Strike"], 17: ["Improved Duplicity"]},
     "War Domain": {1: ["War Priest"], 2: ["Channel Divinity: Guided Strike"], 6: ["Channel Divinity: War God's Blessing"], 8: ["Divine Strike"], 17: ["Avatar of Battle"]},
@@ -6641,9 +6641,15 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "acolyte of nature":
         "At 1st level, you learn one druid cantrip of your choice. You also gain proficiency in "
         "one of the following skills: Animal Handling, Nature, or Survival.",
+    "bonus proficiency":
+        "At 1st level, you gain proficiency with heavy armor.",
     "dampen elements":
         "At 6th level, when you or a creature within 30 feet takes acid, cold, fire, lightning, "
         "or thunder damage, you can use your reaction to grant resistance to that instance of damage.",
+    "divine strike":
+        "At 8th level, once on each of your turns when you hit a creature with a weapon attack, "
+        "you can cause the attack to deal an extra 1d8 damage of the same type dealt by the weapon "
+        "to the target. At 14th level, the extra damage increases to 2d8.",
     "master of nature":
         "At 17th level, you gain the ability to command animals and plant creatures. As an action, "
         "you can issue a non-hostile command to beasts and plants within 30 feet. Creatures that "
@@ -6735,6 +6741,31 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "improved war magic":
         "At 18th level, when you use your action to cast a spell, you can make one weapon attack "
         "as a bonus action.",
+
+    # ── Monk: Way of the Open Hand (PHB p.79) ──
+    "open hand technique":
+        "At 3rd level, whenever you hit a creature with one of the attacks granted by your Flurry "
+        "of Blows, you can impose one of the following effects on that target: it must succeed on "
+        "a Dexterity saving throw or be knocked prone; it must make a Strength saving throw, and "
+        "if it fails, you can push it up to 15 feet away from you; or it can't take reactions "
+        "until the end of your next turn.",
+    "wholeness of body":
+        "At 6th level, you gain the ability to heal yourself. As an action, you can regain hit "
+        "points equal to three times your monk level. You must finish a long rest before you can "
+        "use this feature again.",
+    "tranquility":
+        "At 11th level, you enter a meditative state that persists until you are incapacitated or "
+        "die. At the end of a long rest, you gain the effect of a Sanctuary spell that lasts until "
+        "the start of your next long rest (it can end early as normal). The spell save DC for the "
+        "effect equals 8 + your Wisdom modifier + your proficiency bonus.",
+    "quivering palm":
+        "At 17th level, you gain the ability to set up lethal vibrations in someone's body. When "
+        "you hit a creature with an unarmed strike, you can spend 3 ki points to start these "
+        "imperceptible vibrations, which last for a number of days equal to your monk level. The "
+        "vibrations are harmless unless you use your action to end them — the creature must then "
+        "make a Constitution saving throw. On a failure, it drops to 0 hit points. On a success, "
+        "it takes 10d10 necrotic damage. You can have only one creature under the effect of this "
+        "feature at a time.",
 
     # ── Monk: Way of Shadow (PHB p.80) ──
     "shadow arts":

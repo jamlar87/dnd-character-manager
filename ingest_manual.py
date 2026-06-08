@@ -88,7 +88,7 @@ VALID_SKILLS = ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Decepti
 
 # Books we should skip for extraction (already in base data via SRD or hardcoded)
 # Still cached for search, just skip LLM extraction
-SKIP_EXTRACTION = {"PHB", "MM"}  # SRD covers these (DMG run manually)
+SKIP_EXTRACTION = {"MM"}  # PHB temporarily enabled for full test run
 
 # Telegram notification (loaded from ~/.hermes/.env if not already exported)
 def _load_telegram_env():
@@ -1475,6 +1475,9 @@ def _normalize_name(name: str) -> str:
     """Normalize for dedup: lowercase, strip parentheticals, normalize dashes,
     strip trailing 's' (singular/plural), remove punctuation."""
     n = name.lower().strip()
+    # Strip leading "the " for dedup: "The Great Old One" ≈ "Great Old One"
+    if n.startswith('the '):
+        n = n[4:]
     # Strip parenthetical content: "Fireball (5th-level)" → "fireball"
     n = re.sub(r'\s*\([^)]*\)', '', n).strip()
     # Normalize dashes to spaces: "Half-Elf" → "half elf"
