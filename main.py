@@ -8590,8 +8590,9 @@ def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict
 
 @app.post("/api/ai/portrait", response_class=JSONResponse)
 async def ai_portrait(request: Request):
-    """Generate a high-fantasy character portrait. Returns image URL.
-    If custom_prompt provided, uses it directly (skips AI generation).
+    """Generate a high-fantasy character portrait prompt, and attempt image generation.
+    Returns prompt immediately; image may be empty if generation is slow/unavailable.
+    If custom_prompt provided, uses it directly.
     If character_id provided, persists the result to the DB."""
     user = require_user(request)
     data = await request.json()
@@ -8607,12 +8608,32 @@ async def ai_portrait(request: Request):
     custom_prompt = (data.get("custom_prompt") or "").strip()
     character_id = data.get("character_id")
 
+    # Build prompt — always use fast deterministic fallback (covers all 38 races)
     if custom_prompt:
-        # User-provided prompt — prepend style + framing directives
         image_prompt = f"Bust portrait, upper body only, 3:4 aspect ratio, close-up composition. High fantasy oil painting, dramatic lighting. {custom_prompt}"
         print(f"[AI portrait] custom_prompt race={race} class={class_name}")
     else:
-        # Class-appropriate attire guidance
+        image_prompt = _fallback_portrait_prompt(race, class_name, subclass)
+        # Kick off background tasks: AI enrichment + image generation (don't block response)
+        asyncio.create_task(_try_generate_image(image_prompt, character_id, user["id"] if character_id else None,
+                                                  race, class_name))
+        print(f"[AI portrait] fallback race={race} class={class_name}")
+
+    # Persist prompt to DB immediately if character_id provided
+    if character_id:
+        db = get_db()
+        db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
+                   ("", image_prompt, character_id, user["id"]))
+        db.commit()
+        db.close()
+
+    return JSONResponse({"prompt": image_prompt, "image_url": ""})
+
+
+async def _try_ai_enrich_prompt(race: str, subrace: str, class_name: str, subclass: str,
+                                 abilities: dict, background: str, alignment: str, skills: list):
+    """Background task: try AI chain to produce richer prompt. Updates nothing — informational only."""
+    try:
         CLASS_ATTIRE = {
             "Barbarian": "bare-chested or animal furs, NO heavy armor, tribal style, muscular and primal",
             "Bard": "flamboyant colorful performer's clothing, stylish but light, musical instrument visible",
@@ -8628,7 +8649,6 @@ async def ai_portrait(request: Request):
             "Wizard": "scholarly robes, NO armor, spellbook or arcane focus, studious appearance",
         }
         attire = CLASS_ATTIRE.get(class_name, "appropriate adventuring attire")
-
         prompt = f"""Describe a D&D 5e character portrait in High Fantasy art style. Oil painting, dramatic lighting.
 
 CRITICAL: This is a BUST portrait — head and upper chest only, no full body. 3:4 portrait aspect ratio, close-up composition, character fills the frame from the top of their head to mid-chest.
@@ -8641,30 +8661,35 @@ Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=la
 Class-appropriate attire: {attire}
 
 Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor visible on upper body, weapon or focus if it fits in frame, pose, expression, lighting, background setting. Remember: BUST ONLY — head to mid-chest, 3:4 ratio, no legs, no full body. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
-
-        TIER_NAMES = ["gemini", "openrouter", "ollama"]
         text = None
-        for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
-            text = await caller(prompt)
-            if text:
-                break
-        print(f"[AI portrait] tier={'AI' if text else 'fallback'} race={race} class={class_name}")
+        for caller in [_call_gemini, _call_openrouter, _call_ollama]:
+            try:
+                text = await caller(prompt)
+                if text:
+                    break
+            except Exception:
+                continue
+        if text:
+            print(f"[AI portrait] AI enrichment succeeded for {race} {class_name}")
+    except Exception as e:
+        print(f"[AI portrait] AI enrichment failed: {e}")
 
-        image_prompt = text.strip() if text else _fallback_portrait_prompt(race, class_name, subclass)
 
-    # Generate image via Stable Horde (free, no API key)
-    image_data = await _fetch_stable_horde_image(image_prompt)
-    print(f"[AI portrait] image {'generated' if image_data else 'failed'} race={race} class={class_name}")
+async def _try_generate_image(prompt: str, character_id, user_id,
+                               race: str, class_name: str):
+    """Background task: try to generate image via Stable Horde. Updates DB on success."""
+    try:
+        image_data = await _fetch_stable_horde_image(prompt, max_wait=90)
+        if image_data and character_id and user_id:
+            db = get_db()
+            db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",
+                       (image_data, character_id, user_id))
+            db.commit()
+            db.close()
+            print(f"[AI portrait] background image saved for char {character_id}")
+    except Exception as e:
+        print(f"[AI portrait] background image generation failed: {e}")
 
-    # Persist to DB if character_id provided
-    if character_id:
-        db = get_db()
-        db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
-                   (image_data or "", image_prompt, character_id, user["id"]))
-        db.commit()
-        db.close()
-
-    return JSONResponse({"prompt": image_prompt, "image_url": image_data or ""})
 
 def _fallback_portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
     """Deterministic portrait prompts by class/race — all bust/upper-body framed."""
@@ -8679,23 +8704,54 @@ def _fallback_portrait_prompt(race: str, class_name: str, subclass: str = "") ->
         ("Human","Fighter"): "Bust portrait, 3:4 aspect ratio. A weathered human fighter with close-cropped dark hair and a faint scar across the cheek. Well-worn scale mail across shoulders, longsword hilt visible at hip-level frame edge. Castle wall stonework behind. Oil painting, late afternoon light.",
         ("Half-Orc","Barbarian"): "Bust portrait, 3:4 aspect ratio. A towering half-orc barbarian with gray-green skin and tribal tattoos across the face and shoulders. Bald head, tusked jaw, fur mantle over bare chest. Massive axe head visible, primal snarl. Stormy sky background. Oil painting, dramatic lighting.",
         ("Tiefling","Warlock"): "Bust portrait, 3:4 aspect ratio. A tiefling warlock with deep purple skin and curved horns sweeping back from the forehead. Eyes glowing with eldritch fire, dark robes with infernal patterns at the collar. A crackling tome held near the chest. Shadowy ruins at midnight. Oil painting, occult atmosphere.",
+        ("Dragonborn","Paladin"): "Bust portrait, 3:4 aspect ratio. A bronze dragonborn paladin with gleaming metallic scales and a prominent draconic snout. Plate armor with a dragon emblem across the chest, sparks of lightning crackling between teeth. Holy symbol grasped near the chest, righteous intensity. Stormlit cathedral behind. Oil painting, dramatic lighting.",
+        ("Dragonborn","Sorcerer"): "Bust portrait, 3:4 aspect ratio. A red dragonborn sorcerer with crimson scales and draconic frills framing the face. Robes shimmering with arcane heat, eyes glowing with inner fire. Hands wreathed in flame near the chest. Volcanic glow behind. Oil painting, high fantasy.",
     }
     key = (race, class_name)
     if key in prompts:
         return prompts[key]
-    # Generic fallback
+    # Generic fallback with comprehensive race features
     race_features = {
-        "Dwarf": "stout build, braided hair or beard",
-        "Elf": "slender build, pointed ears, graceful",
-        "Human": "determined expression, practical",
-        "Half-Orc": "tusked, muscular, gray-green skin",
-        "Halfling": "small stature, curly hair, cheerful",
-        "Gnome": "small, bright-eyed, clever expression",
-        "Tiefling": "horns, tail, otherworldly presence",
-        "Dragonborn": "draconic features, scales, reptilian",
-        "Half-Elf": "slightly pointed ears, mixed heritage beauty",
+        "Dwarf": "stout build, braided hair or beard, rugged dwarven features",
+        "Elf": "slender build, pointed ears, graceful elven features, sharp cheekbones",
+        "Human": "determined expression, practical demeanor, varied appearance",
+        "Half-Orc": "tusked jaw, muscular build, gray-green skin, prominent lower canines",
+        "Halfling": "small stature, curly hair, cheerful round face, pointed ears",
+        "Gnome": "small and bright-eyed, clever expression, prominent nose, delicate features",
+        "Tiefling": "curved horns, pointed tail, violet or red skin tones, solid-color eyes, otherworldly presence",
+        "Dragonborn": "draconic snout and frills, metallic or chromatic scales, reptilian eyes, clawed hands",
+        "Half-Elf": "slightly pointed ears, mixed heritage beauty, human versatility with elven grace",
+        "Aarakocra": "avian features, beak-like nose, feathery crest, large expressive bird-like eyes, taloned hands",
+        "Aasimar": "angelic radiance, luminous eyes, metallic-flecked skin, faint glowing halo effect, celestial beauty",
+        "Bugbear": "shaggy dark fur, long goblinoid ears, heavy brow, powerful long-limbed build, bestial features",
+        "Centaur": "equine lower body suggested, human torso with strong build, wild flowing hair, nature-worn features",
+        "Changeling": "pale skin, colorless white hair, large colorless eyes, subtly shifting features, androgynous",
+        "Firbolg": "towering broad build, gray-blue skin, pointed ears, wide bovine nose, gentle giant features",
+        "Genasi": "elemental features — skin and hair tinted with elemental colors, faint elemental energy, striking eyes",
+        "Gith": "gaunt elongated features, yellow-green skin, sharp angular face, deep-set piercing eyes, thin build",
+        "Goblin": "small and wiry, green skin, large pointed ears, sharp jagged teeth, cunning wide eyes",
+        "Goliath": "towering muscular build, gray stone-like skin, lithoderms (bony growths) visible, bald or short dark hair, intense gaze",
+        "Grung": "small frog-like build, bright colorful skin (orange/green/blue), large bulbous eyes, webbed hands",
+        "Hobgoblin": "orange-red skin, broad muscular build, sharp goblinoid features, military bearing, dark swept-back hair",
+        "Kalashtar": "human-like with subtle ethereal quality, slightly luminous eyes, serene composed expression, psychic presence",
+        "Kenku": "raven-like features, glossy black feathers, beak-like face, dark avian eyes, slight hunched posture",
+        "Kobold": "small reptilian build, scaly skin in earthy tones, draconic snout, large expressive eyes, small horns",
+        "Lizardfolk": "reptilian scales in green-brown tones, elongated snout, slit-pupil eyes, crest or spines, muscular jaw",
+        "Loxodon": "elephantine features, gray wrinkled skin, prominent tusks, large floppy ears, trunk, wise deep-set eyes",
+        "Minotaur": "bull-like features, large curved horns, bovine snout, thick neck, muscular bullish build, dark fur",
+        "Orc": "powerful muscular build, gray-green skin, prominent tusks, heavy brow, pig-like snout, battle scars",
+        "Shifter": "humanoid with bestial features — feline eyes, pointed ears, subtle fur patches, predatory grace",
+        "Simic Hybrid": "humanoid with grafted animal features — gills, tentacles, carapace plates, or fin-crests",
+        "Tabaxi": "feline features, cat-like vertical-pupil eyes, fur in leopard/jaguar/tiger patterns, whiskers, pointed ears, tail",
+        "Tlincalli": "scorpion-like features, chitinous plates, mandibles, multiple eyes, segmented frame, striking silhouette",
+        "Tortle": "turtle-like features, domed shell visible behind shoulders, beaked mouth, leathery green-brown skin, wise ancient eyes",
+        "Triton": "aquatic features, blue-green skin, fin-like ears, webbed hands, iridescent scales, flowing sea-colored hair",
+        "Vedalken": "tall and slender, blue-gray skin, completely hairless, large analytical eyes, elongated smooth head",
+        "Warforged": "constructed living armor of wood and metal, hinged jaw, glowing eyes, rune-etched plating, golem-like features",
+        "Xvart": "small, bright blue skin, large bat-like ears, bulging eyes, hunched posture, sharp teeth",
+        "Yuan-ti Pureblood": "human-like with serpentine features — slit-pupil eyes, small scales, forked tongue, cold calculating gaze",
     }
-    rf = race_features.get(race, "adventurous look")
+    rf = race_features.get(race, "distinctive features, adventurer's bearing")
     return f"Bust portrait, 3:4 aspect ratio. A {race.lower()} {class_name.lower()} with {rf}. Wearing appropriate {class_name.lower()} attire, upper body visible. Confident expression, high fantasy oil painting style with dramatic lighting. Rich colors, detailed background bokeh."
 
 @app.post("/api/character/portrait", response_class=JSONResponse)
