@@ -3186,8 +3186,8 @@ async def dm_campaigns_list(request: Request):
                        hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
                        intelligence, wisdom, charisma, proficiency_bonus, speed,
                        inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used
-                FROM characters WHERE id=? AND user_id=?
-            """, (cid, user["id"])).fetchone()
+                FROM characters WHERE id=?
+            """, (cid,)).fetchone()
             if row:
                 ch = dict(row)
                 # Compute modifiers
@@ -3307,9 +3307,9 @@ async def dm_campaign_add_character(camp_id: int, request: Request):
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
-    # Verify character ownership
-    char_row = db.execute("SELECT id, name, class_name, level, race FROM characters WHERE id=? AND user_id=?",
-                          (char_id, user["id"])).fetchone()
+    # Verify character exists (any account — DMs can add any character)
+    char_row = db.execute("SELECT id, name, class_name, level, race FROM characters WHERE id=?",
+                          (char_id,)).fetchone()
     if not char_row:
         db.close()
         return JSONResponse({"error": "Character not found"}, status_code=404)
@@ -3358,8 +3358,7 @@ async def dm_user_characters(request: Request):
     user = require_user(request)
     db = get_db()
     rows = [dict(r) for r in db.execute(
-        "SELECT id, name, race, class_name, level, subclass FROM characters WHERE user_id=? ORDER BY name",
-        (user["id"],)
+        "SELECT id, name, race, class_name, level, subclass FROM characters ORDER BY name"
     ).fetchall()]
     db.close()
     return JSONResponse({"characters": rows})
@@ -3635,16 +3634,9 @@ async def character_sheet(char_id: int, request: Request):
     dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
     if dm_preview:
-        # DM preview: allow viewing characters the DM owns OR characters in DM's campaigns
-        row = db.execute("""
-            SELECT * FROM characters WHERE id = ? AND (
-                user_id = ?
-                OR EXISTS (
-                    SELECT 1 FROM dm_campaigns
-                    WHERE user_id = ? AND characters LIKE '%"id": ' || ? || ',%'
-                )
-            )
-        """, (char_id, user["id"], user["id"], char_id)).fetchone()
+        # DM preview: allow viewing any character (DMs can see all characters)
+        row = db.execute("SELECT * FROM characters WHERE id = ?",
+                         (char_id,)).fetchone()
     else:
         row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
                          (char_id, user["id"])).fetchone()
