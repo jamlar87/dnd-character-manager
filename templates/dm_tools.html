@@ -2862,12 +2862,10 @@ async function showCombatantDetails(enId) {
 
   // Try to get the full SRD monster card
   let monsterIndex = null;
-  let creatureName = p.name || '';
   if (p.creature_data) {
     try {
       const cd = typeof p.creature_data === 'string' ? JSON.parse(p.creature_data) : p.creature_data;
       monsterIndex = cd._monster_index || '';
-      if (!creatureName && cd.name) creatureName = cd.name;
       console.log('Parsed creature_data:', {monsterIndex, name: cd.name});
     } catch(e) { console.warn('Failed to parse creature_data:', e); }
   }
@@ -2887,31 +2885,9 @@ async function showCombatantDetails(enId) {
       }
       console.warn('SRD response had no name:', monster);
     } catch(e) { console.warn('SRD fetch failed:', e); }
-  } else if (creatureName) {
-    // Fallback: try name-based SRD lookup via the monster list
-    console.log('No m_ index, trying name lookup for:', creatureName);
-    try {
-      const r = await fetch(`/api/dm/monsters/search?q=${encodeURIComponent(creatureName)}`);
-      if (r.ok) {
-        const d = await r.json();
-        const match = (d.monsters || []).find(m => m.name.toLowerCase() === creatureName.toLowerCase());
-        if (match && match.index) {
-          console.log('Found by name:', match.name, 'index:', match.index);
-          // Fetch full detail by index
-          const r2 = await fetch(`/api/dm/monster/${match.index}`);
-          if (r2.ok) {
-            const full = await r2.json();
-            if (full && full.name) {
-              showFullMonsterCard(full, p);
-              return;
-            }
-          }
-        }
-      }
-    } catch(e) { console.warn('Name search failed:', e); }
   }
 
-  // Fallback: basic stat popup for creature-only entries
+  // Fallback: basic stat popup for creature-only entries (manual NPCs, non-SRD)
   console.log('Showing basic stat popup for:', p.name);
   const isEnemy = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.65rem">ENEMY</span>'
     : '<span class="badge badge-muted" style="font-size:0.65rem">ALLY</span>';
