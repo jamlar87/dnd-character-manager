@@ -2,10 +2,11 @@
 {% block title %}DM Tools{% endblock %}
 {% block style %}
 .container { max-width: 1400px; }
-.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.dm-tabs::-webkit-scrollbar { display: none; }
 .dm-tab { padding: 0.6rem 1.4rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
   color: var(--text-muted); border: none; background: none; border-bottom: 2px solid transparent;
-  margin-bottom: -2px; transition: all 0.2s; }
+  margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
 .dm-tab:hover { color: var(--text); }
 .dm-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 .dm-panel { display: none; }
@@ -41,6 +42,7 @@
 .inline-form { display: flex; gap: 0.5rem; align-items: flex-end; flex-wrap: wrap; }
 .inline-form .form-group { margin-bottom: 0; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
 
 /* Encounter card */
 .encounter-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
@@ -51,7 +53,8 @@
 .participant-row .hp-input { width: 60px; padding: 0.15rem 0.3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); text-align: center; }
 
 /* Campaign cards */
-.campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0.75rem; }
+.campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+@media (max-width: 480px) { .campaign-grid { grid-template-columns: 1fr; } }
 .campaign-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
 .campaign-card h3 { margin: 0 0 0.5rem 0; }
 .campaign-card .camp-stat { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
@@ -79,6 +82,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 /* Encounter builder sidebar layout */
 .encounter-builder { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 @media (max-width: 900px) { .encounter-builder { grid-template-columns: 1fr; } }
+/* Combat tab — stack on narrow screens */
+@media (max-width: 650px) {
+  .initiative-track-col, #playersPanel { flex: 1 1 100% !important; min-width: 100% !important; width: 100% !important; }
+}
 .monster-palette { max-height: 60vh; overflow-y: auto; }
 .encounter-tracking { max-height: 60vh; overflow-y: auto; }
 
@@ -256,7 +263,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <h1 style="margin-bottom:0">⚔️ DM Tools</h1>
     <p style="color:var(--text-muted);margin-bottom:0;font-size:0.9rem">Monster library · Encounter builder · NPC manager · Campaign tracker</p>
   </div>
-  <div style="display:flex;align-items:center;gap:0.5rem;min-width:320px">
+  <div style="display:flex;align-items:center;gap:0.5rem;min-width:0" class="search-bar-row">
     <div style="position:relative;flex:1">
       <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
              style="width:100%;padding:0.5rem 0.75rem;font-size:0.85rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px"
@@ -633,7 +640,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <!-- Main combat layout: initiative track + players panel -->
     <div style="display:flex;gap:1rem;flex-wrap:wrap">
       <!-- Initiative Track (left) -->
-      <div style="flex:1;min-width:400px">
+      <div style="flex:1;min-width:280px" class="initiative-track-col">
         <h4 style="margin:0 0 0.5rem 0;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">⚔️ Initiative Order</h4>
         <div id="initiativeTrack" style="display:flex;flex-direction:column;gap:0.35rem;min-height:4rem"></div>
         <!-- Benched NPCs (dragged out of combat) -->

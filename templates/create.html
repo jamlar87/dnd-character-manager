@@ -19,7 +19,8 @@
 .ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; text-align: center; }
 .ability-box .abl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
 .ability-box .val { font-size: 1.3rem; font-weight: 700; }
-.wizard-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; }
+.wizard-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; gap: 0.4rem; flex-wrap: wrap; }
+@media (max-width: 480px) { .wizard-nav { flex-direction: column; } .wizard-nav .btn { width: 100%; text-align: center; } }
 {% endblock %}
 {% block content %}
 <h1>Create Character</h1>

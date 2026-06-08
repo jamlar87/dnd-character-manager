@@ -12,14 +12,24 @@
     --font: 'Segoe UI', system-ui, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+  img, table, video, canvas, svg { max-width: 100%; height: auto; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
   a { color: var(--accent); text-decoration: none; }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-  .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: relative; }
+  .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; }
   .nav-links { display: flex; gap: 1rem; align-items: center; }
-  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; }
+  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; }
   .nav-links a:hover, .nav-links button:hover { background: var(--accent2); }
+  .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 4px; line-height: 1; }
   .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+  @media (max-width: 768px) {
+    .hamburger { display: block; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); flex-direction: column; gap: 0; padding: 0.5rem 0; border-bottom: 2px solid var(--border); z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .nav-links.open { display: flex; }
+    .nav-links a, .nav-links button { display: block; padding: 0.7rem 1.5rem; border-radius: 0; width: 100%; text-align: left; font-size: 0.95rem; }
+    .nav-links span { display: block; padding: 0.5rem 1.5rem; }
+    .container { padding: 0 0.75rem; margin: 1rem auto; }
+  }
   .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
   .btn { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 0.95rem; }
   .btn-primary { background: var(--accent); color: #fff; }
@@ -47,12 +57,23 @@
   .hp-bar-fill.warn { background: var(--warn); }
   footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; }
   @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) {
+    html { font-size: 14px; }
+    .container { padding: 0 0.5rem; margin: 0.75rem auto; }
+    .card { padding: 1rem; }
+    h1 { font-size: 1.4rem !important; }
+    h2 { font-size: 1.2rem !important; }
+    h3 { font-size: 1.05rem !important; }
+    .nav { padding: 0.5rem 0.75rem; }
+    footer { padding: 1rem; font-size: 0.7rem; }
+  }
   {% block style %}{% endblock %}
 </style>
 </head>
 <body>
 <nav class="nav">
   <a href="/" class="nav-brand">⚔️ D&D Character Manager</a>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
   <div class="nav-links">
     {% if user %}
     <a href="/dashboard">My Characters</a>
@@ -73,5 +94,15 @@
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
 {% block scripts %}{% endblock %}
+<script>
+document.addEventListener('click', function(e) {
+  var nav = document.querySelector('.nav-links');
+  var btn = document.querySelector('.hamburger');
+  if (nav && nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+    nav.classList.remove('open');
+    btn.textContent = '☰';
+  }
+});
+</script>
 </body>
 </html>

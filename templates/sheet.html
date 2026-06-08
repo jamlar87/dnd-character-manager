@@ -25,6 +25,20 @@
   .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
   .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; }
 }
+/* Narrow phones — 2 columns, tighter spacing */
+@media (max-width: 480px) {
+  .top-combat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .top-abilities-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .abilities-grid { grid-template-columns: repeat(2, 1fr); }
+  .combat-quick { grid-template-columns: repeat(2, 1fr); }
+  .combat-quick-item { padding: 0.25rem; }
+  .combat-quick-item .cq-label { font-size: 0.5rem; }
+  .combat-quick-item .cq-value { font-size: 0.85rem; }
+  .ability-box { padding: 0.3rem 0.15rem; }
+  .ability-box .ab-name { font-size: 0.55rem; }
+  .ability-box .ab-mod { font-size: 1rem; }
+  .ability-box .ab-score { font-size: 0.6rem; }
+}
 
 /* ── Senses section box ── */
 .senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; }
@@ -40,6 +54,11 @@
 /* ── Sidebar ── */
 .sheet-sidebar { width: 280px; flex-shrink: 0; }
 @media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
+/* Tablet: 2-column sidebar sections */
+@media (min-width: 481px) and (max-width: 768px) {
+  .sheet-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .sheet-sidebar > * { min-width: 0; }
+}
 
 .sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; }
 .sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
@@ -157,8 +176,9 @@
 .sheet-main { flex: 1; min-width: 0; }
 
 /* Tabs */
-.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); }
-.tab-btn { padding: 0.5rem 1rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; }
+.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { padding: 0.5rem 1rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
 .tab-btn.active { color: var(--accent); background: var(--card-bg); border-bottom: 2px solid var(--accent); margin-bottom: -2px; }
 .tab-content { display: none; }
