@@ -662,6 +662,9 @@ Rules:
 5. If a monster stat block or race entry spans multiple pages/chunks, extract what IS complete in this chunk.
 6. Skip table-of-contents, index entries, page headers — only real game content.
 7. If unsure between extracting or skipping: EXTRACT. We filter quality later.
+8. SIEGE WEAPONS & VEHICLES (Ballista, Cannon, Airship, etc.): Extract in BOTH categories —
+   monsters[] with full stat block (AC, HP, attacks, type: "object"),
+   AND equipment[] with type: "Vehicle", subtype: "Siege Equipment".
 
 Text to extract from:
 ---BEGIN TEXT---
