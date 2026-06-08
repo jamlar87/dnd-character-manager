@@ -88,7 +88,7 @@ VALID_SKILLS = ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Decepti
 
 # Books we should skip for extraction (already in base data via SRD or hardcoded)
 # Still cached for search, just skip LLM extraction
-SKIP_EXTRACTION = {"MM"}  # PHB temporarily enabled for quality-scoring test
+SKIP_EXTRACTION = {"PHB", "MM"}  # SRD covers these (DMG run manually)
 
 # Telegram notification (loaded from ~/.hermes/.env if not already exported)
 def _load_telegram_env():
