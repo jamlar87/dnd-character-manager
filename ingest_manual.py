@@ -554,7 +554,7 @@ CRITICAL RULES:
   creatures described narratively without stats.
 - NPCS: Extract named characters with stat blocks. Skip name-only references.
 - SPELLS: Must have level, school, AND description. Skip spell name mentions
-  without full descriptions.
+  without full descriptions. Cantrips are level 0 — ALWAYS include \"level\": 0 for cantrips.
 - ITEMS: Must have a name AND description. If garbled/truncated, still extract.
 - Use VERBATIM text from the source for ALL descriptions. DO NOT paraphrase.
 - For source, include page number when determinable.
@@ -693,6 +693,18 @@ CRITICAL — SUBCLASSES:
 - If a feature references a spell or table, include that reference verbatim.
 - If the subclass has domain/oath/pact spells, extract them as a feature
   named "Death Domain Spells" (or similar) at the level they're gained.
+
+CRITICAL — FEATS:
+- Feats often have prerequisites. Look for text like "Prerequisite: Dexterity 13 or higher"
+  or "Prerequisite: Proficiency with martial weapons" at the start of the feat entry.
+- ALWAYS extract the prerequisite. If there is none, use an empty string "".
+- A feat without a prerequisite field is INCOMPLETE — the field must always be present.
+
+CRITICAL — EQUIPMENT:
+- Equipment items (especially weapons and armor) have cost AND weight in the source.
+- Look for entries like "Cost: 15 gp" and "Weight: 3 lb." in the equipment table.
+- ALWAYS extract cost (as a string like "15 gp") and weight (as a number in pounds).
+- Without cost/weight the equipment data is incomplete for inventory management.
 }
 
 Rules:
@@ -875,6 +887,129 @@ def _merge_race_details(race: dict, details: dict | None) -> dict:
                 race[field] = dv
 
     return race
+
+
+# ── Subclass second-pass extraction ──────────────────────────────────────────
+# Like the race second-pass: after initial chunk-based extraction, feed the full
+# book text with a focused prompt to get ALL features for each subclass.
+
+SUBCLASS_DETAIL_PROMPT = """You are extracting COMPLETE features for a D&D 5e subclass.
+Below is text from a sourcebook containing the "{subclass_name}" subclass entry.
+Extract EVERY feature at EVERY level — this is the ONLY subclass you need to focus on.
+
+Return ONLY this JSON:
+{{
+  "name": "{subclass_name}",
+  "class": "Parent Class Name",
+  "description": "Brief 1-2 sentence description of the subclass",
+  "features": [
+    {{
+      "name": "Feature Name",
+      "level": 3,
+      "description": "FULL verbatim description text from the source",
+      "uses": 1,
+      "recharge": "long rest"
+    }}
+  ]
+}}
+
+CRITICAL:
+- Extract EVERY feature at EVERY level. Subclasses typically have 4-7 features across
+  4-5 levels (e.g. 1st, 2nd, 3rd, 6th, 10th, 14th, 17th).
+- Finding only 1-2 features is FAILURE — the subclass entry lists more.
+- If the subclass has domain spells, oath spells, or expanded spell lists, extract
+  them as a named feature at the level they're gained.
+- Copy descriptions VERBATIM. Do not summarize or truncate.
+- Include uses/recharge for limited-use features (uses: integer, recharge: "short rest"
+  or "long rest"). Omit both for at-will features.
+- The "class" field must be the parent class name (e.g. "Cleric", "Paladin", "Wizard").
+
+Text containing the {subclass_name} subclass:
+---BEGIN TEXT---
+{text}
+---END TEXT---
+
+Return ONLY the JSON object (no markdown, no explanation)."""
+
+
+def _extract_subclass_details(subclass_name: str, parent_class: str, full_text: str) -> dict | None:
+    """Second-pass extraction: find the subclass entry in the full text and extract
+    ALL features with a focused prompt."""
+    import re as _re
+
+    # Find the subclass section in the text (class name + subclass name)
+    # Strategy: scan for parent class section then the subclass name within it
+    text_lower = full_text.lower()
+    sc_lower = subclass_name.lower()
+
+    # Try multiple match strategies
+    matches = []
+    for m in _re.finditer(_re.escape(sc_lower), text_lower):
+        matches.append((m.start(), m.group()))
+
+    if not matches:
+        print(f"      ⚠ Subclass '{subclass_name}' not found in text")
+        return None
+
+    # Use the best match (prefer matches near the parent class name)
+    best_idx = 0
+    parent_lower = parent_class.lower()
+    best_dist = float("inf")
+    for i, (pos, _) in enumerate(matches):
+        # Search for parent class within 2000 chars before this match
+        search_start = max(0, pos - 2000)
+        search_text = text_lower[search_start:pos]
+        parent_pos = search_text.rfind(parent_lower)
+        if parent_pos >= 0 and (pos - (search_start + parent_pos)) < best_dist:
+            best_dist = pos - (search_start + parent_pos)
+            best_idx = i
+
+    pos = matches[best_idx][0]
+
+    # Extract a 12000-char window around the match
+    start = max(0, pos - 1500)
+    end = min(len(full_text), pos + 10500)
+    context = full_text[start:end]
+
+    print(f"      Subclass second-pass: {subclass_name} ({len(context):,} chars) → ", end="", flush=True)
+
+    prompt = SUBCLASS_DETAIL_PROMPT.format(subclass_name=subclass_name, text=context)
+    raw = _call_llm(prompt)
+
+    if not raw:
+        print("FAILED")
+        return None
+
+    result = _extract_json(raw)
+    if result:
+        n_features = len(result.get("features", []))
+        print(f"{n_features} features")
+    else:
+        print("NO JSON")
+    return result
+
+
+def _merge_subclass_details(subclass: dict, details: dict | None) -> dict:
+    """Merge second-pass subclass details into the subclass entry.
+    Details override the original where they have more features."""
+    if not details:
+        return subclass
+
+    # Description: take if details has a longer one
+    if details.get("description") and len(details.get("description", "")) > len(subclass.get("description", "")):
+        subclass["description"] = details["description"]
+
+    # Features: replace if details has more features
+    orig_features = subclass.get("features", [])
+    new_features = details.get("features", [])
+    if new_features and len(new_features) > len(orig_features):
+        subclass["features"] = new_features
+
+    # Parent class: take if missing in original
+    if details.get("class") and not subclass.get("class"):
+        subclass["class"] = details["class"]
+
+    return subclass
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1829,7 +1964,21 @@ def process_manual(manual: dict) -> dict | None:
             details = _extract_race_details(race_name, text)
             if details:
                 races_found[i] = _merge_race_details(race, details)
-        base_accumulated["races"] = races_found
+        base_accumulated['races'] = races_found
+
+    # 5b. Subclass second-pass extraction (catches features split across chunks)
+    subclasses_found = base_accumulated.get('subclasses', [])
+    if subclasses_found and text:
+        print(f'\n  Subclass detail extraction for {len(subclasses_found)} subclass(es)...')
+        for i, sc in enumerate(subclasses_found):
+            sc_name = sc.get('name', '')
+            sc_class = sc.get('class', '')
+            if not sc_name:
+                continue
+            details = _extract_subclass_details(sc_name, sc_class, text)
+            if details:
+                subclasses_found[i] = _merge_subclass_details(sc, details)
+        base_accumulated['subclasses'] = subclasses_found
 
     # 6. Final cross-chapter dedup
     base_accumulated = _dedup_within_extraction(base_accumulated)
@@ -1907,6 +2056,28 @@ def merge_all_extractions():
                     raw_names[cat].add(name.lower())
                     merged[cat].append(item)
                     sources[cat][name_norm] = slug
+
+    # ── Spell classes cross-reference: if extracted spells lack classes,
+    #     backfill from SRD cache (which has per-class spell lists) ────────
+    srd_spells = _load_json_list(HERE / 'data' / 'srd_cache' / 'spells.json')
+    if srd_spells:
+        srd_by_name: dict[str, list[str]] = {}
+        for ss in srd_spells:
+            sname = ss.get('name', '').lower()
+            sclasses = [c.get('name', '') for c in ss.get('classes', [])]
+            if sname and sclasses:
+                srd_by_name[sname] = sclasses
+
+        backfilled = 0
+        for spell in merged['spells']:
+            if spell.get('classes'):
+                continue  # Already has classes
+            key = spell.get('name', '').lower()
+            if key in srd_by_name:
+                spell['classes'] = srd_by_name[key]
+                backfilled += 1
+        if backfilled:
+            print(f'  Backfilled classes for {backfilled} spell(s) from SRD')
 
     # Save merged files
     for cat, items in merged.items():

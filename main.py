@@ -1067,7 +1067,7 @@ def _render(template: str, request: Request | None = None, **ctx) -> HTMLRespons
 
 # PHB Ch.2 p.17-43 — Races
 RACES = {
-    "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"], "desc": "Stout and hardy, standing 4–5 feet tall. Dwarves are known for their skill in battle, resistance to poison, and expertise with stonework. They live in great mountain kingdoms and value tradition and craftsmanship.", "subrace_descs": {"Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. The hardier, wiser dwarf subrace.", "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants light and medium armor proficiency. The stronger, more martial dwarf."}},
+    "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf", "Duergar"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"], "desc": "Stout and hardy, standing 4–5 feet tall. Dwarves are known for their skill in battle, resistance to poison, and expertise with stonework. They live in great mountain kingdoms and value tradition and craftsmanship.", "subrace_descs": {"Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. The hardier, wiser dwarf subrace.", "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants light and medium armor proficiency. The stronger, more martial dwarf.", "Duergar": "+1 Strength. Superior Darkvision (120ft), Duergar Resilience (advantage vs illusions/charms/paralysis), Duergar Magic (enlarge/reduce + invisibility at L3/5), Sunlight Sensitivity. The gray dwarves of the Underdark."}},
     "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"], "desc": "Graceful and long-lived, elves stand 5–6 feet tall with pointed ears. They are known for their keen senses, immunity to magical sleep, and trance-like meditation instead of sleep.", "subrace_descs": {"High Elf": "+1 Intelligence. Gain a wizard cantrip and an extra language. The most magical of the elves.", "Wood Elf": "+1 Wisdom. Fleet of Foot (+5ft speed) and Mask of the Wild (hide in light natural obscurement). The swift and stealthy elf.", "Dark Elf (Drow)": "+1 Charisma. Superior Darkvision (120ft), Sunlight Sensitivity, and Drow Magic (dancing lights, faerie fire, darkness)."}},
     "Halfling": {"subraces": ["Lightfoot Halfling", "Stout Halfling"], "asi": {"dexterity": 2}, "speed": 25, "darkvision": 0, "languages": ["Common", "Halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"], "desc": "Small and nimble, standing about 3 feet tall. Halflings are famously lucky, brave despite their size, and able to move through the spaces of larger creatures.", "subrace_descs": {"Lightfoot Halfling": "+1 Charisma. Naturally Stealthy lets you hide behind larger creatures. The charming, sneaky halfling.", "Stout Halfling": "+1 Constitution. Stout Resilience grants advantage on poison saves and poison resistance. The durable halfling."}},
     "Human": {"subraces": ["Variant Human"], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": [], "desc": "The most adaptable and ambitious of the common races. Humans gain +1 to all six ability scores, learn quickly, and are found in every corner of the world.", "subrace_descs": {"Variant Human": "+1 to two abilities, one feat, one extra skill proficiency. The customizable human — trades the all-around +1s for focused specialization."}},
@@ -1120,6 +1120,11 @@ RACIAL_TRAIT_DESCS = {
     # Tiefling
     "Hellish Resistance": "You have resistance to fire damage.",
     "Infernal Legacy": "You know the thaumaturgy cantrip. At 3rd level, you can cast hellish rebuke as a 2nd-level spell once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
+    # Duergar (PHB Dwarf subrace)
+    "Superior Darkvision": "Your darkvision has a radius of 120 feet.",
+    "Duergar Resilience": "You have advantage on saving throws against illusions and against being charmed or paralyzed.",
+    "Duergar Magic": "Starting at 3rd level, you can cast the enlarge/reduce spell with this trait, without a material component. Starting at 5th level, you can also cast the invisibility spell with this trait, without a material component. Once you cast either spell, you can't cast it again until you finish a long rest. Intelligence is your spellcasting ability for these spells.",
+    "Sunlight Sensitivity": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
 }
 
 # Merge racial trait descriptions into the feature lookup so Breath Weapon etc. show descriptions
@@ -1139,6 +1144,7 @@ SUBRACE_TRAITS = {
     "Stout Halfling": ["Stout Resilience"],
     "Forest Gnome": ["Natural Illusionist", "Speak with Small Beasts"],
     "Rock Gnome": ["Artificer's Lore", "Tinker"],
+    "Duergar": ["Superior Darkvision", "Duergar Resilience", "Duergar Magic", "Sunlight Sensitivity"],
     "Variant Human": [],
 }
 
@@ -1331,6 +1337,7 @@ SUBASIS = {
     "Stout Halfling": {"constitution": 1},
     "Forest Gnome": {"dexterity": 1},
     "Rock Gnome": {"constitution": 1},
+    "Duergar": {"strength": 1},
 }
 
 CLASSES = {
