@@ -3076,7 +3076,9 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
             "round": data.get("round", 1),
             "turn_index": data.get("turn_index", 0),
             "initiative_order": data.get("initiative_order", []),
-            "benched_en_ids": data.get("benched_en_ids", [])
+            "benched_en_ids": data.get("benched_en_ids", []),
+            "player_participants": data.get("player_participants", []),
+            "campaign_id": data.get("campaign_id")
         })
         db.execute("UPDATE dm_encounters SET combat_state=? WHERE id=?", (state, enc_id))
         db.commit()
@@ -3094,6 +3096,8 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
         "turn_index": state.get("turn_index", 0),
         "initiative_order": state.get("initiative_order", []),
         "benched_en_ids": state.get("benched_en_ids", []),
+        "player_participants": state.get("player_participants", []),
+        "campaign_id": state.get("campaign_id"),
         "ok": True
     })
 
