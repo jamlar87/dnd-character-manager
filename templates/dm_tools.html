@@ -1132,7 +1132,24 @@ function addCreatureToEncounter(encId, creatureIndex) {
       hp: c.hp_current, hp_max: c.hp_max, ac: c.ac,
       is_enemy: c.is_enemy || 0, role: c.role || '',
       xp_reward: c.xp_reward || 0,
-      _monster_index: c.id || c._raw?.index || ''
+      _monster_index: c.id || c._raw?.index || '',
+      // Full stat block fields (from manual NPCs, SRD monsters)
+      ability_scores: c.ability_scores || null,
+      spellcasting: c.spellcasting || null,
+      features: c.features || c.special_abilities || [],
+      actions: c.actions || [],
+      skills: c.skills || {},
+      saving_throws: c.saving_throws || {},
+      speed: c.speed || '',
+      alignment: c.alignment || '',
+      description: c.description || '',
+      equipment: c.equipment || [],
+      senses: c.senses || '',
+      languages: c.languages || [],
+      damage_resistances: c.damage_resistances || [],
+      damage_immunities: c.damage_immunities || [],
+      condition_immunities: c.condition_immunities || [],
+      challenge_rating: c.challenge_rating || null,
     })
   }).then(r => r.json()).then(() => openEncounter(encId));
 }
@@ -2889,24 +2906,92 @@ async function showCombatantDetails(enId) {
 
   // Fallback: basic stat popup for creature-only entries (manual NPCs, non-SRD)
   console.log('Showing basic stat popup for:', p.name);
+  
+  // Extract full data from creature_data if available
+  let cd = {};
+  if (p.creature_data) {
+    try { cd = typeof p.creature_data === 'string' ? JSON.parse(p.creature_data) : p.creature_data; }
+    catch(e) {}
+  }
+  const scores = cd.ability_scores || {};
+  const hasAbilities = scores && Object.values(scores).some(v => v);
+  const features = cd.features || [];
+  const actions = cd.actions || [];
+  const spellcasting = cd.spellcasting;
+  const speed = cd.speed || '';
+  const alignment = cd.alignment || '';
+  const senses = cd.senses || '';
+  const languages = (cd.languages || []).join(', ');
+  const desc = cd.description || '';
+  
   const isEnemy = p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.65rem">ENEMY</span>'
     : '<span class="badge badge-muted" style="font-size:0.65rem">ALLY</span>';
   const hpPct = p.hp_max > 0 ? Math.round(p.hp_current / p.hp_max * 100) : 0;
   const hpColor = hpPct < 25 ? '#e94560' : hpPct < 50 ? '#f0a500' : '#4ecca3';
-  const hpBar = `<div style="width:100px;height:6px;border-radius:3px;background:#333;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:0.3rem">
-    <div style="height:100%;border-radius:3px;background:${hpColor};width:${hpPct}%"></div></div>`;
+  
+  // Build ability score row
+  let abilRow = '';
+  if (hasAbilities) {
+    const statNames = ['strength','dexterity','constitution','intelligence','wisdom','charisma'];
+    abilRow = '<div style="display:flex;gap:0;margin-bottom:0.75rem;background:#16213e;border-radius:6px;padding:0.5rem;justify-content:space-around;flex-wrap:wrap">' +
+      statNames.map(s => {
+        const val = scores[s] || 10;
+        const mod = Math.floor((val - 10) / 2);
+        const modStr = mod >= 0 ? '+' + mod : '' + mod;
+        return '<div style="text-align:center"><div style="font-size:0.6rem;color:#999;text-transform:uppercase">' + s.slice(0,3) + '</div><div style="font-weight:700">' + val + '</div><div style="font-size:0.7rem;color:' + (mod>=0?'#4ecca3':'#e94560') + '">' + modStr + '</div></div>';
+      }).join('') + '</div>';
+  }
+  
+  // Build spellcasting section
+  let spellHtml = '';
+  if (spellcasting && spellcasting.spells) {
+    spellHtml = '<h3 style="margin:1rem 0 0.5rem 0;border-bottom:1px solid #333;padding-bottom:0.25rem">Spellcasting</h3>';
+    spellHtml += '<p style="font-size:0.8rem;color:#999;margin:0 0 0.5rem 0">' + (spellcasting.spellcasting_ability || '') + ' · DC ' + (spellcasting.spell_save_dc || '?') + ' · +' + (spellcasting.spell_attack_bonus || '?') + ' to hit</p>';
+    var levels = [['cantrips','Cantrips (at will)'],['1st_level','1st Level'],['2nd_level','2nd Level'],['3rd_level','3rd Level'],['4th_level','4th Level'],['5th_level','5th Level']];
+    for (var i = 0; i < levels.length; i++) {
+      var key = levels[i][0], label = levels[i][1];
+      var spells = spellcasting.spells[key];
+      if (spells && spells.length) {
+        spellHtml += '<p style="margin:0.2rem 0;font-size:0.8rem"><em>' + label + ':</em> ' + spells.join(', ') + '</p>';
+      }
+    }
+  }
+  
+  // Build features/actions
+  let featHtml = '';
+  if (features.length) {
+    featHtml += '<h3 style="margin:1rem 0 0.5rem 0;border-bottom:1px solid #333;padding-bottom:0.25rem">Features</h3>';
+    features.forEach(function(f) {
+      featHtml += '<div style="margin-bottom:0.5rem"><strong style="font-style:italic">' + f.name + '.</strong> ' + (f.description || '') + '</div>';
+    });
+  }
+  if (actions.length) {
+    featHtml += '<h3 style="margin:1rem 0 0.5rem 0;border-bottom:1px solid #333;padding-bottom:0.25rem">Actions</h3>';
+    actions.forEach(function(a) {
+      featHtml += '<div style="margin-bottom:0.5rem"><strong style="font-style:italic">' + a.name + '.</strong> ' + (a.description || '') + '</div>';
+    });
+  }
+  
   document.getElementById('charSheetTitle').textContent = p.name;
-  document.getElementById('charSheetFrame').srcdoc = `
-    <html><body style="font-family:system-ui;background:#1a1a2e;color:#e0e0e0;padding:1.5rem;margin:0">
-      <h2 style="margin:0 0 0.5rem 0">${p.name} ${isEnemy}</h2>
-      <p style="color:#999;margin:0 0 1rem 0">${p.race || 'Unknown'} · L${p.level || '?'} ${p.class_name || ''}${p.role ? ' · ' + p.role : ''}</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;max-width:400px">
-        <div><strong>AC</strong><br>${p.ac || '?'}</div>
-        <div><strong>HP</strong><br>${p.hp_current}/${p.hp_max}${hpBar}</div>
-        <div><strong>Initiative</strong><br>🎲 ${p.initiative || 0}</div>
-        <div><strong>Status</strong><br>${p.defeated ? '💀 Defeated' : '✅ Active'}</div>
-      </div>
-    </body></html>`;
+  document.getElementById('charSheetFrame').srcdoc = [
+    '<html><body style="font-family:system-ui;background:#1a1a2e;color:#e0e0e0;padding:1.5rem;margin:0;max-width:650px">',
+    '<h2 style="margin:0 0 0.25rem 0">', p.name, ' ', isEnemy, '</h2>',
+    '<p style="color:#999;margin:0 0 0.5rem 0">', (p.race || 'Unknown'), ' · L', (p.level || '?'), ' ', (p.class_name || ''), (p.role ? ' · ' + p.role : ''), (alignment ? ' · ' + alignment : ''), '</p>',
+    desc ? '<p style="color:#aaa;font-size:0.85rem;font-style:italic;margin:0 0 0.75rem 0">' + desc + '</p>' : '',
+    '<div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;padding:0.5rem 0;border-top:2px solid #e94560;border-bottom:2px solid #e94560;margin-bottom:0.75rem">',
+    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Armor Class</div><div style="font-weight:700;font-size:1.1rem">', (p.ac || '?'), '</div></div>',
+    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Hit Points</div><div style="font-weight:700;font-size:1.1rem">', p.hp_current, '/', p.hp_max, '</div><div style="width:80px;height:5px;border-radius:3px;background:#333;overflow:hidden;margin:0.15rem auto 0"><div style="height:100%;border-radius:3px;background:', hpColor, ';width:', hpPct, '%"></div></div></div>',
+    speed ? '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Speed</div><div style="font-size:0.85rem">' + speed + '</div></div>' : '',
+    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Initiative</div><div style="font-size:0.85rem">🎲 ', (p.initiative || 0), '</div></div>',
+    '<div style="text-align:center"><div style="font-size:0.6rem;color:#999">Status</div><div style="font-size:0.85rem">', (p.defeated ? '💀 Defeated' : '✅ Active'), '</div></div>',
+    '</div>',
+    abilRow,
+    spellHtml,
+    featHtml,
+    senses ? '<p style="font-size:0.8rem;color:#999;margin:0.25rem 0"><strong>Senses:</strong> ' + senses + '</p>' : '',
+    languages ? '<p style="font-size:0.8rem;color:#999;margin:0.25rem 0"><strong>Languages:</strong> ' + languages + '</p>' : '',
+    '</body></html>'
+  ].join('');
   openModal('charSheetModal');
 }
 
