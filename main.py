@@ -1607,6 +1607,22 @@ async def api_create_character(request: Request):
         for v in subclass_profs.get(key, []):
             if v not in lst:
                 lst.append(v)
+    
+    # Merge chosen subclass bonus picks (languages/skills from picker)
+    bonus_choices = data.get("subclass_bonus", [])
+    if bonus_choices:
+        bonus_spec = SUBCLASS_PROFICIENCIES.get(subclass, {})
+        if "skill_profs" in bonus_spec:
+            for v in bonus_choices:
+                if v not in skills_list:
+                    skills_list.append(v)
+        if "languages" in bonus_spec:
+            languages_list = list(race_data.get("languages", ["Common"]))
+            for v in bonus_choices:
+                if v not in languages_list:
+                    languages_list.append(v)
+            race_data = dict(race_data)
+            race_data["languages"] = languages_list
 
     # Racial speed override (Wood Elf: 35 ft)
     if racial_effects.get("speed"):

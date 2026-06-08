@@ -117,6 +117,20 @@
   </div>
 </div>
 
+<!-- Subclass Bonus Picker Overlay (languages/skills from subclass) -->
+<div id="bonus-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem" id="bonus-picker-title">Bonus Proficiencies</h3>
+    <p id="bonus-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem"></p>
+    <div id="bonus-picker-options" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem"></div>
+    <p id="bonus-picker-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipBonusPicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmBonusPicker()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <!-- Spell Picker Overlay (shown for known casters during creation) -->
 <div id="spell-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
   <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:650px;width:95%;max-height:85vh;overflow-y:auto">
@@ -292,8 +306,14 @@ const STARTING_EQUIPMENT = {
   "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
 };
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [] };
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
 let step = 0;
+
+// Subclass bonus proficiency map (same as backend SUBCLASS_PROFICIENCIES)
+const SUBCLASS_BONUS_MAP = {
+  "Knowledge Domain": { type:"languages", count:2, options:["Common","Dwarvish","Elvish","Giant","Gnomish","Goblin","Halfling","Orc","Abyssal","Celestial","Draconic","Deep Speech","Infernal","Primordial","Sylvan","Undercommon"] },
+  "College of Lore": { type:"skills", count:3 }  // options = ALL_SKILLS from backend
+};
 
 function updateDots() {
   document.querySelectorAll('.step-dot').forEach((d, i) => {
@@ -316,6 +336,11 @@ function nextStep() {
   // Intercept: known casters go to spell picker before review
   if (step === 4 && isKnownCaster()) {
     showSpellPicker();
+    return;
+  }
+  // Intercept: subclass with bonus proficiencies (e.g. Knowledge Domain languages)
+  if (step === 4 && state.subclass && SUBCLASS_BONUS_MAP[state.subclass]) {
+    showSubclassBonusPicker();
     return;
   }
   showStep(Math.min(step + 1, 5));
@@ -408,7 +433,7 @@ function buildClasses() {
 }
 
 function selectClass(name) {
-  state.class_name = name; state.subclass = null;
+  state.class_name = name; state.subclass = null; state.subclass_bonus = [];
   document.querySelectorAll('#class-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === name));
   const c = CLASSES[name];
   const scgrid = document.getElementById('subclass-grid');
@@ -611,6 +636,7 @@ function buildReview() {
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
     ${state.race === 'Dragonborn' && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
     ${state.race === 'Dragonborn' && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
+    ${state.subclass_bonus && state.subclass_bonus.length ? `<p style="font-size:0.85rem;color:var(--accent)">Bonus: ${state.subclass_bonus.join(', ')}</p>` : ''}
   `;
 }
 
@@ -740,6 +766,60 @@ function confirmSpellPicker() {
   showStep(5);
 }
 
+// ── Subclass Bonus Picker ────────────────────────────────────────────
+function showSubclassBonusPicker() {
+  const bonus = SUBCLASS_BONUS_MAP[state.subclass];
+  if (!bonus) { showStep(5); return; }
+  
+  state.subclass_bonus = state.subclass_bonus || [];
+  const typeLabel = bonus.type === 'skills' ? 'skill proficiencies' : 'languages';
+  const options = bonus.type === 'skills' ? ALL_SKILLS : bonus.options;
+  
+  document.getElementById('bonus-picker-title').textContent = `📋 ${state.subclass} — Bonus ${typeLabel.charAt(0).toUpperCase()+typeLabel.slice(1)}`;
+  document.getElementById('bonus-picker-info').textContent = `Pick ${bonus.count} ${typeLabel}.`;
+  renderBonusPickerOptions(options, bonus.count);
+  document.getElementById('bonus-picker-overlay').style.display = 'flex';
+}
+
+function renderBonusPickerOptions(options, max) {
+  const selected = state.subclass_bonus || [];
+  const div = document.getElementById('bonus-picker-options');
+  div.innerHTML = options.map(opt => {
+    const isSel = selected.includes(opt);
+    const atMax = selected.length >= max && !isSel;
+    return `<label style="display:inline-block;padding:0.3rem 0.6rem;background:${isSel ? 'var(--accent2)' : 'var(--bg)'};border:1px solid var(--border);border-radius:4px;font-size:0.82rem;cursor:${atMax ? 'not-allowed' : 'pointer'};opacity:${atMax ? '0.5' : '1'}"
+      onclick="event.preventDefault();toggleCreateBonus(this,${max})" data-opt="${opt}">
+      ${isSel ? '✅ ' : ''}${opt}
+    </label>`;
+  }).join('');
+  document.getElementById('bonus-picker-count').textContent = `${selected.length}/${max} selected`;
+}
+
+function toggleCreateBonus(el, max) {
+  const opt = el.getAttribute('data-opt');
+  if (!opt) return;
+  state.subclass_bonus = state.subclass_bonus || [];
+  const idx = state.subclass_bonus.indexOf(opt);
+  if (idx >= 0) {
+    state.subclass_bonus.splice(idx, 1);
+  } else if (state.subclass_bonus.length < max) {
+    state.subclass_bonus.push(opt);
+  }
+  const bonus = SUBCLASS_BONUS_MAP[state.subclass];
+  renderBonusPickerOptions(bonus.type === 'skills' ? ALL_SKILLS : bonus.options, bonus.count);
+}
+
+function skipBonusPicker() {
+  state.subclass_bonus = [];
+  document.getElementById('bonus-picker-overlay').style.display = 'none';
+  showStep(5);
+}
+
+function confirmBonusPicker() {
+  document.getElementById('bonus-picker-overlay').style.display = 'none';
+  showStep(5);
+}
+
 // ── Create ──
 async function createCharacter() {
   buildReview();
@@ -765,6 +845,7 @@ async function createCharacter() {
     spells: state.spells || [],  // Starting spells from picker
     equipment: state.equipment,
     dragonborn_ancestry: state.dragonborn_ancestry || '',
+    subclass_bonus: state.subclass_bonus || [],
     portrait_url: state.portrait_url || '',
     portrait_prompt: state.portrait_prompt || ''
   };
