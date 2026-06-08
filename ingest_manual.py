@@ -279,33 +279,145 @@ def _call_llm(prompt: str) -> str | None:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def _extract_json(text: str) -> dict | None:
-    """Extract JSON from LLM response, stripping markdown wrappers."""
+    """Extract JSON from LLM response, stripping markdown wrappers.
+    Includes repair logic for common LLM JSON errors: control chars,
+    trailing commas, truncated output, unclosed brackets."""
     if not text:
         return None
+
     # Strip markdown code fences
+    candidates = []
     if "```" in text:
         parts = text.split("```")
-        # Find the first code block
         for i, part in enumerate(parts):
             if i % 2 == 1:  # inside code block
                 if part.startswith("json"):
                     part = part[4:]
-                try:
-                    return json.loads(part.strip())
-                except json.JSONDecodeError:
-                    continue
-        return None
+                candidates.append(part.strip())
+    else:
+        candidates.append(text.strip())
+
+    for candidate in candidates:
+        result = _try_parse_json(candidate)
+        if result is not None:
+            return result
+
+    # Last resort: regex for JSON object anywhere in raw text
+    m = re.search(r'\{[\s\S]*\}', text)
+    if m:
+        result = _try_parse_json(m.group())
+        if result is not None:
+            return result
+
+    return None
+
+
+def _try_parse_json(raw: str) -> dict | None:
+    """Try to parse JSON with progressive repair attempts."""
+    # 1. Straight parse
     try:
-        return json.loads(text.strip())
+        return json.loads(raw)
     except json.JSONDecodeError:
-        # Try to find JSON object in the text
-        m = re.search(r'\{[\s\S]*\}', text)
-        if m:
-            try:
-                return json.loads(m.group())
-            except json.JSONDecodeError:
-                pass
-        return None
+        pass
+
+    # 2. Remove control characters (0x00-0x1F except \t, \n, \r)
+    cleaned = _clean_json_controls(raw)
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        pass
+
+    # 3. Fix trailing commas before } or ]
+    fixed = re.sub(r',\s*([}\]])', r'\1', cleaned)
+    try:
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        pass
+
+    # 4. Try to close truncated JSON (add missing brackets/quotes)
+    truncated = _close_truncated_json(fixed)
+    if truncated != fixed:
+        try:
+            return json.loads(truncated)
+        except json.JSONDecodeError:
+            pass
+
+    # 5. Aggressive: extract the largest valid JSON sub-object
+    for m in re.finditer(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', raw):
+        try:
+            candidate = _clean_json_controls(m.group())
+            candidate = re.sub(r',\s*([}\]])', r'\1', candidate)
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+
+    return None
+
+
+def _clean_json_controls(text: str) -> str:
+    """Remove control characters that break JSON, preserving \t, \n, \r in strings.
+    Strategy: replace raw control chars inside string values with spaces."""
+    result = []
+    in_string = False
+    escape = False
+    for ch in text:
+        if escape:
+            result.append(ch)
+            escape = False
+            continue
+        if ch == '\\':
+            result.append(ch)
+            escape = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+            result.append(ch)
+            continue
+        if in_string:
+            # Inside a string value: replace raw control chars with space
+            if ord(ch) < 0x20 and ch not in ('\t', '\n', '\r'):
+                result.append(' ')
+            else:
+                result.append(ch)
+        else:
+            result.append(ch)
+    return ''.join(result)
+
+
+def _close_truncated_json(text: str) -> str:
+    """Close truncated JSON by adding missing closing brackets and quotes.
+    Uses a stack to track nesting so inner brackets close before outer ones."""
+    stack = []
+    in_string = False
+    escape = False
+
+    for ch in text:
+        if escape:
+            escape = False
+            continue
+        if ch == '\\':
+            escape = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == '{':
+            stack.append('}')
+        elif ch == '[':
+            stack.append(']')
+        elif ch == '}' and stack and stack[-1] == '}':
+            stack.pop()
+        elif ch == ']' and stack and stack[-1] == ']':
+            stack.pop()
+
+    result = text
+    if in_string:
+        result += '"'
+    # Close in reverse order (inner-most first)
+    result += ''.join(reversed(stack))
+    return result
 
 
 def _load_json(path: Path) -> Any:
@@ -795,6 +907,12 @@ CRITICAL:
 - If the race has natural weapons (e.g. claws dealing 1d4+Str), include them as a trait.
 - If the race grants skill proficiencies, include them in the relevant trait description.
 
+DISAMBIGUATION — CRITICAL:
+- The text may contain MULTIPLE races or subraces appearing close together.
+- ONLY extract traits and ASI for \"{race_name}\" specifically.
+- If you see traits from a neighboring race or subrace, DO NOT include them.
+- Verify: does each trait you extracted genuinely belong to \"{race_name}\"?
+
 Text containing the {race_name} race:
 ---BEGIN TEXT---
 {text}
@@ -923,6 +1041,16 @@ CRITICAL:
 - Include uses/recharge for limited-use features (uses: integer, recharge: "short rest"
   or "long rest"). Omit both for at-will features.
 - The "class" field must be the parent class name (e.g. "Cleric", "Paladin", "Wizard").
+
+DISAMBIGUATION — CRITICAL:
+- The text may contain MULTIPLE subclasses from the same class appearing close together
+  (e.g., Nature Domain next to Knowledge Domain, Light Domain, Tempest Domain, etc.)
+- ONLY extract features that belong to \"{subclass_name}\" specifically.
+- If you see features from a neighboring subclass (e.g., Warding Flare from Light
+  Domain when extracting Nature Domain, or Totem Spirit from Path of the Totem Warrior
+  when extracting Path of the Berserker), DO NOT include them.
+- Verify: does each feature you extracted genuinely belong to \"{subclass_name}\"?
+  If a feature name contains a different subclass name, it's the wrong one.
 
 Text containing the {subclass_name} subclass:
 ---BEGIN TEXT---
