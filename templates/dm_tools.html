@@ -644,7 +644,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <select id="combatEncounterSelect" onchange="loadCombatEncounter()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:200px">
       <option value="">— Select encounter —</option>
     </select>
-    <select id="combatCampaignSelect" onchange="loadCombatCampaign()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
+    <select id="combatCampaignSelect" onchange="loadCombatCampaign().then(() => saveCombatState())" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;min-width:180px">
       <option value="">— Select campaign —</option>
     </select>
     <button class="btn btn-accent btn-sm" id="btnRollInit" onclick="rollInitiative()">🎲 Roll Initiative</button>
@@ -2397,6 +2397,8 @@ async function loadCombatEncounter() {
     renderPlayersPanel();
     renderBenchedNpcs();
   }
+  // Save full state now that players are restored and everything is in place
+  saveCombatState();
 }
 
 // ── Load campaign player characters ──
@@ -2444,7 +2446,8 @@ async function loadCombatCampaign() {
   if (_combatEncId && _combatCampId) {
     try { localStorage.setItem('combatEncounterCampaign_' + _combatEncId, _combatCampId); } catch(e) {}
   }
-  saveCombatState();
+  // Don't saveCombatState here — player_participants haven't been restored yet.
+  // loadCombatEncounter saves the full state at the end after all data is in place.
 }
 
 function renderPlayersPanel() {
