@@ -1553,6 +1553,9 @@ async def api_create_character(request: Request):
 
     # Generate build data (features, attacks, spell slots)
     build_features = get_class_features(class_name, level, subclass)
+    # Append racial limited-use features (e.g. Dragonborn Breath Weapon)
+    if race_name == "Dragonborn" and data.get("dragonborn_ancestry"):
+        build_features.append(f"{level}: Breath Weapon")
     enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats})
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
@@ -5104,7 +5107,7 @@ async def apply_level_up(char_id: int, request: Request):
     # Proficiency bonus
     updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
     
-    # Features — rebuild from all classes
+    # Features — rebuild from all classes, preserve racial features
     all_features = []
     for cls_n, cls_lvl in new_cl.items():
         sub = updates.get("subclass", char.get("subclass", ""))
@@ -5115,6 +5118,13 @@ async def apply_level_up(char_id: int, request: Request):
     all_features = _deduplicate_multiclass_features(all_features, new_cl)
     # Unwrap back to strings for DB storage
     all_feature_names = [f["name"] if isinstance(f, dict) else str(f) for f in all_features]
+    # Preserve racial limited-use features (they aren't class features)
+    race = char.get("race", "")
+    ancestry = char.get("dragonborn_ancestry", "")
+    if race == "Dragonborn" and ancestry:
+        target_feat = f"{target_level}: Breath Weapon"
+        if target_feat not in all_feature_names:
+            all_feature_names.append(target_feat)
     updates["features"] = json.dumps(all_feature_names)
     
     # Enriched feature_data
