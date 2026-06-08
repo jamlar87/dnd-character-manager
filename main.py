@@ -1596,6 +1596,14 @@ async def api_create_character(request: Request):
             if v not in lst:
                 lst.append(v)
 
+    # Merge subclass-granted proficiencies (PHB domain/college/circle bonuses)
+    subclass_profs = SUBCLASS_PROFICIENCIES.get(subclass, {})
+    for key, lst in [("armor_profs", armor_profs), ("weapon_profs", weapon_profs),
+                      ("tool_profs", tool_profs), ("skill_profs", skills_list)]:
+        for v in subclass_profs.get(key, []):
+            if v not in lst:
+                lst.append(v)
+
     # Racial speed override (Wood Elf: 35 ft)
     if racial_effects.get("speed"):
         race_data = dict(race_data)
@@ -5095,6 +5103,16 @@ async def apply_level_up(char_id: int, request: Request):
     if subclass_choice:
         updates["subclass"] = subclass_choice
         changes.append(f"Subclass: {subclass_choice}")
+        # Wire subclass-granted proficiencies into DB columns
+        sc_profs = SUBCLASS_PROFICIENCIES.get(subclass_choice, {})
+        for col, key in [("armor_proficiencies","armor_profs"), ("weapon_proficiencies","weapon_profs"),
+                          ("tool_proficiencies","tool_profs")]:
+            for v in sc_profs.get(key, []):
+                current = json.loads(char.get(col, "[]"))
+                if v not in current:
+                    current.append(v)
+                    updates[col] = json.dumps(current)
+                    changes.append(f"Proficiency: {v}")
     
     # Update class_levels
     new_cl = dict(cl)
@@ -5691,6 +5709,17 @@ SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
     # DMG
     "Death Domain": {1: ["Death Domain Spells", "Bonus Proficiency", "Reaper"], 2: ["Channel Divinity: Touch of Death"], 6: ["Inescapable Destruction"], 8: ["Divine Strike"], 17: ["Improved Reaper"]},
     "Oathbreaker": {3: ["Oathbreaker Spells", "Channel Divinity: Control Undead", "Channel Divinity: Dreadful Aspect"], 7: ["Aura of Hate"], 15: ["Supernatural Resistance"], 20: ["Dread Lord"]},
+}
+
+# PHB-granted proficiencies that come from subclass choice (not base class)
+SUBCLASS_PROFICIENCIES = {
+    "Life Domain": {"armor_profs": ["Heavy armor"]},
+    "Nature Domain": {"armor_profs": ["Heavy armor"]},
+    "Tempest Domain": {"armor_profs": ["Heavy armor"]},
+    "War Domain": {"armor_profs": ["Heavy armor"]},
+    "College of Valor": {"armor_profs": ["Medium armor", "Shields"], "weapon_profs": ["Martial weapons"]},
+    "College of Lore": {"skill_profs": []},
+    "Knowledge Domain": {"skill_profs": []},
 }
 
 
