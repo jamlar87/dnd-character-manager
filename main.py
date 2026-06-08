@@ -344,8 +344,13 @@ def load_manual_data():
                                 pass  # Ingested version is better, will overwrite
                             FEATURE_DESCRIPTIONS[key] = fdesc
                     # Register limited-use subclass features
-                    fuses = feat.get("uses") or 0
-                    frecharge = feat.get("recharge") or ""
+                    fuses = feat.get("uses")
+                    frecharge = feat.get("recharge", "")
+                    # Coerce uses to int if it's a string (LLM sometimes outputs "3")
+                    try:
+                        fuses = int(fuses) if fuses else 0
+                    except (ValueError, TypeError):
+                        fuses = 0
                     if fuses > 0 and frecharge:
                         key = fname.lower()
                         if key not in LIMITED_USE:
