@@ -6038,8 +6038,8 @@ LIMITED_USE = {
     "natural recovery":    {"min": 1, "max": 1,  "recharge": "short", "class": "Druid", "per": "fixed"},
     # Wizard Evocation (PHB p.117-118) — Overchannel, 1/long rest
     "overchannel":         {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Wizard (PHB p.115) — Signature Spell, 1/short rest
-    "signature spell":     {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    # Wizard (PHB p.115) — Signature Spell, 2 free casts/short rest (one per chosen spell)
+    "signature spell":     {"min": 2, "max": 2,  "recharge": "short", "class": "Wizard", "per": "fixed"},
 }
 
 
