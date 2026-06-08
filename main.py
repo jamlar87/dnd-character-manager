@@ -5053,6 +5053,7 @@ async def apply_level_up(char_id: int, request: Request):
     char_copy["level"] = target_level
     spell_slots = get_character_spell_slots(char_copy)
     updates["spell_slot_data"] = json.dumps(spell_slots)
+    updates["spell_slots_used"] = json.dumps({})  # Fresh slots after level up
     
     # Hit dice — per class (e.g. "3d10 + 2d8")
     hd_parts = []

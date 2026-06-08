@@ -1998,12 +1998,16 @@ async function doShortRest(healed, rolls) {
   // Reset short-rest features (Channel Divinity, Action Surge, Ki, etc.)
   resetShortRestFeatures();
 
-  // Reset all expended spell slots too (handles Warlock Pact Magic, also harmless for regular casters who won't click SR without needing it)
-  document.querySelectorAll('.slot-box.used').forEach(d => d.classList.remove('used'));
-  const ssu = {};  // empty used slots
+  // Warlock Pact Magic: recover all spell slots on short rest (PHB p.107)
+  // Other casters do NOT recover slots on short rest — that's a long rest only
+  let spellUpdate = {};
+  if (CASTER_TYPE === 'pact') {
+    document.querySelectorAll('.slot-box.used').forEach(d => d.classList.remove('used'));
+    spellUpdate = { spell_slots_used: JSON.stringify({}) };
+  }
 
   // API: save HP, hit_dice_used, and feature_data
-  await api('/update', { hp_current: newHp, hit_dice_used: hdUsed, spell_slots_used: JSON.stringify({}) });
+  await api('/update', Object.assign({ hp_current: newHp, hit_dice_used: hdUsed }, spellUpdate));
   await api('/update', { feature_data: JSON.stringify(featureData) });
 
   // Show result
