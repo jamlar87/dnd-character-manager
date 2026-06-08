@@ -4024,13 +4024,166 @@ function renderLuSubclass(el) {
 
 function renderLuSpells(el) {
   const s = luData.spells;
+  const needSpells = s.spells_known_change || 0;
+  const needCantrips = s.cantrips_change || 0;
+  if (!luChoices.spells) luChoices.spells = [];
+  const selected = luChoices.spells;
+  
   let html = `<div style="font-size:0.9rem;line-height:1.6">`;
   html += `<p><strong>Spellcasting Ability:</strong> ${s.spellcasting_ability}</p>`;
-  if (s.cantrips_change) html += `<p><strong>New Cantrips:</strong> +${s.cantrips_change}</p>`;
-  if (s.spells_known_change) html += `<p><strong>New Spells Known:</strong> +${s.spells_known_change}</p>`;
-  html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">New spell slots will be automatically applied. Add specific spells on the Spells tab after leveling up.</p>`;
+  html += `<p>New spell slots will be automatically applied.</p>`;
+  
+  if (needSpells > 0 || needCantrips > 0) {
+    const totalNeeded = needSpells + needCantrips;
+    html += `<p style="margin-top:0.75rem"><strong>Select ${totalNeeded} new spell${totalNeeded>1?'s':''}:</strong> `;
+    if (needSpells > 0) html += `${needSpells} L1+ spell${needSpells>1?'s':''}`;
+    if (needSpells > 0 && needCantrips > 0) html += ` + `;
+    if (needCantrips > 0) html += `${needCantrips} cantrip${needCantrips>1?'s':''}`;
+    html += `</p>`;
+    
+    // Search input
+    html += `<input id="lu-spell-search" type="text" placeholder="Search spells..." 
+      style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none;margin-bottom:0.4rem"
+      oninput="filterLuSpells()">`;
+    
+    // Selected chips
+    html += `<div id="lu-selected-spells" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem">`;
+    html += `</div>`;
+    
+    // Spell results
+    html += `<div id="lu-spell-results" style="max-height:280px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
+      <div style="padding:0.5rem;color:var(--text-muted);text-align:center">Loading spells...</div>
+    </div>`;
+    
+    // Counter
+    html += `<p id="lu-spell-count" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem;text-align:right">
+      ${selected.length}/${totalNeeded} selected
+    </p>`;
+  } else {
+    html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">No new spells this level. Add specific spells on the Spells tab after leveling up.</p>`;
+  }
+  
   html += `</div>`;
   el.innerHTML = html;
+  
+  // Load spells
+  if (needSpells > 0 || needCantrips > 0) {
+    loadLuSpells(s.class_name, luData.target_level, needSpells, needCantrips);
+  }
+}
+
+let _luSpellList = [];
+
+async function loadLuSpells(className, targetLevel, needSpells, needCantrips) {
+  try {
+    const r = await fetch(`/api/character/${CHAR_ID}/available-spells?level=${targetLevel}`);
+    _luSpellList = await r.json();
+    // Sort: cantrips first, then by level, then name
+    _luSpellList.sort((a,b) => a.level - b.level || a.name.localeCompare(b.name));
+    filterLuSpells();
+    renderLuSelected();
+  } catch(e) {
+    document.getElementById('lu-spell-results').innerHTML = 
+      '<div style="padding:0.5rem;color:var(--danger);text-align:center">Failed to load spells</div>';
+  }
+}
+
+function filterLuSpells() {
+  const q = (document.getElementById('lu-spell-search')?.value || '').toLowerCase().trim();
+  const div = document.getElementById('lu-spell-results');
+  if (!div) return;
+  
+  let spells = _luSpellList;
+  if (q) {
+    spells = spells.filter(s =>
+      s.name.toLowerCase().includes(q) ||
+      (s.school || '').toLowerCase().includes(q) ||
+      s.source.toLowerCase().includes(q)
+    );
+  }
+  
+  if (!spells.length) {
+    div.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);text-align:center">No spells match</div>';
+    return;
+  }
+  
+  const selected = luChoices.spells || [];
+  const totalNeeded = (luData.spells.spells_known_change || 0) + (luData.spells.cantrips_change || 0);
+  
+  div.innerHTML = spells.slice(0, 30).map(s => {
+    const selIdx = selected.findIndex(x => x.name === s.name);
+    const isSelected = selIdx >= 0;
+    const lvlBadge = s.level === 0
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    const bg = isSelected ? 'background:rgba(99,102,241,0.15);' : '';
+    return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem;${bg}"
+      onclick="toggleLuSpell('${s.name.replace(/'/g,"\\'")}', ${s.level})">
+      <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSelected ? '✅' : '☐'}</span>
+      <strong style="flex:1;min-width:0">${s.name}</strong>
+      ${lvlBadge}
+      <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
+      <span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleLuSpell(name, level) {
+  const selected = luChoices.spells || [];
+  const idx = selected.findIndex(x => x.name === name);
+  const needSpells = luData.spells.spells_known_change || 0;
+  const needCantrips = luData.spells.cantrips_change || 0;
+  const totalNeeded = needSpells + needCantrips;
+  
+  if (idx >= 0) {
+    // Deselect
+    selected.splice(idx, 1);
+  } else {
+    // Check limits
+    if (selected.length >= totalNeeded) {
+      // Already at max — swap if they click a different one
+      return; // Just block for now
+    }
+    // Check cantrip vs leveled spell counts
+    const selCantrips = selected.filter(x => x.level === 0).length;
+    const selLeveled = selected.filter(x => x.level > 0).length;
+    if (level === 0 && selCantrips >= needCantrips && needCantrips > 0) {
+      return; // Already picked enough cantrips
+    }
+    if (level > 0 && selLeveled >= needSpells && needSpells > 0) {
+      return; // Already picked enough leveled spells
+    }
+    selected.push({name, level});
+  }
+  
+  filterLuSpells();
+  renderLuSelected();
+  updateLuSpellCount();
+}
+
+function renderLuSelected() {
+  const div = document.getElementById('lu-selected-spells');
+  if (!div) return;
+  const selected = luChoices.spells || [];
+  div.innerHTML = selected.map(s => {
+    const lvlBadge = s.level === 0 
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
+      <strong>${s.name}</strong> ${lvlBadge}
+      <button onclick="event.stopPropagation();toggleLuSpell('${s.name.replace(/'/g,"\\'")}',${s.level})" 
+        style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;padding:0;line-height:1">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function updateLuSpellCount() {
+  const el = document.getElementById('lu-spell-count');
+  if (!el) return;
+  const selected = luChoices.spells || [];
+  const totalNeeded = (luData.spells.spells_known_change || 0) + (luData.spells.cantrips_change || 0);
+  el.textContent = `${selected.length}/${totalNeeded} selected`;
+  el.style.color = selected.length === totalNeeded ? 'var(--success)' : 'var(--text-muted)';
 }
 
 function renderLuConfirm(el) {
@@ -4062,6 +4215,9 @@ function renderLuConfirm(el) {
   }
   if (luData.spells) {
     html += `<p><strong>Spell Slots:</strong> Updated automatically</p>`;
+  }
+  if (luChoices.spells && luChoices.spells.length) {
+    html += `<p><strong>New Spells:</strong> ${luChoices.spells.map(s => s.name).join(', ')}</p>`;
   }
   
   html += `<p style="color:var(--warn);font-size:0.8rem;margin-top:1rem">⚠ This cannot be undone. HP will be fully restored.</p>`;

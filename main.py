@@ -4046,7 +4046,8 @@ async def available_spells(char_id: int, request: Request):
     class_name = char["class_name"] or ""
     subclass = char["subclass"] or ""
     race_name = char["race"] or ""
-    level = max(1, int(char.get("level", 1) or 1))
+    # Allow override for level-up preview (still at old level in DB)
+    level = int(request.query_params.get("level", 0)) or max(1, int(char.get("level", 1) or 1))
 
     # Get already-known spell names
     known_rows = db.execute("SELECT spell_name FROM character_spells WHERE character_id = ?",
@@ -4820,12 +4821,13 @@ async def level_up_info(char_id: int, request: Request):
         except:
             old_slots = {}; new_slots = {}
         spell_info = {
+            "class_name": cls,
             "caster_type": caster_type,
             "spellcasting_ability": _spellcasting_ability(cls),
             "old_slots": old_slots, "new_slots": new_slots,
         }
-        # Spells known
-        if caster_type in ("full", "half"):
+        # Spells known (Bard, Sorcerer, Warlock, Ranger)
+        if cls in SPELLS_KNOWN_CASTERS:
             old_known = get_spells_known_max(cls, current_level)
             new_known = get_spells_known_max(cls, target_level)
             spell_info["spells_known_change"] = max(0, new_known - old_known)
@@ -5054,6 +5056,17 @@ async def apply_level_up(char_id: int, request: Request):
     spell_slots = get_character_spell_slots(char_copy)
     updates["spell_slot_data"] = json.dumps(spell_slots)
     updates["spell_slots_used"] = json.dumps({})  # Fresh slots after level up
+    
+    # Batch-add spells selected during level-up
+    spell_choices = data.get("spells", [])
+    if spell_choices:
+        for sp in spell_choices:
+            db.execute(
+                "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+                (char_id, sp.get("name", ""), sp.get("level", 0), 0, 0, 0))
+        # Enrich with SRD data for the changes log
+        spell_names = [sp.get("name", "") for sp in spell_choices]
+        changes.append(f"Spells: {', '.join(spell_names)}")
     
     # Hit dice — per class (e.g. "3d10 + 2d8")
     hd_parts = []
