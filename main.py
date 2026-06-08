@@ -6024,6 +6024,22 @@ LIMITED_USE = {
     "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
     # Dragonborn (PHB p.34) — Breath Weapon, 1/short rest
     "breath weapon":       {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    # Cleric (PHB p.59) — Divine Intervention, 1/long rest (L10: roll; L20: auto)
+    "divine intervention": {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Paladin (PHB p.85) — Cleansing Touch, CHA mod/long rest
+    "cleansing touch":     {"min": 1, "max": 5,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Rogue (PHB p.97) — Stroke of Luck, 1/short rest
+    "stroke of luck":      {"min": 1, "max": 1,  "recharge": "short", "class": "Rogue", "per": "fixed"},
+    # Warlock (PHB p.107-108) — Eldritch Master (1/long), Fiend features
+    "eldritch master":     {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    "dark one's own luck": {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "hurl through hell":   {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    # Druid Land (PHB p.68) — Natural Recovery, 1/short rest
+    "natural recovery":    {"min": 1, "max": 1,  "recharge": "short", "class": "Druid", "per": "fixed"},
+    # Wizard Evocation (PHB p.117-118) — Overchannel, 1/long rest
+    "overchannel":         {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Wizard (PHB p.115) — Signature Spell, 1/short rest
+    "signature spell":     {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
 }
 
 
@@ -7165,6 +7181,9 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                         if lkey == "divine sense":
                             cha_mod = (mods or {}).get("charisma", 0)
                             uses_max = max(1, uses_max + cha_mod)
+                        if lkey == "cleansing touch":
+                            cha_mod = (mods or {}).get("charisma", 0)
+                            uses_max = max(1, uses_max + cha_mod - 1)  # base 1 + CHA
                         entry["uses_max"] = uses_max
                         entry["uses"] = uses_max
                         entry["recharge"] = lu["recharge"]
