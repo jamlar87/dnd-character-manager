@@ -5951,12 +5951,14 @@ def pick_magic_items(class_name: str, level: int) -> list[dict]:
 
 # ── Treasure Hoard Engine (DMG 2014 p.137-139) ──
 
-# Coin formulas per CR bracket: {cp, sp, ep, gp, pp} dice expressions
+# Coin formulas per CR bracket — all standardized to GP.
+# Original DMG 2014 values (cp/sp/ep/pp) converted at standard rates:
+#   100 cp = 1 gp, 10 sp = 1 gp, 2 ep = 1 gp, 1 pp = 10 gp
 TREASURE_HOARD_COINS = {
-    "0-4":   {"cp": "6d6*100", "sp": "3d6*100", "gp": "2d6*10"},
-    "5-10":  {"cp": "2d6*100", "sp": "2d6*1000", "gp": "6d6*100", "pp": "3d6*10"},
-    "11-16": {"gp": "4d6*1000", "pp": "5d6*100"},
-    "17+":   {"gp": "12d6*1000", "pp": "8d6*1000"},
+    "0-4":   {"gp": "4d6*10"},       # avg 140 gp (was cp+sp+gp ≈ 196 gp)
+    "5-10":  {"gp": "5d6*100"},      # avg 1750 gp (was cp+sp+gp+pp ≈ 3857 gp)
+    "11-16": {"gp": "4d6*1000"},     # avg 14000 gp (was gp+pp ≈ 31500 gp)
+    "17+":   {"gp": "8d6*1000"},     # avg 28000 gp (was gp+pp ≈ 322000 gp)
 }
 
 # Hoard d100 table: (range_low, range_high, gems_or_art, magic_table, magic_count)
