@@ -534,8 +534,8 @@ Return ONLY this JSON (empty arrays where nothing found):
     "darkvision": 0,
     "languages": ["Common"],
     "size": "Medium",
-    "traits": [{"name": "Trait Name", "description": "Full trait text"}],
-    "subraces": [{"name": "Subrace Name", "asi": {}, "traits": [], "description": "..."}],
+    "traits": [{"name": "Trait Name", "description": "Full trait text", "uses": 1, "recharge": "long rest"}],
+    "subraces": [{"name": "Subrace Name", "asi": {}, "traits": [{"name": "Trait Name", "description": "...", "uses": 1, "recharge": "short rest"}], "description": "..."}],
     "description": "1-2 sentence description"
   }],
   "spells": [{
@@ -637,12 +637,17 @@ Return ONLY this JSON (empty arrays where nothing found):
     "class": "Parent Class",
     "description": "Brief description",
     "features": [
-      {"name": "Feature Name", "level": 3, "description": "Full feature text verbatim"},
+      {"name": "Feature Name", "level": 3, "description": "Full feature text verbatim", "uses": 1, "recharge": "long rest"},
       {"name": "Another Feature", "level": 3, "description": "Full feature text verbatim"},
       {"name": "Higher-Level Feature", "level": 7, "description": "Full feature text verbatim"}
     ],
     "source": "XGE p.50"
   }]
+
+LIMITED-USE FIELDS (uses, recharge):
+- "uses": how many times per rest this feature can be used (integer). 0 means at-will/unlimited. Omit if not use-limited.
+- "recharge": "short rest" or "long rest". Omit for at-will features.
+- Applies to race traits AND subclass features. Examples: Breath Weapon → uses:1, recharge:"short rest"; Rage → uses:2, recharge:"long rest"; Darkvision → omit uses/recharge.
 
 CRITICAL — SUBCLASSES:
 - Extract EVERY feature at EVERY level. A subclass section lists features at

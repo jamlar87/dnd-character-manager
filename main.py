@@ -114,14 +114,53 @@ def load_manual_data():
             if v and k in asi_map:
                 asi[asi_map[k]] = v
         traits = [t.get("name", "") for t in race.get("traits", [])]
+        # Process subraces
+        subrace_names = []
+        subrace_descs = {}
+        for sr in race.get("subraces", []):
+            sr_name = sr.get("name", "")
+            if sr_name:
+                subrace_names.append(sr_name)
+                subrace_descs[sr_name] = sr.get("description", "")
+                # Merge subrace ASI into SUBASIS
+                sr_asi = {k: v for k, v in sr.get("asi", {}).items() if v}
+                if sr_asi and sr_name not in SUBASIS:
+                    SUBASIS[sr_name] = sr_asi
+                # Add subrace trait names to SUBRACE_TRAITS
+                sr_trait_names = [st.get("name", "") for st in sr.get("traits", [])]
+                if sr_trait_names and sr_name not in SUBRACE_TRAITS:
+                    SUBRACE_TRAITS[sr_name] = sr_trait_names
+                # Add subrace trait descriptions to RACIAL_TRAIT_DESCS
+                for st in sr.get("traits", []):
+                    stname = st.get("name", "")
+                    stdesc = st.get("description", "")
+                    if stname and stdesc and stname not in RACIAL_TRAIT_DESCS:
+                        RACIAL_TRAIT_DESCS[stname] = stdesc
+                # Add subrace trait effects
+                sr_effects = sr.get("_effects", {})
+                for stname, eff in sr_effects.items():
+                    if stname not in RACIAL_TRAIT_EFFECTS:
+                        RACIAL_TRAIT_EFFECTS[stname] = {
+                            "armor_profs": eff.get("armor_profs", []),
+                            "weapon_profs": eff.get("weapon_profs", []),
+                            "tool_profs": eff.get("tool_profs", []),
+                            "skill_profs": eff.get("skill_profs", []),
+                            "damage_resist": eff.get("damage_resist", []),
+                            "condition_immune": eff.get("condition_immune", []),
+                            "speed": eff.get("speed"),
+                            "darkvision": eff.get("darkvision"),
+                            "hp_per_level": eff.get("hp_per_level", 0),
+                            "natural_armor": eff.get("natural_armor"),
+                        }
         RACES[name] = {
-            "subraces": [],
+            "subraces": subrace_names,
             "asi": asi,
             "speed": race.get("speed", 30),
             "darkvision": race.get("darkvision", 0),
             "languages": race.get("languages", ["Common"]),
             "traits": traits,
             "desc": race.get("description", ""),
+            "subrace_descs": subrace_descs,
         }
         # Add trait descriptions
         for t in race.get("traits", []):
@@ -146,7 +185,8 @@ def load_manual_data():
                     "natural_armor": eff.get("natural_armor"),
                 }
                 RACIAL_TRAIT_EFFECTS[tname] = mapped
-        print(f"  + Race: {name} ({len(traits)} traits)")
+        sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
+        print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
 
     # ── Spells ── append to SRD_SPELLS
     manual_spells = _load_manual_json("spells.json")
@@ -216,14 +256,18 @@ def load_manual_data():
 
         # Populate SUBCLASS_FEATURES from extracted feature data
         features = sc.get("features", [])
-        if features and sc_name not in SUBCLASS_FEATURES:
+        if features:
             by_level: dict[int, list[str]] = {}
             for feat in features:
                 lvl = feat.get("level", 0)
                 fname = feat.get("name", "")
+                fdesc = feat.get("description", "")
                 if fname and lvl > 0:  # skip L0 "atonement" meta-features
                     by_level.setdefault(lvl, []).append(fname)
-            if by_level:
+                    # Store description for lookup (skip if already hardcoded)
+                    if fdesc and fname.lower() not in FEATURE_DESCRIPTIONS:
+                        FEATURE_DESCRIPTIONS[fname.lower()] = fdesc
+            if by_level and sc_name not in SUBCLASS_FEATURES:
                 SUBCLASS_FEATURES[sc_name] = by_level
     if manual_subclasses:
         print(f"  + Subclasses: {len(manual_subclasses)}")
