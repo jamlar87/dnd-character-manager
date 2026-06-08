@@ -217,7 +217,9 @@
 .feat-body { padding: 0 0.8rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
 .passive-chip-body { display: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
 .passive-chip-body.open { display: block; }
-.feat-body.open { max-height: 400px; padding: 0.5rem 0.8rem 0.8rem; }
+.feat-body.open { max-height: 600px; padding: 0.5rem 0.8rem 0.8rem; }
+.feat-sub-body.open { max-height: 300px !important; }
+.feat-sub-header.open span { transform: rotate(90deg); display: inline-block; }
 .spell-body { display: none; }
 .spell-body.open { display: block; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
@@ -1000,7 +1002,27 @@
                 <span class="arrow">▶</span>
               </span>
             </div>
-            <div class="feat-body">{{ feat.description or 'No description available.' }}</div>
+            <div class="feat-body">
+              {{ feat.description or 'No description available.' }}
+              {% if feat.sub_options %}
+              <div style="margin-top:0.6rem;border-top:1px solid var(--border);padding-top:0.4rem">
+                {% for sub in feat.sub_options %}
+                {% if 'channel divinity:' in sub.name.lower() %}
+                <div class="cd-sub-option" style="margin-bottom:0.4rem">
+                  <div class="feat-sub-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
+                       style="font-size:0.75rem;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:0.3rem;padding:0.15rem 0">
+                    <span style="font-size:0.6rem;transition:transform 0.2s;display:inline-block">▶</span>
+                    {{ sub.name }}
+                  </div>
+                  <div class="feat-sub-body" style="font-size:0.72rem;color:var(--text-muted);line-height:1.4;max-height:0;overflow:hidden;transition:max-height 0.3s ease;padding-left:1rem">
+                    {{ sub.description or 'No description available.' }}
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
           </div>
           {% endfor %}
       </div>
@@ -3128,14 +3150,24 @@ async function saveFeature(idx) {
   const val = ta.value.trim();
   featureData[idx].description = val;
   await api('/update', { feature_data: JSON.stringify(featureData) });
-  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
-  card.querySelector('.feat-body').textContent = val || 'No description available.';
+  // If feature has sub_options, reload to re-render; otherwise update inline
+  if (featureData[idx].sub_options && featureData[idx].sub_options.length) {
+    location.reload();
+  } else {
+    const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+    card.querySelector('.feat-body').textContent = val || 'No description available.';
+  }
 }
 
 function cancelFeature(idx) {
   const feat = featureData[idx];
-  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
-  card.querySelector('.feat-body').textContent = feat.description || 'No description available.';
+  // If feature has sub_options, reload to re-render; otherwise restore inline
+  if (feat.sub_options && feat.sub_options.length) {
+    location.reload();
+  } else {
+    const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+    card.querySelector('.feat-body').textContent = feat.description || 'No description available.';
+  }
 }
 
 // ── Limited-Use Features (Channel Divinity, Rage, etc.) — toggle dots ──
