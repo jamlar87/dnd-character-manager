@@ -207,7 +207,9 @@
 .ds-dot.filled-fail { background: var(--danger); border-color: var(--danger); }
 
 /* Feature cards */
-.feat-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.4rem; overflow: hidden; }
+.feat-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.4rem; overflow: hidden; transition: opacity 0.3s; }
+.feat-card.depleted { opacity: 0.45; }
+.feat-card.depleted .feat-header { color: var(--text-muted); }
 .feat-header { padding: 0.6rem 0.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; }
 .feat-header:hover { background: rgba(255,255,255,0.03); }
 .feat-header .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--text-muted); }
@@ -982,7 +984,7 @@
               <span style="display:flex;align-items:center;gap:0.5rem">
                 <span class="feat-uses-box" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-family:monospace" id="feat-uses-box-{{ idx }}">
                   {% for i in range(feat.uses_max) %}
-                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Used — click to restore{% else %}Available — click to expend{% endif %}"></span>
+                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
                   {% endfor %}
                 </span>
                 <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
@@ -3035,11 +3037,14 @@ function renderFeatureDots(idx) {
   if (!box) return;
   box.querySelectorAll('.feat-use-dot').forEach((dot, i) => {
     dot.classList.toggle('filled', i < feat.uses);
-    dot.title = i < feat.uses ? 'Used — click to restore' : 'Available — click to expend';
+    dot.title = i < feat.uses ? 'Available — click to expend' : 'Used — click to restore';
   });
   // Update text counter
   const text = document.getElementById(`feat-uses-text-${idx}`);
   if (text) text.textContent = `${feat.uses}/${feat.uses_max}`;
+  // Toggle depleted state on the feature card
+  const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
+  if (card) card.classList.toggle('depleted', feat.uses === 0 && feat.uses_max > 0);
 }
 
 function resetAllFeatureUses() {
