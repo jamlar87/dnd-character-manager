@@ -228,6 +228,14 @@
 .feat-use-dot.filled { background: var(--accent); border-color: var(--accent); }
 .feat-use-dot.filled:hover { background: var(--danger); border-color: var(--danger); opacity: 0.7; }
 
+/* Highlight pulse animation (for scroll-to-target) */
+@keyframes highlightPulse {
+  0%   { border-color: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  50%  { border-color: var(--accent); box-shadow: 0 0 16px var(--accent); }
+  100% { border-color: var(--border); box-shadow: none; }
+}
+.highlight-pulse { animation: highlightPulse 1.2s ease-out; }
+
 /* Attacks */
 .atk-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.4rem; }
 .atk-card .atk-name { font-weight: 600; font-size: 0.9rem; }
@@ -1020,10 +1028,7 @@
         {% endif %}
         {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") and prepared_max > 0 %}
         <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
-          Prepared Spells: <span id="prepared-count">{{ spells|selectattr("prepared")|list|length }}</span> / {{ prepared_max }}
-          <span style="font-size:0.72rem;margin-left:0.3rem">
-            (max = level {{ character.level }} + {{ sc_mod|string }} modifier)
-          </span>
+          Prepared Caster — preparation cap: {{ prepared_max }} (level {{ character.level }} + {{ sc_mod|string }} modifier)
         </div>
         {% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") and spells_known_max > 0 %}
         <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
@@ -1077,11 +1082,45 @@
       </div>
       {% endif %}
 
+      <!-- Prepared Spells (prepared casters only) -->
+      {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
+      {% set prepared_spells = spells|selectattr("prepared","eq",1)|selectattr("spell_level","gt",0)|list %}
+      <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent2)">
+        <h3 style="margin:0 0 0.5rem 0">📜 Prepared Spells
+          <span style="font-size:0.75rem;color:var(--text-muted);font-weight:normal">
+            (<span id="prepared-count">{{ prepared_spells|length }}</span>/{{ prepared_max }})
+          </span>
+        </h3>
+        {% if prepared_spells %}
+        <div id="prepared-spells-list" style="display:flex;flex-wrap:wrap;gap:0.35rem">
+          {% for sp in prepared_spells %}
+          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer"
+               onclick="document.getElementById('spell-row-{{ sp.id }}').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('spell-row-{{ sp.id }}').querySelector('.spell-header').classList.add('highlight-pulse')"
+               title="Click to find in Spellbook">
+            <strong>{{ sp.spell_name }}</strong>
+            <span class="badge badge-muted" style="font-size:0.6rem">Lv{{ sp.spell_level }}</span>
+            {% if sp.srd and sp.srd.school %}
+            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
+            {% endif %}
+            {% if sp.srd and sp.srd.concentration %}
+            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+            {% endif %}
+            <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1"
+                    onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p style="color:var(--text-muted);font-size:0.85rem;margin:0">No spells prepared. Prepare spells from your Spellbook below.</p>
+        {% endif %}
+      </div>
+      {% endif %}
+
       <!-- Known / Prepared Spells List -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">
-            {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}Prepared Spells{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
+            {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}📖 Spellbook{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
           </h3>
           <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
           <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent)">🤖 AI Assist</button>
@@ -1105,8 +1144,11 @@
             {% if sp.srd and sp.srd.concentration %}
             <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
             {% endif %}
-            {% if use_prepared and sp.prepared and sp.spell_level > 0 %}
-            <span style="color:var(--success);font-size:0.65rem">prepared</span>
+            {% if use_prepared and sp.spell_level > 0 %}
+            <button class="btn btn-outline btn-sm prep-toggle-btn" style="font-size:0.65rem;padding:0.1rem 0.35rem;line-height:1;flex-shrink:0;{% if sp.prepared %}color:var(--danger){% else %}color:var(--success){% endif %}"
+                    onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
+                    data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
+                    title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
             {% endif %}
             <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
           </div>
@@ -2250,38 +2292,110 @@ async function aiSelectSpells() {
 
 // ── Toggle Prepared Spell ──
 async function togglePrepared(spellId, checkbox) {
-  const prepared = checkbox.checked;
+  // checkbox can be an <input type=checkbox> or a <button> with data-checked
+  const wasChecked = checkbox.tagName === 'BUTTON' ? checkbox.dataset.checked === 'true' : checkbox.checked;
+  const prepared = !wasChecked;  // toggle
   const r = await fetch('/api/character/' + CHAR_ID + '/toggle-prepared', {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({ id: spellId, prepared: prepared })
   });
-  if (r.ok) {
-    // Update the prepared label and counter
-    const row = document.getElementById('spell-row-' + spellId);
-    const label = row ? row.querySelector('.badge-success, [style*=\"color:var(--success)\"]') : null;
-    if (label) {
-      label.style.display = prepared ? 'inline' : 'none';
-    } else if (prepared && row) {
-      const nameDiv = row.querySelector('strong');
-      if (nameDiv) {
-        const prepSpan = document.createElement('span');
-        prepSpan.style.cssText = 'color:var(--success);font-size:0.7rem';
-        prepSpan.textContent = ' ✓ prepared';
-        nameDiv.parentNode.insertBefore(prepSpan, nameDiv.nextSibling);
+  if (!r.ok) return;
+  
+  // Update the button state if it's a button
+  if (checkbox.tagName === 'BUTTON') {
+    checkbox.dataset.checked = prepared ? 'true' : 'false';
+    checkbox.textContent = prepared ? '✕' : '+';
+    checkbox.title = prepared ? 'Unprepare' : 'Prepare';
+    checkbox.style.color = prepared ? 'var(--danger)' : 'var(--success)';
+  } else {
+    checkbox.checked = prepared;
+  }
+  
+  // Sync the Spellbook row button (if toggle came from chip)
+  const row = document.getElementById('spell-row-' + spellId);
+  if (row) {
+    const spellbookBtn = row.querySelector('.prep-toggle-btn');
+    if (spellbookBtn && spellbookBtn !== checkbox) {
+      spellbookBtn.dataset.checked = prepared ? 'true' : 'false';
+      spellbookBtn.textContent = prepared ? '✕' : '+';
+      spellbookBtn.title = prepared ? 'Unprepare' : 'Prepare';
+      spellbookBtn.style.color = prepared ? 'var(--danger)' : 'var(--success)';
+    }
+  }
+  // Sync the chip button (if toggle came from Spellbook)
+  if (checkbox.tagName === 'BUTTON' && checkbox.closest('.prepared-spell-chip')) {
+    // Click came from chip — need to update Spellbook button too (handled above)
+  } else {
+    // Click came from Spellbook button — need to update chip button
+    const chip = document.getElementById('prep-spell-' + spellId);
+    if (chip) {
+      const chipBtn = chip.querySelector('button');
+      if (chipBtn) {
+        chipBtn.dataset.checked = prepared ? 'true' : 'false';
+        chipBtn.textContent = prepared ? '✕' : '+';
+        chipBtn.title = prepared ? 'Unprepare' : 'Prepare';
+        chipBtn.style.color = prepared ? 'var(--danger)' : 'var(--success)';
       }
     }
-    // Update prepared count
-    const countEl = document.getElementById('prepared-count');
-    if (countEl) {
-      if (prepared) {
-        countEl.textContent = parseInt(countEl.textContent) + 1;
-      } else {
-        countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+  }
+  
+  // Update prepared spell chip in the prepared spells card
+  const prepList = document.getElementById('prepared-spells-list');
+  if (prepList) {
+    if (prepared) {
+      // Use existing row var from sync section above, or find it
+      const spellRow = document.getElementById('spell-row-' + spellId);
+      const name = spellRow ? spellRow.querySelector('strong').textContent : 'Spell';
+      const lvlBadge = spellRow ? spellRow.querySelector('.badge-muted') : null;
+      const lvl = lvlBadge ? lvlBadge.textContent : '';
+      const schoolBadge = spellRow ? spellRow.querySelector('[style*="var(--accent2)"]') : null;
+      const concBadge = spellRow ? spellRow.querySelector('[style*="var(--warn)"]') : null;
+      
+      // Remove "no spells" message if present
+      const emptyMsg = prepList.querySelector('p');
+      if (emptyMsg) emptyMsg.remove();
+      
+      const chip = document.createElement('div');
+      chip.className = 'prepared-spell-chip';
+      chip.id = 'prep-spell-' + spellId;
+      chip.style.cssText = 'display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer';
+      chip.onclick = function(e) {
+        e.stopPropagation();
+        const targetRow = document.getElementById('spell-row-' + spellId);
+        if (targetRow) {
+          targetRow.scrollIntoView({behavior:'smooth',block:'center'});
+          targetRow.querySelector('.spell-header').classList.add('highlight-pulse');
+        }
+      };
+      chip.title = 'Click to find in Spellbook';
+      chip.innerHTML = '<strong>' + name + '</strong>' +
+        (lvl ? ' <span class=\"badge badge-muted\" style=\"font-size:0.6rem\">' + lvl + '</span>' : '') +
+        (schoolBadge ? ' ' + schoolBadge.outerHTML : '') +
+        (concBadge ? ' ' + concBadge.outerHTML : '') +
+        '<button class=\"btn btn-outline btn-sm\" style=\"font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger)\" ' +
+        'onclick=\"event.stopPropagation();togglePrepared(' + spellId + ', this)\" data-checked=\"true\" title=\"Unprepare\">✕</button>';
+      prepList.appendChild(chip);
+    } else {
+      // Remove the chip
+      const chip = document.getElementById('prep-spell-' + spellId);
+      if (chip) chip.remove();
+      // Add "no spells" message if list is empty
+      if (prepList.children.length === 0) {
+        prepList.innerHTML = '<p style=\"color:var(--text-muted);font-size:0.85rem;margin:0\">No spells prepared. Prepare spells from your Spellbook below.</p>';
       }
-      // Enforce limit — highlight in red if exceeded
-      const current = parseInt(countEl.textContent);
-      countEl.style.color = current > PREPARED_MAX ? 'var(--danger)' : 'var(--text-muted)';
     }
+  }
+  
+  // Update prepared count
+  const countEl = document.getElementById('prepared-count');
+  if (countEl) {
+    if (prepared) {
+      countEl.textContent = parseInt(countEl.textContent) + 1;
+    } else {
+      countEl.textContent = Math.max(0, parseInt(countEl.textContent) - 1);
+    }
+    const current = parseInt(countEl.textContent);
+    countEl.style.color = current > PREPARED_MAX ? 'var(--danger)' : '';
   }
 }
 
