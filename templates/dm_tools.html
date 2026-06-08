@@ -2,7 +2,8 @@
 {% block title %}DM Tools{% endblock %}
 {% block style %}
 .container { max-width: 1400px; }
-.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
+.dm-tabs::after { content: ''; position: sticky; right: 0; min-width: 28px; height: 100%; background: linear-gradient(to right, transparent, var(--card-bg) 70%); flex-shrink: 0; pointer-events: none; margin-left: -28px; }
 .dm-tabs::-webkit-scrollbar { display: none; }
 .dm-tab { padding: 0.6rem 1.4rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
   color: var(--text-muted); border: none; background: none; border-bottom: 2px solid transparent;

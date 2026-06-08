@@ -8,7 +8,7 @@
 /* ── Top row: rest + center + HP ── */
 .sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
 .top-hp { width: 260px; flex-shrink: 0; }
-.top-longrest { width: 80px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:column; gap:0.35rem; }
+.top-longrest { width: 170px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:row; gap:0.35rem; }
 .top-center { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .top-combat-grid { grid-template-columns: repeat(6, 1fr) !important; }
 .top-abilities-grid { grid-template-columns: repeat(6, 1fr) !important; }
@@ -18,34 +18,55 @@
 .center-abilities-senses { display: flex; flex-direction: column; gap: 0.5rem; }
 .center-abilities-senses .abilities-grid { flex: 1; min-width: 0; }
 
+/* Abilities grid (base — must precede mobile breakpoints) */
+.abilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
+.ability-box .ab-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
+.ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
+.ability-box.proficient { border-color: var(--accent); }
+.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.45rem; color: var(--accent); }
+
+/* Combat quick-stats (base — must precede mobile breakpoints) */
+.combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
+.combat-quick-item .cq-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
+
+/* ── Mobile breakpoints (widest first, narrowest overrides) ── */
 @media (max-width: 768px) {
   .sheet-top-row { flex-direction: column; }
   .top-hp { width: 100%; }
-  .top-longrest { width: 100%; max-width: 200px; margin: 0 auto; }
+  .top-longrest { width: 100%; max-width: 100%; margin: 0 auto; flex-direction: row; }
   .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
   .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; }
 }
-/* Narrow phones — 2 columns, tighter spacing */
-@media (max-width: 480px) {
-  .top-combat-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .top-abilities-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .abilities-grid { grid-template-columns: repeat(2, 1fr); }
-  .combat-quick { grid-template-columns: repeat(2, 1fr); }
-  .combat-quick-item { padding: 0.25rem; }
-  .combat-quick-item .cq-label { font-size: 0.5rem; }
-  .combat-quick-item .cq-value { font-size: 0.85rem; }
-  .ability-box { padding: 0.3rem 0.15rem; }
-  .ability-box .ab-name { font-size: 0.55rem; }
-  .ability-box .ab-mod { font-size: 1rem; }
-  .ability-box .ab-score { font-size: 0.6rem; }
+/* Phones: 3 columns, tighter spacing */
+@media (max-width: 600px) {
+  .top-center { overflow-x: hidden; }
+  .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.25rem; }
+  .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.2rem; }
+  .abilities-grid { grid-template-columns: repeat(3, 1fr); gap: 0.2rem; }
+  .combat-quick { grid-template-columns: repeat(3, 1fr); gap: 0.25rem; }
+  .combat-quick-item { padding: 0.2rem 0.15rem; }
+  .combat-quick-item .cq-label { font-size: 0.48rem; letter-spacing: 0.02em; }
+  .combat-quick-item .cq-value { font-size: 0.8rem; }
+  .ability-box { padding: 0.25rem 0.1rem; }
+  .ability-box .ab-name { font-size: 0.5rem; letter-spacing: 0.02em; }
+  .ability-box .ab-mod { font-size: 0.95rem; }
+  .ability-box .ab-score { font-size: 0.55rem; }
 }
 
 /* ── Senses section box ── */
-.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; }
+.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
 .senses-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
 .sense-row { display: flex; gap: 0.3rem; align-items: baseline; font-size: 0.8rem; white-space: nowrap; }
 .sense-label { color: var(--text-muted); }
 .sense-val { font-family: monospace; font-weight: 600; }
+@media (max-width: 600px) {
+  .senses-section { gap: 0.4rem; padding: 0.4rem 0.6rem; }
+  .sense-row { font-size: 0.75rem; }
+}
 
 /* Two-column layout */
 .sheet-layout { display: flex; gap: 1rem; min-height: calc(100vh - 140px); }
@@ -62,21 +83,6 @@
 
 .sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; }
 .sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
-
-/* Abilities grid */
-.abilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
-.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
-.ability-box .ab-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
-.ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
-.ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
-.ability-box.proficient { border-color: var(--accent); }
-.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.45rem; color: var(--accent); }
-
-/* Combat quick-stats */
-.combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
-.combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
-.combat-quick-item .cq-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
-.combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
 
 /* HP bar in sidebar */
 .sidebar-hp { margin-top: 0.4rem; }
@@ -176,7 +182,8 @@
 .sheet-main { flex: 1; min-width: 0; }
 
 /* Tabs */
-.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
+.tab-bar::after { content: ''; position: sticky; right: 0; min-width: 28px; height: 100%; background: linear-gradient(to right, transparent, var(--card-bg) 70%); flex-shrink: 0; pointer-events: none; margin-left: -28px; }
 .tab-bar::-webkit-scrollbar { display: none; }
 .tab-btn { padding: 0.5rem 1rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
@@ -519,11 +526,11 @@
 
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
-        <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Saving Throws</h4>
         <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
-      <div id="saves-body">
+      <div id="saves-body" style="display:none">
       {% for label, stat in stats %}
       {% set mod = (character[stat] - 10) // 2 %}
       {% set prof_save = stat in saves_class %}
@@ -553,10 +560,10 @@
     <!-- Skills -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
-        <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Skills</h4>
       </div>
-      <div id="skills-body">
+      <div id="skills-body" style="display:none">
       {% for skill_name, skill_ab in skill_abilities.items()|sort %}
       {% set ab_mod = (character[skill_ab] - 10) // 2 %}
       {% set has_prof = skill_name in char_skills %}
@@ -577,10 +584,10 @@
     <!-- Defenses -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
-        <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
       </div>
-      <div id="defenses-body">
+      <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
         {% set ns = namespace(has_fd_resist=false, has_fd_immune=false) %}
         {% for fd in feature_defenses %}
@@ -657,10 +664,10 @@
     <!-- Proficiencies -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
-        <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
         <h4 style="margin:0">Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
       </div>
-      <div id="profs-body">
+      <div id="profs-body" style="display:none">
       <div style="font-size:0.8rem" id="prof-section">
         <!-- Armor -->
         {% if merged_armor_profs %}
