@@ -6531,6 +6531,12 @@ CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
         "it is within 60 feet of you. This effect lasts for 1 minute. During that time, you can use "
         "your action to end this effect and cast the Suggestion spell on the creature without "
         "expending a spell slot. The target automatically fails its saving throw against the spell.",
+    "channel divinity: preserve life":
+        "As an action, you present your holy symbol and evoke healing energy that can restore a "
+        "number of hit points equal to five times your cleric level. Choose any creatures within "
+        "30 feet of you, and divide those hit points among them. This feature can restore a "
+        "creature to no more than half of its hit point maximum. You can't use this feature on "
+        "an undead or a construct.",
     "channel divinity: radiance of the dawn":
         "As an action, you present your holy symbol, and any magical darkness within 30 feet of "
         "you is dispelled. Additionally, each hostile creature within 30 feet of you must make a "
@@ -6567,6 +6573,22 @@ CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
         "this choice after you see the roll, but before the DM says whether the attack hits "
         "or misses.",
     # Paladin oaths — PHB p.86-88
+    "channel divinity: sacred weapon":
+        "As an action, you can imbue one weapon that you are holding with positive energy, using "
+        "your Channel Divinity. For 1 minute, you add your Charisma modifier to attack rolls made "
+        "with that weapon (minimum bonus of +1). The weapon also emits bright light in a 20-foot "
+        "radius and dim light 20 feet beyond that. If the weapon is not already magical, it becomes "
+        "magical for the duration. You can end this effect on your turn as part of any other action. "
+        "If you are no longer holding or carrying this weapon, or if you fall unconscious, this "
+        "effect ends.",
+    "channel divinity: turn the unholy":
+        "As an action, you present your holy symbol and speak a prayer censuring fiends and undead, "
+        "using your Channel Divinity. Each fiend or undead that can see or hear you within 30 feet "
+        "of you must make a Wisdom saving throw. If the creature fails its saving throw, it is "
+        "turned for 1 minute or until it takes damage. A turned creature must spend its turns "
+        "trying to move as far away from you as it can, and it can't willingly move to a space "
+        "within 30 feet of you. It also can't take reactions. For its action, it can use only the "
+        "Dash action or try to escape from an effect that prevents it from moving.",
     "channel divinity: nature's wrath":
         "As an action, you can cause spectral vines to spring up and reach for a creature within "
         "10 feet of you that you can see. The creature must succeed on a Strength or Dexterity "
