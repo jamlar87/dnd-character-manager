@@ -6416,6 +6416,604 @@ CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
         "If a creature frightened by this effect ends its turn more than 30 feet away from you, it "
         "can attempt another Wisdom saving throw to end the effect on itself.",
 }
+
+# ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
+# ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
+SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
+    # ── Barbarian: Path of the Totem Warrior (PHB p.50) ──
+    "spirit seeker":
+        "At 3rd level, you gain the ability to cast the Beast Sense and Speak with Animals spells, "
+        "but only as rituals.",
+    "totem spirit":
+        "At 3rd level, you choose a totem spirit and gain its feature. Bear: while raging, you have "
+        "resistance to all damage except psychic damage. Eagle: while raging, other creatures have "
+        "disadvantage on opportunity attack rolls against you, and you can Dash as a bonus action. "
+        "Wolf: while raging, your allies have advantage on melee attack rolls against hostile creatures "
+        "within 5 feet of you.",
+    "aspect of the beast":
+        "At 6th level, you gain a magical benefit based on the totem animal of your choice. Bear: "
+        "your carrying capacity is doubled and you gain advantage on Strength checks to push, pull, "
+        "lift, or break objects. Eagle: you can see up to 1 mile away with no difficulty, and dim "
+        "light doesn't impose disadvantage on your Perception checks. Wolf: you can track creatures "
+        "while moving at a fast pace and move stealthily at a normal pace.",
+    "spirit walker":
+        "At 10th level, you can cast the Commune with Nature spell as a ritual.",
+    "totemic attunement":
+        "At 14th level, you gain a magical benefit based on your totem animal. Bear: while raging, "
+        "creatures within 5 feet have disadvantage on attacks against targets other than you. Eagle: "
+        "while raging, you gain a flying speed equal to your walking speed. Wolf: while raging, you "
+        "can use a bonus action to knock a Large or smaller creature prone when you hit with a melee attack.",
+
+    # ── Bard: College of Valor (PHB p.55) ──
+    "combat inspiration":
+        "At 3rd level, a creature that has a Bardic Inspiration die from you can roll that die and "
+        "add the number to a weapon damage roll, or use its reaction to add the number to its AC "
+        "against an attack.",
+    "battle magic":
+        "At 14th level, when you use your action to cast a bard spell, you can make one weapon "
+        "attack as a bonus action.",
+
+    # ── Cleric: Death Domain (DMG p.96-97) ──
+    "death domain spells":
+        "You gain domain spells at the cleric levels listed: 1st — False Life, Ray of Sickness; "
+        "3rd — Blindness/Deafness, Ray of Enfeeblement; 5th — Animate Dead, Vampiric Touch; "
+        "7th — Blight, Death Ward; 9th — Antilife Shell, Cloudkill.",
+    "reaper":
+        "At 1st level, you learn one necromancy cantrip of your choice. When you cast a necromancy "
+        "cantrip that normally targets only one creature, it can instead target two creatures within "
+        "range and within 5 feet of each other.",
+    "inescapable destruction":
+        "At 6th level, your ability to channel negative energy becomes more potent. Necrotic damage "
+        "dealt by your cleric spells and Channel Divinity options ignores resistance to necrotic damage.",
+    "improved reaper":
+        "At 17th level, when you cast a necromancy spell of 1st through 5th level that targets only "
+        "one creature, the spell can instead target two creatures within range and within 5 feet of "
+        "each other. If the spell consumes material components, you must provide them for each target.",
+
+    # ── Cleric: Knowledge Domain (PHB p.59-60) ──
+    "blessings of knowledge":
+        "At 1st level, you learn two languages of your choice. You also become proficient in two "
+        "skills of your choice: Arcana, History, Nature, or Religion. Your proficiency bonus is "
+        "doubled for any ability check you make that uses either of those skills.",
+    "potent spellcasting":
+        "At 8th level, you add your Wisdom modifier to the damage you deal with any cleric cantrip.",
+    "visions of the past":
+        "At 17th level, you can call up visions of the past relating to an object you hold or your "
+        "immediate surroundings. You spend at least 1 minute meditating and praying, then receive "
+        "dreamlike, shadowy glimpses of recent events. Object Reading: you learn the object's "
+        "previous owner, how they acquired/lost it, and the most significant past event involving it. "
+        "Area Reading: you see events from within 50 feet, going back a number of days equal to "
+        "your Wisdom score (minimum 1).",
+
+    # ── Cleric: Light Domain (PHB p.60-61) ──
+    "warding flare":
+        "At 1st level, you can interpose divine light between yourself and an attacking enemy. "
+        "When you are attacked by a creature within 30 feet that you can see, you can use your "
+        "reaction to impose disadvantage on the attack roll. You can use this feature a number of "
+        "times equal to your Wisdom modifier (minimum 1). You regain expended uses on a long rest.",
+    "improved flare":
+        "At 6th level, you can also use your Warding Flare when a creature within 30 feet attacks "
+        "an ally other than you. If the creature is attacking both you and an ally simultaneously, "
+        "you can impose disadvantage on all targets.",
+    "corona of light":
+        "At 17th level, you can use your action to activate an aura of sunlight that lasts for 1 "
+        "minute or until you dismiss it. You emit bright light in a 60-foot radius and dim light "
+        "30 feet beyond that. Enemies in the bright light have disadvantage on saving throws "
+        "against any spell that deals fire or radiant damage.",
+
+    # ── Cleric: Nature Domain (PHB p.61-62) ──
+    "acolyte of nature":
+        "At 1st level, you learn one druid cantrip of your choice. You also gain proficiency in "
+        "one of the following skills: Animal Handling, Nature, or Survival.",
+    "dampen elements":
+        "At 6th level, when you or a creature within 30 feet takes acid, cold, fire, lightning, "
+        "or thunder damage, you can use your reaction to grant resistance to that instance of damage.",
+    "master of nature":
+        "At 17th level, you gain the ability to command animals and plant creatures. As an action, "
+        "you can issue a non-hostile command to beasts and plants within 30 feet. Creatures that "
+        "can't be charmed are immune. You can use this feature a number of times equal to your "
+        "Wisdom modifier (minimum 1). Regain uses on a long rest.",
+
+    # ── Cleric: Tempest Domain (PHB p.62) ──
+    "wrath of the storm":
+        "At 1st level, you can thunderously rebuke attackers. When a creature within 5 feet hits "
+        "you, you can use your reaction to deal 2d8 lightning or thunder damage (your choice). "
+        "You can use this feature a number of times equal to your Wisdom modifier (minimum 1). "
+        "Regain uses on a long rest.",
+    "thunderbolt strike":
+        "At 6th level, when you deal lightning damage to a Large or smaller creature, you can "
+        "push it up to 10 feet away from you.",
+    "stormborn":
+        "At 17th level, you gain a flying speed equal to your walking speed when not underground "
+        "or indoors.",
+
+    # ── Cleric: Trickery Domain (PHB p.62-63) ──
+    "blessing of the trickster":
+        "At 1st level, you can use your action to touch a willing creature to give it advantage "
+        "on Dexterity (Stealth) checks. This blessing lasts for 1 hour or until you use this "
+        "feature again.",
+    "improved duplicity":
+        "At 17th level, you can create up to four duplicates with Invoke Duplicity, instead of "
+        "one. As a bonus action, you can move any number of them up to 30 feet (max range 120 feet).",
+
+    # ── Cleric: War Domain (PHB p.63) ──
+    "war priest":
+        "At 1st level, when you use the Attack action, you can make one weapon attack as a bonus "
+        "action. You can use this feature a number of times equal to your Wisdom modifier (minimum "
+        "1). Regain uses on a long rest.",
+    "avatar of battle":
+        "At 17th level, you gain resistance to bludgeoning, piercing, and slashing damage from "
+        "nonmagical weapons.",
+
+    # ── Druid: Circle of the Moon (PHB p.69) ──
+    "combat wild shape":
+        "At 2nd level, you gain the ability to use Wild Shape on your turn as a bonus action "
+        "rather than an action. Additionally, while transformed by Wild Shape, you can use a "
+        "bonus action to expend one spell slot and regain 1d8 hit points per level of the slot.",
+    "circle forms":
+        "At 2nd level, you can transform into beasts with a CR as high as 1 (instead of the "
+        "normal 1/4). Starting at 6th level, the max CR equals your druid level divided by 3 "
+        "(rounded down).",
+    "primal strike":
+        "At 6th level, your attacks in beast form count as magical for the purpose of overcoming "
+        "resistance and immunity to nonmagical attacks and damage.",
+    "elemental wild shape":
+        "At 10th level, you can expend two uses of Wild Shape simultaneously to transform into "
+        "an air, earth, fire, or water elemental.",
+    "thousand forms":
+        "At 14th level, you can cast the Alter Self spell at will.",
+
+    # ── Fighter: Battle Master (PHB p.73-74) ──
+    "combat superiority":
+        "At 3rd level, you learn three maneuvers of your choice, detailed at the end of the "
+        "Fighter class description. You gain four d8 superiority dice. You learn two additional "
+        "maneuvers at 7th, 10th, and 15th level. You gain another superiority die at 7th and 15th "
+        "level.",
+    "know your enemy":
+        "At 7th level, if you spend at least 1 minute observing or interacting with another "
+        "creature outside combat, you can learn whether it is your equal, superior, or inferior "
+        "in two of the following: Strength, Dexterity, Constitution, AC, current HP, total class "
+        "levels (if any), or Fighter class levels (if any).",
+    "improved combat superiority":
+        "At 10th level, your superiority dice become d10s. At 18th level, they become d12s.",
+    "relentless":
+        "At 15th level, when you roll initiative and have no superiority dice remaining, you "
+        "regain one superiority die.",
+
+    # ── Fighter: Eldritch Knight (PHB p.74-75) ──
+    "weapon bond":
+        "At 3rd level, you learn a ritual that creates a magical bond between yourself and one "
+        "weapon. You can't be disarmed of that weapon unless incapacitated. If it's on the same "
+        "plane, you can summon it as a bonus action, causing it to teleport to your hand. You "
+        "can bond with up to two weapons.",
+    "war magic":
+        "At 7th level, when you use your action to cast a cantrip, you can make one weapon "
+        "attack as a bonus action.",
+    "eldritch strike":
+        "At 10th level, when you hit a creature with a weapon attack, that creature has "
+        "disadvantage on the next saving throw it makes against a spell you cast before the end "
+        "of your next turn.",
+    "arcane charge":
+        "At 15th level, you gain the ability to teleport up to 30 feet to an unoccupied space "
+        "you can see when you use Action Surge. You can teleport before or after the additional action.",
+    "improved war magic":
+        "At 18th level, when you use your action to cast a spell, you can make one weapon attack "
+        "as a bonus action.",
+
+    # ── Monk: Way of Shadow (PHB p.80) ──
+    "shadow arts":
+        "At 3rd level, you can use your ki to duplicate certain spells. As an action, you can "
+        "spend 2 ki points to cast Darkness, Darkvision, Pass Without Trace, or Silence, without "
+        "providing material components. You also learn the Minor Illusion cantrip.",
+    "shadow step":
+        "At 6th level, you gain the ability to step from one shadow into another. When in dim "
+        "light or darkness, as a bonus action you can teleport up to 60 feet to an unoccupied "
+        "space you can see that is also in dim light or darkness. You then have advantage on the "
+        "first melee attack before the end of your turn.",
+    "cloak of shadows":
+        "At 11th level, when you are in dim light or darkness, you can use your action to become "
+        "invisible. You remain invisible until you make an attack, cast a spell, or enter bright light.",
+    "opportunist":
+        "At 17th level, when a creature within 5 feet is hit by an attack from a creature other "
+        "than you, you can use your reaction to make a melee attack against that creature.",
+
+    # ── Monk: Way of the Four Elements (PHB p.80-81) ──
+    "disciple of the elements":
+        "At 3rd level, you learn magical disciplines that harness the four elements. You learn "
+        "the Elemental Attunement discipline and one other elemental discipline of your choice. "
+        "You learn additional disciplines at 6th, 11th, and 17th level. When you gain a level, "
+        "you may replace one discipline with another. Casting elemental spells costs ki points "
+        "equal to the spell's level + 1 (max 6 ki for 5th-level spells).",
+
+    # ── Paladin: Oath of Vengeance (PHB p.87-88) ──
+    "relentless avenger":
+        "At 7th level, when you hit a creature with an opportunity attack, you can move up to "
+        "half your speed immediately after the attack as part of the same reaction. This movement "
+        "doesn't provoke opportunity attacks.",
+    "soul of vengeance":
+        "At 15th level, when a creature under the effect of your Vow of Enmity makes an attack, "
+        "you can use your reaction to make a melee weapon attack against that creature if it is "
+        "within range.",
+    "avenging angel":
+        "At 20th level, you can assume the form of an angelic avenger. Using your action, you "
+        "undergo a transformation for 1 hour: you sprout wings granting 60 ft flying speed, and "
+        "you emanate an aura of menace in a 30-foot radius. Enemies that start their turn in the "
+        "aura must succeed on a Wisdom save or be frightened for 1 minute. Once used, can't be "
+        "used again until a long rest.",
+
+    # ── Paladin: Oath of the Ancients (PHB p.86-87) ──
+    "aura of warding":
+        "At 7th level, you and friendly creatures within 10 feet have resistance to damage from "
+        "spells. At 18th level, the range increases to 30 feet.",
+    "undying sentinel":
+        "At 15th level, when you are reduced to 0 hit points and not killed outright, you can "
+        "drop to 1 hit point instead. Once used, can't be used again until a long rest. "
+        "Additionally, you suffer none of the drawbacks of old age and can't be aged magically.",
+    "elder champion":
+        "At 20th level, you can use your action to become an ancient force of nature for 1 minute. "
+        "You regain 10 HP at the start of each turn, you cast paladin spells with a casting time of "
+        "1 action as a bonus action, and enemies within 10 feet have disadvantage on saves against "
+        "your spells and Channel Divinity. Once used, can't be used again until a long rest.",
+
+    # ── Paladin: Oathbreaker (DMG p.97) ──
+    "oathbreaker spells":
+        "You gain oath spells at the paladin levels listed: 3rd — Hellish Rebuke, Inflict Wounds; "
+        "5th — Crown of Madness, Darkness; 9th — Animate Dead, Bestow Curse; 13th — Blight, "
+        "Confusion; 17th — Contagion, Dominate Person.",
+    "aura of hate":
+        "At 7th level, you and any fiends/undead within 10 feet gain a bonus to melee weapon "
+        "damage equal to your Charisma modifier (minimum +1). At 18th level, range increases to 30 feet.",
+    "supernatural resistance":
+        "At 15th level, you gain resistance to bludgeoning, piercing, and slashing damage from "
+        "nonmagical weapons.",
+    "dread lord":
+        "At 20th level, you can use your action to become an avatar of darkness for 1 minute. "
+        "You emit an aura of gloom in a 30-foot radius, and enemies that start their turn there "
+        "must succeed on a Wisdom save or be frightened. As a bonus action, you can make a melee "
+        "spell attack (CHA) against a creature in the aura, dealing 3d10 + CHA necrotic damage. "
+        "Once used, can't be used again until a long rest.",
+
+    # ── Ranger: Beast Master (PHB p.93) ──
+    "ranger's companion":
+        "At 3rd level, you gain a beast companion. Choose a beast of CR 1/4 or lower (Medium or "
+        "smaller). Add your proficiency bonus to its AC, attack rolls, damage rolls, and any "
+        "saving throws/skills it's proficient in. It obeys your commands and acts on your "
+        "initiative. You can command it verbally (no action) to take the Attack, Dash, Disengage, "
+        "Dodge, or Help action. If you don't command it, it takes the Dodge action.",
+    "exceptional training":
+        "At 7th level, on any turn where your companion doesn't attack, you can use a bonus "
+        "action to command it to Dash, Disengage, Dodge, or Help. Additionally, its attacks "
+        "count as magical.",
+    "bestial fury":
+        "At 11th level, when you command your companion to take the Attack action, it can make "
+        "two attacks, or it can take the Multiattack action if it has one.",
+    "share spells":
+        "At 15th level, when you cast a spell targeting yourself, you can also affect your beast "
+        "companion if it's within 30 feet of you.",
+
+    # ── Rogue: Arcane Trickster (PHB p.97-98) ──
+    "mage hand legerdemain":
+        "At 3rd level, when you cast Mage Hand, you can make the spectral hand invisible and "
+        "perform additional tasks: stow/retrieve an object from a container worn or carried by "
+        "another creature, use thieves' tools to pick locks/disarm traps at range, or perform "
+        "Sleight of Hand checks. You can do these tasks without being noticed with a successful "
+        "Sleight of Hand check contested by the target's Perception.",
+    "magical ambush":
+        "At 9th level, if you are hidden from a creature when you cast a spell on it, the "
+        "creature has disadvantage on any saving throw against the spell this turn.",
+    "versatile trickster":
+        "At 13th level, you gain the ability to distract targets with your Mage Hand. As a bonus "
+        "action, you can designate a creature within 5 feet of the hand. You gain advantage on "
+        "attack rolls against that creature until the end of your next turn.",
+    "spell thief":
+        "At 17th level, you can steal the knowledge of how to cast a spell from another "
+        "spellcaster. Immediately after a creature casts a spell that targets you or includes "
+        "you in its area of effect, you can use your reaction to force it to make a save with "
+        "its spellcasting modifier (DC = your spell save DC). On a failure, you negate the "
+        "effect against you and steal the spell. For the next 8 hours, you know the spell and "
+        "can cast it with your slots. The creature can't cast it during that time. Once used, "
+        "can't be used again until a long rest.",
+
+    # ── Rogue: Assassin (PHB p.97) ──
+    "assassinate":
+        "At 3rd level, you have advantage on attack rolls against any creature that hasn't taken "
+        "a turn in combat yet. In addition, any hit you score against a surprised creature is a "
+        "critical hit.",
+    "infiltration expertise":
+        "At 9th level, you can create a false identity for yourself. You must spend 7 days and "
+        "25 gp to establish the identity's history, profession, and affiliations. You can't "
+        "establish an identity belonging to someone else. Thereafter, you can adopt the persona "
+        "with a disguise. Others believe you are that person until given an obvious reason not to.",
+    "impostor":
+        "At 13th level, you can mimic another person's speech, writing, and behavior. You must "
+        "spend at least 3 hours studying these components: speech (listening), writing (reading "
+        "samples), and mannerisms (observing). Your ruse is indiscernible to the casual observer. "
+        "If a wary creature suspects, you have advantage on Charisma (Deception) checks.",
+    "death strike":
+        "At 17th level, when you attack and hit a surprised creature, it must make a Constitution "
+        "save (DC 8 + DEX mod + proficiency bonus). On a failure, double the damage of your "
+        "attack against it.",
+
+    # ── Sorcerer: Wild Magic (PHB p.103-104) ──
+    "wild magic surge":
+        "At 1st level, your spellcasting can unleash surges of untamed magic. Immediately after "
+        "you cast a sorcerer spell of 1st level or higher, the DM can have you roll a d20. On a "
+        "1, roll on the Wild Magic Surge table to create a random magical effect.",
+    "tides of chaos":
+        "At 1st level, you can manipulate the forces of chance to gain advantage on one attack "
+        "roll, ability check, or saving throw. Once used, you must finish a long rest before "
+        "using it again. Any time before you regain the use of this feature, the DM can have you "
+        "roll on the Wild Magic Surge table immediately after you cast a spell of 1st level or "
+        "higher, and you regain the use of this feature.",
+    "bend luck":
+        "At 6th level, you can twist fate. When another creature you can see makes an attack "
+        "roll, ability check, or saving throw, you can use your reaction and spend 2 sorcery "
+        "points to roll 1d4 and apply the result as a bonus or penalty (your choice). You can do "
+        "so after the creature rolls but before the outcome is determined.",
+    "controlled chaos":
+        "At 14th level, you gain a modicum of control over your Wild Magic Surges. Whenever you "
+        "roll on the Wild Magic Surge table, you can roll twice and choose which effect occurs.",
+    "spell bombardment":
+        "At 18th level, when you roll damage for a spell and roll the highest number on any of "
+        "the dice, choose one of those dice, roll it again, and add that roll to the damage. You "
+        "can use this feature only once per turn.",
+
+    # ── Warlock: The Archfey (PHB p.108-109) ──
+    "fey presence":
+        "At 1st level, you can project the beguiling and fearsome presence of the fey. As an "
+        "action, each creature in a 10-foot cube originating from you must make a Wisdom save "
+        "against your warlock spell DC. Creatures that fail are charmed or frightened by you "
+        "(your choice) until the end of your next turn. Once used, can't be used again until "
+        "a short or long rest.",
+    "misty escape":
+        "At 6th level, when you take damage, you can use your reaction to turn invisible and "
+        "teleport up to 60 feet to an unoccupied space you can see. You remain invisible until "
+        "the start of your next turn or until you attack or cast a spell. Once used, can't be "
+        "used again until a short or long rest.",
+    "beguiling defenses":
+        "At 10th level, you are immune to being charmed. When another creature attempts to charm "
+        "you, you can use your reaction to attempt to turn the charm back. The creature must "
+        "succeed on a Wisdom save or be charmed by you for 1 minute or until it takes damage.",
+    "dark delirium":
+        "At 14th level, you can plunge a creature into an illusory realm. As an action, choose "
+        "a creature you can see within 60 feet. It must make a Wisdom save. On a failure, it is "
+        "charmed or frightened (your choice) for 1 minute. The creature believes it's lost in a "
+        "misty realm whose appearance you choose. It can't see or hear anything more than 5 feet "
+        "away. The creature repeats the save at the end of each turn, ending the effect on "
+        "success. Once used, can't be used again until a short or long rest.",
+
+    # ── Warlock: The Great Old One (PHB p.109-110) ──
+    "awakened mind":
+        "At 1st level, you can communicate telepathically with any creature you can see within "
+        "30 feet. You don't need to share a language, but the creature must be able to understand "
+        "at least one language.",
+    "entropic ward":
+        "At 6th level, you can use your reaction to impose disadvantage on an attack roll against "
+        "you. If the attack misses, your next attack roll against that creature has advantage "
+        "until the end of your next turn. Once used, can't be used again until a short or long rest.",
+    "thought shield":
+        "At 10th level, your thoughts can't be read by telepathy or other means unless you allow "
+        "it. You gain resistance to psychic damage, and whenever a creature deals psychic damage "
+        "to you, it takes the same amount of damage.",
+    "create thrall":
+        "At 14th level, you can use your action to touch an incapacitated humanoid who becomes "
+        "charmed by you until a Remove Curse is cast, the charmed condition is removed, or you "
+        "use this feature again. You can communicate telepathically with your thrall as long as "
+        "you are on the same plane.",
+
+    # ── Wizard: School of Abjuration (PHB p.115) ──
+    "abjuration savant":
+        "At 2nd level, the gold and time you must spend to copy an abjuration spell into your "
+        "spellbook is halved.",
+    "arcane ward":
+        "At 2nd level, you can weave magic around yourself for protection. When you cast an "
+        "abjuration spell of 1st level or higher, you create a magical ward on yourself lasting "
+        "until you finish a long rest. The ward has HP equal to twice your wizard level + your "
+        "Intelligence modifier. Whenever you take damage, the ward takes it instead. If reduced "
+        "to 0 HP, you take the remaining damage. Whenever you cast an abjuration spell of 1st "
+        "level or higher, the ward regains HP equal to twice the spell's level.",
+    "projected ward":
+        "At 6th level, when a creature you can see within 30 feet takes damage, you can use "
+        "your reaction to cause your Arcane Ward to absorb that damage. If the damage reduces "
+        "the ward to 0 HP, the warded creature takes the remaining damage.",
+    "improved abjuration":
+        "At 10th level, when you cast an abjuration spell that requires you to make an ability "
+        "check as part of casting (such as Counterspell or Dispel Magic), you add your "
+        "proficiency bonus to that check.",
+    "spell resistance":
+        "At 14th level, you have advantage on saving throws against spells, and you have "
+        "resistance against damage from spells.",
+
+    # ── Wizard: School of Conjuration (PHB p.116) ──
+    "conjuration savant":
+        "At 2nd level, the gold and time you must spend to copy a conjuration spell into your "
+        "spellbook is halved.",
+    "minor conjuration":
+        "At 2nd level, you can use your action to conjure an inanimate object in your hand or "
+        "on the ground in an unoccupied space within 10 feet. The object can be no larger than "
+        "3 feet on a side and weigh no more than 10 pounds, and its form must be one you've seen. "
+        "It is visibly magical, radiating dim light out to 5 feet. It disappears after 1 hour, "
+        "when you use this feature again, or if it takes any damage.",
+    "benign transposition":
+        "At 6th level, you can use your action to teleport up to 30 feet to an unoccupied space "
+        "you can see. Alternatively, you can choose a space within range that is occupied by a "
+        "Small or Medium creature and swap places with it. Once used, can't be used again until "
+        "you cast a conjuration spell of 1st level or higher or finish a long rest.",
+    "focused conjuration":
+        "At 10th level, while concentrating on a conjuration spell, your concentration can't be "
+        "broken as a result of taking damage.",
+    "durable summons":
+        "At 14th level, any creature that you summon or create with a conjuration spell has 30 "
+        "temporary hit points.",
+
+    # ── Wizard: School of Divination (PHB p.116) ──
+    "divination savant":
+        "At 2nd level, the gold and time you must spend to copy a divination spell into your "
+        "spellbook is halved.",
+    "portent":
+        "At 2nd level, glimpses of the future begin to press in on your awareness. When you "
+        "finish a long rest, roll two d20s and record the numbers. You can replace any attack "
+        "roll, saving throw, or ability check made by you or a creature you can see with one "
+        "of these foretelling rolls. You must choose to do so before the roll. Each roll can "
+        "be used only once. When you finish a long rest, you lose any unused rolls.",
+    "expert divination":
+        "At 6th level, when you cast a divination spell of 2nd level or higher using a spell "
+        "slot, you regain one expended spell slot. The slot you regain must be of a level "
+        "lower than the spell you cast and can't be higher than 5th level.",
+    "the third eye":
+        "At 10th level, you can use your action to increase your powers of perception. Choose "
+        "one of the following benefits until you are incapacitated or take a short/long rest: "
+        "Darkvision 60 ft, See Invisibility (10 ft), See into the Ethereal Plane (60 ft), or "
+        "Comprehend Languages (read any written language).",
+    "greater portent":
+        "At 14th level, you roll three d20s for your Portent feature instead of two.",
+
+    # ── Wizard: School of Enchantment (PHB p.117) ──
+    "enchantment savant":
+        "At 2nd level, the gold and time you must spend to copy an enchantment spell into your "
+        "spellbook is halved.",
+    "hypnotic gaze":
+        "At 2nd level, you can use your action to choose one creature you can see within 5 feet. "
+        "If it can see or hear you, it must succeed on a Wisdom save or be charmed by you until "
+        "the end of your next turn. Its speed drops to 0 and it is incapacitated and visibly "
+        "dazed. On subsequent turns, you can use your action to maintain this effect, extending "
+        "it until the end of your next turn. The effect ends if you move more than 5 feet away, "
+        "the creature can neither see nor hear you, or it takes damage. Once the effect ends, "
+        "you can't use it on that creature again until a long rest.",
+    "instinctive charm":
+        "At 6th level, when a creature you can see within 30 feet makes an attack roll against "
+        "you, you can use your reaction to divert it, provided another creature is within the "
+        "attack's range. The attacker must make a Wisdom save. On a failure, it must target the "
+        "nearest creature other than you or itself. Once a creature saves, it's immune until "
+        "a long rest.",
+    "split enchantment":
+        "At 10th level, when you cast an enchantment spell of 1st level or higher that targets "
+        "only one creature, you can have it target a second creature instead.",
+    "alter memories":
+        "At 14th level, when you cast an enchantment spell to charm one or more creatures, you "
+        "can make one of them unaware of being charmed. Additionally, once before the spell "
+        "expires, you can use your action to make the creature forget some of its time spent "
+        "charmed. It must succeed on an Intelligence save or lose a number of hours of memories "
+        "equal to 1 + your Charisma modifier (minimum 1).",
+
+    # ── Wizard: School of Evocation (PHB p.117-118) ──
+    "evocation savant":
+        "At 2nd level, the gold and time you must spend to copy an evocation spell into your "
+        "spellbook is halved.",
+    "sculpt spells":
+        "At 2nd level, you can create pockets of relative safety within your evocation spells. "
+        "When you cast an evocation spell that affects other creatures you can see, you can "
+        "choose a number of them equal to 1 + the spell's level. The chosen creatures "
+        "automatically succeed on their saving throws and take no damage if they would normally "
+        "take half on a success.",
+    "potent cantrip":
+        "At 6th level, your damaging cantrips affect even creatures that avoid the brunt of "
+        "the effect. When a creature succeeds on a saving throw against your cantrip, it takes "
+        "half the cantrip's damage (if any) but suffers no additional effect.",
+    "empowered evocation":
+        "At 10th level, you can add your Intelligence modifier (minimum +1) to one damage roll "
+        "of any wizard evocation spell you cast.",
+    "overchannel":
+        "At 14th level, you can increase the power of your simpler spells. When you cast a "
+        "wizard spell of 1st through 5th level that deals damage, you can deal maximum damage "
+        "with that spell. The first time you do so, you suffer no adverse effect. If you use "
+        "this feature again before finishing a long rest, you take 2d12 necrotic damage for each "
+        "level of the spell, immediately after casting. Each time you use it again before "
+        "finishing a long rest, the necrotic damage per spell level increases by 1d12.",
+
+    # ── Wizard: School of Illusion (PHB p.118) ──
+    "illusion savant":
+        "At 2nd level, the gold and time you must spend to copy an illusion spell into your "
+        "spellbook is halved.",
+    "improved minor illusion":
+        "At 2nd level, you learn the Minor Illusion cantrip. If you already know it, you learn "
+        "a different wizard cantrip. When you cast Minor Illusion, you can create both a sound "
+        "and an image with a single casting.",
+    "malleable illusions":
+        "At 6th level, when you cast an illusion spell that has a duration of 1 minute or "
+        "longer, you can use your action to change the nature of that illusion (using the "
+        "spell's normal parameters), provided you can see it.",
+    "illusory self":
+        "At 10th level, you can create an illusory duplicate of yourself as an instant, "
+        "almost instinctual reaction to danger. When a creature makes an attack roll against "
+        "you, you can use your reaction to interpose the duplicate between you and the attacker. "
+        "The attack automatically misses you, then the illusion dissipates. Once used, can't be "
+        "used again until a short or long rest.",
+    "illusory reality":
+        "At 14th level, when you cast an illusion spell of 1st level or higher, you can "
+        "choose one inanimate, nonmagical object that is part of the illusion and make that "
+        "object real. You can do this on your turn as a bonus action while the spell is ongoing. "
+        "The object remains real for 1 minute and can't deal damage or directly harm anyone.",
+
+    # ── Wizard: School of Necromancy (PHB p.118-119) ──
+    "necromancy savant":
+        "At 2nd level, the gold and time you must spend to copy a necromancy spell into your "
+        "spellbook is halved.",
+    "grim harvest":
+        "At 2nd level, you gain the ability to reap life energy from creatures you kill. Once "
+        "per turn, when you kill one or more creatures with a spell of 1st level or higher, you "
+        "regain hit points equal to twice the spell's level, or three times if it's a necromancy "
+        "spell. You don't gain this benefit for killing constructs or undead.",
+    "undead thralls":
+        "At 6th level, you add the Animate Dead spell to your spellbook if it's not there. When "
+        "you cast Animate Dead, you can target one additional corpse or pile of bones, creating "
+        "another zombie or skeleton. Additionally, creatures you create with necromancy spells "
+        "add your wizard level to their HP and your proficiency bonus to their weapon damage rolls.",
+    "inured to undeath":
+        "At 10th level, you have resistance to necrotic damage, and your hit point maximum "
+        "can't be reduced.",
+    "command undead":
+        "At 14th level, you can use magic to bring undead under your control, even those created "
+        "by other wizards. As an action, you can choose one undead you can see within 60 feet. "
+        "It must make a Charisma save against your wizard spell save DC. If it fails, it becomes "
+        "friendly and obeys your commands. Intelligent undead (INT 8+) have advantage. If it has "
+        "INT 12+, it can repeat the save at the end of every hour. If you use this feature again, "
+        "the prior effect ends.",
+
+    # ── Subclass Spellcasting (Eldritch Knight / Arcane Trickster) ──
+    "spellcasting":
+        "You gain the ability to cast spells. See the subclass description for your spell list, "
+        "cantrips, spells known, and spell slots. Eldritch Knights use the Wizard spell list "
+        "(abjuration and evocation primarily); Arcane Tricksters use the Wizard spell list "
+        "(enchantment and illusion primarily). Both are one-third casters, gaining spell slots "
+        "at half the rate of full casters.",
+
+    # ── Wizard: School of Transmutation (PHB p.119) ──
+    "transmutation savant":
+        "At 2nd level, the gold and time you must spend to copy a transmutation spell into your "
+        "spellbook is halved.",
+    "minor alchemy":
+        "At 2nd level, you can temporarily alter the physical properties of one nonmagical "
+        "object. Perform a special alchemical procedure on an object composed entirely of wood, "
+        "stone (but not a gem), iron, copper, or silver, transforming it into a different one "
+        "of those materials. For every 10 minutes you spend performing the procedure, you can "
+        "transform up to 1 cubic foot of material. After 1 hour, or until you lose concentration "
+        "(as if concentrating on a spell), the material reverts.",
+    "transmuter's stone":
+        "At 6th level, you can spend 8 hours creating a transmuter's stone that stores "
+        "transmutation magic. You gain the benefit while holding the stone: darkvision 60 ft, "
+        "+10 speed, proficiency in Constitution saves, or resistance to acid/cold/fire/"
+        "lightning/thunder (choose one). You can change the benefit when you cast a "
+        "transmutation spell of 1st level or higher. If you create a new stone, the old one "
+        "ceases to function.",
+    "shapechanger":
+        "At 10th level, you add the Polymorph spell to your spellbook if it's not there. You "
+        "can cast Polymorph without expending a spell slot, but only targeting yourself and "
+        "transforming into a beast of CR 1 or lower. Once you do so, can't do it again until "
+        "a short or long rest.",
+    "master transmuter":
+        "At 14th level, you can use your action to consume the reserve of transmutation magic "
+        "stored within your transmuter's stone. Choose one: Panacea (remove all curses, diseases, "
+        "and poisons; restore all HP), Restore Life (Raise Dead), or Restore Youth (reduce target's "
+        "apparent age by 3d10 years, minimum 13). The stone is destroyed. Once used, can't be "
+        "used again until a long rest.",
+}
+
+# Merge subclass descriptions into FEATURE_DESCRIPTIONS
+for sub_key, sub_desc in SUBCLASS_FEATURE_DESCRIPTIONS.items():
+    if sub_key not in FEATURE_DESCRIPTIONS:
+        FEATURE_DESCRIPTIONS[sub_key] = sub_desc
+
 # Merge CD descriptions into FEATURE_DESCRIPTIONS so enrich_features finds them
 for cd_key, cd_desc in CHANNEL_DIVINITY_DESCRIPTIONS.items():
     if cd_key not in FEATURE_DESCRIPTIONS:
