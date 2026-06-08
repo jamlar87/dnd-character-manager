@@ -2006,6 +2006,58 @@ async function doShortRest(healed, rolls) {
     spellUpdate = { spell_slots_used: JSON.stringify({}) };
   }
 
+  // Arcane Recovery (Wizard, PHB p.115): recover slots = ceil(level/2) levels, max L5
+  let arcaneUsed = false;
+  if (cls === 'Wizard') {
+    const arFeat = featureData.find(f => f.name && f.name.toLowerCase().includes('arcane recovery'));
+    if (arFeat && arFeat.uses > 0) {
+      const pool = Math.ceil(CHAR_LEVEL / 2);
+      // Read current used slots from DOM
+      const usedSlots = {};
+      for (let lvl = 1; lvl <= 5; lvl++) {
+        const tracker = document.getElementById(`slots-lvl-${lvl}`);
+        if (tracker) {
+          const used = tracker.querySelectorAll('.slot-box.used').length;
+          if (used > 0) usedSlots[lvl] = used;
+        }
+      }
+      // Recover highest-level slots first
+      let remaining = pool;
+      const recovered = {};
+      for (let lvl = 5; lvl >= 1 && remaining > 0; lvl--) {
+        const used = usedSlots[lvl] || 0;
+        if (used > 0) {
+          const toRecover = Math.min(used, Math.floor(remaining / lvl));
+          if (toRecover > 0) {
+            recovered[lvl] = toRecover;
+            remaining -= toRecover * lvl;
+            // Update DOM
+            const boxes = document.querySelectorAll(`#slots-lvl-${lvl} .slot-box`);
+            const newUsed = used - toRecover;
+            boxes.forEach((b, i) => b.classList.toggle('used', i < newUsed));
+          }
+        }
+      }
+      // Merge with existing spellUpdate
+      if (Object.keys(recovered).length > 0) {
+        // Build new spell_slots_used: subtract recovered from current
+        const ssu = {};
+        for (let lvl = 1; lvl <= 9; lvl++) {
+          const tracker = document.getElementById(`slots-lvl-${lvl}`);
+          if (tracker) {
+            const used = tracker.querySelectorAll('.slot-box.used').length;
+            if (used > 0) ssu[lvl] = used;
+          }
+        }
+        spellUpdate = Object.assign(spellUpdate, { spell_slots_used: JSON.stringify(ssu) });
+        arcaneUsed = true;
+        // Mark Arcane Recovery as used
+        arFeat.uses = 0;
+        renderFeatureDots(featureData.indexOf(arFeat));
+      }
+    }
+  }
+
   // API: save HP, hit_dice_used, and feature_data
   await api('/update', Object.assign({ hp_current: newHp, hit_dice_used: hdUsed }, spellUpdate));
   await api('/update', { feature_data: JSON.stringify(featureData) });
@@ -2017,6 +2069,8 @@ async function doShortRest(healed, rolls) {
     if (healed > 0) parts.push(`Regained ${healed} HP (${diceUsed} HD spent)`);
     if (diceUsed > 0) parts.push(`${diceUsed} HD used`);
     parts.push('Features reset');
+    if (CASTER_TYPE === 'pact') parts.push('Pact slots recovered');
+    if (arcaneUsed) parts.push(`Arcane Recovery (${Math.ceil(CHAR_LEVEL/2)} levels)`);
     hdResult.textContent = 'Short Rest — ' + parts.join(', ');
     hdResult.style.display = 'block';
     hdResult.style.borderColor = 'var(--success)';
