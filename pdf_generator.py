@@ -1,16 +1,16 @@
 """
-D&D 5e Printable Character Sheet PDF Generator — v3 (reportlab, pure vector).
-Generates a professional, official-looking multi-page character sheet.
+D&D 5e Official Character Sheet PDF Generator — v4 (rigid grid, reportlab).
+Matches the official D&D 5e character sheet layout with absolute bounding boxes.
+No flowable text — every element has a fixed position and size.
 
-Page 1: Main stats (ability scores, skills, combat, features, equipment)
-Page 2: Personality, backstory, treasure, allies
-Page 3: Spellcasting (for casters only)
-
-Uses reportlab with absolute point coordinates. No raster, no debug garbage.
+Page 1: 3-column grid — abilities, skills, combat, personality blocks, features
+Page 2: Narrative layout — appearance, backstory, allies, treasure, features continued
+Page 3: Spell matrix — 3 columns by level, prep circles, slots tracking
 """
 import json
 import os
 import sys
+import re
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -19,24 +19,20 @@ from reportlab.lib.utils import simpleSplit
 # ═══════════════════════════════════════════════════════════════
 #  CONSTANTS
 # ═══════════════════════════════════════════════════════════════
-PAGE_W, PAGE_H = letter  # 612 x 792 points (US Letter)
+PAGE_W, PAGE_H = letter  # 612 x 792
 FONT = "Helvetica"
 FONT_BOLD = "Helvetica-Bold"
-FONT_OBLIQUE = "Helvetica-Oblique"
-GRAY_BG = 0.95  # very light gray for alternate rows
-
-# Margins from top-left (user spec coordinates use top-left origin)
-# Reportlab uses bottom-left, so we convert: rl_y = PAGE_H - tl_y
-MARGIN = 18  # ~0.25 inch
+FONT_OBL = "Helvetica-Oblique"
+MARGIN = 18
 
 
-def tl(pdf_canvas, x, y):
-    """Convert top-left coordinates to reportlab bottom-left."""
-    return (x, PAGE_H - y)
+def yb(y_tl):
+    """Convert top-left y to reportlab bottom-left y."""
+    return PAGE_H - y_tl
 
 
 # ═══════════════════════════════════════════════════════════════
-#  SPELL METADATA CACHE
+#  SPELL METADATA (kept minimal — only for page 3 slot counts)
 # ═══════════════════════════════════════════════════════════════
 _SPELL_CACHE = None
 
@@ -61,16 +57,12 @@ def _get_spell_cache():
 #  DATA BUILDER
 # ═══════════════════════════════════════════════════════════════
 def build_char_data(row, db_cursor=None):
-    """Convert sqlite3.Row or tuple into structured dict for PDF generation."""
+    """Convert sqlite3.Row into structured dict for PDF generation."""
     if hasattr(row, "keys"):
         d = dict(row)
     else:
-        # Tuple — need column names from somewhere
-        # Try to get columns from the cursor or use a reasonable fallback
-        raise TypeError("build_char_data requires sqlite3.Row, not tuple. "
-                        "Set row_factory = sqlite3.Row on the connection.")
+        raise TypeError("build_char_data requires sqlite3.Row")
 
-    # Parse JSON fields
     json_fields = [
         "skills", "tool_proficiencies", "weapon_proficiencies",
         "armor_proficiencies", "languages", "features", "inventory",
@@ -91,35 +83,34 @@ def build_char_data(row, db_cursor=None):
         if d.get(field) is None:
             d[field] = {} if field in ("spell_slots_used", "spell_slot_data", "background_data") else []
 
-    # String defaults
     for f in ["personality", "backstory", "alignment", "subrace", "subclass"]:
         d.setdefault(f, "")
 
-    # Background data contains ideals, bonds, flaws sometimes
     bg_data = d.get("background_data", {}) or {}
     d["ideals"] = d.get("ideals", "") or bg_data.get("ideals", "") or ""
     d["bonds"] = d.get("bonds", "") or bg_data.get("bonds", "") or ""
     d["flaws"] = d.get("flaws", "") or bg_data.get("flaws", "") or ""
 
-    # Derived values
+    # Derived
     d["initiative"] = mod_int(d.get("dexterity", 10))
     d["passive_perception"] = d.get("passive_perception", 10) or 10
     d["inspiration"] = d.get("inspiration", 0) or 0
     d["proficiency_bonus"] = d.get("proficiency_bonus", 2) or 2
+    d["str_mod"] = mod_int(d.get("strength", 10))
+    d["dex_mod"] = mod_int(d.get("dexterity", 10))
+    d["con_mod"] = mod_int(d.get("constitution", 10))
+    d["int_mod"] = mod_int(d.get("intelligence", 10))
+    d["wis_mod"] = mod_int(d.get("wisdom", 10))
+    d["cha_mod"] = mod_int(d.get("charisma", 10))
 
-    # Hit dice
     hd = d.get("hit_dice", "1d8") or "1d8"
     d["hit_dice_type"] = hd
     d["hit_dice_total"] = d.get("level", 1)
     d["hit_dice_used"] = d.get("hit_dice_used", 0) or 0
 
-    # Spell slots
     ss = d.get("spell_slot_data", {}) or {}
     d["spell_slots"] = ss.get("by_level", {})
-    d["pact_slots"] = ss.get("pact_slots", {})
     d["spell_slots_used"] = d.get("spell_slots_used", {}) or {}
-
-    # Currency
     d["cp"] = d.get("cp", 0) or 0
     d["gp"] = d.get("gp", 0) or 0
 
@@ -135,7 +126,6 @@ def build_char_data(row, db_cursor=None):
             d["spells"] = [(s[0], s[1], s[2]) for s in spells]
             d["is_caster"] = True
 
-    # Infer spellcasting ability
     class_to_ability = {
         "Bard": "CHA", "Cleric": "WIS", "Druid": "WIS",
         "Paladin": "CHA", "Ranger": "WIS", "Sorcerer": "CHA",
@@ -154,12 +144,15 @@ def build_char_data(row, db_cursor=None):
     d["spell_save_dc"] = 8 + prof + spell_ab_mod
     d["spell_attack_bonus"] = prof + spell_ab_mod
 
+    # Condensed feature names for page 1 (bullet points only, not full rule text)
+    d["condensed_features"] = _build_condensed_features(d)
+
+    # Full feature text for page 2
+    d["full_feature_text"] = _build_full_feature_text(d)
+
     return d
 
 
-# ═══════════════════════════════════════════════════════════════
-#  HELPERS
-# ═══════════════════════════════════════════════════════════════
 def mod_int(score):
     return (score - 10) // 2
 
@@ -169,58 +162,103 @@ def mod_str(score):
     return f"+{m}" if m >= 0 else str(m)
 
 
+def _build_condensed_features(d):
+    """Build short bullet-point feature names for page 1 Features & Traits box."""
+    lines = []
+    feature_data = d.get("feature_data", []) or []
+
+    # Usage hints from descriptions
+    usage_hints = {
+        "divine sense": "1+CHA/day",
+        "lay on hands": f"{d.get('level',1)*5} HP pool",
+        "channel divinity": "1/rest",
+        "second wind": "1d10+Lvl",
+        "action surge": "1/rest",
+        "rage": f"{2 + (d.get('level',1)-1)//4}/day",
+        "bardic inspiration": f"{d.get('cha_mod',0)}/day",
+        "wild shape": "2/rest",
+        "ki": f"{d.get('level',1)} pts",
+        "sneak attack": f"{(d.get('level',1)+1)//2}d6",
+        "divine smite": "spell slots",
+    }
+
+    for fd in feature_data:
+        name = fd.get("name", "")
+        if not name:
+            continue
+        key = name.lower()
+        hint = ""
+        for k, v in usage_hints.items():
+            if k in key:
+                hint = f" ({v})"
+                break
+        lines.append(f"• {name}{hint}")
+
+    # Also include simple feature strings (L1: Divine Sense format)
+    features = d.get("features", []) or []
+    seen = {fd.get("name", "").lower() for fd in feature_data}
+    for f in features:
+        if isinstance(f, str) and ":" in f:
+            name_part = f.split(":", 1)[1].strip().split("|")[0].strip()
+            if name_part.lower() not in seen:
+                lines.append(f"• {name_part}")
+                seen.add(name_part.lower())
+
+    return "\n".join(lines[:30])  # max 30 items
+
+
+def _build_full_feature_text(d):
+    """Build full feature descriptions for page 2."""
+    lines = []
+    feature_data = d.get("feature_data", []) or []
+    for fd in feature_data:
+        name = fd.get("name", "")
+        desc = fd.get("description", "")
+        if name:
+            lines.append(name.upper())
+            if desc:
+                lines.append(desc)
+            lines.append("")
+    return "\n".join(lines)
+
+
 def trunc(text, max_len):
     text = str(text) if text else ""
     return text[:max_len]
 
 
-def _y_tl(pdf, y_tl):
-    """Convert top-left y to reportlab y (bottom-left origin)."""
-    return PAGE_H - y_tl
-
-
-def draw_label(c, x, y_tl, w, text, size=5):
-    """Draw a section label above a field (y_tl is top-left origin)."""
-    y = _y_tl(c, y_tl)
+def _draw_label(c, x, y_tl, text, size=5):
+    """Small label above a field."""
     c.setFont(FONT, size)
-    c.drawString(x, y, str(text))
+    c.drawString(x, yb(y_tl), str(text))
 
 
-def draw_value_box(c, x, y_tl, w, h, text, size=9, bold=True, align="left", border_color=None):
-    """Draw a bordered value box with text. y_tl is top-left origin."""
-    y = _y_tl(c, y_tl) - h
-    if border_color is None:
-        border_color = (0, 0, 0)
-    c.setStrokeColor(border_color)
-    c.rect(x, y, w, h)
-    c.setFillColor((255, 255, 255))
+def _draw_value(c, x, y_tl, w, h, text, size=9, bold=True, center=False):
+    """Bordered value box."""
+    y = yb(y_tl) - h
     c.setStrokeColor((0, 0, 0))
-
+    c.rect(x, y, w, h)
     font = FONT_BOLD if bold else FONT
     c.setFont(font, size)
     c.setFillColor((0, 0, 0))
-
-    if align == "center":
-        c.drawCentredString(x + w / 2, y + (h - size) / 2 + 2, trunc(str(text), 30))
-    elif align == "right":
-        c.drawRightString(x + w - 3, y + (h - size) / 2 + 2, trunc(str(text), 30))
+    txt = trunc(str(text), 40)
+    if center:
+        c.drawCentredString(x + w / 2, y + (h - size) / 2 + 2, txt)
     else:
-        c.drawString(x + 3, y + (h - size) / 2 + 2, trunc(str(text), 30))
+        c.drawString(x + 3, y + (h - size) / 2 + 2, txt)
 
 
-def draw_checkbox(c, x, y_tl, size=8, checked=False):
-    """Draw a checkbox at top-left coordinates."""
-    y = _y_tl(c, y_tl) - size
+def _draw_checkbox(c, x, y_tl, sz=8, checked=False):
+    y = yb(y_tl) - sz
     c.setStrokeColor((0, 0, 0))
-    c.rect(x, y, size, size)
+    c.rect(x, y, sz, sz)
     if checked:
-        c.line(x + 1, y + 1, x + size - 1, y + size - 1)
-        c.line(x + size - 1, y + 1, x + 1, y + size - 1)
+        c.line(x + 1, y + 1, x + sz - 1, y + sz - 1)
+        c.line(x + sz - 1, y + 1, x + 1, y + sz - 1)
 
 
-def draw_bubble(c, x, y_tl, r=5, filled=False):
-    """Draw a circular bubble (death saves) at top-left coordinates."""
-    cy = _y_tl(c, y_tl)
+def _draw_bubble(c, x, y_tl, r=5, filled=False):
+    cy = yb(y_tl)
     c.setStrokeColor((0, 0, 0))
     c.circle(x, cy, r)
     if filled:
@@ -229,166 +267,153 @@ def draw_bubble(c, x, y_tl, r=5, filled=False):
         c.setFillColor((255, 255, 255))
 
 
-def draw_wrapped_text(c, x, y_tl, w, h, text, size=6, label_text=None, continuation=False):
-    """Draw wrapped text inside a bordered box. Clips to height.
-    Returns True if content overflowed (not fully displayed)."""
-    y_bottom = _y_tl(c, y_tl) - h
-
-    # Draw border rect
+def _draw_text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
+    """Fixed bounding box with wrapped text. Clips — never overflows."""
+    y_bottom = yb(y_tl) - h
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
 
-    if not text:
-        return False
-
     if label_text:
         c.setFont(FONT, 4)
-        c.setFillColor((0.3, 0.3, 0.3))
-        c.drawString(x + 2, _y_tl(c, y_tl) - 8, str(label_text))
-        c.setFillColor((0, 0, 0))
-
-    line_height = size + 2
-    max_lines = int((h - 6) / line_height)
-    if max_lines < 1:
-        return False
-
-    # Split text into lines that fit within width
-    lines = simpleSplit(str(text), FONT, size, w - 6)
-    display_lines = lines[:max_lines]
-    overflow = len(lines) > max_lines
-
-    if continuation:
-        c.setFont(FONT_OBLIQUE, 5)
         c.setFillColor((0.4, 0.4, 0.4))
-        c.drawString(x + 2, _y_tl(c, y_tl) - 10, "(continued)")
+        c.drawString(x + 2, yb(y_tl) - 7, str(label_text))
         c.setFillColor((0, 0, 0))
+
+    if not text:
+        return
+
+    line_h = size + 2
+    max_lines = int((h - (10 if label_text else 4)) / line_h)
+    if max_lines < 1:
+        return
+
+    lines = simpleSplit(str(text), FONT, size, w - 6)
+    display = lines[:max_lines]
+
+    # Overflow indicator
+    if len(lines) > max_lines and max_lines > 1:
+        display[-1] = display[-1][:int(w / 8)] + "… (cont.)"
 
     c.setFont(FONT, size)
     c.setFillColor((0, 0, 0))
-    for i, line in enumerate(display_lines):
-        ly = _y_tl(c, y_tl) - 6 - (i + 1) * line_height
+    for i, line in enumerate(display):
+        ly = yb(y_tl) - (8 if label_text else 4) - (i + 1) * line_h
         c.drawString(x + 3, ly, line)
 
-    if overflow:
-        c.setFont(FONT_OBLIQUE, 4.5)
-        c.setFillColor((0.5, 0.5, 0.5))
-        c.drawString(x + 3, y_bottom + 2, "(continued on next page)")
-        c.setFillColor((0, 0, 0))
-
-    return overflow
-
 
 # ═══════════════════════════════════════════════════════════════
-#  PAGE 1 — MAIN CHARACTER SHEET
+#  PAGE 1 — 3-COLUMN GRID
 # ═══════════════════════════════════════════════════════════════
+# Column positions:
+COL1_X, COL1_W = 18, 140
+COL2_X, COL2_W = 170, 230
+COL3_X, COL3_W = 410, 184
+GRID_Y = 165  # top of 3-column area
+
+
 def draw_page1(c, d):
     draw_header(c, d)
-    draw_ability_scores(c, d)
-    draw_skills(c, d)
-    draw_left_bottom(c, d)
-    draw_combat(c, d)
-    draw_attacks(c, d)
-    result = draw_features_traits(c, d)
-    draw_equipment(c, d)
-    draw_currency(c, d)
-    return result  # overflow info for page 2
+    draw_col1(c, d)
+    draw_col2(c, d)
+    draw_col3(c, d)
 
 
+# ── HEADER ────────────────────────────────────────────────────
 def draw_header(c, d):
-    """Rows at top: name, race, class, background, player, alignment, inspiration, PB."""
-    y0 = 36  # 0.5 inch from top
-    box_h = 18
-    gap = 30
+    y0, box_h, gap = 30, 16, 28
 
     # Row 1
-    r1 = [
-        (36, y0, 180, "Character Name", d.get("name", "")),
-        (230, y0, 130, "Race", d.get("race", "")),
-        (370, y0, 130, "Class & Level", f"{d.get('class_name','')} {d.get('level','')}"),
-        (510, y0, 90, "Background", d.get("background", "")),
-    ]
-    for x, y, w, lbl, val in r1:
-        draw_label(c, x, y - 10, w, lbl)
-        draw_value_box(c, x, y, w, box_h, val)
+    for x, w, lbl, val in [
+        (COL1_X, COL1_W, "Character Name", d.get("name", "")),
+        (COL2_X, 120, "Race", d.get("race", "")),
+        (COL3_X - 80, 120, "Class & Level", f"{d.get('class_name','')} {d.get('level','')}"),
+        (COL3_X + 44, 140, "Background", d.get("background", "")),
+    ]:
+        _draw_label(c, x, y0 - 9, lbl)
+        _draw_value(c, x, y0, w, box_h, val, size=8)
 
     # Row 2
     y2 = y0 + gap
-    r2 = [
-        (36, y2, 180, "Player Name", ""),
-        (230, y2, 130, "Faction", ""),
-        (370, y2, 130, "Experience Points", ""),
-        (510, y2, 90, "Alignment", d.get("alignment", "")),
-    ]
-    for x, y, w, lbl, val in r2:
-        draw_label(c, x, y - 10, w, lbl)
-        draw_value_box(c, x, y, w, box_h, val)
+    for x, w, lbl, val in [
+        (COL1_X, 76, "Player Name", ""),
+        (COL1_X + 82, 54, "Faction", ""),
+        (COL2_X, 90, "Experience Points", ""),
+        (COL2_X + 96, 110, "Alignment", d.get("alignment", "")),
+    ]:
+        _draw_label(c, x, y2 - 9, lbl)
+        _draw_value(c, x, y2, w, box_h, val, size=8)
 
-    # Row 3 — Inspiration checkbox + Proficiency Bonus on same baseline
+    # Row 3 — Inspiration + Proficiency Bonus
     y3 = y2 + gap
-    draw_label(c, 36, y3 - 10, 72, "Inspiration")
-    draw_checkbox(c, 42, y3 + 4, 8, checked=bool(d.get("inspiration", 0)))
-    draw_label(c, 120, y3 - 10, 72, "Prof. Bonus")
-    draw_value_box(c, 120, y3, 36, box_h, str(d.get("proficiency_bonus", 2)), size=10, align="center")
+    _draw_label(c, COL1_X, y3 - 9, "Inspiration")
+    _draw_checkbox(c, COL1_X + 4, y3 + 4, 8, checked=bool(d.get("inspiration", 0)))
+    _draw_label(c, COL1_X + 44, y3 - 9, "Proficiency Bonus")
+    _draw_value(c, COL1_X + 44, y3, 30, box_h, str(d.get("proficiency_bonus", 2)), size=10, center=True)
+
+    # Row 4 — Passive Perception
+    y4 = y3 + gap
+    _draw_label(c, COL2_X, y4 - 9, "Passive Perception")
+    _draw_value(c, COL2_X, y4, 40, box_h, str(d.get("passive_perception", 10)), size=9, center=True)
 
 
-def draw_ability_scores(c, d):
-    """Six ability score blocks: STR/DEX/CON in col A, INT/WIS/CHA in col B."""
+# ── COLUMN 1: Abilities, Saving Throws, Skills, Proficiencies ─
+def draw_col1(c, d):
+    y = GRID_Y
+
+    # --- ABILITY SCORES ---
     abilities = [
-        ("STR", "strength"), ("DEX", "dexterity"), ("CON", "constitution"),
-        ("INT", "intelligence"), ("WIS", "wisdom"), ("CHA", "charisma"),
+        ("STR", "strength", d.get("str_mod", 0)),
+        ("DEX", "dexterity", d.get("dex_mod", 0)),
+        ("CON", "constitution", d.get("con_mod", 0)),
+        ("INT", "intelligence", d.get("int_mod", 0)),
+        ("WIS", "wisdom", d.get("wis_mod", 0)),
+        ("CHA", "charisma", d.get("cha_mod", 0)),
     ]
     save_profs = [s.lower() for s in (d.get("save_proficiencies", []) or [])]
     prof = d.get("proficiency_bonus", 2)
-    block_w, block_h = 72, 86
-    col_x = [36, 130]
-    y_top = 108
+    block_w, block_h = 56, 70
+    sub_cols = [COL1_X, COL1_X + 62]
+    gap_y = 6
 
-    for i, (abbr, key) in enumerate(abilities):
-        col = i // 3
-        row = i % 3
-        x = col_x[col]
-        y_tl = y_top + row * (block_h + 8)
+    for i, (abbr, key, mod) in enumerate(abilities):
+        col = i % 2
+        row_idx = i // 2
+        x = sub_cols[col]
+        y_tl = y + row_idx * (block_h + gap_y)
 
         score = d.get(key, 10)
-        mod = mod_int(score)
         is_prof = abbr.lower() in save_profs
         save_mod = mod + (prof if is_prof else 0)
 
-        # Border
-        y_b = _y_tl(c, y_tl) - block_h
+        # Block border
+        y_b = yb(y_tl) - block_h
         c.setStrokeColor((0, 0, 0))
         c.rect(x, y_b, block_w, block_h)
 
         # Abbreviation
-        c.setFont(FONT_BOLD, 7)
-        c.drawCentredString(x + block_w / 2, _y_tl(c, y_tl + 9), abbr)
+        c.setFont(FONT_BOLD, 6)
+        c.drawCentredString(x + block_w / 2, yb(y_tl + 8), abbr)
 
-        # Score (large)
-        c.setFont(FONT_BOLD, 16)
-        c.drawString(x + 5, _y_tl(c, y_tl + 42), str(score))
+        # Score
+        c.setFont(FONT_BOLD, 15)
+        c.drawCentredString(x + 20, yb(y_tl + 36), str(score))
 
         # Modifier box
-        mod_x, mod_w = x + 46, 24
-        c.rect(mod_x, _y_tl(c, y_tl + 18) - 28, mod_w, 28)
-        c.setFont(FONT_BOLD, 9)
-        c.drawCentredString(mod_x + mod_w / 2, _y_tl(c, y_tl + 42), f"{mod:+d}")
+        mx, mw = x + 34, 20
+        c.rect(mx, yb(y_tl + 14) - 24, mw, 24)
+        c.setFont(FONT_BOLD, 8)
+        c.drawCentredString(mx + mw / 2, yb(y_tl + 36), f"{mod:+d}")
 
-        # Save proficiency label + checkbox
-        c.setFont(FONT, 4)
-        c.drawString(x + 3, _y_tl(c, y_tl + 58), "SAVE PROF")
-        draw_checkbox(c, x + 43, y_tl + 48, 8, checked=is_prof)
+        # Save proficiency
+        c.setFont(FONT, 3.5)
+        c.drawString(x + 2, yb(y_tl + 54), "SAVE")
+        _draw_checkbox(c, x + 29, y_tl + 48, 7, checked=is_prof)
+        c.setFont(FONT_BOLD, 6)
+        c.drawCentredString(mx + mw / 2, yb(y_tl + 58), f"{save_mod:+d}")
 
-        # Save modifier
-        c.setFont(FONT_BOLD, 7)
-        c.drawCentredString(mod_x + mod_w / 2, _y_tl(c, y_tl + 64), f"{save_mod:+d}")
-
-
-def draw_skills(c, d):
-    """18 skills in two columns."""
-    y0 = 360
-    row_h = 18
+    # --- SKILLS ---
+    y_skills = y + 3 * (block_h + gap_y) + 4
     skills = d.get("skills", []) or []
-    pb = d.get("proficiency_bonus", 2)
     scores = {
         "strength": d.get("strength", 10), "dexterity": d.get("dexterity", 10),
         "constitution": d.get("constitution", 10), "intelligence": d.get("intelligence", 10),
@@ -397,377 +422,332 @@ def draw_skills(c, d):
     abbr_map = {"Str": "strength", "Dex": "dexterity", "Con": "constitution",
                  "Int": "intelligence", "Wis": "wisdom", "Cha": "charisma"}
 
-    left = [
+    all_skills = [
         ("Acrobatics", "Dex"), ("Animal Handling", "Wis"), ("Arcana", "Int"),
         ("Athletics", "Str"), ("Deception", "Cha"), ("History", "Int"),
         ("Insight", "Wis"), ("Intimidation", "Cha"), ("Investigation", "Int"),
-    ]
-    right = [
         ("Medicine", "Wis"), ("Nature", "Int"), ("Perception", "Wis"),
         ("Performance", "Cha"), ("Persuasion", "Cha"), ("Religion", "Int"),
         ("Sleight of Hand", "Dex"), ("Stealth", "Dex"), ("Survival", "Wis"),
     ]
+    row_h = 14
 
-    def draw_skill(x, y_tl, name, abbr):
-        ab_mod = mod_int(scores[abbr_map[abbr]])
+    # Skills title
+    _draw_label(c, COL1_X, y_skills - 9, "Skills")
+
+    for i, (name, abbr) in enumerate(all_skills):
+        col = i // 9
+        row_idx = i % 9
+        sx = COL1_X + col * 72
+        sy = y_skills + row_idx * row_h
+
         is_prof = name in skills
-        skill_mod = ab_mod + (pb if is_prof else 0)
-        draw_checkbox(c, x, y_tl + 4, 7, checked=is_prof)
-        c.setFont(FONT, 6)
-        c.drawString(x + 10, _y_tl(c, y_tl + row_h - 4), f"{name} ({abbr})")
-        c.setFont(FONT_BOLD, 7)
-        c.drawRightString(x + 100, _y_tl(c, y_tl + row_h - 4), f"{skill_mod:+d}")
+        ab_mod = mod_int(scores[abbr_map[abbr]])
+        skill_mod = ab_mod + (prof if is_prof else 0)
 
-    for i, (name, abbr) in enumerate(left):
-        draw_skill(36, y0 + i * row_h, name, abbr)
-    for i, (name, abbr) in enumerate(right):
-        draw_skill(130, y0 + i * row_h, name, abbr)
+        _draw_checkbox(c, sx, sy + 3, 6, checked=is_prof)
+        c.setFont(FONT, 5)
+        c.drawString(sx + 8, yb(sy + row_h - 3), f"{name[:12]} ({abbr})")
+        c.setFont(FONT_BOLD, 5.5)
+        c.drawRightString(sx + 66, yb(sy + row_h - 3), f"{skill_mod:+d}")
 
-
-def draw_left_bottom(c, d):
-    """Passive Perception + Other Proficiencies & Languages."""
-    y = 540
-
-    draw_label(c, 36, y, 100, "Passive Perception")
-    draw_value_box(c, 36, y + 8, 44, 18, str(d.get("passive_perception", 10)), size=10, align="center")
-
-    y2 = y + 36
+    # --- OTHER PROFICIENCIES ---
+    y_prof = y_skills + 9 * row_h + 4
     parts = []
-    for label_name, field in [("Weapons", "weapon_proficiencies"), ("Armor", "armor_proficiencies"),
-                               ("Tools", "tool_proficiencies"), ("Languages", "languages")]:
+    for lbl, field in [("Weapons", "weapon_proficiencies"), ("Armor", "armor_proficiencies"),
+                        ("Tools", "tool_proficiencies"), ("Languages", "languages")]:
         items = d.get(field, []) or []
         if items:
-            parts.append(f"{label_name}: {', '.join(items)}")
-    text = "\n".join(parts) if parts else ""
-    draw_wrapped_text(c, 36, y2 + 8, 160, 70, text, size=5)
+            parts.append(f"{lbl}: {', '.join(items[:6])}")
+    _draw_text_box(c, COL1_X, y_prof, COL1_W, 60, "\n".join(parts), size=4.5, label_text="Other Proficiencies")
 
 
-def draw_combat(c, d):
-    """Middle column: AC, Initiative, Speed, HP, Hit Dice, Death Saves."""
-    x = 216
-    y = 108
+# ── COLUMN 2: Combat, HP, HD, Death Saves, Attacks, Equipment ─
+def draw_col2(c, d):
+    y = GRID_Y
 
-    # AC, Initiative, Speed
-    draw_label(c, x + 14, y - 10, 56, "Armor Class")
-    draw_value_box(c, x + 14, y, 56, 20, str(d.get("ac", 10)), size=11, align="center")
-    draw_label(c, x + 90, y - 10, 48, "Initiative")
-    draw_value_box(c, x + 90, y, 48, 20, f"{d.get('initiative', 0):+d}", size=9, align="center")
-    draw_label(c, x + 152, y - 10, 36, "Speed")
-    draw_value_box(c, x + 152, y, 36, 20, str(d.get("speed", 30)), size=9, align="center")
+    # AC + Initiative + Speed
+    _draw_label(c, COL2_X, y - 9, "Armor Class")
+    _draw_value(c, COL2_X, y, 50, 20, str(d.get("ac", 10)), size=11, center=True)
+    _draw_label(c, COL2_X + 58, y - 9, "Initiative")
+    _draw_value(c, COL2_X + 58, y, 44, 20, f"{d.get('initiative', 0):+d}", size=9, center=True)
+    _draw_label(c, COL2_X + 110, y - 9, "Speed")
+    _draw_value(c, COL2_X + 110, y, 44, 20, str(d.get("speed", 30)), size=9, center=True)
 
     # HP
-    y_hp = y + 48
-    draw_label(c, x + 14, y_hp - 10, 72, "Hit Point Max")
-    draw_value_box(c, x + 14, y_hp, 72, 20, str(d.get("hp_max", 10)), size=11, align="center")
-    draw_label(c, x + 100, y_hp - 10, 72, "Current HP")
-    draw_value_box(c, x + 100, y_hp, 72, 20, str(d.get("hp_current", 10)), size=11, align="center")
-    draw_label(c, x + 14, y_hp + 30, 72, "Temporary HP")
-    draw_value_box(c, x + 14, y_hp + 40, 72, 18, str(d.get("temp_hp", 0)), size=9, align="center")
+    y_hp = y + 36
+    _draw_label(c, COL2_X, y_hp - 9, "Hit Point Maximum")
+    _draw_value(c, COL2_X, y_hp, 62, 20, str(d.get("hp_max", 10)), size=11, center=True)
+    _draw_label(c, COL2_X + 70, y_hp - 9, "Current HP")
+    _draw_value(c, COL2_X + 70, y_hp, 62, 20, str(d.get("hp_current", 10)), size=11, center=True)
+    _draw_label(c, COL2_X + 140, y_hp - 9, "Temp HP")
+    _draw_value(c, COL2_X + 140, y_hp, 44, 20, str(d.get("temp_hp", 0)), size=9, center=True)
 
-    # Hit Dice
-    y_hd = y_hp + 90
-    draw_label(c, x + 14, y_hd - 10, 108, "Hit Dice")
+    # Hit Dice + Death Saves
+    y_hd = y_hp + 32
+    _draw_label(c, COL2_X, y_hd - 9, "Hit Dice")
     hd_type = d.get("hit_dice_type", "1d8")
     total = d.get("hit_dice_total", 1)
     used = d.get("hit_dice_used", 0)
-    draw_value_box(c, x + 14, y_hd, 108, 18, f"{total - used} / {total}   ({hd_type})", size=8, align="center")
+    _draw_value(c, COL2_X, y_hd, 64, 16, f"{total-used}/{total} {hd_type}", size=7, center=True)
 
-    # Death Saves
-    y_ds = y_hd + 32
-    draw_label(c, x + 14, y_ds - 10, 100, "Death Saves")
-    c.setFont(FONT, 4.5)
-    c.drawString(x + 14, _y_tl(c, y_ds + 8), "Successes")
+    _draw_label(c, COL2_X + 72, y_hd - 9, "Death Saves")
+    c.setFont(FONT, 4)
+    c.drawString(COL2_X + 72, yb(y_hd + 6), "Success")
     succ = d.get("death_saves_success", 0) or 0
     for i in range(3):
-        draw_bubble(c, x + 60 + i * 16, y_ds + 8, 5, filled=(i < succ))
-    c.setFont(FONT, 4.5)
-    c.drawString(x + 14, _y_tl(c, y_ds + 24), "Failures")
+        _draw_bubble(c, COL2_X + 110 + i * 16, y_hd + 6, 5, filled=(i < succ))
+    c.drawString(COL2_X + 72, yb(y_hd + 20), "Fail")
     fail = d.get("death_saves_fail", 0) or 0
     for i in range(3):
-        draw_bubble(c, x + 60 + i * 16, y_ds + 24, 5, filled=(i < fail))
+        _draw_bubble(c, COL2_X + 110 + i * 16, y_hd + 20, 5, filled=(i < fail))
 
+    # Attacks & Spellcasting
+    y_atk = y_hd + 44
+    _draw_label(c, COL2_X, y_atk - 9, "Attacks & Spellcasting")
+    col_w = [80, 34, 54]
+    headers = ["Name", "Atk", "Damage/Type"]
+    row_h = 15
 
-def draw_attacks(c, d):
-    """Middle column: Attacks & Spellcasting table."""
-    x = 216
-    y_tl = 418
-    col_w = [80, 36, 56]
-    headers = ["Name", "Atk Bonus", "Damage/Type"]
-
-    draw_label(c, x + 14, y_tl - 10, 172, "Attacks & Spellcasting")
-
-    # Header row
-    for i, (h, w) in enumerate(zip(headers, col_w)):
-        cx = x + 14 + sum(col_w[:i])
-        ry = _y_tl(c, y_tl) - 12
-        c.setFont(FONT_BOLD, 5)
-        c.rect(cx, ry, w, 12)
+    for j, (h, cw) in enumerate(zip(headers, col_w)):
+        cx = COL2_X + sum(col_w[:j])
+        ry = yb(y_atk) - 12
+        c.setFont(FONT_BOLD, 4.5)
+        c.rect(cx, ry, cw, 12)
         c.drawString(cx + 2, ry + 3, h)
 
-    # Data rows (6 rows)
     attacks = d.get("attacks_data", []) or []
-    row_h = 17
-    for ri in range(6):
-        ry_tl = y_tl + 12 + ri * row_h
+    for ri in range(5):
+        ry_tl = y_atk + 12 + ri * row_h
         atk = attacks[ri] if ri < len(attacks) else {}
         vals = [
             atk.get("name", ""),
             f"{atk.get('attack_bonus', 0):+d}" if atk.get("attack_bonus") is not None else "",
             atk.get("damage", ""),
         ]
-        for j, (v, w) in enumerate(zip(vals, col_w)):
-            cx = x + 14 + sum(col_w[:j])
-            ry = _y_tl(c, ry_tl) - row_h
-            c.setFont(FONT, 6)
-            c.rect(cx, ry, w, row_h)
-            c.drawString(cx + 2, ry + 4, trunc(str(v), 18))
+        for j, (v, cw) in enumerate(zip(vals, col_w)):
+            cx = COL2_X + sum(col_w[:j])
+            ry = yb(ry_tl) - row_h
+            c.setFont(FONT, 5.5)
+            c.rect(cx, ry, cw, row_h)
+            c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
 
-    # Ammunition / notes field
-    yn = y_tl + 12 + 6 * row_h + 4
-    draw_label(c, x + 14, yn, 172, "Ammunition / Special Properties")
-    yn_b = _y_tl(c, yn + 8) - 50
-    c.rect(x + 14, yn_b, 172, 50)
+    # Equipment
+    y_eq = y_atk + 12 + 5 * row_h + 6
+    _draw_label(c, COL2_X, y_eq - 9, "Equipment")
 
-
-def draw_features_traits(c, d):
-    """Right column: Features & Traits with text wrapping."""
-    x = 420
-    y_tl = 108
-    w = 168
-    h = 380  # slightly shorter to leave clear gap before equipment
-
-    lines = []
-    features = d.get("features", []) or []
-    for f in features:
-        if isinstance(f, dict):
-            lines.append(f"{f.get('level', '')}: {f.get('name', '')}")
-        elif isinstance(f, str) and f.strip():
-            lines.append(f)
-
-    feature_data = d.get("feature_data", []) or []
-    for fd in feature_data:
-        name = fd.get("name", "")
-        desc = fd.get("description", "")
-        if name:
-            lines.append(name)
-            if desc:
-                lines.append(f"  {desc}")
-
-    text = "\n".join(lines)
-    overflow = draw_wrapped_text(c, x + 2, y_tl, w, h, text, size=5.5)
-
-    if overflow:
-        # Build remaining text for page 2
-        remaining_text = ""
+    # Currency pills on left edge of equipment box
+    eq_box_x, eq_box_w, eq_box_h = COL2_X, COL2_W - 4, 65
+    coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
+    coin_w = 26
+    for i, (cn, cv) in enumerate(coins):
+        cx = eq_box_x + 2
+        cy = yb(y_eq) - i * 13 - 13
+        c.setFont(FONT_BOLD, 4.5)
+        c.rect(cx, cy, coin_w, 12)
+        c.drawCentredString(cx + coin_w / 2, cy + 3, cn)
         c.setFont(FONT, 5.5)
-        all_lines = simpleSplit(text, FONT, 5.5, w - 6)
-        max_lines = int((h - 6) / 7.5)
-        if len(all_lines) > max_lines:
-            remaining_text = "\n".join(all_lines[max_lines:])
-    else:
-        remaining_text = ""
+        c.rect(cx, cy - 14, coin_w, 14)
+        c.drawCentredString(cx + coin_w / 2, cy - 11, str(cv))
 
-    draw_label(c, x + 2, y_tl - 10, w, "Features & Traits")
-    return {"features_overflow": remaining_text}
-
-
-def draw_equipment(c, d):
-    """Right column: Equipment list."""
-    x = 420
-    y_tl = 530  # below features (ends at ~488) with clear gap
-    w = 168
-
+    # Equipment text
     items = []
     inventory = d.get("inventory", []) or []
     equipped = d.get("equipped", []) or []
-    attuned = d.get("attuned_items", []) or []
-
-    for item in attuned:
-        if isinstance(item, dict):
-            items.append(f"[A] {item.get('name', '')} x{item.get('qty', 1)}")
     for item in equipped:
         if isinstance(item, dict):
             items.append(f"[E] {item.get('name', '')}")
     for item in inventory:
         if isinstance(item, dict):
             items.append(f"{item.get('name', '')} x{item.get('qty', 1)}")
+    eq_text = "\n".join(items[:15])
 
-    text = "\n".join(items)
-    draw_wrapped_text(c, x + 2, y_tl + 2, w, 170, text, size=5.5)
-    draw_label(c, x + 2, y_tl - 10, w, "Equipment")
-
-
-def draw_currency(c, d):
-    """Currency fields at bottom right."""
-    x = 420
-    y_tl = 715
-    coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
-    for i, (cn, cv) in enumerate(coins):
-        cx = x + 2 + i * 34
-        ry_label = _y_tl(c, y_tl) - 14
-        ry_val = _y_tl(c, y_tl + 14) - 14
-        c.setFont(FONT_BOLD, 5)
-        c.rect(cx, ry_label, 32, 14)
-        c.drawCentredString(cx + 16, ry_label + 4, cn)
-        c.setFont(FONT, 6)
-        c.rect(cx, ry_val, 32, 14)
-        c.drawCentredString(cx + 16, ry_val + 4, str(cv))
+    c.setStrokeColor((0, 0, 0))
+    c.rect(eq_box_x, yb(y_eq) - eq_box_h, eq_box_w, eq_box_h)
+    if eq_text:
+        eq_lines = simpleSplit(eq_text, FONT, 5, eq_box_w - coin_w - 8)
+        max_eq = int(eq_box_h / 9)
+        c.setFont(FONT, 5)
+        c.setFillColor((0, 0, 0))
+        for i, line in enumerate(eq_lines[:max_eq]):
+            c.drawString(eq_box_x + coin_w + 6, yb(y_eq) - 10 - i * 9, line)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  PAGE 2 — PERSONALITY, BACKSTORY, TREASURE, ALLIES
-# ═══════════════════════════════════════════════════════════════
-def draw_page2(c, d, features_continued=""):
-    """Two-column layout for personality, backstory, etc."""
+# ── COLUMN 3: Personality, Ideals, Bonds, Flaws, Features ─────
+def draw_col3(c, d):
+    y = GRID_Y
+    block_h = 50
+    gap = 4
+    w = COL3_W
 
-    def section(x, y_tl, w, h, label_text, text, size=6):
-        draw_label(c, x, y_tl - 10, w, label_text)
-        return draw_wrapped_text(c, x, y_tl + 2, w, h - 2, text, size=size)
+    sections = [
+        ("Personality Traits", d.get("personality", "")),
+        ("Ideals", d.get("ideals", "")),
+        ("Bonds", d.get("bonds", "")),
+        ("Flaws", d.get("flaws", "")),
+    ]
 
-    # Left column
-    section(18, 36, 288, 100, "Personality Traits", d.get("personality", ""))
-    section(18, 148, 288, 72, "Ideals", d.get("ideals", ""))
-    section(18, 232, 288, 72, "Bonds", d.get("bonds", ""))
-    section(18, 316, 288, 72, "Flaws", d.get("flaws", ""))
+    for i, (lbl, txt) in enumerate(sections):
+        sy = y + i * (block_h + gap)
+        _draw_text_box(c, COL3_X, sy, w, block_h, txt, size=5, label_text=lbl)
 
-    # Features & Traits continued
-    if features_continued:
-        section(18, 400, 288, 300, "Features & Traits (continued)", features_continued, size=5)
-
-    # Right column
-    inventory = d.get("inventory", []) or []
-    items_lines = [f"{item.get('name', '')} x{item.get('qty', 1)}"
-                   for item in inventory[:20] if isinstance(item, dict)]
-    items_text = "\n".join(items_lines)
-    section(324, 36, 270, 200, "Equipment (continued)", items_text, size=5.5)
-    section(324, 248, 270, 150, "Treasure", "")
-    section(324, 410, 270, 150, "Backstory", d.get("backstory", ""))
-    section(324, 572, 270, 130, "Allies & Organizations", "")
+    # Features & Traits
+    y_feat = y + 4 * (block_h + gap) + 6
+    feat_h = PAGE_H - 36 - y_feat  # fill remaining page
+    _draw_text_box(c, COL3_X, y_feat, w, feat_h, d.get("condensed_features", ""), size=5, label_text="Features & Traits")
 
 
 # ═══════════════════════════════════════════════════════════════
-#  PAGE 3 — SPELLCASTING
+#  PAGE 2 — NARRATIVE LAYOUT
 # ═══════════════════════════════════════════════════════════════
-def draw_page3(c, d):
-    """Spellcasting sheet with slots grid and prepared/known spells table."""
-    x0 = 18
+def draw_page2(c, d):
     y = 30
 
-    # Header: Spellcasting Ability, DC, Attack Bonus
+    # --- Top row: physical properties ---
+    phys_fields = [
+        ("Age", ""), ("Height", ""), ("Weight", ""),
+        ("Eyes", ""), ("Skin", ""), ("Hair", ""),
+    ]
+    phys_w = 92
+    for i, (lbl, val) in enumerate(phys_fields):
+        px = COL1_X + i * (phys_w + 4)
+        _draw_label(c, px, y - 9, lbl)
+        _draw_value(c, px, y, phys_w, 16, val, size=8)
+
+    # --- Left side (50%): Appearance + Backstory ---
+    left_x = COL1_X
+    left_w = 280
+    y2 = y + 32
+
+    _draw_text_box(c, left_x, y2, left_w, 280, "",
+                   size=5, label_text="Character Appearance")
+
+    _draw_text_box(c, left_x, y2 + 290, left_w, 400, d.get("backstory", ""),
+                   size=5, label_text="Character Backstory")
+
+    # --- Right side (50%): Allies, Features continued, Treasure ---
+    right_x = COL1_X + left_w + 16
+    right_w = 260
+
+    # Allies & Organizations (with faction symbol square)
+    _draw_text_box(c, right_x, y2, right_w, 180, "",
+                   size=5, label_text="Allies & Organizations")
+    # Faction symbol square
+    sym_x, sym_y, sym_sz = right_x + right_w - 48, y2 + 8, 44
+    c.setStrokeColor((0, 0, 0))
+    c.rect(sym_x, yb(sym_y) - sym_sz, sym_sz, sym_sz)
+
+    # Additional Features & Traits
+    _draw_text_box(c, right_x, y2 + 190, right_w, 310, d.get("full_feature_text", ""),
+                   size=4.5, label_text="Additional Features & Traits")
+
+    # Treasure
+    _draw_text_box(c, right_x, y2 + 510, right_w, 150, "",
+                   size=5, label_text="Treasure")
+
+
+# ═══════════════════════════════════════════════════════════════
+#  PAGE 3 — SPELL MATRIX (3 columns by level, prep circles)
+# ═══════════════════════════════════════════════════════════════
+def draw_page3(c, d):
+    x0 = MARGIN
+    y = 22
+
+    # Header
     sa = d.get("spell_ability", "")
     dc = d.get("spell_save_dc", 10)
     atk = d.get("spell_attack_bonus", 0)
     focus = "holy symbol" if d.get("class_name") in ("Cleric", "Paladin") else "arcane focus"
     c.setFont(FONT_BOLD, 9)
-    c.drawString(x0, _y_tl(c, y + 14), f"Spellcasting Ability: {sa}")
-    c.drawString(x0 + 160, _y_tl(c, y + 14), f"Spell Save DC: {dc}")
-    c.drawString(x0 + 300, _y_tl(c, y + 14), f"Spell Attack Bonus: {atk:+d}")
+    c.drawString(x0, yb(y + 14), f"Spellcasting Ability: {sa}")
+    c.drawString(x0 + 160, yb(y + 14), f"Spell Save DC: {dc}")
+    c.drawString(x0 + 300, yb(y + 14), f"Spell Attack Bonus: {atk:+d}")
 
-    # Cantrips
     y += 28
-    spells = d.get("spells", [])
-    cantrips = [s for s in spells if s[1] == 0]
-    if cantrips:
-        draw_label(c, x0, y, 500, "Cantrips (0-level spells)")
-        for i, sp in enumerate(cantrips[:10]):
-            c.setFont(FONT, 6)
-            c.drawString(x0 + 8, _y_tl(c, y + 12 + i * 14), sp[0])
-        y += 12 + len(cantrips[:10]) * 14 + 8
-    else:
-        draw_label(c, x0, y, 500, "Cantrips: None")
-        y += 16
 
-    # Spell Slots Grid
-    y_slots = y + 8
-    draw_label(c, x0, y_slots, 500, "Spell Slots")
+    # Get spells grouped by level
+    spells = d.get("spells", [])
+    by_level = {}
+    for sp_name, sp_level, prepared in spells:
+        by_level.setdefault(sp_level, []).append((sp_name, prepared))
+
     spell_slots = d.get("spell_slots", {})
     slot_used = d.get("spell_slots_used", {})
 
-    # Draw slots grid header
-    c.setFont(FONT_BOLD, 5)
-    grid_y = _y_tl(c, y_slots + 10) - 12
+    # Cantrips section at top
+    cantrips = by_level.get(0, [])
+    if cantrips:
+        _draw_label(c, x0, y, "Cantrips (0-level)")
+        for i, (name, _) in enumerate(cantrips[:8]):
+            c.setFont(FONT, 5.5)
+            c.drawString(x0 + 8, yb(y + 10 + i * 12), name)
+        y += 10 + len(cantrips[:8]) * 12 + 6
+
+    # 3-column spell level blocks
+    col_w = 188
+    col_gap = 6
+    block_h = 190
+    block_gap = 6
+
+    # Map levels to columns: 1,4,7 | 2,5,8 | 3,6,9
+    level_col_map = {1: 0, 2: 1, 3: 2, 4: 0, 5: 1, 6: 2, 7: 0, 8: 1, 9: 2}
+    row_per_col = {0: 0, 1: 0, 2: 0}
+
+    y_start = y + 6
+
     for lvl in range(1, 10):
-        lx = x0 + (lvl - 1) * 58
-        c.rect(lx, grid_y, 54, 12)
-        c.drawCentredString(lx + 27, grid_y + 3, f"Level {lvl}")
+        col = level_col_map[lvl]
+        row = row_per_col[col]
+        row_per_col[col] += 1
 
-    # Slot totals
-    total_y = grid_y - 16
-    c.setFont(FONT, 7)
-    for lvl in range(1, 10):
-        lx = x0 + (lvl - 1) * 58
-        total = int(spell_slots.get(str(lvl), 0))
-        c.rect(lx, total_y, 54, 16)
-        c.drawCentredString(lx + 27, total_y + 5, f"Total: {total}")
+        cx = x0 + col * (col_w + col_gap)
+        cy_tl = y_start + row * (block_h + block_gap)
 
-    # Used bubbles
-    bubble_y = total_y - 6
-    for lvl in range(1, 10):
-        lx = x0 + (lvl - 1) * 58
-        total = int(spell_slots.get(str(lvl), 0))
-        used = int(slot_used.get(str(lvl), 0))
-        if total > 0:
-            for b in range(min(total, 10)):
-                bx = lx + 8 + (b % 5) * 10
-                by = bubble_y - (b // 5) * 14
-                c.setStrokeColor((0, 0, 0))
-                c.circle(bx, by, 4)
-                if b < used:
-                    c.setFillColor((0, 0, 0))
-                    c.circle(bx, by, 4, fill=1)
-                    c.setFillColor((255, 255, 255))
-            bubble_y -= 2 + min((total - 1) // 5 + 1, 2) * 14
+        total_slots = int(spell_slots.get(str(lvl), 0))
+        used_slots = int(slot_used.get(str(lvl), 0))
 
-    # Spells Table
-    y_spells = y_slots + 110
-    draw_label(c, x0, y_spells, 500, "Known / Prepared Spells")
+        # Block border
+        c.setStrokeColor((0, 0, 0))
+        c.rect(cx, yb(cy_tl) - block_h, col_w, block_h)
 
-    # Fetch spell metadata
-    spell_cache = _get_spell_cache()
+        # Level header
+        c.setFont(FONT_BOLD, 6)
+        c.drawString(cx + 4, yb(cy_tl + 8), f"{lvl}{'st' if lvl==1 else 'nd' if lvl==2 else 'rd' if lvl==3 else 'th'} Level")
 
-    col_ws = [24, 140, 48, 56, 60, 52, 40]
-    hdrs = ["Lvl", "Spell Name", "Range", "Casting Time", "Duration", "Components", "Conc."]
+        # Slots Total + Expended bar
+        c.setFont(FONT, 5)
+        c.drawString(cx + 4, yb(cy_tl + 20), f"Slots Total: {total_slots}")
+        c.drawString(cx + 80, yb(cy_tl + 20), f"Slots Expended: {used_slots}")
 
-    # Table header
-    header_y = _y_tl(c, y_spells + 10) - 10
-    c.setFont(FONT_BOLD, 4.5)
-    for j, (h, cw) in enumerate(zip(hdrs, col_ws)):
-        cx = x0 + sum(col_ws[:j])
-        c.rect(cx, header_y, cw, 10)
-        c.drawString(cx + 2, header_y + 2, h)
+        # Prep circles for used slots
+        for b in range(min(total_slots, 12)):
+            bx = cx + 4 + (b % 6) * 12
+            by = cy_tl + 28 + (b // 6) * 12
+            _draw_bubble(c, bx + 5, by + 4, 4, filled=(b < used_slots))
 
-    # Draw rows (up to 30)
-    leveled_spells = [s for s in spells if s[1] > 0]
-    row_h = 14
-    rows_per_page = 30
+        # Spell lines with prep circles
+        level_spells = by_level.get(lvl, [])
+        line_y_start = cy_tl + 52
+        if total_slots > 6:
+            line_y_start += 12  # second row of bubbles
 
-    for i, sp in enumerate(leveled_spells[:rows_per_page]):
-        sp_name, sp_level, prepared = sp[0], sp[1], sp[2]
-        ry = header_y - (i + 1) * row_h
-
-        # Look up metadata
-        meta = spell_cache.get(sp_name.lower(), {})
-        range_val = meta.get("range", "")
-        casting = meta.get("casting_time", "")
-        duration = meta.get("duration", "")
-        comps = ", ".join(meta.get("components", [])) if meta.get("components") else ""
-        conc = "C" if meta.get("concentration") else ""
-
-        vals = [str(sp_level), sp_name, range_val, casting, duration, comps, conc]
-
-        for j, (v, cw) in enumerate(zip(vals, col_ws)):
-            cx = x0 + sum(col_ws[:j])
-            c.rect(cx, ry, cw, row_h)
-            font_name = FONT_BOLD if (prepared and j == 1) else FONT
-            c.setFont(font_name, 4.5)
-            c.drawString(cx + 2, ry + 3, trunc(str(v), 30 if j == 1 else 15))
+        max_lines = int((block_h - (line_y_start - cy_tl)) / 13)
+        for i, (sp_name, prepared) in enumerate(level_spells[:max_lines]):
+            ly = line_y_start + i * 13
+            # Prep circle
+            _draw_bubble(c, cx + 8, ly + 2, 3.5, filled=prepared)
+            # Horizontal line for spell name
+            ln_y = yb(ly + 2)
+            c.line(cx + 16, ln_y, cx + col_w - 4, ln_y)
+            # Spell name
+            c.setFont(FONT_BOLD if prepared else FONT, 5)
+            c.drawString(cx + 18, ln_y + 1, trunc(sp_name, 28))
 
 
 # ═══════════════════════════════════════════════════════════════
 #  MAIN GENERATOR
 # ═══════════════════════════════════════════════════════════════
 def generate_character_sheet(char_data, output_path=None):
-    """Generate a multi-page character sheet PDF. Returns bytes or saves to output_path."""
     import tempfile
 
     use_temp = output_path is None
@@ -777,16 +757,12 @@ def generate_character_sheet(char_data, output_path=None):
     c.setTitle(f"D&D 5e Character Sheet — {char_data.get('name', 'Character')}")
     c.setAuthor("Character Manager")
 
-    # Page 1 — Main sheet
-    features_result = draw_page1(c, char_data)
+    draw_page1(c, char_data)
     c.showPage()
 
-    # Page 2 — Personality & backstory
-    features_continued = features_result.get("features_overflow", "") if features_result else ""
-    draw_page2(c, char_data, features_continued)
+    draw_page2(c, char_data)
     c.showPage()
 
-    # Page 3 — Spellcasting (only for casters)
     if char_data.get("is_caster"):
         draw_page3(c, char_data)
         c.showPage()
