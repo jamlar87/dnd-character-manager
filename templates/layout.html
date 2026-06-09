@@ -24,7 +24,7 @@
   .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
   .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
   .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; position: relative; z-index: 5; }
-  .search-results-dropdown { display: none; position: fixed; top: 60px; left: 50%; transform: translateX(-50%); width: min(90vw, 600px); z-index: 9999; max-height: 60vh; overflow-y: auto; background: var(--card-bg); border: 2px solid var(--accent); border-radius: 8px; margin-top: 0.25rem; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+  .search-results-dropdown { display: none; position: fixed; top: 56px; left: 50%; transform: translateX(-50%); width: min(92vw, 560px); z-index: 9999; max-height: 65vh; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
   @media (max-width: 768px) {
     .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
     .nav-search input { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
@@ -85,10 +85,7 @@
 async function searchManuals(summarize = false) {
   const input = document.getElementById('manualSearchInput');
   const resultsDiv = document.getElementById('manualSearchResults');
-  if (!input || !resultsDiv) {
-    alert('Search error: missing ' + (!input?'input':'dropdown') + ' element');
-    return;
-  }
+  if (!input || !resultsDiv) { console.warn('search: missing input or resultsDiv'); return; }
   const query = input.value.trim();
   if (query.length < 2) {
     input.style.outline = '2px solid var(--warn)';
@@ -97,7 +94,6 @@ async function searchManuals(summarize = false) {
     return;
   }
 
-  // No debug alerts — just run
   resultsDiv.style.display = 'block';
   resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 Searching manuals...</div>';
 
