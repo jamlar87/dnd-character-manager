@@ -800,11 +800,18 @@
     <!-- ⚔️ ACTIONS TAB -->
     <div class="tab-content active" id="tab-actions">
       {% set attacks = attacks or [] %}
+      <!-- Weapon Attacks (collapsible) -->
       <div id="attacks-weapons-card" class="card" style="margin-bottom:0.5rem;{% if not attacks %}display:none{% endif %}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-          <h3 style="margin:0">Weapon Attacks</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
+             onclick="toggleSection('weapons-body','weapons-arrow')">
+          <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
+            <span id="weapons-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
+            Weapon Attacks
+            <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400">({{ attacks|length }})</span>
+          </h3>
           <span style="font-size:0.75rem;color:var(--text-muted)">Attacks per Action: 1</span>
         </div>
+        <div id="weapons-body">
         <div id="attacks-weapons-list">
         {% for atk in attacks %}
         <div class="atk-card item-card">
@@ -828,14 +835,22 @@
         </div>
         {% endfor %}
         </div><!-- /attacks-weapons-list -->
+        </div><!-- /weapons-body -->
       </div><!-- /attacks-weapons-card -->
 
+      <!-- Charged Items (collapsible) -->
       {% set charged = charged_items or [] %}
       <div id="attacks-charged-card" class="card" style="margin-bottom:0.5rem;{% if not charged %}display:none{% endif %}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-          <h3 style="margin:0">⚡ Charged Items</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
+             onclick="toggleSection('charged-body','charged-arrow')">
+          <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
+            <span id="charged-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
+            ⚡ Charged Items
+            <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400">({{ charged|length }})</span>
+          </h3>
           <span style="font-size:0.75rem;color:var(--text-muted)">Click to spend a charge</span>
         </div>
+        <div id="charged-body">
         <div id="attacks-charged-list">
         {% for ci in charged %}
         <div class="atk-card item-card charge-card{% if ci.current_charges <= 0 %} depleted{% endif %}"
@@ -861,6 +876,7 @@
         </div>
         {% endfor %}
         </div><!-- /attacks-charged-list -->
+        </div><!-- /charged-body -->
       </div><!-- /attacks-charged-card -->
 
       <!-- Unarmed Strike -->
