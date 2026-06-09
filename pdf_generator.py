@@ -1,5 +1,5 @@
 """
-D&D 5e Official Character Sheet PDF Generator — v11 (PAGE_1_COLUMN_GRID, passive perception col1).
+D&D 5e Official Character Sheet PDF Generator — v12 (section gaps increased, label overlap fixed).
 - Page 1: 3-column rigid grid with 15pt horizontal gutters between columns.
 - Page 2: 5 locked narrative bounding boxes, no feature overflows.
 - Page 3: Spell matrix — 3 isolated columns (1-2 | 3-5 | 6-9), each level a self-contained card.
@@ -330,7 +330,7 @@ def draw_header(c, d):
     for x, w, lbl, val in [
         (COL1_X, COL1_W, "Character Name", d.get("name", "")),
         (COL2_X, 100, "Race", d.get("race", "")),
-        (COL2_X + 106, 120, "Class & Level", f"{d.get('class_name','')} {d.get('level','')}"),
+        (COL2_X + 106, 90, "Class & Level", f"{d.get('class_name','')} {d.get('level','')}"),
         (COL3_X, COL3_W, "Background", d.get("background", "")),
     ]:
         _label(c, x, y0 - 9, lbl)
