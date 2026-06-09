@@ -140,6 +140,7 @@ def build_char_data(row, db_cursor=None):
 
     d["condensed_features"] = _build_condensed_features(d)
     d["full_feature_text"] = _build_full_feature_text(d)
+    d["page1_features"] = _build_page1_features_text(d)
     d["has_long_features"] = len(d.get("full_feature_text", "")) > 140
 
     return d
@@ -193,6 +194,27 @@ def _build_full_feature_text(d):
             if desc:
                 lines.append(desc)
             lines.append("")
+    return "\n".join(lines)
+
+
+def _build_page1_features_text(d):
+    """Feature name + description for page 1 Features & Traits box."""
+    lines = []
+    feature_data = d.get("feature_data", []) or []
+    for fd in feature_data:
+        name = fd.get("name", "")
+        desc = fd.get("description", "")
+        if not name:
+            continue
+        lines.append(name.upper())
+        if desc:
+            # Take first ~250 chars; break at sentence boundary
+            short = desc[:250]
+            last_period = max(short.rfind("."), short.rfind("…"))
+            if last_period > 100:
+                short = short[:last_period + 1]
+            lines.append(short)
+        lines.append("")
     return "\n".join(lines)
 
 
@@ -536,8 +558,9 @@ def _draw_col2_combat(c, d):
 
 
 def _draw_col3_personality(c, d):
-    y = GRID_Y
-    block_h, gap = 50, 12  # increased gap from 4 to 12
+    """Right column — starts just below Background box."""
+    y = 60  # right below header Background at y=46
+    block_h, gap = 50, 12
     w = COL3_W
     for i, (lbl, txt) in enumerate([
         ("Personality Traits", d.get("personality", "")),
@@ -547,9 +570,9 @@ def _draw_col3_personality(c, d):
     ]):
         sy = y + i * (block_h + gap)
         _text_box(c, COL3_X, sy, w, block_h, txt, size=5, label_text=lbl)
-    y_feat = y + 4 * (block_h + gap) + 14  # increased from +6
+    y_feat = y + 4 * (block_h + gap) + 14
     feat_h = PAGE_H - 36 - y_feat
-    _text_box(c, COL3_X, y_feat, w, feat_h, d.get("condensed_features", ""), size=5,
+    _text_box(c, COL3_X, y_feat, w, feat_h, d.get("page1_features", ""), size=4.5,
               label_text="Features & Traits")
 
 
