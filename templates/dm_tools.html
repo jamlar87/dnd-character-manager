@@ -831,6 +831,7 @@ async function showMonster(index) {
 
     let html = `<h2 style="margin:0">${m.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${m.size} ${m.type} · ${m.alignment || 'Unaligned'}</p>
+      ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0">📚 ${m.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
         <span><strong>AC</strong> ${ac}</span>
         <span><strong>HP</strong> ${m.hit_points} (${m.hit_dice})</span>
@@ -1065,6 +1066,9 @@ async function openEncounter(id) {
       const kindBadge = c._kind === 'monster'
         ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
         : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
+      const sourceBadge = c._kind === 'monster' && c._raw && c._raw.source
+        ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="${c._raw.source}">📚</span> `
+        : '';
       const hpDisplay = c._kind === 'monster'
         ? `HP ${c.hp_current}`
         : `HP ${c.hp_current}/${c.hp_max}`;
@@ -1074,7 +1078,7 @@ async function openEncounter(id) {
         : `${c.race}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}"
         style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
-        <span style="font-size:0.8rem">${kindBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
+        <span style="font-size:0.8rem">${kindBadge}${sourceBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
         <button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
       </div>`;
     });

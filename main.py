@@ -2250,6 +2250,23 @@ def _normalize_manual_monster(m: dict):
         cr_val = m.get("challenge_rating", 0)
         m["xp"] = _xp_for_cr(cr_val)
 
+    # Enrich source from _source_manual + pdf_map for manual monsters
+    source = m.get("source", "")
+    if (not source or "Unknown page" in str(source)) and m.get("_source_manual"):
+        slug = m["_source_manual"]
+        manual_meta = _load_manual_json("_meta.json")
+        pdf_map = manual_meta.get("pdf_map", {}) if isinstance(manual_meta, dict) else {}
+        book_info = pdf_map.get(slug, {})
+        if book_info:
+            title = book_info.get("title", slug)
+            # Strip "D&D 5E - " prefix for cleaner display
+            title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+            m["source"] = title
+        else:
+            m["source"] = slug  # Fallback to the slug itself
+    elif not m.get("source"):
+        m["source"] = ""
+
 def _monster_cr_sort_key(m: dict) -> float:
     cr = m.get("challenge_rating", 0)
     if isinstance(cr, dict):
