@@ -269,6 +269,27 @@
 .edit-mode .editable:hover { border-bottom-color: var(--text-muted); }
 .editable-input { background: transparent; border: none; border-bottom: 1px solid var(--accent); color: var(--text); font: inherit; padding: 0; margin: 0; outline: none; min-width: 2ch; }
 .editable-input.number { width: 3.5ch; text-align: center; }
+
+/* Ability score popover editor */
+.ability-editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.ability-editor-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.8rem; max-width: 340px; width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center; }
+.ability-editor-card h3 { margin: 0 0 0.25rem 0; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.ability-editor-card .ae-mod-preview { font-size: 2.2rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0; transition: color 0.2s; }
+.ability-editor-card .ae-mod-preview.positive { color: var(--success); }
+.ability-editor-card .ae-mod-preview.negative { color: var(--danger); }
+.ability-editor-card .ae-mod-preview.zero { color: var(--text-muted); }
+.ability-editor-stepper { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.ability-editor-stepper button { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; }
+.ability-editor-stepper button:hover { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.08); }
+.ability-editor-stepper button:active { transform: scale(0.95); }
+.ability-editor-stepper .ae-score-display { font-size: 2.8rem; font-weight: 800; min-width: 3.5ch; text-align: center; color: var(--text); line-height: 1; }
+.ability-editor-card .ae-score-input { width: 4ch; font-size: 2.8rem; font-weight: 800; text-align: center; background: var(--bg); border: 2px solid var(--accent); border-radius: 8px; color: var(--text); padding: 0.15rem 0; font-family: var(--font); outline: none; }
+.ability-editor-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; }
+.ability-editor-actions button { padding: 0.5rem 1.2rem; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.12s; }
+.ability-editor-actions .ae-save { background: var(--accent); color: #fff; }
+.ability-editor-actions .ae-save:hover { opacity: 0.9; }
+.ability-editor-actions .ae-cancel { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.ability-editor-actions .ae-cancel:hover { color: var(--text); }
 /* Proficiency dots — only clickable in edit mode */
 .save-row, .stat-row[onclick*="toggleSkill"], .stat-row[onclick*="showProfPicker"] { cursor: default; }
 .edit-mode .save-row, .edit-mode .stat-row[onclick*="toggleSkill"], .edit-mode .stat-row[onclick*="showProfPicker"] { cursor: pointer; }
@@ -475,7 +496,7 @@
         <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
           <div class="ab-name">{{ label }}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
-          <div class="ab-score editable" data-field="{{ stat }}" data-num="1">{{ score }}</div>
+          <div class="ab-score editable" data-ability="{{ stat }}" data-label="{{ label }}">{{ score }}</div>
         </div>
         {% endfor %}
       </div>
@@ -1621,6 +1642,203 @@ function openSourceRef(src) {
   }
 }
 _loadSourceSlugs();
+
+// ── Ability score recalculation data ───────────────────────────────────
+const SKILL_AB_MAP = {{ skill_abilities|tojson }};
+const CHAR_SAVE_PROFS = {{ saves_class|tojson }};
+const CHAR_SKILLS = {{ (character.skills or [])|tojson }};
+const CHAR_PROF_BONUS = {{ character.proficiency_bonus or 2 }};
+// Keep a client-side cache of ability scores for recalculation
+const ABILITY_SCORES = {
+  strength: {{ character.strength }},
+  dexterity: {{ character.dexterity }},
+  constitution: {{ character.constitution }},
+  intelligence: {{ character.intelligence }},
+  wisdom: {{ character.wisdom }},
+  charisma: {{ character.charisma }}
+};
+
+// ── Ability Score Editor Popover ───────────────────────────────────────
+function showAbilityEditor(statKey, statLabel, currentScore) {
+  if (!document.body.classList.contains('edit-mode')) return;
+
+  // Remove any existing editor
+  document.querySelectorAll('.ability-editor-overlay').forEach(o => o.remove());
+
+  let score = parseInt(currentScore) || 10;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'ability-editor-overlay';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+  const card = document.createElement('div');
+  card.className = 'ability-editor-card';
+
+  function render() {
+    const mod = Math.floor((score - 10) / 2);
+    const modStr = mod >= 0 ? '+' + mod : '' + mod;
+    let modClass = 'zero';
+    if (mod > 0) modClass = 'positive';
+    else if (mod < 0) modClass = 'negative';
+    const statNames = {strength:'Strength',dexterity:'Dexterity',constitution:'Constitution',
+      intelligence:'Intelligence',wisdom:'Wisdom',charisma:'Charisma'};
+    const fullName = statNames[statKey] || statKey;
+
+    card.innerHTML = [
+      '<h3>' + statLabel + ' — ' + fullName + '</h3>',
+      '<div class="ae-mod-preview ' + modClass + '">' + modStr + '</div>',
+      '<div class="ability-editor-stepper">',
+      '  <button id="ae-minus"' + (score <= 1 ? ' disabled style="opacity:0.3"' : '') + '>−</button>',
+      '  <span class="ae-score-display" id="ae-score-text">' + score + '</span>',
+      '  <button id="ae-plus"' + (score >= 30 ? ' disabled style="opacity:0.3"' : '') + '>+</button>',
+      '</div>',
+      '<div class="ability-editor-actions">',
+      '  <button class="ae-cancel">Cancel</button>',
+      '  <button class="ae-save">Save</button>',
+      '</div>'
+    ].join('');
+
+    // Score display — click to type directly
+    card.querySelector('#ae-score-text').addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = 1; input.max = 30;
+      input.className = 'ae-score-input';
+      input.value = score;
+      const display = card.querySelector('#ae-score-text');
+      display.replaceWith(input);
+      input.focus();
+      input.select();
+      input.addEventListener('blur', () => {
+        score = Math.max(1, Math.min(30, parseInt(input.value) || score));
+        render();
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') input.blur();
+      });
+    });
+
+    card.querySelector('#ae-minus').onclick = () => { score = Math.max(1, score - 1); render(); };
+    card.querySelector('#ae-plus').onclick = () => { score = Math.min(30, score + 1); render(); };
+    card.querySelector('.ae-cancel').onclick = () => overlay.remove();
+    card.querySelector('.ae-save').onclick = async () => {
+      // Update DOM
+      const abEl = document.querySelector(`.ab-score[data-ability="${statKey}"]`);
+      if (abEl) abEl.textContent = score;
+      // Update modifier display in ability box
+      const abBox = abEl ? abEl.closest('.ability-box') : null;
+      if (abBox) {
+        const modEl = abBox.querySelector('.ab-mod');
+        const newMod = Math.floor((score - 10) / 2);
+        if (modEl) modEl.textContent = (newMod >= 0 ? '+' : '') + newMod;
+      }
+      // Update client cache + recalc
+      ABILITY_SCORES[statKey] = score;
+      recalcAllDerived();
+      // Persist to server
+      try { await api('/update', { [statKey]: score }); } catch(e) { console.error(e); }
+      overlay.remove();
+    };
+  }
+
+  render();
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
+}
+
+// ── Recalculate all values that depend on ability scores ────────────────
+function recalcAllDerived() {
+  const scores = ABILITY_SCORES;
+  const abMod = (ab) => Math.floor((scores[ab] - 10) / 2);
+  const prof = CHAR_PROF_BONUS;
+
+  // Update saving throws in sidebar
+  document.querySelectorAll('.save-row').forEach(row => {
+    const statDot = row.querySelector('.save-dot');
+    if (!statDot) return;
+    const stat = statDot.dataset.stat;
+    if (!stat || !(stat in scores)) return;
+    const mod = abMod(stat);
+    const hasProf = statDot.classList.contains('active');
+    const val = mod + (hasProf ? prof : 0);
+    const valEl = row.querySelector('.stat-val');
+    if (valEl) {
+      valEl.textContent = (val >= 0 ? '+' : '') + val;
+      valEl.style.color = hasProf ? 'var(--accent)' : 'var(--text-muted)';
+    }
+  });
+
+  // Update skills in sidebar
+  document.querySelectorAll('.stat-row .skill-dot').forEach(dot => {
+    const skillName = dot.dataset.skill;
+    const ability = SKILL_AB_MAP[skillName];
+    if (!ability || !(ability in scores)) return;
+    const mod = abMod(ability);
+    const hasProf = dot.classList.contains('active');
+    const val = mod + (hasProf ? prof : 0);
+    const row = dot.closest('.stat-row');
+    if (row) {
+      const valEl = row.querySelector('.stat-val');
+      if (valEl) {
+        valEl.textContent = (val >= 0 ? '+' : '') + val;
+        valEl.style.color = hasProf ? 'var(--accent)' : 'var(--text-muted)';
+      }
+    }
+  });
+
+  // Update passive perception
+  const ppEl = document.querySelector('.sense-val.editable[data-field="passive_perception"]');
+  if (ppEl) {
+    const wisMod = abMod('wisdom');
+    const hasPercProf = CHAR_SKILLS.includes('Perception');
+    ppEl.textContent = 10 + wisMod + (hasPercProf ? prof : 0);
+  }
+
+  // Update passive investigation (non-editable span)
+  const piRow = [...document.querySelectorAll('.sense-row')].find(r => r.textContent.includes('Passive Investigation'));
+  if (piRow) {
+    const piVal = piRow.querySelector('.sense-val');
+    if (piVal) {
+      const intMod = abMod('intelligence');
+      const hasInvProf = CHAR_SKILLS.includes('Investigation');
+      piVal.textContent = 10 + intMod + (hasInvProf ? prof : 0);
+    }
+  }
+
+  // Update passive insight
+  const pInsRow = [...document.querySelectorAll('.sense-row')].find(r => r.textContent.includes('Passive Insight'));
+  if (pInsRow) {
+    const pInsVal = pInsRow.querySelector('.sense-val');
+    if (pInsVal) {
+      const wisMod = abMod('wisdom');
+      const hasInsProf = CHAR_SKILLS.includes('Insight');
+      pInsVal.textContent = 10 + wisMod + (hasInsProf ? prof : 0);
+    }
+  }
+}
+
+// ── Wire up ability score clicks to the popover editor ──────────────────
+function initAbilityEditors() {
+  document.querySelectorAll('.ab-score[data-ability]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (!document.body.classList.contains('edit-mode')) return;
+      showAbilityEditor(el.dataset.ability, el.dataset.label, parseInt(el.textContent) || 10);
+    });
+    // Visual cue: ability scores are clickable in edit mode
+    el.style.cursor = 'default';
+    el.title = 'Click to edit (unlock with 🔒 Edit first)';
+  });
+  // Update cursor in edit mode
+  const observer = new MutationObserver(() => {
+    const isEdit = document.body.classList.contains('edit-mode');
+    document.querySelectorAll('.ab-score[data-ability]').forEach(el => {
+      el.style.cursor = isEdit ? 'pointer' : 'default';
+    });
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+}
+
+document.addEventListener('DOMContentLoaded', initAbilityEditors);
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
