@@ -334,17 +334,54 @@ def load_manual_data():
     existing_item_names = {i.get("name", "").lower() for i in SRD_MAGIC_ITEMS}
     for item in manual_items:
         if item.get("name", "").lower() not in existing_item_names:
+            # Enrich source from _source_manual + pdf_map
+            source = (item.get("source") or "").strip()
+            if (not source or "Unknown" in source) and item.get("_source_manual"):
+                slug = item["_source_manual"]
+                book_info = (meta.get("pdf_map", {}) if isinstance(meta, dict) else {}).get(slug, {})
+                if book_info:
+                    title = book_info.get("title", slug)
+                    title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+                    source = title
+                else:
+                    source = slug
             # Map to SRD format
             mapped = {
                 "name": item.get("name", ""),
                 "desc": [item.get("description", "")],
                 "rarity": {"name": item.get("rarity", "varies")},
                 "equipment_category": {"name": item.get("type", "Wondrous item")},
+                "source": source,
             }
             SRD_MAGIC_ITEMS.append(mapped)
             existing_item_names.add(item["name"].lower())
     if manual_items:
         print(f"  + Magic Items: {len(manual_items)}")
+        # Rebuild ITEM_INDEX entries for manual magic items
+        for item in manual_items:
+            name = item.get("name", "")
+            if not name:
+                continue
+            key = name.lower()
+            if key not in ITEM_INDEX:
+                source = (item.get("source") or "").strip()
+                if (not source or "Unknown" in source) and item.get("_source_manual"):
+                    slug = item["_source_manual"]
+                    book_info = (meta.get("pdf_map", {}) if isinstance(meta, dict) else {}).get(slug, {})
+                    if book_info:
+                        title = book_info.get("title", slug)
+                        title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+                        source = title
+                rarity = item.get("rarity", "varies")
+                ITEM_INDEX[key] = {
+                    "name": name,
+                    "type": "Magic Item",
+                    "description": item.get("description", ""),
+                    "cost": "—",
+                    "weight": None,
+                    "rarity": rarity,
+                    "source": source or "",
+                }
 
     # ── Feats ── merge into FEATS dict
     manual_feats = _load_manual_json("feats.json")
@@ -747,6 +784,8 @@ for item in SRD_MAGIC_ITEMS:
         rarity = item.get("rarity", {}).get("name", "")
         desc_list = item.get("desc", [])
         desc = " ".join(desc_list) if desc_list else ""
+        # Use actual source for manual items, fall back to "DMG 2014" for SRD
+        source = item.get("source", "") or "DMG 2014"
         ITEM_INDEX[key] = {
             "name": name,
             "type": "Magic Item" if rarity else "Magic Item",
@@ -754,7 +793,7 @@ for item in SRD_MAGIC_ITEMS:
             "cost": "—",
             "weight": None,
             "rarity": rarity,
-            "source": "DMG 2014",
+            "source": source,
         }
 
 # Build magic item index by rarity
@@ -8043,6 +8082,7 @@ def _pick_magic_item(table: str) -> dict | None:
         "name": item.get("name", "Unknown"),
         "rarity": rarity,
         "description": desc[:200],
+        "source": item.get("source", "") or "DMG 2014",
     }
 
 
@@ -9238,6 +9278,7 @@ async def search_items(q: str = "", limit: int = 200):
                 "name": item["name"],
                 "type": item["type"],
                 "rarity": item.get("rarity", ""),
+                "source": item.get("source", ""),
             })
             if len(results) >= limit:
                 break
@@ -9248,10 +9289,10 @@ async def search_items(q: str = "", limit: int = 200):
                     "name": item["name"],
                     "type": item["type"],
                     "rarity": item.get("rarity", ""),
+                    "source": item.get("source", ""),
                 })
                 if len(results) >= limit:
                     break
-        # Boost exact matches to top
         results.sort(key=lambda r: (0 if r["name"].lower().startswith(query) else 1, r["name"]))
 
     return JSONResponse({"results": results[:limit], "total": len(ITEM_INDEX)})
