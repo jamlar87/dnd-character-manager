@@ -584,18 +584,17 @@ def draw_page3(c, d):
         y += 10 + len(cantrips[:8]) * 12 + 6
 
     # Column layout: Col1=1st,2nd | Col2=3rd,4th,5th | Col3=6th,7th,8th,9th
-    col_levels = [
-        (0, [1, 2]),       # col 0: 1st, 2nd
-        (1, [3, 4, 5]),    # col 1: 3rd, 4th, 5th
-        (2, [6, 7, 8, 9]), # col 2: 6th, 7th, 8th, 9th
+    # Exact X positions per spec: Col1=45, Col2=245, Col3=445 (200pt gaps)
+    col_layout = [
+        (45, [1, 2]),         # Col 1: 1st, 2nd
+        (245, [3, 4, 5]),     # Col 2: 3rd, 4th, 5th
+        (445, [6, 7, 8, 9]),  # Col 3: 6th, 7th, 8th, 9th
     ]
-    col_w = 188
-    col_gap = 6
+    col_w = 160  # fits within 612pt page
     y_start = y + 6
 
-    for col_idx, levels in col_levels:
-        cx = x0 + col_idx * (col_w + col_gap)
-        # Calculate card heights so 4 in a column fit
+    for cx, levels in col_layout:
+        # Calculate card heights so all levels in this column fit
         cards_in_col = len(levels)
         available_h = PAGE_H - y_start - MARGIN
         card_h = (available_h - (cards_in_col - 1) * 4) / cards_in_col
@@ -647,7 +646,7 @@ def _render_spell_card(c, x, y_tl, w, h, level, spells_list, spell_slots, slot_u
         c.line(x + 14, ln_y, x + w - 4, ln_y)
         c.setStrokeColor((0, 0, 0))
         c.setFont(FONT_BOLD if prepared else FONT, 5)
-        c.drawString(x + 16, ln_y + 1, trunc(sp_name, 28))
+        c.drawString(x + 16, ln_y + 1, trunc(sp_name, 32))
 
     # Fill remaining lines with empty prep circles + ruled lines
     for i in range(len(spells_list), max_lines):
