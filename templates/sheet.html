@@ -2,8 +2,8 @@
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
 /* Override container for sheet layout */
-.container { max-width: 1100px; margin: 1rem auto; }
-@media (max-width: 768px) { .container { margin: 0.5rem auto; } }
+.container { max-width: 1400px; width: 100%; margin: 1rem auto; overflow-x: hidden; padding: 0 0.75rem; }
+@media (max-width: 768px) { .container { margin: 0.5rem auto; width: 100%; padding: 0 0.5rem; } }
 
 /* ── Top row: rest + center + HP ── */
 .sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
@@ -69,11 +69,11 @@
 }
 
 /* Two-column layout */
-.sheet-layout { display: flex; gap: 1rem; min-height: calc(100vh - 140px); }
-@media (max-width: 768px) { .sheet-layout { flex-direction: column; } }
+.sheet-layout { display: flex; gap: 0.75rem; min-height: calc(100vh - 140px); }
+@media (max-width: 768px) { .sheet-layout { flex-direction: column; overflow-x: hidden; } }
 
 /* ── Sidebar ── */
-.sheet-sidebar { width: 250px; flex-shrink: 0; }
+.sheet-sidebar { width: 210px; flex-shrink: 0; }
 @media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
 /* Tablet: 2-column sidebar sections */
 @media (min-width: 481px) and (max-width: 768px) {
@@ -81,7 +81,7 @@
   .sheet-sidebar > * { min-width: 0; }
 }
 
-.sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.5rem; }
+.sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.4rem; }
 .sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
 
 /* HP bar in sidebar */
@@ -181,7 +181,7 @@
 .prof-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 10px; font-size: 0.7rem; font-weight: 500; margin: 0.1rem 0.2rem 0.1rem 0; background: rgba(100,149,237,0.1); border: 1px solid rgba(100,149,237,0.25); color: #90b4f0; }
 
 /* ── Main panel ── */
-.sheet-main { flex: 1; min-width: 0; }
+.sheet-main { flex: 1; min-width: 0; width: 100%; }
 
 /* Tabs */
 .tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
@@ -1154,13 +1154,22 @@
           </span>
         </h3>
         {% if prepared_spells %}
-        <div id="prepared-spells-list" style="display:flex;flex-wrap:wrap;gap:0.35rem">
-          {% for sp in prepared_spells %}
-          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer"
+        {% for lvl in range(1, 10) %}
+        {% set level_prepared = prepared_spells|selectattr("spell_level","eq",lvl)|list %}
+        {% if level_prepared|length > 0 %}
+        {% set level_label = "1st Level" if lvl == 1 else ("2nd Level" if lvl == 2 else ("3rd Level" if lvl == 3 else lvl|string + "th Level")) %}
+        <div class="spell-level-section">
+          <div class="spell-level-header open" onclick="toggleSpellLevel(this)" data-level="prep-{{ lvl }}">
+            <span class="sl-arrow">▶</span>
+            <span class="sl-label">{{ level_label }}</span>
+            <span class="sl-count">{{ level_prepared|length }} spell{{ 's' if level_prepared|length != 1 }}</span>
+          </div>
+          <div class="spell-level-body open">
+          {% for sp in level_prepared %}
+          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer;margin-bottom:0.2rem"
                onclick="document.getElementById('spell-row-{{ sp.id }}').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('spell-row-{{ sp.id }}').querySelector('.spell-header').classList.add('highlight-pulse')"
                title="Click to find in Spellbook">
             <strong>{{ sp.spell_name }}</strong>
-            <span class="badge badge-muted" style="font-size:0.6rem">Lv{{ sp.spell_level }}</span>
             {% if sp.srd and sp.srd.source %}
             <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
             {% endif %}
@@ -1174,7 +1183,10 @@
                     onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
           </div>
           {% endfor %}
+          </div>
         </div>
+        {% endif %}
+        {% endfor %}
         {% else %}
         <p style="color:var(--text-muted);font-size:0.85rem;margin:0">No spells prepared. Prepare spells from your Spellbook below.</p>
         {% endif %}
@@ -1521,7 +1533,9 @@
 
 
 <!-- /sheet-main -->
-</div><!-- /sheet-layout -->
+</div>
+<!-- /sheet-layout -->
+</div>
 
 <!-- Detail Popup -->
 <div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
