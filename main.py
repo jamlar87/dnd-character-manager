@@ -786,15 +786,63 @@ for item in SRD_MAGIC_ITEMS:
         desc = " ".join(desc_list) if desc_list else ""
         # Use actual source for manual items, fall back to "DMG 2014" for SRD
         source = item.get("source", "") or "DMG 2014"
-        ITEM_INDEX[key] = {
+
+        # ── Proper type tagging ──
+        cat = (item.get("equipment_category") or {}).get("name", "")
+        cat_lower = cat.lower()
+        TYPE_MAP = {
+            "weapon": "Magic Weapon",
+            "armor": "Magic Armor",
+            "potion": "Potion",
+            "scroll": "Scroll",
+            "ring": "Ring",
+            "wand": "Wand",
+            "staff": "Staff",
+            "rod": "Rod",
+            "ammunition": "Magic Ammunition",
+            "wondrous item": "Wondrous Item",
+        }
+        item_type = TYPE_MAP.get(cat_lower, cat or "Magic Item")
+
+        # ── Extract charges / limited uses ──
+        desc_lower = desc.lower()
+        charges = None
+        charge_recharge = None
+        import re as _re
+        cm = _re.search(r'has\s+(\d+)\s*charges?', desc_lower)
+        if cm:
+            charges = int(cm.group(1))
+        rm = _re.search(r'regains?\s*(?:1d\d+\s*\+\s*)?(\d+)\s*expended charges?', desc_lower)
+        if rm:
+            charge_recharge = int(rm.group(1))
+        # Per-day uses
+        dm = _re.search(r'(\d+|-)\s*(?:times?|uses?)?\s*(?:per|each|a)\s*day', desc_lower)
+        uses_per_day = None
+        if dm:
+            raw = dm.group(1)
+            uses_per_day = 0 if raw == '-' else int(raw)
+        # Once per long rest
+        if 'once per' in desc_lower or 'can\'t be used again until' in desc_lower:
+            if charges is None and uses_per_day is None:
+                charges = 1
+                charge_recharge = 'long rest'
+
+        entry = {
             "name": name,
-            "type": "Magic Item" if rarity else "Magic Item",
+            "type": item_type,
             "description": desc,
             "cost": "—",
             "weight": None,
             "rarity": rarity,
             "source": source,
         }
+        if charges is not None:
+            entry["charges"] = charges
+        if charge_recharge:
+            entry["charge_recharge"] = charge_recharge
+        if uses_per_day is not None:
+            entry["uses_per_day"] = uses_per_day
+        ITEM_INDEX[key] = entry
 
 # Build magic item index by rarity
 from collections import defaultdict
@@ -1675,6 +1723,32 @@ WEAPONS = {
     "net":             {"damage":"—","type":"special","props":["thrown (5/15)","special"],"category":"martial ranged"},
 }
 
+# ── Post-pass: resolve base_weapon for magic weapons in ITEM_INDEX ──
+for key, entry in ITEM_INDEX.items():
+    if entry.get("type") == "Magic Weapon" and not entry.get("base_weapon"):
+        name = entry["name"].lower()
+        for wpn_name in WEAPONS:
+            if wpn_name in name:
+                entry["base_weapon"] = wpn_name
+                break
+        if not entry.get("base_weapon"):
+            aliases = {'sword': 'longsword', 'axe': 'battleaxe', 'mace': 'mace',
+                       'hammer': 'warhammer', 'bow': 'longbow', 'dagger': 'dagger',
+                       'scimitar': 'scimitar', 'javelin': 'javelin', 'trident': 'trident',
+                       'lance': 'lance', 'flail': 'flail', 'whip': 'whip',
+                       'glaive': 'glaive', 'halberd': 'halberd', 'pike': 'pike',
+                       'blade': 'longsword', 'slayer': 'greatsword', 'defender': 'longsword',
+                       'thrower': 'warhammer', 'brand': 'greatsword',
+                       'vorpal': 'longsword', 'sharpness': 'longsword',
+                       'wounding': 'longsword', 'disruption': 'mace',
+                       'smiting': 'mace', 'terror': 'mace',
+                       'lightning': 'javelin', 'fish command': 'trident',
+                       'tongue': 'longsword', 'avenger': 'longsword'}
+            for alias, base in aliases.items():
+                if alias in name:
+                    entry["base_weapon"] = base
+                    break
+
 def _find_weapon(item_name: str) -> dict | None:
     """Match an inventory item name to a known SRD weapon. Fuzzy match."""
     name = item_name.lower().strip()
@@ -1693,6 +1767,16 @@ def _find_weapon(item_name: str) -> dict | None:
         if wpn_name in name or name in wpn_name or wpn_name in name_singular or name_singular in wpn_name:
             return wpn_data
     # Keyword fallback
+    # Check ITEM_INDEX for magic weapons with base_weapon
+    idx_entry = ITEM_INDEX.get(name) or ITEM_INDEX.get(name_singular)
+    if not idx_entry:
+        for k, v in ITEM_INDEX.items():
+            if k in name or name in k or k in name_singular or name_singular in k:
+                idx_entry = v
+                break
+    if idx_entry and idx_entry.get("base_weapon"):
+        return WEAPONS.get(idx_entry["base_weapon"])
+
     keywords = ["sword","axe","hammer","bow","dagger","mace","spear","flail",
                 "rapier","scimitar","glaive","halberd","pike","lance","whip",
                 "javelin","crossbow","club","staff","sling","dart","trident"]
