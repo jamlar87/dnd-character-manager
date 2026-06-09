@@ -1258,6 +1258,8 @@ RACIAL_TRAIT_DESCS = {
     "Halfling Nimbleness": "You can move through the space of any creature that is of a size larger than yours.",
     "Naturally Stealthy": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
     "Stout Resilience": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
+    # Ghostwise Halfling
+    "Silent Speech": "You can speak telepathically to any creature within 30 feet of you. The creature understands you only if the two of you share a language. You can speak telepathically in this way to one creature at a time.",
     # Dragonborn
     "Draconic Ancestry": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type.",
     "Breath Weapon": "You can use your action to exhale destructive energy in a 15 ft cone or 5 by 30 ft line (by ancestry). Each creature in the area must make a saving throw (DC = 8 + Con mod + proficiency bonus). A creature takes 2d6 damage on a failed save, half on success. Damage increases to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th. Recharges on a short or long rest.",
@@ -1268,6 +1270,22 @@ RACIAL_TRAIT_DESCS = {
     "Speak with Small Beasts": "Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts.",
     "Artificer's Lore": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus.",
     "Tinker": "You have proficiency with tinker's tools. Using those tools, you can spend 1 hour and 10 gp to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours. You can have up to three such devices active at a time.",
+    # Deep Gnome
+    "Stone Camouflage": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain.",
+    # Air Genasi
+    "Unending Breath": "You can hold your breath indefinitely while you're not incapacitated.",
+    "Mingle with the Wind": "You can cast the levitate spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+    # Earth Genasi
+    "Earth Walk": "You can move across difficult terrain made of earth or stone without expending extra movement.",
+    "Merge with Stone": "You can cast the pass without trace spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+    # Fire Genasi
+    "Fire Resistance": "You have resistance to fire damage.",
+    "Reach to the Blaze": "You know the produce flame cantrip. Starting at 3rd level, you can cast burning hands once with this trait as a 1st-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+    # Water Genasi
+    "Amphibious": "You can breathe air and water.",
+    "Swim": "You have a swimming speed of 30 feet.",
+    "Acid Resistance": "You have resistance to acid damage.",
+    "Call to the Wave": "You know the shape water cantrip. Starting at 3rd level, you can cast create or destroy water once with this trait as a 2nd-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
     # Half-Elf
     "Skill Versatility": "You gain proficiency in two skills of your choice.",
     # Half-Orc
@@ -1281,6 +1299,14 @@ RACIAL_TRAIT_DESCS = {
     "Duergar Resilience": "You have advantage on saving throws against illusions and against being charmed or paralyzed.",
     "Duergar Magic": "Starting at 3rd level, you can cast the enlarge/reduce spell with this trait, without a material component. Starting at 5th level, you can also cast the invisibility spell with this trait, without a material component. Once you cast either spell, you can't cast it again until you finish a long rest. Intelligence is your spellcasting ability for these spells.",
     "Sunlight Sensitivity": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
+    # Sea Elf
+    "Sea Elf Training": "You have proficiency with the spear, trident, light crossbow, and net.",
+    "Child of the Sea": "You have a swimming speed of 30 feet, and you can breathe air and water.",
+    # Eladrin
+    "Fey Step": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once you use this trait, you can't do so again until you finish a short or long rest. When you reach 3rd level, your Fey Step gains an additional effect based on your season; if the effect requires a saving throw, the DC is 8 + your proficiency bonus + your Intelligence modifier.",
+    # Shadar-kai
+    "Necrotic Resistance": "You have resistance to necrotic damage.",
+    "Blessing of the Raven Queen": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once you use this trait, you can't do so again until you finish a long rest. Starting at 3rd level, you also gain resistance to all damage when you teleport using this trait. The resistance lasts until the start of your next turn, and during that time you appear ghostly and translucent.",
 }
 
 # Merge racial trait descriptions into the feature lookup so Breath Weapon etc. show descriptions
@@ -1296,11 +1322,21 @@ SUBRACE_TRAITS = {
     "High Elf": ["Elf Weapon Training", "Cantrip (High Elf)"],
     "Wood Elf": ["Elf Weapon Training", "Fleet of Foot", "Mask of the Wild"],
     "Dark Elf (Drow)": ["Superior Darkvision", "Sunlight Sensitivity", "Drow Magic"],
+    "Sea Elf": ["Sea Elf Training", "Child of the Sea"],
+    "Eladrin": ["Fey Step"],
+    "Shadar-kai": ["Necrotic Resistance", "Blessing of the Raven Queen"],
     "Lightfoot Halfling": ["Naturally Stealthy"],
     "Stout Halfling": ["Stout Resilience"],
+    "Ghostwise Halfling": ["Silent Speech"],
     "Forest Gnome": ["Natural Illusionist", "Speak with Small Beasts"],
     "Rock Gnome": ["Artificer's Lore", "Tinker"],
+    "Deep Gnome": ["Superior Darkvision", "Stone Camouflage"],
     "Duergar": ["Superior Darkvision", "Duergar Resilience", "Duergar Magic", "Sunlight Sensitivity"],
+    "Gold Dwarf": ["Dwarven Toughness"],
+    "Air Genasi": ["Unending Breath", "Mingle with the Wind"],
+    "Earth Genasi": ["Earth Walk", "Merge with Stone"],
+    "Fire Genasi": ["Fire Resistance", "Reach to the Blaze"],
+    "Water Genasi": ["Amphibious", "Swim", "Acid Resistance", "Call to the Wave"],
     "Variant Human": [],
 }
 
@@ -1336,6 +1372,17 @@ RACIAL_TRAIT_EFFECTS = {
     "Sunlight Sensitivity": {},  # ribbon
     "Drow Magic": {},  # ribbon
 
+    # ── Sea Elf ──
+    "Sea Elf Training": {"weapon_profs": ["Spear", "Trident", "Light Crossbow", "Net"]},
+    "Child of the Sea": {},  # swim 30ft + amphibious (ribbon)
+
+    # ── Eladrin ──
+    "Fey Step": {},  # misty step 1/short rest (ribbon)
+
+    # ── Shadar-kai ──
+    "Necrotic Resistance": {"damage_resist": ["Necrotic"]},
+    "Blessing of the Raven Queen": {},  # teleport 1/long rest (ribbon)
+
     # ── Halfling (base) ──
     "Lucky": {},  # ribbon
     "Brave": {},
@@ -1346,6 +1393,9 @@ RACIAL_TRAIT_EFFECTS = {
 
     # ── Stout Halfling ──
     "Stout Resilience": {"damage_resist": ["Poison"]},
+
+    # ── Ghostwise Halfling ──
+    "Silent Speech": {},  # telepathy 30ft (ribbon)
 
     # ── Dragonborn ──
     "Draconic Ancestry": {},  # choice-based resistance
@@ -1362,6 +1412,24 @@ RACIAL_TRAIT_EFFECTS = {
     # ── Rock Gnome ──
     "Artificer's Lore": {},  # ribbon
     "Tinker": {"tool_profs": ["Tinker's tools"]},
+
+    # ── Deep Gnome ──
+    "Stone Camouflage": {},  # advantage on Stealth in rocky terrain (ribbon)
+
+    # ── Air Genasi ──
+    "Unending Breath": {},  # hold breath indefinitely (ribbon)
+    "Mingle with the Wind": {},  # levitate 1/long rest (ribbon)
+    # ── Earth Genasi ──
+    "Earth Walk": {},  # ignore earth/stone difficult terrain (ribbon)
+    "Merge with Stone": {},  # pass without trace 1/long rest (ribbon)
+    # ── Fire Genasi ──
+    "Fire Resistance": {"damage_resist": ["Fire"]},
+    "Reach to the Blaze": {},  # produce flame cantrip + burning hands 1/long (ribbon)
+    # ── Water Genasi ──
+    "Amphibious": {},  # breathe air + water (ribbon)
+    "Swim": {},  # swim 30ft (ribbon)
+    "Acid Resistance": {"damage_resist": ["Acid"]},
+    "Call to the Wave": {},  # shape water cantrip + create/destroy water 1/long (ribbon)
 
     # ── Half-Elf ──
     "Skill Versatility": {},  # choice-based
@@ -6699,6 +6767,17 @@ LIMITED_USE = {
     "overchannel":         {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
     # Wizard (PHB p.115) — Signature Spell, 2 free casts/short rest (one per chosen spell)
     "signature spell":     {"min": 2, "max": 2,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    # ── Racial Traits ──
+    "breath weapon":        {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    "fey step":             {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    "blessing of the raven queen": {"min": 1, "max": 1, "recharge": "long", "class": "", "per": "fixed"},
+    "drow magic":           {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "infernal legacy":      {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "duergar magic":        {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "mingle with the wind": {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "merge with stone":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "reach to the blaze":   {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "call to the wave":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
 }
 
 
@@ -6962,6 +7041,21 @@ FEATURE_ACTION_TYPES = {
     "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
     # Dragonborn
     "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
+    # Drow
+    "drow magic":           ("Action", "Drow Magic — faerie fire (L3) or darkness (L5)"),
+    # Tiefling
+    "infernal legacy":      ("Action", "Infernal Legacy — hellish rebuke (L3) or darkness (L5)"),
+    # Duergar
+    "duergar magic":        ("Action", "Duergar Magic — enlarge/reduce (L3) or invisibility (L5)"),
+    # Eladrin
+    "fey step":             ("Bonus Action", "Fey Step — teleport 30ft (1/short rest)"),
+    # Shadar-kai
+    "blessing of the raven queen": ("Bonus Action", "Blessing of the Raven Queen — teleport 30ft (1/long rest)"),
+    # Genasi
+    "mingle with the wind": ("Action", "Mingle with the Wind — levitate (1/long rest at L3)"),
+    "merge with stone":     ("Action", "Merge with Stone — pass without trace (1/long rest at L3)"),
+    "reach to the blaze":   ("Action", "Reach to the Blaze — burning hands (1/long rest at L3)"),
+    "call to the wave":     ("Action", "Call to the Wave — create or destroy water (1/long rest at L3)"),
     # Resource pools (not combat actions per se, but tracked on Actions tab)
     "ki":                   ("Resource", "Ki — spend on Flurry, Patient Defense, Step of the Wind"),
     "sorcery points":       ("Resource", "Sorcery Points — spend on Metamagic options"),
