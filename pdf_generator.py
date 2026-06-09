@@ -594,6 +594,14 @@ def draw_page3(c, d):
     y_start = y + 6
 
     for cx, levels in col_layout:
+        # Draw vertical column divider (thin gray line between columns)
+        if cx > 45:
+            c.setStrokeColor((0.7, 0.7, 0.7))
+            c.setDash(2, 4)
+            c.line(cx - 4, yb(y_start), cx - 4, yb(PAGE_H - MARGIN))
+            c.setDash()
+            c.setStrokeColor((0, 0, 0))
+
         # Calculate card heights so all levels in this column fit
         cards_in_col = len(levels)
         available_h = PAGE_H - y_start - MARGIN
