@@ -222,6 +222,17 @@
 .feat-sub-header.open span { transform: rotate(90deg); display: inline-block; }
 .spell-body { display: none; }
 .spell-body.open { display: block; }
+
+/* Spell level collapsible sections */
+.spell-level-section { margin-bottom: 0.3rem; }
+.spell-level-header { display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; user-select: none; transition: border-color 0.15s; }
+.spell-level-header:hover { border-color: var(--accent); }
+.spell-level-header .sl-arrow { font-size: 0.6rem; color: var(--text-muted); transition: transform 0.15s; width: 0.8rem; text-align: center; }
+.spell-level-header.open .sl-arrow { transform: rotate(90deg); }
+.spell-level-header .sl-label { font-weight: 600; font-size: 0.8rem; flex: 1; }
+.spell-level-header .sl-count { font-size: 0.65rem; color: var(--text-muted); }
+.spell-level-body { display: none; padding: 0.2rem 0 0.2rem 0.3rem; }
+.spell-level-body.open { display: block; }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Feature use checkbox dots */
@@ -1170,69 +1181,85 @@
       </div>
       {% endif %}
 
-      <!-- Known / Prepared Spells List -->
+            <!-- Known / Prepared Spells List (grouped by level) -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">
             {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}📖 Spellbook{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
           </h3>
-          <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
-          <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent)">🤖 AI Assist</button>
+          <div style="display:flex;gap:0.3rem">
+            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels(true)">▸ Expand All</button>
+            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels(false)">▾ Collapse All</button>
+            <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
+            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent)">🤖 AI Assist</button>
+          </div>
         </div>
         {% if spells %}
         {% set use_prepared = character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
-        {% for sp in spells %}
-        <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
-          <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
-               style="display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
-            <strong style="flex:1;min-width:0;font-size:0.85rem">{{ sp.spell_name }}</strong>
-            <span class="badge badge-muted" style="font-size:0.65rem">
-              {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
-            </span>
-            {% if sp.srd and sp.srd.source %}
-            <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
-            {% endif %}
-            {% if sp.srd and sp.srd.school %}
-            <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
-            {% endif %}
-            {% if sp.srd and sp.srd.ritual %}
-            <span class="badge badge-muted" style="font-size:0.6rem">Ritual</span>
-            {% endif %}
-            {% if sp.srd and sp.srd.concentration %}
-            <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
-            {% endif %}
-            {% if use_prepared and sp.spell_level > 0 %}
-            <button class="btn btn-outline btn-sm prep-toggle-btn" style="font-size:0.65rem;padding:0.1rem 0.35rem;line-height:1;flex-shrink:0;{% if sp.prepared %}color:var(--danger){% else %}color:var(--success){% endif %}"
-                    onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
-                    data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
-                    title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
-            {% endif %}
-            <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
+        {% for lvl in range(0, 10) %}
+        {% set level_spells = spells|selectattr("spell_level","eq",lvl)|list %}
+        {% if level_spells|length > 0 %}
+        {% set level_label = "Cantrips" if lvl == 0 else ("1st Level" if lvl == 1 else ("2nd Level" if lvl == 2 else ("3rd Level" if lvl == 3 else lvl|string + "th Level"))) %}
+        <div class="spell-level-section">
+          <div class="spell-level-header{% if lvl <= 1 %} open{% endif %}" onclick="toggleSpellLevel(this)" data-level="{{ lvl }}">
+            <span class="sl-arrow">▶</span>
+            <span class="sl-label">{{ level_label }}</span>
+            <span class="sl-count">{{ level_spells|length }} spell{{ 's' if level_spells|length != 1 }}</span>
           </div>
-          <div class="spell-body" style="padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
-            {% if sp.srd %}
-            <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
-              <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
-              <span style="color:var(--text-muted);font-size:0.72rem">Range:</span><span>{{ sp.srd.range }}</span>
-              <span style="color:var(--text-muted);font-size:0.72rem">Components:</span><span>{{ sp.srd.components|join(', ') }}{% if sp.srd.material %} ({{ sp.srd.material }}){% endif %}</span>
-              <span style="color:var(--text-muted);font-size:0.72rem">Duration:</span><span>{{ sp.srd.duration }}{% if sp.srd.concentration %} (concentration){% endif %}</span>
-              {% if sp.srd.attack_type %}
-              <span style="color:var(--text-muted);font-size:0.72rem">Attack:</span><span>{{ sp.srd.attack_type|capitalize }}</span>
+          <div class="spell-level-body{% if lvl <= 1 %} open{% endif %}">
+          {% for sp in level_spells %}
+          <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
+            <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
+                 style="display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
+              <strong style="flex:1;min-width:0;font-size:0.85rem">{{ sp.spell_name }}</strong>
+              {% if sp.srd and sp.srd.source %}
+              <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.ritual %}
+              <span class="badge badge-muted" style="font-size:0.6rem">Ritual</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.concentration %}
+              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
+              {% endif %}
+              {% if use_prepared and sp.spell_level > 0 %}
+              <button class="btn btn-outline btn-sm prep-toggle-btn" style="font-size:0.65rem;padding:0.1rem 0.35rem;line-height:1;flex-shrink:0;{% if sp.prepared %}color:var(--danger){% else %}color:var(--success){% endif %}"
+                      onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
+                      data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
+                      title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
+              {% endif %}
+              <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
+            </div>
+            <div class="spell-body" style="padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
+              {% if sp.srd %}
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
+                <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Range:</span><span>{{ sp.srd.range }}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Components:</span><span>{{ sp.srd.components|join(', ') }}{% if sp.srd.material %} ({{ sp.srd.material }}){% endif %}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Duration:</span><span>{{ sp.srd.duration }}{% if sp.srd.concentration %} (concentration){% endif %}</span>
+                {% if sp.srd.attack_type %}
+                <span style="color:var(--text-muted);font-size:0.72rem">Attack:</span><span>{{ sp.srd.attack_type|capitalize }}</span>
+                {% endif %}
+              </div>
+              {% for line in sp.srd.desc %}
+              <p style="margin:0.3rem 0;line-height:1.45">{{ line }}</p>
+              {% endfor %}
+              {% if sp.srd.higher_level %}
+              <p style="margin:0.3rem 0;line-height:1.45;color:var(--accent);font-size:0.78rem">
+                <strong>At Higher Levels.</strong> {{ sp.srd.higher_level|join(' ') }}
+              </p>
+              {% endif %}
+              {% else %}
+              <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
               {% endif %}
             </div>
-            {% for line in sp.srd.desc %}
-            <p style="margin:0.3rem 0;line-height:1.45">{{ line }}</p>
-            {% endfor %}
-            {% if sp.srd.higher_level %}
-            <p style="margin:0.3rem 0;line-height:1.45;color:var(--accent);font-size:0.78rem">
-              <strong>At Higher Levels.</strong> {{ sp.srd.higher_level|join(' ') }}
-            </p>
-            {% endif %}
-            {% else %}
-            <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
-            {% endif %}
+          </div>
+          {% endfor %}
           </div>
         </div>
+        {% endif %}
         {% endfor %}
         {% else %}
         <p style="color:var(--text-muted);font-size:0.85rem">No spells added. Use the build planner or add manually.</p>
@@ -1271,7 +1298,6 @@
         {% endif %}
       </div>
       {% endif %}
-    </div>
 
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
@@ -2008,6 +2034,19 @@ function toggleSection(bodyId, arrowId) {
     body.style.display = 'none';
     arrow.textContent = '▸';
   }
+}
+
+// ── Spell level collapsible sections ────────────────────────────────────
+function toggleSpellLevel(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+function toggleAllSpellLevels(expand) {
+  document.querySelectorAll('.spell-level-header').forEach(h => {
+    if (expand) { h.classList.add('open'); h.nextElementSibling.classList.add('open'); }
+    else { h.classList.remove('open'); h.nextElementSibling.classList.remove('open'); }
+  });
 }
 
 // ── Hit Dice ──
