@@ -357,7 +357,7 @@ function buildRaces() {
   const grid = document.getElementById('race-grid');
   grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
     <div class="option-card" onclick="selectRace('${name}')">
-      <div class="name">${name}</div>
+      <div class="name">${name}${r.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
     </div>`).join('');
 }

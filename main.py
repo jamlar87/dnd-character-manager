@@ -238,7 +238,22 @@ def load_manual_data():
             "traits": traits,
             "desc": race.get("description", ""),
             "subrace_descs": subrace_descs,
+            "source": race.get("source", ""),
         }
+        # Clean up bad sources: bare page numbers, Unknown markers
+        src = RACES[name].get("source", "")
+        ref_manual = race.get("_source_manual", "")
+        if ref_manual and meta.get("pdf_map", {}).get(ref_manual):
+            book_title = meta["pdf_map"][ref_manual]["title"]
+            # Strip noisy prefixes from raw filenames
+            for prefix in ("D&D 5E - ", "D&D 5E-", "DnD 5E - "):
+                if book_title.startswith(prefix):
+                    book_title = book_title[len(prefix):]
+                    break
+            if src.startswith("p.") or src.startswith("p "):
+                RACES[name]["source"] = f"{book_title} {src}"
+            elif "Unknown" in src or not src:
+                RACES[name]["source"] = book_title
         # Add trait descriptions (quality-aware)
         for t in race.get("traits", []):
             tname = t.get("name", "")
