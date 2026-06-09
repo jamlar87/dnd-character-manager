@@ -914,11 +914,13 @@
           {% set atype = fa.get("action_type","Action") %}
           {% set uses = fa.get("uses",0) %}
           {% set uses_max = fa.get("uses_max",0) %}
-          {% set depleted = uses_max > 0 and uses == 0 %}
+          {% set pool = fa.get('pool_kind') %}
+          {% set depleted = uses_max > 0 and uses == 0 and not pool %}
           <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
                data-feat-name="{{ fa.name }}"
-               onclick="{% if not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
-               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if depleted %}default{% else %}pointer{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
+               {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
+               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
               <span style="font-size:0.85rem;font-weight:600">{{ fa.name }}</span>
@@ -926,7 +928,19 @@
               <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">{{ fa.action_desc }}</span>
               {% endif %}
             </span>
-            {% if uses_max > 0 %}
+            {% if pool in ('hp', 'points', 'dice') %}
+            <span class="feat-uses-pool" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;margin-left:0.5rem;white-space:nowrap">
+              <span class="feat-pool-val" style="font-weight:700;min-width:2.5em;text-align:right" id="action-pool-val-{{ loop.index0 }}">{{ uses }}</span>
+              <span style="color:var(--text-muted);font-size:0.6rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+              <input type="number" id="action-pool-spend-{{ loop.index0 }}" min="1" max="{{ uses }}" value="1"
+                style="width:3em;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem;text-align:center"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();event.stopPropagation();spendPoolAction('{{ fa.name }}', this)}"
+                onclick="event.stopPropagation()">
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();spendPoolAction('{{ fa.name }}', this.parentElement.querySelector('input'))" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();restorePoolAction('{{ fa.name }}')" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
+            </span>
+            <span class="feat-pool-max" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;white-space:nowrap">max {{ uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+            {% elif uses_max > 0 %}
             <span class="feat-uses-dots" style="font-size:0.75rem;font-family:monospace;margin-left:0.5rem;white-space:nowrap">
               {% for i in range(uses_max) %}
               <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %}"></span>
@@ -3657,6 +3671,29 @@ function resetAllFeatureUses() {
 function syncActionButton(name, uses, usesMax) {
   const btn = document.querySelector(`.feat-action-btn[data-feat-name="${name}"]`);
   if (!btn) return;
+  const poolKind = btn.dataset.poolKind;
+  if (poolKind) {
+    // Pool feature: update value display and input max
+    const poolVal = btn.querySelector('.feat-pool-val');
+    if (poolVal) poolVal.textContent = uses;
+    const poolMax = btn.querySelector('.feat-pool-max');
+    const label = poolKind === 'hp' ? 'HP' : poolKind === 'points' ? 'pts' : 'dice';
+    if (poolMax) poolMax.textContent = `max ${usesMax} ${label}`;
+    const spendInput = btn.querySelector('input[type="number"]');
+    if (spendInput) {
+      spendInput.max = uses;
+      if (parseInt(spendInput.value) > uses) spendInput.value = uses || 1;
+    }
+    // Depleted when pool is empty
+    if (uses === 0 && usesMax > 0) {
+      btn.classList.add('depleted');
+      btn.style.opacity = '0.45';
+    } else {
+      btn.classList.remove('depleted');
+      btn.style.opacity = '';
+    }
+    return;
+  }
   // Update dots
   const dots = btn.querySelectorAll('.use-dot');
   dots.forEach((dot, i) => dot.classList.toggle('active', i < uses));
@@ -3675,6 +3712,34 @@ function syncActionButton(name, uses, usesMax) {
     btn.style.cursor = 'pointer';
     btn.onclick = function() { useFeature(name, btn); };
   }
+}
+
+// ── Pool features in Actions tab (spend/restore by name) ──
+async function spendPoolAction(name, inputEl) {
+  const feat = featureData.find(f => f.name === name);
+  if (!feat || !feat.pool_kind) return;
+  const amount = parseInt(inputEl.value) || 0;
+  if (amount <= 0) return;
+  if (amount > feat.uses) { inputEl.value = feat.uses; return; }
+  feat.uses -= amount;
+  inputEl.max = feat.uses;
+  if (parseInt(inputEl.value) > feat.uses) inputEl.value = feat.uses || 1;
+  // Update this action button in-place
+  syncActionButton(name, feat.uses, feat.uses_max);
+  // Update features tab
+  const idx = featureData.indexOf(feat);
+  if (idx >= 0) renderFeatureDots(idx);
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+}
+
+async function restorePoolAction(name) {
+  const feat = featureData.find(f => f.name === name);
+  if (!feat || !feat.pool_kind) return;
+  feat.uses = feat.uses_max;
+  syncActionButton(name, feat.uses, feat.uses_max);
+  const idx = featureData.indexOf(feat);
+  if (idx >= 0) renderFeatureDots(idx);
+  await api('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 // Reset only short-rest features (for short rest action)
