@@ -5538,6 +5538,16 @@ async def level_up_info(char_id: int, request: Request):
             "spellcasting_ability": _spellcasting_ability(cls),
             "old_slots": old_slots, "new_slots": new_slots,
         }
+        # Compute which slot levels are newly available (for UI messaging)
+        if old_slots and new_slots:
+            old_by = old_slots.get("by_level", {})
+            new_by = new_slots.get("by_level", {})
+            new_levels = []
+            for lvl in range(1, 10):
+                if new_by.get(str(lvl), 0) > 0 and old_by.get(str(lvl), 0) == 0:
+                    new_levels.append(lvl)
+            if new_levels:
+                spell_info["new_slot_levels"] = new_levels
         # Spells known (Bard, Sorcerer, Warlock, Ranger)
         if cls in SPELLS_KNOWN_CASTERS:
             old_known = get_spells_known_max(cls, current_level)

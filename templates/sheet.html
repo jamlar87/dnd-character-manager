@@ -1212,7 +1212,7 @@
         {% if level_spells|length > 0 %}
         {% set level_label = "Cantrips" if lvl == 0 else ("1st Level" if lvl == 1 else ("2nd Level" if lvl == 2 else ("3rd Level" if lvl == 3 else lvl|string + "th Level"))) %}
         <div class="spell-level-section">
-          <div class="spell-level-header{% if lvl <= 1 %} open{% endif %}" onclick="toggleSpellLevel(this)" data-level="{{ lvl }}">
+          <div class="spell-level-header{% if lvl <= 1 or (character.spell_slot_data and character.spell_slot_data.by_level and character.spell_slot_data.by_level.get(lvl|string, 0) > 0) %} open{% endif %}" onclick="toggleSpellLevel(this)" data-level="{{ lvl }}">
             <span class="sl-arrow">▶</span>
             <span class="sl-label">{{ level_label }}</span>
             <span class="sl-count">{{ level_spells|length }} spell{{ 's' if level_spells|length != 1 }}</span>
@@ -1310,6 +1310,8 @@
       </div>
       {% endif %}
 
+    </div><!-- /tab-spells -->
+
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
       <!-- EQUIPMENT CARD (drop zone for unequip + team claims) -->
@@ -1326,7 +1328,8 @@
           <input type="text" id="item-search-input" placeholder="Search 600+ items..." 
             style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none"
             oninput="searchItems(this.value)" onkeydown="handleSearchKey(event)"
-            onblur="setTimeout(() => document.getElementById('item-search-results').style.display='none', 200)">
+            onblur="_searchBlurTimer=setTimeout(()=>{const r=document.getElementById('item-search-results');if(r)r.style.display='none';_searchBlurTimer=null;},200)"
+            onfocus="if(_searchBlurTimer){clearTimeout(_searchBlurTimer);_searchBlurTimer=null;}">
           <div id="item-search-results" style="display:none;position:absolute;top:100%;left:0;right:0;max-height:220px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:0 0 6px 6px;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,0.4)"></div>
         </div>
         <div id="inv-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
@@ -1345,11 +1348,12 @@
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
             {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
-            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('{{ item_name|replace("\\'", "\\\\\\'") }}')" title="Info">ℹ️</button>
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
-            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam('{{ item_name|replace("\\'", "\\\\\\'") }}', {{ item_qty }})" title="Share to team">↗</button>{% endif %}
-            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('{{ item_name|replace("\\'", "\\\\\\'") }}')" title="Delete">✕</button>
+            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
+            <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
+            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
             <div class="item-detail" data-item-name="{{ item_name }}"></div>
           </div>
           {% endfor %}
@@ -1379,11 +1383,12 @@
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
-              <span class="item-attune-badge attuned" onclick="toggleAttune('{{ eq_name|replace("\'", "\\\\\'") }}')" title="Attuned — click to break">◆</span>
+              <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
               {% else %}
-              <span class="item-attune-badge" onclick="toggleAttune('{{ eq_name|replace("\'", "\\\\\'") }}')" title="Needs attunement — click to attune">◇</span>
+              <span class="item-attune-badge" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Needs attunement — click to attune">◇</span>
               {% endif %}
             {% endif %}
+            <button class="item-card-btn" onclick="quickUnequip(this.closest('.item-card').querySelector('.item-card-name').textContent, {{ eq_qty }})" title="Unequip">⬇️</button>
             <div class="item-detail" data-item-name="{{ eq_name }}"></div>
           </div>
           {% endfor %}
@@ -3595,6 +3600,42 @@ function isWeapon(name) {
   return WEAPON_KEYWORDS.some(kw => lower.includes(kw));
 }
 
+// Weapon info lookup — returns {category: 'Simple'|'Martial'} or null
+const _WEAPON_CATEGORIES = {
+  // Simple Melee
+  'club':'Simple','dagger':'Simple','greatclub':'Simple','handaxe':'Simple',
+  'javelin':'Simple','light hammer':'Simple','mace':'Simple','quarterstaff':'Simple',
+  'sickle':'Simple','spear':'Simple',
+  // Simple Ranged
+  'light crossbow':'Simple','dart':'Simple','shortbow':'Simple','sling':'Simple',
+  // Martial Melee
+  'battleaxe':'Martial','flail':'Martial','glaive':'Martial','greataxe':'Martial',
+  'greatsword':'Martial','halberd':'Martial','lance':'Martial','longsword':'Martial',
+  'maul':'Martial','morningstar':'Martial','pike':'Martial','rapier':'Martial',
+  'scimitar':'Martial','shortsword':'Martial','trident':'Martial','war pick':'Martial',
+  'warhammer':'Martial','whip':'Martial',
+  // Martial Ranged
+  'blowgun':'Martial','hand crossbow':'Martial','heavy crossbow':'Martial',
+  'longbow':'Martial','net':'Martial',
+};
+function getWeaponInfo(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase().trim();
+  // Direct match
+  if (_WEAPON_CATEGORIES[lower]) return {category: _WEAPON_CATEGORIES[lower]};
+  // Try singular form (strip trailing 's')
+  if (lower.endsWith('s') && !lower.endsWith('ss')) {
+    const singular = lower.slice(0, -1);
+    if (_WEAPON_CATEGORIES[singular]) return {category: _WEAPON_CATEGORIES[singular]};
+  }
+  // Fallback: keyword match
+  if (isWeapon(name)) {
+    // Default to Simple for generic weapon-like items
+    return {category: 'Simple'};
+  }
+  return null;
+}
+
 function tagWeapons() {
   // Read current proficiencies from display
   const weaponProfs = getCurrentProfs('weapon_proficiencies');
@@ -3677,7 +3718,7 @@ function tagArmor() {
   const armors = getCurrentProfs('armor_proficiencies');
   document.querySelectorAll('#inv-list .item-card').forEach(card => {
     const input = card.querySelector('.item-card-name');
-    const badge = li.querySelector('.arm-badge');
+    const badge = card.querySelector('.arm-badge');
     const npBadge = card.querySelector('.np-badge');
     if (!input || !badge) return;
     if (isArmor(input.value)) {
@@ -3751,6 +3792,58 @@ function equipItem(name, qty) {
   return saveEquipped();
 }
 
+// Quick-equip from inventory — clicks the ⬆️ button
+async function quickEquip(name, qty) {
+  console.log('quickEquip called:', name, qty);
+  try {
+    // 1. Remove from inventory DOM
+    const safeName = CSS.escape(name);
+    const invCard = document.querySelector(`#inv-list .item-card[data-item-name="${safeName}"]`);
+    if (!invCard) {
+      console.warn('quickEquip: card not found in inv-list for:', name);
+      return;
+    }
+    invCard.remove();
+    console.log('quickEquip: card removed from DOM');
+    
+    // 2. Save inventory
+    await _flushInventory();
+    console.log('quickEquip: inventory saved');
+    
+    // 3. Add to equipped array and save
+    if (!equippedItems.some(eq => (typeof eq === 'object' ? eq.name : eq) === name)) {
+      if (isBodyArmor(name)) {
+        equippedItems = equippedItems.filter(eq => !isBodyArmor(typeof eq === 'object' ? eq.name : eq));
+      }
+      equippedItems.push({name: name, qty: qty || 1});
+    }
+    _equippedQtys[name] = qty || 1;
+    await saveEquipped();
+    console.log('quickEquip: equipped saved, renderEquipped done');
+  } catch(e) {
+    console.error('quickEquip error:', e);
+  }
+}
+
+// Quick-unequip to inventory — clicks the ⬇️ button
+async function quickUnequip(name, qty) {
+  console.log('quickUnequip called:', name, qty);
+  try {
+    // 1. Remove from equipped array and save
+    equippedItems = equippedItems.filter(eq => (typeof eq === 'object' ? eq.name : eq) !== name);
+    delete _equippedQtys[name];
+    await saveEquipped();
+    console.log('quickUnequip: equipped saved');
+    
+    // 2. Add to inventory DOM and save
+    addInventoryCard(name, qty || 1);
+    await _flushInventory();
+    console.log('quickUnequip: inventory saved');
+  } catch(e) {
+    console.error('quickUnequip error:', e);
+  }
+}
+
 function unequipItem(name) {
   equippedItems = equippedItems.filter(eq => (typeof eq === 'object' ? eq.name : eq) !== name);
   delete _equippedQtys[name];
@@ -3758,7 +3851,9 @@ function unequipItem(name) {
 }
 
 async function saveEquipped() {
+  console.log('saveEquipped: equippedItems =', JSON.stringify(equippedItems));
   await api('/update', { equipped: JSON.stringify(equippedItems) });
+  console.log('saveEquipped: api call done, calling renderEquipped');
   renderEquipped();
   // Refresh item badges
   tagArmor();
@@ -3801,6 +3896,7 @@ async function useFeature(name, btn) {
 function renderEquipped() {
   const list = document.getElementById('equipped-list');
   const emptyEl = document.getElementById('equipped-empty');
+  console.log('renderEquipped: list found =', !!list, 'items =', equippedItems.length);
   if (!list) return;
 
   if (equippedItems.length === 0) {
@@ -3832,6 +3928,7 @@ function renderEquipped() {
       <span class="item-card-name" style="cursor:default">${item}</span>
       ${qtyBadge}
       ${attuneHtml}
+      <button class="item-card-btn" onclick="quickUnequip('${item.replace(/'/g, "\\'")}', ${eqQty})" title="Unequip">⬇️</button>
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
   }).join('');
@@ -3928,6 +4025,7 @@ function addInventoryCard(name, qty) {
     <span class="wpn-badge item-tag" style="display:none">⚔️</span>
     <span class="arm-badge item-tag" style="display:none">🛡️</span>
     ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, ${qty})" title="Share to team">↗</button>` : ''}
+    <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, ${qty})" title="Equip">⬆️</button>
     <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
     <div class="item-detail"></div>`;
   list.appendChild(card);
@@ -3946,8 +4044,12 @@ let _invSavePending = false;
 async function saveInventory() {
   if (_invSavePending) return;
   _invSavePending = true;
-  await new Promise(r => setTimeout(r, 50));
-  await _flushInventory();
+  try {
+    await new Promise(r => setTimeout(r, 50));
+    await _flushInventory();
+  } catch(e) {
+    console.error('saveInventory failed:', e);
+  }
   _invSavePending = false;
 }
 
@@ -3984,18 +4086,19 @@ function addInventoryItem() {
   const card = document.createElement('div');
   card.className = 'item-card';
   card.draggable = true;
+  card.setAttribute('data-item-name', '');
   card.setAttribute('ondragstart', "handleDragStart(event, this.querySelector('.item-card-name').value, 'inventory', 1)");
   card.setAttribute('ondragend', 'handleDragEnd(event)');
   card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
     <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
     <input type="text" placeholder="Item name" class="item-card-name"
-      onchange="autoSaveInventory();tagWeapons()"
+      onchange="autoSaveInventory();tagWeapons();this.closest('.item-card').setAttribute('data-item-name',this.value)"
       onfocus="this.closest('.item-card').classList.add('editing')"
       onblur="this.closest('.item-card').classList.remove('editing')">
     <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
     <span class="wpn-badge item-tag" style="display:none">⚔️</span>
     <span class="arm-badge item-tag" style="display:none">🛡️</span>
-    <button class="item-card-btn" onclick="equipItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Equip">⬆️</button>
+    <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Equip">⬆️</button>
     ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Share to team">↗</button>` : ''}
     <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
     <div class="item-detail"></div>`;
@@ -4004,13 +4107,23 @@ function addInventoryItem() {
 }
 
 // ── Item Search (inline bar on inventory tab) ──
+let _searchBlurTimer = null;
 function toggleItemSearch() {
   const bar = document.getElementById('item-search-bar');
   if (!bar) return;
+  const results = document.getElementById('item-search-results');
   const isOpen = bar.style.display !== 'none';
-  bar.style.display = isOpen ? 'none' : 'block';
-  if (!isOpen) {
+  // Clear any pending blur timeout to avoid stale state
+  if (_searchBlurTimer) { clearTimeout(_searchBlurTimer); _searchBlurTimer = null; }
+  if (isOpen) {
+    // Closing: hide bar and results
+    bar.style.display = 'none';
+    if (results) results.style.display = 'none';
+  } else {
+    // Opening: show bar, reset input, hide stale results
+    bar.style.display = 'block';
     document.getElementById('item-search-input').value = '';
+    if (results) { results.style.display = 'none'; results.innerHTML = ''; }
     document.getElementById('item-search-input').focus();
   }
 }
@@ -4032,10 +4145,10 @@ function searchItems(query) {
         return;
       }
       results.innerHTML = d.results.map(item =>
-        `<div class="search-result" onclick="selectItem('${item.name.replace(/'/g, "\\'")}')" style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.name} <span style="color:var(--text-muted);font-size:0.7rem">${item.type}</span></div>`
+        `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" onmousedown="if(event.button===0)selectItem(this.dataset.name)" style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.name} <span style="color:var(--text-muted);font-size:0.7rem">${item.type}</span></div>`
       ).join('');
       results.style.display = 'block';
-    } catch(e) { /* ignore */ }
+    } catch(e) { console.error('searchItems fetch error:', e); }
   }, 200);
 }
 
@@ -4046,49 +4159,70 @@ function handleSearchKey(e) {
   }
   if (e.key === 'Enter') {
     const first = document.querySelector('#item-search-results .search-result');
-    if (first) first.click();
+    if (first && first.dataset.name) selectItem(first.dataset.name);
   }
 }
 
+let _selectingItem = false;
 function selectItem(name) {
-  const list = document.getElementById('inv-list');
-  const emptyEl = document.getElementById('inv-empty');
-  if (emptyEl) emptyEl.style.display = 'none';
-  const existing = list.querySelector(`.item-card[data-item-name="${CSS.escape(name)}"]`);
-  if (existing) {
-    const qtyBadge = existing.querySelector('.item-qty');
-    if (qtyBadge) {
-      qtyBadge.textContent = parseInt(qtyBadge.textContent) + 1;
+  console.log('selectItem called:', name);
+  // Guard against rapid double-clicks
+  if (_selectingItem) { console.log('selectItem blocked by guard'); return; }
+  _selectingItem = true;
+  try {
+    const list = document.getElementById('inv-list');
+    if (!list) { console.log('selectItem: no inv-list'); return; }
+    const emptyEl = document.getElementById('inv-empty');
+    if (emptyEl) emptyEl.style.display = 'none';
+    const safeName = CSS.escape(name);
+    const existing = list.querySelector(`.item-card[data-item-name="${safeName}"]`);
+    if (existing) {
+      console.log('selectItem: existing found, incrementing qty');
+      const qtyBadge = existing.querySelector('.item-qty');
+      if (qtyBadge) {
+        qtyBadge.textContent = parseInt(qtyBadge.textContent) + 1;
+      } else {
+        const span = document.createElement('span');
+        span.className = 'item-qty';
+        span.style.cursor = 'pointer';
+        span.title = 'Click to expand';
+        span.onclick = function(e) { e.stopPropagation(); toggleItemExpand(existing.querySelector('.item-expand-btn')); };
+        span.textContent = '2';
+        const btn = existing.querySelector('.item-card-btn');
+        if (btn) existing.insertBefore(span, btn);
+      }
     } else {
-      const span = document.createElement('span');
-      span.className = 'item-qty';
-      span.style.cursor = 'pointer';
-      span.title = 'Click to expand';
-      span.onclick = function(e) { e.stopPropagation(); toggleItemExpand(existing.querySelector('.item-expand-btn')); };
-      span.textContent = '2';
-      existing.insertBefore(span, existing.querySelector('.item-card-btn'));
+      console.log('selectItem: creating new card for', name);
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.draggable = true;
+      card.setAttribute('data-item-name', name);
+      card.setAttribute('ondragstart', `handleDragStart(event, '${name.replace(/'/g, "\\'")}', 'inventory', 1)`);
+      card.setAttribute('ondragend', 'handleDragEnd(event)');
+      const escapedName = name.replace(/"/g, '&quot;');
+      const escapedQuote = name.replace(/'/g, "\\'");
+      card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
+        <input type="text" value="${escapedName}" class="item-card-name"
+          onchange="autoSaveInventory();tagWeapons()"
+          onfocus="this.closest('.item-card').classList.add('editing')"
+          onblur="this.closest('.item-card').classList.remove('editing')">
+        <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('${escapedQuote}')" title="Info">ℹ️</button>
+        <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+        <span class="arm-badge item-tag" style="display:none">🛡️</span>
+        ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam('${escapedQuote}', 1)" title="Share to team">↗</button>` : ''}
+        <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Equip">⬆️</button>
+        <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('${escapedQuote}')" title="Delete">✕</button>
+        <div class="item-detail"></div>`;
+      list.appendChild(card);
+      console.log('selectItem: card appended');
     }
-  } else {
-    const card = document.createElement('div');
-    card.className = 'item-card';
-    card.draggable = true;
-    card.setAttribute('data-item-name', name);
-    card.setAttribute('ondragstart', `handleDragStart(event, '${name.replace(/'/g, "\\'")}', 'inventory', 1)`);
-    card.setAttribute('ondragend', 'handleDragEnd(event)');
-    card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
-      <input type="text" value="${name.replace(/"/g, '&quot;')}" class="item-card-name"
-        onchange="autoSaveInventory();tagWeapons()"
-        onfocus="this.closest('.item-card').classList.add('editing')"
-        onblur="this.closest('.item-card').classList.remove('editing')">
-      <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo('${name.replace(/'/g, "\\'")}')" title="Info">ℹ️</button>
-      <span class="wpn-badge item-tag" style="display:none">⚔️</span>
-      <span class="arm-badge item-tag" style="display:none">🛡️</span>
-      ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam('${name.replace(/'/g, "\\'")}', 1)" title="Share to team">↗</button>` : ''}
-      <button class="item-card-btn item-card-del" onclick="deleteInventoryItem('${name.replace(/'/g, "\\'")}')" title="Delete">✕</button>
-      <div class="item-detail"></div>`;
+    toggleItemSearch();
+    saveInventory();
+  } catch(e) {
+    console.error('selectItem error:', e);
+  } finally {
+    _selectingItem = false;
   }
-  toggleItemSearch();
-  saveInventory();
 }
 
 // ── Level Up Wizard ───────────────────────────────────────────────────
@@ -4495,7 +4629,12 @@ function renderLuSpells(el) {
     </p>`;
   } else {
     if (['Cleric','Druid','Paladin','Wizard'].includes(s.class_name)) {
-      html += `<p style="font-size:0.85rem;color:var(--success);margin-top:1rem">Your spellbook will be automatically updated with new spells from your class list. Prepare your daily spells on the Spells tab.</p>`;
+      if (s.new_slot_levels && s.new_slot_levels.length) {
+        const labels = s.new_slot_levels.map(l => l === 1 ? '1st' : (l === 2 ? '2nd' : (l === 3 ? '3rd' : l + 'th'))).join(' and ');
+        html += `<p style="font-size:0.85rem;color:var(--success);margin-top:1rem">✨ You now have <strong>${labels} level</strong> spell slots! New spells added to your spellbook.</p>`;
+      } else {
+        html += `<p style="font-size:0.85rem;color:var(--success);margin-top:1rem">Your spellbook will be automatically updated with new spells from your class list. Prepare your daily spells on the Spells tab.</p>`;
+      }
     } else {
       html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:1rem">No new spells this level.</p>`;
     }
