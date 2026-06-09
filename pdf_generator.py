@@ -323,12 +323,12 @@ def draw_header(c, d):
         draw_label(c, x, y - 10, w, lbl)
         draw_value_box(c, x, y, w, box_h, val)
 
-    # Row 3
+    # Row 3 — Inspiration checkbox + Proficiency Bonus on same baseline
     y3 = y2 + gap
-    draw_label(c, 36, y3 - 10, 54, "Inspiration")
+    draw_label(c, 36, y3 - 10, 72, "Inspiration")
     draw_checkbox(c, 42, y3 + 4, 8, checked=bool(d.get("inspiration", 0)))
-    draw_label(c, 108, y3 - 10, 54, "Prof. Bonus")
-    draw_value_box(c, 108, y3, 36, box_h, str(d.get("proficiency_bonus", 2)), size=10, align="center")
+    draw_label(c, 120, y3 - 10, 72, "Prof. Bonus")
+    draw_value_box(c, 120, y3, 36, box_h, str(d.get("proficiency_bonus", 2)), size=10, align="center")
 
 
 def draw_ability_scores(c, d):
@@ -534,7 +534,7 @@ def draw_features_traits(c, d):
     x = 420
     y_tl = 108
     w = 168
-    h = 400
+    h = 380  # slightly shorter to leave clear gap before equipment
 
     lines = []
     features = d.get("features", []) or []
@@ -574,7 +574,7 @@ def draw_features_traits(c, d):
 def draw_equipment(c, d):
     """Right column: Equipment list."""
     x = 420
-    y_tl = 520
+    y_tl = 530  # below features (ends at ~488) with clear gap
     w = 168
 
     items = []
@@ -593,14 +593,14 @@ def draw_equipment(c, d):
             items.append(f"{item.get('name', '')} x{item.get('qty', 1)}")
 
     text = "\n".join(items)
-    draw_wrapped_text(c, x + 2, y_tl + 2, w, 180, text, size=5.5)
+    draw_wrapped_text(c, x + 2, y_tl + 2, w, 170, text, size=5.5)
     draw_label(c, x + 2, y_tl - 10, w, "Equipment")
 
 
 def draw_currency(c, d):
     """Currency fields at bottom right."""
     x = 420
-    y_tl = 710
+    y_tl = 715
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
     for i, (cn, cv) in enumerate(coins):
         cx = x + 2 + i * 34
