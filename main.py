@@ -2913,8 +2913,97 @@ async def dm_monster_detail(index: str, request: Request):
     all_monsters = _load_monster_cache()
     for m in all_monsters:
         if m.get("index", "").lower() == index.lower():
-            return JSONResponse(m)
+            return JSONResponse(_enrich_monster(m))
     raise HTTPException(status_code=404, detail="Monster not found")
+
+
+def _enrich_monster(m: dict) -> dict:
+    """Enrich monster data with computed saves, skills, and action tags."""
+    import copy
+    m = copy.deepcopy(m)
+    
+    # Ensure flat ability scores
+    scores = m.get("ability_scores", {})
+    stat_map = {"str":"strength","strength":"strength","dex":"dexterity","dexterity":"dexterity",
+                "con":"constitution","constitution":"constitution","int":"intelligence",
+                "intelligence":"intelligence","wis":"wisdom","wisdom":"wisdom",
+                "cha":"charisma","charisma":"charisma"}
+    for k, v in scores.items():
+        target = stat_map.get(k.lower().strip())
+        if target and target not in m:
+            try: m[target] = int(v)
+            except: m[target] = 10
+    for stat in ("strength","dexterity","constitution","intelligence","wisdom","charisma"):
+        m.setdefault(stat, 10)
+    if "ability_scores" in m:
+        del m["ability_scores"]  # clean up now-useless dict
+    
+    # Proficiency bonus
+    cr_val = m.get("challenge_rating", 0)
+    try: cr_val = float(cr_val)
+    except: cr_val = 0
+    pb = int(m.get("proficiency_bonus", 0) or max(2, 2 + int((cr_val - 1) / 4)))
+    
+    # Compute saving throws if not in proficiencies
+    has_saves = any(
+        p.get("proficiency", {}).get("name", "").startswith("Saving Throw")
+        for p in m.get("proficiencies", [])
+    ) if m.get("proficiencies") else False
+    
+    if not has_saves:
+        m.setdefault("proficiencies", [])
+        # Check for manual saving_throws field
+        raw_saves = m.get("saving_throws", {})
+        if isinstance(raw_saves, dict) and raw_saves:
+            for save_key, save_val in raw_saves.items():
+                try: save_val = int(save_val)
+                except: save_val = 0
+                m["proficiencies"].append({
+                    "proficiency": {"name": f"Saving Throw: {save_key.upper()}"},
+                    "value": save_val
+                })
+        else:
+            # Compute from ability scores
+            save_stats = {"STR":"strength","DEX":"dexterity","CON":"constitution",
+                           "INT":"intelligence","WIS":"wisdom","CHA":"charisma"}
+            for save_name, stat_key in save_stats.items():
+                stat_val = m.get(stat_key, 10)
+                save_bonus = (stat_val - 10) // 2
+                m["proficiencies"].append({
+                    "proficiency": {"name": f"Saving Throw: {save_name}"},
+                    "value": save_bonus
+                })
+    
+    # Compute skills from manual data
+    raw_skills = m.get("skills", {})
+    if isinstance(raw_skills, dict) and raw_skills:
+        m.setdefault("proficiencies", [])
+        skill_abilities = {
+            "acrobatics":"dexterity","animal handling":"wisdom","arcana":"intelligence",
+            "athletics":"strength","deception":"charisma","history":"intelligence",
+            "insight":"wisdom","intimidation":"charisma","investigation":"intelligence",
+            "medicine":"wisdom","nature":"intelligence","perception":"wisdom",
+            "performance":"charisma","persuasion":"charisma","religion":"intelligence",
+            "sleight of hand":"dexterity","stealth":"dexterity","survival":"wisdom",
+        }
+        for skill_name, bonus in raw_skills.items():
+            try: bonus = int(bonus)
+            except: continue
+            m["proficiencies"].append({
+                "proficiency": {"name": f"Skill: {skill_name.title()}"},
+                "value": bonus
+            })
+        del m["skills"]  # cleanup
+    
+    # Ensure reactions array
+    m.setdefault("reactions", [])
+    
+    # Ensure lair_actions
+    m.setdefault("lair_actions", [])
+    m.setdefault("lair_desc", "")
+    m.setdefault("legendary_desc", "")
+    
+    return m
 
 
 @app.get("/api/dm/monsters", response_class=JSONResponse)

@@ -103,6 +103,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .hp-bar-mini-fill.warn { background: var(--warn); }
 .hp-bar-mini-fill.danger { background: var(--danger); }
 
+/* Action type badges for monster cards */
+.action-badge {
+  display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px;
+  font-size: 0.7rem; font-weight: 600; vertical-align: middle;
+  background: var(--bg); border: 1px solid var(--border);
+  margin-right: 0.25rem; white-space: nowrap;
+}
+
 /* Participant row refinements */
 .participant-row { cursor: pointer; }
 .participant-row.defeated { opacity: 0.4; }
@@ -868,11 +876,30 @@ async function showMonster(index) {
         <div class="stat-item"><div class="si-label">CHA</div><div class="si-val">${m.charisma}</div><div class="si-mod">${sign(mod(m.charisma))}</div></div>
       </div>`;
 
-    // Saving throws & skills
+    // Saving throws & skills — enriched from proficiencies
     if (m.proficiencies && m.proficiencies.length) {
-      html += `<div style="margin-bottom:0.5rem"><strong>Saves & Skills:</strong> `;
-      html += m.proficiencies.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Saving Throw: ', '')} +${p.value}</span>`).join(' ');
-      html += `</div>`;
+      const saves = m.proficiencies.filter(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Saving Throw'));
+      const skills = m.proficiencies.filter(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Skill'));
+      if (saves.length) {
+        html += `<p style="margin:0.3rem 0"><strong>Saving Throws:</strong> `;
+        html += saves.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Saving Throw: ', '')} ${p.value >= 0 ? '+' + p.value : p.value}</span>`).join(' ');
+        html += `</p>`;
+      }
+      if (skills.length) {
+        html += `<p style="margin:0.3rem 0"><strong>Skills:</strong> `;
+        html += skills.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Skill: ', '')} +${p.value}</span>`).join(' ');
+        html += `</p>`;
+      }
+    }
+    // Fallback: compute saves from ability scores + proficiency if not in proficiencies
+    if (!m.proficiencies || !m.proficiencies.find(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Saving Throw'))) {
+      const pb = parseInt(m.proficiency_bonus) || Math.ceil(m.challenge_rating / 4) + 1;
+      const stats = {STR: m.strength, DEX: m.dexterity, CON: m.constitution, INT: m.intelligence, WIS: m.wisdom, CHA: m.charisma};
+      html += `<p style="margin:0.3rem 0;font-size:0.8rem;color:var(--text-muted)"><strong>Saving Throws (est.):</strong> `;
+      for (const [name, val] of Object.entries(stats)) {
+        html += `<span style="margin-right:0.5rem">${name} ${sign(mod(val))}</span>`;
+      }
+      html += `</p>`;
     }
 
     // Damage & condition stuff
@@ -882,33 +909,66 @@ async function showMonster(index) {
     if (m.languages) html += `<p><strong>Languages:</strong> ${m.languages}</p>`;
     if (m.senses) html += `<p><strong>Senses:</strong> ${Object.entries(m.senses).map(([k,v]) => k.replace(/_/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()) + ' ' + v).join(', ')}</p>`;
 
-    // Special abilities
+    // Action type badge helper
+    const actionBadge = (name, desc) => {
+      const nl = (name + ' ' + (desc || '')).toLowerCase();
+      if (nl.includes('multiattack')) return '👊 Multiattack';
+      if (nl.includes('melee weapon attack') || nl.includes('melee spell attack')) return '⚔️ Melee';
+      if (nl.includes('ranged weapon attack') || nl.includes('ranged spell attack')) return '🏹 Ranged';
+      if (name.toLowerCase().includes('breath')) return '💨 Breath';
+      if (nl.includes('cast') || nl.includes('spell')) return '✨ Spell';
+      return '';
+    };
+
+    // Special abilities / traits
     if (m.special_abilities && m.special_abilities.length) {
-      html += `<h3 style="margin-top:0.75rem">Special Abilities</h3>`;
+      html += `<h3 style="margin-top:0.75rem">🧬 Traits</h3>`;
       m.special_abilities.forEach(a => {
-        html += `<div style="margin-bottom:0.5rem"><strong>${a.name}.</strong> <span style="font-size:0.85rem">${a.desc}</span></div>`;
+        const badge = actionBadge(a.name, a.desc);
+        html += `<div style="margin-bottom:0.5rem;font-size:0.85rem">${badge ? `<span class="action-badge">${badge}</span> ` : ''}<strong>${a.name}.</strong> ${a.desc}</div>`;
       });
     }
 
     // Actions
     if (m.actions && m.actions.length) {
-      html += `<h3 style="margin-top:0.75rem">Actions</h3>`;
+      html += `<h3 style="margin-top:0.75rem">⚔️ Actions</h3>`;
       m.actions.forEach(a => {
-        const atkInfo = a.attack_bonus ? `+${a.attack_bonus} to hit` : '';
+        const badge = actionBadge(a.name, a.desc);
         const dmgInfo = a.damage && a.damage.length ? a.damage.map(d => d.damage_dice + ' ' + (d.damage_type?.name || '')).join(', ') : '';
-        html += `<div style="margin-bottom:0.5rem;font-size:0.85rem">
-          <strong>${a.name}.</strong> ${a.desc}
-          ${a.attack_bonus ? '<br><span style="color:var(--text-muted)">Attack: +' + a.attack_bonus + (a.range ? ', Range: ' + a.range : '') + '</span>' : ''}
-          ${dmgInfo ? '<br><span style="color:var(--success)">Damage: ' + dmgInfo + '</span>' : ''}
-        </div>`;
+        const dcInfo = a.dc ? `DC ${a.dc.dc_value} ${a.dc.dc_type?.name || ''}` : '';
+        html += `<div style="margin-bottom:0.5rem;font-size:0.85rem">`;
+        if (badge) html += `<span class="action-badge">${badge}</span> `;
+        html += `<strong>${a.name}.</strong> ${a.desc}`;
+        if (a.attack_bonus) html += `<br><span style="color:var(--text-muted)">↠ +${a.attack_bonus} to hit${a.range ? ', Range: ' + a.range : ''}</span>`;
+        if (dcInfo) html += `<br><span style="color:var(--warn)">↠ ${dcInfo}</span>`;
+        if (dmgInfo) html += `<br><span style="color:var(--success)">↠ ${dmgInfo} damage</span>`;
+        html += `</div>`;
+      });
+    }
+
+    // Reactions
+    if (m.reactions && m.reactions.length) {
+      html += `<h3 style="margin-top:0.75rem">↻ Reactions</h3>`;
+      m.reactions.forEach(a => {
+        html += `<div style="margin-bottom:0.4rem;font-size:0.85rem"><span class="action-badge">↻ Reaction</span> <strong>${a.name}.</strong> ${a.desc}</div>`;
       });
     }
 
     // Legendary actions
     if (m.legendary_actions && m.legendary_actions.length) {
-      html += `<h3 style="margin-top:0.75rem">Legendary Actions</h3>`;
+      html += `<h3 style="margin-top:0.75rem">👑 Legendary Actions</h3>`;
+      if (m.legendary_desc) html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">${m.legendary_desc}</p>`;
       m.legendary_actions.forEach(a => {
-        html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><strong>${a.name}.</strong> ${a.desc}</div>`;
+        html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><span class="action-badge">👑 Costs ${a.cost || 1}</span> <strong>${a.name}.</strong> ${a.desc}</div>`;
+      });
+    }
+
+    // Lair actions
+    if (m.lair_actions && m.lair_actions.length) {
+      html += `<h3 style="margin-top:0.75rem">🏰 Lair Actions</h3>`;
+      if (m.lair_desc) html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">${m.lair_desc}</p>`;
+      m.lair_actions.forEach(a => {
+        html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><span class="action-badge">🏰 Lair</span> <strong>${a.name || 'Lair Action'}.</strong> ${a.desc || a}</div>`;
       });
     }
 
