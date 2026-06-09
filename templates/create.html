@@ -352,12 +352,34 @@ function nextStep() {
 
 function prevStep() { showStep(Math.max(step - 1, 0)); }
 
+// Abbreviate source string for compact display
+function _shortSrc(src) {
+  if (!src) return '';
+  const map = {
+    'Handbook': 'PHB',
+    'Xanathar': 'XGE',
+    'Sword Coast': 'SCAG',
+    'Tasha': 'TCE',
+    'Dungeon Master': 'DMG',
+    'Volo': 'VGM',
+    'Elemental Evil': 'EEPC',
+    'Eberron': 'ERLW',
+    'Guildmasters': 'GGR',
+    'Mordenkainen': 'MTF',
+    'Tortle Package': 'TTP',
+  };
+  for (const [key, abbr] of Object.entries(map)) {
+    if (src.includes(key)) return abbr;
+  }
+  return src.length > 20 ? src.slice(0,18)+'…' : src;
+}
+
 // ── Step 0: Race ──
 function buildRaces() {
   const grid = document.getElementById('race-grid');
   grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
     <div class="option-card" onclick="selectRace('${name}')">
-      <div class="name">${name}${r.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
+      <div class="name">${name}${r.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${r.source}">${_shortSrc(r.source)}</span>` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
     </div>`).join('');
 }
@@ -437,7 +459,7 @@ function buildClasses() {
   const grid = document.getElementById('class-grid');
   grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
     <div class="option-card" onclick="selectClass('${name}')">
-      <div class="name">${name}${c.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
+      <div class="name">${name}${c.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${c.source}">${_shortSrc(c.source)}</span>` : ''}</div>
       <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>
     </div>`).join('');
 }
@@ -453,7 +475,7 @@ function selectClass(name) {
     const scSrcs = c._subclass_sources || {};
     scgrid.innerHTML = c.subclasses.map(s => `
       <div class="option-card" onclick="selectSubclass('${s}')">
-        <div class="name">${s}${scSrcs[s] ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
+        <div class="name">${s}${scSrcs[s] ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${scSrcs[s]}">${_shortSrc(scSrcs[s])}</span>` : ''}</div>
       </div>`).join('');
   } else { scsec.style.display = 'none'; }
 
