@@ -5052,12 +5052,17 @@ async function claimFromTeam(itemId, itemName) {
       // Instant GP update for currency claims
       if (d.currency && d.gp_added) { CHARACTER_GP += d.gp_added; renderGpDisplay(); }
       // Fallback: client-side parse for older items
-      else {
+      else if (!d.currency) {
         const gpMatch = itemName.match(/(\d[\d,]*)\s*gp/i);
         if (gpMatch) { CHARACTER_GP += parseInt(gpMatch[1].replace(/,/g,'')); renderGpDisplay(); }
       }
+      // Refresh team items list
       try { loadTeamItems(); } catch(e) {}
-      try { renderInventory(); } catch(e) {}
+      // Add item to inventory DOM (server already added it to DB)
+      if (!d.currency && d.added) {
+        addInventoryCard(d.added, d.qty || 1);
+        _flushInventory();
+      }
       try { reloadGp(); } catch(e) {}
     } else {
       alert(d.error || 'Failed to claim');
