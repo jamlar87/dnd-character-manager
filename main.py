@@ -4105,8 +4105,9 @@ async def character_sheet(char_id: int, request: Request):
             char[f] = json.loads(char[f] or "[]")
         except (json.JSONDecodeError, TypeError):
             char[f] = [] if f != "spell_slot_data" else {}
-    # Enrich existing feature_data with Channel Divinity sub-options (rebuild-safe)
+    # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
+    _add_source_to_features(char["feature_data"])
     # Load background data
     # Load spell_slots_used
     try:
@@ -8328,6 +8329,38 @@ def _add_cd_sub_options(feature_data: list[dict]) -> None:
             existing_desc = feat.get("description", "")
             if "Available options:" not in existing_desc:
                 feat["description"] = f"{existing_desc}\n\nAvailable options: {', '.join(option_names)}."
+
+
+def _add_source_to_features(feature_data: list[dict]) -> None:
+    """Mutate feature_data in-place: add 'source' field from SRD_FEATURES lookup.
+    Tries exact name match first, then strips class suffix for composite names.
+    Safe to call on already-enriched data — no-ops if source already present."""
+    for feat in feature_data:
+        if feat.get("source"):
+            continue  # Already has source
+        name = feat.get("name", "")
+        key = name.lower()
+        # Try exact match
+        _src = next((f.get("source", "") for f in SRD_FEATURES if f.get("name", "").lower() == key), "")
+        # Try stripping class suffix: "Spellcasting: Cleric" → try base "Spellcasting"
+        if not _src and ": " in name:
+            base_name = name.split(": ", 1)[0].strip().lower()
+            _src = next((f.get("source", "") for f in SRD_FEATURES if f.get("name", "").lower() == base_name), "")
+        # For composite names with " | ", try each segment
+        if not _src and " | " in name:
+            for seg in name.split(" | "):
+                seg = seg.strip()
+                # Strip level prefix like "L2: "
+                if ": " in seg:
+                    maybe_lvl, rest = seg.split(": ", 1)
+                    if maybe_lvl.startswith("L") and maybe_lvl[1:].replace("-","").replace("+","").isdigit():
+                        seg = rest
+                seg_key = seg.lower()
+                _src = next((f.get("source", "") for f in SRD_FEATURES if f.get("name", "").lower() == seg_key), "")
+                if _src:
+                    break
+        if _src:
+            feat["source"] = _src
 
 
 async def _call_gemini(prompt: str) -> str | None:

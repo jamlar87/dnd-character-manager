@@ -956,6 +956,9 @@
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
                 <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ feat.name }}</span>
+                {% if feat.source %}
+                <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0" title="Source: {{ feat.source }}">{{ feat.source }}</span>
+                {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
                 {% elif feat.recharge == "long" %}
