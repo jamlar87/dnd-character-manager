@@ -16,9 +16,9 @@ from reportlab.lib.utils import simpleSplit
 #  CONSTANTS
 # ═══════════════════════════════════════════════════════════════
 PAGE_W, PAGE_H = letter  # 612 x 792
-FONT = "Helvetica"
-FONT_BOLD = "Helvetica-Bold"
-FONT_OBL = "Helvetica-Oblique"
+FONT = "Times-Roman"  # D&D-style serif
+FONT_BOLD = "Times-Bold"
+FONT_OBL = "Times-Italic"
 MARGIN = 18
 GUTTER = 15  # horizontal padding between columns
 
