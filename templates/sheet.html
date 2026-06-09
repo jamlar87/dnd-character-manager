@@ -4037,7 +4037,8 @@ function renderLuASI(el) {
       <select id="lu-feat" onchange="onFeatSelect(this.value)" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
         <option value="">— Choose feat —</option>`;
     feats.forEach(f => {
-      html += `<option value="${f.key}">${f.name}${f.prereq ? ' [' + f.prereq + ']' : ''}</option>`;
+      const srcLabel = f.source ? ` [${f.source.replace('Player\'s Handbook','PHB').replace('Xanathar\'s Guide to Everything','XGE').replace('Tasha\'s Cauldron of Everything','TCE').substring(0,12)}]` : '';
+      html += `<option value="${f.key}">${f.name}${f.prereq ? ' [' + f.prereq + ']' : ''}${srcLabel}</option>`;
     });
     html += `</select>
       <div id="lu-feat-desc" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.3rem"></div>`;
@@ -4063,7 +4064,8 @@ function onFeatSelect(key) {
   const descEl = document.getElementById('lu-feat-desc');
   const asiEl = document.getElementById('lu-feat-asi-choice');
   if (feat) {
-    descEl.textContent = feat.desc;
+    const srcTag = feat.source ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7">📚 ${feat.source}</span>` : '';
+    descEl.innerHTML = (feat.desc || '') + srcTag;
     luChoices.asi = 'feat:' + key;
     if (feat.asi && feat.asi.choices) {
       let asiHtml = `<label style="font-weight:600;display:block;margin-bottom:0.3rem;font-size:0.85rem">+${feat.asi.amount} to:</label>

@@ -348,10 +348,14 @@ def load_manual_data():
 
     # ── Feats ── merge into FEATS dict
     manual_feats = _load_manual_json("feats.json")
+    _feat_name_to_key = {f["name"].lower(): k for k, f in FEATS.items()}
     for feat in manual_feats:
         name = feat.get("name", "")
-        if name and name not in FEATS:
-            FEATS[name] = {
+        if not name:
+            continue
+        key = _feat_name_to_key.get(name.lower(), name)
+        if key not in FEATS:
+            FEATS[key] = {
                 "name": name,
                 "prerequisite": feat.get("prerequisite", ""),
                 "description": feat.get("description", ""),
@@ -6622,7 +6626,8 @@ FEATS: dict[str, dict] = {
 
 # Tag all PHB 2014 feats with source
 for _feat in FEATS.values():
-    _feat.setdefault("source", "Player's Handbook p.165-170")
+    if not _feat.get("source"):
+        _feat["source"] = "Player's Handbook p.165-170"
 
 # ── Feature → Combat Action mapping ──────────────────────────────────
 # Maps feature name (lowercase) to (action_type, short_action_label)
