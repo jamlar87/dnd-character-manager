@@ -306,6 +306,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .qty-stepper:hover { background: var(--accent); color: #000; }
 .drop-zone { transition: box-shadow 0.15s; }
 .drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
+.src-badge { cursor: pointer; }
+.src-badge:hover { opacity: 1 !important; color: var(--accent) !important; text-decoration: underline; }
 {% endblock %}
 
 {% block content %}
@@ -362,7 +364,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div class="m-name">{{ m.name }}</div>
       <div class="m-type">{{ m.size }} {{ m.type }}{% if m.alignment %} · {{ m.alignment }}{% endif %}</div>
       {% if m.source %}
-      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem">📚 {{ m.source }}</div>
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="openSourceRef('{{ m.source }}')">📚 {{ m.source }}</div>
       {% endif %}
       <div class="m-stats">
         <span class="m-stat">CR {{ m.challenge_rating }}</span>
@@ -442,7 +444,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% else %}
         <span style="font-size:0.8rem">HP {{ npc.hp_current }}/{{ npc.hp_max }} AC {{ npc.ac }}</span>
         {% endif %}
-        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted)">📚 {{ npc.source }}</span>{% endif %}
+        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge" onclick="openSourceRef('{{ npc.source }}')">📚 {{ npc.source }}</span>{% endif %}
         {% if npc.get('notes') %}
         <details class="npc-desc-toggle" style="margin-top:0.3rem">
           <summary style="cursor:pointer;font-size:0.75rem;color:var(--accent);user-select:none">📝 Description</summary>
@@ -774,6 +776,34 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
 {% block scripts %}
 <script>
+// ── Source reference: click 📚 badge → open PDF ──
+let _sourceSlugLookup = null;
+async function _loadSourceSlugs() {
+  if (_sourceSlugLookup) return;
+  try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
+  catch(e) { _sourceSlugLookup = {}; }
+}
+function openSourceRef(src) {
+  if (!src || src === 'SRD 5.1') return;
+  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
+  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
+  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
+  if (!_sourceSlugLookup) return;
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+}
+_loadSourceSlugs();
+
 // ── Tab switching ──
 document.querySelectorAll('.dm-tab').forEach(tab => {
   tab.addEventListener('click', () => {

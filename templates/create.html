@@ -13,6 +13,8 @@
 .option-card.selected { border-color: var(--accent); background: var(--accent2); }
 .option-card.locked { opacity: 0.4; cursor: default; border-style: dashed; }
 .option-card.locked:hover { border-color: var(--border); }
+.src-badge { font-size: 0.55rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
+.src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
 .option-card .name { font-weight: 700; font-size: 0.95rem; }
 .option-card .detail { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
 .ability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
@@ -374,12 +376,53 @@ function _shortSrc(src) {
   return src.length > 20 ? src.slice(0,18)+'…' : src;
 }
 
+function _srcBadge(src) {
+  if (!src) return '';
+  const short = _shortSrc(src);
+  return `<span class="src-badge" onclick="openSourceRef('${src.replace(/'/g, "\\'")}')" title="Click to open ${src}">📚 ${short}</span>`;
+}
+
+// Source → slug lookup (loaded on page init)
+let _sourceSlugLookup = null;
+async function _loadSourceSlugs() {
+  if (_sourceSlugLookup) return;
+  try {
+    const r = await fetch('/api/reference/source-map');
+    _sourceSlugLookup = await r.json();
+  } catch(e) { _sourceSlugLookup = {}; }
+}
+function openSourceRef(src) {
+  if (!src || src === 'SRD 5.1') return;  // SRD has no PDF
+  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
+  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
+  // Strip page for book name matching
+  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
+  if (!_sourceSlugLookup) return;
+  // Find slug by matching display name
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
+      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
+      window.open(url, '_blank');
+      return;
+    }
+  }
+  // Fuzzy: check if display contains bookPart or vice versa
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) ||
+        bookPart.toLowerCase().includes(info.display.toLowerCase())) {
+      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
+      window.open(url, '_blank');
+      return;
+    }
+  }
+}
+
 // ── Step 0: Race ──
 function buildRaces() {
   const grid = document.getElementById('race-grid');
   grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
     <div class="option-card" onclick="selectRace('${name}')">
-      <div class="name">${name}${r.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${r.source}">${_shortSrc(r.source)}</span>` : ''}</div>
+      <div class="name">${name}${r.source ? ` ${_srcBadge(r.source)}` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
     </div>`).join('');
 }
@@ -396,7 +439,7 @@ function selectRace(name) {
     const srSrcs = r._subrace_sources || {};
     subgrid.innerHTML = r.subraces.map(s => `
       <div class="option-card" onclick="selectSubrace('${s}')">
-        <div class="name">${s}${(srSrcs[s]||r.source) ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${srSrcs[s]||r.source}">${_shortSrc(srSrcs[s]||r.source)}</span>` : ''}</div>
+        <div class="name">${s}${(srSrcs[s]||r.source) ? ` ${_srcBadge(srSrcs[s]||r.source)}` : ''}</div>
         <div class="detail">${SUBASIS[s] ? Object.entries(SUBASIS[s]).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') : 'No extra ASI'}</div>
       </div>`).join('');
   } else { subsec.style.display = 'none'; }
@@ -461,7 +504,7 @@ function buildClasses() {
   const grid = document.getElementById('class-grid');
   grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
     <div class="option-card" onclick="selectClass('${name}')">
-      <div class="name">${name}${c.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${c.source}">${_shortSrc(c.source)}</span>` : ''}</div>
+      <div class="name">${name}${c.source ? ` ${_srcBadge(c.source)}` : ''}</div>
       <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>
     </div>`).join('');
 }
@@ -477,7 +520,7 @@ function selectClass(name) {
     const scSrcs = c._subclass_sources || {};
     scgrid.innerHTML = c.subclasses.map(s => `
       <div class="option-card" onclick="selectSubclass('${s}')">
-        <div class="name">${s}${scSrcs[s] ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${scSrcs[s]}">${_shortSrc(scSrcs[s])}</span>` : ''}</div>
+        <div class="name">${s}${scSrcs[s] ? ` ${_srcBadge(scSrcs[s])}` : ''}</div>
       </div>`).join('');
   } else { scsec.style.display = 'none'; }
 
@@ -746,7 +789,7 @@ function filterCreateSpells() {
     const lvlBadge = s.level === 0
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
-    const srcBadge = s.source ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${s.source}">${_shortSrc(s.source)}</span>` : '';
+    const srcBadge = s.source ? `${_srcBadge(s.source)}` : '';
     const bg = isSel ? 'background:rgba(99,102,241,0.15);' : '';
     return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem;${bg}"\n      onclick="toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})">
       <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSel?'✅':'☐'}</span>
@@ -791,7 +834,7 @@ function renderCreateSelected() {
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : '<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv'+s.level+'</span>';
     const fullSpell = _createSpellList.find(sp => sp.name === s.name);
-    const srcBadge = (fullSpell && fullSpell.source) ? `<span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${fullSpell.source}">${_shortSrc(fullSpell.source)}</span>` : '';
+    const srcBadge = (fullSpell && fullSpell.source) ? `${_srcBadge(fullSpell.source)}` : '';
     return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
       <strong>${s.name}</strong> ${lvlBadge} ${srcBadge}
       <button onclick="event.stopPropagation();toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})"
@@ -911,6 +954,7 @@ async function createCharacter() {
 }
 
 // Init
+_loadSourceSlugs();
 buildRaces();
 buildClasses();
 buildAbilities();

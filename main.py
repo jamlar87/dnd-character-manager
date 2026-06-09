@@ -15,7 +15,7 @@ from typing import Any
 import bcrypt
 import httpx
 from fastapi import FastAPI, Request, Form, HTTPException, Response
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
 from jinja2 import Environment, FileSystemLoader
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -9375,8 +9375,71 @@ async def query_reference(request: Request):
         "path_hint": str(MANUALS_BASE),
     })
 
-# ── Run ─────────────────────────────────────────────────────────────────────
 
+# ── Reference PDF Viewer ─────────────────────────────────────────────────────
+
+# Cache the slug→display_name map from manual data meta
+_source_slug_cache: dict | None = None
+
+
+def _get_source_slug_map() -> dict[str, dict]:
+    """Return {slug: {title, path, display}} from pdf_map."""
+    global _source_slug_cache
+    if _source_slug_cache is None:
+        meta = _load_manual_json("_meta.json")
+        pdf_map = (meta or {}).get("pdf_map", {}) if isinstance(meta, dict) else {}
+        _source_slug_cache = {}
+        for slug, info in pdf_map.items():
+            title = info.get("title", slug)
+            display = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+            _source_slug_cache[slug] = {
+                "title": title,
+                "display": display,
+                "path": info.get("path", ""),
+            }
+    return _source_slug_cache
+
+
+@app.get("/api/reference/source-map", response_class=JSONResponse)
+async def source_map():
+    """Return slug→display_name map so the frontend can resolve source strings."""
+    return JSONResponse(_get_source_slug_map())
+
+
+@app.get("/api/reference/open/{slug}")
+async def open_manual(slug: str, page: int = 0):
+    """Serve a reference manual PDF, optionally jumping to a page.
+
+    Slug is the pdf_map key (e.g. 'PHB', 'DMG', 'XGE').
+    Page is the printed page number (not PDF page index).
+    """
+    slug_map = _get_source_slug_map()
+    info = slug_map.get(slug.upper())
+    if not info:
+        raise HTTPException(status_code=404, detail=f"Unknown manual slug: {slug}")
+
+    # Try direct path first, then DnD-Manuals/ subdir
+    pdf_path = MANUALS_BASE / info["path"]
+    if not pdf_path.exists():
+        pdf_path = MANUALS_BASE / "DnD-Manuals" / info["path"]
+    if not pdf_path.exists():
+        import glob
+        candidates = glob.glob(str(MANUALS_BASE / f"**/{info['path']}"), recursive=True)
+        if candidates:
+            pdf_path = Path(candidates[0])
+        else:
+            raise HTTPException(status_code=404, detail=f"PDF not found: {info['path']}")
+
+    return FileResponse(
+        pdf_path,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename=\"{slug.upper()}.pdf\"",
+        },
+    )
+
+
+# ── Run ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8300)

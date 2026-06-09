@@ -307,6 +307,8 @@
 .dm-preview #delevel-btn { display: none !important; }
 .dm-preview #sidebar-portrait { cursor: default !important; }
 .dm-preview .portrait-placeholder { cursor: default !important; }
+.src-badge { font-size: 0.55rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
+.src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
 {% endblock %}
 
 {% block content %}
@@ -1587,6 +1589,39 @@ const PREPARED_MAX = {{ prepared_max }};
 const CASTER_TYPE = '{{ caster_type }}';
 let CHARACTER_GP = {{ character.gp|default(0)|int }};
 
+// ── Source reference: click 📚 badge → open PDF ──
+let _sourceSlugLookup = null;
+async function _loadSourceSlugs() {
+  if (_sourceSlugLookup) return;
+  try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
+  catch(e) { _sourceSlugLookup = {}; }
+}
+function _srcBadge(src) {
+  if (!src) return '';
+  const short = src.length > 25 ? src.replace(/\s+p\.?\s*\d+.*$/, '').trim() : src;
+  return `<span class="src-badge" onclick="openSourceRef('${src.replace(/'/g, "\\'")}')" title="Click to open ${src}">📚 ${short}</span>`;
+}
+function openSourceRef(src) {
+  if (!src || src === 'SRD 5.1') return;
+  const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
+  const page = pageMatch ? parseInt(pageMatch[1]) : 0;
+  let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
+  if (!_sourceSlugLookup) return;
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase() === bookPart.toLowerCase()) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+}
+_loadSourceSlugs();
+
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
   const params = new URLSearchParams(window.location.search);
@@ -2259,7 +2294,7 @@ function filterSpellResults() {
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
     const schoolBadge = s.school ? `<span style="font-size:0.65rem;color:var(--text-muted)">${s.school}</span>` : '';
-    const srcBadge = s.book ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="Source: ${s.book}">📚 ${s.book}</span>` : '';
+    const srcBadge = s.book ? `${_srcBadge(s.book)}` : '';
     const originTag = s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : '';
     const concIcon = s.concentration ? '🔷' : '';
     const ritIcon = s.ritual ? '📖' : '';
@@ -2618,11 +2653,11 @@ function showDetail() {
 
   // Race
   const raceSrc = raceData?.source || '';
-  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${race}</strong>${raceSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${raceSrc}">📚 ${raceSrc}</span>` : ''}</div>`;
+  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${race}</strong>${raceSrc ? ` ${_srcBadge(raceSrc)}` : ''}</div>`;
   if (raceData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${raceData.desc}</p>`;
   if (subrace) {
     const srSrc = (raceData?._subrace_sources || {})[subrace] || '';
-    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subrace}</strong>${srSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${srSrc}">📚 ${srSrc}</span>` : ''}</div>`;
+    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subrace}</strong>${srSrc ? ` ${_srcBadge(srSrc)}` : ''}</div>`;
     const srDesc = (raceData?.subrace_descs || {})[subrace];
     if (srDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${srDesc}</p>`;
     html += '</div>';
@@ -2631,11 +2666,11 @@ function showDetail() {
 
   // Class
   const classSrc = classData?.source || '';
-  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${cls}</strong>${classSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${classSrc}">📚 ${classSrc}</span>` : ''}</div>`;
+  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${cls}</strong>${classSrc ? ` ${_srcBadge(classSrc)}` : ''}</div>`;
   if (classData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${classData.desc}</p>`;
   if (subclass) {
     const scSrc = (classData?._subclass_sources || {})[subclass] || '';
-    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subclass}</strong>${scSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${scSrc}">📚 ${scSrc}</span>` : ''}</div>`;
+    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subclass}</strong>${scSrc ? ` ${_srcBadge(scSrc)}` : ''}</div>`;
     const scDesc = (classData?.subclass_descs || {})[subclass];
     if (scDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${scDesc}</p>`;
     html += '</div>';
@@ -2645,7 +2680,7 @@ function showDetail() {
   // Background
   if (bg) {
     const bgSrc = (bgData && bgData.source) ? bgData.source : '';
-    html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">Background: ${bg}</strong>${bgSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${bgSrc}">📚 ${bgSrc}</span>` : ''}</div>`;
+    html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">Background: ${bg}</strong>${bgSrc ? ` ${_srcBadge(bgSrc)}` : ''}</div>`;
     const desc = (bgData && bgData.description) ? bgData.description : bgDesc;
     if (desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${desc}</p>`;
     if (bgData && bgData.items && bgData.items.length) html += `<p style="margin:0.25rem 0 0 0;font-size:0.8rem;color:var(--text-muted)">Items: ${bgData.items.join(', ')} · ${bgData.gp || 15} gp</p>`;
@@ -2705,7 +2740,7 @@ async function showItemInfo(name) {
     title.textContent = data.name || name;
     const typeTag = data.type ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem">${data.type}</span>` : '';
     body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
-      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center">${typeTag}${data.source ? `<span style="font-size:0.6rem;opacity:0.7" title="Source: ${data.source}">📚 ${data.source}</span>` : ''}</div>`;
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center">${typeTag}${data.source ? `${_srcBadge(data.source)}` : ''}</div>`;
   } catch(e) {
     body.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Unable to load description.</p>';
   }
@@ -2740,7 +2775,7 @@ async function toggleItemExpand(btn) {
       const resp = await fetch(`/api/items/describe?name=${encodeURIComponent(name)}`);
       const data = await resp.json();
       const typeTag = data.type ? ` · ${data.type}` : '';
-      const srcTag = data.source ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem" title="Source: ${data.source}">📚 ${data.source}</span>` : '';
+      const srcTag = data.source ? `${_srcBadge(data.source)}` : '';
       const qtyBadge = card.querySelector('.item-qty');
       const currentQty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
       const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}${srcTag}
@@ -4064,7 +4099,7 @@ function onFeatSelect(key) {
   const descEl = document.getElementById('lu-feat-desc');
   const asiEl = document.getElementById('lu-feat-asi-choice');
   if (feat) {
-    const srcTag = feat.source ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7">📚 ${feat.source}</span>` : '';
+    const srcTag = feat.source ? ` ${_srcBadge(feat.source)}` : '';
     descEl.innerHTML = (feat.desc || '') + srcTag;
     luChoices.asi = 'feat:' + key;
     if (feat.asi && feat.asi.choices) {
@@ -4253,7 +4288,7 @@ function filterLuSpells() {
       <strong style="flex:1;min-width:0">${s.name}</strong>
       ${lvlBadge}
       <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
-      <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="Source: ${s.book||''}">📚 ${s.book||''}</span>
+      ${s.book ? _srcBadge(s.book) : ''}
       ${s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : ''}
     </div>`;
   }).join('');
