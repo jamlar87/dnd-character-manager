@@ -118,7 +118,8 @@ async function searchManuals(summarize = false) {
       html += '<hr style="border-color:var(--border);margin:0.5rem 0">';
       html += '<div style="font-size:0.7rem;color:var(--text-muted)">Sources:</div>';
       for (const r of data.results) {
-        html += '<div style="font-size:0.75rem;padding:0.2rem 0;border-bottom:1px solid var(--border)">📖 <strong>' + r.book + '</strong>' + (r.page ? ' p.'+r.page : '') + ' — ' + escapeHtml(r.snippet).substring(0,150) + '...</div>';
+        const pdfUrl = '/api/reference/open/' + encodeURIComponent(r.book) + '?page=' + (r.page || 1);
+        html += '<div style="font-size:0.75rem;padding:0.25rem 0.4rem;border-bottom:1px solid var(--border);cursor:pointer" onclick="window.open(\'' + pdfUrl + '\',\'_blank\')" onmouseover="this.style.background=\'var(--accent2)\'" onmouseout="this.style.background=\'\'">📖 <strong>' + r.book + '</strong>' + (r.page ? ' p.'+r.page : '') + ' — ' + escapeHtml(r.snippet).substring(0,150) + '...</div>';
       }
       html += '</div>';
       resultsDiv.innerHTML = html;
@@ -126,8 +127,9 @@ async function searchManuals(summarize = false) {
       let html = '<div style="padding:0.5rem;font-size:0.8rem">';
       html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem">' + data.total + ' matches across manuals for "' + escapeHtml(query) + '"</div>';
       for (const r of data.results) {
-        html += '<div style="padding:0.4rem 0.5rem;border-bottom:1px solid var(--border);cursor:default">';
-        html += '<div style="font-size:0.7rem;color:var(--accent);margin-bottom:0.15rem">📖 <strong>' + r.book + '</strong>' + (r.page ? ' ~p.'+r.page : '') + '</div>';
+        const pdfUrl = '/api/reference/open/' + encodeURIComponent(r.book) + '?page=' + (r.page || 1);
+        html += '<div style="padding:0.4rem 0.5rem;border-bottom:1px solid var(--border);cursor:pointer" onclick="window.open(\'' + pdfUrl + '\',\'_blank\')" onmouseover="this.style.background=\'var(--accent2)\'" onmouseout="this.style.background=\'\'">';
+        html += '<div style="font-size:0.7rem;color:var(--accent);margin-bottom:0.15rem">📖 <strong>' + r.book + '</strong>' + (r.page ? ' ~p.'+r.page : '') + ' ↗</div>';
         html += '<div style="font-size:0.75rem;color:var(--text);line-height:1.4">' + highlightMatch(escapeHtml(r.snippet), query) + '</div>';
         html += '</div>';
       }
