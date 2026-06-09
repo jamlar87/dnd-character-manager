@@ -800,12 +800,12 @@
     <!-- ⚔️ ACTIONS TAB -->
     <div class="tab-content active" id="tab-actions">
       {% set attacks = attacks or [] %}
-      {% if attacks %}
-      <div class="card" style="margin-bottom:0.5rem">
+      <div id="attacks-weapons-card" class="card" style="margin-bottom:0.5rem;{% if not attacks %}display:none{% endif %}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">Weapon Attacks</h3>
           <span style="font-size:0.75rem;color:var(--text-muted)">Attacks per Action: 1</span>
         </div>
+        <div id="attacks-weapons-list">
         {% for atk in attacks %}
         <div class="atk-card">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
@@ -823,8 +823,8 @@
           {% endif %}
         </div>
         {% endfor %}
-      </div>
-      {% endif %}
+        </div><!-- /attacks-weapons-list -->
+      </div><!-- /attacks-weapons-card -->
 
       <!-- Unarmed Strike -->
       <div class="atk-card">
@@ -3855,9 +3855,50 @@ async function saveEquipped() {
   await api('/update', { equipped: JSON.stringify(equippedItems) });
   console.log('saveEquipped: api call done, calling renderEquipped');
   renderEquipped();
+  refreshAttacksTab();
   // Refresh item badges
   tagArmor();
   tagWeapons();
+}
+
+// ── Refresh Actions tab weapon attacks ──
+async function refreshAttacksTab() {
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/attacks`);
+    const data = await resp.json();
+    const card = document.getElementById('attacks-weapons-card');
+    const list = document.getElementById('attacks-weapons-list');
+    if (!card || !list) return;
+    if (!data.attacks || data.attacks.length === 0) {
+      card.style.display = 'none';
+      list.innerHTML = '';
+      return;
+    }
+    card.style.display = '';
+    list.innerHTML = data.attacks.map(atk => {
+      let propsHtml = '';
+      if (atk.properties && atk.properties.length) {
+        propsHtml = '<div class="atk-props">' + atk.properties.map(p => `<span class="atk-prop">${p}</span>`).join('') + '</div>';
+      }
+      const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
+      return `<div class="atk-card">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="atk-name">${atk.name}${qtyBadge}</span>
+          <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+${atk.attack_bonus} to hit</span>
+        </div>
+        <div class="atk-detail">
+          ${atk.range ? `<span>Range: ${atk.range}</span>` : ''}
+          ${atk.damage ? `<span> · ${atk.damage}</span>` : ''}
+        </div>
+        ${propsHtml}
+      </div>`;
+    }).join('');
+    // Also update Unarmed Strike attack bonus if abilities changed
+    const unarmedAtk = document.querySelector('#tab-actions .atk-card:nth-child(2) span[style*="monospace"]');
+    // Unarmed is always the second atk-card now (first is weapons card or hidden)
+  } catch(e) {
+    console.error('refreshAttacksTab error:', e);
+  }
 }
 
 // ── Feature Action (use limited-use feature from Actions in Combat) ──

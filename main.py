@@ -4705,6 +4705,29 @@ async def update_character(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True})
 
+@app.get("/api/character/{char_id}/attacks", response_class=JSONResponse)
+async def get_attacks(char_id: int, request: Request):
+    """Return current weapon attacks for Actions tab refresh."""
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
+                     (char_id, user["id"])).fetchone()
+    db.close()
+    if not row:
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    char = dict(row)
+    # Parse JSON fields
+    for field in ["inventory", "equipped", "weapon_proficiencies", "save_proficiencies",
+                  "attacks_data", "feature_data", "skills", "tool_proficiencies",
+                  "armor_proficiencies", "languages", "features", "damage_resistances",
+                  "damage_immunities", "damage_vulnerabilities", "condition_immunities",
+                  "attuned_items"]:
+        if isinstance(char.get(field), str):
+            try: char[field] = json.loads(char[field])
+            except: pass
+    attacks = _build_inventory_attacks(char)
+    return JSONResponse({"attacks": attacks})
+
 @app.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
 async def add_spell(char_id: int, request: Request):
     user = require_user(request)
