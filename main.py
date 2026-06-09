@@ -252,7 +252,8 @@ def load_manual_data():
                     break
             if src.startswith("p.") or src.startswith("p "):
                 RACES[name]["source"] = f"{book_title} {src}"
-            elif "Unknown" in src or not src:
+            elif "Unknown" in src or not src or len(src) < 12:
+                # Short/garbled sources (SGtS, Part 1, etc.) — replace entirely
                 RACES[name]["source"] = book_title
         # Add trait descriptions (quality-aware)
         for t in race.get("traits", []):
@@ -390,7 +391,7 @@ def load_manual_data():
                         break
                 if sc_source.startswith("p.") or sc_source.startswith("p "):
                     sc_source = f"{book_title} {sc_source}"
-                elif "Unknown" in sc_source or "Part 1" in sc_source:
+                elif "Unknown" in sc_source or "Part 1" in sc_source or len(sc_source) < 12:
                     sc_source = book_title
             srcs[sc_name] = sc_source
 
