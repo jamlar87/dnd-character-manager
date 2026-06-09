@@ -6778,6 +6778,70 @@ LIMITED_USE = {
     "merge with stone":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
     "reach to the blaze":   {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
     "call to the wave":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+
+    # ── Subclass Features ──
+    # Barbarian — Path of the Totem Warrior
+    "totem spirit":         {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
+    "aspect of the beast":  {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
+    "totemic attunement":   {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
+    # Cleric — Light Domain
+    "warding flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
+    "improved flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
+    "corona of light":      {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Cleric — Nature Domain
+    "dampen elements":      {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
+    # Cleric — Tempest Domain
+    "wrath of the storm":   {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
+    "thunderbolt strike":   {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
+    "stormborn":            {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Paladin — capstones
+    "holy nimbus":          {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    "avenging angel":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    "elder champion":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Sorcerer — Draconic Bloodline
+    "dragon wings":         {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    "draconic presence":    {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    # Sorcerer — Wild Magic
+    "tides of chaos":       {"min": 1, "max": 1,  "recharge": "short", "class": "Sorcerer", "per": "fixed"},
+    "bend luck":            {"min": 1, "max": 99,  "recharge": "long", "class": "Sorcerer", "per": "level"},
+    "wild magic surge":     {"min": 1, "max": 99,  "recharge": "short", "class": "Sorcerer", "per": "fixed"},
+    # Warlock — The Archfey
+    "fey presence":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "misty escape":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "dark delirium":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    # Warlock — The Great Old One
+    "entropic ward":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "create thrall":        {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    "awakened mind":        {"min": 1, "max": 99,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    # Wizard — School of Divination
+    "portent":              {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "greater portent":      {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "the third eye":        {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Wizard — misc
+    "minor conjuration":    {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "benign transposition": {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "hypnotic gaze":        {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "instinctive charm":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "alter memories":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "improved minor illusion": {"min": 1, "max": 99, "recharge": "short", "class": "Wizard", "per": "fixed"},
+    "illusory self":        {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    "illusory reality":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "minor alchemy":        {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "transmuter's stone":   {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "master transmuter":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Cleric — capstones
+    "master of nature":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    "visions of the past":  {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
+    "improved duplicity":   {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    "avatar of battle":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    "blessing of the trickster": {"min": 1, "max": 99, "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Paladin — Oathbreaker
+    "dread lord":           {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Arcane Trickster
+    "spell thief":          {"min": 1, "max": 1,  "recharge": "long", "class": "Rogue", "per": "fixed"},
+    "mage hand legerdemain": {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
+    "magical ambush":       {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
+    "versatile trickster":  {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
 }
 
 
@@ -7062,6 +7126,91 @@ FEATURE_ACTION_TYPES = {
     # Recovery / out-of-combat features
     "mystic arcanum":       ("Action", "Mystic Arcanum — cast a high-level Warlock spell (1/LR)"),
     "arcane_recovery":      ("Short Rest", "Arcane Recovery — regain spell slots on short rest"),
+    # Barbarian — Path of the Berserker
+    "intimidating presence":("Action", "Intimidating Presence — frighten one creature, WIS save"),
+    "retaliation":          ("Reaction", "Retaliation — melee attack against attacker who damaged you"),
+    # Cleric — Light Domain
+    "warding flare":        ("Reaction", "Warding Flare — impose disadvantage on an attack against you"),
+    "improved flare":       ("Reaction", "Improved Flare — impose disadvantage on an attack against ally"),
+    "corona of light":      ("Action", "Corona of Light — 60ft bright light, 1 min, disadv on saves vs light/fire"),
+    # Cleric — Nature Domain
+    "dampen elements":      ("Reaction", "Dampen Elements — grant resistance to acid/cold/fire/lightning/thunder"),
+    "master of nature":     ("Bonus Action", "Master of Nature — command beasts and plants (1/LR)"),
+    # Cleric — Tempest Domain
+    "wrath of the storm":   ("Reaction", "Wrath of the Storm — 2d8 lightning/thunder vs attacker"),
+    "thunderbolt strike":   ("Reaction", "Thunderbolt Strike — push Large or smaller creature 10ft on lightning dmg"),
+    "stormborn":            ("Action", "Stormborn — 60ft fly speed, 1 min (1/LR)"),
+    # Cleric — Trickery Domain
+    "blessing of the trickster": ("Action", "Blessing of the Trickster — grant adv on Stealth for 1 hour"),
+    "improved duplicity":   ("Action", "Improved Duplicity — create up to 4 illusory duplicates"),
+    # Cleric — Knowledge Domain
+    "visions of the past":  ("Action", "Visions of the Past — object/area reading, 1/SR"),
+    # Cleric — War Domain
+    "war priest":           ("Bonus Action", "War Priest — make one weapon attack (WIS mod/LR)"),
+    "avatar of battle":     ("Action", "Avatar of Battle — resist B/P/S from nonmagical weapons, 1 min (1/LR)"),
+    # Paladin capstones
+    "holy nimbus":          ("Action", "Holy Nimbus — 30ft bright light, 10 radiant dmg/turn, 1 min (1/LR)"),
+    "avenging angel":       ("Action", "Avenging Angel — 60ft fly, 30ft fear aura, 1 hour (1/LR)"),
+    "elder champion":       ("Action", "Elder Champion — regen 10 HP/turn, BA spells, 1 min (1/LR)"),
+    # Paladin — Oathbreaker
+    "dread lord":           ("Action", "Dread Lord — 30ft fear/punish aura, minions, 1 min (1/LR)"),
+    # Sorcerer — Draconic
+    "dragon wings":         ("Bonus Action", "Dragon Wings — fly speed = walk speed"),
+    "draconic presence":    ("Action", "Draconic Presence — 60ft awe/fear aura, 1 min, 5 sorcery pts (1/LR)"),
+    # Sorcerer — Wild Magic
+    "wild magic surge":     ("Reaction", "Wild Magic Surge — roll on d100 table when triggered"),
+    "tides of chaos":       ("Reaction", "Tides of Chaos — grant self advantage on attack/save/check (1/SR)"),
+    "bend luck":            ("Reaction", "Bend Luck — add/subtract 1d4 to a creature's roll (2 sorcery pts)"),
+    # Warlock — The Archfey
+    "fey presence":         ("Action", "Fey Presence — 10ft cube, WIS save or charmed/frightened (1/SR)"),
+    "misty escape":         ("Reaction", "Misty Escape — teleport 60ft + invisible after taking damage (1/SR)"),
+    "dark delirium":        ("Action", "Dark Delirium — target in illusory realm, 1 min (1/SR)"),
+    # Warlock — The Great Old One
+    "awakened mind":        ("Action", "Awakened Mind — telepathy 30ft"),
+    "entropic ward":        ("Reaction", "Entropic Ward — impose disadvantage on attack (1/SR)"),
+    "create thrall":        ("Action", "Create Thrall — permanently charm an incapacitated humanoid (1/LR)"),
+    # Warlock — The Fiend
+    "dark one's blessing":  ("Reaction", "Dark One's Blessing — gain temp HP on kill"),
+    "dark one's own luck":  ("Reaction", "Dark One's Own Luck — add d10 to ability check/save (1/SR)"),
+    "hurl through hell":    ("Action", "Hurl Through Hell — 10d10 psychic, 1 round banish (1/LR)"),
+    # Wizard — Divination
+    "portent":              ("Reaction", "Portent — replace any d20 roll with a pre-rolled result (2/LR)"),
+    "greater portent":      ("Reaction", "Greater Portent — replace a third d20 roll (3/LR)"),
+    "the third eye":        ("Action", "The Third Eye — darkvision, ethereal sight, read any language"),
+    # Wizard — Conjuration
+    "minor conjuration":    ("Action", "Minor Conjuration — create a small nonmagical object"),
+    "benign transposition": ("Action", "Benign Transposition — teleport 30ft or swap with ally (1/LR)"),
+    # Wizard — Enchantment
+    "hypnotic gaze":        ("Action", "Hypnotic Gaze — incapacitate a creature until next turn"),
+    "instinctive charm":    ("Reaction", "Instinctive Charm — redirect an attack to another creature (1/LR)"),
+    "alter memories":       ("Action", "Alter Memories — modify memory of charmed target"),
+    # Wizard — Illusion
+    "improved minor illusion": ("Action", "Improved Minor Illusion — create sound + image together"),
+    "illusory self":        ("Reaction", "Illusory Self — auto-miss vs one attack (1/SR)"),
+    "illusory reality":     ("Bonus Action", "Illusory Reality — make one illusion object temporarily real (1/LR)"),
+    # Wizard — Necromancy
+    "command undead":       ("Action", "Command Undead — charm an undead (INT save, 1/LR)"),
+    # Wizard — Transmutation
+    "minor alchemy":        ("Action", "Minor Alchemy — temporarily transmute material"),
+    "transmuter's stone":   ("Action", "Transmuter's Stone — grant buff to holder (darkvision/speed/resist/CON)"),
+    "master transmuter":    ("Action", "Master Transmuter — Panacea, Restore Life, or Restore Youth (1 use)"),
+    # Wizard — Evocation
+    "sculpt spells":        ("Reaction", "Sculpt Spells — protect allies from your AoE spells"),
+    # Barbarian — Path of the Totem Warrior
+    "totem spirit":         ("Action", "Totem Spirit — choose Bear/Eagle/Wolf spirit boon"),
+    "aspect of the beast":  ("Action", "Aspect of the Beast — choose a second totem animal benefit"),
+    "totemic attunement":   ("Action", "Totemic Attunement — choose a third totem animal benefit"),
+    # Rogue — Arcane Trickster
+    "mage hand legerdemain": ("Bonus Action", "Mage Hand Legerdemain — invisible hand, stow/retrieve, pickpocket"),
+    "magical ambush":       ("Bonus Action", "Magical Ambush — impose disadvantage on spell save from hiding"),
+    "versatile trickster":  ("Bonus Action", "Versatile Trickster — Mage Hand distracts for advantage"),
+    "spell thief":          ("Reaction", "Spell Thief — steal a spell being cast (1/LR)"),
+    # Rogue — Thief
+    "fast hands":           ("Bonus Action", "Fast Hands — Sleight of Hand, thieves' tools, or Use an Object"),
+    # Rogue — Assassin
+    "assassinate":          ("Reaction", "Assassinate — auto-crit surprised creatures, adv vs lower initiative"),
+    # Ranger — Hunter
+    "multiattack":          ("Action", "Multiattack — Volley (ranged AoE) or Whirlwind Attack (melee AoE)"),
 }
 
 # ── Channel Divinity sub-option descriptions (PHB 2014, not in SRD) ──────
@@ -7233,6 +7382,28 @@ DOMAIN_SPELLS: dict[str, list[str]] = {
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
 SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
+    # ── Barbarian: Path of the Berserker (PHB p.49) ──
+    "frenzy":
+        "Starting at 3rd level, you can go into a frenzy when you rage. If you do so, for the "
+        "duration of your rage you can make a single melee weapon attack as a bonus action on "
+        "each of your turns after this one. When your rage ends, you suffer one level of exhaustion.",
+    "mindless rage":
+        "Beginning at 6th level, you can't be charmed or frightened while raging. If you are "
+        "charmed or frightened when you enter your rage, the effect is suspended for the "
+        "duration of the rage.",
+    "intimidating presence":
+        "Beginning at 10th level, you can use your action to frighten someone with your menacing "
+        "presence. Choose one creature that you can see within 30 feet of you. If the creature "
+        "can see or hear you, it must succeed on a Wisdom saving throw (DC 8 + proficiency bonus "
+        "+ Charisma modifier) or be frightened of you until the end of your next turn. On "
+        "subsequent turns, you can use your action to extend the duration on the frightened "
+        "creature until the end of your next turn. This effect ends if the creature ends its "
+        "turn out of line of sight or more than 60 feet away from you. If the creature succeeds "
+        "on its saving throw, you can't use this feature on that creature again for 24 hours.",
+    "retaliation":
+        "Starting at 14th level, when you take damage from a creature that is within 5 feet of "
+        "you, you can use your reaction to make a melee weapon attack against that creature.",
+
     # ── Barbarian: Path of the Totem Warrior (PHB p.50) ──
     "spirit seeker":
         "At 3rd level, you gain the ability to cast the Beast Sense and Speak with Animals spells, "
@@ -7257,11 +7428,34 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "while raging, you gain a flying speed equal to your walking speed. Wolf: while raging, you "
         "can use a bonus action to knock a Large or smaller creature prone when you hit with a melee attack.",
 
+    # ── Bard: College of Lore (PHB p.54-55) ──
+    "cutting words":
+        "At 3rd level, you learn how to use your wit to distract, confuse, and otherwise sap the "
+        "confidence and competence of others. When a creature that you can see within 60 feet of "
+        "you makes an attack roll, an ability check, or a damage roll, you can use your reaction "
+        "to expend one of your uses of Bardic Inspiration, rolling a Bardic Inspiration die and "
+        "subtracting the number rolled from the creature's roll. You can choose to use this "
+        "feature after the creature makes its roll, but before the DM determines whether the "
+        "attack roll or ability check succeeds or fails, or before the creature deals its damage.",
+    "peerless skill":
+        "Starting at 14th level, when you make an ability check, you can expend one use of "
+        "Bardic Inspiration. Roll a Bardic Inspiration die and add the number to your ability "
+        "check. You can choose to do so after you roll the die for the ability check, but before "
+        "the DM tells you whether you succeed or fail.",
+
     # ── Bard: College of Valor (PHB p.55) ──
     "combat inspiration":
         "At 3rd level, a creature that has a Bardic Inspiration die from you can roll that die and "
         "add the number to a weapon damage roll, or use its reaction to add the number to its AC "
         "against an attack.",
+
+    # ── Druid: Circle of the Land (PHB p.68) ──
+    "natural recovery":
+        "Starting at 2nd level, you can regain some of your magical energy by sitting in meditation "
+        "and communing with nature. During a short rest, you choose expended spell slots to recover. "
+        "The spell slots can have a combined level that is equal to or less than half your druid "
+        "level (rounded up), and none of the slots can be 6th level or higher. You can't use this "
+        "feature again until you finish a long rest.",
     "battle magic":
         "At 14th level, when you use your action to cast a bard spell, you can make one weapon "
         "attack as a bonus action.",
@@ -7469,6 +7663,22 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "you may replace one discipline with another. Casting elemental spells costs ki points "
         "equal to the spell's level + 1 (max 6 ki for 5th-level spells).",
 
+    # ── Paladin: Oath of Devotion (PHB p.85-86) ──
+    "aura of devotion":
+        "Starting at 7th level, you and friendly creatures within 10 feet of you can't be "
+        "charmed while you are conscious. At 18th level, the range of this aura increases to "
+        "30 feet.",
+    "purity of spirit":
+        "Beginning at 15th level, you are always under the effects of a Protection from Evil "
+        "and Good spell.",
+    "holy nimbus":
+        "At 20th level, as an action, you can emanate an aura of sunlight. For 1 minute, bright "
+        "light shines from you in a 30-foot radius, and dim light shines 30 feet beyond that. "
+        "Whenever an enemy starts its turn in the bright light, it takes 10 radiant damage. In "
+        "addition, for the duration, you have advantage on saving throws against spells cast by "
+        "fiends or undead. Once you use this feature, you can't use it again until you finish "
+        "a long rest.",
+
     # ── Paladin: Oath of Vengeance (PHB p.87-88) ──
     "relentless avenger":
         "At 7th level, when you hit a creature with an opportunity attack, you can move up to "
@@ -7517,6 +7727,34 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "spell attack (CHA) against a creature in the aura, dealing 3d10 + CHA necrotic damage. "
         "Once used, can't be used again until a long rest.",
 
+    # ── Ranger: Hunter (PHB p.93) ──
+    "hunter's prey":
+        "At 3rd level, you gain one of the following features of your choice. Colossus Slayer: "
+        "when you hit a creature with a weapon attack, it takes an extra 1d8 damage if it's "
+        "below its hit point maximum (once per turn). Giant Killer: when a Large or larger "
+        "creature within 5 feet hits or misses you, you can use your reaction to attack it. "
+        "Horde Breaker: when you make a weapon attack, you can make another attack against a "
+        "different creature within 5 feet of the original target and within your weapon's range "
+        "(once per turn).",
+    "defensive tactics":
+        "At 7th level, you gain one of the following features of your choice. Escape the Horde: "
+        "opportunity attacks against you have disadvantage. Multiattack Defense: when a creature "
+        "hits you, you gain +4 AC against all subsequent attacks it makes for the rest of the "
+        "turn. Steel Will: you have advantage on saving throws against being frightened.",
+    "multiattack":
+        "At 11th level, you gain one of the following features of your choice. Volley: you can "
+        "use your action to make a ranged attack against any number of creatures within 10 feet "
+        "of a point you can see (ammunition required per target). Whirlwind Attack: you can use "
+        "your action to make a melee attack against any number of creatures within 5 feet of "
+        "you, with a separate attack roll for each target.",
+    "superior hunter's defense":
+        "At 15th level, you gain one of the following features of your choice. Evasion: when "
+        "subjected to a DEX save for half damage, you take none on a success and half on a "
+        "failure. Stand Against the Tide: when a hostile creature misses you with a melee "
+        "attack, you can use your reaction to force it to repeat the same attack against another "
+        "creature of your choice. Uncanny Dodge: when an attacker you can see hits you, you can "
+        "use your reaction to halve the damage.",
+
     # ── Ranger: Beast Master (PHB p.93) ──
     "ranger's companion":
         "At 3rd level, you gain a beast companion. Choose a beast of CR 1/4 or lower (Medium or "
@@ -7534,6 +7772,28 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "share spells":
         "At 15th level, when you cast a spell targeting yourself, you can also affect your beast "
         "companion if it's within 30 feet of you.",
+
+    # ── Rogue: Thief (PHB p.97) ──
+    "fast hands":
+        "Starting at 3rd level, you can use the bonus action granted by your Cunning Action to "
+        "make a Dexterity (Sleight of Hand) check, use your thieves' tools to disarm a trap or "
+        "open a lock, or take the Use an Object action.",
+    "second-story work":
+        "At 3rd level, you gain the ability to climb faster than normal; climbing no longer costs "
+        "you extra movement. In addition, when you make a running jump, the distance you cover "
+        "increases by a number of feet equal to your Dexterity modifier.",
+    "supreme sneak":
+        "Starting at 9th level, you have advantage on a Dexterity (Stealth) check if you move "
+        "no more than half your speed on the same turn.",
+    "use magic device":
+        "By 13th level, you have learned enough about the workings of magic that you can "
+        "improvise the use of items even when they are not intended for you. You ignore all "
+        "class, race, and level requirements on the use of magic items.",
+    "thief's reflexes":
+        "When you reach 17th level, you have become adept at laying ambushes and quickly "
+        "escaping danger. You can take two turns during the first round of any combat. You take "
+        "your first turn at your normal initiative and your second turn at your initiative minus "
+        "10. You can't use this feature when you are surprised.",
 
     # ── Rogue: Arcane Trickster (PHB p.97-98) ──
     "mage hand legerdemain":
@@ -7577,6 +7837,37 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "At 17th level, when you attack and hit a surprised creature, it must make a Constitution "
         "save (DC 8 + DEX mod + proficiency bonus). On a failure, double the damage of your "
         "attack against it.",
+
+    # ── Sorcerer: Draconic Bloodline (PHB p.102-103) ──
+    "dragon ancestor":
+        "At 1st level, you choose one type of dragon as your ancestor. The damage type associated "
+        "with each dragon is used by features you gain later. You can speak, read, and write "
+        "Draconic, and when you make a Charisma check interacting with dragons, your proficiency "
+        "bonus is doubled if it applies.",
+    "draconic resilience":
+        "At 1st level, your hit point maximum increases by 1 and increases by 1 again whenever "
+        "you gain a level in this class. Additionally, when you aren't wearing armor, your AC "
+        "equals 13 + your Dexterity modifier.",
+    "elemental affinity":
+        "Starting at 6th level, when you cast a spell that deals damage of the type associated "
+        "with your draconic ancestry, you can add your Charisma modifier to one damage roll of "
+        "that spell. At the same time, you can spend 1 sorcery point to gain resistance to that "
+        "damage type for 1 hour.",
+    "dragon wings":
+        "At 14th level, you gain the ability to sprout a pair of dragon wings from your back as "
+        "a bonus action, gaining a flying speed equal to your current walking speed. They last "
+        "until you dismiss them as a bonus action. You can't manifest your wings while wearing "
+        "armor unless it is made to accommodate them, and clothing not made to accommodate them "
+        "might be destroyed.",
+    "draconic presence":
+        "Beginning at 18th level, you can channel the dread presence of your dragon ancestor, "
+        "causing those around you to become awestruck or frightened. As an action, you can spend "
+        "5 sorcery points to draw on this power and exude an aura of awe or fear (your choice) "
+        "to a distance of 60 feet. For 1 minute or until you lose your concentration (as if "
+        "concentrating on a spell), each hostile creature that starts its turn in this aura must "
+        "succeed on a Wisdom saving throw or be charmed (if you chose awe) or frightened (if you "
+        "chose fear) until the aura ends. A creature that succeeds on this save is immune to your "
+        "aura for 24 hours.",
 
     # ── Sorcerer: Wild Magic (PHB p.103-104) ──
     "wild magic surge":
@@ -7625,6 +7916,28 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "misty realm whose appearance you choose. It can't see or hear anything more than 5 feet "
         "away. The creature repeats the save at the end of each turn, ending the effect on "
         "success. Once used, can't be used again until a short or long rest.",
+
+    # ── Warlock: The Fiend (PHB p.109) ──
+    "dark one's blessing":
+        "Starting at 1st level, when you reduce a hostile creature to 0 hit points, you gain "
+        "temporary hit points equal to your Charisma modifier + your warlock level (minimum of 1).",
+    "dark one's own luck":
+        "Starting at 6th level, you can call on your patron to alter fate in your favor. When "
+        "you make an ability check or a saving throw, you can add a d10 to your roll. You can "
+        "do so after seeing the initial roll but before any of the roll's effects occur. Once "
+        "you use this feature, you can't use it again until you finish a short or long rest.",
+    "fiendish resilience":
+        "Starting at 10th level, you can choose one damage type when you finish a short or long "
+        "rest. You gain resistance to that damage type until you choose a different one with "
+        "this feature. Damage from magical weapons or silver weapons ignores this resistance.",
+    "hurl through hell":
+        "Starting at 14th level, when you hit a creature with an attack, you can use this "
+        "feature to instantly transport the target through the lower planes. The creature "
+        "disappears and hurtles through a nightmare landscape. At the end of your next turn, "
+        "the target returns to the space it previously occupied, or the nearest unoccupied "
+        "space. If the target is not a fiend, it takes 10d10 psychic damage as it reels from "
+        "its horrific experience. Once you use this feature, you can't use it again until you "
+        "finish a long rest.",
 
     # ── Warlock: The Great Old One (PHB p.109-110) ──
     "awakened mind":
