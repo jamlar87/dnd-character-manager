@@ -2387,79 +2387,273 @@ def _extract_pdf(pdf_path: Path, txt_path: Path):
         pass
 
 
+# ── OCR fuzzy matching helpers ──────────────────────────────────────────
+def _fuzzy_variants(word: str) -> list[str]:
+    """Generate OCR-tolerant variants of a word for pdftotext artifacts.
+    Common confusions: l↔t (lhe/the), I↔l (aI/at), i↔l, rn↔m, cl↔d."""
+    variants = {word}
+    # Character-level substitutions for each position
+    confusions = [
+        # (original, replacements) — one substitution per word max
+        ("l", "t1|I"),
+        ("t", "lI"),
+        ("i", "l1|!"),
+        ("I", "lt1"),
+        ("rn", "m"),
+        ("m", "rn"),
+        ("cl", "d"),
+        ("d", "cl"),
+    ]
+    for orig, reps in confusions:
+        if orig in word:
+            for rep in reps:
+                variants.add(word.replace(orig, rep, 1))
+    # Also try common multi-char: "the"<>"lhe", "th"<>"lh"
+    if "th" in word:
+        variants.add(word.replace("th", "lh"))
+        variants.add(word.replace("th", "tn"))
+    return list(variants)
+
+
 def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
-    """Search all cached manual text files for a query.
-    Returns [{book, snippet, line_number, estimated_page}].
+    """Search all cached manual text files with multi-word AND, relevance
+    scoring, source priority, paragraph context, and OCR-tolerant fuzzy matching.
+
+    Returns [{book, snippet, line, page, score}].
     """
     import subprocess, re
+
     cached = _ensure_manual_cache()
     if not cached:
         return []
 
-    results = []
+    words = [w.strip().lower() for w in query.split() if w.strip()]
+    if not words:
+        return []
+
+    # ── Source priority weights ──────────────────────────────────────────
+    SOURCE_WEIGHT = {
+        "PHB": 1.00, "DMG": 0.95, "MM": 0.90,
+        "XGE": 0.85,
+        "VGM": 0.75, "MTF": 0.75,
+        "SCAG": 0.70, "EEPC": 0.65,
+        "GGR": 0.60, "WGE": 0.60, "TTP": 0.55,
+    }
+
+    PROXIMITY_WINDOW = 5   # lines within this range = same paragraph
+    CONTEXT_MARGIN = 3     # extra lines above/below for snippet
+    FRONT_MATTER_SKIP = 100  # skip first N lines (TOC, credits, legalese)
+
+    all_scored = []
+    total_raw_hits = 0
+
     for label, txt_path in cached.items():
-        try:
-            proc = subprocess.run(
-                ["rg", "-i", "-n", "-C", "1", "--max-count", str(max_results),
-                 "-e", query, str(txt_path)],
-                capture_output=True, text=True, timeout=30
-            )
-            if proc.returncode == 0 and proc.stdout.strip():
-                blocks = proc.stdout.strip().split("\n--\n")
-                for block in blocks[:max_results]:
-                    lines = block.strip().split("\n")
-                    context_lines = []
-                    line_num = 0
-                    for line in lines:
-                        m = re.match(r'^\s*(\d+)([-:])\s*(.*)', line)
+        source_w = SOURCE_WEIGHT.get(label, 0.50)
+
+        # ── Step 1: find lines matching each word ─────────────────────
+        word_lines: dict[str, set[int]] = {}
+        for word in words:
+            # Build OCR-tolerant -e patterns
+            patterns = _fuzzy_variants(word)
+            cmd = ["rg", "-i", "-n", "--no-heading"]
+            for p in patterns:
+                cmd.extend(["-e", p])
+            cmd.append(str(txt_path))
+
+            try:
+                proc = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+                lines_set: set[int] = set()
+                if proc.returncode == 0:
+                    for line in proc.stdout.strip().split("\n"):
+                        m = re.match(r"^(\d+):", line)
                         if m:
-                            line_num = int(m.group(1))
-                            text = m.group(3).strip()
-                            if text:
-                                context_lines.append(text)
-                    snippet = " ".join(context_lines)[:300]
-                    if snippet:
-                        est_page = max(1, line_num // 45) if line_num else None
-                        results.append({
-                            "book": label,
-                            "snippet": snippet,
-                            "line": line_num,
-                            "page": est_page,
-                        })
-        except subprocess.TimeoutExpired:
+                            ln = int(m.group(1))
+                            if ln > FRONT_MATTER_SKIP:
+                                lines_set.add(ln)
+                word_lines[word] = lines_set
+                total_raw_hits += len(lines_set)
+            except subprocess.TimeoutExpired:
+                word_lines[word] = set()
+
+        # Quick skip: if any word has zero matches, no AND window possible
+        if any(len(ls) == 0 for ls in word_lines.values()):
             continue
 
-    # Deduplicate within each book
-    seen = set()
-    deduped = []
-    for r in results:
-        key = (r["book"], r["snippet"][:60])
-        if key not in seen:
-            seen.add(key)
-            deduped.append(r)
+        # ── Step 2: cluster lines by proximity ────────────────────────
+        all_line_nums = sorted(set().union(*word_lines.values()))
+        if not all_line_nums:
+            continue
 
-    # Group by book, preserving insertion order (core books first from book_labels)
-    by_book: dict[str, list[dict]] = {}
-    book_order = list(cached.keys())  # PHB, DMG, MM, XGE, VGM, ...
-    for r in deduped:
-        by_book.setdefault(r["book"], []).append(r)
+        clusters: list[list[int]] = []
+        cur = [all_line_nums[0]]
+        for ln in all_line_nums[1:]:
+            if ln - cur[-1] <= PROXIMITY_WINDOW:
+                cur.append(ln)
+            else:
+                clusters.append(cur)
+                cur = [ln]
+        clusters.append(cur)
 
-    # Round-robin interleave: take 1 from each book until max_results
-    interleaved = []
-    indices = {book: 0 for book in by_book}
-    while len(interleaved) < max_results:
-        added = False
-        for book in book_order:
-            bucket = by_book.get(book, [])
-            idx = indices.get(book, 0)
-            if idx < len(bucket):
-                interleaved.append(bucket[idx])
-                indices[book] = idx + 1
-                added = True
-        if not added:
-            break  # no more results from any book
+        # ── Step 3: for each cluster where ALL words appear, score ────
+        book_results: list[dict] = []
+        for cluster in clusters:
+            # Check all words present
+            presence = {}
+            for w, wlines in word_lines.items():
+                in_cluster = [l for l in cluster if l in wlines]
+                if not in_cluster:
+                    break
+                presence[w] = in_cluster
+            else:
+                # All words found in this cluster — score it
+                match_lines = sorted(set().union(*presence.values()))
+                cluster_span = max(match_lines) - min(match_lines)
 
-    return interleaved[:max_results]
+                # 1) Proximity: smaller span = better (max at 0 span)
+                prox = 1.0 if len(match_lines) <= 1 else max(0.1, 1.0 - (cluster_span / (PROXIMITY_WINDOW * 3)))
+
+                # 2) Density: matches per cluster line
+                density = min(1.0, len(match_lines) / max(1, len(words) * 2))
+
+                # 3) Exact-phrase bonus: full query appears verbatim?
+                exact = 0.0
+                try:
+                    start = max(0, match_lines[0] - 3)
+                    end = match_lines[-1] + 3
+                    with open(txt_path) as f:
+                        region_lines = []
+                        for i, line in enumerate(f, 1):
+                            if i > end: break
+                            if i >= start:
+                                region_lines.append(line)
+                    region_text = " ".join(region_lines).lower()
+                    if query.lower() in region_text:
+                        exact = 0.35
+                except Exception:
+                    pass
+
+                # 4) Composite score (0.0–1.0 scale, then × 10 for readability)
+                raw = (prox * 0.35 + density * 0.20 + source_w * 0.25 + exact * 0.20)
+                score = round(raw * 10, 2)
+
+                # ── Extract paragraph snippet ─────────────────────────
+                snippet_start = max(1, match_lines[0] - CONTEXT_MARGIN)
+                snippet_end = match_lines[-1] + CONTEXT_MARGIN
+                try:
+                    with open(txt_path) as f:
+                        para_lines = []
+                        for i, line in enumerate(f, 1):
+                            if i > snippet_end: break
+                            if i >= snippet_start:
+                                para_lines.append(line.strip())
+                    snippet = " ".join(para_lines)[:400]
+                except Exception:
+                    snippet = " ".join(para_lines)[:400] if para_lines else ""
+
+                est_page = max(1, match_lines[0] // 45)
+                book_results.append({
+                    "book": label,
+                    "snippet": snippet,
+                    "line": match_lines[0],
+                    "page": est_page,
+                    "score": score,
+                    "_prox": prox, "_density": density, "_exact": exact,
+                })
+
+        # ── Step 4: deduplicate within book, keep best scored ─────────
+        seen_snippets = set()
+        for r in sorted(book_results, key=lambda x: x["score"], reverse=True):
+            key = r["snippet"][:80].strip().lower()
+            if key and key not in seen_snippets:
+                seen_snippets.add(key)
+                all_scored.append(r)
+
+    # ── If results are sparse, retry without AND (OR-only fallback) ────
+    if len(all_scored) < 3 and len(words) > 1:
+        # Fallback: merge per-word line sets, use broader windows
+        for label, txt_path in cached.items():
+            source_w = SOURCE_WEIGHT.get(label, 0.50)
+            all_lines: set[int] = set()
+            for word in words:
+                patterns = _fuzzy_variants(word)
+                cmd = ["rg", "-i", "-n", "--no-heading"]
+                for p in patterns:
+                    cmd.extend(["-e", p])
+                cmd.append(str(txt_path))
+                try:
+                    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=15)
+                    if proc.returncode == 0:
+                        for line in proc.stdout.strip().split("\n"):
+                            m = re.match(r"^(\d+):", line)
+                            if m:
+                                ln = int(m.group(1))
+                                if ln > FRONT_MATTER_SKIP:
+                                    all_lines.add(ln)
+                except subprocess.TimeoutExpired:
+                    pass
+
+            if not all_lines:
+                continue
+
+            # Deduplicate nearby lines — take best representative per region
+            sorted_lines = sorted(all_lines)
+            regions = []
+            cur_region = [sorted_lines[0]]
+            for ln in sorted_lines[1:]:
+                if ln - cur_region[-1] <= PROXIMITY_WINDOW * 2:
+                    cur_region.append(ln)
+                else:
+                    regions.append(cur_region)
+                    cur_region = [ln]
+            regions.append(cur_region)
+
+            for region in regions[:5]:  # max 5 per book in fallback
+                center = region[len(region)//2]
+                est_page = max(1, center // 45)
+                start = max(1, center - 2)
+                end = center + 3
+                try:
+                    with open(txt_path) as f:
+                        para_lines = []
+                        for i, line in enumerate(f, 1):
+                            if i > end: break
+                            if i >= start:
+                                para_lines.append(line.strip())
+                    snippet = " ".join(para_lines)[:300]
+                except Exception:
+                    snippet = ""
+                if snippet:
+                    score = round(source_w * 8, 2)  # lower base score for fallback
+                    all_scored.append({
+                        "book": label, "snippet": snippet,
+                        "line": center, "page": est_page,
+                        "score": score,
+                        "_fallback": True,
+                    })
+
+    # ── Final ranking: sort by score descending ─────────────────────────
+    all_scored.sort(key=lambda r: r["score"], reverse=True)
+
+    # Ensure diversity: take top results but guarantee each book
+    # that has results gets at least its first entry in the top N
+    book_order = list(cached.keys())
+    seen_books: set[str] = set()
+    diverse: list[dict] = []
+    rest: list[dict] = []
+    for r in all_scored:
+        if r["book"] not in seen_books:
+            seen_books.add(r["book"])
+            diverse.append(r)
+        else:
+            rest.append(r)
+
+    # Strip internal scoring keys before returning
+    final = diverse + rest
+    for r in final:
+        for k in ("_prox", "_density", "_exact", "_fallback"):
+            r.pop(k, None)
+
+    return final[:max_results]
 
 
 @app.get("/dm-tools", response_class=HTMLResponse)
