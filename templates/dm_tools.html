@@ -469,13 +469,6 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if npc.get('_manual') %}
         <span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>
         {% else %}
-        <select id="campaignSelect-{{ npc.id }}" style="padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;max-width:120px">
-          <option value="">+ Campaign</option>
-          {% for camp in campaigns %}
-          <option value="{{ camp.id }}">{{ camp.name }}</option>
-          {% endfor %}
-        </select>
-        <button class="btn btn-outline btn-sm" onclick="addNpcToCampaign({{ npc.id }}, 'campaignSelect-{{ npc.id }}')">➕</button>
         <button class="btn btn-outline btn-sm" onclick="editNpc({{ npc.id }})">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="deleteNpc({{ npc.id }})">✕</button>
         {% endif %}
@@ -1877,12 +1870,16 @@ async function openCampaign(id) {
     html += `<div style="margin-bottom:1rem">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
         <h4 style="margin:0">🧑 NPCs (${npcs.length})</h4>
+        <button class="btn btn-primary btn-sm" onclick="showNpcPicker(${camp.id})">+ Add NPC</button>
+      </div>
+      <div id="npcPicker-${camp.id}" style="display:none;margin-bottom:0.5rem;max-height:300px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem">
+        <div style="text-align:center;color:var(--text-muted);padding:1rem">Loading NPCs...</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.3rem">`;
     if (npcs.length) {
       npcs.forEach(n => {
         const isEnemy = n.is_enemy ? 'enemy' : 'npc';
-        html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
+        html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px" data-npc-id="${n.id}">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
             <span>
               <strong>${n.name}</strong>
@@ -1970,16 +1967,54 @@ function removeCharFromCampaign(campId, charId) {
 }
 
 // ── NPC ↔ Campaign functions ──
-function addNpcToCampaign(npcId, selectId) {
-  const sel = document.getElementById(selectId);
-  if (!sel) return;
-  const campId = parseInt(sel.value);
-  if (!campId) return;
+async function showNpcPicker(campId) {
+  const picker = document.getElementById('npcPicker-' + campId);
+  if (!picker) return;
+  // Toggle
+  if (picker.style.display === 'block') { picker.style.display = 'none'; return; }
+  picker.style.display = 'block';
+  picker.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem">Loading NPCs...</div>';
+  
+  try {
+    const r = await fetch('/api/dm/npcs');
+    const d = await r.json();
+    const allNpcs = d.npcs || [];
+    // Filter out already-linked NPCs
+    const linked = document.querySelectorAll('[data-npc-id]');
+    const linkedIds = new Set();
+    linked.forEach(el => linkedIds.add(parseInt(el.dataset.npcId)));
+    const available = allNpcs.filter(n => !linkedIds.has(n.id));
+    
+    if (!available.length) {
+      picker.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:1rem">All NPCs already linked</div>';
+      return;
+    }
+    
+    let html = '<div style="display:flex;flex-direction:column;gap:0.2rem">';
+    available.forEach(n => {
+      const isEnemy = n.is_enemy ? 'enemy' : 'npc';
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px;font-size:0.8rem">
+        <span>
+          <strong>${n.name}</strong>
+          <span class="npc-badge ${isEnemy}" style="font-size:0.6rem">${n.is_enemy ? 'Enemy' : 'NPC'}</span>
+          <span style="color:var(--text-muted)">${n.race}${n.class_name ? ' L' + n.level + ' ' + n.class_name : ''}${n.role ? ' · ' + n.role : ''}</span>
+        </span>
+        <button class="btn btn-outline btn-sm" onclick="addNpcToCampaign(${n.id}, ${campId})">➕ Add</button>
+      </div>`;
+    });
+    html += '</div>';
+    picker.innerHTML = html;
+  } catch(e) {
+    picker.innerHTML = '<div style="color:var(--danger);padding:1rem">Failed to load NPCs</div>';
+  }
+}
+
+function addNpcToCampaign(npcId, campId) {
   fetch(`/api/dm/campaign/${campId}/add-npc`, {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({npc_id: npcId})
   }).then(r => r.json()).then(d => {
-    if (d.ok) { sel.value = ''; alert('NPC added to campaign!'); }
+    if (d.ok) { openCampaign(campId); }
     else alert(d.error || 'Failed');
   });
 }
