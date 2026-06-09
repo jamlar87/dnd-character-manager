@@ -374,9 +374,25 @@ def load_manual_data():
             continue
         subs = CLASSES[parent_class].setdefault("subclasses", [])
         descs = CLASSES[parent_class].setdefault("subclass_descs", {})
+        srcs = CLASSES[parent_class].setdefault("_subclass_sources", {})
         if sc_name not in subs:
             subs.append(sc_name)
         descs[sc_name] = sc.get("description", "")
+        sc_source = sc.get("source", "")
+        if sc_source:
+            # Clean up bad sources: bare page numbers, Unknown markers
+            ref_manual = sc.get("_source_manual", "")
+            if ref_manual and meta.get("pdf_map", {}).get(ref_manual):
+                book_title = meta["pdf_map"][ref_manual]["title"]
+                for prefix in ("D&D 5E - ", "D&D 5E-", "DnD 5E - "):
+                    if book_title.startswith(prefix):
+                        book_title = book_title[len(prefix):]
+                        break
+                if sc_source.startswith("p.") or sc_source.startswith("p "):
+                    sc_source = f"{book_title} {sc_source}"
+                elif "Unknown" in sc_source or "Part 1" in sc_source:
+                    sc_source = book_title
+            srcs[sc_name] = sc_source
 
         # Populate SUBCLASS_FEATURES from extracted feature data
         features = sc.get("features", [])

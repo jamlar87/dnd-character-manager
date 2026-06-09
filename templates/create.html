@@ -437,7 +437,7 @@ function buildClasses() {
   const grid = document.getElementById('class-grid');
   grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
     <div class="option-card" onclick="selectClass('${name}')">
-      <div class="name">${name}</div>
+      <div class="name">${name}${c.source ? ` <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
       <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>
     </div>`).join('');
 }
@@ -450,9 +450,10 @@ function selectClass(name) {
   const scsec = document.getElementById('subclass-section');
   if (c.subclasses && c.subclasses.length) {
     scsec.style.display = 'block';
+    const scSrcs = c._subclass_sources || {};
     scgrid.innerHTML = c.subclasses.map(s => `
       <div class="option-card" onclick="selectSubclass('${s}')">
-        <div class="name">${s}</div>
+        <div class="name">${s}${scSrcs[s] ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;white-space:nowrap">📚</span>` : ''}</div>
       </div>`).join('');
   } else { scsec.style.display = 'none'; }
 
