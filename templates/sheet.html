@@ -2617,10 +2617,12 @@ function showDetail() {
   const bgDesc = DESCRIPTIONS.bg[bg];
 
   // Race
-  html += `<div style="margin-bottom:1rem"><strong style="color:var(--accent)">${race}</strong>`;
+  const raceSrc = raceData?.source || '';
+  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${race}</strong>${raceSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${raceSrc}">📚 ${raceSrc}</span>` : ''}</div>`;
   if (raceData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${raceData.desc}</p>`;
   if (subrace) {
-    html += `<div style="margin-top:0.5rem"><strong>${subrace}</strong>`;
+    const srSrc = (raceData?._subrace_sources || {})[subrace] || '';
+    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subrace}</strong>${srSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${srSrc}">📚 ${srSrc}</span>` : ''}</div>`;
     const srDesc = (raceData?.subrace_descs || {})[subrace];
     if (srDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${srDesc}</p>`;
     html += '</div>';
@@ -2628,10 +2630,12 @@ function showDetail() {
   html += '</div>';
 
   // Class
-  html += `<div style="margin-bottom:1rem"><strong style="color:var(--accent)">${cls}</strong>`;
+  const classSrc = classData?.source || '';
+  html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${cls}</strong>${classSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${classSrc}">📚 ${classSrc}</span>` : ''}</div>`;
   if (classData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${classData.desc}</p>`;
   if (subclass) {
-    html += `<div style="margin-top:0.5rem"><strong>${subclass}</strong>`;
+    const scSrc = (classData?._subclass_sources || {})[subclass] || '';
+    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subclass}</strong>${scSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${scSrc}">📚 ${scSrc}</span>` : ''}</div>`;
     const scDesc = (classData?.subclass_descs || {})[subclass];
     if (scDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${scDesc}</p>`;
     html += '</div>';
@@ -2640,7 +2644,8 @@ function showDetail() {
 
   // Background
   if (bg) {
-    html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><strong style="color:var(--accent)">Background: ${bg}</strong>`;
+    const bgSrc = (bgData && bgData.source) ? bgData.source : '';
+    html += `<div style="margin-bottom:1rem;border-top:1px solid var(--border);padding-top:0.75rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">Background: ${bg}</strong>${bgSrc ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${bgSrc}">📚 ${bgSrc}</span>` : ''}</div>`;
     const desc = (bgData && bgData.description) ? bgData.description : bgDesc;
     if (desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${desc}</p>`;
     if (bgData && bgData.items && bgData.items.length) html += `<p style="margin:0.25rem 0 0 0;font-size:0.8rem;color:var(--text-muted)">Items: ${bgData.items.join(', ')} · ${bgData.gp || 15} gp</p>`;

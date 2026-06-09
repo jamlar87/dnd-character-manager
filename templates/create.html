@@ -430,10 +430,11 @@ function selectSubrace(s) {
   document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
   // Refresh race info without resetting subrace
   const r = RACES[state.race];
+  const detailSrc = (r._subrace_sources && r._subrace_sources[s]) || r.source || '';
   document.getElementById('race-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
-      ${r.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${r.source}">📚 ${r.source}</span>` : ''}
+      ${detailSrc ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
@@ -496,10 +497,11 @@ function selectSubclass(s) {
   document.querySelectorAll('#subclass-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
   // Refresh class info without resetting subclass
   const c = CLASSES[state.class_name];
+  const detailSrc = (c._subclass_sources && c._subclass_sources[s]) || c.source || '';
   document.getElementById('class-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
-      ${c.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${c.source}">📚 ${c.source}</span>` : ''}
+      ${detailSrc ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
