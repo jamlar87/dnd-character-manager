@@ -15,7 +15,7 @@
   img, table, video, canvas, svg { max-width: 100%; height: auto; }
   body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
   a { color: var(--accent); text-decoration: none; }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); z-index: 1000; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
   .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; }
   .nav-links { display: flex; gap: 1rem; align-items: center; }
   .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; touch-action: manipulation; }
@@ -80,56 +80,14 @@
   {% block style %}{% endblock %}
 </style>
 <script>
-// Register search handlers early — before heavy page scripts can delay wiring
-document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('manualSearchInput');
-  const btn = document.getElementById('manualSearchBtn');
-  const aiBtn = document.getElementById('manualSearchAiBtn');
-  if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchManuals(); });
-  if (btn) btn.addEventListener('click', function() { searchManuals(); });
-  if (aiBtn) aiBtn.addEventListener('click', function() { searchManuals(true); });
-});
-</script>
-</head>
-<body>
-<nav class="nav">
-  <a href="/" class="nav-brand">⚔️ D&D Character Manager</a>
-  <div class="nav-search" id="navSearchBar">
-    <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals...">
-    <button class="btn btn-primary btn-sm" id="manualSearchBtn" title="Search">🔍</button>
-    <button class="btn btn-outline btn-sm" id="manualSearchAiBtn" title="AI Summarize">🤖</button>
-    <div id="manualSearchResults" class="search-results-dropdown"></div>
-  </div>
-  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
-  <div class="nav-links">
-    {% if user %}
-    <a href="/dashboard">My Characters</a>
-    <a href="/dm-tools">DM Tools</a>
-    <a href="/create">+ New</a>
-    <span style="color:var(--text-muted);font-size:0.85rem">{{ user.email }}</span>
-    <a href="/logout" class="btn btn-outline btn-sm">Logout</a>
-    {% else %}
-    <a href="/login">Login</a>
-    <a href="/register" class="btn btn-primary btn-sm">Register</a>
-    {% endif %}
-  </div>
-</nav>
-
-<div class="container">
-{% block content %}{% endblock %}
-</div>
-
-<footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
-{% block scripts %}{% endblock %}
-<script>
 // ── Manual search (available on every page) ──
+// Defined in <head> so available immediately — before heavy page scripts
 async function searchManuals(summarize = false) {
   const input = document.getElementById('manualSearchInput');
   const resultsDiv = document.getElementById('manualSearchResults');
   if (!input || !resultsDiv) { console.warn('search: missing input or resultsDiv'); return; }
   const query = input.value.trim();
   if (query.length < 2) {
-    // If user clicks with empty/short query, flash a hint
     input.style.outline = '2px solid var(--warn)';
     setTimeout(() => input.style.outline = '', 1500);
     resultsDiv.style.display = 'none';
@@ -145,7 +103,6 @@ async function searchManuals(summarize = false) {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({query})
     });
-    // Guard against redirects (e.g. login page) returning HTML
     const ct = r.headers.get('content-type') || '';
     if (!ct.includes('application/json')) {
       resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--warn)">⚠️ Please log in to search the manuals.</div>';
@@ -218,5 +175,37 @@ document.addEventListener('click', function(e) {
   }
 });
 </script>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-brand">⚔️ D&D Character Manager</a>
+  <div class="nav-search" id="navSearchBar">
+    <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
+           onkeydown="if(event.key==='Enter')searchManuals()">
+    <button class="btn btn-primary btn-sm" onclick="searchManuals()" title="Search" style="touch-action:manipulation">🔍</button>
+    <button class="btn btn-outline btn-sm" onclick="searchManuals(true)" title="AI Summarize" style="touch-action:manipulation">🤖</button>
+    <div id="manualSearchResults" class="search-results-dropdown"></div>
+  </div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
+  <div class="nav-links">
+    {% if user %}
+    <a href="/dashboard">My Characters</a>
+    <a href="/dm-tools">DM Tools</a>
+    <a href="/create">+ New</a>
+    <span style="color:var(--text-muted);font-size:0.85rem">{{ user.email }}</span>
+    <a href="/logout" class="btn btn-outline btn-sm">Logout</a>
+    {% else %}
+    <a href="/login">Login</a>
+    <a href="/register" class="btn btn-primary btn-sm">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="container">
+{% block content %}{% endblock %}
+</div>
+
+<footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
+{% block scripts %}{% endblock %}
 </body>
 </html>
