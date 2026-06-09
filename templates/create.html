@@ -23,6 +23,30 @@
 .ability-box .val { font-size: 1.3rem; font-weight: 700; }
 .wizard-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; gap: 0.4rem; flex-wrap: wrap; }
 @media (max-width: 480px) { .wizard-nav { flex-direction: column; } .wizard-nav .btn { width: 100%; text-align: center; } }
+/* Ability score popover editor (shared with sheet page) */
+.ability-editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.ability-editor-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.8rem; max-width: 340px; width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center; }
+.ability-editor-card h3 { margin: 0 0 0.25rem 0; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.ability-editor-card .ae-mod-preview { font-size: 2.2rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0; transition: color 0.2s; }
+.ability-editor-card .ae-mod-preview.positive { color: var(--success); }
+.ability-editor-card .ae-mod-preview.negative { color: var(--danger); }
+.ability-editor-card .ae-mod-preview.zero { color: var(--text-muted); }
+.ability-editor-stepper { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.ability-editor-stepper button { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; }
+.ability-editor-stepper button:hover { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.08); }
+.ability-editor-stepper button:active { transform: scale(0.95); }
+.ability-editor-stepper .ae-score-display { font-size: 2.8rem; font-weight: 800; min-width: 3.5ch; text-align: center; color: var(--text); line-height: 1; }
+.ability-editor-card .ae-score-input { width: 4ch; font-size: 2.8rem; font-weight: 800; text-align: center; background: var(--bg); border: 2px solid var(--accent); border-radius: 8px; color: var(--text); padding: 0.15rem 0; font-family: var(--font); outline: none; }
+.ability-editor-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; }
+.ability-editor-actions button { padding: 0.5rem 1.2rem; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.12s; }
+.ability-editor-actions .ae-save { background: var(--accent); color: #fff; }
+.ability-editor-actions .ae-save:hover { opacity: 0.9; }
+.ability-editor-actions .ae-cancel { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.ability-editor-actions .ae-cancel:hover { color: var(--text); }
+/* Ability boxes clickable in create wizard */
+.ability-box.clickable { cursor: pointer; transition: border-color 0.2s; }
+.ability-box.clickable:hover { border-color: var(--accent); }
+.ability-box.clickable .val { cursor: pointer; }
 {% endblock %}
 {% block content %}
 <h1>Create Character</h1>
@@ -555,15 +579,19 @@ function selectSubclass(s) {
 // ── Step 2: Abilities ──
 function buildAbilities() {
   const grid = document.getElementById('ability-grid');
-  grid.innerHTML = ABILITIES.map(a => `
-    <div class="ability-box">
+  grid.innerHTML = ABILITIES.map(a => {
+    const val = state.abilities[a] || 10;
+    const mod = Math.floor((val - 10) / 2);
+    const modStr = mod >= 0 ? '+' + mod : '' + mod;
+    return `
+    <div class="ability-box clickable" data-ability="${a}" onclick="showAbilityEditor('${a}')">
       <div class="abl">${a.slice(0,3).toUpperCase()}</div>
-      <select class="val" onchange="updateAbility('${a}', this.value)" style="font-size:1.1rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:4px;padding:0.3rem;width:100%;text-align:center">
-        ${STD_ARRAY.map(v => `<option value="${v}"${v===10?' selected':''}>${v}</option>`).join('')}
-      </select>
-    </div>`).join('');
-  // Initialize all stats to 10
-  ABILITIES.forEach(a => state.abilities[a] = 10);
+      <div class="val" id="ab-val-${a}">${val}</div>
+      <div class="abl" style="font-size:0.7rem;margin-top:0.1rem" id="ab-mod-${a}">${modStr}</div>
+    </div>`;
+  }).join('');
+  // Initialize all stats to 10 if not set
+  ABILITIES.forEach(a => { if (!(a in state.abilities)) state.abilities[a] = 10; });
   updateAsiPreview();
   // Show all ability descriptions
   const info = document.getElementById('ability-info');
@@ -573,9 +601,73 @@ function buildAbilities() {
   ).join('');
 }
 
-function updateAbility(a, v) {
-  state.abilities[a] = parseInt(v);
-  updateAsiPreview();
+// ── Ability Score Popover Editor (create wizard) ──
+function showAbilityEditor(statKey) {
+  document.querySelectorAll('.ability-editor-overlay').forEach(o => o.remove());
+
+  let score = state.abilities[statKey] || 10;
+  const statLabel = statKey.slice(0,3).toUpperCase();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'ability-editor-overlay';
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+  const card = document.createElement('div');
+  card.className = 'ability-editor-card';
+
+  function render() {
+    const mod = Math.floor((score - 10) / 2);
+    const modStr = mod >= 0 ? '+' + mod : '' + mod;
+    let modClass = mod > 0 ? 'positive' : mod < 0 ? 'negative' : 'zero';
+    const statNames = {strength:'Strength',dexterity:'Dexterity',constitution:'Constitution',
+      intelligence:'Intelligence',wisdom:'Wisdom',charisma:'Charisma'};
+    const fullName = statNames[statKey] || statKey;
+
+    card.innerHTML = [
+      '<h3>' + statLabel + ' — ' + fullName + '</h3>',
+      '<div class="ae-mod-preview ' + modClass + '">' + modStr + '</div>',
+      '<div class="ability-editor-stepper">',
+      '  <button id="ae-minus"' + (score <= 1 ? ' disabled style="opacity:0.3"' : '') + '>−</button>',
+      '  <span class="ae-score-display" id="ae-score-text">' + score + '</span>',
+      '  <button id="ae-plus"' + (score >= 30 ? ' disabled style="opacity:0.3"' : '') + '>+</button>',
+      '</div>',
+      '<div class="ability-editor-actions">',
+      '  <button class="ae-cancel">Cancel</button>',
+      '  <button class="ae-save">Save</button>',
+      '</div>'
+    ].join('');
+
+    card.querySelector('#ae-score-text').addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'number'; input.min = 1; input.max = 30;
+      input.className = 'ae-score-input'; input.value = score;
+      const display = card.querySelector('#ae-score-text');
+      display.replaceWith(input); input.focus(); input.select();
+      input.addEventListener('blur', () => {
+        score = Math.max(1, Math.min(30, parseInt(input.value) || score));
+        render();
+      });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') input.blur(); });
+    });
+
+    card.querySelector('#ae-minus').onclick = () => { score = Math.max(1, score - 1); render(); };
+    card.querySelector('#ae-plus').onclick = () => { score = Math.min(30, score + 1); render(); };
+    card.querySelector('.ae-cancel').onclick = () => overlay.remove();
+    card.querySelector('.ae-save').onclick = () => {
+      state.abilities[statKey] = score;
+      // Update the grid display
+      const valEl = document.getElementById('ab-val-' + statKey);
+      const modEl = document.getElementById('ab-mod-' + statKey);
+      if (valEl) valEl.textContent = score;
+      if (modEl) modEl.textContent = modStr;
+      updateAsiPreview();
+      overlay.remove();
+    };
+  }
+
+  render();
+  overlay.appendChild(card);
+  document.body.appendChild(overlay);
 }
 
 function updateAsiPreview() {
@@ -1034,10 +1126,12 @@ function randomizeAbilities() {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  const selects = document.querySelectorAll('#ability-grid select');
   ABILITIES.forEach((a, i) => {
     state.abilities[a] = arr[i];
-    if (selects[i]) selects[i].value = arr[i];
+    const valEl = document.getElementById('ab-val-' + a);
+    const modEl = document.getElementById('ab-mod-' + a);
+    if (valEl) valEl.textContent = arr[i];
+    if (modEl) modEl.textContent = (Math.floor((arr[i] - 10) / 2) >= 0 ? '+' : '') + Math.floor((arr[i] - 10) / 2);
   });
   state.asi_picks = [];
   updateAsiPreview();
@@ -1046,11 +1140,14 @@ function randomizeAbilities() {
 function idealAbilities() {
   if (!state.class_name) { alert('Choose a class first (go back to Step 1)'); return; }
   const priority = CLASS_PRIORITY[state.class_name] || CLASS_PRIORITY["Fighter"];
-  const selects = document.querySelectorAll('#ability-grid select');
   ABILITIES.forEach((a, i) => {
     const rank = priority.indexOf(a);  // 0 = highest priority
-    state.abilities[a] = STD_ARRAY[rank];
-    if (selects[i]) selects[i].value = STD_ARRAY[rank];
+    const val = STD_ARRAY[rank];
+    state.abilities[a] = val;
+    const valEl = document.getElementById('ab-val-' + a);
+    const modEl = document.getElementById('ab-mod-' + a);
+    if (valEl) valEl.textContent = val;
+    if (modEl) modEl.textContent = (Math.floor((val - 10) / 2) >= 0 ? '+' : '') + Math.floor((val - 10) / 2);
   });
   state.asi_picks = [];
   updateAsiPreview();
