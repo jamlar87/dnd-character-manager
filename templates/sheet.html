@@ -73,7 +73,7 @@
 @media (max-width: 768px) { .sheet-layout { flex-direction: column; } }
 
 /* ── Sidebar ── */
-.sheet-sidebar { width: 280px; flex-shrink: 0; }
+.sheet-sidebar { width: 250px; flex-shrink: 0; }
 @media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
 /* Tablet: 2-column sidebar sections */
 @media (min-width: 481px) and (max-width: 768px) {
@@ -1187,11 +1187,10 @@
           <h3 style="margin:0">
             {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}📖 Spellbook{% elif character.class_name in ("Bard","Ranger","Sorcerer","Warlock") %}Known Spells{% else %}Spells{% endif %}
           </h3>
-          <div style="display:flex;gap:0.3rem">
-            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels(true)">▸ Expand All</button>
-            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels(false)">▾ Collapse All</button>
-            <button class="btn btn-outline btn-sm" onclick="showAddSpell()">+ Add Spell</button>
-            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent)">🤖 AI Assist</button>
+          <div style="display:flex;gap:0.25rem">
+            <button class="btn btn-outline btn-sm" onclick="toggleAllSpellLevels()" id="spell-toggle-all-btn" style="font-size:0.7rem;padding:0.2rem 0.4rem">▸ All</button>
+            <button class="btn btn-outline btn-sm" onclick="showAddSpell()" style="font-size:0.7rem;padding:0.2rem 0.4rem">+ Add</button>
+            <button class="btn btn-outline btn-sm" onclick="aiSelectSpells()" style="background:var(--accent2);border-color:var(--accent);font-size:0.7rem;padding:0.2rem 0.4rem">🤖 AI</button>
           </div>
         </div>
         {% if spells %}
@@ -2042,11 +2041,14 @@ function toggleSpellLevel(header) {
   header.nextElementSibling.classList.toggle('open');
 }
 
-function toggleAllSpellLevels(expand) {
+function toggleAllSpellLevels() {
+  const btn = document.getElementById('spell-toggle-all-btn');
+  const allOpen = [...document.querySelectorAll('.spell-level-header')].every(h => h.classList.contains('open'));
   document.querySelectorAll('.spell-level-header').forEach(h => {
-    if (expand) { h.classList.add('open'); h.nextElementSibling.classList.add('open'); }
-    else { h.classList.remove('open'); h.nextElementSibling.classList.remove('open'); }
+    if (allOpen) { h.classList.remove('open'); h.nextElementSibling.classList.remove('open'); }
+    else { h.classList.add('open'); h.nextElementSibling.classList.add('open'); }
   });
+  if (btn) btn.textContent = allOpen ? '▸ All' : '▾ All';
 }
 
 // ── Hit Dice ──
