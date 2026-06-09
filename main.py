@@ -1915,6 +1915,16 @@ async def api_create_character(request: Request):
             added += 1
         db.commit()
     
+    # Auto-prepare domain spells (always prepared, PHB p.58/85)
+    if subclass and subclass in DOMAIN_SPELLS:
+        ds_lower = [s.lower() for s in DOMAIN_SPELLS[subclass]]
+        for sp in db.execute(
+            "SELECT id, spell_name FROM character_spells WHERE character_id = ?", (char_id,)
+        ).fetchall():
+            if sp[1].lower() in ds_lower:
+                db.execute("UPDATE character_spells SET prepared = 1 WHERE id = ?", (sp[0],))
+        db.commit()
+    
     db.close()
     return JSONResponse({"id": char_id, "name": name})
 
@@ -5450,6 +5460,16 @@ async def apply_level_up(char_id: int, request: Request):
             if added:
                 changes.append(f"Spellbook: +{added} new spells (up to L{new_max})")
     
+    # Auto-prepare domain spells (always prepared, PHB p.58/85) — covers creation + level-up
+    sub = updates.get("subclass", char.get("subclass", ""))
+    if sub and sub in DOMAIN_SPELLS:
+        ds_lower = [s.lower() for s in DOMAIN_SPELLS[sub]]
+        for sp in db.execute(
+            "SELECT id, spell_name FROM character_spells WHERE character_id = ?", (char_id,)
+        ).fetchall():
+            if sp[1].lower() in ds_lower:
+                db.execute("UPDATE character_spells SET prepared = 1 WHERE id = ?", (sp[0],))
+    
     # Hit dice — per class (e.g. "3d10 + 2d8")
     hd_parts = []
     for cls_n, cls_lvl in new_cl.items():
@@ -6100,6 +6120,18 @@ def get_class_features(class_name: str, level: int, subclass: str = "") -> list[
         name = _replace_subclass_name(name, class_name, subclass, lvl)
         gained.append(f"L{lvl}: {name}")
     
+    # Deduplicate "Domain Spells" — keep only the entry at the earliest level
+    _ds_found = False
+    _deduped = []
+    for entry in gained:
+        if "Domain Spells" in entry.split(": ", 1)[1]:
+            if not _ds_found:
+                _deduped.append(entry)
+                _ds_found = True
+        else:
+            _deduped.append(entry)
+    gained = _deduped
+    
     # Add subclass features that SRD doesn't include
     if subclass and subclass in SUBCLASS_FEATURES:
         sc_feats = SUBCLASS_FEATURES[subclass]
@@ -6631,6 +6663,47 @@ CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
         "throw if it can see you. On a failed save, the target is frightened of you for 1 minute. "
         "If a creature frightened by this effect ends its turn more than 30 feet away from you, it "
         "can attempt another Wisdom saving throw to end the effect on itself.",
+}
+
+# ── Domain / Oath spells — always prepared, don't count against limit (PHB p.58, p.85) ──
+DOMAIN_SPELLS: dict[str, list[str]] = {
+    # Cleric domains — PHB p.59-62
+    "Knowledge Domain": ["Command","Identify","Augury","Suggestion","Nondetection","Speak with Dead",
+                         "Arcane Eye","Confusion","Legend Lore","Scrying"],
+    "Life Domain": ["Bless","Cure Wounds","Lesser Restoration","Spiritual Weapon",
+                    "Beacon of Hope","Revivify","Death Ward","Guardian of Faith",
+                    "Mass Cure Wounds","Raise Dead"],
+    "Light Domain": ["Burning Hands","Faerie Fire","Flaming Sphere","Scorching Ray",
+                     "Daylight","Fireball","Guardian of Faith","Wall of Fire",
+                     "Flame Strike","Scrying"],
+    "Nature Domain": ["Animal Friendship","Speak with Animals","Barkskin","Spike Growth",
+                      "Plant Growth","Wind Wall","Dominate Beast","Grasping Vine",
+                      "Insect Plague","Tree Stride"],
+    "Tempest Domain": ["Fog Cloud","Thunderwave","Gust of Wind","Shatter","Call Lightning",
+                       "Sleet Storm","Control Water","Ice Storm","Destructive Wave","Insect Plague"],
+    "Trickery Domain": ["Charm Person","Disguise Self","Mirror Image","Pass without Trace",
+                        "Blink","Dispel Magic","Dimension Door","Polymorph",
+                        "Dominate Person","Modify Memory"],
+    "War Domain": ["Divine Favor","Shield of Faith","Magic Weapon","Spiritual Weapon",
+                   "Crusader's Mantle","Spirit Guardians","Freedom of Movement","Stoneskin",
+                   "Flame Strike","Hold Monster"],
+    # Paladin oaths — PHB p.86-88
+    "Oath of Devotion": ["Protection from Evil and Good","Sanctuary","Lesser Restoration",
+                         "Zone of Truth","Beacon of Hope","Dispel Magic","Freedom of Movement",
+                         "Guardian of Faith","Commune","Flame Strike"],
+    "Oath of the Ancients": ["Ensnaring Strike","Speak with Animals","Moonbeam","Misty Step",
+                             "Plant Growth","Protection from Energy","Ice Storm","Stoneskin",
+                             "Commune with Nature","Tree Stride"],
+    "Oath of Vengeance": ["Bane","Hunter's Mark","Hold Person","Misty Step","Haste",
+                          "Protection from Energy","Banishment","Dimension Door",
+                          "Hold Monster","Scrying"],
+    # DMG subclasses
+    "Death Domain": ["False Life","Ray of Sickness","Blindness/Deafness","Ray of Enfeeblement",
+                     "Animate Dead","Vampiric Touch","Blight","Death Ward",
+                     "Antilife Shell","Cloudkill"],
+    "Oathbreaker": ["Hellish Rebuke","Inflict Wounds","Crown of Madness","Darkness",
+                    "Animate Dead","Bestow Curse","Blight","Confusion",
+                    "Contagion","Dominate Person"],
 }
 
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
