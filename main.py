@@ -5233,10 +5233,10 @@ async def character_pdf(char_id: int, request: Request):
     
     char = dict(row)
     # Build structured data for PDF generator
-    import sys
+    import sys, os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from pdf_generator import build_char_data, generate_character_sheet
-    char_data = build_char_data(tuple(char.values()), db)
+    char_data = build_char_data(row, db)
     db.close()
     
     pdf_bytes = generate_character_sheet(char_data)
