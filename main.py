@@ -255,6 +255,12 @@ def load_manual_data():
             elif "Unknown" in src or not src or len(src) < 12:
                 # Short/garbled sources (SGtS, Part 1, etc.) — replace entirely
                 RACES[name]["source"] = book_title
+        # Attach per-subrace sources (inherit parent, overridden by SUBRACE_SOURCES)
+        parent_src = RACES[name].get("source", "")
+        sr_srcs = {}
+        for s in subrace_names:
+            sr_srcs[s] = SUBRACE_SOURCES.get(s, parent_src)
+        RACES[name]["_subrace_sources"] = sr_srcs
         # Add trait descriptions (quality-aware)
         for t in race.get("traits", []):
             tname = t.get("name", "")
@@ -1155,9 +1161,35 @@ RACES = {
 }
 
 # Tag hardcoded races with source
-for _r in RACES.values():
+for _r_name, _r in RACES.items():
     if "source" not in _r:
         _r["source"] = "Player's Handbook p.17-43"
+# Fix: Genasi is not a PHB race — it's from Elemental Evil Player's Companion
+RACES["Genasi"]["source"] = "Elemental Evil Player's Companion"
+
+# Per-subrace source overrides (subraces that differ from their parent race)
+SUBRACE_SOURCES: dict[str, str] = {
+    # Dwarf
+    "Duergar": "Sword Coast Adventurer's Guide p.103",
+    "Gold Dwarf": "Sword Coast Adventurer's Guide p.102",
+    # Elf
+    "Sea Elf": "Mordenkainen's Tome of Foes p.62",
+    "Eladrin": "Dungeon Master's Guide p.286",
+    "Shadar-kai": "Mordenkainen's Tome of Foes p.62-63",
+    # Halfling
+    "Ghostwise Halfling": "Sword Coast Adventurer's Guide p.110",
+    # Gnome
+    "Deep Gnome": "Elemental Evil Player's Companion",
+    # Genasi subraces — all from same book as parent
+    # (Air/Earth/Fire/Water Genasi inherit EEPC from parent — no override needed)
+}
+# Attach _subrace_sources to each race (all subraces default to parent source)
+for _r_name, _r in RACES.items():
+    srcs = {}
+    parent_src = _r.get("source", "")
+    for _s in _r.get("subraces", []):
+        srcs[_s] = SUBRACE_SOURCES.get(_s, parent_src)
+    _r["_subrace_sources"] = srcs
 
 # PHB p.17-43 — Racial trait descriptions
 RACIAL_TRAIT_DESCS = {

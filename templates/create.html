@@ -393,10 +393,10 @@ function selectRace(name) {
   const subgrid = document.getElementById('subrace-grid');
   if (r.subraces && r.subraces.length) {
     subsec.style.display = 'block';
-    const raceSrc = r.source || '';
+    const srSrcs = r._subrace_sources || {};
     subgrid.innerHTML = r.subraces.map(s => `
       <div class="option-card" onclick="selectSubrace('${s}')">
-        <div class="name">${s}${raceSrc ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${raceSrc}">${_shortSrc(raceSrc)}</span>` : ''}</div>
+        <div class="name">${s}${(srSrcs[s]||r.source) ? ` <span style="font-size:0.5rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="${srSrcs[s]||r.source}">${_shortSrc(srSrcs[s]||r.source)}</span>` : ''}</div>
         <div class="detail">${SUBASIS[s] ? Object.entries(SUBASIS[s]).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') : 'No extra ASI'}</div>
       </div>`).join('');
   } else { subsec.style.display = 'none'; }
