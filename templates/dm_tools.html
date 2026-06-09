@@ -2876,6 +2876,30 @@ async function rollInitiative() {
     `🎲 ${_combatParticipants.length} in initiative`;
 }
 
+// ── Edit initiative value directly on a card ──
+function editInitiative(input) {
+  const enId = parseInt(input.dataset.enId);
+  const newInit = parseInt(input.value) || 0;
+  const p = _combatParticipants.find(p => p.en_id === enId);
+  if (!p) return;
+  p.initiative = newInit;
+  // Re-sort and re-render
+  _combatParticipants.sort((a, b) => {
+    if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+    return (b.initiative||0) - (a.initiative||0);
+  });
+  _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+  renderInitiativeTrack();
+  saveCombatState();
+  // Persist to backend
+  if (_combatEncId) {
+    fetch(`/api/dm/encounter/${_combatEncId}/update-initiative`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({participants: [{id: enId, initiative: newInit}]})
+    }).catch(() => {});
+  }
+}
+
 // ── Refresh participants from DB (used after HP changes, adding NPCs, etc.) ──
 async function refreshCombatParticipants() {
   if (!_combatEncId) return;
@@ -2979,7 +3003,12 @@ function renderInitiativeTrack() {
       ondragover="initDragOver(event)"
       ondrop="initDrop(event, ${p.en_id})">
       <div class="init-turn-marker">${isCurrent ? '▶' : ''}</div>
-      <div class="init-roll" title="d20${p.dex_mod >= 0 ? '+' + p.dex_mod : p.dex_mod}">🎲 ${p.initiative}${rollInfo}</div>
+      <div class="init-roll" title="d20${p.dex_mod >= 0 ? '+' + p.dex_mod : p.dex_mod} (roll: ${p.roll || '—'}${p.dex_mod >= 0 ? '+' : ''}${p.dex_mod || 0})">
+        <input type="number" class="init-roll-input" value="${p.initiative}"
+          data-en-id="${p.en_id}"
+          onchange="editInitiative(this)" onfocus="this.select()"
+          style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
+      </div>
       <div class="init-info">
         <div class="init-name">${p.name} ${badge}</div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>

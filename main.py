@@ -3287,15 +3287,28 @@ async def dm_encounter_update_init(enc_id: int, request: Request):
             spell_slots_used = json.dumps(spell_slots_used)
         if "hp_current" in entry:
             hp_cur = int(entry["hp_current"])
-            db.execute("""
-                UPDATE dm_encounter_npcs SET initiative=?, hp_current=?, defeated=?, spell_slots_used=?
-                WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
-            """, (init, hp_cur, defeated, spell_slots_used, en_id, user["id"]))
+            set_parts = ["initiative=?", "hp_current=?"]
+            set_vals = [init, hp_cur]
+            if "defeated" in entry:
+                set_parts.append("defeated=?")
+                set_vals.append(defeated)
+            if "spell_slots_used" in entry:
+                set_parts.append("spell_slots_used=?")
+                set_vals.append(spell_slots_used)
+            set_vals += [en_id, user["id"]]
+            db.execute(f"UPDATE dm_encounter_npcs SET {', '.join(set_parts)} WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)", set_vals)
         else:
-            db.execute("""
-                UPDATE dm_encounter_npcs SET initiative=?, defeated=?, spell_slots_used=?
-                WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)
-            """, (init, defeated, spell_slots_used, en_id, user["id"]))
+            # Only update fields explicitly present (safe partial update)
+            set_parts = ["initiative=?"]
+            set_vals = [init]
+            if "defeated" in entry:
+                set_parts.append("defeated=?")
+                set_vals.append(defeated)
+            if "spell_slots_used" in entry:
+                set_parts.append("spell_slots_used=?")
+                set_vals.append(spell_slots_used)
+            set_vals += [en_id, user["id"]]
+            db.execute(f"UPDATE dm_encounter_npcs SET {', '.join(set_parts)} WHERE id=? AND encounter_id IN (SELECT id FROM dm_encounters WHERE user_id=?)", set_vals)
 
     # If a single participant should be updated (mark defeated / update HP)
     if "single" in data:
