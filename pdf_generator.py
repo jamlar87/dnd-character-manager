@@ -11,6 +11,16 @@ import sys
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import simpleSplit
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+# Register Cinzel Bold for D&D title font
+_FONTS_DIR = os.path.dirname(os.path.abspath(__file__))
+try:
+    pdfmetrics.registerFont(TTFont("CinzelBold", os.path.join(_FONTS_DIR, "fonts", "Cinzel-Bold.ttf")))
+    TITLE_FONT = "CinzelBold"
+except Exception:
+    TITLE_FONT = "Times-Bold"  # fallback
 
 # ═══════════════════════════════════════════════════════════════
 #  CONSTANTS
@@ -249,7 +259,7 @@ def trunc(text, max_len):
 # ═══════════════════════════════════════════════════════════════
 def _label(c, x, y_tl, text, size=6):
     """Draw a section title label. Size default 6 (was 5, +25%)."""
-    c.setFont(FONT_BOLD, size)
+    c.setFont(TITLE_FONT, size)
     c.drawString(x, yb(y_tl), str(text).upper())
 
 
@@ -292,7 +302,7 @@ def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
     if label_text:
-        c.setFont(FONT_BOLD, 5)  # was 4, +25%
+        c.setFont(TITLE_FONT, 5)  # was FONT_BOLD 4, +25% + Cinzel
         c.setFillColor((0.2, 0.2, 0.2))
         c.drawString(x + 2, yb(y_tl) - 7, str(label_text).upper())
         c.setFillColor((0, 0, 0))
