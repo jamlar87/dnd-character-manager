@@ -469,6 +469,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if npc.get('_manual') %}
         <span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>
         {% else %}
+        <select id="campaignSelect-{{ npc.id }}" style="padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;max-width:120px">
+          <option value="">+ Campaign</option>
+          {% for camp in campaigns %}
+          <option value="{{ camp.id }}">{{ camp.name }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="addNpcToCampaign({{ npc.id }}, 'campaignSelect-{{ npc.id }}')">➕</button>
         <button class="btn btn-outline btn-sm" onclick="editNpc({{ npc.id }})">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="deleteNpc({{ npc.id }})">✕</button>
         {% endif %}
@@ -1865,6 +1872,43 @@ async function openCampaign(id) {
     }
     html += `</div></div>`;
 
+    // ── Campaign NPCs Section ──
+    const npcs = typeof camp.npcs === 'string' ? (JSON.parse(camp.npcs) || []) : (camp.npcs || []);
+    html += `<div style="margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+        <h4 style="margin:0">🧑 NPCs (${npcs.length})</h4>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem">`;
+    if (npcs.length) {
+      npcs.forEach(n => {
+        const isEnemy = n.is_enemy ? 'enemy' : 'npc';
+        html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
+            <span>
+              <strong>${n.name}</strong>
+              <span class="npc-badge ${isEnemy}" style="font-size:0.65rem">${n.is_enemy ? 'Enemy' : 'NPC'}</span>
+              <span style="color:var(--text-muted);font-size:0.85rem">${n.race}${n.class_name ? ' · L' + n.level + ' ' + n.class_name : ''}${n.subclass ? ' (' + n.subclass + ')' : ''}</span>
+              ${n.role ? '<span class="badge badge-muted" style="font-size:0.65rem">' + n.role + '</span>' : ''}
+              ${n.alignment ? '<span style="font-size:0.75rem;color:var(--text-muted)">' + n.alignment + '</span>' : ''}
+            </span>
+            <button class="btn btn-danger btn-sm" onclick="removeNpcFromCampaign(${camp.id}, ${n.id})">✕</button>
+          </div>
+          <div style="display:flex;gap:0.75rem;margin-top:0.3rem;font-size:0.8rem;flex-wrap:wrap">
+            <span><strong>HP</strong> ${n.hp_current || 0}/${n.hp_max || 0}</span>
+            <span><strong>AC</strong> ${n.ac || 10}</span>
+            ${n.faction ? '<span><strong>Faction</strong> ' + n.faction + '</span>' : ''}
+          </div>
+          <div style="margin-top:0.3rem">
+            <textarea id="npcNotes-${camp.id}-${n.id}" rows="2" style="width:100%;padding:0.3rem 0.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;resize:vertical" placeholder="DM notes for this NPC…">${n.notes || ''}</textarea>
+            <button class="btn btn-outline btn-sm" style="margin-top:0.2rem;font-size:0.7rem" onclick="saveNpcNotes(${camp.id}, ${n.id}, 'npcNotes-${camp.id}-${n.id}')">💾 Save Notes</button>
+          </div>
+        </div>`;
+      });
+    } else {
+      html += `<p style="color:var(--text-muted);font-size:0.85rem">No NPCs linked yet. Use the NPCs tab to add them.</p>`;
+    }
+    html += `</div></div>`;
+
     if (camp.session_notes) {
       html += `<h4>Session Notes</h4>
         <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.75rem;margin-bottom:1rem;font-size:0.85rem;white-space:pre-wrap">${camp.session_notes}</div>`;
@@ -1923,6 +1967,39 @@ function removeCharFromCampaign(campId, charId) {
     method: 'POST', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({character_id: charId})
   }).then(r => r.json()).then(() => openCampaign(campId));
+}
+
+// ── NPC ↔ Campaign functions ──
+function addNpcToCampaign(npcId, selectId) {
+  const sel = document.getElementById(selectId);
+  if (!sel) return;
+  const campId = parseInt(sel.value);
+  if (!campId) return;
+  fetch(`/api/dm/campaign/${campId}/add-npc`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) { sel.value = ''; alert('NPC added to campaign!'); }
+    else alert(d.error || 'Failed');
+  });
+}
+
+function removeNpcFromCampaign(campId, npcId) {
+  if (!confirm('Remove this NPC from the campaign?')) return;
+  fetch(`/api/dm/campaign/${campId}/remove-npc`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId})
+  }).then(r => r.json()).then(() => openCampaign(campId));
+}
+
+function saveNpcNotes(campId, npcId, elementId) {
+  const notes = document.getElementById(elementId).value;
+  fetch(`/api/dm/campaign/${campId}/update-npc-notes`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId, notes})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) { /* silent save */ }
+  });
 }
 
 function editCampaignMeta(id) {

@@ -1039,6 +1039,7 @@ def init_db():
             quests TEXT DEFAULT '[]',
             locations TEXT DEFAULT '[]',
             characters TEXT DEFAULT '[]',
+            npcs TEXT DEFAULT '[]',
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
@@ -1115,6 +1116,11 @@ def init_db():
     # Migration: dm_campaigns characters column
     try:
         db.execute("ALTER TABLE dm_campaigns ADD COLUMN characters TEXT DEFAULT '[]'")
+    except sqlite3.OperationalError:
+        pass
+    # Migration: dm_campaigns npcs column
+    try:
+        db.execute("ALTER TABLE dm_campaigns ADD COLUMN npcs TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
     # Migration: class_levels for multiclass support
@@ -4173,6 +4179,12 @@ async def dm_campaigns_list(request: Request):
 
         camp["characters"] = enriched
 
+        # Parse NPCs JSON
+        try:
+            camp["npcs"] = json.loads(camp.get("npcs") or "[]")
+        except (json.JSONDecodeError, TypeError):
+            camp["npcs"] = []
+
     db.close()
     return JSONResponse({"campaigns": rows})
 
@@ -4311,6 +4323,81 @@ async def dm_campaign_remove_character(camp_id: int, request: Request):
     chars = json.loads(camp["characters"] or "[]")
     chars = [c for c in chars if c.get("id") != char_id]
     db.execute("UPDATE dm_campaigns SET characters=? WHERE id=?", (json.dumps(chars), camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/add-npc", response_class=JSONResponse)
+async def dm_campaign_add_npc(camp_id: int, request: Request):
+    """Add an NPC to a campaign."""
+    user = require_user(request)
+    data = await request.json()
+    npc_id = int(data.get("npc_id", 0))
+    db = get_db()
+    camp = db.execute("SELECT * FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    # Fetch NPC details
+    npc_row = db.execute(
+        "SELECT id, name, race, class_name, subclass, level, hp_current, hp_max, ac, is_enemy, role, alignment, notes, faction, xp_reward FROM dm_npcs WHERE id=?",
+        (npc_id,)
+    ).fetchone()
+    if not npc_row:
+        db.close()
+        return JSONResponse({"error": "NPC not found"}, status_code=404)
+
+    npcs = json.loads(camp["npcs"] or "[]")
+    if any(n.get("id") == npc_id for n in npcs):
+        db.close()
+        return JSONResponse({"ok": True, "message": "Already added"})
+    npc_data = dict(npc_row)
+    npc_data["notes"] = ""  # Per-campaign notes (separate from NPC's own notes)
+    npcs.append(npc_data)
+    db.execute("UPDATE dm_campaigns SET npcs=? WHERE id=?", (json.dumps(npcs), camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/remove-npc", response_class=JSONResponse)
+async def dm_campaign_remove_npc(camp_id: int, request: Request):
+    """Remove an NPC from a campaign."""
+    user = require_user(request)
+    data = await request.json()
+    npc_id = int(data.get("npc_id", 0))
+    db = get_db()
+    camp = db.execute("SELECT npcs FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    npcs = json.loads(camp["npcs"] or "[]")
+    npcs = [n for n in npcs if n.get("id") != npc_id]
+    db.execute("UPDATE dm_campaigns SET npcs=? WHERE id=?", (json.dumps(npcs), camp_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/campaign/{camp_id}/update-npc-notes", response_class=JSONResponse)
+async def dm_campaign_update_npc_notes(camp_id: int, request: Request):
+    """Update DM notes for an NPC in a campaign."""
+    user = require_user(request)
+    data = await request.json()
+    npc_id = int(data.get("npc_id", 0))
+    notes = data.get("notes", "")
+    db = get_db()
+    camp = db.execute("SELECT npcs FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    if not camp:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    npcs = json.loads(camp["npcs"] or "[]")
+    for n in npcs:
+        if n.get("id") == npc_id:
+            n["notes"] = notes
+            break
+    db.execute("UPDATE dm_campaigns SET npcs=? WHERE id=?", (json.dumps(npcs), camp_id))
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
