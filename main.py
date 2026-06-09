@@ -1451,6 +1451,8 @@ BACKGROUND_INFO = {
     "Urchin":        "You grew up on the streets alone. Skill Proficiencies: Sleight of Hand, Stealth. Tool Proficiencies: Disguise kit, thieves' tools. Equipment: Small knife, city map, pet mouse, token of parents, common clothes, 10 gp. Feature: City Secrets.",
     "Custom":        "Define your own background. Equipment: 3 useful items of your choice, traveler's clothes, 10 gp. Feature: Your own unique story.",
 }
+BACKGROUND_SOURCES = {bg: "Player's Handbook p.125-141" for bg in BACKGROUNDS if bg != "Custom"}
+BACKGROUND_SOURCES["Custom"] = ""
 ALIGNMENTS = ["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"]
 
 # ── SRD Weapons (PHB p.149) ─────────────────────────────────────────────────
@@ -1712,6 +1714,7 @@ async def create_character_page(request: Request):
         races=RACES, subasis=SUBASIS, classes=CLASSES,
         all_skills=ALL_SKILLS, skill_abilities=SKILL_ABILITIES,
         backgrounds=BACKGROUNDS, alignments=ALIGNMENTS,
+        background_sources=BACKGROUND_SOURCES,
         draconic_ancestries=DRACONIC_ANCESTRIES,
         race_names=RACE_NAMES)
 

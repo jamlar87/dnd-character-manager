@@ -179,6 +179,7 @@ const SKILL_DESCS = {
   "Survival": "Tracking, foraging, and navigating the wild. Follow trails, find food/water, and avoid natural hazards. (Wis)",
 };
 const BACKGROUNDS = {{ backgrounds | tojson }};
+const BACKGROUND_SOURCES = {{ background_sources | tojson }};
 const ALIGNMENTS = {{ alignments | tojson }};
 
 // PHB 2014 p.125-141 — Background descriptions
@@ -379,8 +380,11 @@ function selectRace(name) {
 
   document.getElementById('race-info').style.display = 'block';
   document.getElementById('race-info').innerHTML = `
-    <strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
-    · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+      <span><strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
+      ${r.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${r.source}">📚 ${r.source}</span>` : ''}
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
     ${state.subrace && r.subrace_descs && r.subrace_descs[state.subrace] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${state.subrace}:</strong> ${r.subrace_descs[state.subrace]}</p>` : ''}
     ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
@@ -404,8 +408,11 @@ function selectSubrace(s) {
   // Refresh race info without resetting subrace
   const r = RACES[state.race];
   document.getElementById('race-info').innerHTML = `
-    <strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}
-    · Speed ${r.speed}ft · Darkvision ${r.darkvision}ft<br>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+      <span><strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
+      ${r.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${r.source}">📚 ${r.source}</span>` : ''}
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
     ${r.subrace_descs && r.subrace_descs[s] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${s}:</strong> ${r.subrace_descs[s]}</p>` : ''}
     ${r.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${r.desc}</p>` : ''}`;
@@ -451,8 +458,11 @@ function selectClass(name) {
 
   document.getElementById('class-info').style.display = 'block';
   document.getElementById('class-info').innerHTML = `
-    <strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}
-    · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+      <span><strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
+      ${c.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${c.source}">📚 ${c.source}</span>` : ''}
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
     ${c.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${c.desc}</p>` : ''}`;
 }
@@ -463,8 +473,11 @@ function selectSubclass(s) {
   // Refresh class info without resetting subclass
   const c = CLASSES[state.class_name];
   document.getElementById('class-info').innerHTML = `
-    <strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}
-    · Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}<br>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+      <span><strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
+      ${c.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${c.source}">📚 ${c.source}</span>` : ''}
+    </div>
+    <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
     ${c.subclass_descs && c.subclass_descs[s] ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5;color:var(--accent)"><strong>${s}:</strong> ${c.subclass_descs[s]}</p>` : ''}
     ${c.desc ? `<p style="font-size:0.85rem;margin-top:0.5rem;line-height:1.5">${c.desc}</p>` : ''}`;
@@ -605,10 +618,11 @@ function showBgInfo(bg) {
   if (!bg) { el.style.display = 'none'; document.getElementById('custom-bg-row').style.display = 'none'; return; }
   el.style.display = 'block';
   if (bg === 'Custom') {
-    el.innerHTML = `<strong>Custom Background</strong><br>${BACKGROUND_INFO['Custom']}`;
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>Custom Background</strong></span></div><br>${BACKGROUND_INFO['Custom']}`;
     document.getElementById('custom-bg-row').style.display = 'block';
   } else {
-    el.innerHTML = `<strong>${bg}</strong><br>${BACKGROUND_INFO[bg] || ''}`;
+    const src = BACKGROUND_SOURCES[bg] || '';
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>${bg}</strong></span>${src ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${src}">📚 ${src}</span>` : ''}</div>${BACKGROUND_INFO[bg] || ''}`;
     document.getElementById('custom-bg-row').style.display = 'none';
   }
 }
