@@ -962,6 +962,9 @@ async function generateAiEncounter(event) {
 
     if (enc.tactics) html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Tactics:</strong> ${enc.tactics}</p>`;
 
+    // Store composition for saveAiEncounter to use
+    window._aiComposition = enc.composition;
+
     // Save button
     html += `<div style="margin-top:1rem;display:flex;gap:0.5rem">
       <button class="btn btn-primary" onclick="saveAiEncounter('${enc.name.replace(/'/g, "\\'")}', '${enc.description.replace(/'/g, "\\'")}', '${data.environment}', '${enc.difficulty.toLowerCase()}')">💾 Save as Encounter</button>
@@ -981,7 +984,26 @@ async function saveAiEncounter(name, description, environment, difficulty) {
     body: JSON.stringify({name, description, environment, difficulty, location: ''})
   });
   const d = await r.json();
-  if (d.ok) { closeModal('aiEncounterModal'); location.reload(); }
+  if (!d.ok) return;
+  const encId = d.id;
+  // Add creatures from AI composition to the encounter
+  if (window._aiComposition && window._aiComposition.length) {
+    for (const m of window._aiComposition) {
+      for (let i = 0; i < (m.count || 1); i++) {
+        await fetch(`/api/dm/encounter/${encId}/add-creature`, {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: m.name, race: m.type || '', class_name: '', level: 1,
+            hp: m.hp || 10, hp_max: m.hp || 10, ac: m.ac || 10,
+            is_enemy: 1, role: `${m.size || ''} ${m.type || ''}`.trim(),
+            xp_reward: m.xp || 0, _monster_index: m.index || '',
+          })
+        });
+      }
+    }
+  }
+  window._aiComposition = null;
+  closeModal('aiEncounterModal'); location.reload();
 }
 
 async function openEncounter(id) {
