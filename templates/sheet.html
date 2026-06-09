@@ -2259,8 +2259,8 @@ function filterSpellResults() {
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
     const schoolBadge = s.school ? `<span style="font-size:0.65rem;color:var(--text-muted)">${s.school}</span>` : '';
-    const srcBadge = `<span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>`;
-    const bookBadge = s.book ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">${s.book}</span>` : '';
+    const srcBadge = s.book ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="Source: ${s.book}">📚 ${s.book}</span>` : '';
+    const originTag = s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : '';
     const concIcon = s.concentration ? '🔷' : '';
     const ritIcon = s.ritual ? '📖' : '';
     return `<div class="spell-option" data-idx="${i}"
@@ -2268,7 +2268,7 @@ function filterSpellResults() {
       onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background=''"
       onclick="selectSpell(${i})">
       <strong style="flex:1;min-width:0">${s.name}</strong>
-      ${concIcon}${ritIcon} ${lvlBadge} ${schoolBadge} ${srcBadge} ${bookBadge}
+      ${concIcon}${ritIcon} ${lvlBadge} ${schoolBadge} ${srcBadge} ${originTag}
     </div>`;
   }).join('');
   if (spells.length > 30) {
@@ -4251,8 +4251,8 @@ function filterLuSpells() {
       <strong style="flex:1;min-width:0">${s.name}</strong>
       ${lvlBadge}
       <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
-      <span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>
-      ${s.book ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">${s.book}</span>` : ''}
+      <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="Source: ${s.book||''}">📚 ${s.book||''}</span>
+      ${s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : ''}
     </div>`;
   }).join('');
 }
