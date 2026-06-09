@@ -85,7 +85,10 @@
 async function searchManuals(summarize = false) {
   const input = document.getElementById('manualSearchInput');
   const resultsDiv = document.getElementById('manualSearchResults');
-  if (!input || !resultsDiv) { console.warn('search: missing input or resultsDiv'); return; }
+  if (!input || !resultsDiv) {
+    alert('Search error: missing ' + (!input?'input':'dropdown') + ' element');
+    return;
+  }
   const query = input.value.trim();
   if (query.length < 2) {
     input.style.outline = '2px solid var(--warn)';
@@ -93,6 +96,9 @@ async function searchManuals(summarize = false) {
     resultsDiv.style.display = 'none';
     return;
   }
+
+  // DEBUG: confirm we got past guards
+  alert('Searching for: ' + query);
 
   const endpoint = summarize ? '/api/dm/search-manuals/summarize' : '/api/dm/search-manuals';
   resultsDiv.style.display = 'block';
