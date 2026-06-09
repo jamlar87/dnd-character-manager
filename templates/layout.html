@@ -79,6 +79,17 @@
   }
   {% block style %}{% endblock %}
 </style>
+<script>
+// Register search handlers early — before heavy page scripts can delay wiring
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('manualSearchInput');
+  const btn = document.getElementById('manualSearchBtn');
+  const aiBtn = document.getElementById('manualSearchAiBtn');
+  if (input) input.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchManuals(); });
+  if (btn) btn.addEventListener('click', function() { searchManuals(); });
+  if (aiBtn) aiBtn.addEventListener('click', function() { searchManuals(true); });
+});
+</script>
 </head>
 <body>
 <nav class="nav">
@@ -187,18 +198,6 @@ function highlightMatch(text, query) {
   }
   return result;
 }
-
-// ── Wire up event listeners ──
-(function() {
-  const input = document.getElementById('manualSearchInput');
-  const btn = document.getElementById('manualSearchBtn');
-  const aiBtn = document.getElementById('manualSearchAiBtn');
-  if (input) {
-    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchManuals(); });
-  }
-  if (btn) btn.addEventListener('click', function() { searchManuals(); });
-  if (aiBtn) aiBtn.addEventListener('click', function() { searchManuals(true); });
-})();
 
 // Close search results when clicking outside
 document.addEventListener('click', function(e) {
