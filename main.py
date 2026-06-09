@@ -5159,8 +5159,7 @@ async def get_attacks(char_id: int, request: Request):
     """Return current weapon attacks for Actions tab refresh."""
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
-                     (char_id, user["id"])).fetchone()
+    row = _require_owned(db, user, "characters", char_id)
     db.close()
     if not row:
         return JSONResponse({"error": "Not found"}, status_code=404)

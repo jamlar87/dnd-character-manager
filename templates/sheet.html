@@ -3956,6 +3956,11 @@ async function refreshAttacksTab() {
     const card = document.getElementById('attacks-weapons-card');
     const list = document.getElementById('attacks-weapons-list');
     if (!card || !list) return;
+    // Don't hide existing content on API error (auth, 404, etc.)
+    if (data.error) {
+      console.warn('refreshAttacksTab: API returned error:', data.error);
+      return;
+    }
     if (!data.attacks || data.attacks.length === 0) {
       card.style.display = 'none';
       list.innerHTML = '';
