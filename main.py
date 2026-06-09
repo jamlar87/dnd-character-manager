@@ -4340,11 +4340,43 @@ async def dm_campaign_add_npc(camp_id: int, request: Request):
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
     # Fetch NPC details
-    npc_row = db.execute(
-        "SELECT id, name, race, class_name, subclass, level, hp_current, hp_max, ac, is_enemy, role, alignment, notes, faction, xp_reward FROM dm_npcs WHERE id=?",
-        (npc_id,)
-    ).fetchone()
-    if not npc_row:
+    npc_data = None
+    if npc_id < 0:
+        # Manual NPC — look up from JSON
+        manual_npcs = _load_manual_json("npcs.json")
+        idx = -npc_id - 1
+        if 0 <= idx < len(manual_npcs):
+            mn = manual_npcs[idx]
+            hp_raw = mn.get("hp_current") or mn.get("hit_points", "10")
+            try: hp = int(re.match(r"(\d+)", str(hp_raw)).group(1))
+            except: hp = 10
+            npc_data = {
+                "id": npc_id,
+                "name": mn.get("name", "Unknown"),
+                "race": mn.get("race", "Unknown"),
+                "class_name": mn.get("class_name", ""),
+                "subclass": mn.get("subclass", ""),
+                "level": mn.get("level", 1),
+                "hp_current": hp,
+                "hp_max": hp,
+                "ac": mn.get("ac", mn.get("armor_class", 10)),
+                "is_enemy": 0,
+                "role": mn.get("role", "NPC"),
+                "alignment": mn.get("alignment", ""),
+                "notes": "",
+                "faction": "",
+                "xp_reward": mn.get("xp_reward", 0),
+            }
+    else:
+        npc_row = db.execute(
+            "SELECT id, name, race, class_name, subclass, level, hp_current, hp_max, ac, is_enemy, role, alignment, notes, faction, xp_reward FROM dm_npcs WHERE id=?",
+            (npc_id,)
+        ).fetchone()
+        if npc_row:
+            npc_data = dict(npc_row)
+            npc_data["notes"] = ""  # Per-campaign notes (separate from NPC's own notes)
+
+    if not npc_data:
         db.close()
         return JSONResponse({"error": "NPC not found"}, status_code=404)
 
@@ -4352,8 +4384,6 @@ async def dm_campaign_add_npc(camp_id: int, request: Request):
     if any(n.get("id") == npc_id for n in npcs):
         db.close()
         return JSONResponse({"ok": True, "message": "Already added"})
-    npc_data = dict(npc_row)
-    npc_data["notes"] = ""  # Per-campaign notes (separate from NPC's own notes)
     npcs.append(npc_data)
     db.execute("UPDATE dm_campaigns SET npcs=? WHERE id=?", (json.dumps(npcs), camp_id))
     db.commit()
