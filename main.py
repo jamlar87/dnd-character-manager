@@ -5221,6 +5221,33 @@ async def spend_charge(char_id: int, request: Request):
     charged = _build_charged_item_attacks(char)
     return JSONResponse({"charged_items": charged, "item_name": item_name})
 
+@app.get("/api/character/{char_id}/pdf")
+async def character_pdf(char_id: int, request: Request):
+    """Generate a printable D&D character sheet PDF."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    
+    char = dict(row)
+    # Build structured data for PDF generator
+    import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from pdf_generator import build_char_data, generate_character_sheet
+    char_data = build_char_data(tuple(char.values()), db)
+    db.close()
+    
+    pdf_bytes = generate_character_sheet(char_data)
+    return Response(
+        content=bytes(pdf_bytes),
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'inline; filename="{char_data.get("name", "character").replace(" ", "_")}_sheet.pdf"'
+        }
+    )
+
 @app.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
 async def add_spell(char_id: int, request: Request):
     user = require_user(request)

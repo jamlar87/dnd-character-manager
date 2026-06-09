@@ -368,6 +368,7 @@
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
       <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
+      <button onclick="window.open('/api/character/{{ character.id }}/pdf', '_blank')" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''" title="Generate printable character sheet PDF">📄 Make PDF</button>
       {% if character.level < 20 %}
       <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
       {% endif %}
