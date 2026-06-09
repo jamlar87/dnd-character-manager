@@ -316,16 +316,6 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     <h1 style="margin-bottom:0">⚔️ DM Tools</h1>
     <p style="color:var(--text-muted);margin-bottom:0;font-size:0.9rem">Monster library · Encounter builder · NPC manager · Campaign tracker</p>
   </div>
-  <div style="display:flex;align-items:center;gap:0.5rem;min-width:0" class="search-bar-row">
-    <div style="position:relative;flex:1">
-      <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
-             style="width:100%;padding:0.5rem 0.75rem;font-size:0.85rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px"
-             onkeydown="if(event.key==='Enter')searchManuals()">
-      <div id="manualSearchResults" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:100;max-height:400px;overflow-y:auto;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-top:0.25rem;box-shadow:0 4px 12px rgba(0,0,0,0.3)"></div>
-    </div>
-    <button class="btn btn-primary btn-sm" onclick="searchManuals()" style="white-space:nowrap">Search</button>
-    <button class="btn btn-outline btn-sm" onclick="searchManuals(true)" style="white-space:nowrap" title="AI will research and summarize all matches">🤖 Summarize</button>
-  </div>
 </div>
 
 <div class="dm-tabs" id="dmTabs">
@@ -3615,80 +3605,6 @@ async function endCombat() {
   document.getElementById('combatStatus').textContent = 'Combat ended — initiative saved';
 }
 
-// ── Manual Search ──
-async function searchManuals(summarize = false) {
-  const input = document.getElementById('manualSearchInput');
-  const resultsDiv = document.getElementById('manualSearchResults');
-  const query = input.value.trim();
-  if (query.length < 2) { resultsDiv.style.display = 'none'; return; }
-
-  const endpoint = summarize ? '/api/dm/search-manuals/summarize' : '/api/dm/search-manuals';
-  resultsDiv.style.display = 'block';
-  resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 Searching manuals...</div>';
-
-  try {
-    const r = await fetch(endpoint, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({query})
-    });
-    const data = await r.json();
-
-    if (summarize && data.summary) {
-      // AI summary view
-      let html = '<div style="padding:0.75rem;font-size:0.8rem;line-height:1.6;color:var(--text)">';
-      html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem">🤖 AI Summary · ' + data.results.length + ' sources across manuals</div>';
-      html += '<div style="white-space:pre-wrap">' + escapeHtml(data.summary) + '</div>';
-      html += '<hr style="border-color:var(--border);margin:0.5rem 0">';
-      html += '<div style="font-size:0.7rem;color:var(--text-muted)">Sources:</div>';
-      for (const r of data.results) {
-        html += `<div style="font-size:0.75rem;padding:0.2rem 0;border-bottom:1px solid var(--border)">📖 <strong>${r.book}</strong>${r.page ? ' p.'+r.page : ''} — ${escapeHtml(r.snippet).substring(0,150)}...</div>`;
-      }
-      html += '</div>';
-      resultsDiv.innerHTML = html;
-    } else if (data.results && data.results.length) {
-      // Raw search results view
-      let html = '<div style="padding:0.5rem;font-size:0.8rem">';
-      html += `<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem">${data.total} matches across manuals for "${escapeHtml(query)}"</div>`;
-      for (const r of data.results) {
-        html += `<div style="padding:0.4rem 0.5rem;border-bottom:1px solid var(--border);cursor:default">
-          <div style="font-size:0.7rem;color:var(--accent);margin-bottom:0.15rem">📖 <strong>${r.book}</strong>${r.page ? ' ~p.'+r.page : ''}</div>
-          <div style="font-size:0.75rem;color:var(--text);line-height:1.4">${highlightMatch(escapeHtml(r.snippet), query)}</div>
-        </div>`;
-      }
-      html += '</div>';
-      resultsDiv.innerHTML = html;
-    } else {
-      resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">No matches found in any manual.</div>';
-    }
-  } catch(e) {
-    resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--danger)">Search failed: ' + e.message + '</div>';
-  }
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function highlightMatch(text, query) {
-  const words = query.split(/\s+/).filter(w => w.length > 1);
-  let result = text;
-  for (const w of words) {
-    const re = new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-    result = result.replace(re, '<mark style="background:rgba(255,200,0,0.3);color:var(--text);padding:0 1px;border-radius:2px">$1</mark>');
-  }
-  return result;
-}
-
-// Close search results when clicking outside
-document.addEventListener('click', function(e) {
-  const resultsDiv = document.getElementById('manualSearchResults');
-  const input = document.getElementById('manualSearchInput');
-  if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== input) {
-    resultsDiv.style.display = 'none';
-  }
-});
 
 // ── Page load: auto-restore last combat encounter + campaign ──
 document.addEventListener('DOMContentLoaded', async function() {
