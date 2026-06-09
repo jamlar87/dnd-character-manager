@@ -720,12 +720,14 @@ function filterCreateSpells() {
     const lvlBadge = s.level === 0
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    const srcBadge = s.source ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;white-space:nowrap" title="Source: ${s.source}">📚 ${s.source}</span>` : '';
     const bg = isSel ? 'background:rgba(99,102,241,0.15);' : '';
     return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem;${bg}"
       onclick="toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})">
       <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSel?'✅':'☐'}</span>
       <strong style="flex:1;min-width:0">${s.name}</strong> ${lvlBadge}
       <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
+      ${srcBadge}
     </div>`;
   }).join('');
   
@@ -763,8 +765,10 @@ function renderCreateSelected() {
     const lvlBadge = s.level === 0 
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : '<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv'+s.level+'</span>';
+    const fullSpell = _createSpellList.find(sp => sp.name === s.name);
+    const srcBadge = (fullSpell && fullSpell.source) ? `<span style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: ${fullSpell.source}">📚</span>` : '';
     return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
-      <strong>${s.name}</strong> ${lvlBadge}
+      <strong>${s.name}</strong> ${lvlBadge} ${srcBadge}
       <button onclick="event.stopPropagation();toggleCreateSpell('${s.name.replace(/'/g,"\\'")}',${s.level})"
         style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;padding:0;line-height:1">✕</button>
     </div>`;
