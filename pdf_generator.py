@@ -271,13 +271,11 @@ def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
 
 
 # ═══════════════════════════════════════════════════════════════
-#  COLUMN LAYOUT (with 15pt gutters)
+#  COLUMN LAYOUT — exact X positions per spec
 # ═══════════════════════════════════════════════════════════════
-COL1_X, COL1_W = MARGIN, 140
-COL2_X = COL1_X + COL1_W + GUTTER  # 173
-COL2_W = 215
-COL3_X = COL2_X + COL2_W + GUTTER  # 403
-COL3_W = 184
+COL1_X, COL1_W = 45, 140
+COL2_X, COL2_W = 245, 180
+COL3_X, COL3_W = 445, 150
 GRID_Y = 165
 
 
@@ -293,22 +291,22 @@ def draw_page1(c, d):
 
 def draw_header(c, d):
     y0, box_h, gap = 30, 16, 28
-    # Row 1
+    # Row 1: Character Name | Race | Class & Level | Background
     for x, w, lbl, val in [
         (COL1_X, COL1_W, "Character Name", d.get("name", "")),
-        (COL2_X, 115, "Race", d.get("race", "")),
-        (COL3_X - 85, 120, "Class & Level", f"{d.get('class_name', '')} {d.get('level', '')}"),
-        (COL3_X + 39, 145, "Background", d.get("background", "")),
+        (COL2_X, 100, "Race", d.get("race", "")),
+        (COL2_X + 106, 120, "Class & Level", f"{d.get('class_name','')} {d.get('level','')}"),
+        (COL3_X, COL3_W, "Background", d.get("background", "")),
     ]:
         _label(c, x, y0 - 9, lbl)
         _value(c, x, y0, w, box_h, val, size=8)
-    # Row 2
+    # Row 2: Player Name | (empty) | Experience Points | Alignment
     y2 = y0 + gap
     for x, w, lbl, val in [
         (COL1_X, 76, "Player Name", ""),
-        (COL1_X + 82, 54, "Faction", ""),
+        (COL1_X + 82, 54, "", ""),  # faction slot — leave blank
         (COL2_X, 90, "Experience Points", ""),
-        (COL2_X + 96, 110, "Alignment", d.get("alignment", "")),
+        (COL2_X + 100, COL2_W - 100, "Alignment", d.get("alignment", "")),
     ]:
         _label(c, x, y2 - 9, lbl)
         _value(c, x, y2, w, box_h, val, size=8)
