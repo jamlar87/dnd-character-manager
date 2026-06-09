@@ -495,22 +495,27 @@ def _draw_col2_combat(c, d):
             c.setFont(FONT, 5.5)
             c.rect(cx, ry, cw, 15)
             c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
-    # Equipment
-    y_eq = y_atk + 12 + 5 * 15 + 14  # increased from +6
-    _label(c, COL2_X, y_eq - 9, "Equipment")
-    eq_box_h = 75  # increased from 65 for breathing room
-    # Currency pills on left edge
+    # Currency — separate section above Equipment
+    y_cur = y_atk + 12 + 5 * 15 + 14
+    _label(c, COL2_X, y_cur - 9, "Currency")
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
-    coin_w = 26
+    coin_w, coin_h = 30, 18
     for i, (cn, cv) in enumerate(coins):
-        cx = COL2_X + 2
-        cy = yb(y_eq) - i * 13 - 13
+        cx = COL2_X + i * (coin_w + 2)
+        # Label
+        by = yb(y_cur) - coin_h
+        c.setFillColor((0.88, 0.88, 0.88))
+        c.rect(cx, by, coin_w, coin_h, fill=1, stroke=1)
+        c.setFillColor((0, 0, 0))
+        c.setStrokeColor((0, 0, 0))
         c.setFont(FONT_BOLD, 4.5)
-        c.rect(cx, cy, coin_w, 12)
-        c.drawCentredString(cx + coin_w / 2, cy + 3, cn)
-        c.setFont(FONT, 5.5)
-        c.rect(cx, cy - 14, coin_w, 14)
-        c.drawCentredString(cx + coin_w / 2, cy - 11, str(cv))
+        c.drawCentredString(cx + coin_w / 2, by + coin_h - 7, cn)
+        c.setFont(FONT, 6)
+        c.drawCentredString(cx + coin_w / 2, by + 2, str(cv))
+    # Equipment
+    y_eq = y_cur + 32
+    _label(c, COL2_X, y_eq - 9, "Equipment")
+    eq_box_h = 70
     items = []
     for item in (d.get("equipped", []) or []):
         if isinstance(item, dict):
@@ -520,15 +525,14 @@ def _draw_col2_combat(c, d):
             items.append(f"{item.get('name', '')} x{item.get('qty', 1)}")
     eq_text = "\n".join(items[:15])
     c.setStrokeColor((0, 0, 0))
-    eq_box_w = COL2_W - 4
-    c.rect(COL2_X, yb(y_eq) - eq_box_h, eq_box_w, eq_box_h)
+    c.rect(COL2_X, yb(y_eq) - eq_box_h, COL2_W - 4, eq_box_h)
     if eq_text:
-        eq_lines = simpleSplit(eq_text, FONT, 5, eq_box_w - coin_w - 8)
-        max_eq = int((eq_box_h - 30) / 9)
+        eq_lines = simpleSplit(eq_text, FONT, 5, COL2_W - 10)
+        max_eq = int(eq_box_h / 9)
         c.setFont(FONT, 5)
         c.setFillColor((0, 0, 0))
         for i, line in enumerate(eq_lines[:max_eq]):
-            c.drawString(COL2_X + coin_w + 6, yb(y_eq) - 30 - i * 9, line)
+            c.drawString(COL2_X + 4, yb(y_eq) - 10 - i * 9, line)
 
 
 def _draw_col3_personality(c, d):
