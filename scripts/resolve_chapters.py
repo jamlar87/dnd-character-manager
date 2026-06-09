@@ -45,7 +45,44 @@ CHAPTER_BOOK_MAP = [
     (r"Chapter [235]\b", None, None),  # Ambiguous
 ]
 
-# PDFs for brute-force search (in priority order)
+
+# ── Slug → book name / PDF path (from _source_manual metadata) ────────
+SLUG_TO_BOOK = {
+    "PHB": "Player's Handbook", "DMG": "Dungeon Master's Guide",
+    "MM": "Monster Manual", "XGE": "Xanathar's Guide to Everything",
+    "VGM": "Volo's Guide to Monsters", "MTF": "Mordenkainen's Tome of Foes",
+    "SCAG": "Sword Coast Adventurer's Guide", "EEPC": "Elemental Evil Player's Companion",
+    "GGR": "Guildmasters' Guide to Ravnica", "WGE": "Wayfinder's Guide to Eberron",
+    "TTP": "The Tortle Package", "AW": "Ancestral Weapons",
+    "HotDQ": "Hoard of the Dragon Queen", "RoT": "The Rise of Tiamat",
+    "LMoP": "Lost Mine of Phandelver", "ToA": "Tomb of Annihilation",
+    "WDH": "Waterdeep: Dragon Heist", "WSC": "The Wild Sheep Chase",
+    "TCE": "Tasha's Cauldron of Everything",
+}
+
+SLUG_TO_PDF = {
+    "PHB": "D&D 5E - Player's Handbook.pdf",
+    "DMG": "D&D 5E - Dungeon Master's Guide.pdf",
+    "MM": "D&D 5E - Monster Manual.pdf",
+    "XGE": "D&D 5E - Xanathar's Guide to Everything.pdf",
+    "VGM": "D&D 5E - Volo's Guide to Monsters.pdf",
+    "MTF": "D&D 5E - Mordenkainen's Tome of Foes.pdf",
+    "SCAG": "D&D 5E - Sword Coast Adventurer's Guide.pdf",
+    "EEPC": "D&D 5E - Elemental Evil Player's Companion.pdf",
+    "GGR": "D&D 5E - Guildmasters' Guide to Ravnica.pdf",
+    "WGE": "D&D 5E - Wayfinders Guide to Eberron.pdf",
+    "TTP": "D&D 5E - The Tortle Package.pdf",
+    "AW": "Ancestral_Weapons_Final_v1.2.pdf",
+    "HotDQ": "Campaigns/D&D 5E - Tyranny of Dragons - Hoard of the Dragon Queen.pdf",
+    "RoT": "Campaigns/D&D 5E - Tyranny of Dragons - The Rise of Tiamat.pdf",
+    "LMoP": "Campaigns/D&D 5E - Lost Mine of Phandelver.pdf",
+    "ToA": "Campaigns/D&D 5E - Tomb of Annihilation.pdf",
+    "WDH": "Campaigns/D&D 5E - Waterdeep - Dragon Heist.pdf",
+    "WSC": "Campaigns/The_Wild_Sheep_Chase_V2.pdf",
+    "TCE": "D&D 5E - Xanathar's Guide to Everything.pdf",  # approximate
+}
+
+# PDFs for brute-force search (fallback only)
 SEARCH_PDFS = [
     ("Dungeon Master's Guide", "D&D 5E - Dungeon Master's Guide.pdf"),
     ("Monster Manual", "D&D 5E - Monster Manual.pdf"),
@@ -156,10 +193,8 @@ def main():
     if dry_run:
         print("=== DRY RUN ===\n")
     
-    # Pre-load PDF index
-    print("Building PDF text index...")
-    pdf_index = build_index(verbose=verbose)
-    print(f"  Indexed {len(pdf_index)} PDFs\n")
+    # Pre-load PDF index (lazy — only built if _source_manual can't resolve an entry)
+    pdf_index = None
     
     json_files = sorted(MANUAL_DATA.glob("*.json"))
     json_files = [f for f in json_files if f.name != "_meta.json"]
@@ -186,6 +221,17 @@ def main():
                 continue
             
             name = entry.get("name", "?")
+            
+            # Step 0: _source_manual fast path — deterministic book name from extraction
+            src_manual = entry.get("_source_manual", "")
+            if src_manual and src_manual in SLUG_TO_BOOK:
+                book = SLUG_TO_BOOK[src_manual]
+                entry["source"] = book  # Just the book name — page lookup is slow
+                resolved += 1
+                chapter_hits += 1
+                if verbose:
+                    print(f"  ✓ [src_manual] {name[:35]:35s} → {book}")
+                continue
             
             # Step 1: Chapter pattern
             book, pdf_subpath = resolve_by_chapter(src)
