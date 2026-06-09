@@ -5142,8 +5142,11 @@ async def update_character(char_id: int, request: Request):
 
     if updates:
         sets = ", ".join(f"{k}=?" for k in updates)
-        vals = list(updates.values()) + [char_id, user["id"]]
-        db.execute(f"UPDATE characters SET {sets} WHERE id=? AND user_id=?", vals)
+        vals = list(updates.values())
+        if _is_admin(user):
+            db.execute(f"UPDATE characters SET {sets} WHERE id=?", vals + [char_id])
+        else:
+            db.execute(f"UPDATE characters SET {sets} WHERE id=? AND user_id=?", vals + [char_id, user["id"]])
 
     # Spell slot updates
     if "spells" in data:
