@@ -1690,6 +1690,7 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
         "range": range_str,
         "properties": [p for p in props if not ("thrown" in p or "ammunition" in p)],
         "qty": qty,
+        "description": ITEM_INDEX.get(item_name.lower(), {}).get("description", ""),
     }
 
 def _build_inventory_attacks(character: dict) -> list:

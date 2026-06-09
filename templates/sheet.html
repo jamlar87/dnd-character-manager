@@ -807,9 +807,12 @@
         </div>
         <div id="attacks-weapons-list">
         {% for atk in attacks %}
-        <div class="atk-card">
+        <div class="atk-card item-card">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
-            <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}</span>
+            <span style="display:flex;align-items:center;gap:0.3rem">
+              <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}</span>
+            </span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
           </div>
           <div class="atk-detail">
@@ -821,6 +824,7 @@
             {% for prop in atk.properties %}<span class="atk-prop">{{ prop }}</span>{% endfor %}
           </div>
           {% endif %}
+          {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
         </div>
         {% endfor %}
         </div><!-- /attacks-weapons-list -->
@@ -3881,9 +3885,13 @@ async function refreshAttacksTab() {
         propsHtml = '<div class="atk-props">' + atk.properties.map(p => `<span class="atk-prop">${p}</span>`).join('') + '</div>';
       }
       const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
-      return `<div class="atk-card">
+      const descHtml = atk.description ? `<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">${atk.description}</div>` : '';
+      return `<div class="atk-card item-card">
         <div style="display:flex;justify-content:space-between;align-items:baseline">
-          <span class="atk-name">${atk.name}${qtyBadge}</span>
+          <span style="display:flex;align-items:center;gap:0.3rem">
+            <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+            <span class="atk-name">${atk.name}${qtyBadge}</span>
+          </span>
           <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+${atk.attack_bonus} to hit</span>
         </div>
         <div class="atk-detail">
@@ -3891,6 +3899,7 @@ async function refreshAttacksTab() {
           ${atk.damage ? `<span> · ${atk.damage}</span>` : ''}
         </div>
         ${propsHtml}
+        ${descHtml}
       </div>`;
     }).join('');
     // Also update Unarmed Strike attack bonus if abilities changed
