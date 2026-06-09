@@ -51,6 +51,27 @@ def _get_spell_cache():
 
 
 # ═══════════════════════════════════════════════════════════════
+#  EQUIPMENT DESCRIPTION CACHE — from main.py ITEM_INDEX
+# ═══════════════════════════════════════════════════════════════
+_ITEM_INDEX = None
+
+
+def _get_item_description(item_name):
+    """Look up an item's PHB description from the app's ITEM_INDEX."""
+    global _ITEM_INDEX
+    if _ITEM_INDEX is None:
+        try:
+            sys.path.insert(0, "/home/james/dnd-character-manager")
+            from main import ITEM_INDEX
+            _ITEM_INDEX = ITEM_INDEX
+        except Exception:
+            _ITEM_INDEX = {}
+    name_lower = (item_name or "").lower()
+    entry = _ITEM_INDEX.get(name_lower, {})
+    return entry.get("description", "") or entry.get("type", "") or ""
+
+
+# ═══════════════════════════════════════════════════════════════
 #  DATA BUILDER
 # ═══════════════════════════════════════════════════════════════
 def build_char_data(row, db_cursor=None):
@@ -534,18 +555,35 @@ def _draw_col2_combat(c, d):
         c.drawCentredString(cx + coin_w / 2, by + coin_h - 7, cn)
         c.setFont(FONT, 6)
         c.drawCentredString(cx + coin_w / 2, by + 2, str(cv))
-    # Equipment
-    y_eq = y_cur + 40  # increased from +32
+    # Equipment — extended to column bottom with full descriptions
+    y_eq = y_cur + 40
     _label(c, COL2_X, y_eq - 9, "Equipment")
-    eq_box_h = 70
+    # Fill remaining column space to bottom margin (40pt from page bottom)
+    eq_box_h = int(yb(y_eq) - yb(PAGE_H - 40))
     items = []
     for item in (d.get("equipped", []) or []):
         if isinstance(item, dict):
-            items.append(f"[E] {item.get('name', '')}")
+            name = item.get("name", "")
+            desc = _get_item_description(name)
+            qty = item.get("qty", 1)
+            if qty > 1:
+                name = f"{name} x{qty}"
+            if desc:
+                items.append(f"[E] {name}: {desc}")
+            else:
+                items.append(f"[E] {name}")
     for item in (d.get("inventory", []) or []):
         if isinstance(item, dict):
-            items.append(f"{item.get('name', '')} x{item.get('qty', 1)}")
-    eq_text = "\n".join(items[:15])
+            name = item.get("name", "")
+            desc = _get_item_description(name)
+            qty = item.get("qty", 1)
+            if qty > 1:
+                name = f"{name} x{qty}"
+            if desc:
+                items.append(f"{name}: {desc}")
+            else:
+                items.append(f"{name}")
+    eq_text = "\n".join(items)
     c.setStrokeColor((0, 0, 0))
     c.rect(COL2_X, yb(y_eq) - eq_box_h, COL2_W - 4, eq_box_h)
     if eq_text:
