@@ -247,7 +247,8 @@ def trunc(text, max_len):
 # ═══════════════════════════════════════════════════════════════
 #  DRAWING PRIMITIVES
 # ═══════════════════════════════════════════════════════════════
-def _label(c, x, y_tl, text, size=5):
+def _label(c, x, y_tl, text, size=6):
+    """Draw a section title label. Size default 6 (was 5, +25%)."""
     c.setFont(FONT_BOLD, size)
     c.drawString(x, yb(y_tl), str(text).upper())
 
@@ -291,7 +292,7 @@ def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
     if label_text:
-        c.setFont(FONT_BOLD, 4)
+        c.setFont(FONT_BOLD, 5)  # was 4, +25%
         c.setFillColor((0.2, 0.2, 0.2))
         c.drawString(x + 2, yb(y_tl) - 7, str(label_text).upper())
         c.setFillColor((0, 0, 0))
