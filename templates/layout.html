@@ -182,8 +182,8 @@ document.addEventListener('click', function(e) {
   <div class="nav-search" id="navSearchBar">
     <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
            onkeydown="if(event.key==='Enter')searchManuals()">
-    <button class="btn btn-primary btn-sm" onclick="searchManuals()" title="Search" style="touch-action:manipulation">🔍</button>
-    <button class="btn btn-outline btn-sm" onclick="searchManuals(true)" title="AI Summarize" style="touch-action:manipulation">🤖</button>
+    <button type="button" class="btn btn-primary btn-sm" onclick="searchManuals();return false" title="Search" style="touch-action:manipulation">🔍</button>
+    <button type="button" class="btn btn-outline btn-sm" onclick="searchManuals(true);return false" title="AI Summarize" style="touch-action:manipulation">🤖</button>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
