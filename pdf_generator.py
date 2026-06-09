@@ -586,17 +586,31 @@ def draw_page3(c, d):
     # Column layout: Col1=1st,2nd | Col2=3rd,4th,5th | Col3=6th,7th,8th,9th
     # Exact X positions per spec: Col1=45, Col2=245, Col3=445 (200pt gaps)
     col_layout = [
-        (45, [1, 2]),         # Col 1: 1st, 2nd
-        (245, [3, 4, 5]),     # Col 2: 3rd, 4th, 5th
-        (445, [6, 7, 8, 9]),  # Col 3: 6th, 7th, 8th, 9th
+        (45, [1, 2], "COLUMN 1"),          # Col 1: 1st, 2nd
+        (245, [3, 4, 5], "COLUMN 2"),      # Col 2: 3rd, 4th, 5th
+        (445, [6, 7, 8, 9], "COLUMN 3"),   # Col 3: 6th, 7th, 8th, 9th
     ]
     col_w = 160  # fits within 612pt page
     y_start = y + 6
 
-    for cx, levels in col_layout:
-        # Draw vertical column divider (thin gray line between columns)
+    col_num = 0
+    for cx, levels, col_label in col_layout:
+        col_num += 1
+        # Light tinted background for this column to visually separate
+        c.setFillColor((0.97, 0.97, 0.97) if col_num % 2 == 0 else (1, 1, 1))
+        c.setStrokeColor((0, 0, 0))
+        c.rect(cx, yb(PAGE_H - MARGIN), col_w, (PAGE_H - MARGIN) - yb(y_start), fill=1, stroke=0)
+        c.setFillColor((0, 0, 0))
+
+        # Column label at very top
+        c.setFont(FONT_BOLD, 5)
+        c.setFillColor((0.6, 0.6, 0.6))
+        c.drawCentredString(cx + col_w / 2, yb(y_start - 2), col_label)
+        c.setFillColor((0, 0, 0))
+
+        # Draw vertical column divider
         if cx > 45:
-            c.setStrokeColor((0.7, 0.7, 0.7))
+            c.setStrokeColor((0.5, 0.5, 0.5))
             c.setDash(2, 4)
             c.line(cx - 4, yb(y_start), cx - 4, yb(PAGE_H - MARGIN))
             c.setDash()
