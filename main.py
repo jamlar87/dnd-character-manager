@@ -2429,7 +2429,7 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
         except subprocess.TimeoutExpired:
             continue
 
-    # Deduplicate and sort by book
+    # Deduplicate within each book
     seen = set()
     deduped = []
     for r in results:
@@ -2437,8 +2437,29 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
         if key not in seen:
             seen.add(key)
             deduped.append(r)
-    deduped.sort(key=lambda r: r["book"])
-    return deduped[:max_results]
+
+    # Group by book, preserving insertion order (core books first from book_labels)
+    by_book: dict[str, list[dict]] = {}
+    book_order = list(cached.keys())  # PHB, DMG, MM, XGE, VGM, ...
+    for r in deduped:
+        by_book.setdefault(r["book"], []).append(r)
+
+    # Round-robin interleave: take 1 from each book until max_results
+    interleaved = []
+    indices = {book: 0 for book in by_book}
+    while len(interleaved) < max_results:
+        added = False
+        for book in book_order:
+            bucket = by_book.get(book, [])
+            idx = indices.get(book, 0)
+            if idx < len(bucket):
+                interleaved.append(bucket[idx])
+                indices[book] = idx + 1
+                added = True
+        if not added:
+            break  # no more results from any book
+
+    return interleaved[:max_results]
 
 
 @app.get("/dm-tools", response_class=HTMLResponse)
