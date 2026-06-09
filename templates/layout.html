@@ -188,8 +188,8 @@ function highlightMatch(text, query) {
   return result;
 }
 
-// ── Wire up event listeners (more reliable than inline onclick on mobile) ──
-document.addEventListener('DOMContentLoaded', function() {
+// ── Wire up event listeners ──
+(function() {
   const input = document.getElementById('manualSearchInput');
   const btn = document.getElementById('manualSearchBtn');
   const aiBtn = document.getElementById('manualSearchAiBtn');
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   if (btn) btn.addEventListener('click', function() { searchManuals(); });
   if (aiBtn) aiBtn.addEventListener('click', function() { searchManuals(true); });
-});
+})();
 
 // Close search results when clicking outside
 document.addEventListener('click', function(e) {
