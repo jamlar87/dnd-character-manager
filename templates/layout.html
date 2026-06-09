@@ -165,7 +165,8 @@ function highlightMatch(text, query) {
 document.addEventListener('click', function(e) {
   const resultsDiv = document.getElementById('manualSearchResults');
   const input = document.getElementById('manualSearchInput');
-  if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== input) {
+  if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== input
+      && !e.target.closest('.nav-search')) {
     resultsDiv.style.display = 'none';
   }
 });
