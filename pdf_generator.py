@@ -518,7 +518,7 @@ def _draw_col2_combat(c, d):
             c.rect(cx, ry, cw, 15)
             c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
     # Currency — separate section above Equipment
-    y_cur = y_atk + 12 + 5 * 15 + 14
+    y_cur = y_atk + 12 + 5 * 15 + 22  # increased from +14
     _label(c, COL2_X, y_cur - 9, "Currency")
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
     coin_w, coin_h = 30, 18
@@ -535,7 +535,7 @@ def _draw_col2_combat(c, d):
         c.setFont(FONT, 6)
         c.drawCentredString(cx + coin_w / 2, by + 2, str(cv))
     # Equipment
-    y_eq = y_cur + 32
+    y_eq = y_cur + 40  # increased from +32
     _label(c, COL2_X, y_eq - 9, "Equipment")
     eq_box_h = 70
     items = []
