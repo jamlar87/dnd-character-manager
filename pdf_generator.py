@@ -205,8 +205,8 @@ def trunc(text, max_len):
 #  DRAWING PRIMITIVES
 # ═══════════════════════════════════════════════════════════════
 def _label(c, x, y_tl, text, size=5):
-    c.setFont(FONT, size)
-    c.drawString(x, yb(y_tl), str(text))
+    c.setFont(FONT_BOLD, size)
+    c.drawString(x, yb(y_tl), str(text).upper())
 
 
 def _value(c, x, y_tl, w, h, text, size=9, bold=True, center=False):
@@ -248,9 +248,9 @@ def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
     if label_text:
-        c.setFont(FONT, 4)
-        c.setFillColor((0.4, 0.4, 0.4))
-        c.drawString(x + 2, yb(y_tl) - 7, str(label_text))
+        c.setFont(FONT_BOLD, 4)
+        c.setFillColor((0.2, 0.2, 0.2))
+        c.drawString(x + 2, yb(y_tl) - 7, str(label_text).upper())
         c.setFillColor((0, 0, 0))
     if not text:
         return
@@ -389,7 +389,7 @@ def _draw_col1_stats(c, d):
         skill_mod = ab_mod + (prof if is_prof else 0)
         _checkbox(c, sx, sy + 3, 6, checked=is_prof)
         c.setFont(FONT, 5)
-        c.drawString(sx + 8, yb(sy + row_h - 3), f"{name[:12]} ({abbr})")
+        c.drawString(sx + 8, yb(sy + row_h - 3), f"{name} ({abbr})")
         c.setFont(FONT_BOLD, 5.5)
         c.drawRightString(sx + 66, yb(sy + row_h - 3), f"{skill_mod:+d}")
 
@@ -430,11 +430,11 @@ def _draw_col2_combat(c, d):
     _value(c, COL2_X, y_hd, 62, 16, f"{total - used}/{total} {hd_type}", size=7, center=True)
     _label(c, COL2_X + 68, y_hd - 9, "Death Saves")
     c.setFont(FONT, 4)
-    c.drawString(COL2_X + 68, yb(y_hd + 6), "Success")
+    c.drawString(COL2_X + 68, yb(y_hd + 6), "SUCCESS")
     succ = d.get("death_saves_success", 0) or 0
     for i in range(3):
         _bubble(c, COL2_X + 108 + i * 16, y_hd + 6, 5, filled=(i < succ))
-    c.drawString(COL2_X + 68, yb(y_hd + 20), "Fail")
+    c.drawString(COL2_X + 68, yb(y_hd + 20), "FAILURES")
     fail = d.get("death_saves_fail", 0) or 0
     for i in range(3):
         _bubble(c, COL2_X + 108 + i * 16, y_hd + 20, 5, filled=(i < fail))
@@ -562,9 +562,9 @@ def draw_page3(c, d):
     dc = d.get("spell_save_dc", 10)
     atk = d.get("spell_attack_bonus", 0)
     c.setFont(FONT_BOLD, 9)
-    c.drawString(x0, yb(y + 14), f"Spellcasting Ability: {sa}")
-    c.drawString(x0 + 160, yb(y + 14), f"Spell Save DC: {dc}")
-    c.drawString(x0 + 300, yb(y + 14), f"Spell Attack Bonus: {atk:+d}")
+    c.drawString(x0, yb(y + 14), f"SPELLCASTING ABILITY: {sa}")
+    c.drawString(x0 + 190, yb(y + 14), f"SPELL SAVE DC: {dc}")
+    c.drawString(x0 + 340, yb(y + 14), f"SPELL ATTACK BONUS: {atk:+d}")
     y += 28
 
     spells = d.get("spells", [])
@@ -577,7 +577,7 @@ def draw_page3(c, d):
     # Cantrips
     cantrips = by_level.get(0, [])
     if cantrips:
-        _label(c, x0, y, "Cantrips (0-level)")
+        _label(c, x0, y, "CANTRIPS (0-LEVEL)")
         for i, (name, _) in enumerate(cantrips[:8]):
             c.setFont(FONT, 5.5)
             c.drawString(x0 + 8, yb(y + 10 + i * 12), name)
@@ -615,17 +615,17 @@ def _render_spell_card(c, x, y_tl, w, h, level, spells_list, spell_slots, slot_u
     # Level header
     suffix = {1: "st", 2: "nd", 3: "rd"}.get(level, "th")
     c.setFont(FONT_BOLD, 6)
-    c.drawString(x + 4, yb(y_tl + 8), f"{level}{suffix} Level")
+    c.drawString(x + 4, yb(y_tl + 8), f"{level}{suffix} LEVEL")
 
     total_slots = int(spell_slots.get(str(level), 0))
     used_slots = int(slot_used.get(str(level), 0))
 
     # Slots bar
-    c.setFont(FONT, 5)
-    c.drawString(x + 4, yb(y_tl + 20), f"Slots Total:")
+    c.setFont(FONT_BOLD, 5)
+    c.drawString(x + 4, yb(y_tl + 20), "SLOTS TOTAL:")
     _value(c, x + 60, y_tl + 12, 24, 12, str(total_slots), size=7, center=True)
-    c.setFont(FONT, 5)
-    c.drawString(x + 92, yb(y_tl + 20), f"Slots Expended:")
+    c.setFont(FONT_BOLD, 5)
+    c.drawString(x + 92, yb(y_tl + 20), "SLOTS EXPENDED:")
     _value(c, x + 160, y_tl + 12, 24, 12, str(used_slots), size=7, center=True)
 
     # Slot bubbles
@@ -665,7 +665,7 @@ def _render_spell_card(c, x, y_tl, w, h, level, spells_list, spell_slots, slot_u
 def draw_page4_appendix(c, d):
     y = 30
     c.setFont(FONT_BOLD, 12)
-    c.drawString(MARGIN, yb(y + 16), f"Class Feature Appendix — {d.get('name', '')}")
+    c.drawString(MARGIN, yb(y + 16), f"CLASS FEATURE APPENDIX — {d.get('name', '')}")
     c.setFont(FONT, 7)
     c.drawString(MARGIN, yb(y + 28), f"{d.get('class_name', '')} {d.get('level', '')} | {d.get('race', '')} | {d.get('background', '')}")
     y += 44
