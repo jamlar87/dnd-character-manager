@@ -796,12 +796,12 @@ async function _loadSourceSlugs() {
   try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
   catch(e) { _sourceSlugLookup = {}; }
 }
-function openSourceRef(src) {
+async function openSourceRef(src) {
   if (!src || src === 'SRD 5.1') return;
+  if (!_sourceSlugLookup) await _loadSourceSlugs();
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
-  if (!_sourceSlugLookup) return;
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
     if (info.display.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
@@ -888,7 +888,7 @@ async function showMonster(index) {
 
     let html = `<h2 style="margin:0">${m.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${m.size} ${m.type} · ${m.alignment || 'Unaligned'}</p>
-      ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0">📚 ${m.source}</p>` : ''}
+      ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${m.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
         <span><strong>AC</strong> ${ac}</span>
         <span><strong>HP</strong> ${m.hit_points} (${m.hit_dice})</span>
