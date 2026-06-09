@@ -111,6 +111,21 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   margin-right: 0.25rem; white-space: nowrap;
 }
 
+/* Collapsible sections in monster detail */
+.collapse-header {
+  cursor: pointer; user-select: none; display: flex; align-items: center;
+  gap: 0.4rem; margin-top: 0.75rem; margin-bottom: 0.3rem;
+  padding: 0.3rem 0; border-bottom: 1px solid var(--border);
+}
+.collapse-header:hover { color: var(--accent); }
+.collapse-arrow {
+  display: inline-block; transition: transform 0.2s; font-size: 0.7rem;
+  width: 1rem; text-align: center;
+}
+.collapse-arrow.open { transform: rotate(90deg); }
+.collapse-body { overflow: hidden; transition: max-height 0.3s ease; }
+.collapse-body.hidden { max-height: 0 !important; margin: 0 !important; }
+
 /* Participant row refinements */
 .participant-row { cursor: pointer; }
 .participant-row.defeated { opacity: 0.4; }
@@ -815,6 +830,20 @@ document.querySelectorAll('.dm-tab').forEach(tab => {
 // ── Modal helpers ──
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function toggleCollapse(header) {
+  const arrow = header.querySelector('.collapse-arrow');
+  const body = header.nextElementSibling;
+  if (!body || !body.classList.contains('collapse-body')) return;
+  const isOpen = !body.classList.contains('hidden');
+  if (isOpen) {
+    body.classList.add('hidden');
+    arrow.classList.remove('open');
+  } else {
+    body.classList.remove('hidden');
+    arrow.classList.add('open');
+  }
+}
 document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); });
 });
@@ -877,37 +906,38 @@ async function showMonster(index) {
       </div>`;
 
     // Saving throws & skills — enriched from proficiencies
+    let defHtml = '';
     if (m.proficiencies && m.proficiencies.length) {
       const saves = m.proficiencies.filter(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Saving Throw'));
       const skills = m.proficiencies.filter(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Skill'));
       if (saves.length) {
-        html += `<p style="margin:0.3rem 0"><strong>Saving Throws:</strong> `;
-        html += saves.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Saving Throw: ', '')} ${p.value >= 0 ? '+' + p.value : p.value}</span>`).join(' ');
-        html += `</p>`;
+        defHtml += `<p style="margin:0.3rem 0"><strong>Saving Throws:</strong> `;
+        defHtml += saves.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Saving Throw: ', '')} ${p.value >= 0 ? '+' + p.value : p.value}</span>`).join(' ');
+        defHtml += `</p>`;
       }
       if (skills.length) {
-        html += `<p style="margin:0.3rem 0"><strong>Skills:</strong> `;
-        html += skills.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Skill: ', '')} +${p.value}</span>`).join(' ');
-        html += `</p>`;
+        defHtml += `<p style="margin:0.3rem 0"><strong>Skills:</strong> `;
+        defHtml += skills.map(p => `<span class="ability-tag">${p.proficiency.name.replace('Skill: ', '')} +${p.value}</span>`).join(' ');
+        defHtml += `</p>`;
       }
     }
-    // Fallback: compute saves from ability scores + proficiency if not in proficiencies
+    // Fallback
     if (!m.proficiencies || !m.proficiencies.find(p => p.proficiency && p.proficiency.name && p.proficiency.name.startsWith('Saving Throw'))) {
-      const pb = parseInt(m.proficiency_bonus) || Math.ceil(m.challenge_rating / 4) + 1;
-      const stats = {STR: m.strength, DEX: m.dexterity, CON: m.constitution, INT: m.intelligence, WIS: m.wisdom, CHA: m.charisma};
-      html += `<p style="margin:0.3rem 0;font-size:0.8rem;color:var(--text-muted)"><strong>Saving Throws (est.):</strong> `;
-      for (const [name, val] of Object.entries(stats)) {
-        html += `<span style="margin-right:0.5rem">${name} ${sign(mod(val))}</span>`;
+      defHtml += `<p style="margin:0.3rem 0;font-size:0.8rem;color:var(--text-muted)"><strong>Saving Throws (est.):</strong> `;
+      for (const [name, val] of Object.entries({STR:m.strength,DEX:m.dexterity,CON:m.constitution,INT:m.intelligence,WIS:m.wisdom,CHA:m.charisma})) {
+        defHtml += `<span style="margin-right:0.5rem">${name} ${sign(mod(val))}</span>`;
       }
-      html += `</p>`;
+      defHtml += `</p>`;
     }
-
-    // Damage & condition stuff
-    if (m.damage_resistances && m.damage_resistances.length) html += `<p><strong>Resistances:</strong> ${m.damage_resistances.join(', ')}</p>`;
-    if (m.damage_immunities && m.damage_immunities.length) html += `<p><strong>Immunities:</strong> ${m.damage_immunities.join(', ')}</p>`;
-    if (m.condition_immunities && m.condition_immunities.length) html += `<p><strong>Condition Immunities:</strong> ${m.condition_immunities.map(c => c.name || c).join(', ')}</p>`;
-    if (m.languages) html += `<p><strong>Languages:</strong> ${m.languages}</p>`;
-    if (m.senses) html += `<p><strong>Senses:</strong> ${Object.entries(m.senses).map(([k,v]) => k.replace(/_/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()) + ' ' + v).join(', ')}</p>`;
+    if (m.damage_resistances && m.damage_resistances.length) defHtml += `<p><strong>Resistances:</strong> ${m.damage_resistances.join(', ')}</p>`;
+    if (m.damage_immunities && m.damage_immunities.length) defHtml += `<p><strong>Immunities:</strong> ${m.damage_immunities.join(', ')}</p>`;
+    if (m.condition_immunities && m.condition_immunities.length) defHtml += `<p><strong>Condition Immunities:</strong> ${m.condition_immunities.map(c => c.name || c).join(', ')}</p>`;
+    if (m.languages) defHtml += `<p><strong>Languages:</strong> ${m.languages}</p>`;
+    if (m.senses) defHtml += `<p><strong>Senses:</strong> ${Object.entries(m.senses).map(([k,v]) => k.replace(/_/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase()) + ' ' + v).join(', ')}</p>`;
+    if (defHtml) {
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🛡️ Defenses</h3></div>`;
+      html += `<div class="collapse-body">${defHtml}</div>`;
+    }
 
     // Action type badge helper
     const actionBadge = (name, desc) => {
@@ -922,16 +952,19 @@ async function showMonster(index) {
 
     // Special abilities / traits
     if (m.special_abilities && m.special_abilities.length) {
-      html += `<h3 style="margin-top:0.75rem">🧬 Traits</h3>`;
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🧬 Traits (${m.special_abilities.length})</h3></div>`;
+      html += `<div class="collapse-body">`;
       m.special_abilities.forEach(a => {
         const badge = actionBadge(a.name, a.desc);
         html += `<div style="margin-bottom:0.5rem;font-size:0.85rem">${badge ? `<span class="action-badge">${badge}</span> ` : ''}<strong>${a.name}.</strong> ${a.desc}</div>`;
       });
+      html += `</div>`;
     }
 
     // Actions
     if (m.actions && m.actions.length) {
-      html += `<h3 style="margin-top:0.75rem">⚔️ Actions</h3>`;
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">⚔️ Actions (${m.actions.length})</h3></div>`;
+      html += `<div class="collapse-body">`;
       m.actions.forEach(a => {
         const badge = actionBadge(a.name, a.desc);
         const dmgInfo = a.damage && a.damage.length ? a.damage.map(d => d.damage_dice + ' ' + (d.damage_type?.name || '')).join(', ') : '';
@@ -944,32 +977,39 @@ async function showMonster(index) {
         if (dmgInfo) html += `<br><span style="color:var(--success)">↠ ${dmgInfo} damage</span>`;
         html += `</div>`;
       });
+      html += `</div>`;
     }
 
     // Reactions
     if (m.reactions && m.reactions.length) {
-      html += `<h3 style="margin-top:0.75rem">↻ Reactions</h3>`;
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">↻ Reactions (${m.reactions.length})</h3></div>`;
+      html += `<div class="collapse-body">`;
       m.reactions.forEach(a => {
         html += `<div style="margin-bottom:0.4rem;font-size:0.85rem"><span class="action-badge">↻ Reaction</span> <strong>${a.name}.</strong> ${a.desc}</div>`;
       });
+      html += `</div>`;
     }
 
     // Legendary actions
     if (m.legendary_actions && m.legendary_actions.length) {
-      html += `<h3 style="margin-top:0.75rem">👑 Legendary Actions</h3>`;
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">👑 Legendary Actions (${m.legendary_actions.length})</h3></div>`;
+      html += `<div class="collapse-body">`;
       if (m.legendary_desc) html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">${m.legendary_desc}</p>`;
       m.legendary_actions.forEach(a => {
         html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><span class="action-badge">👑 Costs ${a.cost || 1}</span> <strong>${a.name}.</strong> ${a.desc}</div>`;
       });
+      html += `</div>`;
     }
 
     // Lair actions
     if (m.lair_actions && m.lair_actions.length) {
-      html += `<h3 style="margin-top:0.75rem">🏰 Lair Actions</h3>`;
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🏰 Lair Actions (${m.lair_actions.length})</h3></div>`;
+      html += `<div class="collapse-body">`;
       if (m.lair_desc) html += `<p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">${m.lair_desc}</p>`;
       m.lair_actions.forEach(a => {
         html += `<div style="margin-bottom:0.3rem;font-size:0.85rem"><span class="action-badge">🏰 Lair</span> <strong>${a.name || 'Lair Action'}.</strong> ${a.desc || a}</div>`;
       });
+      html += `</div>`;
     }
 
     document.getElementById('monsterDetail').innerHTML = html;
