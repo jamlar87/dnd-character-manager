@@ -7082,13 +7082,13 @@ LIMITED_USE = {
     "second wind":         {"min": 1, "max": 1,  "recharge": "short", "class": "Fighter", "per": "fixed"},
     "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "fixed"},
     # Monk (PHB p.76-82)
-    "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level"},
+    "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level", "pool_kind": "points"},
     # Paladin (PHB p.83-89)
     "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
     "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level", "pool_kind": "hp"},
     # (channel divinity merged above — class-differentiated in get_uses_for_level)
     # Sorcerer (PHB p.99-105)
-    "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level"},
+    "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level", "pool_kind": "points"},
     # Warlock (PHB p.105-112)
     "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
     # Wizard (PHB p.112-120)
@@ -7128,6 +7128,8 @@ LIMITED_USE = {
     "totem spirit":         {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
     "aspect of the beast":  {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
     "totemic attunement":   {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
+    # Fighter — Battle Master (PHB p.73-74)
+    "combat superiority":   {"min": 4, "max": 6,  "recharge": "short", "class": "Fighter", "per": "fixed", "pool_kind": "dice"},
     # Cleric — Light Domain
     "warding flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
     "improved flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
@@ -8538,6 +8540,9 @@ def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
             return 1 if level < 17 else 2  # PHB p.72: L2=1, L17=2
         if feat_key == "indomitable":
             return 1 if level < 13 else 2 if level < 17 else 3  # PHB p.72: L9=1, L13=2, L17=3
+        if feat_key == "combat superiority":
+            # PHB p.73: 4 dice L3-6, 5 dice L7-14, 6 dice L15+
+            return 4 if level < 7 else 5 if level < 15 else 6
         if feat_key == "second wind":
             return 1  # Always 1 use
         if feat_key == "mystic arcanum":
@@ -9420,8 +9425,11 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             source_level = level
         # Check limited-use features
         if source_class and source_level > 0:
+            # Feature name aliases (raw name → LIMITED_USE key)
+            _FEAT_ALIASES = {"font of magic": "sorcery points"}
             for lkey, lu in LIMITED_USE.items():
-                if lkey in key or key.startswith(lkey) or lkey.startswith(key):
+                _match_key = _FEAT_ALIASES.get(key, key)
+                if lkey in _match_key or _match_key.startswith(lkey) or lkey.startswith(_match_key):
                     uses_max = get_uses_for_level(lkey, source_class, source_level)
                     if uses_max > 0:
                         if lkey == "divine sense":

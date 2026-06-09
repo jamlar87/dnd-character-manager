@@ -1036,17 +1036,18 @@
                 {% endif %}
               </span>
               <span style="display:flex;align-items:center;gap:0.5rem">
-                {% if feat.get('pool_kind') == 'hp' %}
+                {% set pool = feat.get('pool_kind') %}
+                {% if pool in ('hp', 'points', 'dice') %}
                 <span class="feat-pool-box" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem" id="feat-pool-box-{{ idx }}">
                   <span class="feat-pool-hp" style="font-weight:700;min-width:2.5em;text-align:right" id="feat-pool-hp-{{ idx }}">{{ feat.uses }}</span>
-                  <span style="color:var(--text-muted);font-size:0.7rem">HP</span>
+                  <span style="color:var(--text-muted);font-size:0.7rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
                   <input type="number" id="feat-pool-spend-{{ idx }}" min="1" max="{{ feat.uses }}" value="1"
                     style="width:3.5em;padding:0.15rem 0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem;text-align:center"
-                    onkeydown="if(event.key==='Enter'){event.preventDefault();spendPoolHP({{ idx }})}">
-                  <button class="btn btn-outline btn-sm" onclick="spendPoolHP({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend HP from pool">-</button>
-                  <button class="btn btn-outline btn-sm" onclick="restorePoolHP({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();spendPool({{ idx }})}">
+                  <button class="btn btn-outline btn-sm" onclick="spendPool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend from pool">-</button>
+                  <button class="btn btn-outline btn-sm" onclick="restorePool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
                 </span>
-                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} HP</span>
+                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
                 {% else %}
                   {% for i in range(feat.uses_max) %}
                   <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
@@ -3553,8 +3554,9 @@ function renderFeatureDots(idx) {
   // Update text counter
   const text = document.getElementById(`feat-uses-text-${idx}`);
   if (text) {
-    if (feat.pool_kind === 'hp') {
-      text.textContent = `max ${feat.uses_max} HP`;
+    if (feat.pool_kind) {
+      const label = feat.pool_kind === 'hp' ? 'HP' : feat.pool_kind === 'points' ? 'pts' : 'dice';
+      text.textContent = `max ${feat.uses_max} ${label}`;
     } else {
       text.textContent = `${feat.uses}/${feat.uses_max}`;
     }
@@ -3564,10 +3566,10 @@ function renderFeatureDots(idx) {
   if (card) card.classList.toggle('depleted', feat.uses === 0 && feat.uses_max > 0);
 }
 
-// ── HP pool features (Lay on Hands, etc.) ──
-async function spendPoolHP(idx) {
+// ── Pool features (Lay on Hands, Ki, Sorcery Points, Superiority Dice, etc.) ──
+async function spendPool(idx) {
   const feat = featureData[idx];
-  if (!feat || feat.pool_kind !== 'hp') return;
+  if (!feat || !feat.pool_kind) return;
   const input = document.getElementById(`feat-pool-spend-${idx}`);
   const amount = parseInt(input.value) || 0;
   if (amount <= 0) return;
@@ -3580,9 +3582,9 @@ async function spendPoolHP(idx) {
   await api('/update', { feature_data: JSON.stringify(featureData) });
 }
 
-async function restorePoolHP(idx) {
+async function restorePool(idx) {
   const feat = featureData[idx];
-  if (!feat || feat.pool_kind !== 'hp') return;
+  if (!feat || !feat.pool_kind) return;
   feat.uses = feat.uses_max;
   const input = document.getElementById(`feat-pool-spend-${idx}`);
   if (input) input.max = feat.uses;
