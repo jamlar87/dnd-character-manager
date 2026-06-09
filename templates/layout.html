@@ -15,7 +15,7 @@
   img, table, video, canvas, svg { max-width: 100%; height: auto; }
   body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
   a { color: var(--accent); text-decoration: none; }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; overflow: visible; }
   .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; }
   .nav-links { display: flex; gap: 1rem; align-items: center; }
   .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; }
@@ -24,7 +24,7 @@
   .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
   .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
   .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-  .search-results-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 200; max-height: 400px; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; margin-top: 0.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+  .search-results-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 2000; max-height: 400px; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; margin-top: 0.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
   @media (max-width: 768px) {
     .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
     .nav-search input { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
@@ -116,9 +116,15 @@
 async function searchManuals(summarize = false) {
   const input = document.getElementById('manualSearchInput');
   const resultsDiv = document.getElementById('manualSearchResults');
-  if (!input || !resultsDiv) return;
+  if (!input || !resultsDiv) { console.warn('search: missing input or resultsDiv'); return; }
   const query = input.value.trim();
-  if (query.length < 2) { resultsDiv.style.display = 'none'; return; }
+  if (query.length < 2) {
+    // If user clicks with empty/short query, flash a hint
+    input.style.outline = '2px solid var(--warn)';
+    setTimeout(() => input.style.outline = '', 1500);
+    resultsDiv.style.display = 'none';
+    return;
+  }
 
   const endpoint = summarize ? '/api/dm/search-manuals/summarize' : '/api/dm/search-manuals';
   resultsDiv.style.display = 'block';
@@ -129,6 +135,12 @@ async function searchManuals(summarize = false) {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({query})
     });
+    // Guard against redirects (e.g. login page) returning HTML
+    const ct = r.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) {
+      resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--warn)">⚠️ Please log in to search the manuals.</div>';
+      return;
+    }
     const data = await r.json();
 
     if (summarize && data.summary) {
@@ -154,7 +166,7 @@ async function searchManuals(summarize = false) {
       html += '</div>';
       resultsDiv.innerHTML = html;
     } else {
-      resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">No matches found in any manual.</div>';
+      resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 No matches found for "' + escapeHtml(query) + '" in any manual.</div>';
     }
   } catch(e) {
     resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--danger)">Search failed: ' + e.message + '</div>';
