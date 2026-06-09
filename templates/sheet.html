@@ -1127,6 +1127,9 @@
                title="Click to find in Spellbook">
             <strong>{{ sp.spell_name }}</strong>
             <span class="badge badge-muted" style="font-size:0.6rem">Lv{{ sp.spell_level }}</span>
+            {% if sp.srd and sp.srd.source %}
+            <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
+            {% endif %}
             {% if sp.srd and sp.srd.school %}
             <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
             {% endif %}
@@ -1163,6 +1166,9 @@
             <span class="badge badge-muted" style="font-size:0.65rem">
               {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
             </span>
+            {% if sp.srd and sp.srd.source %}
+            <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
+            {% endif %}
             {% if sp.srd and sp.srd.school %}
             <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
             {% endif %}
@@ -2254,6 +2260,7 @@ function filterSpellResults() {
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
     const schoolBadge = s.school ? `<span style="font-size:0.65rem;color:var(--text-muted)">${s.school}</span>` : '';
     const srcBadge = `<span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>`;
+    const bookBadge = s.book ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">${s.book}</span>` : '';
     const concIcon = s.concentration ? '🔷' : '';
     const ritIcon = s.ritual ? '📖' : '';
     return `<div class="spell-option" data-idx="${i}"
@@ -2261,7 +2268,7 @@ function filterSpellResults() {
       onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background=''"
       onclick="selectSpell(${i})">
       <strong style="flex:1;min-width:0">${s.name}</strong>
-      ${concIcon}${ritIcon} ${lvlBadge} ${schoolBadge} ${srcBadge}
+      ${concIcon}${ritIcon} ${lvlBadge} ${schoolBadge} ${srcBadge} ${bookBadge}
     </div>`;
   }).join('');
   if (spells.length > 30) {
@@ -4239,6 +4246,7 @@ function filterLuSpells() {
       ${lvlBadge}
       <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
       <span style="font-size:0.6rem;color:var(--accent);opacity:0.7">${s.source}</span>
+      ${s.book ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">${s.book}</span>` : ''}
     </div>`;
   }).join('');
 }

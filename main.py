@@ -1994,6 +1994,10 @@ MANUAL_MONSTERS: list[dict] = []
 def _load_monster_cache() -> list[dict]:
     global MANUAL_MONSTERS
     base = _load_json_cache("monsters.json")
+    # Tag SRD monsters with source
+    for m in base:
+        if "source" not in m:
+            m["source"] = "SRD 5.1"
     if not MANUAL_MONSTERS:
         manual = _load_manual_json("monsters.json")
         # Normalize manual monster format to SRD format
@@ -4432,6 +4436,7 @@ async def available_spells(char_id: int, request: Request):
                 "concentration": spell.get("concentration", False),
                 "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
                 "source": "class",
+                "book": spell.get("source", ""),
             })
 
     # 2. Subclass bonus spells (e.g. Death Domain Spells, Oathbreaker Spells)
@@ -4472,6 +4477,7 @@ async def available_spells(char_id: int, request: Request):
                                 "concentration": spell.get("concentration", False),
                                 "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
                                 "source": f"subclass ({subclass})",
+                                "book": spell.get("source", ""),
                             })
 
     # 3. Race spells (e.g. Tiefling: Hellish Rebuke, Darkness; Drow: Faerie Fire)
@@ -4511,6 +4517,7 @@ async def available_spells(char_id: int, request: Request):
                     "concentration": srd.get("concentration", False) if srd else False,
                     "description": " ".join(srd.get("desc", [])) if srd and isinstance(srd.get("desc"), list) else "Racial innate spell",
                     "source": f"race ({race_name})",
+                    "book": srd.get("source", "") if srd else "",
                 })
 
     # Sort: cantrips first, then by level, then by name
@@ -7524,6 +7531,7 @@ def enrich_spells(spells: list[dict]) -> None:
                 "school": (srd.get("school") or {}).get("name", ""),
                 "attack_type": srd.get("attack_type", ""),
                 "damage": srd.get("damage"),
+                "source": srd.get("source", ""),
             }
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────

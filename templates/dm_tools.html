@@ -361,6 +361,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
          data-cr="{{ m.challenge_rating }}" onclick="showMonster('{{ m.index }}')">
       <div class="m-name">{{ m.name }}</div>
       <div class="m-type">{{ m.size }} {{ m.type }}{% if m.alignment %} · {{ m.alignment }}{% endif %}</div>
+      {% if m.source %}
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem">📚 {{ m.source }}</div>
+      {% endif %}
       <div class="m-stats">
         <span class="m-stat">CR {{ m.challenge_rating }}</span>
         <span class="m-stat">AC {{ m.armor_class[0].value if m.armor_class else '?' }}</span>
