@@ -1,5 +1,5 @@
 """
-D&D 5e Official Character Sheet PDF Generator — v5 (isolated cards, 15pt gutters, page 4 appendix).
+D&D 5e Official Character Sheet PDF Generator — v11 (PAGE_1_COLUMN_GRID, passive perception col1).
 - Page 1: 3-column rigid grid with 15pt horizontal gutters between columns.
 - Page 2: 5 locked narrative bounding boxes, no feature overflows.
 - Page 3: Spell matrix — 3 isolated columns (1-2 | 3-5 | 6-9), each level a self-contained card.
@@ -271,8 +271,36 @@ def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
 
 
 # ═══════════════════════════════════════════════════════════════
-#  COLUMN LAYOUT — exact X positions per spec
+#  PAGE 1 COLUMN GRID — strict vertical encapsulation
+#  Each column is rendered top-to-bottom COMPLETELY before the
+#  X-coordinate advances to the next column.  No horizontal
+#  interleaving across column boundaries.
 # ═══════════════════════════════════════════════════════════════
+PAGE_1_COLUMN_GRID = {
+    "Column_1_Left": {
+        "X_Boundary_Start": 45,
+        "Vertical_Blocks": [
+            "Ability Scores", "Saving Throws", "Skills List",
+            "Passive Perception", "Other Proficiencies & Languages",
+        ],
+    },
+    "Column_2_Center": {
+        "X_Boundary_Start": 245,
+        "Vertical_Blocks": [
+            "Armor Class / Initiative / Speed", "Hit Points Widget",
+            "Hit Dice & Death Saves", "Attacks & Spellcasting Box",
+            "Equipment Box & Currency Stack",
+        ],
+    },
+    "Column_3_Right": {
+        "X_Boundary_Start": 445,
+        "Vertical_Blocks": [
+            "Personality Blocks (Traits, Ideals, Bonds, Flaws)",
+            "Features & Traits Frame",
+        ],
+    },
+}
+
 COL1_X, COL1_W = 45, 140
 COL2_X, COL2_W = 245, 180
 COL3_X, COL3_W = 445, 150
@@ -283,10 +311,17 @@ GRID_Y = 165
 #  PAGE 1 — 3-COLUMN GRID
 # ═══════════════════════════════════════════════════════════════
 def draw_page1(c, d):
-    draw_header(c, d)
-    _draw_col1_stats(c, d)
-    _draw_col2_combat(c, d)
-    _draw_col3_personality(c, d)
+    """Render page 1 in strict column-major order.
+    
+    Execution constraint: each column function locks its X-coordinate
+    and draws ALL its vertical blocks top-to-bottom before returning.
+    The X-coordinate NEVER steps to an adjacent column until the
+    current column loop closes.
+    """
+    draw_header(c, d)                # spans all columns (row-major header)
+    _draw_col1_stats(c, d)           # COL1 locked at X=45, top→bottom
+    _draw_col2_combat(c, d)          # COL2 locked at X=245, top→bottom  
+    _draw_col3_personality(c, d)     # COL3 locked at X=445, top→bottom
 
 
 def draw_header(c, d):
@@ -316,10 +351,6 @@ def draw_header(c, d):
     _checkbox(c, COL1_X + 4, y3 + 4, 8, checked=bool(d.get("inspiration", 0)))
     _label(c, COL1_X + 44, y3 - 9, "Proficiency Bonus")
     _value(c, COL1_X + 44, y3, 30, box_h, str(d.get("proficiency_bonus", 2)), size=10, center=True)
-    # Row 4
-    y4 = y3 + gap
-    _label(c, COL2_X, y4 - 9, "Passive Perception")
-    _value(c, COL2_X, y4, 40, box_h, str(d.get("passive_perception", 10)), size=9, center=True)
 
 
 def _draw_col1_stats(c, d):
@@ -391,8 +422,13 @@ def _draw_col1_stats(c, d):
         c.setFont(FONT_BOLD, 5.5)
         c.drawRightString(sx + 66, yb(sy + row_h - 3), f"{skill_mod:+d}")
 
+    # Passive Perception
+    y_pp = y_skills + 9 * row_h + 4
+    _label(c, COL1_X, y_pp - 9, "Passive Perception")
+    _value(c, COL1_X, y_pp, 40, 16, str(d.get("passive_perception", 10)), size=9, center=True)
+
     # Other Proficiencies
-    y_prof = y_skills + 9 * row_h + 4
+    y_prof = y_pp + 28
     parts = []
     for lbl, field in [("Weapons", "weapon_proficiencies"), ("Armor", "armor_proficiencies"),
                         ("Tools", "tool_proficiencies"), ("Languages", "languages")]:
