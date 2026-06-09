@@ -67,6 +67,17 @@ def _load_json_cache(filename: str) -> list[dict]:
 SRD_MAGIC_ITEMS: list[dict] = _load_json_cache("magic-items.json")
 SRD_FEATURES: list[dict] = _load_json_cache("features.json")
 
+# Tag SRD data with source
+for _item in SRD_SPELLS:
+    if "source" not in _item:
+        _item["source"] = "SRD 5.1"
+for _item in SRD_FEATURES:
+    if "source" not in _item:
+        _item["source"] = "SRD 5.1"
+for _item in SRD_MAGIC_ITEMS:
+    if "source" not in _item:
+        _item["source"] = "SRD 5.1"
+
 # Build feature lookup by class+name for enrichment
 FEATURE_DESCRIPTIONS: dict[str, str] = {}
 for f in SRD_FEATURES:
@@ -1111,6 +1122,11 @@ RACES = {
     "Genasi": {"subraces": ["Air Genasi", "Earth Genasi", "Fire Genasi", "Water Genasi"], "asi": {"constitution": 2}, "speed": 30, "darkvision": 0, "languages": ["Common", "Primordial"], "traits": [], "desc": "Born of elemental lineage, genasi display traits of air, earth, fire, or water. They stand 5–6 feet tall and are independent, self-reliant, and neutral in alignment.", "subrace_descs": {"Air Genasi": "+1 Dexterity. Unending Breath (hold breath indefinitely), Mingle with the Wind (levitate 1/long rest at L3+). The swift children of elemental air.", "Earth Genasi": "+1 Strength. Earth Walk (ignore difficult terrain of earth/stone), Merge with Stone (pass without trace 1/long rest at L3+). The sturdy children of elemental earth.", "Fire Genasi": "+1 Intelligence. Darkvision 60ft, Fire Resistance, Reach to the Blaze (produce flame cantrip; burning hands 1/long rest at L3+). The burning children of elemental fire.", "Water Genasi": "+1 Wisdom. Amphibious, Swim 30ft, Acid Resistance, Call to the Wave (shape water cantrip; create or destroy water 1/long rest at L3+). The flowing children of elemental water."}},
 }
 
+# Tag hardcoded races with source
+for _r in RACES.values():
+    if "source" not in _r:
+        _r["source"] = "Player's Handbook p.17-43"
+
 # PHB p.17-43 — Racial trait descriptions
 RACIAL_TRAIT_DESCS = {
     # Dwarf
@@ -1397,6 +1413,11 @@ CLASSES = {
     "Warlock": {"hd": 8, "skills": ["Arcana","Deception","History","Intimidation","Investigation","Nature","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["The Archfey","The Fiend","The Great Old One"], "desc": "A seeker of forbidden knowledge who made a pact with an otherworldly patron. Warlocks use Pact Magic — a few spell slots that recharge on short rests — plus Eldritch Invocations for unique abilities.", "subclass_descs": {"The Archfey": "Fey Presence charms or frightens nearby foes. Misty Escape lets you teleport and turn invisible when hit. The trickster patron.", "The Fiend": "Dark One's Blessing grants temp HP when you kill. Hurl Through Hell sends a target on a short, devastating trip to the lower planes.", "The Great Old One": "Awakened Mind grants telepathy. Entropic Ward imposes disadvantage on attackers. Create Thrall makes a permanent charmed servant."}, "weapons": "Simple weapons", "armor": "Light armor", "tools": ""},
     "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"], "desc": "A scholarly spellcaster who learns magic through study. Wizards have the largest spell list and can learn new spells from scrolls — they prepare from a spellbook and can ritual cast without preparation.", "subclass_descs": {"School of Abjuration": "Arcane Ward absorbs damage as a magical HP buffer. Spell Resistance grants advantage on saves against spells. The defensive wizard.", "School of Conjuration": "Minor Conjuration creates nonmagical objects. Benign Transposition teleports you and swaps places with an ally. The summoner.", "School of Divination": "Portent lets you replace any d20 roll with one of two pre-rolled results. The fate manipulator.", "School of Enchantment": "Hypnotic Gaze incapacitates a creature. Instinctive Charm redirects attacks to other targets. The mind controller.", "School of Evocation": "Sculpt Spells protects allies from your area effects. Potent Cantrip deals half damage even on saves. The blaster.", "School of Illusion": "Improved Minor Illusion creates sound and image simultaneously. Malleable Illusions lets you reshape ongoing illusions.", "School of Necromancy": "Grim Harvest heals you when you kill with spells. Undead Thralls creates stronger undead and lets you raise more of them.", "School of Transmutation": "Minor Alchemy temporarily changes materials. Transmuter's Stone grants a buff (darkvision, speed, resistance, or CON saves)."}, "weapons": "Daggers, Darts, Slings, Quarterstaffs, Light crossbows", "armor": "", "tools": ""},
 }
+
+# Tag hardcoded classes with source
+for _c in CLASSES.values():
+    if "source" not in _c:
+        _c["source"] = "Player's Handbook p.45-119"
 
 SKILL_ABILITIES = {
     "Acrobatics":"dexterity","Animal Handling":"wisdom","Arcana":"intelligence",
@@ -1956,7 +1977,7 @@ async def starting_spells(request: Request, class_name: str = "", level: int = 1
         results.append({
             "name": name, "level": sp_level,
             "school": spell.get("school", {}).get("name", ""),
-            "source": "SRD",
+            "source": spell.get("source", "SRD"),
             "casting_time": spell.get("casting_time", ""),
             "range": spell.get("range", ""),
             "duration": spell.get("duration", ""),
@@ -8206,6 +8227,10 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             first_seg = key.split(" | ")[0].strip()
             desc = FEATURE_DESCRIPTIONS.get(first_seg, "")
         entry = {"name": name, "level": level_part, "description": desc}
+        # Look up source from SRD feature data
+        _src = next((f.get("source", "") for f in SRD_FEATURES if f.get("name", "").lower() == key), "")
+        if _src:
+            entry["source"] = _src
         # Parse composite Channel Divinity names into sub_options with individual descriptions
         if " | " in name and "channel divinity" in key:
             segments = name.split(" | ")

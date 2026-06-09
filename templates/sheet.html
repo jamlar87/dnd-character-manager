@@ -985,6 +985,9 @@
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
               <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.source %}
+                <span class="source-badge" style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem" title="Source: {{ feat.source }}">{{ feat.source }}</span>
+                {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
                 {% elif feat.recharge == "long" %}
