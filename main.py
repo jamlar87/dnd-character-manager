@@ -1925,6 +1925,37 @@ def _build_inventory_attacks(character: dict) -> list:
     _scan(character.get("equipped", []))
     return attacks
 
+def _build_charged_item_attacks(character: dict) -> list:
+    """Scan equipped items for charged magic items (wands, staves, rods, etc.)
+    and build charge-card entries. Tracks charges_used per item."""
+    charged = []
+    seen = set()
+    for item in (character.get("equipped") or []):
+        if not isinstance(item, dict):
+            continue
+        name = item.get("name", "")
+        key = name.lower()
+        if key in seen:
+            continue
+        info = ITEM_INDEX.get(key)
+        if not info or not info.get("charges"):
+            continue
+        max_charges = info["charges"]
+        used = item.get("charges_used", 0)
+        current = max(0, max_charges - used)
+        charged.append({
+            "name": name,
+            "max_charges": max_charges,
+            "current_charges": current,
+            "type": info.get("type", "Magic Item"),
+            "rarity": info.get("rarity", ""),
+            "description": info.get("description", "")[:200],
+            "recharge": info.get("charge_recharge"),
+        })
+        seen.add(key)
+    return charged
+
+
 def _normalize_equipped(equipped: list) -> list:
     """Convert equipped items to [{name, qty}] format. Handles old string-list format."""
     if not equipped:
@@ -4917,6 +4948,8 @@ async def character_sheet(char_id: int, request: Request):
 
     # Build attacks from inventory weapons + existing attacks_data
     all_attacks = _build_inventory_attacks(char)
+    # Build charged item cards (wands, staves, rods, etc.)
+    charged_items = _build_charged_item_attacks(char)
 
     # Caster type detection (PHB rules) — multiclass aware
     class_name = char.get("class_name", "")
@@ -5055,6 +5088,7 @@ async def character_sheet(char_id: int, request: Request):
                    dm_preview=dm_preview,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
+                   charged_items=charged_items,
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
                    sc_mod=sc_mod, class_levels=class_levels_data,
@@ -5142,6 +5176,48 @@ async def get_attacks(char_id: int, request: Request):
             except: pass
     attacks = _build_inventory_attacks(char)
     return JSONResponse({"attacks": attacks})
+
+@app.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
+async def spend_charge(char_id: int, request: Request):
+    """Spend one charge from an equipped charged item."""
+    user = require_user(request)
+    data = await request.json()
+    item_name = (data.get("name") or "").strip()
+    if not item_name:
+        return JSONResponse({"error": "No item name"}, status_code=400)
+
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    char = dict(row)
+    equipped = json.loads(char.get("equipped", "[]") or "[]")
+
+    updated = False
+    for item in equipped:
+        if not isinstance(item, dict):
+            continue
+        if item.get("name", "").strip().lower() == item_name.lower():
+            used = item.get("charges_used", 0)
+            item["charges_used"] = used + 1
+            updated = True
+            break
+
+    if not updated:
+        db.close()
+        return JSONResponse({"error": "Item not found or not equipped"}, status_code=404)
+
+    db.execute("UPDATE characters SET equipped=? WHERE id=? AND user_id=?",
+               (json.dumps(equipped), char_id, user["id"]))
+    db.commit()
+    db.close()
+
+    # Return updated charged items list
+    char["equipped"] = equipped
+    charged = _build_charged_item_attacks(char)
+    return JSONResponse({"charged_items": charged, "item_name": item_name})
 
 @app.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
 async def add_spell(char_id: int, request: Request):
