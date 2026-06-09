@@ -4862,6 +4862,14 @@ async def character_sheet(char_id: int, request: Request):
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
+    for _feat in char["feature_data"]:
+        if isinstance(_feat, dict) and not _feat.get("pool_kind"):
+            _key = _feat.get("name", "").lower()
+            for lkey, lu in LIMITED_USE.items():
+                if lkey in _key and lu.get("pool_kind"):
+                    _feat["pool_kind"] = lu["pool_kind"]
+                    break
     # Fallback: features still without source inherit from character's class
     _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
     if _cls_source:
@@ -7077,7 +7085,7 @@ LIMITED_USE = {
     "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level"},
     # Paladin (PHB p.83-89)
     "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
-    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
+    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level", "pool_kind": "hp"},
     # (channel divinity merged above — class-differentiated in get_uses_for_level)
     # Sorcerer (PHB p.99-105)
     "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level"},
@@ -9425,6 +9433,8 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                         entry["uses_max"] = uses_max
                         entry["uses"] = uses_max
                         entry["recharge"] = lu["recharge"]
+                        if lu.get("pool_kind"):
+                            entry["pool_kind"] = lu["pool_kind"]
                     break
         # Check if this feature is a combat action
         # Strip use-count suffix for matching (e.g. "Action Surge (2 uses)" -> "action surge")

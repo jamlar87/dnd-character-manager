@@ -1036,12 +1036,24 @@
                 {% endif %}
               </span>
               <span style="display:flex;align-items:center;gap:0.5rem">
-                <span class="feat-uses-box" style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;font-family:monospace" id="feat-uses-box-{{ idx }}">
+                {% if feat.get('pool_kind') == 'hp' %}
+                <span class="feat-pool-box" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem" id="feat-pool-box-{{ idx }}">
+                  <span class="feat-pool-hp" style="font-weight:700;min-width:2.5em;text-align:right" id="feat-pool-hp-{{ idx }}">{{ feat.uses }}</span>
+                  <span style="color:var(--text-muted);font-size:0.7rem">HP</span>
+                  <input type="number" id="feat-pool-spend-{{ idx }}" min="1" max="{{ feat.uses }}" value="1"
+                    style="width:3.5em;padding:0.15rem 0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem;text-align:center"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();spendPoolHP({{ idx }})}">
+                  <button class="btn btn-outline btn-sm" onclick="spendPoolHP({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend HP from pool">-</button>
+                  <button class="btn btn-outline btn-sm" onclick="restorePoolHP({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
+                </span>
+                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} HP</span>
+                {% else %}
                   {% for i in range(feat.uses_max) %}
                   <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
                   {% endfor %}
                 </span>
                 <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
+                {% endif %}
                 <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
                 <span class="arrow">▶</span>
               </span>
@@ -3528,19 +3540,55 @@ async function toggleFeatureUse(idx, dotIdx) {
 function renderFeatureDots(idx) {
   const feat = featureData[idx];
   if (!feat) return;
-  // Update each dot class
   const box = document.getElementById(`feat-uses-box-${idx}`);
-  if (!box) return;
-  box.querySelectorAll('.feat-use-dot').forEach((dot, i) => {
-    dot.classList.toggle('filled', i < feat.uses);
-    dot.title = i < feat.uses ? 'Available — click to expend' : 'Used — click to restore';
-  });
+  if (box) {
+    box.querySelectorAll('.feat-use-dot').forEach((dot, i) => {
+      dot.classList.toggle('filled', i < feat.uses);
+      dot.title = i < feat.uses ? 'Available — click to expend' : 'Used — click to restore';
+    });
+  }
+  // Update pool HP display
+  const hpEl = document.getElementById(`feat-pool-hp-${idx}`);
+  if (hpEl) hpEl.textContent = feat.uses;
   // Update text counter
   const text = document.getElementById(`feat-uses-text-${idx}`);
-  if (text) text.textContent = `${feat.uses}/${feat.uses_max}`;
+  if (text) {
+    if (feat.pool_kind === 'hp') {
+      text.textContent = `max ${feat.uses_max} HP`;
+    } else {
+      text.textContent = `${feat.uses}/${feat.uses_max}`;
+    }
+  }
   // Toggle depleted state on the feature card
   const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
   if (card) card.classList.toggle('depleted', feat.uses === 0 && feat.uses_max > 0);
+}
+
+// ── HP pool features (Lay on Hands, etc.) ──
+async function spendPoolHP(idx) {
+  const feat = featureData[idx];
+  if (!feat || feat.pool_kind !== 'hp') return;
+  const input = document.getElementById(`feat-pool-spend-${idx}`);
+  const amount = parseInt(input.value) || 0;
+  if (amount <= 0) return;
+  if (amount > feat.uses) { input.value = feat.uses; return; }
+  feat.uses -= amount;
+  input.max = feat.uses;
+  if (parseInt(input.value) > feat.uses) input.value = feat.uses || 1;
+  renderFeatureDots(idx);
+  if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
+  await api('/update', { feature_data: JSON.stringify(featureData) });
+}
+
+async function restorePoolHP(idx) {
+  const feat = featureData[idx];
+  if (!feat || feat.pool_kind !== 'hp') return;
+  feat.uses = feat.uses_max;
+  const input = document.getElementById(`feat-pool-spend-${idx}`);
+  if (input) input.max = feat.uses;
+  renderFeatureDots(idx);
+  if (feat.action_type) syncActionButton(feat.name, feat.uses, feat.uses_max);
+  await api('/update', { feature_data: JSON.stringify(featureData) });
 }
 
 function resetAllFeatureUses() {
