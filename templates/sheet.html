@@ -2700,7 +2700,7 @@ async function showItemInfo(name) {
     title.textContent = data.name || name;
     const typeTag = data.type ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem">${data.type}</span>` : '';
     body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
-      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted)">${typeTag}</div>`;
+      <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center">${typeTag}${data.source ? `<span style="font-size:0.6rem;opacity:0.7" title="Source: ${data.source}">📚 ${data.source}</span>` : ''}</div>`;
   } catch(e) {
     body.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Unable to load description.</p>';
   }
@@ -2735,9 +2735,10 @@ async function toggleItemExpand(btn) {
       const resp = await fetch(`/api/items/describe?name=${encodeURIComponent(name)}`);
       const data = await resp.json();
       const typeTag = data.type ? ` · ${data.type}` : '';
+      const srcTag = data.source ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem" title="Source: ${data.source}">📚 ${data.source}</span>` : '';
       const qtyBadge = card.querySelector('.item-qty');
       const currentQty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
-      const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}
+      const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}${srcTag}
         <br><span style="color:var(--text);font-size:0.65rem;line-height:1.4">${data.description || 'No description available.'}</span>`;
       _itemDetailCache[name] = descHtml;
       detail.innerHTML = descHtml + buildQtyRow(currentQty);

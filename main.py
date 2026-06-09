@@ -4115,6 +4115,12 @@ async def character_sheet(char_id: int, request: Request):
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Fallback: features still without source inherit from character's class
+    _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
+    if _cls_source:
+        for _feat in char["feature_data"]:
+            if not _feat.get("source"):
+                _feat["source"] = _cls_source
     # Load background data
     # Load spell_slots_used
     try:
@@ -5141,6 +5147,7 @@ async def level_up_info(char_id: int, request: Request):
             "key": key, "name": feat["name"],
             "desc": feat.get("desc") or feat.get("description", ""),
             "asi": feat.get("asi"), "prereq": feat.get("prereq") or feat.get("prerequisite"),
+            "source": feat.get("source", ""),
         })
     
     # Subclass
@@ -6548,6 +6555,10 @@ FEATS: dict[str, dict] = {
     "war_caster": {"name":"War Caster","desc":"Adv on Con saves for concentration, somatic components with weapon/shield, cast spell as OA","prereq":"Ability to cast at least one spell"},
     "weapon_master": {"name":"Weapon Master","desc":"+1 Str/Dex, gain proficiency with 4 weapons","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
 }
+
+# Tag all PHB 2014 feats with source
+for _feat in FEATS.values():
+    _feat.setdefault("source", "Player's Handbook p.165-170")
 
 # ── Feature → Combat Action mapping ──────────────────────────────────
 # Maps feature name (lowercase) to (action_type, short_action_label)
