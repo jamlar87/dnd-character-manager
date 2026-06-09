@@ -18,17 +18,17 @@
   .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.5rem; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; overflow: visible; }
   .nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70vw; }
   .nav-links { display: flex; gap: 1rem; align-items: center; }
-  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; }
+  .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; touch-action: manipulation; }
   .nav-links a:hover, .nav-links button:hover { background: var(--accent2); }
   .nav-search { display: flex; align-items: center; gap: 0.3rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
   .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
   .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
-  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; }
   .search-results-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 2000; max-height: 400px; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; margin-top: 0.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
   @media (max-width: 768px) {
     .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
     .nav-search input { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
-    .nav-search .btn-sm { padding: 0.2rem 0.4rem; font-size: 0.7rem; }
+    .nav-search .btn-sm { padding: 0.4rem 0.55rem; font-size: 0.8rem; min-width: 36px; min-height: 36px; }
   }
   .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--text); font-size: 1.3rem; cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 4px; line-height: 1; }
   .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
@@ -84,10 +84,9 @@
 <nav class="nav">
   <a href="/" class="nav-brand">⚔️ D&D Character Manager</a>
   <div class="nav-search" id="navSearchBar">
-    <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
-           onkeydown="if(event.key==='Enter')searchManuals()">
-    <button class="btn btn-primary btn-sm" onclick="searchManuals()" title="Search">🔍</button>
-    <button class="btn btn-outline btn-sm" onclick="searchManuals(true)" title="AI Summarize">🤖</button>
+    <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals...">
+    <button class="btn btn-primary btn-sm" id="manualSearchBtn" title="Search">🔍</button>
+    <button class="btn btn-outline btn-sm" id="manualSearchAiBtn" title="AI Summarize">🤖</button>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
@@ -188,6 +187,18 @@ function highlightMatch(text, query) {
   }
   return result;
 }
+
+// ── Wire up event listeners (more reliable than inline onclick on mobile) ──
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('manualSearchInput');
+  const btn = document.getElementById('manualSearchBtn');
+  const aiBtn = document.getElementById('manualSearchAiBtn');
+  if (input) {
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') searchManuals(); });
+  }
+  if (btn) btn.addEventListener('click', function() { searchManuals(); });
+  if (aiBtn) aiBtn.addEventListener('click', function() { searchManuals(true); });
+});
 
 // Close search results when clicking outside
 document.addEventListener('click', function(e) {
