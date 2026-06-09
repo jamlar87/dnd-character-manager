@@ -498,7 +498,7 @@ def _draw_col2_combat(c, d):
     # Equipment
     y_eq = y_atk + 12 + 5 * 15 + 14  # increased from +6
     _label(c, COL2_X, y_eq - 9, "Equipment")
-    eq_box_h = 65
+    eq_box_h = 75  # increased from 65 for breathing room
     # Currency pills on left edge
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
     coin_w = 26
@@ -524,11 +524,11 @@ def _draw_col2_combat(c, d):
     c.rect(COL2_X, yb(y_eq) - eq_box_h, eq_box_w, eq_box_h)
     if eq_text:
         eq_lines = simpleSplit(eq_text, FONT, 5, eq_box_w - coin_w - 8)
-        max_eq = int(eq_box_h / 9)
+        max_eq = int((eq_box_h - 30) / 9)
         c.setFont(FONT, 5)
         c.setFillColor((0, 0, 0))
         for i, line in enumerate(eq_lines[:max_eq]):
-            c.drawString(COL2_X + coin_w + 6, yb(y_eq) - 10 - i * 9, line)
+            c.drawString(COL2_X + coin_w + 6, yb(y_eq) - 30 - i * 9, line)
 
 
 def _draw_col3_personality(c, d):
