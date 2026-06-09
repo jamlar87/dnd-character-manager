@@ -904,6 +904,7 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0,
             created_at TEXT NOT NULL DEFAULT (datetime('now'))
         );
         CREATE TABLE IF NOT EXISTS characters (
@@ -1191,6 +1192,24 @@ def _migrate_npc_source_columns():
     finally:
         db.close()
 
+    # Migration: is_admin column on users
+    db = get_db()
+    try:
+        db.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
+
+    # Seed ADMIN account if not exists
+    admin_row = db.execute("SELECT id FROM users WHERE email = 'admin'").fetchone()
+    if not admin_row:
+        db.execute(
+            "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, 1)",
+            ("admin", _hash("admin"))
+        )
+        db.commit()
+        print("[init] ADMIN account created (admin / admin)")
+    db.close()
+
 def _get_user(email: str) -> dict | None:
     db = get_db()
     row = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
@@ -1227,6 +1246,33 @@ def require_user(request: Request) -> dict:
     if not user:
         raise HTTPException(status_code=303, headers={"Location": "/login"})
     return user
+
+def _is_admin(user: dict) -> bool:
+    return bool(user.get("is_admin"))
+
+def _user_filter(user: dict, column: str = "user_id") -> tuple[str, tuple]:
+    """Return (sql_clause, params) that filters by user_id, or empty if admin."""
+    if _is_admin(user):
+        return ("", ())
+    return (f"AND {column} = ?", (user["id"],))
+
+def _user_where(user: dict, column: str = "user_id") -> tuple[str, tuple]:
+    """Return (WHERE_clause, params) that filters by user_id, or empty if admin."""
+    if _is_admin(user):
+        return ("", ())
+    return (f"WHERE {column} = ?", (user["id"],))
+
+def _require_owned(db, user: dict, table: str, item_id: int, id_col: str = "id") -> dict | None:
+    """Fetch a row by id, checking ownership unless user is admin. Returns dict or None.
+    
+    Raises HTTPException(404) implicitly if not found, but callers typically
+    check for None to return their own 404. Admin bypasses user_id check.
+    """
+    if _is_admin(user):
+        row = db.execute(f"SELECT * FROM {table} WHERE {id_col} = ?", (item_id,)).fetchone()
+    else:
+        row = db.execute(f"SELECT * FROM {table} WHERE {id_col} = ? AND user_id = ?", (item_id, user["id"])).fetchone()
+    return dict(row) if row else None
 
 # ── Render helper ───────────────────────────────────────────────────────────
 
@@ -1910,6 +1956,8 @@ async def register_page(request: Request):
 
 @app.post("/register")
 async def register(request: Request, email: str = Form(...), password: str = Form(...)):
+    if email.lower().strip() == "admin":
+        return _render("register.html", request=request, error="That email is unavailable")
     if len(password) < 6:
         return _render("register.html", request=request, error="Password must be at least 6 characters")
     db = get_db()
@@ -1959,8 +2007,9 @@ async def logout(request: Request):
 async def dashboard(request: Request):
     user = require_user(request)
     db = get_db()
+    where, params = _user_where(user)
     chars = [dict(r) for r in db.execute(
-        "SELECT * FROM characters WHERE user_id = ? ORDER BY created_at DESC", (user["id"],)
+        f"SELECT * FROM characters {where} ORDER BY created_at DESC", params
     ).fetchall()]
     db.close()
     for c in chars:
@@ -3143,9 +3192,9 @@ async def dm_npcs_list(request: Request):
     """List all DM's NPCs."""
     user = require_user(request)
     db = get_db()
+    where, params = _user_where(user)
     rows = [dict(r) for r in db.execute(
-        "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
-        (user["id"],)
+        f"SELECT * FROM dm_npcs {where} ORDER BY is_enemy DESC, name", params
     ).fetchall()]
     db.close()
     for r in rows:
@@ -3718,9 +3767,9 @@ async def dm_encounters_list(request: Request):
     """List all encounters."""
     user = require_user(request)
     db = get_db()
+    where, params = _user_where(user)
     rows = [dict(r) for r in db.execute(
-        "SELECT * FROM dm_encounters WHERE user_id = ? ORDER BY created_at DESC",
-        (user["id"],)
+        f"SELECT * FROM dm_encounters {where} ORDER BY created_at DESC", params
     ).fetchall()]
     # Count participants
     for r in rows:
@@ -4135,9 +4184,9 @@ async def dm_campaigns_list(request: Request):
     """List all campaigns with live character stats."""
     user = require_user(request)
     db = get_db()
+    where, params = _user_where(user)
     rows = [dict(r) for r in db.execute(
-        "SELECT * FROM dm_campaigns WHERE user_id = ? ORDER BY created_at DESC",
-        (user["id"],)
+        f"SELECT * FROM dm_campaigns {where} ORDER BY created_at DESC", params
     ).fetchall()]
 
     # Enrich each campaign's characters with live data from the characters table
@@ -4201,7 +4250,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
     if "addQuest" in data:
         new_quest = json.loads(data["addQuest"])
         db = get_db()
-        row = db.execute("SELECT quests FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        row = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
         if row:
             quests = json.loads(row["quests"] or "[]")
             quests.append(new_quest)
@@ -4210,7 +4259,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
     elif "removeQuest" in data:
         idx = int(data["removeQuest"])
         db = get_db()
-        row = db.execute("SELECT quests FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        row = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
         if row:
             quests = json.loads(row["quests"] or "[]")
             if 0 <= idx < len(quests):
@@ -4222,7 +4271,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
     if "addLocation" in data:
         new_loc = json.loads(data["addLocation"])
         db = get_db()
-        row = db.execute("SELECT locations FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        row = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
         if row:
             locs = json.loads(row["locations"] or "[]")
             locs.append(new_loc)
@@ -4231,7 +4280,7 @@ async def dm_campaign_update(camp_id: int, request: Request):
     elif "removeLocation" in data:
         idx = int(data["removeLocation"])
         db = get_db()
-        row = db.execute("SELECT locations FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+        row = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
         if row:
             locs = json.loads(row["locations"] or "[]")
             if 0 <= idx < len(locs):
@@ -4265,7 +4314,12 @@ async def dm_campaign_delete(camp_id: int, request: Request):
     """Delete a campaign."""
     user = require_user(request)
     db = get_db()
-    db.execute("DELETE FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"]))
+    # Verify ownership
+    row = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Campaign not found"}, status_code=404)
+    db.execute("DELETE FROM dm_campaigns WHERE id=?", (camp_id,))
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
@@ -4279,7 +4333,7 @@ async def dm_campaign_add_character(camp_id: int, request: Request):
     char_id = int(data.get("character_id", 0))
     db = get_db()
     # Verify campaign ownership
-    camp = db.execute("SELECT * FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    camp = _require_owned(db, user, "dm_campaigns", camp_id)
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
@@ -4316,7 +4370,7 @@ async def dm_campaign_remove_character(camp_id: int, request: Request):
     data = await request.json()
     char_id = int(data.get("character_id", 0))
     db = get_db()
-    camp = db.execute("SELECT characters FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    camp = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
@@ -4335,7 +4389,7 @@ async def dm_campaign_add_npc(camp_id: int, request: Request):
     data = await request.json()
     npc_id = int(data.get("npc_id", 0))
     db = get_db()
-    camp = db.execute("SELECT * FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    camp = _require_owned(db, user, "dm_campaigns", camp_id)
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
@@ -4398,7 +4452,7 @@ async def dm_campaign_remove_npc(camp_id: int, request: Request):
     data = await request.json()
     npc_id = int(data.get("npc_id", 0))
     db = get_db()
-    camp = db.execute("SELECT npcs FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    camp = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
@@ -4418,7 +4472,7 @@ async def dm_campaign_update_npc_notes(camp_id: int, request: Request):
     npc_id = int(data.get("npc_id", 0))
     notes = data.get("notes", "")
     db = get_db()
-    camp = db.execute("SELECT npcs FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
+    camp = _require_owned(db, user, "dm_campaigns", camp_id, id_col="id")
     if not camp:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
@@ -4481,8 +4535,7 @@ async def campaign_team_items(camp_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     # Verify user is in this campaign — DM, JSON characters, or legacy table
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
-                       (camp_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
     # Check JSON characters field for membership
     in_json = False
     camp_row = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone()
@@ -4527,8 +4580,7 @@ async def campaign_add_team_item(camp_id: int, request: Request):
     gp_value = int(data.get("gp_value", 0))
 
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
-                       (camp_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
     is_member = db.execute("""
         SELECT 1 FROM dm_campaign_characters cc
         JOIN characters ch ON ch.id = cc.character_id
@@ -4720,8 +4772,7 @@ async def campaign_update_team_item_qty(camp_id: int, item_id: int, request: Req
     """Update team item quantity (DM only)."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
-                       (camp_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can update team items"}, status_code=403)
@@ -4739,8 +4790,7 @@ async def campaign_delete_team_item(camp_id: int, item_id: int, request: Request
     """Remove a team item (DM only)."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
-                       (camp_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can remove team items"}, status_code=403)
@@ -4755,8 +4805,7 @@ async def campaign_roll_loot(camp_id: int, request: Request):
     """Roll a treasure hoard (DMG 2014 p.137-139) and return results. Items are NOT auto-added to pool — the DM picks which to keep."""
     user = require_user(request)
     db = get_db()
-    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?",
-                       (camp_id, user["id"])).fetchone()
+    is_dm = db.execute("SELECT 1 FROM dm_campaigns WHERE id=?", (camp_id,)).fetchone() if _is_admin(user) else db.execute("SELECT 1 FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"])).fetchone()
     if not is_dm:
         db.close()
         return JSONResponse({"error": "Only the DM can roll loot"}, status_code=403)
@@ -4779,8 +4828,8 @@ async def character_sheet(char_id: int, request: Request):
     user = require_user(request)
     dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
-    if dm_preview:
-        # DM preview: allow viewing any character (DMs can see all characters)
+    if dm_preview or _is_admin(user):
+        # DM preview or admin: allow viewing any character
         row = db.execute("SELECT * FROM characters WHERE id = ?",
                          (char_id,)).fetchone()
     else:
@@ -5022,8 +5071,7 @@ async def update_character(char_id: int, request: Request):
     data = await request.json()
 
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
-                     (char_id, user["id"])).fetchone()
+    row = _require_owned(db, user, "characters", char_id)
     if not row:
         db.close()
         return JSONResponse({"error": "Not found"}, status_code=404)
@@ -5107,8 +5155,7 @@ async def available_spells(char_id: int, request: Request):
     import re
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
-                     (char_id, user["id"])).fetchone()
+    row = _require_owned(db, user, "characters", char_id)
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
@@ -5263,8 +5310,7 @@ async def ai_select_spells(char_id: int, request: Request):
     prepared casters and spells-known limits for known casters."""
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
-                     (char_id, user["id"])).fetchone()
+    row = _require_owned(db, user, "characters", char_id)
     if not row:
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
