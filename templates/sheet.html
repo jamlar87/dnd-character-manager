@@ -840,7 +840,7 @@
         {% for ci in charged %}
         <div class="atk-card item-card charge-card{% if ci.current_charges <= 0 %} depleted{% endif %}"
              data-item-name="{{ ci.name }}"
-             onclick="{% if ci.current_charges > 0 %}spendCharge('{{ ci.name|replace(\"'\", \"\\'\") }}'){% endif %}"
+             onclick="{% if ci.current_charges > 0 %}spendCharge(this.dataset.itemName){% endif %}"
              style="cursor:{% if ci.current_charges > 0 %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 %}opacity:0.45{% endif %}">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
@@ -4057,7 +4057,7 @@ async function spendCharge(itemName) {
             card.classList.remove('depleted');
             card.style.opacity = '';
             card.style.cursor = 'pointer';
-            card.onclick = function() { spendCharge(ci.name); };
+            card.onclick = function() { spendCharge(this.dataset.itemName); };
           }
         }
       });
