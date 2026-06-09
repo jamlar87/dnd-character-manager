@@ -325,7 +325,7 @@ def draw_page1(c, d):
 
 
 def draw_header(c, d):
-    y0, box_h, gap = 30, 16, 28
+    y0, box_h, gap = 30, 16, 38  # increased gap from 28 to 38
     # Row 1: Character Name | Race | Class & Level | Background
     for x, w, lbl, val in [
         (COL1_X, COL1_W, "Character Name", d.get("name", "")),
@@ -391,7 +391,7 @@ def _draw_col1_stats(c, d):
         c.drawCentredString(mx + mw / 2, yb(y_tl + 58), f"{save_mod:+d}")
 
     # Skills
-    y_skills = y + 3 * (block_h + gap_y) + 4
+    y_skills = y + 3 * (block_h + gap_y) + 14  # increased from +4
     skills = d.get("skills", []) or []
     scores_map = {"strength": d.get("strength", 10), "dexterity": d.get("dexterity", 10),
                   "constitution": d.get("constitution", 10), "intelligence": d.get("intelligence", 10),
@@ -423,12 +423,12 @@ def _draw_col1_stats(c, d):
         c.drawRightString(sx + 66, yb(sy + row_h - 3), f"{skill_mod:+d}")
 
     # Passive Perception
-    y_pp = y_skills + 9 * row_h + 4
+    y_pp = y_skills + 9 * row_h + 16  # increased from +4
     _label(c, COL1_X, y_pp - 9, "Passive Perception")
     _value(c, COL1_X, y_pp, 40, 16, str(d.get("passive_perception", 10)), size=9, center=True)
 
     # Other Proficiencies
-    y_prof = y_pp + 28
+    y_prof = y_pp + 34  # increased from +28
     parts = []
     for lbl, field in [("Weapons", "weapon_proficiencies"), ("Armor", "armor_proficiencies"),
                         ("Tools", "tool_proficiencies"), ("Languages", "languages")]:
@@ -448,7 +448,7 @@ def _draw_col2_combat(c, d):
     _label(c, COL2_X + 106, y - 9, "Speed")
     _value(c, COL2_X + 106, y, 44, 20, str(d.get("speed", 30)), size=9, center=True)
     # HP
-    y_hp = y + 36
+    y_hp = y + 44  # increased from +36
     _label(c, COL2_X, y_hp - 9, "Hit Point Maximum")
     _value(c, COL2_X, y_hp, 60, 20, str(d.get("hp_max", 10)), size=11, center=True)
     _label(c, COL2_X + 66, y_hp - 9, "Current HP")
@@ -456,7 +456,7 @@ def _draw_col2_combat(c, d):
     _label(c, COL2_X + 132, y_hp - 9, "Temp HP")
     _value(c, COL2_X + 132, y_hp, 44, 20, str(d.get("temp_hp", 0)), size=9, center=True)
     # Hit Dice + Death Saves
-    y_hd = y_hp + 32
+    y_hd = y_hp + 38  # increased from +32
     _label(c, COL2_X, y_hd - 9, "Hit Dice")
     hd_type = d.get("hit_dice_type", "1d8")
     total = d.get("hit_dice_total", 1)
@@ -473,7 +473,7 @@ def _draw_col2_combat(c, d):
     for i in range(3):
         _bubble(c, COL2_X + 108 + i * 16, y_hd + 20, 5, filled=(i < fail))
     # Attacks
-    y_atk = y_hd + 44
+    y_atk = y_hd + 52  # increased from +44
     _label(c, COL2_X, y_atk - 9, "Attacks & Spellcasting")
     col_w = [80, 34, 54]
     for j, (h, cw) in enumerate(zip(["Name", "Atk", "Damage/Type"], col_w)):
@@ -496,7 +496,7 @@ def _draw_col2_combat(c, d):
             c.rect(cx, ry, cw, 15)
             c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
     # Equipment
-    y_eq = y_atk + 12 + 5 * 15 + 6
+    y_eq = y_atk + 12 + 5 * 15 + 14  # increased from +6
     _label(c, COL2_X, y_eq - 9, "Equipment")
     eq_box_h = 65
     # Currency pills on left edge
@@ -533,7 +533,7 @@ def _draw_col2_combat(c, d):
 
 def _draw_col3_personality(c, d):
     y = GRID_Y
-    block_h, gap = 50, 4
+    block_h, gap = 50, 12  # increased gap from 4 to 12
     w = COL3_W
     for i, (lbl, txt) in enumerate([
         ("Personality Traits", d.get("personality", "")),
@@ -543,7 +543,7 @@ def _draw_col3_personality(c, d):
     ]):
         sy = y + i * (block_h + gap)
         _text_box(c, COL3_X, sy, w, block_h, txt, size=5, label_text=lbl)
-    y_feat = y + 4 * (block_h + gap) + 6
+    y_feat = y + 4 * (block_h + gap) + 14  # increased from +6
     feat_h = PAGE_H - 36 - y_feat
     _text_box(c, COL3_X, y_feat, w, feat_h, d.get("condensed_features", ""), size=5,
               label_text="Features & Traits")
