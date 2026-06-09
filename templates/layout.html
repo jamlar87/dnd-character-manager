@@ -23,7 +23,7 @@
   .nav-search { display: flex; align-items: center; gap: 0.3rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
   .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
   .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
-  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; }
+  .nav-search .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; touch-action: manipulation; position: relative; z-index: 5; }
   .search-results-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 2000; max-height: 400px; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; margin-top: 0.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
   @media (max-width: 768px) {
     .nav-search { max-width: none; margin: 0 0.5rem; flex: 2; }
@@ -182,8 +182,8 @@ document.addEventListener('click', function(e) {
   <div class="nav-search" id="navSearchBar">
     <input type="text" id="manualSearchInput" placeholder="🔍 Search the Manuals..."
            onkeydown="if(event.key==='Enter')searchManuals()">
-    <button type="button" class="btn btn-primary btn-sm" onclick="searchManuals();return false" title="Search" style="touch-action:manipulation">🔍</button>
-    <button type="button" class="btn btn-outline btn-sm" onclick="searchManuals(true);return false" title="AI Summarize" style="touch-action:manipulation">🤖</button>
+    <button type="button" class="btn btn-primary btn-sm" onclick="window.searchManuals();return false" title="Search" style="touch-action:manipulation">🔍</button>
+    <button type="button" class="btn btn-outline btn-sm" onclick="window.searchManuals(true);return false" title="AI Summarize" style="touch-action:manipulation">🤖</button>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
