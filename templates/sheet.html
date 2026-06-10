@@ -815,7 +815,10 @@
         <div id="weapons-body">
         <div id="attacks-weapons-list">
         {% for atk in attacks %}
-        <div class="atk-card item-card">
+        {% set has_mag = atk.max_charges is defined and atk.max_charges %}
+        <div class="atk-card item-card weapon-atk-card{% if has_mag %} has-magazine{% endif %}"
+             data-item-name="{{ atk.name }}"
+             {% if has_mag %}data-max-charges="{{ atk.max_charges }}" data-charge-recharge="{{ atk.charge_recharge or '' }}"{% endif %}>
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -830,6 +833,16 @@
           {% if atk.properties %}
           <div class="atk-props">
             {% for prop in atk.properties %}<span class="atk-prop">{{ prop }}</span>{% endfor %}
+          </div>
+          {% endif %}
+          {% if has_mag %}
+          <div class="magazine-bar" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem">
+            <span class="magazine-count" style="font-family:monospace;font-size:0.8rem;color:var(--text-muted)">{{ atk.current_charges }}/{{ atk.max_charges }}</span>
+            <button class="mag-spend-btn" onclick="event.stopPropagation();spendCharge('{{ atk.name|replace("'","\\'") }}')"
+              style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.7rem"
+              {% if atk.current_charges <= 0 %}disabled style="opacity:0.4"{% endif %}>🔫 Fire</button>
+            <button class="mag-reload-btn" onclick="event.stopPropagation();reloadCharge('{{ atk.name|replace("'","\\'") }}')"
+              style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>
           </div>
           {% endif %}
           {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
@@ -4159,61 +4172,83 @@ async function reloadCharge(itemName) {
 
 function updateChargeCards(chargedItems) {
   chargedItems.forEach(ci => {
-    const cards = document.querySelectorAll('.charge-card');
-    cards.forEach(card => {
+    // Update Charged Items cards (wands, staves, etc.)
+    document.querySelectorAll('.charge-card').forEach(card => {
       if (card.dataset.itemName === ci.name) {
-        // Update charge count display
-        const countEl = card.querySelector('.charge-count-display');
-        if (countEl) {
-          countEl.textContent = `${ci.current_charges}/${ci.max_charges} charges`;
-        }
-        // Check if this is a reload-type item
-        const recharge = card.dataset.recharge || '';
-        const isReload = recharge.startsWith('reload');
-        // Update depleted state
-        if (ci.current_charges <= 0) {
-          card.classList.add('depleted');
-          if (isReload) {
-            // Show reload button — keep card visible and clickable
-            card.style.opacity = '';
-            card.style.cursor = 'pointer';
-            card.onclick = function() { reloadCharge(this.dataset.itemName); };
-            // Show reload button row if it exists
-            let reloadRow = card.querySelector('.reload-btn-row');
-            if (!reloadRow) {
-              reloadRow = document.createElement('div');
-              reloadRow.className = 'reload-btn-row';
-              reloadRow.style.cssText = 'margin-top:0.3rem;text-align:right';
-              reloadRow.innerHTML = `<button class="reload-btn" style="padding:0.2rem 0.6rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>`;
-              reloadRow.querySelector('.reload-btn').onclick = function(e) {
-                e.stopPropagation();
-                reloadCharge(card.dataset.itemName);
-              };
-              card.appendChild(reloadRow);
-            }
-            reloadRow.style.display = '';
-          } else {
-            // Not reloadable — gray out
-            card.style.opacity = '0.45';
-            card.style.cursor = 'default';
-            card.onclick = null;
-            // Hide reload button row
-            const reloadRow = card.querySelector('.reload-btn-row');
-            if (reloadRow) reloadRow.style.display = 'none';
-          }
-        } else {
-          card.classList.remove('depleted');
-          card.style.opacity = '';
-          card.style.cursor = 'pointer';
-          card.onclick = function() { spendCharge(this.dataset.itemName); };
-          // Hide reload button row
-          const reloadRow = card.querySelector('.reload-btn-row');
-          if (reloadRow) reloadRow.style.display = 'none';
-        }
+        updateSingleChargeCard(card, ci);
+      }
+    });
+    // Update Weapon Attack cards with magazines (firearms)
+    document.querySelectorAll('.weapon-atk-card.has-magazine').forEach(card => {
+      if (card.dataset.itemName === ci.name) {
+        updateWeaponMagazineCard(card, ci);
       }
     });
   });
   window._chargedItems = chargedItems;
+}
+
+function updateSingleChargeCard(card, ci) {
+  // Update charge count display
+  const countEl = card.querySelector('.charge-count-display');
+  if (countEl) {
+    countEl.textContent = `${ci.current_charges}/${ci.max_charges} charges`;
+  }
+  const recharge = card.dataset.recharge || '';
+  const isReload = recharge.startsWith('reload');
+  if (ci.current_charges <= 0) {
+    card.classList.add('depleted');
+    if (isReload) {
+      card.style.opacity = '';
+      card.style.cursor = 'pointer';
+      card.onclick = function() { reloadCharge(this.dataset.itemName); };
+      let reloadRow = card.querySelector('.reload-btn-row');
+      if (!reloadRow) {
+        reloadRow = document.createElement('div');
+        reloadRow.className = 'reload-btn-row';
+        reloadRow.style.cssText = 'margin-top:0.3rem;text-align:right';
+        reloadRow.innerHTML = `<button class="reload-btn" style="padding:0.2rem 0.6rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>`;
+        reloadRow.querySelector('.reload-btn').onclick = function(e) {
+          e.stopPropagation();
+          reloadCharge(card.dataset.itemName);
+        };
+        card.appendChild(reloadRow);
+      }
+      reloadRow.style.display = '';
+    } else {
+      card.style.opacity = '0.45';
+      card.style.cursor = 'default';
+      card.onclick = null;
+      const reloadRow = card.querySelector('.reload-btn-row');
+      if (reloadRow) reloadRow.style.display = 'none';
+    }
+  } else {
+    card.classList.remove('depleted');
+    card.style.opacity = '';
+    card.style.cursor = 'pointer';
+    card.onclick = function() { spendCharge(this.dataset.itemName); };
+    const reloadRow = card.querySelector('.reload-btn-row');
+    if (reloadRow) reloadRow.style.display = 'none';
+  }
+}
+
+function updateWeaponMagazineCard(card, ci) {
+  // Update magazine count
+  const countEl = card.querySelector('.magazine-count');
+  if (countEl) {
+    countEl.textContent = `${ci.current_charges}/${ci.max_charges}`;
+  }
+  // Update Fire button
+  const fireBtn = card.querySelector('.mag-spend-btn');
+  if (fireBtn) {
+    if (ci.current_charges <= 0) {
+      fireBtn.disabled = true;
+      fireBtn.style.opacity = '0.4';
+    } else {
+      fireBtn.disabled = false;
+      fireBtn.style.opacity = '';
+    }
+  }
 }
 
 function renderEquipped() {

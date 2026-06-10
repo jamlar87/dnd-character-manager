@@ -1947,9 +1947,16 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
     }
 
 def _build_inventory_attacks(character: dict) -> list:
-    """Scan inventory and equipped items for weapons and build attack entries."""
+    """Scan inventory and equipped items for weapons and build attack entries.
+    Includes magazine/charge tracking for firearms and charged weapons."""
     abilities = {a: character.get(a, 10) for a in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
     prof_bonus = character.get("proficiency_bonus", 2)
+
+    # Build lookup of equipped items for charges_used
+    equipped_charges = {}
+    for item in (character.get("equipped") or []):
+        if isinstance(item, dict):
+            equipped_charges[item.get("name", "").lower()] = item.get("charges_used", 0)
 
     attacks = []
     seen = set()
@@ -1967,7 +1974,16 @@ def _build_inventory_attacks(character: dict) -> list:
                 continue
             wpn = _find_weapon(name)
             if wpn:
-                attacks.append(_build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty))
+                atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty)
+                # Enrich with charge/magazine data from ITEM_INDEX
+                item_info = ITEM_INDEX.get(key, {})
+                max_charges = item_info.get("charges")
+                if max_charges:
+                    used = equipped_charges.get(key, 0)
+                    atk["max_charges"] = max_charges
+                    atk["current_charges"] = max(0, max_charges - used)
+                    atk["charge_recharge"] = item_info.get("charge_recharge", "")
+                attacks.append(atk)
                 seen.add(key)
 
     _scan(character.get("inventory", []))
