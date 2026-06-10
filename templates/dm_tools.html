@@ -440,14 +440,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
           <span class="badge badge-{{ 'accent' if enc.status == 'active' else 'muted' }}">{{ enc.status|capitalize }}</span>
           {% if enc.difficulty %}<span class="badge badge-muted">{{ enc.difficulty|capitalize }}</span>{% endif %}
         </div>
-        <div style="display:flex;gap:0.3rem">
-          <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕</button>
-        </div>
+        <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
       </div>
       {% if enc.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin:0.3rem 0">{{ enc.description }}</p>{% endif %}
       {% if enc.notes %}<details style="margin:0.3rem 0"><summary style="font-size:0.75rem;color:var(--accent);cursor:pointer">📋 Tactics</summary><p style="font-size:0.8rem;color:var(--text-muted);margin:0.15rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.4rem;max-height:4em;overflow:hidden">{{ enc.notes }}</p></details>{% endif %}
       {% if enc.location %}<p style="font-size:0.8rem;color:var(--text-muted)">📍 {{ enc.location }}</p>{% endif %}
+      <div style="display:flex;justify-content:flex-end;margin-top:0.5rem">
+        <button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕ Delete</button>
+      </div>
     </div>
     {% else %}
     <div class="empty-state">
