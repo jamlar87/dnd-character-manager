@@ -4472,19 +4472,13 @@ Return ONLY valid JSON (no markdown). Vary your choices each time.
     adjusted_xp = int(xp_total * mult)
     budget_pct = int((adjusted_xp / xp_budget * 100)) if xp_budget > 0 else 100
 
-    # Difficulty label (DMG p.82)
-    if budget_pct < 50: diff_label = "Easy"
-    elif budget_pct < 100: diff_label = "Medium"
-    elif budget_pct < 150: diff_label = "Hard"
-    else: diff_label = "Deadly"
-
     return JSONResponse({
         "name": ai.get("name", f"Random {environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
         "description": ai.get("description", f"A {difficulty} encounter in {environment}.") if ai else "",
         "tactics": ai.get("tactics", "") if ai else "",
         "composition": composition,
         "xp": {"raw_total": xp_total, "adjusted": adjusted_xp, "budget": xp_budget, "budget_pct": budget_pct},
-        "difficulty": diff_label,
+        "difficulty": difficulty.capitalize(),
         "party": {"level": party_level, "size": party_size},
     })
 
