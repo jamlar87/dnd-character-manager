@@ -1390,27 +1390,44 @@ RACES = {
 }
 
 # Tag hardcoded races with source
-for _r_name, _r in RACES.items():
-    if "source" not in _r:
-        _r["source"] = "Player's Handbook p.17-43"
-# Fix: Genasi is not a PHB race — it's from Elemental Evil Player's Companion
-RACES["Genasi"]["source"] = "Elemental Evil Player's Companion"
+_race_page_map: dict[str, str] = {}
+try:
+    _rpm_path = DATA_DIR / "race_page_map.json"
+    if _rpm_path.exists():
+        with open(_rpm_path) as _f:
+            _raw_rpm = json.load(_f)
+        for _k, _v in _raw_rpm.items():
+            _src = _v.get("source_str", "")
+            if _src and "p." in _src:
+                _race_page_map[_k] = _src
+        # Apply to RACES
+        for _r_name, _r_data in RACES.items():
+            _mapped = _race_page_map.get(_r_name.lower())
+            if _mapped:
+                _r_data["source"] = _mapped
+        _r_enriched = sum(1 for r in RACES.values() if "p." in r.get("source", ""))
+        print(f"  Race sources enriched: {_r_enriched}/{len(RACES)}")
+except Exception as _e:
+    print(f"  (race page map unavailable: {_e})")
 
 # Per-subrace source overrides (subraces that differ from their parent race)
 SUBRACE_SOURCES: dict[str, str] = {
     # Dwarf
-    "Duergar": "Sword Coast Adventurer's Guide p.103",
-    "Gold Dwarf": "Sword Coast Adventurer's Guide p.102",
+    "Duergar": "SCAG p.103",
+    "Gold Dwarf": "SCAG p.102",
     # Elf
-    "Sea Elf": "Mordenkainen's Tome of Foes p.62",
-    "Eladrin": "Dungeon Master's Guide p.286",
-    "Shadar-kai": "Mordenkainen's Tome of Foes p.62-63",
+    "Sea Elf": "MTF p.62",
+    "Eladrin": "MTF p.61",
+    "Shadar-kai": "MTF p.62",
     # Halfling
-    "Ghostwise Halfling": "Sword Coast Adventurer's Guide p.110",
+    "Ghostwise Halfling": "SCAG p.110",
     # Gnome
-    "Deep Gnome": "Elemental Evil Player's Companion",
-    # Genasi subraces — all from same book as parent
-    # (Air/Earth/Fire/Water Genasi inherit EEPC from parent — no override needed)
+    "Deep Gnome": "EEPC p.11",
+    # Genasi subraces — EEPC pp.9-10
+    "Air Genasi": "EEPC p.9",
+    "Earth Genasi": "EEPC p.9",
+    "Fire Genasi": "EEPC p.9",
+    "Water Genasi": "EEPC p.10",
 }
 # Attach _subrace_sources to each race (all subraces default to parent source)
 for _r_name, _r in RACES.items():
