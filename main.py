@@ -4401,17 +4401,19 @@ async def dm_ai_build_encounter(request: Request):
     candidates.sort(key=lambda c: c["cr"], reverse=True)
 
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
-    ai_prompt = f"""Suggest a D&D 5e encounter for {cr_info} characters.
-Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}' if tone else ''}
-Difficulty: {difficulty} (target ~{xp_budget} adjusted XP total — aim for 80-120% of this)
+    ai_prompt = f"""Build a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info} characters.
+Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
+XP budget: aim for ~{xp_budget} adjusted XP (80-120% range). For {difficulty}, choose monsters whose total XP hits this target.
+Pick ONLY monsters suited to a {environment} setting. Filter out anything that doesn't fit the environment.
 
-Available monsters (pick 2-5 types, vary roles — one boss-type, some support, some minions):
+Available candidates (pick 2-5 distinct types, vary roles — one boss/elite, some support, some minions):
 {candidates}
 
-Return ONLY valid JSON (no markdown). Vary your choices — don't reuse the same composition twice.
-{{"name": "encounter name (atmospheric, location-based)", "description": "1-2 sentence setup vignette", 
+Return ONLY valid JSON (no markdown). Vary your choices each time.
+{{"name": "atmospheric {environment}-themed encounter name", "description": "1-2 sentence setup vignette", 
 "composition": [{{"index": "monster index from list", "count": 2}}],
 "tactics": "1-2 sentence tactics for this encounter"}}"""
+    print(f"[AI Encounter] env={environment} diff={difficulty} budget={xp_budget} candidates={len(candidates)}")
 
     text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
