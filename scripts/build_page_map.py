@@ -551,6 +551,143 @@ PHB_EXTRAS = {
 }
 KNOWN_PAGES_PHB.update(PHB_EXTRAS)
 
+# ── PHB items with wrong PDF search pages (first-mention noise) ──
+PHB_FIXES = {
+    "ale": 158, "beer": 158, "ale (gallon)": 158, "ale (mug)": 158,
+    "bottle": 150, "bottle, glass": 150,
+    "crystal": 150,  # arcane focus
+    "orb": 150,  # arcane focus
+    "rod": 150,  # arcane focus
+    "rope": 150,  # generic rope → adventuring gear section
+    "sled": 157,  # mount/vehicle
+    "spike, iron": 150,
+    "staff": 150,  # arcane focus
+    "string (10 feet)": 150,
+    "tent": 150,
+    "totem": 151,  # druidic focus
+    "wagon": 157,
+    "wand": 150,  # arcane focus (wand focus, not magic wand)
+    "emblem": 151,  # holy symbol
+    "holy symbol": 151,
+    "messenger": 159,  # services
+    "small knife": 150,
+    "yew wand": 151,  # druidic focus — probably correct but verify
+    "sprig of mistletoe": 151,  # druidic focus
+    "reliquary": 151,  # holy symbol
+    "arcane focus": 150,
+    "druidic focus": 150,
+    "donkey or mule": 157,
+    "ammunition": 150,
+    "alms box": 150,
+    "vestments": 150,
+    "censer": 151,
+    "block of incense": 151,
+}
+KNOWN_PAGES_PHB.update(PHB_FIXES)
+
+# ── DMG items with wrong PDF search pages ──
+DMG_FIXES = {
+    # Figurine short names (all under "figurine of wondrous power" p.169)
+    "bronze griffon": 169, "ebony fly": 169, "golden lions": 169,
+    "ivory goats": 169, "marble elephant": 169, "obsidian steed": 169,
+    "onyx dog": 169, "serpentine owl": 169, "silver raven": 169,
+    # Spell scroll levels (all p.200)
+    "spell scroll (1st)": 200, "spell scroll (2nd)": 200,
+    "spell scroll (3rd)": 200, "spell scroll (4th)": 200,
+    "spell scroll (5th)": 200, "spell scroll (6th)": 200,
+    "spell scroll (7th)": 200, "spell scroll (8th)": 200,
+    "spell scroll (9th)": 200,
+    # Wrong context pages
+    "ram": 255,  # siege equipment
+    "gunpowder": 267,  # should be firearms section, not p.85
+    "beer": 150,  # DMG variant — actually in PHB
+    "honey": 150,  # DMG variant
+    "mayonnaise": 150,  # alchemy jug output
+    "vinegar": 150,  # DMG variant
+    "water, fresh": 150,
+    "water, salt": 150,
+    "wine": 158,  # should be PHB food/drink
+    "crets": 150,  # "cret" → probably OCR noise, default to DMG equipment
+    # Carpet variants → all under "carpet of flying" p.157
+    "carpet of flying (3 ft. × 5 ft.)": 157,
+    "carpet of flying (4 ft. × 6 ft.)": 157,
+    "carpet of flying (5 ft. × 7 ft.)": 157,
+    "carpet of flying (6 ft. × 9 ft.)": 157,
+    # Items with plausible but suboptimal pages
+    "airship": 119,  # DMG p.119 (adventuring options, not just "p.24")
+    "alchemy jug": 150,  # p.150 not p.133
+    "axe of the dwarvish lords": 221,  # artifact section (was p.220, close)
+    "blackrazor": 216,  # correct
+    "book of exalted deeds": 222,  # correct
+    "book of vile darkness": 222,  # correct
+    "candle of invocation": 157,  # correct
+    "cape of billowing": 136,  # XGE common items
+    "cloak of billowing": 136,
+    "cloak of many fashions": 136,
+    "boots of false tracks": 136,
+    "cast-off armor": 136,
+    "charlatan's die": 136,
+    "dread helm": 137,
+    "driftglobe": 136,  # common magic item, XGE
+    "ear horn of hearing": 137,
+    "enduring spellbook": 137,
+    "ersatz eye": 137,
+    "hat of wizardry": 137,
+    "hat of vermin": 137,
+    "instrument of illusions": 137,
+    "lock of trickery": 138,
+    "moon-touched sword": 138,
+    "mystery key": 138,
+    "orb of direction": 138,
+    "orb of time": 138,
+    "perfume of bewitching": 138,
+    "pipe of smoke monsters": 138,
+    "pole of angling": 138,
+    "pole of collapsing": 138,
+    "pot of awakening": 138,
+    "pressure capsule": 138,
+    "rope of mending": 138,
+    "ruby of the war mage": 138,
+    "shield of expression": 139,
+    "smoldering armor": 139,
+    "staff of adornment": 139,
+    "staff of birdcalls": 139,
+    "staff of flowers": 139,
+    "talking doll": 139,
+    "tankard of sobriety": 139,
+    "unbreakable arrow": 139,
+    "veteran's cane": 139,
+    "walloping ammunition": 139,
+    "wand of conducting": 140,
+    "wand of pyrotechnics": 140,
+    "wand of scowls": 140,
+    "wand of smiles": 140,
+    "clockwork amulet": 137,
+    "clothes of mending": 137,
+    "dark shard amulet": 137,
+    "hew": 192,
+    "hew (battleaxe)": 192,
+    # DMG items from "Dungeon Master's Guide (common magic items section)"
+    "armor of gleaming": 136,
+    "bead of nourishment": 136,
+    "bead of refreshment": 136,
+    "candle of the deep": 136,
+    # Known correct DMG artifact/legendary pages
+    "eye of vecna": 224, "hand of vecna": 224,
+    "sword of answering": 206,
+    "moonblade": 217,
+    "wave": 218, "whelm": 218,
+    "blackrazor": 216,
+    "tentacle rod": 208,
+    "trident of warning": 209,  # correct — verify
+    "weapon of warning": 213,  # correct
+    # Sentient items / artifacts p.216-224
+    "book of exalted deeds": 222,
+    "book of vile darkness": 222,
+    "axe of the dwarvish lords": 221,
+}
+KNOWN_PAGES_DMG.update(DMG_FIXES)
+
 
 def normalize_name(name):
     """Normalize item name for comparison."""
