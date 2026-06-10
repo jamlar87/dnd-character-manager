@@ -488,6 +488,28 @@ def load_manual_data():
 
     print(f"  Manual data loaded: {meta.get('totals', {})}")
 
+# ── Enrich spell sources with page numbers ──
+_spell_page_map: dict[str, str] = {}
+try:
+    _spm_path = DATA_DIR / "spell_page_map.json"
+    if _spm_path.exists():
+        with open(_spm_path) as _f:
+            _raw_spm = json.load(_f)
+        for _k, _v in _raw_spm.items():
+            _src = _v.get("source_str", "")
+            if _src and "p." in _src:
+                _spell_page_map[_k] = _src
+        # Apply to SRD_SPELLS
+        for _spell in SRD_SPELLS:
+            _name = _spell.get("name", "").lower()
+            _mapped = _spell_page_map.get(_name)
+            if _mapped:
+                _spell["source"] = _mapped
+        _enriched = sum(1 for s in SRD_SPELLS if "p." in s.get("source", ""))
+        print(f"  Spell sources enriched: {_enriched}/{len(SRD_SPELLS)}")
+except Exception as _e:
+    print(f"  (spell page map unavailable: {_e})")
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
