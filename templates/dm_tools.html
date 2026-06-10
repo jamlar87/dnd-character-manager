@@ -1379,10 +1379,9 @@ async function openEncounter(id) {
       html += `<div class="empty-state" style="padding:1rem"><p>No participants. Add NPCs from the palette.</p></div>`;
     }
 
-    html += `</div></div>
+    html += `</div></div></div>
       <div style="text-align:right;margin-top:0.75rem">
         <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">✕ Delete Encounter</button>
-      </div>
       </div>`;
     document.getElementById('encounterDetail').innerHTML = html;
   } catch(e) {
