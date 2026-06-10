@@ -1247,10 +1247,7 @@ async function openEncounter(id) {
 
     let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <h2 style="margin:0">${enc.name}</h2>
-      <div style="display:flex;gap:0.3rem">
-        <button class="btn btn-outline btn-sm" onclick="editEncounterMeta(${id})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">Delete</button>
-      </div>
+      <button class="btn btn-outline btn-sm" onclick="editEncounterMeta(${id})">✏️</button>
     </div>`;
     if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.5rem">${enc.description}</p>`;
     if (enc.notes) html += `<details style="margin-bottom:0.5rem"><summary style="cursor:pointer;font-size:0.85rem;color:var(--accent);user-select:none">📋 Tactics & Notes</summary><p style="font-size:0.85rem;color:var(--text-muted);white-space:pre-wrap;margin:0.3rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.5rem">${enc.notes}</p></details>`;
@@ -1382,7 +1379,11 @@ async function openEncounter(id) {
       html += `<div class="empty-state" style="padding:1rem"><p>No participants. Add NPCs from the palette.</p></div>`;
     }
 
-    html += `</div></div></div>`;
+    html += `</div></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:0.75rem">
+        <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">✕ Delete Encounter</button>
+      </div>
+      </div>`;
     document.getElementById('encounterDetail').innerHTML = html;
   } catch(e) {
     document.getElementById('encounterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load encounter.</p>';
