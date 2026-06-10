@@ -239,6 +239,7 @@ def load_manual_data():
             "desc": RICH_RACE_DESCS.get(name, race.get("description", "")),
             "subrace_descs": subrace_descs,
             "source": race.get("source", ""),
+            "natural_armor": None,  # Populated below from _na_fixes or _effects
         }
         # Clean up bad sources: bare page numbers, Unknown markers
         src = RACES[name].get("source", "")
@@ -261,6 +262,22 @@ def load_manual_data():
         for s in subrace_names:
             sr_srcs[s] = SUBRACE_SOURCES.get(s, parent_src)
         RACES[name]["_subrace_sources"] = sr_srcs
+        # Fix auto-extracted natural armor data — store per-race (not shared globally)
+        # Loxodon uses CON, Lizardfolk gets full DEX (uncapped), Tortle is flat 17
+        _na_fixes: dict[str, dict] = {
+            "Lizardfolk": {"base_ac": 13, "uncapped": True},
+            "Loxodon": {"base_ac": 12, "stat": "constitution", "uncapped": True},
+            "Tortle": {"base_ac": 17},
+        }
+        if name in _na_fixes:
+            RACES[name]["natural_armor"] = _na_fixes[name]
+        else:
+            # Fallback: extract from _effects for races not in the fix list
+            for eff in race.get("_effects", {}).values():
+                na = eff.get("natural_armor")
+                if na:
+                    RACES[name]["natural_armor"] = na
+                    break
         # Add trait descriptions (quality-aware)
         for t in race.get("traits", []):
             tname = t.get("name", "")
@@ -286,6 +303,13 @@ def load_manual_data():
                     "natural_armor": eff.get("natural_armor"),
                 }
                 RACIAL_TRAIT_EFFECTS[tname] = mapped
+            else:
+                # natural_armor is always race-specific (different body types)
+                # Override even for duplicate trait names so Tortle gets AC 17
+                # instead of Loxodon's AC 12, and Lizardfolk gets AC 13.
+                na = eff.get("natural_armor")
+                if na:
+                    RACIAL_TRAIT_EFFECTS[tname]["natural_armor"] = na
         # Register limited-use race traits into LIMITED_USE
         for t in race.get("traits", []):
             tname = t.get("name", "")
@@ -2262,10 +2286,11 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
             if effects.get(key) is not None:
                 result[key] = effects[key]
         result["hp_per_level"] += effects.get("hp_per_level", 0)
-        # Natural armor: first trait wins (typically highest base AC)
-        na = effects.get("natural_armor")
-        if na and result["natural_armor"] is None:
-            result["natural_armor"] = na
+
+    # Natural armor: read from per-race data (avoids global-trait conflicts
+    # where Loxodon/Tortle/Lizardfolk all share "Natural Armor" trait name)
+    if race_data.get("natural_armor"):
+        result["natural_armor"] = race_data["natural_armor"]
 
     # ── Dragonborn ancestry resistance (PHB p.34) ──
     if ancestry and ancestry in DRACONIC_ANCESTRIES:
@@ -11132,15 +11157,22 @@ async def ai_build(request: Request):
 
 
 def _calculate_ac(class_name: str, level: int, mods: dict, natural_armor: dict | None = None) -> int:
-    # Natural armor (Tortle, Lizardfolk, etc.) overrides class-based AC
+    # Natural armor (Tortle, Lizardfolk, Loxodon, etc.) overrides class-based AC
     if natural_armor:
         ac = natural_armor.get("base_ac", 17)
-        # If armor allows DEX bonus
-        max_dex = natural_armor.get("max_dex")
-        if max_dex is not None:
-            dex = mods["dexterity"]
-            ac += min(dex, max_dex)
-        # Shield bonus is handled separately by equipment system
+        # Determine which ability modifier to use
+        stat = natural_armor.get("stat", "dexterity")
+        ability_mod = mods[stat]
+        # Uncapped: add full ability modifier (Lizardfolk: 13 + DEX)
+        if natural_armor.get("uncapped"):
+            ac += ability_mod
+            return ac
+        # Capped DEX bonus (e.g., medium armor)
+        max_bonus = natural_armor.get("max_bonus")
+        if max_bonus is not None:
+            ac += min(ability_mod, max_bonus)
+            return ac
+        # Flat AC with no ability modifier (Tortle: 17 flat, Loxodon: 12 + CON via stat key)
         return ac
 
     dex = mods["dexterity"]
