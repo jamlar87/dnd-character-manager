@@ -3162,14 +3162,36 @@ def _load_monster_cache() -> list[dict]:
     except Exception:
         pass
     # Tag SRD monsters with source — all SRD monsters are from the Monster Manual
+    # Also tag mounts and vehicles so encounter builder can filter them
+    _MOUNT_NAMES = {
+        'Riding Horse', 'Draft Horse', 'Warhorse', 'Pony', 'Camel', 'Mastiff', 'Mule', 'Elephant',
+        'Griffon', 'Hippogriff', 'Pegasus', 'Nightmare', 'Unicorn', 'Wyvern',
+        'Giant Eagle', 'Giant Owl', 'Giant Vulture', 'Giant Bat', 'Giant Elk',
+        'Giant Goat', 'Giant Lizard', 'Giant Sea Horse', 'Giant Weasel',
+        'Worg', 'Winter Wolf', 'Dire Wolf', 'Axe Beak', 'Roc',
+        'Saber-Toothed Tiger', 'Mammoth', 'Dragon Turtle',
+        'Warhorse Skeleton', 'Sea Horse',
+    }
+    _VEHICLE_NAMES = {'Animated Armor', 'Flying Sword', 'Rug of Smothering'}
     for m in base:
+        name = m.get("name", "")
+        # Source badge
         if "source" not in m:
-            name = m.get("name", "")
             page = _monster_page_map.get(name)
             if page:
                 m["source"] = f"Monster Manual p.{page}"
             else:
                 m["source"] = "Monster Manual"
+        # Tags
+        tags = m.get("tags", [])
+        if not isinstance(tags, list):
+            tags = []
+        if name in _MOUNT_NAMES:
+            tags.append("mount")
+        if name in _VEHICLE_NAMES:
+            tags.append("vehicle")
+        if tags:
+            m["tags"] = tags
     if not MANUAL_MONSTERS:
         manual = _load_manual_json("monsters.json")
         # Normalize manual monster format to SRD format
@@ -4340,6 +4362,11 @@ async def dm_ai_build_encounter(request: Request):
 
         m_xp = _xp_for_cr(m_cr)
         if m_xp == 0:
+            continue
+
+        # Skip mounts and vehicles — DM can add manually
+        m_tags = m.get("tags", [])
+        if "mount" in m_tags or "vehicle" in m_tags:
             continue
 
         candidates.append({
