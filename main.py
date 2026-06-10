@@ -4349,8 +4349,7 @@ async def dm_ai_build_encounter(request: Request):
             "hp": m.get("hit_points", 0),
         })
 
-    # AI composition suggestion — send random sample so all monsters get used
-    import random
+    # AI composition suggestion — send all candidates so AI has full choice
     if not candidates:
         for m in all_monsters:
             try:
@@ -4370,9 +4369,8 @@ async def dm_ai_build_encounter(request: Request):
                 "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
                 "hp": m.get("hit_points", 0),
             })
-    sample_size = min(80, len(candidates))
-    ai_sample = random.sample(candidates, sample_size) if len(candidates) > sample_size else candidates
-    ai_sample.sort(key=lambda c: c["cr"], reverse=True)  # highest CR first for readability
+    # Sort by CR descending for AI readability
+    candidates.sort(key=lambda c: c["cr"], reverse=True)
 
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
     ai_prompt = f"""Suggest a D&D 5e encounter for {cr_info} characters.
@@ -4380,7 +4378,7 @@ Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}'
 Difficulty target: {difficulty}
 
 Available monsters (pick 2-4 types, vary roles — one boss-type, some support, some minions):
-{ai_sample}
+{candidates}
 
 Return ONLY valid JSON (no markdown):
 {{"name": "encounter name (atmospheric, location-based)", "description": "1-2 sentence setup vignette", 
