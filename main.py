@@ -1976,7 +1976,8 @@ def _build_inventory_attacks(character: dict) -> list:
 
 def _build_charged_item_attacks(character: dict) -> list:
     """Scan equipped items for charged magic items (wands, staves, rods, etc.)
-    and build charge-card entries. Tracks charges_used per item."""
+    and build charge-card entries. Tracks charges_used per item.
+    Weapons (including firearms) are excluded — they appear in Weapon Attacks instead."""
     charged = []
     seen = set()
     for item in (character.get("equipped") or []):
@@ -1988,6 +1989,9 @@ def _build_charged_item_attacks(character: dict) -> list:
             continue
         info = ITEM_INDEX.get(key)
         if not info or not info.get("charges"):
+            continue
+        # Skip weapons — they render in the Weapon Attacks card
+        if _find_weapon(name):
             continue
         max_charges = info["charges"]
         used = item.get("charges_used", 0)
