@@ -873,7 +873,7 @@ async function _loadSourceSlugs() {
   catch(e) { _sourceSlugLookup = {}; }
 }
 async function openSourceRef(src) {
-  if (!src || src === 'SRD 5.1') return;
+  if (!src) return;
   if (!_sourceSlugLookup) await _loadSourceSlugs();
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;

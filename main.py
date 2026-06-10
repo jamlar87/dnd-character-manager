@@ -3152,10 +3152,24 @@ MANUAL_TRAPS: list[dict] = []
 def _load_monster_cache() -> list[dict]:
     global MANUAL_MONSTERS
     base = _load_json_cache("monsters.json")
-    # Tag SRD monsters with source
+    # Load monster→page map for source badges
+    _monster_page_map: dict[str, int] = {}
+    try:
+        _mpm_path = DATA_DIR / "monster_page_map.json"
+        if _mpm_path.exists():
+            with open(_mpm_path) as _f:
+                _monster_page_map = json.load(_f)
+    except Exception:
+        pass
+    # Tag SRD monsters with source — all SRD monsters are from the Monster Manual
     for m in base:
         if "source" not in m:
-            m["source"] = "SRD 5.1"
+            name = m.get("name", "")
+            page = _monster_page_map.get(name)
+            if page:
+                m["source"] = f"Monster Manual p.{page}"
+            else:
+                m["source"] = "Monster Manual"
     if not MANUAL_MONSTERS:
         manual = _load_manual_json("monsters.json")
         # Normalize manual monster format to SRD format
