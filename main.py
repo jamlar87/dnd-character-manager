@@ -4369,7 +4369,8 @@ async def dm_ai_build_encounter(request: Request):
                 "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
                 "hp": m.get("hit_points", 0),
             })
-    # Sort by CR descending for AI readability
+    # Shuffle to vary AI picks, then sort by CR descending for readability
+    random.shuffle(candidates)
     candidates.sort(key=lambda c: c["cr"], reverse=True)
 
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
@@ -4380,7 +4381,7 @@ Difficulty: {difficulty} (target ~{xp_budget} adjusted XP total — aim for 80-1
 Available monsters (pick 2-5 types, vary roles — one boss-type, some support, some minions):
 {candidates}
 
-Return ONLY valid JSON (no markdown):
+Return ONLY valid JSON (no markdown). Vary your choices — don't reuse the same composition twice.
 {{"name": "encounter name (atmospheric, location-based)", "description": "1-2 sentence setup vignette", 
 "composition": [{{"index": "monster index from list", "count": 2}}],
 "tactics": "1-2 sentence tactics for this encounter"}}"""
