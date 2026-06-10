@@ -1776,9 +1776,37 @@ CLASSES = {
 }
 
 # Tag hardcoded classes with source
-for _c in CLASSES.values():
-    if "source" not in _c:
-        _c["source"] = "Player's Handbook p.45-119"
+_class_page_map: dict[str, str] = {}
+try:
+    _cpm_path = DATA_DIR / "class_page_map.json"
+    if _cpm_path.exists():
+        with open(_cpm_path) as _f:
+            _raw_cpm = json.load(_f)
+        for _k, _v in _raw_cpm.items():
+            _src = _v.get("source_str", "")
+            if _src and "p." in _src:
+                _class_page_map[_k] = _src
+        # Apply to classes
+        for _cname, _cdata in CLASSES.items():
+            _mapped = _class_page_map.get(_cname.lower())
+            if _mapped:
+                _cdata["source"] = _mapped
+        print(f"  Class sources enriched: {sum(1 for c in CLASSES.values() if 'p.' in c.get('source',''))}/{len(CLASSES)}")
+except Exception as _e:
+    print(f"  (class page map unavailable: {_e})")
+
+# ── Subclass source enrichment ──
+# Apply to subclass sources stored in CLASSES._subclass_sources
+_subclass_enriched = 0
+for _cname, _cdata in CLASSES.items():
+    _ss_map = _cdata.get("_subclass_sources", {})
+    for _sname in list(_ss_map.keys()):
+        _mapped = _class_page_map.get(_sname.lower())
+        if _mapped:
+            _ss_map[_sname] = _mapped
+            _subclass_enriched += 1
+if _subclass_enriched:
+    print(f"  Subclass sources enriched: {_subclass_enriched}")
 
 SKILL_ABILITIES = {
     "Acrobatics":"dexterity","Animal Handling":"wisdom","Arcana":"intelligence",
