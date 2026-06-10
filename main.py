@@ -791,15 +791,15 @@ _FIREARM_ITEMS = [
     {"name":"Musket","type":"Martial Ranged Weapon (Renaissance)","description":"1d12 piercing — Ammunition (40/120), loading, two-handed. A long-barreled black-powder firearm.","cost":"500 gp","weight":10,"rarity":"","source":"DMG 2014"},
     {"name":"Bullets (10)","type":"Ammunition (Renaissance)","description":"Ten lead bullets for use with Renaissance firearms (pistol, musket).","cost":"3 gp","weight":2,"rarity":"","source":"DMG 2014"},
     # Modern
-    {"name":"Pistol, automatic","type":"Martial Ranged Weapon (Modern)","description":"2d6 piercing — Ammunition (50/150), reload (15 shots). A modern semi-automatic handgun.","cost":"—","weight":3,"rarity":"","source":"DMG 2014"},
-    {"name":"Revolver","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (40/120), reload (6 shots). A six-chamber handgun.","cost":"—","weight":3,"rarity":"","source":"DMG 2014"},
-    {"name":"Rifle, hunting","type":"Martial Ranged Weapon (Modern)","description":"2d10 piercing — Ammunition (80/240), reload (5 shots), two-handed. A civilian hunting rifle.","cost":"—","weight":8,"rarity":"","source":"DMG 2014"},
-    {"name":"Rifle, automatic","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (80/240), burst fire, reload (30 shots), two-handed. Burst fire: creature in a 10-ft cube must succeed on a DC 15 DEX save or take weapon damage.","cost":"—","weight":8,"rarity":"","source":"DMG 2014"},
-    {"name":"Shotgun","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (30/90), reload (2 shots), two-handed. A double-barreled scattergun.","cost":"—","weight":7,"rarity":"","source":"DMG 2014"},
+    {"name":"Pistol, automatic","type":"Martial Ranged Weapon (Modern)","description":"2d6 piercing — Ammunition (50/150), reload (15 shots). A modern semi-automatic handgun.","cost":"—","weight":3,"rarity":"","source":"DMG 2014","charges":15,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Revolver","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (40/120), reload (6 shots). A six-chamber handgun.","cost":"—","weight":3,"rarity":"","source":"DMG 2014","charges":6,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Rifle, hunting","type":"Martial Ranged Weapon (Modern)","description":"2d10 piercing — Ammunition (80/240), reload (5 shots), two-handed. A civilian hunting rifle.","cost":"—","weight":8,"rarity":"","source":"DMG 2014","charges":5,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Rifle, automatic","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (80/240), burst fire, reload (30 shots), two-handed. Burst fire: creature in a 10-ft cube must succeed on a DC 15 DEX save or take weapon damage.","cost":"—","weight":8,"rarity":"","source":"DMG 2014","charges":30,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Shotgun","type":"Martial Ranged Weapon (Modern)","description":"2d8 piercing — Ammunition (30/90), reload (2 shots), two-handed. A double-barreled scattergun.","cost":"—","weight":7,"rarity":"","source":"DMG 2014","charges":2,"charge_recharge":"reload (action or bonus action)"},
     # Futuristic
-    {"name":"Laser pistol","type":"Martial Ranged Weapon (Futuristic)","description":"3d6 radiant — Ammunition (40/120), reload (50 shots). A sleek energy sidearm.","cost":"—","weight":2,"rarity":"","source":"DMG 2014"},
-    {"name":"Antimatter rifle","type":"Martial Ranged Weapon (Futuristic)","description":"6d8 necrotic — Ammunition (120/360), reload (2 shots), two-handed. A devastating high-tech sniper weapon.","cost":"—","weight":10,"rarity":"","source":"DMG 2014"},
-    {"name":"Laser rifle","type":"Martial Ranged Weapon (Futuristic)","description":"3d8 radiant — Ammunition (100/300), reload (30 shots), two-handed. A shoulder-fired energy weapon.","cost":"—","weight":7,"rarity":"","source":"DMG 2014"},
+    {"name":"Laser pistol","type":"Martial Ranged Weapon (Futuristic)","description":"3d6 radiant — Ammunition (40/120), reload (50 shots). A sleek energy sidearm.","cost":"—","weight":2,"rarity":"","source":"DMG 2014","charges":50,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Antimatter rifle","type":"Martial Ranged Weapon (Futuristic)","description":"6d8 necrotic — Ammunition (120/360), reload (2 shots), two-handed. A devastating high-tech sniper weapon.","cost":"—","weight":10,"rarity":"","source":"DMG 2014","charges":2,"charge_recharge":"reload (action or bonus action)"},
+    {"name":"Laser rifle","type":"Martial Ranged Weapon (Futuristic)","description":"3d8 radiant — Ammunition (100/300), reload (30 shots), two-handed. A shoulder-fired energy weapon.","cost":"—","weight":7,"rarity":"","source":"DMG 2014","charges":30,"charge_recharge":"reload (action or bonus action)"},
     {"name":"Energy cell","type":"Ammunition (Futuristic)","description":"A power cell for futuristic firearms (laser pistol, antimatter rifle, laser rifle).","cost":"—","weight":0.3,"rarity":"","source":"DMG 2014"},
     # Explosives
     {"name":"Bomb","type":"Explosive","description":"As an action, light and throw up to 60 ft. Explodes at the start of your next turn. DC 12 DEX save; 3d6 fire damage on failure, half on success.","cost":"150 gp","weight":1,"rarity":"","source":"DMG 2014"},
@@ -5271,6 +5271,48 @@ async def spend_charge(char_id: int, request: Request):
     char["equipped"] = equipped
     charged = _build_charged_item_attacks(char)
     return JSONResponse({"charged_items": charged, "item_name": item_name})
+
+
+@app.post("/api/character/{char_id}/reload-charge", response_class=JSONResponse)
+async def reload_charge(char_id: int, request: Request):
+    """Reset charges_used to 0 for an equipped item (reload a firearm magazine)."""
+    user = require_user(request)
+    data = await request.json()
+    item_name = (data.get("name") or "").strip()
+    if not item_name:
+        return JSONResponse({"error": "No item name"}, status_code=400)
+
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    char = dict(row)
+    equipped = json.loads(char.get("equipped", "[]") or "[]")
+
+    updated = False
+    for item in equipped:
+        if not isinstance(item, dict):
+            continue
+        if item.get("name", "").strip().lower() == item_name.lower():
+            item["charges_used"] = 0
+            updated = True
+            break
+
+    if not updated:
+        db.close()
+        return JSONResponse({"error": "Item not found or not equipped"}, status_code=404)
+
+    db.execute("UPDATE characters SET equipped=? WHERE id=? AND user_id=?",
+               (json.dumps(equipped), char_id, user["id"]))
+    db.commit()
+    db.close()
+
+    char["equipped"] = equipped
+    charged = _build_charged_item_attacks(char)
+    return JSONResponse({"charged_items": charged, "item_name": item_name})
+
 
 @app.get("/api/character/{char_id}/pdf")
 async def character_pdf(char_id: int, request: Request):
