@@ -3412,6 +3412,83 @@ def _xp_for_cr(cr) -> int:
     except (TypeError, ValueError):
         return 0
 
+
+def _assign_encounter_counts(picks, xp_budget):
+    """Assign monster counts to hit XP budget, accounting for DMG p.83 multiplier.
+    AI picks which monsters; this function does the math the AI can't do."""
+    if not picks:
+        return [], 0
+
+    def _mult(count):
+        if count == 1: return 1.0
+        elif count == 2: return 1.5
+        elif count <= 6: return 2.0
+        elif count <= 10: return 2.5
+        elif count <= 14: return 3.0
+        return 4.0
+
+    # Sort by CR descending, boss first then elites then minions
+    role_order = {"boss": 0, "elite": 1, "minion": 2}
+    sorted_picks = sorted(picks, key=lambda p: (role_order.get(p.get("role", "minion"), 2), -p["cr"]))
+
+    composition = []
+    raw_xp = 0
+
+    # Boss: always 1
+    boss = sorted_picks[0]
+    composition.append({**boss, "count": 1})
+    raw_xp += boss["xp"]
+
+    rest = sorted_picks[1:] if len(sorted_picks) > 1 else []
+
+    if rest:
+        # Target raw XP: divide budget by expected multiplier (boss + minions ≈ 3-6 total → ×2.0)
+        target_raw = xp_budget / 2.0
+        remaining_raw = target_raw - raw_xp
+
+        # Elites: 1-2 each
+        elites = [m for m in rest if m.get("role") == "elite"]
+        for m in elites:
+            if remaining_raw <= 0:
+                break
+            c = max(1, min(2, int(remaining_raw * 0.35 / m["xp"])))
+            composition.append({**m, "count": c})
+            raw_xp += m["xp"] * c
+            remaining_raw = target_raw - raw_xp
+
+        # Minions: fill remaining budget, round-robin
+        minions = [m for m in rest if m.get("role") != "elite"] or rest
+        ri = 0
+        while remaining_raw > 0 and ri < 30:
+            m = minions[ri % len(minions)]
+            if m["xp"] <= remaining_raw:
+                existing = next((c for c in composition if c["index"] == m["index"]), None)
+                if existing:
+                    existing["count"] += 1
+                else:
+                    composition.append({**m, "count": 1})
+                raw_xp += m["xp"]
+                remaining_raw = target_raw - raw_xp
+            ri += 1
+
+    # Final adjustment: if well under budget, pad with cheapest monster
+    total_count = sum(c["count"] for c in composition)
+    mult = _mult(total_count)
+    adjusted = int(raw_xp * mult)
+    if adjusted < xp_budget * 0.65 and rest:
+        cheapest = min(rest, key=lambda m: m["xp"])
+        needed_raw = int((xp_budget * 0.85 / mult) - raw_xp)
+        extra = max(1, needed_raw // max(cheapest["xp"], 1))
+        existing = next((c for c in composition if c["index"] == cheapest["index"]), None)
+        if existing:
+            existing["count"] += extra
+        else:
+            composition.append({**cheapest, "count": extra})
+        raw_xp += cheapest["xp"] * extra
+
+    return composition, raw_xp
+
+
 def _format_monster_action(action: dict) -> dict:
     """Flatten a monster action for template display."""
     return {
@@ -4401,65 +4478,59 @@ async def dm_ai_build_encounter(request: Request):
     candidates.sort(key=lambda c: c["cr"], reverse=True)
 
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
-    ai_prompt = f"""Build a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info} characters.
+    # AI picks monsters and roles; algorithm assigns counts to hit budget (LLMs are bad at math)
+    ai_prompt = f"""Design a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info}.
 Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
-XP budget: aim for ~{xp_budget} adjusted XP (80-120% range). For {difficulty}, choose monsters whose total XP hits this target.
-Pick ONLY monsters suited to a {environment} setting. Filter out anything that doesn't fit the environment.
+XP budget: ~{xp_budget} adjusted XP.
 
-Available candidates (pick 2-5 distinct types, vary roles — one boss/elite, some support, some minions):
+Pick 2-5 monsters from the list below that fit a {environment} setting. For each, assign a role:
+- "boss": main threat, CR near party level (at most 1)
+- "elite": strong support, CR slightly below party
+- "minion": weaker filler
+
+DO NOT guess counts — the system calculates those. Just pick the right monsters.
+
+Available candidates:
 {candidates}
 
-Return ONLY valid JSON (no markdown). Vary your choices each time.
-{{"name": "atmospheric {environment}-themed encounter name", "description": "1-2 sentence setup vignette", 
-"composition": [{{"index": "monster index from list", "count": 2}}],
-"tactics": "1-2 sentence tactics for this encounter"}}"""
+Return ONLY valid JSON (no markdown). Vary choices each time:
+{{"name": "encounter name", "description": "1-2 sentence setup vignette",
+  "picks": [{{"index": "monster-index", "role": "boss"}}, {{"index": "monster-index", "role": "minion"}}],
+  "tactics": "1-2 sentence tactics"}}"""
     print(f"[AI Encounter] env={environment} diff={difficulty} budget={xp_budget} candidates={len(candidates)}")
 
     text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
 
-    composition = []
-    xp_total = 0
-    if ai and ai.get("composition"):
-        for entry in ai.get("composition", []):
-            count = int(entry.get("count", 1))
+    # Resolve AI picks into candidate objects
+    picks = []
+    if ai:
+        # Support both new "picks" format and old "composition" format
+        raw_entries = ai.get("picks") or ai.get("composition") or []
+        for entry in raw_entries:
             idx = entry.get("index", "").lower()
-            # Find matching monster
+            role = entry.get("role", "minion").lower()
             m = next((c for c in candidates if c["index"].lower() == idx), None)
             if m:
-                xp_total += m["xp"] * count
-                composition.append({
-                    "index": m["index"], "name": m["name"], "cr": m["cr"],
-                    "xp": m["xp"], "count": count,
-                    "ac": m["ac"], "hp": m["hp"], "type": m["type"], "size": m["size"],
-                })
+                picks.append({**m, "role": role})
 
-    # Fallback: algorithmic composition if AI fails
+    # Algorithmic count assignment — AI doesn't do math
+    composition, xp_total = _assign_encounter_counts(picks, xp_budget) if picks else ([], 0)
+
+    # Fallback: fully algorithmic if AI returned nothing usable
     if not composition:
-        # Pick a boss-appropriate monster (CR ≈ party level ± 1)
         boss_candidates = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1]
         if not boss_candidates:
             boss_candidates = candidates[:20]
         boss = random.choice(boss_candidates) if boss_candidates else None
         if boss:
-            boss_count = 1
-            composition.append({**boss, "count": boss_count})
-            xp_total += boss["xp"] * boss_count
-
-        # Add minions (lower CR)
-        remaining = xp_budget - xp_total
-        minion_candidates = [c for c in candidates if c["cr"] < (party_level - 1 if party_level > 1 else 0.5)]
-        minion_count = 0
-        while remaining > 0 and minion_candidates and minion_count < 6:
-            minion = random.choice(minion_candidates)
-            if minion["xp"] <= remaining:
-                c = min(3, max(1, remaining // minion["xp"]))
-                composition.append({**minion, "count": c})
-                xp_total += minion["xp"] * c
-                remaining -= minion["xp"] * c
-                minion_count += c
-            else:
-                minion_candidates.remove(minion)
+            picks = [{**boss, "role": "boss"}]
+            # Grab a couple of lower-CR monsters as minions
+            minion_pool = [c for c in candidates if c["cr"] < party_level and c["index"] != boss["index"]]
+            random.shuffle(minion_pool)
+            for m in minion_pool[:2]:
+                picks.append({**m, "role": "minion"})
+        composition, xp_total = _assign_encounter_counts(picks, xp_budget)
 
     # Calculate adjusted XP multiplier (DMG p.83 — Encounter Multipliers)
     total_monsters = sum(c.get("count", 1) for c in composition)
