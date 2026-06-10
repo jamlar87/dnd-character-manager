@@ -4407,7 +4407,6 @@ Return ONLY valid JSON (no markdown). Vary your choices — don't reuse the same
 
     # Fallback: algorithmic composition if AI fails
     if not composition:
-        import random
         # Pick a boss-appropriate monster (CR ≈ party level ± 1)
         boss_candidates = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1]
         if not boss_candidates:
