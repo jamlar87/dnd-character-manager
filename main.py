@@ -479,6 +479,13 @@ def load_manual_data():
     if manual_subclasses:
         print(f"  + Subclasses: {len(manual_subclasses)}")
 
+    # ── Traps ── load from manual data
+    global MANUAL_TRAPS
+    manual_traps = _load_manual_json("traps.json")
+    if manual_traps:
+        MANUAL_TRAPS = manual_traps
+        print(f"  + Traps: {len(manual_traps)}")
+
     print(f"  Manual data loaded: {meta.get('totals', {})}")
 
 
@@ -2339,6 +2346,7 @@ async def starting_spells(request: Request, class_name: str = "", level: int = 1
 # ── DM Tools: Monster helpers ──────────────────────────────────────────────
 
 MANUAL_MONSTERS: list[dict] = []
+MANUAL_TRAPS: list[dict] = []
 
 def _load_monster_cache() -> list[dict]:
     global MANUAL_MONSTERS
@@ -2989,7 +2997,8 @@ async def dm_tools(request: Request):
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,
                    cr_ranges=cr_ranges, npcs=npcs,
-                   encounters=encounters, campaigns=campaigns)
+                   encounters=encounters, campaigns=campaigns,
+                   traps=MANUAL_TRAPS)
 
 
 @app.get("/api/dm/monster/{index}", response_class=JSONResponse)
@@ -6223,6 +6232,13 @@ async def apply_level_up(char_id: int, request: Request):
     
     # Process levels in order — apply ASIs at each level BEFORE computing HP for that level
     hp_choices = data.get("hp_choices", {})
+    # Also support flat hp choice from frontend (legacy format)
+    hp_flat = data.get("hp")
+    hp_custom = data.get("hp_custom")
+    if not hp_choices and hp_flat:
+        for offset in range(levels_gained):
+            lvl_str = str(old_total + offset + 1)
+            hp_choices[lvl_str] = hp_flat
     asi_choices = data.get("asi_choices", {})
     feat_asi_choices = data.get("feat_asi_choices", {})
     
@@ -6254,7 +6270,9 @@ async def apply_level_up(char_id: int, request: Request):
         # Now compute HP with current CON (includes this level's ASI if any)
         con_mod = (cumulative.get("Constitution", 10) - 10) // 2
         choice = hp_choices.get(lvl_str, "average")
-        if choice == "max":
+        if choice == "custom" and hp_custom is not None:
+            hp_gain = int(hp_custom) + con_mod
+        elif choice == "max":
             hp_gain = hd + con_mod
         elif choice == "roll":
             hp_gain = random.randint(1, hd) + con_mod

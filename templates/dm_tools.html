@@ -248,6 +248,33 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 0.2rem; font-size: 0.8rem;
 }
+
+/* ── Traps Panel ── */
+.trap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem; }
+.trap-card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
+  padding: 0.8rem; cursor: pointer; transition: border-color 0.2s;
+}
+.trap-card:hover { border-color: var(--accent); }
+.trap-card .trap-name { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+.trap-meta { display: flex; gap: 0.4rem; margin-top: 0.3rem; flex-wrap: wrap; align-items: center; }
+.trap-type-badge {
+  font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 3px;
+  background: var(--bg); color: var(--text-muted);
+}
+.trap-stat {
+  font-size: 0.72rem; padding: 0.1rem 0.4rem; border-radius: 3px;
+  background: var(--bg); color: var(--text-muted);
+}
+.trap-danger-badge {
+  font-size: 0.65rem; padding: 0.15rem 0.45rem; border-radius: 4px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; flex-shrink: 0;
+}
+.trap-danger-setback { background: rgba(0,200,83,0.18); color: var(--success); }
+.trap-danger-dangerous { background: rgba(255,171,0,0.18); color: #ffab00; }
+.trap-danger-deadly { background: rgba(255,23,68,0.18); color: var(--danger); }
+.trap-section { margin-bottom: 0.35rem; }
+.trap-section:last-child { margin-bottom: 0; }
 /* Item cards (shared with sheet) */
 .item-card {
   display: inline-flex; align-items: center; gap: 0.2rem;
@@ -348,6 +375,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <button class="dm-tab" data-tab="monsters">🐉 Monsters</button>
   <button class="dm-tab" data-tab="npcs">👤 NPCs</button>
   <button class="dm-tab" data-tab="items">🎒 Items</button>
+  <button class="dm-tab" data-tab="traps">⚠️ Traps</button>
 </div>
 
 {# ───── MONSTERS PANEL ───── #}
@@ -709,6 +737,54 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+{# ───── TRAPS PANEL ───── #}
+<div class="dm-panel" id="panel-traps">
+  <div class="toolbar">
+    <input type="text" id="trapSearch" placeholder="Search traps..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem" oninput="filterTraps()">
+    <select id="trapTypeFilter" onchange="filterTraps()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <option value="">All Types</option>
+      <option value="mechanical">Mechanical</option>
+      <option value="magical">Magical</option>
+    </select>
+    <select id="trapDangerFilter" onchange="filterTraps()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+      <option value="">All Danger</option>
+      <option value="setback">Setback</option>
+      <option value="dangerous">Dangerous</option>
+      <option value="deadly">Deadly</option>
+    </select>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="trapCount">{{ traps|length }} traps</span>
+  </div>
+
+  <div class="trap-grid" id="trapGrid">
+    {% for t in traps %}
+    <div class="trap-card" data-name="{{ t.name|lower }}" data-type="{{ t.type }}" data-danger="{{ t.danger }}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
+        <div class="trap-name">{{ t.name }}</div>
+        <span class="trap-danger-badge trap-danger-{{ t.danger }}">{{ t.danger|capitalize }}</span>
+      </div>
+      <div class="trap-meta">
+        <span class="trap-type-badge">{{ '🔮' if t.type == 'magical' else '⚙️' }} {{ t.type|capitalize }}</span>
+        {% if t.save_dc %}<span class="trap-stat">DC {{ t.save_dc }} {{ t.save_ability }}</span>{% endif %}
+        {% if t.damage %}<span class="trap-stat">{{ t.damage_type|capitalize }}</span>{% endif %}
+      </div>
+      {% if t.source %}
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef('{{ t.source }}')">📚 {{ t.source }}</div>
+      {% endif %}
+      <!-- Expandable detail -->
+      <div class="trap-detail" style="display:none;margin-top:0.5rem;font-size:0.82rem;line-height:1.5;color:var(--text-muted)">
+        <div class="trap-section"><strong style="color:var(--text)">Trigger:</strong> {{ t.trigger }}</div>
+        <div class="trap-section"><strong style="color:var(--text)">Detection:</strong> DC {{ t.detection.dc }} {{ t.detection.skill }} — {{ t.detection.detail }}</div>
+        <div class="trap-section"><strong style="color:var(--text)">Disarm:</strong> {{ t.disarm.method }}
+          {% if t.disarm.dc %} (DC {{ t.disarm.dc }}){% endif %} — {{ t.disarm.detail }}</div>
+        <div class="trap-section"><strong style="color:var(--text)">Effect:</strong> {{ t.effect }}</div>
+        {% if t.area %}<div class="trap-section"><strong style="color:var(--text)">Area:</strong> {{ t.area }}</div>{% endif %}
+      </div>
+      <button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="margin-top:0.4rem;font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
+    </div>
+    {% endfor %}
   </div>
 </div>
 
@@ -1755,6 +1831,34 @@ async function generateAiNpc(event) {
   } catch(e) {
     document.getElementById('npcEditor').innerHTML = '<p style="color:var(--danger)">Failed to generate NPC. Try again.</p>';
   }
+}
+
+// ── Traps ──
+function toggleTrapDetail(btn) {
+  const card = btn.closest('.trap-card');
+  const detail = card.querySelector('.trap-detail');
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  btn.textContent = isOpen ? '▶ Expand' : '▼ Collapse';
+}
+
+function filterTraps() {
+  const query = (document.getElementById('trapSearch')?.value || '').toLowerCase().trim();
+  const typeFilter = document.getElementById('trapTypeFilter')?.value || '';
+  const dangerFilter = document.getElementById('trapDangerFilter')?.value || '';
+  let count = 0;
+  document.querySelectorAll('.trap-card').forEach(card => {
+    const name = card.getAttribute('data-name') || '';
+    const type = card.getAttribute('data-type') || '';
+    const danger = card.getAttribute('data-danger') || '';
+    const match = (!query || name.includes(query))
+      && (!typeFilter || type === typeFilter)
+      && (!dangerFilter || danger === dangerFilter);
+    card.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  const countEl = document.getElementById('trapCount');
+  if (countEl) countEl.textContent = count + ' trap' + (count !== 1 ? 's' : '');
 }
 
 // ── Campaigns ──

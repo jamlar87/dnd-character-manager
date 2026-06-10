@@ -1539,20 +1539,20 @@
     <!-- Add Spell Modal — searchable dropdown -->
     <div id="add-spell-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
       <div class="card" style="max-width:480px;width:92%;max-height:85vh;display:flex;flex-direction:column">
-        <h3 style="margin:0 0 0.5rem 0">Add Spell</h3>
-        <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem">Loading available spells...</div>
-        <div style="position:relative;margin-bottom:0.5rem">
+        <h3 style="margin:0 0 0.5rem 0;flex-shrink:0">Add Spell</h3>
+        <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;flex-shrink:0">Loading available spells...</div>
+        <div style="position:relative;margin-bottom:0.5rem;flex:1;overflow-y:auto;min-height:0">
           <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
             style="width:100%;padding:0.5rem 0.75rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.9rem;outline:none"
             oninput="filterSpellResults()" onkeydown="handleSpellKey(event)">
-          <div id="spell-results" style="max-height:280px;overflow-y:auto;margin-top:0.25rem"></div>
+          <div id="spell-results" style="margin-top:0.25rem"></div>
         </div>
-        <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto"></div>
-        <div class="form-group"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
-        <div class="form-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
+        <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto;flex-shrink:0"></div>
+        <div class="form-group" style="flex-shrink:0"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
+        <div class="form-group" style="flex-shrink:0"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
         <input type="hidden" id="spell-name" value="">
         <input type="hidden" id="spell-level" value="0">
-        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem">
+        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem;flex-shrink:0">
           <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
           <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
         </div>
@@ -1578,8 +1578,9 @@
 
   <!-- Add Relationship Modal -->
   <div id="rel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeRelModal()">
-    <div class="card" style="max-width:500px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
-      <h3 id="rel-modal-title" style="margin-bottom:1rem">Add Relationship</h3>
+    <div class="card" style="max-width:500px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+      <h3 id="rel-modal-title" style="margin-bottom:1rem;flex-shrink:0">Add Relationship</h3>
+      <div style="flex:1;overflow-y:auto;min-height:0">
       <div class="form-group">
         <label>Relationship Type</label>
         <select id="rel-type" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
@@ -1609,7 +1610,8 @@
         <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="margin-top:0.5rem;font-size:0.8rem">🪄 Generate NPC</button>
         <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
       </div>
-      <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+      </div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-shrink:0">
         <button class="btn btn-outline btn-sm" onclick="closeRelModal()">Cancel</button>
         <button class="btn btn-primary btn-sm" id="rel-save-btn" onclick="saveRelationship()">Save</button>
       </div>
@@ -1634,8 +1636,9 @@
 
 <!-- Portrait Edit Modal -->
 <div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
-  <div class="card" style="max-width:480px;width:90%;max-height:90vh;overflow-y:auto">
-    <h3 style="margin-bottom:0.5rem">Character Portrait</h3>
+  <div class="card" style="max-width:480px;width:90%;max-height:90vh;display:flex;flex-direction:column">
+    <h3 style="margin-bottom:0.5rem;flex-shrink:0">Character Portrait</h3>
+    <div style="flex:1;overflow-y:auto;min-height:0">
     {% if character.portrait_url %}
     <img src="{{ character.portrait_url }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
     {% else %}
@@ -1666,7 +1669,8 @@
       <input type="text" id="modal-portrait-custom" placeholder="e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
     </div>
     <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time</div>
-    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap">
+    </div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap;flex-shrink:0">
       <button class="btn btn-outline btn-sm" onclick="document.getElementById('portrait-modal').style.display='none'">Cancel</button>
       <button class="btn btn-outline btn-sm" onclick="fetchPortraitPrompt()">📋 Get Prompt</button>
       <button class="btn btn-outline btn-sm" onclick="toggleUpload()">📤 Upload</button>
@@ -1695,7 +1699,6 @@
   </div>
 </div>
 </div>
-{% endblock %}
 
 <!-- De-Level Modal -->
 <div id="delevel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:501;align-items:center;justify-content:center" onclick="if(event.target===this)closeDeLevel()">
@@ -1717,6 +1720,7 @@
   </div>
 </div>
 </div>
+{% endblock %}
 
 {% block scripts %}
 <script>
@@ -3281,7 +3285,7 @@ function showProfPicker(type, title, masterList, field) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
   
   const panel = document.createElement('div');
-  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
   
   // Category-specific help
   const helpBlurbs = {
@@ -3292,12 +3296,12 @@ function showProfPicker(type, title, masterList, field) {
   };
   
   // Search/filter input
-  let html = `<h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
-    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpBlurbs[type] || ''}</p>`;
+  let html = `<div style="flex-shrink:0"><h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
+    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpBlurbs[type] || ''}</p></div>`;
   if (masterList.length > 12) {
-    html += `<input type="text" id="prof-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none" oninput="filterProfPicker(this.value)">`;
+    html += `<input type="text" id="prof-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none;flex-shrink:0" oninput="filterProfPicker(this.value)">`;
   }
-  html += `<div id="prof-options" style="display:flex;flex-direction:column;gap:0.15rem;max-height:50vh;overflow-y:auto">`;
+  html += `<div id="prof-options" style="display:flex;flex-direction:column;gap:0.15rem;flex:1;overflow-y:auto;min-height:0">`;
   
   const sorted = [...masterList].sort((a,b) => {
     const aHas = curSet.has(a.toLowerCase());
@@ -3316,7 +3320,7 @@ function showProfPicker(type, title, masterList, field) {
   });
   html += `</div>`;
   
-  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end;flex-shrink:0">
     <button onclick="clearAllProfs('${field}', '${type}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Clear All</button>
     <button onclick="selectAllProfs('${field}', '${type}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Select All</button>
     <button onclick="document.querySelector('.prof-picker-overlay').remove()" style="padding:0.3rem 0.8rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;font-size:0.8rem">Done</button>
@@ -3407,14 +3411,14 @@ function showDefensePicker(title, masterList, field, icon, helpText) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
   
   const panel = document.createElement('div');
-  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
+  panel.style.cssText = 'background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1rem;max-width:380px;width:92%;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.4)';
   
-  let html = `<h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
-    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpText || ''}</p>`;
+  let html = `<div style="flex-shrink:0"><h4 style="margin:0 0 0.25rem 0;font-size:0.95rem">${title}</h4>
+    <p style="margin:0 0 0.5rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4">${helpText || ''}</p></div>`;
   if (masterList.length > 12) {
-    html += `<input type="text" id="def-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none" oninput="filterDefensePicker(this.value)">`;
+    html += `<input type="text" id="def-filter" placeholder="Filter..." style="width:100%;padding:0.35rem 0.5rem;margin-bottom:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;outline:none;flex-shrink:0" oninput="filterDefensePicker(this.value)">`;
   }
-  html += `<div id="def-options" style="display:flex;flex-direction:column;gap:0.15rem;max-height:50vh;overflow-y:auto">`;
+  html += `<div id="def-options" style="display:flex;flex-direction:column;gap:0.15rem;flex:1;overflow-y:auto;min-height:0">`;
   
   const sorted = [...masterList].sort((a,b) => {
     const aHas = curSet.has(a.toLowerCase());
@@ -3433,7 +3437,7 @@ function showDefensePicker(title, masterList, field, icon, helpText) {
   });
   html += `</div>`;
   
-  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+  html += `<div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end;flex-shrink:0">
     <button onclick="clearAllDefenses('${field}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Clear All</button>
     <button onclick="selectAllDefenses('${field}')" style="padding:0.3rem 0.6rem;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;font-size:0.75rem">Select All</button>
     <button onclick="document.querySelector('.defense-picker-overlay').remove()" style="padding:0.3rem 0.8rem;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;font-weight:600;font-size:0.8rem">Done</button>
@@ -4685,18 +4689,38 @@ function renderLuHP(el) {
     <p style="margin-bottom:1rem">Roll ${d.hp.hit_die} + CON (${d.hp.con_mod >= 0 ? '+' : ''}${d.hp.con_mod}) for HP.</p>
     <div style="display:flex;flex-direction:column;gap:0.5rem">`;
   
-  ['average','roll','max'].forEach(opt => {
-    const label = opt === 'average' ? `Take Average (${avg})` : opt === 'max' ? `Take Max (${max})` : 'Roll (1d12 + CON)';
+  ['average','roll','max','custom'].forEach(opt => {
+    let label;
+    if (opt === 'average') label = `Take Average (${avg})`;
+    else if (opt === 'max') label = `Take Max (${max})`;
+    else if (opt === 'roll') label = `Roll (${d.hp.hit_die} + CON)`;
+    else label = `I Rolled My Own`;
     const checked = luChoices.hp === opt || (!luChoices.hp && opt === 'average');
     html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
-      <input type="radio" name="lu-hp" value="${opt}" ${checked ? 'checked' : ''} onchange="luChoices.hp=this.value">
+      <input type="radio" name="lu-hp" value="${opt}" ${checked ? 'checked' : ''} onchange="onHPChoice(this.value)">
       <span>${label}</span>
     </label>`;
+    if (opt === 'custom') {
+      html += `<div id="lu-hp-custom-wrap" style="display:${checked ? 'flex' : 'none'};align-items:center;gap:0.5rem;margin-left:2rem;margin-top:-0.25rem;margin-bottom:0.25rem">
+        <span style="font-size:0.85rem;color:var(--text-muted)">Roll result:</span>
+        <input type="number" id="lu-hp-custom" value="${luChoices.hp_custom || ''}" placeholder="e.g. 7"
+          style="width:80px;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--accent);border-radius:4px;color:var(--text);font-size:0.85rem"
+          oninput="luChoices.hp_custom=this.value">
+        <span style="font-size:0.75rem;color:var(--text-muted)">+ CON = ${luChoices.hp_custom ? parseInt(luChoices.hp_custom) + (d.hp.con_mod || 0) : '?'}</span>
+      </div>`;
+    }
   });
   
   html += `</div></div>`;
   el.innerHTML = html;
   if (!luChoices.hp) luChoices.hp = 'average';
+}
+
+function onHPChoice(val) {
+  luChoices.hp = val;
+  const wrap = document.getElementById('lu-hp-custom-wrap');
+  if (wrap) wrap.style.display = val === 'custom' ? 'flex' : 'none';
+  if (val !== 'custom') luChoices.hp_custom = undefined;
 }
 
 function renderLuASI(el) {
@@ -4881,7 +4905,7 @@ function renderLuSpells(el) {
     html += `</div>`;
     
     // Spell results
-    html += `<div id="lu-spell-results" style="max-height:280px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
+    html += `<div id="lu-spell-results" style="border:1px solid var(--border);border-radius:6px">
       <div style="padding:0.5rem;color:var(--text-muted);text-align:center">Loading spells...</div>
     </div>`;
     
@@ -5031,7 +5055,7 @@ function renderLuConfirm(el) {
     <h3 style="margin-bottom:0.75rem">Confirm Changes</h3>
     <p><strong>Level:</strong> ${luData.current_level} → <strong style="color:var(--accent)">${luData.target_level}</strong></p>
     ${luClassToLevel ? '<p><strong>Leveling:</strong> ' + luClassToLevel + '</p>' : ''}
-    <p><strong>HP:</strong> ${luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? 'Max (+' + luData.hp.max_roll + ')' : 'Average (+' + luData.hp.average + ')')}</p>`;
+    <p><strong>HP:</strong> ${luChoices.hp === 'custom' ? 'Rolled ' + (luChoices.hp_custom || '?') : (luChoices.hp === 'roll' ? 'Roll 1d12' : (luChoices.hp === 'max' ? 'Max (+' + luData.hp.max_roll + ')' : 'Average (+' + luData.hp.average + ')'))}</p>`;
   
   if (luData.all_features && luData.all_features.length) {
     html += `<p><strong>Features:</strong> ${luData.all_features.join(', ')}</p>`;
