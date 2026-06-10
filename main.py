@@ -6928,7 +6928,8 @@ async def apply_de_level(char_id: int, request: Request):
 async def delete_character(char_id: int, request: Request):
     user = require_user(request)
     db = get_db()
-    db.execute("DELETE FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"]))
+    filter_clause, filter_params = _user_filter(user)
+    db.execute(f"DELETE FROM characters WHERE id = ? {filter_clause}", (char_id, *filter_params))
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
