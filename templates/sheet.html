@@ -350,6 +350,7 @@
 {% set prof = character.proficiency_bonus or 2 %}
 {% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
 {% set char_skills = character.skills or [] %}
+{% set char_expertise = character.expertise_skills or [] %}
 
 <!-- Header with portrait + name -->
 <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
@@ -366,6 +367,15 @@
         <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
         <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
         {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
+        {% if character.fighting_style %}<span class="badge" style="background:rgba(255,165,0,0.15);border:1px solid #ffa500;color:#ffa500;font-size:0.65rem;cursor:help" title="{{ character.fighting_style }}">{{ character.fighting_style|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.metamagic and character.metamagic != '[]' %}<span class="badge" style="background:rgba(138,43,226,0.12);border:1px solid #8a2be2;color:#c084fc;font-size:0.65rem;cursor:help" title="{{ character.metamagic }}">Metamagic</span>{% endif %}
+        {% if character.invocations and character.invocations != '[]' %}<span class="badge" style="background:rgba(139,0,139,0.12);border:1px solid #8b008b;color:#da70d6;font-size:0.65rem;cursor:help" title="{{ character.invocations }}">Invocations</span>{% endif %}
+        {% if character.pact_boon %}<span class="badge" style="background:rgba(75,0,130,0.12);border:1px solid #4b0082;color:#9370db;font-size:0.65rem;cursor:help" title="{{ character.pact_boon }}">Pact: {{ character.pact_boon|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.maneuvers and character.maneuvers != '[]' %}<span class="badge" style="background:rgba(178,34,34,0.12);border:1px solid #b22222;color:#f08080;font-size:0.65rem;cursor:help" title="{{ character.maneuvers }}">Maneuvers</span>{% endif %}
+        {% if character.magical_secrets and character.magical_secrets != '[]' %}<span class="badge" style="background:rgba(220,20,60,0.12);border:1px solid #dc143c;color:#ff69b4;font-size:0.65rem;cursor:help" title="{{ character.magical_secrets }}">Magical Secrets</span>{% endif %}
+        {% if character.totem_spirits and character.totem_spirits != '{}' %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="{{ character.totem_spirits }}">Totem</span>{% endif %}
+        {% if character.hunters_prey %}<span class="badge" style="background:rgba(0,100,0,0.12);border:1px solid #006400;color:#2e8b57;font-size:0.65rem;cursor:help" title="{{ character.hunters_prey }}">Hunter: {{ character.hunters_prey|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.infusions and character.infusions != '[]' %}<span class="badge" style="background:rgba(184,134,11,0.12);border:1px solid #b8860b;color:#daa520;font-size:0.65rem;cursor:help" title="{{ character.infusions }}">Infusions</span>{% endif %}
         {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
@@ -520,15 +530,15 @@
         {% set int_mod = (character.intelligence - 10) // 2 %}
         <div class="sense-row">
           <span class="sense-label">Passive Perception</span>
-          <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) }}</span>
+          <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) + (prof if 'Perception' in char_expertise else 0) }}</span>
         </div>
         <div class="sense-row">
           <span class="sense-label">Passive Investigation</span>
-          <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) }}</span>
+          <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) + (prof if 'Investigation' in char_expertise else 0) }}</span>
         </div>
         <div class="sense-row">
           <span class="sense-label">Passive Insight</span>
-          <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) }}</span>
+          <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) + (prof if 'Insight' in char_expertise else 0) }}</span>
         </div>
         {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
         <div class="sense-row">
@@ -618,16 +628,17 @@
       {% for skill_name, skill_ab in skill_abilities.items()|sort %}
       {% set ab_mod = (character[skill_ab] - 10) // 2 %}
       {% set has_prof = skill_name in char_skills %}
-      {% set sk_val = ab_mod + (prof if has_prof else 0) %}
+      {% set has_exp = skill_name in char_expertise %}
+      {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
       <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
-        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">●</span>{{ skill_name }}</span>
-        <span class="stat-val" style="color:{% if has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
+        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}</span>
+        <span class="stat-val" style="color:{% if has_exp %}var(--accent);font-weight:700{% elif has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
           {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
         </span>
       </div>
       {% endfor %}
       <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
-        <span style="color:var(--accent)">●</span> = Proficient
+        <span style="color:var(--accent)">●</span> = Proficient &nbsp; <span style="color:var(--accent);font-weight:700">★</span> = Expertise
       </div>
       </div>
     </div>
@@ -4667,6 +4678,16 @@ async function openLevelUpDirect(targetNum) {
   
   luSteps.push({label: 'HP', render: renderLuHP});
   if (luData.asi) luSteps.push({label: 'ASI/Feat', render: renderLuASI});
+  if (luData.fighting_style) luSteps.push({label: 'Fighting Style', render: renderLuFightingStyle});
+  if (luData.expertise) luSteps.push({label: 'Expertise', render: renderLuExpertise});
+  if (luData.metamagic) luSteps.push({label: 'Metamagic', render: renderLuMetamagic});
+  if (luData.invocations) luSteps.push({label: 'Invocations', render: renderLuInvocations});
+  if (luData.pact_boon) luSteps.push({label: 'Pact Boon', render: renderLuPactBoon});
+  if (luData.maneuvers) luSteps.push({label: 'Maneuvers', render: renderLuManeuvers});
+  if (luData.magical_secrets) luSteps.push({label: 'Magical Secrets', render: renderLuMagicalSecrets});
+  if (luData.totem_spirit) luSteps.push({label: 'Totem Spirit', render: renderLuTotemSpirit});
+  if (luData.hunters_prey) luSteps.push({label: "Hunter's Prey", render: renderLuHuntersPrey});
+  if (luData.infusions) luSteps.push({label: 'Infusions', render: renderLuInfusions});
   if (luData.subclass) luSteps.push({label: luData.subclass.label, render: renderLuSubclass});
   if (luData.subclass_bonus_map && Object.keys(luData.subclass_bonus_map).length > 0) {
     luSteps.push({label: 'Bonuses', render: renderLuSubclassBonus});
@@ -4935,6 +4956,211 @@ function onFeatSelect(key) {
   }
 }
 
+function renderLuExpertise(el) {
+  const exp = luData.expertise;
+  const picks = luChoices.expertise || [];
+  const count = exp.picks_gained;
+  const options = exp.options || [];
+  let html = `<p style="margin:0 0 0.75rem">Choose ${count} skill${count > 1 ? 's' : ''} or tools to double your proficiency bonus.<br>
+    <span style="font-size:0.75rem;color:var(--text-muted)">(Current expertise: ${exp.level_count - count}, after level-up: ${exp.level_count})</span></p>`;
+  html += '<div style="display:flex;flex-wrap:wrap;gap:0.4rem">';
+  options.forEach(opt => {
+    const sel = picks.includes(opt);
+    html += `<span class="chip${sel ? ' selected' : ''}" onclick="toggleLuExp(this, '${opt.replace(/'/g, "\\'")}')">${opt}</span>`;
+  });
+  html += '</div>';
+  html += `<p style="font-size:0.75rem;text-align:right;margin-top:0.4rem">${picks.length} / ${count} selected</p>`;
+  el.innerHTML = html;
+}
+
+function renderLuFightingStyle(el) {
+  const fs = luData.fighting_style;
+  let html = `<p style="margin:0 0 0.75rem">Choose your Fighting Style (gained at L${fs.level}):</p>`;
+  html += '<div>';
+  fs.options.forEach(opt => {
+    const sel = luChoices.fighting_style === opt.key;
+    html += `<div class="card" style="cursor:pointer;padding:0.6rem 0.8rem;margin-bottom:0.4rem;border:1px solid ${sel ? 'var(--accent)' : 'var(--border)'};border-radius:6px;transition:border-color 0.15s" onclick="pickLuFightingStyle('${opt.key}')">
+      <strong>${opt.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ── Level-Up: Metamagic Picker ──────────────────────────────────────
+function renderLuMetamagic(el) {
+  const meta = luData.metamagic;
+  if (!luChoices.metamagic) luChoices.metamagic = [];
+  let html = '<div>';
+  meta.levels.forEach(lvl => {
+    const count = meta.picks_per_level[String(lvl)] || 0;
+    html += `<p style="font-weight:600;margin:0.5rem 0 0.25rem">🧠 Sorcerer L${lvl}: Pick ${count} Metamagic option${count>1?'s':''}</p>`;
+    meta.options.forEach(opt => {
+      const sel = luChoices.metamagic.includes(opt.key);
+      const disabled = meta.existing.includes(opt.key);
+      html += `<div class="card" style="cursor:${disabled?'not-allowed':'pointer'};padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px;opacity:${disabled?'0.4':'1'}"
+        ${disabled?'':`onclick="toggleLuMetamagic('${opt.key}')"`}>
+        <strong>${opt.name}</strong>${disabled?' <span style="font-size:0.7rem;color:var(--text-muted)">(already known)</span>':''}<br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+      </div>`;
+    });
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+function toggleLuMetamagic(key) {
+  if (!luChoices.metamagic) luChoices.metamagic = [];
+  const idx = luChoices.metamagic.indexOf(key);
+  if (idx >= 0) luChoices.metamagic.splice(idx,1);
+  else luChoices.metamagic.push(key);
+  renderLevelUpStep();
+}
+
+// ── Level-Up: Invocations Picker ────────────────────────────────────
+function renderLuInvocations(el) {
+  const inv = luData.invocations;
+  if (!luChoices.invocations) luChoices.invocations = [];
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">📜 Pick ${inv.picks_gained} Eldritch Invocation${inv.picks_gained>1?'s':''}</p>`;
+  inv.options.forEach(opt => {
+    const sel = luChoices.invocations.includes(opt.key);
+    const has = inv.existing.includes(opt.key);
+    html += `<div class="card" style="cursor:${has?'not-allowed':'pointer'};padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px;opacity:${has?'0.4':'1'}"
+      ${has?'':`onclick="toggleLuInvocation('${opt.key}')"`}>
+      <strong>${opt.name}</strong>${opt.prereq?` <span style="font-size:0.65rem;color:var(--text-muted)">(req: ${opt.prereq})</span>`:''}${has?' <span style="font-size:0.7rem;color:var(--text-muted)">(already known)</span>':''}<br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.invocations.length} / ${inv.picks_gained} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuInvocation(key) {
+  if (!luChoices.invocations) luChoices.invocations = [];
+  const idx = luChoices.invocations.indexOf(key);
+  if (idx >= 0) luChoices.invocations.splice(idx,1);
+  else luChoices.invocations.push(key);
+  renderLevelUpStep();
+}
+
+// ── Level-Up: Pact Boon Picker ──────────────────────────────────────
+function renderLuPactBoon(el) {
+  const pb = luData.pact_boon;
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">📋 Choose your Pact Boon (Warlock L${pb.level})</p>`;
+  pb.options.forEach(opt => {
+    const sel = luChoices.pact_boon === opt.key;
+    html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px" onclick="luChoices.pact_boon='${opt.key}';renderLevelUpStep()">
+      <strong>${opt.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ── Level-Up: Maneuvers Picker ──────────────────────────────────────
+function renderLuManeuvers(el) {
+  const man = luData.maneuvers;
+  if (!luChoices.maneuvers) luChoices.maneuvers = [];
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">⚔️ Pick ${man.picks_gained} Battle Master Maneuver${man.picks_gained>1?'s':''}</p>`;
+  man.options.forEach(opt => {
+    const sel = luChoices.maneuvers.includes(opt.key);
+    const has = man.existing.includes(opt.key);
+    html += `<div class="card" style="cursor:${has?'not-allowed':'pointer'};padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px;opacity:${has?'0.4':'1'}"
+      ${has?'':`onclick="toggleLuManeuver('${opt.key}')"`}>
+      <strong>${opt.name}</strong>${has?' <span style="font-size:0.7rem;color:var(--text-muted)">(already known)</span>':''}<br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.maneuvers.length} / ${man.picks_gained} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuManeuver(key) {
+  if (!luChoices.maneuvers) luChoices.maneuvers = [];
+  const idx = luChoices.maneuvers.indexOf(key);
+  if (idx >= 0) luChoices.maneuvers.splice(idx,1);
+  else luChoices.maneuvers.push(key);
+  renderLevelUpStep();
+}
+
+// ── Level-Up: Magical Secrets Picker ────────────────────────────────
+function renderLuMagicalSecrets(el) {
+  const ms = luData.magical_secrets;
+  if (!luChoices.magical_secrets) luChoices.magical_secrets = [];
+  let html = '<div>';
+  ms.levels.forEach(lvl => {
+    const count = ms.picks_per_level[String(lvl)] || 2;
+    html += `<p style="font-weight:600;margin-bottom:0.3rem">🎭 Bard L${lvl}: Pick ${count} spell${count>1?'s':''} from any class list</p>`;
+  });
+  html += '<input id="ms-search" placeholder="Search spells..." style="width:100%;padding:0.3rem;margin-bottom:0.4rem;background:var(--bg);border:1px solid var(--accent);border-radius:4px;color:var(--text)" oninput="document.querySelectorAll('#ms-options .ms-opt').forEach(d=>{d.style.display=d.textContent.toLowerCase().includes(this.value.toLowerCase())?'':'none'})">';
+  html += '<div id="ms-options" style="max-height:250px;overflow-y:auto;border:1px solid var(--border);border-radius:6px;padding:0.3rem">';
+  ms.options.slice(0,100).forEach(opt => {
+    const sel = luChoices.magical_secrets.includes(opt.key);
+    html += `<div class="ms-opt card" style="cursor:pointer;padding:0.3rem 0.5rem;margin:0.15rem 0;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:4px;font-size:0.8rem" onclick="toggleLuMagicalSecret('${opt.key.replace(/'/g,"\'")}')">
+      <strong>${opt.name}</strong> <span style="color:var(--text-muted)">${opt.class} ${opt.level}</span>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.magical_secrets.length} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuMagicalSecret(key) {
+  if (!luChoices.magical_secrets) luChoices.magical_secrets = [];
+  const idx = luChoices.magical_secrets.indexOf(key);
+  if (idx >= 0) luChoices.magical_secrets.splice(idx,1);
+  else luChoices.magical_secrets.push(key);
+  renderLevelUpStep();
+}
+
+// ── Level-Up: Totem Spirit Picker ───────────────────────────────────
+function renderLuTotemSpirit(el) {
+  const tot = luData.totem_spirit;
+  if (!luChoices.totem_spirits) luChoices.totem_spirits = {};
+  let html = '<div>';
+  tot.levels.forEach(lvl => {
+    const label = tot.labels[String(lvl)] || `L${lvl}`;
+    html += `<p style="font-weight:600;margin:0.5rem 0 0.25rem">🐻 ${label} (L${lvl}): Pick your spirit animal</p>`;
+    tot.options.forEach(opt => {
+      const sel = luChoices.totem_spirits[String(lvl)] === opt.key;
+      html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px" onclick="luChoices.totem_spirits['${lvl}']='${opt.key}';renderLevelUpStep()">
+        <strong>${opt.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+      </div>`;
+    });
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ── Level-Up: Hunter's Prey Picker ──────────────────────────────────
+function renderLuHuntersPrey(el) {
+  const hp = luData.hunters_prey;
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">🏹 Choose your Hunter's Prey (Ranger Hunter L${hp.level})</p>`;
+  hp.options.forEach(opt => {
+    const sel = luChoices.hunters_prey === opt.key;
+    html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px" onclick="luChoices.hunters_prey='${opt.key}';renderLevelUpStep()">
+      <strong>${opt.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ── Level-Up: Infusions Picker ──────────────────────────────────────
+function renderLuInfusions(el) {
+  const inf = luData.infusions;
+  if (!luChoices.infusions) luChoices.infusions = [];
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">🔧 Pick ${inf.total_known} Infusions (Artificer L${inf.level})</p>`;
+  inf.options.forEach(opt => {
+    const sel = luChoices.infusions.includes(opt.key);
+    html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px" onclick="toggleLuInfusion('${opt.key}')">
+      <strong>${opt.name}</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.infusions.length} / ${inf.total_known} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuInfusion(key) {
+  if (!luChoices.infusions) luChoices.infusions = [];
+  const idx = luChoices.infusions.indexOf(key);
+  if (idx >= 0) luChoices.infusions.splice(idx,1);
+  else luChoices.infusions.push(key);
+  renderLevelUpStep();
+}
+
 function renderLuSubclass(el) {
   const sc = luData.subclass;
   let html = `<div>
@@ -4997,6 +5223,23 @@ function toggleLuBonus(el, max) {
     luChoices.subclass_bonus.push(opt);
   }
   // Re-render current step
+  renderLevelUpStep();
+}
+
+function toggleLuExp(el, opt) {
+  if (!luChoices.expertise) luChoices.expertise = [];
+  const count = luData.expertise.picks_gained;
+  const idx = luChoices.expertise.indexOf(opt);
+  if (idx >= 0) {
+    luChoices.expertise.splice(idx, 1);
+  } else if (luChoices.expertise.length < count) {
+    luChoices.expertise.push(opt);
+  }
+  renderLevelUpStep();
+}
+
+function pickLuFightingStyle(key) {
+  luChoices.fighting_style = (luChoices.fighting_style === key) ? '' : key;
   renderLevelUpStep();
 }
 
@@ -5228,7 +5471,7 @@ async function applyLevelUp() {
     const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...luChoices, class_to_level: luClassToLevel, target_level: nextLevel}),
+      body: JSON.stringify({...luChoices, expertise_skills: (luChoices.expertise || []), fighting_style: (luChoices.fighting_style || ''), metamagic: (luChoices.metamagic || []), invocations: (luChoices.invocations || []), pact_boon: (luChoices.pact_boon || ''), maneuvers: (luChoices.maneuvers || []), magical_secrets: (luChoices.magical_secrets || []), totem_spirits: (luChoices.totem_spirits || {}), hunters_prey: (luChoices.hunters_prey || ''), infusions: (luChoices.infusions || []), class_to_level: luClassToLevel, target_level: nextLevel}),
     });
     const result = await resp.json();
     if (result.ok) {
@@ -5641,7 +5884,7 @@ async function loadDlDataAndAdvance() {
   }
 
   dlChoices.hp_max = dlData.hp_estimate;
-  dlChoices.abilities = dlData.current_abilities ? {...dlData.current_abilities} : null;
+  dlChoices.abilities = dlData.suggested_abilities ? {...dlData.suggested_abilities} : (dlData.current_abilities ? {...dlData.current_abilities} : null);
 
   dlSteps = [
     {label: 'Target', render: renderDlTarget},

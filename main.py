@@ -2870,7 +2870,17 @@ async def create_character_page(request: Request):
         backgrounds=BACKGROUNDS, alignments=ALIGNMENTS,
         background_sources=BACKGROUND_SOURCES,
         draconic_ancestries=DRACONIC_ANCESTRIES,
-        race_names=RACE_NAMES)
+        race_names=RACE_NAMES, expertise_levels=EXPERTISE_LEVELS,
+        fighting_style_options=FIGHTING_STYLE_OPTIONS,
+        fighting_styles=FIGHTING_STYLES,
+        metamagic_options=METAMAGIC_OPTIONS, metamagic_levels=METAMAGIC_LEVELS, metamagic_picks=METAMAGIC_PICKS,
+        invocation_options=INVOCATION_OPTIONS, invocation_levels=INVOCATION_LEVELS, invocation_picks=INVOCATION_PICKS,
+        pact_boon_options=PACT_BOON_OPTIONS, pact_boon_levels=PACT_BOON_LEVELS,
+        maneuver_options=MANEUVER_OPTIONS, maneuver_levels=MANEUVER_LEVELS, maneuver_picks=MANEUVER_PICKS,
+        magical_secrets_levels=MAGICAL_SECRETS_LEVELS, magical_secrets_picks=MAGICAL_SECRETS_PICKS,
+        totem_spirit_options=TOTEM_SPIRIT_OPTIONS, totem_spirit_levels=TOTEM_SPIRIT_LEVELS, totem_spirit_tier_labels=TOTEM_SPIRIT_TIER_LABELS,
+        hunters_prey_options=HUNTERS_PREY_OPTIONS, hunters_prey_levels=HUNTERS_PREY_LEVELS,
+        infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS)
 
 @app.post("/api/character/create", response_class=JSONResponse)
 async def api_create_character(request: Request):
@@ -3039,8 +3049,9 @@ async def api_create_character(request: Request):
         proficiency_bonus, hit_dice, skills, features, languages, tool_proficiencies,
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
         damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
-        feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt, expertise_skills, fighting_style,
+        metamagic, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, infusions)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -3054,7 +3065,17 @@ async def api_create_character(request: Request):
         json.dumps(damage_resist), json.dumps(damage_immune), json.dumps(damage_vuln), json.dumps(condition_immune),
         json.dumps(enriched), json.dumps(build_attacks), json.dumps(spell_slots), passive,
         data.get("dragonborn_ancestry", ""),
-        data.get("portrait_url", ""), data.get("portrait_prompt", "")
+        data.get("portrait_url", ""), data.get("portrait_prompt", ""),
+        json.dumps(data.get("expertise_skills", [])),
+        data.get("fighting_style", ""),
+        json.dumps(data.get("metamagic", [])),
+        json.dumps(data.get("invocations", [])),
+        data.get("pact_boon", ""),
+        json.dumps(data.get("maneuvers", [])),
+        json.dumps(data.get("magical_secrets", [])),
+        json.dumps(data.get("totem_spirits", {})),
+        data.get("hunters_prey", ""),
+        json.dumps(data.get("infusions", []))
     ))
     char_id = cur.lastrowid
     db.commit()
@@ -6080,7 +6101,7 @@ async def update_character(char_id: int, request: Request):
         "skills","save_proficiencies","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
         "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
-        "attuned_items",
+        "attuned_items", "expertise_skills", "fighting_style",
         "cp",
         "gp",
         "dragonborn_ancestry",
@@ -7094,14 +7115,163 @@ async def level_up_info(char_id: int, request: Request):
             new_cantrips = sum(v for k, v in ct.items() if k <= target_level)
             spell_info["cantrips_change"] = max(0, new_cantrips - old_cantrips)
     
+    # Expertise
+    expertise_info = None
+    exp_data = EXPERTISE_LEVELS.get(subclass) or EXPERTISE_LEVELS.get(cls)
+    if exp_data:
+        exp_levels = exp_data.get("levels", [])
+        new_exp_levels = [l for l in exp_levels if current_level < l <= target_level]
+        if new_exp_levels:
+            char_skills = json.loads(char.get("skills", "[]"))
+            char_subclass = char.get("subclass", "")
+            old_count = get_expertise_count(cls, current_level, char_subclass)
+            new_count = get_expertise_count(cls, target_level, char_subclass)
+            exp_options = get_expertise_options(cls, char_subclass, char_skills)
+            expertise_info = {
+                "levels": new_exp_levels,
+                "picks_gained": new_count - old_count,
+                "level_count": new_count,
+                "options": exp_options,
+            }
+    
+    # Fighting Style — check if this class gets one at any of the gained levels
+    fighting_style_info = None
+    fs_level = FIGHTING_STYLE_LEVELS.get(cls)
+    if fs_level and current_level < fs_level <= target_level:
+        options = FIGHTING_STYLE_OPTIONS.get(cls, [])
+        fighting_style_info = {
+            "level": fs_level,
+            "options": [{"key": k, "name": FIGHTING_STYLES[k]["name"], "desc": FIGHTING_STYLES[k]["desc"]} for k in options],
+        }
+    
+    # Metamagic — Sorcerer L3/10/17
+    metamagic_info = None
+    metamagic_levels_list = METAMAGIC_LEVELS.get(cls, [])
+    new_meta_levels = [l for l in metamagic_levels_list if current_level < l <= target_level]
+    if new_meta_levels:
+        existing = json.loads(char.get("metamagic", "[]"))
+        metamagic_info = {
+            "levels": new_meta_levels,
+            "picks_per_level": {str(l): METAMAGIC_PICKS.get(l, 0) for l in new_meta_levels},
+            "options": [{"key": k, "name": v["name"], "desc": v["desc"]} for k,v in METAMAGIC_OPTIONS.items()],
+            "existing": existing,
+        }
+    
+    # Eldritch Invocations — Warlock L2/5/7/9/12/15/18
+    invocation_info = None
+    invocation_levels_list = INVOCATION_LEVELS.get(cls, [])
+    new_inv_levels = [l for l in invocation_levels_list if current_level < l <= target_level]
+    if new_inv_levels:
+        existing = json.loads(char.get("invocations", "[]"))
+        total_picks_before = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= current_level)
+        total_picks_after = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= target_level)
+        pact_boon = char.get("pact_boon", "")
+        options = []
+        for k,v in INVOCATION_OPTIONS.items():
+            req = v.get("prereq","")
+            ok = not req or pact_boon in req
+            if ok:
+                options.append({"key":k,"name":v["name"],"desc":v["desc"],"level":v["level"],"prereq":req})
+        invocation_info = {
+            "levels": new_inv_levels,
+            "picks_gained": total_picks_after - total_picks_before,
+            "total_picks": total_picks_after,
+            "options": options,
+            "existing": existing,
+        }
+    
+    # Pact Boon — Warlock L3
+    pact_boon_info = None
+    pb_level = PACT_BOON_LEVELS.get(cls)
+    if pb_level and current_level < pb_level <= target_level and not char.get("pact_boon"):
+        pact_boon_info = {
+            "level": pb_level,
+            "options": [{"key": k, "name": v["name"], "desc": v["desc"]} for k,v in PACT_BOON_OPTIONS.items()],
+        }
+    
+    # Battle Master Maneuvers — Fighter subclass, L3/7/10/15
+    maneuver_info = None
+    man_levels_list = MANEUVER_LEVELS.get(subclass if subclass else char.get("subclass",""), [])
+    new_man_levels = [l for l in man_levels_list if current_level < l <= target_level]
+    if new_man_levels:
+        existing = json.loads(char.get("maneuvers", "[]"))
+        total_before = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= current_level)
+        total_after = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= target_level)
+        maneuver_info = {
+            "levels": new_man_levels,
+            "picks_gained": total_after - total_before,
+            "total_known": total_after,
+            "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in MANEUVER_OPTIONS.items()],
+            "existing": existing,
+        }
+    
+    # Magical Secrets — Bard L10/14/18, Lore Bard L6
+    magical_secrets_info = None
+    ms_source = subclass if subclass in MAGICAL_SECRETS_LEVELS else cls
+    ms_levels_list = MAGICAL_SECRETS_LEVELS.get(ms_source, [])
+    new_ms_levels = [l for l in ms_levels_list if current_level < l <= target_level]
+    if new_ms_levels:
+        existing = json.loads(char.get("magical_secrets", "[]"))
+        total_picks = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in new_ms_levels)
+        # Build all-spells list for cross-class picking
+        all_spell_opts = []
+        for cls_k in SRD_LEVELS:
+            spells = get_srd_spells_for_class(cls_k.title(), 20)
+            for sp in spells.get("cantrips",[]):
+                all_spell_opts.append({"key":sp["name"],"name":sp["name"],"level":"Cantrip","class":cls_k.title()})
+            for lvl,lst in spells.get("spells",{}).items():
+                for sp in lst:
+                    all_spell_opts.append({"key":sp["name"],"name":sp["name"],"level":f"L{lvl}","class":cls_k.title()})
+        magical_secrets_info = {
+            "levels": new_ms_levels,
+            "picks_per_level": {str(l): MAGICAL_SECRETS_PICKS.get(l,2) for l in new_ms_levels},
+            "options": all_spell_opts,
+            "existing": existing,
+        }
+    
+    # Totem Spirit — Barbarian Totem Warrior L3/6/14
+    totem_info = None
+    totem_levels_list = TOTEM_SPIRIT_LEVELS.get(subclass if subclass else char.get("subclass",""), [])
+    new_totem_levels = [l for l in totem_levels_list if current_level < l <= target_level]
+    if new_totem_levels:
+        existing = json.loads(char.get("totem_spirits","{}"))
+        totem_info = {
+            "levels": new_totem_levels,
+            "labels": {str(l): TOTEM_SPIRIT_TIER_LABELS.get(l,f"L{l}") for l in new_totem_levels},
+            "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in TOTEM_SPIRIT_OPTIONS.items()],
+            "existing": existing,
+        }
+    
+    # Hunter's Prey — Ranger Hunter L3
+    hunters_prey_info = None
+    hp_level = HUNTERS_PREY_LEVELS.get(subclass if subclass else char.get("subclass",""))
+    if hp_level and current_level < hp_level <= target_level and not char.get("hunters_prey"):
+        hunters_prey_info = {
+            "level": hp_level,
+            "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in HUNTERS_PREY_OPTIONS.items()],
+        }
+    
+    # Artificer Infusions — L2
+    infusion_info = None
+    inf_level = INFUSION_LEVELS.get(cls)
+    if inf_level and current_level < inf_level <= target_level:
+        existing = json.loads(char.get("infusions","[]"))
+        total_known = INFUSION_PICKS.get(inf_level,4)
+        infusion_info = {
+            "level": inf_level,
+            "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in INFUSION_OPTIONS.items()],
+            "total_known": total_known,
+            "existing": existing,
+        }    
     return JSONResponse({
         "class_name": cls,
         "current_level": current_level,
-        "class_level": class_level,  # level IN this class (0 for new multiclass)
+        "class_level": class_level,
         "target_level": target_level,
         "levels": levels_gained,
         "all_features": all_features,
         "hp": hp_options,
+        "asi": asi_infos.get(str(target_level)) if asi_infos else None,
         "asi_levels": asi_levels,
         "asi_info": asi_infos,
         "feats": feats_available,
@@ -7110,6 +7280,16 @@ async def level_up_info(char_id: int, request: Request):
         "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": old_pb != new_pb},
         "spells": spell_info,
         "has_subclass": bool(char.get("subclass")),
+        "expertise": expertise_info,
+        "fighting_style": fighting_style_info,
+        "metamagic": metamagic_info,
+        "invocations": invocation_info,
+        "pact_boon": pact_boon_info,
+        "maneuvers": maneuver_info,
+        "magical_secrets": magical_secrets_info,
+        "totem_spirit": totem_info,
+        "hunters_prey": hunters_prey_info,
+        "infusions": infusion_info,
         "multiclass": {
             "class_levels": cl,
             "class_to_level": class_to_level,
@@ -7214,6 +7394,8 @@ async def apply_level_up(char_id: int, request: Request):
     cumulative = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
     
     # Process levels in order — apply ASIs at each level BEFORE computing HP for that level
+    levels_gained = target_level - old_total
+
     hp_choices = data.get("hp_choices", {})
     # Also support flat hp choice from frontend (legacy format)
     hp_flat = data.get("hp")
@@ -7223,11 +7405,20 @@ async def apply_level_up(char_id: int, request: Request):
             lvl_str = str(old_total + offset + 1)
             hp_choices[lvl_str] = hp_flat
     asi_choices = data.get("asi_choices", {})
+    # Also accept flat asi from frontend (single-level form)
+    asi_flat = data.get("asi")
+    if not asi_choices and asi_flat:
+        lvl_str = str(target_level)
+        asi_choices[lvl_str] = asi_flat
     feat_asi_choices = data.get("feat_asi_choices", {})
-    
+    # Also accept flat feat_asi_choice from frontend
+    feat_asi_flat = data.get("feat_asi_choice")
+    if not feat_asi_choices and feat_asi_flat:
+        lvl_str = str(target_level)
+        feat_asi_choices[lvl_str] = feat_asi_flat
+
     total_hp_gain = 0
     hd = CLASSES.get(class_to_level, {}).get("hd", 8)
-    levels_gained = target_level - old_total
     
     for offset in range(levels_gained):
         lvl_num = old_total + offset + 1
@@ -7236,8 +7427,9 @@ async def apply_level_up(char_id: int, request: Request):
             choice = asi_choices[lvl_str]
             if isinstance(choice, dict):
                 for ability, increase in choice.items():
-                    cumulative[ability] = cumulative.get(ability, 10) + increase
-                    updates[ability.lower()] = cumulative[ability]
+                    ab_tc = ability.capitalize()  # Normalize "dexterity" → "Dexterity"
+                    cumulative[ab_tc] = cumulative.get(ab_tc, 10) + increase
+                    updates[ability.lower()] = cumulative[ab_tc]
                     changes.append(f"L{lvl_str}: {ability} +{increase}")
             elif isinstance(choice, str) and choice.startswith("feat:"):
                 feat_key = choice[5:]
@@ -7246,9 +7438,11 @@ async def apply_level_up(char_id: int, request: Request):
                 feat_asi = feat.get("asi")
                 if feat_asi:
                     chosen_abi = feat_asi_choices.get(lvl_str)
-                    if chosen_abi and chosen_abi in ABILITY_NAMES:
-                        cumulative[chosen_abi] = cumulative.get(chosen_abi, 10) + feat_asi["amount"]
-                        updates[chosen_abi.lower()] = cumulative[chosen_abi]
+                    if chosen_abi:
+                        ab_tc = chosen_abi.capitalize()
+                        if ab_tc in ABILITY_NAMES:
+                            cumulative[ab_tc] = cumulative.get(ab_tc, 10) + feat_asi["amount"]
+                            updates[chosen_abi.lower()] = cumulative[ab_tc]
         
         # Now compute HP with current CON (includes this level's ASI if any)
         con_mod = (cumulative.get("Constitution", 10) - 10) // 2
@@ -7324,6 +7518,13 @@ async def apply_level_up(char_id: int, request: Request):
     # Proficiency bonus
     updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
     
+    # Fighting Style
+    fs_choice = data.get("fighting_style")
+    if fs_choice:
+        updates["fighting_style"] = fs_choice
+        fs_name = FIGHTING_STYLES.get(fs_choice, {}).get("name", fs_choice)
+        changes.append(f"Fighting Style: {fs_name}")
+    
     # Features — rebuild from all classes, preserve racial features
     all_features = []
     for cls_n, cls_lvl in new_cl.items():
@@ -7356,6 +7557,95 @@ async def apply_level_up(char_id: int, request: Request):
     spell_slots = get_character_spell_slots(char_copy)
     updates["spell_slot_data"] = json.dumps(spell_slots)
     updates["spell_slots_used"] = json.dumps({})  # Fresh slots after level up
+    
+    # Expertise — merge new picks with existing
+    exp_picks = data.get("expertise_skills", [])
+    if exp_picks:
+        current_exp = json.loads(char.get("expertise_skills", "[]"))
+        for pick in exp_picks:
+            if pick not in current_exp:
+                current_exp.append(pick)
+        updates["expertise_skills"] = json.dumps(current_exp)
+        changes.append(f"Expertise: {', '.join(exp_picks)}")
+    
+    
+    # ── 8 Choice Systems: apply picks from level-up ──
+    # Metamagic
+    meta_picks = data.get("metamagic", [])
+    if meta_picks:
+        current_meta = json.loads(char.get("metamagic", "[]"))
+        for pick in meta_picks:
+            if pick not in current_meta:
+                current_meta.append(pick)
+        updates["metamagic"] = json.dumps(current_meta)
+        changes.append(f"Metamagic: {', '.join(meta_picks)}")
+    
+    # Eldritch Invocations
+    inv_picks = data.get("invocations", [])
+    if inv_picks:
+        current_inv = json.loads(char.get("invocations", "[]"))
+        for pick in inv_picks:
+            if pick not in current_inv:
+                current_inv.append(pick)
+        updates["invocations"] = json.dumps(current_inv)
+        inv_names = [INVOCATION_OPTIONS.get(p,{}).get("name",p) for p in inv_picks]
+        changes.append(f"Invocations: {', '.join(inv_names)}")
+    
+    # Pact Boon
+    pb_choice = data.get("pact_boon")
+    if pb_choice:
+        updates["pact_boon"] = pb_choice
+        pb_name = PACT_BOON_OPTIONS.get(pb_choice, {}).get("name", pb_choice)
+        changes.append(f"Pact Boon: {pb_name}")
+    
+    # Battle Master Maneuvers
+    man_picks = data.get("maneuvers", [])
+    if man_picks:
+        current_man = json.loads(char.get("maneuvers", "[]"))
+        for pick in man_picks:
+            if pick not in current_man:
+                current_man.append(pick)
+        updates["maneuvers"] = json.dumps(current_man)
+        man_names = [MANEUVER_OPTIONS.get(p,{}).get("name",p) for p in man_picks]
+        changes.append(f"Maneuvers: {', '.join(man_names)}")
+    
+    # Magical Secrets
+    ms_picks = data.get("magical_secrets", [])
+    if ms_picks:
+        current_ms = json.loads(char.get("magical_secrets", "[]"))
+        for pick in ms_picks:
+            if pick not in current_ms:
+                current_ms.append(pick)
+        updates["magical_secrets"] = json.dumps(current_ms)
+        changes.append(f"Magical Secrets: {', '.join(ms_picks)}")
+    
+    # Totem Spirit
+    totem_picks = data.get("totem_spirits", {})
+    if totem_picks:
+        current_totems = json.loads(char.get("totem_spirits", "{}"))
+        for lvl, choice in totem_picks.items():
+            current_totems[str(lvl)] = choice
+        updates["totem_spirits"] = json.dumps(current_totems)
+        totem_names = [TOTEM_SPIRIT_OPTIONS.get(v,{}).get("name",v) for v in totem_picks.values()]
+        changes.append(f"Totem: {', '.join(totem_names)}")
+    
+    # Hunter's Prey
+    hp_choice = data.get("hunters_prey")
+    if hp_choice:
+        updates["hunters_prey"] = hp_choice
+        hp_name = HUNTERS_PREY_OPTIONS.get(hp_choice, {}).get("name", hp_choice)
+        changes.append(f"Hunter's Prey: {hp_name}")
+    
+    # Artificer Infusions
+    inf_picks = data.get("infusions", [])
+    if inf_picks:
+        current_inf = json.loads(char.get("infusions", "[]"))
+        for pick in inf_picks:
+            if pick not in current_inf:
+                current_inf.append(pick)
+        updates["infusions"] = json.dumps(current_inf)
+        inf_names = [INFUSION_OPTIONS.get(p,{}).get("name",p) for p in inf_picks]
+        changes.append(f"Infusions: {', '.join(inf_names)}")
     
     # Batch-add spells selected during level-up
     spell_choices = data.get("spells", [])
@@ -7467,7 +7757,7 @@ async def de_level_info(char_id: int, request: Request):
     
     cls = char.get("class_name", "Fighter")
     current_level = char.get("level", 1)
-    target_level = int(request.query_params.get("target", current_level - 1))
+    target_level = int(request.query_params.get("target_level", request.query_params.get("target", current_level - 1)))
     target_level = max(1, min(target_level, current_level - 1))
     
     if current_level <= 1:
@@ -7519,7 +7809,13 @@ async def de_level_info(char_id: int, request: Request):
     # HP estimate: subtract average per level rolled back
     levels_lost = current_level - target_level
     estimated_hp = max(1, char.get("hp_max", 10) - levels_lost * avg_hp)
-    
+
+    # Suggested ability reversion: assume +2 to primary ability per lost ASI
+    primary_ability = ABILITY_PRIORITY.get(cls, ["dexterity"])[0].capitalize()
+    suggested_abilities = dict(abilities)
+    for _ in lost_asi_levels:
+        suggested_abilities[primary_ability] = max(8, suggested_abilities.get(primary_ability, 10) - 2)
+
     return JSONResponse({
         "class_name": cls,
         "current_level": current_level,
@@ -7531,6 +7827,7 @@ async def de_level_info(char_id: int, request: Request):
         "hp_per_level_avg": avg_hp,
         "hit_die": f"d{hd}",
         "current_abilities": abilities,
+        "suggested_abilities": suggested_abilities,
         "lost_asi_levels": lost_asi_levels,
         "subclass": char.get("subclass", ""),
         "subclass_note": subclass_note,
@@ -7569,8 +7866,16 @@ async def apply_de_level(char_id: int, request: Request):
     updates["hp_current"] = new_hp
     changes.append(f"HP set to {new_hp}")
     
-    # Ability scores: user-specified or keep current (user should adjust manually)
+    # Ability scores: user-specified, auto-reverted, or keep current
     ability_updates = data.get("abilities", {})
+    if not ability_updates:
+        # Auto-revert ASIs: assume +2 to primary ability per lost ASI level
+        lost_asi = [lvl for lvl in range(target_level + 1, old_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
+        if lost_asi:
+            primary_ab = ABILITY_PRIORITY.get(cls, ["dexterity"])[0].capitalize()
+            ability_updates = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
+            for _ in lost_asi:
+                ability_updates[primary_ab] = max(8, ability_updates.get(primary_ab, 10) - 2)
     for a in ABILITY_NAMES:
         key = a.lower()
         if a in ability_updates:
@@ -7578,12 +7883,108 @@ async def apply_de_level(char_id: int, request: Request):
             if updates[key] != char.get(key, 10):
                 changes.append(f"{a}: {char.get(key, 10)} → {updates[key]}")
     
-    # Subclass: keep if target >= subclass level, clear otherwise
+    # Subclass: keep if already had it at target, or clear if gained in lost levels
     sc = SUBCLASS_LEVELS.get(cls)
-    if sc and sc["level"] > target_level:
-        updates["subclass"] = ""
-        if char.get("subclass"):
+    if sc and char.get("subclass") and sc["level"] > target_level:
+        # Only clear subclass if it was gained during the levels being lost
+        # (subclass_level is between target and old_level)
+        if sc["level"] <= old_level:
+            updates["subclass"] = ""
             changes.append(f"Subclass cleared ({char.get('subclass')})")
+    
+    # Expertise: revert picks from levels being lost
+    current_exp = json.loads(char.get("expertise_skills", "[]"))
+    if current_exp:
+        new_count = get_expertise_count(cls, target_level, char.get("subclass", ""))
+        # Trim to the correct count for target level
+        if len(current_exp) > new_count:
+            kept = current_exp[:new_count]
+            lost = [s for s in current_exp if s not in kept]
+            updates["expertise_skills"] = json.dumps(kept)
+            changes.append(f"Expertise lost: {', '.join(lost)}")
+    
+    # Fighting Style: clear if reverting past the level it was gained
+    fs_level = FIGHTING_STYLE_LEVELS.get(cls)
+    if fs_level and fs_level > target_level and char.get("fighting_style"):
+        updates["fighting_style"] = ""
+        changes.append(f"Fighting Style cleared ({char.get('fighting_style')})")
+    
+    
+    # ── 8 Choice Systems: revert on de-level ──
+    # Metamagic — trim to picks allowed at target level
+    meta_levels_list = METAMAGIC_LEVELS.get(cls, [])
+    current_meta = json.loads(char.get("metamagic", "[]"))
+    if current_meta and meta_levels_list:
+        total_allowed = sum(METAMAGIC_PICKS.get(l,0) for l in meta_levels_list if l <= target_level)
+        if len(current_meta) > total_allowed:
+            kept = current_meta[:total_allowed]
+            lost_meta = [m for m in current_meta if m not in kept]
+            updates["metamagic"] = json.dumps(kept)
+            changes.append(f"Metamagic lost: {', '.join(lost_meta)}")
+    
+    # Eldritch Invocations — trim to total picks at target
+    inv_levels_list = INVOCATION_LEVELS.get(cls, [])
+    current_inv = json.loads(char.get("invocations", "[]"))
+    if current_inv and inv_levels_list:
+        total_inv = sum(INVOCATION_PICKS.get(l,0) for l in inv_levels_list if l <= target_level)
+        if len(current_inv) > total_inv:
+            kept = current_inv[:total_inv]
+            lost_inv = [i for i in current_inv if i not in kept]
+            updates["invocations"] = json.dumps(kept)
+            changes.append(f"Invocations lost: {', '.join(lost_inv)}")
+    
+    # Pact Boon — clear if reverting past L3
+    pb_level = PACT_BOON_LEVELS.get(cls)
+    if pb_level and pb_level > target_level and char.get("pact_boon"):
+        updates["pact_boon"] = ""
+        changes.append(f"Pact Boon cleared ({char.get('pact_boon')})")
+    
+    # Battle Master Maneuvers — trim at each threshold
+    man_sub = char.get("subclass", "")
+    man_levels_list = MANEUVER_LEVELS.get(man_sub, [])
+    current_man = json.loads(char.get("maneuvers", "[]"))
+    if current_man and man_levels_list:
+        total_man = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= target_level)
+        if len(current_man) > total_man:
+            kept = current_man[:total_man]
+            lost_man = [m for m in current_man if m not in kept]
+            updates["maneuvers"] = json.dumps(kept)
+            changes.append(f"Maneuvers lost: {', '.join(lost_man)}")
+    
+    # Magical Secrets — trim per level thresholds
+    ms_source = char.get("subclass","") if char.get("subclass","") in MAGICAL_SECRETS_LEVELS else cls
+    ms_levels_list = MAGICAL_SECRETS_LEVELS.get(ms_source, [])
+    current_ms = json.loads(char.get("magical_secrets", "[]"))
+    if current_ms and ms_levels_list:
+        total_ms = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in ms_levels_list if l <= target_level)
+        if len(current_ms) > total_ms:
+            kept = current_ms[:total_ms]
+            lost_ms = [s for s in current_ms if s not in kept]
+            updates["magical_secrets"] = json.dumps(kept)
+            changes.append(f"Magical Secrets lost: {', '.join(lost_ms)}")
+    
+    # Totem Spirit — remove entries above target level
+    totem_sub = char.get("subclass", "")
+    totem_levels_list = TOTEM_SPIRIT_LEVELS.get(totem_sub, [])
+    current_totems = json.loads(char.get("totem_spirits", "{}"))
+    if current_totems and totem_levels_list:
+        kept_totems = {k:v for k,v in current_totems.items() if int(k) <= target_level}
+        if len(kept_totems) < len(current_totems):
+            updates["totem_spirits"] = json.dumps(kept_totems)
+            lost = {k:v for k,v in current_totems.items() if k not in kept_totems}
+            changes.append(f"Totem spirits lost at levels: {', '.join(lost.keys())}")
+    
+    # Hunter's Prey — clear if reverting past L3
+    hp_level = HUNTERS_PREY_LEVELS.get(char.get("subclass",""))
+    if hp_level and hp_level > target_level and char.get("hunters_prey"):
+        updates["hunters_prey"] = ""
+        changes.append(f"Hunter's Prey cleared ({char.get('hunters_prey')})")
+    
+    # Infusions — clear if reverting past L2
+    inf_level = INFUSION_LEVELS.get(cls)
+    if inf_level and inf_level > target_level and char.get("infusions"):
+        updates["infusions"] = "[]"
+        changes.append("Infusions cleared")
     
     # Proficiency
     updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
@@ -7612,7 +8013,19 @@ async def apply_de_level(char_id: int, request: Request):
     
     # Hit dice
     updates["hit_dice"] = f"{target_level}d{hd}"
-    
+
+    # Class levels — keep single-class structure
+    cl = parse_class_levels(char)
+    new_cl = {}
+    for cls_name, cls_lvl in cl.items():
+        if cls_name == cls:
+            new_cl[cls_name] = target_level
+        else:
+            new_cl[cls_name] = cls_lvl
+    updates["class_levels"] = json.dumps(new_cl)
+    if not any(cls_name != cls for cls_name in new_cl):
+        updates["class_name"] = cls
+
     # Apply
     set_clauses = ", ".join(f"{k} = ?" for k in updates)
     values = list(updates.values()) + [char_id]
@@ -8469,6 +8882,185 @@ SUBCLASS_LEVELS: dict[str, dict] = {
     "Wizard": {"level": 2, "label": "Arcane Tradition",
         "options": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"]},
 }
+
+# Expertise progression — class/subclass → {levels: [...], options: "skills" | "skills_and_thieves_tools" | [...]}
+EXPERTISE_LEVELS: dict = {
+    "Rogue":         {"levels": [1, 6], "options": "skills_and_thieves_tools"},
+    "Bard":          {"levels": [3, 10], "options": "skills"},
+    "Knowledge Domain": {"levels": [1], "options": ["Arcana", "History", "Nature", "Religion"]},
+}
+
+def get_expertise_count(class_name: str, level: int, subclass: str = "") -> int:
+    """How many expertise picks the character has at given level."""
+    # Check class first
+    exp = EXPERTISE_LEVELS.get(class_name)
+    if not exp:
+        exp = EXPERTISE_LEVELS.get(subclass)
+    if not exp:
+        return 0
+    levels = exp.get("levels", [])
+    picks = sum(1 for l in levels if l <= level)
+    return picks * 2  # 2 picks per expertise level
+
+def get_expertise_options(class_name: str, subclass: str = "", skills: list = None) -> list:
+    """Return the list of valid expertise options for this class/subclass."""
+    exp = EXPERTISE_LEVELS.get(subclass) or EXPERTISE_LEVELS.get(class_name)
+    if not exp:
+        return []
+    opts = exp.get("options")
+    if isinstance(opts, list):
+        return list(opts)
+    if opts == "skills_and_thieves_tools":
+        return list(skills or []) + ["Thieves' Tools"]
+    if opts == "skills":
+        return list(skills or [])
+    return list(skills or [])
+
+# ── Fighting Styles ────────────────────────────────────────────────────
+FIGHTING_STYLES: dict[str, dict] = {
+    "archery":                {"name": "Archery", "desc": "+2 bonus to attack rolls with ranged weapons", "attack_bonus_ranged": 2},
+    "defense":                {"name": "Defense", "desc": "+1 AC while wearing armor", "ac_bonus": 1},
+    "dueling":                {"name": "Dueling", "desc": "+2 damage with one-handed melee weapon (no other weapon in hand)", "damage_bonus_one_handed": 2},
+    "great_weapon_fighting":  {"name": "Great Weapon Fighting", "desc": "Reroll 1s and 2s on damage dice with two-handed/versatile melee weapons"},
+    "protection":             {"name": "Protection", "desc": "Reaction: impose disadvantage on attack against adjacent ally (requires shield)"},
+    "two_weapon_fighting":    {"name": "Two-Weapon Fighting", "desc": "Add ability modifier to off-hand attack damage"},
+}
+
+FIGHTING_STYLE_LEVELS: dict[str, int] = {
+    "Fighter": 1,
+    "Paladin": 2,
+    "Ranger": 2,
+}
+
+FIGHTING_STYLE_OPTIONS: dict[str, list[str]] = {
+    "Fighter": ["archery", "defense", "dueling", "great_weapon_fighting", "protection", "two_weapon_fighting"],
+    "Paladin": ["defense", "dueling", "great_weapon_fighting", "protection"],
+    "Ranger": ["archery", "defense", "dueling", "two_weapon_fighting"],
+}
+
+
+# 8 roleplay/combat choice systems: level maps, options, and descriptions
+# ── Metamagic (Sorcerer L3/10/17, pick from list each time) ──────────
+METAMAGIC_LEVELS: dict[str, list[int]] = {"Sorcerer": [3, 10, 17]}
+METAMAGIC_OPTIONS: dict[str, dict] = {
+    "careful_spell":    {"name":"Careful Spell","desc":"Allows creatures you choose to automatically succeed on saving throws against your spell"},
+    "distant_spell":    {"name":"Distant Spell","desc":"Double the range of a spell (touch→30 ft, range ×2)"},
+    "empowered_spell":  {"name":"Empowered Spell","desc":"Reroll up to Cha mod damage dice, must use new rolls"},
+    "extended_spell":   {"name":"Extended Spell","desc":"Double the duration of a spell (max 24 hours)"},
+    "heightened_spell": {"name":"Heightened Spell","desc":"One target has disadvantage on its first saving throw against your spell"},
+    "quickened_spell":  {"name":"Quickened Spell","desc":"Cast a spell with casting time of 1 action as a bonus action"},
+    "subtle_spell":     {"name":"Subtle Spell","desc":"Cast a spell without verbal or somatic components"},
+    "twinned_spell":    {"name":"Twinned Spell","desc":"Target a second creature in range with the same spell (single-target spells only)"},
+}
+METAMAGIC_PICKS: dict[int, int] = {3: 2, 10: 1, 17: 1}  # level → number of choices
+
+# ── Eldritch Invocations (Warlock L2+, ~33 SRD options) ──────────────
+INVOCATION_LEVELS: dict[str, list[int]] = {"Warlock": [2, 5, 7, 9, 12, 15, 18]}
+INVOCATION_OPTIONS: dict[str, dict] = {
+    "agonizing_blast":       {"name":"Agonizing Blast","desc":"Add Cha modifier to Eldritch Blast damage","level":2},
+    "armor_of_shadows":      {"name":"Armor of Shadows","desc":"Cast Mage Armor at will without expending a spell slot","level":2},
+    "ascendant_step":        {"name":"Ascendant Step","desc":"Cast Levitate at will without expending a spell slot","level":9},
+    "beast_speech":          {"name":"Beast Speech","desc":"Cast Speak with Animals at will","level":2},
+    "beguiling_influence":   {"name":"Beguiling Influence","desc":"Gain proficiency in Deception and Persuasion","level":2},
+    "bewitching_whispers":   {"name":"Bewitching Whispers","desc":"Cast Compulsion once per long rest using a Warlock spell slot","level":7},
+    "book_of_ancient_secrets":{"name":"Book of Ancient Secrets","desc":"Learn 2 L1 rituals, can add more from scrolls (requires Pact of the Tome)","level":2,"prereq":"Pact of the Tome"},
+    "chains_of_carceri":     {"name":"Chains of Carceri","desc":"Cast Hold Monster at will on celestial/fiend/elemental, 1/long rest per target","level":15,"prereq":"Pact of the Chain"},
+    "devils_sight":          {"name":"Devil's Sight","desc":"See normally in darkness (magical and nonmagical) to 120 ft","level":2},
+    "dreadful_word":         {"name":"Dreadful Word","desc":"Cast Confusion once per long rest using a Warlock spell slot","level":7},
+    "eldritch_sight":        {"name":"Eldritch Sight","desc":"Cast Detect Magic at will","level":2},
+    "eldritch_spear":        {"name":"Eldritch Spear","desc":"Eldritch Blast range becomes 300 ft","level":2},
+    "eyes_of_the_rune_keeper":{"name":"Eyes of the Rune Keeper","desc":"Read all writing","level":2},
+    "fiendish_vigor":        {"name":"Fiendish Vigor","desc":"Cast False Life at 1st level at will (1d4+4 temp HP)","level":2},
+    "gaze_of_two_minds":     {"name":"Gaze of Two Minds","desc":"Use a willing humanoid's senses, cast targeted spells from their space","level":2},
+    "lifedrinker":           {"name":"Lifedrinker","desc":"Add Cha mod as necrotic damage on Pact Weapon hit (requires Pact of the Blade)","level":12,"prereq":"Pact of the Blade"},
+    "mask_of_many_faces":    {"name":"Mask of Many Faces","desc":"Cast Disguise Self at will","level":2},
+    "master_of_myriad_forms":{"name":"Master of Myriad Forms","desc":"Cast Alter Self at will","level":15},
+    "minions_of_chaos":      {"name":"Minions of Chaos","desc":"Cast Conjure Elemental once per long rest using a Warlock spell slot","level":9},
+    "mire_the_mind":         {"name":"Mire the Mind","desc":"Cast Slow once per long rest using a Warlock spell slot","level":5},
+    "misty_visions":         {"name":"Misty Visions","desc":"Cast Silent Image at will","level":2},
+    "one_with_shadows":      {"name":"One with Shadows","desc":"Become invisible in dim light/darkness while not moving or acting","level":5},
+    "otherworldly_leap":     {"name":"Otherworldly Leap","desc":"Cast Jump at will","level":9},
+    "repelling_blast":       {"name":"Repelling Blast","desc":"Eldritch Blast pushes target 10 ft away (per hit)","level":2},
+    "sculptor_of_flesh":     {"name":"Sculptor of Flesh","desc":"Cast Polymorph once per long rest using a Warlock spell slot","level":7},
+    "sign_of_ill_omen":      {"name":"Sign of Ill Omen","desc":"Cast Bestow Curse once per long rest using a Warlock spell slot","level":5},
+    "thief_of_five_fates":   {"name":"Thief of Five Fates","desc":"Cast Bane once per long rest using a Warlock spell slot","level":2},
+    "thirsting_blade":       {"name":"Thirsting Blade","desc":"Attack twice with Pact Weapon (Extra Attack, requires Pact of the Blade)","level":5,"prereq":"Pact of the Blade"},
+    "visions_of_distant_realms":{"name":"Visions of Distant Realms","desc":"Cast Arcane Eye at will","level":15},
+    "voice_of_the_chain_master":{"name":"Voice of the Chain Master","desc":"Communicate telepathically with, perceive through, and speak through your familiar (requires Pact of the Chain)","level":2,"prereq":"Pact of the Chain"},
+    "whispers_of_the_grave": {"name":"Whispers of the Grave","desc":"Cast Speak with Dead at will","level":9},
+    "witch_sight":           {"name":"Witch Sight","desc":"See invisible creatures/illusions within 30 ft without needing to perceive them","level":15},
+}
+INVOCATION_PICKS: dict[int,int] = {2:2,5:1,7:1,9:1,12:1,15:1,18:1}
+
+# ── Pact Boon (Warlock L3, pick 1 of 4) ──────────────────────────────
+PACT_BOON_LEVELS: dict[str, int] = {"Warlock": 3}
+PACT_BOON_OPTIONS: dict[str, dict] = {
+    "pact_of_the_chain":  {"name":"Pact of the Chain","desc":"Learn Find Familiar; familiar can take the Attack action, gains special forms (imp, pseudodragon, quasit, sprite)"},
+    "pact_of_the_blade":  {"name":"Pact of the Blade","desc":"Create a pact weapon as an action; you are proficient with it; it counts as magical"},
+    "pact_of_the_tome":   {"name":"Pact of the Tome","desc":"Gain a Book of Shadows with 3 cantrips from any class; ritual casting if you take Book of Ancient Secrets"},
+    "pact_of_the_talisman":{"name":"Pact of the Talisman","desc":"Wearer can add d4 to a failed ability check, prof bonus times per long rest"},
+}
+
+# ── Battle Master Maneuvers (Fighter L3/7/10/15, requires Battle Master) ──
+MANEUVER_LEVELS: dict[str, list[int]] = {"Battle Master": [3, 7, 10, 15]}
+MANEUVER_OPTIONS: dict[str, dict] = {
+    "commanders_strike":   {"name":"Commander's Strike","desc":"Forgo one attack; ally uses reaction to make one weapon attack + superiority die to damage"},
+    "disarming_attack":    {"name":"Disarming Attack","desc":"Add superiority die to damage; target makes Str save or drops held item"},
+    "distracting_strike":  {"name":"Distracting Strike","desc":"Add superiority die to damage; next ally attack vs target has advantage"},
+    "evasive_footwork":    {"name":"Evasive Footwork","desc":"Add superiority die to AC while moving (no action, on your turn)"},
+    "feinting_attack":     {"name":"Feinting Attack","desc":"Bonus action: add superiority die to next attack roll + damage (if hit)"},
+    "goading_attack":      {"name":"Goading Attack","desc":"Add superiority die to damage; target Wis save or disadv vs others until your next turn end"},
+    "lunging_attack":      {"name":"Lunging Attack","desc":"Add superiority die to damage; melee weapon reach +5ft for this attack"},
+    "maneuvering_attack":  {"name":"Maneuvering Attack","desc":"Add superiority die to damage; one ally moves half speed without provoking OA (reaction)"},
+    "menacing_attack":     {"name":"Menacing Attack","desc":"Add superiority die to damage; target Wis save or frightened until your next turn end"},
+    "parry":               {"name":"Parry","desc":"Reaction: reduce incoming melee damage by superiority die + Dex mod"},
+    "precision_attack":    {"name":"Precision Attack","desc":"Add superiority die to attack roll after roll but before result known"},
+    "pushing_attack":      {"name":"Pushing Attack","desc":"Add superiority die to damage; target Str save or pushed 15 ft"},
+    "rally":               {"name":"Rally","desc":"Bonus action: ally gains temp HP = superiority die + Cha mod"},
+    "riposte":             {"name":"Riposte","desc":"Reaction: when a creature misses you, make a melee attack + superiority die to damage"},
+    "sweeping_attack":     {"name":"Sweeping Attack","desc":"Add superiority die to damage; deal superiority die damage to different adjacent creature"},
+    "trip_attack":         {"name":"Trip Attack","desc":"Add superiority die to damage; target Str save or knocked prone (Large or smaller)"},
+}
+MANEUVER_PICKS: dict[int,int] = {3:3,7:2,10:2,15:2}  # level → total known
+
+# ── Magical Secrets (Bard L10/14/18, Lore Bard gets L6 bonus) ────────
+MAGICAL_SECRETS_LEVELS: dict[str, list[int]] = {"Bard": [10, 14, 18], "College of Lore": [6]}
+MAGICAL_SECRETS_PICKS: dict[int,int] = {6:2,10:2,14:2,18:2}
+
+# ── Totem Spirit (Barbarian Totem Warrior L3/6/14, pick per tier) ────
+TOTEM_SPIRIT_LEVELS: dict[str, list[int]] = {"Path of the Totem Warrior": [3, 6, 14]}
+TOTEM_SPIRIT_OPTIONS: dict[str, dict] = {
+    "bear":   {"name":"Bear","desc":"Resistance to all damage except psychic while raging"},
+    "eagle":  {"name":"Eagle","desc":"Bonus action Dash while raging; opportunity attacks against you have disadvantage"},
+    "wolf":   {"name":"Wolf","desc":"Allies within 5 ft of you have advantage on melee attacks vs targets adjacent to you"},
+    "elk":    {"name":"Elk (SCAG)","desc":"Speed +15 ft while raging"},
+    "tiger":  {"name":"Tiger (SCAG)","desc":"Jump distance +10 ft while raging; bonus action: move up to half speed after jump attack"},
+}
+TOTEM_SPIRIT_TIER_LABELS: dict[int, str] = {3:"Totem Spirit", 6:"Aspect of the Beast", 14:"Totemic Attunement"}
+
+# ── Hunter's Prey (Ranger Hunter L3, pick 1 of 3) ─────────────────────
+HUNTERS_PREY_LEVELS: dict[str, int] = {"Hunter": 3}
+HUNTERS_PREY_OPTIONS: dict[str, dict] = {
+    "colossus_slayer": {"name":"Colossus Slayer","desc":"Once per turn, +1d8 damage to a wounded creature"},
+    "giant_killer":    {"name":"Giant Killer","desc":"Reaction to attack Large+ creature that attacks you (whether it hits or misses)"},
+    "horde_breaker":   {"name":"Horde Breaker","desc":"Once per turn, make an additional attack vs a different creature within 5 ft of first target"},
+}
+
+# ── Artificer Infusions (L2, pick from list) ─────────────────────────
+INFUSION_LEVELS: dict[str, int] = {"Artificer": 2}
+INFUSION_OPTIONS: dict[str, dict] = {
+    "enhanced_defense":        {"name":"Enhanced Defense","desc":"+1 AC to armor or shield (+2 at L10)"},
+    "enhanced_weapon":         {"name":"Enhanced Weapon","desc":"+1 to attack and damage rolls (+2 at L10)"},
+    "repeating_shot":          {"name":"Repeating Shot","desc":"Weapon gains +1 atk/dmg, ignores loading, creates its own ammo"},
+    "returning_weapon":        {"name":"Returning Weapon","desc":"Thrown weapon returns to hand immediately after attack"},
+    "replicate_magic_item":    {"name":"Replicate Magic Item","desc":"Create a common/uncommon magic item from a list"},
+    "homunculus_servant":      {"name":"Homunculus Servant","desc":"Create a tiny construct companion"},
+    "radiant_weapon":          {"name":"Radiant Weapon","desc":"+1 atk/dmg; reaction to blind attacker for 1 round (Con save)"},
+    "spell_refueling_ring":    {"name":"Spell-Refueling Ring","desc":"Recover one spell slot of L3 or lower once per day"},
+    "boots_of_the_winding_path":{"name":"Boots of the Winding Path","desc":"Bonus action teleport 15 ft to unoccupied space you've been this turn"},
+    "armor_of_magical_strength":{"name":"Armor of Magical Strength","desc":"+Int mod to Str checks/saves, limited uses"},
+}
+INFUSION_PICKS: dict[int,int] = {2:4}  # level → known infusions
 
 # Cantrip progression
 CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {

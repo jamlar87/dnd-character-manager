@@ -177,12 +177,74 @@
   </div>
 </div>
 
+<!-- Expertise Picker Overlay (shown for classes with L1 Expertise) -->
+<div id="expertise-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem" id="expertise-picker-title">⭐ Expertise</h3>
+    <p id="expertise-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem"></p>
+    <div id="expertise-picker-options" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem"></div>
+    <p id="expertise-picker-count" style="font-size:0.8rem;text-align:right;margin-top:0.4rem"></p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipExpertisePicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmExpertisePicker()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fighting Style Picker Overlay (shown for Fighter L1) -->
+<div id="fighting-style-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem">⚔️ Fighting Style</h3>
+    <p id="fighting-style-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Choose your Fighting Style</p>
+    <div id="fighting-style-picker-options"></div>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipFightingStylePicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmFightingStylePicker()">Confirm</button>
+    </div>
+  </div>
+<div id="infusion-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem">🔧 Infusions</h3>
+    <p id="infusion-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Choose your infused items</p>
+    <div id="infusion-picker-options"></div>
+    <p id="infusion-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 4 selected</p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipInfusionPicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmInfusionPicker()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
 const CLASSES = {{ classes | tojson }};
 const ALL_SKILLS = {{ all_skills | tojson }};
 const SKILL_ABILITIES = {{ skill_abilities | tojson }};
+const EXPERTISE_LEVELS = {{ expertise_levels | tojson }};
+const FIGHTING_STYLE_OPTIONS = {{ fighting_style_options | tojson }};
+const FIGHTING_STYLES = {{ fighting_styles | tojson }};
+const METAMAGIC_OPTIONS = {{ metamagic_options | tojson }};
+const METAMAGIC_LEVELS = {{ metamagic_levels | tojson }};
+const METAMAGIC_PICKS = {{ metamagic_picks | tojson }};
+const INVOCATION_OPTIONS = {{ invocation_options | tojson }};
+const INVOCATION_LEVELS = {{ invocation_levels | tojson }};
+const INVOCATION_PICKS = {{ invocation_picks | tojson }};
+const PACT_BOON_OPTIONS = {{ pact_boon_options | tojson }};
+const PACT_BOON_LEVELS = {{ pact_boon_levels | tojson }};
+const MANEUVER_OPTIONS = {{ maneuver_options | tojson }};
+const MANEUVER_LEVELS = {{ maneuver_levels | tojson }};
+const MANEUVER_PICKS = {{ maneuver_picks | tojson }};
+const MAGICAL_SECRETS_LEVELS = {{ magical_secrets_levels | tojson }};
+const MAGICAL_SECRETS_PICKS = {{ magical_secrets_picks | tojson }};
+const TOTEM_SPIRIT_OPTIONS = {{ totem_spirit_options | tojson }};
+const TOTEM_SPIRIT_LEVELS = {{ totem_spirit_levels | tojson }};
+const TOTEM_SPIRIT_TIER_LABELS = {{ totem_spirit_tier_labels | tojson }};
+const HUNTERS_PREY_OPTIONS = {{ hunters_prey_options | tojson }};
+const HUNTERS_PREY_LEVELS = {{ hunters_prey_levels | tojson }};
+const INFUSION_OPTIONS = {{ infusion_options | tojson }};
+const INFUSION_LEVELS = {{ infusion_levels | tojson }};
+const INFUSION_PICKS = {{ infusion_picks | tojson }};
 
 const SKILL_DESCS = {
   "Acrobatics": "Balance, flips, and staying on your feet. Escape grapples, walk tightropes, and land safely from falls. (Dex)",
@@ -336,7 +398,7 @@ const STARTING_EQUIPMENT = {
   "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
 };
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], expertise_skills: [], fighting_style: "", metamagic: [], invocations: [], pact_boon: "", maneuvers: [], magical_secrets: [], totem_spirits: {}, hunters_prey: "", infusions: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
 let step = 0;
 
 // Subclass bonus proficiency map (same as backend SUBCLASS_PROFICIENCIES)
@@ -363,6 +425,21 @@ function showStep(n) {
 function nextStep() {
   if (step === 0 && !state.race) { alert('Choose a race'); return; }
   if (step === 1 && !state.class_name) { alert('Choose a class'); return; }
+  // Intercept: fighting style picker for Fighter L1 (after class step)
+  if (step === 1 && hasL1FightingStyle() && !state._fightingStyleShown) {
+    showFightingStylePicker();
+    return;
+  }
+  // Intercept: infusion picker for Artificer L2 (after class step)
+  if (step === 1 && hasL1Infusions() && !state._infusionShown) {
+    showInfusionPicker();
+    return;
+  }
+  // Intercept: expertise picker for classes with L1 Expertise (after skills step)
+  if (step === 3 && hasL1Expertise() && !state._expertiseShown) {
+    showExpertisePicker();
+    return;
+  }
   // Intercept: known casters go to spell picker before review
   if (step === 4 && isKnownCaster()) {
     showSpellPicker();
@@ -1009,6 +1086,199 @@ function confirmBonusPicker() {
   showStep(5);
 }
 
+// ── Expertise Picker ──────────────────────────────────────────────
+function hasL1Expertise() {
+  if (!state.class_name) return false;
+  // Check class
+  var exp = EXPERTISE_LEVELS[state.class_name];
+  if (!exp && state.subclass) exp = EXPERTISE_LEVELS[state.subclass];
+  if (!exp) return false;
+  var lvls = exp.levels || exp;  // support old list format
+  return Array.isArray(lvls) && lvls.includes(1);
+}
+
+function getExpertiseOpts() {
+  // Returns array of valid expertise options for current class/subclass
+  var exp = EXPERTISE_LEVELS[state.subclass] || EXPERTISE_LEVELS[state.class_name];
+  if (!exp) return state.skills.slice();
+  var opts = exp.options;
+  if (Array.isArray(opts)) return opts.slice();
+  if (opts === 'skills_and_thieves_tools') {
+    var arr = state.skills.slice();
+    if (!arr.includes("Thieves' Tools")) arr.push("Thieves' Tools");
+    return arr;
+  }
+  return state.skills.slice();
+}
+
+function showExpertisePicker() {
+  state._expertiseShown = true;
+  var options = getExpertiseOpts();
+  var count = 2;
+  var c = CLASSES[state.class_name];
+  var label = state.subclass ? state.subclass + ' L1' : c.name + ' L1';
+  
+  var info = document.getElementById('expertise-picker-info');
+  info.textContent = 'Choose ' + count + ' skills or tools to double your proficiency bonus. (' + label + ')';
+  
+  var container = document.getElementById('expertise-picker-options');
+  container.innerHTML = '';
+  state._expPicks = state.expertise_skills.slice();
+  
+  options.forEach(function(opt) {
+    var chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.textContent = opt;
+    if (state._expPicks.includes(opt)) chip.classList.add('selected');
+    chip.onclick = function() {
+      if (state._expPicks.includes(opt)) {
+        state._expPicks = state._expPicks.filter(function(x) { return x !== opt; });
+      } else {
+        if (state._expPicks.length >= count) { alert('Only ' + count + ' expertise picks allowed'); return; }
+        state._expPicks.push(opt);
+      }
+      updateExpChips();
+    };
+    container.appendChild(chip);
+  });
+  updateExpChips();
+  document.getElementById('expertise-picker-overlay').style.display = 'flex';
+}
+
+function updateExpChips() {
+  var chips = document.querySelectorAll('#expertise-picker-options .chip');
+  chips.forEach(function(c) {
+    c.classList.toggle('selected', state._expPicks.includes(c.textContent));
+  });
+  document.getElementById('expertise-picker-count').textContent = 
+    state._expPicks.length + ' / 2 selected';
+}
+
+function skipExpertisePicker() {
+  state.expertise_skills = [];
+  document.getElementById('expertise-picker-overlay').style.display = 'none';
+  showStep(4);
+}
+
+function confirmExpertisePicker() {
+  state.expertise_skills = state._expPicks.slice();
+  document.getElementById('expertise-picker-overlay').style.display = 'none';
+  showStep(4);
+}
+
+// ── Fighting Style Picker ─────────────────────────────────────────
+function hasL1FightingStyle() {
+  return state.class_name && FIGHTING_STYLE_OPTIONS[state.class_name] && FIGHTING_STYLE_OPTIONS[state.class_name].length > 0;
+}
+
+function showFightingStylePicker() {
+  state._fightingStyleShown = true;
+  var opts = FIGHTING_STYLE_OPTIONS[state.class_name] || [];
+  var container = document.getElementById('fighting-style-picker-options');
+  container.innerHTML = '';
+  
+  var info = document.getElementById('fighting-style-picker-info');
+  info.textContent = 'Choose your Fighting Style (' + state.class_name + ' L1)';
+  
+  opts.forEach(function(key) {
+    var style = FIGHTING_STYLES[key];
+    var card = document.createElement('div');
+    card.className = 'card' + (state.fighting_style === key ? ' selected' : '');
+    card.style.cssText = 'cursor:pointer;padding:0.6rem 0.8rem;margin-bottom:0.4rem;border:1px solid var(--border);border-radius:6px;transition:border-color 0.15s';
+    card.onclick = function() {
+      state.fighting_style = (state.fighting_style === key) ? '' : key;
+      document.querySelectorAll('#fighting-style-picker-options .card').forEach(function(c) {
+        c.classList.remove('selected');
+        c.style.borderColor = 'var(--border)';
+      });
+      if (state.fighting_style === key) {
+        card.classList.add('selected');
+        card.style.borderColor = 'var(--accent)';
+      }
+    };
+    card.innerHTML = '<strong>' + style.name + '</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">' + style.desc + '</span>';
+    container.appendChild(card);
+  });
+  document.getElementById('fighting-style-picker-overlay').style.display = 'flex';
+}
+
+function skipFightingStylePicker() {
+  state.fighting_style = '';
+  document.getElementById('fighting-style-picker-overlay').style.display = 'none';
+  showStep(2);  // Proceed to Abilities
+}
+
+function confirmFightingStylePicker() {
+  document.getElementById('fighting-style-picker-overlay').style.display = 'none';
+  showStep(2);  // Proceed to Abilities
+}
+
+// ── Metamagic Picker (Sorcerer L1 — not gained at L1, so skip) ────
+// ── Eldritch Invocation Picker (Warlock L2+ — not L1) ──────────────
+// ── Pact Boon Picker (Warlock L3 — not L1) ─────────────────────────
+// ── Battle Master Maneuvers Picker (L3 — not L1) ──────────────────
+// ── Magical Secrets Picker (Bard L6+/10+/14+/18+ — not L1) ────────
+// ── Totem Spirit Picker (L3/6/14 — not L1) ─────────────────────────
+// ── Hunter's Prey Picker (Ranger Hunter L3 — not L1) ──────────────
+// ── Artificer Infusion Picker (L2) ─────────────────────────────────
+function hasL1Infusions() {
+  return state.class_name === 'Artificer';
+}
+
+function showInfusionPicker() {
+  state._infusionShown = true;
+  var opts = Object.entries(INFUSION_OPTIONS);
+  var count = 4;
+  var container = document.getElementById('infusion-picker-options');
+  container.innerHTML = '';
+  
+  var info = document.getElementById('infusion-picker-info');
+  info.textContent = 'Choose ' + count + ' infusions (Artificer L2). You can change these each long rest.';
+  
+  state._infPicks = state.infusions.slice();
+  
+  opts.forEach(function(e) {
+    var key = e[0], v = e[1];
+    var chip = document.createElement('div');
+    chip.className = 'card' + (state._infPicks.includes(key) ? ' selected' : '');
+    chip.style.cssText = 'cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid var(--border);border-radius:6px;';
+    chip.onclick = function() {
+      if (state._infPicks.includes(key)) {
+        state._infPicks = state._infPicks.filter(function(x) { return x !== key; });
+      } else {
+        if (state._infPicks.length >= count) { alert('Only ' + count + ' infusions allowed'); return; }
+        state._infPicks.push(key);
+      }
+      updateInfChips();
+    };
+    chip.innerHTML = '<strong>' + v.name + '</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">' + v.desc + '</span>';
+    container.appendChild(chip);
+  });
+  updateInfChips();
+  document.getElementById('infusion-picker-overlay').style.display = 'flex';
+}
+
+function updateInfChips() {
+  document.querySelectorAll('#infusion-picker-options .card').forEach(function(c, i) {
+    var key = Object.keys(INFUSION_OPTIONS)[i];
+    c.classList.toggle('selected', state._infPicks.includes(key));
+    c.style.borderColor = state._infPicks.includes(key) ? 'var(--accent)' : 'var(--border)';
+  });
+  document.getElementById('infusion-picker-count').textContent = state._infPicks.length + ' / 4 selected';
+}
+
+function skipInfusionPicker() {
+  state.infusions = [];
+  document.getElementById('infusion-picker-overlay').style.display = 'none';
+  showStep(2);
+}
+
+function confirmInfusionPicker() {
+  state.infusions = state._infPicks.slice();
+  document.getElementById('infusion-picker-overlay').style.display = 'none';
+  showStep(2);
+}
+
 // ── Create ──
 async function createCharacter() {
   buildReview();
@@ -1027,6 +1297,16 @@ async function createCharacter() {
     name: state.name, race: state.race, subrace: state.subrace,
     class_name: state.class_name, subclass: state.subclass,
     abilities: state.abilities, skills: state.skills,
+    expertise_skills: state.expertise_skills,
+    fighting_style: state.fighting_style,
+    metamagic: state.metamagic,
+    invocations: state.invocations,
+    pact_boon: state.pact_boon,
+    maneuvers: state.maneuvers,
+    magical_secrets: state.magical_secrets,
+    totem_spirits: state.totem_spirits,
+    hunters_prey: state.hunters_prey,
+    infusions: state.infusions,
     asi_picks: state.asi_picks, background: state.background,
     background_data: state.background_data || '',
     alignment: state.alignment, personality: state.personality, backstory: state.backstory,
