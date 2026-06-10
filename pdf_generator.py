@@ -172,6 +172,7 @@ def build_char_data(row, db_cursor=None):
     d["condensed_features"] = _build_condensed_features(d)
     d["full_feature_text"] = _build_full_feature_text(d)
     d["page1_features"] = _build_page1_features_text(d)
+    d["spell_appendix"] = _build_spell_appendix_text(d)
     d["has_long_features"] = len(d.get("full_feature_text", "")) > 140
 
     return d
@@ -245,6 +246,64 @@ def _build_page1_features_text(d):
             if last_period > 100:
                 short = short[:last_period + 1]
             lines.append(short)
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _build_spell_appendix_text(d):
+    """Build full spell details for the appendix."""
+    spells = d.get("spells", [])
+    if not spells:
+        return ""
+    cache = _get_spell_cache()
+    lines = []
+    # Sort by level then name
+    sorted_spells = sorted(spells, key=lambda s: (s[1], s[0].lower()))
+    for sp_name, sp_level, prepared in sorted_spells:
+        sd = cache.get(sp_name.lower(), {})
+        if not sd:
+            lines.append(sp_name.upper())
+            lines.append(f"Level {sp_level} — (details not in cache)")
+            lines.append("")
+            continue
+
+        lines.append(sp_name.upper())
+        # Level + school line
+        school = sd.get("school", {}).get("name", "")
+        ritual = " (ritual)" if sd.get("ritual") else ""
+        level_str = {0: "Cantrip", 1: "1st-level", 2: "2nd-level", 3: "3rd-level"}.get(
+            sp_level, f"{sp_level}th-level")
+        lines.append(f"{level_str} {school.lower()}{ritual}")
+
+        lines.append(f"Casting Time: {sd.get('casting_time', '—')}")
+        lines.append(f"Range: {sd.get('range', '—')}")
+        comps = sd.get("components", [])
+        comp_str = ", ".join(comps) if comps else "—"
+        materials = sd.get("material")
+        if materials:
+            comp_str += f" ({materials})"
+        lines.append(f"Components: {comp_str}")
+        dur = sd.get("duration", "—")
+        if sd.get("concentration"):
+            dur_clean = dur.lower()
+            if dur_clean.startswith("up to "):
+                dur = f"Concentration, {dur}"
+            else:
+                dur = f"Concentration, up to {dur}"
+        lines.append(f"Duration: {dur}")
+
+        # Description
+        desc = sd.get("desc", [])
+        if desc:
+            lines.append("")
+            lines.append(" ".join(desc))
+
+        # Higher level
+        higher = sd.get("higher_level", [])
+        if higher:
+            lines.append("")
+            lines.append("At Higher Levels: " + " ".join(higher))
+
         lines.append("")
     return "\n".join(lines)
 
@@ -820,6 +879,45 @@ def draw_page4_appendix(c, d):
 
 
 # ═══════════════════════════════════════════════════════════════
+#  SPELL APPENDIX — full spell details
+# ═══════════════════════════════════════════════════════════════
+def draw_spell_appendix(c, d):
+    text = d.get("spell_appendix", "")
+    if not text:
+        return
+    c.showPage()
+    y = 30
+    c.setFont(FONT_BOLD, 12)
+    c.drawString(MARGIN, yb(y + 16), f"SPELL APPENDIX — {d.get('name', '')}")
+    c.setFont(FONT, 7)
+    c.drawString(MARGIN, yb(y + 28),
+                 f"{d.get('class_name', '')} {d.get('level', '')} | {d.get('race', '')} | {d.get('background', '')}")
+    y += 44
+    paragraphs = text.split("\n\n")
+    for para in paragraphs:
+        if not para.strip():
+            continue
+        lines = simpleSplit(para, FONT, 6, PAGE_W - 2 * MARGIN)
+        needed_h = len(lines) * 10 + 20
+        if y + needed_h > PAGE_H - MARGIN:
+            c.showPage()
+            y = MARGIN
+        if "\n" not in para and para.isupper():
+            c.setFont(FONT_BOLD, 7)
+            c.drawString(MARGIN, yb(y + 12), para)
+            y += 16
+        else:
+            for line in lines:
+                if y + 10 > PAGE_H - MARGIN:
+                    c.showPage()
+                    y = MARGIN
+                c.setFont(FONT, 6)
+                c.drawString(MARGIN, yb(y + 10), line)
+                y += 10
+            y += 6
+
+
+# ═══════════════════════════════════════════════════════════════
 #  MAIN GENERATOR
 # ═══════════════════════════════════════════════════════════════
 def generate_character_sheet(char_data, output_path=None):
@@ -836,6 +934,8 @@ def generate_character_sheet(char_data, output_path=None):
     if char_data.get("is_caster"):
         draw_page3(c, char_data)
         c.showPage()
+    if char_data.get("spell_appendix"):
+        draw_spell_appendix(c, char_data)
     if char_data.get("has_long_features"):
         draw_page4_appendix(c, char_data)
         c.showPage()
