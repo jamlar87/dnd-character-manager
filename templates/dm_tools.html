@@ -446,6 +446,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         </div>
       </div>
       {% if enc.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin:0.3rem 0">{{ enc.description }}</p>{% endif %}
+      {% if enc.notes %}<details style="margin:0.3rem 0"><summary style="font-size:0.75rem;color:var(--accent);cursor:pointer">📋 Tactics</summary><p style="font-size:0.8rem;color:var(--text-muted);margin:0.15rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.4rem;max-height:4em;overflow:hidden">{{ enc.notes }}</p></details>{% endif %}
       {% if enc.location %}<p style="font-size:0.8rem;color:var(--text-muted)">📍 {{ enc.location }}</p>{% endif %}
     </div>
     {% else %}
@@ -1171,8 +1172,9 @@ async function generateAiEncounter(event) {
 
     if (enc.tactics) html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Tactics:</strong> ${enc.tactics}</p>`;
 
-    // Store composition for saveAiEncounter to use
+    // Store composition + tactics for saveAiEncounter to use
     window._aiComposition = enc.composition;
+    window._aiTactics = enc.tactics || '';
 
     // Save button
     html += `<div style="margin-top:1rem;display:flex;gap:0.5rem">
@@ -1188,9 +1190,10 @@ async function generateAiEncounter(event) {
 }
 
 async function saveAiEncounter(name, description, environment, difficulty) {
+  const tactics = window._aiTactics || '';
   const r = await fetch('/api/dm/encounter/create', {
     method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, description, environment, difficulty, location: ''})
+    body: JSON.stringify({name, description, environment, difficulty, location: '', notes: tactics})
   });
   const d = await r.json();
   if (!d.ok) return;
@@ -1212,6 +1215,7 @@ async function saveAiEncounter(name, description, environment, difficulty) {
     }
   }
   window._aiComposition = null;
+  window._aiTactics = null;
   closeModal('aiEncounterModal'); location.reload();
 }
 
@@ -1249,6 +1253,7 @@ async function openEncounter(id) {
       </div>
     </div>`;
     if (enc.description) html += `<p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.5rem">${enc.description}</p>`;
+    if (enc.notes) html += `<details style="margin-bottom:0.5rem"><summary style="cursor:pointer;font-size:0.85rem;color:var(--accent);user-select:none">📋 Tactics & Notes</summary><p style="font-size:0.85rem;color:var(--text-muted);white-space:pre-wrap;margin:0.3rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.5rem">${enc.notes}</p></details>`;
 
     // Encounter builder: searchable palette + tracking
     html += `<div class="encounter-builder">
