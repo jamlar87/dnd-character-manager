@@ -885,7 +885,6 @@ def draw_spell_appendix(c, d):
     text = d.get("spell_appendix", "")
     if not text:
         return
-    c.showPage()
     y = 30
     c.setFont(FONT_BOLD, 12)
     c.drawString(MARGIN, yb(y + 16), f"SPELL APPENDIX — {d.get('name', '')}")
@@ -937,8 +936,8 @@ def generate_character_sheet(char_data, output_path=None):
     if char_data.get("spell_appendix"):
         draw_spell_appendix(c, char_data)
     if char_data.get("has_long_features"):
-        draw_page4_appendix(c, char_data)
         c.showPage()
+        draw_page4_appendix(c, char_data)
     c.save()
     if use_temp:
         with open(path, "rb") as f:
