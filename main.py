@@ -1983,6 +1983,9 @@ def _build_inventory_attacks(character: dict) -> list:
                     atk["max_charges"] = max_charges
                     atk["current_charges"] = max(0, max_charges - used)
                     atk["charge_recharge"] = item_info.get("charge_recharge", "")
+                # Pass through source for clickable badge
+                if item_info.get("source"):
+                    atk["source"] = item_info["source"]
                 attacks.append(atk)
                 seen.add(key)
 

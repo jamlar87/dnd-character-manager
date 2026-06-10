@@ -846,6 +846,7 @@
           </div>
           {% endif %}
           {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
+          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef('{{ atk.source|replace("'","\\'") }}')" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
         </div>
         {% endfor %}
         </div><!-- /attacks-weapons-list -->
@@ -4084,7 +4085,19 @@ async function refreshAttacksTab() {
       }
       const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
       const descHtml = atk.description ? `<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">${atk.description}</div>` : '';
-      return `<div class="atk-card item-card">
+      const srcHtml = atk.source ? `<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef('${atk.source.replace(/'/g, "\\'")}')" title="Click to open ${atk.source}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 ${atk.source}</span></div>` : '';
+      const hasMag = atk.max_charges && atk.max_charges > 0;
+      const magHtml = hasMag ? `<div class="magazine-bar" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem">
+        <span class="magazine-count" style="font-family:monospace;font-size:0.8rem;color:var(--text-muted)">${atk.current_charges}/${atk.max_charges}</span>
+        <button class="mag-spend-btn" onclick="event.stopPropagation();spendCharge('${atk.name.replace(/'/g, "\\'")}')"
+          style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.7rem"
+          ${atk.current_charges <= 0 ? 'disabled style="opacity:0.4"' : ''}>🔫 Fire</button>
+        <button class="mag-reload-btn" onclick="event.stopPropagation();reloadCharge('${atk.name.replace(/'/g, "\\'")}')"
+          style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>
+      </div>` : '';
+      const cardClasses = 'atk-card item-card' + (hasMag ? ' weapon-atk-card has-magazine' : '');
+      const dataAttrs = `data-item-name="${atk.name}"` + (hasMag ? ` data-max-charges="${atk.max_charges}" data-charge-recharge="${atk.charge_recharge || ''}"` : '');
+      return `<div class="${cardClasses}" ${dataAttrs}>
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span style="display:flex;align-items:center;gap:0.3rem">
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -4097,7 +4110,9 @@ async function refreshAttacksTab() {
           ${atk.damage ? `<span> · ${atk.damage}</span>` : ''}
         </div>
         ${propsHtml}
+        ${magHtml}
         ${descHtml}
+        ${srcHtml}
       </div>`;
     }).join('');
     // Also update Unarmed Strike attack bonus if abilities changed
