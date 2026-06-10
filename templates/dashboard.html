@@ -19,7 +19,7 @@
 </div>
 {% else %}
 {% for c in characters %}
-<div class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
+<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div>
       <strong style="font-size:1.15rem">{{ c.name }}</strong>
@@ -48,8 +48,14 @@
 async function deleteChar(id) {
   if (!confirm('Permanently delete this character?')) return;
   const r = await fetch('/api/character/' + id + '/delete', { method: 'POST' });
-  if (r.ok) location.reload();
-  else alert('Delete failed');
+  if (r.ok) {
+    const card = document.getElementById('char-card-' + id);
+    if (card) card.remove();
+    // If no cards remain, reload to show the empty state
+    if (!document.querySelector('.char-card-inner')) location.reload();
+  } else {
+    alert('Delete failed');
+  }
 }
 </script>
 {% endblock %}
