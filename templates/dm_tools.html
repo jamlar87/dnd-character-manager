@@ -878,12 +878,21 @@ async function openSourceRef(src) {
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
+  // Try slug match first (e.g., "PHB", "DMG")
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (slug.toLowerCase() === bookPart.toLowerCase()) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+  // Try display name match
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
     if (info.display.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
+  // Fallback: substring match
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
     if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');

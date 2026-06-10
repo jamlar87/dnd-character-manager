@@ -380,7 +380,7 @@ def load_manual_data():
                     "cost": "—",
                     "weight": None,
                     "rarity": rarity,
-                    "source": source or "",
+                    "source": _resolve_source(key, source or ""),
                 }
 
     # ── Feats ── merge into FEATS dict
@@ -768,6 +768,34 @@ def _build_item_type(item: dict) -> str:
 
 
 # Build unified item index (equipment + magic items)
+
+# ── Load item→page map for source badges ──
+_item_page_map: dict[str, str] = {}
+try:
+    _ppm_path = DATA_DIR / "item_page_map.json"
+    if _ppm_path.exists():
+        with open(_ppm_path) as _f:
+            _raw_map = json.load(_f)
+        for _k, _v in _raw_map.items():
+            _src = _v.get("source_str", "")
+            if _src and "p." in _src:  # Only use entries with actual page numbers
+                _item_page_map[_k] = _src
+        print(f"  Items with page numbers: {len(_item_page_map)}")
+except Exception as _e:
+    print(f"  (item page map unavailable: {_e})")
+
+
+def _resolve_source(item_key: str, fallback: str) -> str:
+    """Return source string with page number from map, or fallback."""
+    mapped = _item_page_map.get(item_key.lower())
+    if mapped:
+        # Don't replace if fallback already has better info (e.g., specific adventure page)
+        if "p." in fallback.lower():
+            return fallback
+        return mapped
+    return fallback
+
+
 ITEM_INDEX: dict[str, dict] = {}
 for item in SRD_EQUIPMENT:
     name = item.get("name", "")
@@ -781,7 +809,7 @@ for item in SRD_EQUIPMENT:
             "cost": f"{cost.get('quantity', '?')} {cost.get('unit', 'gp')}",
             "weight": item.get("weight", None),
             "rarity": "",
-            "source": "PHB 2014",
+            "source": _resolve_source(key, "PHB 2014"),
         }
 
 # ── Firearms, Ammo & Explosives (DMG 2014 p.267-268) ──
@@ -821,7 +849,7 @@ for item in SRD_MAGIC_ITEMS:
         desc_list = item.get("desc", [])
         desc = " ".join(desc_list) if desc_list else ""
         # Use actual source for manual items, fall back to "DMG 2014" for SRD
-        source = item.get("source", "") or "DMG 2014"
+        source = _resolve_source(key, item.get("source", "") or "DMG 2014")
 
         # ── Proper type tagging ──
         cat = (item.get("equipment_category") or {}).get("name", "")

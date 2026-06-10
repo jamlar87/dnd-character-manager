@@ -422,6 +422,14 @@ function openSourceRef(src) {
   // Strip page for book name matching
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
   if (!_sourceSlugLookup) return;
+  // Try slug match first (e.g., "PHB", "DMG")
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    if (slug.toLowerCase() === bookPart.toLowerCase()) {
+      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
+      window.open(url, '_blank');
+      return;
+    }
+  }
   // Find slug by matching display name
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
     if (info.display.toLowerCase() === bookPart.toLowerCase()) {
