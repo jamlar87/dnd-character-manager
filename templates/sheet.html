@@ -1051,7 +1051,13 @@
             </div>
             <div class="passive-chip-body">
               {{ rt.desc }}
-              <div style="margin-top:0.2rem;font-size:0.6rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</div>
+              <div style="margin-top:0.2rem;font-size:0.6rem;display:flex;align-items:center;gap:0.3rem">
+                {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
+                <span class="src-badge" onclick="openSourceRef('{{ rt.source }}')" title="Click to open {{ rt.source }}" style="font-size:0.55rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
+                {% elif rt.source %}
+                <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
+                {% endif %}
+              </div>
             </div>
           </div>
           {% endfor %}

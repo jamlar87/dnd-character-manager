@@ -401,6 +401,28 @@ def load_manual_data():
     if manual_feats:
         print(f"  + Feats: {len(manual_feats)}")
 
+    # ── Enrich feat sources with page numbers ──
+    _feat_page_map: dict[str, str] = {}
+    try:
+        _fpm_path = DATA_DIR / "feat_page_map.json"
+        if _fpm_path.exists():
+            with open(_fpm_path) as _f:
+                _feat_page_map = json.load(_f)
+        _feat_enriched = 0
+        for _key, _feat in FEATS.items():
+            _mapped = _feat_page_map.get(_key.lower())
+            if not _mapped:
+                # Also try by name
+                _fname = _feat.get("name", "").lower().replace(" ", "_")
+                _mapped = _feat_page_map.get(_fname)
+            if _mapped and "p." in _mapped:
+                _feat["source"] = _mapped
+                _feat_enriched += 1
+        if _feat_enriched:
+            print(f"  Feat sources enriched: {_feat_enriched}/{len(FEATS)}")
+    except Exception as _e:
+        print(f"  (feat page map unavailable: {_e})")
+
     # ── Backgrounds ── append to BACKGROUNDS list
     manual_backgrounds = _load_manual_json("backgrounds.json")
     for bg in manual_backgrounds:
@@ -409,6 +431,17 @@ def load_manual_data():
             BACKGROUNDS.append(name)
     if manual_backgrounds:
         print(f"  + Backgrounds: {len(manual_backgrounds)}")
+        # Enrich manual background sources
+        _bg_added = 0
+        for bg in manual_backgrounds:
+            name = bg.get("name", "")
+            if name and name not in BACKGROUND_SOURCES:
+                _mapped = _background_page_map.get(name)
+                if _mapped:
+                    BACKGROUND_SOURCES[name] = _mapped
+                    _bg_added += 1
+        if _bg_added:
+            print(f"  Manual background sources enriched: {_bg_added}")
 
     # ── Subclasses ── append to CLASSES[class_name]["subclasses"] + descriptions
     manual_subclasses = _load_manual_json("subclasses.json")
@@ -1733,7 +1766,7 @@ DRACONIC_ANCESTRIES = {
 
 
 def _build_racial_traits(char: dict) -> list:
-    """Build a list of {name, desc} for the character's race and subrace traits."""
+    """Build a list of {name, desc, source} for the character's race and subrace traits."""
     result = []
     race_name = char.get("race", "")
     subrace = char.get("subrace", "")
@@ -1743,14 +1776,22 @@ def _build_racial_traits(char: dict) -> list:
         for t in race_data.get("traits", []):
             desc = RACIAL_TRAIT_DESCS.get(t)
             if desc:
-                result.append({"name": t, "desc": desc, "source": race_name})
+                # Look up page-accurate source
+                src = _trait_page_map.get(t, "")
+                if not src:
+                    src = race_name
+                result.append({"name": t, "desc": desc, "source": src})
 
     if subrace:
         sub_traits = SUBRACE_TRAITS.get(subrace, [])
         for t in sub_traits:
             desc = RACIAL_TRAIT_DESCS.get(t)
             if desc:
-                result.append({"name": t, "desc": desc, "source": subrace})
+                # Look up page-accurate source
+                src = _trait_page_map.get(t, "")
+                if not src:
+                    src = subrace
+                result.append({"name": t, "desc": desc, "source": src})
 
     return result
 
@@ -1825,6 +1866,17 @@ for _cname, _cdata in CLASSES.items():
 if _subclass_enriched:
     print(f"  Subclass sources enriched: {_subclass_enriched}")
 
+# ── Load racial trait→page map for source badges ──
+_trait_page_map: dict[str, str] = {}
+try:
+    _tpm_path = DATA_DIR / "trait_page_map.json"
+    if _tpm_path.exists():
+        with open(_tpm_path) as _f:
+            _trait_page_map = json.load(_f)
+        print(f"  Trait sources loaded: {len(_trait_page_map)}")
+except Exception as _e:
+    print(f"  (trait page map unavailable: {_e})")
+
 SKILL_ABILITIES = {
     "Acrobatics":"dexterity","Animal Handling":"wisdom","Arcana":"intelligence",
     "Athletics":"strength","Deception":"charisma","History":"intelligence",
@@ -1859,6 +1911,33 @@ BACKGROUND_INFO = {
 }
 BACKGROUND_SOURCES = {bg: "Player's Handbook p.125-141" for bg in BACKGROUNDS if bg != "Custom"}
 BACKGROUND_SOURCES["Custom"] = ""
+
+# ── Enrich background sources with exact pages ──
+_background_page_map: dict[str, str] = {}
+try:
+    _bgpm_path = DATA_DIR / "background_page_map.json"
+    if _bgpm_path.exists():
+        with open(_bgpm_path) as _f:
+            _background_page_map = json.load(_f)
+        _bg_enriched = 0
+        # Enrich existing entries
+        for _bg_name in list(BACKGROUND_SOURCES.keys()):
+            _mapped = _background_page_map.get(_bg_name)
+            if _mapped and "p." in _mapped:
+                BACKGROUND_SOURCES[_bg_name] = _mapped
+                _bg_enriched += 1
+        # Also add entries for backgrounds not yet in SOURCES (manual ones will be merged later)
+        for _bg_name in BACKGROUNDS:
+            if _bg_name not in BACKGROUND_SOURCES:
+                _mapped = _background_page_map.get(_bg_name)
+                if _mapped:
+                    BACKGROUND_SOURCES[_bg_name] = _mapped
+                    _bg_enriched += 1
+        if _bg_enriched:
+            print(f"  Background sources enriched: {_bg_enriched}/{len(BACKGROUND_SOURCES)}")
+except Exception as _e:
+    print(f"  (background page map unavailable: {_e})")
+
 ALIGNMENTS = ["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"]
 
 # ── SRD Weapons (PHB p.149) ─────────────────────────────────────────────────
@@ -8849,6 +8928,40 @@ for cd_key, cd_desc in CHANNEL_DIVINITY_DESCRIPTIONS.items():
 
 # Call manual data loader after all data structures are defined
 load_manual_data()
+
+# ── Merge manual equipment into ITEM_INDEX ──
+# SRD equipment is a subset of PHB equipment. Manual data fills in missing
+# items (Holy Symbol, Arcane Focus, Druidic Focus, armor variants, siege
+# weapons, etc.). Without this merge, those items are not searchable and
+# disappear after deletion.
+_manual_equipment = _load_manual_json("equipment.json")
+_equipment_added = 0
+for _item in _manual_equipment:
+    _name = _item.get("name", "")
+    if not _name:
+        continue
+    _key = _name.lower()
+    if _key in ITEM_INDEX:
+        continue  # Don't overwrite existing entries
+    _source = _resolve_source(_key, _item.get("source", "") or "PHB 2014")
+    _desc = _item.get("description", "").strip()
+    # Derive a fallback cost/weight from the SRD-equipment-style description
+    # if manual data doesn't provide separate fields
+    _cost = (_item.get("cost") or "").strip()
+    _weight = _item.get("weight", None)
+    _type_str = (_item.get("type") or "Adventuring Gear").strip()
+    ITEM_INDEX[_key] = {
+        "name": _name,
+        "type": _type_str,
+        "description": _desc,
+        "cost": _cost or "—",
+        "weight": _weight,
+        "rarity": "",
+        "source": _source,
+    }
+    _equipment_added += 1
+if _equipment_added:
+    print(f"  Manual equipment added to index: {_equipment_added}")
 
 # ── PHB scale functions per feature ──
 def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
