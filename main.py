@@ -4501,6 +4501,10 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
 
     text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
+    if ai:
+        print(f"[AI Encounter] parsed: name={bool(ai.get('name'))} desc={bool(ai.get('description'))} tactics={bool(ai.get('tactics'))} picks={len(ai.get('picks', ai.get('composition', [])))}")
+    else:
+        print(f"[AI Encounter] _extract_json returned None, raw text length={len(text) if text else 0}")
 
     # Resolve AI picks into candidate objects
     picks = []
@@ -4544,9 +4548,9 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
     budget_pct = int((adjusted_xp / xp_budget * 100)) if xp_budget > 0 else 100
 
     return JSONResponse({
-        "name": ai.get("name", f"Random {environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
-        "description": ai.get("description", f"A {difficulty} encounter in {environment}.") if ai else "",
-        "tactics": ai.get("tactics", "") if ai else "",
+        "name": (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
+        "description": (ai.get("description") or f"A {difficulty} encounter in a {environment} setting.") if ai else f"A {difficulty} encounter in a {environment} setting.",
+        "tactics": (ai.get("tactics") or "") if ai else "",
         "composition": composition,
         "xp": {"raw_total": xp_total, "adjusted": adjusted_xp, "budget": xp_budget, "budget_pct": budget_pct},
         "difficulty": difficulty.capitalize(),
