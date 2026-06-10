@@ -183,7 +183,9 @@ def load_manual_data():
         # Map extracted format → RACES format
         asi_map = {"strength": "strength", "dexterity": "dexterity",
                    "constitution": "constitution", "intelligence": "intelligence",
-                   "wisdom": "wisdom", "charisma": "charisma"}
+                   "wisdom": "wisdom", "charisma": "charisma",
+                   "str": "strength", "dex": "dexterity", "con": "constitution",
+                   "int": "intelligence", "wis": "wisdom", "cha": "charisma"}
         asi = {}
         for k, v in race.get("asi", {}).items():
             if v and k in asi_map:
@@ -197,8 +199,16 @@ def load_manual_data():
             if sr_name:
                 subrace_names.append(sr_name)
                 subrace_descs[sr_name] = RICH_SUBRACE_DESCS.get(sr_name, sr.get("description", ""))
-                # Merge subrace ASI into SUBASIS
-                sr_asi = {k: v for k, v in sr.get("asi", {}).items() if v}
+                # Merge subrace ASI into SUBASIS (normalize abbreviated stat names)
+                _stat_names = {
+                    "str": "strength", "dex": "dexterity", "con": "constitution",
+                    "int": "intelligence", "wis": "wisdom", "cha": "charisma",
+                }
+                sr_asi = {}
+                for k, v in sr.get("asi", {}).items():
+                    if v:
+                        key = _stat_names.get(k, k)  # Normalize abbreviated keys
+                        sr_asi[key] = v
                 if sr_asi and sr_name not in SUBASIS:
                     SUBASIS[sr_name] = sr_asi
                 # Add subrace trait names to SUBRACE_TRAITS
