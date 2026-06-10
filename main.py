@@ -4483,7 +4483,7 @@ async def dm_ai_build_encounter(request: Request):
 Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
 XP budget: ~{xp_budget} adjusted XP.
 
-Pick 2-5 monsters from the list below that fit a {environment} setting. For each, assign a role:
+Pick 2-5 monsters from the list below. Start with a boss suited to a {environment} setting, then pick elites and minions that are thematically allied with or subservient to that boss — they should feel like a coherent faction, not a random mix (e.g., dragon + kobolds, vampire + spawn + bats, orc chief + orcs + wolves, beholder + cultists). For each, assign a role:
 - "boss": main threat, CR near party level (at most 1)
 - "elite": strong support, CR slightly below party
 - "minion": weaker filler
@@ -4529,10 +4529,14 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
         boss = random.choice(boss_candidates) if boss_candidates else None
         if boss:
             picks = [{**boss, "role": "boss"}]
-            # Grab a couple of lower-CR monsters as minions
-            minion_pool = [c for c in candidates if c["cr"] < party_level and c["index"] != boss["index"]]
+            # Prefer minions of same type as boss (thematic cohesion)
+            minion_pool = [c for c in candidates
+                          if c["cr"] < party_level and c["index"] != boss["index"]]
+            same_type = [c for c in minion_pool if c["type"] == boss["type"]]
+            random.shuffle(same_type)
             random.shuffle(minion_pool)
-            for m in minion_pool[:2]:
+            chosen = (same_type + minion_pool)[:3]
+            for m in chosen:
                 picks.append({**m, "role": "minion"})
         composition, xp_total = _assign_encounter_counts(picks, xp_budget)
 
