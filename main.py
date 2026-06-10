@@ -4269,6 +4269,14 @@ async def dm_ai_build_encounter(request: Request):
     # Load monsters
     all_monsters = _load_monster_cache()
 
+    # CR range for filtering (computed once, not per-monster)
+    if target_cr is not None:
+        max_cr = target_cr + 3
+        min_cr = max(0, target_cr - 2)
+    else:
+        max_cr = party_level + 2
+        min_cr = max(0, party_level - 3)
+
     # Filter by environment/theme hints
     candidates = []
     for m in all_monsters:
@@ -4325,12 +4333,6 @@ async def dm_ai_build_encounter(request: Request):
         except (TypeError, ValueError):
             continue
 
-        if target_cr is not None:
-            max_cr = target_cr + 3
-            min_cr = max(0, target_cr - 2)
-        else:
-            max_cr = party_level + 2
-            min_cr = max(0, party_level - 3)
         if m_cr > max_cr or (m_cr < min_cr and m_cr > 0.125):
             continue
         if m_cr < 0.125:
@@ -4347,14 +4349,38 @@ async def dm_ai_build_encounter(request: Request):
             "hp": m.get("hit_points", 0),
         })
 
-    # AI composition suggestion
+    # AI composition suggestion — send random sample so all monsters get used
+    import random
+    if not candidates:
+        for m in all_monsters:
+            try:
+                m_cr = float(m.get("challenge_rating", 0))
+            except (TypeError, ValueError):
+                continue
+            if m_cr > max_cr or (m_cr < min_cr and m_cr > 0.125):
+                continue
+            if m_cr < 0.125:
+                continue
+            m_xp = _xp_for_cr(m_cr)
+            if m_xp == 0:
+                continue
+            candidates.append({
+                "index": m["index"], "name": m["name"], "cr": m_cr, "xp": m_xp,
+                "type": m.get("type", "").lower(), "size": m.get("size", ""),
+                "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
+                "hp": m.get("hit_points", 0),
+            })
+    sample_size = min(80, len(candidates))
+    ai_sample = random.sample(candidates, sample_size) if len(candidates) > sample_size else candidates
+    ai_sample.sort(key=lambda c: c["cr"], reverse=True)  # highest CR first for readability
+
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
     ai_prompt = f"""Suggest a D&D 5e encounter for {cr_info} characters.
 Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}' if tone else ''}
 Difficulty target: {difficulty}
 
 Available monsters (pick 2-4 types, vary roles — one boss-type, some support, some minions):
-{candidates[:50]}
+{ai_sample}
 
 Return ONLY valid JSON (no markdown):
 {{"name": "encounter name (atmospheric, location-based)", "description": "1-2 sentence setup vignette", 
