@@ -453,7 +453,7 @@ function openSourceRef(src) {
 function buildRaces() {
   const grid = document.getElementById('race-grid');
   grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
-    <div class="option-card" onclick="selectRace('${name}')">
+    <div class="option-card" data-name="${name}" onclick="selectRace('${name}')">
       <div class="name">${name}${r.source ? ` ${_srcBadge(r.source)}` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
     </div>`).join('');
@@ -461,7 +461,7 @@ function buildRaces() {
 
 function selectRace(name) {
   state.race = name; state.subrace = null; state.asi_picks = [];
-  document.querySelectorAll('#race-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === name));
+  document.querySelectorAll('#race-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === name));
   
   const r = RACES[name];
   const subsec = document.getElementById('subrace-section');
@@ -470,7 +470,7 @@ function selectRace(name) {
     subsec.style.display = 'block';
     const srSrcs = r._subrace_sources || {};
     subgrid.innerHTML = r.subraces.map(s => `
-      <div class="option-card" onclick="selectSubrace('${s}')">
+      <div class="option-card" data-name="${s}" onclick="selectSubrace('${s}')">
         <div class="name">${s}${(srSrcs[s]||r.source) ? ` ${_srcBadge(srSrcs[s]||r.source)}` : ''}</div>
         <div class="detail">${SUBASIS[s] ? Object.entries(SUBASIS[s]).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') : 'No extra ASI'}</div>
       </div>`).join('');
@@ -502,7 +502,7 @@ function selectRace(name) {
 
 function selectSubrace(s) {
   state.subrace = s;
-  document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
+  document.querySelectorAll('#subrace-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === s));
   // Refresh race info without resetting subrace
   const r = RACES[state.race];
   const detailSrc = (r._subrace_sources && r._subrace_sources[s]) || r.source || '';
@@ -535,7 +535,7 @@ function buildAncestryDropdown() {
 function buildClasses() {
   const grid = document.getElementById('class-grid');
   grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
-    <div class="option-card" onclick="selectClass('${name}')">
+    <div class="option-card" data-name="${name}" onclick="selectClass('${name}')">
       <div class="name">${name}${c.source ? ` ${_srcBadge(c.source)}` : ''}</div>
       <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>
     </div>`).join('');
@@ -543,7 +543,7 @@ function buildClasses() {
 
 function selectClass(name) {
   state.class_name = name; state.subclass = null; state.subclass_bonus = [];
-  document.querySelectorAll('#class-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === name));
+  document.querySelectorAll('#class-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === name));
   const c = CLASSES[name];
   const scgrid = document.getElementById('subclass-grid');
   const scsec = document.getElementById('subclass-section');
@@ -551,7 +551,7 @@ function selectClass(name) {
     scsec.style.display = 'block';
     const scSrcs = c._subclass_sources || {};
     scgrid.innerHTML = c.subclasses.map(s => `
-      <div class="option-card" onclick="selectSubclass('${s}')">
+      <div class="option-card" data-name="${s}" onclick="selectSubclass('${s}')">
         <div class="name">${s}${scSrcs[s] ? ` ${_srcBadge(scSrcs[s])}` : ''}</div>
       </div>`).join('');
   } else { scsec.style.display = 'none'; }
@@ -569,7 +569,7 @@ function selectClass(name) {
 
 function selectSubclass(s) {
   state.subclass = s;
-  document.querySelectorAll('#subclass-grid .option-card').forEach(c => c.classList.toggle('selected', c.querySelector('.name').textContent === s));
+  document.querySelectorAll('#subclass-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === s));
   // Refresh class info without resetting subclass
   const c = CLASSES[state.class_name];
   const detailSrc = (c._subclass_sources && c._subclass_sources[s]) || c.source || '';
