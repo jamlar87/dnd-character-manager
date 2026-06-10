@@ -4375,9 +4375,9 @@ async def dm_ai_build_encounter(request: Request):
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
     ai_prompt = f"""Suggest a D&D 5e encounter for {cr_info} characters.
 Environment: {environment}{f' Theme: {theme}' if theme else ''}{f' Tone: {tone}' if tone else ''}
-Difficulty target: {difficulty}
+Difficulty: {difficulty} (target ~{xp_budget} adjusted XP total — aim for 80-120% of this)
 
-Available monsters (pick 2-4 types, vary roles — one boss-type, some support, some minions):
+Available monsters (pick 2-5 types, vary roles — one boss-type, some support, some minions):
 {candidates}
 
 Return ONLY valid JSON (no markdown):
