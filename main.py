@@ -6929,6 +6929,163 @@ async def delete_relationship(char_id: int, rel_id: int, request: Request):
 
 # ── Level-Up API ────────────────────────────────────────────────────────────
 
+def _meets_feat_prereq(prereq: str, char: dict, abilities: dict, feat_name: str = "") -> tuple[bool, str]:
+    """Check if character meets a feat prerequisite. Returns (met, reason)."""
+    if not prereq or not prereq.strip():
+        return True, ""
+    p = prereq.strip()
+    
+    # ── OCR corruption fixes ──
+    ocr_fixes = {
+        "Proliciency": "Proficiency", "mediuJ1Jarmor": "medium armor",
+        "Dexlerily": "Dexterity", "OI' higher": "or higher",
+        "Thc abilily lo casl aI leasl one spell": "The ability to cast at least one spell",
+        "The abilily lo casl aI leasl one spell": "The ability to cast at least one spell",
+        "Thc abilily": "The ability", "lo casl": "to cast", "aI leasl": "at least",
+        "abilily": "ability",
+    }
+    for bad, good in ocr_fixes.items():
+        p = p.replace(bad, good)
+    
+    # ── Warlock invocations (not real feats) ──
+    invocation_terms = ["eldritch blast", "Pact of the Blade", "Pact of the Chain",
+                        "Pact of the Tome", "Pact of the Talisman"]
+    invocation_names = {"Agonizing Blast", "Armor of Shadows", "Ascendant Step",
+        "Beast Speech", "Beguiling Influence", "Bewitching Whispers",
+        "Book of Ancient Secrets", "Chains of Carceri", "Devil's Sight",
+        "Dreadful Word", "Eldritch Sight", "Eldritch Spear", "Eyes of the Rune Keeper",
+        "Fiendish Vigor", "Gaze of Two Minds", "Gift of the Depths",
+        "Gift of the Ever-Living Ones", "Grasp of Hadar", "Investment of the Chain Master",
+        "Lance of Lethargy", "Lifedrinker", "Maddening Hex", "Mask of Many Faces",
+        "Master of Myriad Forms", "Minions of Chaos", "Mire the Mind",
+        "Misty Visions", "One with Shadows", "Otherworldly Leap",
+        "Protection of the Talisman", "Rebuke of the Talisman", "Relentless Hex",
+        "Repelling Blast", "Sculptor of Flesh", "Shroud of Shadow",
+        "Sign of Ill Omen", "Thief of Five Fates", "Thirsting Blade",
+        "Tomb of Levistus", "Trickster's Escape", "Undying Servitude",
+        "Visions of Distant Realms", "Voice of the Chain Master",
+        "Whispers of the Grave", "Witch Sight"}
+    if any(t.lower() in p.lower() for t in invocation_terms):
+        return False, "Warlock invocation (not a feat)"
+    # Also check by name (invocations from feats.json)
+    if feat_name in invocation_names:
+        return False, "Warlock invocation (not a feat)"
+    
+    # ── Ability score: "Dexterity 13 or higher" OR "Dexterity 13+" ──
+    m = re.match(r'^(\w+)\s+(\d+)\s*(?:or\s+higher|\+)$', p)
+    if m:
+        abil = m.group(1).lower()
+        needed = int(m.group(2))
+        current = abilities.get(abil, 10)
+        return current >= needed, ("" if current >= needed else f"{m.group(1)} {current}/{needed}")
+    
+    # ── Ability A or B: "Intelligence or Wisdom 13 or higher" OR "... 13+" ──
+    m = re.match(r'^(\w+)\s+or\s+(\w+)\s+(\d+)\s*(?:or\s+higher|\+)$', p)
+    if m:
+        a1, a2, needed = m.group(1).lower(), m.group(2).lower(), int(m.group(3))
+        ok = abilities.get(a1, 10) >= needed or abilities.get(a2, 10) >= needed
+        return ok, ("" if ok else f"{m.group(1)} or {m.group(2)} {needed}")
+    
+    # ── Level only: "7th level", "12th level", "5th level" ──
+    m = re.match(r'^(\d+)(?:th|rd|nd|st)\s+level$', p)
+    if m:
+        needed = int(m.group(1))
+        current = total_level(parse_class_levels(char))
+        return current >= needed, ("" if current >= needed else f"Level {needed}")
+    
+    # ── Level + feature: "12th level, Pact of the Blade feature" ──
+    m = re.match(r'^(\d+)(?:th|rd|nd|st)\s+level,\s+(.+)$', p)
+    if m:
+        needed = int(m.group(1))
+        current = total_level(parse_class_levels(char))
+        return current >= needed, ("" if current >= needed else f"Level {needed}")
+    
+    # ── Multi-race: "Elf or half-elf", "Dwarf or a Small race", "Half-elf, half-orc, or human" ──
+    race_aliases = {
+        "half-elf": "half-elf", "half-orc": "half-orc", "half-orc": "half-orc",
+        "human": "human", "elf": "elf", "dwarf": "dwarf", "halfling": "halfling",
+        "gnome": "gnome", "dragonborn": "dragonborn", "tiefling": "tiefling",
+        "aasimar": "aasimar", "goliath": "goliath", "firbolg": "firbolg",
+        "kenku": "kenku", "lizardfolk": "lizardfolk", "tabaxi": "tabaxi",
+        "triton": "triton", "goblin": "goblin", "hobgoblin": "hobgoblin",
+        "bugbear": "bugbear", "kobold": "kobold", "orc": "orc",
+        "yuan-ti": "yuan-ti pureblood", "changeling": "changeling",
+        "shifter": "shifter", "warforged": "warforged", "kalashtar": "kalashtar",
+        "centaur": "centaur", "minotaur": "minotaur", "loxodon": "loxodon",
+        "vedalken": "vedalken", "simic hybrid": "simic hybrid",
+        "tortle": "tortle", "aarakocra": "aarakocra", "genasi": "genasi",
+        "gith": "gith",
+    }
+    char_race = (char.get("race") or "").lower()
+    char_subrace = (char.get("subrace") or "").lower()
+    
+    # "Small race" check
+    small_races = {"halfling", "gnome", "goblin", "kobold"}
+    if "small race" in p.lower():
+        ok = char_race in small_races
+        return ok, ("Small race required" if not ok else "")
+    
+    # Multi-race pattern: "Elf or half-elf", "Half-elf, half-orc, or human"
+    race_words = re.split(r',\s*|\s+or\s+', p.lower())
+    race_matches = []
+    for rw in race_words:
+        rw = rw.strip().rstrip('.')
+        if rw in race_aliases:
+            race_matches.append(race_aliases[rw])
+    
+    if race_matches:
+        # Check if character matches any
+        for rm in race_matches:
+            if char_race == rm:
+                return True, ""
+            # Check subrace if parent race matches (e.g. "elf" matches "high elf")
+            if char_subrace and rm in char_subrace:
+                return True, ""
+        return False, f"Race: {p}"
+    
+    # ── Single race with subrace: "Elf (high elf)" ──
+    m = re.match(r'^(\w[\w\s]*?)(?:\s*\((.+)\))?$', p)
+    if m and not any(w in p.lower() for w in ['cast', 'spell', 'armor', 'proficiency', 'level', 'renown']):
+        race_name = m.group(1).strip().lower()
+        subrace = m.group(2).strip().lower() if m.group(2) else None
+        if race_name in race_aliases:
+            race_name = race_aliases[race_name]
+        if subrace:
+            ok = char_race == race_name and char_subrace == subrace
+            return ok, (f"Race: {m.group(1)} ({m.group(2)})" if not ok else "")
+        else:
+            ok = char_race == race_name
+            return ok, (f"Race: {m.group(1)}" if not ok else "")
+    
+    # ── Spellcasting ──
+    if 'cast' in p.lower() and 'spell' in p.lower():
+        caster_type = get_caster_type(char.get("class_name", ""))
+        ok = caster_type != "none"
+        return ok, ("Requires spellcasting" if not ok else "")
+    
+    # ── Armor proficiency ──
+    if 'proficiency' in p.lower() and 'armor' in p.lower():
+        profs_raw = char.get("armor_proficiencies", "")
+        profs = [x.strip().lower() for x in profs_raw.split(",")] if profs_raw else []
+        if 'medium' in p.lower():
+            ok = any('medium' in x for x in profs)
+            return ok, ("Medium armor proficiency" if not ok else "")
+        if 'heavy' in p.lower():
+            ok = any('heavy' in x for x in profs)
+            return ok, ("Heavy armor proficiency" if not ok else "")
+        if 'light' in p.lower():
+            ok = any('light' in x for x in profs) or True  # most classes have light
+            return ok, ("Light armor proficiency" if not ok else "")
+        return False, f"Armor proficiency: {p}"
+    
+    # ── Renown / guild — block (not campaign-independent) ──
+    if 'renown' in p.lower():
+        return False, "Campaign-specific (Renown)"
+    
+    # ── Default: allow ──
+    return True, ""
+
+
 @app.get("/api/character/{char_id}/level-up-info", response_class=JSONResponse)
 async def level_up_info(char_id: int, request: Request):
     """Return everything needed for the level-up wizard. Supports multi-level via ?target=N."""
@@ -6944,6 +7101,7 @@ async def level_up_info(char_id: int, request: Request):
     cl = parse_class_levels(char)
     current_level = total_level(cl)
     cls = char.get("class_name", "Fighter")  # primary class for backward compat
+    subclass = char.get("subclass", "")  # for expertise/maneuvers/secrets/totem/hunters_prey lookups
     
     # Parse target level (default next level, cap at 20)
     target_level = int(request.query_params.get("target", current_level + 1))
@@ -7003,6 +7161,7 @@ async def level_up_info(char_id: int, request: Request):
     levels_gained = []
     all_features = []
     levels_gained_count = target_level - current_level
+    new_class_level = class_level + levels_gained_count  # level in this class after level-up
     
     for offset in range(1, levels_gained_count + 1):
         char_lvl = current_level + offset
@@ -7033,26 +7192,38 @@ async def level_up_info(char_id: int, request: Request):
             "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
         }
     
-    # Feats — return ALL, JS filters by running abilities per ASI step
+    # Feats — filter by prereqs, eligible first
     feats_available = []
+    feats_ineligible = []
+    char_abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
     for key, feat in FEATS.items():
-        feats_available.append({
+        prereq = feat.get("prereq") or feat.get("prerequisite", "")
+        meets, reason = _meets_feat_prereq(prereq, char, char_abilities, feat.get("name", ""))
+        entry = {
             "key": key, "name": feat["name"],
             "desc": feat.get("desc") or feat.get("description", ""),
-            "asi": feat.get("asi"), "prereq": feat.get("prereq") or feat.get("prerequisite"),
+            "asi": feat.get("asi"), "prereq": prereq,
             "source": feat.get("source", ""),
-        })
+            "eligible": meets,
+            "reason": reason,
+        }
+        if meets:
+            feats_available.append(entry)
+        else:
+            feats_ineligible.append(entry)
+    feats_available.extend(feats_ineligible)  # eligible first, then ineligible
     
     # Subclass
     subclass_info = None
     sc = SUBCLASS_LEVELS.get(cls)
-    if sc and current_level < sc["level"] <= target_level and not char.get("subclass"):
+    if sc and class_level < sc["level"] <= new_class_level and not char.get("subclass"):
         descs = CLASSES.get(cls, {}).get("subclass_descs", {})
+        all_options = CLASSES.get(cls, {}).get("subclasses", sc["options"])
         subclass_info = {
             "level": sc["level"],
             "label": sc["label"],
-            "options": sc["options"],
-            "descriptions": {opt: descs.get(opt, "") for opt in sc["options"]},
+            "options": all_options,
+            "descriptions": {opt: descs.get(opt, "") for opt in all_options},
         }
     
     # Map of subclass → bonus proficiency picker info
@@ -7120,12 +7291,12 @@ async def level_up_info(char_id: int, request: Request):
     exp_data = EXPERTISE_LEVELS.get(subclass) or EXPERTISE_LEVELS.get(cls)
     if exp_data:
         exp_levels = exp_data.get("levels", [])
-        new_exp_levels = [l for l in exp_levels if current_level < l <= target_level]
+        new_exp_levels = [l for l in exp_levels if class_level < l <= new_class_level]
         if new_exp_levels:
             char_skills = json.loads(char.get("skills", "[]"))
             char_subclass = char.get("subclass", "")
-            old_count = get_expertise_count(cls, current_level, char_subclass)
-            new_count = get_expertise_count(cls, target_level, char_subclass)
+            old_count = get_expertise_count(cls, class_level, char_subclass)
+            new_count = get_expertise_count(cls, new_class_level, char_subclass)
             exp_options = get_expertise_options(cls, char_subclass, char_skills)
             expertise_info = {
                 "levels": new_exp_levels,
@@ -7137,7 +7308,7 @@ async def level_up_info(char_id: int, request: Request):
     # Fighting Style — check if this class gets one at any of the gained levels
     fighting_style_info = None
     fs_level = FIGHTING_STYLE_LEVELS.get(cls)
-    if fs_level and current_level < fs_level <= target_level:
+    if fs_level and class_level < fs_level <= new_class_level:
         options = FIGHTING_STYLE_OPTIONS.get(cls, [])
         fighting_style_info = {
             "level": fs_level,
@@ -7147,7 +7318,7 @@ async def level_up_info(char_id: int, request: Request):
     # Metamagic — Sorcerer L3/10/17
     metamagic_info = None
     metamagic_levels_list = METAMAGIC_LEVELS.get(cls, [])
-    new_meta_levels = [l for l in metamagic_levels_list if current_level < l <= target_level]
+    new_meta_levels = [l for l in metamagic_levels_list if class_level < l <= new_class_level]
     if new_meta_levels:
         existing = json.loads(char.get("metamagic", "[]"))
         metamagic_info = {
@@ -7160,11 +7331,11 @@ async def level_up_info(char_id: int, request: Request):
     # Eldritch Invocations — Warlock L2/5/7/9/12/15/18
     invocation_info = None
     invocation_levels_list = INVOCATION_LEVELS.get(cls, [])
-    new_inv_levels = [l for l in invocation_levels_list if current_level < l <= target_level]
+    new_inv_levels = [l for l in invocation_levels_list if class_level < l <= new_class_level]
     if new_inv_levels:
         existing = json.loads(char.get("invocations", "[]"))
-        total_picks_before = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= current_level)
-        total_picks_after = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= target_level)
+        total_picks_before = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= class_level)
+        total_picks_after = sum(INVOCATION_PICKS.get(l,0) for l in invocation_levels_list if l <= new_class_level)
         pact_boon = char.get("pact_boon", "")
         options = []
         for k,v in INVOCATION_OPTIONS.items():
@@ -7183,7 +7354,7 @@ async def level_up_info(char_id: int, request: Request):
     # Pact Boon — Warlock L3
     pact_boon_info = None
     pb_level = PACT_BOON_LEVELS.get(cls)
-    if pb_level and current_level < pb_level <= target_level and not char.get("pact_boon"):
+    if pb_level and class_level < pb_level <= new_class_level and not char.get("pact_boon"):
         pact_boon_info = {
             "level": pb_level,
             "options": [{"key": k, "name": v["name"], "desc": v["desc"]} for k,v in PACT_BOON_OPTIONS.items()],
@@ -7192,11 +7363,11 @@ async def level_up_info(char_id: int, request: Request):
     # Battle Master Maneuvers — Fighter subclass, L3/7/10/15
     maneuver_info = None
     man_levels_list = MANEUVER_LEVELS.get(subclass if subclass else char.get("subclass",""), [])
-    new_man_levels = [l for l in man_levels_list if current_level < l <= target_level]
+    new_man_levels = [l for l in man_levels_list if class_level < l <= new_class_level]
     if new_man_levels:
         existing = json.loads(char.get("maneuvers", "[]"))
-        total_before = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= current_level)
-        total_after = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= target_level)
+        total_before = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= class_level)
+        total_after = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= new_class_level)
         maneuver_info = {
             "levels": new_man_levels,
             "picks_gained": total_after - total_before,
@@ -7209,7 +7380,7 @@ async def level_up_info(char_id: int, request: Request):
     magical_secrets_info = None
     ms_source = subclass if subclass in MAGICAL_SECRETS_LEVELS else cls
     ms_levels_list = MAGICAL_SECRETS_LEVELS.get(ms_source, [])
-    new_ms_levels = [l for l in ms_levels_list if current_level < l <= target_level]
+    new_ms_levels = [l for l in ms_levels_list if class_level < l <= new_class_level]
     if new_ms_levels:
         existing = json.loads(char.get("magical_secrets", "[]"))
         total_picks = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in new_ms_levels)
@@ -7232,7 +7403,7 @@ async def level_up_info(char_id: int, request: Request):
     # Totem Spirit — Barbarian Totem Warrior L3/6/14
     totem_info = None
     totem_levels_list = TOTEM_SPIRIT_LEVELS.get(subclass if subclass else char.get("subclass",""), [])
-    new_totem_levels = [l for l in totem_levels_list if current_level < l <= target_level]
+    new_totem_levels = [l for l in totem_levels_list if class_level < l <= new_class_level]
     if new_totem_levels:
         existing = json.loads(char.get("totem_spirits","{}"))
         totem_info = {
@@ -7245,7 +7416,7 @@ async def level_up_info(char_id: int, request: Request):
     # Hunter's Prey — Ranger Hunter L3
     hunters_prey_info = None
     hp_level = HUNTERS_PREY_LEVELS.get(subclass if subclass else char.get("subclass",""))
-    if hp_level and current_level < hp_level <= target_level and not char.get("hunters_prey"):
+    if hp_level and class_level < hp_level <= new_class_level and not char.get("hunters_prey"):
         hunters_prey_info = {
             "level": hp_level,
             "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in HUNTERS_PREY_OPTIONS.items()],
@@ -7254,7 +7425,7 @@ async def level_up_info(char_id: int, request: Request):
     # Artificer Infusions — L2
     infusion_info = None
     inf_level = INFUSION_LEVELS.get(cls)
-    if inf_level and current_level < inf_level <= target_level:
+    if inf_level and class_level < inf_level <= new_class_level:
         existing = json.loads(char.get("infusions","[]"))
         total_known = INFUSION_PICKS.get(inf_level,4)
         infusion_info = {
@@ -7760,6 +7931,12 @@ async def de_level_info(char_id: int, request: Request):
     target_level = int(request.query_params.get("target_level", request.query_params.get("target", current_level - 1)))
     target_level = max(1, min(target_level, current_level - 1))
     
+    # Compute class-specific levels for multiclass correctness
+    cl = parse_class_levels(char)
+    class_level = cl.get(cls, current_level)  # level in this class before
+    levels_lost = current_level - target_level
+    new_class_level = max(0, class_level - levels_lost)
+    
     if current_level <= 1:
         return JSONResponse({"error": "Already at level 1"}, status_code=400)
     
@@ -7768,15 +7945,15 @@ async def de_level_info(char_id: int, request: Request):
     avg_hp = (hd // 2) + 1 + con_mod
     
     # Features lost (at current but not at target)
-    old_features = get_class_features(cls, target_level, char.get("subclass", ""))
-    new_features = get_class_features(cls, current_level, char.get("subclass", ""))
+    old_features = get_class_features(cls, new_class_level, char.get("subclass", ""))
+    new_features = get_class_features(cls, class_level, char.get("subclass", ""))
     features_lost = [f for f in new_features if f not in old_features]
     
     # Get what target-level features look like
-    target_features = get_class_features(cls, target_level, char.get("subclass", ""))
+    target_features = get_class_features(cls, new_class_level, char.get("subclass", ""))
     
     # ASI levels being rolled back
-    lost_asi_levels = [lvl for lvl in range(target_level + 1, current_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
+    lost_asi_levels = [lvl for lvl in range(new_class_level + 1, class_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
     
     # Current ability scores
     abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
@@ -7785,8 +7962,8 @@ async def de_level_info(char_id: int, request: Request):
     subclass_note = None
     sc = SUBCLASS_LEVELS.get(cls)
     current_subclass = char.get("subclass", "")
-    if sc and current_subclass and sc["level"] > target_level:
-        subclass_note = f"{sc['label']}: {current_subclass} (chosen at L{sc['level']} — will be cleared since target < L{sc['level']})"
+    if sc and current_subclass and sc["level"] > new_class_level:
+        subclass_note = f"{sc['label']}: {current_subclass} (chosen at L{sc['level']} — will be cleared since target class level < L{sc['level']})"
     
     # Proficiency
     old_pb = PROFICIENCY_BONUS.get(current_level, 2)
@@ -7797,8 +7974,8 @@ async def de_level_info(char_id: int, request: Request):
     caster_type = get_caster_type(cls)
     if caster_type != "none":
         try:
-            old_slots = get_spell_slots(cls, current_level)
-            new_slots = get_spell_slots(cls, target_level)
+            old_slots = get_spell_slots(cls, class_level)
+            new_slots = get_spell_slots(cls, new_class_level)
         except:
             old_slots = {}; new_slots = {}
         spell_info = {
@@ -7852,6 +8029,13 @@ async def apply_de_level(char_id: int, request: Request):
     target_level = int(data.get("target_level", old_level - 1))
     target_level = max(1, min(target_level, old_level - 1))
     
+    # Compute class-specific levels for multiclass correctness
+    cl = parse_class_levels(char)
+    old_class_level = cl.get(cls, old_level)  # level in this class before
+    levels_lost = old_level - target_level
+    new_class_level = max(0, old_class_level - levels_lost)  # level in this class after
+    is_multiclass = len(cl) > 1
+    
     updates = {"level": target_level}
     changes = []
     
@@ -7885,17 +8069,16 @@ async def apply_de_level(char_id: int, request: Request):
     
     # Subclass: keep if already had it at target, or clear if gained in lost levels
     sc = SUBCLASS_LEVELS.get(cls)
-    if sc and char.get("subclass") and sc["level"] > target_level:
+    if sc and char.get("subclass") and sc["level"] > new_class_level:
         # Only clear subclass if it was gained during the levels being lost
-        # (subclass_level is between target and old_level)
-        if sc["level"] <= old_level:
+        if sc["level"] <= old_class_level:
             updates["subclass"] = ""
             changes.append(f"Subclass cleared ({char.get('subclass')})")
     
     # Expertise: revert picks from levels being lost
     current_exp = json.loads(char.get("expertise_skills", "[]"))
     if current_exp:
-        new_count = get_expertise_count(cls, target_level, char.get("subclass", ""))
+        new_count = get_expertise_count(cls, new_class_level, char.get("subclass", ""))
         # Trim to the correct count for target level
         if len(current_exp) > new_count:
             kept = current_exp[:new_count]
@@ -7905,7 +8088,7 @@ async def apply_de_level(char_id: int, request: Request):
     
     # Fighting Style: clear if reverting past the level it was gained
     fs_level = FIGHTING_STYLE_LEVELS.get(cls)
-    if fs_level and fs_level > target_level and char.get("fighting_style"):
+    if fs_level and fs_level > new_class_level and char.get("fighting_style"):
         updates["fighting_style"] = ""
         changes.append(f"Fighting Style cleared ({char.get('fighting_style')})")
     
@@ -7915,7 +8098,7 @@ async def apply_de_level(char_id: int, request: Request):
     meta_levels_list = METAMAGIC_LEVELS.get(cls, [])
     current_meta = json.loads(char.get("metamagic", "[]"))
     if current_meta and meta_levels_list:
-        total_allowed = sum(METAMAGIC_PICKS.get(l,0) for l in meta_levels_list if l <= target_level)
+        total_allowed = sum(METAMAGIC_PICKS.get(l,0) for l in meta_levels_list if l <= new_class_level)
         if len(current_meta) > total_allowed:
             kept = current_meta[:total_allowed]
             lost_meta = [m for m in current_meta if m not in kept]
@@ -7926,7 +8109,7 @@ async def apply_de_level(char_id: int, request: Request):
     inv_levels_list = INVOCATION_LEVELS.get(cls, [])
     current_inv = json.loads(char.get("invocations", "[]"))
     if current_inv and inv_levels_list:
-        total_inv = sum(INVOCATION_PICKS.get(l,0) for l in inv_levels_list if l <= target_level)
+        total_inv = sum(INVOCATION_PICKS.get(l,0) for l in inv_levels_list if l <= new_class_level)
         if len(current_inv) > total_inv:
             kept = current_inv[:total_inv]
             lost_inv = [i for i in current_inv if i not in kept]
@@ -7935,7 +8118,7 @@ async def apply_de_level(char_id: int, request: Request):
     
     # Pact Boon — clear if reverting past L3
     pb_level = PACT_BOON_LEVELS.get(cls)
-    if pb_level and pb_level > target_level and char.get("pact_boon"):
+    if pb_level and pb_level > new_class_level and char.get("pact_boon"):
         updates["pact_boon"] = ""
         changes.append(f"Pact Boon cleared ({char.get('pact_boon')})")
     
@@ -7944,7 +8127,7 @@ async def apply_de_level(char_id: int, request: Request):
     man_levels_list = MANEUVER_LEVELS.get(man_sub, [])
     current_man = json.loads(char.get("maneuvers", "[]"))
     if current_man and man_levels_list:
-        total_man = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= target_level)
+        total_man = sum(MANEUVER_PICKS.get(l,0) for l in man_levels_list if l <= new_class_level)
         if len(current_man) > total_man:
             kept = current_man[:total_man]
             lost_man = [m for m in current_man if m not in kept]
@@ -7956,7 +8139,7 @@ async def apply_de_level(char_id: int, request: Request):
     ms_levels_list = MAGICAL_SECRETS_LEVELS.get(ms_source, [])
     current_ms = json.loads(char.get("magical_secrets", "[]"))
     if current_ms and ms_levels_list:
-        total_ms = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in ms_levels_list if l <= target_level)
+        total_ms = sum(MAGICAL_SECRETS_PICKS.get(l,0) for l in ms_levels_list if l <= new_class_level)
         if len(current_ms) > total_ms:
             kept = current_ms[:total_ms]
             lost_ms = [s for s in current_ms if s not in kept]
@@ -7968,7 +8151,7 @@ async def apply_de_level(char_id: int, request: Request):
     totem_levels_list = TOTEM_SPIRIT_LEVELS.get(totem_sub, [])
     current_totems = json.loads(char.get("totem_spirits", "{}"))
     if current_totems and totem_levels_list:
-        kept_totems = {k:v for k,v in current_totems.items() if int(k) <= target_level}
+        kept_totems = {k:v for k,v in current_totems.items() if int(k) <= new_class_level}
         if len(kept_totems) < len(current_totems):
             updates["totem_spirits"] = json.dumps(kept_totems)
             lost = {k:v for k,v in current_totems.items() if k not in kept_totems}
@@ -7976,22 +8159,29 @@ async def apply_de_level(char_id: int, request: Request):
     
     # Hunter's Prey — clear if reverting past L3
     hp_level = HUNTERS_PREY_LEVELS.get(char.get("subclass",""))
-    if hp_level and hp_level > target_level and char.get("hunters_prey"):
+    if hp_level and hp_level > new_class_level and char.get("hunters_prey"):
         updates["hunters_prey"] = ""
         changes.append(f"Hunter's Prey cleared ({char.get('hunters_prey')})")
     
     # Infusions — clear if reverting past L2
     inf_level = INFUSION_LEVELS.get(cls)
-    if inf_level and inf_level > target_level and char.get("infusions"):
+    if inf_level and inf_level > new_class_level and char.get("infusions"):
         updates["infusions"] = "[]"
         changes.append("Infusions cleared")
     
     # Proficiency
     updates["proficiency_bonus"] = PROFICIENCY_BONUS.get(target_level, 2)
     
-    # Features rebuild
-    features_list = get_class_features(cls, target_level, updates.get("subclass", char.get("subclass", "")))
-    updates["features"] = json.dumps(features_list)
+    # Features rebuild — per-class for multiclass
+    all_features = []
+    for cls_n, cls_lvl in new_cl.items():
+        sub = updates.get("subclass", char.get("subclass", ""))
+        features = get_class_features(cls_n, cls_lvl, sub)
+        wrapped = [{"name": f, "source_class": cls_n} if isinstance(f, str) else dict(f, source_class=cls_n) for f in features]
+        all_features.extend(wrapped)
+    all_features = _deduplicate_multiclass_features(all_features, new_cl)
+    all_feature_names = [f["name"] if isinstance(f, dict) else str(f) for f in all_features]
+    updates["features"] = json.dumps(all_feature_names)
     
     # Feature data rebuild
     final_mods = {}
@@ -8014,17 +8204,30 @@ async def apply_de_level(char_id: int, request: Request):
     # Hit dice
     updates["hit_dice"] = f"{target_level}d{hd}"
 
-    # Class levels — keep single-class structure
+    # Class levels — update correctly for multiclass
     cl = parse_class_levels(char)
     new_cl = {}
     for cls_name, cls_lvl in cl.items():
         if cls_name == cls:
-            new_cl[cls_name] = target_level
+            new_cl[cls_name] = max(0, new_class_level)
         else:
             new_cl[cls_name] = cls_lvl
+    # Remove classes that dropped to 0
+    new_cl = {k: v for k, v in new_cl.items() if v > 0}
+    if not new_cl:
+        new_cl = {cls: 1}  # safety floor
     updates["class_levels"] = json.dumps(new_cl)
-    if not any(cls_name != cls for cls_name in new_cl):
-        updates["class_name"] = cls
+    # Update total level
+    new_total = sum(new_cl.values())
+    updates["level"] = new_total
+    # Update class_name: use highest-level class, ties go to first taken
+    best_cls = cls
+    best_lvl = 0
+    for cn, clv in new_cl.items():
+        if clv > best_lvl:
+            best_cls = cn
+            best_lvl = clv
+    updates["class_name"] = best_cls
 
     # Apply
     set_clauses = ", ".join(f"{k} = ?" for k in updates)
