@@ -8108,6 +8108,12 @@ async def apply_de_level(char_id: int, request: Request):
     levels_lost = old_level - target_level
     new_class_level = max(0, old_class_level - levels_lost)  # level in this class after
     is_multiclass = len(cl) > 1
+    # Build the post-delevel class_levels dict
+    new_cl = dict(cl)
+    cls_to_reduce = data.get("class_to_level", cls)
+    new_cl[cls_to_reduce] = max(0, new_cl.get(cls_to_reduce, 0) - levels_lost)
+    if new_cl[cls_to_reduce] <= 0:
+        del new_cl[cls_to_reduce]
     
     updates = {"level": target_level}
     changes = []
@@ -8272,7 +8278,7 @@ async def apply_de_level(char_id: int, request: Request):
         val = updates.get(key, char.get(key, 10))
         final_mods[a] = (val - 10) // 2
     eff_sub = updates.get("subclass", char.get("subclass", ""))
-    enriched = enrich_features(features_list, class_name=cls, level=target_level, mods=final_mods, subclass=eff_sub)
+    enriched = enrich_features(all_feature_names, class_name=cls, level=target_level, mods=final_mods, subclass=eff_sub)
     updates["feature_data"] = json.dumps(enriched)
     
     # Spell slots
