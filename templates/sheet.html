@@ -1112,7 +1112,7 @@
                 {% endif %}
                 {% if feat.name == 'Expertise' and character.expertise_skills %}
                 {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
-                <span style="font-size:0.6rem;color:var(--success);font-weight:500;white-space:nowrap;flex-shrink:0">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+                <span style="font-size:0.6rem;color:var(--success);font-weight:500">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
                 {% set ns.expertise_idx = ns.expertise_idx + 1 %}
                 {% endif %}
                 {% if feat.source %}
