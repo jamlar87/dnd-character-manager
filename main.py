@@ -534,6 +534,9 @@ def load_manual_data():
                             if existing and _should_replace_description(existing, fdesc):
                                 pass  # Ingested version is better, will overwrite
                             FEATURE_DESCRIPTIONS[key] = fdesc
+                        # Also store subclass-specific key for disambiguation
+                        sc_key = f"{sc_name}::{key}"
+                        FEATURE_DESCRIPTIONS[sc_key] = fdesc
                     # Register limited-use subclass features
                     fuses = feat.get("uses")
                     frecharge = feat.get("recharge", "")
@@ -2941,7 +2944,7 @@ async def api_create_character(request: Request):
     # Append racial limited-use features (e.g. Dragonborn Breath Weapon)
     if race_name == "Dragonborn" and data.get("dragonborn_ancestry"):
         build_features.append(f"{level}: Breath Weapon")
-    enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats})
+    enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats}, subclass=subclass)
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
         data.get("equipment", []))
@@ -4635,7 +4638,7 @@ async def dm_ai_build_npc(request: Request):
     skills = _pick_skills(class_name, mods)
     equipment = get_equipment_for_level(class_name, level)
     raw_features = get_class_features(class_name, level, subclass)
-    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods)
+    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods, subclass=subclass)
     spells = get_spells_for_level(class_name, level) if get_caster_type(class_name) != "none" else {}
     spell_slots = get_spell_slots(class_name, level) if get_caster_type(class_name) != "none" else {}
 
@@ -7771,7 +7774,8 @@ async def apply_level_up(char_id: int, request: Request):
     
     # Enriched feature_data
     mods = {a: (cumulative.get(a, 10) - 10) // 2 for a in ABILITY_NAMES}
-    enriched = enrich_features(all_feature_names, class_name=class_to_level, level=target_level, mods=mods, class_levels=new_cl)
+    eff_subclass = updates.get("subclass", char.get("subclass", ""))
+    enriched = enrich_features(all_feature_names, class_name=class_to_level, level=target_level, mods=mods, class_levels=new_cl, subclass=eff_subclass)
     updates["feature_data"] = json.dumps(enriched)
     
     # Spell slots — multiclass-aware
@@ -8267,7 +8271,8 @@ async def apply_de_level(char_id: int, request: Request):
         key = a.lower()
         val = updates.get(key, char.get(key, 10))
         final_mods[a] = (val - 10) // 2
-    enriched = enrich_features(features_list, class_name=cls, level=target_level, mods=final_mods)
+    eff_sub = updates.get("subclass", char.get("subclass", ""))
+    enriched = enrich_features(features_list, class_name=cls, level=target_level, mods=final_mods, subclass=eff_sub)
     updates["feature_data"] = json.dumps(enriched)
     
     # Spell slots
@@ -11379,7 +11384,7 @@ def compute_item_effects(equipped: list[str], attuned: list[str],
 _build_item_properties()
 
 
-def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None) -> list[dict]:
+def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None, subclass: str = "") -> list[dict]:
     """Add SRD descriptions to feature names, and track limited-use abilities.
     When class_levels dict provided, uses per-class levels for multiclass limited uses."""
     enriched = []
@@ -11389,7 +11394,13 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         else:
             level_part, name = feat_str, feat_str
         key = name.lower()
-        desc = FEATURE_DESCRIPTIONS.get(key, "")
+        # Try subclass-specific description first (disambiguates shared names like "Bonus Proficiencies")
+        desc = ""
+        if subclass:
+            sc_key = f"{subclass}::{key}"
+            desc = FEATURE_DESCRIPTIONS.get(sc_key, "")
+        if not desc:
+            desc = FEATURE_DESCRIPTIONS.get(key, "")
         # If composite name from multiclass dedup, try first segment
         if not desc and " | " in key:
             first_seg = key.split(" | ")[0].strip()
@@ -12318,7 +12329,7 @@ async def ai_build(request: Request):
     attacks = _calculate_attacks(class_name, level, mods, pb, equipment)
 
     raw_features = get_class_features(class_name, level, subclass)
-    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods)
+    enriched_features = enrich_features(raw_features, class_name=class_name, level=level, mods=mods, subclass=subclass)
 
     race_data = RACES.get(race, RACES["Human"])
     build = {
