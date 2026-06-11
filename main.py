@@ -11879,6 +11879,176 @@ def _fallback_background(race: str, class_name: str, subclass: str = "") -> dict
     bg = random.choice(pool)
     return {"name": bg["name"], "description": bg["desc"], "items": list(bg["items"]), "gp": bg["gp"]}
 
+# ── Character History Generation ─────────────────────────────────────────
+
+@app.post("/api/character/{char_id}/generate-history", response_class=JSONResponse)
+async def generate_character_history(char_id: int, request: Request):
+    """Generate a comprehensive character backstory from childhood to present.
+    Weaves race, class, subclass, background, skills, feats, ASI choices,
+    and any user keywords into a rich narrative history.
+    Model chain: Gemini → OpenRouter → Ollama → deterministic fallback."""
+    user = require_user(request)
+    data = await request.json()
+    keywords = (data.get("keywords") or "").strip()
+
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+
+    char = dict(row)
+    db.close()
+
+    # Parse JSON fields
+    for f in ("skills","features","expertise_skills","asi_history",
+              "metamagic","invocations","maneuvers","magical_secrets","infusions",
+              "feature_data"):
+        try:
+            char[f] = json.loads(char[f])
+        except (json.JSONDecodeError, TypeError):
+            char[f] = [] if f != "feature_data" else []
+
+    race = char.get("race","")
+    subrace = char.get("subrace","")
+    class_name = char.get("class_name","")
+    subclass = char.get("subclass","")
+    bg = char.get("background","")
+    alignment = char.get("alignment","")
+    name = char.get("name","")
+    level = char.get("level",1)
+    fighting_style = char.get("fighting_style","")
+
+    # Race/class data
+    race_data = RACES.get(race, {})
+    class_data = CLASSES.get(class_name, {})
+    race_desc = race_data.get("desc","")
+    class_desc = class_data.get("desc","")
+    subclass_desc = (class_data.get("subclass_descs",{}) or {}).get(subclass,"")
+
+    # Ability scores
+    abilities = {a: char.get(a,10) for a in ("strength","dexterity","constitution","intelligence","wisdom","charisma")}
+
+    # Skills
+    skills = char.get("skills",[])
+    expertise = char.get("expertise_skills",[])
+
+    # Feats from feature_data
+    feat_names = []
+    for f in char.get("feature_data",[]):
+        fn = f.get("name","") if isinstance(f,dict) else ""
+        if "Ability Score Improvement" in fn and char.get("asi_history"):
+            # Look up what was chosen
+            lvl = int(f.get("level","L1").replace("L",""))
+            for ae in char["asi_history"]:
+                if ae.get("level") == lvl:
+                    if ae.get("type") == "feat":
+                        feat_names.append(ae.get("feat","").replace("_"," "))
+                    else:
+                        choices = ae.get("choices",{})
+                        parts = [f"+{v} {k[:3].title()}" for k,v in choices.items()]
+                        feat_names.append(", ".join(parts))
+                    break
+
+    # Choice systems
+    metamagic = char.get("metamagic",[])
+    invocations = char.get("invocations",[])
+    maneuvers = char.get("maneuvers",[])
+    magical_secrets = char.get("magical_secrets",[])
+    infusions = char.get("infusions",[])
+
+    prompt_parts = [f"""Write a rich, compelling backstory for this D&D 5e character. Write in third-person past tense, covering childhood origins through to the present day (level {level}). Weave in details about their race, class, background, skills, and key abilities. Make it feel like a lived life — include formative events, mentors, failures, and triumphs. Write 3-5 paragraphs.
+
+CHARACTER PROFILE
+Name: {name}
+Race: {race}{' (' + subrace + ')' if subrace else ''}
+Class: {class_name}{' — ' + subclass if subclass else ''}
+Level: {level}
+Background: {bg}
+Alignment: {alignment}
+Fighting Style: {fighting_style.replace('_',' ').title() if fighting_style else 'None'}"""]
+
+    if race_desc:
+        prompt_parts.append(f"\nRACE DESCRIPTION\n{race_desc[:400]}")
+    if class_desc:
+        prompt_parts.append(f"\nCLASS DESCRIPTION\n{class_desc[:400]}")
+    if subclass_desc:
+        prompt_parts.append(f"\nSUBCLASS DESCRIPTION\n{subclass_desc[:400]}")
+
+    prompt_parts.append(f"\nABILITY SCORES\n" + ", ".join(f"{k.title()}: {v}" for k,v in abilities.items()))
+
+    if skills:
+        prompt_parts.append(f"\nSkill Proficiencies: {', '.join(skills)}")
+    if expertise:
+        prompt_parts.append(f"\nExpertise: {', '.join(expertise)}")
+
+    if feat_names:
+        prompt_parts.append(f"\nASI/Feat Choices: {', '.join(feat_names)}")
+    if metamagic:
+        prompt_parts.append(f"\nMetamagic: {', '.join(metamagic)}")
+    if invocations:
+        prompt_parts.append(f"\nEldritch Invocations: {', '.join(invocations)}")
+    if maneuvers:
+        prompt_parts.append(f"\nManeuvers: {', '.join(maneuvers)}")
+    if magical_secrets:
+        prompt_parts.append(f"\nMagical Secrets: {', '.join(magical_secrets)}")
+    if infusions:
+        prompt_parts.append(f"\nInfusions: {', '.join(infusions)}")
+
+    if keywords:
+        prompt_parts.append(f"\nPLAYER NOTES (incorporate these): {keywords}")
+
+    prompt_parts.append("\nReturn ONLY the backstory text — no JSON, no labels, no preamble. Just the narrative paragraphs.")
+
+    prompt = "\n".join(prompt_parts)
+
+    # Tiered model chain
+    TIER_NAMES = ["gemini","openrouter","ollama"]
+    text = None
+    used_tier = None
+    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
+        text = await caller(prompt)
+        if text:
+            used_tier = TIER_NAMES[tier]
+            break
+
+    if not text:
+        # Fallback
+        text = _fallback_history(char, race_desc, class_desc, subclass_desc)
+
+    print(f"[AI] history tier={used_tier or 'fallback'} char_id={char_id} len={len(text)}")
+    return JSONResponse({"backstory": text.strip(), "tier": used_tier or "fallback"})
+
+
+def _fallback_history(char: dict, race_desc: str, class_desc: str, subclass_desc: str) -> str:
+    """Deterministic fallback when all AI tiers are unavailable."""
+    name = char.get("name","the adventurer")
+    race = char.get("race","")
+    subrace = char.get("subrace","")
+    class_name = char.get("class_name","")
+    subclass = char.get("subclass","")
+    bg = char.get("background","").lower()
+    skills = char.get("skills",[])
+    fighting_style = char.get("fighting_style","")
+    level = char.get("level",1)
+
+    race_str = f"{subrace} {race}" if subrace else race
+    class_str = f"{subclass} {class_name}" if subclass else class_name
+    skill_str = f"skilled in {', '.join(skills[:4])}" if skills else "eager to learn"
+
+    paras = [
+        f"{name} was born into a {race_str} community, raised from childhood as a {bg}. Early life taught them resilience and shaped their identity as a {skill_str}.",
+    ]
+
+    if fighting_style:
+        fs = fighting_style.replace("_"," ").title()
+        paras.append(f"As a young adult, they trained relentlessly, mastering the {fs} fighting style. Their reputation grew among allies and rivals alike.")
+
+    paras.append(f"Now a level {level} {class_str}, {name} carries the weight of every battle fought and every lesson learned. Driven by purpose and hardened by experience, they stand ready for whatever adventure comes next.")
+
+    return "\n\n".join(paras)
+
+
 # ── Character Portrait Generation ────────────────────────────────────────
 
 @app.post("/api/ai/portrait", response_class=JSONResponse)

@@ -1675,7 +1675,11 @@
   <div class="card" style="margin-bottom:1rem">
     <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History</h3>
     <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
-    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">Write your character's history, key life events, or backstory details.</div>
+    <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
+      <input id="history-keywords" type="text" placeholder="Keywords or flavor text (optional) — e.g. 'orphaned by dragon, raised by monks'" style="flex:1;min-width:200px;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+      <button class="btn btn-outline btn-sm" onclick="generateHistory()" id="history-gen-btn" style="font-size:0.8rem;white-space:nowrap">✨ AI Generate</button>
+      <span id="history-loading" style="display:none;font-size:0.8rem;color:var(--text-muted)">Generating...</span>
+    </div>
   </div>
 
   <div class="card">
@@ -5805,6 +5809,35 @@ async function saveBackstory() {
       body: JSON.stringify({backstory: text}),
     });
   } catch(e) { console.error(e); }
+}
+
+async function generateHistory() {
+  const btn = document.getElementById('history-gen-btn');
+  const loading = document.getElementById('history-loading');
+  const textarea = document.getElementById('history-backstory');
+  const keywords = document.getElementById('history-keywords').value.trim();
+
+  btn.disabled = true;
+  loading.style.display = '';
+  try {
+    const resp = await fetch(`/api/character/${CHAR_ID}/generate-history`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({keywords}),
+    });
+    const data = await resp.json();
+    if (data.backstory) {
+      textarea.value = data.backstory;
+      await saveBackstory();
+    } else {
+      alert('Failed to generate history: ' + (data.error || 'Unknown error'));
+    }
+  } catch(e) {
+    alert('Error: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    loading.style.display = 'none';
+  }
 }
 
 // ── Team Items (campaign pool) ──
