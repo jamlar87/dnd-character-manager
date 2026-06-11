@@ -451,16 +451,30 @@ def discover_manuals() -> list[dict]:
         return []
 
     seen = set()
+    seen_slugs = {}  # slug → count, for uniqueness
     manuals = []
+    # Non-content patterns to skip
+    _skip_patterns = [
+        r'(?i)\bmap[s]?\b', r'(?i)endpaper', r'(?i)character.?sheet',
+        r'(?i)\bcover\b', r'(?i)screen\b', r'(?i)jpg.?map.?pack',
+    ]
     for f in sorted(MANUALS_DIR.rglob("*.pdf")):
         title = f.stem.replace("_", " ").replace("  ", " ").strip()
+        # Skip non-content PDFs (maps, endpapers, character sheets, covers, screens)
+        if any(re.search(pat, title) or re.search(pat, str(f.parent.name)) for pat in _skip_patterns):
+            continue
         key = title.lower()
         if key in seen:
             continue
         seen.add(key)
 
-        # Derive short slug/label
+        # Derive short slug/label, guarantee uniqueness
         slug = _derive_slug(title)
+        if slug in seen_slugs:
+            seen_slugs[slug] += 1
+            slug = f"{slug}{seen_slugs[slug]}"
+        else:
+            seen_slugs[slug] = 0
 
         manuals.append({
             "title": title,
@@ -497,11 +511,60 @@ def _derive_slug(title: str) -> str:
         ("rise of tiamat", "RoT"),
         ("wild sheep", "WSC"),
         ("ancestral weapon", "AW"),
+        # ── Kobold Press ──
+        ("creature codex", "CC"),
+        ("tome of beasts", "ToB"),
+        ("book of ebon tides", "EBT"),
+        ("courts of the shadow fey", "CSF"),
+        ("deep magic", "DPM"),
+        ("tales from the shadows", "TFS"),
+        ("tales of the margreve", "TOM"),
+        ("margreve players guide", "MPG"),
+        ("wrath of the river king", "WRK"),
+        ("expanding the ranger", "ETR"),
+        ("shadows of the dusk queen", "SDQ"),
+        ("marauders of the margreve", "MOM"),
+        ("encounters in avernus", "EIA"),
+        ("saltmarsh encounters", "SME"),
+        ("ratatosk", "RAT"),
+        ("warlock lair", "WLL"),
+        ("warlock lairs", "WLL"),
+        ("warlock bestiary", "WLB"),
+        # ── TLOTR / Adventures in Middle-earth ──
+        ("adventuresinmiddle earthloremastersguide", "LMG"),
+        ("adventuresinmiddle earthplayersguide", "AIPG"),
+        ("adventures in middle-earth", "AIME"),
+        ("adventuresinmiddle", "AIME"),
+        ("bree land", "BLRG"),
+        ("erebor adventures", "EREA"),
+        ("ereboradventures", "EREA"),
+        ("eriador adventures", "ERIA"),
+        ("eriadoradventures", "ERIA"),
+        ("lonely mountain", "LMRG"),
+        ("lonelymountain", "LMRG"),
+        ("loremaster", "LMG"),
+        ("mirkwood campaign", "MWC"),
+        ("mirkwoodcampaign", "MWC"),
+        ("player's guide", "AIPG"),
+        ("playersguide", "AIPG"),
+        ("rhovanion", "RRG"),
+        ("rivendell", "RVR"),
+        ("the road goes ever on", "RGEO"),
+        ("theroadgoeseveron", "RGEO"),
+        ("wilderland adventures", "WLA"),
+        ("wilderlandadventures", "WLA"),
+        ("eaves of mirkwood", "EOM"),
+        ("eavesofmirkwood", "EOM"),
+        # ── DM's Guild / AL modules ──
+        ("defiance in phlan", "DDP"),
+        ("secrets of sokol keep", "SSK"),
+        ("shadows over the moonsea", "SOM"),
+        ("dues for the dead", "DFD"),
     ]:
         if kw in title_lower:
             return slug
-    # Fallback: first letters
-    return "".join(w[0] for w in title.split() if w[0].isalpha())[:4].upper()
+    # Fallback: camel-case abbreviation from first letters, up to 6 chars
+    return "".join(w[0] for w in title.split() if w[0].isalpha())[:6].upper()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
