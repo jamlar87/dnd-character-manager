@@ -5843,7 +5843,8 @@ async def character_sheet(char_id: int, request: Request):
 
     char = dict(row)
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
-              "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities"):
+              "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
+              "expertise_skills"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
