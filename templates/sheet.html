@@ -1085,7 +1085,7 @@
 
       {% if character.feature_data %}
       {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
-      {% set ns = namespace(feat_idx=0, passives=[], tracked=[]) %}
+      {% set ns = namespace(feat_idx=0, passives=[], tracked=[], expertise_idx=0) %}
       {% for feat in character.feature_data %}
         {% if feat.uses_max is defined and feat.uses_max > 0 %}
           {% set _ = ns.tracked.append((ns.feat_idx, feat)) %}
@@ -1109,6 +1109,11 @@
                 <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ feat.name }}</span>
                 {% if 'Fighting Style' in feat.name and character.fighting_style %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
+                {% endif %}
+                {% if feat.name == 'Expertise' and character.expertise_skills %}
+                {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
+                <span style="font-size:0.6rem;color:var(--success);font-weight:500;white-space:nowrap;flex-shrink:0">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+                {% set ns.expertise_idx = ns.expertise_idx + 1 %}
                 {% endif %}
                 {% if feat.source %}
                 <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0" title="Source: {{ feat.source }}">{{ feat.source }}</span>
