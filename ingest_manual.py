@@ -2428,6 +2428,9 @@ def merge_all_extractions():
         if items:
             print(f"  {cat}.json: {len(items)} entries")
 
+    # ── Post-merge fixups: clean garbled data, fill known gaps ───────────
+    _apply_post_merge_fixups(OUTPUT_DIR)
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Status / listing
@@ -2578,6 +2581,109 @@ def _normalize_merged_sources(merged: dict) -> None:
 
     if fixed:
         print(f"  Normalized {fixed} source string(s)")
+
+
+def _apply_post_merge_fixups(output_dir: Path) -> None:
+    """Apply data quality fixups to merged files after each merge.
+    
+    These fill known gaps (missing costs, garbled entries, race ASIs, etc.)
+    that the LLM extraction can't reliably produce from PDF text.
+    Edit the fixup data below as new gaps are discovered.
+    """
+    import re
+    
+    # ── Equipment: remove garbled entries, fill known costs ──────────
+    equip_path = output_dir / "equipment.json"
+    if equip_path.exists():
+        equipment = _load_json(equip_path)
+        if isinstance(equipment, list):
+            # Remove garbled entries (weapon properties extracted as items)
+            garbled_patterns = ["ammunition (range", "unarmed strike"]
+            before = len(equipment)
+            equipment = [e for e in equipment 
+                        if not any(p in e.get("name", "").lower() for p in garbled_patterns)]
+            removed = before - len(equipment)
+            
+            # Known equipment costs (not reliably extractable from PDFs)
+            known_costs = {
+                # DMG siege weapons
+                "ballista": "50 gp", "cannon": "500 gp", "cauldron, suspended": "150 gp",
+                "mangonel": "100 gp", "ram": "100 gp", "siege tower": "1500 gp", "trebuchet": "500 gp",
+                "bomb": "150 gp", "gunpowder": "100 gp", "dynamite": "150 gp",
+                "grenade, fragmentation": "200 gp", "grenade, smoke": "100 gp",
+                # PHB armor
+                "padded": "5 gp", "leather": "10 gp", "studded leather": "45 gp",
+                "arcane focus": "5 gp", "druidic focus": "5 gp", "holy symbol": "5 gp",
+                "potion of healing": "50 gp", "bottle": "2 gp",
+                # SCAG instruments
+                "birdpipes": "12 gp", "glaur": "3 gp", "hand drum": "6 gp",
+                "longhorn": "6 gp", "songhorn": "6 gp", "tantan": "6 gp",
+                "thelarr": "3 gp", "tocken": "6 gp", "wargong": "3 gp",
+                "yarting": "3 gp", "zulkoon": "3 gp",
+            }
+            cost_filled = 0
+            for e in equipment:
+                name = e.get("name", "").lower()
+                if (not e.get("cost") or e["cost"] == "") and name in known_costs:
+                    e["cost"] = known_costs[name]
+                    cost_filled += 1
+                elif not e.get("cost") or e["cost"] == "":
+                    e["cost"] = "\u2014"  # em dash for "not purchasable"
+            
+            _save_json(equip_path, equipment)
+            if removed or cost_filled:
+                print(f"  Equipment fixups: {removed} garbled removed, {cost_filled} costs filled")
+    
+    # ── Spells: fix known corrupt names ─────────────────────────────
+    spells_path = output_dir / "spells.json"
+    if spells_path.exists():
+        spells = _load_json(spells_path)
+        if isinstance(spells, list):
+            fixed = 0
+            for s in spells:
+                if s.get("name", "").lower() == "jlaming sphere":
+                    s["name"] = "Flaming Sphere"
+                    s["school"] = "evocation"
+                    fixed += 1
+            if fixed:
+                _save_json(spells_path, spells)
+                print(f"  Spell fixups: {fixed} corrupt name(s) corrected")
+    
+    # ── Races: fill known missing ASI/traits ─────────────────────────
+    races_path = output_dir / "races.json"
+    if races_path.exists():
+        races = _load_json(races_path)
+        if isinstance(races, list):
+            fixed = 0
+            for r in races:
+                name = r.get("name", "")
+                if name == "Windrunner Elf":
+                    if not r.get("asi") or len(r.get("asi", {})) == 0:
+                        r["asi"] = {"dexterity": 2, "wisdom": 1}
+                        fixed += 1
+                    if not r.get("traits") or len(r.get("traits", [])) == 0:
+                        r["traits"] = [{"name": "Fleet of Foot"}, {"name": "Mask of the Wild"}]
+                if name == "Tlincalli":
+                    if not r.get("traits") or len(r.get("traits", [])) == 0:
+                        r["traits"] = [{"name": "Natural Armor"}]
+                        fixed += 1
+            if fixed:
+                _save_json(races_path, races)
+                print(f"  Race fixups: {fixed} gap(s) filled")
+    
+    # ── Magic items: fill missing rarities ──────────────────────────
+    items_path = output_dir / "magic_items.json"
+    if items_path.exists():
+        items = _load_json(items_path)
+        if isinstance(items, list):
+            fixed = 0
+            for i in items:
+                if not i.get("rarity") or i["rarity"] == "":
+                    i["rarity"] = "varies"
+                    fixed += 1
+            if fixed:
+                _save_json(items_path, items)
+                print(f"  Magic item fixups: {fixed} rarity gap(s) filled")
 
 
 def _build_pdf_map() -> dict:
