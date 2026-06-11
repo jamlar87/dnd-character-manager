@@ -5711,7 +5711,10 @@ function renderRelationships() {
           <span style="color:var(--accent);font-size:0.8rem;margin-left:0.5rem">${REL_TYPE_LABELS[r.relationship_type] || r.relationship_type}</span>
           ${extra ? `<span style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem">${extra}</span>` : ''}
         </div>
-        <button onclick="deleteRelationship(${r.id})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.8rem" title="Delete">✕</button>
+        <div style="display:flex;gap:0.35rem;align-items:flex-start;flex-shrink:0">
+          <button onclick="editRelationship(${r.id})" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.8rem;padding:0 0.15rem" title="Edit">✏️</button>
+          <button onclick="deleteRelationship(${r.id})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.8rem;padding:0 0.15rem" title="Delete">✕</button>
+        </div>
       </div>
       ${r.description ? `<p style="margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--text);line-height:1.4">${r.description}</p>` : ''}
       ${r.ai_generated ? '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI-generated</span>' : ''}
@@ -5719,8 +5722,12 @@ function renderRelationships() {
   }).join('');
 }
 
+let relGeneratedData = null;  // cached AI-generated NPC data for Save
+let editingRelId = null;      // non-null when editing an existing relationship
+
 function openAddRelationship() {
   relGeneratedData = null;
+  editingRelId = null;
   document.getElementById('rel-modal-title').textContent = 'Add Relationship';
   document.getElementById('rel-type').value = 'ally';
   document.getElementById('rel-name').value = '';
@@ -5735,6 +5742,24 @@ function openAddRelationship() {
 
 function closeRelModal() {
   document.getElementById('rel-modal').style.display = 'none';
+}
+
+function editRelationship(relId) {
+  const r = relationships.find(x => x.id === relId);
+  if (!r) return;
+  const npc = JSON.parse(r.npc_data || '{}');
+  editingRelId = relId;
+  relGeneratedData = null;
+  document.getElementById('rel-modal-title').textContent = 'Edit Relationship';
+  document.getElementById('rel-type').value = r.relationship_type || 'ally';
+  document.getElementById('rel-name').value = r.name || '';
+  document.getElementById('rel-desc').value = r.description || '';
+  document.getElementById('rel-prompt').value = r.prompt || '';
+  document.getElementById('rel-use-ai').checked = false;
+  document.getElementById('rel-ai-fields').style.display = 'none';
+  document.getElementById('rel-manual-fields').style.display = '';
+  document.getElementById('rel-gen-status').textContent = '';
+  document.getElementById('rel-modal').style.display = 'flex';
 }
 
 function toggleRelAIMode() {
@@ -5789,13 +5814,18 @@ async function saveRelationship() {
     body.npc_data = relGeneratedData.npc_data;
     body.ai_generated = true;
   }
+  const isEdit = !!editingRelId;
+  const url = isEdit
+    ? `/api/character/${CHAR_ID}/relationships/${editingRelId}`
+    : `/api/character/${CHAR_ID}/relationships`;
   try {
-    await fetch(`/api/character/${CHAR_ID}/relationships`, {
-      method: 'POST',
+    await fetch(url, {
+      method: isEdit ? 'PUT' : 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(body),
     });
     relGeneratedData = null;
+    editingRelId = null;
     closeRelModal();
     loadRelationships();
   } catch(e) { console.error(e); }
