@@ -210,16 +210,17 @@
 .feat-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.4rem; overflow: hidden; transition: opacity 0.3s; }
 .feat-card.depleted { opacity: 0.45; }
 .feat-card.depleted .feat-header { color: var(--text-muted); }
-.feat-header { padding: 0.6rem 0.8rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; }
+.feat-header { padding: 0.6rem 0.8rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; cursor: pointer; }
 .feat-header:hover { background: rgba(255,255,255,0.03); }
-.feat-header .arrow { transition: transform 0.2s; font-size: 0.7rem; color: var(--text-muted); }
-.feat-header.open .arrow { transform: rotate(90deg); }
-.feat-body { padding: 0 0.8rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
-.passive-chip-body { display: none; padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
+.feat-header .collapse-arrow { font-size: 0.7rem; color: var(--text-muted); transition: transform 0.2s; margin-left: 0.35rem; }
+.feat-header .collapse-arrow.open { transform: rotate(90deg); }
+.feat-body { padding: 0.5rem 0.8rem 0.8rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; display: none; }
+.feat-body.open { display: block; }
+.passive-chip-body { padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; display: none; }
 .passive-chip-body.open { display: block; }
-.feat-body.open { max-height: 600px; padding: 0.5rem 0.8rem 0.8rem; }
-.feat-sub-body.open { max-height: 300px !important; }
-.feat-sub-header.open span { transform: rotate(90deg); display: inline-block; }
+.passive-chip { cursor: pointer; }
+.passive-chip .collapse-arrow { font-size: 0.65rem; color: var(--text-muted); transition: transform 0.2s; }
+.passive-chip .collapse-arrow.open { transform: rotate(90deg); }
 .spell-body { display: none; }
 .spell-body.open { display: block; }
 
@@ -1042,7 +1043,7 @@
       {% if racial_traits %}
       <div class="card" style="margin-bottom:0.75rem">
         <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">
-          Species Traits
+          Traits
           <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted);margin-left:0.3rem">({{ character.race }}{% if character.subrace %} — {{ character.subrace }}{% endif %})</span>
         </h3>
         {% if character.race == 'Dragonborn' %}
@@ -1057,17 +1058,16 @@
           </select>
         </div>
         {% endif %}
-        <div class="passive-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:0.3rem">
+        <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
           {% for rt in racial_traits %}
           <div>
-            <div class="passive-chip" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;cursor:pointer;transition:border-color 0.15s"
-                 onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <div class="passive-chip" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ rt.name }}</span>
               </span>
-              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.15rem;flex-shrink:0">▶</span>
             </div>
-            <div class="passive-chip-body">
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
               {{ rt.desc }}
               <div style="margin-top:0.2rem;font-size:0.6rem;display:flex;align-items:center;gap:0.3rem">
                 {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
@@ -1095,15 +1095,16 @@
         {% set ns.feat_idx = ns.feat_idx + 1 %}
       {% endfor %}
 
-      {# ── Passive features: compact grid, grouped by level ── #}
+      {# ── Passive features: full-width, descriptions always visible ── #}
       {% if ns.passives %}
       <div class="card" style="margin-bottom:0.75rem">
         <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Passive Features</h3>
-        <div class="passive-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));gap:0.3rem">
+        <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
           {% for idx, feat in ns.passives %}
           <div>
-            <div class="passive-chip" data-feat-index="{{ idx }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;cursor:pointer;transition:border-color 0.15s" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <div class="passive-chip" data-feat-index="{{ idx }}" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
                 <span style="font-size:0.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ feat.name }}</span>
                 {% if feat.source %}
@@ -1116,16 +1117,15 @@
                 {% endif %}
               </span>
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
-              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.15rem;flex-shrink:0">▶</span>
             </div>
-            <div class="passive-chip-body">{{ feat.description or 'No description available.' }}</div>
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.description or 'No description available.' }}</div>
           </div>
           {% endfor %}
         </div>
       </div>
       {% endif %}
 
-      {# ── Tracked features (uses): keep current card layout ── #}
+      {# ── Tracked features (uses): full-width, descriptions always visible ── #}
       {% if ns.tracked %}
       <div class="card">
         <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Limited-Use Features</h3>
@@ -1136,8 +1136,8 @@
         <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem;margin-top:{% if not loop.first %}0.4rem{% else %}0{% endif %}">{{ feat.level }}</h4>
         {% endif %}
           <div class="feat-card" data-feat-index="{{ idx }}">
-            <div class="feat-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-              <span><span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+            <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
+              <span><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
                 {% if feat.source %}
                 <span class="source-badge" style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem" title="Source: {{ feat.source }}">{{ feat.source }}</span>
                 {% endif %}
@@ -1168,7 +1168,6 @@
                 <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
                 {% endif %}
                 <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
-                <span class="arrow">▶</span>
               </span>
             </div>
             <div class="feat-body">
@@ -1178,12 +1177,11 @@
                 {% for sub in feat.sub_options %}
                 {% if 'channel divinity:' in sub.name.lower() %}
                 <div class="cd-sub-option" style="margin-bottom:0.4rem">
-                  <div class="feat-sub-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
-                       style="font-size:0.75rem;font-weight:600;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:0.3rem;padding:0.15rem 0">
-                    <span style="font-size:0.6rem;transition:transform 0.2s;display:inline-block">▶</span>
+                  <div class="feat-sub-header"
+                       style="font-size:0.75rem;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:0.3rem;padding:0.15rem 0">
                     {{ sub.name }}
                   </div>
-                  <div class="feat-sub-body" style="font-size:0.72rem;color:var(--text-muted);line-height:1.4;max-height:0;overflow:hidden;transition:max-height 0.3s ease;padding-left:1rem">
+                  <div class="feat-sub-body" style="font-size:0.72rem;color:var(--text-muted);line-height:1.4;padding-left:1rem">
                     {{ sub.description or 'No description available.' }}
                   </div>
                 </div>
@@ -2024,7 +2022,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', initAbilityEditors);
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); });
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
@@ -3631,6 +3629,22 @@ async function toggleSkillProf(skillName) {
   
   await api('/update', { skills: JSON.stringify(active) });
   location.reload();
+}
+
+// ── Collapse Toggle for Feature Descriptions ──
+function toggleFeatBody(card) {
+  const body = card.querySelector('.feat-body');
+  const arrow = card.querySelector('.collapse-arrow');
+  body.classList.toggle('open');
+  if (arrow) arrow.classList.toggle('open');
+}
+function togglePassiveBody(chip) {
+  const body = chip.nextElementSibling;
+  const arrow = chip.querySelector('.collapse-arrow');
+  if (body && body.classList.contains('passive-chip-body')) {
+    body.classList.toggle('open');
+    if (arrow) arrow.classList.toggle('open');
+  }
 }
 
 // ── Feature Editing ──
