@@ -167,6 +167,10 @@ def load_manual_data():
         "ghostwise halflings": "Ghostwise Halfling",
         "strongheart halfling": "Stout Halfling",  # FR name
         "gray dwarf (duergar)": "Duergar",
+        # Subrace migration aliases — plurals / alternate names that map to migrated subraces
+        "elves of mirkwood": "Mirkwood Elf",
+        "high elves of rivendell": "High Elf of Rivendell",
+        "hobbits of the shire": "Hobbit of the Shire",
     }
     
     manual_races = _load_manual_json("races.json")
@@ -2429,6 +2433,140 @@ SUBASIS = {
     "Fire Genasi": {"intelligence": 1},
     "Water Genasi": {"wisdom": 1},
 }
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SUBRACE MIGRATION — Promote manual-data races to proper subraces of core races
+# ═══════════════════════════════════════════════════════════════════════════════
+# Many manually-extracted "races" are really subraces of PHB races (e.g.
+# "Mirkwood Elf" → Elf, "Riverfolk Halfling" → Halfling). This block extends
+# the core race subrace lists and populates SUBASIS/SUBRACE_TRAITS/SUBRACE_SOURCES
+# so load_manual_data() filters them out as top-level races.
+
+# Generic trait names that belong to the base race, not the subrace
+_GENERIC_TRAITS = {
+    "ability score increase", "ability score increases",
+    "adventuring age", "age", "size", "speed", "languages", "language",
+    "alignment", "subtypes", "subtype",
+}
+
+def _subrace_traits(manual_entry: dict) -> list[str]:
+    """Extract subrace-specific trait names, filtering out generic ones."""
+    traits = []
+    for t in manual_entry.get("traits", []):
+        name = t.get("name", "")
+        if name and name.lower() not in _GENERIC_TRAITS:
+            traits.append(name)
+    return traits
+
+# Load manual races.json for data (available after manual_data dir exists)
+try:
+    _mr_path = HERE / "data" / "manual_data" / "races.json"
+    if _mr_path.exists():
+        with open(_mr_path) as _f:
+            _manual_races_raw = json.load(_f)
+    else:
+        _manual_races_raw = []
+except Exception:
+    _manual_races_raw = []
+
+_mr_lookup = {r["name"]: r for r in _manual_races_raw}
+
+# --- Migration definitions ---
+# Each entry: subrace_name -> (parent_race, source_override_or_None, manual_entry_name_or_None)
+# manual_entry_name defaults to subrace_name; set explicitly for aliased duplicates
+
+_SUBRACE_MIGRATIONS: list[tuple[str, str, str | None, str | None]] = [
+    # === ELF ===
+    ("Mirkwood Elf",            "Elf", None, None),
+    ("Sable Elf",               "Elf", None, None),
+    ("Windrunner Elf",          "Elf", None, None),
+    ("High Elf of Rivendell",   "Elf", None, None),
+    ("Shadow Fey",              "Elf", None, None),
+    ("Silvan Elf Sentinel",     "Elf", None, None),
+    # Flattened child subraces of Shadow Fey
+    ("Shadow Fey (Lunar Elf)",  "Elf", None, "Lunar Elf"),  # from Shadow Fey subraces
+    # === DWARF ===
+    ("Dwarves of the Lonely Mountain", "Dwarf", None, None),
+    ("Dwarf of the Blue Mountains",    "Dwarf", None, None),
+    ("Dwarves of the Iron Hills",      "Dwarf", None, None),
+    # === HALFLING ===
+    ("Hobbit of the Shire",     "Halfling", None, None),
+    ("Hobbit",                  "Halfling", None, None),
+    ("Harfoot",                 "Halfling", None, None),
+    ("Wild Hobbit",             "Halfling", None, None),
+    ("Riverfolk Halfling",      "Halfling", None, None),
+    ("Courtfolk Halfling",      "Halfling", None, None),
+    # Flattened child subraces of Hobbit
+    ("Hobbit (Harfoot)",        "Halfling", None, "Harfoot"),    # from Hobbit subraces
+    ("Hobbit (Stoor)",          "Halfling", None, "Stoor"),      # from Hobbit subraces
+    ("Hobbit (Fallowhide)",     "Halfling", None, "Fallowhide"), # from Hobbit subraces
+    # Flattened child subrace of Courtfolk Halfling
+    ("Courtfolk Halfling (Shadow Servitors)", "Halfling", None, "Shadow Servitors"),
+    # === GNOME ===
+    ("Wyrd Gnome",              "Gnome", None, None),
+    # === HUMAN ===
+    ("Umbral Human",            "Human", None, None),
+    ("Changeling Umbral Human", "Human", None, None),
+    ("Gifted Umbral Folk",      "Human", None, None),
+    # Flattened child subrace of Umbral Human (renamed to avoid conflict with Eberron Changeling)
+    ("Umbral Changeling",       "Human", None, "Changeling"),   # from Umbral Human subraces
+]
+
+# --- Apply migrations ---
+for _sr_name, _parent, _src_override, _entry_name in _SUBRACE_MIGRATIONS:
+    # 1. Extend RACES subrace list
+    if _sr_name not in RACES[_parent]["subraces"]:
+        RACES[_parent]["subraces"].append(_sr_name)
+
+    # 2. Look up data source (use entry_name if provided, else sr_name)
+    _lookup = _entry_name if _entry_name else _sr_name
+    _entry = None
+    if _entry_name:
+        # Child subrace — search ONLY inside manual races' subraces, not top-level
+        for _r in _manual_races_raw:
+            for _sr in _r.get("subraces", []):
+                if _sr.get("name") == _lookup:
+                    _entry = _sr
+                    break
+            if _entry:
+                break
+    if not _entry:
+        # Top-level manual race lookup
+        _entry = _mr_lookup.get(_lookup)
+
+    # 3. Populate SUBASIS (normalize stat abbreviations)
+    _asi = {}
+    _stat_map = {"str": "strength", "dex": "dexterity", "con": "constitution",
+                 "int": "intelligence", "wis": "wisdom", "cha": "charisma"}
+    if _entry:
+        for _k, _v in _entry.get("asi", {}).items():
+            if _v:
+                _asi[_stat_map.get(_k, _k)] = _v
+    if _asi and _sr_name not in SUBASIS:
+        SUBASIS[_sr_name] = _asi
+
+    # 4. Populate SUBRACE_TRAITS
+    if _entry:
+        _traits = _subrace_traits(_entry)
+        if _traits and _sr_name not in SUBRACE_TRAITS:
+            SUBRACE_TRAITS[_sr_name] = _traits
+
+    # 5. Populate SUBRACE_SOURCES
+    if _sr_name not in SUBRACE_SOURCES:
+        if _src_override:
+            SUBRACE_SOURCES[_sr_name] = _src_override
+        elif _entry and _entry.get("source"):
+            SUBRACE_SOURCES[_sr_name] = _entry.get("source", "")
+
+# Re-attach _subrace_sources (must include newly added subraces)
+for _r_name, _r in RACES.items():
+    srcs = {}
+    parent_src = _r.get("source", "")
+    for _s in _r.get("subraces", []):
+        srcs[_s] = SUBRACE_SOURCES.get(_s, parent_src)
+    _r["_subrace_sources"] = srcs
+
+print(f"[subrace migration] Extended {len(_SUBRACE_MIGRATIONS)} manual races → core subraces")
 
 CLASSES = {
     "Barbarian": {"hd": 12, "skills": ["Animal Handling","Athletics","Intimidation","Nature","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Path of the Berserker","Path of the Totem Warrior"], "desc": "Barbarians are warriors defined by their rage — a primal fury that transforms them into seemingly unstoppable forces of destruction. Standing at the front of any battle, their muscular frames bear the scars of countless fights. Where other warriors rely on technique and discipline, the barbarian trusts in raw power, instinct, and an almost supernatural resilience that lets them shrug off wounds that would fell lesser combatants.\n\nIn combat, a barbarian enters a Rage as a bonus action, gaining advantage on Strength checks and saves, bonus melee damage, and resistance to bludgeoning, piercing, and slashing damage. They fight recklessly, trading defense for devastating offense with Reckless Attack. Their Danger Sense gives them advantage on Dexterity saves against effects they can see, and their unarmored defense lets them calculate AC from Constitution and Dexterity while eschewing heavy armor.\n\nMechanically, barbarians are d12 hit die melee strikers and damage sponges. At higher levels, they gain Brutal Critical (extra dice on critical hits), Relentless Rage (drop to 1 HP instead of 0), and eventually Primal Champion (+4 to Strength and Constitution, breaking the normal ability score cap). They are unmatched at absorbing punishment while dishing out consistent, heavy damage.", "subclass_descs": {"Path of the Berserker": "At 3rd level, you can go into a Frenzy during your rage, allowing a bonus action melee weapon attack each turn at the cost of a level of exhaustion when the rage ends. Mindless Rage at 6th prevents being charmed or frightened while raging. Intimidating Presence at 10th lets you frighten foes with a display of raw menace. At 14th, Retaliation lets you strike back at anyone who damages you — no action required.", "Path of the Totem Warrior": "At 3rd level, choose a spirit totem: Bear (resistance to all damage except psychic while raging), Eagle (bonus action Dash and enemies have disadvantage on opportunity attacks), or Wolf (allies within 5 feet gain advantage on melee attacks). At 6th, gain an animal aspect: Bear (double carrying capacity), Eagle (see a mile), or Wolf (track at fast pace). At 14th, gain a totemic attunement: Bear (enemies within 5 feet have disadvantage on attacks against others), Eagle (limited flight), or Wolf (bonus action knock prone on hit)."}, "weapons": "Simple weapons, Martial weapons", "armor": "Light armor, Medium armor, Shields", "tools": ""},
