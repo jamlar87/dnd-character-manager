@@ -1110,11 +1110,6 @@
                 {% if 'Fighting Style' in feat.name and character.fighting_style %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
-                {% if feat.name == 'Expertise' and character.expertise_skills %}
-                {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
-                <span style="font-size:0.6rem;color:var(--success);font-weight:500">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
-                {% set ns.expertise_idx = ns.expertise_idx + 1 %}
-                {% endif %}
                 {% if feat.source %}
                 <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0" title="Source: {{ feat.source }}">{{ feat.source }}</span>
                 {% endif %}
@@ -1124,6 +1119,11 @@
                 <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--success);padding:0.05rem 0.25rem">LR</span>
                 {% endif %}
               </span>
+              {% if feat.name == 'Expertise' and character.expertise_skills %}
+              {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
+              <span style="font-size:0.7rem;color:var(--success);font-weight:500;flex-shrink:0">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+              {% set ns.expertise_idx = ns.expertise_idx + 1 %}
+              {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.description or 'No description available.' }}</div>
