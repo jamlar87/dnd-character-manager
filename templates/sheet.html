@@ -488,25 +488,25 @@
     <!-- Combat quick-stats row -->
     <div class="center-combat">
       <div class="combat-quick top-combat-grid">
-        <div class="combat-quick-item">
+        <div class="combat-quick-item" onclick="showCombatPopup('ac')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">AC</div>
           <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}</div>
         </div>
-        <div class="combat-quick-item">
+        <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative</div>
           <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
         </div>
-        <div class="combat-quick-item">
+        <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Speed</div>
           <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
         </div>
-        <div class="combat-quick-item">
+        <div class="combat-quick-item" onclick="showCombatPopup('prof')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Prof Bonus</div>
           <div class="cq-value">+{{ prof }}</div>
         </div>
-        <div class="combat-quick-item" style="cursor:pointer" onclick="document.getElementById('insp-btn').click()">
-          <div class="cq-label">Inspiration</div>
-          <div style="display:flex;justify-content:center;margin-top:0.1rem">
+        <div class="combat-quick-item">
+          <div class="cq-label" onclick="event.stopPropagation();showCombatPopup('inspiration')" style="cursor:pointer" title="Click for description">Inspiration</div>
+          <div style="display:flex;justify-content:center;margin-top:0.1rem;cursor:pointer" onclick="event.stopPropagation();document.getElementById('insp-btn').click()">
             <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
           </div>
         </div>
@@ -3258,6 +3258,27 @@ function showAbilityPopup(stat, label) {
   const body = document.getElementById('popup-body');
   const desc = ABILITY_DESCRIPTIONS[stat] || 'No description available.';
   title.textContent = label + ' — ' + stat.charAt(0).toUpperCase() + stat.slice(1);
+  body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
+  popup.style.display = 'flex';
+}
+
+// ── Combat Stat Descriptions ──
+const COMBAT_DESCRIPTIONS = {
+  ac: "Represents how hard you are to hit in combat. Your base AC depends on armor: unarmored is 10 + Dexterity modifier, light armor adds your full Dex modifier, medium armor caps at +2 from Dex, and heavy armor ignores Dex entirely. Shields add +2. A monster must roll equal to or higher than your AC on an attack roll to hit you. Some class features (Unarmored Defense) and spells (Mage Armor, Shield of Faith) provide alternative AC calculations. (PHB p.14, 144–145)",
+  initiative: "Determines the order of turns during combat. At the start of a fight, every creature makes a Dexterity check (d20 + Dex modifier). The DM ranks results highest to lowest — that's the turn order. Ties are broken by Dexterity score, then by a coin flip. Some features modify initiative: the Alert feat adds +5, the Bard's Jack of All Trades adds half proficiency, and certain magic items grant advantage. Initiative stays fixed for the entire combat unless a readied action or special effect changes it. (PHB p.177, 189)",
+  speed: "How far you can move on your turn. Most races have a walking speed of 30 feet. You can break up your movement before and after your action, and use all or part of it. Difficult terrain (rubble, undergrowth, steep stairs) costs 2 feet for every 1 foot moved. You can climb, swim, or crawl (each costs extra unless you have a special speed) and you can jump as part of your move. If you have multiple speeds (e.g. walking 30 ft, flying 60 ft), you can switch between them during your move, subtracting the distance already covered. (PHB p.181–182, 190)",
+  prof: "Added to any d20 roll you make with something you're proficient in — attack rolls with trained weapons, ability checks with proficient skills/tools, and proficient saving throws. It also sets the DC for your spells and class features (8 + proficiency + ability modifier). Starts at +2 at level 1 and increases at levels 5, 9, 13, and 17, capping at +6. Independent of ability scores — it represents training and experience. (PHB p.12–13, 15)",
+  inspiration: "A special resource the DM awards for clever thinking, heroic acts, or exceptional roleplaying. You either have inspiration or you don't — it doesn't stack. When you have inspiration, you can spend it to gain advantage on one attack roll, saving throw, or ability check. You can also give your inspiration to another player if they do something impressive. Inspiration encourages dramatic choices and character-driven play. Click the ⭐ to toggle. (PHB p.125)"
+};
+
+function showCombatPopup(key) {
+  if (document.body.classList.contains('edit-mode')) return;
+  const names = { ac: 'AC — Armor Class', initiative: 'Initiative', speed: 'Speed', prof: 'Proficiency Bonus', inspiration: 'Inspiration' };
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+  const desc = COMBAT_DESCRIPTIONS[key] || 'No description available.';
+  title.textContent = names[key] || key;
   body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
   popup.style.display = 'flex';
 }
