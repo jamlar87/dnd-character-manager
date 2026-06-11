@@ -5844,7 +5844,7 @@ async def character_sheet(char_id: int, request: Request):
     char = dict(row)
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
-              "expertise_skills"):
+              "expertise_skills", "asi_history"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
@@ -7740,6 +7740,22 @@ async def apply_level_up(char_id: int, request: Request):
         updates["expertise_skills"] = json.dumps(current_exp)
         changes.append(f"Expertise: {', '.join(exp_picks)}")
     
+    # ASI history — record what was chosen at each ASI level
+    if asi_choices:
+        current_asi = json.loads(char.get("asi_history", "[]"))
+        for lvl_str, choice in asi_choices.items():
+            entry = {"level": int(lvl_str)}
+            if isinstance(choice, dict):
+                entry["type"] = "asi"
+                entry["choices"] = choice  # {"dexterity": 2} or {"dexterity": 1, "wisdom": 1}
+            elif isinstance(choice, str) and choice.startswith("feat:"):
+                entry["type"] = "feat"
+                entry["feat"] = choice[5:]
+                feat_name = FEATS.get(choice[5:], {}).get("name", choice[5:])
+                changes.append(f"Feat: {feat_name}")
+            current_asi.append(entry)
+        updates["asi_history"] = json.dumps(current_asi)
+    
     
     # ── 8 Choice Systems: apply picks from level-up ──
     # Metamagic
@@ -8092,6 +8108,15 @@ async def apply_de_level(char_id: int, request: Request):
     if fs_level and fs_level > new_class_level and char.get("fighting_style"):
         updates["fighting_style"] = ""
         changes.append(f"Fighting Style cleared ({char.get('fighting_style')})")
+    
+    # ASI history: remove entries for lost levels
+    current_asi = json.loads(char.get("asi_history", "[]"))
+    if current_asi:
+        kept_asi = [e for e in current_asi if e.get("level", 99) <= target_level]
+        if len(kept_asi) < len(current_asi):
+            updates["asi_history"] = json.dumps(kept_asi)
+            lost_count = len(current_asi) - len(kept_asi)
+            changes.append(f"ASI history: removed {lost_count} entr{'y' if lost_count == 1 else 'ies'}")
     
     
     # ── 8 Choice Systems: revert on de-level ──

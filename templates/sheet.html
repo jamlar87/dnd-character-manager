@@ -1085,7 +1085,7 @@
 
       {% if character.feature_data %}
       {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
-      {% set ns = namespace(feat_idx=0, passives=[], tracked=[], expertise_idx=0) %}
+      {% set ns = namespace(feat_idx=0, passives=[], tracked=[], expertise_idx=0, asi_idx=0) %}
       {% for feat in character.feature_data %}
         {% if feat.uses_max is defined and feat.uses_max > 0 %}
           {% set _ = ns.tracked.append((ns.feat_idx, feat)) %}
@@ -1123,6 +1123,16 @@
               {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
               <span style="font-size:0.7rem;color:var(--success);font-weight:500;flex-shrink:0">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
               {% set ns.expertise_idx = ns.expertise_idx + 1 %}
+              {% endif %}
+              {% if 'Ability Score Improvement' in feat.name and character.asi_history %}
+              {% set lvl_num = feat.level|replace('L','')|int %}{% set asi_entry = None %}
+              {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set asi_entry = ae %}{% endif %}{% endfor %}
+              {% if asi_entry %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">
+              {% if asi_entry.type == 'feat' %}{{ asi_entry.feat|replace('_',' ')|title }}
+              {% else %}{% for ab, amt in asi_entry.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+              {% endif %}</span>
+              {% endif %}
               {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
