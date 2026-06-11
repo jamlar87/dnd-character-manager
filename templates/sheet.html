@@ -1152,7 +1152,7 @@
               {% if (feat.name == 'Spirit Seeker' or feat.name == 'Totem Spirit') and character.totem_spirits %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for lvl, choice in character.totem_spirits.items() %}{% if not loop.first %}, {% endif %}{{ choice|replace('_',' ')|title }}{% endfor %}</span>
               {% endif %}
-              {% if feat.name == \"Hunter's Prey\" and character.hunters_prey %}
+              {% if feat.name == "Hunter's Prey" and character.hunters_prey %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.hunters_prey|replace('_',' ')|title }}</span>
               {% endif %}
               {% if feat.name == 'Infuse Item' and character.infusions %}
