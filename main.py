@@ -350,6 +350,43 @@ def load_manual_data():
         sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
         print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
 
+    # ── Post-race migration: Promote races to subraces of manual-data parents ──
+    # (Goblin, Bearfolk only exist in RACES after the loop above.
+    #  Module-level migration can't reach them — they weren't in RACES yet.)
+    _post_parents = {
+        "Goblin": ["Shadow Goblin"],
+        "Bearfolk": ["Shadowborn Bearfolk"],
+    }
+    for _post_parent, _post_names in _post_parents.items():
+        if _post_parent not in RACES:
+            continue
+        for _post_name in _post_names:
+            _post_child = RACES.get(_post_name)
+            if not _post_child:
+                continue
+            # Move to parent's subrace list
+            if _post_name not in RACES[_post_parent]["subraces"]:
+                RACES[_post_parent]["subraces"].append(_post_name)
+            # Copy ASI (already normalized by the manual race loader)
+            _post_asi = _post_child.get("asi", {})
+            if _post_asi and _post_name not in SUBASIS:
+                SUBASIS[_post_name] = dict(_post_asi)
+            # Copy traits to SUBRACE_TRAITS
+            _post_child_traits = _post_child.get("traits", [])
+            if _post_child_traits and _post_name not in SUBRACE_TRAITS:
+                SUBRACE_TRAITS[_post_name] = list(_post_child_traits)
+            # Copy source
+            _post_src = _post_child.get("source", "")
+            if _post_src and _post_name not in SUBRACE_SOURCES:
+                SUBRACE_SOURCES[_post_name] = _post_src
+            # Copy description
+            _post_desc = _post_child.get("desc", "")
+            if _post_desc and _post_name not in RICH_SUBRACE_DESCS:
+                RICH_SUBRACE_DESCS[_post_name] = _post_desc
+            # Remove top-level entry — it's a subrace now
+            del RACES[_post_name]
+            print(f"  ↳ Moved '{_post_name}' → subrace of '{_post_parent}'")
+
     # ── Spells ── append to SRD_SPELLS (normalize classes/school to dict format)
     manual_spells = _load_manual_json("spells.json")
     # Backfill missing classes/schools from reference map
@@ -2513,6 +2550,17 @@ _SUBRACE_MIGRATIONS: list[tuple[str, str, str | None, str | None]] = [
     ("Gifted Umbral Folk",      "Human", None, None),
     # Flattened child subrace of Umbral Human (renamed to avoid conflict with Eberron Changeling)
     ("Umbral Changeling",       "Human", None, "Changeling"),   # from Umbral Human subraces
+    # Additional Human cultures (AiME)
+    ("Barding",                 "Human", None, None),
+    ("Men of Bree",             "Human", None, None),
+    ("Men of Minas Tirith",     "Human", None, None),
+    ("Men of the Lake",         "Human", None, None),
+    ("Riders of Rohan",         "Human", None, None),
+    # Flattened child subraces of Men of Bree
+    ("Men of Bree (Stoor)",     "Human", None, "Stoor"),        # from Men of Bree subraces
+    ("Men of Bree (Fallowhide)","Human", None, "Fallowhide"),   # from Men of Bree subraces
+    # === HALFLING ===
+    ("Courtfolk",               "Halfling", None, None),
 ]
 
 # --- Apply migrations ---
