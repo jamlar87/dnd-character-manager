@@ -7199,13 +7199,34 @@ async def level_up_info(char_id: int, request: Request):
             "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
         }
     
+    # Collect feats the character has already taken (via ASI or class feature)
+    already_taken_keys: set[str] = set()
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    for entry in asi_hist:
+        if entry.get("type") == "feat":
+            already_taken_keys.add(entry.get("feat", ""))
+    # Also check class-granted feats in feature_data (e.g. Warlock invocations,
+    # Fighting Initiate from Fighter/Ranger bonus feat, etc.)
+    feat_data = json.loads(char.get("feature_data", "[]"))
+    for f in feat_data:
+        fn = f.get("name", "") if isinstance(f, dict) else str(f)
+        fn_lower = fn.lower()
+        for fk, fv in FEATS.items():
+            if fv["name"].lower() == fn_lower and fk not in already_taken_keys:
+                already_taken_keys.add(fk)
+    
     # Feats — filter by prereqs, eligible first
     feats_available = []
     feats_ineligible = []
     char_abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}
     for key, feat in FEATS.items():
         prereq = feat.get("prereq") or feat.get("prerequisite", "")
-        meets, reason = _meets_feat_prereq(prereq, char, char_abilities, feat.get("name", ""))
+        # Already taken beats prereq — if they already have it, it's ineligible
+        if key in already_taken_keys:
+            meets = False
+            reason = "Already taken"
+        else:
+            meets, reason = _meets_feat_prereq(prereq, char, char_abilities, feat.get("name", ""))
         entry = {
             "key": key, "name": feat["name"],
             "desc": feat.get("desc") or feat.get("description", ""),
