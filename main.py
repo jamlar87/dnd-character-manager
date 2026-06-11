@@ -425,13 +425,20 @@ def load_manual_data():
         if not name:
             continue
         key = _feat_name_to_key.get(name.lower(), name)
+        manual_desc = feat.get("description", "")
         if key not in FEATS:
             FEATS[key] = {
                 "name": name,
                 "prerequisite": feat.get("prerequisite", ""),
-                "description": feat.get("description", ""),
+                "description": manual_desc,
                 "source": feat.get("source", ""),
             }
+        elif manual_desc and len(manual_desc) > len(FEATS[key].get("description", "")):
+            # Update existing feat with full PHB description (manual data is richer)
+            FEATS[key]["description"] = manual_desc
+            FEATS[key]["desc"] = manual_desc
+            if not FEATS[key].get("prerequisite") and feat.get("prerequisite"):
+                FEATS[key]["prerequisite"] = feat["prerequisite"]
     if manual_feats:
         print(f"  + Feats: {len(manual_feats)}")
 
@@ -5887,7 +5894,7 @@ async def character_sheet(char_id: int, request: Request):
                         _fkey = _ae.get("feat", "")
                         _finfo = FEATS.get(_fkey, {})
                         _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
-                        _feat["asi_feat_desc"] = _finfo.get("desc", "") or _finfo.get("description", "")
+                        _feat["asi_feat_desc"] = _finfo.get("description", "") or _finfo.get("desc", "")
                         break
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
