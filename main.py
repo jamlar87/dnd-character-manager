@@ -195,6 +195,7 @@ def load_manual_data():
             if v and k in asi_map:
                 asi[asi_map[k]] = v
         traits = [t.get("name", "") for t in race.get("traits", [])]
+        ref_manual = race.get("_source_manual", "")
         # Process subraces
         subrace_names = []
         subrace_descs = {}
@@ -253,11 +254,11 @@ def load_manual_data():
             "desc": RICH_RACE_DESCS.get(name, race.get("description", "")),
             "subrace_descs": subrace_descs,
             "source": race.get("source", ""),
+            "_source_slug": ref_manual if ref_manual and meta.get("pdf_map", {}).get(ref_manual) else "",
             "natural_armor": None,  # Populated below from _na_fixes or _effects
         }
         # Clean up bad sources: bare page numbers, Unknown markers
         src = RACES[name].get("source", "")
-        ref_manual = race.get("_source_manual", "")
         if ref_manual and meta.get("pdf_map", {}).get(ref_manual):
             book_title = meta["pdf_map"][ref_manual]["title"]
             # Strip noisy prefixes from raw filenames
@@ -12862,9 +12863,74 @@ def _get_source_slug_map() -> dict[str, dict]:
         meta = _load_manual_json("_meta.json")
         pdf_map = (meta or {}).get("pdf_map", {}) if isinstance(meta, dict) else {}
         _source_slug_cache = {}
+        # Human-readable display names for each slug (used for frontend matching)
+        _slug_displays = {
+            "AIPG": "Adventures in Middle-earth Player's Guide",
+            "AW": "Ancestral Weapons",
+            "BLRG": "Bree-land Region Guide",
+            "CC": "Creature Codex",
+            "CSF": "Courts of the Shadow Fey",
+            "DD": "Dues for the Dead",
+            "DDP": "Defiance in Phlan",
+            "DMG": "Dungeon Master's Guide",
+            "DPM": "Deep Magic: Elven High Magic",
+            "DPM1": "Deep Magic: Ley Lines",
+            "EBT": "Book of Ebon Tides",
+            "EEPC": "Elemental Evil Player's Companion",
+            "EIA": "Encounters in Avernus",
+            "EREA": "Erebor Adventures",
+            "ERIA": "Eriador Adventures",
+            "ETR": "Expanding the Ranger",
+            "GGR": "Guildmasters' Guide to Ravnica",
+            "HotDQ": "Hoard of the Dragon Queen",
+            "KW": "Kobold Quarterly 20",
+            "LMG": "Adventures in Middle-earth Loremaster's Guide",
+            "LMRG": "Lonely Mountain Region Guide",
+            "LMoP": "Lost Mine of Phandelver",
+            "MM": "Monster Manual",
+            "MOM": "Marauders of the Margreve",
+            "MPG": "Margreve Player's Guide",
+            "MTF": "Mordenkainen's Tome of Foes",
+            "MWC": "Mirkwood Campaign",
+            "PHB": "Player's Handbook",
+            "RAT": "Ratatosk",
+            "RGEO": "The Road Goes Ever On",
+            "RRG": "Rhovanion Region Guide",
+            "RVR": "Rivendell Region Guide",
+            "RoT": "The Rise of Tiamat",
+            "SCAG": "Sword Coast Adventurer's Guide",
+            "SDQ": "Shadows of the Dusk Queen",
+            "SME": "Saltmarsh Encounters",
+            "SOM": "Shadows over the Moonsea",
+            "SSK": "Secrets of Sokol Keep",
+            "TFS": "Tales from the Shadows",
+            "TLT": "The Tortured Land",
+            "TMFRV": "Tales of the Margreve",
+            "TTP": "The Tortle Package",
+            "ToA": "Tomb of Annihilation",
+            "VGM": "Volo's Guide to Monsters",
+            "W": "Wrath of the Bramble King",
+            "W1": "Pride of the Mushroom Queen",
+            "W2": "Warlock 7",
+            "W3": "Warlock 17",
+            "W4": "Warlock 22: Druids",
+            "W5": "Warlock 32",
+            "W6": "Warlock 34",
+            "W7": "Warlock Bestiary",
+            "W8": "Warlock Lair: The Returners' Tower",
+            "W9": "Warlock Lair: The Dark Aerie",
+            "WDH": "Waterdeep: Dragon Heist",
+            "WGE": "Wayfinder's Guide to Eberron",
+            "WLA": "Wilderland Adventures",
+            "WLL": "Warlock Lairs: Into the Wilds",
+            "WRKF": "Wrath of the River King",
+            "WS": "Shadows Envy",
+            "WSC": "The Wild Sheep Chase",
+            "XGE": "Xanathar's Guide to Everything",
+        }
         for slug, info in pdf_map.items():
             title = info.get("title", slug)
-            display = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+            display = _slug_displays.get(slug) or re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
             _source_slug_cache[slug] = {
                 "title": title,
                 "display": display,

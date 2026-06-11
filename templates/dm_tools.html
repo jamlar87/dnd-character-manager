@@ -873,11 +873,16 @@ async function _loadSourceSlugs() {
   try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
   catch(e) { _sourceSlugLookup = {}; }
 }
-async function openSourceRef(src) {
+async function openSourceRef(src, slug) {
   if (!src) return;
-  if (!_sourceSlugLookup) await _loadSourceSlugs();
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
+  // If we have a direct slug, use it immediately — no matching needed
+  if (slug) {
+    window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+    return;
+  }
+  if (!_sourceSlugLookup) await _loadSourceSlugs();
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
   // Try slug match first (e.g., "PHB", "DMG")
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
@@ -895,7 +900,19 @@ async function openSourceRef(src) {
   }
   // Fallback: substring match
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
-    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
+    const d = info.display.toLowerCase();
+    const b = bookPart.toLowerCase();
+    if (d.includes(b) || b.includes(d)) {
+      window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
+      return;
+    }
+  }
+  // Last resort: normalized match (strip all non-alphanumeric)
+  const norm = s => s.replace(/[^a-z0-9]/g, '');
+  const bNorm = norm(bookPart);
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    const dNorm = norm(info.display);
+    if (dNorm.includes(bNorm) || bNorm.includes(dNorm)) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }

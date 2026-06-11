@@ -477,10 +477,12 @@ function _shortSrc(src) {
   return src.length > 20 ? src.slice(0,18)+'…' : src;
 }
 
-function _srcBadge(src) {
+function _srcBadge(src, slug) {
   if (!src) return '';
   const short = _shortSrc(src);
-  return `<span class="src-badge" onclick="openSourceRef('${src.replace(/'/g, "\\'")}')" title="Click to open ${src}">📚 ${short}</span>`;
+  const safeSrc = src.replace(/'/g, "\\'");
+  const safeSlug = slug ? slug.replace(/'/g, "\\'") : '';
+  return `<span class="src-badge" onclick="openSourceRef('${safeSrc}', '${safeSlug}')" title="Click to open ${src}">📚 ${short}</span>`;
 }
 
 // Source → slug lookup (loaded on page init)
@@ -492,11 +494,16 @@ async function _loadSourceSlugs() {
     _sourceSlugLookup = await r.json();
   } catch(e) { _sourceSlugLookup = {}; }
 }
-function openSourceRef(src) {
+function openSourceRef(src, slug) {
   if (!src || src === 'SRD 5.1') return;  // SRD has no PDF
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
-  // Strip page for book name matching
+  // If we have a direct slug, use it immediately — no matching needed
+  if (slug) {
+    window.open(`/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`, '_blank');
+    return;
+  }
+  // Fallback: match source string to known displays
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
   if (!_sourceSlugLookup) return;
   // Try slug match first (e.g., "PHB", "DMG")
@@ -517,8 +524,20 @@ function openSourceRef(src) {
   }
   // Fuzzy: check if display contains bookPart or vice versa
   for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
-    if (info.display.toLowerCase().includes(bookPart.toLowerCase()) ||
-        bookPart.toLowerCase().includes(info.display.toLowerCase())) {
+    const d = info.display.toLowerCase();
+    const b = bookPart.toLowerCase();
+    if (d.includes(b) || b.includes(d)) {
+      const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
+      window.open(url, '_blank');
+      return;
+    }
+  }
+  // Last resort: normalized match (strip all non-alphanumeric)
+  const norm = s => s.replace(/[^a-z0-9]/g, '');
+  const bNorm = norm(bookPart);
+  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+    const dNorm = norm(info.display);
+    if (dNorm.includes(bNorm) || bNorm.includes(dNorm)) {
       const url = `/api/reference/open/${slug}${page ? '?page='+page+'#page='+page : ''}`;
       window.open(url, '_blank');
       return;
@@ -531,7 +550,7 @@ function buildRaces() {
   const grid = document.getElementById('race-grid');
   grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
     <div class="option-card" data-name="${name}" onclick="selectRace('${name}')">
-      <div class="name">${name}${r.source ? ` ${_srcBadge(r.source)}` : ''}</div>
+      <div class="name">${name}${r.source ? ` ${_srcBadge(r.source, r._source_slug)}` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
     </div>`).join('');
 }
