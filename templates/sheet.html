@@ -394,10 +394,9 @@
       <button id="delevel-btn" onclick="openDeLevel()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">🔻 De-Level</button>
       {% endif %}
     </div>
-    {% if character.personality or character.backstory %}
+    {% if character.personality %}
     <div style="margin-top:0.5rem;font-size:0.85rem">
       {% if character.personality %}<p style="color:var(--accent);margin:0" class="editable" data-field="personality">{{ character.personality }}</p>{% endif %}
-      {% if character.backstory %}<p style="color:var(--text-muted);margin:0.25rem 0 0 0;font-style:italic" class="editable" data-field="backstory">{{ character.backstory }}</p>{% endif %}
     </div>
     {% endif %}
   </div>
