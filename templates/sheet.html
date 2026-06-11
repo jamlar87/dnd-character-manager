@@ -523,7 +523,7 @@
         {% for label, stat in stats %}
         {% set score = character[stat] %}
         {% set mod = (score - 10) // 2 %}
-        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}">
+        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
           <div class="ab-name">{{ label }}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
           <div class="ab-score editable" data-ability="{{ stat }}" data-label="{{ label }}">{{ score }}</div>
@@ -3237,6 +3237,27 @@ function showActionDetail(action) {
   const body = document.getElementById('popup-body');
   const desc = ACTION_DESCRIPTIONS[action] || 'No description available.';
   title.textContent = action;
+  body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
+  popup.style.display = 'flex';
+}
+
+// ── Ability Score Descriptions ──
+const ABILITY_DESCRIPTIONS = {
+  strength: "Measures bodily power, athletic training, and the extent to which you can exert raw physical force. Strength checks include forcing open a stuck door, pushing through a tight tunnel, hanging onto a wagon while being dragged, tipping over a statue, or keeping a boulder from rolling. The Athletics skill reflects aptitude in certain kinds of Strength checks. Your Strength score determines your carrying capacity (Strength × 15 lbs) and how much you can push, drag, or lift. Most melee weapons use Strength for attack and damage rolls. (PHB p.175–176)",
+  dexterity: "Measures agility, reflexes, and balance. Dexterity checks include staying on your feet on a rocking ship, picking a lock, disabling a trap, securely tying up a prisoner, playing a stringed instrument, or crafting a small or detailed object. The Acrobatics, Sleight of Hand, and Stealth skills reflect aptitude in certain kinds of Dexterity checks. Your Dexterity modifier contributes to your Armor Class (up to your armor's limit), initiative rolls, and attack and damage rolls with ranged and finesse weapons. (PHB p.176–177)",
+  constitution: "Measures health, stamina, and vital force. Constitution checks include holding your breath, marching or laboring for hours without rest, going without sleep, surviving without food or water, or drinking an entire stein of ale in one go. No skills apply directly to Constitution checks, but Constitution is critical for maintaining concentration on spells (Constitution saving throw when you take damage). Your Constitution modifier is added to your hit point maximum each time you gain a level. (PHB p.177)",
+  intelligence: "Measures mental acuity, accuracy of recall, and the ability to reason. Intelligence checks include piecing together clues, recalling lore about a craft or trade, winning a game of skill, estimating the value of an item, forging a document, or communicating with a creature without using words. The Arcana, History, Investigation, Nature, and Religion skills reflect aptitude in certain kinds of Intelligence checks. Wizards use Intelligence for spellcasting. (PHB p.177–178)",
+  wisdom: "Measures how attuned you are to the world around you and represents perceptiveness and intuition. Wisdom checks include reading body language, understanding someone's feelings, noticing things in the environment, caring for an injured person, discerning the weather, or following tracks. The Animal Handling, Insight, Medicine, Perception, and Survival skills reflect aptitude in certain kinds of Wisdom checks. Clerics, Druids, and Rangers use Wisdom for spellcasting. (PHB p.178)",
+  charisma: "Measures your ability to interact effectively with others — confidence, eloquence, and leadership. Charisma checks include persuading someone to do you a favor, winning a duel of wits, finding the best person to talk to for information, blending into a crowd, or delivering a speech to an audience. The Deception, Intimidation, Performance, and Persuasion skills reflect aptitude in certain kinds of Charisma checks. Bards, Paladins, Sorcerers, and Warlocks use Charisma for spellcasting. (PHB p.178–179)"
+};
+
+function showAbilityPopup(stat, label) {
+  if (document.body.classList.contains('edit-mode')) return;
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+  const desc = ABILITY_DESCRIPTIONS[stat] || 'No description available.';
+  title.textContent = label + ' — ' + stat.charAt(0).toUpperCase() + stat.slice(1);
   body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
   popup.style.display = 'flex';
 }
