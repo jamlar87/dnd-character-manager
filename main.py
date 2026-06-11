@@ -6836,9 +6836,10 @@ async def create_relationship(char_id: int, request: Request):
     rel_type = data.get("relationship_type", "ally")
     description = data.get("description", "")
     npc_data = data.get("npc_data", {})
+    ai_gen = 1 if data.get("ai_generated") else 0
     cursor = db.execute(
-        "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, npc_data, ai_generated) VALUES (?,?,?,?,?,?,0)",
-        (char_id, user["id"], name, rel_type, description, json.dumps(npc_data))
+        "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, npc_data, ai_generated) VALUES (?,?,?,?,?,?,?)",
+        (char_id, user["id"], name, rel_type, description, json.dumps(npc_data), ai_gen)
     )
     rel_id = cursor.lastrowid
     db.commit()
@@ -6888,16 +6889,15 @@ async def generate_relationship(char_id: int, request: Request):
             npc_data = {"race": ai_json.get("race", ""), "class": ai_json.get("class", ""), "level": ai_json.get("level", 1)}
         except (json.JSONDecodeError, AttributeError):
             description = ai_text[:500]
-    db = get_db()
-    cursor = db.execute(
-        "INSERT INTO character_relationships (character_id, user_id, name, relationship_type, description, prompt, npc_data, ai_generated) VALUES (?,?,?,?,?,?,?,1)",
-        (char_id, user["id"], name, rel_type, description, prompt, json.dumps(npc_data))
-    )
-    rel_id = cursor.lastrowid
-    db.commit()
-    rel_row = dict(db.execute("SELECT * FROM character_relationships WHERE id = ?", (rel_id,)).fetchone())
-    db.close()
-    return JSONResponse(rel_row)
+    # Return generated data only — frontend calls /relationships to save
+    return JSONResponse({
+        "name": name,
+        "description": description,
+        "npc_data": npc_data,
+        "prompt": prompt,
+        "relationship_type": rel_type,
+        "ai_generated": True,
+    })
 
 @app.put("/api/character/{char_id}/relationships/{rel_id}", response_class=JSONResponse)
 async def update_relationship(char_id: int, rel_id: int, request: Request):

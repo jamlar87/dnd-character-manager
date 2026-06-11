@@ -5720,6 +5720,7 @@ function renderRelationships() {
 }
 
 function openAddRelationship() {
+  relGeneratedData = null;
   document.getElementById('rel-modal-title').textContent = 'Add Relationship';
   document.getElementById('rel-type').value = 'ally';
   document.getElementById('rel-name').value = '';
@@ -5742,6 +5743,8 @@ function toggleRelAIMode() {
   document.getElementById('rel-manual-fields').style.display = ai ? 'none' : '';
 }
 
+let relGeneratedData = null;  // cached AI-generated NPC data for Save
+
 async function generateRelationship() {
   const prompt = document.getElementById('rel-prompt').value.trim();
   if (!prompt) { alert('Describe the NPC you want'); return; }
@@ -5760,6 +5763,7 @@ async function generateRelationship() {
     });
     const result = await resp.json();
     if (result.error) { alert(result.error); return; }
+    relGeneratedData = result;  // cache for Save
     document.getElementById('rel-name').value = result.name;
     document.getElementById('rel-desc').value = result.description || '';
     document.getElementById('rel-use-ai').checked = false;
@@ -5775,17 +5779,23 @@ async function saveRelationship() {
   const desc = document.getElementById('rel-desc').value.trim();
   const prompt = document.getElementById('rel-prompt').value.trim();
   if (!name && !desc) { alert('Enter a name or description'); return; }
+  const body = {
+    name: name || prompt.substring(0, 50),
+    relationship_type: document.getElementById('rel-type').value,
+    description: desc,
+    prompt: prompt,
+  };
+  if (relGeneratedData) {
+    body.npc_data = relGeneratedData.npc_data;
+    body.ai_generated = true;
+  }
   try {
     await fetch(`/api/character/${CHAR_ID}/relationships`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: name || prompt.substring(0, 50),
-        relationship_type: document.getElementById('rel-type').value,
-        description: desc,
-        prompt: prompt,
-      }),
+      body: JSON.stringify(body),
     });
+    relGeneratedData = null;
     closeRelModal();
     loadRelationships();
   } catch(e) { console.error(e); }
