@@ -1180,6 +1180,30 @@
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
               <span><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if 'Fighting Style' in feat.name and character.fighting_style %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{{ character.fighting_style|replace('_',' ')|title }}</span>
+                {% endif %}
+                {% if feat.name == 'Expertise' and character.expertise_skills %}
+                {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
+                <span style="font-size:0.65rem;color:var(--success);font-weight:500;margin-left:0.3rem">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+                {% set ns.expertise_idx = ns.expertise_idx + 1 %}
+                {% endif %}
+                {% if 'Ability Score Improvement' in feat.name and character.asi_history %}
+                {% set lvl_num = feat.level|replace('L','')|int %}{% set asi_entry = None %}
+                {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set asi_entry = ae %}{% endif %}{% endfor %}
+                {% if asi_entry %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">
+                {% if asi_entry.type == 'feat' %}{{ asi_entry.feat|replace('_',' ')|title }}
+                {% else %}{% for ab, amt in asi_entry.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+                {% endif %}</span>
+                {% endif %}
+                {% endif %}
+                {% if feat.name == 'Combat Superiority' and character.maneuvers %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for m in character.maneuvers %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+                {% endif %}
+                {% if feat.name == 'Infuse Item' and character.infusions %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+                {% endif %}
                 {% if feat.source %}
                 <span class="source-badge" style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem" title="Source: {{ feat.source }}">{{ feat.source }}</span>
                 {% endif %}
