@@ -1170,6 +1170,18 @@
               {% if feat.name == 'Second Wind' and class_levels and class_levels.get('Fighter') %}{% set ftr_lvl = class_levels.get('Fighter')|int %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">1d10+{{ ftr_lvl }}</span>
               {% endif %}
+              {% if feat.name == 'Improved Critical' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">19-20</span>
+              {% endif %}
+              {% if feat.name == 'Superior Critical' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">18-20</span>
+              {% endif %}
+              {% if feat.name == 'Divine Smite' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+1d8 vs undead</span>
+              {% endif %}
+              {% if feat.name == 'Breath Weapon' %}{% set con_mod = (character.constitution - 10) // 2 %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bw_dice }}, DC {{ breath_dc }}</span>
+              {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.asi_feat_desc or feat.description or 'No description available.' }}</div>
