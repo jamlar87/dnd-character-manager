@@ -1124,12 +1124,13 @@
               {% set ns.expertise_idx = ns.expertise_idx + 1 %}
               {% endif %}
               {% if 'Ability Score Improvement' in feat.name and character.asi_history %}
-              {% set lvl_num = feat.level|replace('L','')|int %}{% set asi_entry = None %}
-              {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set asi_entry = ae %}{% endif %}{% endfor %}
-              {% if asi_entry %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set ns.asi_match = None %}
+              {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set ns.asi_match = ae %}{% endif %}{% endfor %}
+              {% if ns.asi_match %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">
-              {% if asi_entry.type == 'feat' %}{{ asi_entry.feat|replace('_',' ')|title }}
-              {% else %}{% for ab, amt in asi_entry.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+              {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
+              {% else %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
               {% endif %}</span>
               {% endif %}
               {% endif %}
@@ -1188,12 +1189,13 @@
                 {% set ns.expertise_idx = ns.expertise_idx + 1 %}
                 {% endif %}
                 {% if 'Ability Score Improvement' in feat.name and character.asi_history %}
-                {% set lvl_num = feat.level|replace('L','')|int %}{% set asi_entry = None %}
-                {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set asi_entry = ae %}{% endif %}{% endfor %}
-                {% if asi_entry %}
+                {% set lvl_num = feat.level|replace('L','')|int %}
+                {% set ns.asi_match = None %}
+                {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set ns.asi_match = ae %}{% endif %}{% endfor %}
+                {% if ns.asi_match %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">
-                {% if asi_entry.type == 'feat' %}{{ asi_entry.feat|replace('_',' ')|title }}
-                {% else %}{% for ab, amt in asi_entry.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+                {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
+                {% else %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
                 {% endif %}</span>
                 {% endif %}
                 {% endif %}
