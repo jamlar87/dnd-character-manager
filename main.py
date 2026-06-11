@@ -528,7 +528,10 @@ def load_manual_data():
         # Skip base progression entries (name == class) — they carry base features,
         # not a real subclass choice. Still extract features/descriptions below.
         _is_base_progression = (sc_name == parent_class)
-        if sc_name not in subs and not _is_base_progression:
+        # Skip subclasses whose name is itself a known base class (e.g. "Wanderer"
+        # extracted as a Ranger subclass, but Wanderer is an AiME standalone class).
+        _is_known_class = (sc_name in CLASSES and sc_name != parent_class)
+        if sc_name not in subs and not _is_base_progression and not _is_known_class:
             subs.append(sc_name)
         descs[sc_name] = sc.get("description", "")
         sc_source = sc.get("source", "")
