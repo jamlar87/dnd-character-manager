@@ -1160,7 +1160,7 @@
               {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
-            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.description or 'No description available.' }}</div>
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.asi_feat_desc or feat.description or 'No description available.' }}</div>
           </div>
           {% endfor %}
         </div>
@@ -1238,7 +1238,7 @@
               </span>
             </div>
             <div class="feat-body">
-              {{ feat.description or 'No description available.' }}
+              {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
               {% if feat.sub_options %}
               <div style="margin-top:0.6rem;border-top:1px solid var(--border);padding-top:0.4rem">
                 {% for sub in feat.sub_options %}

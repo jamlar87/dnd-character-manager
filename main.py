@@ -5871,6 +5871,24 @@ async def character_sheet(char_id: int, request: Request):
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Enrich ASI features with feat descriptions when a feat was taken
+    if char.get("asi_history"):
+        for _feat in char["feature_data"]:
+            if not isinstance(_feat, dict):
+                continue
+            if "Ability Score Improvement" in _feat.get("name", ""):
+                _lvl_str = _feat.get("level", "").replace("L", "")
+                try:
+                    _lvl_num = int(_lvl_str)
+                except (ValueError, TypeError):
+                    continue
+                for _ae in char["asi_history"]:
+                    if _ae.get("level") == _lvl_num and _ae.get("type") == "feat":
+                        _fkey = _ae.get("feat", "")
+                        _finfo = FEATS.get(_fkey, {})
+                        _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
+                        _feat["asi_feat_desc"] = _finfo.get("desc", "") or _finfo.get("description", "")
+                        break
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
         if isinstance(_feat, dict) and not _feat.get("pool_kind"):
