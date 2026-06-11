@@ -278,6 +278,7 @@ def load_manual_data():
             "Lizardfolk": {"base_ac": 13, "uncapped": True},
             "Loxodon": {"base_ac": 12, "stat": "constitution", "uncapped": True},
             "Tortle": {"base_ac": 17},
+            "Tlincalli": {"base_ac": 13, "uncapped": True},
         }
         if name in _na_fixes:
             RACES[name]["natural_armor"] = _na_fixes[name]
@@ -520,7 +521,10 @@ def load_manual_data():
         subs = CLASSES[parent_class].setdefault("subclasses", [])
         descs = CLASSES[parent_class].setdefault("subclass_descs", {})
         srcs = CLASSES[parent_class].setdefault("_subclass_sources", {})
-        if sc_name not in subs:
+        # Skip base progression entries (name == class) — they carry base features,
+        # not a real subclass choice. Still extract features/descriptions below.
+        _is_base_progression = (sc_name == parent_class)
+        if sc_name not in subs and not _is_base_progression:
             subs.append(sc_name)
         descs[sc_name] = sc.get("description", "")
         sc_source = sc.get("source", "")
@@ -576,6 +580,19 @@ def load_manual_data():
                                 "class": parent_class, "per": "fixed"}
             if by_level and sc_name not in SUBCLASS_FEATURES:
                 SUBCLASS_FEATURES[sc_name] = by_level
+    # Merge base progression features (name == class) into all subclasses
+    # so AiME classes like Slayer/Warden get their base features regardless of subclass.
+    for parent_cls in list(SUBCLASS_FEATURES.keys()):
+        if parent_cls in CLASSES:
+            base_feats = SUBCLASS_FEATURES.get(parent_cls, {})
+            if base_feats:
+                for sc_name in CLASSES[parent_cls].get("subclasses", []):
+                    if sc_name != parent_cls and sc_name in SUBCLASS_FEATURES:
+                        for lvl, names in base_feats.items():
+                            existing = SUBCLASS_FEATURES[sc_name].setdefault(lvl, [])
+                            for n in names:
+                                if n not in existing:
+                                    existing.append(n)
     if manual_subclasses:
         print(f"  + Subclasses: {len(manual_subclasses)}")
 
