@@ -11879,7 +11879,7 @@ async def ai_generate_background(request: Request):
     skills = data.get("skills", [])
     alignment = data.get("alignment", "")
 
-    prompt = f"""Create a UNIQUE D&D 5e custom background for this character. Do NOT use any of the 13 standard PHB backgrounds (Acolyte, Charlatan, Criminal, Entertainer, Folk Hero, Guild Artisan, Hermit, Noble, Outlander, Sage, Sailor, Soldier, Urchin). Invent something new and specific to this character.
+    prompt = f"""Create a UNIQUE D&D 5e custom background for this character. Do NOT use any of the {len(BACKGROUNDS)} standard backgrounds. Invent something new and specific to this character.
 
 Race: {race}{' (' + subrace + ')' if subrace else ''}
 Class: {class_name}{' — ' + subclass if subclass else ''}
@@ -12530,6 +12530,8 @@ async def search_items(q: str = "", limit: int = 200):
                 "type": item["type"],
                 "rarity": item.get("rarity", ""),
                 "source": item.get("source", ""),
+                "cost": item.get("cost", ""),
+                "weight": item.get("weight"),
             })
             if len(results) >= limit:
                 break
@@ -12541,6 +12543,8 @@ async def search_items(q: str = "", limit: int = 200):
                     "type": item["type"],
                     "rarity": item.get("rarity", ""),
                     "source": item.get("source", ""),
+                    "cost": item.get("cost", ""),
+                    "weight": item.get("weight"),
                 })
                 if len(results) >= limit:
                     break
@@ -12580,16 +12584,28 @@ MANUALS_BASE = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals")
 
 @app.get("/api/reference/manuals", response_class=JSONResponse)
 async def list_manuals(request: Request):
-    """List available reference manuals. No auth required."""
-    if not MANUALS_BASE.exists():
-        return JSONResponse({"manuals": [], "warning": "Manual directory not found"})
+    """List available reference manuals — PDFs on disk + all ingested manuals. No auth."""
     import glob
-    pdfs = sorted(glob.glob(str(MANUALS_BASE / "*.pdf")) + glob.glob(str(MANUALS_BASE / "*/*.pdf")))
-    return JSONResponse({
-        "count": len(pdfs),
-        "manuals": [Path(p).name for p in pdfs],
-        "path": str(MANUALS_BASE),
-    })
+    result = {"count": 0, "manuals": [], "ingested": [], "path": str(MANUALS_BASE)}
+
+    # 1. PDFs in the manuals directory
+    if MANUALS_BASE.exists():
+        pdfs = sorted(glob.glob(str(MANUALS_BASE / "*.pdf")) + glob.glob(str(MANUALS_BASE / "*/*.pdf")))
+        result["manuals"] = [Path(p).name for p in pdfs]
+        result["count"] = len(pdfs)
+
+    # 2. Full ingested manual metadata from _meta.json
+    meta = _load_manual_json("_meta.json")
+    if isinstance(meta, dict):
+        pdf_map = meta.get("pdf_map", {})
+        result["ingested"] = [
+            {"slug": slug, "title": info.get("title", ""), "filename": info.get("filename", ""),
+             "path": info.get("path", "")}
+            for slug, info in sorted(pdf_map.items(), key=lambda x: x[1].get("title", "").lower())
+        ]
+        result["ingested_count"] = len(result["ingested"])
+
+    return JSONResponse(result)
 
 @app.post("/api/reference/query", response_class=JSONResponse)
 async def query_reference(request: Request):
