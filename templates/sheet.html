@@ -374,14 +374,14 @@
         <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
         {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
         {% if character.fighting_style %}<span class="badge" style="background:rgba(255,165,0,0.15);border:1px solid #ffa500;color:#ffa500;font-size:0.65rem;cursor:help" title="{{ character.fighting_style }}">{{ character.fighting_style|replace('_',' ')|title }}</span>{% endif %}
-        {% if character.metamagic and character.metamagic != '[]' %}<span class="badge" style="background:rgba(138,43,226,0.12);border:1px solid #8a2be2;color:#c084fc;font-size:0.65rem;cursor:help" title="{{ character.metamagic }}">Metamagic</span>{% endif %}
-        {% if character.invocations and character.invocations != '[]' %}<span class="badge" style="background:rgba(139,0,139,0.12);border:1px solid #8b008b;color:#da70d6;font-size:0.65rem;cursor:help" title="{{ character.invocations }}">Invocations</span>{% endif %}
+        {% if character.metamagic %}<span class="badge" style="background:rgba(138,43,226,0.12);border:1px solid #8a2be2;color:#c084fc;font-size:0.65rem;cursor:help" title="{{ character.metamagic|join(', ') }}">Metamagic</span>{% endif %}
+        {% if character.invocations %}<span class="badge" style="background:rgba(139,0,139,0.12);border:1px solid #8b008b;color:#da70d6;font-size:0.65rem;cursor:help" title="{{ character.invocations|join(', ') }}">Invocations</span>{% endif %}
         {% if character.pact_boon %}<span class="badge" style="background:rgba(75,0,130,0.12);border:1px solid #4b0082;color:#9370db;font-size:0.65rem;cursor:help" title="{{ character.pact_boon }}">Pact: {{ character.pact_boon|replace('_',' ')|title }}</span>{% endif %}
-        {% if character.maneuvers and character.maneuvers != '[]' %}<span class="badge" style="background:rgba(178,34,34,0.12);border:1px solid #b22222;color:#f08080;font-size:0.65rem;cursor:help" title="{{ character.maneuvers }}">Maneuvers</span>{% endif %}
-        {% if character.magical_secrets and character.magical_secrets != '[]' %}<span class="badge" style="background:rgba(220,20,60,0.12);border:1px solid #dc143c;color:#ff69b4;font-size:0.65rem;cursor:help" title="{{ character.magical_secrets }}">Magical Secrets</span>{% endif %}
-        {% if character.totem_spirits and character.totem_spirits != '{}' %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="{{ character.totem_spirits }}">Totem</span>{% endif %}
+        {% if character.maneuvers %}<span class="badge" style="background:rgba(178,34,34,0.12);border:1px solid #b22222;color:#f08080;font-size:0.65rem;cursor:help" title="{{ character.maneuvers|join(', ') }}">Maneuvers</span>{% endif %}
+        {% if character.magical_secrets %}<span class="badge" style="background:rgba(220,20,60,0.12);border:1px solid #dc143c;color:#ff69b4;font-size:0.65rem;cursor:help" title="{{ character.magical_secrets|join(', ') }}">Magical Secrets</span>{% endif %}
+        {% if character.totem_spirits %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="{{ character.totem_spirits.values()|join(', ') }}">Totem</span>{% endif %}
         {% if character.hunters_prey %}<span class="badge" style="background:rgba(0,100,0,0.12);border:1px solid #006400;color:#2e8b57;font-size:0.65rem;cursor:help" title="{{ character.hunters_prey }}">Hunter: {{ character.hunters_prey|replace('_',' ')|title }}</span>{% endif %}
-        {% if character.infusions and character.infusions != '[]' %}<span class="badge" style="background:rgba(184,134,11,0.12);border:1px solid #b8860b;color:#daa520;font-size:0.65rem;cursor:help" title="{{ character.infusions }}">Infusions</span>{% endif %}
+        {% if character.infusions %}<span class="badge" style="background:rgba(184,134,11,0.12);border:1px solid #b8860b;color:#daa520;font-size:0.65rem;cursor:help" title="{{ character.infusions|join(', ') }}">Infusions</span>{% endif %}
         {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
@@ -1133,6 +1133,30 @@
               {% else %}{% for ab, amt in asi_entry.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
               {% endif %}</span>
               {% endif %}
+              {% endif %}
+              {% if feat.name == 'Metamagic' and character.metamagic %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for m in character.metamagic %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == 'Eldritch Invocations' and character.invocations %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.invocations %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == 'Pact Boon' and character.pact_boon %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.pact_boon|replace('_',' ')|title }}</span>
+              {% endif %}
+              {% if feat.name == 'Combat Superiority' and character.maneuvers %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for m in character.maneuvers %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == 'Magical Secrets' and character.magical_secrets %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for s in character.magical_secrets %}{% if not loop.first %}, {% endif %}{{ s }}{% endfor %}</span>
+              {% endif %}
+              {% if (feat.name == 'Spirit Seeker' or feat.name == 'Totem Spirit') and character.totem_spirits %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for lvl, choice in character.totem_spirits.items() %}{% if not loop.first %}, {% endif %}{{ choice|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == \"Hunter's Prey\" and character.hunters_prey %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.hunters_prey|replace('_',' ')|title }}</span>
+              {% endif %}
+              {% if feat.name == 'Infuse Item' and character.infusions %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
               {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>

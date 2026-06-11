@@ -5844,11 +5844,17 @@ async def character_sheet(char_id: int, request: Request):
     char = dict(row)
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
-              "expertise_skills", "asi_history"):
+              "expertise_skills", "asi_history",
+              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
             char[f] = []
+    # totem_spirits is a dict, not a list
+    try:
+        char["totem_spirits"] = json.loads(char.get("totem_spirits", "{}"))
+    except (json.JSONDecodeError, TypeError):
+        char["totem_spirits"] = {}
     # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
     char["equipped"] = _normalize_equipped(char["equipped"])
     # Load attuned_items
