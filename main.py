@@ -3044,13 +3044,17 @@ ARMOR_PROFICIENCY_MAP = {
     "Shield": "Shields",
 }
 
-# Build fallback armor name index once at module load
+# Build fallback armor name index once at module load (from SRD equipment, not ITEM_INDEX)
 _ARMOR_LOOKUP = {}
-for _k, _v in ITEM_INDEX.items():
-    _ec = (_v.get("equipment_category") or {}).get("name", "")
-    _ac = _v.get("armor_category", "")
-    if _ec == "Armor" and _ac != "Shield":
-        _ARMOR_LOOKUP[_k] = _v
+_ARMOR_STATS = {}  # full equipment_category/armor_category for AC calc
+for _item in SRD_EQUIPMENT:
+    _ec = (_item.get("equipment_category") or {}).get("name", "")
+    _ac = _item.get("armor_category", "")
+    _name = _item.get("name", "").lower()
+    if _ec == "Armor" and _ac != "Shield" and _name:
+        _ARMOR_LOOKUP[_name] = _item
+    if _name:
+        _ARMOR_STATS[_name] = _item
 
 
 def _normalize_armor_profs(raw: list | str | None) -> set[str]:
@@ -3119,13 +3123,13 @@ def get_character_armor_profs(char: dict, class_levels: dict = None) -> set[str]
 
 
 def _resolve_armor_item(eq_lower: str) -> dict | None:
-    """Look up armor item in ITEM_INDEX, with longest-substring fallback for magic variants."""
-    item = ITEM_INDEX.get(eq_lower)
+    """Look up armor item in SRD equipment data, with longest-substring fallback for magic variants."""
+    item = _ARMOR_STATS.get(eq_lower)
     if item:
         ec = (item.get("equipment_category") or {}).get("name", "")
         if ec == "Armor":
             return item
-    # Fallback: match against known SRD armor names
+    # Fallback: match against known SRD armor names (longest first for magic armor)
     best_match = None
     best_len = 0
     for ak, ai in _ARMOR_LOOKUP.items():
@@ -6359,28 +6363,13 @@ async def character_sheet(char_id: int, request: Request):
         if max_dex is not None:
             natural_ac += min(char["dexterity_mod"], max_dex)
 
-    # Calculate AC from equipped armor/shield (uses ITEM_INDEX for SRD stats)
+    # Calculate AC from equipped armor/shield (uses SRD equipment data)
     equipped_names = _equipped_names(char.get("equipped", []))
     armor_ac = None
     shield_bonus = 0
-    # Build fallback list of known SRD armor names (for matching magic variants)
-    _armor_names = {k: v for k, v in ITEM_INDEX.items()
-                    if (v.get("equipment_category") or {}).get("name") == "Armor"
-                    and v.get("armor_category") != "Shield"}
     for eq_name in equipped_names:
         eq_lower = eq_name.lower().strip()
-        item = ITEM_INDEX.get(eq_lower)
-        if not item:
-            # Fallback: match magic armor against known SRD armor names
-            # Prefer longest match (e.g. "studded leather armor" > "leather armor")
-            best_match = None
-            best_len = 0
-            for armor_key, armor_item in _armor_names.items():
-                if armor_key in eq_lower and len(armor_key) > best_len:
-                    best_match = armor_item
-                    best_len = len(armor_key)
-            if best_match:
-                item = best_match
+        item = _resolve_armor_item(eq_lower)
         if not item:
             continue
         cat = (item.get("equipment_category") or {}).get("name", "")
@@ -6394,19 +6383,16 @@ async def character_sheet(char_id: int, request: Request):
             dex_mod = char.get("dexterity_mod", 0)
 
             if dex_flag is True:
-                # Light armor: full DEX
                 computed = base + dex_mod
             elif isinstance(dex_flag, (int, float)) and dex_flag:
-                # Medium armor: DEX capped at max_bonus (usually 2)
                 cap = max_bonus if max_bonus is not None else dex_flag
                 computed = base + min(dex_mod, cap)
             else:
-                # Heavy armor: no DEX
                 computed = base
 
             if armor_ac is None or computed > armor_ac:
                 armor_ac = computed
-        elif armor_cat == "Shield" or eq_name.lower().strip() == "shield":
+        elif armor_cat == "Shield" or eq_lower == "shield":
             shield_bonus = 2
 
     # Determine final AC: armor > natural armor > base 10 + DEX
