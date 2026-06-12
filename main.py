@@ -7091,7 +7091,8 @@ async def character_sheet(char_id: int, request: Request):
                    campaign_info=campaign_info,
                    racial_traits=_build_racial_traits(char),
                    draconic_ancestries=DRACONIC_ANCESTRIES,
-                   maneuver_options=MANEUVER_OPTIONS)
+                   maneuver_options=MANEUVER_OPTIONS,
+                   metamagic_options=METAMAGIC_OPTIONS)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
