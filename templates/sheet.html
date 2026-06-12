@@ -1445,7 +1445,7 @@
             <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.school %}
-            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
+            <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.concentration %}
             <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
@@ -1501,7 +1501,7 @@
               <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent)">{{ sp.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.6rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.ritual %}
               <span class="badge badge-muted" style="font-size:0.6rem">Ritual</span>
@@ -1617,7 +1617,7 @@
             <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
               <strong>{{ cname }}</strong>
               {% if cspell and cspell.srd and cspell.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ cspell.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ cspell.srd.school }}</span>
               {% endif %}
             </div>
             {% if cspell and cspell.srd %}
@@ -1648,7 +1648,7 @@
             <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
               <strong style="color:var(--accent)">{{ mi.spell }}</strong>
               {% if l1spell and l1spell.srd and l1spell.srd.school %}
-              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ l1spell.srd.school }}</span>
+              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ l1spell.srd.school }}</span>
               {% endif %}
               {% if l1spell and l1spell.srd and l1spell.srd.concentration %}
               <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
@@ -3127,7 +3127,7 @@ async function togglePrepared(spellId, checkbox) {
       const name = spellRow ? spellRow.querySelector('strong').textContent : 'Spell';
       const lvlBadge = spellRow ? spellRow.querySelector('.badge-muted') : null;
       const lvl = lvlBadge ? lvlBadge.textContent : '';
-      const schoolBadge = spellRow ? spellRow.querySelector('[style*="var(--accent2)"]') : null;
+      const schoolBadge = spellRow ? spellRow.querySelector('[style*="var(--border)"]') : null;
       const concBadge = spellRow ? spellRow.querySelector('[style*="var(--warn)"]') : null;
       
       // Remove "no spells" message if present
