@@ -11440,11 +11440,17 @@ def enrich_spells(spells: list[dict], character_level: int | None = None) -> Non
         name = sp.get("spell_name", "")
         srd = srd_lookup.get(name.lower())
         if srd:
+            # Normalize manual spell formats (description→desc, higher_levels→higher_level)
+            _desc = srd.get("desc") or srd.get("description", "")
+            _higher = srd.get("higher_level") or srd.get("higher_levels", "")
+            _components = srd.get("components", [])
+            if isinstance(_components, str):
+                _components = [c.strip() for c in _components.split(",") if c.strip()]
             sp["srd"] = {
-                "desc": srd.get("desc", []),
-                "higher_level": srd.get("higher_level", []),
+                "desc": _desc if isinstance(_desc, list) else ([_desc] if _desc else []),
+                "higher_level": _higher if isinstance(_higher, list) else ([_higher] if _higher else []),
                 "range": srd.get("range", ""),
-                "components": srd.get("components", []),
+                "components": _components,
                 "material": srd.get("material", ""),
                 "ritual": srd.get("ritual", False),
                 "duration": srd.get("duration", ""),
