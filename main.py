@@ -2693,6 +2693,13 @@ for _sr_name, _parent, _src_override, _entry_name in _SUBRACE_MIGRATIONS:
         elif _entry and _entry.get("source"):
             SUBRACE_SOURCES[_sr_name] = _entry.get("source", "")
 
+    # 6. Populate RACES[parent].subrace_descs (used by detail modal)
+    _sr_desc = RICH_SUBRACE_DESCS.get(_sr_name, "")
+    if not _sr_desc and _entry:
+        _sr_desc = _entry.get("description", "")
+    if _sr_desc and _sr_name not in RACES[_parent].get("subrace_descs", {}):
+        RACES[_parent].setdefault("subrace_descs", {})[_sr_name] = _sr_desc
+
 # Re-attach _subrace_sources (must include newly added subraces)
 for _r_name, _r in RACES.items():
     srcs = {}
