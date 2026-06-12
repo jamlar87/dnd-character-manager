@@ -1181,8 +1181,6 @@ async function onAiCampaignChange() {
   const sz = document.getElementById('aiPartySize');
   if (!cid) {
     preview.style.display = 'none';
-    lvl.disabled = false;
-    sz.disabled = false;
     return;
   }
   // Fetch party profile from campaign
@@ -1190,23 +1188,21 @@ async function onAiCampaignChange() {
     const r = await fetch(`/api/dm/ai/party-profile?campaign_id=${cid}`);
     const d = await r.json();
     if (d.profile) {
-    const s = d.profile.summary;
-    lvl.value = Math.max(1, Math.round(s.avg_level));
-    sz.value = s.size;
-    lvl.disabled = false;
-    sz.disabled = false;
-    preview.style.display = 'block';
-    preview.textContent = `${s.size} characters, avg L${s.avg_level} — edit if needed`;
-    preview.style.color = 'var(--accent)';
+      const s = d.profile.summary;
+      lvl.value = Math.max(1, Math.round(s.avg_level));
+      sz.value = s.size;
+      preview.style.display = 'block';
+      preview.style.color = 'var(--accent)';
+      preview.textContent = `${s.size} characters, avg L${s.avg_level} — encounter tailored to their stats`;
     } else {
       preview.style.display = 'block';
-      preview.textContent = 'No characters in this campaign. Using manual values.';
       preview.style.color = 'var(--text-muted)';
-      lvl.disabled = false;
-      sz.disabled = false;
+      preview.textContent = 'No characters in this campaign. Enter values manually.';
     }
   } catch(e) {
-    preview.style.display = 'none';
+    preview.style.display = 'block';
+    preview.style.color = 'var(--danger)';
+    preview.textContent = 'Failed to load party. Enter values manually.';
   }
 }
 
