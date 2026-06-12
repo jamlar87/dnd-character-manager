@@ -3653,10 +3653,20 @@ def _normalize_manual_monster(m: dict):
     elif isinstance(cr, (int, float)):
         m["challenge_rating"] = float(cr)
     elif isinstance(cr, str):
-        try:
-            m["challenge_rating"] = float(cr)
-        except ValueError:
+        cr_str = cr.strip()
+        if not cr_str:
             m["challenge_rating"] = 0
+        elif "/" in cr_str:
+            try:
+                parts = cr_str.split("/")
+                m["challenge_rating"] = float(parts[0]) / float(parts[1])
+            except (ValueError, ZeroDivisionError):
+                m["challenge_rating"] = 0
+        else:
+            try:
+                m["challenge_rating"] = float(cr_str)
+            except ValueError:
+                m["challenge_rating"] = 0
     elif isinstance(cr, dict):
         cr_val = cr.get("cr") or cr.get("challenge_rating") or cr.get("value") or 0
         try:
@@ -3833,7 +3843,9 @@ def _xp_for_cr(cr) -> int:
 
 def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     """Assign monster counts to hit XP budget, accounting for DMG p.83 multiplier.
-    AI picks which monsters; this function does the math the AI can't do."""
+    AI picks which monsters; this function does the math the AI can't do.
+    Capped at MAX_CREATURES total monsters (default 10)."""
+    MAX_CREATURES = 10
     if not picks:
         return [], 0
 
@@ -3844,6 +3856,9 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         elif count <= 10: return 2.5
         elif count <= 14: return 3.0
         return 4.0
+
+    def _total():
+        return sum(c["count"] for c in composition)
 
     # Sort by CR descending
     role_order = {"boss": 0, "elite": 1, "minion": 2, "faction_a": 0, "faction_b": 0}
@@ -3856,7 +3871,7 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     if encounter_type == "swarm":
         target_raw = xp_budget / 4.0  # assume many creatures
         ri = 0
-        while raw_xp < target_raw * 0.9 and ri < 40:
+        while raw_xp < target_raw * 0.9 and ri < 40 and _total() < MAX_CREATURES:
             m = sorted_picks[ri % len(sorted_picks)]
             if m["xp"] <= target_raw - raw_xp or ri < 10:
                 existing = next((c for c in composition if c["index"] == m["index"]), None)
@@ -3874,11 +3889,12 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         composition.append({**boss, "count": 1})
         raw_xp += boss["xp"]
         mult = _mult(1)
-        if raw_xp * mult < xp_budget * 0.6 and len(sorted_picks) > 1:
-            # Add a couple lair guards
+        if raw_xp * mult < xp_budget * 0.6 and len(sorted_picks) > 1 and _total() < MAX_CREATURES:
+            # Add a couple lair guards (respect cap)
             guard = sorted_picks[1]
-            composition.append({**guard, "count": 2})
-            raw_xp += guard["xp"] * 2
+            guard_count = min(2, MAX_CREATURES - _total())
+            composition.append({**guard, "count": guard_count})
+            raw_xp += guard["xp"] * guard_count
         return composition, raw_xp
 
     # Default: boss + elites + minions (skirmish, ambush, social)
@@ -3896,9 +3912,9 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         # Elites: 1-2 each
         elites = [m for m in rest if m.get("role") == "elite"]
         for m in elites:
-            if remaining_raw <= 0:
+            if remaining_raw <= 0 or _total() >= MAX_CREATURES:
                 break
-            c = max(1, min(2, int(remaining_raw * 0.35 / m["xp"])))
+            c = max(1, min(2, int(remaining_raw * 0.35 / m["xp"]), MAX_CREATURES - _total()))
             composition.append({**m, "count": c})
             raw_xp += m["xp"] * c
             remaining_raw = target_raw - raw_xp
@@ -3906,7 +3922,7 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         # Minions: fill remaining budget, round-robin
         minions = [m for m in rest if m.get("role") != "elite"] or rest
         ri = 0
-        while remaining_raw > 0 and ri < 30:
+        while remaining_raw > 0 and ri < 30 and _total() < MAX_CREATURES:
             m = minions[ri % len(minions)]
             if m["xp"] <= remaining_raw:
                 existing = next((c for c in composition if c["index"] == m["index"]), None)
@@ -3918,14 +3934,15 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
                 remaining_raw = target_raw - raw_xp
             ri += 1
 
-    # Final adjustment: if well under budget, pad with cheapest monster
-    total_count = sum(c["count"] for c in composition)
+    # Final adjustment: if well under budget, pad with cheapest monster (respect cap)
+    total_count = _total()
     mult = _mult(total_count)
     adjusted = int(raw_xp * mult)
-    if adjusted < xp_budget * 0.65 and rest:
+    if adjusted < xp_budget * 0.65 and rest and total_count < MAX_CREATURES:
         cheapest = min(rest, key=lambda m: m["xp"])
         needed_raw = int((xp_budget * 0.85 / mult) - raw_xp)
         extra = max(1, needed_raw // max(cheapest["xp"], 1))
+        extra = min(extra, MAX_CREATURES - total_count)
         existing = next((c for c in composition if c["index"] == cheapest["index"]), None)
         if existing:
             existing["count"] += extra
