@@ -1556,6 +1556,40 @@
       </div>
       {% endif %}
 
+      {# ── Magic Initiate spells ── #}
+      {% set mi_spells = [] %}
+      {% for ae in character.asi_history %}
+        {% if ae.type == 'feat' and ae.feat == 'magic_initiate' and ae.magic_initiate and ae.magic_initiate.class %}
+          {% set _ = mi_spells.append(ae.magic_initiate) %}
+        {% endif %}
+      {% endfor %}
+      {% if mi_spells|length > 0 %}
+      {% for mi in mi_spells %}
+      {% set mi_ability = mi.spellcasting_ability %}
+      {% set mi_ability_score = character[mi_ability] if mi_ability in character else 10 %}
+      {% set mi_mod = ((mi_ability_score - 10) // 2) %}
+      {% set mi_save_dc = 8 + character.proficiency_bonus + mi_mod %}
+      <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent);border-width:2px">
+        <h3 style="margin:0 0 0.3rem 0">✨ Magic Initiate — {{ mi.class }}</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 0.5rem 0">
+          Spellcasting ability: {{ mi_ability|title }} (DC {{ mi_save_dc }}, +{{ mi_mod }})
+        </p>
+        <div style="margin-bottom:0.3rem">
+          <strong style="font-size:0.8rem">Cantrips:</strong>
+          <span style="font-size:0.8rem">{{ mi.cantrips|join(', ') }}</span>
+        </div>
+        <div style="margin-bottom:0.5rem">
+          <strong style="font-size:0.8rem">1st-level spell:</strong>
+          <span style="font-size:0.8rem;font-weight:600;color:var(--accent)">{{ mi.spell }}</span>
+          <span style="font-size:0.7rem;color:var(--text-muted)"> (1/day)</span>
+        </div>
+        <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ mi_spells|length }})" style="font-size:0.75rem;padding:0.2rem 0.6rem;background:{{ 'var(--danger)' if mi.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">
+          {{ 'Used ✓' if mi.used else 'Available' }}
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+
     </div><!-- /tab-spells -->
 
     <!-- 🎒 INVENTORY TAB -->
