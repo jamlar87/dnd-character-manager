@@ -357,6 +357,7 @@ def load_manual_data():
     _post_parents = {
         "Goblin": ["Shadow Goblin"],
         "Bearfolk": ["Shadowborn Bearfolk"],
+        "Beorning": ["Woodmen of Wilderland", "Woodmen of Mountain Hall"],
     }
     for _post_parent, _post_names in _post_parents.items():
         if _post_parent not in RACES:
