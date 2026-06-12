@@ -2288,6 +2288,94 @@ RACIAL_TRAIT_DESCS = {
     # Shadar-kai
     "Necrotic Resistance": "You have resistance to necrotic damage.",
     "Blessing of the Raven Queen": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once you use this trait, you can't do so again until you finish a long rest. Starting at 3rd level, you also gain resistance to all damage when you teleport using this trait. The resistance lasts until the start of your next turn, and during that time you appear ghostly and translucent.",
+
+    # ── Custom Lineage (TCE) ──
+    "Feat": "You gain one feat of your choice for which you qualify. This represents a specialized talent, training, or innate ability that sets your character apart.",
+    "Variable Trait": "You gain your choice of one of the following options: (a) darkvision with a range of 60 feet, or (b) proficiency in one skill of your choice.",
+
+    # ── AiME Dwarf Variants ──
+    "Dwarven Combat Training": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.",
+    "Night Vision": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
+    "Road Wisdom": "You have proficiency in the Survival skill. When you make an Intelligence or Wisdom check related to the lands of your people, you can add twice your proficiency bonus instead of your normal proficiency bonus.",
+    "Night Vision (Dwarf)": "Accustomed to life underground and twilit forges, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
+    "Weapons of the Trade": "You have proficiency with light hammers, handaxes, battleaxes, and throwing hammers.",
+    "Tool Proficiency": "You gain proficiency with one set of artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools.",
+    "Singer of the Old Songs": "You know the history of your people and the great deeds of your ancestors. You have proficiency in the Performance skill, and you can add twice your proficiency bonus to any Intelligence (History) check related to dwarven history.",
+    "Tales of Days Gone By": "You have advantage on saving throws against being frightened.",
+    "Tools for War": "You have proficiency with the smith's tools, and you can add twice your proficiency bonus to any ability check you make with them.",
+
+    # ── AiME Elf Variants ──
+    "The Eyes of Elves": "You have proficiency in the Perception skill. When in a forest, you can add twice your proficiency bonus to any Wisdom (Perception) check that relies on sight.",
+    "Elvish Dreams": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
+    "The Tools of War": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
+    "A Whisper Through the Leaves": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
+    "Against the Unseen": "You have advantage on saving throws against being frightened, and you can add your proficiency bonus to any Intelligence (Arcana) check made to identify or recall information about the Enemy (Sauron's forces) and their works.",
+    "Elf-wise": "You have advantage on Wisdom saving throws against spells and other magical effects.",
+    "Beset by Woe": "Elves of Rivendell have witnessed much sorrow. When you take a long rest, you can choose to have a vision of the past or future. The Loremaster will describe what you see.",
+
+    # ── AiME Hobbit/Halfling Variants ──
+    "Resilient": "You have advantage on saving throws against being frightened, and you can add your proficiency bonus to saving throws against being charmed.",
+    "Hobbit Nimbleness": "You can move through the space of any creature that is of a size larger than yours.",
+    "Noble Pursuits": "You have proficiency in one of the following skills of your choice: History, Performance, or Persuasion. You also gain proficiency with one musical instrument or gaming set of your choice.",
+    "Hobbit Elusiveness": "When you take damage, you can use your reaction to halve the damage. Once you use this trait, you can't use it again until you finish a short or long rest.",
+    "Family Ties (Pick One)": "Choose one of the three hobbit families: Harfoot, Stoor, or Fallowhide. Each grants additional traits reflecting your family's character and traditions.",
+    "Harfoot": "Harfoots are the most common hobbits — brown-skinned, smaller than the others, and most inclined to settle in hillsides. You have proficiency in the Stealth skill.",
+    "Stoor": "Stoors are broader, heavier hobbits who favor riversides and flatlands — the only hobbits comfortable with boats and swimming. You have proficiency with water vehicles and a swim speed of 20 feet.",
+    "Fallowhide": "Fallowhides are fair-skinned hobbits, taller and slimmer than most, with a love of the woods and a keen interest in Elves. You have proficiency in the Nature skill and can speak, read, and write Elvish.",
+    "Keen-eyed": "You have proficiency in the Perception skill. When you make a Wisdom (Perception) check that relies on sight, you can add twice your proficiency bonus.",
+    "Story-telling": "You have proficiency in the Performance skill. When telling stories, singing, or reciting poetry, you have advantage on Charisma (Performance) checks.",
+    "Unobtrusive": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
+    "Known Lands": "You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth.",
+    "Ways of the Wild": "You have proficiency in the Survival skill. When tracking other creatures, you can add twice your proficiency bonus to the check.",
+    "Weather Lore": "By observing the sky, winds, and wildlife, you can accurately predict the weather for the next 24 hours. You have advantage on Wisdom (Survival) checks related to predicting weather or navigating by natural signs.",
+    "Cultural Virtue: None": "Not all hobbits embrace a specific cultural virtue — some forge their own path. You gain proficiency in one skill or tool of your choice.",
+    "Untroubled by Shadows": "You have advantage on saving throws against being frightened, and against the corrupting influence of the Shadow. When you fail a saving throw against fear, you can reroll it — you must use the new roll.",
+    "Clever Beyond Compare": "You have a knack for finding simple solutions to complex problems. You can add your proficiency bonus to any Intelligence check made to devise or recognize a clever plan, riddle, or puzzle solution. If you are already proficient, you add twice your proficiency bonus.",
+    "Preternatural Navigator": "You have an innate sense of direction and an excellent memory for routes. You have proficiency in the Survival skill, and can add twice your proficiency bonus to any check made to avoid becoming lost.",
+    "Animal Ken": "You have proficiency in the Animal Handling skill. Beasts of the riverlands — otters, waterfowl, fish — are naturally inclined to trust you.",
+    "Riverfolk Toughness": "Your life on the water has made you hardy. Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
+    "Boon Companion": "You are remarkably skilled at making people feel at ease. You have proficiency in the Persuasion skill, and you can add twice your proficiency bonus to any Charisma check made to befriend or charm a humanoid with a noble or courtly background.",
+    "Wee Glamour": "You know the minor illusion cantrip. Charisma is your spellcasting ability for this spell.",
+    "Student of Old Lore": "You have spent many hours in libraries and archives. You have proficiency in the History skill, and you can add twice your proficiency bonus to any Intelligence (History) check related to ancient kingdoms, lineages, or artifacts.",
+    "Disquiet": "As an action, you can cause one creature you can see within 30 feet to become unsettled. The target must succeed on a Wisdom saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. Once you use this trait, you can't use it again until you finish a short or long rest.",
+    "Silent Steps": "You have proficiency in the Stealth skill. When moving through dim light or darkness, you can add twice your proficiency bonus to Dexterity (Stealth) checks.",
+
+    # ── Other Middle-earth variants ──
+    "Clear Eyed": "You have advantage on Wisdom (Insight) checks to determine if someone is lying, and on saving throws against being chararmed.",
+    "Crossroad Glance": "You have proficiency in the Insight skill. When you first meet someone, you can make a Wisdom (Insight) check to gain a general sense of their intentions.",
+    "Proud Heritage": "You have proficiency in the History skill. When making a check related to Gondor's history, lineages, or military traditions, you can add twice your proficiency bonus.",
+    "Natural Born Traders": "You have proficiency in the Persuasion skill, and you can add twice your proficiency bonus to any ability check made to negotiate prices or barter.",
+    "Horse Lords": "You have proficiency in the Animal Handling skill, and when you use a mount, you can add twice your proficiency bonus to any check to control or remain mounted.",
+
+    # ── Kobold Press — Shadow Fey ──
+    "Shadow Fey Weapon Training": "You have proficiency with rapiers, shortswords, hand crossbows, and longbows.",
+    "Path of Shadows": "As a bonus action, you can teleport up to 30 feet to an unoccupied space you can see that is in dim light or darkness. Once you use this trait, you can't use it again until you finish a short or long rest.",
+    "Traveler in Darkness": "You have advantage on Dexterity (Stealth) checks made in dim light or darkness. You can also see in dim light within 120 feet of you as if it were bright light, and in darkness as if it were dim light.",
+    "Luminous": "You know the light cantrip. When you reach 3rd level, you can cast the faerie fire spell once per long rest. When you reach 5th level, you can cast the moonbeam spell once per long rest. Charisma is your spellcasting ability for these spells.",
+    "Moon Child": "You have resistance to necrotic damage. While in moonlight, you have advantage on Wisdom saving throws.",
+
+    # ── Kobold Press — Sable Elf ──
+    "Blood Affinity": "When you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your proficiency bonus. These temporary hit points last for 1 minute.",
+
+    # ── Kobold Press — Wyrd Gnome ──
+    "Natural Diviner": "You know the guidance cantrip. When you reach 3rd level, you can cast the augury spell once per long rest. When you reach 5th level, you can cast the clairvoyance spell once per long rest. Intelligence is your spellcasting ability for these spells.",
+    "Prescience": "When you finish a long rest, roll a d20 and record the number rolled. You can replace any attack roll, saving throw, or ability check made by you or a creature you can see with this foretelling roll. You must choose to do so before the roll. Once you use this trait, you can't use it again until you finish a long rest.",
+
+    # ── Kobold Press — Umbral Human variants ──
+    "Dark Infusion": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hex spell once per long rest. When you reach 5th level, you can cast the darkness spell once per long rest. Charisma is your spellcasting ability for these spells.",
+    "Fade Away": "When you take damage, you can use your reaction to become invisible until the end of your next turn. Once you use this trait, you can't use it again until you finish a short or long rest.",
+    "Cover Story": "You have proficiency in the Deception skill and the disguise kit. You can mimic the speech, writing, and mannerisms of another humanoid you have observed for at least one hour.",
+    "Shadow Glamour": "You know the friends cantrip. When you reach 3rd level, you can cast the disguise self spell once per long rest. Charisma is your spellcasting ability for these spells.",
+    "Cursed Infusion": "You know the chill touch cantrip. When you reach 3rd level, you can cast the ray of sickness spell once per long rest. When you reach 5th level, you can cast the bestow curse spell once per long rest. Charisma is your spellcasting ability for these spells.",
+    "Shadow Gift": "As a bonus action, you can grant one creature you touch darkvision out to 60 feet for 1 hour. If the creature already has darkvision, its range increases by 30 feet for the duration. Once you use this trait, you can't use it again until you finish a short or long rest.",
+
+    # ── Silvan Elf Sentinel (Eberron monster stat block, not a race) ──
+    "Disabling Strike": "When you hit a creature with a weapon attack, you can force the target to make a Constitution saving throw (DC 8 + your proficiency bonus + your Strength or Dexterity modifier). On a failure, the target's speed is reduced to 0 until the end of its next turn.",
+    "Focused": "You have advantage on saving throws against being charmed or frightened.",
+    "Multiattack": "You can make two weapon attacks when you take the Attack action.",
+    "Great Spear": "You have proficiency with the greatspear. This weapon has the heavy, reach, and two-handed properties and deals 1d12 piercing damage.",
+    "Great Bow": "You have proficiency with the greatbow. This weapon has the heavy and two-handed properties, a range of 150/600 feet, and deals 1d10 piercing damage.",
+    "Parry": "When another creature damages you with a melee attack, you can use your reaction to add your proficiency bonus to your AC against that attack, potentially causing it to miss.",
 }
 
 # Merge racial trait descriptions into the feature lookup so Breath Weapon etc. show descriptions
