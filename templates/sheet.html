@@ -1205,10 +1205,10 @@
               <div><strong>Cantrips:</strong> {{ feat.magic_initiate.cantrips|join(', ') }}</div>
               <div style="margin-bottom:0.4rem"><strong>1st-level:</strong> {{ feat.magic_initiate.spell }} <span style="font-size:0.7rem;color:var(--text-muted)">(1/day)</span></div>
               <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;background:{{ 'var(--danger)' if feat.magic_initiate.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">{{ 'Used ✓' if feat.magic_initiate.used else 'Available' }}</button>
-              <button class="btn btn-sm btn-outline edit-only" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
               {% elif feat.asi_feat_name == 'Magic Initiate' %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
-              <button class="btn btn-sm btn-outline edit-only" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up Magic Initiate</button>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up Magic Initiate</button>
               {% else %}
               {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
               {% endif %}
