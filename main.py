@@ -183,11 +183,27 @@ def load_manual_data():
         "high elves of rivendell": "High Elf of Rivendell",
         "hobbits of the shire": "Hobbit of the Shire",
     }
+    # Races whose subrace entry was extracted as a separate top-level race — skip them.
+    # These are duplicates of subraces already inlined in the parent race entry.
+    _duplicate_subrace_races = {
+        "Erina (Spiritfarer)",  # Duplicate of Spiritfarer subrace already in Erina entry
+    }
+    # Races whose ingested name differs from the canonical name
+    _race_renames = {
+        "Spiritfarer Erina": "Erina",  # Base race is just "Erina"; Spiritfarer is a subrace
+    }
     
     manual_races = _load_manual_json("races.json")
     for race in manual_races:
         name = race.get("name", "")
         if not name or name in RACES:
+            continue
+        # Apply canonical renames
+        if name in _race_renames:
+            name = _race_renames[name]
+            race["name"] = name
+        # Skip duplicate subrace entries that are standalone races
+        if name in _duplicate_subrace_races:
             continue
         # Skip if this is a known subrace (e.g. "Wood Elf" is an Elf subrace)
         if name in _known_subraces or name.lower() in _known_subraces:
