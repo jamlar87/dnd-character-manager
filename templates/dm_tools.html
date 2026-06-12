@@ -369,7 +369,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 </div>
 
 <div class="dm-tabs" id="dmTabs">
-  <button class="dm-tab active" data-tab="campaigns">📜 Campaign</button>
+  <button class="dm-tab" data-tab="campaigns">📜 Campaign</button>
   <button class="dm-tab" data-tab="encounters">⚡ Encounters</button>
   <button class="dm-tab" data-tab="combat">⚔️ Combat</button>
   <button class="dm-tab" data-tab="monsters">🐉 Monsters</button>
@@ -513,7 +513,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 </div>
 
 {# ───── CAMPAIGN PANEL ───── #}
-<div class="dm-panel active" id="panel-campaigns">
+<div class="dm-panel" id="panel-campaigns">
   <div class="toolbar">
     <button class="btn btn-primary" onclick="showCreateCampaign()">+ New Campaign</button>
   </div>
@@ -940,14 +940,27 @@ async function openSourceRef(src, slug) {
 }
 _loadSourceSlugs();
 
-// ── Tab switching ──
+// ── Tab switching (persisted to localStorage) ──
+function activateTab(tabName) {
+  document.querySelectorAll('.dm-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.dm-panel').forEach(p => p.classList.remove('active'));
+  const tabBtn = document.querySelector(`.dm-tab[data-tab="${tabName}"]`);
+  const panel = document.getElementById('panel-' + tabName);
+  if (tabBtn) tabBtn.classList.add('active');
+  if (panel) panel.classList.add('active');
+  localStorage.setItem('dmToolsTab', tabName);
+}
+
+// Restore last active tab on page load
+(function() {
+  const saved = localStorage.getItem('dmToolsTab');
+  const validTabs = ['campaigns','encounters','combat','monsters','npcs','items','traps'];
+  const tab = validTabs.includes(saved) ? saved : 'campaigns';
+  activateTab(tab);
+})();
+
 document.querySelectorAll('.dm-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.dm-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.dm-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-  });
+  tab.addEventListener('click', () => activateTab(tab.dataset.tab));
 });
 
 // ── Modal helpers ──
