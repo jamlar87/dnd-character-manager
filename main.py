@@ -3026,8 +3026,14 @@ def _normalize_equipped(equipped: list) -> list:
     return result
 
 def _equipped_names(equipped: list) -> list:
-    """Extract just the names from a [{name, qty}] equipped list."""
-    return [e["name"] for e in equipped if isinstance(e, dict) and e.get("name")]
+    """Extract just the names from a [{name, qty}] equipped list or string-list."""
+    result = []
+    for e in (equipped or []):
+        if isinstance(e, dict) and e.get("name"):
+            result.append(e["name"])
+        elif isinstance(e, str):
+            result.append(e)
+    return result
 
 # ── Routes: Auth ────────────────────────────────────────────────────────────
 
@@ -6226,11 +6232,72 @@ async def character_sheet(char_id: int, request: Request):
         char.get("race", ""), char.get("subrace", ""),
         char.get("dragonborn_ancestry", ""))
     natural_armor = racial_effects.get("natural_armor")
+    natural_ac = None
     if natural_armor:
-        char["ac"] = natural_armor.get("base_ac", 17)
+        na_base = natural_armor.get("base_ac", 17)
         max_dex = natural_armor.get("max_dex")
+        natural_ac = na_base
         if max_dex is not None:
-            char["ac"] += min(char["dexterity_mod"], max_dex)
+            natural_ac += min(char["dexterity_mod"], max_dex)
+
+    # Calculate AC from equipped armor/shield (uses ITEM_INDEX for SRD stats)
+    equipped_names = _equipped_names(char.get("equipped", []))
+    armor_ac = None
+    shield_bonus = 0
+    # Build fallback list of known SRD armor names (for matching magic variants)
+    _armor_names = {k: v for k, v in ITEM_INDEX.items()
+                    if (v.get("equipment_category") or {}).get("name") == "Armor"
+                    and v.get("armor_category") != "Shield"}
+    for eq_name in equipped_names:
+        eq_lower = eq_name.lower().strip()
+        item = ITEM_INDEX.get(eq_lower)
+        if not item:
+            # Fallback: match magic armor against known SRD armor names
+            # Prefer longest match (e.g. "studded leather armor" > "leather armor")
+            best_match = None
+            best_len = 0
+            for armor_key, armor_item in _armor_names.items():
+                if armor_key in eq_lower and len(armor_key) > best_len:
+                    best_match = armor_item
+                    best_len = len(armor_key)
+            if best_match:
+                item = best_match
+        if not item:
+            continue
+        cat = (item.get("equipment_category") or {}).get("name", "")
+        armor_cat = item.get("armor_category", "")
+        if cat == "Armor" and armor_cat != "Shield":
+            # Body armor: compute AC from its formula
+            ac_data = item.get("armor_class", {})
+            base = ac_data.get("base", 10)
+            dex_flag = ac_data.get("dex_bonus", False)
+            max_bonus = ac_data.get("max_bonus", None)
+            dex_mod = char.get("dexterity_mod", 0)
+
+            if dex_flag is True:
+                # Light armor: full DEX
+                computed = base + dex_mod
+            elif isinstance(dex_flag, (int, float)) and dex_flag:
+                # Medium armor: DEX capped at max_bonus (usually 2)
+                cap = max_bonus if max_bonus is not None else dex_flag
+                computed = base + min(dex_mod, cap)
+            else:
+                # Heavy armor: no DEX
+                computed = base
+
+            if armor_ac is None or computed > armor_ac:
+                armor_ac = computed
+        elif armor_cat == "Shield" or eq_name.lower().strip() == "shield":
+            shield_bonus = 2
+
+    # Determine final AC: armor > natural armor > base 10 + DEX
+    if armor_ac is not None:
+        char["ac"] = armor_ac + shield_bonus
+    elif natural_ac is not None:
+        char["ac"] = natural_ac + shield_bonus
+    else:
+        # No armor, no natural armor: 10 + DEX + shield
+        char["ac"] = 10 + char.get("dexterity_mod", 0) + shield_bonus
 
     # Merged save proficiencies (class-derived + user-toggled)
     class_saves = CLASSES.get(char.get("class_name",""), {}).get("saves", [])
