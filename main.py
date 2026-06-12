@@ -10386,6 +10386,17 @@ LIMITED_USE = {
     "instinctive charm":    {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
     "illusory self":        {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
     "master transmuter":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Additional subclass limited-use features
+    "thunderbolt strike":   {"min": 1, "max": 1,  "recharge": "at will", "class": "Cleric", "per": "fixed"},
+    "dragon wings":         {"min": 1, "max": 1,  "recharge": "at will", "class": "Sorcerer", "per": "fixed"},
+    "bend luck":            {"min": 1, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    "minor conjuration":    {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
+    "greater portent":      {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "alter memories":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "command undead":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "minor alchemy":        {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
+    "transmuter's stone":   {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "improved minor illusion": {"min": 1, "max": 1, "recharge": "at will", "class": "Wizard", "per": "fixed"},
     # Cleric — capstones (PHB p.59-63)
     "master of nature":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
     "visions of the past":  {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
@@ -11898,6 +11909,1303 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
         "and poisons; restore all HP), Restore Life (Raise Dead), or Restore Youth (reduce target's "
         "apparent age by 3d10 years, minimum 13). The stone is destroyed. Once used, can't be "
         "used again until a long rest.",
+
+    "a creature of stone and steel":
+        "A Bounder subclass feature. Grants a thematic ability tied to the Bounder's specialty — check your sourcebook for full mechanical details.",
+    "a light when all other lights go out":
+        "A gift of hope and courage — the Warden kindles light in dark places, rallying companions against despair and the Shadow's influence.",
+    "accursed specter":
+        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+    "alchemist spells":
+        "An alchemical feature — brewing potent elixirs, identifying compounds, or using alchemical reagents to produce magical effects.",
+    "ambush master":
+        "A Scout subclass feature. Grants a thematic ability tied to the Scout's specialty — check your sourcebook for full mechanical details.",
+    "among the dead":
+        "A The Undying subclass feature. Grants a thematic ability tied to the The Undying's specialty — check your sourcebook for full mechanical details.",
+    "an end worthy of song":
+        "A musical or poetic ability drawn from the rich oral traditions of Middle-earth, inspiring allies and dismaying foes through the power of song.",
+    "ancestral protectors":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "ancient lore":
+        "A Master Scholar subclass feature. Grants a thematic ability tied to the Master Scholar's specialty — check your sourcebook for full mechanical details.",
+    "ancient oak":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "animating performance":
+        "A College of Creation subclass feature. Grants a thematic ability tied to the College of Creation's specialty — check your sourcebook for full mechanical details.",
+    "anticipate":
+        "A Counsellor subclass feature. Grants a thematic ability tied to the Counsellor's specialty — check your sourcebook for full mechanical details.",
+    "arcane abjuration":
+        "A Arcana Domain subclass feature. Grants a thematic ability tied to the Arcana Domain's specialty — check your sourcebook for full mechanical details.",
+    "arcane archer lore":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "arcane armor":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "arcane deflection":
+        "A War Magic subclass feature. Grants a thematic ability tied to the War Magic's specialty — check your sourcebook for full mechanical details.",
+    "arcane firearm":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "arcane mastery":
+        "A Arcana Domain subclass feature. Grants a thematic ability tied to the Arcana Domain's specialty — check your sourcebook for full mechanical details.",
+    "arcane shot":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "arcane shot options":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "armor model":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "armor modifications":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "armor of hexes":
+        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+    "armorer spells":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "armoured fury":
+        "A combat stance or battle-fury unique to the Foe-Hammer — channeling righteous anger into devastating strikes against the Enemy.",
+    "arms of the astral self":
+        "A Way of the Astral Self subclass feature. Grants a thematic ability tied to the Way of the Astral Self's specialty — check your sourcebook for full mechanical details.",
+    "army of shadow":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "artillerist spells":
+        "A Artillerist subclass feature. Grants a thematic ability tied to the Artillerist's specialty — check your sourcebook for full mechanical details.",
+    "aura magnification":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "aura of alacrity":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "aura of conquest":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "aura of the guardian":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "aura of the guardian (30 ft.)":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "aura of the sentinel":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "avatar of the wood":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "awakened astral self":
+        "A Way of the Astral Self subclass feature. Grants a thematic ability tied to the Way of the Astral Self's specialty — check your sourcebook for full mechanical details.",
+    "awakened spellbook":
+        "A Order of Scribes subclass feature. Grants a thematic ability tied to the Order of Scribes's specialty — check your sourcebook for full mechanical details.",
+    "balm of the summer court":
+        "A Circle of Dreams subclass feature. Grants a thematic ability tied to the Circle of Dreams's specialty — check your sourcebook for full mechanical details.",
+    "bane":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "barkskin":
+        "A Circle of Oaks subclass feature. Grants a thematic ability tied to the Circle of Oaks's specialty — check your sourcebook for full mechanical details.",
+    "bastion of law":
+        "A Clockwork Soul subclass feature. Grants a thematic ability tied to the Clockwork Soul's specialty — check your sourcebook for full mechanical details.",
+    "battle ready":
+        "A Battle Smith subclass feature. Grants a thematic ability tied to the Battle Smith's specialty — check your sourcebook for full mechanical details.",
+    "battle smith spells":
+        "A Battle Smith subclass feature. Grants a thematic ability tied to the Battle Smith's specialty — check your sourcebook for full mechanical details.",
+    "battle-fury":
+        "A combat stance or battle-fury unique to the Slayer — channeling righteous anger into devastating strikes against the Enemy.",
+    "battlerager armor":
+        "A Path of the Battlerager subclass feature. Grants a thematic ability tied to the Path of the Battlerager's specialty — check your sourcebook for full mechanical details.",
+    "battlerager charge":
+        "A Path of the Battlerager subclass feature. Grants a thematic ability tied to the Path of the Battlerager's specialty — check your sourcebook for full mechanical details.",
+    "beguiling twist":
+        "A Fey Wanderer subclass feature. Grants a thematic ability tied to the Fey Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "bestial soul":
+        "A Path of the Beast subclass feature. Grants a thematic ability tied to the Path of the Beast's specialty — check your sourcebook for full mechanical details.",
+    "birds & beasts":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "black magic":
+        "A Umbral Binder subclass feature. Grants a thematic ability tied to the Umbral Binder's specialty — check your sourcebook for full mechanical details.",
+    "black mist":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "blade flourish":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "blade song":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "bladesong":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "blazing revival":
+        "A Circle of Wildfire subclass feature. Grants a thematic ability tied to the Circle of Wildfire's specialty — check your sourcebook for full mechanical details.",
+    "blessed chosen":
+        "A Keeper Domain subclass feature. Grants a thematic ability tied to the Keeper Domain's specialty — check your sourcebook for full mechanical details.",
+    "blessing of the forge":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "bloodline arcana":
+        "A Ooze Bloodline subclass feature. Grants a thematic ability tied to the Ooze Bloodline's specialty — check your sourcebook for full mechanical details.",
+    "bob and weave":
+        "A Blade Dancer subclass feature. Grants a thematic ability tied to the Blade Dancer's specialty — check your sourcebook for full mechanical details.",
+    "body of the astral self":
+        "A Way of the Astral Self subclass feature. Grants a thematic ability tied to the Way of the Astral Self's specialty — check your sourcebook for full mechanical details.",
+    "bolstering magic":
+        "A Path of Wild Magic subclass feature. Grants a thematic ability tied to the Path of Wild Magic's specialty — check your sourcebook for full mechanical details.",
+    "bonus cantrips":
+        "A The Celestial subclass feature. Grants a thematic ability tied to the The Celestial's specialty — check your sourcebook for full mechanical details.",
+    "bonus feat":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "bonus feats":
+        "A Ooze Bloodline subclass feature. Grants a thematic ability tied to the Ooze Bloodline's specialty — check your sourcebook for full mechanical details.",
+    "bonus spells":
+        "A Ooze Bloodline subclass feature. Grants a thematic ability tied to the Ooze Bloodline's specialty — check your sourcebook for full mechanical details.",
+    "born to the saddle":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "bound magic":
+        "A Elven High Magic subclass feature. Grants a thematic ability tied to the Elven High Magic's specialty — check your sourcebook for full mechanical details.",
+    "break resolve":
+        "A Herald subclass feature. Grants a thematic ability tied to the Herald's specialty — check your sourcebook for full mechanical details.",
+    "briny murk":
+        "A Circle of Fermentation subclass feature. Grants a thematic ability tied to the Circle of Fermentation's specialty — check your sourcebook for full mechanical details.",
+    "bulwark":
+        "A Purple Dragon Knight subclass feature. Grants a thematic ability tied to the Purple Dragon Knight's specialty — check your sourcebook for full mechanical details.",
+    "bulwark of force":
+        "A Psi Warrior subclass feature. Grants a thematic ability tied to the Psi Warrior's specialty — check your sourcebook for full mechanical details.",
+    "call the hunt":
+        "A Path of the Beast subclass feature. Grants a thematic ability tied to the Path of the Beast's specialty — check your sourcebook for full mechanical details.",
+    "camouflage":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "campfire tales (d10)":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "campfire tales (d12)":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "campfire tales (d6)":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "campfire tales (d8)":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "canopy":
+        "A Spear of the Weald subclass feature. Grants a thematic ability tied to the Spear of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "cauterizing flames":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "ceaseless guard":
+        "A Bounder subclass feature. Grants a thematic ability tied to the Bounder's specialty — check your sourcebook for full mechanical details.",
+    "celestial resilience":
+        "A celestial feature channeling starlight and lunar magic — granting radiant damage, divination, or healing under the night sky.",
+    "channel divinity":
+        "A Oath of Glory subclass feature. Grants a thematic ability tied to the Oath of Glory's specialty — check your sourcebook for full mechanical details.",
+    "channel ley line":
+        "A Geomancy subclass feature. Grants a thematic ability tied to the Geomancy's specialty — check your sourcebook for full mechanical details.",
+    "character improvement":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "charming aura":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "charming presence":
+        "A Circle of Roses subclass feature. Grants a thematic ability tied to the Circle of Roses's specialty — check your sourcebook for full mechanical details.",
+    "circle of mortality":
+        "A Grave Domain subclass feature. Grants a thematic ability tied to the Grave Domain's specialty — check your sourcebook for full mechanical details.",
+    "circle of oaks":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "circle of owls":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "circle of roses spells":
+        "A Circle of Roses subclass feature. Grants a thematic ability tied to the Circle of Roses's specialty — check your sourcebook for full mechanical details.",
+    "circle spells":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "class skill":
+        "A Ooze Bloodline subclass feature. Grants a thematic ability tied to the Ooze Bloodline's specialty — check your sourcebook for full mechanical details.",
+    "cloaked dagger":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "clockwork cavalcade":
+        "A Clockwork Soul subclass feature. Grants a thematic ability tied to the Clockwork Soul's specialty — check your sourcebook for full mechanical details.",
+    "clockwork magic":
+        "A Clockwork Soul subclass feature. Grants a thematic ability tied to the Clockwork Soul's specialty — check your sourcebook for full mechanical details.",
+    "close combat shot":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "commanding voice":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "compelling words":
+        "A Agent subclass feature. Grants a thematic ability tied to the Agent's specialty — check your sourcebook for full mechanical details.",
+    "consult the spirits":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "consume darkness":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "controlled surge":
+        "A Path of Wild Magic subclass feature. Grants a thematic ability tied to the Path of Wild Magic's specialty — check your sourcebook for full mechanical details.",
+    "coordinated strikes":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "corrosive haze":
+        "A Shadow Gnawer subclass feature. Grants a thematic ability tied to the Shadow Gnawer's specialty — check your sourcebook for full mechanical details.",
+    "cosmic omen":
+        "A Circle of Stars subclass feature. Grants a thematic ability tied to the Circle of Stars's specialty — check your sourcebook for full mechanical details.",
+    "cover of night":
+        "A Shadow Domain subclass feature. Grants a thematic ability tied to the Shadow Domain's specialty — check your sourcebook for full mechanical details.",
+    "creative crescendo":
+        "A College of Creation subclass feature. Grants a thematic ability tied to the College of Creation's specialty — check your sourcebook for full mechanical details.",
+    "creeping fog":
+        "A Shadow Gnawer subclass feature. Grants a thematic ability tied to the Shadow Gnawer's specialty — check your sourcebook for full mechanical details.",
+    "cunning action":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "curving shot":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "dance of death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "dancing shadows":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "dark inoculation":
+        "A Mother of Sorrows subclass feature. Grants a thematic ability tied to the Mother of Sorrows's specialty — check your sourcebook for full mechanical details.",
+    "dark knowledge":
+        "A Master Scholar subclass feature. Grants a thematic ability tied to the Master Scholar's specialty — check your sourcebook for full mechanical details.",
+    "dark servant":
+        "A Circle of Shadows subclass feature. Grants a thematic ability tied to the Circle of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "dark transfusion":
+        "A Shadow Arcane Tradition subclass feature. Grants a thematic ability tied to the Shadow Arcane Tradition's specialty — check your sourcebook for full mechanical details.",
+    "darkness falls":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "darkness's embrace":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "dauntless":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "death's friend":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "defence against the shadow":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "deflecting shroud":
+        "A War Magic subclass feature. Grants a thematic ability tied to the War Magic's specialty — check your sourcebook for full mechanical details.",
+    "defy death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "detect portal":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "discourse":
+        "A Counsellor subclass feature. Grants a thematic ability tied to the Counsellor's specialty — check your sourcebook for full mechanical details.",
+    "distant strike":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "distraction":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "divine allegiance":
+        "A Oath of the Crown subclass feature. Grants a thematic ability tied to the Oath of the Crown's specialty — check your sourcebook for full mechanical details.",
+    "divine fury":
+        "A Path of the Zealot subclass feature. Grants a thematic ability tied to the Path of the Zealot's specialty — check your sourcebook for full mechanical details.",
+    "divine magic":
+        "A Divine Soul subclass feature. Grants a thematic ability tied to the Divine Soul's specialty — check your sourcebook for full mechanical details.",
+    "divine strike (2d8)":
+        "A Forge Domain subclass feature. Grants a thematic ability tied to the Forge Domain's specialty — check your sourcebook for full mechanical details.",
+    "domain spells":
+        "A Order Domain subclass feature. Grants a thematic ability tied to the Order Domain's specialty — check your sourcebook for full mechanical details.",
+    "dread ambusher":
+        "A Gloom Stalker subclass feature. Grants a thematic ability tied to the Gloom Stalker's specialty — check your sourcebook for full mechanical details.",
+    "dreadful strikes":
+        "A Fey Wanderer subclass feature. Grants a thematic ability tied to the Fey Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "dreamland traversal":
+        "A Circle of the Weald subclass feature. Grants a thematic ability tied to the Circle of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "drunkard's luck":
+        "A Way of the Drunken Master subclass feature. Grants a thematic ability tied to the Way of the Drunken Master's specialty — check your sourcebook for full mechanical details.",
+    "drunken technique":
+        "A Way of the Drunken Master subclass feature. Grants a thematic ability tied to the Way of the Drunken Master's specialty — check your sourcebook for full mechanical details.",
+    "durable magic":
+        "A War Magic subclass feature. Grants a thematic ability tied to the War Magic's specialty — check your sourcebook for full mechanical details.",
+    "duty over death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "ear for deceit":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "effervescence":
+        "A Circle of Fermentation subclass feature. Grants a thematic ability tied to the Circle of Fermentation's specialty — check your sourcebook for full mechanical details.",
+    "eldritch cannon":
+        "A Artillerist subclass feature. Grants a thematic ability tied to the Artillerist's specialty — check your sourcebook for full mechanical details.",
+    "elegant courtier":
+        "A Samurai subclass feature. Grants a thematic ability tied to the Samurai's specialty — check your sourcebook for full mechanical details.",
+    "elegant maneuver":
+        "A Swashbuckler subclass feature. Grants a thematic ability tied to the Swashbuckler's specialty — check your sourcebook for full mechanical details.",
+    "elemental gift":
+        "A Genie subclass feature. Grants a thematic ability tied to the Genie's specialty — check your sourcebook for full mechanical details.",
+    "embassy":
+        "A Counsellor subclass feature. Grants a thematic ability tied to the Counsellor's specialty — check your sourcebook for full mechanical details.",
+    "embodiment of the law":
+        "A Order Domain subclass feature. Grants a thematic ability tied to the Order Domain's specialty — check your sourcebook for full mechanical details.",
+    "emboldening bond":
+        "A Peace Domain subclass feature. Grants a thematic ability tied to the Peace Domain's specialty — check your sourcebook for full mechanical details.",
+    "emissary of redemption":
+        "A Oath of Redemption subclass feature. Grants a thematic ability tied to the Oath of Redemption's specialty — check your sourcebook for full mechanical details.",
+    "empowered healing":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "enchant arrows +1":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "enchant arrows +2":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "enchant arrows +3":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "enchant arrows +4":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "enhanced bond":
+        "A Circle of Wildfire subclass feature. Grants a thematic ability tied to the Circle of Wildfire's specialty — check your sourcebook for full mechanical details.",
+    "enthralling performance":
+        "A College of Glamour subclass feature. Grants a thematic ability tied to the College of Glamour's specialty — check your sourcebook for full mechanical details.",
+    "equipment":
+        "A Wanderer subclass feature. Grants a thematic ability tied to the Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "ethereal step":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "evasion":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "ever watchful":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "ever-ready shot":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "exalted champion":
+        "A Oath of the Crown subclass feature. Grants a thematic ability tied to the Oath of the Crown's specialty — check your sourcebook for full mechanical details.",
+    "exit strategy":
+        "A Agent subclass feature. Grants a thematic ability tied to the Agent's specialty — check your sourcebook for full mechanical details.",
+    "expanded spell list":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "expansive bond":
+        "A Peace Domain subclass feature. Grants a thematic ability tied to the Peace Domain's specialty — check your sourcebook for full mechanical details.",
+    "experienced explorer":
+        "A Peerless Scout subclass feature. Grants a thematic ability tied to the Peerless Scout's specialty — check your sourcebook for full mechanical details.",
+    "experimental elixir":
+        "An alchemical feature — brewing potent elixirs, identifying compounds, or using alchemical reagents to produce magical effects.",
+    "explosive cannon":
+        "A Artillerist subclass feature. Grants a thematic ability tied to the Artillerist's specialty — check your sourcebook for full mechanical details.",
+    "expression feature":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "eye for detail":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "eye for weakness":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "eyes in the dark":
+        "A Umbral Binder subclass feature. Grants a thematic ability tied to the Umbral Binder's specialty — check your sourcebook for full mechanical details.",
+    "eyes of night":
+        "A Twilight Domain subclass feature. Grants a thematic ability tied to the Twilight Domain's specialty — check your sourcebook for full mechanical details.",
+    "eyes of the dark":
+        "A Shadow Magic subclass feature. Grants a thematic ability tied to the Shadow Magic's specialty — check your sourcebook for full mechanical details.",
+    "eyes of the dark (darkness)":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "eyes of the grave":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "fade to black":
+        "A Shadow Domain subclass feature. Grants a thematic ability tied to the Shadow Domain's specialty — check your sourcebook for full mechanical details.",
+    "faithful summons":
+        "A Circle of the Shepherd subclass feature. Grants a thematic ability tied to the Circle of the Shepherd's specialty — check your sourcebook for full mechanical details.",
+    "famed protector":
+        "A Knight subclass feature. Grants a thematic ability tied to the Knight's specialty — check your sourcebook for full mechanical details.",
+    "fanatical focus":
+        "A Path of the Zealot subclass feature. Grants a thematic ability tied to the Path of the Zealot's specialty — check your sourcebook for full mechanical details.",
+    "fancy footwork":
+        "A Swashbuckler subclass feature. Grants a thematic ability tied to the Swashbuckler's specialty — check your sourcebook for full mechanical details.",
+    "fast movement":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "fast-talk":
+        "A College of the Arts subclass feature. Grants a thematic ability tied to the College of the Arts's specialty — check your sourcebook for full mechanical details.",
+    "fathomless plunge":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "favored by the gods":
+        "A Divine Soul subclass feature. Grants a thematic ability tied to the Divine Soul's specialty — check your sourcebook for full mechanical details.",
+    "fear of the dark":
+        "A College of Shadow subclass feature. Grants a thematic ability tied to the College of Shadow's specialty — check your sourcebook for full mechanical details.",
+    "fermentative engine":
+        "A Circle of Fermentation subclass feature. Grants a thematic ability tied to the Circle of Fermentation's specialty — check your sourcebook for full mechanical details.",
+    "ferocious charger":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "fey reinforcements":
+        "A fey-touched feature — charming, beguiling, or mischievously manipulating enemies with the magic of the Feywild.",
+    "fey wanderer magic":
+        "A fey-touched feature — charming, beguiling, or mischievously manipulating enemies with the magic of the Feywild.",
+    "fighting fit":
+        "A Keeper Domain subclass feature. Grants a thematic ability tied to the Keeper Domain's specialty — check your sourcebook for full mechanical details.",
+    "fighting spirit":
+        "A Samurai subclass feature. Grants a thematic ability tied to the Samurai's specialty — check your sourcebook for full mechanical details.",
+    "fighting style":
+        "A College of Swords subclass feature. Grants a thematic ability tied to the College of Swords's specialty — check your sourcebook for full mechanical details.",
+    "filch":
+        "A Burglar subclass feature. Grants a thematic ability tied to the Burglar's specialty — check your sourcebook for full mechanical details.",
+    "flickering aura":
+        "A persistent aura emanates from you, granting beneficial effects to allies or hindering enemies within a specific radius.",
+    "flurry of healing and harm":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "foe of the enemy":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "force of personality":
+        "A Way of the Prophet subclass feature. Grants a thematic ability tied to the Way of the Prophet's specialty — check your sourcebook for full mechanical details.",
+    "forest's defender":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "form of the beast":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "fortified position":
+        "A Artillerist subclass feature. Grants a thematic ability tied to the Artillerist's specialty — check your sourcebook for full mechanical details.",
+    "friend to all":
+        "A Master Healer subclass feature. Grants a thematic ability tied to the Master Healer's specialty — check your sourcebook for full mechanical details.",
+    "from the shadows":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "frost rune":
+        "A rune-magic feature — inscribing arcane sigils that grant protective wards, elemental damage, or battlefield control.",
+    "full of stars":
+        "A celestial feature channeling starlight and lunar magic — granting radiant damage, divination, or healing under the night sky.",
+    "fungal body":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "fungal infestation":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "garden of thorns":
+        "A Circle of Roses subclass feature. Grants a thematic ability tied to the Circle of Roses's specialty — check your sourcebook for full mechanical details.",
+    "gathered swarm":
+        "A Swarmkeeper subclass feature. Grants a thematic ability tied to the Swarmkeeper's specialty — check your sourcebook for full mechanical details.",
+    "genie's vessel":
+        "A Genie subclass feature. Grants a thematic ability tied to the Genie's specialty — check your sourcebook for full mechanical details.",
+    "ghost walk":
+        "A Phantom subclass feature. Grants a thematic ability tied to the Phantom's specialty — check your sourcebook for full mechanical details.",
+    "giant's might":
+        "A Rune Knight subclass feature. Grants a thematic ability tied to the Rune Knight's specialty — check your sourcebook for full mechanical details.",
+    "gift of the sea":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "gloom stalker magic":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "glorious defense":
+        "A Oath of Glory subclass feature. Grants a thematic ability tied to the Oath of Glory's specialty — check your sourcebook for full mechanical details.",
+    "grasping roots":
+        "A Circle of Oaks subclass feature. Grants a thematic ability tied to the Circle of Oaks's specialty — check your sourcebook for full mechanical details.",
+    "grasping tentacles":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "gray ooze nature":
+        "A feature channeling the mutable nature of oozes — granting amorphous movement, acid resistance, or the ability to engulf and dissolve foes.",
+    "griffon scout magic":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "griffon wings":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "grove warden magic":
+        "A Grove Warden subclass feature. Grants a thematic ability tied to the Grove Warden's specialty — check your sourcebook for full mechanical details.",
+    "grove's avatar":
+        "A Grove Warden subclass feature. Grants a thematic ability tied to the Grove Warden's specialty — check your sourcebook for full mechanical details.",
+    "grove's blessing":
+        "A Grove Warden subclass feature. Grants a thematic ability tied to the Grove Warden's specialty — check your sourcebook for full mechanical details.",
+    "grove's sanctuary":
+        "A Grove Warden subclass feature. Grants a thematic ability tied to the Grove Warden's specialty — check your sourcebook for full mechanical details.",
+    "grove's wrath":
+        "A Grove Warden subclass feature. Grants a thematic ability tied to the Grove Warden's specialty — check your sourcebook for full mechanical details.",
+    "guarded mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "guardian":
+        "A Bounder subclass feature. Grants a thematic ability tied to the Bounder's specialty — check your sourcebook for full mechanical details.",
+    "guardian coil":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "guardian oak":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "guardian spirit":
+        "A Circle of the Shepherd subclass feature. Grants a thematic ability tied to the Circle of the Shepherd's specialty — check your sourcebook for full mechanical details.",
+    "halo of spores":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "hammerhand":
+        "A Foe-Hammer subclass feature. Grants a thematic ability tied to the Foe-Hammer's specialty — check your sourcebook for full mechanical details.",
+    "hand of harm":
+        "A Way of Mercy subclass feature. Grants a thematic ability tied to the Way of Mercy's specialty — check your sourcebook for full mechanical details.",
+    "hand of healing":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "hand of ultimate mercy":
+        "A Way of Mercy subclass feature. Grants a thematic ability tied to the Way of Mercy's specialty — check your sourcebook for full mechanical details.",
+    "healer’s staunching song":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "healing light":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "heart of the storm":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "hearth of moonlight and shadow":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "heckle":
+        "A College of the Arts subclass feature. Grants a thematic ability tied to the College of the Arts's specialty — check your sourcebook for full mechanical details.",
+    "hex warrior":
+        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+    "hexblade's curse":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "hidden paths":
+        "A Circle of Dreams subclass feature. Grants a thematic ability tied to the Circle of Dreams's specialty — check your sourcebook for full mechanical details.",
+    "hide in shadows":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "high magic":
+        "A Elven High Magic subclass feature. Grants a thematic ability tied to the Elven High Magic's specialty — check your sourcebook for full mechanical details.",
+    "hill rune (7th level or higher)":
+        "A rune-magic feature — inscribing arcane sigils that grant protective wards, elemental damage, or battlefield control.",
+    "hit points":
+        "A Wanderer subclass feature. Grants a thematic ability tied to the Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "hive mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "hive tender magic":
+        "A Path of the Hive Tender subclass feature. Grants a thematic ability tied to the Path of the Hive Tender's specialty — check your sourcebook for full mechanical details.",
+    "hobbling strike":
+        "A Keeper Domain subclass feature. Grants a thematic ability tied to the Keeper Domain's specialty — check your sourcebook for full mechanical details.",
+    "hold the line":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "hooped and hasped":
+        "A Foe-Hammer subclass feature. Grants a thematic ability tied to the Foe-Hammer's specialty — check your sourcebook for full mechanical details.",
+    "horizon walker magic":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "horns wildly blowing":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "hound of ill omen":
+        "A Shadow Magic subclass feature. Grants a thematic ability tied to the Shadow Magic's specialty — check your sourcebook for full mechanical details.",
+    "hour of reaping":
+        "A Way of the Long Death subclass feature. Grants a thematic ability tied to the Way of the Long Death's specialty — check your sourcebook for full mechanical details.",
+    "house of the healer":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "hunt domain spells":
+        "A Hunt Domain subclass feature. Grants a thematic ability tied to the Hunt Domain's specialty — check your sourcebook for full mechanical details.",
+    "hunter's aspect":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "hunter's mark":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "hunter's sense":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "hunter’s blessing":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "implement of peace":
+        "A Peace Domain subclass feature. Grants a thematic ability tied to the Peace Domain's specialty — check your sourcebook for full mechanical details.",
+    "implements of mercy":
+        "A Way of Mercy subclass feature. Grants a thematic ability tied to the Way of Mercy's specialty — check your sourcebook for full mechanical details.",
+    "indestructible life":
+        "A The Undying subclass feature. Grants a thematic ability tied to the The Undying's specialty — check your sourcebook for full mechanical details.",
+    "indomitable might":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "infectious fury":
+        "A Path of the Beast subclass feature. Grants a thematic ability tied to the Path of the Beast's specialty — check your sourcebook for full mechanical details.",
+    "infectious inspiration":
+        "A College of Eloquence subclass feature. Grants a thematic ability tied to the College of Eloquence's specialty — check your sourcebook for full mechanical details.",
+    "insightful fighting":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "insightful manipulator":
+        "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
+    "inspiring surge":
+        "A Purple Dragon Knight subclass feature. Grants a thematic ability tied to the Purple Dragon Knight's specialty — check your sourcebook for full mechanical details.",
+    "intoxicated frenzy":
+        "A Way of the Drunken Master subclass feature. Grants a thematic ability tied to the Way of the Drunken Master's specialty — check your sourcebook for full mechanical details.",
+    "invincible conqueror":
+        "A Oath of Conquest subclass feature. Grants a thematic ability tied to the Oath of Conquest's specialty — check your sourcebook for full mechanical details.",
+    "iron mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "ironbark":
+        "A Circle of Oaks subclass feature. Grants a thematic ability tied to the Circle of Oaks's specialty — check your sourcebook for full mechanical details.",
+    "jack of all trades":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "keeper domain spells":
+        "A Keeper Domain subclass feature. Grants a thematic ability tied to the Keeper Domain's specialty — check your sourcebook for full mechanical details.",
+    "keeper of souls":
+        "A Grave Domain subclass feature. Grants a thematic ability tied to the Grave Domain's specialty — check your sourcebook for full mechanical details.",
+    "lengthen shadow":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "ley line adept":
+        "A Geomancy subclass feature. Grants a thematic ability tied to the Geomancy's specialty — check your sourcebook for full mechanical details.",
+    "ley line manipulation":
+        "A Geomancy subclass feature. Grants a thematic ability tied to the Geomancy's specialty — check your sourcebook for full mechanical details.",
+    "ley line mastery":
+        "A Geomancy subclass feature. Grants a thematic ability tied to the Geomancy's specialty — check your sourcebook for full mechanical details.",
+    "ley line savant":
+        "A Geomancy subclass feature. Grants a thematic ability tied to the Geomancy's specialty — check your sourcebook for full mechanical details.",
+    "lightfoot":
+        "A gift of hope and courage — the Elven Archer kindles light in dark places, rallying companions against despair and the Shadow's influence.",
+    "limited wish":
+        "A Genie subclass feature. Grants a thematic ability tied to the Genie's specialty — check your sourcebook for full mechanical details.",
+    "living legend":
+        "A Oath of Glory subclass feature. Grants a thematic ability tied to the Oath of Glory's specialty — check your sourcebook for full mechanical details.",
+    "magic arrow":
+        "A Arcane Archer subclass feature. Grants a thematic ability tied to the Arcane Archer's specialty — check your sourcebook for full mechanical details.",
+    "magic awareness":
+        "A Path of Wild Magic subclass feature. Grants a thematic ability tied to the Path of Wild Magic's specialty — check your sourcebook for full mechanical details.",
+    "magic-user's nemesis":
+        "A Monster Slayer subclass feature. Grants a thematic ability tied to the Monster Slayer's specialty — check your sourcebook for full mechanical details.",
+    "manifest mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "mantle of inspiration":
+        "A College of Glamour subclass feature. Grants a thematic ability tied to the College of Glamour's specialty — check your sourcebook for full mechanical details.",
+    "mantle of majesty":
+        "A College of Glamour subclass feature. Grants a thematic ability tied to the College of Glamour's specialty — check your sourcebook for full mechanical details.",
+    "mantle of whispers":
+        "A College of Whispers subclass feature. Grants a thematic ability tied to the College of Whispers's specialty — check your sourcebook for full mechanical details.",
+    "marks of honour":
+        "A Knight subclass feature. Grants a thematic ability tied to the Knight's specialty — check your sourcebook for full mechanical details.",
+    "marrowbark form":
+        "A Circle of the Weald subclass feature. Grants a thematic ability tied to the Circle of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "master duelist":
+        "A Swashbuckler subclass feature. Grants a thematic ability tied to the Swashbuckler's specialty — check your sourcebook for full mechanical details.",
+    "master healer herbs":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "master hunter":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "master hunter (second choice)":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "master of hexes":
+        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+    "master of intrigue":
+        "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
+    "master of lies":
+        "A College of the Arts subclass feature. Grants a thematic ability tied to the College of the Arts's specialty — check your sourcebook for full mechanical details.",
+    "master of tactics":
+        "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
+    "master of the hunt":
+        "A Hunt Domain subclass feature. Grants a thematic ability tied to the Hunt Domain's specialty — check your sourcebook for full mechanical details.",
+    "master of the night":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "master scrivener":
+        "A Order of Scribes subclass feature. Grants a thematic ability tied to the Order of Scribes's specialty — check your sourcebook for full mechanical details.",
+    "master's flourish":
+        "A College of Swords subclass feature. Grants a thematic ability tied to the College of Swords's specialty — check your sourcebook for full mechanical details.",
+    "masteries":
+        "A Weaponmaster subclass feature. Grants a thematic ability tied to the Weaponmaster's specialty — check your sourcebook for full mechanical details.",
+    "mastery of death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "mighty spear-throw":
+        "A The Rider subclass feature. Grants a thematic ability tied to the The Rider's specialty — check your sourcebook for full mechanical details.",
+    "mighty summoner":
+        "A Circle of the Shepherd subclass feature. Grants a thematic ability tied to the Circle of the Shepherd's specialty — check your sourcebook for full mechanical details.",
+    "mighty swarm":
+        "A Swarmkeeper subclass feature. Grants a thematic ability tied to the Swarmkeeper's specialty — check your sourcebook for full mechanical details.",
+    "misdirection":
+        "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
+    "misty wanderer":
+        "A Fey Wanderer subclass feature. Grants a thematic ability tied to the Fey Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "monster slayer magic":
+        "A Monster Slayer subclass feature. Grants a thematic ability tied to the Monster Slayer's specialty — check your sourcebook for full mechanical details.",
+    "mortal bulwark":
+        "A Oath of the Watchers subclass feature. Grants a thematic ability tied to the Oath of the Watchers's specialty — check your sourcebook for full mechanical details.",
+    "mortal wound (1 die)":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "mortal wound (2 dice)":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "mortal wound (3 dice)":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "mote of potential":
+        "A College of Creation subclass feature. Grants a thematic ability tied to the College of Creation's specialty — check your sourcebook for full mechanical details.",
+    "mother's gift":
+        "A Circle of Fermentation subclass feature. Grants a thematic ability tied to the Circle of Fermentation's specialty — check your sourcebook for full mechanical details.",
+    "mounted combat":
+        "A The Rider subclass feature. Grants a thematic ability tied to the The Rider's specialty — check your sourcebook for full mechanical details.",
+    "mounted scout":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "mucus spray":
+        "A Ooze School subclass feature. Grants a thematic ability tied to the Ooze School's specialty — check your sourcebook for full mechanical details.",
+    "multitudinous arrows":
+        "A Courser Mage subclass feature. Grants a thematic ability tied to the Courser Mage's specialty — check your sourcebook for full mechanical details.",
+    "natural world":
+        "A Master Scholar subclass feature. Grants a thematic ability tied to the Master Scholar's specialty — check your sourcebook for full mechanical details.",
+    "nature's endurance":
+        "A The Old Wood subclass feature. Grants a thematic ability tied to the The Old Wood's specialty — check your sourcebook for full mechanical details.",
+    "night music":
+        "A College of Shadow subclass feature. Grants a thematic ability tied to the College of Shadow's specialty — check your sourcebook for full mechanical details.",
+    "night vision":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "nor weariness, nor endless barren miles":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "oaken vitality":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "oath of glory spells":
+        "A Oath of Glory subclass feature. Grants a thematic ability tied to the Oath of Glory's specialty — check your sourcebook for full mechanical details.",
+    "oath spells":
+        "A Oath of the Watchers subclass feature. Grants a thematic ability tied to the Oath of the Watchers's specialty — check your sourcebook for full mechanical details.",
+    "obfuscation":
+        "A Burglar subclass feature. Grants a thematic ability tied to the Burglar's specialty — check your sourcebook for full mechanical details.",
+    "oceanic soul":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "one with the blade":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "one with the word":
+        "A Order of Scribes subclass feature. Grants a thematic ability tied to the Order of Scribes's specialty — check your sourcebook for full mechanical details.",
+    "ooze form":
+        "A feature channeling the mutable nature of oozes — granting amorphous movement, acid resistance, or the ability to engulf and dissolve foes.",
+    "ooze mind":
+        "A feature channeling the mutable nature of oozes — granting amorphous movement, acid resistance, or the ability to engulf and dissolve foes.",
+    "orb of night":
+        "A Shadow Arcane Tradition subclass feature. Grants a thematic ability tied to the Shadow Arcane Tradition's specialty — check your sourcebook for full mechanical details.",
+    "order's wrath":
+        "A Order Domain subclass feature. Grants a thematic ability tied to the Order Domain's specialty — check your sourcebook for full mechanical details.",
+    "otherworldly glamour":
+        "A Fey Wanderer subclass feature. Grants a thematic ability tied to the Fey Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "otherworldly wings":
+        "A Divine Soul subclass feature. Grants a thematic ability tied to the Divine Soul's specialty — check your sourcebook for full mechanical details.",
+    "overwhelm":
+        "A Spear of the Weald subclass feature. Grants a thematic ability tied to the Spear of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "owl's wisdom":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "panache":
+        "A Swashbuckler subclass feature. Grants a thematic ability tied to the Swashbuckler's specialty — check your sourcebook for full mechanical details.",
+    "parry":
+        "A Blade Dancer subclass feature. Grants a thematic ability tied to the Blade Dancer's specialty — check your sourcebook for full mechanical details.",
+    "path of the kensei":
+        "A Way of the Kensei subclass feature. Grants a thematic ability tied to the Way of the Kensei's specialty — check your sourcebook for full mechanical details.",
+    "perfected armor":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "performance of creation":
+        "A College of Creation subclass feature. Grants a thematic ability tied to the College of Creation's specialty — check your sourcebook for full mechanical details.",
+    "physician's touch":
+        "A Way of Mercy subclass feature. Grants a thematic ability tied to the Way of Mercy's specialty — check your sourcebook for full mechanical details.",
+    "pierced by many arrows":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "pinpoint weakness":
+        "A Courser Mage subclass feature. Grants a thematic ability tied to the Courser Mage's specialty — check your sourcebook for full mechanical details.",
+    "planar warrior":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "poison soul":
+        "A Mother of Sorrows subclass feature. Grants a thematic ability tied to the Mother of Sorrows's specialty — check your sourcebook for full mechanical details.",
+    "power surge":
+        "A War Magic subclass feature. Grants a thematic ability tied to the War Magic's specialty — check your sourcebook for full mechanical details.",
+    "precision +1d6":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "precision +2d6":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "precision +3d6":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "precision 4d6":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "predator's mark":
+        "A The Hunter in Darkness subclass feature. Grants a thematic ability tied to the The Hunter in Darkness's specialty — check your sourcebook for full mechanical details.",
+    "predator's senses":
+        "A Hunt Domain subclass feature. Grants a thematic ability tied to the Hunt Domain's specialty — check your sourcebook for full mechanical details.",
+    "predatory grace":
+        "A The Old Wood subclass feature. Grants a thematic ability tied to the The Old Wood's specialty — check your sourcebook for full mechanical details.",
+    "preferred target":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "preternatural augment":
+        "A Peerless Scout subclass feature. Grants a thematic ability tied to the Peerless Scout's specialty — check your sourcebook for full mechanical details.",
+    "proficiencies":
+        "A Wanderer subclass feature. Grants a thematic ability tied to the Wanderer's specialty — check your sourcebook for full mechanical details.",
+    "protective bond":
+        "A Peace Domain subclass feature. Grants a thematic ability tied to the Peace Domain's specialty — check your sourcebook for full mechanical details.",
+    "protective spirit":
+        "A Oath of Redemption subclass feature. Grants a thematic ability tied to the Oath of Redemption's specialty — check your sourcebook for full mechanical details.",
+    "psionic power":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "psionic sorcery":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "psionic spells":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "psychic blades":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "psychic defenses":
+        "A Aberrant Mind subclass feature. Grants a thematic ability tied to the Aberrant Mind's specialty — check your sourcebook for full mechanical details.",
+    "psychic veil":
+        "A Soulknife subclass feature. Grants a thematic ability tied to the Soulknife's specialty — check your sourcebook for full mechanical details.",
+    "radiant soul":
+        "A The Celestial subclass feature. Grants a thematic ability tied to the The Celestial's specialty — check your sourcebook for full mechanical details.",
+    "radiant sun bolt":
+        "A Way of the Sun Soul subclass feature. Grants a thematic ability tied to the Way of the Sun Soul's specialty — check your sourcebook for full mechanical details.",
+    "rage beyond death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "raging storm":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "rakish audacity":
+        "A Swashbuckler subclass feature. Grants a thematic ability tied to the Swashbuckler's specialty — check your sourcebook for full mechanical details.",
+    "rallying cry":
+        "A Purple Dragon Knight subclass feature. Grants a thematic ability tied to the Purple Dragon Knight's specialty — check your sourcebook for full mechanical details.",
+    "rapid strike":
+        "A Samurai subclass feature. Grants a thematic ability tied to the Samurai's specialty — check your sourcebook for full mechanical details.",
+    "reckless abandon":
+        "A Path of the Battlerager subclass feature. Grants a thematic ability tied to the Path of the Battlerager's specialty — check your sourcebook for full mechanical details.",
+    "reckless attack":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "refraction shield":
+        "A Light Weaver subclass feature. Grants a thematic ability tied to the Light Weaver's specialty — check your sourcebook for full mechanical details.",
+    "reliable talent":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "relief from long burdens":
+        "A Master Healer subclass feature. Grants a thematic ability tied to the Master Healer's specialty — check your sourcebook for full mechanical details.",
+    "rend mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "restore balance":
+        "A healing feature — restoring hit points, removing conditions, or granting protective wards to allies in need.",
+    "restriction: alseid":
+        "A Spear of the Weald subclass feature. Grants a thematic ability tied to the Spear of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "restriction: dwarves only":
+        "A Path of the Battlerager subclass feature. Grants a thematic ability tied to the Path of the Battlerager's specialty — check your sourcebook for full mechanical details.",
+    "revelation in flesh":
+        "A Aberrant Mind subclass feature. Grants a thematic ability tied to the Aberrant Mind's specialty — check your sourcebook for full mechanical details.",
+    "revenge":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "riddling words":
+        "A Agent subclass feature. Grants a thematic ability tied to the Agent's specialty — check your sourcebook for full mechanical details.",
+    "righteous strike":
+        "A Way of the Prophet subclass feature. Grants a thematic ability tied to the Way of the Prophet's specialty — check your sourcebook for full mechanical details.",
+    "ritual focus":
+        "A Elven High Magic subclass feature. Grants a thematic ability tied to the Elven High Magic's specialty — check your sourcebook for full mechanical details.",
+    "ritual master":
+        "A Elven High Magic subclass feature. Grants a thematic ability tied to the Elven High Magic's specialty — check your sourcebook for full mechanical details.",
+    "ritual savant":
+        "A Elven High Magic subclass feature. Grants a thematic ability tied to the Elven High Magic's specialty — check your sourcebook for full mechanical details.",
+    "rose's embrace":
+        "A Circle of Roses subclass feature. Grants a thematic ability tied to the Circle of Roses's specialty — check your sourcebook for full mechanical details.",
+    "royal envoy":
+        "A Purple Dragon Knight subclass feature. Grants a thematic ability tied to the Purple Dragon Knight's specialty — check your sourcebook for full mechanical details.",
+    "run to ground":
+        "A Hunter of Beasts subclass feature. Grants a thematic ability tied to the Hunter of Beasts's specialty — check your sourcebook for full mechanical details.",
+    "runes":
+        "A rune-magic feature — inscribing arcane sigils that grant protective wards, elemental damage, or battlefield control.",
+    "runic shield":
+        "A Rune Knight subclass feature. Grants a thematic ability tied to the Rune Knight's specialty — check your sourcebook for full mechanical details.",
+    "sacrifice":
+        "A Knight subclass feature. Grants a thematic ability tied to the Knight's specialty — check your sourcebook for full mechanical details.",
+    "saint of forge and fire":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "sanctuary vessel":
+        "A Genie subclass feature. Grants a thematic ability tied to the Genie's specialty — check your sourcebook for full mechanical details.",
+    "scornful rebuke":
+        "A Oath of Conquest subclass feature. Grants a thematic ability tied to the Oath of Conquest's specialty — check your sourcebook for full mechanical details.",
+    "searing arc strike":
+        "A Way of the Sun Soul subclass feature. Grants a thematic ability tied to the Way of the Sun Soul's specialty — check your sourcebook for full mechanical details.",
+    "searing sunburst":
+        "A Way of the Sun Soul subclass feature. Grants a thematic ability tied to the Way of the Sun Soul's specialty — check your sourcebook for full mechanical details.",
+    "searing vengeance":
+        "A The Celestial subclass feature. Grants a thematic ability tied to the The Celestial's specialty — check your sourcebook for full mechanical details.",
+    "second skin":
+        "A Shadow Arcane Tradition subclass feature. Grants a thematic ability tied to the Shadow Arcane Tradition's specialty — check your sourcebook for full mechanical details.",
+    "secret lores":
+        "A Master Scholar subclass feature. Grants a thematic ability tied to the Master Scholar's specialty — check your sourcebook for full mechanical details.",
+    "secrets gleaned":
+        "A Agent subclass feature. Grants a thematic ability tied to the Agent's specialty — check your sourcebook for full mechanical details.",
+    "seen and unseen":
+        "A Master Healer subclass feature. Grants a thematic ability tied to the Master Healer's specialty — check your sourcebook for full mechanical details.",
+    "sentinel at death's door":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "shade step":
+        "A College of Shadow subclass feature. Grants a thematic ability tied to the College of Shadow's specialty — check your sourcebook for full mechanical details.",
+    "shadow bind":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow chewer":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow devourer":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow domain spells":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow grasp":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow killer":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow lore":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow mass":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow smoke":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow symbiote":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow walk":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadow weakness":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadowy dodge":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shadowy resilience":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "shielding storm":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "sickening revenge":
+        "A Mother of Sorrows subclass feature. Grants a thematic ability tied to the Mother of Sorrows's specialty — check your sourcebook for full mechanical details.",
+    "silent flight":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "silver tongue":
+        "A College of Eloquence subclass feature. Grants a thematic ability tied to the College of Eloquence's specialty — check your sourcebook for full mechanical details.",
+    "situational awareness: impromptu ambush":
+        "A Peerless Scout subclass feature. Grants a thematic ability tied to the Peerless Scout's specialty — check your sourcebook for full mechanical details.",
+    "situational awareness: master ambusher":
+        "A Peerless Scout subclass feature. Grants a thematic ability tied to the Peerless Scout's specialty — check your sourcebook for full mechanical details.",
+    "skirmisher":
+        "A Scout subclass feature. Grants a thematic ability tied to the Scout's specialty — check your sourcebook for full mechanical details.",
+    "skirmisher’s step":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "slayer path":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "slayer's counter":
+        "A Monster Slayer subclass feature. Grants a thematic ability tied to the Monster Slayer's specialty — check your sourcebook for full mechanical details.",
+    "slayer's prey":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "slippery mind":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "sneak attack":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "softer underneath":
+        "A Master Healer subclass feature. Grants a thematic ability tied to the Master Healer's specialty — check your sourcebook for full mechanical details.",
+    "song of defense":
+        "A Bladesinging subclass feature. Grants a thematic ability tied to the Bladesinging's specialty — check your sourcebook for full mechanical details.",
+    "song of victory":
+        "A Bladesinging subclass feature. Grants a thematic ability tied to the Bladesinging's specialty — check your sourcebook for full mechanical details.",
+    "songs of slaying":
+        "A musical or poetic ability drawn from the rich oral traditions of Middle-earth, inspiring allies and dismaying foes through the power of song.",
+    "soul blades":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "soul of deceit":
+        "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
+    "soul of the forge":
+        "A forge-and-flame feature — enhancing armor and weapons with elemental fire, granting fire resistance, or dealing bonus fire damage.",
+    "spectral defense":
+        "A Horizon Walker subclass feature. Grants a thematic ability tied to the Horizon Walker's specialty — check your sourcebook for full mechanical details.",
+    "spell arrow":
+        "A Courser Mage subclass feature. Grants a thematic ability tied to the Courser Mage's specialty — check your sourcebook for full mechanical details.",
+    "spell blind":
+        "A Light Weaver subclass feature. Grants a thematic ability tied to the Light Weaver's specialty — check your sourcebook for full mechanical details.",
+    "spell breaker":
+        "A Arcana Domain subclass feature. Grants a thematic ability tied to the Arcana Domain's specialty — check your sourcebook for full mechanical details.",
+    "spiked retribution":
+        "A Path of the Battlerager subclass feature. Grants a thematic ability tied to the Path of the Battlerager's specialty — check your sourcebook for full mechanical details.",
+    "spirit shield (2d8)":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "spirit shield (3d8)":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "spirit shield (4d8)":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "spirit totem":
+        "A Circle of the Shepherd subclass feature. Grants a thematic ability tied to the Circle of the Shepherd's specialty — check your sourcebook for full mechanical details.",
+    "splintered spears & shattered shields":
+        "A Foe-Hammer subclass feature. Grants a thematic ability tied to the Foe-Hammer's specialty — check your sourcebook for full mechanical details.",
+    "split":
+        "A Ooze School subclass feature. Grants a thematic ability tied to the Ooze School's specialty — check your sourcebook for full mechanical details.",
+    "spreading spores":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "stalker's flurry":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "stalker's pounce":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "stalking savant":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "stand against the tide":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "star map":
+        "A celestial feature channeling starlight and lunar magic — granting radiant damage, divination, or healing under the night sky.",
+    "starry form":
+        "A celestial feature channeling starlight and lunar magic — granting radiant damage, divination, or healing under the night sky.",
+    "steady eye":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "steel defender":
+        "A Battle Smith subclass feature. Grants a thematic ability tied to the Battle Smith's specialty — check your sourcebook for full mechanical details.",
+    "steps of night":
+        "A Twilight Domain subclass feature. Grants a thematic ability tied to the Twilight Domain's specialty — check your sourcebook for full mechanical details.",
+    "steps of the forest god":
+        "A nature-focused feature — drawing power from ancient trees and the deep forest for protection, healing, or primal magic.",
+    "stone rune":
+        "A rune-magic feature — inscribing arcane sigils that grant protective wards, elemental damage, or battlefield control.",
+    "storm aura":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "storm guide":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "storm rune (7th level or higher)":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "storm soul":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "storm's fury":
+        "A storm-themed feature — calling lightning from the sky, surrounding yourself with thunderous energy, or unleashing gale-force winds.",
+    "strength before death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "strength greater than any hand":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "strength of the grave":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "strike and fade":
+        "A Griffon Scout subclass feature. Grants a thematic ability tied to the Griffon Scout's specialty — check your sourcebook for full mechanical details.",
+    "style focus":
+        "A Weaponmaster subclass feature. Grants a thematic ability tied to the Weaponmaster's specialty — check your sourcebook for full mechanical details.",
+    "sudden strike":
+        "A Scout subclass feature. Grants a thematic ability tied to the Scout's specialty — check your sourcebook for full mechanical details.",
+    "summon wildfire spirit":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "sun shield":
+        "A Way of the Sun Soul subclass feature. Grants a thematic ability tied to the Way of the Sun Soul's specialty — check your sourcebook for full mechanical details.",
+    "superior mobility":
+        "A Scout subclass feature. Grants a thematic ability tied to the Scout's specialty — check your sourcebook for full mechanical details.",
+    "superior two-weapon fighting":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "supernatural defense":
+        "A Monster Slayer subclass feature. Grants a thematic ability tied to the Monster Slayer's specialty — check your sourcebook for full mechanical details.",
+    "survivalist":
+        "A Scout subclass feature. Grants a thematic ability tied to the Scout's specialty — check your sourcebook for full mechanical details.",
+    "swarm of bees":
+        "A Path of the Hive Tender subclass feature. Grants a thematic ability tied to the Path of the Hive Tender's specialty — check your sourcebook for full mechanical details.",
+    "swarm of hornets":
+        "A Path of the Hive Tender subclass feature. Grants a thematic ability tied to the Path of the Hive Tender's specialty — check your sourcebook for full mechanical details.",
+    "swarm of wasps":
+        "A Path of the Hive Tender subclass feature. Grants a thematic ability tied to the Path of the Hive Tender's specialty — check your sourcebook for full mechanical details.",
+    "swarming dispersal":
+        "A Swarmkeeper subclass feature. Grants a thematic ability tied to the Swarmkeeper's specialty — check your sourcebook for full mechanical details.",
+    "swarmkeeper magic":
+        "A Swarmkeeper subclass feature. Grants a thematic ability tied to the Swarmkeeper's specialty — check your sourcebook for full mechanical details.",
+    "swift shot":
+        "A Hunter of Beasts subclass feature. Grants a thematic ability tied to the Hunter of Beasts's specialty — check your sourcebook for full mechanical details.",
+    "swift tracker":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "sworn defender":
+        "A Knight subclass feature. Grants a thematic ability tied to the Knight's specialty — check your sourcebook for full mechanical details.",
+    "symbiotic entity":
+        "A Circle of Spores subclass feature. Grants a thematic ability tied to the Circle of Spores's specialty — check your sourcebook for full mechanical details.",
+    "tactical wit":
+        "A War Magic subclass feature. Grants a thematic ability tied to the War Magic's specialty — check your sourcebook for full mechanical details.",
+    "take aim":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "talented":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "telekinetic adept":
+        "A Psi Warrior subclass feature. Grants a thematic ability tied to the Psi Warrior's specialty — check your sourcebook for full mechanical details.",
+    "telekinetic master":
+        "A Psi Warrior subclass feature. Grants a thematic ability tied to the Psi Warrior's specialty — check your sourcebook for full mechanical details.",
+    "telepathic speech":
+        "A psionic feature — reading thoughts, establishing telepathic links, or assaulting foes with psychic damage.",
+    "tempestuous magic":
+        "A Storm Sorcery subclass feature. Grants a thematic ability tied to the Storm Sorcery's specialty — check your sourcebook for full mechanical details.",
+    "tentacle of the deeps":
+        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+    "the shadow of my pockets":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "the weapons of the enemy":
+        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+    "there many foes he fought":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "thieves' cant":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "thorny whip":
+        "A Circle of Roses subclass feature. Grants a thematic ability tied to the Circle of Roses's specialty — check your sourcebook for full mechanical details.",
+    "threatening shot":
+        "A Elven Archer subclass feature. Grants a thematic ability tied to the Elven Archer's specialty — check your sourcebook for full mechanical details.",
+    "tipsy sway":
+        "A Way of the Drunken Master subclass feature. Grants a thematic ability tied to the Way of the Drunken Master's specialty — check your sourcebook for full mechanical details.",
+    "tireless spirit":
+        "A Samurai subclass feature. Grants a thematic ability tied to the Samurai's specialty — check your sourcebook for full mechanical details.",
+    "tokens of the departed":
+        "A Phantom subclass feature. Grants a thematic ability tied to the Phantom's specialty — check your sourcebook for full mechanical details.",
+    "tool proficiency":
+        "A Alchemist subclass feature. Grants a thematic ability tied to the Alchemist's specialty — check your sourcebook for full mechanical details.",
+    "tools of the trade":
+        "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
+    "touch of death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "touch of sorrow":
+        "A Mother of Sorrows subclass feature. Grants a thematic ability tied to the Mother of Sorrows's specialty — check your sourcebook for full mechanical details.",
+    "touch of the bright land":
+        "A Spear of the Weald subclass feature. Grants a thematic ability tied to the Spear of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "touch of the long death":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "touch of zymurgy":
+        "A Circle of Fermentation subclass feature. Grants a thematic ability tied to the Circle of Fermentation's specialty — check your sourcebook for full mechanical details.",
+    "track":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "tracker":
+        "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
+    "training in war and song":
+        "A Bladesinging subclass feature. Grants a thematic ability tied to the Bladesinging's specialty — check your sourcebook for full mechanical details.",
+    "trance of order":
+        "A Clockwork Soul subclass feature. Grants a thematic ability tied to the Clockwork Soul's specialty — check your sourcebook for full mechanical details.",
+    "treasure lore":
+        "A Burglar subclass feature. Grants a thematic ability tied to the Burglar's specialty — check your sourcebook for full mechanical details.",
+    "trick of the light":
+        "A Light Weaver subclass feature. Grants a thematic ability tied to the Light Weaver's specialty — check your sourcebook for full mechanical details.",
+    "twilight shroud":
+        "A Twilight Domain subclass feature. Grants a thematic ability tied to the Twilight Domain's specialty — check your sourcebook for full mechanical details.",
+    "twinkling constellations":
+        "A Circle of Stars subclass feature. Grants a thematic ability tied to the Circle of Stars's specialty — check your sourcebook for full mechanical details.",
+    "umbral form":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "umbral sight":
+        "A shadow-magic feature — manipulating darkness to obscure, teleport between shadows, or strike from hidden places.",
+    "unarmoured defence":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "unbreakable majesty":
+        "A College of Glamour subclass feature. Grants a thematic ability tied to the College of Glamour's specialty — check your sourcebook for full mechanical details.",
+    "unbreakable will":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "uncanny dodge":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "underfoot":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "underfoot escape":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "underfoot mastery":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "underfoot tactics":
+        "A The Underfoot subclass feature. Grants a thematic ability tied to the The Underfoot's specialty — check your sourcebook for full mechanical details.",
+    "unearthly recovery":
+        "A Divine Soul subclass feature. Grants a thematic ability tied to the Divine Soul's specialty — check your sourcebook for full mechanical details.",
+    "unerring eye":
+        "A Inquisitive subclass feature. Grants a thematic ability tied to the Inquisitive's specialty — check your sourcebook for full mechanical details.",
+    "unfailing inspiration":
+        "A College of Eloquence subclass feature. Grants a thematic ability tied to the College of Eloquence's specialty — check your sourcebook for full mechanical details.",
+    "universal speech":
+        "A College of Eloquence subclass feature. Grants a thematic ability tied to the College of Eloquence's specialty — check your sourcebook for full mechanical details.",
+    "unseen assailant":
+        "A Courser Mage subclass feature. Grants a thematic ability tied to the Courser Mage's specialty — check your sourcebook for full mechanical details.",
+    "unsettling words":
+        "A College of Eloquence subclass feature. Grants a thematic ability tied to the College of Eloquence's specialty — check your sourcebook for full mechanical details.",
+    "unstable backlash":
+        "A Path of Wild Magic subclass feature. Grants a thematic ability tied to the Path of Wild Magic's specialty — check your sourcebook for full mechanical details.",
+    "unwavering mark":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "unyielding guard":
+        "A Bounder subclass feature. Grants a thematic ability tied to the Bounder's specialty — check your sourcebook for full mechanical details.",
+    "unyielding spirit":
+        "A Oath of the Crown subclass feature. Grants a thematic ability tied to the Oath of the Crown's specialty — check your sourcebook for full mechanical details.",
+    "vengeful ancestors":
+        "A Path of the Ancestral Guardian subclass feature. Grants a thematic ability tied to the Path of the Ancestral Guardian's specialty — check your sourcebook for full mechanical details.",
+    "venomous mark":
+        "A Mother of Sorrows subclass feature. Grants a thematic ability tied to the Mother of Sorrows's specialty — check your sourcebook for full mechanical details.",
+    "vigilant blessing":
+        "A Twilight Domain subclass feature. Grants a thematic ability tied to the Twilight Domain's specialty — check your sourcebook for full mechanical details.",
+    "vigilant defender":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "vigilant rebuke":
+        "A Oath of the Watchers subclass feature. Grants a thematic ability tied to the Oath of the Watchers's specialty — check your sourcebook for full mechanical details.",
+    "vigilant senses":
+        "A Slayer subclass feature. Grants a thematic ability tied to the Slayer's specialty — check your sourcebook for full mechanical details.",
+    "visage of the astral self":
+        "A Way of the Astral Self subclass feature. Grants a thematic ability tied to the Way of the Astral Self's specialty — check your sourcebook for full mechanical details.",
+    "voice of authority":
+        "A Order Domain subclass feature. Grants a thematic ability tied to the Order Domain's specialty — check your sourcebook for full mechanical details.",
+    "volley":
+        "A Hunter of Beasts subclass feature. Grants a thematic ability tied to the Hunter of Beasts's specialty — check your sourcebook for full mechanical details.",
+    "wails from the grave":
+        "A necromantic feature — manipulating life force, raising undead servants, or warding against death itself.",
+    "walker in dreams":
+        "A Circle of Dreams subclass feature. Grants a thematic ability tied to the Circle of Dreams's specialty — check your sourcebook for full mechanical details.",
+    "warden expression":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "warden's gift":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "warden's gift (d10)":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "warden's gift (d12)":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "warden's gift (d8)":
+        "A Warden subclass feature. Grants a thematic ability tied to the Warden's specialty — check your sourcebook for full mechanical details.",
+    "warding maneuver":
+        "A Cavalier subclass feature. Grants a thematic ability tied to the Cavalier's specialty — check your sourcebook for full mechanical details.",
+    "warping implosion":
+        "A Aberrant Mind subclass feature. Grants a thematic ability tied to the Aberrant Mind's specialty — check your sourcebook for full mechanical details.",
+    "warrior of the gods":
+        "A Path of the Zealot subclass feature. Grants a thematic ability tied to the Path of the Zealot's specialty — check your sourcebook for full mechanical details.",
+    "wary":
+        "A Burglar subclass feature. Grants a thematic ability tied to the Burglar's specialty — check your sourcebook for full mechanical details.",
+    "weald spear":
+        "A Spear of the Weald subclass feature. Grants a thematic ability tied to the Spear of the Weald's specialty — check your sourcebook for full mechanical details.",
+    "whirlwind attack":
+        "A Hunter of Shadows subclass feature. Grants a thematic ability tied to the Hunter of Shadows's specialty — check your sourcebook for full mechanical details.",
+    "whispers of the dead":
+        "A Phantom subclass feature. Grants a thematic ability tied to the Phantom's specialty — check your sourcebook for full mechanical details.",
+    "wild empathy":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "wild surge":
+        "A primal feature connecting to the wild — granting bestial abilities, enhanced senses, or the ability to take on animalistic traits.",
+    "wind soul":
+        "A Storm Sorcery subclass feature. Grants a thematic ability tied to the Storm Sorcery's specialty — check your sourcebook for full mechanical details.",
+    "wind speaker":
+        "A Storm Sorcery subclass feature. Grants a thematic ability tied to the Storm Sorcery's specialty — check your sourcebook for full mechanical details.",
+    "winged guardian":
+        "A Circle of Owls subclass feature. Grants a thematic ability tied to the Circle of Owls's specialty — check your sourcebook for full mechanical details.",
+    "wise words":
+        "A Way of the Prophet subclass feature. Grants a thematic ability tied to the Way of the Prophet's specialty — check your sourcebook for full mechanical details.",
+    "wizardly quill":
+        "A Order of Scribes subclass feature. Grants a thematic ability tied to the Order of Scribes's specialty — check your sourcebook for full mechanical details.",
+    "words of terror":
+        "A College of Whispers subclass feature. Grants a thematic ability tied to the College of Whispers's specialty — check your sourcebook for full mechanical details.",
+    "worthy counsel":
+        "A Counsellor subclass feature. Grants a thematic ability tied to the Counsellor's specialty — check your sourcebook for full mechanical details.",
+    "writhing tide":
+        "A Swarmkeeper subclass feature. Grants a thematic ability tied to the Swarmkeeper's specialty — check your sourcebook for full mechanical details.",
+    "zealous presence":
+        "A Path of the Zealot subclass feature. Grants a thematic ability tied to the Path of the Zealot's specialty — check your sourcebook for full mechanical details.",
+    # ── Bard College Features ──
+    "bonus proficiencies":
+        "You gain proficiency with three skills of your choice. At 3rd level, the College of Lore "
+        "grants any three skills; the College of Valor grants proficiency with medium armor, shields, "
+        "and martial weapons.",
+    "additional magical secrets":
+        "At 6th level, you learn two spells of your choice from any class. A spell you choose must be "
+        "of a level you can cast or a cantrip. These spells count as bard spells for you but don't "
+        "count against your number of bard spells known.",
+
+    # ── Life Domain ──
+    "disciple of life":
+        "Also starting at 1st level, your healing spells are more effective. Whenever you cast a "
+        "spell of 1st level or higher that restores hit points to a creature, the creature regains "
+        "additional hit points equal to 2 + the spell's level.",
+    "blessed healer":
+        "Beginning at 6th level, the healing spells you cast on others heal you as well. When you "
+        "cast a spell of 1st level or higher that restores hit points to another creature, you regain "
+        "hit points equal to 2 + the spell's level.",
+    "supreme healing":
+        "Starting at 17th level, when you would normally roll one or more dice to restore hit points "
+        "with a spell, you instead use the highest number possible for each die. For example, instead "
+        "of restoring 2d6 hit points to a creature, you restore 12.",
+
+    # ── Circle of the Land ──
+    "bonus cantrip":
+        "When you choose this circle at 2nd level, you learn one additional druid cantrip of your "
+        "choice. This cantrip doesn't count against your number of cantrips known.",
+    "land's stride":
+        "Starting at 6th level, moving through nonmagical difficult terrain costs you no extra movement. "
+        "You can also pass through nonmagical plants without being slowed by them and without taking "
+        "damage from them if they have thorns, spines, or a similar hazard. In addition, you have "
+        "advantage on saving throws against magically created or manipulated plants that would impede "
+        "movement, such as those created by the entangle spell.",
+    "nature's ward":
+        "When you reach 10th level, you can't be charmed or frightened by elementals or fey, and you "
+        "are immune to poison and disease.",
+    "nature's sanctuary":
+        "When you reach 14th level, creatures from the natural world sense your connection to nature "
+        "and become hesitant to attack you. When a beast or plant creature attacks you, that creature "
+        "must make a Wisdom saving throw against your druid spell save DC. On a failed save, the "
+        "creature must choose a different target, or the attack automatically misses. On a successful "
+        "save, the creature is immune to this effect for 24 hours. The creature is aware of this "
+        "effect before it makes its attack.",
+
+    # ── Champion ──
+    "improved critical":
+        "Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical "
+        "hit on a roll of 19 or 20.",
+    "remarkable athlete":
+        "Starting at 7th level, you can add half your proficiency bonus (rounded up) to any Strength, "
+        "Dexterity, or Constitution check you make that doesn't already use your proficiency bonus. "
+        "In addition, when you make a running long jump, the distance you can cover increases by a "
+        "number of feet equal to your Strength modifier.",
+    "additional fighting style":
+        "At 10th level, you can choose a second option from the Fighting Style class feature.",
+    "superior critical":
+        "Starting at 15th level, your weapon attacks score a critical hit on a roll of 18–20.",
+    "survivor":
+        "At 18th level, you attain the pinnacle of resilience in battle. At the start of each of your "
+        "turns, you regain hit points equal to 5 + your Constitution modifier if you have no more "
+        "than half your hit points left. You don't gain this benefit if you have 0 hit points.",
+
+    # ── Extra Attack (shared by Valor Bard, others) ──
+    "extra attack":
+        "Beginning at 6th level, you can attack twice, instead of once, whenever you take the Attack "
+        "action on your turn.",
+
+    # ── Limited-Use wiring additions ──
+    "thunderbolt strike":
+        "When you deal lightning damage to a Large or smaller creature, you can push it up to 10 feet "
+        "away from you. Usable at will (no limit), but requires dealing lightning damage first.",
+    "dragon wings":
+        "At 14th level, you gain the ability to sprout a pair of dragon wings from your back, gaining "
+        "a flying speed equal to your current speed. You can create these wings as a bonus action on "
+        "your turn. They last until you dismiss them as a bonus action on your turn.",
+    "bend luck":
+        "Starting at 6th level, you have the ability to twist fate using your wild magic. When another "
+        "creature you can see makes an attack roll, an ability check, or a saving throw, you can use "
+        "your reaction and spend 2 sorcery points to roll 1d4 and apply the number rolled as a bonus "
+        "or penalty (your choice) to the creature's roll. You can do so after the creature rolls "
+        "but before any effects of the roll occur.",
+    "minor conjuration":
+        "Starting at 2nd level, you can use your action to conjure up an inanimate object in your hand "
+        "or on the ground in an unoccupied space that you can see within 10 feet of you. The object "
+        "must be no larger than 3 feet on a side and weigh no more than 10 pounds, and its form must "
+        "be that of a nonmagical object you have seen. The object is visibly magical, radiating dim "
+        "light out to 5 feet. It disappears after 1 hour, when you use this feature again, or if it "
+        "takes or deals any damage.",
+    "greater portent":
+        "Starting at 14th level, the visions in your dreams intensify. When you finish a long rest, "
+        "roll three d20s instead of two and record the numbers rolled. You can replace any attack "
+        "roll, saving throw, or ability check with one of these foretelling rolls, and you gain a "
+        "third foretelling roll.",
+    "improved minor illusion":
+        "When you choose this school at 2nd level, you learn the minor illusion cantrip. If you "
+        "already know this cantrip, you learn a different wizard cantrip of your choice. When you "
+        "cast minor illusion, you can create both a sound and an image with a single casting.",
+    "alter memories":
+        "At 14th level, you gain the ability to make a creature unaware of your magical influence on "
+        "it. When you cast an enchantment spell to charm one or more creatures, you can alter one "
+        "creature's understanding so that it remains unaware of being charmed. Additionally, once "
+        "before the spell expires, you can use your action to make the creature forget some of the "
+        "time it spent charmed. The creature must succeed on an Intelligence saving throw against "
+        "your wizard spell save DC or lose a number of hours of memory equal to 1 + your Charisma "
+        "modifier (minimum of 1).",
+    "command undead":
+        "Starting at 14th level, you can use magic to bring undead under your control, even those "
+        "created by other wizards. As an action, you can choose one undead that you can see within "
+        "60 feet and force it to make a Charisma saving throw against your wizard spell save DC. "
+        "If it succeeds, you can't use this feature on it again. If it fails, it becomes friendly "
+        "to you and obeys your commands until you use this feature again. Intelligent undead are "
+        "harder to control — if it has an Intelligence of 8 or higher, it has advantage on the save. "
+        "If it fails and has an Intelligence of 12 or higher, it can repeat the save at the end of "
+        "every hour until it succeeds and breaks free.",
+    "minor alchemy":
+        "Starting at 2nd level, you can temporarily alter the physical properties of one nonmagical "
+        "object, changing it from one substance into another. You perform a special alchemical procedure "
+        "on one object composed entirely of wood, stone (but not a gemstone), iron, copper, or silver, "
+        "transforming it into a different one of those materials. For every 10 minutes you spend "
+        "performing the procedure, you can transform up to 1 cubic foot of material. After 1 hour, "
+        "or until you lose concentration (as if concentrating on a spell), the material reverts to "
+        "its original substance.",
+    "transmuter's stone":
+        "Starting at 6th level, you can spend 8 hours creating a transmuter's stone that stores "
+        "transmutation magic. You can create the stone at the end of a long rest. A creature gains "
+        "a benefit of your choice while holding the stone: darkvision 60 ft, +10 ft speed, proficiency "
+        "in Constitution saves, or resistance to acid/cold/fire/lightning/thunder damage. Each time "
+        "you cast a transmutation spell of 1st level or higher, you can change the effect. If you "
+        "create a new stone, the old one ceases to function.",
 }
 
 # Merge subclass descriptions into FEATURE_DESCRIPTIONS
