@@ -164,7 +164,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   flex-shrink: 0;
 }
 .initiative-card .init-info { flex: 1 1 100px; min-width: 0; }
-.initiative-card .init-name { font-weight: 600; font-size: 0.85rem; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.initiative-card .init-name { font-weight: 600; font-size: 0.85rem; line-height: 1.35; display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap; }
 .initiative-card .init-meta { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .initiative-card .init-roll { font-size: 0.7rem; color: var(--accent); min-width: 3rem; text-align: center; }
 .initiative-card .init-hp-group { display: flex; align-items: center; gap: 0.3rem; min-width: 120px; }
@@ -3469,7 +3469,7 @@ function renderInitiativeTrack() {
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
       <div class="init-info">
-        <div class="init-name">${p.name} ${badge}</div>
+        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player ? `previewCharSheet(${p.char_id}, '${p.name}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
       </div>
       <div class="init-hp-group">
@@ -3482,8 +3482,6 @@ function renderInitiativeTrack() {
         <button class="init-btn heal-btn" onclick="combatApplyHP(${p.en_id}, 1)" title="Heal">+</button>
         <button class="init-btn dmg-btn" onclick="combatApplyHP(${p.en_id}, -1)" title="Damage">−</button>
         <button class="init-btn" onclick="combatResetHP(${p.en_id})" title="Reset to full HP">↺</button>
-        ${p.is_player ? `<button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet">📋</button>`
-          : `<button class="init-btn" onclick="showCombatantDetails(${p.en_id})" title="View details">📋</button>`}
         <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated">${isDefeated ? '⬆' : '💀'}</button>
         <button class="init-btn" onclick="benchCombatant(${p.en_id})" title="Bench (remove from combat)" style="color:var(--text-muted)">⏸</button>
       </div>
@@ -3908,10 +3906,9 @@ function renderBenchedNpcs() {
       style="cursor:grab;opacity:0.7;border-style:dashed">
       <div class="init-turn-marker" style="background:var(--text-muted);color:var(--bg)">⏸</div>
       <div class="init-info" style="flex:1">
-        <div class="init-name">${p.name} ${badge}</div>
+        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();showCombatantDetails(${p.en_id})" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">AC ${p.ac} · HP ${p.hp_current}/${p.hp_max}</div>
       </div>
-      <button class="init-btn" onclick="event.stopPropagation();showCombatantDetails(${p.en_id})" title="View details">📋</button>
       <button class="init-btn" onclick="event.stopPropagation();unbenchCombatant(${p.en_id})" title="Return to combat" style="color:var(--success)">▶</button>
     </div>`;
   }).join('');
