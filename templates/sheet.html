@@ -1169,8 +1169,15 @@
               {% endif %}</span>
               {% endif %}
               {% endif %}
-              {% if feat.name == 'Metamagic' and character.metamagic %}
-              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for m in character.metamagic %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+              {% if feat.name == 'Metamagic' and character.metamagic_history %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set meta_match = None %}
+              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set meta_match = mh %}{% endif %}{% endfor %}
+              {% if meta_match and meta_match.choices %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0;line-height:1.4">
+              {% for m in meta_match.choices %}{% if not loop.first %}<br>{% endif %}{{ m|replace('_',' ')|title }}{% endfor %}
+              </span>
+              {% endif %}
               {% endif %}
               {% if feat.name == 'Eldritch Invocations' and character.invocations %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.invocations %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
@@ -5706,28 +5713,33 @@ function renderLuFightingStyle(el) {
 // ── Level-Up: Metamagic Picker ──────────────────────────────────────
 function renderLuMetamagic(el) {
   const meta = luData.metamagic;
-  if (!luChoices.metamagic) luChoices.metamagic = [];
+  if (!luChoices.metamagic) luChoices.metamagic = {};
   let html = '<div>';
   meta.levels.forEach(lvl => {
     const count = meta.picks_per_level[String(lvl)] || 0;
-    html += `<p style="font-weight:600;margin:0.5rem 0 0.25rem">🧠 Sorcerer L${lvl}: Pick ${count} Metamagic option${count>1?'s':''}</p>`;
+    const lvlPicks = luChoices.metamagic[String(lvl)] || [];
+    const picked = lvlPicks.length;
+    html += `<p style="font-weight:600;margin:0.5rem 0 0.25rem">🧠 Sorcerer L${lvl}: Pick ${count} Metamagic option${count>1?'s':''} (${picked}/${count})</p>`;
     meta.options.forEach(opt => {
-      const sel = luChoices.metamagic.includes(opt.key);
+      const sel = lvlPicks.includes(opt.key);
       const disabled = meta.existing.includes(opt.key);
-      html += `<div class="card" style="cursor:${disabled?'not-allowed':'pointer'};padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px;opacity:${disabled?'0.4':'1'}"
-        ${disabled?'':`onclick="toggleLuMetamagic('${opt.key}')"`}>
-        <strong>${opt.name}</strong>${disabled?' <span style="font-size:0.7rem;color:var(--text-muted)">(already known)</span>':''}<br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
+      const atLimit = !sel && picked >= count;
+      html += `<div class="card" style="cursor:${(disabled||atLimit)?'not-allowed':'pointer'};padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':'var(--border)'};border-radius:6px;opacity:${(disabled||atLimit)?'0.4':'1'}"
+        ${(disabled||atLimit)?'':`onclick="toggleLuMetamagic('${lvl}','${opt.key}')"`}>
+        <strong>${opt.name}</strong>${disabled?' <span style="font-size:0.7rem;color:var(--text-muted)">(already known)</span>':''}${atLimit?' <span style="font-size:0.7rem;color:var(--text-muted)">(max reached)</span>':''}<br><span style="font-size:0.8rem;color:var(--text-muted)">${opt.desc}</span>
       </div>`;
     });
   });
   html += '</div>';
   el.innerHTML = html;
 }
-function toggleLuMetamagic(key) {
-  if (!luChoices.metamagic) luChoices.metamagic = [];
-  const idx = luChoices.metamagic.indexOf(key);
-  if (idx >= 0) luChoices.metamagic.splice(idx,1);
-  else luChoices.metamagic.push(key);
+function toggleLuMetamagic(level, key) {
+  if (!luChoices.metamagic) luChoices.metamagic = {};
+  if (!luChoices.metamagic[level]) luChoices.metamagic[level] = [];
+  const arr = luChoices.metamagic[level];
+  const idx = arr.indexOf(key);
+  if (idx >= 0) arr.splice(idx,1);
+  else arr.push(key);
   renderLevelUpStep();
 }
 
@@ -6191,7 +6203,7 @@ async function applyLevelUp() {
     const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...luChoices, expertise_skills: (luChoices.expertise || []), fighting_style: (luChoices.fighting_style || ''), metamagic: (luChoices.metamagic || []), invocations: (luChoices.invocations || []), pact_boon: (luChoices.pact_boon || ''), maneuvers: (luChoices.maneuvers || []), magical_secrets: (luChoices.magical_secrets || []), totem_spirits: (luChoices.totem_spirits || {}), hunters_prey: (luChoices.hunters_prey || ''), infusions: (luChoices.infusions || []), class_to_level: luClassToLevel, target_level: nextLevel}),
+      body: JSON.stringify({...luChoices, expertise_skills: (luChoices.expertise || []), fighting_style: (luChoices.fighting_style || ''), metamagic: (luChoices.metamagic || {}), invocations: (luChoices.invocations || []), pact_boon: (luChoices.pact_boon || ''), maneuvers: (luChoices.maneuvers || []), magical_secrets: (luChoices.magical_secrets || []), totem_spirits: (luChoices.totem_spirits || {}), hunters_prey: (luChoices.hunters_prey || ''), infusions: (luChoices.infusions || []), class_to_level: luClassToLevel, target_level: nextLevel}),
     });
     const result = await resp.json();
     if (result.ok) {

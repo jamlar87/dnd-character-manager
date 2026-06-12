@@ -3517,8 +3517,8 @@ async def api_create_character(request: Request):
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
         damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
         feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt, expertise_skills, fighting_style,
-        metamagic, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, infusions)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, infusions)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -3536,6 +3536,7 @@ async def api_create_character(request: Request):
         json.dumps(data.get("expertise_skills", [])),
         data.get("fighting_style", ""),
         json.dumps(data.get("metamagic", [])),
+        json.dumps(data.get("metamagic_history", [])),
         json.dumps(data.get("invocations", [])),
         data.get("pact_boon", ""),
         json.dumps(data.get("maneuvers", [])),
@@ -6740,7 +6741,7 @@ async def character_sheet(char_id: int, request: Request):
     char = dict(row)
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
-              "expertise_skills", "asi_history",
+              "expertise_skills", "asi_history", "metamagic_history",
               "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions"):
         try:
             char[f] = json.loads(char[f])
@@ -9052,16 +9053,59 @@ async def apply_level_up(char_id: int, request: Request):
     meta_picks = data.get("metamagic", [])
     if meta_picks:
         current_meta = json.loads(char.get("metamagic", "[]"))
-        for pick in meta_picks:
-            if pick not in current_meta:
-                current_meta.append(pick)
+        meta_history = json.loads(char.get("metamagic_history", "[]"))
+        # Support both flat array (backward compat) and per-level dict
+        if isinstance(meta_picks, dict):
+            # New format: {"3": ["careful_spell", "twinned_spell"], "10": ["quickened_spell"]}
+            for lvl_str, picks in meta_picks.items():
+                lvl = int(lvl_str)
+                for pick in picks:
+                    if pick not in current_meta:
+                        current_meta.append(pick)
+                # Record in history
+                existing_entry = next((e for e in meta_history if e["level"] == lvl), None)
+                if existing_entry:
+                    for pick in picks:
+                        if pick not in existing_entry["choices"]:
+                            existing_entry["choices"].append(pick)
+                else:
+                    meta_history.append({"level": lvl, "choices": list(picks)})
+        else:
+            # Old format: flat list — infer levels from order (backward compat)
+            for pick in meta_picks:
+                if pick not in current_meta:
+                    current_meta.append(pick)
+            # Build history from picks_per_level info
+            meta_levels_list = METAMAGIC_LEVELS.get(class_to_level, [])
+            new_meta_levels = [l for l in meta_levels_list if class_level < l <= target_level]
+            pick_idx = 0
+            for lvl in sorted(new_meta_levels):
+                count = METAMAGIC_PICKS.get(lvl, 0)
+                lvl_picks = meta_picks[pick_idx:pick_idx + count]
+                if lvl_picks:
+                    existing_entry = next((e for e in meta_history if e["level"] == lvl), None)
+                    if existing_entry:
+                        for pick in lvl_picks:
+                            if pick not in existing_entry["choices"]:
+                                existing_entry["choices"].append(pick)
+                    else:
+                        meta_history.append({"level": lvl, "choices": list(lvl_picks)})
+                pick_idx += count
         # Enforce PHB limit: sum of picks at or below target level
         meta_levels_list = METAMAGIC_LEVELS.get(class_to_level, [])
         total_allowed = sum(METAMAGIC_PICKS.get(l, 0) for l in meta_levels_list if l <= target_level)
         if len(current_meta) > total_allowed:
             current_meta = current_meta[:total_allowed]
         updates["metamagic"] = json.dumps(current_meta)
-        changes.append(f"Metamagic: {', '.join(meta_picks)}")
+        updates["metamagic_history"] = json.dumps(meta_history)
+        # Flatten for display
+        all_new = []
+        if isinstance(meta_picks, dict):
+            for picks in meta_picks.values():
+                all_new.extend(picks)
+        else:
+            all_new = meta_picks
+        changes.append(f"Metamagic: {', '.join(all_new)}")
     
     # Eldritch Invocations
     inv_picks = data.get("invocations", [])
@@ -9424,13 +9468,38 @@ async def apply_de_level(char_id: int, request: Request):
     # Metamagic — trim to picks allowed at target level
     meta_levels_list = METAMAGIC_LEVELS.get(cls, [])
     current_meta = json.loads(char.get("metamagic", "[]"))
+    meta_history = json.loads(char.get("metamagic_history", "[]"))
     if current_meta and meta_levels_list:
         total_allowed = sum(METAMAGIC_PICKS.get(l,0) for l in meta_levels_list if l <= new_class_level)
         if len(current_meta) > total_allowed:
             kept = current_meta[:total_allowed]
             lost_meta = [m for m in current_meta if m not in kept]
             updates["metamagic"] = json.dumps(kept)
+            # Also trim metamagic_history — remove entries for levels above target
+            kept_history = [e for e in meta_history if e["level"] <= new_class_level]
+            # Also trim choices in kept levels to match total_allowed
+            # Rebuild from history entries
+            all_from_history = []
+            for e in sorted(kept_history, key=lambda x: x["level"]):
+                all_from_history.extend(e["choices"])
+            if len(all_from_history) > total_allowed:
+                # Trim last entry's choices
+                excess = len(all_from_history) - total_allowed
+                for e in reversed(kept_history):
+                    while excess > 0 and e["choices"]:
+                        e["choices"].pop()
+                        excess -= 1
+                    if excess == 0:
+                        break
+                # Remove empty entries
+                kept_history = [e for e in kept_history if e["choices"]]
+            updates["metamagic_history"] = json.dumps(kept_history)
             changes.append(f"Metamagic lost: {', '.join(lost_meta)}")
+    elif meta_history:
+        # Even if current_meta is empty, clean up history for levels above target
+        kept_history = [e for e in meta_history if e["level"] <= new_class_level]
+        if len(kept_history) != len(meta_history):
+            updates["metamagic_history"] = json.dumps(kept_history)
     
     # Eldritch Invocations — trim to total picks at target
     inv_levels_list = INVOCATION_LEVELS.get(cls, [])
@@ -13242,7 +13311,7 @@ async def generate_character_history(char_id: int, request: Request):
     db.close()
 
     # Parse JSON fields
-    for f in ("skills","features","expertise_skills","asi_history",
+    for f in ("skills","features","expertise_skills","asi_history","metamagic_history",
               "metamagic","invocations","maneuvers","magical_secrets","infusions",
               "feature_data"):
         try:
