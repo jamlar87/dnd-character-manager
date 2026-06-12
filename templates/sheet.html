@@ -1199,7 +1199,20 @@
               {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
             </div>
-            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">{{ feat.asi_feat_desc or feat.description or 'No description available.' }}</div>
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
+              {% if feat.magic_initiate and feat.magic_initiate.class %}
+              <div style="margin-bottom:0.3rem"><strong>{{ feat.magic_initiate.class }}</strong> — {{ feat.magic_initiate.spellcasting_ability|title }}-based</div>
+              <div><strong>Cantrips:</strong> {{ feat.magic_initiate.cantrips|join(', ') }}</div>
+              <div style="margin-bottom:0.4rem"><strong>1st-level:</strong> {{ feat.magic_initiate.spell }} <span style="font-size:0.7rem;color:var(--text-muted)">(1/day)</span></div>
+              <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;background:{{ 'var(--danger)' if feat.magic_initiate.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">{{ 'Used ✓' if feat.magic_initiate.used else 'Available' }}</button>
+              <button class="btn btn-sm btn-outline edit-only" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
+              {% elif feat.asi_feat_name == 'Magic Initiate' %}
+              <div>{{ feat.asi_feat_desc or feat.description }}</div>
+              <button class="btn btn-sm btn-outline edit-only" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up Magic Initiate</button>
+              {% else %}
+              {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
+              {% endif %}
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -3841,6 +3854,95 @@ function cancelFeature(idx) {
   } else {
     const card = document.querySelector(`.feat-card[data-feat-index="${idx}"]`);
     card.querySelector('.feat-body').textContent = feat.description || 'No description available.';
+  }
+}
+
+// ── Magic Initiate feat ──────────────────────────────────────────────
+async function toggleMagicInitiateUse(level) {
+  await fetch('/api/character/' + CHAR_ID + '/magic-initiate/use', {
+    method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}'
+  });
+  location.reload();
+}
+
+function setupMagicInitiate(level) {
+  // Build a modal to configure Magic Initiate
+  const classes = ['Bard','Cleric','Druid','Sorcerer','Warlock','Wizard'];
+  let html = `<div id="mi-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1.5rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto" onclick="event.stopPropagation()">
+      <h3 style="margin:0 0 1rem">Magic Initiate — Level ${level}</h3>
+      <label style="font-weight:600;display:block;margin-bottom:0.3rem">Choose a class:</label>
+      <select id="mi-class" style="width:100%;padding:0.4rem;margin-bottom:1rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">`;
+  classes.forEach(c => { html += `<option value="${c}">${c}</option>`; });
+  html += `</select>
+      <div id="mi-spells" style="margin-bottom:1rem"><p style="color:var(--text-muted);font-size:0.8rem">Select a class first to load spells</p></div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('mi-modal').remove()">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveMagicInitiate(${level})">Save</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  // Load spells for default class
+  document.getElementById('mi-class').onchange = () => loadMISpells();
+  loadMISpells();
+}
+
+async function loadMISpells() {
+  const cls = document.getElementById('mi-class').value;
+  const container = document.getElementById('mi-spells');
+  container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem">Loading spells...</p>';
+  try {
+    const resp = await fetch('/api/spells/starting?class_name=' + cls + '&level=1');
+    const spells = await resp.json();
+    const cantrips = spells.filter(s => s.level === 0);
+    const l1spells = spells.filter(s => s.level === 1);
+    let html = '';
+    if (cantrips.length) {
+      html += '<p style="font-weight:600;margin-bottom:0.3rem;font-size:0.85rem">Cantrips <span style="font-weight:400;color:var(--text-muted);font-size:0.75rem">(pick 2)</span></p>';
+      cantrips.forEach(s => {
+        html += `<label style="display:block;font-size:0.8rem;margin:0.1rem 0;cursor:pointer"><input type="checkbox" class="mi-cantrip" value="${s.name}" onchange="limitMICantrips()"> ${s.name}</label>`;
+      });
+    }
+    if (l1spells.length) {
+      html += '<p style="font-weight:600;margin:0.5rem 0 0.3rem;font-size:0.85rem">1st-level spell <span style="font-weight:400;color:var(--text-muted);font-size:0.75rem">(pick 1)</span></p>';
+      html += '<select id="mi-l1-spell" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)"><option value="">— Choose —</option>';
+      l1spells.forEach(s => {
+        html += `<option value="${s.name}">${s.name}</option>`;
+      });
+      html += '</select>';
+    }
+    container.innerHTML = html || '<p style="color:var(--warn);font-size:0.8rem">No spells found for this class</p>';
+  } catch(e) {
+    container.innerHTML = '<p style="color:var(--danger);font-size:0.8rem">Failed to load spells</p>';
+  }
+}
+
+function limitMICantrips() {
+  const boxes = document.querySelectorAll('.mi-cantrip:checked');
+  if (boxes.length > 2) {
+    boxes[boxes.length - 1].checked = false;
+  }
+}
+
+async function saveMagicInitiate(level) {
+  const cls = document.getElementById('mi-class').value;
+  const cantrips = Array.from(document.querySelectorAll('.mi-cantrip:checked')).map(cb => cb.value);
+  const spell = document.getElementById('mi-l1-spell')?.value || '';
+  if (!cls) { alert('Choose a class'); return; }
+  if (cantrips.length < 2) { alert('Pick 2 cantrips'); return; }
+  if (!spell) { alert('Pick a 1st-level spell'); return; }
+  
+  const resp = await fetch('/api/character/' + CHAR_ID + '/magic-initiate', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({class: cls, cantrips, spell})
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    document.getElementById('mi-modal').remove();
+    location.reload();
+  } else {
+    alert(data.error || 'Failed to save');
   }
 }
 

@@ -6167,6 +6167,11 @@ async def character_sheet(char_id: int, request: Request):
                         _finfo = FEATS.get(_fkey, {})
                         _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
                         _feat["asi_feat_desc"] = _finfo.get("description", "") or _finfo.get("desc", "")
+                        # Magic Initiate: pass config to frontend
+                        if _fkey == "magic_initiate":
+                            _mi = _ae.get("magic_initiate", {})
+                            if _mi:
+                                _feat["magic_initiate"] = _mi
                         break
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
@@ -6576,6 +6581,117 @@ async def add_spell(char_id: int, request: Request):
     sp_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
     db.close()
     return JSONResponse({"id": sp_id})
+
+
+# ── Magic Initiate feat configuration ──────────────────────────────────────
+MAGIC_INITIATE_CLASSES = ["Bard", "Cleric", "Druid", "Sorcerer", "Warlock", "Wizard"]
+
+@app.get("/api/character/{char_id}/magic-initiate", response_class=JSONResponse)
+async def get_magic_initiate(char_id: int, request: Request):
+    """Return Magic Initiate configuration: class, spells, usage state."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    db.close()
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    for entry in asi_hist:
+        if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
+            return JSONResponse(entry.get("magic_initiate", {}))
+    return JSONResponse({})
+
+
+@app.post("/api/character/{char_id}/magic-initiate", response_class=JSONResponse)
+async def save_magic_initiate(char_id: int, request: Request):
+    """Save Magic Initiate choices: class, cantrips, level-1 spell. Auto-adds spells to spellbook."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    
+    chosen_class = data.get("class", "")
+    chosen_cantrips = data.get("cantrips", [])
+    chosen_spell = data.get("spell", "")
+    
+    if chosen_class not in MAGIC_INITIATE_CLASSES:
+        db.close()
+        return JSONResponse({"error": f"Invalid class: {chosen_class}"}, status_code=400)
+    
+    # Update asi_history with magic_initiate config
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    spellcasting_ability = {
+        "Bard": "charisma", "Sorcerer": "charisma", "Warlock": "charisma",
+        "Cleric": "wisdom", "Druid": "wisdom",
+        "Wizard": "intelligence",
+    }.get(chosen_class, "intelligence")
+    found = False
+    for entry in asi_hist:
+        if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
+            entry["magic_initiate"] = {
+                "class": chosen_class,
+                "cantrips": chosen_cantrips,
+                "spell": chosen_spell,
+                "used": data.get("used", False),
+                "spellcasting_ability": spellcasting_ability,
+            }
+            found = True
+            break
+    if not found:
+        db.close()
+        return JSONResponse({"error": "Character does not have Magic Initiate feat"}, status_code=400)
+    
+    # Auto-add spells to character spellbook (remove old Magic Initiate spells first)
+    db.execute("DELETE FROM character_spells WHERE character_id = ? AND source = 'Magic Initiate'", (char_id,))
+    
+    for c_name in chosen_cantrips:
+        db.execute(
+            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used, source) VALUES (?,?,?,?,?,?,?)",
+            (char_id, c_name, 0, 1, 0, 0, "Magic Initiate"))
+    if chosen_spell:
+        db.execute(
+            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used, source) VALUES (?,?,?,?,?,?,?)",
+            (char_id, chosen_spell, 1, 1, 1, 0, "Magic Initiate"))
+    
+    db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
+    db.commit()
+    db.close()
+    
+    return JSONResponse({"ok": True, "magic_initiate": {
+        "class": chosen_class,
+        "cantrips": chosen_cantrips,
+        "spell": chosen_spell,
+        "used": data.get("used", False),
+        "spellcasting_ability": spellcasting_ability,
+    }})
+
+
+@app.post("/api/character/{char_id}/magic-initiate/use", response_class=JSONResponse)
+async def toggle_magic_initiate_use(char_id: int, request: Request):
+    """Toggle the 1/day Magic Initiate spell usage."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    for entry in asi_hist:
+        if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
+            mi = entry.setdefault("magic_initiate", {})
+            mi["used"] = not mi.get("used", False)
+            break
+    db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"used": mi.get("used", False)})
 
 
 @app.get("/api/character/{char_id}/available-spells", response_class=JSONResponse)
