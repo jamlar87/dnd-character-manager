@@ -7489,16 +7489,31 @@ async def level_up_info(char_id: int, request: Request):
     # Pre-compute ASI info for each ASI level
     asi_infos = {}
     abilities = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
+    # Collect abilities already increased at prior ASI levels
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    prev_plus2 = set()
+    prev_plus1 = set()
+    prev_by_ability = {}  # ability → [levels]
+    for entry in asi_hist:
+        if entry.get("type") == "asi":
+            for ab, amt in entry.get("choices", {}).items():
+                prev_by_ability.setdefault(ab, []).append(entry["level"])
+                if amt == 2:
+                    prev_plus2.add(ab)
+                elif amt == 1:
+                    prev_plus1.add(ab)
     for lvl in asi_levels:
         asi_infos[str(lvl)] = {
             "level": lvl,
             "abilities": dict(abilities),  # snapshot
             "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
+            "previous_plus2": list(prev_plus2),
+            "previous_plus1": list(prev_plus1),
+            "previous_by_ability": {ab: lvls for ab, lvls in prev_by_ability.items()},
         }
     
     # Collect feats the character has already taken (via ASI or class feature)
     already_taken_keys: set[str] = set()
-    asi_hist = json.loads(char.get("asi_history", "[]"))
     for entry in asi_hist:
         if entry.get("type") == "feat":
             already_taken_keys.add(entry.get("feat", ""))

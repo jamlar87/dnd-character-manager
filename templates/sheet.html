@@ -5075,6 +5075,9 @@ function onHPChoice(val) {
 function renderLuASI(el) {
   const d = luData.asi;
   const feats = luData.feats;
+  const prevPlus2 = d.previous_plus2 || [];
+  const prevPlus1 = d.previous_plus1 || [];
+  const prevByAb = d.previous_by_ability || {};
   let html = `<div>
     <p style="margin-bottom:0.75rem;font-weight:600">Ability Score Improvement (Level ${d.level})</p>
     <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem">Choose +2 to one ability, +1 to two abilities, or pick a feat.</p>`;
@@ -5086,7 +5089,10 @@ function renderLuASI(el) {
       <option value="">— Choose —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
     const capped = d.max_20.includes(a);
-    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+2})${capped ? ' [max]' : ''}</option>`;
+    const taken2 = prevPlus2.includes(a);
+    const disabled = capped || taken2;
+    const tag = capped ? '[max]' : taken2 ? `[taken L${prevByAb[a]?.join(', L')}]` : '';
+    html += `<option value="${a}"${disabled ? ' disabled' : ''}>${a} (${v} → ${v+2})${tag ? ' ' + tag : ''}</option>`;
   }
   html += `</select></div>`;
   
@@ -5098,14 +5104,20 @@ function renderLuASI(el) {
     <option value="">— A —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
     const capped = d.max_20.includes(a);
-    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+1})${capped ? ' [max]' : ''}</option>`;
+    const taken1 = prevPlus1.includes(a);
+    const disabled = capped || taken1;
+    const tag = capped ? '[max]' : taken1 ? `[taken L${prevByAb[a]?.join(', L')}]` : '';
+    html += `<option value="${a}"${disabled ? ' disabled' : ''}>${a} (${v} → ${v+1})${tag ? ' ' + tag : ''}</option>`;
   }
   html += `</select>`;
   html += `<select id="lu-asi-plus1b" onchange="updateASIplus1()" style="flex:1;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
     <option value="">— B —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
     const capped = d.max_20.includes(a);
-    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+1})${capped ? ' [max]' : ''}</option>`;
+    const taken1 = prevPlus1.includes(a);
+    const disabled = capped || taken1;
+    const tag = capped ? '[max]' : taken1 ? `[taken L${prevByAb[a]?.join(', L')}]` : '';
+    html += `<option value="${a}"${disabled ? ' disabled' : ''}>${a} (${v} → ${v+1})${tag ? ' ' + tag : ''}</option>`;
   }
   html += `</select></div></div>`;
   
