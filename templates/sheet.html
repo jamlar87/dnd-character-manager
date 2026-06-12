@@ -1599,14 +1599,72 @@
         <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 0.5rem 0">
           Spellcasting ability: {{ mi_ability|title }} (DC {{ mi_save_dc }}, +{{ mi_mod }})
         </p>
-        <div style="margin-bottom:0.3rem">
+        {# ── Cantrips with details ── #}
+        <div style="margin-bottom:0.75rem">
           <strong style="font-size:0.8rem">Cantrips:</strong>
-          <span style="font-size:0.8rem">{{ mi.cantrips|join(', ') }}</span>
+          {% for cname in mi.cantrips %}
+          {% set cspell = mi_spells_data|selectattr("spell_name","eq",cname)|list|first %}
+          <div style="margin:0.3rem 0 0.3rem 0.5rem;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:0.75rem;line-height:1.4">
+            <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
+              <strong>{{ cname }}</strong>
+              {% if cspell and cspell.srd and cspell.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ cspell.srd.school }}</span>
+              {% endif %}
+            </div>
+            {% if cspell and cspell.srd %}
+            <div style="color:var(--text-muted);font-size:0.7rem;margin-bottom:0.1rem">
+              {{ cspell.srd.casting_time }} · {{ cspell.srd.range }}
+              {% if cspell.srd.components %}
+              · {{ cspell.srd.components|join(', ') }}{% if cspell.srd.material %} ({{ cspell.srd.material }}){% endif %}
+              {% endif %}
+              · {{ cspell.srd.duration }}
+            </div>
+            <div style="color:var(--text-muted);font-size:0.72rem">
+              {% if cspell.srd.desc is string %}
+                {{ cspell.srd.desc|truncate(200) }}
+              {% elif cspell.srd.desc is iterable %}
+                {{ cspell.srd.desc[0]|truncate(200) if cspell.srd.desc else '' }}
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
+        {# ── 1st-level spell with details ── #}
+        {% set l1spell = mi_spells_data|selectattr("spell_name","eq",mi.spell)|list|first %}
         <div style="margin-bottom:0.5rem">
           <strong style="font-size:0.8rem">1st-level spell:</strong>
-          <span style="font-size:0.8rem;font-weight:600;color:var(--accent)">{{ mi.spell }}</span>
           <span style="font-size:0.7rem;color:var(--text-muted)"> (1/day)</span>
+          <div style="margin:0.3rem 0 0.3rem 0.5rem;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--accent);border-radius:4px;font-size:0.75rem;line-height:1.4">
+            <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.15rem">
+              <strong style="color:var(--accent)">{{ mi.spell }}</strong>
+              {% if l1spell and l1spell.srd and l1spell.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent)">{{ l1spell.srd.school }}</span>
+              {% endif %}
+              {% if l1spell and l1spell.srd and l1spell.srd.concentration %}
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+              {% endif %}
+              {% if l1spell and l1spell.srd and l1spell.srd.ritual %}
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--success);color:#fff">Ritual</span>
+              {% endif %}
+            </div>
+            {% if l1spell and l1spell.srd %}
+            <div style="color:var(--text-muted);font-size:0.7rem;margin-bottom:0.1rem">
+              {{ l1spell.srd.casting_time }} · {{ l1spell.srd.range }}
+              {% if l1spell.srd.components %}
+              · {{ l1spell.srd.components|join(', ') }}{% if l1spell.srd.material %} ({{ l1spell.srd.material }}){% endif %}
+              {% endif %}
+              · {{ l1spell.srd.duration }}
+            </div>
+            <div style="color:var(--text-muted);font-size:0.72rem">
+              {% if l1spell.srd.desc is string %}
+                {{ l1spell.srd.desc|truncate(300) }}
+              {% elif l1spell.srd.desc is iterable %}
+                {{ l1spell.srd.desc[0]|truncate(300) if l1spell.srd.desc else '' }}
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
         </div>
         <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ mi_spells|length }})" style="font-size:0.75rem;padding:0.2rem 0.6rem;background:{{ 'var(--danger)' if mi.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">
           {{ 'Used ✓' if mi.used else 'Available' }}

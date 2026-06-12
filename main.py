@@ -6344,6 +6344,9 @@ async def character_sheet(char_id: int, request: Request):
     ).fetchall()]
     # Enrich spells with full SRD descriptions
     enrich_spells(spells)
+    # Split Magic Initiate spells out of the regular spell list
+    mi_spells_data = [s for s in spells if s.get("source") == "Magic Initiate"]
+    spells = [s for s in spells if s.get("source") != "Magic Initiate"]
     db.close()
 
     # Compute modifiers
@@ -6579,6 +6582,7 @@ async def character_sheet(char_id: int, request: Request):
             merged_tool_profs.append(v)
 
     return _render("sheet.html", request=request, character=char, spells=spells,
+                   mi_spells_data=mi_spells_data,
                    dm_preview=dm_preview,
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
