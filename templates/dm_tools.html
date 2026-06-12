@@ -3639,21 +3639,22 @@ async function showCombatantDetails(enId) {
     } catch(e) { console.warn('Failed to parse creature_data:', e); }
   }
 
-  // Try SRD fetch by monster index
-  if (monsterIndex && monsterIndex.startsWith('m_')) {
-    const srdIndex = monsterIndex.slice(2);
-    console.log('Fetching SRD monster:', srdIndex);
+  // Try fetching full monster card from API (works for both SRD and manual monsters)
+  if (monsterIndex) {
+    // Strip 'm_' prefix if present (added by creature cache)
+    const lookupIndex = monsterIndex.startsWith('m_') ? monsterIndex.slice(2) : monsterIndex;
+    console.log('Fetching monster by index:', lookupIndex);
     try {
-      const r = await fetch(`/api/dm/monster/${srdIndex}`);
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const monster = await r.json();
-      if (monster && monster.name) {
-        console.log('Got SRD monster:', monster.name);
-        showFullMonsterCard(monster, p);
-        return;
+      const r = await fetch(`/api/dm/monster/${encodeURIComponent(lookupIndex)}`);
+      if (r.ok) {
+        const monster = await r.json();
+        if (monster && monster.name) {
+          console.log('Got monster:', monster.name);
+          showFullMonsterCard(monster, p);
+          return;
+        }
       }
-      console.warn('SRD response had no name:', monster);
-    } catch(e) { console.warn('SRD fetch failed:', e); }
+    } catch(e) { console.warn('Monster fetch failed:', e); }
   }
 
   // Fallback: basic stat popup for creature-only entries (manual NPCs, non-SRD)
