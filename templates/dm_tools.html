@@ -595,15 +595,42 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
 {# ───── AI ENCOUNTER BUILDER MODAL ───── #}
 <div class="modal-overlay" id="aiEncounterModal">
-  <div class="modal-content" style="max-width:600px">
+  <div class="modal-content" style="max-width:650px">
     <button class="modal-close" onclick="closeModal('aiEncounterModal')">✕</button>
     <div id="aiEncounterBuilder">
       <h2 style="margin:0 0 1rem 0">🤖 AI Encounter Builder</h2>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">Generates a balanced encounter with SRD monsters filtered by environment, scaled to your party.</p>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">Generates a balanced encounter with all monsters filtered by environment. Select a campaign to tailor the encounter to your party's stats.</p>
       <form id="aiEncounterForm" onsubmit="return generateAiEncounter(event)">
+        <div class="form-group" style="margin-bottom:0.75rem">
+          <label>Campaign <span style="color:var(--text-muted);font-size:0.7rem">(loads party for counter-play)</span></label>
+          <select name="campaign_id" id="aiCampaignSelect" onchange="onAiCampaignChange()" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+            <option value="">— Manual party level/size —</option>
+          </select>
+          <span id="aiPartyPreview" style="display:none;font-size:0.75rem;color:var(--accent);margin-top:0.25rem"></span>
+        </div>
         <div class="form-row">
-          <div class="form-group"><label>Party Level</label><input name="party_level" type="number" min="1" max="20" value="5"></div>
-          <div class="form-group"><label>Party Size</label><input name="party_size" type="number" min="1" max="10" value="4"></div>
+          <div class="form-group"><label>Party Level</label><input name="party_level" id="aiPartyLevel" type="number" min="1" max="20" value="5"></div>
+          <div class="form-group"><label>Party Size</label><input name="party_size" id="aiPartySize" type="number" min="1" max="10" value="4"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Encounter Type</label>
+            <select name="encounter_type">
+              <option value="skirmish" selected>Skirmish (boss + supports)</option>
+              <option value="swarm">Swarm (many weak creatures)</option>
+              <option value="ambush">Ambush (stealth + surprise)</option>
+              <option value="solo_lair">Solo + Lair (one boss, hazards)</option>
+              <option value="rival_faction">Rival Factions (two sides fighting)</option>
+              <option value="social_combat">Social / Escalating (may turn hostile)</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Difficulty</label>
+            <select name="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+              <option value="deadly">Deadly</option>
+            </select>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-group"><label>Environment</label>
@@ -622,17 +649,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
               <option value="any">Any</option>
             </select>
           </div>
-          <div class="form-group"><label>Difficulty</label>
-            <select name="difficulty">
-              <option value="easy">Easy</option>
-              <option value="medium" selected>Medium</option>
-              <option value="hard">Hard</option>
-              <option value="deadly">Deadly</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Target CR (optional — overrides party level scaling)</label>
+          <div class="form-group"><label>Target CR (optional)</label>
             <select name="target_cr">
               <option value="">— Use party level —</option>
               <option value="0">0</option>
@@ -1134,9 +1151,58 @@ function showCreateEncounter() {
 }
 
 // ── AI Encounter Builder ──
-function showAiEncounterBuilder() {
+async function showAiEncounterBuilder() {
   openModal('aiEncounterModal');
   document.getElementById('aiEncounterResult').style.display = 'none';
+  // Populate campaign dropdown
+  try {
+    const r = await fetch('/api/dm/campaigns');
+    const d = await r.json();
+    const sel = document.getElementById('aiCampaignSelect');
+    sel.innerHTML = '<option value="">— Manual party level/size —</option>';
+    (d.campaigns || []).forEach(c => {
+      sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+    });
+    document.getElementById('aiPartyPreview').style.display = 'none';
+    document.getElementById('aiPartyLevel').disabled = false;
+    document.getElementById('aiPartySize').disabled = false;
+  } catch(e) {}
+}
+
+async function onAiCampaignChange() {
+  const sel = document.getElementById('aiCampaignSelect');
+  const cid = sel.value;
+  const preview = document.getElementById('aiPartyPreview');
+  const lvl = document.getElementById('aiPartyLevel');
+  const sz = document.getElementById('aiPartySize');
+  if (!cid) {
+    preview.style.display = 'none';
+    lvl.disabled = false;
+    sz.disabled = false;
+    return;
+  }
+  // Fetch party profile from campaign
+  try {
+    const r = await fetch(`/api/dm/ai/party-profile?campaign_id=${cid}`);
+    const d = await r.json();
+    if (d.profile) {
+      const s = d.profile.summary;
+      lvl.value = Math.max(1, Math.round(s.avg_level));
+      sz.value = s.size;
+      lvl.disabled = true;
+      sz.disabled = true;
+      preview.style.display = 'block';
+      preview.textContent = `${s.size} characters, avg L${s.avg_level} — encounter will be tailored to their stats`;
+    } else {
+      preview.style.display = 'block';
+      preview.textContent = 'No characters in this campaign. Using manual values.';
+      preview.style.color = 'var(--text-muted)';
+      lvl.disabled = false;
+      sz.disabled = false;
+    }
+  } catch(e) {
+    preview.style.display = 'none';
+  }
 }
 
 async function generateAiEncounter(event) {

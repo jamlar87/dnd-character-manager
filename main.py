@@ -3831,7 +3831,7 @@ def _xp_for_cr(cr) -> int:
         return 0
 
 
-def _assign_encounter_counts(picks, xp_budget):
+def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     """Assign monster counts to hit XP budget, accounting for DMG p.83 multiplier.
     AI picks which monsters; this function does the math the AI can't do."""
     if not picks:
@@ -3845,14 +3845,43 @@ def _assign_encounter_counts(picks, xp_budget):
         elif count <= 14: return 3.0
         return 4.0
 
-    # Sort by CR descending, boss first then elites then minions
-    role_order = {"boss": 0, "elite": 1, "minion": 2}
+    # Sort by CR descending
+    role_order = {"boss": 0, "elite": 1, "minion": 2, "faction_a": 0, "faction_b": 0}
     sorted_picks = sorted(picks, key=lambda p: (role_order.get(p.get("role", "minion"), 2), -p["cr"]))
 
     composition = []
     raw_xp = 0
 
-    # Boss: always 1
+    # Swarm: no boss, fill with 4x multiplier
+    if encounter_type == "swarm":
+        target_raw = xp_budget / 4.0  # assume many creatures
+        ri = 0
+        while raw_xp < target_raw * 0.9 and ri < 40:
+            m = sorted_picks[ri % len(sorted_picks)]
+            if m["xp"] <= target_raw - raw_xp or ri < 10:
+                existing = next((c for c in composition if c["index"] == m["index"]), None)
+                if existing:
+                    existing["count"] += 1
+                else:
+                    composition.append({**m, "count": 1})
+                raw_xp += m["xp"]
+            ri += 1
+        return composition, raw_xp
+
+    # Solo lair: boss only + maybe 1-2 guards
+    if encounter_type == "solo_lair":
+        boss = sorted_picks[0]
+        composition.append({**boss, "count": 1})
+        raw_xp += boss["xp"]
+        mult = _mult(1)
+        if raw_xp * mult < xp_budget * 0.6 and len(sorted_picks) > 1:
+            # Add a couple lair guards
+            guard = sorted_picks[1]
+            composition.append({**guard, "count": 2})
+            raw_xp += guard["xp"] * 2
+        return composition, raw_xp
+
+    # Default: boss + elites + minions (skirmish, ambush, social)
     boss = sorted_picks[0]
     composition.append({**boss, "count": 1})
     raw_xp += boss["xp"]
@@ -4760,9 +4789,135 @@ async def dm_npc_delete(npc_id: int, request: Request):
     return JSONResponse({"ok": True})
 
 
+def _build_party_profile(db, campaign_id: int) -> dict | None:
+    """Build a combat profile of all characters in a campaign for AI counter-play.
+    Returns {characters: [...], summary: {...}} or None if no characters."""
+    rows = db.execute("""
+        SELECT c.* FROM characters c
+        JOIN dm_campaign_characters cc ON cc.campaign_id = ? AND cc.character_id = c.id
+        WHERE cc.status = 'active'
+    """, (campaign_id,)).fetchall()
+    if not rows:
+        return None
+
+    chars = []
+    total_level = 0
+    ability_mods = {"STR": [], "DEX": [], "CON": [], "INT": [], "WIS": [], "CHA": []}
+    all_resistances = set()
+    all_immunities = set()
+    all_vulns = set()
+    all_cond_immunities = set()
+
+    for r in rows:
+        c = dict(r)
+        # Parse JSON fields
+        for f in ("skills", "features", "equipped", "attuned_items",
+                   "save_proficiencies", "damage_resistances", "damage_immunities",
+                   "damage_vulnerabilities", "condition_immunities", "asi_history"):
+            val = c.get(f)
+            if isinstance(val, str) and val:
+                try: c[f] = json.loads(val)
+                except: pass
+            if c.get(f) is None:
+                c[f] = []
+
+        ac = c.get("ac", 10)
+        hp = c.get("hp_current", c.get("hp_max", 10)) or c.get("hp_max", 10)
+        lvl = c.get("level", 1)
+        total_level += lvl
+
+        scores = {
+            "STR": c.get("strength", 10), "DEX": c.get("dexterity", 10),
+            "CON": c.get("constitution", 10), "INT": c.get("intelligence", 10),
+            "WIS": c.get("wisdom", 10), "CHA": c.get("charisma", 10),
+        }
+        mods = {k: (v - 10) // 2 for k, v in scores.items()}
+
+        for ab in ability_mods:
+            ability_mods[ab].append(mods[ab])
+
+        saves = {s.replace("_save", "").upper(): mods.get(s.replace("_save", "").upper(), 0)
+                 for s in (c.get("save_proficiencies", []) or [])}
+        # Add prof bonus to proficient saves
+        prof = c.get("proficiency_bonus", 2)
+        for s in saves:
+            saves[s] = mods.get(s, 0) + prof
+
+        # Collect defenses
+        res = [r for r in (c.get("damage_resistances", []) or []) if r]
+        imm = [r for r in (c.get("damage_immunities", []) or []) if r]
+        vul = [r for r in (c.get("damage_vulnerabilities", []) or []) if r]
+        cond_imm = [r for r in (c.get("condition_immunities", []) or []) if r]
+        all_resistances.update(res)
+        all_immunities.update(imm)
+        all_vulns.update(vul)
+        all_cond_immunities.update(cond_imm)
+
+        # Spellcasting check
+        spells = db.execute(
+            "SELECT spell_name, spell_level FROM character_spells WHERE character_id=? AND prepared=1",
+            (c["id"],)
+        ).fetchall()
+        spell_names = [s[0] for s in spells] if spells else []
+
+        chars.append({
+            "name": c.get("name", ""),
+            "race": c.get("race", ""),
+            "class": c.get("class_name", ""),
+            "subclass": c.get("subclass", ""),
+            "level": lvl,
+            "ac": ac,
+            "hp": hp,
+            "scores": {k: v for k, v in scores.items()},
+            "mods": mods,
+            "saves": saves,
+            "resistances": res,
+            "immunities": imm,
+            "vulnerabilities": vul,
+            "condition_immunities": cond_imm,
+            "spells": spell_names,
+            "features": [f.get("name", f) if isinstance(f, dict) else f
+                        for f in (c.get("features", []) or [])],
+        })
+
+    avg_level = round(total_level / len(chars), 1)
+    # Find party's weakest saves (lowest avg modifier)
+    weakest_saves = sorted(ability_mods.items(), key=lambda x: sum(x[1])/len(x[1]))[:2]
+    strongest_saves = sorted(ability_mods.items(), key=lambda x: sum(x[1])/len(x[1]), reverse=True)[:2]
+
+    summary = {
+        "size": len(chars),
+        "avg_level": avg_level,
+        "total_level": total_level,
+        "weakest_saves": [w[0] for w in weakest_saves],
+        "strongest_saves": [s[0] for s in strongest_saves],
+        "collective_resistances": sorted(all_resistances - all_immunities - all_vulns),
+        "collective_immunities": sorted(all_immunities),
+        "collective_vulnerabilities": sorted(all_vulns),
+        "condition_immunities": sorted(all_cond_immunities),
+    }
+    return {"characters": chars, "summary": summary}
+
+
+@app.get("/api/dm/ai/party-profile", response_class=JSONResponse)
+async def dm_ai_party_profile(request: Request):
+    """Return a combat profile summary of all characters in a campaign.
+    Used by the AI Encounter Builder frontend to show party preview."""
+    user = require_user(request)
+    cid = request.query_params.get("campaign_id", "")
+    if not cid:
+        return JSONResponse({"profile": None})
+    db = get_db()
+    profile = _build_party_profile(db, int(cid))
+    db.close()
+    return JSONResponse({"profile": profile})
+
+
 @app.post("/api/dm/ai/build-encounter", response_class=JSONResponse)
 async def dm_ai_build_encounter(request: Request):
-    """AI-suggested encounter composition based on party size/level, environment, and difficulty."""
+    """AI-suggested encounter composition based on party size/level, environment, and difficulty.
+    When campaign_id is provided, loads all party characters and tailors the encounter
+    to their stats — exploiting weak saves, bypassing resistances, and countering strengths."""
     user = require_user(request)
     data = await request.json()
     party_level = int(data.get('party_level', 5))
@@ -4772,6 +4927,7 @@ async def dm_ai_build_encounter(request: Request):
     theme = data.get('theme', '')
     tone = data.get('tone', '')
     target_cr_raw = data.get('target_cr', '')
+    campaign_id = data.get('campaign_id', '')
 
     # Determine effective CR range for filtering
     if target_cr_raw:
@@ -4866,13 +5022,28 @@ async def dm_ai_build_encounter(request: Request):
                 "undead": ["underdark", "dungeon", "urban", "swamp"],
             }
             suitable = type_env_map.get(m_type, [])
-            if not any(e in env_words or e in suitable for e in env_words) and not any(kw in m_name for kw in env_words):
-                env_match = False
+            # Expanded: allow thematic pairings across all environments
+            if environment.lower() not in ("any", ""):
+                # "forest" undead: haunted woods, druid groves with blights
+                cross_env = {
+                    "undead": ["forest", "mountain", "desert", "coastal", "arctic"],
+                    "fey": ["swamp", "mountain", "underdark"],
+                    "fiend": ["swamp", "desert", "forest"],
+                    "aberration": ["forest", "swamp", "mountain", "urban"],
+                    "elemental": ["desert", "coastal", "forest", "swamp"],
+                    "ooze": ["forest", "mountain", "desert", "coastal"],
+                    "plant": ["mountain", "coastal"],
+                    "monstrosity": ["coastal", "urban", "arctic"],
+                    "dragon": ["underdark", "urban", "grassland"],
+                }
+                extra = cross_env.get(m_type, [])
+                if not any(e in env_words or e in suitable or e in extra for e in env_words) and not any(kw in m_name for kw in env_words):
+                    env_match = False
 
         if not env_match:
             continue
 
-        # CR within reasonable range (target CR ±2, or party level ±2 if no target)
+        # CR filtering: split into combat candidates and atmosphere (CR 0)
         try:
             m_cr = float(m.get("challenge_rating", 0))
         except (TypeError, ValueError):
@@ -4880,11 +5051,9 @@ async def dm_ai_build_encounter(request: Request):
 
         if m_cr > max_cr or (m_cr < min_cr and m_cr > 0.125):
             continue
-        if m_cr < 0.125:
-            continue
 
         m_xp = _xp_for_cr(m_cr)
-        if m_xp == 0:
+        if m_xp == 0 and m_cr != 0:
             continue
 
         # Skip mounts and vehicles — DM can add manually
@@ -4892,12 +5061,64 @@ async def dm_ai_build_encounter(request: Request):
         if "mount" in m_tags or "vehicle" in m_tags:
             continue
 
-        candidates.append({
+        entry = {
             "index": m["index"], "name": m["name"], "cr": m_cr, "xp": m_xp,
             "type": m_type, "size": m.get("size", ""),
             "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
             "hp": m.get("hit_points", 0),
-        })
+        }
+
+        # Theme-based filtering
+        theme_match = True
+        if theme:
+            theme_lower = theme.lower()
+            theme_map = {
+                "undead": ["undead", "skeleton", "zombie", "ghost", "wraith", "lich", "vampire",
+                           "wight", "spect", "shadow", "ghoul", "mummy", "revenant", "banshee",
+                           "death", "necro", "bone", "spirit", "haunt"],
+                "dragon": ["dragon", "wyrm", "drake", "wyvern"],
+                "demon": ["demon", "fiend", "devil", "abyssal", "infernal", "hell", "imp"],
+                "goblin": ["goblin", "hobgoblin", "bugbear"],
+                "orc": ["orc", "ogre", "troll", "goblinoid"],
+                "beast": ["beast", "wolf", "bear", "cat", "snake", "spider", "hawk", "eagle",
+                          "rat", "bat", "owl", "lizard", "crocodile", "shark", "dinosaur"],
+                "cult": ["cult", "fanatic", "priest", "acolyte", "cultist", "archmage", "mage"],
+                "bandit": ["bandit", "thug", "scout", "assassin", "spy", "veteran", "berserker",
+                           "guard", "noble", "commoner"],
+                "elemental": ["elemental", "fire", "water", "earth", "air", "mephit", "genie"],
+                "giant": ["giant", "ogre", "troll", "ettin", "cyclops"],
+                "fey": ["fey", "sprite", "pixie", "dryad", "satyr", "hag", "centaur"],
+                "celestial": ["celestial", "angel", "deva", "planetar", "solar", "unicorn", "pegasus"],
+                "construct": ["construct", "golem", "animated", "armor", "homunculus", "shield guardian"],
+                "aberration": ["aberration", "beholder", "mind flayer", "aboleth", "slaad", "nothic"],
+                "ooze": ["ooze", "slime", "jelly", "pudding", "cube"],
+                "plant": ["plant", "treant", "shambling", "blight", "vine", "fungus"],
+                "monstrosity": ["monstrosity", "chimera", "manticore", "owlbear", "basilisk",
+                                "bulette", "roper", "rust monster", "yeti"],
+                "swarm": ["swarm", "horde", "pack"],
+            }
+            theme_tags = None
+            for k, v in theme_map.items():
+                if k in theme_lower:
+                    theme_tags = v
+                    break
+            if theme_tags:
+                theme_match = any(
+                    t in m_type or t in m_name
+                    or any(t in tag.lower() for tag in m.get("tags", []) if isinstance(tag, str))
+                    for t in theme_tags
+                )
+                # Also check the monster's tags
+                for tag in m.get("tags", []) if isinstance(m.get("tags"), list) else []:
+                    tag_lower = tag.lower() if isinstance(tag, str) else ""
+                    if any(t in tag_lower for t in theme_tags):
+                        theme_match = True
+                        break
+
+        if not theme_match:
+            continue
+
+        candidates.append(entry)
 
     # AI composition suggestion — send all candidates so AI has full choice
     if not candidates:
@@ -4923,16 +5144,157 @@ async def dm_ai_build_encounter(request: Request):
     random.shuffle(candidates)
     candidates.sort(key=lambda c: c["cr"], reverse=True)
 
+    # Build party profile if campaign selected
+    party_profile = None
+    campaign_name = ""
+    if campaign_id:
+        try:
+            cid = int(campaign_id)
+            party_profile = _build_party_profile(db, cid)
+            if party_profile:
+                # Also get campaign name
+                camp_row = db.execute(
+                    "SELECT name FROM dm_campaigns WHERE id=?", (cid,)
+                ).fetchone()
+                if camp_row:
+                    campaign_name = camp_row["name"]
+                # Override party_size/party_level with actual values
+                party_size = party_profile["summary"]["size"]
+                party_level = max(1, int(party_profile["summary"]["avg_level"]))
+                xp_budget = xp_per_char * party_size
+        except (ValueError, TypeError):
+            pass
+
     cr_info = f"Target CR: {target_cr_raw}" if target_cr_raw else f"Party: {party_size} level {party_level}"
+
+    # Build party-specific prompt section
+    party_section = ""
+    if party_profile:
+        chars = party_profile["characters"]
+        s = party_profile["summary"]
+        party_section = f"\n--- PARTY PROFILE (tailor encounter to counter these characters) ---\n"
+        party_section += f"Campaign: {campaign_name}. {s['size']} characters, avg level {s['avg_level']}.\n"
+        for ch in chars:
+            saves_str = ", ".join(f"{k}+{v}" for k, v in sorted(ch["saves"].items()))
+            subclass_str = f" ({ch['subclass']})" if ch.get("subclass") else ""
+            party_section += (
+                f"  {ch['name']} — {ch['race']} L{ch['level']} {ch['class']}"
+                f"{subclass_str} | "
+                f"AC{ch['ac']} HP{ch['hp']} | "
+                f"Saves: {saves_str}\n"
+            )
+            if ch["resistances"]:
+                party_section += f"    Resists: {', '.join(ch['resistances'])}\n"
+            if ch["immunities"]:
+                party_section += f"    Immune: {', '.join(ch['immunities'])}\n"
+            if ch["vulnerabilities"]:
+                party_section += f"    Vulnerable: {', '.join(ch['vulnerabilities'])}\n"
+            if ch["spells"]:
+                spell_preview = ", ".join(ch["spells"][:8])
+                if len(ch["spells"]) > 8:
+                    spell_preview += f" +{len(ch['spells']) - 8} more"
+                party_section += f"    Spells: {spell_preview}\n"
+            if ch["features"]:
+                feat_str = ", ".join(str(f) for f in ch["features"][:5])
+                if len(ch["features"]) > 5:
+                    feat_str += f" +{len(ch['features']) - 5} more"
+                party_section += f"    Features: {feat_str}\n"
+        party_section += (
+            f"\nParty summary: weakest saves = {', '.join(s['weakest_saves'])}, "
+            f"strongest = {', '.join(s['strongest_saves'])}.\n"
+        )
+        if s["collective_resistances"]:
+            party_section += f"Shared resistances: {', '.join(s['collective_resistances'])}.\n"
+        if s["collective_immunities"]:
+            party_section += f"Shared immunities: {', '.join(s['collective_immunities'])} — AVOID these damage types.\n"
+        if s["collective_vulnerabilities"]:
+            party_section += f"Shared vulnerabilities: {', '.join(s['collective_vulnerabilities'])} — EXPLOIT these.\n"
+        if s["condition_immunities"]:
+            party_section += f"Condition immunities: {', '.join(s['condition_immunities'])} — DON'T rely on these conditions.\n"
+        party_section += (
+            "COUNTER-PLAY STRATEGY: target weakest saves, bypass resistances, "
+            "use attacks the party is vulnerable to, and pick monsters that counter "
+            "the party's spellcasters and tanks. Make this encounter tactically challenging.\n"
+        )
+
+    # Boss rotation: track recently used bosses for this campaign
+    encounter_type = data.get('encounter_type', 'skirmish')
+    boss_rotation_context = ""
+    if campaign_id:
+        try:
+            recent = db.execute("""
+                SELECT name, combat_state FROM dm_encounters
+                WHERE campaign_id=? AND status='complete' AND combat_state IS NOT NULL
+                ORDER BY updated_at DESC LIMIT 5
+            """, (int(campaign_id),)).fetchall()
+            if recent:
+                boss_rotation_context = "\nRECENTLY USED BOSSES (avoid repeating these):\n"
+                for r in recent:
+                    cs = r["combat_state"]
+                    try:
+                        if isinstance(cs, str):
+                            cs = json.loads(cs)
+                        if isinstance(cs, dict):
+                            monsters = cs.get("monsters", []) or cs.get("npcs", [])
+                            boss_rotation_context += f"- {r['name']}: {', '.join(m[:30] for m in monsters[:3])}\n"
+                    except:
+                        pass
+                boss_rotation_context += "Choose DIFFERENT monsters than those listed above. Be creative.\n"
+        except:
+            pass
+
+    # Archetype-specific prompt templates
+    archetype_guides = {
+        "skirmish": (
+            "Pick 2-5 monsters. Start with a boss suited to a {environment} setting, "
+            "then pick elites and minions that are thematically allied with or subservient to that boss — "
+            "they should feel like a coherent faction (e.g., dragon + kobolds, vampire + spawn + bats, "
+            "orc chief + orcs + wolves, beholder + cultists). For each, assign a role:\n"
+            "- \"boss\": main threat, CR near party level (at most 1)\n"
+            "- \"elite\": strong support, CR slightly below party\n"
+            "- \"minion\": weaker filler"
+        ),
+        "swarm": (
+            "Pick 1-2 creature types that make sense as a swarm/horde in a {environment}. "
+            "Do NOT pick a boss — this is a many-vs-party encounter. Pick creatures that are weaker "
+            "individually but dangerous in numbers (CR 0.125 to CR 2 preferred). "
+            "The system will add lots of them. Assign role \"minion\" to all picks."
+        ),
+        "ambush": (
+            "Pick 2-4 creatures suited to a stealthy ambush in a {environment}. "
+            "Pick at least one with high Stealth or surprise abilities (goblins, bugbears, assassins, etc.). "
+            "Describe how the ambush is set up — terrain, cover, surprise round. "
+            "Tactics should include: who ambushes from where, what the first round looks like.\n"
+            "Assign roles: \"boss\" (ambush leader), \"elite\", \"minion\" as appropriate."
+        ),
+        "solo_lair": (
+            "Pick 1 boss creature for a solo + lair encounter. CR should be 2-4 above party level "
+            "(a solo boss needs to be tougher). Add 0-2 \"minion\" picks for lair guards or hazards. "
+            "The description should set up the lair environment, and tactics should include "
+            "lair actions, terrain advantages, and escape contingencies. "
+            "Tactics should be 3-4 sentences (longer than usual for lair encounters)."
+        ),
+        "rival_faction": (
+            "Pick two rival groups (2-4 monsters each) that would fight each other AND the party. "
+            "e.g., goblins vs. hobgoblins, cultists vs. guards, wolves vs. bears. "
+            "For the JSON, assign roles as \"faction_a\" and \"faction_b\" instead of boss/elite/minion. "
+            "Description: set up the three-way conflict. Tactics: how each faction behaves."
+        ),
+        "social_combat": (
+            "Pick 1-3 creatures that could be negotiated with or fought, in a {environment} setting. "
+            "They should be intelligent enough for social interaction. "
+            "Description: set up the social tension — why might they fight? What do they want? "
+            "Tactics: first sentence = what they want (negotiation hook), second = what happens if combat starts."
+        ),
+    }
+    guide = archetype_guides.get(encounter_type, archetype_guides["skirmish"]).replace("{environment}", environment)
+
     # AI picks monsters and roles; algorithm assigns counts to hit budget (LLMs are bad at math)
     ai_prompt = f"""Design a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info}.
 Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
-XP budget: ~{xp_budget} adjusted XP.
-
-Pick 2-5 monsters from the list below. Start with a boss suited to a {environment} setting, then pick elites and minions that are thematically allied with or subservient to that boss — they should feel like a coherent faction, not a random mix (e.g., dragon + kobolds, vampire + spawn + bats, orc chief + orcs + wolves, beholder + cultists). For each, assign a role:
-- "boss": main threat, CR near party level (at most 1)
-- "elite": strong support, CR slightly below party
-- "minion": weaker filler
+Encounter type: {encounter_type}
+XP budget: ~{xp_budget} adjusted XP.{party_section}{boss_rotation_context}
+{guide}
 
 DO NOT guess counts — the system calculates those. Just pick the right monsters.
 
@@ -4942,7 +5304,7 @@ Available candidates:
 Return ONLY valid JSON (no markdown). Vary choices each time:
 {{"name": "encounter name", "description": "1-2 sentence setup vignette",
   "picks": [{{"index": "monster-index", "role": "boss"}}, {{"index": "monster-index", "role": "minion"}}],
-  "tactics": "1-2 sentence tactics"}}"""
+  "tactics": "1-2 sentence tactics (describe terrain advantage, opening move, or counter-play)"}}"""
     print(f"[AI Encounter] env={environment} diff={difficulty} budget={xp_budget} candidates={len(candidates)}")
 
     text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
@@ -4965,7 +5327,7 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
                 picks.append({**m, "role": role})
 
     # Algorithmic count assignment — AI doesn't do math
-    composition, xp_total = _assign_encounter_counts(picks, xp_budget) if picks else ([], 0)
+    composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type) if picks else ([], 0)
 
     # Fallback: fully algorithmic if AI returned nothing usable
     if not composition:
@@ -4984,7 +5346,7 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
             chosen = (same_type + minion_pool)[:3]
             for m in chosen:
                 picks.append({**m, "role": "minion"})
-        composition, xp_total = _assign_encounter_counts(picks, xp_budget)
+        composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type)
 
     # Calculate adjusted XP multiplier (DMG p.83 — Encounter Multipliers)
     total_monsters = sum(c.get("count", 1) for c in composition)
