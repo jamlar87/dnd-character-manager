@@ -6407,6 +6407,7 @@ async def character_sheet(char_id: int, request: Request):
     # ── Armor proficiency check (PHB p.144) ──
     char["armor_warnings"] = []
     char["shield_warning"] = None
+    class_levels_data = parse_class_levels(char)
     profs = get_character_armor_profs(char, class_levels_data if len(class_levels_data) > 1 else None)
     if armor_ac is not None:
         # Determine which armor category was matched
@@ -6450,7 +6451,6 @@ async def character_sheet(char_id: int, request: Request):
     level = char.get("level", 1)
     mods = {s: char.get(f"{s}_mod", 0) for s in
             ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
-    class_levels_data = parse_class_levels(char)
     
     if len(class_levels_data) > 1:
         # Multiclass: detect caster types present
