@@ -3550,6 +3550,10 @@ async function updateItemQty(input) {
 
 // ── Edit Mode Toggle ──
 function toggleEditMode() {
+  const isCurrentlyEdit = document.body.classList.contains('edit-mode');
+  if (!isCurrentlyEdit && !confirm('Enter edit mode? You can modify stats, HP, proficiencies, and more. Popup descriptions are disabled while editing.')) {
+    return;
+  }
   const isEdit = document.body.classList.toggle('edit-mode');
   const btn = document.getElementById('edit-toggle');
   btn.textContent = isEdit ? '🔓 Done' : '🔒 Edit';
