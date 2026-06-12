@@ -1455,6 +1455,8 @@
             <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% elif sp.ac_bonus %}
             <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            {% elif sp.buff %}
+            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% else %}
             <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
             {% endif %}
@@ -1520,6 +1522,8 @@
               <span class="badge" style="font-size:0.65rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.35rem;border-radius:4px">{{ sp.dice }}</span>
               {% elif sp.ac_bonus %}
               <span class="badge" style="font-size:0.65rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.35rem;border-radius:4px">{{ sp.dice }}</span>
+              {% elif sp.buff %}
+              <span class="badge" style="font-size:0.65rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.35rem;border-radius:4px">{{ sp.dice }}</span>
               {% else %}
               <span class="badge" style="font-size:0.65rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.35rem;border-radius:4px">{{ sp.dice }}</span>
               {% endif %}
@@ -1594,6 +1598,8 @@
             <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% elif sp.ac_bonus %}
             <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            {% elif sp.buff %}
+            <span class="badge" style="font-size:0.6rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% else %}
             <span class="badge" style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
             {% endif %}
@@ -1642,6 +1648,8 @@
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% elif cspell.ac_bonus %}
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
+              {% elif cspell.buff %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% else %}
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ cspell.dice }}</span>
               {% endif %}
@@ -1688,6 +1696,8 @@
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% elif l1spell.ac_bonus %}
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
+              {% elif l1spell.buff %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% else %}
               <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ l1spell.dice }}</span>
               {% endif %}
