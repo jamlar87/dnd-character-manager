@@ -1171,11 +1171,11 @@
               {% endif %}
               {% if feat.name == 'Metamagic' and character.metamagic_history %}
               {% set lvl_num = feat.level|replace('L','')|int %}
-              {% set meta_match = None %}
-              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set meta_match = mh %}{% endif %}{% endfor %}
-              {% if meta_match and meta_match.choices %}
+              {% set ns.meta_match = None %}
+              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set ns.meta_match = mh %}{% endif %}{% endfor %}
+              {% if ns.meta_match and ns.meta_match.choices %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0;line-height:1.4">
-              {% for m in meta_match.choices %}{% if not loop.first %}<br>{% endif %}{{ m|replace('_',' ')|title }}{% endfor %}
+              {% for m in ns.meta_match.choices %}{% if not loop.first %}<br>{% endif %}{{ m|replace('_',' ')|title }}{% endfor %}
               </span>
               {% endif %}
               {% endif %}
