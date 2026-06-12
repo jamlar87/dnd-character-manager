@@ -3441,7 +3441,7 @@ async def create_character_page(request: Request):
         background_sources=BACKGROUND_SOURCES,
         draconic_ancestries=DRACONIC_ANCESTRIES,
         race_names=RACE_NAMES, expertise_levels=EXPERTISE_LEVELS,
-        flexible_asi_races=FLEXIBLE_ASI_RACES,
+        flexible_asi_races=list(FLEXIBLE_ASI_RACES),
         fighting_style_options=FIGHTING_STYLE_OPTIONS,
         fighting_styles=FIGHTING_STYLES,
         metamagic_options=METAMAGIC_OPTIONS, metamagic_levels=METAMAGIC_LEVELS, metamagic_picks=METAMAGIC_PICKS,
