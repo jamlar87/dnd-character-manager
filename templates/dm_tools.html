@@ -520,10 +520,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
   <div class="campaign-grid" id="campaignList">
     {% for camp in campaigns %}
+    {% set party_chars = camp.characters %}
+    {% set live_size = party_chars|length %}
+    {% set live_level = (party_chars|sum(attribute='level') / live_size)|round|int if live_size > 0 else camp.party_level %}
     <div class="campaign-card">
       <h3>{{ camp.name }}</h3>
       <div class="camp-stat">
-        <span>👥 L{{ camp.party_level }} · {{ camp.party_size }} players</span>
+        <span>👥 L{{ live_level }} · {{ live_size or camp.party_size }} players</span>
         <span>📋 {{ camp.quests|length }} quests</span>
         <span>📍 {{ camp.locations|length }} locations</span>
       </div>
@@ -1995,6 +1998,10 @@ async function openCampaign(id) {
     const locations = typeof camp.locations === 'string' ? (JSON.parse(camp.locations) || []) : (camp.locations || []);
     const chars = typeof camp.characters === 'string' ? (JSON.parse(camp.characters) || []) : (camp.characters || []);
 
+    // Compute live party stats from linked characters
+    const liveSize = chars.length || camp.party_size;
+    const liveLevel = chars.length ? Math.round(chars.reduce((s, c) => s + (c.level || 1), 0) / chars.length) : camp.party_level;
+
     // Fetch user's characters for the party picker
     const cr = await fetch('/api/dm/user-characters');
     const cd = await cr.json();
@@ -2003,7 +2010,7 @@ async function openCampaign(id) {
     let html = `<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
       <div>
         <h2 style="margin:0">📜 ${camp.name}</h2>
-        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${camp.party_level} · ${camp.party_size} players · ${chars.length} characters</p>
+        <p style="color:var(--text-muted);font-size:0.85rem">Party: L${liveLevel} · ${liveSize} players · ${chars.length} characters</p>
       </div>
       <div style="display:flex;gap:0.3rem">
         <button class="btn btn-outline btn-sm" onclick="editCampaignMeta(${camp.id})">Edit</button>
