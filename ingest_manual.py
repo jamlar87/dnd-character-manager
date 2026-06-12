@@ -2671,6 +2671,75 @@ def _apply_post_merge_fixups(output_dir: Path) -> None:
                 _save_json(races_path, races)
                 print(f"  Race fixups: {fixed} gap(s) filled")
     
+    # ── Feats: fix OCR-garbled PHB descriptions ──────────────────────
+    feats_path = output_dir / "feats.json"
+    if feats_path.exists():
+        feats = _load_json(feats_path)
+        if isinstance(feats, list):
+            _feat_fixes = {
+                "SHARPSHOOTER": {
+                    "name": "Sharpshooter", "prerequisite": "",
+                    "description": (
+                        "You have mastered ranged weapons and can make shots that "
+                        "others find impossible. You gain the following benefits:\n"
+                        "• Attacking at long range doesn't impose disadvantage on "
+                        "your ranged weapon attack rolls.\n"
+                        "• Your ranged weapon attacks ignore half cover and "
+                        "three-quarters cover.\n"
+                        "• Before you make an attack with a ranged weapon that you "
+                        "are proficient with, you can choose to take a -5 penalty "
+                        "to the attack roll. If the attack hits, you add +10 to "
+                        "the attack's damage."
+                    ),
+                    "source": "PHB 2014 p.170", "_source_manual": "PHB",
+                },
+                "SPELL SNIPER": {
+                    "name": "Spell Sniper",
+                    "prerequisite": "The ability to cast at least one spell",
+                    "description": (
+                        "You have learned techniques to enhance your attacks with "
+                        "certain kinds of spells, gaining the following benefits:\n"
+                        "• When you cast a spell that requires you to make an "
+                        "attack roll, the spell's range is doubled.\n"
+                        "• Your ranged spell attacks ignore half cover and "
+                        "three-quarters cover.\n"
+                        "• You learn one cantrip that requires an attack roll. "
+                        "Choose the cantrip from the bard, cleric, druid, sorcerer, "
+                        "warlock, or wizard spell list. Your spellcasting ability "
+                        "for this cantrip depends on the spell list you chose from: "
+                        "Charisma for bard, sorcerer, or warlock; Wisdom for cleric "
+                        "or druid; or Intelligence for wizard."
+                    ),
+                    "source": "PHB 2014 p.170", "_source_manual": "PHB",
+                },
+                "Crossbow Expert": {
+                    "name": "Crossbow Expert", "prerequisite": "",
+                    "description": (
+                        "Thanks to extensive practice with the crossbow, you gain "
+                        "the following benefits:\n"
+                        "• You ignore the loading quality of crossbows with which "
+                        "you are proficient.\n"
+                        "• Being within 5 feet of a hostile creature doesn't impose "
+                        "disadvantage on your ranged attack rolls.\n"
+                        "• When you use the Attack action and attack with a "
+                        "one-handed weapon, you can use a bonus action to attack "
+                        "with a hand crossbow you are holding."
+                    ),
+                    "source": "PHB 2014 p.166", "_source_manual": "PHB",
+                },
+            }
+            fixed = 0
+            for i, f in enumerate(feats):
+                name = f.get("name", "")
+                # Match both OCR (ALL CAPS) and clean (Title Case) versions
+                fix = _feat_fixes.get(name) or _feat_fixes.get(name.upper())
+                if fix:
+                    feats[i] = fix
+                    fixed += 1
+            if fixed:
+                _save_json(feats_path, feats)
+                print(f"  Feat fixups: {fixed} OCR-garbled entry(s) replaced")
+
     # ── Magic items: fill missing rarities ──────────────────────────
     items_path = output_dir / "magic_items.json"
     if items_path.exists():
