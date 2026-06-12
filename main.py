@@ -7923,16 +7923,18 @@ async def level_up_info(char_id: int, request: Request):
     for entry in asi_hist:
         if entry.get("type") == "asi":
             for ab, amt in entry.get("choices", {}).items():
-                prev_by_ability.setdefault(ab, []).append(entry["level"])
+                ab_tc = ab.capitalize()  # Normalize to title case (Dexterity)
+                prev_by_ability.setdefault(ab_tc, []).append(entry["level"])
                 if amt == 2:
-                    prev_plus2.add(ab)
+                    prev_plus2.add(ab_tc)
                 elif amt == 1:
-                    prev_plus1.add(ab)
+                    prev_plus1.add(ab_tc)
     for lvl in asi_levels:
         asi_infos[str(lvl)] = {
             "level": lvl,
             "abilities": dict(abilities),  # snapshot
             "max_20": [a for a in ABILITY_NAMES if abilities[a] >= 20],
+            "would_exceed_20": [a for a in ABILITY_NAMES if abilities[a] >= 19],  # +2 would push 19→21
             "previous_plus2": list(prev_plus2),
             "previous_plus1": list(prev_plus1),
             "previous_by_ability": {ab: lvls for ab, lvls in prev_by_ability.items()},
@@ -8365,7 +8367,10 @@ async def apply_level_up(char_id: int, request: Request):
             if isinstance(choice, dict):
                 for ability, increase in choice.items():
                     ab_tc = ability.capitalize()  # Normalize "dexterity" → "Dexterity"
-                    cumulative[ab_tc] = cumulative.get(ab_tc, 10) + increase
+                    new_val = cumulative.get(ab_tc, 10) + increase
+                    if new_val > 20:
+                        raise HTTPException(400, f"{ab_tc} would exceed 20 ({cumulative.get(ab_tc, 10)} + {increase} = {new_val})")
+                    cumulative[ab_tc] = new_val
                     updates[ability.lower()] = cumulative[ab_tc]
                     changes.append(f"L{lvl_str}: {ability} +{increase}")
             elif isinstance(choice, str) and choice.startswith("feat:"):

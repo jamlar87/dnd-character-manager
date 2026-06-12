@@ -5379,10 +5379,10 @@ function renderLuASI(el) {
     <select id="lu-asi-plus2" onchange="luChoices.asi = {[this.value]: 2}" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
       <option value="">— Choose —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
-    const capped = d.max_20.includes(a);
+    const capped = (d.would_exceed_20 || d.max_20).includes(a);
     const taken2 = prevPlus2.includes(a);
     const disabled = capped || taken2;
-    const tag = capped ? '[max]' : taken2 ? `[taken L${prevByAb[a]?.join(', L')}]` : '';
+    const tag = capped ? '[cap]' : taken2 ? `[taken L${prevByAb[a]?.join(', L')}]` : '';
     html += `<option value="${a}"${disabled ? ' disabled' : ''}>${a} (${v} → ${v+2})${tag ? ' ' + tag : ''}</option>`;
   }
   html += `</select></div>`;
