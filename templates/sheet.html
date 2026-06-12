@@ -1375,6 +1375,28 @@
         {% endif %}
       </div>
 
+      <!-- Universal Spellcasting Rules -->
+      <div class="card" style="margin-bottom:0.75rem;padding:0.6rem 0.75rem">
+        <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none"
+             onclick="toggleSection('spell-rules-body','spell-rules-arrow')">
+          <span id="spell-rules-arrow" style="font-size:0.7rem">▸</span>
+          <strong style="font-size:0.85rem">Universal Spellcasting Rules</strong>
+          <span style="font-size:0.65rem;color:var(--text-muted)">(PHB Ch.10)</span>
+        </div>
+        <div id="spell-rules-body" style="display:none;margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted);line-height:1.5">
+          <p style="margin:0 0 0.4rem 0"><strong>Casting Time.</strong> Spells require 1 action, 1 bonus action, 1 reaction, or longer (1 minute+). <strong>Bonus Action Rule:</strong> You can only cast one non-cantrip spell per turn. If you cast <em>any</em> spell as a bonus action (even a cantrip), the only other spell you can cast that turn is a cantrip with a casting time of 1 action. <span style="font-size:0.65rem;opacity:0.6">PHB p.202</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Range.</strong> Touch, Self, or a distance in feet. Spells with range of Self can only target the caster (unless they emanate outward like <em>Thunderwave</em>). <span style="font-size:0.65rem;opacity:0.6">PHB p.202-203</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Components.</strong> Verbal (V) — must speak; Somatic (S) — free hand for gestures; Material (M) — access to specified materials (or a component pouch). A <em>spellcasting focus</em> can replace material components that have no gold cost and aren't consumed. If a spell has S but not M, you need a free hand. <span style="font-size:0.65rem;opacity:0.6">PHB p.203</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Duration.</strong> Instantaneous (effect happens and ends), timed (1 minute, 1 hour, etc.), or <em>Concentration</em> (up to the listed duration). You can concentrate on only one spell at a time. Taking damage while concentrating forces a Constitution saving throw (DC 10 or half the damage, whichever is higher). You lose concentration if incapacitated or killed. <span style="font-size:0.65rem;opacity:0.6">PHB p.203-204</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Targets &amp; Areas of Effect.</strong> Spells may target creatures, objects, or a point of origin. Areas include Cone, Cube, Cylinder, Line, and Sphere. A spell's effect expands in straight lines from the point of origin; if line of sight is blocked (total cover), the spell stops there. <span style="font-size:0.65rem;opacity:0.6">PHB p.204-205</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Saving Throws.</strong> Some spells force a saving throw. Your <strong>Spell Save DC</strong> = 8 + proficiency bonus + spellcasting ability modifier. <span style="font-size:0.65rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Attack Rolls.</strong> Some spells require a ranged or melee spell attack. <strong>Spell Attack Modifier</strong> = proficiency bonus + spellcasting ability modifier. <span style="font-size:0.65rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Combining Magical Effects.</strong> The effects of the same spell cast multiple times don't combine; the most potent or most recent effect applies. Different spells with ongoing effects can coexist. <span style="font-size:0.65rem;opacity:0.6">PHB p.205</span></p>
+          <p style="margin:0 0 0.4rem 0"><strong>Casting at Higher Levels.</strong> When you cast a spell using a slot higher than its level, the spell takes the higher slot's effective level. Some spells have additional effects described in their "At Higher Levels" text. Cantrips scale with character level, not spell slots. <span style="font-size:0.65rem;opacity:0.6">PHB p.201</span></p>
+          <p style="margin:0"><strong>Ritual Casting.</strong> Certain classes (Bard, Cleric, Druid, Wizard) can cast spells as rituals. Ritual casting adds 10 minutes to the casting time but does <em>not</em> expend a spell slot. The spell must have the Ritual tag. <span style="font-size:0.65rem;opacity:0.6">PHB p.201-202</span></p>
+        </div>
+      </div>
+
       <!-- Spell Slots -->
       {% if character.spell_slot_data and (character.spell_slot_data.slots or character.spell_slot_data.by_level) %}
       <div class="card" style="margin-bottom:0.75rem">
