@@ -1164,8 +1164,12 @@ async function showAiEncounterBuilder() {
       sel.innerHTML += `<option value="${c.id}">${c.name}</option>`;
     });
     document.getElementById('aiPartyPreview').style.display = 'none';
-    document.getElementById('aiPartyLevel').disabled = false;
-    document.getElementById('aiPartySize').disabled = false;
+    const lvl = document.getElementById('aiPartyLevel');
+    const sz = document.getElementById('aiPartySize');
+    lvl.disabled = false;
+    sz.disabled = false;
+    lvl.value = 5;
+    sz.value = 4;
   } catch(e) {}
 }
 
@@ -1186,13 +1190,14 @@ async function onAiCampaignChange() {
     const r = await fetch(`/api/dm/ai/party-profile?campaign_id=${cid}`);
     const d = await r.json();
     if (d.profile) {
-      const s = d.profile.summary;
-      lvl.value = Math.max(1, Math.round(s.avg_level));
-      sz.value = s.size;
-      lvl.disabled = true;
-      sz.disabled = true;
-      preview.style.display = 'block';
-      preview.textContent = `${s.size} characters, avg L${s.avg_level} — encounter will be tailored to their stats`;
+    const s = d.profile.summary;
+    lvl.value = Math.max(1, Math.round(s.avg_level));
+    sz.value = s.size;
+    lvl.disabled = false;
+    sz.disabled = false;
+    preview.style.display = 'block';
+    preview.textContent = `${s.size} characters, avg L${s.avg_level} — edit if needed`;
+    preview.style.color = 'var(--accent)';
     } else {
       preview.style.display = 'block';
       preview.textContent = 'No characters in this campaign. Using manual values.';
