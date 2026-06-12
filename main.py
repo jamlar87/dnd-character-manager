@@ -6167,11 +6167,15 @@ async def character_sheet(char_id: int, request: Request):
                         _finfo = FEATS.get(_fkey, {})
                         _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
                         _feat["asi_feat_desc"] = _finfo.get("description", "") or _finfo.get("desc", "")
-                        # Magic Initiate: pass config to frontend
+                        # Magic Initiate: pass spell config to frontend
                         if _fkey == "magic_initiate":
                             _mi = _ae.get("magic_initiate", {})
                             if _mi:
                                 _feat["magic_initiate"] = _mi
+                        # Generic feat config (Elemental Adept, Ley Initiate, etc.)
+                        _fc = _ae.get("feat_config")
+                        if _fc:
+                            _feat["feat_config"] = _fc
                         break
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
@@ -6713,6 +6717,62 @@ async def reset_magic_initiate_use(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+# ── Generic feat configuration ──────────────────────────────────────────
+FEAT_SETUP_CHOICES = {
+    "elemental_adept": {
+        "label": "Choose a damage type",
+        "field": "type",
+        "choices": ["Acid", "Cold", "Fire", "Lightning", "Thunder"],
+    },
+    "ley_initiate": {
+        "label": "Choose an ability to increase",
+        "field": "ability",
+        "choices": ["Intelligence", "Wisdom"],
+    },
+}
+
+
+@app.post("/api/character/{char_id}/feat-config", response_class=JSONResponse)
+async def save_feat_config(char_id: int, request: Request):
+    """Save configuration for any feat that requires choices (Elemental Adept, etc.)."""
+    user = require_user(request)
+    data = await request.json()
+    feat_key = data.get("feat", "")
+    config = data.get("config", {})
+    
+    # Normalize feat key (handle both "ley_initiate" and "Ley Initiate")
+    _nk = feat_key.lower().replace(" ", "_")
+    if _nk not in FEAT_SETUP_CHOICES:
+        return JSONResponse({"error": f"No setup needed for {feat_key}"}, status_code=400)
+    
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    
+    found = False
+    for entry in asi_hist:
+        if entry.get("type") == "feat":
+            _ef = entry.get("feat", "")
+            # Normalize both for comparison (handle space vs underscore variants)
+            if _ef.lower().replace(" ", "_") == _nk:
+                entry["feat_config"] = config
+                found = True
+                break
+    
+    if not found:
+        db.close()
+        return JSONResponse({"error": f"Character does not have {feat_key} feat"}, status_code=400)
+    
+    db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "config": config})
 
 
 @app.get("/api/character/{char_id}/available-spells", response_class=JSONResponse)
