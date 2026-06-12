@@ -1574,6 +1574,9 @@
           {% for sp in spells %}
           <div class="spell-row">
             <strong>{{ sp.spell_name }}</strong>
+            {% if sp.dice %}
+            <span class="badge" style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:4px;margin:0 0.3rem">{{ sp.dice }}</span>
+            {% endif %}
             <span class="badge badge-muted" style="margin-left:0.5rem">
               {% if sp.spell_level == 0 %}Cantrip{% else %}Lv{{ sp.spell_level }}{% endif %}
             </span>
