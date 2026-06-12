@@ -6694,6 +6694,27 @@ async def toggle_magic_initiate_use(char_id: int, request: Request):
     return JSONResponse({"used": mi.get("used", False)})
 
 
+@app.post("/api/character/{char_id}/magic-initiate/reset", response_class=JSONResponse)
+async def reset_magic_initiate_use(char_id: int, request: Request):
+    """Reset all Magic Initiate 1/day uses to available (called on long rest)."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    char = dict(row)
+    asi_hist = json.loads(char.get("asi_history", "[]"))
+    for entry in asi_hist:
+        if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
+            mi = entry.setdefault("magic_initiate", {})
+            mi["used"] = False
+    db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
 @app.get("/api/character/{char_id}/available-spells", response_class=JSONResponse)
 async def available_spells(char_id: int, request: Request):
     """Return spells this character can learn — filtered by class, level, race, subclass.

@@ -2553,6 +2553,9 @@ async function executeLongRest() {
   // Save reset feature uses to DB separately
   await api('/update', { feature_data: JSON.stringify(featureData) });
 
+  // Reset Magic Initiate 1/day uses
+  try { await fetch('/api/character/' + CHAR_ID + '/magic-initiate/reset', { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' }); } catch(e) {}
+
   // Show result notification
   const hdResult = document.getElementById('hd-result');
   if (hdResult) {
