@@ -3397,8 +3397,10 @@ const ABILITY_DESCRIPTIONS = {
 function showAbilityPopup(stat, label) {
   if (document.body.classList.contains('edit-mode')) return;
   const popup = document.getElementById('detail-popup');
+  if (!popup) return;
   const title = document.getElementById('popup-title');
   const body = document.getElementById('popup-body');
+  if (!title || !body) return;
   const desc = ABILITY_DESCRIPTIONS[stat] || 'No description available.';
   title.textContent = label + ' — ' + stat.charAt(0).toUpperCase() + stat.slice(1);
   body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
@@ -3418,8 +3420,10 @@ function showCombatPopup(key) {
   if (document.body.classList.contains('edit-mode')) return;
   const names = { ac: 'AC — Armor Class', initiative: 'Initiative', speed: 'Speed', prof: 'Proficiency Bonus', inspiration: 'Inspiration' };
   const popup = document.getElementById('detail-popup');
+  if (!popup) return;
   const title = document.getElementById('popup-title');
   const body = document.getElementById('popup-body');
+  if (!title || !body) return;
   const desc = COMBAT_DESCRIPTIONS[key] || 'No description available.';
   title.textContent = names[key] || key;
   body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
@@ -3556,7 +3560,8 @@ function toggleEditMode() {
 // Restore edit mode preference (skip in DM preview)
 if (!document.body.classList.contains('dm-preview') && localStorage.getItem('edit-mode-' + CHAR_ID) === '1') {
   document.body.classList.add('edit-mode');
-  document.getElementById('edit-toggle').textContent = '🔓 Done';
+  const toggleBtn = document.getElementById('edit-toggle');
+  if (toggleBtn) toggleBtn.textContent = '🔓 Done';
 }
 
 // ── Editable fields ──
