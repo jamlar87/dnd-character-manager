@@ -2016,7 +2016,6 @@ async function openCampaign(id) {
         <button class="btn btn-outline btn-sm" onclick="editCampaignMeta(${camp.id})">Edit</button>
         <button class="btn btn-outline btn-sm" onclick="addCampQuest(${camp.id})">+ Quest</button>
         <button class="btn btn-outline btn-sm" onclick="addCampLocation(${camp.id})">+ Location</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteCampaign(${camp.id});closeModal('campaignModal')">✕</button>
       </div>
     </div>`;
     if (camp.description) html += `<p style="margin-bottom:1rem">${camp.description}</p>`;
@@ -2159,7 +2158,10 @@ async function openCampaign(id) {
     // Notes editor
     html += `<h4>Campaign Notes</h4>
       <textarea id="campNotes" rows="4" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem">${camp.notes || ''}</textarea>
-      <button class="btn btn-outline btn-sm" onclick="saveCampNotes(${camp.id})">Save Notes</button>`;
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <button class="btn btn-outline btn-sm" onclick="saveCampNotes(${camp.id})">Save Notes</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCampaign(${camp.id});closeModal('campaignModal')">Delete Campaign</button>
+      </div>`;
 
     document.getElementById('campaignDetail').innerHTML = html;
   } catch(e) {
