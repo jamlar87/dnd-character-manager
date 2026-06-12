@@ -3780,27 +3780,45 @@ MANUAL_CACHE = DATA_DIR / "manual_cache"
 def _ensure_manual_cache() -> dict[str, Path]:
     """Ensure all manual PDFs have been extracted to text cache.
     Returns {book_label: path_to_txt}.
+    Uses _meta.json pdf_map to discover all ingested manuals.
     """
     MANUAL_CACHE.mkdir(parents=True, exist_ok=True)
-    book_labels = {
-        "D&D 5E - Player's Handbook.pdf": "PHB",
-        "D&D 5E - Dungeon Master's Guide.pdf": "DMG",
-        "D&D 5E - Monster Manual.pdf": "MM",
-        "D&D 5E - Xanathar's Guide to Everything.pdf": "XGE",
-        "D&D 5E - Volo's Guide to Monsters.pdf": "VGM",
-        "D&D 5E - Mordenkainen's Tome of Foes.pdf": "MTF",
-        "D&D 5E - Sword Coast Adventurer's Guide.pdf": "SCAG",
-        "D&D 5E - Elemental Evil Player's Companion.pdf": "EEPC",
-        "D&D 5E - Guildmasters' Guide to Ravnica.pdf": "GGR",
-        "D&D 5E - Wayfinders Guide to Eberron.pdf": "WGE",
-        "D&D 5E - The Tortle Package.pdf": "TTP",
-    }
+
+    # ── Build book list from _meta.json pdf_map ──
+    book_labels: dict[str, str] = {}  # pdf_path → label (slug)
+    try:
+        meta = _load_manual_json("_meta.json")
+        pdf_map = (meta or {}).get("pdf_map", {}) if isinstance(meta, dict) else {}
+        for slug, info in pdf_map.items():
+            rel_path = info.get("path", "")
+            if rel_path:
+                book_labels[rel_path] = slug
+    except Exception:
+        pass
+
+    # Fallback: hardcoded WotC core books (in case _meta.json is unavailable)
+    if not book_labels:
+        book_labels = {
+            "D&D 5E - Player's Handbook.pdf": "PHB",
+            "D&D 5E - Dungeon Master's Guide.pdf": "DMG",
+            "D&D 5E - Monster Manual.pdf": "MM",
+            "D&D 5E - Xanathar's Guide to Everything.pdf": "XGE",
+            "D&D 5E - Volo's Guide to Monsters.pdf": "VGM",
+            "D&D 5E - Mordenkainen's Tome of Foes.pdf": "MTF",
+            "D&D 5E - Sword Coast Adventurer's Guide.pdf": "SCAG",
+            "D&D 5E - Elemental Evil Player's Companion.pdf": "EEPC",
+            "D&D 5E - Guildmasters' Guide to Ravnica.pdf": "GGR",
+            "D&D 5E - Wayfinders Guide to Eberron.pdf": "WGE",
+            "D&D 5E - The Tortle Package.pdf": "TTP",
+        }
+
     cached = {}
-    for pdf_name, label in book_labels.items():
-        pdf_path = MANUALS_DIR / pdf_name
+    for pdf_rel, label in book_labels.items():
+        pdf_path = MANUALS_DIR / pdf_rel
         txt_path = MANUAL_CACHE / f"{label}.txt"
         if pdf_path.exists():
             if not txt_path.exists() or pdf_path.stat().st_mtime > txt_path.stat().st_mtime:
+                print(f"  [cache] Extracting {label}...")
                 _extract_pdf(pdf_path, txt_path)
             if txt_path.exists():
                 cached[label] = txt_path
@@ -3870,7 +3888,15 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
         "VGM": 0.75, "MTF": 0.75,
         "SCAG": 0.70, "EEPC": 0.65,
         "GGR": 0.60, "WGE": 0.60, "TTP": 0.55,
+        # Common ingested manuals
+        "EBT": 0.55, "CC": 0.50, "KW": 0.45,
+        "AIPG": 0.50, "LMG": 0.50, "BLRG": 0.45,
+        "RRG": 0.45, "RVR": 0.45, "LMRG": 0.45,
+        "EREA": 0.45, "ERIA": 0.45, "MWC": 0.45,
+        "WLA": 0.45, "RGEO": 0.45,
     }
+    # Human-readable book names for search results
+    _book_names = _get_source_slug_map()  # returns {slug: {display, ...}}
 
     PROXIMITY_WINDOW = 5   # lines within this range = same paragraph
     CONTEXT_MARGIN = 3     # extra lines above/below for snippet
@@ -3983,8 +4009,10 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
                     snippet = " ".join(para_lines)[:400] if para_lines else ""
 
                 est_page = max(1, match_lines[0] // 45)
+                book_name = _book_names.get(label, {}).get("display", label) if _book_names else label
                 book_results.append({
                     "book": label,
+                    "book_name": book_name,
                     "snippet": snippet,
                     "line": match_lines[0],
                     "page": est_page,
