@@ -55,6 +55,17 @@ try:
 except Exception:
     SRD_SPELLS = []
 
+# ── Spell dice roll lookup (for card indicators) ────────────────────────────
+
+def _load_spell_dice() -> dict[str, dict]:
+    try:
+        with open(DATA_DIR / "spell_dice.json") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+SPELL_DICE: dict[str, dict] = _load_spell_dice()
+
 # ── SRD Magic Items & Features (from dnd5eapi.co 2014, cached locally) ──────
 
 def _load_json_cache(filename: str) -> list[dict]:
@@ -11421,6 +11432,10 @@ def enrich_spells(spells: list[dict]) -> None:
                 "damage": srd.get("damage"),
                 "source": srd.get("source", ""),
             }
+            # Attach dice roll indicator from precomputed lookup
+            dice_info = SPELL_DICE.get(name.lower())
+            if dice_info:
+                sp["dice"] = dice_info["display"]
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────
 

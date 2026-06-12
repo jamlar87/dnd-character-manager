@@ -1506,6 +1506,9 @@
               {% if sp.srd and sp.srd.concentration %}
               <span class="badge badge-muted" style="font-size:0.6rem;background:var(--warn);color:#fff">Conc.</span>
               {% endif %}
+              {% if sp.dice %}
+              <span class="badge" style="font-size:0.65rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.35rem;border-radius:4px">{{ sp.dice }}</span>
+              {% endif %}
               {% if use_prepared and sp.spell_level > 0 %}
               <button class="btn btn-outline btn-sm prep-toggle-btn" style="font-size:0.65rem;padding:0.1rem 0.35rem;line-height:1;flex-shrink:0;{% if sp.prepared %}color:var(--danger){% else %}color:var(--success){% endif %}"
                       onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
