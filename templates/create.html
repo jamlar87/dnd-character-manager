@@ -97,7 +97,7 @@
     {% endif %}
     {% if "Custom Lineage" in races %}
     <div id="customlineage-picks" style="margin-top:1rem;display:none">
-      <p style="font-size:0.9rem;color:var(--text-muted)">Custom Lineage: +2 to one ability of your choice</p>
+      <p style="font-size:0.9rem;color:var(--text-muted)" id="flex-asi-label">+2 to one ability of your choice</p>
       <div class="grid-2" id="customlineage-grid"></div>
     </div>
     {% endif %}
@@ -225,6 +225,7 @@
 const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
 const CLASSES = {{ classes | tojson }};
+const FLEXIBLE_ASI = new Set({{ flexible_asi_races | tojson }});
 const ALL_SKILLS = {{ all_skills | tojson }};
 const SKILL_ABILITIES = {{ skill_abilities | tojson }};
 const EXPERTISE_LEVELS = {{ expertise_levels | tojson }};
@@ -786,7 +787,7 @@ function updateAsiPreview() {
   let bonuses = {...r.asi};
   if (state.subrace && SUBASIS[state.subrace]) Object.entries(SUBASIS[state.subrace]).forEach(([k,v]) => bonuses[k] = (bonuses[k]||0)+v);
   if (state.race === 'Half-Elf' && state.asi_picks.length === 2) state.asi_picks.forEach(a => bonuses[a] = (bonuses[a]||0)+1);
-  if (state.race === 'Custom Lineage' && state.asi_picks.length === 1) bonuses[state.asi_picks[0]] = (bonuses[state.asi_picks[0]]||0)+2;
+  if (FLEXIBLE_ASI.has(state.race) && state.asi_picks.length === 1) bonuses[state.asi_picks[0]] = (bonuses[state.asi_picks[0]]||0)+2;
   document.getElementById('asi-bonus').innerHTML = Object.entries(bonuses).map(([k,v]) => `${k.slice(0,3).toUpperCase()}+${v}`).join(' · ') || '';
 
   // Half-Elf ASI picks
@@ -800,10 +801,11 @@ function updateAsiPreview() {
       </label>`).join('');
   } else { he.style.display = 'none'; }
 
-  // Custom Lineage ASI pick
+  // Flexible ASI pick (Custom Lineage + zero-ASI races)
   const cl = document.getElementById('customlineage-picks');
-  if (state.race === 'Custom Lineage') {
+  if (FLEXIBLE_ASI.has(state.race)) {
     cl.style.display = 'block';
+    document.getElementById('flex-asi-label').textContent = `${state.race}: +2 to one ability of your choice`;
     document.getElementById('customlineage-grid').innerHTML = ABILITIES.map(a => `
       <label class="option-card" style="cursor:pointer">
         <input type="radio" name="cl-asi" value="${a}" onchange="setLineageAsi('${a}')" style="pointer-events:none">
@@ -939,6 +941,7 @@ function buildReview() {
     <p style="font-size:0.85rem;color:var(--text-muted)">Skills: ${state.skills.join(', ') || 'none'}</p>
     ${state.equipment && state.equipment.length ? `<p style="font-size:0.85rem;color:var(--text-muted)">Equipment: ${state.equipment.join(', ')}</p>` : ''}
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
+    ${FLEXIBLE_ASI.has(state.race) && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI pick: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')} +2</p>` : ''}
     ${state.race === 'Dragonborn' && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
     ${state.race === 'Dragonborn' && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
     ${state.subclass_bonus && state.subclass_bonus.length ? `<p style="font-size:0.85rem;color:var(--accent)">Bonus: ${state.subclass_bonus.join(', ')}</p>` : ''}

@@ -1632,6 +1632,14 @@ RACES = {
     "Genasi": {"subraces": ["Air Genasi", "Earth Genasi", "Fire Genasi", "Water Genasi"], "asi": {"constitution": 2}, "speed": 30, "darkvision": 0, "languages": ["Common", "Primordial"], "traits": [], "desc": "Genasi are the children of mortals and genies—elemental spirits of air, earth, fire, and water. They carry the power of the Elemental Planes in their blood. Standing 5 to 6 feet tall, they are built like humans but marked by their elemental heritage: skin that glitters with moisture, hair that ripples like flame, a voice that echoes like shifting stone. Genasi live about 120 years.\n\nGenasi are rare and often solitary. Their elemental nature sets them apart from both their mortal and genie parents. They are self-reliant, independent, and tend toward neutrality—reflecting the primal forces within them. A genasi's elemental subrace defines not just their abilities but their entire outlook: air genasi are swift and detached, earth genasi are stoic and patient, fire genasi are passionate and impulsive, water genasi are adaptable and deep.\n\nMechanically, all genasi gain +2 Constitution, and their subrace grants additional traits including innate spellcasting, damage resistances, and movement abilities tied to their element. They speak Common and Primordial—the language of elemental beings.", "subrace_descs": {"Air Genasi": "+1 Dexterity. Unending Breath (hold breath indefinitely), Mingle with the Wind (levitate 1/long rest at level 3+). Air genasi are light of frame and quick of wit, with pale blue skin and hair that perpetually stirs in an unfelt breeze. Children of the djinn.", "Earth Genasi": "+1 Strength. Earth Walk (ignore difficult terrain of earth or stone), Merge with Stone (pass without trace 1/long rest at level 3+). Earth genasi are solid, deliberate, and patient, with skin in shades of gray and brown, sometimes marked with crystalline growths. Children of the dao.", "Fire Genasi": "+1 Intelligence. Darkvision 60 ft, Fire Resistance, Reach to the Blaze (produce flame cantrip; burning hands 1/long rest at level 3+). Fire genasi burn with inner heat—their skin smolders in shades of coal and ash, their hair a corona of flame. Children of the efreet.", "Water Genasi": "+1 Wisdom. Amphibious (breathe water and air), Swim speed 30 ft, Acid Resistance, Call to the Wave (shape water cantrip; create or destroy water 1/long rest at level 3+). Water genasi appear perpetually fresh from a swim, with blue-green skin and hair that floats as if underwater. Children of the marid."}},
 }
 
+# Races with flexible ASI: +2 to one ability of choice (ASI not in sourcebook)
+FLEXIBLE_ASI_RACES = {
+    "Custom Lineage", "Dark Folk", "Ratfolk", "Vanara",
+    "Darakhul", "Umbral Human", "Thri-kreen", "Grung",
+    "Dwarves of the Lonely Mountain", "Hobbit of the Shire",
+    "High Elves of Rivendell", "Tlincalli"
+}
+
 # ── Rich supplement race descriptions ──
 # Overrides short auto-extracted descriptions from manual data with full PHB lore.
 RICH_RACE_DESCS: dict[str, str] = {
@@ -3345,6 +3353,7 @@ async def create_character_page(request: Request):
         background_sources=BACKGROUND_SOURCES,
         draconic_ancestries=DRACONIC_ANCESTRIES,
         race_names=RACE_NAMES, expertise_levels=EXPERTISE_LEVELS,
+        flexible_asi_races=FLEXIBLE_ASI_RACES,
         fighting_style_options=FIGHTING_STYLE_OPTIONS,
         fighting_styles=FIGHTING_STYLES,
         metamagic_options=METAMAGIC_OPTIONS, metamagic_levels=METAMAGIC_LEVELS, metamagic_picks=METAMAGIC_PICKS,
@@ -3393,7 +3402,7 @@ async def api_create_character(request: Request):
             if a in race_asi:
                 race_asi[a] = race_asi.get(a, 0) + 1
     # Custom Lineage: +2 to one ability (user picks from data.asi_picks)
-    if race_name == "Custom Lineage" and len(asi_picks) == 1:
+    if race_name in FLEXIBLE_ASI_RACES and len(asi_picks) == 1:
         a = asi_picks[0]
         if a in race_asi:
             race_asi[a] = race_asi.get(a, 0) + 2
