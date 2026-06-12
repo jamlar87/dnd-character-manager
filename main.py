@@ -3991,7 +3991,8 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
                     pass
 
                 # 4) Composite score (0.0–1.0 scale, then × 10 for readability)
-                raw = (prox * 0.35 + density * 0.20 + source_w * 0.25 + exact * 0.20)
+                # Proximity (35%) + Density (25%) + Exact match (30%) + Source (10%)
+                raw = (prox * 0.35 + density * 0.25 + exact * 0.30 + source_w * 0.10)
                 score = round(raw * 10, 2)
 
                 # ── Extract paragraph snippet ─────────────────────────
@@ -4096,7 +4097,6 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
 
     # Ensure diversity: take top results but guarantee each book
     # that has results gets at least its first entry in the top N
-    book_order = list(cached.keys())
     seen_books: set[str] = set()
     diverse: list[dict] = []
     rest: list[dict] = []
