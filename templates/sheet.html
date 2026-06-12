@@ -6078,40 +6078,59 @@ function filterLuSpells() {
   const totalNeeded = (luData.spells.spells_known_change || 0) + (luData.spells.cantrips_change || 0);
   
   const shown = spells;
-  div.innerHTML = shown.map(s => {
+  div.innerHTML = shown.map((s, i) => {
     const selIdx = selected.findIndex(x => x.name === s.name);
     const isSelected = selIdx >= 0;
+    const uid = 'lus' + i;
+    // Level badge
     const lvlBadge = s.level === 0
-      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
-      : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
-    // Dice badge (matching sheet spell display)
+      ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px;flex-shrink:0">Cantrip</span>'
+      : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px;flex-shrink:0">Lv${s.level}</span>`;
+    // Dice badge
     let diceBadge = '';
     if (s.dice) {
       if (s.dice_healing) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_ac) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else if (s.dice_buff) {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       } else {
-        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${s.dice}</span>`;
       }
     }
-    // Ritual + Concentration badges
-    let ritualBadge = s.ritual ? '<span style="font-size:0.55rem;color:var(--accent);opacity:0.7" title="Ritual">\u26a1</span>' : '';
-    let concBadge = s.concentration ? '<span style="font-size:0.55rem;color:var(--warning);opacity:0.8" title="Concentration">\u23f3</span>' : '';
+    let ritualBadge = s.ritual ? '<span style="font-size:0.55rem;color:var(--accent);opacity:0.7;flex-shrink:0" title="Ritual">\u26a1</span>' : '';
+    let concBadge = s.concentration ? '<span style="font-size:0.55rem;color:var(--warning);opacity:0.8;flex-shrink:0" title="Concentration">\u23f3</span>' : '';
     const bg = isSelected ? 'background:rgba(99,102,241,0.15);' : '';
-    return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap;${bg}"
-      onclick="toggleLuSpell('${s.name.replace(/'/g,"\\'")}', ${s.level})">
-      <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSelected ? '\u2705' : '\u2610'}</span>
-      <strong style="flex:1;min-width:0">${s.name}</strong>
-      ${lvlBadge}
-      ${diceBadge}
-      ${ritualBadge}
-      ${concBadge}
-      <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
-      ${s.book ? _srcBadge(s.book) : ''}
+    // Description body
+    let descText = (s.description || '').replace(/'/g, "\\'").replace(/`/g, '\\`').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let timeText = s.casting_time || '1 action';
+    let rangeText = s.range || 'Self';
+    let durText = s.duration || 'Instantaneous';
+    return `<div style="border-bottom:1px solid var(--border);${bg}">
+      <div onclick="const b=document.getElementById('${uid}');b.style.display=b.style.display==='none'?'block':'none'" 
+        style="padding:0.35rem 0.5rem;cursor:pointer;font-size:0.82rem;display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap">
+        <span style="font-size:0.8rem;width:1.2em;text-align:center;flex-shrink:0" onclick="event.stopPropagation();toggleLuSpell('${s.name.replace(/'/g,"\\'")}', ${s.level})">${isSelected ? '\u2705' : '\u2610'}</span>
+        <strong style="flex:1 1 auto;min-width:8ch;overflow-wrap:break-word;word-break:break-word">${s.name}</strong>
+        ${lvlBadge}
+        ${diceBadge}
+        ${ritualBadge}
+        ${concBadge}
+        <span style="font-size:0.65rem;color:var(--text-muted);flex-shrink:0">${s.school||''}</span>
+        ${s.book ? _srcBadge(s.book) : ''}
+      </div>
+      <div id="${uid}" style="display:none;padding:0.3rem 0.5rem 0.5rem 2.2rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5;overflow-wrap:break-word;word-break:break-word">
+        <p style="margin:0 0 0.3rem 0">${descText || '<em>No description available.</em>'}</p>
+        <p style="margin:0;font-size:0.7rem;display:flex;flex-wrap:wrap;gap:0.5rem">
+          <span>\u23f1 ${timeText}</span>
+          <span>\ud83c\udfaf ${rangeText}</span>
+          <span>\u23f3 ${durText}</span>
+          ${s.ritual ? '<span style="color:var(--accent)">\u26a1 Ritual</span>' : ''}
+          ${s.concentration ? '<span style="color:var(--warning)">\ud83e\udde0 Concentration</span>' : ''}
+        </p>
+      </div>
     </div>`;
+  }).join('');
   }).join('');
   if (shown.length < spells.length) {
     div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">Showing ${shown.length} of ${spells.length} \u2014 type to narrow</div>`;
