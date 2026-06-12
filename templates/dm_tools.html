@@ -343,7 +343,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   color: var(--text-muted); min-width: 180px; max-width: 100%;
   word-break: break-word; overflow-wrap: break-word;
 }
-.item-card.expanded .item-detail { display: block; }
+.item-card.expanded .item-detail { display: block; overflow: visible; white-space: normal; }
+.item-card.expanded { overflow: visible; }
 .item-card .item-detail .detail-label {
   font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
   color: var(--text-muted); opacity: 0.6;
@@ -2811,7 +2812,7 @@ async function dmToggleItemExpand(btn) {
     const data = await resp.json();
     let descHtml = '';
     if (data.description) {
-      descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4">${data.description}</p>`;
+      descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4;white-space:normal;overflow:visible">${data.description}</p>`;
       if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
     } else {
       descHtml = `<span class="detail-label">No description available</span>`;
