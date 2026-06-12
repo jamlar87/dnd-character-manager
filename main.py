@@ -6354,7 +6354,7 @@ async def character_sheet(char_id: int, request: Request):
         (char_id,)
     ).fetchall()]
     # Enrich spells with full SRD descriptions
-    enrich_spells(spells)
+    enrich_spells(spells, char.get("level"))
     # Split Magic Initiate spells out of the regular spell list
     mi_spells_data = [s for s in spells if s.get("source") == "Magic Initiate"]
     spells = [s for s in spells if s.get("source") != "Magic Initiate"]
@@ -11407,8 +11407,31 @@ def get_cantrips_known_max(class_name: str, level: int) -> int:
 
 # ── Spell enrichment (SRD descriptions) ───────────────────────────────────
 
-def enrich_spells(spells: list[dict]) -> None:
-    """Add full SRD spell data to each spell dict in-place."""
+def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
+    """Return the dice display string, scaling cantrips to character level."""
+    display = dice_info.get("display", "")
+    if not (character_level and dice_info.get("cantrip_scaling")):
+        return display
+    # Cantrip scaling: 1x at 1-4, 2x at 5-10, 3x at 11-16, 4x at 17+
+    base = dice_info["base_dice"]
+    m = re.match(r"(\d+)d(\d+)", base)
+    if not m:
+        return display
+    count = int(m.group(1))
+    die = m.group(2)
+    if character_level >= 17:
+        count = count * 4
+    elif character_level >= 11:
+        count = count * 3
+    elif character_level >= 5:
+        count = count * 2
+    return f"{count}d{die}"
+
+def enrich_spells(spells: list[dict], character_level: int | None = None) -> None:
+    """Add full SRD spell data to each spell dict in-place.
+
+    If character_level is provided, cantrip dice are scaled to the
+    appropriate tier (5th→2x, 11th→3x, 17th→4x)."""
     if not SRD_SPELLS:
         return
     # Build lookup by lowercase name
@@ -11435,7 +11458,7 @@ def enrich_spells(spells: list[dict]) -> None:
             # Attach dice roll indicator from precomputed lookup
             dice_info = SPELL_DICE.get(name.lower())
             if dice_info:
-                sp["dice"] = dice_info["display"]
+                sp["dice"] = _scaled_dice_display(dice_info, character_level)
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────
 
