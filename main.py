@@ -12343,7 +12343,7 @@ def _pick_magic_item(table: str) -> dict | None:
     return {
         "name": item.get("name", "Unknown"),
         "rarity": rarity,
-        "description": desc[:200],
+        "description": desc,
         "source": item.get("source", "") or "DMG 2014",
     }
 
