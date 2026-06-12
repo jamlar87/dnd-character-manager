@@ -7799,6 +7799,15 @@ async def available_spells(char_id: int, request: Request):
     # Sort: cantrips first, then by level, then by name
     available.sort(key=lambda s: (s["level"], s["name"].lower()))
 
+    # Enrich with spell dice indicators (same as character sheet badges)
+    for s in available:
+        dice_info = SPELL_DICE.get(s["name"].lower())
+        if dice_info:
+            s["dice"] = _scaled_dice_display(dice_info, level)
+            s["dice_healing"] = bool(dice_info.get("healing"))
+            s["dice_ac"] = bool(dice_info.get("ac_bonus"))
+            s["dice_buff"] = bool(dice_info.get("buff"))
+
     return JSONResponse(available)
 
 

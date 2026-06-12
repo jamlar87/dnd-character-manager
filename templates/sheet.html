@@ -6084,15 +6084,33 @@ function filterLuSpells() {
     const lvlBadge = s.level === 0
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    // Dice badge (matching sheet spell display)
+    let diceBadge = '';
+    if (s.dice) {
+      if (s.dice_healing) {
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+      } else if (s.dice_ac) {
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+      } else if (s.dice_buff) {
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+      } else {
+        diceBadge = `<span style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">${s.dice}</span>`;
+      }
+    }
+    // Ritual + Concentration badges
+    let ritualBadge = s.ritual ? '<span style="font-size:0.55rem;color:var(--accent);opacity:0.7" title="Ritual">\u26a1</span>' : '';
+    let concBadge = s.concentration ? '<span style="font-size:0.55rem;color:var(--warning);opacity:0.8" title="Concentration">\u23f3</span>' : '';
     const bg = isSelected ? 'background:rgba(99,102,241,0.15);' : '';
-    return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.35rem;${bg}"
+    return `<div style="padding:0.35rem 0.5rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.82rem;display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap;${bg}"
       onclick="toggleLuSpell('${s.name.replace(/'/g,"\\'")}', ${s.level})">
-      <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSelected ? '✅' : '☐'}</span>
+      <span style="font-size:0.8rem;width:1.2em;text-align:center">${isSelected ? '\u2705' : '\u2610'}</span>
       <strong style="flex:1;min-width:0">${s.name}</strong>
       ${lvlBadge}
+      ${diceBadge}
+      ${ritualBadge}
+      ${concBadge}
       <span style="font-size:0.65rem;color:var(--text-muted)">${s.school||''}</span>
       ${s.book ? _srcBadge(s.book) : ''}
-      ${s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : ''}
     </div>`;
   }).join('');
   if (shown.length < spells.length) {
@@ -6141,10 +6159,23 @@ function renderLuSelected() {
     const lvlBadge = s.level === 0 
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
       : `<span style="background:var(--accent);color:#fff;font-size:0.6rem;padding:0.1rem 0.35rem;border-radius:3px">Lv${s.level}</span>`;
+    // Dice badge on selected chip
+    let diceBadge = '';
+    if (s.dice) {
+      if (s.dice_healing) {
+        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.2);color:var(--success);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+      } else if (s.dice_ac) {
+        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(59,130,246,0.2);color:#3b82f6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+      } else if (s.dice_buff) {
+        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:rgba(139,92,246,0.2);color:#8b5cf6;font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+      } else {
+        diceBadge = `<span style="font-size:0.5rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0 0.2rem;border-radius:2px">${s.dice}</span>`;
+      }
+    }
     return `<div style="display:flex;align-items:center;gap:0.25rem;padding:0.2rem 0.4rem;background:rgba(99,102,241,0.12);border:1px solid var(--accent2);border-radius:4px;font-size:0.78rem">
-      <strong>${s.name}</strong> ${lvlBadge}
+      <strong>${s.name}</strong> ${lvlBadge} ${diceBadge}
       <button onclick="event.stopPropagation();toggleLuSpell('${s.name.replace(/'/g,"\\'")}',${s.level})" 
-        style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;padding:0;line-height:1">✕</button>
+        style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;padding:0;line-height:1">\u2715</button>
     </div>`;
   }).join('');
 }
