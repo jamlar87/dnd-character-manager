@@ -494,6 +494,29 @@ def load_manual_data():
                 std_rarities = {"common", "uncommon", "rare", "very rare", "legendary", "artifact", "unknown", "varies"}
                 norm_rarity = rarity_lower if rarity_lower in std_rarities else "unknown"
 
+            # Heuristic: classify remaining "unknown" items by type
+            if norm_rarity == "unknown":
+                raw_type_lower = (item.get("type") or "").lower()
+                name_lower = (item.get("name") or "").lower()
+                # Consumables → common
+                if any(w in raw_type_lower for w in ("potion", "scroll", "drug", "oil", "elixir", "dust", "powder")):
+                    norm_rarity = "common"
+                elif any(w in name_lower for w in ("potion", "scroll", "oil of", "dust of")):
+                    norm_rarity = "common"
+                # Wondrous items → uncommon (default for misc magic)
+                elif "wondrous" in raw_type_lower or "artefact" in raw_type_lower:
+                    norm_rarity = "uncommon"
+                # Weapons/armor → uncommon
+                elif any(w in raw_type_lower for w in ("weapon", "sword", "axe", "bow", "spear", "dagger", "mace", "hammer", "staff")):
+                    norm_rarity = "uncommon"
+                elif any(w in raw_type_lower for w in ("armor", "armour", "shield", "helm", "plate", "mail", "chain", "leather")):
+                    norm_rarity = "uncommon"
+                # Rings/rods/wands → uncommon
+                elif any(w in raw_type_lower for w in ("ring", "rod", "wand")):
+                    norm_rarity = "uncommon"
+                else:
+                    norm_rarity = "uncommon"  # Safe default for unknown items
+
             # Normalize category (extract base from compound types)
             import re as _re2
             raw_type = (item.get("type") or "Wondrous item").strip()
@@ -13801,8 +13824,8 @@ TREASURE_HOARD_TABLE = {
 
 # Magic item table → rarity/category filter for SRD pool
 MAGIC_TABLE_POOLS = {
-    "A": {"rarity": ["common", "uncommon", "unknown", "varies"], "category": ["potion", "scroll", "wand", "wondrous item"]},
-    "B": {"rarity": ["uncommon", "rare", "unknown", "varies"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
+    "A": {"rarity": ["common", "uncommon", "varies"], "category": ["potion", "scroll", "wand", "wondrous item"]},
+    "B": {"rarity": ["uncommon", "rare", "varies"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "C": {"rarity": ["rare", "very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "D": {"rarity": ["very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "E": {"rarity": ["uncommon", "rare"], "category": ["weapon", "armor", "rod", "staff", "wand"]},
@@ -13834,12 +13857,19 @@ def _roll_dice(expr: str) -> int:
 
 
 def _pick_magic_item(table: str) -> dict | None:
-    """Pick one random magic item from the SRD pool matching the table."""
+    """Pick one random magic item from the SRD pool matching the table.
+    
+    Uses weighted selection: lower rarities are favored to match DMG table distributions.
+    Table A: ~70% common, ~25% uncommon, ~5% varies
+    Table B: ~60% uncommon, ~35% rare, ~5% varies
+    Other tables: uniform random from matching pool.
+    """
     import random
     pool_cfg = MAGIC_TABLE_POOLS.get(table, {})
     rarities = pool_cfg.get("rarity", [])
     categories = pool_cfg.get("category")
-    # Filter SRD_MAGIC_ITEMS
+    
+    # Filter SRD_MAGIC_ITEMS (includes merged manual items)
     candidates = []
     for item in SRD_MAGIC_ITEMS:
         item_rarity = (item.get("rarity", {}) or {}).get("name", "").lower()
@@ -13852,7 +13882,36 @@ def _pick_magic_item(table: str) -> dict | None:
         candidates.append(item)
     if not candidates:
         return None
-    item = random.choice(candidates)
+    
+    # Weighted selection: favor lower rarities for common/uncommon tables
+    rarity_order = ["common", "uncommon", "rare", "very rare", "legendary", "artifact"]
+    if len(rarities) > 1 and "common" in rarities:
+        # Table A: pick from common-biased distribution
+        weights = []
+        for c in candidates:
+            r = (c.get("rarity", {}) or {}).get("name", "").lower()
+            if r == "common":
+                weights.append(8)
+            elif r == "uncommon":
+                weights.append(3)
+            else:
+                weights.append(1)
+        item = random.choices(candidates, weights=weights, k=1)[0]
+    elif len(rarities) > 1 and "uncommon" in rarities and "rare" in rarities:
+        # Table B/E: favor uncommon over rare
+        weights = []
+        for c in candidates:
+            r = (c.get("rarity", {}) or {}).get("name", "").lower()
+            if r == "uncommon":
+                weights.append(3)
+            elif r == "rare":
+                weights.append(1)
+            else:
+                weights.append(1)
+        item = random.choices(candidates, weights=weights, k=1)[0]
+    else:
+        item = random.choice(candidates)
+    
     rarity = (item.get("rarity", {}) or {}).get("name", "")
     desc = " ".join(item.get("desc", [])[:3])  # first 3 sentences
     return {
