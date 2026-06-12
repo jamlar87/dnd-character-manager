@@ -1459,6 +1459,12 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
+    # Migration: combat_notes on characters
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN combat_notes TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+
     # Seed ADMIN account if not exists
     admin_row = db.execute("SELECT id FROM users WHERE email = 'admin'").fetchone()
     if not admin_row:
@@ -6900,6 +6906,23 @@ async def save_magic_initiate(char_id: int, request: Request):
         "used": data.get("used", False),
         "spellcasting_ability": spellcasting_ability,
     }})
+
+
+@app.post("/api/character/{char_id}/combat-notes", response_class=JSONResponse)
+async def save_combat_notes(char_id: int, request: Request):
+    """Save combat notes for a character."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    data = await request.json()
+    notes = (data.get("notes") or "").strip()
+    db.execute("UPDATE characters SET combat_notes = ? WHERE id = ?", (notes, char_id))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
 
 
 @app.post("/api/character/{char_id}/magic-initiate/use", response_class=JSONResponse)

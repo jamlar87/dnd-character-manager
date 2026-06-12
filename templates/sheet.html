@@ -1051,6 +1051,24 @@
           <p style="margin:0"><strong>Common Reactions</strong> — Opportunity Attack · <em>Shield</em> (+5 AC) · <em>Absorb Elements</em> · <em>Counterspell</em> · Uncanny Dodge (Rogue 5) · Deflect Missiles (Monk 3) · Protection Fighting Style · Cutting Words (Bard 3) · <em>Feather Fall</em> · <em>Hellish Rebuke</em> · War Caster (feat: spell as OA) · Sentinel (feat: stop movement on OA)</p>
         </div>
       </div>
+
+      <!-- Combat Notes (collapsible) -->
+      <div class="card" style="margin-top:0.5rem">
+        <div style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none"
+             onclick="toggleSection('combat-notes-body','combat-notes-arrow')">
+          <h3 style="margin:0;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem">
+            <span id="combat-notes-arrow" style="font-size:0.7rem">▾</span>
+            ⚔️ Combat Notes
+          </h3>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();clearCombatNotes(this)" title="Clear notes"
+            style="font-size:0.65rem;padding:0.15rem 0.5rem">🗑 Clear</button>
+        </div>
+        <div id="combat-notes-body" style="margin-top:0.5rem">
+          <textarea id="combat-notes" placeholder="Conditions, concentration, ongoing effects, round counters…"
+            style="width:100%;min-height:100px;resize:vertical;padding:0.5rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:6px;font-size:0.8rem;line-height:1.4;font-family:inherit;box-sizing:border-box"
+            oninput="autoSaveCombatNotes()">{{ character.combat_notes or '' }}</textarea>
+        </div>
+      </div>
     </div>
 
     <!-- ✨ FEATURES TAB -->
@@ -2513,6 +2531,30 @@ function toggleSection(bodyId, arrowId) {
     body.style.display = 'none';
     arrow.textContent = '▸';
   }
+}
+
+// ── Combat Notes auto-save ────────────────────────────────────────────
+let _combatNotesTimer = null;
+function autoSaveCombatNotes() {
+  clearTimeout(_combatNotesTimer);
+  _combatNotesTimer = setTimeout(async () => {
+    const ta = document.getElementById('combat-notes');
+    if (!ta) return;
+    try {
+      await fetch(`/api/character/${CHAR_ID}/combat-notes`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({notes: ta.value})
+      });
+    } catch(e) { /* silent */ }
+  }, 800);
+}
+function clearCombatNotes(btn) {
+  const ta = document.getElementById('combat-notes');
+  if (!ta) return;
+  ta.value = '';
+  btn.textContent = '✓ Cleared';
+  setTimeout(() => { btn.textContent = '🗑 Clear'; }, 1500);
+  autoSaveCombatNotes();
 }
 
 // ── Spell level collapsible sections ────────────────────────────────────
