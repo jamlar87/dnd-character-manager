@@ -480,8 +480,8 @@ function _shortSrc(src) {
 function _srcBadge(src, slug) {
   if (!src) return '';
   const short = _shortSrc(src);
-  const safeSrc = src.replace(/'/g, "\\'");
-  const safeSlug = slug ? slug.replace(/'/g, "\\'") : '';
+  const safeSrc = src.replace(/'/g, "\\\\'");
+  const safeSlug = slug ? slug.replace(/'/g, "\\\\'") : '';
   return `<span class="src-badge" onclick="openSourceRef('${safeSrc}', '${safeSlug}')" title="Click to open ${src}">📚 ${short}</span>`;
 }
 
@@ -980,7 +980,8 @@ function filterCreateSpells() {
   const needCantrips = L1_CANTRIPS[className] || 0;
   const total = needSpells + needCantrips;
   
-  div.innerHTML = spells.slice(0, 30).map(s => {
+  const shown = spells;
+  div.innerHTML = shown.map(s => {
     const isSel = selected.some(x => x.name === s.name);
     const lvlBadge = s.level === 0
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
@@ -994,6 +995,9 @@ function filterCreateSpells() {
       ${srcBadge}
     </div>`;
   }).join('');
+  if (shown.length < spells.length) {
+    div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">Showing ${shown.length} of ${spells.length} — type to narrow</div>`;
+  }
   
   document.getElementById('sp-pick-count').textContent = `${selected.length}/${total} selected`;
 }

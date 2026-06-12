@@ -3089,8 +3089,8 @@ function filterSpellResults() {
     div.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No spells match</div>';
     return;
   }
-  // Show max 30
-  const shown = spells.slice(0, 30);
+  // Show all (scrollable)
+  const shown = spells;
   div.innerHTML = shown.map((s, i) => {
     const lvlBadge = s.level === 0
       ? '<span style="background:var(--accent2);color:var(--accent);font-size:0.65rem;padding:0.1rem 0.35rem;border-radius:3px">Cantrip</span>'
@@ -3109,7 +3109,7 @@ function filterSpellResults() {
     </div>`;
   }).join('');
   if (spells.length > 30) {
-    div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">+${spells.length-30} more — type to narrow</div>`;
+    div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">Showing ${shown.length} of ${spells.length} \u2014 type to narrow</div>`;
   }
 }
 
@@ -6056,7 +6056,8 @@ function filterLuSpells() {
   const selected = luChoices.spells || [];
   const totalNeeded = (luData.spells.spells_known_change || 0) + (luData.spells.cantrips_change || 0);
   
-  div.innerHTML = spells.slice(0, 30).map(s => {
+  const shown = spells;
+  div.innerHTML = shown.map(s => {
     const selIdx = selected.findIndex(x => x.name === s.name);
     const isSelected = selIdx >= 0;
     const lvlBadge = s.level === 0
@@ -6073,6 +6074,9 @@ function filterLuSpells() {
       ${s.source ? `<span style="font-size:0.55rem;color:var(--accent);opacity:0.6">${s.source}</span>` : ''}
     </div>`;
   }).join('');
+  if (shown.length < spells.length) {
+    div.innerHTML += `<div style="padding:0.3rem;font-size:0.7rem;color:var(--text-muted);text-align:center">Showing ${shown.length} of ${spells.length} \u2014 type to narrow</div>`;
+  }
 }
 
 function toggleLuSpell(name, level) {

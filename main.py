@@ -8555,12 +8555,10 @@ async def level_up_info(char_id: int, request: Request):
             old_known = get_spells_known_max(cls, current_level)
             new_known = get_spells_known_max(cls, target_level)
             spell_info["spells_known_change"] = max(0, new_known - old_known)
-        # Cantrips
-        cantrip_key = "cleric" if cls == "Cleric" else ("warlock" if cls == "Warlock" else "full")
+        # Cantrips — use SRD class_levels data for accurate per-class progression
         if caster_type in ("full", "pact") or cls == "Cleric":
-            ct = CANTRIPS_PROGRESSION.get(cantrip_key, {})
-            old_cantrips = sum(v for k, v in ct.items() if k <= current_level)
-            new_cantrips = sum(v for k, v in ct.items() if k <= target_level)
+            old_cantrips = get_cantrips_known_max(cls, current_level)
+            new_cantrips = get_cantrips_known_max(cls, target_level)
             spell_info["cantrips_change"] = max(0, new_cantrips - old_cantrips)
     
     # Expertise
@@ -8912,6 +8910,18 @@ async def apply_level_up(char_id: int, request: Request):
     updates["hp_current"] = updates["hp_max"]  # Full heal on level up
     changes.append(f"HP +{total_hp_gain}")
     
+    # Retroactive CON HP (PHB p.177): when CON mod increases, all prior levels gain the delta
+    old_con = char.get("constitution", 10)
+    new_con = cumulative.get("Constitution", 10)
+    old_con_mod = (old_con - 10) // 2
+    new_con_mod = (new_con - 10) // 2
+    con_delta = new_con_mod - old_con_mod
+    if con_delta > 0:
+        retro_hp = old_total * con_delta
+        updates["hp_max"] += retro_hp
+        updates["hp_current"] += retro_hp
+        changes.append(f"CON +{new_con - old_con}: +{retro_hp} HP (retroactive)")
+    
     # Tough feat: +2 HP per character level (PHB p.170)
     tough_level = None
     for lvl_str, choice in asi_choices.items():
@@ -9038,13 +9048,18 @@ async def apply_level_up(char_id: int, request: Request):
     
     
     # ── 8 Choice Systems: apply picks from level-up ──
-    # Metamagic
+    # Metamagic — validate against PHB limits
     meta_picks = data.get("metamagic", [])
     if meta_picks:
         current_meta = json.loads(char.get("metamagic", "[]"))
         for pick in meta_picks:
             if pick not in current_meta:
                 current_meta.append(pick)
+        # Enforce PHB limit: sum of picks at or below target level
+        meta_levels_list = METAMAGIC_LEVELS.get(class_to_level, [])
+        total_allowed = sum(METAMAGIC_PICKS.get(l, 0) for l in meta_levels_list if l <= target_level)
+        if len(current_meta) > total_allowed:
+            current_meta = current_meta[:total_allowed]
         updates["metamagic"] = json.dumps(current_meta)
         changes.append(f"Metamagic: {', '.join(meta_picks)}")
     
