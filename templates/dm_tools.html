@@ -1194,6 +1194,13 @@ async function onAiCampaignChange() {
       preview.style.display = 'block';
       preview.style.color = 'var(--accent)';
       preview.textContent = `${s.size} characters, avg L${s.avg_level} — encounter tailored to their stats`;
+    } else if (d.campaign) {
+      // Fallback to campaign's stored values when no characters linked
+      lvl.value = d.campaign.party_level || 1;
+      sz.value = d.campaign.party_size || 4;
+      preview.style.display = 'block';
+      preview.style.color = 'var(--accent)';
+      preview.textContent = `L${lvl.value} · ${sz.value} players (campaign default)`;
     } else {
       preview.style.display = 'block';
       preview.style.color = 'var(--text-muted)';

@@ -4909,8 +4909,11 @@ async def dm_ai_party_profile(request: Request):
         return JSONResponse({"profile": None})
     db = get_db()
     profile = _build_party_profile(db, int(cid))
+    # Fallback: always include campaign's stored party_level/party_size
+    camp = db.execute("SELECT party_level, party_size FROM dm_campaigns WHERE id=?", (int(cid),)).fetchone()
+    fallback = {"party_level": camp["party_level"] if camp else 1, "party_size": camp["party_size"] if camp else 4}
     db.close()
-    return JSONResponse({"profile": profile})
+    return JSONResponse({"profile": profile, "campaign": fallback})
 
 
 @app.post("/api/dm/ai/build-encounter", response_class=JSONResponse)
