@@ -1620,10 +1620,10 @@
               · {{ cspell.srd.duration }}
             </div>
             <div style="color:var(--text-muted);font-size:0.72rem">
-              {% if cspell.srd.desc is string %}
-                {{ cspell.srd.desc|truncate(200) }}
-              {% elif cspell.srd.desc is iterable %}
-                {{ cspell.srd.desc[0]|truncate(200) if cspell.srd.desc else '' }}
+              {% if cspell.srd.desc is iterable and cspell.srd.desc is not string %}
+                {{ cspell.srd.desc|join(' ') }}
+              {% elif cspell.srd.desc %}
+                {{ cspell.srd.desc }}
               {% endif %}
             </div>
             {% endif %}
@@ -1657,10 +1657,10 @@
               · {{ l1spell.srd.duration }}
             </div>
             <div style="color:var(--text-muted);font-size:0.72rem">
-              {% if l1spell.srd.desc is string %}
-                {{ l1spell.srd.desc|truncate(300) }}
-              {% elif l1spell.srd.desc is iterable %}
-                {{ l1spell.srd.desc[0]|truncate(300) if l1spell.srd.desc else '' }}
+              {% if l1spell.srd.desc is iterable and l1spell.srd.desc is not string %}
+                {{ l1spell.srd.desc|join(' ') }}
+              {% elif l1spell.srd.desc %}
+                {{ l1spell.srd.desc }}
               {% endif %}
             </div>
             {% endif %}
