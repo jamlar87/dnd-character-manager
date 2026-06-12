@@ -489,7 +489,7 @@
       <div class="combat-quick top-combat-grid">
         <div class="combat-quick-item" onclick="showCombatPopup('ac')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">AC</div>
-          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
           <div class="cq-label">Initiative</div>
@@ -656,6 +656,23 @@
       </div>
       <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
+        {% if character.armor_warnings or character.shield_warning %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">⚠️ Armor Proficiency</div>
+        {% for w in character.armor_warnings %}
+        <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
+          <strong>{{ w.item }}</strong> ({{ w.category }} armor) — not proficient<br>
+          <span style="color:var(--danger);font-size:0.7rem">{{ w.penalty }}</span><br>
+          <span style="font-size:0.6rem;color:var(--text-muted)">{{ w.source }}</span>
+        </div>
+        {% endfor %}
+        {% if character.shield_warning %}
+        <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
+          <strong>Shield</strong> — not proficient<br>
+          <span style="color:var(--danger);font-size:0.7rem">{{ character.shield_warning.penalty }}</span><br>
+          <span style="font-size:0.6rem;color:var(--text-muted)">{{ character.shield_warning.source }}</span>
+        </div>
+        {% endif %}
+        {% endif %}
         {% set ns = namespace(has_fd_resist=false, has_fd_immune=false) %}
         {% for fd in feature_defenses %}
           {% if fd.resist %}{% set ns.has_fd_resist = true %}{% endif %}
