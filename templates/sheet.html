@@ -5086,7 +5086,7 @@ function renderLuASI(el) {
       <option value="">— Choose —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
     const capped = d.max_20.includes(a);
-    html += `<option value="${a}">${a} (${v} → ${v+2})${capped ? ' [max]' : ''}</option>`;
+    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+2})${capped ? ' [max]' : ''}</option>`;
   }
   html += `</select></div>`;
   
@@ -5097,13 +5097,15 @@ function renderLuASI(el) {
   html += `<select id="lu-asi-plus1a" onchange="updateASIplus1()" style="flex:1;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
     <option value="">— A —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
-    html += `<option value="${a}">${a} (${v} → ${v+1})</option>`;
+    const capped = d.max_20.includes(a);
+    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+1})${capped ? ' [max]' : ''}</option>`;
   }
   html += `</select>`;
   html += `<select id="lu-asi-plus1b" onchange="updateASIplus1()" style="flex:1;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
     <option value="">— B —</option>`;
   for (const [a, v] of Object.entries(d.abilities)) {
-    html += `<option value="${a}">${a} (${v} → ${v+1})</option>`;
+    const capped = d.max_20.includes(a);
+    html += `<option value="${a}"${capped ? ' disabled' : ''}>${a} (${v} → ${v+1})${capped ? ' [max]' : ''}</option>`;
   }
   html += `</select></div></div>`;
   
