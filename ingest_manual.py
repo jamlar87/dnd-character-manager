@@ -88,7 +88,7 @@ VALID_SKILLS = ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Decepti
 
 # Books we should skip for extraction (already in base data via SRD or hardcoded)
 # Still cached for search, just skip LLM extraction
-SKIP_EXTRACTION = {"MM"}  # PHB temporarily enabled for full test run
+SKIP_EXTRACTION: set[str] = set()  # All manuals processed — nothing skipped
 
 # Telegram notification (loaded from ~/.hermes/.env if not already exported)
 def _load_telegram_env():
@@ -454,14 +454,25 @@ def discover_manuals() -> list[dict]:
     seen_slugs = {}  # slug → count, for uniqueness
     manuals = []
     # Non-content patterns to skip
-    _skip_patterns = [
-        r'(?i)\bmap[s]?\b', r'(?i)endpaper', r'(?i)character.?sheet',
-        r'(?i)\bcover\b', r'(?i)screen\b', r'(?i)jpg.?map.?pack',
+    # Patterns that apply to the PDF's own filename only (not parent directory)
+    _skip_filename_only = [
+        r'(?i)screen\\b',           # GM/loremaster screens
+        r'(?i)character.?sheet',   # blank or pre-filled character sheets
+        r'(?i)jpg.?map.?pack',     # JPG-based map bundles
+    ]
+    # Patterns that apply to filename OR parent directory
+    _skip_filename_or_parent = [
+        r'(?i)\\bmap[s]?\\b',      # map packs, battle maps, region maps
+        r'(?i)endpaper',           # decorative endpapers
+        r'(?i)\\bcover\\b',         # standalone cover art
     ]
     for f in sorted(MANUALS_DIR.rglob("*.pdf")):
         title = f.stem.replace("_", " ").replace("  ", " ").strip()
+        parent = str(f.parent.name)
         # Skip non-content PDFs (maps, endpapers, character sheets, covers, screens)
-        if any(re.search(pat, title) or re.search(pat, str(f.parent.name)) for pat in _skip_patterns):
+        if any(re.search(pat, title) for pat in _skip_filename_only):
+            continue
+        if any(re.search(pat, title) or re.search(pat, parent) for pat in _skip_filename_or_parent):
             continue
         key = title.lower()
         if key in seen:
