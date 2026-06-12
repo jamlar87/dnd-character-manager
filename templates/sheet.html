@@ -1569,7 +1569,7 @@
       {% set mi_ability_score = character[mi_ability] if mi_ability in character else 10 %}
       {% set mi_mod = ((mi_ability_score - 10) // 2) %}
       {% set mi_save_dc = 8 + character.proficiency_bonus + mi_mod %}
-      <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent);border-width:2px">
+      <div class="card" id="mi-spells-card" style="margin-bottom:0.75rem;border-color:var(--accent);border-width:2px">
         <h3 style="margin:0 0 0.3rem 0">✨ Magic Initiate — {{ mi.class }}</h3>
         <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 0.5rem 0">
           Spellcasting ability: {{ mi_ability|title }} (DC {{ mi_save_dc }}, +{{ mi_mod }})
@@ -2553,8 +2553,26 @@ async function executeLongRest() {
   // Save reset feature uses to DB separately
   await api('/update', { feature_data: JSON.stringify(featureData) });
 
-  // Reset Magic Initiate 1/day uses
-  try { await fetch('/api/character/' + CHAR_ID + '/magic-initiate/reset', { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' }); } catch(e) {}
+  // Reset Magic Initiate 1/day uses — update DOM directly so it reflects immediately
+  try {
+    await fetch('/api/character/' + CHAR_ID + '/magic-initiate/reset', { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' });
+    // Update the Magic Initiate card button on the spells tab
+    const miCard = document.getElementById('mi-spells-card');
+    if (miCard) {
+      const btn = miCard.querySelector('button');
+      if (btn) {
+        btn.textContent = 'Available';
+        btn.style.background = 'var(--success)';
+      }
+    }
+    // Also update passive chip buttons (features tab)
+    document.querySelectorAll('.passive-chip-body button').forEach(btn => {
+      if (btn.textContent.trim() === 'Used ✓') {
+        btn.textContent = 'Available';
+        btn.style.background = 'var(--success)';
+      }
+    });
+  } catch(e) {}
 
   // Show result notification
   const hdResult = document.getElementById('hd-result');
