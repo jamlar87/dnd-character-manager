@@ -4797,6 +4797,22 @@ def _build_party_profile(db, campaign_id: int) -> dict | None:
         JOIN dm_campaign_characters cc ON cc.campaign_id = ? AND cc.character_id = c.id
         WHERE cc.status = 'active'
     """, (campaign_id,)).fetchall()
+
+    # Fallback: read from campaign's characters JSON column
+    if not rows:
+        camp = db.execute("SELECT characters FROM dm_campaigns WHERE id=?", (campaign_id,)).fetchone()
+        if camp and camp["characters"]:
+            try:
+                char_entries = json.loads(camp["characters"])
+                char_ids = [e["id"] for e in char_entries if isinstance(e, dict) and e.get("status", "active") == "active"]
+                if char_ids:
+                    placeholders = ",".join("?" * len(char_ids))
+                    rows = db.execute(
+                        f"SELECT * FROM characters WHERE id IN ({placeholders})", char_ids
+                    ).fetchall()
+            except (json.JSONDecodeError, KeyError):
+                pass
+
     if not rows:
         return None
 
