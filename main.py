@@ -10269,9 +10269,7 @@ LIMITED_USE = {
     "dragon wings":         {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
     "draconic presence":    {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
     # Sorcerer — Wild Magic
-    "tides of chaos":       {"min": 1, "max": 1,  "recharge": "short", "class": "Sorcerer", "per": "fixed"},
-    "bend luck":            {"min": 1, "max": 99,  "recharge": "long", "class": "Sorcerer", "per": "level"},
-    "wild magic surge":     {"min": 1, "max": 99,  "recharge": "short", "class": "Sorcerer", "per": "fixed"},
+    "tides of chaos":       {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
     # Warlock — The Archfey
     "fey presence":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
     "misty escape":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
@@ -12804,25 +12802,33 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             source_level = level
         # Check limited-use features
         if source_class and source_level > 0:
-            # Feature name aliases (raw name → LIMITED_USE key)
-            _FEAT_ALIASES = {"font of magic": "sorcery points"}
-            for lkey, lu in LIMITED_USE.items():
-                _match_key = _FEAT_ALIASES.get(key, key)
-                if lkey in _match_key or _match_key.startswith(lkey) or lkey.startswith(_match_key):
-                    uses_max = get_uses_for_level(lkey, source_class, source_level)
-                    if uses_max > 0:
-                        if lkey == "divine sense":
-                            cha_mod = (mods or {}).get("charisma", 0)
-                            uses_max = max(1, uses_max + cha_mod)
-                        if lkey == "cleansing touch":
-                            cha_mod = (mods or {}).get("charisma", 0)
-                            uses_max = max(1, uses_max + cha_mod - 1)  # base 1 + CHA
-                        entry["uses_max"] = uses_max
-                        entry["uses"] = uses_max
-                        entry["recharge"] = lu["recharge"]
-                        if lu.get("pool_kind"):
-                            entry["pool_kind"] = lu["pool_kind"]
-                    break
+            # Features that should never have uses/recharge (DM-triggered, point-driven, or passive)
+            _NON_LIMITED_FEATURES = {
+                "wild magic surge",  # DM-triggered, not player-activated
+                "bend luck",         # costs 2 sorcery points, unlimited uses
+                "controlled chaos",  # passive modifier
+                "spell bombardment", # passive modifier
+            }
+            if key not in _NON_LIMITED_FEATURES:
+                # Feature name aliases (raw name → LIMITED_USE key)
+                _FEAT_ALIASES = {"font of magic": "sorcery points"}
+                for lkey, lu in LIMITED_USE.items():
+                    _match_key = _FEAT_ALIASES.get(key, key)
+                    if lkey in _match_key or _match_key.startswith(lkey) or lkey.startswith(_match_key):
+                        uses_max = get_uses_for_level(lkey, source_class, source_level)
+                        if uses_max > 0:
+                            if lkey == "divine sense":
+                                cha_mod = (mods or {}).get("charisma", 0)
+                                uses_max = max(1, uses_max + cha_mod)
+                            if lkey == "cleansing touch":
+                                cha_mod = (mods or {}).get("charisma", 0)
+                                uses_max = max(1, uses_max + cha_mod - 1)  # base 1 + CHA
+                            entry["uses_max"] = uses_max
+                            entry["uses"] = uses_max
+                            entry["recharge"] = lu["recharge"]
+                            if lu.get("pool_kind"):
+                                entry["pool_kind"] = lu["pool_kind"]
+                        break
         # Check if this feature is a combat action
         # Strip use-count suffix for matching (e.g. "Action Surge (2 uses)" -> "action surge")
         import re
