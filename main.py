@@ -231,14 +231,14 @@ def load_manual_data():
                 sr_trait_names = [st.get("name", "") for st in sr.get("traits", [])]
                 if sr_trait_names and sr_name not in SUBRACE_TRAITS:
                     SUBRACE_TRAITS[sr_name] = sr_trait_names
-                # Add subrace trait descriptions to RACIAL_TRAIT_DESCS (quality-aware)
+                # Add subrace trait descriptions (generic traits scoped to subrace)
                 for st in sr.get("traits", []):
                     stname = st.get("name", "")
                     stdesc = st.get("description", "")
                     if stname and stdesc:
-                        existing = RACIAL_TRAIT_DESCS.get(stname, "")
-                        if not existing or _should_replace_description(existing, stdesc):
-                            RACIAL_TRAIT_DESCS[stname] = stdesc
+                        key = f"{sr_name}::{stname}" if stname.lower() in _GENERIC_TRAITS else stname
+                        if key not in RACIAL_TRAIT_DESCS:
+                            RACIAL_TRAIT_DESCS[key] = stdesc
                 # Add subrace trait effects
                 sr_effects = sr.get("_effects", {})
                 for stname, eff in sr_effects.items():
@@ -305,14 +305,14 @@ def load_manual_data():
                 if na:
                     RACES[name]["natural_armor"] = na
                     break
-        # Add trait descriptions (quality-aware)
+        # Add trait descriptions (quality-aware, but never overwrite generic traits)
         for t in race.get("traits", []):
             tname = t.get("name", "")
             tdesc = t.get("description", "")
             if tname and tdesc:
-                existing = RACIAL_TRAIT_DESCS.get(tname, "")
-                if not existing or _should_replace_description(existing, tdesc):
-                    RACIAL_TRAIT_DESCS[tname] = tdesc
+                key = f"{name}::{tname}" if tname.lower() in _GENERIC_TRAITS else tname
+                if key not in RACIAL_TRAIT_DESCS:
+                    RACIAL_TRAIT_DESCS[key] = tdesc
         # Add trait effects
         effects = race.get("_effects", {})
         for tname, eff in effects.items():
@@ -2490,7 +2490,11 @@ def _build_racial_traits(char: dict) -> list:
     race_data = RACES.get(race_name)
     if race_data:
         for t in race_data.get("traits", []):
-            desc = RACIAL_TRAIT_DESCS.get(t)
+            # Generic traits are stored per-race to avoid cross-race pollution
+            if t.lower() in _GENERIC_TRAITS:
+                desc = RACIAL_TRAIT_DESCS.get(f"{race_name}::{t}", "")
+            else:
+                desc = RACIAL_TRAIT_DESCS.get(t, "")
             if desc:
                 # Look up page-accurate source
                 src = _trait_page_map.get(t, "")
@@ -2501,7 +2505,11 @@ def _build_racial_traits(char: dict) -> list:
     if subrace:
         sub_traits = SUBRACE_TRAITS.get(subrace, [])
         for t in sub_traits:
-            desc = RACIAL_TRAIT_DESCS.get(t)
+            # Generic subrace traits also per-race
+            if t.lower() in _GENERIC_TRAITS:
+                desc = RACIAL_TRAIT_DESCS.get(f"{subrace}::{t}", "")
+            else:
+                desc = RACIAL_TRAIT_DESCS.get(t, "")
             if desc:
                 # Look up page-accurate source
                 src = _trait_page_map.get(t, "")
