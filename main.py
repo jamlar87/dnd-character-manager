@@ -11459,6 +11459,8 @@ def enrich_spells(spells: list[dict], character_level: int | None = None) -> Non
             dice_info = SPELL_DICE.get(name.lower())
             if dice_info:
                 sp["dice"] = _scaled_dice_display(dice_info, character_level)
+                if dice_info.get("healing"):
+                    sp["dice_healing"] = True
 
 # ── Spells also available as tiered recommendations (from SRD cache) ──────────
 
