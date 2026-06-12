@@ -1210,7 +1210,11 @@
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
               <div style="margin-top:0.3rem"><strong>Choice:</strong> {{ feat.feat_config.type or feat.feat_config.ability }}</div>
               <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
-              {% elif feat.asi_feat_name in ('Elemental Adept','Ley Initiate','Magic Initiate') %}
+              {% elif feat.feat_config and feat.asi_feat_name == 'Martial Adept' and feat.feat_config.maneuver_names %}
+              <div>{{ feat.asi_feat_desc or feat.description }}</div>
+              <div style="margin-top:0.3rem"><strong>Maneuvers:</strong> {{ feat.feat_config.maneuver_names|join(', ') }}</div>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
+              {% elif feat.asi_feat_name in ('Elemental Adept','Ley Initiate','Magic Initiate','Martial Adept') %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
               <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();{% if feat.asi_feat_name == 'Magic Initiate' %}setupMagicInitiate{% else %}setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }}){% endif %}({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up {{ feat.asi_feat_name }}</button>
               {% else %}
@@ -1936,7 +1940,9 @@ const CHAR_LEVEL = {{ character.level }};
 const FEAT_SETUP = {
   elemental_adept: {label:'Choose a damage type',field:'type',choices:['Acid','Cold','Fire','Lightning','Thunder']},
   ley_initiate: {label:'Choose an ability to increase',field:'ability',choices:['Intelligence','Wisdom']},
+  martial_adept: {label:'Choose 2 Battle Master maneuvers',field:'maneuvers',kind:'maneuvers',picks:2},
 };
+const MANEUVER_OPTIONS = {{ maneuver_options | tojson | safe }};
 const HP_MAX = {{ character.hp_max }};
 const HD_TOTAL = {{ character.hit_dice.split('d')[0] if 'd' in (character.hit_dice or '') else 0 }};
 const ATTUNED_ITEMS = {{ character.attuned_items|tojson }};
@@ -4014,6 +4020,13 @@ function setupFeatConfig(featName, level) {
   const key = featName.toLowerCase().replace(/ /g, '_');
   const setup = FEAT_SETUP[key];
   if (!setup) return;
+
+  // Martial Adept: multi-select maneuver picker
+  if (setup.kind === 'maneuvers') {
+    setupMartialAdeptModal(featName, level, setup);
+    return;
+  }
+
   let opts = '';
   setup.choices.forEach(c => { opts += `<option value="${c}">${c}</option>`; });
   const html = `<div id="fc-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()">
@@ -4023,11 +4036,69 @@ function setupFeatConfig(featName, level) {
       <select id="fc-choice" style="width:100%;padding:0.4rem;margin-bottom:1rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">${opts}</select>
       <div style="display:flex;gap:0.5rem;justify-content:flex-end">
         <button class="btn btn-outline btn-sm" onclick="document.getElementById('fc-modal').remove()">Cancel</button>
-        <button class="btn btn-primary btn-sm" onclick="saveFeatConfig('${key}','${featName.replace(/'/g,\"\\\\'\")}','${setup.field}')">Save</button>
+        <button class="btn btn-primary btn-sm" onclick="saveFeatConfig('${key}','${featName.replace(/'/g,"\\'")}','${setup.field}')">Save</button>
       </div>
     </div>
   </div>`;
   document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function setupMartialAdeptModal(featName, level, setup) {
+  const key = featName.toLowerCase().replace(/ /g, '_');
+  window._ma_picks = [];
+  window._ma_max = setup.picks;
+  let manList = '';
+  for (const [k, v] of Object.entries(MANEUVER_OPTIONS)) {
+    manList += `<div class="ma-man-opt card" data-key="${k}" style="cursor:pointer;padding:0.4rem 0.6rem;margin-bottom:0.25rem;border:1px solid var(--border);border-radius:6px;font-size:0.85rem"
+      onclick="toggleMaManeuver(this,'${k}')">
+      <strong>${v.name}</strong><br><span style="font-size:0.75rem;color:var(--text-muted)">${v.desc}</span>
+    </div>`;
+  }
+  const html = `<div id="fc-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:1.5rem;max-width:500px;width:90%;max-height:80vh;overflow-y:auto" onclick="event.stopPropagation()">
+      <h3 style="margin:0 0 0.5rem">${featName} — Level ${level}</h3>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem">${setup.label} (<span id="ma-count">0</span> / ${setup.picks} selected)</p>
+      <div id="ma-maneuver-list">${manList}</div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:1rem">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('fc-modal').remove()">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="ma-save-btn" disabled onclick="saveMaConfig('${key}','${featName.replace(/'/g,"\\'")}')">Save</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function toggleMaManeuver(el, manKey) {
+  const idx = window._ma_picks.indexOf(manKey);
+  if (idx >= 0) {
+    window._ma_picks.splice(idx, 1);
+    el.style.border = '1px solid var(--border)';
+    el.style.background = '';
+  } else {
+    if (window._ma_picks.length >= window._ma_max) return;
+    window._ma_picks.push(manKey);
+    el.style.border = '1px solid var(--accent)';
+    el.style.background = 'rgba(255,215,0,0.08)';
+  }
+  const countEl = document.getElementById('ma-count');
+  if (countEl) countEl.textContent = window._ma_picks.length;
+  const saveBtn = document.getElementById('ma-save-btn');
+  if (saveBtn) saveBtn.disabled = window._ma_picks.length === 0;
+}
+
+async function saveMaConfig(key, featName) {
+  const config = {maneuvers: window._ma_picks};
+  const resp = await fetch('/api/character/' + CHAR_ID + '/feat-config', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({feat: key, config})
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    document.getElementById('fc-modal').remove();
+    location.reload();
+  } else {
+    alert(data.error || 'Failed to save');
+  }
 }
 
 async function saveFeatConfig(key, featName, field) {

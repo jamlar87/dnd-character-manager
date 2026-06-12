@@ -6176,6 +6176,13 @@ async def character_sheet(char_id: int, request: Request):
                         _fc = _ae.get("feat_config")
                         if _fc:
                             _feat["feat_config"] = _fc
+                        # Martial Adept: resolve maneuver keys to display names
+                        if _fkey == "martial_adept" and _fc and _fc.get("maneuvers"):
+                            _feat["feat_config"] = dict(_fc)
+                            _feat["feat_config"]["maneuver_names"] = [
+                                MANEUVER_OPTIONS.get(m, {}).get("name", m.replace("_", " ").title())
+                                for m in _fc["maneuvers"]
+                            ]
                         break
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
@@ -6387,7 +6394,8 @@ async def character_sheet(char_id: int, request: Request):
                    item_attunement_dict=item_attunement_dict,
                    campaign_info=campaign_info,
                    racial_traits=_build_racial_traits(char),
-                   draconic_ancestries=DRACONIC_ANCESTRIES)
+                   draconic_ancestries=DRACONIC_ANCESTRIES,
+                   maneuver_options=MANEUVER_OPTIONS)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -6731,6 +6739,12 @@ FEAT_SETUP_CHOICES = {
         "field": "ability",
         "choices": ["Intelligence", "Wisdom"],
     },
+    "martial_adept": {
+        "label": "Choose 2 Battle Master maneuvers",
+        "field": "maneuvers",
+        "kind": "maneuvers",
+        "picks": 2,
+    },
 }
 
 
@@ -6770,6 +6784,18 @@ async def save_feat_config(char_id: int, request: Request):
         return JSONResponse({"error": f"Character does not have {feat_key} feat"}, status_code=400)
     
     db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
+    
+    # For martial_adept: also save selected maneuvers to characters.maneuvers
+    if _nk == "martial_adept" and config.get("maneuvers"):
+        man_list = config["maneuvers"]
+        if isinstance(man_list, list):
+            existing_man = json.loads(char.get("maneuvers", "[]"))
+            # Add any new maneuvers not already known
+            for m in man_list:
+                if m not in existing_man:
+                    existing_man.append(m)
+            db.execute("UPDATE characters SET maneuvers = ? WHERE id = ?", (json.dumps(existing_man), char_id))
+    
     db.commit()
     db.close()
     return JSONResponse({"ok": True, "config": config})
