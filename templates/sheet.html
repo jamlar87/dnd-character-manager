@@ -1175,7 +1175,7 @@
               {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set ns.meta_match = mh %}{% endif %}{% endfor %}
               {% if ns.meta_match and ns.meta_match.choices %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0;line-height:1.4">
-              {% for m in ns.meta_match.choices %}{% if not loop.first %}<br>{% endif %}<strong>{{ m|replace('_',' ')|title }}</strong>{% if metamagic_options and metamagic_options.get(m) %}<br><span style="font-size:0.65rem;color:var(--text-muted)">{{ metamagic_options[m].desc }}</span>{% endif %}{% endfor %}
+              {% for m in ns.meta_match.choices %}{% if not loop.first %}<br>{% endif %}{{ m|replace('_',' ')|title }}{% endfor %}
               </span>
               {% endif %}
               {% endif %}
@@ -1259,6 +1259,15 @@
               {% elif feat.asi_feat_name in ('Elemental Adept','Ley Initiate','Magic Initiate','Martial Adept') %}
               <div>{{ feat.asi_feat_desc or feat.description }}</div>
               <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();{% if feat.asi_feat_name == 'Magic Initiate' %}setupMagicInitiate{% else %}setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }}){% endif %}({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up {{ feat.asi_feat_name }}</button>
+              {% elif feat.name == 'Metamagic' and character.metamagic_history %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set ns.meta_match = None %}
+              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set ns.meta_match = mh %}{% endif %}{% endfor %}
+              {% if ns.meta_match and ns.meta_match.choices %}
+              {% for m in ns.meta_match.choices %}
+              <div style="margin-bottom:0.2rem"><strong>{{ m|replace('_',' ')|title }}</strong>{% if metamagic_options and metamagic_options.get(m) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ metamagic_options[m].desc }}</span>{% endif %}</div>
+              {% endfor %}
+              {% endif %}
               {% else %}
               {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
               {% endif %}
