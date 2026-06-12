@@ -1474,7 +1474,7 @@
           </div>
           <div class="spell-level-body open">
           {% for sp in level_prepared %}
-          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer;margin-bottom:0.2rem"
+          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer;margin-bottom:0.2rem"
                onclick="document.getElementById('spell-row-{{ sp.id }}').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('spell-row-{{ sp.id }}').querySelector('.spell-header').classList.add('highlight-pulse')"
                title="Click to find in Spellbook">
             <strong>{{ sp.spell_name }}</strong>
@@ -1540,8 +1540,8 @@
           {% for sp in level_spells %}
           <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
             <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
-                 style="display:flex;align-items:center;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
-              <strong style="flex:1;min-width:0;font-size:0.85rem">{{ sp.spell_name }}</strong>
+                 style="display:flex;align-items:center;flex-wrap:wrap;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
+              <strong style="flex:1 1 auto;min-width:10ch;font-size:0.85rem">{{ sp.spell_name }}</strong>
               {% if sp.srd and sp.srd.source %}
               <span class="source-badge" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6" title="Source: {{ sp.srd.source }}">{{ sp.srd.source }}</span>
               {% endif %}
@@ -3244,7 +3244,7 @@ async function togglePrepared(spellId, checkbox) {
       const chip = document.createElement('div');
       chip.className = 'prepared-spell-chip';
       chip.id = 'prep-spell-' + spellId;
-      chip.style.cssText = 'display:flex;align-items:center;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer';
+      chip.style.cssText = 'display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer';
       chip.onclick = function(e) {
         e.stopPropagation();
         const targetRow = document.getElementById('spell-row-' + spellId);
