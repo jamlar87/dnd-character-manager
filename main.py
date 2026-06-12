@@ -569,6 +569,11 @@ def load_manual_data():
                 "source": feat.get("source", ""),
             }
         elif manual_desc and len(manual_desc) > len(FEATS[key].get("description", "")):
+            # Skip OCR-garbled descriptions — never replace clean text with garbage
+            _ocr_markers = ["Vou ", "lhal ", "maslered", "lhree", "disadvanlage",
+                           "prolicienl", "benelits", "PART I CUSTOMIZ"]
+            if any(m in manual_desc for m in _ocr_markers):
+                continue
             # Update existing feat with full PHB description (manual data is richer)
             FEATS[key]["description"] = manual_desc
             FEATS[key]["desc"] = manual_desc
