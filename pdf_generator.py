@@ -84,7 +84,7 @@ def _get_item_description(item_name):
 # ═══════════════════════════════════════════════════════════════
 #  DATA BUILDER
 # ═══════════════════════════════════════════════════════════════
-def build_char_data(row, db_cursor=None):
+def build_char_data(row, db_cursor=None, racial_traits=None):
     if hasattr(row, "keys"):
         d = dict(row)
     else:
@@ -168,6 +168,21 @@ def build_char_data(row, db_cursor=None):
     prof = d["proficiency_bonus"]
     d["spell_save_dc"] = 8 + prof + spell_ab_mod
     d["spell_attack_bonus"] = prof + spell_ab_mod
+
+    # Merge racial traits into features and feature_data for the PDF
+    if racial_traits:
+        features_list = d.get("features", []) or []
+        feature_data_list = d.get("feature_data", []) or []
+        seen_rt = {fd.get("name", "").lower() for fd in feature_data_list}
+        seen_rt.update((f.get("name", "") if isinstance(f, dict) else "").lower() for f in features_list if isinstance(f, dict))
+        for rt in racial_traits:
+            rt_name = rt.get("name", "")
+            if rt_name.lower() not in seen_rt:
+                features_list.append({"name": rt_name, "source": rt.get("source", "Race")})
+                feature_data_list.append({"name": rt_name, "description": rt.get("desc", "")})
+                seen_rt.add(rt_name.lower())
+        d["features"] = features_list
+        d["feature_data"] = feature_data_list
 
     d["condensed_features"] = _build_condensed_features(d)
     d["full_feature_text"] = _build_full_feature_text(d)
