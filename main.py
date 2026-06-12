@@ -4938,6 +4938,7 @@ async def dm_ai_build_encounter(request: Request):
     When campaign_id is provided, loads all party characters and tailors the encounter
     to their stats — exploiting weak saves, bypassing resistances, and countering strengths."""
     user = require_user(request)
+    db = get_db()
     data = await request.json()
     party_level = int(data.get('party_level', 5))
     party_size = int(data.get('party_size', 4))
