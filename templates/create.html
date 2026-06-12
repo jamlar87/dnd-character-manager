@@ -95,6 +95,12 @@
       <div class="grid-2" id="halfelf-grid"></div>
     </div>
     {% endif %}
+    {% if "Custom Lineage" in races %}
+    <div id="customlineage-picks" style="margin-top:1rem;display:none">
+      <p style="font-size:0.9rem;color:var(--text-muted)">Custom Lineage: +2 to one ability of your choice</p>
+      <div class="grid-2" id="customlineage-grid"></div>
+    </div>
+    {% endif %}
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealAbilities()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
@@ -780,6 +786,7 @@ function updateAsiPreview() {
   let bonuses = {...r.asi};
   if (state.subrace && SUBASIS[state.subrace]) Object.entries(SUBASIS[state.subrace]).forEach(([k,v]) => bonuses[k] = (bonuses[k]||0)+v);
   if (state.race === 'Half-Elf' && state.asi_picks.length === 2) state.asi_picks.forEach(a => bonuses[a] = (bonuses[a]||0)+1);
+  if (state.race === 'Custom Lineage' && state.asi_picks.length === 1) bonuses[state.asi_picks[0]] = (bonuses[state.asi_picks[0]]||0)+2;
   document.getElementById('asi-bonus').innerHTML = Object.entries(bonuses).map(([k,v]) => `${k.slice(0,3).toUpperCase()}+${v}`).join(' · ') || '';
 
   // Half-Elf ASI picks
@@ -792,11 +799,27 @@ function updateAsiPreview() {
         ${a.slice(0,3).toUpperCase()} +1
       </label>`).join('');
   } else { he.style.display = 'none'; }
+
+  // Custom Lineage ASI pick
+  const cl = document.getElementById('customlineage-picks');
+  if (state.race === 'Custom Lineage') {
+    cl.style.display = 'block';
+    document.getElementById('customlineage-grid').innerHTML = ABILITIES.map(a => `
+      <label class="option-card" style="cursor:pointer">
+        <input type="radio" name="cl-asi" value="${a}" onchange="setLineageAsi('${a}')" style="pointer-events:none">
+        ${a.slice(0,3).toUpperCase()} +2
+      </label>`).join('');
+  } else { cl.style.display = 'none'; }
 }
 
 function toggleAsiPick(a, checked) {
   if (checked) { if (state.asi_picks.length < 2) state.asi_picks.push(a); }
   else { state.asi_picks = state.asi_picks.filter(x => x !== a); }
+  updateAsiPreview();
+}
+
+function setLineageAsi(a) {
+  state.asi_picks = [a];
   updateAsiPreview();
 }
 
