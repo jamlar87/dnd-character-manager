@@ -10245,68 +10245,49 @@ LIMITED_USE = {
     "call to the wave":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
 
     # ── Subclass Features ──
-    # Barbarian — Path of the Totem Warrior
-    "totem spirit":         {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
-    "aspect of the beast":  {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
-    "totemic attunement":   {"min": 1, "max": 1,  "recharge": "long", "class": "Barbarian", "per": "fixed"},
     # Fighter — Battle Master (PHB p.73-74)
     "combat superiority":   {"min": 4, "max": 6,  "recharge": "short", "class": "Fighter", "per": "fixed", "pool_kind": "dice"},
-    # Cleric — Light Domain
-    "warding flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
-    "improved flare":        {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
+    # Cleric — Light Domain (PHB p.60-61): WIS mod/long (min 1)
+    "warding flare":        {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    "improved flare":       {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
     "corona of light":      {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Cleric — Nature Domain
-    "dampen elements":      {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
-    # Cleric — Tempest Domain
-    "wrath of the storm":   {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
-    "thunderbolt strike":   {"min": 1, "max": 99,  "recharge": "long", "class": "Cleric", "per": "level"},
-    "stormborn":            {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Paladin — capstones
+    # Cleric — Nature Domain (PHB p.62): WIS mod/long (min 1)
+    "dampen elements":      {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Cleric — Tempest Domain (PHB p.62): Wrath = WIS mod/long; Thunderbolt Strike = at-will (not limited)
+    "wrath of the storm":   {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Paladin — capstones (PHB p.88-89): 1/long each
     "holy nimbus":          {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
     "avenging angel":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
     "elder champion":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    # Sorcerer — Draconic Bloodline
-    "dragon wings":         {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    # Sorcerer — Draconic Bloodline (PHB p.103-104)
     "draconic presence":    {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
-    # Sorcerer — Wild Magic
+    # Sorcerer — Wild Magic (PHB p.103)
     "tides of chaos":       {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
-    # Warlock — The Archfey
+    # Warlock — The Archfey (PHB p.108-109): 1/short each
     "fey presence":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
     "misty escape":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
     "dark delirium":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    # Warlock — The Great Old One
+    # Warlock — The Great Old One (PHB p.109-110)
     "entropic ward":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
     "create thrall":        {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
-    "awakened mind":        {"min": 1, "max": 99,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    # Wizard — School of Divination
+    # Wizard — School of Divination (PHB p.115-116)
     "portent":              {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "greater portent":      {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "the third eye":        {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Wizard — misc
-    "minor conjuration":    {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Wizard — misc (PHB p.117-119)
     "benign transposition": {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "hypnotic gaze":        {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "instinctive charm":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "alter memories":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "improved minor illusion": {"min": 1, "max": 99, "recharge": "short", "class": "Wizard", "per": "fixed"},
+    "instinctive charm":    {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
     "illusory self":        {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
-    "illusory reality":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "minor alchemy":        {"min": 1, "max": 99, "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "transmuter's stone":   {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
     "master transmuter":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Cleric — capstones
+    # Cleric — capstones (PHB p.59-63)
     "master of nature":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
     "visions of the past":  {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
-    "improved duplicity":   {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    "improved duplicity":   {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
     "avatar of battle":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    "blessing of the trickster": {"min": 1, "max": 99, "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Paladin — Oathbreaker
+    # Cleric — Trickery Domain (PHB p.63): WIS mod/long (min 1)
+    "blessing of the trickster": {"min": 1, "max": 5, "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Paladin — Oathbreaker (DMG p.97)
     "dread lord":           {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    # Arcane Trickster
+    # Arcane Trickster (PHB p.97-98)
     "spell thief":          {"min": 1, "max": 1,  "recharge": "long", "class": "Rogue", "per": "fixed"},
-    "mage hand legerdemain": {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
-    "magical ambush":       {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
-    "versatile trickster":  {"min": 1, "max": 99, "recharge": "short", "class": "Rogue", "per": "fixed"},
 }
 
 
@@ -11917,6 +11898,9 @@ def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
         if feat_key == "sorcery points":
             # Sorcery points = sorcerer level (PHB p.101)
             return level
+    if lu["per"] == "wis":
+        # WIS-mod features (min 1): actual WIS mod added in enrich_features
+        return 1
     return lu.get("min", 1)
 
 
@@ -12804,10 +12788,31 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         if source_class and source_level > 0:
             # Features that should never have uses/recharge (DM-triggered, point-driven, or passive)
             _NON_LIMITED_FEATURES = {
+                # Wild Magic Sorcerer
                 "wild magic surge",  # DM-triggered, not player-activated
                 "bend luck",         # costs 2 sorcery points, unlimited uses
                 "controlled chaos",  # passive modifier
                 "spell bombardment", # passive modifier
+                # Totem Warrior Barbarian — permanent ritual choices
+                "totem spirit", "aspect of the beast", "totemic attunement",
+                # Tempest Cleric — at-will/passive
+                "thunderbolt strike", "stormborn",
+                # Draconic Sorcerer
+                "dragon wings",  # unlimited BA, permanent
+                # Great Old One Warlock
+                "awakened mind",  # unlimited telepathy
+                # Divination Wizard
+                "the third eye", "greater portent",
+                # Conjuration Wizard
+                "minor conjuration",
+                # Enchantment Wizard
+                "hypnotic gaze", "alter memories",
+                # Illusion Wizard
+                "improved minor illusion", "illusory reality",
+                # Transmutation Wizard
+                "minor alchemy", "transmuter's stone",
+                # Arcane Trickster Rogue
+                "mage hand legerdemain", "magical ambush", "versatile trickster",
             }
             if key not in _NON_LIMITED_FEATURES:
                 # Feature name aliases (raw name → LIMITED_USE key)
@@ -12823,6 +12828,10 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                             if lkey == "cleansing touch":
                                 cha_mod = (mods or {}).get("charisma", 0)
                                 uses_max = max(1, uses_max + cha_mod - 1)  # base 1 + CHA
+                            # WIS-mod features (warding flare, improved flare, dampen elements, wrath of the storm, blessing of the trickster)
+                            if lu.get("per") == "wis":
+                                wis_mod = (mods or {}).get("wisdom", 0)
+                                uses_max = max(1, wis_mod)
                             entry["uses_max"] = uses_max
                             entry["uses"] = uses_max
                             entry["recharge"] = lu["recharge"]
