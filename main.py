@@ -457,12 +457,53 @@ def load_manual_data():
                     source = title
                 else:
                     source = slug
+            # Normalize rarity (handle non-standard strings from ingested data)
+            raw_rarity = (item.get("rarity") or "unknown").strip()
+            rarity_lower = raw_rarity.lower()
+            RARITY_NORM = {
+                "fabled": "legendary", "unique": "artifact",
+                "none (non-magical)": "common", "faint conjuration": "common",
+                "faint abjuration": "common", "moderate": "uncommon",
+                "minor magical property": "common",
+            }
+            if rarity_lower in RARITY_NORM:
+                norm_rarity = RARITY_NORM[rarity_lower]
+            elif "varies" in rarity_lower or "see" in rarity_lower:
+                norm_rarity = "varies"
+            elif "fabled" in rarity_lower:
+                norm_rarity = "legendary"
+            elif rarity_lower.startswith("uncommon") and ("+" in rarity_lower or "," in rarity_lower):
+                norm_rarity = "varies"  # +1/+2/+3 scaling items like "uncommon (+1), rare (+2), or very rare (+3)"
+            else:
+                std_rarities = {"common", "uncommon", "rare", "very rare", "legendary", "artifact", "unknown", "varies"}
+                norm_rarity = rarity_lower if rarity_lower in std_rarities else "unknown"
+
+            # Normalize category (extract base from compound types)
+            import re as _re2
+            raw_type = (item.get("type") or "Wondrous item").strip()
+            type_lower = raw_type.lower()
+            base_m = _re2.match(r'([\w][\w\s]*?)(?:\s*[\(,]|$)', type_lower)
+            base_cat = base_m.group(1).strip() if base_m else type_lower
+            CAT_NORM = {
+                "armour": "armor", "wondrous artefact": "wondrous item",
+                "ammunition": "weapon", "arrow": "weapon", "great spear": "weapon",
+                "great bow": "weapon", "great shield": "armor", "great axe": "weapon",
+                "short sword": "weapon", "long sword": "weapon", "spear": "weapon",
+                "axe": "weapon", "helm": "wondrous item", "mirror": "wondrous item",
+                "ring-mail": "armor", "coat of mail": "armor", "scale hauberk": "armor",
+                "shield": "armor", "drug": "potion", "primal boon": "wondrous item",
+                "enchanted quality": "wondrous item", "close combat weapon": "weapon",
+                "armor (shield)": "armor", "artifact": "wondrous item",
+                "armor (light": "armor", "armor (medium": "armor", "armor (heavy": "armor",
+            }
+            norm_cat = CAT_NORM.get(base_cat, base_cat)
+
             # Map to SRD format
             mapped = {
                 "name": item.get("name", ""),
                 "desc": [item.get("description", "")],
-                "rarity": {"name": item.get("rarity", "varies")},
-                "equipment_category": {"name": item.get("type", "Wondrous item")},
+                "rarity": {"name": norm_rarity},
+                "equipment_category": {"name": norm_cat},
                 "source": source,
             }
             SRD_MAGIC_ITEMS.append(mapped)
@@ -12245,8 +12286,8 @@ TREASURE_HOARD_TABLE = {
 
 # Magic item table → rarity/category filter for SRD pool
 MAGIC_TABLE_POOLS = {
-    "A": {"rarity": ["common", "uncommon"], "category": ["potion", "scroll", "wand", "wondrous item"]},
-    "B": {"rarity": ["uncommon", "rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
+    "A": {"rarity": ["common", "uncommon", "unknown", "varies"], "category": ["potion", "scroll", "wand", "wondrous item"]},
+    "B": {"rarity": ["uncommon", "rare", "unknown", "varies"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "C": {"rarity": ["rare", "very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "D": {"rarity": ["very rare"], "category": ["armor", "weapon", "wondrous item", "ring", "rod", "staff"]},
     "E": {"rarity": ["uncommon", "rare"], "category": ["weapon", "armor", "rod", "staff", "wand"]},
