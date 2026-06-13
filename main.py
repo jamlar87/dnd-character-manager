@@ -7492,7 +7492,7 @@ async def character_sheet(char_id: int, request: Request):
                 _subclass_feature_names.update(_lvl_feats)
     if _cls_source:
         for _feat in char["feature_data"]:
-            if not _feat.get("source") or _feat.get("source") == "SRD 5.1":
+            if not _feat.get("source") or _feat.get("source") in ("SRD 5.1", "PHB 2014"):
                 _fname = _feat.get("name", "")
                 if _sub_source and _fname in _subclass_feature_names:
                     _feat["source"] = _sub_source
@@ -15099,10 +15099,12 @@ def _add_cd_sub_options(feature_data: list[dict]) -> None:
 def _add_source_to_features(feature_data: list[dict]) -> None:
     """Mutate feature_data in-place: add 'source' field from SRD_FEATURES lookup.
     Tries exact name match first, then strips class suffix for composite names.
-    Safe to call on already-enriched data — no-ops if source already present."""
+    Safe to call on already-enriched data — no-ops if source already present.
+    Skips 'SRD 5.1' and bare 'PHB 2014' (no page) — fallback handles those."""
     for feat in feature_data:
-        if feat.get("source"):
-            continue  # Already has source
+        src = feat.get("source", "")
+        if src and src != "SRD 5.1" and src != "PHB 2014":
+            continue  # Already has a real source
         name = feat.get("name", "")
         key = name.lower()
         # Try exact match
