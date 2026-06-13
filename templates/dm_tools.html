@@ -4214,9 +4214,12 @@ async function endCombat() {
 
 // ── Page load: auto-restore last combat encounter + campaign ──
 document.addEventListener('DOMContentLoaded', async function() {
-  // Ensure combat dropdowns are populated if Combat tab is active on load
+  // Ensure dropdowns are populated if their tab is active on load (click handlers don't fire)
   if (document.getElementById('panel-combat').classList.contains('active')) {
     await initCombatPanel();
+  }
+  if (document.getElementById('panel-items').classList.contains('active')) {
+    loadItemsPanel();
   }
 
   let lastEncId = null;
