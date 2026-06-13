@@ -2436,7 +2436,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); });
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); });
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
