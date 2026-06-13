@@ -818,6 +818,53 @@ def _resolve_item_key(item_name: str):
     for k, v in ITEM_INDEX.items():
         if key in k:
             return v
+    # ── Quantity stripping: "Light Crossbow + 20 Bolt" → "Light Crossbow" ──
+    qty_stripped = re.sub(r'\s*\+\s*\d+.*', '', key).strip()
+    if qty_stripped and qty_stripped != key:
+        item = ITEM_INDEX.get(qty_stripped)
+        if not item:
+            for k, v in ITEM_INDEX.items():
+                if qty_stripped in k:
+                    item = v
+                    break
+        if item:
+            return item
+    # ── Prefix stripping: "Vial of X", "Bag of X" → "X" ──
+    for prefix in ("vial of ", "bag of ", "flask of ", "pouch of "):
+        if key.startswith(prefix):
+            suffix = key[len(prefix):]
+            item = ITEM_INDEX.get(suffix)
+            if not item:
+                for k, v in ITEM_INDEX.items():
+                    if suffix in k:
+                        item = v
+                        break
+            if item:
+                return item
+    # ── Em-dash splitting: "Spell Scroll — Cantrip" → try base + variant ──
+    for sep in (" — ", " – ", " – ", " -- "):
+        if sep in key:
+            parts = key.split(sep, 1)
+            base = parts[0].strip()
+            variant = parts[1].strip() if len(parts) > 1 else ""
+            # Try "base (variant)" key
+            paren_key = f"{base} ({variant})"
+            item = ITEM_INDEX.get(paren_key)
+            if item:
+                return item
+            # Try just the base name
+            item = ITEM_INDEX.get(base)
+            if item:
+                return item
+            # Try variant in parentheses for any key starting with base
+            for k, v in ITEM_INDEX.items():
+                if k.startswith(base) and variant in k:
+                    return v
+            # Try partial match for base
+            for k, v in ITEM_INDEX.items():
+                if base in k:
+                    return v
+            break
     return None
 
 def _build_item_description(item: dict) -> str:
@@ -7319,6 +7366,15 @@ async def character_sheet(char_id: int, request: Request):
         char["totem_spirits"] = json.loads(char.get("totem_spirits", "{}"))
     except (json.JSONDecodeError, TypeError):
         char["totem_spirits"] = {}
+    # Enrich inventory items with descriptions from ITEM_INDEX
+    for inv_item in char.get("inventory", []):
+        if not isinstance(inv_item, dict):
+            continue
+        if not inv_item.get("description"):
+            idx_entry = _resolve_item_key(inv_item.get("name", ""))
+            if idx_entry:
+                inv_item["description"] = idx_entry.get("description", "") or _build_item_description(idx_entry)
+                inv_item["source"] = inv_item.get("source") or idx_entry.get("source", "")
     # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
     char["equipped"] = _normalize_equipped(char["equipped"])
     # Load attuned_items
