@@ -1403,7 +1403,7 @@ async function openEncounter(id) {
         ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
         : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
       const sourceBadge = c._kind === 'monster' && c._raw && c._raw.source
-        ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7" title="${c._raw.source}">📚</span> `
+        ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${c._raw.source}">📚</span> `
         : '';
       const tagBadge = c._kind === 'monster' && c._raw && c._raw.tags && c._raw.tags.length
         ? c._raw.tags.map(t => `<span class="badge badge-muted" style="font-size:0.5rem;opacity:0.8">${t}</span>`).join(' ')
@@ -2619,7 +2619,7 @@ function renderPickerResults(items) {
   }
   results.innerHTML = items.map(item =>
     `<div onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')" style="padding:0.35rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);display:flex;justify-content:space-between;align-items:center">
-      <span>${item.name}${item.source ? ` <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7">📚 ${item.source}</span>` : ''}</span>
+      <span>${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
       <span style="color:var(--text-muted);font-size:0.7rem;flex-shrink:0;margin-left:0.5rem">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
     </div>`
   ).join('');
@@ -2801,7 +2801,7 @@ function renderLootStaging(hoard, bracket) {
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${m.name}</span>
         <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
-        ${m.source ? `<span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem" title="${m.source}">📚</span>` : ''}
+        ${m.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
         <div class="item-detail">
           <span class="detail-label">Rarity</span> ${m.rarity}${attune ? '<br><span class="detail-label">Attunement</span>' + attune : ''}
@@ -4095,11 +4095,14 @@ function filterCombatCreatures() {
     const hpDisplay = c._kind === 'monster'
       ? `HP ${c.hp_current}`
       : `HP ${c.hp_current}/${c.hp_max}`;
+    const sourceHtml = c._kind === 'monster' && c._raw?.source
+      ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
+      : '';
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
       data-idx="${_combatCreatureCache.indexOf(c)}">
       ${c._kind === 'monster' && c._raw?.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
       ${c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
-      <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
+      <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span>${sourceHtml}</span>
       <button class="btn btn-primary btn-sm" style="flex-shrink:0;font-size:0.7rem" onclick="addCombatCreature(${_combatCreatureCache.indexOf(c)})">+ Add</button>
     </div>`;
   });

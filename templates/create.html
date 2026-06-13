@@ -583,7 +583,7 @@ function selectRace(name) {
   document.getElementById('race-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${name}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
-      ${r.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${r.source}">📚 ${r.source}</span>` : ''}
+      ${r.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${r.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${r.source}">📚 ${r.source}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
@@ -612,7 +612,7 @@ function selectSubrace(s) {
   document.getElementById('race-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.race}</strong>${state.subrace ? ' ('+state.subrace+')' : ''}</span>
-      ${detailSrc ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${detailSrc}">📚 ${detailSrc}</span>` : ''}
+      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${detailSrc.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Speed ${r.speed}ft · Darkvision ${r.darkvision}ft</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${r.traits.join(', ') || 'No special traits'}</span>
@@ -663,7 +663,7 @@ function selectClass(name) {
   document.getElementById('class-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
-      ${c.source ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${c.source}">📚 ${c.source}</span>` : ''}
+      ${c.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${c.source}">📚 ${c.source}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
@@ -679,7 +679,7 @@ function selectSubclass(s) {
   document.getElementById('class-info').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
       <span><strong>${state.class_name}</strong>${state.subclass ? ' — '+state.subclass : ''}</span>
-      ${detailSrc ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${detailSrc}">📚 ${detailSrc}</span>` : ''}
+      ${detailSrc ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${detailSrc.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${detailSrc}">📚 ${detailSrc}</span>` : ''}
     </div>
     <div style="font-size:0.85rem;color:var(--text-muted)">Hit Die: d${c.hd} · Saving Throws: ${c.saves.join(', ')}</div>
     <span style="font-size:0.85rem;color:var(--text-muted)">${c.skill_count} skill proficiencies from: ${Array.isArray(c.skills) ? c.skills.join(', ') : 'any'}</span>
@@ -912,7 +912,7 @@ function showBgInfo(bg) {
     document.getElementById('custom-bg-row').style.display = 'block';
   } else {
     const src = BACKGROUND_SOURCES[bg] || '';
-    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>${bg}</strong></span>${src ? `<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap" title="Source: ${src}">📚 ${src}</span>` : ''}</div>${BACKGROUND_INFO[bg] || ''}`;
+    el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><span><strong>${bg}</strong></span>${src ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${src.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;white-space:nowrap;cursor:pointer" title="Click to open ${src}">📚 ${src}</span>` : ''}</div>${BACKGROUND_INFO[bg] || ''}`;
     document.getElementById('custom-bg-row').style.display = 'none';
   }
 }
