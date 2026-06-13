@@ -2133,6 +2133,23 @@
 </div>
 </div>
 
+<!-- ── Expertise Edit Modal ── -->
+<div id="exp-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeExpertiseEdit()">
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+    <h2 style="margin:0;font-size:1.1rem">⭐ Edit Expertise</h2>
+    <button onclick="closeExpertiseEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.75rem">Select <strong id="exp-edit-count">0</strong> skills to double your proficiency bonus.</p>
+  <div id="exp-edit-body" style="display:flex;flex-direction:column;gap:0.4rem;max-height:50vh;overflow-y:auto"></div>
+  <p id="exp-edit-selected" style="font-size:0.75rem;color:var(--text-muted);text-align:right;margin-top:0.5rem">0 / 0 selected</p>
+  <div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+    <button class="btn btn-outline btn-sm" onclick="closeExpertiseEdit()">Cancel</button>
+    <button class="btn btn-primary btn-sm" onclick="saveExpertiseEdit()">💾 Save & Reload</button>
+  </div>
+</div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -2207,6 +2224,11 @@ _loadSourceSlugs();
 const SKILL_AB_MAP = {{ skill_abilities|tojson }};
 const CHAR_SAVE_PROFS = {{ saves_class|tojson }};
 const CHAR_SKILLS = {{ (character.skills or [])|tojson }};
+const CHAR_EXPERTISE = {{ (character.expertise_skills or [])|tojson }};
+const CHAR_CLASS_NAME = '{{ character.class_name }}';
+const CHAR_SUBCLASS = '{{ character.subclass or "" }}';
+const EXPERTISE_OPTIONS = {{ expertise_options|tojson }};
+const EXPERTISE_COUNT = {{ expertise_count }};
 const CHAR_PROF_BONUS = {{ character.proficiency_bonus or 2 }};
 // Keep a client-side cache of ability scores for recalculation
 const ABILITY_SCORES = {
@@ -4194,6 +4216,71 @@ function closeAsiEdit() {
   _asiEditLevel = null;
 }
 
+// ── Expertise Edit ──
+let _expPicks = [];
+
+function startExpertiseEdit() {
+  _expPicks = [...CHAR_EXPERTISE];
+  const count = EXPERTISE_COUNT;
+  document.getElementById('exp-edit-count').textContent = count;
+  
+  let html = '';
+  EXPERTISE_OPTIONS.forEach(opt => {
+    const sel = _expPicks.includes(opt);
+    html += `<div class="exp-opt-row" data-opt="${opt.replace(/"/g,'&quot;')}" onclick="toggleExpPick(this,'${opt.replace(/'/g,"\\'")}')"
+      style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;border:1px solid ${sel ? 'var(--accent)' : 'var(--border)'};border-radius:6px;cursor:pointer;transition:border-color 0.15s;${sel ? 'background:var(--accent2)' : ''}">
+      <span style="font-size:0.85rem;flex:1">${opt}</span>
+      <span class="exp-check" style="font-size:0.9rem">${sel ? '✅' : '⬜'}</span>
+    </div>`;
+  });
+  document.getElementById('exp-edit-body').innerHTML = html || '<p style="color:var(--text-muted);font-size:0.8rem">No expertise options available for this class.</p>';
+  _updateExpCount();
+  document.getElementById('exp-edit-modal').style.display = 'flex';
+}
+
+function toggleExpPick(el, opt) {
+  const idx = _expPicks.indexOf(opt);
+  if (idx >= 0) {
+    _expPicks.splice(idx, 1);
+    el.style.borderColor = 'var(--border)';
+    el.style.background = '';
+    el.querySelector('.exp-check').textContent = '⬜';
+  } else {
+    if (_expPicks.length >= EXPERTISE_COUNT) {
+      // Remove first pick to make room
+      const old = _expPicks.shift();
+      const oldEl = document.querySelector(`.exp-opt-row[data-opt="${old.replace(/"/g,'&quot;')}"]`);
+      if (oldEl) {
+        oldEl.style.borderColor = 'var(--border)';
+        oldEl.style.background = '';
+        oldEl.querySelector('.exp-check').textContent = '⬜';
+      }
+    }
+    _expPicks.push(opt);
+    el.style.borderColor = 'var(--accent)';
+    el.style.background = 'var(--accent2)';
+    el.querySelector('.exp-check').textContent = '✅';
+  }
+  _updateExpCount();
+}
+
+function _updateExpCount() {
+  document.getElementById('exp-edit-selected').textContent = `${_expPicks.length} / ${EXPERTISE_COUNT} selected`;
+}
+
+function closeExpertiseEdit() {
+  document.getElementById('exp-edit-modal').style.display = 'none';
+  _expPicks = [];
+}
+
+async function saveExpertiseEdit() {
+  try {
+    const r = await api('/edit-expertise', { expertise_skills: _expPicks });
+    if (r.ok) { location.reload(); }
+    else { const err = await r.json(); alert('Failed: ' + (err.error || 'Unknown error')); }
+  } catch(e) { alert('Error saving: ' + e.message); }
+}
+
 // ── Feat browser helpers ──
 function filterAsiFeats() {
   const q = (document.getElementById('asi-edit-feat-search')?.value || '').toLowerCase();
@@ -4251,6 +4338,9 @@ function toggleFeatBody(card) {
       const lvl = parseInt(lvlStr);
       if (lvl) { startAsiEdit(lvl); return; }
     }
+    if (feat && feat.name === 'Expertise') {
+      startExpertiseEdit(); return;
+    }
   }
   const body = card.querySelector('.feat-body');
   const arrow = card.querySelector('.collapse-arrow');
@@ -4266,6 +4356,9 @@ function togglePassiveBody(chip) {
       const lvlStr = feat.level ? String(feat.level).replace('L','') : '';
       const lvl = parseInt(lvlStr);
       if (lvl) { startAsiEdit(lvl); return; }
+    }
+    if (feat && feat.name === 'Expertise') {
+      startExpertiseEdit(); return;
     }
   }
   const body = chip.nextElementSibling;

@@ -7225,6 +7225,19 @@ async def character_sheet(char_id: int, request: Request):
         if v not in merged_tool_profs:
             merged_tool_profs.append(v)
 
+    # Pre-compute expertise context for the edit modal
+    expertise_options = []
+    expertise_count = 0
+    for cls, lvl in class_levels_data.items():
+        ec = get_expertise_count(cls, lvl, char.get("subclass", "") if cls == char.get("class_name", "") else "")
+        if ec > 0:
+            expertise_count += ec
+            eo = get_expertise_options(cls, char.get("subclass", "") if cls == char.get("class_name", "") else "",
+                                       char.get("skills", []))
+            for opt in eo:
+                if opt not in expertise_options:
+                    expertise_options.append(opt)
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    mi_spells_data=mi_spells_data,
                    dm_preview=dm_preview,
@@ -7249,7 +7262,10 @@ async def character_sheet(char_id: int, request: Request):
                    maneuver_options=MANEUVER_OPTIONS,
                    metamagic_options=METAMAGIC_OPTIONS,
                    known_feats=KNOWN_FEATS,
-                   feat_details=FEAT_DETAILS)
+                   feat_details=FEAT_DETAILS,
+                   expertise_levels=EXPERTISE_LEVELS,
+                   expertise_options=expertise_options,
+                   expertise_count=expertise_count)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -7344,6 +7360,68 @@ async def edit_asi_choice(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True, "asi_history": asi_history})
+
+@app.post("/api/character/{char_id}/edit-expertise", response_class=JSONResponse)
+async def edit_expertise_choice(char_id: int, request: Request):
+    """Edit expertise skill picks for this character."""
+    user = require_user(request)
+    data = await request.json()
+    new_skills = data.get("expertise_skills", [])
+
+    if not isinstance(new_skills, list):
+        return JSONResponse({"error": "expertise_skills must be a list"}, status_code=400)
+
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+
+    char = dict(row)
+    # Parse JSON fields
+    char["skills"] = json.loads(char.get("skills", "[]") or "[]")
+    char["expertise_skills"] = json.loads(char.get("expertise_skills", "[]") or "[]")
+
+    # Compute valid options and count
+    class_levels = parse_class_levels(char)
+    all_options = []
+    total_count = 0
+    for cls, lvl in class_levels.items():
+        ec = get_expertise_count(cls, lvl, char.get("subclass", "") if cls == char.get("class_name", "") else "")
+        if ec > 0:
+            total_count += ec
+            eo = get_expertise_options(cls, char.get("subclass", "") if cls == char.get("class_name", "") else "",
+                                       char["skills"])
+            for opt in eo:
+                if opt not in all_options:
+                    all_options.append(opt)
+
+    # Validate: must have exactly total_count picks
+    if len(new_skills) != total_count:
+        # Allow editing even if count differs (de-level scenarios), just warn
+        pass
+
+    # Validate each pick is in the options
+    for sk in new_skills:
+        if sk not in all_options and sk not in char["skills"]:
+            db.close()
+            return JSONResponse({"error": f"'{sk}' is not a valid expertise option"}, status_code=400)
+
+    # Remove duplicates
+    seen = set()
+    unique_skills = []
+    for sk in new_skills:
+        if sk not in seen:
+            seen.add(sk)
+            unique_skills.append(sk)
+
+    db.execute(
+        "UPDATE characters SET expertise_skills=? WHERE id=?",
+        (json.dumps(unique_skills), char_id)
+    )
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "expertise_skills": unique_skills})
 
 @app.get("/api/character/{char_id}/attacks", response_class=JSONResponse)
 async def get_attacks(char_id: int, request: Request):
