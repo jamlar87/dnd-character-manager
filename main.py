@@ -4150,45 +4150,42 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         return composition, raw_xp
 
     # Default: boss + elites + minions (skirmish, ambush, social, rival)
-    # Target raw XP: divide budget by 2.0 (3-6 creatures)
-    target_raw = xp_budget / 2.0
-
+    # Fill using adjusted XP directly — add minions while budget allows
     boss = sorted_picks[0]
     composition.append({**boss, "count": 1})
     raw_xp += boss["xp"]
 
     rest = sorted_picks[1:] if len(sorted_picks) > 1 else []
 
+    def _adj(count, xp):
+        return int(xp * _encounter_mult(count))
+
     if rest:
-        remaining_raw = target_raw - raw_xp
-
-        # Elites: allocate up to 50% of remaining each (was 35%)
-        elites = [m for m in rest if m.get("role") == "elite"]
-        for m in elites:
-            if remaining_raw <= 0 or _total() >= MAX_CREATURES:
-                break
-            share = 0.5 if len(elites) <= 2 else (0.4 / len(elites))
-            c = max(1, min(3, int(remaining_raw * share / max(m["xp"], 1)), MAX_CREATURES - _total()))
-            composition.append({**m, "count": c})
-            raw_xp += m["xp"] * c
-            remaining_raw = target_raw - raw_xp
-
-        # Minions: aggressive round-robin fill
         minions = [m for m in rest if m.get("role") != "elite"] or rest
-        if minions:
-            ri = 0
-            while remaining_raw > 0 and ri < 50 and _total() < MAX_CREATURES:
-                m = minions[ri % len(minions)]
-                # Allow slight overshoot on last minion
-                if m["xp"] <= remaining_raw * 1.3 or raw_xp < target_raw * 0.4:
-                    existing = next((c for c in composition if c["index"] == m["index"]), None)
-                    if existing:
-                        existing["count"] += 1
-                    else:
-                        composition.append({**m, "count": 1})
-                    raw_xp += m["xp"]
-                    remaining_raw = target_raw - raw_xp
-                ri += 1
+        # Add minions while adjusted XP stays within 130% of budget
+        # (DMG multiplier curve makes small encounters overshoot easily)
+        overshoot_cap = 1.30
+        ri = 0
+        while ri < 50 and _total() < MAX_CREATURES:
+            m = minions[ri % len(minions)]
+            trial_total = _total() + 1
+            trial_xp = raw_xp + m["xp"]
+            trial_adj = _adj(trial_total, trial_xp)
+            if trial_adj <= xp_budget * overshoot_cap:
+                existing = next((c for c in composition if c["index"] == m["index"]), None)
+                if existing:
+                    existing["count"] += 1
+                else:
+                    composition.append({**m, "count": 1})
+                raw_xp += m["xp"]
+            elif _total() <= 1:
+                # Force at least 1 minion even if overshoot (solo boss is boring)
+                composition.append({**m, "count": 1})
+                raw_xp += m["xp"]
+                break
+            else:
+                break
+            ri += 1
 
     # Multi-pass padding: if under 80% budget, add more of cheapest creature
     total_count = _total()
@@ -4222,16 +4219,20 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         mult = _encounter_mult(total_count)
         adjusted = int(raw_xp * mult)
         budget_pct = adjusted / xp_budget if xp_budget > 0 else 0
-
-    # Trim if overshooting budget (>110%)
-    if xp_budget > 0 and adjusted > xp_budget * 1.10:
-        # Remove cheapest creatures one at a time until within 110%
+    # Trim if overshooting budget (>130%)
+    if xp_budget > 0 and adjusted > xp_budget * 1.30:
+        # Remove cheapest creatures one at a time until within 130%
+        # Never trim below 2 creature types (keep boss + at least 1 minion type)
         for _ in range(50):
             if not composition:
                 break
             total_count = _total()
-            # Never remove the LAST creature — better overshooting budget than empty
+            total_types = len(composition)
+            # Never remove the LAST creature
             if total_count <= 1:
+                break
+            # Don't remove if down to boss alone (keep boss + 1 minion type minimum)
+            if total_types <= 1:
                 break
             mult = _encounter_mult(total_count - 1) if total_count > 1 else 1.0
             # Find entry with most duplicates to trim
