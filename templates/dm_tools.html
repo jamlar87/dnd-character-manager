@@ -1398,7 +1398,10 @@ async function openEncounter(id) {
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}"
         style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
         <span style="font-size:0.8rem">${kindBadge}${sourceBadge}${tagBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
-        <button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
+        <span style="display:flex;gap:0.25rem">
+          ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem">ℹ️</button>` : (c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${c.id})" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem">ℹ️</button>` : '')}
+          <button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
+        </span>
       </div>`;
     });
     html += `</div></div>
