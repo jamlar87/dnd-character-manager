@@ -853,8 +853,8 @@
         {% for atk in attacks %}
         {% set has_mag = atk.max_charges is defined and atk.max_charges %}
         <div class="atk-card item-card weapon-atk-card{% if has_mag %} has-magazine{% endif %}"
-             data-item-name="{{ atk.name }}"
-             {% if has_mag %}data-max-charges="{{ atk.max_charges }}" data-charge-recharge="{{ atk.charge_recharge or '' }}"{% endif %}>
+            data-item-name="{{ atk.name }}"
+            {% if has_mag %}data-max-charges="{{ atk.max_charges }}" data-charge-recharge="{{ atk.charge_recharge or '' }}"{% endif %}>
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -906,8 +906,8 @@
         {% for ci in charged %}
         {% set is_reload = ci.recharge and ci.recharge is string and ci.recharge.startswith('reload') %}
         <div class="atk-card item-card charge-card{% if ci.current_charges <= 0 %} depleted{% endif %}"
-             data-item-name="{{ ci.name }}"
-             data-recharge="{{ ci.recharge or '' }}"
+            data-item-name="{{ ci.name }}"
+            data-recharge="{{ ci.recharge or '' }}"
              onclick="{% if ci.current_charges > 0 %}spendCharge(this.dataset.itemName){% elif is_reload %}reloadCharge(this.dataset.itemName){% endif %}"
              style="cursor:{% if ci.current_charges > 0 or is_reload %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 and not is_reload %}opacity:0.45{% endif %}">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
@@ -1146,7 +1146,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef('{{ feat.source|replace(\"'\",\"\\\\'\") }}')" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
@@ -1320,7 +1320,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef('{{ feat.source|replace(\"'\",\"\\\\'\") }}')" style="font-size:0.55rem;color:var(--text-muted);opacity:0.7;margin-left:0.3rem;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
@@ -1498,7 +1498,7 @@
                title="Click to find in Spellbook">
             <strong>{{ sp.spell_name }}</strong>
             {% if sp.srd and sp.srd.source %}
-            <span class="source-badge" onclick="openSourceRef('{{ sp.srd.source|replace(\"'\",\"\\\\'\") }}')" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+            <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
             {% endif %}
             {% if sp.srd and sp.srd.school %}
             <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
@@ -1562,7 +1562,7 @@
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
               <strong style="flex:1 1 auto;min-width:10ch;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">{{ sp.spell_name }}</strong>
               {% if sp.srd and sp.srd.source %}
-              <span class="source-badge" onclick="openSourceRef('{{ sp.srd.source|replace(\"'\",\"\\\\'\") }}')" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}
               {% if sp.srd and sp.srd.school %}
               <span class="badge badge-muted" style="font-size:0.6rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
@@ -1813,7 +1813,7 @@
           {% set item_qty = item.qty if item.qty is defined else 1 %}
           <div class="item-card" draggable="true"
                data-item-name="{{ item_name }}"
-               ondragstart="handleDragStart(event, '{{ item_name|replace("\'", "\\\\\'") }}', 'inventory', {{ item_qty }})"
+               ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to move">⋮⋮</span>
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -1849,7 +1849,7 @@
           {% set eq_qty = eq.qty|default(1) if eq is mapping else 1 %}
           <div class="item-card equipped-card" draggable="true"
                data-item-name="{{ eq_name }}"
-               ondragstart="handleDragStart(event, '{{ eq_name|replace("\'", "\\\\\'") }}', 'equipped', {{ eq_qty }})"
+               ondragstart="handleDragStart(event, this.dataset.itemName, 'equipped', {{ eq_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
