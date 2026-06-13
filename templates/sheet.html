@@ -4855,7 +4855,7 @@ function tagWeapons() {
   const hasSimple = weaponProfs.some(p => p.toLowerCase() === 'simple weapons');
   const hasMartial = weaponProfs.some(p => p.toLowerCase() === 'martial weapons');
   
-  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card').forEach(card => {
+  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card, #team-items-list .item-card').forEach(card => {
     const input = card.querySelector('.item-card-name');
     const badge = card.querySelector('.wpn-badge');
     const npBadge = card.querySelector('.np-badge');
@@ -4969,7 +4969,7 @@ function isArmorProficient(armorName) {
 
 function tagArmor() {
   const armors = getCurrentProfs('armor_proficiencies');
-  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card').forEach(card => {
+  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card, #team-items-list .item-card').forEach(card => {
     const input = card.querySelector('.item-card-name');
     const badge = card.querySelector('.arm-badge');
     const npBadge = card.querySelector('.np-badge');
@@ -6886,10 +6886,13 @@ async function loadTeamItems() {
       return `<div class="item-card">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
+        <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+        <span class="arm-badge item-tag" style="display:none">🛡️</span>
         <button class="item-card-btn item-card-award" onclick="claimFromTeam(${item.id}, '${item.name.replace(/'/g, "\\'")}')" title="Claim item" style="color:var(--success)">📥</button>
         <div class="item-detail" data-item-name="${item.name}"></div>
       </div>`;
     }).join('');
+    setTimeout(() => tagWeapons(), 50);
   } catch(e) { list.innerHTML = '<span style="color:var(--danger);font-size:0.8rem">Failed to load</span>'; }
 }
 

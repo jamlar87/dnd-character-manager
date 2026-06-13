@@ -2737,6 +2737,8 @@ function renderItemsPanel(items, chars) {
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
         <span class="item-card-name" style="cursor:default">${item.name}</span>${srcBadge}${qtyBadge}${gpInfo}
+        <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+        <span class="arm-badge item-tag" style="display:none">🛡️</span>
         <button class="item-card-btn item-card-award" onclick="event.stopPropagation();openAwardPopover(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.qty})" title="Award to character">🎁</button>
         <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
         <div class="item-detail" data-item-name="${item.name.replace(/"/g, '&quot;')}"></div>
@@ -2770,6 +2772,7 @@ function renderItemsPanel(items, chars) {
   partyHtml += '</div></div>';
 
   content.innerHTML = `<div style="display:flex;gap:1rem;flex-wrap:wrap">${poolHtml}${partyHtml}</div>`;
+  setTimeout(dmTagItemBadges, 50);
 
   // Initialize campaigns dropdown on first load
   if (!document.getElementById('itemsCampaignSelect').dataset.loaded) {
@@ -2785,6 +2788,22 @@ function renderItemsPanel(items, chars) {
       });
     });
   }
+}
+
+// ── Tag team item cards with weapon/armor badges ──
+function dmTagItemBadges() {
+  const cards = document.querySelectorAll('#itemsPanelContent .item-card');
+  if (!cards.length) return;
+  const wpnKw = ['sword','axe','hammer','bow','dagger','mace','spear','flail','rapier','scimitar','glaive','halberd','pike','lance','whip','club','staff','quarterstaff','crossbow','sling','dart','javelin','trident','war pick','morningstar','greatsword','longsword','shortsword','battleaxe','greataxe','warhammer','maul','handaxe','sickle','blowgun','net','pistol','musket','rifle'];
+  const armKw = ['padded','leather','studded','hide','chain shirt','scale mail','breastplate','half plate','ring mail','chain mail','splint','plate','shield','armor'];
+  cards.forEach(card => {
+    const name = (card.querySelector('.item-card-name')?.textContent || '').toLowerCase();
+    if (!name) return;
+    const wpnBadge = card.querySelector('.wpn-badge');
+    const armBadge = card.querySelector('.arm-badge');
+    if (wpnBadge) wpnBadge.style.display = wpnKw.some(kw => name.includes(kw)) ? 'inline-block' : 'none';
+    if (armBadge) armBadge.style.display = armKw.some(kw => name.includes(kw)) ? 'inline-block' : 'none';
+  });
 }
 
 // ── Items drag/drop ──
