@@ -1828,6 +1828,7 @@
             {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
             <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
             <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
+            {% if item.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ item.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ item_name }}"></div>
           </div>
           {% endfor %}
@@ -1863,6 +1864,7 @@
               {% endif %}
             {% endif %}
             <button class="item-card-btn" onclick="quickUnequip(this.closest('.item-card').querySelector('.item-card-name').textContent, {{ eq_qty }})" title="Unequip">⬇️</button>
+            {% if eq.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ eq.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
             <div class="item-detail" data-item-name="{{ eq_name }}"></div>
           </div>
           {% endfor %}
