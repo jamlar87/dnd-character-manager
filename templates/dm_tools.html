@@ -570,7 +570,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 </div>
 
 {# ───── CHARACTER SHEET PREVIEW MODAL ───── #}
-<div class="modal-overlay" id="charSheetModal" onclick="if(event.target===this)closeModal('charSheetModal')">
+<div class="modal-overlay" id="charSheetModal" onclick="if(event.target===this)closeModal('charSheetModal')" style="z-index:1100">
   <div class="modal-content" style="max-width:1100px;width:95vw;height:90vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
     <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0">
       <span style="font-weight:600" id="charSheetTitle">Character Sheet</span>
