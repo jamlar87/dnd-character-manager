@@ -4108,6 +4108,9 @@ async function toggleSkillProf(skillName) {
   location.reload();
 }
 
+// ── Feature Editing ──
+const featureData = {{ character.feature_data|tojson if character.feature_data else '[]' }};
+
 // ── ASI / Feat re-picker (edit mode) ──
 let _asiEditLevel = null;
 
@@ -4229,8 +4232,6 @@ function togglePassiveBody(chip) {
   }
 }
 
-// ── Feature Editing ──
-const featureData = {{ character.feature_data|tojson if character.feature_data else '[]' }};
 
 function editFeature(idx) {
   if (!document.body.classList.contains('edit-mode')) return;
