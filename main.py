@@ -3763,8 +3763,18 @@ async def starting_spells(request: Request, class_name: str = "", level: int = 1
             "duration": spell.get("duration", ""),
             "concentration": spell.get("concentration", False),
             "ritual": spell.get("ritual", False),
+            "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+            "book": spell.get("source", ""),
         })
     results.sort(key=lambda s: (s["level"], s["name"]))
+    # Enrich with spell dice indicators (same as character sheet badges)
+    for s in results:
+        dice_info = SPELL_DICE.get(s["name"].lower())
+        if dice_info:
+            s["dice"] = _scaled_dice_display(dice_info, level)
+            s["dice_healing"] = bool(dice_info.get("healing"))
+            s["dice_ac"] = bool(dice_info.get("ac_bonus"))
+            s["dice_buff"] = bool(dice_info.get("buff"))
     return JSONResponse(results)
 
 # ── DM Tools: Monster helpers ──────────────────────────────────────────────
