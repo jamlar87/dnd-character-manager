@@ -2443,13 +2443,14 @@ function renderItemsPanel(items, chars) {
     items.forEach(item => {
       const qtyBadge = `<span class="item-qty" onclick="event.stopPropagation();dmToggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${item.qty}</span>`;
       const gpInfo = item.gp_value > 0 ? `<span style="font-size:0.55rem;color:#ffd700;margin-left:0.2rem">${item.gp_value}gp</span>` : '';
+      const srcBadge = item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.6" title="Click to open ${item.source}">📚</span>` : '';
       poolHtml += `<div class="item-card" draggable="true"
         data-item-name="${item.name.replace(/"/g, '&quot;')}" data-item-id="${item.id}"
         ondragstart="itemsDragStart(event, '${item.name.replace(/'/g, "\\'")}', 'pool', ${item.id})"
         ondragend="itemsDragEnd(event)">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
-        <span class="item-card-name" style="cursor:default">${item.name}</span>${qtyBadge}${gpInfo}
+        <span class="item-card-name" style="cursor:default">${item.name}</span>${srcBadge}${qtyBadge}${gpInfo}
         <button class="item-card-btn item-card-award" onclick="event.stopPropagation();openAwardPopover(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.qty})" title="Award to character">🎁</button>
         <button class="item-card-btn item-card-del" onclick="deleteTeamItem(${item.id})" title="Remove">✕</button>
         <div class="item-detail" data-item-name="${item.name.replace(/"/g, '&quot;')}"></div>
@@ -2859,6 +2860,7 @@ async function dmToggleItemExpand(btn) {
     if (data.description) {
       descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4;white-space:normal;overflow:visible">${data.description}</p>`;
       if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
+      if (data.source) descHtml += ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${data.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
     } else {
       descHtml = `<span class="detail-label">No description available</span>`;
     }

@@ -6606,6 +6606,12 @@ async def campaign_team_items(camp_id: int, request: Request):
         "SELECT * FROM campaign_team_items WHERE campaign_id=? ORDER BY created_at DESC",
         (camp_id,)
     ).fetchall()]
+    # Enrich with source info from item index
+    for item in items:
+        key = (item.get("name") or "").strip().lower()
+        idx_entry = ITEM_INDEX.get(key)
+        if idx_entry and idx_entry.get("source"):
+            item["source"] = idx_entry["source"]
     db.close()
     return JSONResponse({"items": items})
 
