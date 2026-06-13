@@ -130,6 +130,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .participant-row { cursor: pointer; }
 .participant-row.defeated { opacity: 0.4; }
 .participant-row.defeated .p-name { text-decoration: line-through; }
+.participant-row .p-name { overflow-wrap: break-word; word-break: break-word; }
 
 /* Collapsable per-participant stat block */
 .p-stats { display: none; padding: 0.5rem; margin-top: 0.3rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; }
@@ -164,8 +165,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   flex-shrink: 0;
 }
 .initiative-card .init-info { flex: 1 1 100px; min-width: 0; }
-.initiative-card .init-name { font-weight: 600; font-size: 0.85rem; line-height: 1.35; display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap; }
-.initiative-card .init-meta { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.initiative-card .init-name { font-weight: 600; font-size: 0.85rem; line-height: 1.35; display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap; overflow-wrap: break-word; word-break: break-word; }
+.initiative-card .init-meta { font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; overflow-wrap: break-word; }
 .initiative-card .init-roll { font-size: 0.7rem; color: var(--accent); min-width: 3rem; text-align: center; }
 .initiative-card .init-hp-group { display: flex; align-items: center; gap: 0.3rem; min-width: 120px; }
 .initiative-card .init-hp-input { width: 42px; padding: 0.15rem 0.2rem; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text); font-size: 0.75rem; text-align: center; }
@@ -292,8 +293,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .item-card .drag-handle:active { cursor: grabbing; }
 .item-card .item-card-name {
   background: transparent; border: none; color: var(--text);
-  font-size: 0.8rem; padding: 0.1rem 0; min-width: 3ch; max-width: 280px;
-  outline: none; font-family: var(--font); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 0.8rem; padding: 0.1rem 0; min-width: 3ch;
+  outline: none; font-family: var(--font); overflow-wrap: break-word; word-break: break-word;
 }
 .item-card .item-qty {
   background: var(--accent); color: #000; border-radius: 8px;
@@ -2664,7 +2665,7 @@ function openAwardPopover(itemId, itemName, itemQty) {
     <div class="award-char-card" data-char-id="${c.id}" onclick="selectAwardChar(this, ${c.id})">
       <span style="font-size:1.1rem">👤</span>
       <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+        <div style="font-weight:600;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">${c.name}</div>
         <div style="font-size:0.7rem;color:var(--text-muted)">L${c.level} ${c.class_name}${c.race ? ' · ' + c.race : ''}</div>
       </div>
     </div>

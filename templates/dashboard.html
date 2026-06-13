@@ -22,9 +22,9 @@
 <div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div>
-      <strong style="font-size:1.15rem">{{ c.name }}</strong>
-      <span class="badge badge-accent" style="margin-left:0.5rem">Lv{{ c.level }}</span>
-      <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem">
+      <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
+      <span class="badge badge-accent" style="margin-left:0.5rem;flex-shrink:0">Lv{{ c.level }}</span>
+      <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem;overflow-wrap:break-word;word-break:break-word;line-height:1.4">
         {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
         {% if c.background %} · {{ c.background }}{% endif %}
       </div>
