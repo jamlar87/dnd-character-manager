@@ -2796,7 +2796,7 @@ function renderItemsPanel(items, chars) {
 
 // ── Tag team item cards with weapon/armor badges ──
 function dmTagItemBadges() {
-  const cards = document.querySelectorAll('#itemsPanelContent .item-card');
+  const cards = document.querySelectorAll('#lootStagingItems .item-card, #itemsPanelContent .item-card');
   if (!cards.length) return;
   const wpnKw = ['sword','axe','hammer','bow','dagger','mace','spear','flail','rapier','scimitar','glaive','halberd','pike','lance','whip','club','staff','quarterstaff','crossbow','sling','dart','javelin','trident','war pick','morningstar','greatsword','longsword','shortsword','battleaxe','greataxe','warhammer','maul','handaxe','sickle','blowgun','net','pistol','musket','rifle'];
   const armKw = ['padded','leather','studded','hide','chain shirt','scale mail','breastplate','half plate','ring mail','chain mail','splint','plate','shield','armor'];
@@ -3123,6 +3123,8 @@ function renderLootStaging(hoard, bracket) {
       html += `<div class="item-card" style="border-color:#ce93d8">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
         <span class="item-card-name">${m.name}</span>
+        <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+        <span class="arm-badge item-tag" style="display:none">🛡️</span>
         <span style="font-size:0.6rem;color:var(--text-muted);margin-left:0.2rem">${m.rarity}</span>
         ${m.source ? `<span class="src-badge" onclick="event.stopPropagation();openSourceRef('${m.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;color:var(--text-muted);opacity:0.6;margin-left:0.2rem;cursor:pointer" title="Click to open ${m.source}">📚</span>` : ''}
         <button class="item-card-btn" style="color:var(--success)" onclick="keepLootItem('magic', ${i})" title="Keep">📥</button>
@@ -3139,6 +3141,7 @@ function renderLootStaging(hoard, bracket) {
   }
 
   items.innerHTML = html;
+  setTimeout(dmTagItemBadges, 50);
 }
 
 // ── Expand/collapse staging item cards ──
