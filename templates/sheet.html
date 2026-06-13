@@ -2116,6 +2116,22 @@
 </div>
 {% endblock %}
 
+<!-- ASI / Feat Edit Modal (edit mode) -->
+<div id="asi-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeAsiEdit()">
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.1rem">✏️ Edit ASI / Feat Choice</h2>
+    <button onclick="closeAsiEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem" id="asi-edit-level"></p>
+  <div id="asi-edit-body"></div>
+  <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+    <button class="btn btn-outline btn-sm" onclick="closeAsiEdit()">Cancel</button>
+    <button class="btn btn-primary btn-sm" onclick="saveAsiEdit()">💾 Save & Reload</button>
+  </div>
+</div>
+</div>
+
 {% block scripts %}
 <script>
 const CHAR_ID = {{ character.id }};
@@ -2126,6 +2142,17 @@ const FEAT_SETUP = {
   martial_adept: {label:'Choose 2 Battle Master maneuvers',field:'maneuvers',kind:'maneuvers',picks:2},
 };
 const MANEUVER_OPTIONS = {{ maneuver_options | tojson | safe }};
+const CHAR_ASI_HISTORY = {{ character.asi_history|tojson if character.asi_history else '[]' }};
+const KNOWN_FEATS = [
+  "Alert","Athlete","Actor","Charger","Crossbow Expert","Defensive Duelist","Dual Wielder",
+  "Dungeon Delver","Durable","Elemental Adept","Fey Touched","Grappler","Great Weapon Master",
+  "Healer","Heavily Armored","Heavy Armor Master","Inspiring Leader","Keen Mind",
+  "Lightly Armored","Linguist","Lucky","Mage Slayer","Magic Initiate","Martial Adept",
+  "Medium Armor Master","Mobile","Moderately Armored","Mounted Combatant","Observant",
+  "Polearm Master","Resilient","Ritual Caster","Savage Attacker","Sentinel","Shadow Touched",
+  "Sharpshooter","Shield Master","Skilled","Skulker","Spell Sniper","Tavern Brawler",
+  "Telekinetic","Telepathic","Tough","War Caster","Weapon Master"
+];
 const HP_MAX = {{ character.hp_max }};
 const HD_TOTAL = {{ character.hit_dice.split('d')[0] if 'd' in (character.hit_dice or '') else 0 }};
 const ATTUNED_ITEMS = {{ character.attuned_items|tojson }};
@@ -4081,8 +4108,113 @@ async function toggleSkillProf(skillName) {
   location.reload();
 }
 
+// ── ASI / Feat re-picker (edit mode) ──
+let _asiEditLevel = null;
+
+function startAsiEdit(level) {
+  _asiEditLevel = level;
+  const entry = CHAR_ASI_HISTORY.find(e => e.level === level);
+  const abilities = ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma'];
+  
+  document.getElementById('asi-edit-level').textContent = `Level ${level} — Ability Score Improvement`;
+  
+  let isFeat = entry && entry.type === 'feat';
+  let curPlus2 = '', curPlus1 = '', curFeat = '';
+  
+  if (entry) {
+    if (isFeat) {
+      curFeat = entry.feat || '';
+    } else {
+      for (const [ab, inc] of Object.entries(entry)) {
+        if (ab === 'type' || ab === 'level') continue;
+        if (inc >= 2) curPlus2 = ab;
+        else if (inc >= 1) curPlus1 = ab;
+      }
+    }
+  }
+  
+  let html = `<div style="margin-bottom:1rem">
+    <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.5rem;border:1px solid ${!isFeat ? 'var(--accent)' : 'var(--border)'};border-radius:6px;margin-bottom:0.5rem" onclick="document.getElementById('asi-edit-feat').style.display='none';document.getElementById('asi-edit-abilities').style.display='';this.style.borderColor='var(--accent)'">
+      <input type="radio" name="asi-type" ${!isFeat ? 'checked' : ''} onchange="document.getElementById('asi-edit-feat').style.display='none';document.getElementById('asi-edit-abilities').style.display=''"> 
+      <strong>Ability Score Increase</strong> (+2 / +1)
+    </label>
+    <div id="asi-edit-abilities" style="${isFeat ? 'display:none' : ''};padding:0.5rem;background:var(--bg);border-radius:6px">
+      <div class="form-group"><label>+2 to:</label>
+        <select id="asi-edit-plus2" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+          <option value="">— Choose —</option>
+          ${abilities.map(a => `<option value="${a}" ${curPlus2 === a ? 'selected' : ''}>${a}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group"><label>+1 to:</label>
+        <select id="asi-edit-plus1" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+          <option value="">— Choose —</option>
+          ${abilities.map(a => `<option value="${a}" ${curPlus1 === a ? 'selected' : ''}>${a}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    
+    <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.5rem;border:1px solid ${isFeat ? 'var(--accent)' : 'var(--border)'};border-radius:6px" onclick="document.getElementById('asi-edit-abilities').style.display='none';document.getElementById('asi-edit-feat').style.display='';this.style.borderColor='var(--accent)'">
+      <input type="radio" name="asi-type" ${isFeat ? 'checked' : ''} onchange="document.getElementById('asi-edit-abilities').style.display='none';document.getElementById('asi-edit-feat').style.display=''"> 
+      <strong>Take a Feat</strong>
+    </label>
+    <div id="asi-edit-feat" style="${isFeat ? '' : 'display:none'};padding:0.5rem;background:var(--bg);border-radius:6px">
+      <div class="form-group"><label>Feat:</label>
+        <select id="asi-edit-feat-select" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+          <option value="">— Choose a feat —</option>
+          ${KNOWN_FEATS.map(f => `<option value="${f}" ${curFeat === f ? 'selected' : ''}>${f}</option>`).join('')}
+        </select>
+      </div>
+      <p style="font-size:0.7rem;color:var(--text-muted)">Switching to a feat replaces your ASI for this level. You may need to manually adjust ability scores.</p>
+    </div>
+  </div>`;
+  
+  document.getElementById('asi-edit-body').innerHTML = html;
+  document.getElementById('asi-edit-modal').style.display = 'flex';
+}
+
+function closeAsiEdit() {
+  document.getElementById('asi-edit-modal').style.display = 'none';
+  _asiEditLevel = null;
+}
+
+async function saveAsiEdit() {
+  const isFeat = document.querySelector('input[name="asi-type"]:checked')?.parentElement?.textContent.includes('Feat');
+  let entry = {level: _asiEditLevel};
+  
+  if (isFeat) {
+    const feat = document.getElementById('asi-edit-feat-select')?.value;
+    if (!feat) { alert('Please select a feat.'); return; }
+    entry.type = 'feat';
+    entry.feat = feat;
+  } else {
+    const plus2 = document.getElementById('asi-edit-plus2')?.value;
+    const plus1 = document.getElementById('asi-edit-plus1')?.value;
+    if (!plus2 || !plus1) { alert('Please select both +2 and +1 abilities.'); return; }
+    if (plus2 === plus1) { alert('+2 and +1 must be different abilities.'); return; }
+    entry.type = 'asi';
+    entry[plus2.toLowerCase()] = 2;
+    entry[plus1.toLowerCase()] = 1;
+  }
+  
+  try {
+    const r = await api('/edit-asi', {level: _asiEditLevel, entry});
+    if (r.ok) { location.reload(); }
+    else { alert('Failed to save. Try again.'); }
+  } catch(e) { alert('Error saving: ' + e.message); }
+}
+
 // ── Collapse Toggle for Feature Descriptions ──
 function toggleFeatBody(card) {
+  // In edit mode, ASI cards open the re-picker
+  if (document.body.classList.contains('edit-mode')) {
+    const idx = parseInt(card.getAttribute('data-feat-index'));
+    const feat = featureData[idx];
+    if (feat && feat.name && feat.name.includes('Ability Score Improvement')) {
+      const lvlStr = feat.level ? String(feat.level).replace('L','') : '';
+      const lvl = parseInt(lvlStr);
+      if (lvl) { startAsiEdit(lvl); return; }
+    }
+  }
   const body = card.querySelector('.feat-body');
   const arrow = card.querySelector('.collapse-arrow');
   body.classList.toggle('open');

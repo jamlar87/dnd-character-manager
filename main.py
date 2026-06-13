@@ -7289,6 +7289,44 @@ async def update_character(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True})
 
+@app.post("/api/character/{char_id}/edit-asi", response_class=JSONResponse)
+async def edit_asi_choice(char_id: int, request: Request):
+    """Edit a past ASI/feat choice for a given level."""
+    user = require_user(request)
+    data = await request.json()
+    level = data.get("level")
+    entry = data.get("entry")  # dict: {type: "asi", ...} or {type: "feat", feat: "...", ...}
+
+    if level is None or not entry:
+        return JSONResponse({"error": "Missing level or entry"}, status_code=400)
+
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+
+    char = dict(row)
+    asi_history = json.loads(char.get("asi_history", "[]") or "[]")
+
+    # Replace the entry for this level, or append if not found
+    found = False
+    for i, ae in enumerate(asi_history):
+        if ae.get("level") == level:
+            asi_history[i] = entry
+            found = True
+            break
+    if not found:
+        asi_history.append(entry)
+
+    db.execute(
+        "UPDATE characters SET asi_history=? WHERE id=?",
+        (json.dumps(asi_history), char_id)
+    )
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "asi_history": asi_history})
+
 @app.get("/api/character/{char_id}/attacks", response_class=JSONResponse)
 async def get_attacks(char_id: int, request: Request):
     """Return current weapon attacks for Actions tab refresh."""
