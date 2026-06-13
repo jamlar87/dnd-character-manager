@@ -5802,7 +5802,7 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
     if ai:
         raw_entries = ai.get("picks") or ai.get("composition") or []
         for entry in raw_entries:
-            idx = entry.get("index", "").lower()
+            idx = str(entry.get("index", "")).lower()
             role = entry.get("role", "minion").lower()
             if encounter_type == "swarm":
                 role = "minion"
