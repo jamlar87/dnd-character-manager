@@ -2185,7 +2185,8 @@ let CHARACTER_GP = {{ character.gp|default(0)|int }};
 const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 function _srcBadge(src) {
   if (!src) return '';
-  const short = src.length > 25 ? src.replace(/\s+p\.?\s*\d+.*$/, '').trim() : src;
+  // Keep the full source text including page number for accuracy
+  const short = src.length > 30 ? src.replace(/\s+\d{4}$/, '').trim() : src;
   return `<span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${src.replace(/"/g, '&quot;')}" title="Click to open ${src}">📚 ${short}</span>`;
 }
 function openSourceRef(src) {
