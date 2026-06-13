@@ -681,6 +681,8 @@ def load_manual_data():
                         break
                 if sc_source.startswith("p.") or sc_source.startswith("p "):
                     sc_source = f"{book_title} {sc_source}"
+                elif "p." in sc_source or "p " in sc_source:
+                    pass  # already has a page reference, keep as-is (e.g., "PHB p.97")
                 elif "Unknown" in sc_source or "Part 1" in sc_source or len(sc_source) < 12:
                     sc_source = book_title
             srcs[sc_name] = sc_source
