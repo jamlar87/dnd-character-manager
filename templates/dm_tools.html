@@ -966,8 +966,19 @@ document.querySelectorAll('.dm-tab').forEach(tab => {
 });
 
 // ── Modal helpers ──
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+let _modalZBase = 1000;
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  _modalZBase += 10;
+  el.style.zIndex = _modalZBase;
+  el.classList.add('open');
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('open');
+}
 
 function toggleCollapse(header) {
   const arrow = header.querySelector('.collapse-arrow');
