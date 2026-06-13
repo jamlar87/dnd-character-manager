@@ -6913,6 +6913,18 @@ async def character_sheet(char_id: int, request: Request):
     _add_source_to_features(char["feature_data"])
     # Enrich ASI features with feat descriptions when a feat was taken
     if char.get("asi_history"):
+        # Normalize: backfill missing level fields in asi_history
+        # (legacy entries created before the edit-asi feature existed)
+        _asi_levels = {int(f.get("level","L0").replace("L","") or "0") 
+                       for f in char["feature_data"] 
+                       if isinstance(f, dict) and "Ability Score Improvement" in f.get("name","")}
+        _sorted_asis = sorted(_asi_levels)
+        _pos = 0
+        for _ae in char["asi_history"]:
+            if _ae.get("level") is None and _pos < len(_sorted_asis):
+                _ae["level"] = _sorted_asis[_pos]
+            _pos += 1
+
         for _feat in char["feature_data"]:
             if not isinstance(_feat, dict):
                 continue
@@ -6925,7 +6937,7 @@ async def character_sheet(char_id: int, request: Request):
                 for _ae in char["asi_history"]:
                     if _ae.get("level") == _lvl_num and _ae.get("type") == "feat":
                         _fkey = _ae.get("feat", "")
-                        _finfo = FEATS.get(_fkey, {})
+                        _finfo = FEAT_BY_NAME.get(_fkey.lower(), {})
                         _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
                         _feat["asi_feat_desc"] = _finfo.get("description", "") or _finfo.get("desc", "")
                         # Magic Initiate: pass spell config to frontend
@@ -7311,7 +7323,11 @@ async def edit_asi_choice(char_id: int, request: Request):
     char = dict(row)
     asi_history = json.loads(char.get("asi_history", "[]") or "[]")
 
+    # Ensure entry has level set before saving
+    entry["level"] = level
+
     # Replace the entry for this level, or append if not found
+    # Also match old entries that lack a level field (legacy data)
     found = False
     for i, ae in enumerate(asi_history):
         if ae.get("level") == level:
@@ -9076,7 +9092,7 @@ async def apply_level_up(char_id: int, request: Request):
                     changes.append(f"L{lvl_str}: {ability} +{increase}")
             elif isinstance(choice, str) and choice.startswith("feat:"):
                 feat_key = choice[5:]
-                feat = FEATS.get(feat_key, {})
+                feat = FEAT_BY_NAME.get(feat_key.lower(), {})
                 changes.append(f"L{lvl_str}: Feat — {feat.get('name', feat_key)}")
                 feat_asi = feat.get("asi")
                 if feat_asi:
@@ -9235,7 +9251,7 @@ async def apply_level_up(char_id: int, request: Request):
             elif isinstance(choice, str) and choice.startswith("feat:"):
                 entry["type"] = "feat"
                 entry["feat"] = choice[5:]
-                feat_name = FEATS.get(choice[5:], {}).get("name", choice[5:])
+                feat_name = FEAT_BY_NAME.get(choice[5:].lower(), {}).get("name", choice[5:])
                 changes.append(f"Feat: {feat_name}")
             current_asi.append(entry)
         updates["asi_history"] = json.dumps(current_asi)
@@ -13343,6 +13359,8 @@ KNOWN_FEATS: list[str] = _build_known_feats()
 
 # Feat name → {desc, prereq, source} for the ASI picker preview
 FEAT_DETAILS: dict[str, dict] = {}
+# Case-insensitive name → FEATS value for enrichment lookups
+FEAT_BY_NAME: dict[str, dict] = {}
 for _f in FEATS.values():
     _name = _f.get("name", "")
     if _name in KNOWN_FEATS:
@@ -13351,6 +13369,7 @@ for _f in FEATS.values():
             "prereq": _f.get("prerequisite") or _f.get("prereq", ""),
             "source": _f.get("source", ""),
         }
+    FEAT_BY_NAME[_name.lower()] = _f
 
 # ── Merge manual equipment into ITEM_INDEX ──
 # SRD equipment is a subset of PHB equipment. Manual data fills in missing
