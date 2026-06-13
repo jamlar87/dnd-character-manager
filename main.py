@@ -3380,15 +3380,19 @@ def _build_charged_item_attacks(character: dict) -> list:
 
 
 def _normalize_equipped(equipped: list) -> list:
-    """Convert equipped items to [{name, qty}] format. Handles old string-list format."""
+    """Convert equipped items to [{name, qty, enhancement}] format. Handles old string-list format."""
     if not equipped:
         return []
     result = []
     for item in equipped:
         if isinstance(item, dict):
-            result.append({"name": item.get("name", ""), "qty": item.get("qty", 1)})
+            result.append({
+                "name": item.get("name", ""),
+                "qty": item.get("qty", 1),
+                "enhancement": item.get("enhancement", 0),
+            })
         else:
-            result.append({"name": str(item), "qty": 1})
+            result.append({"name": str(item), "qty": 1, "enhancement": 0})
     return result
 
 def _equipped_names(equipped: list) -> list:

@@ -1861,14 +1861,17 @@
           {% for eq in character.equipped %}
           {% set eq_name = eq.name if eq is mapping else eq %}
           {% set eq_qty = eq.qty|default(1) if eq is mapping else 1 %}
+          {% set eq_enh = eq.enhancement|default(0) if eq is mapping else 0 %}
           <div class="item-card equipped-card" draggable="true"
                data-item-name="{{ eq_name }}"
+               data-enhancement="{{ eq_enh }}"
                ondragstart="handleDragStart(event, this.dataset.itemName, 'equipped', {{ eq_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
+            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
               <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
@@ -5043,8 +5046,7 @@ function equipItem(name, qty, enhancement) {
     equippedItems = equippedItems.filter(eq => !isBodyArmor(typeof eq === 'object' ? eq.name : eq));
   }
 
-  const item = {name, qty: qty || 1};
-  if (enh) item.enhancement = enh;
+  const item = {name, qty: qty || 1, enhancement: enh};
   equippedItems.push(item);
   _equippedQtys[name] = qty || 1;
   return saveEquipped();
