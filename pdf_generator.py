@@ -554,8 +554,7 @@ def _bubble(c, x, y_tl, r=5, filled=False):
     c.circle(x, cy, r)
     if filled:
         c.setFillColor((0, 0, 0))
-        c.circle(x, cy, r, fill=1)
-        c.setFillColor((255, 255, 255))
+        c.circle(x, cy, r, fill=1, stroke=0)
 
 
 def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
