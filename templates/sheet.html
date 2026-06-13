@@ -867,7 +867,7 @@
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
-              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}</span>
+              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.55rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
             </span>
             <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
           </div>
@@ -5167,6 +5167,9 @@ async function refreshAttacksTab() {
         propsHtml = '<div class="atk-props">' + atk.properties.map(p => `<span class="atk-prop">${p}</span>`).join('') + '</div>';
       }
       const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
+      const enhBadge = (atk.enhancement && atk.enhancement > 0) 
+        ? ` <span class="enh-badge" style="font-size:0.55rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+${atk.enhancement}</span>` 
+        : '';
       const descHtml = atk.description ? `<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">${atk.description}</div>` : '';
       const srcHtml = atk.source ? `<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${atk.source.replace(/"/g, '&quot;')}" title="Click to open ${atk.source}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 ${atk.source}</span></div>` : '';
       const hasMag = atk.max_charges && atk.max_charges > 0;
@@ -5184,7 +5187,7 @@ async function refreshAttacksTab() {
         <div style="display:flex;justify-content:space-between;align-items:baseline">
           <span style="display:flex;align-items:center;gap:0.3rem">
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
-            <span class="atk-name">${atk.name}${qtyBadge}</span>
+            <span class="atk-name">${atk.name}${qtyBadge}${enhBadge}</span>
           </span>
           <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+${atk.attack_bonus} to hit</span>
         </div>

@@ -3291,6 +3291,7 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
         "range": range_str,
         "properties": [p for p in props if not ("thrown" in p or "ammunition" in p)],
         "qty": qty,
+        "enhancement": enhancement,
         "description": (_resolve_item_key(item_name) or {}).get("description", ""),
     }
 
