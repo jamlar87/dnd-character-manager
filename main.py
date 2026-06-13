@@ -2993,17 +2993,41 @@ except Exception as _e:
     print(f"  (class page map unavailable: {_e})")
 
 # ── Subclass source enrichment ──
-# Apply to subclass sources stored in CLASSES._subclass_sources
+# Seed _subclass_sources from class_page_map for every subclass that has a mapping
 _subclass_enriched = 0
 for _cname, _cdata in CLASSES.items():
-    _ss_map = _cdata.get("_subclass_sources", {})
-    for _sname in list(_ss_map.keys()):
+    _ss_map = _cdata.setdefault("_subclass_sources", {})
+    for _sname in _cdata.get("subclasses", []):
         _mapped = _class_page_map.get(_sname.lower())
-        if _mapped:
+        if _mapped and _ss_map.get(_sname, "") != _mapped:
             _ss_map[_sname] = _mapped
             _subclass_enriched += 1
 if _subclass_enriched:
     print(f"  Subclass sources enriched: {_subclass_enriched}")
+
+# ── Subrace source enrichment from subrace_page_map.json ──
+_subrace_page_map: dict[str, str] = {}
+try:
+    _srpm_path = DATA_DIR / "subrace_page_map.json"
+    if _srpm_path.exists():
+        with open(_srpm_path) as _f:
+            _raw_srpm = json.load(_f)
+        for _k, _v in _raw_srpm.items():
+            _src = _v.get("source_str", "")
+            if _src and "p." in _src:
+                _subrace_page_map[_k] = _src
+        _srenriched = 0
+        for _rname, _rdata in RACES.items():
+            _sr_map = _rdata.setdefault("_subrace_sources", {})
+            for _srname in _rdata.get("subraces", []):
+                _mapped = _subrace_page_map.get(_srname.lower())
+                if _mapped and _sr_map.get(_srname, "") != _mapped:
+                    _sr_map[_srname] = _mapped
+                    _srenriched += 1
+        if _srenriched:
+            print(f"  Subrace sources enriched: {_srenriched}")
+except Exception as _e:
+    print(f"  (subrace page map unavailable: {_e})")
 
 # ── Load racial trait→page map for source badges ──
 _trait_page_map: dict[str, str] = {}
