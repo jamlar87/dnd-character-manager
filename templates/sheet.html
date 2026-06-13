@@ -1872,6 +1872,8 @@
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
+            <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+            <span class="arm-badge item-tag" style="display:none">🛡️</span>
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
               <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
@@ -4853,12 +4855,12 @@ function tagWeapons() {
   const hasSimple = weaponProfs.some(p => p.toLowerCase() === 'simple weapons');
   const hasMartial = weaponProfs.some(p => p.toLowerCase() === 'martial weapons');
   
-  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card').forEach(card => {
     const input = card.querySelector('.item-card-name');
     const badge = card.querySelector('.wpn-badge');
     const npBadge = card.querySelector('.np-badge');
     if (!input || !badge) return;
-    const name = input.value.trim();
+    const name = (input.value || input.textContent || '').trim();
     const wpnInfo = getWeaponInfo(name);
     // Show enhancement badge for weapons (always visible for weapon/armor items)
     const enhBadge = card.querySelector('.enh-badge');
@@ -4967,12 +4969,13 @@ function isArmorProficient(armorName) {
 
 function tagArmor() {
   const armors = getCurrentProfs('armor_proficiencies');
-  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+  document.querySelectorAll('#inv-list .item-card, #equipped-list .item-card').forEach(card => {
     const input = card.querySelector('.item-card-name');
     const badge = card.querySelector('.arm-badge');
     const npBadge = card.querySelector('.np-badge');
     if (!input || !badge) return;
-    if (isArmor(input.value)) {
+    const name = (input.value || input.textContent || '').trim();
+    if (isArmor(name)) {
       badge.style.display = 'inline-block';
       // Show enhancement badge for armor (always visible)
       const enhBadge = card.querySelector('.enh-badge');
@@ -4981,7 +4984,7 @@ function tagArmor() {
         enhBadge.textContent = '+' + enh;
         enhBadge.style.display = '';
       }
-      if (!isArmorProficient(input.value) && npBadge) {
+      if (!isArmorProficient(name) && npBadge) {
         npBadge.style.display = 'inline-block';
         npBadge.textContent = '⚠️ Non-Proficient';
       } else if (npBadge) {
@@ -5395,6 +5398,8 @@ function renderEquipped() {
       ${qtyBadge}
       ${attuneHtml}
       ${enhBadge}
+      <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+      <span class="arm-badge item-tag" style="display:none">🛡️</span>
       <button class="item-card-btn" onclick="quickUnequip('${item.replace(/'/g, "\\'")}', ${eqQty})" title="Unequip">⬇️</button>
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
