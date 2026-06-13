@@ -4230,6 +4230,9 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
             if not composition:
                 break
             total_count = _total()
+            # Never remove the LAST creature — better overshooting budget than empty
+            if total_count <= 1:
+                break
             mult = _encounter_mult(total_count - 1) if total_count > 1 else 1.0
             # Find entry with most duplicates to trim
             cheapest = min(composition, key=lambda c: c["xp"])
@@ -5699,7 +5702,8 @@ async def dm_ai_build_encounter(request: Request):
 
     def _cand_line(c, budget_target):
         label = _fit_label(c["xp"], budget_target) if budget_target > 0 else ""
-        return f"  {c['name']} | CR {_fmt_cr(c['cr'])} | {c['xp']} XP | {c['type']} | AC{c['ac']} HP{c['hp']} | {label}"
+        idx = c.get("index", c["name"].lower().replace(" ", "-"))
+        return f"  [{idx}] {c['name']} | CR {_fmt_cr(c['cr'])} | {c['xp']} XP | {c['type']} | AC{c['ac']} HP{c['hp']} | {label}"
 
     boss_lines = "\n".join(_cand_line(c, boss_budget) for c in boss_pool[:15]) if boss_pool else "  (none available)"
     elite_lines = "\n".join(_cand_line(c, elite_budget) for c in elite_pool[:15]) if elite_pool else "  (none available)"
@@ -5784,7 +5788,8 @@ DO NOT guess counts — the system calculates those to fill the budget.
 
 {role_section}
 
-Return ONLY valid JSON (no markdown). Vary choices each time:
+Return ONLY valid JSON (no markdown). Vary choices each time.
+Use the EXACT [index] shown in brackets above for each monster:
 {{"name": "encounter name", "description": "1-2 sentence setup vignette",
   "picks": [{{"index": "monster-index", "role": "boss"}}, {{"index": "monster-index", "role": "minion"}}],
   "tactics": "1-2 sentence tactics (describe terrain advantage, opening move, or counter-play)"}}"""
@@ -5806,7 +5811,7 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
             role = entry.get("role", "minion").lower()
             if encounter_type == "swarm":
                 role = "minion"
-            m = next((c for c in candidates if c["index"].lower() == idx), None)
+            m = next((c for c in candidates if str(c["index"]).lower() == idx), None)
             if m:
                 picks.append({**m, "role": role})
 
