@@ -836,9 +836,6 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       </div>
       <span id="combatTurnLabel" style="font-size:0.85rem;color:var(--text-muted)">Turn 0/0</span>
       <div style="flex:1"></div>
-      <input type="number" id="combatHpDelta" value="1" min="1"
-        style="width:4ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:0.25rem 0.15rem;font-size:0.85rem;-moz-appearance:textfield;appearance:textfield">
-      <span style="font-size:0.75rem;color:var(--text-muted)">dmg/heal</span>
       <button class="btn btn-sm" id="btnEndCombat" onclick="endCombat()" style="background:var(--danger);color:#fff">End Combat</button>
     </div>
 
@@ -3604,8 +3601,7 @@ async function adjustHp(enId, newHp) {
 async function combatApplyHP(enId, sign) {
   const p = _combatParticipants.find(p => p.en_id === enId);
   if (!p || p.defeated) return;
-  const deltaEl = document.getElementById('combatHpDelta');
-  const raw = parseInt(deltaEl.value) || 1;
+  const raw = 1;
   const delta = sign === -1 ? -raw : raw;
   const hp = Math.max(0, p.hp_current + delta);
   p.hp_current = hp;
