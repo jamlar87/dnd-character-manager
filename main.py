@@ -5446,6 +5446,7 @@ async def dm_ai_build_encounter(request: Request):
             "type": m_type, "size": m.get("size", ""),
             "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
             "hp": m.get("hit_points", 0),
+            "source": m.get("source", ""),
         }
 
         # Theme-based filtering
@@ -5519,6 +5520,7 @@ async def dm_ai_build_encounter(request: Request):
                 "type": m.get("type", "").lower(), "size": m.get("size", ""),
                 "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
                 "hp": m.get("hit_points", 0),
+                "source": m.get("source", ""),
             })
     # Shuffle to vary AI picks, then sort by CR descending for readability
     random.shuffle(candidates)
