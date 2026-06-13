@@ -189,6 +189,8 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
     d["page1_features"] = _build_page1_features_text(d)
     d["spell_appendix"] = _build_spell_appendix_text(d)
     d["has_long_features"] = len(d.get("full_feature_text", "")) > 140
+    d["equipment_appendix"] = _build_equipment_appendix_text(d)
+    d["has_equipment_appendix"] = len(d.get("equipment_appendix", "")) > 0
 
     return d
 
@@ -319,6 +321,36 @@ def _build_spell_appendix_text(d):
             lines.append("")
             lines.append("At Higher Levels: " + " ".join(higher))
 
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _build_equipment_appendix_text(d):
+    """Build full equipment descriptions for the appendix."""
+    items = []
+    for item in (d.get("equipped", []) or []):
+        if isinstance(item, dict):
+            items.append(item)
+    for item in (d.get("inventory", []) or []):
+        if isinstance(item, dict):
+            items.append(item)
+
+    lines = []
+    seen = set()
+    for item in items:
+        name = item.get("name", "")
+        if not name or name.lower() in seen:
+            continue
+        seen.add(name.lower())
+
+        desc = _get_item_description(name)
+        qty = item.get("qty", 1)
+        header = name.upper()
+        if qty > 1:
+            header += f"  (x{qty})"
+        lines.append(header)
+        if desc:
+            lines.append(desc)
         lines.append("")
     return "\n".join(lines)
 
@@ -932,6 +964,44 @@ def draw_spell_appendix(c, d):
 
 
 # ═══════════════════════════════════════════════════════════════
+#  EQUIPMENT APPENDIX — full equipment descriptions
+# ═══════════════════════════════════════════════════════════════
+def draw_equipment_appendix(c, d):
+    text = d.get("equipment_appendix", "")
+    if not text:
+        return
+    y = 30
+    c.setFont(FONT_BOLD, 12)
+    c.drawString(MARGIN, yb(y + 16), f"EQUIPMENT APPENDIX — {d.get('name', '')}")
+    c.setFont(FONT, 7)
+    c.drawString(MARGIN, yb(y + 28),
+                 f"{d.get('class_name', '')} {d.get('level', '')} | {d.get('race', '')} | {d.get('background', '')}")
+    y += 44
+    paragraphs = text.split("\n\n")
+    for para in paragraphs:
+        if not para.strip():
+            continue
+        lines = simpleSplit(para, FONT, 6, PAGE_W - 2 * MARGIN)
+        needed_h = len(lines) * 10 + 20
+        if y + needed_h > PAGE_H - MARGIN:
+            c.showPage()
+            y = MARGIN
+        if "\n" not in para and para.isupper():
+            c.setFont(FONT_BOLD, 7)
+            c.drawString(MARGIN, yb(y + 12), para)
+            y += 16
+        else:
+            for line in lines:
+                if y + 10 > PAGE_H - MARGIN:
+                    c.showPage()
+                    y = MARGIN
+                c.setFont(FONT, 6)
+                c.drawString(MARGIN, yb(y + 10), line)
+                y += 10
+            y += 6
+
+
+# ═══════════════════════════════════════════════════════════════
 #  MAIN GENERATOR
 # ═══════════════════════════════════════════════════════════════
 def generate_character_sheet(char_data, output_path=None):
@@ -950,6 +1020,9 @@ def generate_character_sheet(char_data, output_path=None):
         c.showPage()
     if char_data.get("spell_appendix"):
         draw_spell_appendix(c, char_data)
+    if char_data.get("has_equipment_appendix"):
+        c.showPage()
+        draw_equipment_appendix(c, char_data)
     if char_data.get("has_long_features"):
         c.showPage()
         draw_page4_appendix(c, char_data)
