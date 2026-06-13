@@ -4894,6 +4894,7 @@ async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_mi
             "hit_points": m.get("hit_points", 0),
             "challenge_rating": m.get("challenge_rating", 0),
             "xp": m.get("xp", 0),
+            "source": m.get("source", ""),
         })
 
     return JSONResponse({"count": len(results), "monsters": results, "total": len(all_monsters)})
@@ -4918,6 +4919,7 @@ async def dm_monsters_by_cr(request: Request):
             "index": m["index"], "name": m["name"], "cr": m.get("challenge_rating", 0),
             "type": m.get("type", ""), "size": m.get("size", ""),
             "hp": m.get("hit_points", 0), "ac": m["armor_class"][0]["value"] if m.get("armor_class") else 10,
+            "source": m.get("source", ""),
         } for m in sorted(monsters, key=_monster_cr_sort_key)]
     return JSONResponse(result)
 
