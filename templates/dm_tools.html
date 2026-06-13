@@ -699,6 +699,123 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   </div>
 </div>
 
+{# ───── CUSTOM TRAP MODAL ───── #}
+<div class="modal-overlay" id="trapModal" style="z-index:1100">
+  <div class="modal-content" style="max-width:700px">
+    <button class="modal-close" onclick="closeModal('trapModal')">✕</button>
+    <h2 style="margin:0 0 0.5rem 0" id="trapModalTitle">⚙️ Create Custom Trap</h2>
+    <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem">
+      Design traps following DMG/UA guidelines. Select a danger level for suggested DCs and damage.
+    </p>
+
+    <!-- DMG Guidelines Reference -->
+    <details style="margin-bottom:1rem">
+      <summary style="cursor:pointer;font-size:0.75rem;color:var(--accent);user-select:none">📖 DMG / UA Trap Guidelines</summary>
+      <div style="margin-top:0.5rem;padding:0.5rem;background:var(--bg);border-radius:6px;font-size:0.7rem;line-height:1.5">
+        <table style="width:100%;border-collapse:collapse;font-size:0.7rem">
+          <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:0.2rem">Danger</th><th style="text-align:left">Save DC</th><th style="text-align:left">Attack Bonus</th><th style="text-align:left">Damage (L1-4)</th><th style="text-align:left">Damage (L5-10)</th></tr>
+          <tr><td style="color:var(--success);padding:0.2rem">Setback</td><td>10–11</td><td>+3–5</td><td>1d10 (6)</td><td>2d10 (11)</td></tr>
+          <tr><td style="color:#ffab00;padding:0.2rem">Dangerous</td><td>12–15</td><td>+6–8</td><td>2d10 (11)</td><td>4d10 (22)</td></tr>
+          <tr><td style="color:var(--danger);padding:0.2rem">Deadly</td><td>16–20</td><td>+9–12</td><td>4d10 (22)</td><td>10d10 (55)</td></tr>
+        </table>
+        <p style="margin:0.3rem 0 0 0;color:var(--text-muted)">XGE/UA adds Moderate (DC 10, +5, ~1d10 at L1–4) and level-scaled damage up to 24d10 at L17–20.</p>
+      </div>
+    </details>
+
+    <form id="trapForm" onsubmit="return saveTrap(event)">
+      <input type="hidden" id="trapEditId" value="">
+
+      <div class="form-row">
+        <div class="form-group"><label>Name *</label><input id="trapName" required style="width:100%"></div>
+        <div class="form-group"><label>Type</label>
+          <select id="trapType" style="width:100%"><option value="mechanical">⚙️ Mechanical</option><option value="magical">🔮 Magical</option></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Danger Level</label>
+          <select id="trapDanger" onchange="onTrapDangerChange()" style="width:100%">
+            <option value="setback">Setback (minor inconvenience)</option>
+            <option value="dangerous" selected>Dangerous (likely to injure)</option>
+            <option value="deadly">Deadly (could kill)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Save DC <span style="font-size:0.65rem;color:var(--text-muted)">(auto-suggested)</span></label>
+          <input type="number" id="trapSaveDc" min="5" max="30" style="width:100%">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group"><label>Save Ability</label>
+          <select id="trapSaveAbility" style="width:100%">
+            <option value="Dexterity">Dexterity</option><option value="Constitution">Constitution</option>
+            <option value="Wisdom">Wisdom</option><option value="Strength">Strength</option>
+            <option value="Intelligence">Intelligence</option><option value="Charisma">Charisma</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Damage (e.g. "2d10" or "4d10+5")</label>
+          <input id="trapDamage" placeholder="2d10" style="width:100%">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group"><label>Damage Type</label>
+          <select id="trapDamageType" style="width:100%">
+            <option value="">— None —</option>
+            <option value="acid">Acid</option><option value="bludgeoning">Bludgeoning</option>
+            <option value="cold">Cold</option><option value="fire">Fire</option>
+            <option value="force">Force</option><option value="lightning">Lightning</option>
+            <option value="necrotic">Necrotic</option><option value="piercing">Piercing</option>
+            <option value="poison">Poison</option><option value="psychic">Psychic</option>
+            <option value="radiant">Radiant</option><option value="slashing">Slashing</option>
+            <option value="thunder">Thunder</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Area</label><input id="trapArea" placeholder="10 ft. square" style="width:100%"></div>
+      </div>
+
+      <div class="form-group"><label>Trigger</label>
+        <input id="trapTrigger" placeholder="Trip wire, pressure plate, proximity, etc." style="width:100%">
+      </div>
+
+      <div class="form-row" style="grid-template-columns:1fr 2fr">
+        <div class="form-group"><label>Detection DC</label><input type="number" id="trapDetectDc" min="5" max="30" style="width:100%"></div>
+        <div class="form-group"><label>Detection Skill & Detail</label>
+          <div style="display:flex;gap:0.3rem">
+            <select id="trapDetectSkill" style="flex:1"><option value="Perception">Perception</option><option value="Investigation">Investigation</option></select>
+            <input id="trapDetectDetail" placeholder="Spot the trip wire..." style="flex:2">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row" style="grid-template-columns:1fr 2fr">
+        <div class="form-group"><label>Disarm DC</label><input type="number" id="trapDisarmDc" min="5" max="30" style="width:100%"></div>
+        <div class="form-group"><label>Disarm Method & Detail</label>
+          <div style="display:flex;gap:0.3rem">
+            <input id="trapDisarmMethod" placeholder="Dexterity (thieves' tools)" style="flex:1">
+            <input id="trapDisarmDetail" placeholder="Disables the trigger..." style="flex:2">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group"><label>Effect (full description)</label>
+        <textarea id="trapEffect" rows="3" placeholder="When triggered, the trap..." style="width:100%;resize:vertical"></textarea>
+      </div>
+
+      <div class="form-group"><label>Description / Notes</label>
+        <textarea id="trapDesc" rows="2" placeholder="Flavor text, placement tips, hidden clues..." style="width:100%;resize:vertical"></textarea>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <button type="submit" class="btn btn-primary">💾 Save Trap</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('trapModal')">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 {# ───── ITEMS PANEL ───── #}
 <div class="dm-panel" id="panel-items">
   <div class="toolbar" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
@@ -766,7 +883,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
 {# ───── TRAPS PANEL ───── #}
 <div class="dm-panel" id="panel-traps">
-  <div class="toolbar">
+  <div class="search-bar">
     <input type="text" id="trapSearch" placeholder="Search traps..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem" oninput="filterTraps()">
     <select id="trapTypeFilter" onchange="filterTraps()" style="padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
       <option value="">All Types</option>
@@ -780,6 +897,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <option value="deadly">Deadly</option>
     </select>
     <span style="color:var(--text-muted);font-size:0.85rem" id="trapCount">{{ traps|length }} traps</span>
+    <button class="btn btn-primary btn-sm" onclick="showCreateTrap()" style="flex-shrink:0">+ Create Trap</button>
   </div>
 
   <div class="trap-grid" id="trapGrid">
@@ -797,6 +915,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       {% if t.source %}
       <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef('{{ t.source }}')">📚 {{ t.source }}</div>
       {% endif %}
+      {% if t.get('_custom') %}
+      <div style="font-size:0.6rem;color:var(--accent);opacity:0.8;margin-top:0.15rem">✨ Custom Trap</div>
+      {% endif %}
       <!-- Expandable detail -->
       <div class="trap-detail" style="display:none;margin-top:0.5rem;font-size:0.82rem;line-height:1.5;color:var(--text-muted)">
         <div class="trap-section"><strong style="color:var(--text)">Trigger:</strong> {{ t.trigger }}</div>
@@ -806,7 +927,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <div class="trap-section"><strong style="color:var(--text)">Effect:</strong> {{ t.effect }}</div>
         {% if t.area %}<div class="trap-section"><strong style="color:var(--text)">Area:</strong> {{ t.area }}</div>{% endif %}
       </div>
-      <button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="margin-top:0.4rem;font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
+      <div style="display:flex;gap:0.3rem;align-items:center;margin-top:0.4rem">
+        <button class="trap-expand-btn" onclick="event.stopPropagation();toggleTrapDetail(this)" style="font-size:0.7rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0">▶ Expand</button>
+        {% if t.get('_custom') %}
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();editTrap({{ t._custom_id }})" style="font-size:0.6rem;padding:0.1rem 0.4rem;margin-left:auto">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteTrap({{ t._custom_id }})" style="font-size:0.6rem;padding:0.1rem 0.4rem">✕ Delete</button>
+        {% endif %}
+      </div>
     </div>
     {% endfor %}
   </div>
@@ -2030,6 +2157,110 @@ function filterTraps() {
   });
   const countEl = document.getElementById('trapCount');
   if (countEl) countEl.textContent = count + ' trap' + (count !== 1 ? 's' : '');
+}
+
+// ── Custom trap create/edit ──
+const TRAP_DANGER_PRESETS = {
+  setback:  { dc: 10, damage: '1d10' },
+  dangerous: { dc: 15, damage: '2d10' },
+  deadly:   { dc: 20, damage: '4d10' }
+};
+
+function showCreateTrap() {
+  document.getElementById('trapModalTitle').textContent = '⚙️ Create Custom Trap';
+  document.getElementById('trapEditId').value = '';
+  document.getElementById('trapForm').reset();
+  document.getElementById('trapDanger').value = 'dangerous';
+  onTrapDangerChange();
+  openModal('trapModal');
+}
+
+function onTrapDangerChange() {
+  const danger = document.getElementById('trapDanger').value;
+  const preset = TRAP_DANGER_PRESETS[danger];
+  if (preset) {
+    document.getElementById('trapSaveDc').value = preset.dc;
+    if (!document.getElementById('trapDamage').value) {
+      document.getElementById('trapDamage').value = preset.damage;
+    }
+  }
+}
+
+async function saveTrap(event) {
+  event.preventDefault();
+  const id = document.getElementById('trapEditId').value;
+  const data = {
+    name: document.getElementById('trapName').value.trim(),
+    type: document.getElementById('trapType').value,
+    danger: document.getElementById('trapDanger').value,
+    save_dc: parseInt(document.getElementById('trapSaveDc').value) || null,
+    save_ability: document.getElementById('trapSaveAbility').value,
+    damage: document.getElementById('trapDamage').value.trim(),
+    damage_type: document.getElementById('trapDamageType').value,
+    area: document.getElementById('trapArea').value.trim(),
+    trigger: document.getElementById('trapTrigger').value.trim(),
+    detection_dc: parseInt(document.getElementById('trapDetectDc').value) || null,
+    detection_skill: document.getElementById('trapDetectSkill').value,
+    detection_detail: document.getElementById('trapDetectDetail').value.trim(),
+    disarm_dc: parseInt(document.getElementById('trapDisarmDc').value) || null,
+    disarm_method: document.getElementById('trapDisarmMethod').value.trim(),
+    disarm_detail: document.getElementById('trapDisarmDetail').value.trim(),
+    effect: document.getElementById('trapEffect').value.trim(),
+    description: document.getElementById('trapDesc').value.trim()
+  };
+  if (!data.name) return alert('Name is required.');
+
+  const url = id ? `/api/dm/traps/${id}/update` : '/api/dm/traps/create';
+  try {
+    const r = await fetch(url, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const d = await r.json();
+    if (!d.ok && d.error) return alert(d.error);
+    closeModal('trapModal');
+    location.reload();
+  } catch(e) { alert('Failed to save trap.'); }
+}
+
+async function editTrap(id) {
+  try {
+    const r = await fetch('/api/dm/traps');
+    const d = await r.json();
+    const t = (d.traps || []).find(t => t.id === id);
+    if (!t) return alert('Trap not found');
+
+    document.getElementById('trapModalTitle').textContent = '✏️ Edit Trap';
+    document.getElementById('trapEditId').value = t.id;
+    document.getElementById('trapName').value = t.name || '';
+    document.getElementById('trapType').value = t.type || 'mechanical';
+    document.getElementById('trapDanger').value = t.danger || 'dangerous';
+    document.getElementById('trapSaveDc').value = t.save_dc || '';
+    document.getElementById('trapSaveAbility').value = t.save_ability || 'Dexterity';
+    document.getElementById('trapDamage').value = t.damage || '';
+    document.getElementById('trapDamageType').value = t.damage_type || '';
+    document.getElementById('trapArea').value = t.area || '';
+    document.getElementById('trapTrigger').value = t.trigger || '';
+    document.getElementById('trapDetectDc').value = t.detection_dc || '';
+    document.getElementById('trapDetectSkill').value = t.detection_skill || 'Perception';
+    document.getElementById('trapDetectDetail').value = t.detection_detail || '';
+    document.getElementById('trapDisarmDc').value = t.disarm_dc || '';
+    document.getElementById('trapDisarmMethod').value = t.disarm_method || '';
+    document.getElementById('trapDisarmDetail').value = t.disarm_detail || '';
+    document.getElementById('trapEffect').value = t.effect || '';
+    document.getElementById('trapDesc').value = t.description || '';
+    openModal('trapModal');
+  } catch(e) { alert('Failed to load trap.'); }
+}
+
+async function deleteTrap(id) {
+  if (!confirm('Delete this custom trap?')) return;
+  try {
+    const r = await fetch(`/api/dm/traps/${id}/delete`, { method: 'POST' });
+    const d = await r.json();
+    if (!d.ok) return alert(d.error || 'Failed');
+    location.reload();
+  } catch(e) { alert('Failed to delete trap.'); }
 }
 
 // ── Campaigns ──

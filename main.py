@@ -1416,6 +1416,29 @@ def init_db():
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS dm_custom_traps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            type TEXT NOT NULL DEFAULT 'mechanical',
+            danger TEXT NOT NULL DEFAULT 'dangerous',
+            trigger TEXT DEFAULT '',
+            detection_dc INTEGER,
+            detection_skill TEXT DEFAULT 'Perception',
+            detection_detail TEXT DEFAULT '',
+            disarm_dc INTEGER,
+            disarm_method TEXT DEFAULT '',
+            disarm_detail TEXT DEFAULT '',
+            effect TEXT DEFAULT '',
+            save_dc INTEGER,
+            save_ability TEXT DEFAULT 'Dexterity',
+            damage TEXT DEFAULT '',
+            damage_type TEXT DEFAULT '',
+            area TEXT DEFAULT '',
+            description TEXT DEFAULT '',
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
     """)
     # Migration: add personality/backstory columns if missing
     try:
@@ -4615,11 +4638,49 @@ async def dm_tools(request: Request):
     cr_ranges = [(0, 0.25), (0.5, 2), (3, 5), (6, 10), (11, 16), (17, 30)]
 
     db.close()
+    # Merge custom traps with manual traps
+    all_traps = list(MANUAL_TRAPS)
+    try:
+        db2 = get_db()
+        custom_traps = [dict(r) for r in db2.execute(
+            "SELECT * FROM dm_custom_traps WHERE user_id = ? ORDER BY created_at DESC",
+            (user["id"],)
+        ).fetchall()]
+        db2.close()
+        for ct in custom_traps:
+            all_traps.append({
+                "name": ct["name"],
+                "type": ct["type"],
+                "danger": ct["danger"],
+                "trigger": ct["trigger"] or "",
+                "detection": {
+                    "dc": ct["detection_dc"] or 10,
+                    "skill": ct["detection_skill"] or "Perception",
+                    "detail": ct["detection_detail"] or ""
+                },
+                "disarm": {
+                    "dc": ct["disarm_dc"],
+                    "method": ct["disarm_method"] or "",
+                    "detail": ct["disarm_detail"] or ""
+                },
+                "effect": ct["effect"] or "",
+                "save_dc": ct["save_dc"],
+                "save_ability": ct["save_ability"] or "",
+                "damage": ct["damage"] or "",
+                "damage_type": ct["damage_type"] or "",
+                "area": ct["area"] or "",
+                "description": ct["description"] or "",
+                "source": "Custom",
+                "_custom_id": ct["id"],
+                "_custom": True
+            })
+    except Exception:
+        pass
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,
                    cr_ranges=cr_ranges, npcs=npcs,
                    encounters=encounters, campaigns=campaigns,
-                   traps=MANUAL_TRAPS)
+                   traps=all_traps)
 
 
 @app.get("/api/dm/monster/{index}", response_class=JSONResponse)
@@ -15528,6 +15589,119 @@ def _pick_skills(class_name: str, mods: dict) -> list[str]:
               for skill in available]
     scored.sort(key=lambda x: -x[1])
     return [s[0] for s in scored[:count]]
+
+
+# ── Custom trap CRUD ──────────────────────────────────────────────────────────
+
+@app.get("/api/dm/traps", response_class=JSONResponse)
+async def dm_list_traps(request: Request):
+    """List custom traps for the current user."""
+    user = require_user(request)
+    db = get_db()
+    traps = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_custom_traps WHERE user_id = ? ORDER BY created_at DESC",
+        (user["id"],)
+    ).fetchall()]
+    db.close()
+    return JSONResponse({"traps": traps})
+
+
+@app.post("/api/dm/traps/create", response_class=JSONResponse)
+async def dm_create_trap(request: Request):
+    """Create a new custom trap."""
+    user = require_user(request)
+    data = await request.json()
+    name = (data.get("name") or "").strip()
+    if not name:
+        return JSONResponse({"error": "Name required"}, status_code=400)
+    db = get_db()
+    cur = db.execute("""
+        INSERT INTO dm_custom_traps (user_id, name, type, danger, trigger,
+            detection_dc, detection_skill, detection_detail,
+            disarm_dc, disarm_method, disarm_detail,
+            effect, save_dc, save_ability, damage, damage_type, area, description)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    """, (
+        user["id"], name,
+        data.get("type", "mechanical"),
+        data.get("danger", "dangerous"),
+        data.get("trigger", ""),
+        data.get("detection_dc"),
+        data.get("detection_skill", "Perception"),
+        data.get("detection_detail", ""),
+        data.get("disarm_dc"),
+        data.get("disarm_method", ""),
+        data.get("disarm_detail", ""),
+        data.get("effect", ""),
+        data.get("save_dc"),
+        data.get("save_ability", "Dexterity"),
+        data.get("damage", ""),
+        data.get("damage_type", ""),
+        data.get("area", ""),
+        data.get("description", ""),
+    ))
+    db.commit()
+    trap_id = cur.lastrowid
+    db.close()
+    return JSONResponse({"ok": True, "id": trap_id})
+
+
+@app.post("/api/dm/traps/{trap_id}/update", response_class=JSONResponse)
+async def dm_update_trap(trap_id: int, request: Request):
+    """Update a custom trap."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    trap = db.execute(
+        "SELECT id FROM dm_custom_traps WHERE id = ? AND user_id = ?",
+        (trap_id, user["id"])
+    ).fetchone()
+    if not trap:
+        db.close()
+        return JSONResponse({"error": "Trap not found"}, status_code=404)
+    db.execute("""
+        UPDATE dm_custom_traps SET name=?, type=?, danger=?, trigger=?,
+            detection_dc=?, detection_skill=?, detection_detail=?,
+            disarm_dc=?, disarm_method=?, disarm_detail=?,
+            effect=?, save_dc=?, save_ability=?, damage=?, damage_type=?, area=?, description=?
+        WHERE id=?
+    """, (
+        (data.get("name") or "").strip(),
+        data.get("type", "mechanical"),
+        data.get("danger", "dangerous"),
+        data.get("trigger", ""),
+        data.get("detection_dc"),
+        data.get("detection_skill", "Perception"),
+        data.get("detection_detail", ""),
+        data.get("disarm_dc"),
+        data.get("disarm_method", ""),
+        data.get("disarm_detail", ""),
+        data.get("effect", ""),
+        data.get("save_dc"),
+        data.get("save_ability", "Dexterity"),
+        data.get("damage", ""),
+        data.get("damage_type", ""),
+        data.get("area", ""),
+        data.get("description", ""),
+        trap_id
+    ))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
+
+
+@app.post("/api/dm/traps/{trap_id}/delete", response_class=JSONResponse)
+async def dm_delete_trap(trap_id: int, request: Request):
+    """Delete a custom trap."""
+    user = require_user(request)
+    db = get_db()
+    db.execute(
+        "DELETE FROM dm_custom_traps WHERE id = ? AND user_id = ?",
+        (trap_id, user["id"])
+    )
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True})
 
 
 # ── Item search & description endpoints ──────────────────────────────────────
