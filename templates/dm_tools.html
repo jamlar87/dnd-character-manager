@@ -3535,7 +3535,7 @@ function renderInitiativeTrack() {
         <input type="number" class="init-hp-input" id="dmg-input-${p.en_id}" value="" placeholder="dmg"
           style="width:44px"
           onkeydown="if(event.key==='Enter'){event.preventDefault();applyDmgInput(${p.en_id})}"
-          onchange="applyDmgInput(${p.en_id})" onclick="event.stopPropagation()" title="Enter damage/heal amount">
+          onclick="event.stopPropagation()" title="Enter = damage, + = heal">
         <button class="init-btn heal-btn" onclick="applyDmgButton(${p.en_id}, 1)" title="Heal">+</button>
         <button class="init-btn dmg-btn" onclick="applyDmgButton(${p.en_id}, -1)" title="Damage">−</button>
         <button class="init-btn" onclick="combatResetHP(${p.en_id})" title="Reset to full HP">↺</button>
