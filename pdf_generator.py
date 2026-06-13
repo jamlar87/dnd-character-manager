@@ -810,23 +810,7 @@ def _draw_col2_combat(c, d):
             c.setFont(FONT, 5.5)
             c.rect(cx, ry, cw, 15)
             c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
-    # Compact spell list for casters
-    spells = d.get("spells", [])
-    if spells:
-        y_spell = y_atk + 12 + 5 * 15 + 6
-        _label(c, COL2_X, y_spell - 9, "Spells Prepared (see Appendix)")
-        # Build one-liner: "Fire Bolt, Mage Armor, Shield, Magic Missile"
-        spell_names = [s[0] for s in spells[:12]]
-        spell_text = ", ".join(spell_names)
-        if len(spells) > 12:
-            spell_text += f" (+{len(spells) - 12} more)"
-        c.setFont(FONT, 4.5)
-        spell_lines = simpleSplit(spell_text, FONT, 4.5, COL2_W - 10)
-        for i, line in enumerate(spell_lines[:3]):
-            c.drawString(COL2_X + 4, yb(y_spell) - 10 - i * 9, line)
-        y_cur = y_spell + max(len(spell_lines[:3]), 1) * 9 + 10
-    else:
-        y_cur = y_atk + 12 + 5 * 15 + 22  # increased from +14
+    y_cur = y_atk + 12 + 5 * 15 + 22  # increased from +14
     # Currency — separate section above Equipment
     _label(c, COL2_X, y_cur - 9, "Currency")
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
