@@ -7450,7 +7450,7 @@ async def character_sheet(char_id: int, request: Request):
     _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
     if _cls_source:
         for _feat in char["feature_data"]:
-            if not _feat.get("source"):
+            if not _feat.get("source") or _feat.get("source") == "SRD 5.1":
                 _feat["source"] = _cls_source
     # Load background data
     # Load spell_slots_used

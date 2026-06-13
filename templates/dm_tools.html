@@ -1030,12 +1030,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 // ── Source reference: click 📚 badge → open PDF ──
 const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 function openSourceRef(src, slug) {
-  if (!src) return;
-  // SRD 5.1 has no PDF — open official System Reference Document online
-  if (src.startsWith('SRD')) {
-    window.open('https://5e.d20srd.org/', '_blank');
-    return;
-  }
+  if (!src || src.startsWith('SRD')) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   // If we have a direct slug, use it immediately — no matching needed

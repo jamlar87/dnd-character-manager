@@ -2187,12 +2187,7 @@ function _srcBadge(src) {
   return `<span class="src-badge" onclick="openSourceRef('${src.replace(/'/g, "\\'")}')" title="Click to open ${src}">📚 ${short}</span>`;
 }
 function openSourceRef(src) {
-  if (!src) return;
-  // SRD 5.1 has no PDF — open official System Reference Document online
-  if (src.startsWith('SRD')) {
-    window.open('https://5e.d20srd.org/', '_blank');
-    return;
-  }
+  if (!src || src.startsWith('SRD')) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
