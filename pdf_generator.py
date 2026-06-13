@@ -268,6 +268,57 @@ def _build_page1_features_text(d):
     return "\n".join(lines)
 
 
+def _build_spell_short_desc(spell_name):
+    """Build a compact one-liner from spell cache: '1d8 fire, 120 ft, conc'"""
+    cache = _get_spell_cache()
+    sd = cache.get((spell_name or "").lower(), {})
+    if not sd:
+        return ""
+    
+    parts = []
+    desc = " ".join(sd.get("desc", [])) if isinstance(sd.get("desc"), list) else ""
+    desc_lower = desc.lower()
+    
+    # Extract damage / heal dice from description
+    import re
+    # Pattern: "1d8 fire damage", "d4", "2d6 healing", etc.
+    dice_match = re.search(r'((?:\d+)?d\d+(?:\s*[\+\-]\s*(?:\d+|your spellcasting|your \w+ \w+))?)', desc_lower)
+    if dice_match:
+        parts.append(dice_match.group(1))
+    
+    # Damage type
+    for dtype in ['fire', 'cold', 'lightning', 'thunder', 'acid', 'poison', 'necrotic', 
+                  'radiant', 'force', 'psychic', 'bludgeoning', 'piercing', 'slashing']:
+        if dtype in desc_lower:
+            parts.append(dtype)
+            break
+    
+    # Range
+    range_str = sd.get("range", "")
+    if range_str and range_str.lower() not in ("self", "special", "unlimited", "sight"):
+        parts.append(range_str.lower())
+    elif "touch" in range_str.lower():
+        parts.append("touch")
+    
+    # Concentration
+    if sd.get("concentration"):
+        parts.append("conc")
+    
+    # Ritual
+    if sd.get("ritual"):
+        parts.append("ritual")
+    
+    # Save if not a straight attack
+    if "saving throw" in desc_lower:
+        # Look for "Dexterity saving throw", "a DC X Wisdom saving throw", etc.
+        save_match = re.search(r'\b(Dexterity|Strength|Constitution|Intelligence|Wisdom|Charisma)\s+saving throw', 
+                              desc, re.IGNORECASE)
+        if save_match:
+            parts.append(save_match.group(1)[:3].upper() + " save")
+    
+    return ", ".join(parts[:4]) if parts else ""
+
+
 def _extract_mechanical_summary(desc, max_chars=150):
     """Extract the most mechanically-relevant sentence from a description.
     Scores sentences by: dice (NdN, dN) > DC/AC > choose/select > numbers."""
@@ -925,29 +976,30 @@ def draw_page3(c, d):
     cantrips = by_level.get(0, [])
     if cantrips:
         _label(c, x0, y, "CANTRIPS (0-LEVEL)")
-        for i, (name, _) in enumerate(cantrips[:8]):
+        for i, (name, _) in enumerate(cantrips[:12]):
             c.setFont(FONT, 5.5)
-            c.drawString(x0 + 8, yb(y + 10 + i * 12), name)
-        y += 10 + len(cantrips[:8]) * 12 + 6
+            c.drawString(x0 + 8, yb(y + 10 + i * 11), name)
+        y += 10 + min(len(cantrips), 12) * 11 + 6
 
-    # Column layout: Col1=1st,2nd | Col2=3rd,4th,5th | Col3=6th,7th,8th,9th
-    # Exact X positions per spec: Col1=45, Col2=245, Col3=445 (200pt gaps)
+    # Column layout
     col_layout = [
-        (45, [1, 2]),          # Col 1: 1st, 2nd
-        (245, [3, 4, 5]),      # Col 2: 3rd, 4th, 5th
-        (445, [6, 7, 8, 9]),   # Col 3: 6th, 7th, 8th, 9th
+        (45, [1, 2]),
+        (245, [3, 4, 5]),
+        (445, [6, 7, 8, 9]),
     ]
     col_w = 160
     y_start = y + 6
 
+    # Track overflow across all levels
+    overflow = {}  # level -> list of remaining (name, prepared)
+    cursors = {}   # level -> next start index
+
     for cx, levels in col_layout:
-        # Light tinted background for this column to visually separate
         c.setFillColor((0.97, 0.97, 0.97) if cx > 45 else (1, 1, 1))
         c.setStrokeColor((0, 0, 0))
         c.rect(cx, yb(PAGE_H - MARGIN), col_w, (PAGE_H - MARGIN) - yb(y_start), fill=1, stroke=0)
         c.setFillColor((0, 0, 0))
 
-        # Draw vertical column divider
         if cx > 45:
             c.setStrokeColor((0.5, 0.5, 0.5))
             c.setDash(2, 4)
@@ -955,68 +1007,122 @@ def draw_page3(c, d):
             c.setDash()
             c.setStrokeColor((0, 0, 0))
 
-        # Calculate card heights so all levels in this column fit
         cards_in_col = len(levels)
         available_h = PAGE_H - y_start - MARGIN
         card_h = (available_h - (cards_in_col - 1) * 4) / cards_in_col
 
         for i, lvl in enumerate(levels):
+            spells_list = by_level.get(lvl, [])
+            if not spells_list:
+                continue
             cy_tl = y_start + i * (card_h + 4)
-            _render_spell_card(c, cx, cy_tl, col_w, card_h, lvl,
-                               by_level.get(lvl, []), spell_slots, slot_used)
+            start = cursors.get(lvl, 0)
+            next_idx, ovf = _render_spell_card(c, cx, cy_tl, col_w, card_h, lvl,
+                                spells_list, spell_slots, slot_used, start_idx=start)
+            cursors[lvl] = next_idx
+            if ovf:
+                overflow[lvl] = ovf
+
+    # Overflow pages — full-width cards for levels with remaining spells
+    while overflow:
+        c.showPage()
+        y = 30
+        c.setFont(FONT_BOLD, 10)
+        c.drawString(MARGIN, yb(y + 14), f"SPELLS (continued) — {d.get('name', '')}")
+        c.setFont(FONT, 6)
+        c.drawString(MARGIN, yb(y + 26), f"{d.get('class_name', '')} {d.get('level', '')}")
+        y += 36
+
+        full_w = PAGE_W - 2 * MARGIN
+        # Calculate card heights: all overflow levels share the page
+        ovf_levels = sorted(overflow.keys())
+        ovf_card_h = (PAGE_H - y - MARGIN - (len(ovf_levels) - 1) * 6) / len(ovf_levels)
+
+        new_overflow = {}
+        for i, lvl in enumerate(ovf_levels):
+            spells_remaining = overflow[lvl]
+            cy_tl = y + i * (ovf_card_h + 6)
+            next_idx, ovf2 = _render_spell_card(c, MARGIN, cy_tl, full_w, ovf_card_h, lvl,
+                                spells_remaining, spell_slots, slot_used, start_idx=0)
+            if ovf2:
+                new_overflow[lvl] = ovf2
+        overflow = new_overflow
 
 
-def _render_spell_card(c, x, y_tl, w, h, level, spells_list, spell_slots, slot_used):
-    """Render one self-contained spell level card."""
+def _render_spell_card(c, x, y_tl, w, h, level, spells_list, spell_slots, slot_used, 
+                      start_idx=0, compact=True):
+    """Render one self-contained spell level card.
+    If compact=True, uses space-efficient layout (combined header, inline bubbles).
+    Returns (next_start_idx, overflow_spells) if spells don't all fit."""
     # Card border
     c.setStrokeColor((0, 0, 0))
     c.rect(x, yb(y_tl) - h, w, h)
 
-    # Level header
-    suffix = {1: "st", 2: "nd", 3: "rd"}.get(level, "th")
-    c.setFont(FONT_BOLD, 6)
-    c.drawString(x + 4, yb(y_tl + 8), f"{level}{suffix} LEVEL")
-
     total_slots = int(spell_slots.get(str(level), 0))
     used_slots = int(slot_used.get(str(level), 0))
+    
+    if compact:
+        # Compact header: "1st LEVEL — 4 slots, 2 used"
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(level, "th")
+        header = "%d%s LEVEL — %d slots" % (level, suffix, total_slots)
+        if used_slots:
+            header += ", %d used" % used_slots
+        c.setFont(FONT_BOLD, 5.5)
+        c.drawString(x + 4, yb(y_tl + 7), header)
+        
+        # Inline slot bubbles (same line as header, right-aligned)
+        for b in range(min(total_slots, 8)):
+            bx = x + w - 14 - (total_slots - 1 - b) * 13
+            _bubble(c, bx, y_tl + 1, 3, filled=(b < used_slots))
+        
+        line_y = y_tl + 14  # spells start here
+        line_h = 10  # tighter line spacing
+    else:
+        # Legacy full layout
+        suffix = {1: "st", 2: "nd", 3: "rd"}.get(level, "th")
+        c.setFont(FONT_BOLD, 6)
+        c.drawString(x + 4, yb(y_tl + 8), f"{level}{suffix} LEVEL")
+        c.setFont(FONT_BOLD, 5)
+        c.drawString(x + 4, yb(y_tl + 20), "SLOTS TOTAL:")
+        _value(c, x + 60, y_tl + 12, 24, 12, str(total_slots), size=7, center=True)
+        c.drawString(x + 92, yb(y_tl + 20), "SLOTS EXPENDED:")
+        _value(c, x + 160, y_tl + 12, 24, 12, str(used_slots), size=7, center=True)
+        for b in range(min(total_slots, 12)):
+            bx = x + 6 + (b % 6) * 12
+            by = y_tl + 30 + (b // 6) * 12
+            _bubble(c, bx + 4, by + 4, 3.5, filled=(b < used_slots))
+        line_y = y_tl + 54
+        if total_slots > 6:
+            line_y += 12
+        line_h = 12
 
-    # Slots bar
-    c.setFont(FONT_BOLD, 5)
-    c.drawString(x + 4, yb(y_tl + 20), "SLOTS TOTAL:")
-    _value(c, x + 60, y_tl + 12, 24, 12, str(total_slots), size=7, center=True)
-    c.setFont(FONT_BOLD, 5)
-    c.drawString(x + 92, yb(y_tl + 20), "SLOTS EXPENDED:")
-    _value(c, x + 160, y_tl + 12, 24, 12, str(used_slots), size=7, center=True)
-
-    # Slot bubbles
-    for b in range(min(total_slots, 12)):
-        bx = x + 6 + (b % 6) * 12
-        by = y_tl + 30 + (b // 6) * 12
-        _bubble(c, bx + 4, by + 4, 3.5, filled=(b < used_slots))
-
-    # Spell lines
-    line_y = y_tl + 54
-    if total_slots > 6:
-        line_y += 12
-    max_lines = int((h - (line_y - y_tl) - 4) / 12)
-    for i, (sp_name, prepared) in enumerate(spells_list[:max_lines]):
-        ly = line_y + i * 12
+    max_lines = int((h - (line_y - y_tl) - 4) / line_h)
+    visible_spells = spells_list[start_idx:start_idx + max_lines]
+    overflow = spells_list[start_idx + max_lines:] if len(spells_list) > start_idx + max_lines else []
+    
+    for i, (sp_name, prepared) in enumerate(visible_spells):
+        ly = line_y + i * line_h
         _bubble(c, x + 8, ly + 2, 3, filled=prepared)
         ln_y = yb(ly + 2)
         c.setStrokeColor((0.7, 0.7, 0.7))
         c.line(x + 14, ln_y, x + w - 4, ln_y)
         c.setStrokeColor((0, 0, 0))
         c.setFont(FONT_BOLD if prepared else FONT, 5)
-        c.drawString(x + 16, ln_y + 1, trunc(sp_name, 32))
+        # Spell name + short description
+        short = _build_spell_short_desc(sp_name)
+        label = "%s — %s" % (sp_name, short) if short else sp_name
+        c.drawString(x + 16, ln_y + 1, trunc(label, 48))
 
     # Fill remaining lines with empty prep circles + ruled lines
-    for i in range(len(spells_list), max_lines):
-        ly = line_y + i * 12
+    for i in range(len(visible_spells), max_lines):
+        ly = line_y + i * line_h
         _bubble(c, x + 8, ly + 2, 3, filled=False)
         ln_y = yb(ly + 2)
         c.setStrokeColor((0.7, 0.7, 0.7))
         c.line(x + 14, ln_y, x + w - 4, ln_y)
         c.setStrokeColor((0, 0, 0))
+    
+    return start_idx + len(visible_spells), overflow
 
 
 # ═══════════════════════════════════════════════════════════════
