@@ -7480,12 +7480,24 @@ async def character_sheet(char_id: int, request: Request):
                 if lkey in _key and lu.get("pool_kind"):
                     _feat["pool_kind"] = lu["pool_kind"]
                     break
-    # Fallback: features still without source inherit from character's class
+    # Fallback: features still without source inherit from class or subclass
     _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
+    _subclass = char.get("subclass", "")
+    _sub_source = ""
+    _subclass_feature_names = set()
+    if _subclass:
+        _sub_source = CLASSES.get(char.get("class_name", ""), {}).get("_subclass_sources", {}).get(_subclass, "")
+        if _subclass in SUBCLASS_FEATURES:
+            for _lvl_feats in SUBCLASS_FEATURES[_subclass].values():
+                _subclass_feature_names.update(_lvl_feats)
     if _cls_source:
         for _feat in char["feature_data"]:
             if not _feat.get("source") or _feat.get("source") == "SRD 5.1":
-                _feat["source"] = _cls_source
+                _fname = _feat.get("name", "")
+                if _sub_source and _fname in _subclass_feature_names:
+                    _feat["source"] = _sub_source
+                else:
+                    _feat["source"] = _cls_source
     # Load background data
     # Load spell_slots_used
     try:
