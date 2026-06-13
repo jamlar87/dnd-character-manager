@@ -3514,6 +3514,7 @@ const DESCRIPTIONS = {
 const CLASS_LEVELS = {{ (class_levels or {})|tojson }};
 
 const ARMOR_NAMES = {{ armor_names|tojson }};  // from Campaign Expert equipment_data
+const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};  // server-side weapon/armor classification
 
 // ── Action Detail Popup ──
 function showDetail() {
@@ -4809,7 +4810,8 @@ const WEAPON_KEYWORDS = [
 ];
 
 function isWeapon(name) {
-  const lower = name.toLowerCase();
+  const lower = name.toLowerCase().trim();
+  if (NAMED_ITEM_TYPES[lower] === 'wpn') return true;
   return WEAPON_KEYWORDS.some(kw => lower.includes(kw));
 }
 
@@ -4834,6 +4836,8 @@ const _WEAPON_CATEGORIES = {
 function getWeaponInfo(name) {
   if (!name) return null;
   const lower = name.toLowerCase().trim();
+  // Check server-side classification first
+  if (NAMED_ITEM_TYPES[lower] === 'wpn') return {category: 'Simple'};
   // Direct match
   if (_WEAPON_CATEGORIES[lower]) return {category: _WEAPON_CATEGORIES[lower]};
   // Try singular form (strip trailing 's')
@@ -4901,6 +4905,8 @@ const _ARMOR_KEYWORDS = [
 ];
 function isArmor(name) {
   const lower = name.toLowerCase().trim();
+  // Check server-side classification first
+  if (NAMED_ITEM_TYPES[lower] === 'arm') return true;
   if (ARMOR_NAMES.some(n => n === lower)) return true;
   if (lower.endsWith('s') && !lower.endsWith('ss')) {
     const singular = lower.slice(0, -1);

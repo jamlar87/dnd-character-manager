@@ -310,6 +310,9 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .item-card .item-card-del:hover { color: var(--danger); }
 .item-card .item-card-award { color: var(--accent); }
 .item-card .item-card-award:hover { color: var(--accent2); background: rgba(233,69,96,0.1); }
+.item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
+.item-card .wpn-badge { color: var(--accent); }
+.item-card .arm-badge { color: var(--accent); }
 
 /* Award popover */
 .award-popover {
@@ -1029,6 +1032,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 <script>
 // ── Source reference: click 📚 badge → open PDF ──
 const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
+const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};  // server-side weapon/armor classification
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
@@ -2797,10 +2801,23 @@ function dmTagItemBadges() {
   const wpnKw = ['sword','axe','hammer','bow','dagger','mace','spear','flail','rapier','scimitar','glaive','halberd','pike','lance','whip','club','staff','quarterstaff','crossbow','sling','dart','javelin','trident','war pick','morningstar','greatsword','longsword','shortsword','battleaxe','greataxe','warhammer','maul','handaxe','sickle','blowgun','net','pistol','musket','rifle'];
   const armKw = ['padded','leather','studded','hide','chain shirt','scale mail','breastplate','half plate','ring mail','chain mail','splint','plate','shield','armor'];
   cards.forEach(card => {
-    const name = (card.querySelector('.item-card-name')?.textContent || '').toLowerCase();
+    const name = (card.querySelector('.item-card-name')?.textContent || '').toLowerCase().trim();
     if (!name) return;
     const wpnBadge = card.querySelector('.wpn-badge');
     const armBadge = card.querySelector('.arm-badge');
+    // Check server-side classification first
+    const classified = NAMED_ITEM_TYPES[name];
+    if (classified === 'wpn') {
+      if (wpnBadge) wpnBadge.style.display = 'inline-block';
+      if (armBadge) armBadge.style.display = 'none';
+      return;
+    }
+    if (classified === 'arm') {
+      if (wpnBadge) wpnBadge.style.display = 'none';
+      if (armBadge) armBadge.style.display = 'inline-block';
+      return;
+    }
+    // Fall back to keyword matching
     if (wpnBadge) wpnBadge.style.display = wpnKw.some(kw => name.includes(kw)) ? 'inline-block' : 'none';
     if (armBadge) armBadge.style.display = armKw.some(kw => name.includes(kw)) ? 'inline-block' : 'none';
   });

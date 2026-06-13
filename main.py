@@ -3395,6 +3395,50 @@ def _normalize_equipped(equipped: list) -> list:
             result.append({"name": str(item), "qty": 1, "enhancement": 0})
     return result
 
+def _build_named_item_types() -> dict:
+    """Build {name_lower: 'wpn'|'arm'} map from ITEM_INDEX for frontend badge detection."""
+    result = {}
+    wpn_names = [w for w in WEAPONS if w not in ("unarmed strike",)]
+    for key, entry in ITEM_INDEX.items():
+        lower = key.lower()
+        bw = entry.get("base_weapon", "")
+        itype = entry.get("type", "").lower()
+        desc = entry.get("description", "").lower()
+        name_lower = entry.get("name", "").lower()
+        # Known weapons: has base_weapon
+        if bw and bw in WEAPONS:
+            result[lower] = "wpn"
+            continue
+        # Check type or description for weapon patterns
+        is_wpn = "weapon" in itype
+        if not is_wpn:
+            for wpn_name in wpn_names:
+                if wpn_name in desc or wpn_name in name_lower:
+                    is_wpn = True
+                    break
+        if is_wpn:
+            result[lower] = "wpn"
+            continue
+        # Known armor
+        if itype in ("armor", "shield", "heavy armor", "medium armor", "light armor"):
+            result[lower] = "arm"
+            continue
+        for arm_kw in ["armor", "plate", "mail", "shield", "leather", "breastplate", "studded"]:
+            if arm_kw in desc or arm_kw in name_lower:
+                if "natural armor" not in desc:
+                    result[lower] = "arm"
+                    break
+    return result
+
+NAMED_ITEM_TYPES = None  # computed lazily after ITEM_INDEX is populated
+
+def _get_named_item_types() -> dict:
+    """Return cached {name_lower: 'wpn'|'arm'} map. Computed on first call."""
+    global NAMED_ITEM_TYPES
+    if NAMED_ITEM_TYPES is None:
+        NAMED_ITEM_TYPES = _build_named_item_types()
+    return NAMED_ITEM_TYPES
+
 def _equipped_names(equipped: list) -> list:
     """Extract just the names from a [{name, qty}] equipped list or string-list."""
     result = []
@@ -4902,6 +4946,7 @@ async def dm_tools(request: Request):
                    cr_ranges=cr_ranges, npcs=npcs,
                    encounters=encounters, campaigns=campaigns,
                    traps=all_traps,
+                   named_item_types=_get_named_item_types(),
                    source_map_json=json.dumps(_get_source_slug_map()))
 
 
@@ -7789,6 +7834,7 @@ async def character_sheet(char_id: int, request: Request):
                    skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    charged_items=charged_items,
+                   named_item_types=_get_named_item_types(),
                    armor_names=[], caster_type=caster_type, prepared_max=prepared_max,
                    spells_known_max=spells_known_max, cantrips_max=cantrips_max,
                    sc_mod=sc_mod, class_levels=class_levels_data,
