@@ -187,6 +187,7 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
     d["condensed_features"] = _build_condensed_features(d)
     d["full_feature_text"] = _build_full_feature_text(d)
     d["page1_features"] = _build_page1_features_text(d)
+    d["short_features"] = _build_short_features_text(d)
     d["spell_appendix"] = _build_spell_appendix_text(d)
     d["has_long_features"] = len(d.get("full_feature_text", "")) > 140
     d["equipment_appendix"] = _build_equipment_appendix_text(d)
@@ -263,6 +264,28 @@ def _build_page1_features_text(d):
             if last_period > 100:
                 short = short[:last_period + 1]
             lines.append(short)
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _build_short_features_text(d):
+    """Feature name + first sentence of description (~120 chars)."""
+    lines = []
+    feature_data = d.get("feature_data", []) or []
+    for fd in feature_data:
+        name = fd.get("name", "")
+        desc = fd.get("description", "")
+        if not name:
+            continue
+        if desc:
+            # First ~120 chars, break at sentence boundary
+            short = desc[:120]
+            last_period = max(short.rfind("."), short.rfind("…"))
+            if last_period > 40:
+                short = short[:last_period + 1]
+            lines.append(f"{name}: {short}")
+        else:
+            lines.append(name)
         lines.append("")
     return "\n".join(lines)
 
@@ -634,7 +657,7 @@ def _draw_col2_combat(c, d):
         _bubble(c, COL2_X + 108 + i * 16, y_hd + 20, 5, filled=(i < fail))
     # Attacks
     y_atk = y_hd + 52  # increased from +44
-    _label(c, COL2_X, y_atk - 9, "Attacks & Spellcasting")
+    _label(c, COL2_X, y_atk - 9, "Attacks & Spellcasting (see Appendix)")
     col_w = [80, 34, 54]
     for j, (h, cw) in enumerate(zip(["Name", "Atk", "Damage/Type"], col_w)):
         cx = COL2_X + sum(col_w[:j])
@@ -655,8 +678,24 @@ def _draw_col2_combat(c, d):
             c.setFont(FONT, 5.5)
             c.rect(cx, ry, cw, 15)
             c.drawString(cx + 2, ry + 3, trunc(str(v), 20))
+    # Compact spell list for casters
+    spells = d.get("spells", [])
+    if spells:
+        y_spell = y_atk + 12 + 5 * 15 + 6
+        _label(c, COL2_X, y_spell - 9, "Spells Prepared (see Appendix)")
+        # Build one-liner: "Fire Bolt, Mage Armor, Shield, Magic Missile"
+        spell_names = [s[0] for s in spells[:12]]
+        spell_text = ", ".join(spell_names)
+        if len(spells) > 12:
+            spell_text += f" (+{len(spells) - 12} more)"
+        c.setFont(FONT, 4.5)
+        spell_lines = simpleSplit(spell_text, FONT, 4.5, COL2_W - 10)
+        for i, line in enumerate(spell_lines[:3]):
+            c.drawString(COL2_X + 4, yb(y_spell) - 10 - i * 9, line)
+        y_cur = y_spell + max(len(spell_lines[:3]), 1) * 9 + 10
+    else:
+        y_cur = y_atk + 12 + 5 * 15 + 22  # increased from +14
     # Currency — separate section above Equipment
-    y_cur = y_atk + 12 + 5 * 15 + 22  # increased from +14
     _label(c, COL2_X, y_cur - 9, "Currency")
     coins = [("CP", d.get("cp", 0)), ("SP", 0), ("EP", 0), ("GP", d.get("gp", 0)), ("PP", 0)]
     coin_w, coin_h = 30, 18
@@ -672,34 +711,44 @@ def _draw_col2_combat(c, d):
         c.drawCentredString(cx + coin_w / 2, by + coin_h - 7, cn)
         c.setFont(FONT, 6)
         c.drawCentredString(cx + coin_w / 2, by + 2, str(cv))
-    # Equipment — extended to column bottom with full descriptions
+    # Equipment — short descriptions (full details in Equipment Appendix)
     y_eq = y_cur + 40
-    _label(c, COL2_X, y_eq - 9, "Equipment")
-    # Fill remaining column space to bottom margin (40pt from page bottom)
+    _label(c, COL2_X, y_eq - 9, "Equipment (see Appendix)")
     eq_box_h = int(yb(y_eq) - yb(PAGE_H - 40))
     items = []
     for item in (d.get("equipped", []) or []):
         if isinstance(item, dict):
             name = item.get("name", "")
-            desc = _get_item_description(name)
             qty = item.get("qty", 1)
             if qty > 1:
                 name = f"{name} x{qty}"
+            desc = _get_item_description(name)
             if desc:
+                # First sentence or ~80 chars
+                period = desc.find('.')
+                if 0 < period < 100:
+                    desc = desc[:period + 1]
+                else:
+                    desc = desc[:80]
                 items.append(f"[E] {name}: {desc}")
             else:
                 items.append(f"[E] {name}")
     for item in (d.get("inventory", []) or []):
         if isinstance(item, dict):
             name = item.get("name", "")
-            desc = _get_item_description(name)
             qty = item.get("qty", 1)
             if qty > 1:
                 name = f"{name} x{qty}"
+            desc = _get_item_description(name)
             if desc:
+                period = desc.find('.')
+                if 0 < period < 100:
+                    desc = desc[:period + 1]
+                else:
+                    desc = desc[:80]
                 items.append(f"{name}: {desc}")
             else:
-                items.append(f"{name}")
+                items.append(name)
     eq_text = "\n".join(items)
     c.setStrokeColor((0, 0, 0))
     c.rect(COL2_X, yb(y_eq) - eq_box_h, COL2_W - 4, eq_box_h)
@@ -727,8 +776,8 @@ def _draw_col3_personality(c, d):
         _text_box(c, COL3_X, sy, w, block_h, txt, size=5, label_text=lbl)
     y_feat = y + 4 * (block_h + gap) + 14
     feat_h = PAGE_H - 36 - y_feat
-    _text_box(c, COL3_X, y_feat, w, feat_h, d.get("page1_features", ""), size=4.5,
-              label_text="Features & Traits")
+    _text_box(c, COL3_X, y_feat, w, feat_h, d.get("short_features", ""), size=4.5,
+              label_text="Features & Traits (see Appendix)")
 
 
 # ═══════════════════════════════════════════════════════════════
