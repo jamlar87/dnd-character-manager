@@ -777,6 +777,49 @@ except Exception as _e:
 
 SRD_EQUIPMENT: list[dict] = _load_json_cache("equipment.json")
 
+def _resolve_item_key(item_name: str):
+    """Look up an item in ITEM_INDEX, handling SRD reference format.
+    'Flavor Name (SRD: Reference)' → extracts Reference for the lookup."""
+    if not item_name:
+        return None
+    key = item_name.strip().lower()
+    item = ITEM_INDEX.get(key)
+    if item:
+        return item
+    # Try resolving SRD reference
+    srd_match = re.search(r'\(srd:\s*(.+?)\)', key)
+    if srd_match:
+        srd_ref = srd_match.group(1).strip().lower()
+        # Normalize: strip special chars for fuzzy matching
+        srd_norm = re.sub(r'[—–()\[\]{}]', ' ', srd_ref)
+        srd_norm = re.sub(r'\s+', ' ', srd_norm).strip()
+        # Try exact match
+        item = ITEM_INDEX.get(srd_ref)
+        if not item:
+            item = ITEM_INDEX.get(srd_norm)
+        if not item:
+            # Try partial match on normalized ref — prefer best match
+            best = None
+            best_score = 999
+            for k, v in ITEM_INDEX.items():
+                k_norm = re.sub(r'[—–()\[\]{}]', ' ', k)
+                k_norm = re.sub(r'\s+', ' ', k_norm).strip()
+                if srd_norm in k_norm or k_norm in srd_norm:
+                    # Score: prefer shorter distance between normalized lengths
+                    score = abs(len(k_norm) - len(srd_norm))
+                    if score < best_score:
+                        best_score = score
+                        best = v
+            if best:
+                return best
+        if item:
+            return item
+    # Try partial match on original key
+    for k, v in ITEM_INDEX.items():
+        if key in k:
+            return v
+    return None
+
 def _build_item_description(item: dict) -> str:
     """Generate a PHB 2014-accurate description for any equipment item.
     Uses SRD desc if available, otherwise derives from metadata."""
@@ -3092,7 +3135,7 @@ def _find_weapon(item_name: str) -> dict | None:
             return wpn_data
     # Keyword fallback
     # Check ITEM_INDEX for magic weapons with base_weapon
-    idx_entry = ITEM_INDEX.get(name) or ITEM_INDEX.get(name_singular)
+    idx_entry = _resolve_item_key(name) or _resolve_item_key(name_singular)
     if not idx_entry:
         for k, v in ITEM_INDEX.items():
             if k in name or name in k or k in name_singular or name_singular in k:
@@ -3166,7 +3209,7 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
         "range": range_str,
         "properties": [p for p in props if not ("thrown" in p or "ammunition" in p)],
         "qty": qty,
-        "description": ITEM_INDEX.get(item_name.lower(), {}).get("description", ""),
+        "description": (_resolve_item_key(item_name) or {}).get("description", ""),
     }
 
 def _build_inventory_attacks(character: dict) -> list:
@@ -3199,7 +3242,7 @@ def _build_inventory_attacks(character: dict) -> list:
             if wpn:
                 atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty)
                 # Enrich with charge/magazine data from ITEM_INDEX
-                item_info = ITEM_INDEX.get(key, {})
+                item_info = _resolve_item_key(key) or {}
                 max_charges = item_info.get("charges")
                 if max_charges:
                     used = equipped_charges.get(key, 0)
@@ -3229,7 +3272,7 @@ def _build_charged_item_attacks(character: dict) -> list:
         key = name.lower()
         if key in seen:
             continue
-        info = ITEM_INDEX.get(key)
+        info = _resolve_item_key(key)
         if not info or not info.get("charges"):
             continue
         # Skip weapons — they render in the Weapon Attacks card
@@ -6984,7 +7027,7 @@ async def campaign_team_items(camp_id: int, request: Request):
     # Enrich with source info from item index
     for item in items:
         key = (item.get("name") or "").strip().lower()
-        idx_entry = ITEM_INDEX.get(key)
+        idx_entry = _resolve_item_key(key)
         if idx_entry and idx_entry.get("source"):
             item["source"] = idx_entry["source"]
     db.close()
@@ -16064,13 +16107,7 @@ async def describe_item(name: str = ""):
     if not name or not name.strip():
         return JSONResponse({"error": "No item name provided"}, status_code=400)
     key = name.strip().lower()
-    item = ITEM_INDEX.get(key)
-    if not item:
-        # Try partial match
-        for k, v in ITEM_INDEX.items():
-            if key in k:
-                item = v
-                break
+    item = _resolve_item_key(name)
     if not item:
         return JSONResponse({"name": name, "description": "No description available.", "type": "Unknown"})
     return JSONResponse(item)
