@@ -1837,7 +1837,7 @@
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
             {% set item_enh2 = item.enhancement|default(0) %}
-            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:{{ 'none' if item_enh2 == 0 else '' }}">+{{ item_enh2 }}</span>
+            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ item_enh2 }}</span>
             {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
             <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
             <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
@@ -4857,14 +4857,14 @@ function tagWeapons() {
     if (!input || !badge) return;
     const name = input.value.trim();
     const wpnInfo = getWeaponInfo(name);
-    // Show/hide enhancement badge for weapons
+    // Show enhancement badge for weapons (always visible for weapon/armor items)
     const enhBadge = card.querySelector('.enh-badge');
     if (enhBadge) {
       const enh = parseInt(card.dataset.enhancement || '0');
-      if (wpnInfo && enh > 0) {
+      if (wpnInfo) {
         enhBadge.textContent = '+' + enh;
         enhBadge.style.display = '';
-      } else if (!wpnInfo && !isArmor(name)) {
+      } else if (!isArmor(name)) {
         enhBadge.style.display = 'none';
       }
     }
@@ -4917,12 +4917,8 @@ function cycleEnhancement(badge) {
   let enh = parseInt(card.dataset.enhancement || '0');
   enh = (enh + 1) % 4;  // 0 → 1 → 2 → 3 → 0
   card.dataset.enhancement = enh;
-  if (enh > 0) {
-    badge.textContent = '+' + enh;
-    badge.style.display = '';
-  } else {
-    badge.style.display = 'none';
-  }
+  badge.textContent = '+' + enh;
+  badge.style.display = '';
   // Auto-save
   const inEquipped = card.closest('#equipped-list');
   if (inEquipped) {
@@ -4970,14 +4966,12 @@ function tagArmor() {
     if (!input || !badge) return;
     if (isArmor(input.value)) {
       badge.style.display = 'inline-block';
-      // Show enhancement badge for armor
+      // Show enhancement badge for armor (always visible)
       const enhBadge = card.querySelector('.enh-badge');
       if (enhBadge) {
         const enh = parseInt(card.dataset.enhancement || '0');
-        if (enh > 0) {
-          enhBadge.textContent = '+' + enh;
-          enhBadge.style.display = '';
-        }
+        enhBadge.textContent = '+' + enh;
+        enhBadge.style.display = '';
       }
       if (!isArmorProficient(input.value) && npBadge) {
         npBadge.style.display = 'inline-block';
@@ -5378,7 +5372,7 @@ function renderEquipped() {
     }
     const qtyBadge = eqQty > 1 ? `<span class="item-qty" style="cursor:default">${eqQty}</span>` : '';
     const enhBadge = isWeaponOrArmor(item)
-      ? `<span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:${enhancement > 0 ? '' : 'none'}">+${enhancement}</span>`
+      ? `<span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+${enhancement}</span>`
       : '';
     return `<div class="item-card equipped-card" draggable="true"
       data-item-name="${item.replace(/"/g, '&quot;')}"
