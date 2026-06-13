@@ -1396,12 +1396,10 @@ async function openEncounter(id) {
         ? `${crDisplay}AC ${c.ac} · ${c.race || '?'}`
         : `${c.race}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}"
-        style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
+        style="display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
+        ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : (c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${c.id})" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : '')}
         <span style="font-size:0.8rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge}${sourceBadge}${tagBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
-        <span style="display:flex;gap:0.25rem">
-          ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem">ℹ️</button>` : (c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${c.id})" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem">ℹ️</button>` : '')}
-          <button class="btn btn-primary btn-sm" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
-        </span>
+        <button class="btn btn-primary btn-sm" style="flex-shrink:0" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
       </div>`;
     });
     html += `</div></div>
