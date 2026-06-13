@@ -149,12 +149,13 @@
 .item-card .item-attune-badge.attuned { color: var(--success); }
 
 .item-card .enh-badge {
-  font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
+  font-size: 0.55rem; padding: 0 0.15rem;
   color: var(--accent); font-weight: 700;
   border-radius: 3px; background: var(--accent2);
   user-select: none;
 }
-.item-card .enh-badge:hover { background: var(--accent); color: #fff; }
+.edit-mode .item-card .enh-badge { cursor: pointer; }
+.edit-mode .item-card .enh-badge:hover { background: var(--accent); color: #fff; }
 
 /* Expandable item details */
 .item-card { flex-wrap: wrap; }
@@ -4911,6 +4912,7 @@ function isWeaponOrArmor(name) {
 }
 
 function cycleEnhancement(badge) {
+  if (!document.body.classList.contains('edit-mode')) return;
   const card = badge.closest('.item-card');
   let enh = parseInt(card.dataset.enhancement || '0');
   enh = (enh + 1) % 4;  // 0 → 1 → 2 → 3 → 0
