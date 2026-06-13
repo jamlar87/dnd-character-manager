@@ -3522,7 +3522,7 @@ function renderInitiativeTrack() {
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
       <div class="init-info">
-        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player ? `previewCharSheet(${p.char_id}, '${p.name}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
+        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
       </div>
       <div class="init-hp-group">
@@ -3672,13 +3672,16 @@ async function toggleDefeatedCombat(enId) {
 
 // ── Full creature/NPC detail popup for combat cards ──
 async function showCombatantDetails(enId) {
-  console.log('showCombatantDetails called with enId:', enId);
   const p = _combatParticipants.find(p => p.en_id === enId);
-  if (!p) { console.warn('Participant not found for enId:', enId, '_combatParticipants:', _combatParticipants); return; }
-  console.log('Participant:', {en_id: p.en_id, name: p.name, npc_id: p.npc_id, is_player: p.is_player, has_creature_data: !!p.creature_data});
+  if (!p) return;
+  // Redirect player characters to their character sheet
+  if (p.is_player || p.char_id) {
+    previewCharSheet(p.char_id || p.en_id, p.name);
+    return;
+  }
   
   // For real NPCs, open the full NPC editor
-  if (p.npc_id && p.npc_id > 0) { console.log('Opening NPC editor for npc_id:', p.npc_id); editNpc(p.npc_id); return; }
+  if (p.npc_id && p.npc_id > 0) { editNpc(p.npc_id); return; }
 
   // Try to get the full SRD monster card
   let monsterIndex = null;
@@ -3686,30 +3689,26 @@ async function showCombatantDetails(enId) {
     try {
       const cd = typeof p.creature_data === 'string' ? JSON.parse(p.creature_data) : p.creature_data;
       monsterIndex = cd._monster_index || '';
-      console.log('Parsed creature_data:', {monsterIndex, name: cd.name});
-    } catch(e) { console.warn('Failed to parse creature_data:', e); }
+    } catch(e) {}
   }
 
   // Try fetching full monster card from API (works for both SRD and manual monsters)
   if (monsterIndex) {
     // Strip 'm_' prefix if present (added by creature cache)
     const lookupIndex = monsterIndex.startsWith('m_') ? monsterIndex.slice(2) : monsterIndex;
-    console.log('Fetching monster by index:', lookupIndex);
     try {
       const r = await fetch(`/api/dm/monster/${encodeURIComponent(lookupIndex)}`);
       if (r.ok) {
         const monster = await r.json();
         if (monster && monster.name) {
-          console.log('Got monster:', monster.name);
           showFullMonsterCard(monster, p);
           return;
         }
       }
-    } catch(e) { console.warn('Monster fetch failed:', e); }
+    } catch(e) {}
   }
 
   // Fallback: basic stat popup for creature-only entries (manual NPCs, non-SRD)
-  console.log('Showing basic stat popup for:', p.name);
   
   // Extract full data from creature_data if available
   let cd = {};
