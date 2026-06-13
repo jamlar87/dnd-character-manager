@@ -866,11 +866,22 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     </div>
 
     <!-- Quick add participant -->
-    <div style="margin-top:0.75rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
-      <select id="combatAddNpc" style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;min-width:180px">
-        <option value="">+ Add NPC to combat...</option>
-      </select>
-      <button class="btn btn-outline btn-sm" onclick="addNpcToCombat()">Add</button>
+    <div style="margin-top:0.75rem">
+      <h4 style="margin:0 0 0.5rem 0;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">➕ Quick Add</h4>
+      <div style="display:flex;gap:0.4rem;margin-bottom:0.5rem;flex-wrap:wrap">
+        <input type="text" id="combatCreatureSearch" placeholder="Search NPCs or monsters..."
+          style="flex:1;min-width:180px;padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem"
+          oninput="filterCombatCreatures()">
+        <select id="combatCreatureKind" onchange="filterCombatCreatures()"
+          style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+          <option value="all">All</option>
+          <option value="npc">NPCs</option>
+          <option value="monster">Monsters</option>
+        </select>
+      </div>
+      <div id="combatCreatureResults" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:0.2rem">
+        <span style="color:var(--text-muted);font-size:0.75rem;text-align:center;padding:0.5rem">Start typing to search...</span>
+      </div>
     </div>
   </div>
 </div>
@@ -2982,6 +2993,7 @@ async function keepAllLoot() {
 let _combatEncId = null;
 let _combatCampId = null;
 let _combatParticipants = [];  // {en_id, name, initiative, hp_current, hp_max, ac, defeated, is_player, ...}
+let _combatCreatureCache = [];  // Combined NPC + monster cache for Quick Add search
 let _combatRound = 1;
 let _combatTurnIdx = 0;        // index into alive participants
 let _combatOrder = [];         // en_id order array
@@ -3086,18 +3098,30 @@ async function loadCombatEncounter() {
     }
   }
 
-  // Also populate NPC dropdown
+  // Build combined NPC + monster cache for Quick Add search
+  _combatCreatureCache = [];
   try {
-    const nr = await fetch('/api/dm/npcs');
-    const nd = await nr.json();
-    const addSel = document.getElementById('combatAddNpc');
-    addSel.innerHTML = '<option value="">+ Add NPC to combat...</option>';
-    (nd.npcs || []).forEach(n => {
-      const opt = document.createElement('option');
-      opt.value = n.id; opt.textContent = `${n.name} (L${n.level} ${n.class_name || 'NPC'})`;
-      addSel.appendChild(opt);
+    const [nr, mr] = await Promise.all([
+      fetch('/api/dm/npcs').then(r => r.json()),
+      fetch('/api/dm/monsters').then(r => r.json())
+    ]);
+    // Monsters first (so they show up before NPCs in All filter)
+    (mr.monsters || []).forEach(m => {
+      _combatCreatureCache.push({
+        id: `m_${m.index || m.name}`, name: m.name,
+        _kind: 'monster', _raw: m,
+        race: m.type || '', hp_current: m.hit_points || 10,
+        hp_max: m.hit_points || 10, ac: (m.armor_class && m.armor_class[0] ? m.armor_class[0].value : 10),
+        level: m.challenge_rating || '?', is_enemy: 1,
+        role: (m.size || '') + ' ' + (m.type || ''),
+        xp_reward: m.xp || 0
+      });
+    });
+    (nr.npcs || []).forEach(n => {
+      _combatCreatureCache.push({...n, _kind: 'npc'});
     });
   } catch(e) {}
+  filterCombatCreatures();
 
   // Load participants from encounter
   await refreshCombatParticipants();
@@ -4041,32 +4065,115 @@ function initDrop(e, targetEnId) {
   saveCombatState();
 }
 
-// ── Add NPC to combat ──
-async function addNpcToCombat() {
+// ── Quick Add: filter creature search results ──
+function filterCombatCreatures() {
+  const q = (document.getElementById('combatCreatureSearch')?.value || '').toLowerCase();
+  const kind = document.getElementById('combatCreatureKind')?.value || 'all';
+  const results = document.getElementById('combatCreatureResults');
+  if (!results) return;
+
+  let filtered = _combatCreatureCache;
+  if (q) filtered = filtered.filter(c => c.name.toLowerCase().includes(q));
+  if (kind !== 'all') filtered = filtered.filter(c => c._kind === kind);
+
+  if (filtered.length === 0) {
+    results.innerHTML = '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center;padding:0.5rem">No matches</span>';
+    return;
+  }
+
+  // Show up to 20 results
+  const shown = filtered.slice(0, 20);
+  let html = '';
+  shown.forEach((c, ci) => {
+    const kindBadge = c._kind === 'monster'
+      ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
+      : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
+    const crDisplay = c._kind === 'monster' ? `CR ${c.level} · ` : '';
+    const detailDisplay = c._kind === 'monster'
+      ? `${crDisplay}AC ${c.ac} · ${c.race || '?'}`
+      : `${c.race || ''}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
+    const hpDisplay = c._kind === 'monster'
+      ? `HP ${c.hp_current}`
+      : `HP ${c.hp_current}/${c.hp_max}`;
+    html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
+      data-idx="${_combatCreatureCache.indexOf(c)}">
+      ${c._kind === 'monster' && c._raw?.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
+      ${c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
+      <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
+      <button class="btn btn-primary btn-sm" style="flex-shrink:0;font-size:0.7rem" onclick="addCombatCreature(${_combatCreatureCache.indexOf(c)})">+ Add</button>
+    </div>`;
+  });
+  if (filtered.length > 20) {
+    html += `<span style="color:var(--text-muted);font-size:0.7rem;text-align:center;padding:0.25rem">+ ${filtered.length - 20} more — refine search</span>`;
+  }
+  results.innerHTML = html;
+}
+
+// ── Add searched creature to combat ──
+async function addCombatCreature(cacheIndex) {
   if (!_combatEncId) return alert('Select an encounter first');
-  const sel = document.getElementById('combatAddNpc');
-  const npcId = parseInt(sel.value);
-  if (!npcId) return;
+  const c = _combatCreatureCache[cacheIndex];
+  if (!c) return;
 
-  try {
-    const r = await fetch(`/api/dm/encounter/${_combatEncId}/add-npc`, {
-      method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({npc_id: npcId, initiative: 0})
-    });
-    const d = await r.json();
-    if (!d.ok) return alert(d.error || 'Failed to add');
-
-    // Refresh participants
-    await refreshCombatParticipants();
-
-    // Rebuild order including new NPC
-    const newEnId = d.id;
-    if (newEnId && !_combatOrder.includes(newEnId)) {
-      _combatOrder.push(newEnId);
-    }
-    sel.value = '';
-    saveCombatState();
-  } catch(e) { alert('Failed to add NPC'); }
+  if (c._kind === 'npc' && c.id > 0) {
+    // DB NPC — use add-npc
+    try {
+      const r = await fetch(`/api/dm/encounter/${_combatEncId}/add-npc`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({npc_id: c.id, initiative: 0})
+      });
+      const d = await r.json();
+      if (!d.ok) return alert(d.error || 'Failed to add');
+      const newEnId = d.id;
+      await refreshCombatParticipants();
+      if (newEnId && !_combatOrder.includes(newEnId)) {
+        _combatOrder.push(newEnId);
+      }
+      saveCombatState();
+    } catch(e) { alert('Failed to add NPC'); }
+  } else {
+    // Monster or manual NPC — use add-creature
+    try {
+      const body = {
+        name: c.name, race: c.race || '', class_name: c.class_name || '',
+        level: c._kind === 'monster' ? 1 : (c.level || 1),
+        hp: c.hp_current || 10, hp_max: c.hp_max || 10, ac: c.ac || 10,
+        is_enemy: c.is_enemy || 0, role: c.role || '',
+        xp_reward: c.xp_reward || 0,
+        _monster_index: c._kind === 'monster' ? (c._raw?.index || '') : '',
+      };
+      // Include full stat block for monsters
+      if (c._kind === 'monster' && c._raw) {
+        const m = c._raw;
+        body.ability_scores = {strength: m.strength, dexterity: m.dexterity, constitution: m.constitution, intelligence: m.intelligence, wisdom: m.wisdom, charisma: m.charisma};
+        body.speed = typeof m.speed === 'string' ? m.speed : Object.values(m.speed || {}).join(', ');
+        body.alignment = m.alignment || '';
+        body.senses = typeof m.senses === 'string' ? m.senses : (m.senses ? Object.entries(m.senses).map(([k,v]) => `${k} ${v}`).join(', ') : '');
+        body.languages = typeof m.languages === 'string' ? m.languages : '';
+        body.challenge_rating = m.challenge_rating || null;
+        body.skills = m.skills || {};
+        body.saving_throws = m.saving_throws || {};
+        body.damage_resistances = m.damage_resistances || [];
+        body.damage_immunities = m.damage_immunities || [];
+        body.condition_immunities = m.condition_immunities || [];
+        body.features = m.special_abilities || [];
+        body.actions = m.actions || [];
+        body.spellcasting = m.spellcasting || null;
+      }
+      const r = await fetch(`/api/dm/encounter/${_combatEncId}/add-creature`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      const d = await r.json();
+      if (!d.ok) return alert(d.error || 'Failed to add');
+      const newEnId = d.id;
+      await refreshCombatParticipants();
+      if (newEnId && !_combatOrder.includes(newEnId)) {
+        _combatOrder.push(newEnId);
+      }
+      saveCombatState();
+    } catch(e) { alert('Failed to add creature'); }
+  }
 }
 
 // ── Save combat state ──
