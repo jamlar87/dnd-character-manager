@@ -3863,6 +3863,31 @@ def _normalize_manual_monster(m: dict):
     if not m.get("index"):
         m["index"] = re.sub(r"[^a-z0-9]+", "-", m.get("name", "").lower().strip()).strip("-")
 
+    # Fix broken sources that just say "Chapter N" without the book name
+    src = m.get("source", "")
+    if src:
+        src_lower = src.lower()
+        # Mordenkainen's Tome of Foes Chapter 6 Bestiary
+        if "chapter 6" in src_lower and "bestiary" in src_lower:
+            page = re.search(r"p\.?\s*(\d+)", src)
+            if page:
+                m["source"] = f"Mordenkainen's Tome of Foes p.{page.group(1)}"
+            else:
+                m["source"] = "Mordenkainen's Tome of Foes"
+        # DMG Chapter 4
+        elif "chapter 4" in src_lower and "dungeon master" in src_lower:
+            page = re.search(r"p\.?\s*(\d+)", src)
+            if page:
+                m["source"] = f"Dungeon Master's Guide p.{page.group(1)}"
+            else:
+                m["source"] = "Dungeon Master's Guide"
+        # DMG Chapter 7 Treasure
+        elif "chapter 7" in src_lower and "treasure" in src_lower:
+            m["source"] = "Dungeon Master's Guide"
+        # Generic Chapter patterns — try to infer from context
+        elif "chapter 3" in src_lower and "magical" in src_lower:
+            m["source"] = "Dungeon Master's Guide"
+
     # armor_class: int → [{value: int, type: "natural"}]
     ac = m.get("armor_class")
     if isinstance(ac, (int, float)):

@@ -1078,6 +1078,8 @@ async function openSourceRef(src, slug) {
       return;
     }
   }
+  // No match found — don't open a broken URL, just alert
+  alert(`📚 Could not find the source book for:\n"${src}"\n\nIt may reference a book not in the library.`);
 }
 _loadSourceSlugs();
 
