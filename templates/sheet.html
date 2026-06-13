@@ -1106,7 +1106,7 @@
               {{ rt.desc }}
               <div style="margin-top:0.2rem;font-size:0.6rem;display:flex;align-items:center;gap:0.3rem">
                 {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
-                <span class="src-badge" onclick="openSourceRef('{{ rt.source }}')" title="Click to open {{ rt.source }}" style="font-size:0.55rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
+                <span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.55rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
                 {% elif rt.source %}
                 <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
                 {% endif %}
@@ -2180,12 +2180,7 @@ const CASTER_TYPE = '{{ caster_type }}';
 let CHARACTER_GP = {{ character.gp|default(0)|int }};
 
 // ── Source reference: click 📚 badge → open PDF ──
-let _sourceSlugLookup = null;
-async function _loadSourceSlugs() {
-  if (_sourceSlugLookup) return;
-  try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
-  catch(e) { _sourceSlugLookup = {}; }
-}
+const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 function _srcBadge(src) {
   if (!src) return '';
   const short = src.length > 25 ? src.replace(/\s+p\.?\s*\d+.*$/, '').trim() : src;
@@ -2196,30 +2191,29 @@ function openSourceRef(src) {
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
-  if (!_sourceSlugLookup) return;
   // Try slug match first (e.g., "PHB", "DMG")
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     if (slug.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
   // Try display name match
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     if (info.display.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
   // Fallback: substring match
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     if (info.display.toLowerCase().includes(bookPart.toLowerCase()) || bookPart.toLowerCase().includes(info.display.toLowerCase())) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
 }
-_loadSourceSlugs();
+
 
 // ── Ability score recalculation data ───────────────────────────────────
 const SKILL_AB_MAP = {{ skill_abilities|tojson }};

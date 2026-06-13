@@ -408,7 +408,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div class="m-name">{{ m.name }}</div>
       <div class="m-type">{{ m.size }} {{ m.type }}{% if m.alignment %} · {{ m.alignment }}{% endif %}</div>
       {% if m.source %}
-      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="openSourceRef('{{ m.source }}')">📚 {{ m.source }}</div>
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ m.source }}">📚 {{ m.source }}</div>
       {% endif %}
       <div class="m-stats">
         <span class="m-stat">CR {{ m.challenge_rating }}</span>
@@ -489,7 +489,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% else %}
         <span style="font-size:0.8rem">HP {{ npc.hp_current }}/{{ npc.hp_max }} AC {{ npc.ac }}</span>
         {% endif %}
-        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge" onclick="openSourceRef('{{ npc.source }}')">📚 {{ npc.source }}</span>{% endif %}
+        {% if npc.get('source') %}<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ npc.source }}">📚 {{ npc.source }}</span>{% endif %}
         {% if npc.get('notes') %}
         <details class="npc-desc-toggle" style="margin-top:0.3rem">
           <summary style="cursor:pointer;font-size:0.75rem;color:var(--accent);user-select:none">📝 Description</summary>
@@ -916,7 +916,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% if t.damage %}<span class="trap-stat">{{ t.damage_type|capitalize }}</span>{% endif %}
       </div>
       {% if t.source %}
-      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef('{{ t.source }}')">📚 {{ t.source }}</div>
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ t.source }}">📚 {{ t.source }}</div>
       {% endif %}
       {% if t.get('_custom') %}
       <div style="font-size:0.6rem;color:var(--accent);opacity:0.8;margin-top:0.15rem">✨ Custom Trap</div>
@@ -1028,13 +1028,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {% block scripts %}
 <script>
 // ── Source reference: click 📚 badge → open PDF ──
-let _sourceSlugLookup = null;
-async function _loadSourceSlugs() {
-  if (_sourceSlugLookup) return;
-  try { const r = await fetch('/api/reference/source-map'); _sourceSlugLookup = await r.json(); }
-  catch(e) { _sourceSlugLookup = {}; }
-}
-async function openSourceRef(src, slug) {
+const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
+function openSourceRef(src, slug) {
   if (!src) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
@@ -1043,24 +1038,23 @@ async function openSourceRef(src, slug) {
     window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
     return;
   }
-  if (!_sourceSlugLookup) await _loadSourceSlugs();
   let bookPart = src.replace(/\s+[pP]\.?\s*\d+.*$/, '').replace(/\s+\d{4}$/, '').trim();
   // Try slug match first (e.g., "PHB", "DMG")
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     if (slug.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
   // Try display name match
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     if (info.display.toLowerCase() === bookPart.toLowerCase()) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
       return;
     }
   }
   // Fallback: substring match
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     const d = info.display.toLowerCase();
     const b = bookPart.toLowerCase();
     if (d.includes(b) || b.includes(d)) {
@@ -1071,7 +1065,7 @@ async function openSourceRef(src, slug) {
   // Last resort: normalized match (strip all non-alphanumeric)
   const norm = s => s.replace(/[^a-z0-9]/g, '');
   const bNorm = norm(bookPart);
-  for (const [slug, info] of Object.entries(_sourceSlugLookup)) {
+  for (const [slug, info] of Object.entries(SOURCE_SLUG_MAP)) {
     const dNorm = norm(info.display);
     if (dNorm.includes(bNorm) || bNorm.includes(dNorm)) {
       window.open(`/api/reference/open/${slug}${page?'?page='+page+'#page='+page:''}`, '_blank');
@@ -1081,7 +1075,6 @@ async function openSourceRef(src, slug) {
   // No match found — don't open a broken URL, just alert
   alert(`📚 Could not find the source book for:\n"${src}"\n\nIt may reference a book not in the library.`);
 }
-_loadSourceSlugs();
 
 // ── Tab switching (persisted to localStorage) ──
 function activateTab(tabName) {

@@ -4858,7 +4858,8 @@ async def dm_tools(request: Request):
                    monsters=all_monsters, monster_types=monster_types,
                    cr_ranges=cr_ranges, npcs=npcs,
                    encounters=encounters, campaigns=campaigns,
-                   traps=all_traps)
+                   traps=all_traps,
+                   source_map_json=json.dumps(_get_source_slug_map()))
 
 
 @app.get("/api/dm/monster/{index}", response_class=JSONResponse)
@@ -7745,7 +7746,8 @@ async def character_sheet(char_id: int, request: Request):
                    feat_details=FEAT_DETAILS,
                    expertise_levels=EXPERTISE_LEVELS,
                    expertise_options=expertise_options,
-                   expertise_count=expertise_count)
+                   expertise_count=expertise_count,
+                   source_map_json=json.dumps(_get_source_slug_map()))
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
