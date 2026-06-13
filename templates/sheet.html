@@ -1165,7 +1165,8 @@
               {% if ns.asi_match %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">
               {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
-              {% else %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+              {% elif ns.asi_match.choices %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+              {% else %}{% set flat_parts = [] %}{% for ab in ['strength','dexterity','constitution','intelligence','wisdom','charisma'] %}{% set amt = ns.asi_match.get(ab, 0)|int %}{% if amt > 0 %}{% set _ = flat_parts.append('+' ~ amt|string ~ ' ' ~ ab[:3]|title) %}{% endif %}{% endfor %}{{ flat_parts|join(', ') }}
               {% endif %}</span>
               {% endif %}
               {% endif %}
@@ -1306,7 +1307,8 @@
                 {% if ns.asi_match %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">
                 {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
-                {% else %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+                {% elif ns.asi_match.choices %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+                {% else %}{% set flat_parts = [] %}{% for ab in ['strength','dexterity','constitution','intelligence','wisdom','charisma'] %}{% set amt = ns.asi_match.get(ab, 0)|int %}{% if amt > 0 %}{% set _ = flat_parts.append('+' ~ amt|string ~ ' ' ~ ab[:3]|title) %}{% endif %}{% endfor %}{{ flat_parts|join(', ') }}
                 {% endif %}</span>
                 {% endif %}
                 {% endif %}
