@@ -4224,6 +4224,16 @@ function toggleFeatBody(card) {
   if (arrow) arrow.classList.toggle('open');
 }
 function togglePassiveBody(chip) {
+  // In edit mode, ASI cards open the re-picker
+  if (document.body.classList.contains('edit-mode')) {
+    const idx = parseInt(chip.getAttribute('data-feat-index'));
+    const feat = featureData[idx];
+    if (feat && feat.name && feat.name.includes('Ability Score Improvement')) {
+      const lvlStr = feat.level ? String(feat.level).replace('L','') : '';
+      const lvl = parseInt(lvlStr);
+      if (lvl) { startAsiEdit(lvl); return; }
+    }
+  }
   const body = chip.nextElementSibling;
   const arrow = chip.querySelector('.collapse-arrow');
   if (body && body.classList.contains('passive-chip-body')) {
