@@ -3211,24 +3211,27 @@ function renderPlayersPanel() {
       data-char-id="${p.char_id}"
       ondragstart="playerDragStart(event, ${p.char_id})"
       ondragend="playerDragEnd(event)"
-      style="cursor:grab;border-style:dashed">
-      <div class="init-turn-marker" style="background:var(--accent2);color:var(--text)">👤</div>
-      <div class="init-info" style="flex:1">
-        <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem">PC</span></div>
-        <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
+      style="cursor:grab;border-style:dashed;flex-direction:column;align-items:stretch;gap:0.4rem">
+      <div style="display:flex;align-items:center;gap:0.4rem">
+        <div class="init-turn-marker" style="background:var(--accent2);color:var(--text);flex-shrink:0">👤</div>
+        <div class="init-info" style="flex:1;min-width:0">
+          <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem;flex-shrink:0">PC</span></div>
+          <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:0.3rem">
-        <span style="font-size:0.65rem;color:var(--text-muted)">Init</span>
+      <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+        <span style="font-size:0.65rem;color:var(--text-muted);flex-shrink:0">Init</span>
         <input type="number" class="init-hp-input" value="${p.initiative || ''}" placeholder="?"
           style="width:36px"
           onchange="playerSetInit(${p.char_id}, this.value)" onclick="event.stopPropagation()">
+        <div class="init-hp-group" style="min-width:80px">
+          <span style="font-size:0.7rem">${p.hp_current}/${p.hp_max}</span>
+          <div class="init-hp-bar"><div class="init-hp-bar-fill ok" style="width:${Math.round(p.hp_current/p.hp_max*100)}%"></div></div>
+        </div>
+        <div style="flex:1"></div>
+        <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
+        <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
       </div>
-      <div class="init-hp-group" style="min-width:80px">
-        <span style="font-size:0.7rem">${p.hp_current}/${p.hp_max}</span>
-        <div class="init-hp-bar"><div class="init-hp-bar-fill ok" style="width:${Math.round(p.hp_current/p.hp_max*100)}%"></div></div>
-      </div>
-      <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
-      <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
     </div>`;
   }).join('');
 }
