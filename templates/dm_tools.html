@@ -1448,6 +1448,7 @@ async function openEncounter(id) {
               <div class="hp-bar-mini" style="width:80px"><div class="hp-bar-mini-fill ${hpClass}" style="width:${Math.max(0, hpPct)}%"></div></div>
               <button class="defeat-btn ${isDefeated ? 'dead' : 'alive'}" onclick="event.stopPropagation();toggleDefeated(${id}, ${p.id}, ${idx})">${isDefeated ? '✓ Alive' : '💀 Defeat'}</button>
               <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();removeNpcFromEncounter(${id}, ${p.id})" title="Remove">✕</button>
+              ${p._monster_index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${p._monster_index}')" title="Monster details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : (p.npc_id && p.npc_id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcEditor(${p.npc_id})" title="NPC details" style="font-size:0.7rem;padding:0.15rem 0.4rem">ℹ️</button>` : '')}
             </div>
           </div>
         </div>

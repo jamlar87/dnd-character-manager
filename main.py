@@ -5857,6 +5857,7 @@ async def dm_encounter_detail(enc_id: int, request: Request):
             p["npc_ac"] = cd.get("ac", p.get("ac", 10))
             p["role"] = cd.get("role", "")
             p["xp_reward"] = cd.get("xp_reward", 0)
+            p["_monster_index"] = cd.get("_monster_index", "")
     # Compute spell slots for caster NPCs
     for p in participants:
         cls = p.get("class_name", "")
