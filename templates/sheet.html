@@ -2145,6 +2145,7 @@ const FEAT_SETUP = {
 const MANEUVER_OPTIONS = {{ maneuver_options | tojson | safe }};
 const CHAR_ASI_HISTORY = {{ character.asi_history|tojson if character.asi_history else '[]' }};
 const KNOWN_FEATS = {{ known_feats|tojson }};
+const FEAT_DETAILS = {{ feat_details|tojson }};
 const HP_MAX = {{ character.hp_max }};
 const HD_TOTAL = {{ character.hit_dice.split('d')[0] if 'd' in (character.hit_dice or '') else 0 }};
 const ATTUNED_ITEMS = {{ character.attuned_items|tojson }};
@@ -4153,13 +4154,32 @@ function startAsiEdit(level) {
       <strong>Take a Feat</strong>
     </label>
     <div id="asi-edit-feat" style="${isFeat ? '' : 'display:none'};padding:0.5rem;background:var(--bg);border-radius:6px">
-      <div class="form-group"><label>Feat:</label>
-        <select id="asi-edit-feat-select" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
-          <option value="">— Choose a feat —</option>
-          ${KNOWN_FEATS.map(f => `<option value="${f}" ${curFeat === f ? 'selected' : ''}>${f}</option>`).join('')}
-        </select>
+      <div class="form-group"><label>Search feats:</label>
+        <input id="asi-edit-feat-search" type="text" placeholder="Type to filter feats..." style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem"
+          oninput="filterAsiFeats()">
       </div>
-      <p style="font-size:0.7rem;color:var(--text-muted)">Switching to a feat replaces your ASI for this level. You may need to manually adjust ability scores.</p>
+      <div id="asi-edit-feat-list" style="max-height:260px;overflow-y:auto;border:1px solid var(--border);border-radius:4px">
+        ${KNOWN_FEATS.map(f => {
+          const d = FEAT_DETAILS[f] || {};
+          const desc = d.desc || '';
+          const prereq = d.prereq || '';
+          const src = d.source || '';
+          const sel = curFeat === f ? 'selected' : '';
+          return `<div class="asi-feat-option ${sel}" data-feat="${f.replace(/"/g,'&quot;')}" onclick="selectAsiFeat(this,'${f.replace(/'/g,"\\'")}')"
+            style="padding:0.5rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.1s;${sel ? 'background:var(--accent2);border-left:3px solid var(--accent);' : ''}"
+            onmouseenter="if(!this.classList.contains('selected'))this.style.background='rgba(255,255,255,0.03)'"
+            onmouseleave="if(!this.classList.contains('selected'))this.style.background=''">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:0.5rem">
+              <strong style="font-size:0.85rem">${f}</strong>
+              <span style="font-size:0.65rem;color:var(--text-muted);flex-shrink:0">${src}</span>
+            </div>
+            ${prereq ? `<div style="font-size:0.7rem;color:var(--accent);margin-top:0.15rem">Prerequisite: ${prereq}</div>` : ''}
+            ${desc ? `<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem;line-height:1.35">${desc.length > 200 ? desc.slice(0,200)+'…' : desc}</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+      <input type="hidden" id="asi-edit-feat-select" value="${curFeat}">
+      <p style="font-size:0.7rem;color:var(--text-muted);margin-top:0.5rem">Switching to a feat replaces your ASI for this level.</p>
     </div>
   </div>`;
   
@@ -4170,6 +4190,26 @@ function startAsiEdit(level) {
 function closeAsiEdit() {
   document.getElementById('asi-edit-modal').style.display = 'none';
   _asiEditLevel = null;
+}
+
+// ── Feat browser helpers ──
+function filterAsiFeats() {
+  const q = (document.getElementById('asi-edit-feat-search')?.value || '').toLowerCase();
+  document.querySelectorAll('.asi-feat-option').forEach(el => {
+    const name = (el.getAttribute('data-feat') || '').toLowerCase();
+    el.style.display = !q || name.includes(q) ? '' : 'none';
+  });
+}
+function selectAsiFeat(el, name) {
+  document.querySelectorAll('.asi-feat-option').forEach(o => {
+    o.classList.remove('selected');
+    o.style.background = '';
+    o.style.borderLeft = '';
+  });
+  el.classList.add('selected');
+  el.style.background = 'var(--accent2)';
+  el.style.borderLeft = '3px solid var(--accent)';
+  document.getElementById('asi-edit-feat-select').value = name;
 }
 
 async function saveAsiEdit() {

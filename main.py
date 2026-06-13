@@ -7236,7 +7236,8 @@ async def character_sheet(char_id: int, request: Request):
                    draconic_ancestries=DRACONIC_ANCESTRIES,
                    maneuver_options=MANEUVER_OPTIONS,
                    metamagic_options=METAMAGIC_OPTIONS,
-                   known_feats=KNOWN_FEATS)
+                   known_feats=KNOWN_FEATS,
+                   feat_details=FEAT_DETAILS)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -13339,6 +13340,17 @@ def _build_known_feats() -> list[str]:
     result.sort()
     return result
 KNOWN_FEATS: list[str] = _build_known_feats()
+
+# Feat name → {desc, prereq, source} for the ASI picker preview
+FEAT_DETAILS: dict[str, dict] = {}
+for _f in FEATS.values():
+    _name = _f.get("name", "")
+    if _name in KNOWN_FEATS:
+        FEAT_DETAILS[_name] = {
+            "desc": _f.get("description") or _f.get("desc", ""),
+            "prereq": _f.get("prerequisite") or _f.get("prereq", ""),
+            "source": _f.get("source", ""),
+        }
 
 # ── Merge manual equipment into ITEM_INDEX ──
 # SRD equipment is a subset of PHB equipment. Manual data fills in missing
