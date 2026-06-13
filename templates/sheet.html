@@ -827,11 +827,11 @@
   <div class="sheet-main">
     <!-- Tabs -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('actions')">⚔️ Actions</button>
-      <button class="tab-btn" onclick="switchTab('features')">✨ Features</button>
-      <button class="tab-btn" onclick="switchTab('spells')">🔮 Spells</button>
-      <button class="tab-btn" onclick="switchTab('inventory')">🎒 Inventory</button>
-      <button class="tab-btn" onclick="switchTab('history')">📜 History</button>
+      <button class="tab-btn active" data-tab="actions" onclick="switchTab('actions')">⚔️ Actions</button>
+      <button class="tab-btn" data-tab="features" onclick="switchTab('features')">✨ Features</button>
+      <button class="tab-btn" data-tab="spells" onclick="switchTab('spells')">🔮 Spells</button>
+      <button class="tab-btn" data-tab="inventory" onclick="switchTab('inventory')">🎒 Inventory</button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">📜 History</button>
     </div>
 
     <!-- ⚔️ ACTIONS TAB -->
@@ -2499,9 +2499,16 @@ function switchTab(name) {
   console.log('switchTab called:', name, 'at', Date.now());
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${name}')"]`).classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  console.log('tab-' + name, 'style.display after:', document.getElementById('tab-' + name).style.display, 'computed:', window.getComputedStyle(document.getElementById('tab-' + name)).display);
+  // Use data-tab for robust matching (onclick attribute selector fragile)
+  const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
+  if (btn) btn.classList.add('active');
+  const content = document.getElementById('tab-' + name);
+  if (content) {
+    content.classList.add('active');
+    console.log('tab-' + name, 'display:', window.getComputedStyle(content).display);
+  } else {
+    console.warn('tab-content not found: tab-' + name);
+  }
   localStorage.setItem('char-tab-' + CHAR_ID, name);
 }
 const savedTab = localStorage.getItem('char-tab-' + CHAR_ID);
