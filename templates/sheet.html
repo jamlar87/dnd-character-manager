@@ -882,7 +882,7 @@
           </div>
           {% endif %}
           {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
-          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef('{{ atk.source|replace("'","\\'") }}')" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
+          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ atk.source }}" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
         </div>
         {% endfor %}
         </div><!-- /attacks-weapons-list -->
@@ -2184,7 +2184,7 @@ const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 function _srcBadge(src) {
   if (!src) return '';
   const short = src.length > 25 ? src.replace(/\s+p\.?\s*\d+.*$/, '').trim() : src;
-  return `<span class="src-badge" onclick="openSourceRef('${src.replace(/'/g, "\\'")}')" title="Click to open ${src}">📚 ${short}</span>`;
+  return `<span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${src.replace(/"/g, '&quot;')}" title="Click to open ${src}">📚 ${short}</span>`;
 }
 function openSourceRef(src) {
   if (!src || src.startsWith('SRD')) return;
@@ -5079,7 +5079,7 @@ async function refreshAttacksTab() {
       }
       const qtyBadge = (atk.qty && atk.qty > 1) ? ` <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">${atk.qty}</span>` : '';
       const descHtml = atk.description ? `<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">${atk.description}</div>` : '';
-      const srcHtml = atk.source ? `<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef('${atk.source.replace(/'/g, "\\'")}')" title="Click to open ${atk.source}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 ${atk.source}</span></div>` : '';
+      const srcHtml = atk.source ? `<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="${atk.source.replace(/"/g, '&quot;')}" title="Click to open ${atk.source}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 ${atk.source}</span></div>` : '';
       const hasMag = atk.max_charges && atk.max_charges > 0;
       const magHtml = hasMag ? `<div class="magazine-bar" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem">
         <span class="magazine-count" style="font-family:monospace;font-size:0.8rem;color:var(--text-muted)">${atk.current_charges}/${atk.max_charges}</span>

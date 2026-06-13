@@ -3587,7 +3587,8 @@ async def create_character_page(request: Request):
         magical_secrets_levels=MAGICAL_SECRETS_LEVELS, magical_secrets_picks=MAGICAL_SECRETS_PICKS,
         totem_spirit_options=TOTEM_SPIRIT_OPTIONS, totem_spirit_levels=TOTEM_SPIRIT_LEVELS, totem_spirit_tier_labels=TOTEM_SPIRIT_TIER_LABELS,
         hunters_prey_options=HUNTERS_PREY_OPTIONS, hunters_prey_levels=HUNTERS_PREY_LEVELS,
-        infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS)
+        infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
+        source_map_json=json.dumps(_get_source_slug_map()))
 
 @app.post("/api/character/create", response_class=JSONResponse)
 async def api_create_character(request: Request):
