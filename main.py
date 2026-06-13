@@ -3241,7 +3241,13 @@ def _find_weapon(item_name: str) -> dict | None:
                 return generic[kw]
     return None
 
-def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict, prof_bonus: int, qty: int = 1) -> dict:
+def _parse_enhancement(item_name: str) -> int:
+    """Extract +1, +2, +3 enhancement bonus from item name like 'Longsword +1'."""
+    import re
+    m = re.search(r'\+\s*([123])\s*$', str(item_name))
+    return int(m.group(1)) if m else 0
+
+def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict, prof_bonus: int, qty: int = 1, enhancement: int = 0) -> dict:
     """Build an attack entry from weapon data and character stats."""
     damage = weapon_data["damage"]
     dmg_type = weapon_data["type"]
@@ -3261,13 +3267,14 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
         ability = "strength"
 
     ab_mod = (abilities.get(ability, 10) - 10) // 2
-    attack_bonus = ab_mod + prof_bonus
+    attack_bonus = ab_mod + prof_bonus + enhancement
 
     # Damage string
     if damage == "—":
         dmg_str = "Special"
     else:
-        dmg_str = f"{damage} + {ab_mod} {dmg_type}"
+        dmg_mod = ab_mod + enhancement
+        dmg_str = f"{damage} + {dmg_mod} {dmg_type}"
 
     # Range
     range_str = None
@@ -3315,7 +3322,9 @@ def _build_inventory_attacks(character: dict) -> list:
                 continue
             wpn = _find_weapon(name)
             if wpn:
-                atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty)
+                # Parse enhancement from item dict or name
+                enh = item.get("enhancement", 0) if isinstance(item, dict) else _parse_enhancement(name)
+                atk = _build_attack_for_weapon(name, wpn, abilities, prof_bonus, qty, enhancement=enh)
                 # Enrich with charge/magazine data from ITEM_INDEX
                 item_info = _resolve_item_key(key) or {}
                 max_charges = item_info.get("charges")
@@ -14884,10 +14893,31 @@ def compute_item_effects(equipped: list[str], attuned: list[str],
     }
     attuned_set = set(a.lower() for a in attuned)
 
-    for item_name in equipped:
+    # ── Armor/shield keywords for enhancement detection ──
+    _ARMOR_KEYWORDS = [
+        "padded", "leather", "studded", "hide", "chain shirt", "scale mail",
+        "breastplate", "half plate", "ring mail", "chain mail", "splint",
+        "plate", "shield", "armor",
+    ]
+
+    for item in equipped:
+        # Normalize: item may be string or dict
+        if isinstance(item, dict):
+            item_name = item.get("name", "")
+            enhancement = item.get("enhancement", 0)
+        else:
+            item_name = str(item)
+            enhancement = _parse_enhancement(item_name)
+
         key = item_name.lower()
         props = ITEM_PROPERTIES.get(key, {})
         if not props:
+            # Check for armor/shield with enhancement (e.g. "Studded Leather +1")
+            if enhancement:
+                is_armor_item = any(kw in key for kw in _ARMOR_KEYWORDS)
+                if is_armor_item:
+                    result["ac_bonus"] += enhancement
+                    result["notes"].append(f"{item_name}: +{enhancement} enhancement AC")
             continue
 
         # Attunement gating

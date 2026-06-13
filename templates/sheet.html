@@ -148,6 +148,14 @@
 }
 .item-card .item-attune-badge.attuned { color: var(--success); }
 
+.item-card .enh-badge {
+  font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
+  color: var(--accent); font-weight: 700;
+  border-radius: 3px; background: var(--accent2);
+  user-select: none;
+}
+.item-card .enh-badge:hover { background: var(--accent); color: #fff; }
+
 /* Expandable item details */
 .item-card { flex-wrap: wrap; }
 .item-card .item-expand-btn {
@@ -1811,8 +1819,10 @@
           {% for item in character.inventory %}
           {% set item_name = item.name if item.name is defined else item %}
           {% set item_qty = item.qty if item.qty is defined else 1 %}
+          {% set item_enh = item.enhancement|default(0) %}
           <div class="item-card" draggable="true"
                data-item-name="{{ item_name }}"
+               data-enhancement="{{ item_enh }}"
                ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to move">⋮⋮</span>
@@ -1825,6 +1835,8 @@
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            {% set item_enh2 = item.enhancement|default(0) %}
+            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:{{ 'none' if item_enh2 == 0 else '' }}">+{{ item_enh2 }}</span>
             {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
             <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
             <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
@@ -4844,6 +4856,17 @@ function tagWeapons() {
     if (!input || !badge) return;
     const name = input.value.trim();
     const wpnInfo = getWeaponInfo(name);
+    // Show/hide enhancement badge for weapons
+    const enhBadge = card.querySelector('.enh-badge');
+    if (enhBadge) {
+      const enh = parseInt(card.dataset.enhancement || '0');
+      if (wpnInfo && enh > 0) {
+        enhBadge.textContent = '+' + enh;
+        enhBadge.style.display = '';
+      } else if (!wpnInfo && !isArmor(name)) {
+        enhBadge.style.display = 'none';
+      }
+    }
     if (wpnInfo) {
       badge.style.display = 'inline-block';
       // Check proficiency
@@ -4878,6 +4901,33 @@ function isArmor(name) {
 
 function isBodyArmor(name) {
   return isArmor(name) && !name.toLowerCase().includes('shield');
+}
+
+// ── Enhancement bonus cycling (+0 ↔ +1 ↔ +2 ↔ +3) ──
+function isWeaponOrArmor(name) {
+  if (!name) return false;
+  if (isArmor(name)) return true;
+  return !!getWeaponInfo(name);
+}
+
+function cycleEnhancement(badge) {
+  const card = badge.closest('.item-card');
+  let enh = parseInt(card.dataset.enhancement || '0');
+  enh = (enh + 1) % 4;  // 0 → 1 → 2 → 3 → 0
+  card.dataset.enhancement = enh;
+  if (enh > 0) {
+    badge.textContent = '+' + enh;
+    badge.style.display = '';
+  } else {
+    badge.style.display = 'none';
+  }
+  // Auto-save
+  const inEquipped = card.closest('#equipped-list');
+  if (inEquipped) {
+    saveEquippedFromDOM();
+  } else {
+    autoSaveInventory();
+  }
 }
 
 function isShieldItem(name) {
@@ -4918,6 +4968,15 @@ function tagArmor() {
     if (!input || !badge) return;
     if (isArmor(input.value)) {
       badge.style.display = 'inline-block';
+      // Show enhancement badge for armor
+      const enhBadge = card.querySelector('.enh-badge');
+      if (enhBadge) {
+        const enh = parseInt(card.dataset.enhancement || '0');
+        if (enh > 0) {
+          enhBadge.textContent = '+' + enh;
+          enhBadge.style.display = '';
+        }
+      }
       if (!isArmorProficient(input.value) && npBadge) {
         npBadge.style.display = 'inline-block';
         npBadge.textContent = '⚠️ Non-Proficient';
@@ -4970,9 +5029,10 @@ equippedItems = equippedItems.map(eq => {
 const _equippedQtys = {};
 equippedItems.forEach(eq => { _equippedQtys[eq.name] = eq.qty; });
 
-function equipItem(name, qty) {
+function equipItem(name, qty, enhancement) {
   name = name.trim();
   if (!name) return;
+  const enh = enhancement || 0;
 
   // Don't duplicate
   if (equippedItems.some(eq => (typeof eq === 'object' ? eq.name : eq) === name)) return;
@@ -4982,7 +5042,9 @@ function equipItem(name, qty) {
     equippedItems = equippedItems.filter(eq => !isBodyArmor(typeof eq === 'object' ? eq.name : eq));
   }
 
-  equippedItems.push({name, qty: qty || 1});
+  const item = {name, qty: qty || 1};
+  if (enh) item.enhancement = enh;
+  equippedItems.push(item);
   _equippedQtys[name] = qty || 1;
   return saveEquipped();
 }
@@ -4991,13 +5053,14 @@ function equipItem(name, qty) {
 async function quickEquip(name, qty) {
   console.log('quickEquip called:', name, qty);
   try {
-    // 1. Remove from inventory DOM
+    // 1. Read enhancement from inventory card
     const safeName = CSS.escape(name);
     const invCard = document.querySelector(`#inv-list .item-card[data-item-name="${safeName}"]`);
     if (!invCard) {
       console.warn('quickEquip: card not found in inv-list for:', name);
       return;
     }
+    const enhancement = parseInt(invCard.dataset.enhancement || '0');
     invCard.remove();
     console.log('quickEquip: card removed from DOM');
     
@@ -5010,7 +5073,7 @@ async function quickEquip(name, qty) {
       if (isBodyArmor(name)) {
         equippedItems = equippedItems.filter(eq => !isBodyArmor(typeof eq === 'object' ? eq.name : eq));
       }
-      equippedItems.push({name: name, qty: qty || 1});
+      equippedItems.push({name: name, qty: qty || 1, enhancement: enhancement || 0});
     }
     _equippedQtys[name] = qty || 1;
     await saveEquipped();
@@ -5024,14 +5087,17 @@ async function quickEquip(name, qty) {
 async function quickUnequip(name, qty) {
   console.log('quickUnequip called:', name, qty);
   try {
-    // 1. Remove from equipped array and save
+    // 1. Read enhancement before removing
+    const eqItem = equippedItems.find(eq => (typeof eq === 'object' ? eq.name : eq) === name);
+    const enhancement = (typeof eqItem === 'object' ? eqItem.enhancement : 0) || 0;
+    // Remove from equipped array and save
     equippedItems = equippedItems.filter(eq => (typeof eq === 'object' ? eq.name : eq) !== name);
     delete _equippedQtys[name];
     await saveEquipped();
     console.log('quickUnequip: equipped saved');
     
     // 2. Add to inventory DOM and save
-    addInventoryCard(name, qty || 1);
+    addInventoryCard(name, qty || 1, enhancement);
     await _flushInventory();
     console.log('quickUnequip: inventory saved');
   } catch(e) {
@@ -5043,6 +5109,25 @@ function unequipItem(name) {
   equippedItems = equippedItems.filter(eq => (typeof eq === 'object' ? eq.name : eq) !== name);
   delete _equippedQtys[name];
   return saveEquipped();
+}
+
+async function saveEquippedFromDOM() {
+  // Rebuild equippedItems from DOM cards (preserves enhancement data attributes)
+  const items = [];
+  document.querySelectorAll('#equipped-list .item-card').forEach(card => {
+    const nameEl = card.querySelector('.item-card-name');
+    const name = (nameEl?.textContent || '').trim();
+    if (!name) return;
+    const qtyBadge = card.querySelector('.item-qty');
+    const qty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
+    const enhancement = parseInt(card.dataset.enhancement || '0');
+    items.push({ name, qty, enhancement });
+  });
+  equippedItems = items;
+  // Update qty lookup
+  Object.keys(_equippedQtys).forEach(k => delete _equippedQtys[k]);
+  items.forEach(eq => { _equippedQtys[eq.name] = eq.qty; });
+  await saveEquipped();
 }
 
 async function saveEquipped() {
@@ -5278,6 +5363,7 @@ function renderEquipped() {
   list.innerHTML = equippedItems.map(eq => {
     const item = typeof eq === 'object' ? eq.name : eq;
     const eqQty = typeof eq === 'object' ? (eq.qty || 1) : 1;
+    const enhancement = typeof eq === 'object' ? (eq.enhancement || 0) : 0;
     const needsAttune = ITEM_NEEDS_ATTUNEMENT[item];
     const isAttuned = ATTUNED_ITEMS.includes(item);
     let attuneHtml = '';
@@ -5289,8 +5375,12 @@ function renderEquipped() {
       }
     }
     const qtyBadge = eqQty > 1 ? `<span class="item-qty" style="cursor:default">${eqQty}</span>` : '';
+    const enhBadge = isWeaponOrArmor(item)
+      ? `<span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:${enhancement > 0 ? '' : 'none'}">+${enhancement}</span>`
+      : '';
     return `<div class="item-card equipped-card" draggable="true"
       data-item-name="${item.replace(/"/g, '&quot;')}"
+      data-enhancement="${enhancement}"
       ondragstart="handleDragStart(event, '${item.replace(/'/g, "\\'")}', 'equipped', ${eqQty})"
       ondragend="handleDragEnd(event)">
       <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
@@ -5298,6 +5388,7 @@ function renderEquipped() {
       <span class="item-card-name" style="cursor:default">${item}</span>
       ${qtyBadge}
       ${attuneHtml}
+      ${enhBadge}
       <button class="item-card-btn" onclick="quickUnequip('${item.replace(/'/g, "\\'")}', ${eqQty})" title="Unequip">⬇️</button>
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
@@ -5348,14 +5439,17 @@ async function handleDrop(e, targetZone) {
   if (source === 'inventory' && targetZone === 'equipped') {
     // Move card from inventory to equipped: remove from DOM, save inventory, then equip
     const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
+    const enhancement = card ? parseInt(card.dataset.enhancement || '0') : 0;
     if (card) card.remove();
     await _flushInventory();
-    await equipItem(name, qty);
+    await equipItem(name, qty, enhancement);
   } else if (source === 'equipped' && targetZone === 'inventory') {
     // Move from equipped to inventory: unequip first, then add card + save
     const eqQty = _equippedQtys[name] || 1;
+    const eqCard = document.querySelector(`#equipped-list .item-card[data-item-name="${CSS.escape(name)}"]`);
+    const eqEnhancement = eqCard ? parseInt(eqCard.dataset.enhancement || '0') : 0;
     await unequipItem(name);
-    addInventoryCard(name, eqQty);
+    addInventoryCard(name, eqQty, eqEnhancement);
     await _flushInventory();
   } else if (source === 'inventory' && targetZone === 'team') {
     await shareToTeam(name, qty);
@@ -5368,7 +5462,7 @@ async function handleDrop(e, targetZone) {
 }
 
 // ── Add a card to the inventory DOM ──
-function addInventoryCard(name, qty) {
+function addInventoryCard(name, qty, enhancement) {
   const list = document.getElementById('inv-list');
   if (!list) return;
   const emptyEl = document.getElementById('inv-empty');
@@ -5382,6 +5476,7 @@ function addInventoryCard(name, qty) {
   card.className = 'item-card';
   card.draggable = true;
   card.setAttribute('data-item-name', safeName);
+  card.dataset.enhancement = String(enhancement || 0);
   card.setAttribute('ondragstart', `handleDragStart(event, '${safeNameAttr}', 'inventory', ${qty})`);
   card.setAttribute('ondragend', 'handleDragEnd(event)');
   card.innerHTML = `<span class="drag-handle" title="Drag to equip">⋮⋮</span>
@@ -5394,6 +5489,7 @@ function addInventoryCard(name, qty) {
     <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
     <span class="wpn-badge item-tag" style="display:none">⚔️</span>
     <span class="arm-badge item-tag" style="display:none">🛡️</span>
+    <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:none">+1</span>
     ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, ${qty})" title="Share to team">↗</button>` : ''}
     <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, ${qty})" title="Equip">⬆️</button>
     <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
@@ -5431,7 +5527,8 @@ async function _flushInventory() {
     const name = (nameEl?.value || nameEl?.textContent || '').trim();
     if (!name) return;
     const qty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
-    items.push({ name, qty });
+    const enhancement = parseInt(card.dataset.enhancement || '0');
+    items.push(enhancement > 0 ? { name, qty, enhancement } : { name, qty });
   });
   document.querySelectorAll('#inv-list .item-card').forEach(card => {
     const nameEl = card.querySelector('.item-card-name');
@@ -5457,6 +5554,7 @@ function addInventoryItem() {
   card.className = 'item-card';
   card.draggable = true;
   card.setAttribute('data-item-name', '');
+  card.dataset.enhancement = '0';
   card.setAttribute('ondragstart', "handleDragStart(event, this.querySelector('.item-card-name').value, 'inventory', 1)");
   card.setAttribute('ondragend', 'handleDragEnd(event)');
   card.innerHTML = `<span class="drag-handle" title="Drag to move">⋮⋮</span>
@@ -5468,6 +5566,7 @@ function addInventoryItem() {
     <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
     <span class="wpn-badge item-tag" style="display:none">⚔️</span>
     <span class="arm-badge item-tag" style="display:none">🛡️</span>
+    <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)" style="display:none">+1</span>
     <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Equip">⬆️</button>
     ${CAMPAIGN_ID ? `<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, 1)" title="Share to team">↗</button>` : ''}
     <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
