@@ -4079,63 +4079,80 @@ def _xp_for_cr(cr) -> int:
         return 0
 
 
+def _encounter_mult(count):
+    """DMG p.83 encounter multiplier based on monster count."""
+    if count == 1: return 1.0
+    elif count == 2: return 1.5
+    elif count <= 6: return 2.0
+    elif count <= 10: return 2.5
+    elif count <= 14: return 3.0
+    return 4.0
+
+
 def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     """Assign monster counts to hit XP budget, accounting for DMG p.83 multiplier.
-    AI picks which monsters; this function does the math the AI can't do.
-    Capped at MAX_CREATURES total monsters (default 10)."""
-    MAX_CREATURES = 10
+    AI picks which monsters; this function does the math.
+    Aggressively fills to ≥85% of adjusted XP budget.
+    Capped at MAX_CREATURES total (default 12).
+    Returns (composition, raw_xp)."""
+    MAX_CREATURES = 12  # raised from 10
     if not picks:
         return [], 0
-
-    def _mult(count):
-        if count == 1: return 1.0
-        elif count == 2: return 1.5
-        elif count <= 6: return 2.0
-        elif count <= 10: return 2.5
-        elif count <= 14: return 3.0
-        return 4.0
 
     def _total():
         return sum(c["count"] for c in composition)
 
-    # Sort by CR descending
     role_order = {"boss": 0, "elite": 1, "minion": 2, "faction_a": 0, "faction_b": 0}
     sorted_picks = sorted(picks, key=lambda p: (role_order.get(p.get("role", "minion"), 2), -p["cr"]))
 
     composition = []
     raw_xp = 0
 
-    # Swarm: no boss, fill with 4x multiplier
+    # Swarm: compute exact counts upfront to fill budget
     if encounter_type == "swarm":
-        target_raw = xp_budget / 4.0  # assume many creatures
-        ri = 0
-        while raw_xp < target_raw * 0.9 and ri < 40 and _total() < MAX_CREATURES:
-            m = sorted_picks[ri % len(sorted_picks)]
-            if m["xp"] <= target_raw - raw_xp or ri < 10:
-                existing = next((c for c in composition if c["index"] == m["index"]), None)
-                if existing:
-                    existing["count"] += 1
-                else:
-                    composition.append({**m, "count": 1})
-                raw_xp += m["xp"]
-            ri += 1
+        # For swarm, use ONE creature type repeated to hit budget
+        # Try each pick, compute how many needed for ~95% budget
+        best = None
+        best_score = float('inf')
+        best_count = 0
+        for m in sorted_picks:
+            xp_each = m["xp"]
+            if xp_each <= 0:
+                continue
+            for count in range(3, MAX_CREATURES + 1):
+                raw = xp_each * count
+                mult = _encounter_mult(count)
+                adj = raw * mult
+                score = abs(adj - xp_budget)
+                if score < best_score:
+                    best_score = score
+                    best = m
+                    best_count = count
+        if best:
+            composition.append({**best, "count": best_count})
+            raw_xp = best["xp"] * best_count
         return composition, raw_xp
 
-    # Solo lair: boss only + maybe 1-2 guards
+    # Solo lair: boss only + guards if needed
     if encounter_type == "solo_lair":
         boss = sorted_picks[0]
         composition.append({**boss, "count": 1})
         raw_xp += boss["xp"]
-        mult = _mult(1)
-        if raw_xp * mult < xp_budget * 0.6 and len(sorted_picks) > 1 and _total() < MAX_CREATURES:
-            # Add a couple lair guards (respect cap)
+        # Add guards if undershooting budget
+        if raw_xp < xp_budget * 0.65 and len(sorted_picks) > 1 and _total() < MAX_CREATURES:
             guard = sorted_picks[1]
-            guard_count = min(2, MAX_CREATURES - _total())
+            # Fill remaining budget with guards
+            remaining_adj = xp_budget - raw_xp  # no mult for solo
+            guard_xp_each = guard["xp"]
+            guard_count = max(1, min(int(remaining_adj / guard_xp_each), MAX_CREATURES - _total()))
             composition.append({**guard, "count": guard_count})
             raw_xp += guard["xp"] * guard_count
         return composition, raw_xp
 
-    # Default: boss + elites + minions (skirmish, ambush, social)
+    # Default: boss + elites + minions (skirmish, ambush, social, rival)
+    # Target raw XP: divide budget by 2.0 (3-6 creatures)
+    target_raw = xp_budget / 2.0
+
     boss = sorted_picks[0]
     composition.append({**boss, "count": 1})
     raw_xp += boss["xp"]
@@ -4143,50 +4160,92 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     rest = sorted_picks[1:] if len(sorted_picks) > 1 else []
 
     if rest:
-        # Target raw XP: divide budget by expected multiplier (boss + minions ≈ 3-6 total → ×2.0)
-        target_raw = xp_budget / 2.0
         remaining_raw = target_raw - raw_xp
 
-        # Elites: 1-2 each
+        # Elites: allocate up to 50% of remaining each (was 35%)
         elites = [m for m in rest if m.get("role") == "elite"]
         for m in elites:
             if remaining_raw <= 0 or _total() >= MAX_CREATURES:
                 break
-            c = max(1, min(2, int(remaining_raw * 0.35 / m["xp"]), MAX_CREATURES - _total()))
+            share = 0.5 if len(elites) <= 2 else (0.4 / len(elites))
+            c = max(1, min(3, int(remaining_raw * share / max(m["xp"], 1)), MAX_CREATURES - _total()))
             composition.append({**m, "count": c})
             raw_xp += m["xp"] * c
             remaining_raw = target_raw - raw_xp
 
-        # Minions: fill remaining budget, round-robin
+        # Minions: aggressive round-robin fill
         minions = [m for m in rest if m.get("role") != "elite"] or rest
-        ri = 0
-        while remaining_raw > 0 and ri < 30 and _total() < MAX_CREATURES:
-            m = minions[ri % len(minions)]
-            if m["xp"] <= remaining_raw:
-                existing = next((c for c in composition if c["index"] == m["index"]), None)
-                if existing:
-                    existing["count"] += 1
-                else:
-                    composition.append({**m, "count": 1})
-                raw_xp += m["xp"]
-                remaining_raw = target_raw - raw_xp
-            ri += 1
+        if minions:
+            ri = 0
+            while remaining_raw > 0 and ri < 50 and _total() < MAX_CREATURES:
+                m = minions[ri % len(minions)]
+                # Allow slight overshoot on last minion
+                if m["xp"] <= remaining_raw * 1.3 or raw_xp < target_raw * 0.4:
+                    existing = next((c for c in composition if c["index"] == m["index"]), None)
+                    if existing:
+                        existing["count"] += 1
+                    else:
+                        composition.append({**m, "count": 1})
+                    raw_xp += m["xp"]
+                    remaining_raw = target_raw - raw_xp
+                ri += 1
 
-    # Final adjustment: if well under budget, pad with cheapest monster (respect cap)
+    # Multi-pass padding: if under 80% budget, add more of cheapest creature
     total_count = _total()
-    mult = _mult(total_count)
+    mult = _encounter_mult(total_count)
     adjusted = int(raw_xp * mult)
-    if adjusted < xp_budget * 0.65 and rest and total_count < MAX_CREATURES:
-        cheapest = min(rest, key=lambda m: m["xp"])
-        needed_raw = int((xp_budget * 0.85 / mult) - raw_xp)
-        extra = max(1, needed_raw // max(cheapest["xp"], 1))
+    budget_pct = adjusted / xp_budget if xp_budget > 0 else 0
+
+    for _pass in range(3):  # up to 3 padding passes
+        if budget_pct >= 0.85 or total_count >= MAX_CREATURES:
+            break
+        if not rest and not composition:
+            break
+        # Find cheapest available creature
+        pad_pool = [c for c in composition] + (rest if rest else [])
+        if not pad_pool:
+            break
+        cheapest = min(pad_pool, key=lambda m: m["xp"])
+        # How many more can we add?
+        raw_needed = int((xp_budget * 0.90 / max(_encounter_mult(_total() + 1), 1)) - raw_xp)
+        extra = max(1, raw_needed // max(cheapest["xp"], 1))
         extra = min(extra, MAX_CREATURES - total_count)
+        if extra <= 0:
+            break
         existing = next((c for c in composition if c["index"] == cheapest["index"]), None)
         if existing:
             existing["count"] += extra
         else:
             composition.append({**cheapest, "count": extra})
         raw_xp += cheapest["xp"] * extra
+        total_count = _total()
+        mult = _encounter_mult(total_count)
+        adjusted = int(raw_xp * mult)
+        budget_pct = adjusted / xp_budget if xp_budget > 0 else 0
+
+    # Trim if overshooting budget (>110%)
+    if xp_budget > 0 and adjusted > xp_budget * 1.10:
+        # Remove cheapest creatures one at a time until within 110%
+        for _ in range(50):
+            if not composition:
+                break
+            total_count = _total()
+            mult = _encounter_mult(total_count - 1) if total_count > 1 else 1.0
+            # Find entry with most duplicates to trim
+            cheapest = min(composition, key=lambda c: c["xp"])
+            if cheapest["count"] > 1:
+                cheapest["count"] -= 1
+                raw_xp -= cheapest["xp"]
+                if cheapest["count"] == 0:
+                    composition.remove(cheapest)
+            else:
+                raw_xp -= cheapest["xp"]
+                composition.remove(cheapest)
+            total_count = _total()
+            mult = _encounter_mult(total_count)
+            adjusted = int(raw_xp * mult)
+            if adjusted <= xp_budget * 1.10:
+                break
 
     return composition, raw_xp
 
@@ -5243,6 +5302,7 @@ async def dm_ai_build_encounter(request: Request):
     campaign_id = data.get('campaign_id', '')
 
     # Determine effective CR range for filtering
+    encounter_type = data.get('encounter_type', 'skirmish')
     if target_cr_raw:
         try:
             if '/' in target_cr_raw:
@@ -5284,7 +5344,10 @@ async def dm_ai_build_encounter(request: Request):
     all_monsters = _load_monster_cache()
 
     # CR range for filtering (computed once, not per-monster)
-    if target_cr is not None:
+    if encounter_type == "swarm":
+        max_cr = party_level
+        min_cr = 0.125
+    elif target_cr is not None:
         max_cr = target_cr + 3
         min_cr = max(0, target_cr - 2)
     else:
@@ -5531,7 +5594,6 @@ async def dm_ai_build_encounter(request: Request):
         )
 
     # Boss rotation: track recently used bosses for this campaign
-    encounter_type = data.get('encounter_type', 'skirmish')
     boss_rotation_context = ""
     if campaign_id:
         try:
@@ -5555,6 +5617,105 @@ async def dm_ai_build_encounter(request: Request):
                 boss_rotation_context += "Choose DIFFERENT monsters than those listed above. Be creative.\n"
         except:
             pass
+
+    # ── Budget guidance: compute target raw XP and per-role budgets ──
+    # DMG p.83 multiplier depends on expected monster count
+    if encounter_type == "swarm":
+        expected_mult = 2.5  # DMG p.83: 7-10 creatures
+        expected_count_hint = "10 creatures"
+        target_raw = xp_budget / expected_mult if xp_budget > 0 else 500
+        minion_budget = int(target_raw / 10)  # per-creature budget
+        boss_budget = 0
+        elite_budget = 0
+    elif encounter_type == "solo_lair":
+        expected_mult = 1.0
+        expected_count_hint = "1-3 creatures"
+        boss_budget = int(xp_budget / expected_mult * 0.85) if xp_budget > 0 else 500
+        elite_budget = 0
+        minion_budget = int(xp_budget / expected_mult * 0.15) if xp_budget > 0 else 50
+    else:
+        expected_mult = 2.0  # skirmish, ambush, social: target 3-6
+        expected_count_hint = "3-6 creatures"
+        boss_budget = int(xp_budget / expected_mult * 0.45) if xp_budget > 0 else 500
+        elite_budget = int(xp_budget / expected_mult * 0.25) if xp_budget > 0 else 200
+        minion_budget = int(xp_budget / expected_mult * 0.12) if xp_budget > 0 else 50
+
+    target_raw = xp_budget / expected_mult if xp_budget > 0 else 500
+
+    def _fit_label(xp_val, budget_target):
+        """Label how well a monster's XP fits a role budget."""
+        if budget_target <= 0:
+            return ""
+        ratio = xp_val / budget_target
+        if 0.5 <= ratio <= 1.4:
+            return "PERFECT"
+        elif 0.2 <= ratio < 0.5:
+            return "CHEAP"
+        elif ratio < 0.2:
+            return "VERY CHEAP"
+        elif 1.4 < ratio <= 2.2:
+            return "PRICEY"
+        else:
+            return "TOO EXPENSIVE"
+
+    # Categorize candidates by role budget fit
+    boss_pool = []
+    elite_pool = []
+    minion_pool = []
+
+    for c in candidates:
+        xp = c["xp"]
+        cr = c["cr"]
+        # Exclude CR 0 creatures (bats, crabs, etc.) — they're not combat threats
+        is_trivial = (cr == 0 and xp <= 10)
+        if encounter_type == "swarm":
+            if not is_trivial and xp <= minion_budget * 3:
+                minion_pool.append(c)
+        elif encounter_type == "solo_lair":
+            if cr >= party_level - 1:
+                boss_pool.append(c)
+            if not is_trivial and xp <= minion_budget * 3:
+                minion_pool.append(c)
+        else:
+            if boss_budget > 0 and xp >= boss_budget * 0.3:
+                boss_pool.append(c)
+            if elite_budget > 0 and xp >= elite_budget * 0.2 and xp <= elite_budget * 2.5:
+                elite_pool.append(c)
+            if minion_budget > 0 and not is_trivial and xp <= minion_budget * 3:
+                minion_pool.append(c)
+
+    boss_pool.sort(key=lambda c: abs(c["xp"] - boss_budget) if boss_budget > 0 else c["xp"])
+    elite_pool.sort(key=lambda c: abs(c["xp"] - elite_budget) if elite_budget > 0 else c["xp"])
+    minion_pool.sort(key=lambda c: c["xp"])
+
+    # Build role-labeled candidate lists for the prompt
+    def _fmt_cr(cr_val):
+        """Format CR value for display: 0.125 → 1/8, 0.25 → 1/4, etc."""
+        if cr_val == 0.125: return "1/8"
+        if cr_val == 0.25: return "1/4"
+        if cr_val == 0.5: return "1/2"
+        if cr_val == int(cr_val): return str(int(cr_val))
+        return str(cr_val)
+
+    def _cand_line(c, budget_target):
+        label = _fit_label(c["xp"], budget_target) if budget_target > 0 else ""
+        return f"  {c['name']} | CR {_fmt_cr(c['cr'])} | {c['xp']} XP | {c['type']} | AC{c['ac']} HP{c['hp']} | {label}"
+
+    boss_lines = "\n".join(_cand_line(c, boss_budget) for c in boss_pool[:15]) if boss_pool else "  (none available)"
+    elite_lines = "\n".join(_cand_line(c, elite_budget) for c in elite_pool[:15]) if elite_pool else "  (none available)"
+    minion_lines = "\n".join(_cand_line(c, minion_budget) for c in minion_pool[:18]) if minion_pool else "  (none available)"
+
+    # Build budget guidance lines
+    budget_lines = [f"BUDGET: {xp_budget} adjusted XP (DMG p.82 {difficulty} threshold)",
+                    f"  Target raw XP: ~{int(target_raw)} (×{expected_mult} for {expected_count_hint})",
+                    f"  Fill to ≥85% of budget — do NOT leave XP unused."]
+    if boss_budget:
+        budget_lines.append(f"  Boss target: ~{boss_budget} XP")
+    if elite_budget:
+        budget_lines.append(f"  Elite target: ~{elite_budget} XP each")
+    if minion_budget:
+        budget_lines.append(f"  Minion target: ≤{minion_budget} XP each" if encounter_type != "swarm" else f"  Per creature target: ~{minion_budget} XP (×10 to fill)")
+    budget_section = "\n".join(budget_lines)
 
     # Archetype-specific prompt templates
     archetype_guides = {
@@ -5602,17 +5763,26 @@ async def dm_ai_build_encounter(request: Request):
     }
     guide = archetype_guides.get(encounter_type, archetype_guides["skirmish"]).replace("{environment}", environment)
 
-    # AI picks monsters and roles; algorithm assigns counts to hit budget (LLMs are bad at math)
+    # Build role-labeled candidate section
+    role_section = ""
+    if encounter_type != "swarm" and boss_pool:
+        role_section += f"\nBOSS CANDIDATES (target ~{boss_budget} XP):\n{boss_lines}\n"
+    if encounter_type not in ("swarm", "solo_lair") and elite_pool:
+        role_section += f"\nELITE CANDIDATES (target ~{elite_budget} XP each):\n{elite_lines}\n"
+    if minion_pool:
+        role_section += f"\nMINION CANDIDATES (≤{minion_budget} XP each):\n{minion_lines}\n"
+
+    # AI picks monsters and roles; algorithm assigns counts to hit budget
     ai_prompt = f"""Design a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info}.
 Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
 Encounter type: {encounter_type}
-XP budget: ~{xp_budget} adjusted XP.{party_section}{boss_rotation_context}
+{budget_section}{party_section}{boss_rotation_context}
 {guide}
 
-DO NOT guess counts — the system calculates those. Just pick the right monsters.
+Pick monsters that stay within the per-role budget targets above.
+DO NOT guess counts — the system calculates those to fill the budget.
 
-Available candidates:
-{candidates}
+{role_section}
 
 Return ONLY valid JSON (no markdown). Vary choices each time:
 {{"name": "encounter name", "description": "1-2 sentence setup vignette",
@@ -5630,14 +5800,36 @@ Return ONLY valid JSON (no markdown). Vary choices each time:
     # Resolve AI picks into candidate objects
     picks = []
     if ai:
-        # Support both new "picks" format and old "composition" format
         raw_entries = ai.get("picks") or ai.get("composition") or []
         for entry in raw_entries:
             idx = entry.get("index", "").lower()
             role = entry.get("role", "minion").lower()
+            if encounter_type == "swarm":
+                role = "minion"
             m = next((c for c in candidates if c["index"].lower() == idx), None)
             if m:
                 picks.append({**m, "role": role})
+
+    # Swarm: override AI picks with algorithmic selection
+    # AI is bad at picking budget-appropriate creatures for swarms
+    if encounter_type == "swarm":
+        if minion_pool:
+            # Find the best creature that fills budget with 8-12 of them
+            best = None
+            best_score = float('inf')
+            for m in minion_pool:
+                for count in range(8, 13):
+                    raw = m["xp"] * count
+                    adj = raw * _encounter_mult(count)
+                    score = abs(adj - xp_budget)
+                    if score < best_score:
+                        best_score = score
+                        best = (m, count)
+            if best:
+                m, count = best
+                picks = [{**m, "role": "minion"}]
+        else:
+            print(f"[AI Encounter] Swarm override SKIPPED: minion_pool is EMPTY (candidates={len(candidates)})")
 
     # Algorithmic count assignment — AI doesn't do math
     composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type) if picks else ([], 0)
