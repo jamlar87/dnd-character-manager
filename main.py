@@ -7235,7 +7235,8 @@ async def character_sheet(char_id: int, request: Request):
                    racial_traits=_build_racial_traits(char),
                    draconic_ancestries=DRACONIC_ANCESTRIES,
                    maneuver_options=MANEUVER_OPTIONS,
-                   metamagic_options=METAMAGIC_OPTIONS)
+                   metamagic_options=METAMAGIC_OPTIONS,
+                   known_feats=KNOWN_FEATS)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -13301,6 +13302,43 @@ for cd_key, cd_desc in CHANNEL_DIVINITY_DESCRIPTIONS.items():
 
 # Call manual data loader after all data structures are defined
 load_manual_data()
+
+# ── Known feats list for ASI picker dropdown ──────────────────────────
+# Auto-generated from FEATS dict after manual data merge — filters out
+# Eldritch Invocations and ALL-CAPS duplicates. No manual maintenance.
+_INVOCATION_NAMES: set[str] = {
+    "Agonizing Blast", "Armor of Shadows", "Ascendant Step", "Beast Speech",
+    "Beguiling Influence", "Bewitching Whispers", "Book of Ancient Secrets",
+    "Chains of Carceri", "Devil's Sight", "Dreadful Word", "Eldritch Sight",
+    "Eldritch Spear", "Eyes of the Rune Keeper", "Fiendish Vigor",
+    "Gaze of Two Minds", "Lifedrinker", "Mask of Many Faces",
+    "Master of Myriad Forms", "Minions of Chaos", "Mire the Mind",
+    "Misty Visions", "One with Shadows", "Otherworldly Leap", "Repelling Blast",
+    "Sculptor of Flesh", "Sign of Ill Omen", "Thief of Five Fates",
+    "Thirsting Blade", "Visions of Distant Realms", "Voice of the Chain Master",
+    "Whispers of the Grave", "Witch Sight",
+}
+def _build_known_feats() -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    title_names = {f["name"].lower(): f["name"] for f in FEATS.values()}
+    for f in FEATS.values():
+        name = f["name"]
+        if not name or name in _INVOCATION_NAMES:
+            continue
+        # Skip ALL-CAPS names that aren't proper title case
+        # (OCR-garbled imports like "ATTACKER" for "Savage Attacker",
+        #  or "MOBILE" when "Mobile" already exists as a key)
+        if name.isupper():
+            title_version = name.title()
+            if title_version in title_names or title_version.lower() in title_names:
+                continue
+        if name.lower() not in seen:
+            seen.add(name.lower())
+            result.append(name)
+    result.sort()
+    return result
+KNOWN_FEATS: list[str] = _build_known_feats()
 
 # ── Merge manual equipment into ITEM_INDEX ──
 # SRD equipment is a subset of PHB equipment. Manual data fills in missing
