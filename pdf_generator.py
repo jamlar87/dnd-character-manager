@@ -268,8 +268,87 @@ def _build_page1_features_text(d):
     return "\n".join(lines)
 
 
+def _extract_mechanical_summary(desc, max_chars=150):
+    """Extract the most mechanically-relevant sentence from a description.
+    Scores sentences by: dice (NdN, dN) > DC/AC > choose/select > numbers."""
+    if not desc:
+        return ""
+    # Split into sentences
+    sentences = []
+    current = ""
+    for ch in desc:
+        current += ch
+        if ch in ".!?" and len(current) > 20:
+            sentences.append(current.strip())
+            current = ""
+    if current.strip():
+        sentences.append(current.strip())
+    if not sentences:
+        return desc[:max_chars]
+
+    import re
+    def score(s):
+        s_lower = s.lower()
+        points = 0
+        # Dice expressions: 1d6, 2d8, d20, 1d10+Lvl, etc.
+        if re.search(r'\b\d*d\d+\b', s):
+            points += 10
+        # DC / save references
+        if re.search(r'\bDC\b', s) or 'save dc' in s_lower or 'saving throw' in s_lower:
+            points += 8
+        # AC references
+        if re.search(r'\bAC\b', s) or 'armor class' in s_lower:
+            points += 7
+        # HP, healing, damage — strong mechanical
+        if any(w in s_lower for w in ('hit points', 'hit point', 'damage', 'heal', 'regain')):
+            points += 6
+        # Math expressions: "2 + spell level", "equal to your", etc.
+        if re.search(r'\d+\s*[\+\-\*]\s*', s):
+            points += 5
+        # Selection / choices
+        if any(w in s_lower for w in ('choose', 'select', 'pick one', 'your choice')):
+            points += 5
+        # Numerical ranges with units
+        if re.search(r'\b\d+[-\s]*(ft|feet|minutes?|hours?|rounds?|level)', s_lower):
+            points += 3
+        # "you can" — active ability, better than pure flavor
+        if 'you can' in s_lower:
+            points += 1
+        # Bonus for having any number at all
+        if re.search(r'\b\d+\b', s):
+            points += 1
+        # Penalize pure flavor openers
+        if s_lower.startswith(('beginning at', 'starting at', 'during your', 'you know how', 'also starting')):
+            points -= 3
+        return points
+
+    scored = [(score(s), s) for s in sentences]
+    # Sort by score desc, then by length desc (prefer meatier sentences at same score)
+    scored.sort(key=lambda x: (-x[0], -len(x[1])))
+
+    # Take the best sentence, cap at max_chars
+    best = scored[0][1]
+    if len(best) > max_chars:
+        best = best[:max_chars]
+        # Try to break at last period
+        last_period = max(best.rfind("."), best.rfind("…"))
+        if last_period > 40:
+            best = best[:last_period + 1]
+    return best
+
+
 def _build_short_features_text(d):
-    """Feature name + first sentence of description (~120 chars)."""
+    """Feature name + best mechanical sentence + usage hint."""
+    # Usage hints for dice/pools (same as condensed_features)
+    usage_hints = {
+        "divine sense": "1+CHA/day", "lay on hands": "%d HP pool" % (d.get('level', 1) * 5),
+        "channel divinity": "1/rest", "second wind": "1d10+Lvl", "action surge": "1/rest",
+        "rage": "%d/day" % (2 + (d.get('level', 1) - 1) // 4),
+        "bardic inspiration": "%d/day" % d.get('cha_mod', 0), "wild shape": "2/rest",
+        "ki": "%d pts" % d.get('level', 1),
+        "sneak attack": "%dd6" % ((d.get('level', 1) + 1) // 2),
+        "divine smite": "spell slots",
+    }
     lines = []
     feature_data = d.get("feature_data", []) or []
     for fd in feature_data:
@@ -277,15 +356,18 @@ def _build_short_features_text(d):
         desc = fd.get("description", "")
         if not name:
             continue
+        # Look up usage hint
+        key = name.lower()
+        hint = ""
+        for k, v in usage_hints.items():
+            if k in key:
+                hint = " [%s]" % v
+                break
         if desc:
-            # First ~120 chars, break at sentence boundary
-            short = desc[:120]
-            last_period = max(short.rfind("."), short.rfind("…"))
-            if last_period > 40:
-                short = short[:last_period + 1]
-            lines.append(f"{name}: {short}")
+            summary = _extract_mechanical_summary(desc)
+            lines.append("%s%s: %s" % (name, hint, summary))
         else:
-            lines.append(name)
+            lines.append(name + hint)
         lines.append("")
     return "\n".join(lines)
 
