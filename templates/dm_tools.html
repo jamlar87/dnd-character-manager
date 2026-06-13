@@ -811,7 +811,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
       <div style="display:flex;gap:0.5rem;margin-top:1rem">
         <button type="submit" class="btn btn-primary">💾 Save Trap</button>
         <button type="button" class="btn btn-outline" onclick="closeModal('trapModal')">Cancel</button>
+        <span style="flex:1"></span>
+        <button type="button" class="btn btn-accent btn-sm" onclick="generateAiTrap()" id="btnAiTrap" style="flex-shrink:0">🤖 AI Generate</button>
       </div>
+      <div id="aiTrapStatus" style="display:none;margin-top:0.5rem;font-size:0.75rem;color:var(--accent);text-align:right">Generating...</div>
     </form>
   </div>
 </div>
@@ -2261,6 +2264,60 @@ async function deleteTrap(id) {
     if (!d.ok) return alert(d.error || 'Failed');
     location.reload();
   } catch(e) { alert('Failed to delete trap.'); }
+}
+
+// ── AI Trap Generation ──
+async function generateAiTrap() {
+  const btn = document.getElementById('btnAiTrap');
+  const status = document.getElementById('aiTrapStatus');
+  btn.disabled = true;
+  status.style.display = 'block';
+  status.textContent = '🤖 Generating trap...';
+
+  try {
+    const data = {
+      danger: document.getElementById('trapDanger').value,
+      type: document.getElementById('trapType').value,
+      theme: (document.getElementById('trapName').value || document.getElementById('trapDesc').value || '').trim(),
+      location: document.getElementById('trapArea').value.trim(),
+    };
+    // Use party level info if available from combat campaign
+    if (typeof _campaignPlayers !== 'undefined' && _campaignPlayers.length > 0) {
+      const avgLevel = Math.round(_campaignPlayers.reduce((s, p) => s + (p.level || 1), 0) / _campaignPlayers.length);
+      data.party_level = String(avgLevel);
+    }
+
+    const r = await fetch('/api/dm/ai/build-trap', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const t = await r.json();
+
+    // Populate form fields with AI-generated content
+    if (t.name) document.getElementById('trapName').value = t.name;
+    if (t.trigger) document.getElementById('trapTrigger').value = t.trigger;
+    if (t.detection_dc) document.getElementById('trapDetectDc').value = t.detection_dc;
+    if (t.detection_skill) document.getElementById('trapDetectSkill').value = t.detection_skill;
+    if (t.detection_detail) document.getElementById('trapDetectDetail').value = t.detection_detail;
+    if (t.disarm_dc) document.getElementById('trapDisarmDc').value = t.disarm_dc;
+    if (t.disarm_method) document.getElementById('trapDisarmMethod').value = t.disarm_method;
+    if (t.disarm_detail) document.getElementById('trapDisarmDetail').value = t.disarm_detail;
+    if (t.effect) document.getElementById('trapEffect').value = t.effect;
+    if (t.save_dc) document.getElementById('trapSaveDc').value = t.save_dc;
+    if (t.save_ability) document.getElementById('trapSaveAbility').value = t.save_ability;
+    if (t.damage) document.getElementById('trapDamage').value = t.damage;
+    if (t.damage_type) document.getElementById('trapDamageType').value = t.damage_type;
+    if (t.area) document.getElementById('trapArea').value = t.area;
+    if (t.description) document.getElementById('trapDesc').value = t.description;
+
+    status.textContent = '✅ Trap generated! Review and Save.';
+    status.style.color = 'var(--success)';
+  } catch(e) {
+    status.textContent = '❌ Generation failed. Try again or fill manually.';
+    status.style.color = 'var(--danger)';
+  }
+  btn.disabled = false;
+  setTimeout(() => { status.style.display = 'none'; status.style.color = 'var(--accent)'; }, 4000);
 }
 
 // ── Campaigns ──
