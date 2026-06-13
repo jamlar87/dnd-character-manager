@@ -295,6 +295,8 @@ def load_manual_data():
                     break
             if src.startswith("p.") or src.startswith("p "):
                 RACES[name]["source"] = f"{book_title} {src}"
+            elif "p." in src or "p " in src:
+                pass  # already has a page reference, keep as-is (e.g., "PHB p.24")
             elif "Unknown" in src or not src or len(src) < 12:
                 # Short/garbled sources (SGtS, Part 1, etc.) — replace entirely
                 RACES[name]["source"] = book_title
