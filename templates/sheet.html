@@ -4889,6 +4889,11 @@ function tagWeapons() {
 }
 
 // ── Armor Detection ──
+const _ARMOR_KEYWORDS = [
+  'padded', 'leather', 'studded', 'hide', 'chain shirt', 'scale mail',
+  'breastplate', 'half plate', 'ring mail', 'chain mail', 'splint',
+  'plate', 'shield', 'armor',
+];
 function isArmor(name) {
   const lower = name.toLowerCase().trim();
   if (ARMOR_NAMES.some(n => n === lower)) return true;
@@ -4896,7 +4901,7 @@ function isArmor(name) {
     const singular = lower.slice(0, -1);
     if (ARMOR_NAMES.some(n => n === singular)) return true;
   }
-  if (lower.includes('shield')) return true;
+  if (_ARMOR_KEYWORDS.some(kw => lower.includes(kw))) return true;
   return false;
 }
 
