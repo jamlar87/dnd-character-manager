@@ -244,6 +244,9 @@
 .spell-level-header .sl-count { font-size: 0.65rem; color: var(--text-muted); }
 .spell-level-body { display: none; padding: 0.2rem 0 0.2rem 0.3rem; }
 .spell-level-body.open { display: block; }
+.prepared-spell-chip.open .prep-body { display: block !important; }
+.prepared-spell-chip.open .prep-header { border-radius: 4px 4px 0 0; }
+.prepared-spell-chip.open .prep-arrow { transform: rotate(90deg); }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Feature use checkbox dots */
@@ -1514,32 +1517,58 @@
           </div>
           <div class="spell-level-body open">
           {% for sp in level_prepared %}
-          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer;margin-bottom:0.2rem"
-               onclick="document.getElementById('spell-row-{{ sp.id }}').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('spell-row-{{ sp.id }}').querySelector('.spell-header').classList.add('highlight-pulse')"
-               title="Click to find in Spellbook">
-            <strong>{{ sp.spell_name }}</strong>
-            {% if sp.srd and sp.srd.source %}
-            <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
-            {% endif %}
-            {% if sp.srd and sp.srd.school %}
-            <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
-            {% endif %}
-            {% if sp.srd and sp.srd.concentration %}
-            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
-            {% endif %}
-            {% if sp.dice %}
-            {% if sp.dice_healing %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% elif sp.ac_bonus %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% elif sp.buff %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% else %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% endif %}
-            {% endif %}
-            <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1"
-                    onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
+          <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="margin-bottom:0.2rem">
+            <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+                 style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
+              <strong>{{ sp.spell_name }}</strong>
+              {% if sp.srd and sp.srd.source %}
+              <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.concentration %}
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+              {% endif %}
+              {% if sp.dice %}
+              {% if sp.dice_healing %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              {% elif sp.ac_bonus %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              {% elif sp.buff %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              {% else %}
+              <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+              {% endif %}
+              {% endif %}
+              <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1"
+                      onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
+              <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
+            </div>
+            <div class="prep-body" style="display:none;padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.8rem">
+              {% if sp.srd %}
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
+                <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Range:</span><span>{{ sp.srd.range }}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Components:</span><span>{{ sp.srd.components|join(', ') }}{% if sp.srd.material %} ({{ sp.srd.material }}){% endif %}</span>
+                <span style="color:var(--text-muted);font-size:0.72rem">Duration:</span><span>{{ sp.srd.duration }}{% if sp.srd.concentration %} (concentration){% endif %}</span>
+                {% if sp.srd.attack_type %}
+                <span style="color:var(--text-muted);font-size:0.72rem">Attack:</span><span>{{ sp.srd.attack_type|capitalize }}</span>
+                {% endif %}
+              </div>
+              {% for line in sp.srd.desc %}
+              <p style="margin:0.3rem 0;line-height:1.45">{{ line }}</p>
+              {% endfor %}
+              {% if sp.srd.higher_level %}
+              <p style="margin:0.3rem 0;line-height:1.45;color:var(--accent);font-size:0.78rem">
+                <strong>At Higher Levels.</strong> {{ sp.srd.higher_level|join(' ') }}
+              </p>
+              {% endif %}
+              {% else %}
+              <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
+              {% endif %}
+              <a href="#spell-row-{{ sp.id }}" onclick="event.stopPropagation()" style="font-size:0.65rem;color:var(--accent);text-decoration:none;display:inline-block;margin-top:0.3rem">📖 View in Spellbook</a>
+            </div>
           </div>
           {% endfor %}
           </div>
