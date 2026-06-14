@@ -3963,7 +3963,7 @@ async def starting_spells(request: Request, class_name: str = "", level: int = 1
             "duration": spell.get("duration", ""),
             "concentration": spell.get("concentration", False),
             "ritual": spell.get("ritual", False),
-            "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+            "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else (spell.get("description", "") or ""),
             "book": spell.get("source", ""),
         })
     results.sort(key=lambda s: (s["level"], s["name"]))
@@ -8450,7 +8450,7 @@ async def available_spells(char_id: int, request: Request):
                 "duration": spell.get("duration", ""),
                 "ritual": spell.get("ritual", False),
                 "concentration": spell.get("concentration", False),
-                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else (spell.get("description", "") or ""),
                 "source": "class",
                 "book": spell.get("source", ""),
             })
@@ -8491,7 +8491,7 @@ async def available_spells(char_id: int, request: Request):
                                 "duration": spell.get("duration", ""),
                                 "ritual": spell.get("ritual", False),
                                 "concentration": spell.get("concentration", False),
-                                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else "",
+                                "description": " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else (spell.get("description", "") or ""),
                                 "source": f"subclass ({subclass})",
                                 "book": spell.get("source", ""),
                             })
@@ -8643,7 +8643,7 @@ async def ai_select_spells(char_id: int, request: Request):
                         score += 30
 
         # General quality heuristics
-        desc = " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else ""
+        desc = " ".join(spell.get("desc", [])) if isinstance(spell.get("desc"), list) else (spell.get("description", "") or "")
         if "heal" in desc.lower() or "restore" in desc.lower():
             score += 15
         if "damage" in desc.lower() and "d" in desc.lower():
