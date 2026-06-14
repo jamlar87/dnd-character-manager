@@ -1527,17 +1527,6 @@
             {% if sp.srd and sp.srd.concentration %}
             <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
             {% endif %}
-            {% if sp.dice %}
-            {% if sp.dice_healing %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% elif sp.ac_bonus %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% elif sp.buff %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% else %}
-            <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
-            {% endif %}
-            {% endif %}
             <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1"
                     onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)" data-checked="true" title="Unprepare">✕</button>
           </div>
