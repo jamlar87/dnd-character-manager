@@ -1205,8 +1205,12 @@
               </span>
               {% endif %}
               {% endif %}
-              {% if feat.name == 'Eldritch Invocations' and character.invocations %}
-              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.invocations %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+              {% if feat.name == 'Eldritch Invocations' and invocations_by_level %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set my_invs = invocations_by_level.get(lvl_num, []) %}
+              {% if my_invs %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in my_invs %}{% if not loop.first %}<br>{% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
               {% endif %}
               {% if feat.name == 'Pact Boon' and character.pact_boon %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.pact_boon|replace('_',' ')|title }}</span>

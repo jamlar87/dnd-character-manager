@@ -7501,6 +7501,8 @@ async def character_sheet(char_id: int, request: Request):
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Inject Eldritch Invocation level cards for Warlocks (SRD only has L2)
+    _add_invocation_levels(char["feature_data"], char.get("class_name", ""), char.get("level", 0))
     # Enrich ASI features with feat descriptions when a feat was taken
     if char.get("asi_history"):
         # Normalize: backfill missing level fields in asi_history
@@ -7827,6 +7829,19 @@ async def character_sheet(char_id: int, request: Request):
         if v not in merged_tool_profs:
             merged_tool_profs.append(v)
 
+    # Compute invocations per level from the flat list + level/picks data
+    invocations_by_level: dict[int, list[str]] = {}
+    inv_flat = char.get("invocations", [])
+    if inv_flat:
+        inv_levels = INVOCATION_LEVELS.get(char.get("class_name", ""), [])
+        if inv_levels:
+            offset = 0
+            for lvl in inv_levels:
+                picks = INVOCATION_PICKS.get(lvl, 0)
+                if picks > 0 and offset < len(inv_flat):
+                    invocations_by_level[lvl] = inv_flat[offset:offset + picks]
+                    offset += picks
+
     # Pre-compute expertise context for the edit modal
     expertise_options = []
     expertise_count = 0
@@ -7869,7 +7884,10 @@ async def character_sheet(char_id: int, request: Request):
                    expertise_levels=EXPERTISE_LEVELS,
                    expertise_options=expertise_options,
                    expertise_count=expertise_count,
-                   source_map_json=json.dumps(_get_source_slug_map()))
+                   source_map_json=json.dumps(_get_source_slug_map()),
+                   invocation_levels=INVOCATION_LEVELS,
+                   invocation_picks=INVOCATION_PICKS,
+                   invocations_by_level=invocations_by_level)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -11000,6 +11018,22 @@ def get_class_features(class_name: str, level: int, subclass: str = "") -> list[
                                 break
                             insert_at = i + 1
                         gained.insert(insert_at, entry)
+
+    # Add Eldritch Invocation level markers for Warlock (SRD only has L2)
+    if class_name == "Warlock":
+        inv_levels = INVOCATION_LEVELS.get("Warlock", [])
+        for inv_lvl in inv_levels:
+            if inv_lvl <= level:
+                entry = f"L{inv_lvl}: Eldritch Invocations"
+                if entry not in gained:
+                    insert_at = 0
+                    for i, g in enumerate(gained):
+                        g_lvl = int(g.split(":")[0][1:])
+                        if g_lvl > inv_lvl:
+                            insert_at = i
+                            break
+                        insert_at = i + 1
+                    gained.insert(insert_at, entry)
     
     return gained
 
@@ -15241,6 +15275,38 @@ def _add_source_to_features(feature_data: list[dict]) -> None:
                     break
         if _src:
             feat["source"] = _src
+
+
+def _add_invocation_levels(feature_data: list[dict], class_name: str, char_level: int) -> None:
+    """Inject Eldritch Invocation level cards for Warlocks.
+
+    The SRD only lists 'Eldritch Invocations' at level 2, but warlocks gain
+    additional invocations at 5, 7, 9, 12, 15, and 18. This adds a feature
+    card at each level where invocations are gained, so per-level choices
+    can be displayed separately."""
+    if class_name != "Warlock":
+        return
+    inv_levels = INVOCATION_LEVELS.get("Warlock", [])
+    existing_levels = {
+        int(f["level"].replace("L", ""))
+        for f in feature_data
+        if f.get("name") == "Eldritch Invocations"
+    }
+    for inv_lvl in inv_levels:
+        if inv_lvl <= char_level and inv_lvl not in existing_levels:
+            # Insert at correct position
+            insert_at = 0
+            for i, f in enumerate(feature_data):
+                fl = int(f.get("level", "L0").replace("L", ""))
+                if fl > inv_lvl:
+                    insert_at = i
+                    break
+                insert_at = i + 1
+            feature_data.insert(insert_at, {
+                "name": "Eldritch Invocations",
+                "level": f"L{inv_lvl}",
+                "description": f"Gain additional Eldritch Invocations at level {inv_lvl}.",
+            })
 
 
 async def _call_gemini(prompt: str) -> str | None:
