@@ -459,6 +459,18 @@ def load_manual_data():
     if manual_spells:
         print(f"  + Spells: {len(manual_spells)}")
 
+    # Re-apply spell page map to catch newly-added manual spells
+    _spm_enriched2 = 0
+    for _spell in SRD_SPELLS:
+        if "p." not in (_spell.get("source") or ""):
+            _name = _spell.get("name", "").lower()
+            _mapped = _spell_page_map.get(_name)
+            if _mapped:
+                _spell["source"] = _mapped
+                _spm_enriched2 += 1
+    if _spm_enriched2:
+        print(f"  Spell sources enriched (manual): {_spm_enriched2}")
+
     # ── Magic Items ── append to SRD_MAGIC_ITEMS (ITEM_INDEX auto-picks them up)
     manual_items = _load_manual_json("magic_items.json")
     existing_item_names = {i.get("name", "").lower() for i in SRD_MAGIC_ITEMS}
