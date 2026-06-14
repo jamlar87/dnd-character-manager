@@ -724,6 +724,10 @@
         {% if not has_defenses %}
         <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
         {% endif %}
+        <span class="defense-display" data-field="damage_resistances" style="display:none">{{ character.damage_resistances|join(', ') if character.damage_resistances else '' }}</span>
+        <span class="defense-display" data-field="damage_immunities" style="display:none">{{ character.damage_immunities|join(', ') if character.damage_immunities else '' }}</span>
+        <span class="defense-display" data-field="damage_vulnerabilities" style="display:none">{{ character.damage_vulnerabilities|join(', ') if character.damage_vulnerabilities else '' }}</span>
+        <span class="defense-display" data-field="condition_immunities" style="display:none">{{ character.condition_immunities|join(', ') if character.condition_immunities else '' }}</span>
       </div>
       <!-- Edit defenses -->
       <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
@@ -766,27 +770,35 @@
         <!-- Armor -->
         {% if merged_armor_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
-        {% for a in merged_armor_profs %}<span class="prof-badge">{{ a }}{% if a in racial_effects.armor_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
+        <span id="prof-badges-armor_proficiencies">{% for a in merged_armor_profs %}<span class="prof-badge">{{ a }}{% if a in racial_effects.armor_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="armor_proficiencies" style="display:none">{{ character.armor_proficiencies|join(', ') if character.armor_proficiencies else '' }}</span>
         {% endif %}
         <!-- Weapons -->
         {% if merged_weapon_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
-        {% for w in merged_weapon_profs %}<span class="prof-badge">{{ w }}{% if w in racial_effects.weapon_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
+        <span id="prof-badges-weapon_proficiencies">{% for w in merged_weapon_profs %}<span class="prof-badge">{{ w }}{% if w in racial_effects.weapon_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="weapon_proficiencies" style="display:none">{{ character.weapon_proficiencies|join(', ') if character.weapon_proficiencies else '' }}</span>
         {% endif %}
         <!-- Tools -->
         {% if merged_tool_profs %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
-        {% for t in merged_tool_profs %}<span class="prof-badge">{{ t }}{% if t in racial_effects.tool_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}
+        <span id="prof-badges-tool_proficiencies">{% for t in merged_tool_profs %}<span class="prof-badge">{{ t }}{% if t in racial_effects.tool_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="tool_proficiencies" style="display:none">{{ character.tool_proficiencies|join(', ') if character.tool_proficiencies else '' }}</span>
         {% endif %}
         <!-- Languages -->
         {% if character.languages %}
         <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
-        {% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}
+        <span id="prof-badges-languages">{% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') }}</span>
         {% endif %}
         {% set has_profs = merged_armor_profs or merged_weapon_profs or merged_tool_profs or character.languages %}
         {% if not has_profs %}
         <span style="color:var(--text-muted);font-size:0.8rem">No proficiencies</span>
         {% endif %}
+        <span class="prof-display" data-field="armor_proficiencies" style="display:none">{{ character.armor_proficiencies|join(', ') if character.armor_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="weapon_proficiencies" style="display:none">{{ character.weapon_proficiencies|join(', ') if character.weapon_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="tool_proficiencies" style="display:none">{{ character.tool_proficiencies|join(', ') if character.tool_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') if character.languages else '' }}</span>
         <!-- Edit pickers (edit mode only) -->
         <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
           <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
@@ -3883,7 +3895,7 @@ function showProfPicker(type, title, masterList, field) {
   // Parse current proficiencies from the display span
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   const currentText = displayEl ? displayEl.textContent.trim() : '';
-  const current = currentText === '—' || currentText === 'None' ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
+  const current = (!currentText || currentText === '—' || currentText === 'None') ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
   const curSet = new Set(current.map(s => s.toLowerCase()));
   
   const overlay = document.createElement('div');
@@ -3952,7 +3964,78 @@ function getCurrentProfs(field) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (!displayEl) return [];
   const t = displayEl.textContent.trim();
-  return t === '—' || t === 'None' ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
+  return t === '—' || t === 'None' || t === '' ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+// Section labels for each field (shown above badge group)
+const PROF_SECTION_LABELS = {
+  armor_proficiencies: 'Armor',
+  weapon_proficiencies: 'Weapons',
+  tool_proficiencies: 'Tools',
+  languages: 'Languages'
+};
+
+function updateProfBadges(field) {
+  const profs = getCurrentProfs(field);
+  let container = document.getElementById('prof-badges-' + field);
+  const section = document.getElementById('prof-section');
+  if (!section) return;
+
+  if (profs.length === 0) {
+    // Remove badge container + its header if exists
+    if (container) {
+      const header = container.previousElementSibling;
+      if (header && header.style.fontSize === '0.6rem') header.remove();
+      container.remove();
+    }
+    // Update "No proficiencies" visibility
+    updateNoProfsMessage();
+    return;
+  }
+
+  // Build badge HTML
+  const badgesHtml = profs.map(p => `<span class="prof-badge">${p}</span>`).join('');
+
+  if (container) {
+    container.innerHTML = badgesHtml;
+  } else {
+    // Create header + container
+    const label = PROF_SECTION_LABELS[field] || field;
+    const header = document.createElement('div');
+    header.style.cssText = 'font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
+    header.textContent = label;
+    container = document.createElement('span');
+    container.id = 'prof-badges-' + field;
+    container.innerHTML = badgesHtml;
+
+    // Insert before edit pickers or at end of prof-section
+    const editBlock = section.querySelector('.edit-only-block');
+    if (editBlock) {
+      editBlock.before(header, container);
+    } else {
+      section.appendChild(header);
+      section.appendChild(container);
+    }
+  }
+  updateNoProfsMessage();
+}
+
+function updateNoProfsMessage() {
+  const noMsg = document.querySelector('#prof-section > span[style*="color:var(--text-muted)"]');
+  const anyBadges = document.querySelectorAll('#prof-section [id^="prof-badges-"]').length > 0;
+  if (anyBadges && noMsg) {
+    noMsg.style.display = 'none';
+  } else if (!anyBadges && noMsg) {
+    noMsg.style.display = '';
+  } else if (!anyBadges && !noMsg) {
+    const section = document.getElementById('prof-section');
+    if (section) {
+      const msg = document.createElement('span');
+      msg.style.cssText = 'color:var(--text-muted);font-size:0.8rem';
+      msg.textContent = 'No proficiencies';
+      section.insertBefore(msg, section.querySelector('.edit-only-block') || section.firstChild);
+    }
+  }
 }
 
 async function toggleProfItem(cb, field, type) {
@@ -3966,7 +4049,9 @@ async function toggleProfItem(cb, field, type) {
   }
   // Update display
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
-  if (displayEl) displayEl.textContent = profs.join(', ') || '—';
+  if (displayEl) displayEl.textContent = profs.join(', ') || '';
+  // Update badges
+  updateProfBadges(field);
   // Save
   await api('/update', { [field]: JSON.stringify(profs) });
   // Refresh proficiency-based UI
@@ -3976,7 +4061,8 @@ async function toggleProfItem(cb, field, type) {
 
 async function clearAllProfs(field, type) {
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
-  if (displayEl) displayEl.textContent = '—';
+  if (displayEl) displayEl.textContent = '';
+  updateProfBadges(field);
   await api('/update', { [field]: JSON.stringify([]) });
   if (field === 'weapon_proficiencies') tagWeapons();
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
@@ -3992,6 +4078,7 @@ async function selectAllProfs(field, type) {
   else master = ALL_LANGUAGES;
   const displayEl = document.querySelector(`.prof-display[data-field="${field}"]`);
   if (displayEl) displayEl.textContent = master.join(', ');
+  updateProfBadges(field);
   await api('/update', { [field]: JSON.stringify(master) });
   if (field === 'weapon_proficiencies') tagWeapons();
   if (field === 'armor_proficiencies') { tagArmor(); updateAcWarning(); }
@@ -4009,7 +4096,7 @@ function showDefensePicker(title, masterList, field, icon, helpText) {
   // Parse current values from the display span
   const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
   const currentText = displayEl ? displayEl.textContent.trim() : '';
-  const current = currentText === '—' || currentText === 'None' ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
+  const current = (!currentText || currentText === '—' || currentText === 'None') ? [] : currentText.split(',').map(s => s.trim()).filter(Boolean);
   const curSet = new Set(current.map(s => s.toLowerCase()));
   
   const overlay = document.createElement('div');
@@ -4069,7 +4156,7 @@ function getCurrentDefenses(field) {
   const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
   if (!displayEl) return [];
   const t = displayEl.textContent.trim();
-  return t === '—' || t === 'None' ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
+  return (!t || t === '—' || t === 'None') ? [] : t.split(',').map(s => s.trim()).filter(Boolean);
 }
 
 async function toggleDefenseItem(cb, field, icon) {
@@ -4077,7 +4164,7 @@ async function toggleDefenseItem(cb, field, icon) {
   const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
   if (!displayEl) return;
   const curText = displayEl.textContent.trim();
-  let items = curText === '—' || curText === 'None' ? [] : curText.split(',').map(s => s.trim()).filter(Boolean);
+  let items = (!curText || curText === '—' || curText === 'None') ? [] : curText.split(',').map(s => s.trim()).filter(Boolean);
   
   const name = cb.value;
   const idx = items.findIndex(p => p.toLowerCase() === name.toLowerCase());
@@ -4115,9 +4202,115 @@ async function selectAllDefenses(field) {
 }
 
 function refreshDefenseBadges() {
-  // Reload the page to refresh server-rendered badges
-  // (Defense badges are server-rendered from DB fields)
-  location.reload();
+  // Update the defense badge section inline without page reload
+  updateDefenseBadges('damage_resistances');
+  updateDefenseBadges('damage_immunities');
+  updateDefenseBadges('damage_vulnerabilities');
+  updateDefenseBadges('condition_immunities');
+}
+
+// Map field → icon + class for badge rendering
+const DEFENSE_BADGE_STYLE = {
+  damage_resistances: { icon: '🛡️', cls: 'defense-resist' },
+  damage_immunities: { icon: '✨', cls: 'defense-immune' },
+  damage_vulnerabilities: { icon: '⚠️', cls: 'defense-vuln' },
+  condition_immunities: { icon: '✨', cls: 'defense-immune' }
+};
+
+const DEFENSE_SECTION_LABELS = {
+  damage_resistances: 'Resistances',
+  damage_immunities: 'Immunities',
+  damage_vulnerabilities: 'Vulnerabilities',
+  condition_immunities: 'Condition Imm.'
+};
+
+function getDefenseBadgeContainer(field) {
+  // Defense section structure: header div → badges → ...
+  const section = document.getElementById('defenses-section');
+  if (!section) return null;
+  const labels = section.querySelectorAll('div[style*="font-size:0.6rem"]');
+  for (const label of labels) {
+    if (label.textContent.trim() === DEFENSE_SECTION_LABELS[field]) {
+      // Return the container after the header — collect all defense-badge siblings until next header or non-badge
+      const container = document.createElement('span');
+      container.id = 'def-badges-' + field;
+      let el = label.nextElementSibling;
+      // Find existing badges or create container
+      while (el && el.classList && (el.classList.contains('defense-badge') || el.classList.contains('defense-display'))) {
+        if (!el.classList.contains('defense-display')) {
+          container.appendChild(el.cloneNode(true));
+        }
+        el = el.nextElementSibling;
+      }
+      return { label, container, nextSibling: el };
+    }
+  }
+  return null;
+}
+
+function updateDefenseBadges(field) {
+  const displayEl = document.querySelector(`.defense-display[data-field="${field}"]`);
+  if (!displayEl) return;
+  const curText = displayEl.textContent.trim();
+  const items = (!curText || curText === '—' || curText === 'None') ? [] : curText.split(',').map(s => s.trim()).filter(Boolean);
+  const style = DEFENSE_BADGE_STYLE[field] || { icon: '🛡️', cls: 'defense-resist' };
+  const section = document.getElementById('defenses-section');
+  if (!section) return;
+
+  // Remove old badge container + header if exists
+  const oldContainer = document.getElementById('def-badges-' + field);
+  if (oldContainer) {
+    const header = oldContainer.previousElementSibling;
+    if (header && header.style && header.style.fontSize === '0.6rem') header.remove();
+    oldContainer.remove();
+  }
+
+  if (items.length === 0) {
+    updateNoDefensesMessage();
+    return;
+  }
+
+  // Build badge HTML
+  const badgesHtml = items.map(v => `<span class="defense-badge ${style.cls}">${style.icon} ${v}</span>`).join('');
+
+  // Create header + container
+  const label = DEFENSE_SECTION_LABELS[field] || field;
+  const header = document.createElement('div');
+  header.style.cssText = 'font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em';
+  header.textContent = label;
+
+  const container = document.createElement('span');
+  container.id = 'def-badges-' + field;
+  container.innerHTML = badgesHtml;
+
+  // Insert before edit pickers or at end of defenses-section
+  const editBlock = section.querySelector('.edit-only-block');
+  if (editBlock) {
+    editBlock.before(header, container);
+  } else {
+    section.appendChild(header);
+    section.appendChild(container);
+  }
+  updateNoDefensesMessage();
+}
+
+function updateNoDefensesMessage() {
+  const section = document.getElementById('defenses-section');
+  if (!section) return;
+  const noMsg = section.querySelector('span[style*="color:var(--text-muted)"]');
+  const anyBadges = section.querySelectorAll('[id^="def-badges-"]').length > 0;
+  if (anyBadges && noMsg) {
+    noMsg.style.display = 'none';
+  } else if (!anyBadges && noMsg) {
+    noMsg.style.display = '';
+  } else if (!anyBadges && !noMsg) {
+    const msg = document.createElement('span');
+    msg.style.cssText = 'color:var(--text-muted);font-size:0.8rem';
+    msg.textContent = 'No special defenses';
+    const editBlock = section.querySelector('.edit-only-block');
+    if (editBlock) editBlock.before(msg);
+    else section.appendChild(msg);
+  }
 }
 
 // ── Proficiency Toggles ──
