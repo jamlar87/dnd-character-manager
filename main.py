@@ -7887,7 +7887,8 @@ async def character_sheet(char_id: int, request: Request):
                    source_map_json=json.dumps(_get_source_slug_map()),
                    invocation_levels=INVOCATION_LEVELS,
                    invocation_picks=INVOCATION_PICKS,
-                   invocations_by_level=invocations_by_level)
+                   invocations_by_level=invocations_by_level,
+                   invocation_options=INVOCATION_OPTIONS)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -16605,4 +16606,4 @@ async def open_manual(slug: str, page: int = 0):
 # ── Run ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8300)
+    uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=True)

@@ -1298,6 +1298,14 @@
               <div style="margin-bottom:0.2rem"><strong>{{ m|replace('_',' ')|title }}</strong>{% if metamagic_options and metamagic_options.get(m) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ metamagic_options[m].desc }}</span>{% endif %}</div>
               {% endfor %}
               {% endif %}
+              {% elif feat.name == 'Eldritch Invocations' and invocations_by_level %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set my_invs = invocations_by_level.get(lvl_num, []) %}
+              {% if my_invs %}
+              {% for inv_key in my_invs %}
+              <div style="margin-bottom:0.2rem"><strong>{{ inv_key|replace('_',' ')|title }}</strong>{% if invocation_options and invocation_options.get(inv_key) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ invocation_options[inv_key].desc }}</span>{% endif %}</div>
+              {% endfor %}
+              {% endif %}
               {% else %}
               {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
               {% endif %}
