@@ -31,7 +31,22 @@ SOURCE_TO_PDF = {
     "Sword Coast Adventurer's Guide": ("D&D 5E - Sword Coast Adventurer's Guide.pdf", "SCAG"),
     "Guildmasters' Guide to Ravnica": ("D&D 5E - Guildmasters' Guide to Ravnica.pdf", "GGR"),
     "Volo's Guide to Monsters": ("D&D 5E - Volo's Guide to Monsters.pdf", "VGM"),
+    "Tasha's Cauldron of Everything": ("D&D 5E - Tasha's Cauldron of Everything.pdf", "DTCOE"),
+    "Mordenkainen's Tome of Foes": ("D&D 5E - Mordenkainen's Tome of Foes.pdf", "MTF"),
 }
+
+# Build dynamic pdf_map from _meta.json for 3rd-party sources
+DYNAMIC_PDF_MAP: dict[str, tuple[str, str]] = {}
+_meta_path = DATA_DIR / "manual_data" / "_meta.json"
+if _meta_path.exists():
+    with open(_meta_path) as _f:
+        _meta = json.load(_f)
+    _pdf_map = _meta.get("pdf_map", {})
+    for _slug, _info in _pdf_map.items():
+        _filename = _info.get("filename", "")
+        if _filename and _slug not in SOURCE_TO_PDF:
+            DYNAMIC_PDF_MAP[_slug] = (_filename, _slug)
+    print(f"Dynamic PDF map: {len(DYNAMIC_PDF_MAP)} additional sources")
 
 HAS_PAGE_RE = re.compile(r'\b[pP]\.?\s*\d+')
 
@@ -82,6 +97,19 @@ def resolve_source(source_str):
         return SOURCE_TO_PDF["Guildmasters' Guide to Ravnica"]
     if 'vgm' in lower or "volo" in lower:
         return SOURCE_TO_PDF["Volo's Guide to Monsters"]
+    if 'dtcoe' in lower or 'tasha' in lower:
+        return SOURCE_TO_PDF["Tasha's Cauldron of Everything"]
+    if 'mtf' in lower or 'mordenkainen' in lower or "tome of foes" in lower:
+        return SOURCE_TO_PDF["Mordenkainen's Tome of Foes"]
+    # Try exact slug match in dynamic pdf_map
+    if source_str in DYNAMIC_PDF_MAP:
+        return DYNAMIC_PDF_MAP[source_str]
+    if source_str.upper() in DYNAMIC_PDF_MAP:
+        return DYNAMIC_PDF_MAP[source_str.upper()]
+    # Try fuzzy match: source abbreviation appears in pdf_map slug or title
+    for slug, value in DYNAMIC_PDF_MAP.items():
+        if slug.lower() in lower or lower in slug.lower():
+            return value
     return None
 
 
@@ -175,18 +203,25 @@ def main():
 
     print(f"Total spells: {len(spell_items)}")
 
+    # Build a recursive index of all PDFs under MANUALS_DIR (filename -> path)
+    pdf_index: dict[str, Path] = {}
+    for pdf_path in MANUALS_DIR.rglob("*.pdf"):
+        pdf_index[pdf_path.name] = pdf_path
+
     # Group by PDF
     by_pdf = defaultdict(list)
     unknown = []
+    unresolved_files = set()
     for key, name, src in spell_items:
         resolved = resolve_source(src)
         if resolved:
             pdf_filename, display_prefix = resolved
-            pdf_path = MANUALS_DIR / pdf_filename
-            if pdf_path.exists():
+            pdf_path = pdf_index.get(pdf_filename)
+            if pdf_path and pdf_path.exists():
                 by_pdf[str(pdf_path)].append((key, name, display_prefix))
             else:
                 unknown.append((key, name, src))
+                unresolved_files.add(pdf_filename)
         else:
             unknown.append((key, name, src))
 
