@@ -14209,8 +14209,18 @@ def get_cantrips_known_max(class_name: str, level: int) -> int:
 # ── Spell enrichment (SRD descriptions) ───────────────────────────────────
 
 def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
-    """Return the dice display string, scaling cantrips to character level."""
+    """Return the dice display string, scaling cantrips to character level.
+
+    If ``display`` contains ``{scaled}``, the scaled dice string is substituted
+    there (supports complex patterns like '+{scaled} / {scaled}+MOD fire').
+    Otherwise the entire display is replaced by the scaled dice string.
+
+    ``display_at_1`` (optional) is used when character_level < 5 —
+    some cantrips (Green-Flame Blade, Booming Blade) have no bonus dice
+    before tier 1."""
     display = dice_info.get("display", "")
+    if character_level and character_level < 5 and dice_info.get("display_at_1"):
+        return dice_info["display_at_1"]
     if not (character_level and dice_info.get("cantrip_scaling")):
         return display
     # Cantrip scaling: 1x at 1-4, 2x at 5-10, 3x at 11-16, 4x at 17+
@@ -14226,7 +14236,10 @@ def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
         count = count * 3
     elif character_level >= 5:
         count = count * 2
-    return f"{count}d{die}"
+    scaled = f"{count}d{die}"
+    if "{scaled}" in display:
+        return display.replace("{scaled}", scaled)
+    return scaled
 
 def enrich_spells(spells: list[dict], character_level: int | None = None) -> None:
     """Add full SRD spell data to each spell dict in-place.
