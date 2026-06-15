@@ -4349,6 +4349,7 @@ async function loadCharacterSummons(charId, charName) {
         s.hp_note = t.hp_note || '';
       } else {
         s.features = [...(t.features || [])];
+        s.feature_descs = {...(t.feature_descs || {})};
         s.skills = t.skills || '';
         s.senses = t.senses || '';
         s.hp_note = t.hp_note || '';
