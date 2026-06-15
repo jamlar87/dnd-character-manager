@@ -15906,20 +15906,31 @@ def _extract_json(text: str) -> dict | None:
     except json.JSONDecodeError:
         return None
 
-def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str = "") -> dict:
+def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str = "", abilities: dict = None, alignment: str = "") -> dict:
     """Ground AI output in PHB data. Fix hallucinations silently."""
     # Validate background against PHB list (p.125-141)
     if ai.get("background") not in PHB_BACKGROUNDS:
         ai["background"] = random.choice(PHB_BACKGROUNDS)
-    # Validate alignment against PHB list (p.122)
+    # Validate alignment against PHB list (p.122) — prefer user choice
     if ai.get("alignment") not in PHB_ALIGNMENTS:
-        ai["alignment"] = random.choice(PHB_ALIGNMENTS)
+        ai["alignment"] = alignment if alignment in PHB_ALIGNMENTS else random.choice(PHB_ALIGNMENTS)
     # Ensure name exists
     if not ai.get("name"):
         ai["name"] = name or random_name(race)["name"]
     # Ensure personality + backstory exist
     if not ai.get("personality"):
-        ai["personality"] = f"Brave but reckless. Loyal to friends. Distrusts authority."
+        # Use top ability score for personality flavor
+        top_ab = max(abilities, key=abilities.get) if abilities else ""
+        ab_traits = {
+            "strength": "Physically imposing and direct.",
+            "dexterity": "Nimble and quick-witted.",
+            "constitution": "Tough and resilient.",
+            "intelligence": "Studious and analytical.",
+            "wisdom": "Perceptive and intuitive.",
+            "charisma": "Magnetic and persuasive.",
+        }
+        trait = ab_traits.get(top_ab, "Brave but reckless.")
+        ai["personality"] = f"{trait} Loyal to friends. Distrusts authority."
     if not ai.get("backstory"):
         bg = ai.get("background", "adventurer").lower()
         ai["backstory"] = f"A {race} {class_name} who grew up as a {bg}. They seek adventure and glory."
@@ -15937,6 +15948,13 @@ async def ai_generate(request: Request):
     class_name = data.get("class_name", "Fighter")
     subclass = data.get("subclass", "")
     name = data.get("name", "")
+    abilities = data.get("abilities", {})
+    skills = data.get("skills", [])
+    alignment = data.get("alignment", "")
+
+    # Build ability summary for AI
+    ab_summary = ", ".join(f"{k[:3].upper()} {v}" for k, v in sorted(abilities.items(), key=lambda x: x[1], reverse=True)) if abilities else "Standard array"
+    skill_summary = ", ".join(skills) if skills else "Class defaults"
 
     # Prompt is constrained to PHB-approved options only
     bg_list = ", ".join(PHB_BACKGROUNDS)
@@ -15945,9 +15963,14 @@ async def ai_generate(request: Request):
 
 Race: {race}{' (' + subrace + ')' if subrace else ''}
 Class: {class_name}{' — ' + subclass if subclass else ''}
+Ability scores: {ab_summary}
+Proficient skills: {skill_summary}
+Preferred alignment: {alignment or 'Any'}
 PHB Backgrounds: {bg_list}
 PHB Alignments: {al_list}
 {'Player name suggestion: ' + name if name else 'Generate a race-appropriate name.'}
+
+Use ability scores to inform personality and backstory. A high-INT character might have a scholarly name and background; a high-STR character might have a martial background. Pick a background and alignment that fit the class and ability scores.
 
 Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Firstname Lastname", "background": "one from PHB list above", "alignment": "one from PHB list above", "personality": "2-3 personality traits", "backstory": "2-3 sentence backstory connecting race, class, and background"}}"""
@@ -15965,22 +15988,41 @@ Return ONLY valid JSON (no markdown, no explanation):
 
     ai = _extract_json(text) if text else None
     if ai:
-        ai = _validate_and_fix(ai, race, class_name, name)
+        ai = _validate_and_fix(ai, race, class_name, name, abilities, alignment)
     else:
-        ai = _fallback_generate(race, class_name, subclass, name)
+        ai = _fallback_generate(race, class_name, subclass, name, abilities, skills, alignment)
     return JSONResponse(ai)
 
-def _fallback_generate(race: str, class_name: str, subclass: str, name: str) -> dict:
-    """Deterministic fallback when AI is unavailable."""
+def _fallback_generate(race: str, class_name: str, subclass: str, name: str, abilities: dict = None, skills: list = None, alignment: str = "") -> dict:
+    """Deterministic fallback when AI is unavailable. Uses abilities for flavor."""
     if not name:
         name = random_name(race)["name"]
+    if alignment and alignment in PHB_ALIGNMENTS:
+        al = alignment
+    else:
+        al = random.choice(ALIGNMENTS)
     bg = random.choice(BACKGROUNDS)
-    al = random.choice(ALIGNMENTS)
+
+    # Use highest ability for personality flavor
+    top_ability = ""
+    if abilities:
+        top_ability = max(abilities, key=abilities.get) if abilities else ""
+    ab_flavors = {
+        "strength": "Physically imposing and direct in their methods.",
+        "dexterity": "Nimble and quick-witted, always one step ahead.",
+        "constitution": "Tough and resilient, unafraid of hardship.",
+        "intelligence": "Studious and analytical, always seeking knowledge.",
+        "wisdom": "Perceptive and intuitive, guided by instinct.",
+        "charisma": "Magnetic and persuasive, a natural leader.",
+    }
+    personality = ab_flavors.get(top_ability, "Brave but reckless. Loyal to friends. Distrusts authority.")
+    personality += " They are driven by a desire to prove themselves to the world."
+
     return {
         "name": name,
         "background": bg,
         "alignment": al,
-        "personality": "Brave but reckless. Loyal to friends. Distrusts authority.",
+        "personality": personality,
         "backstory": f"A {race} {class_name}{' of the ' + subclass if subclass else ''} who grew up as a {bg.lower()}. They seek adventure and glory, driven by a desire to prove themselves to the world."
     }
 

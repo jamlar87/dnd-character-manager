@@ -1625,7 +1625,13 @@ async function autoFillDetails() {
   try {
     const r = await fetch('/api/ai/generate', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ race: state.race, subrace: state.subrace, class_name: state.class_name, subclass: state.subclass, name })
+      body: JSON.stringify({
+        race: state.race, subrace: state.subrace,
+        class_name: state.class_name, subclass: state.subclass,
+        abilities: state.abilities || {}, skills: state.skills || [],
+        alignment: document.getElementById('char-align').value,
+        name
+      })
     });
     const data = await r.json();
     if (data.name) { document.getElementById('char-name').value = data.name; state.name = data.name; }
