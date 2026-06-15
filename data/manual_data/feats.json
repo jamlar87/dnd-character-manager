@@ -144,7 +144,8 @@
     "prerequisite": "",
     "description": "Time spent mastering the culinary arts has paid off, granting you the following benefits:\n• Increase your Constitution or Wisdom score by 1, to a maximum of 20.\n• You gain proficiency with cook's utensils if you don't already have it.\n• As part of a short rest, you can cook special food, provided you have ingredients and cook's utensils on hand. You can prepare enough of this food for a number of creatures equal to 4 + your proficiency bonus. At the end of the short rest, any creature who eats the food and spends one or more Hit Dice to regain hit points regains an extra 1d8 hit points.\n• With one hour of work or when you finish a long rest, you can cook a number of treats equal to your proficiency bonus. These special treats last 8 hours after being made. A creature can use a bonus action to eat one of those treats to gain temporary hit points equal to your proficiency bonus.",
     "source": "TCE p.79",
-    "_source_manual": "DTCOE"
+    "_source_manual": "DTCOE",
+    "dice": "1d8"
   },
   {
     "name": "Crusher",
@@ -200,7 +201,8 @@
     "prerequisite": "",
     "description": "You can prepare and deliver deadly poisons, granting you the following benefits:\n• When you make a damage roll that deals poison damage, it ignores resistance to poison damage.\n• You can apply poison to a weapon or piece of ammunition as a bonus action, instead of an action.\n• You gain proficiency with the poisoner's kit if you don't already have it. With one hour of work using a poisoner's kit and expending 50 gp worth of materials, you can create a number of doses of potent poison equal to your proficiency bonus. Once applied to a weapon or piece of ammunition, the poison retains its potency for 1 minute or until you hit with the weapon or ammunition. When a creature takes damage from the coated weapon or ammunition, that creature must succeed on a DC 14 Constitution saving throw or take 2d8 poison damage and become poisoned until the end of your next turn.",
     "source": "TCE p.80",
-    "_source_manual": "DTCOE"
+    "_source_manual": "DTCOE",
+    "dice": "2d8"
   },
   {
     "name": "Shadow Touched",
@@ -277,7 +279,8 @@
     "prerequisite": "Renown 3 or higher in your clan",
     "description": "With several battles under your belt, you have demonstrated service to your clan and earned the recognition of your peers. You have the right to tattoo your body to commemorate your triumphs in battle and demonstrate your loyalty to the Gruul. You don\"t yet have authority over others, but when you go into battle with your clan, your fellow warriors fight near you, acknowledging your prowess. Your clan chieftain knows your name and might decide to single you out, offering you an opportunity to prove yourself by performing a special task. Depending on the nature of the task, the chieftain might send 1d4 anarchs (see chapter 6 for the stat block) along to help you.",
     "source": "Guildmasters' Guide to Ravnica p.61",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "dice": "1d4"
   },
   {
     "name": "Beast-Friend",
@@ -291,7 +294,8 @@
     "prerequisite": "Renown 25 or higher in your clan",
     "description": "You are a hero in your clan, and your reputation extends to other clans as well. You can count on the aid of your clan in most situations. Your clan's druids cast spells for you, and you lead a warband that consists of 3d4 anarchs (see chapter 6 for the stat block) plus three berserkers or ogres (see the Monster Manual for their stat blocks).\nYour chieftain keeps an eye on you, aware that you're a potential challenger for leadership of the clan.",
     "source": "Guildmasters' Guide to Ravnica p.61",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "dice": "3d4"
   },
   {
     "name": "Chieftain",
@@ -361,7 +365,8 @@
     "prerequisite": "Middle age or older",
     "description": "Old age has made you bitter and spiteful. Others better watch out.\nPrerequisite: Middle age or older\nBenefit: You gain a +2 bonus on checks to resist attempts to Intimidate you. When an opponent fails to Intimidate you, he becomes shaken for 1d4+1 rounds.",
     "source": "Kobold Quarterly #20 p.47",
-    "_source_manual": "KW"
+    "_source_manual": "KW",
+    "dice": "1d4+1"
   },
   {
     "name": "Still Got It",
@@ -571,7 +576,8 @@
     "prerequisite": "",
     "description": "You are an able physician, allowing you to mend wounds quickly and get your allies back in the fight. You gain the following benefits: When you use a healer's kit to stabilize a dying crea- ture, that creature also regains 1 hit point. As an action. you can spend one use of a healer's kit to tend to a creature and restore 1d6 + 4 hit points to it, plus additional hit points equal to the creature's Illax- illlurn nurnber of Hit Dice. The creature can't regain hit points frolll this feat again until it finishes a short ar long rest.",
     "source": "PHB p.165-170",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "dice": "1d6+4"
   },
   {
     "name": "Heavily Armored",
@@ -970,7 +976,8 @@
     "prerequisite": "Halfling (winterfolk)",
     "description": "The wolves of Domovogrod are never seem to be far from your side and consider you to be a packmate. As an action, you can howl to summon a wolf to assist you. The wolf appears in 1d4 rounds and remains within 50 feet of you until 1 hour elapses or until it dies, whichever occurs first. You cannot control the wolf, though it will not attack you or your companions and will attack any creature you are engaging in melee combat. If you are level 4 or higher when you summon a wolf, there is a 50% chance you will summon a dire wolf instead. At the GM’s discretion, you may not be able to summon a wolf if you are indoors or in a region that wolves are not native to.\nOnce you have summoned a wolf with this feat, you must finish a long rest before you can summon another wolf.",
     "source": "Midgard Hero’s Handbook p.7",
-    "_source_manual": "W3"
+    "_source_manual": "W3",
+    "dice": "1d4"
   },
   {
     "name": "Rimecaster",
@@ -998,7 +1005,8 @@
     "prerequisite": "Halfling (riverfolk), Intelligence or Wisdom 13 or higher",
     "description": "All riverfolk can sense ley lines when they intermix with rivers, but most of your kin use this knowledge to show caution and respect. You prefer to refine this sense to take advantage of the paths that ley lines open up to you:\n•\t Increase your Intelligence or Wisdom score by 1, to a maximum of 20.\n•\t You have advantage on Wisdom (Survival) checks to avoid becoming lost in any realm that contains ley lines.\n•\t You do not incur a penalty on your Intelligence (Arcana) checks on Shadow Road Lore.\n•\t While traveling a shadow road on a river, you reduce your travel time to a destination by 1d2 days + your Intelligence modifier (to a minimum travel time of 1 day).",
     "source": "Midgard Worldbook p.???",
-    "_source_manual": "W3"
+    "_source_manual": "W3",
+    "dice": "1d2"
   },
   {
     "name": "Underfoot",
@@ -1033,7 +1041,8 @@
     "prerequisite": "Dragonborn",
     "description": "You manifest scales and claws reminiscent of your draconic ancestors. You gain the following benefits:\n• Increase your Strength, Constitution, or Charisma score by 1, to a maximum of 20.\n• Your scales harden. While you aren't wearing armor, you can calculate your AC as 13 + your Dexterity modifier. You can use a shield and still gain this benefit.\n• You grow retractable claws from the tips of your fingers. Extending or retracting the claws requires no action. The claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the normal bludgeoning damage for an unarmed strike.",
     "source": "XGE p.74",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "dice": "1d4"
   },
   {
     "name": "Drow High Magic",
@@ -1075,7 +1084,8 @@
     "prerequisite": "Tiefling",
     "description": "You learn to call on hellfire to serve your commands. You gain the following benefits:\n• Increase your Intelligence or Charisma score by 1, to a maximum of 20.\n• When you roll fire damage for a spell you cast, you can reroll any roll of 1 on the fire damage dice, but you must use the new roll, even if it is another 1.\n• Whenever you cast a spell that deals fire damage, you can cause flames to wreathe you until the end of your next turn. The flames don't harm you or your possessions, and they shed bright light out to 30 feet and dim light for an additional 30 feet. While you are wreathed in flames, any creature within 5 feet of you that hits you with a melee attack takes 1d4 fire damage.",
     "source": "XGE p.74",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "dice": "1d4"
   },
   {
     "name": "Infernal Constitution",

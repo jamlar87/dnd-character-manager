@@ -2846,7 +2846,8 @@
       },
       {
         "name": "Gaze of Shadows",
-        "description": "When a creature that can see the dark eye's eye starts its turn within 30 feet of the dark eye, the dark eye can force it to make a DC 13 Wisdom saving throw if the dark eye isn't incapacitated and can see the creature. On a failure, the creature takes 7 (2d6) psychic damage and is incapacitated until the start of its next turn. On a success, the creature takes half the damage and isn't incapacitated. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the dark eye until the start of its next turn, when it can avert its eyes again. If the creature looks at the dark eye in the meantime, it must immediately make the save."
+        "description": "When a creature that can see the dark eye's eye starts its turn within 30 feet of the dark eye, the dark eye can force it to make a DC 13 Wisdom saving throw if the dark eye isn't incapacitated and can see the creature. On a failure, the creature takes 7 (2d6) psychic damage and is incapacitated until the start of its next turn. On a success, the creature takes half the damage and isn't incapacitated. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the dark eye until the start of its next turn, when it can avert its eyes again. If the creature looks at the dark eye in the meantime, it must immediately make the save.",
+        "dice": "2d6"
       },
       {
         "name": "Sunlight Sensitivity",
@@ -2877,7 +2878,8 @@
             "name": "Gaze of Shadows",
             "description": "When a creature that can see the dark eye's eye starts its turn within 30 feet of the dark eye, the dark eye can force it to make a DC 13 Wisdom saving throw if the dark eye isn't incapacitated and can see the creature. On a failure, the creature takes 7 (2d6) psychic damage and is incapacitated until the start of its next turn. On a success, the creature takes half the damage and isn't incapacitated. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the dark eye until the start of its next turn, when it can avert its eyes again. If the creature looks at the dark eye in the meantime, it must immediately make the save.",
             "uses": 0,
-            "recharge": ""
+            "recharge": "",
+            "dice": "2d6"
           }
         ],
         "description": "Some dark folk carry a stronger measure of shadow in their souls, and it grants them the gift of sight, at the cost of one of their eyes."
@@ -2916,7 +2918,8 @@
             "name": "Whispers of Shadow (Recharge 5–6)",
             "description": "The dark voice speaks in Umbral, whispering of what it sees beyond the dark. The area within 30 feet of the dark voice becomes dimly lit until the end of the dark voice's next turn. Only sunlight can illuminate the area brightly during this time. Each non-dark folk creature in the area must succeed on a DC 15 Charisma saving throw or take 13 (3d8) psychic damage and be frightened until the start of its next turn.",
             "uses": 1,
-            "recharge": "short rest"
+            "recharge": "short rest",
+            "dice": "3d8"
           }
         ],
         "description": "The most powerful of the dark folk, a dark voice sacrifices both eyes to the truth lurking in the shadows."
@@ -3558,7 +3561,8 @@
         "name": "Bite",
         "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d6"
       },
       {
         "name": "Natural Armor",
@@ -3676,7 +3680,8 @@
     "traits": [
       {
         "name": "Bite",
-        "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage."
+        "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage.",
+        "dice": "1d6"
       },
       {
         "name": "Natural Armor",
@@ -3837,7 +3842,8 @@
         "name": "Powerful Jaw",
         "description": "Your heavy jaw is powerful enough to crush bones to powder. Your bite is a natural melee weapon, which you can use to make unarmed strikes. When you hit with it, your bite deals piercing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d4"
       },
       {
         "name": "Sunlight Sensitivity",
@@ -3869,7 +3875,8 @@
             "name": "Jaws of Death",
             "description": "Your powerful jaws serve you well as a darakhul. When you use your bite attack to make an unarmed strike, you deal piercing damage equal to 1d6 + your Strength modifier.",
             "uses": 0,
-            "recharge": ""
+            "recharge": "",
+            "dice": "1d6"
           },
           {
             "name": "Undead Fortitude",
@@ -5020,7 +5027,8 @@
         "name": "Sharp Tusks",
         "description": "Your sharp tusks are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal 1 piercing damage plus 1d4 psychic damage.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d4"
       },
       {
         "name": "Telepathic",
@@ -5281,7 +5289,8 @@
       },
       {
         "name": "Quills",
-        "description": "Your spines are longer and more potent than other erinas. Whenever you make a successful melee attack against a target within 5 feet of you, that target takes an additional 3 (1d6) piercing damage. (This trait replaces the base erina's Spines trait.)"
+        "description": "Your spines are longer and more potent than other erinas. Whenever you make a successful melee attack against a target within 5 feet of you, that target takes an additional 3 (1d6) piercing damage. (This trait replaces the base erina's Spines trait.)",
+        "dice": "1d6"
       },
       {
         "name": "Sharp Instincts",
@@ -5523,7 +5532,8 @@
         "name": "Quills",
         "description": "Your spines are longer and more potent than other erinas. Whenever you make a successful melee attack against a target within 5 feet of you, that target takes an additional 3 (1d6) piercing damage. (This trait replaces the base erina's Spines trait.)",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d6"
       },
       {
         "name": "Sharp Instincts",
@@ -5748,7 +5758,8 @@
         "name": "Ghostly Flesh",
         "description": "Starting at 3rd level, you can use your action to dissolve your physical body into the ephemeral stuff of spirits. You become translucent and devoid of color, and the air around you grows cold. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet with the ability to hover, and you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks that aren't made with silvered weapons. In addition, you have advantage on ability checks and saving throws made to escape a grapple or against being restrained, and you can move through creatures and solid objects as if they were difficult terrain. If you end your turn inside an object, you take 1d10 force damage. Once you use this trait, you can't use it again until you finish a long rest.",
         "uses": 1,
-        "recharge": "long rest"
+        "recharge": "long rest",
+        "dice": "1d10"
       },
       {
         "name": "Imperfect Undeath",
@@ -6374,7 +6385,8 @@
       },
       {
         "name": "Claws",
-        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.",
+        "dice": "1d6+2"
       },
       {
         "name": "Dirt Dive",
@@ -6489,7 +6501,8 @@
       },
       {
         "name": "Talons",
-        "description": "You are proficient with your unarmed strikes, which deal 1d4 slashing damage on a hit."
+        "description": "You are proficient with your unarmed strikes, which deal 1d4 slashing damage on a hit.",
+        "dice": "1d4"
       },
       {
         "name": "Language",
@@ -7156,11 +7169,13 @@
       },
       {
         "name": "Great Spear",
-        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage."
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage.",
+        "dice": "1d12+3"
       },
       {
         "name": "Great Bow",
-        "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage"
+        "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage",
+        "dice": "1d8+4"
       },
       {
         "name": "Parry",
@@ -7226,7 +7241,8 @@
         "name": "Hooves",
         "description": "Your hooves are natural melee weapons, which you can use to make unarmed strikes. If you hit with them, you deal bludgeoning damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d4"
       },
       {
         "name": "Equine Build",
@@ -7564,7 +7580,8 @@
         "name": "Horns",
         "description": "Your horns are natural melee weapons, which you can use to make unarmed strikes. If you hit with them, you deal piercing damage equal to 1d6 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d6"
       },
       {
         "name": "Goring Rush",
@@ -7679,7 +7696,8 @@
         "name": "Variable Adaptation",
         "description": "When you reach 5th level, you can choose one of the following options, which represents a further adaptation to your environment. You can't change this later. \n\n**Gills.** You can breathe underwater. \n\n**Grappling Appendage.** You have a special appendage that you can use to grapple creatures. It's a natural melee weapon with which you are proficient. If you hit a creature with it, the target takes bludgeoning damage equal to 1d6 + your Strength modifier, and it is grappled (escape DC 8 + your proficiency bonus + your Strength modifier). This appendage can't be used to make attacks against a creature you have grappled, but you can release it as a free action. \n\n**Reactive Carapace.** When you take damage, you can use your reaction to gain resistance to that damage. Once you use this trait, you can't use it again until you finish a short or long rest.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d6"
       }
     ],
     "subraces": [],
@@ -8130,11 +8148,13 @@
       },
       {
         "name": "Bite",
-        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one creature. Hit: 4 (1d6 + 1) piercing damage, and the target must succeed on a DC 11 Constitution saving throw or be poisoned for 1 minute. If the saving throw fails by 5 or more, the target is also paralyzed while poisoned in this way. The poisoned target can repeat the saving throw on each of its turns, ending the effect on itself on a success."
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one creature. Hit: 4 (1d6 + 1) piercing damage, and the target must succeed on a DC 11 Constitution saving throw or be poisoned for 1 minute. If the saving throw fails by 5 or more, the target is also paralyzed while poisoned in this way. The poisoned target can repeat the saving throw on each of its turns, ending the effect on itself on a success.",
+        "dice": "1d6+1"
       },
       {
         "name": "Claws",
-        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (2d4 + 1) slashing damage."
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (2d4 + 1) slashing damage.",
+        "dice": "2d4+1"
       }
     ],
     "subraces": [],
@@ -10154,7 +10174,8 @@
     "traits": [
       {
         "name": "Claws",
-        "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
+        "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
+        "dice": "1d4"
       },
       {
         "name": "Hold Breath",
@@ -10472,13 +10493,15 @@
         "name": "Bite",
         "description": "Your fanged maw is a natural weapon, which you can use to make unarmed strikes. If you hit with it, you deal piercing damage equal to 1d6 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d6"
       },
       {
         "name": "Cunning Artisan",
         "description": "As part of a short rest, you can harvest bone and hide from a slain beast, construct, dragon, monstrosity, or plant creature of size Small or larger to create one of the following items: a shield, a club, a javelin, or 1d4 darts or blowgun needles. To use this trait, you need a blade, such as a dagger, or appropriate artisan's tools, such as leatherworker's tools.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d4"
       },
       {
         "name": "Hold Breath",
@@ -10640,7 +10663,8 @@
         "name": "Cat's Claws",
         "description": "Because of your claws, you have a climbing speed of 20 feet. In addition, your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
-        "recharge": ""
+        "recharge": "",
+        "dice": "1d4"
       },
       {
         "name": "Cat's Talent",
@@ -10957,7 +10981,8 @@
         "name": "Surprise Attack",
         "description": "If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat.",
         "uses": 1,
-        "recharge": "combat"
+        "recharge": "combat",
+        "dice": "2d6"
       }
     ],
     "subraces": [],

@@ -1294,6 +1294,9 @@
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ feat.name }}</span>
+                {% if feat.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ feat.dice }}</span>
+                {% endif %}
                 {% if 'Fighting Style' in feat.name and character.fighting_style %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
@@ -1459,6 +1462,9 @@
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
               <span><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
+                {% endif %}
                 {% if feat.name == "Hexblade's Curse" %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:600;margin-left:0.3rem;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+{{ character.proficiency_bonus }} dmg, crit 19–20</span>
                 {% endif %}

@@ -1253,7 +1253,7 @@
     "has_scaling": false,
     "healing": false
   },
-  "leiloch\u2019s irritating kazoo": {
+  "leiloch’s irritating kazoo": {
     "display": "1d6",
     "all_dice": [
       "1d6"
@@ -1447,7 +1447,7 @@
     "has_scaling": false,
     "healing": false
   },
-  "maximilian\u2019s earthen grasp": {
+  "maximilian’s earthen grasp": {
     "display": "2d6",
     "all_dice": [
       "2d6"
@@ -1466,7 +1466,7 @@
     "has_scaling": false,
     "healing": false
   },
-  "melf\u2019s minute meteors": {
+  "melf’s minute meteors": {
     "display": "2d6",
     "all_dice": [
       "2d6"
@@ -2158,5 +2158,694 @@
     "has_scaling": true,
     "healing": false,
     "display_at_1": "1d8 move"
+  },
+  "ritual of memories lost": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": true
+  },
+  "tread the niflheim road": {
+    "display": "2d10",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "2d10"
+  },
+  "energy absorption": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "land bond": {
+    "display": "",
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "greater ley pulse": {
+    "display": "",
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "lesser ley pulse": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ley whip": {
+    "display": "3d8",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "3d8"
+  },
+  "celebration": {
+    "display": "",
+    "level": 7,
+    "has_scaling": true,
+    "healing": false
+  },
+  "guest of honor": {
+    "display": "1d4 +d4spell level",
+    "level": 1,
+    "has_scaling": true,
+    "healing": false,
+    "buff": true,
+    "base_dice": "1d4",
+    "all_dice": [
+      "1d4"
+    ]
+  },
+  "heartache": {
+    "display": "5d6 +d6spell level",
+    "level": 2,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "5d6",
+    "all_dice": [
+      "5d6"
+    ]
+  },
+  "shadowy retribution": {
+    "display": "1d4 +d4spell level",
+    "level": 4,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d4",
+    "all_dice": [
+      "1d4"
+    ]
+  },
+  "vine trestle": {
+    "display": "",
+    "level": 2,
+    "has_scaling": true,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "intellect fortress": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "dream of the blue veil": {
+    "display": "",
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "spirit shroud": {
+    "display": "1d8",
+    "level": 3,
+    "has_scaling": false,
+    "healing": true,
+    "base_dice": "1d8"
+  },
+  "charnel banquet": {
+    "display": "10d6",
+    "level": 7,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "10d6"
+  },
+  "child of light and darkness": {
+    "display": "",
+    "level": 8,
+    "has_scaling": true,
+    "healing": false
+  },
+  "doom of summer years": {
+    "display": "1d4+1",
+    "level": 7,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d4+1"
+  },
+  "drayfn's blunted blade": {
+    "display": "",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "faerie toast": {
+    "display": "2d6",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "2d6"
+  },
+  "feast of flesh": {
+    "display": "1d6",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "fire dance": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "grim harvest": {
+    "display": "1d10",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d10"
+  },
+  "hibernation": {
+    "display": "1d6",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "knife of fate": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": true
+  },
+  "krail's maggot": {
+    "display": "1d8",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true,
+    "base_dice": "1d8"
+  },
+  "krail's rupture": {
+    "display": "3d12",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "3d12"
+  },
+  "shuffle": {
+    "display": "1d4",
+    "level": 7,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d4"
+  },
+  "shadow adaptation": {
+    "display": "",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "gust": {
+    "display": "",
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "magic stone": {
+    "display": "1d6",
+    "level": 0,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true,
+    "base_dice": "1d6",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "1d6"
+    ]
+  },
+  "mold earth": {
+    "display": "",
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "shape water": {
+    "display": "",
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "flame arrows": {
+    "display": "1d6",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "wall of water": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "elemental bane": {
+    "display": "2d6 +d6spell level",
+    "level": 4,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "2d6",
+    "all_dice": [
+      "2d6"
+    ]
+  },
+  "control winds": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "investiture of stone": {
+    "display": "",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "primordial ward": {
+    "display": "",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "mucus spray": {
+    "display": "1d4",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d4"
+  },
+  "jellied resilience": {
+    "display": "",
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "agonizing mark": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "bestial fury": {
+    "display": "1d6",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "bleating call": {
+    "display": "",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "bleed": {
+    "display": "1d4",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d4"
+  },
+  "cobra fangs": {
+    "display": "3d6",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true,
+    "base_dice": "3d6"
+  },
+  "cure beast": {
+    "display": "1d6",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "heart-seeking arrow": {
+    "display": "6d6",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "6d6"
+  },
+  "killing fields": {
+    "display": "1d6",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "quick time": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "revive beast": {
+    "display": "",
+    "level": 2,
+    "has_scaling": false,
+    "healing": true
+  },
+  "ast": {
+    "display": "",
+    "level": 2,
+    "has_scaling": false,
+    "healing": true
+  },
+  "armor of agathys": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "aura of life": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "aura of purity": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "banishing smite": {
+    "display": "5d10 +10spell level",
+    "level": 5,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "5d10",
+    "all_dice": [
+      "5d10"
+    ]
+  },
+  "blade ward": {
+    "display": "",
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "blinding smite": {
+    "display": "3d8 +d8spell level",
+    "level": 3,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "3d8",
+    "all_dice": [
+      "3d8"
+    ]
+  },
+  "circle of power": {
+    "display": "",
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "cordon of arrows": {
+    "display": "1d6",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "crusader's mantle": {
+    "display": "1d4",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d4"
+  },
+  "elemental weapon": {
+    "display": "1d4",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true,
+    "base_dice": "1d4"
+  },
+  "feign death": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "hail of thorns": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "hex": {
+    "display": "1d6",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "otiluke's resilient sphere": {
+    "display": "",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "otto's irresistible dance": {
+    "display": "",
+    "level": 6,
+    "has_scaling": false,
+    "healing": true
+  },
+  "staggering smite": {
+    "display": "4d6",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "4d6"
+  },
+  "tasha's hideous laughter": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "thunderous smite": {
+    "display": "2d6 +d6spell level",
+    "level": 1,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "2d6",
+    "all_dice": [
+      "2d6"
+    ]
+  },
+  "waterwalk": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "witch bolt": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "wrathful smite": {
+    "display": "1d6 +d6spell level",
+    "level": 1,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "all_dice": [
+      "1d6"
+    ]
+  },
+  "gnawing leap": {
+    "display": "1d6",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "stone river": {
+    "display": "2d12",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "2d12"
+  },
+  "yarila's bounty": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": true
+  },
+  "lure prey": {
+    "display": "2d6",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "2d6"
+  },
+  "unerring mark": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "gnomish tongue": {
+    "display": "",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "horn of parzelon": {
+    "display": "1d8",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d8"
+  },
+  "catnap": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "enemies abound": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "dawn": {
+    "display": "4d10",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "4d10"
+  },
+  "create homunculus": {
+    "display": "2d4",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true,
+    "base_dice": "2d4"
+  },
+  "danse macabre": {
+    "display": "",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true
+  },
+  "dragon's breath": {
+    "display": "3d6",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "3d6"
+  },
+  "guardian of nature": {
+    "display": "1d6",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "illusory dragon": {
+    "display": "7d6",
+    "level": 8,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "7d6"
+  },
+  "infernal calling": {
+    "display": "3d6",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "3d6"
+  },
+  "invulnerability": {
+    "display": "",
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "maddening darkness": {
+    "display": "8d8",
+    "level": 8,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "8d8"
+  },
+  "mental prison": {
+    "display": "",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "mighty fortress": {
+    "display": "",
+    "level": 8,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "mind spike": {
+    "display": "3d8",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "3d8"
+  },
+  "negative energy flood": {
+    "display": "5d12",
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "5d12"
+  },
+  "shadow of moil": {
+    "display": "2d8",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "2d8"
+  },
+  "summon greater demon": {
+    "display": "1d6",
+    "level": 4,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d6"
+  },
+  "tenser's transformation": {
+    "display": "",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "thunder step": {
+    "display": "",
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "zephyr strike": {
+    "display": "1d8",
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "base_dice": "1d8"
   }
 }

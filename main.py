@@ -7663,6 +7663,8 @@ async def character_sheet(char_id: int, request: Request):
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Enrich features with dice badge data from FEATS/RACES lookup
+    _add_dice_to_features(char["feature_data"])
     # Inject Eldritch Invocation level cards for Warlocks (SRD only has L2)
     _add_invocation_levels(char["feature_data"], char.get("class_name", ""), char.get("level", 0))
     # Enrich ASI features with feat descriptions when a feat was taken
@@ -15752,6 +15754,20 @@ def _add_source_to_features(feature_data: list[dict]) -> None:
                     break
         if _src:
             feat["source"] = _src
+
+
+def _add_dice_to_features(feature_data: list[dict]) -> None:
+    """Mutate feature_data in-place: add 'dice' field from FEATS lookup.
+    Only adds if feat doesn't already have a dice field (preserves hardcoded values)."""
+    for feat in feature_data:
+        if feat.get("dice"):
+            continue  # Already has dice (hardcoded or from previous enrichment)
+        name = feat.get("name", "")
+        key = name.lower()
+        # Look up in FEATS dict
+        _feat = FEATS.get(key)
+        if _feat and _feat.get("dice"):
+            feat["dice"] = _feat["dice"]
 
 
 def _add_invocation_levels(feature_data: list[dict], class_name: str, char_level: int) -> None:
