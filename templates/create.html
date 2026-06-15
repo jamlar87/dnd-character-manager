@@ -553,7 +553,7 @@ function openSourceRef(src, slug) {
 }
 
 // ── Step 0: Race ──
-let _coreOnlyCreate = false;
+let _coreOnlyCreate = localStorage.getItem('coreOnly') === 'true';
 const _CORE_BOOKS_C = ['PHB','PHB 2014','DMG','DMG 2014','MM','XGE','TCE','TCE 2020','VGM','MTF','SCAG','ERLW','FTD','MPMM','BPGG'];
 const _CORE_NAMES_C = ["player's handbook","dungeon master's guide","monster manual","xanathar's guide","tasha's cauldron","volo's guide","mordenkainen's tome","sword coast adventurer's guide","eberron: rising","fizban's treasury","mordenkainen presents","bigby presents","glory of the giants","elemental evil player's companion"];
 function isCoreSourceC(src) {
@@ -566,6 +566,7 @@ function isCoreSourceC(src) {
 }
 function toggleCoreCreate(el) {
   _coreOnlyCreate = !_coreOnlyCreate;
+  localStorage.setItem('coreOnly', _coreOnlyCreate);
   el.querySelector('.core-create-box').textContent = _coreOnlyCreate ? '☑' : '☐';
   el.style.color = _coreOnlyCreate ? 'var(--accent)' : 'var(--text-muted)';
   // Update all toggle labels to stay in sync
@@ -1467,6 +1468,11 @@ async function createCharacter() {
 buildRaces();
 buildClasses();
 buildAbilities();
+// Sync core toggle UI from localStorage
+if (_coreOnlyCreate) {
+  document.querySelectorAll('.core-create-box').forEach(b => b.textContent = '☑');
+  document.querySelectorAll('label').forEach(l => { if (l.querySelector('.core-create-box')) l.style.color = 'var(--accent)'; });
+}
 
 // ── Auto-fill functions ─────────────────────────────────────────────
 
