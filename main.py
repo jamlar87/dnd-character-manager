@@ -607,8 +607,16 @@ def load_manual_data():
             }
         elif manual_desc and len(manual_desc) > len(FEATS[key].get("description", "")):
             # Skip OCR-garbled descriptions — never replace clean text with garbage
-            _ocr_markers = ["Vou ", "lhal ", "maslered", "lhree", "disadvanlage",
-                           "prolicienl", "benelits", "PART I CUSTOMIZ"]
+            _ocr_markers = [
+                "Vou ", "vou ", "Vour ", "lhe ", "lhal ", "lhis ", "lhan ",
+                "lhrough ", "lhrow ", "lurn ", "lhe ", "crealure", "dalllage",
+                "aclion", "effecl", "reaclion", "benelils", "benelit",
+                "proleclion", "rnaximum", "rnake", "RolI", "Whcn",
+                "beeornes", "discordam", "fillthe", "notjust", "bdore",
+                "levei ", "leveI ", "proliciency", "proticiency",
+                "olheI'", "ralheI'", "wilhin", "PART I CUSTOMIZ",
+                "maslered", "disadvanlage", "prolicienl",
+            ]
             if any(m in manual_desc for m in _ocr_markers):
                 continue
             # Update existing feat with full PHB description (manual data is richer)

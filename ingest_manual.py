@@ -314,6 +314,10 @@ def _extract_json(text: str) -> dict | None:
 
 def _try_parse_json(raw: str) -> dict | None:
     """Try to parse JSON with progressive repair attempts."""
+    # 0. Fix OCR artifacts BEFORE parsing — prevents corrupted text from
+    #    surviving into the data at all. Applied to raw LLM output.
+    raw = _fix_ocr_artifacts(raw)
+
     # 1. Straight parse
     try:
         return json.loads(raw)
@@ -382,6 +386,58 @@ def _clean_json_controls(text: str) -> str:
         else:
             result.append(ch)
     return ''.join(result)
+
+
+# ── OCR artifact correction ──
+# These patterns come from real PDF→text extraction where serif fonts
+# cause systematic misreads: Y→V, t→l, m→rn, etc.
+_OCR_FIXES: list[tuple[str, str]] = [
+    # V↔Y confusion (serif capital Y reads as V)
+    (r'\bVou\b', 'You'), (r'\bvou\b', 'you'), (r'\bVour\b', 'Your'),
+    # l↔t confusion (lowercase t reads as l)
+    (r'\blhe\b', 'the'), (r'\blhal\b', 'that'), (r'\blhis\b', 'this'),
+    (r'\blhan\b', 'than'), (r'\blhen\b', 'then'), (r'\blhere\b', 'there'),
+    (r'\blhose\b', 'those'), (r'\blhing\b', 'thing'), (r'\blhink\b', 'think'),
+    (r'\blhree\b', 'three'), (r'\blhrough\b', 'through'), (r'\blhrow\b', 'throw'),
+    (r'\blhrone\b', 'throne'), (r'\blurn\b', 'turn'),
+    # l↔1 confusion in dice notation
+    (r'\bld(\d+)\b', r'1d\1'), (r'\bId(\d+)\b', r'1d\1'),
+    # rn→m / ll→m (OCR misreads)
+    (r'\bllaximum\b', 'maximum'), (r'\bllinimum\b', 'minimum'),
+    (r'\bllove(s|d|ment)?\b', r'move\1'), (r'\bllagic(al)?\b', r'magic\1'),
+    (r'\bllodifier\b', 'modifier'), (r'\bllake\b', 'make'),
+    (r'\bllay\b', 'may'), (r'\bllust\b', 'must'), (r'\bllore\b', 'more'),
+    (r'\bllonth\b', 'month'), (r'\bllinute\b', 'minute'),
+    (r'\bllaterial\b', 'material'), (r'\bllaster\b', 'master'),
+    (r'\bIllaster\b', 'master'),
+    (r'\brnaximum\b', 'maximum'), (r'\brnagic\b', 'magic'), (r'\brnake\b', 'make'),
+    # Common mangled words
+    (r'\bcrealure\b', 'creature'), (r'\bcrealures\b', 'creatures'),
+    (r'\bdalllage\b', 'damage'), (r'\baclion\b', 'action'),
+    (r'\bbeffecl\b', 'effect'), (r'\bbeffecls\b', 'effects'),
+    (r'\breaclion\b', 'reaction'), (r'\bbenelils?\b', 'benefits'),
+    (r'\bproleclion\b', 'protection'), (r'\bRolI\b', 'Roll'),
+    (r'\bnotjust\b', 'not just'), (r'\bbdore\b', 'before'),
+    (r'\bWhcn\b', 'When'), (r'\bbeeornes\b', 'becomes'),
+    (r'\bdiscordam\b', 'discordant'), (r'\bfillthe\b', 'fill the'),
+    (r'\blevei\b', 'level'), (r'\bleveI\b', 'level'),
+    (r'\bproliciency\b', 'proficiency'), (r'\bproticiency\b', 'proficiency'),
+    (r"olheI'", "other"), (r"ralheI'", 'rather'),
+    (r'\blry\b', 'try'), (r'\bwilhin\b', 'within'), (r'\bwilh\b', 'with'),
+    (r'\bvalnerable\b', 'vulnerable'),
+    # Mixed case / spacing
+    (r'lesse r\b', 'lesser'), (r'\bof20\b', 'of 20'),
+]
+
+
+def _fix_ocr_artifacts(text: str) -> str:
+    """Apply OCR correction patterns to a string. Idempotent — safe to call
+    on already-clean text (no double-correction)."""
+    if not text:
+        return text
+    for pattern, replacement in _OCR_FIXES:
+        text = re.sub(pattern, replacement, text)
+    return text
 
 
 def _close_truncated_json(text: str) -> str:
@@ -627,6 +683,9 @@ def _extract_pymupdf(pdf_path: str, cache_path: str) -> str | None:
         doc.close()
         text = "\n\n".join(pages)
         if len(text) > 500:
+            # Fix OCR artifacts before caching — downstream consumers
+            # (LLM prompts, chapter extraction) all get clean text.
+            text = _fix_ocr_artifacts(text)
             Path(cache_path).write_text(text, encoding="utf-8", errors="replace")
             print(f"  Extracted {len(text):,} chars ({len(pages)} pages) via pymupdf → {Path(cache_path).name}")
             return text
@@ -649,6 +708,9 @@ def _extract_pdftotext(pdf_path: str, cache_path: str) -> str | None:
             print(f"  pdftotext error: {result.stderr[:200]}")
             return None
         text = Path(cache_path).read_text(encoding="utf-8", errors="replace")
+        # Fix OCR artifacts in pdftotext output too
+        text = _fix_ocr_artifacts(text)
+        Path(cache_path).write_text(text, encoding="utf-8", errors="replace")
         print(f"  Extracted {len(text):,} chars → {Path(cache_path).name}")
         return text
     except FileNotFoundError:
