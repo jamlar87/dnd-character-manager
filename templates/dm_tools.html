@@ -3586,7 +3586,7 @@ function renderPlayersPanel() {
         <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
         <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
         <button class="init-btn" onclick="loadCharacterSummons(${p.char_id}, '${p.name}')" title="Load summons into combat" style="flex-shrink:0;color:var(--warn)">🐾</button>
-        <button class="init-btn" onclick="openSummonModalDM(${p.char_id}, '${p.name}')" title="Quick add summon mid-combat" style="flex-shrink:0;color:var(--accent)">⚡</button>
+        <button class="init-btn" onclick="openSummonModalDM(${p.char_id}, '${p.name}', ${p.level || 1})" title="Quick add summon mid-combat" style="flex-shrink:0;color:var(--accent)">⚡</button>
       </div>
     </div>`;
   }).join('');
@@ -4097,15 +4097,17 @@ async function loadCharacterSummons(charId, charName) {
   // ── Quick Add Summon from Combat Tab ──
   let _summonDMCharId = null;
   let _summonDMCharName = null;
+  let _summonDMLevel = 1;
 
-  function openSummonModalDM(charId, charName) {
+  function openSummonModalDM(charId, charName, charLevel) {
     _summonDMCharId = charId;
     _summonDMCharName = charName;
+    _summonDMLevel = charLevel || 1;
 
     let html = `<div class="modal-overlay" id="summonModalDM" onclick="if(event.target===this)closeSummonModalDM()">
       <div class="modal-content" style="max-width:600px">
         <button class="modal-close" onclick="closeSummonModalDM()">✕</button>
-        <h2 style="margin:0 0 0.5rem 0">⚡ Summon for ${charName}</h2>
+        <h2 style="margin:0 0 0.5rem 0">⚡ Summon for ${charName} (Lv${_summonDMLevel})</h2>
         <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem">Adds to sheet + auto-inserts into initiative</p>
         <div style="margin-bottom:0.75rem">
           <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem">Quick Template</label>
@@ -4122,13 +4124,19 @@ async function loadCharacterSummons(charId, charName) {
       html += `<optgroup label="${label}">`;
       for (const [key, tmpl] of Object.entries(SUMMON_TEMPLATES)) {
         if (tmpl.category === cat) {
-          html += `<option value="${key}">${tmpl.name}${tmpl.form ? ' (' + tmpl.form + ')' : ''}</option>`;
+          html += `<option value="${key}">${tmpl.name}</option>`;
         }
       }
       html += `</optgroup>`;
     }
 
     html += `</select>
+        </div>
+        <div id="summon-spell-level-row-dm" style="display:none;margin-bottom:0.75rem">
+          <label style="font-size:0.7rem;color:var(--text-muted)">Spell Level</label>
+          <input id="s-spell-level-dm" type="number" min="1" max="9" value="3" style="width:80px;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;margin-left:0.5rem"
+            onchange="fillSummonTemplateDM(document.getElementById('summon-template-dm').value)">
+          <span id="summon-hp-calc-dm" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.5rem"></span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
           <div><label style="font-size:0.7rem">Name</label><input id="s-name-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Stolas"></div>
@@ -4152,7 +4160,6 @@ async function loadCharacterSummons(charId, charName) {
       </div>
     </div>`;
     document.body.insertAdjacentHTML('beforeend', html);
-    // Trigger reflow then show
     requestAnimationFrame(() => {
       const modal = document.getElementById('summonModalDM');
       if (modal) modal.classList.add('open');
@@ -4167,20 +4174,102 @@ async function loadCharacterSummons(charId, charName) {
     }
   }
 
-  function fillSummonTemplateDM(key) {
-    if (!key || !SUMMON_TEMPLATES[key]) return;
-    const t = SUMMON_TEMPLATES[key];
-    document.getElementById('s-name-dm').value = t.name;
-    document.getElementById('s-form-dm').value = t.form || '';
-    document.getElementById('s-ac-dm').value = t.ac;
-    document.getElementById('s-hp-dm').value = t.hp_max;
-    document.getElementById('s-size-dm').value = t.size;
-    document.getElementById('s-speed-dm').value = t.speed;
-    document.getElementById('s-source-dm').value = t.source;
-    for (const [ab, val] of Object.entries(t.stats)) {
-      const el = document.getElementById('s-' + ab + '-dm');
-      if (el) el.value = val;
+  // ── Dynamic fill: monster DB or spell calculation ──
+  async function fillSummonTemplateDM(key) {
+    if (!key || !SUMMON_TEMPLATES[key]) {
+      const slRow = document.getElementById('summon-spell-level-row-dm');
+      if (slRow) slRow.style.display = 'none';
+      return;
     }
+    const t = SUMMON_TEMPLATES[key];
+
+    document.getElementById('s-name-dm').value = t.name;
+    document.getElementById('s-form-dm').value = '';
+    document.getElementById('s-size-dm').value = t.size || 'Medium';
+    document.getElementById('s-speed-dm').value = t.speed || '30 ft.';
+    document.getElementById('s-source-dm').value = t.source || '';
+
+    for (const ab of ['str','dex','con','int','wis','cha']) {
+      const el = document.getElementById('s-' + ab + '-dm');
+      if (el) el.value = (t.stats && t.stats[ab]) ? t.stats[ab] : 10;
+    }
+
+    // ── Monster DB lookup ──
+    if (t.monster_index) {
+      try {
+        const r = await fetch(`/api/dm/monster/${t.monster_index}`);
+        if (r.ok) {
+          const m = await r.json();
+          let ac = 10;
+          if (Array.isArray(m.armor_class) && m.armor_class.length) ac = m.armor_class[0].value || 10;
+          else if (typeof m.armor_class === 'number') ac = m.armor_class;
+          document.getElementById('s-ac-dm').value = ac;
+          document.getElementById('s-hp-dm').value = m.hit_points || 1;
+          const statMap = {'strength':'str','dexterity':'dex','constitution':'con',
+                           'intelligence':'int','wisdom':'wis','charisma':'cha'};
+          for (const [src, dst] of Object.entries(statMap)) {
+            const el = document.getElementById('s-' + dst + '-dm');
+            if (el && m[src] != null) el.value = m[src];
+          }
+          if (m.speed && typeof m.speed === 'object') {
+            const parts = [];
+            for (const [k,v] of Object.entries(m.speed)) parts.push(v.replace(' ft.',' ft'));
+            document.getElementById('s-speed-dm').value = parts.join(', ') || t.speed || '30 ft.';
+          }
+        }
+      } catch(e) { console.warn('Monster fetch failed:', e); }
+      const slRow = document.getElementById('summon-spell-level-row-dm');
+      if (slRow) slRow.style.display = 'none';
+      return;
+    }
+
+    // ── Spell-based summons ──
+    if (t.spell_base_level != null) {
+      const slRow = document.getElementById('summon-spell-level-row-dm');
+      const slInput = document.getElementById('s-spell-level-dm');
+      if (slRow) slRow.style.display = 'block';
+
+      let spellLvl = t.spell_base_level;
+      if (slInput) {
+        const curVal = parseInt(slInput.value) || t.spell_base_level;
+        if (curVal < t.spell_base_level) {
+          slInput.value = t.spell_base_level;
+          spellLvl = t.spell_base_level;
+        } else {
+          spellLvl = curVal;
+        }
+      }
+
+      const aboveBase = Math.max(0, spellLvl - t.spell_base_level);
+      const ac = (t.ac_base || 10) + (t.ac_scaling || 0) * (spellLvl || 0);
+      document.getElementById('s-ac-dm').value = ac;
+
+      let hp;
+      if (t.hp_per_level) {
+        hp = (t.hp_base || 0) + (t.hp_per_level || 0) * (_summonDMLevel || 1);
+      } else {
+        hp = (t.hp_base || 0) + (t.hp_scaling || 0) * aboveBase;
+      }
+      document.getElementById('s-hp-dm').value = hp;
+
+      const hpLabel = document.getElementById('summon-hp-calc-dm');
+      if (hpLabel) {
+        if (t.hp_per_level) {
+          hpLabel.textContent = `${t.hp_base} + ${t.hp_per_level}×Lv${_summonDMLevel} = ${hp} HP`;
+        } else if (aboveBase > 0) {
+          hpLabel.textContent = `${t.hp_base} + ${t.hp_scaling}×${aboveBase} = ${hp} HP`;
+        } else {
+          hpLabel.textContent = `${t.hp_base} HP (base)`;
+        }
+      }
+      return;
+    }
+
+    // Fallback
+    if (t.ac) document.getElementById('s-ac-dm').value = t.ac;
+    if (t.hp_max) document.getElementById('s-hp-dm').value = t.hp_max;
+    const slRow = document.getElementById('summon-spell-level-row-dm');
+    if (slRow) slRow.style.display = 'none';
   }
 
   async function addSummonDM() {
@@ -4209,13 +4298,31 @@ async function loadCharacterSummons(charId, charName) {
 
     const key = document.getElementById('summon-template-dm').value;
     if (key && SUMMON_TEMPLATES[key]) {
-      s.features = [...(SUMMON_TEMPLATES[key].features || [])];
-      s.attacks = [...(SUMMON_TEMPLATES[key].attacks || [])];
-      s.skills = SUMMON_TEMPLATES[key].skills || '';
-      s.senses = SUMMON_TEMPLATES[key].senses || '';
-      s.hp_note = SUMMON_TEMPLATES[key].hp_note || '';
-      s.category = SUMMON_TEMPLATES[key].category;
-      s.form = s.form || SUMMON_TEMPLATES[key].form || '';
+      const t = SUMMON_TEMPLATES[key];
+      s.features = [...(t.features || [])];
+      s.skills = t.skills || '';
+      s.senses = t.senses || '';
+      s.hp_note = t.hp_note || '';
+      s.category = t.category;
+
+      if (t.attacks) {
+        s.attacks = t.attacks.map(a => {
+          let dmg = a.damage_base || a.damage || '1d4';
+          if (t.spell_base_level != null && a.damage_scaling) {
+            const slIn = document.getElementById('s-spell-level-dm');
+            const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
+            const scaled = parseInt(a.damage_scaling) * Math.max(0, spellLvl - t.spell_base_level);
+            if (scaled > 0) dmg += `+${scaled}`;
+          }
+          let bonus = a.bonus;
+          if (t.spell_base_level != null && bonus == null) {
+            const slIn = document.getElementById('s-spell-level-dm');
+            const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
+            bonus = (t.atk_bonus_base || 0) + (t.atk_bonus_scaling || 0) * (spellLvl || 0);
+          }
+          return {name: a.name, bonus: bonus, damage: dmg};
+        });
+      }
     }
 
     try {

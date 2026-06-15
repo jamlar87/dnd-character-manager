@@ -7615,7 +7615,6 @@ function openSummonModal() {
         <select id="summon-template" onchange="fillSummonTemplate(this.value)" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
           <option value="">— Custom —</option>`;
 
-  // Group templates by category
   const categories = {
     'pact_chain': '🔗 Pact of the Chain',
     'familiar': '🐾 Find Familiar',
@@ -7626,13 +7625,19 @@ function openSummonModal() {
     html += `<optgroup label="${label}">`;
     for (const [key, tmpl] of Object.entries(SUMMON_TEMPLATES)) {
       if (tmpl.category === cat) {
-        html += `<option value="${key}">${tmpl.name}${tmpl.form ? ' (' + tmpl.form + ')' : ''}</option>`;
+        html += `<option value="${key}">${tmpl.name}</option>`;
       }
     }
     html += `</optgroup>`;
   }
 
   html += `</select>
+      </div>
+      <div id="summon-spell-level-row" style="display:none;margin-bottom:0.75rem">
+        <label style="font-size:0.7rem;color:var(--text-muted)">Spell Level</label>
+        <input id="s-spell-level" type="number" min="1" max="9" value="3" style="width:80px;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;margin-left:0.5rem"
+          onchange="fillSummonTemplate(document.getElementById('summon-template').value)">
+        <span id="summon-hp-calc" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.5rem"></span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
         <div><label style="font-size:0.7rem">Name</label><input id="s-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Stolas"></div>
@@ -7656,7 +7661,6 @@ function openSummonModal() {
     </div>
   </div>`;
   document.body.insertAdjacentHTML('beforeend', html);
-  // Trigger reflow then show
   requestAnimationFrame(() => {
     const modal = document.getElementById('summonModal');
     if (modal) modal.classList.add('open');
@@ -7671,20 +7675,118 @@ function closeSummonModal() {
   }
 }
 
-function fillSummonTemplate(key) {
-  if (!key || !SUMMON_TEMPLATES[key]) return;
-  const t = SUMMON_TEMPLATES[key];
-  document.getElementById('s-name').value = t.name;
-  document.getElementById('s-form').value = t.form || '';
-  document.getElementById('s-ac').value = t.ac;
-  document.getElementById('s-hp').value = t.hp_max;
-  document.getElementById('s-size').value = t.size;
-  document.getElementById('s-speed').value = t.speed;
-  document.getElementById('s-source').value = t.source;
-  for (const [ab, val] of Object.entries(t.stats)) {
-    const el = document.getElementById('s-' + ab);
-    if (el) el.value = val;
+// ── Dynamic summon stat fill — fetches from monster DB or calculates ──
+async function fillSummonTemplate(key) {
+  if (!key || !SUMMON_TEMPLATES[key]) {
+    // Custom — hide spell level, clear fields
+    const slRow = document.getElementById('summon-spell-level-row');
+    if (slRow) slRow.style.display = 'none';
+    return;
   }
+  const t = SUMMON_TEMPLATES[key];
+
+  // Name + form
+  document.getElementById('s-name').value = t.name;
+  document.getElementById('s-form').value = '';
+  document.getElementById('s-size').value = t.size || 'Medium';
+  document.getElementById('s-speed').value = t.speed || '30 ft.';
+  document.getElementById('s-source').value = t.source || '';
+
+  // Stats — default
+  for (const ab of ['str','dex','con','int','wis','cha']) {
+    const el = document.getElementById('s-' + ab);
+    if (el) el.value = (t.stats && t.stats[ab]) ? t.stats[ab] : 10;
+  }
+
+  // ── Monster DB lookup (familiars + chain) ──
+  if (t.monster_index) {
+    try {
+      const r = await fetch(`/api/dm/monster/${t.monster_index}`);
+      if (r.ok) {
+        const m = await r.json();
+        // AC
+        let ac = 10;
+        if (Array.isArray(m.armor_class) && m.armor_class.length) ac = m.armor_class[0].value || 10;
+        else if (typeof m.armor_class === 'number') ac = m.armor_class;
+        document.getElementById('s-ac').value = ac;
+        // HP
+        document.getElementById('s-hp').value = m.hit_points || 1;
+        // Stats
+        const statMap = {'strength':'str','dexterity':'dex','constitution':'con',
+                         'intelligence':'int','wisdom':'wis','charisma':'cha'};
+        for (const [src, dst] of Object.entries(statMap)) {
+          const el = document.getElementById('s-' + dst);
+          if (el && m[src] != null) el.value = m[src];
+        }
+        // Speed
+        if (m.speed && typeof m.speed === 'object') {
+          const parts = [];
+          for (const [k,v] of Object.entries(m.speed)) {
+            parts.push(v.replace(' ft.',' ft'));
+          }
+          document.getElementById('s-speed').value = parts.join(', ') || t.speed || '30 ft.';
+        }
+      }
+    } catch(e) { console.warn('Monster fetch failed, using template defaults:', e); }
+    const slRow = document.getElementById('summon-spell-level-row');
+    if (slRow) slRow.style.display = 'none';
+    return;
+  }
+
+  // ── Spell-based summons (Tasha + class features) ──
+  if (t.spell_base_level != null) {
+    const slRow = document.getElementById('summon-spell-level-row');
+    const slInput = document.getElementById('s-spell-level');
+    if (slRow) slRow.style.display = 'block';
+
+    // Determine effective spell level
+    let spellLvl = t.spell_base_level;
+    if (slInput) {
+      const curVal = parseInt(slInput.value) || t.spell_base_level;
+      if (curVal < t.spell_base_level) {
+        slInput.value = t.spell_base_level;
+        spellLvl = t.spell_base_level;
+      } else {
+        spellLvl = curVal;
+      }
+    }
+
+    const aboveBase = Math.max(0, spellLvl - t.spell_base_level);
+
+    // AC
+    const ac = (t.ac_base || 10) + (t.ac_scaling || 0) * (spellLvl || 0);
+    document.getElementById('s-ac').value = ac;
+
+    // HP (class features use hp_per_level × character level)
+    let hp;
+    if (t.hp_per_level) {
+      hp = (t.hp_base || 0) + (t.hp_per_level || 0) * CHAR_LEVEL;
+    } else {
+      hp = (t.hp_base || 0) + (t.hp_scaling || 0) * aboveBase;
+    }
+    document.getElementById('s-hp').value = hp;
+
+    // HP calculation label
+    const hpLabel = document.getElementById('summon-hp-calc');
+    if (hpLabel) {
+      if (t.hp_per_level) {
+        hpLabel.textContent = `${t.hp_base} + ${t.hp_per_level}×Lv${CHAR_LEVEL} = ${hp} HP`;
+      } else if (aboveBase > 0) {
+        hpLabel.textContent = `${t.hp_base} + ${t.hp_scaling}×${aboveBase} = ${hp} HP`;
+      } else {
+        hpLabel.textContent = `${t.hp_base} HP (base)`;
+      }
+    }
+
+    // If spell level is higher than base, don't show extra field — integrated in calculation
+    return;
+  }
+
+  // Fallback: template has hardcoded ac/hp
+  if (t.ac) document.getElementById('s-ac').value = t.ac;
+  if (t.hp_max) document.getElementById('s-hp').value = t.hp_max;
+  const slRow = document.getElementById('summon-spell-level-row');
+  if (slRow) slRow.style.display = 'none';
 }
 
 function addSummon() {
@@ -7706,19 +7808,43 @@ function addSummon() {
   for (const ab of ['str','dex','con','int','wis','cha']) {
     s.stats[ab] = parseInt(document.getElementById('s-' + ab).value) || 10;
   }
-  
-  // Copy template features/attacks if a template was selected
+
   const key = document.getElementById('summon-template').value;
   if (key && SUMMON_TEMPLATES[key]) {
-    s.features = [...(SUMMON_TEMPLATES[key].features || [])];
-    s.attacks = [...(SUMMON_TEMPLATES[key].attacks || [])];
-    s.skills = SUMMON_TEMPLATES[key].skills || '';
-    s.senses = SUMMON_TEMPLATES[key].senses || '';
-    s.hp_note = SUMMON_TEMPLATES[key].hp_note || '';
-    s.category = SUMMON_TEMPLATES[key].category;
-    s.form = s.form || SUMMON_TEMPLATES[key].form || '';
+    const t = SUMMON_TEMPLATES[key];
+    s.features = [...(t.features || [])];
+    s.skills = t.skills || '';
+    s.senses = t.senses || '';
+    s.hp_note = t.hp_note || '';
+    s.category = t.category;
+
+    // Build attacks with calculated damage
+    if (t.attacks) {
+      s.attacks = t.attacks.map(a => {
+        let dmg = a.damage_base || a.damage || '1d4';
+        // Apply spell level scaling if applicable
+        if (t.spell_base_level != null && a.damage_scaling) {
+          const slInput = document.getElementById('s-spell-level');
+          const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
+          const aboveBase = Math.max(0, spellLvl - t.spell_base_level);
+          const scaled = parseInt(a.damage_scaling) * aboveBase;
+          if (scaled > 0) dmg += `+${scaled}`;
+        }
+        // Calculate attack bonus if spell-based
+        let bonus = a.bonus;
+        if (t.spell_base_level != null && bonus == null) {
+          const slInput = document.getElementById('s-spell-level');
+          const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
+          const atkBase = (t.atk_bonus_base || 0);
+          const atkScale = (t.atk_bonus_scaling || 0) * (spellLvl || 0);
+          bonus = atkBase + atkScale;
+        }
+        return {name: a.name, bonus: bonus, damage: dmg};
+      });
+    }
+    s.form = s.form || t.form || '';
   }
-  
+
   characterSummons.push(s);
   saveSummons().then(() => location.reload());
 }
