@@ -2961,10 +2961,13 @@ function renderConditions(conditions) {
 function toggleConditions() {
   _conditionsExpanded = !_conditionsExpanded;
   document.getElementById('cond-chevron').textContent = _conditionsExpanded ? '▾' : '▸';
-  // Re-render from current state
-  fetch('/api/character/'+CHAR_ID)
-    .then(r => r.json())
-    .then(d => renderConditions(d.conditions));
+  if (_conditionsExpanded) {
+    fetch('/api/character/'+CHAR_ID+'/conditions')
+      .then(r => r.json())
+      .then(d => renderConditions(d.conditions));
+  } else {
+    renderConditions([]);
+  }
 }
 
 function toggleConditionDetail(event, name, desc) {
