@@ -4098,6 +4098,8 @@ async function loadCharacterSummons(charId, charName) {
   let _summonDMCharId = null;
   let _summonDMCharName = null;
   let _summonDMLevel = 1;
+  let _lastMonsterDataDM = null;
+  let _lastTemplateKeyDM = null;
 
   function openSummonModalDM(charId, charName, charLevel) {
     _summonDMCharId = charId;
@@ -4216,8 +4218,27 @@ async function loadCharacterSummons(charId, charName) {
             for (const [k,v] of Object.entries(m.speed)) parts.push(v.replace(' ft.',' ft'));
             document.getElementById('s-speed-dm').value = parts.join(', ') || t.speed || '30 ft.';
           }
+          // Capture full monster data
+          _lastMonsterDataDM = {
+            actions: (m.actions || []).map(a => ({
+              name: a.name, desc: a.desc || '', attack_bonus: a.attack_bonus, damage: a.damage || []
+            })),
+            special_abilities: (m.special_abilities || []).map(sa => ({
+              name: sa.name, desc: sa.desc || ''
+            })),
+            skills: m.skills || {}, senses: m.senses || {}, languages: m.languages || '',
+            damage_resistances: m.damage_resistances || [],
+            damage_immunities: m.damage_immunities || [],
+            condition_immunities: (m.condition_immunities || []).map(c => typeof c === 'string' ? c : c.name || ''),
+            proficiencies: (m.proficiencies || []).map(p => ({
+              name: (p.proficiency?.name || '').replace('Skill: ',''), value: p.value
+            }))
+          };
+          _lastTemplateKeyDM = key;
+        } else {
+          _lastMonsterDataDM = null;
         }
-      } catch(e) { console.warn('Monster fetch failed:', e); }
+      } catch(e) { console.warn('Monster fetch failed:', e); _lastMonsterDataDM = null; }
       const slRow = document.getElementById('summon-spell-level-row-dm');
       if (slRow) slRow.style.display = 'none';
       return;
@@ -4225,6 +4246,8 @@ async function loadCharacterSummons(charId, charName) {
 
     // ── Spell-based summons ──
     if (t.spell_base_level != null) {
+      _lastMonsterDataDM = null;
+      _lastTemplateKeyDM = key;
       const slRow = document.getElementById('summon-spell-level-row-dm');
       const slInput = document.getElementById('s-spell-level-dm');
       if (slRow) slRow.style.display = 'block';
@@ -4299,30 +4322,57 @@ async function loadCharacterSummons(charId, charName) {
     const key = document.getElementById('summon-template-dm').value;
     if (key && SUMMON_TEMPLATES[key]) {
       const t = SUMMON_TEMPLATES[key];
-      s.features = [...(t.features || [])];
-      s.skills = t.skills || '';
-      s.senses = t.senses || '';
-      s.hp_note = t.hp_note || '';
       s.category = t.category;
 
-      if (t.attacks) {
-        s.attacks = t.attacks.map(a => {
-          let dmg = a.damage_base || a.damage || '1d4';
-          if (t.spell_base_level != null && a.damage_scaling) {
-            const slIn = document.getElementById('s-spell-level-dm');
-            const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
-            const scaled = parseInt(a.damage_scaling) * Math.max(0, spellLvl - t.spell_base_level);
-            if (scaled > 0) dmg += `+${scaled}`;
-          }
-          let bonus = a.bonus;
-          if (t.spell_base_level != null && bonus == null) {
-            const slIn = document.getElementById('s-spell-level-dm');
-            const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
-            bonus = (t.atk_bonus_base || 0) + (t.atk_bonus_scaling || 0) * (spellLvl || 0);
-          }
-          return {name: a.name, bonus: bonus, damage: dmg};
-        });
+      if (_lastMonsterDataDM && key === _lastTemplateKeyDM) {
+        const md = _lastMonsterDataDM;
+        s.attacks = md.actions.map(a => ({
+          name: a.name, bonus: a.attack_bonus,
+          damage: (a.damage || []).map(d => `${d.damage_dice || ''} ${d.damage_type?.name || ''}`.trim()).join(' + '),
+          desc: a.desc || ''
+        }));
+        s.features = md.special_abilities.map(sa => sa.name);
+        s.feature_descs = {};
+        for (const sa of md.special_abilities) s.feature_descs[sa.name] = sa.desc || '';
+        if (md.proficiencies && md.proficiencies.length) {
+          s.skills = md.proficiencies.map(p => `${p.name} +${p.value}`).join(', ');
+        } else if (md.skills && Object.keys(md.skills).length) {
+          s.skills = Object.entries(md.skills).map(([k,v]) => `${k} +${v}`).join(', ');
+        }
+        if (md.senses && Object.keys(md.senses).length) {
+          s.senses = Object.entries(md.senses).map(([k,v]) => `${k.replace('_',' ')} ${v}`).join(', ');
+        }
+        if (md.languages) s.languages = md.languages;
+        if (md.damage_resistances && md.damage_resistances.length) s.resistances = md.damage_resistances.join(', ');
+        if (md.damage_immunities && md.damage_immunities.length) s.immunities = md.damage_immunities.join(', ');
+        if (md.condition_immunities && md.condition_immunities.length) s.condition_immunities = md.condition_immunities.join(', ');
+        s.hp_note = t.hp_note || '';
+      } else {
+        s.features = [...(t.features || [])];
+        s.skills = t.skills || '';
+        s.senses = t.senses || '';
+        s.hp_note = t.hp_note || '';
+        if (t.attacks) {
+          s.attacks = t.attacks.map(a => {
+            let dmg = a.damage_base || a.damage || '1d4';
+            if (t.spell_base_level != null && a.damage_scaling) {
+              const slIn = document.getElementById('s-spell-level-dm');
+              const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
+              const scaled = parseInt(a.damage_scaling) * Math.max(0, spellLvl - t.spell_base_level);
+              if (scaled > 0) dmg += `+${scaled}`;
+            }
+            let bonus = a.bonus;
+            if (t.spell_base_level != null && bonus == null) {
+              const slIn = document.getElementById('s-spell-level-dm');
+              const spellLvl = slIn ? Math.max(t.spell_base_level, parseInt(slIn.value) || t.spell_base_level) : t.spell_base_level;
+              bonus = (t.atk_bonus_base || 0) + (t.atk_bonus_scaling || 0) * (spellLvl || 0);
+            }
+            return {name: a.name, bonus: bonus, damage: dmg, desc: a.desc || ''};
+          });
+        }
       }
+      _lastMonsterDataDM = null;
+      _lastTemplateKeyDM = null;
     }
 
     try {

@@ -881,16 +881,45 @@
             </div>
             <span style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
-          <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.4;color:var(--text-muted)">
+          <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
             <div><strong>Size:</strong> {{ s.size }}</div>
             <div><strong>Speed:</strong> {{ s.speed }}</div>
             {% if s.skills %}<div><strong>Skills:</strong> {{ s.skills }}</div>{% endif %}
             {% if s.senses %}<div><strong>Senses:</strong> {{ s.senses }}</div>{% endif %}
+            {% if s.languages %}<div><strong>Languages:</strong> {{ s.languages }}</div>{% endif %}
             <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.15rem;margin:0.3rem 0;font-family:monospace;text-align:center">
               {% for ab in ['str','dex','con','int','wis','cha'] %}<div><span style="color:var(--accent)">{{ ab|upper }}</span><br>{{ s.stats[ab] }}</div>{% endfor %}
             </div>
-            {% if s.features %}<div style="margin:0.2rem 0"><strong>Features:</strong> {{ s.features|join(', ') }}</div>{% endif %}
-            {% if s.attacks %}<div style="margin:0.2rem 0"><strong>Attacks:</strong>{% for a in s.attacks %}<br>• {{ a.name }} +{{ a.bonus }} ({{ a.damage }}){% endfor %}</div>{% endif %}
+            {% if s.resistances %}<div style="margin:0.2rem 0"><strong>Damage Resistances:</strong> {{ s.resistances }}</div>{% endif %}
+            {% if s.immunities %}<div style="margin:0.2rem 0"><strong>Damage Immunities:</strong> {{ s.immunities }}</div>{% endif %}
+            {% if s.condition_immunities %}<div style="margin:0.2rem 0"><strong>Condition Immunities:</strong> {{ s.condition_immunities }}</div>{% endif %}
+            {% if s.features %}
+            <div style="margin:0.3rem 0">
+              {% for fname in s.features %}
+              <div style="margin-bottom:0.25rem">
+                <strong>{{ fname }}.</strong>
+                {% if s.feature_descs and s.feature_descs[fname] %}
+                {{ s.feature_descs[fname] }}
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if s.attacks %}
+            <div style="margin:0.3rem 0">
+              <strong style="display:block;margin-bottom:0.15rem">Actions</strong>
+              {% for a in s.attacks %}
+              <div style="margin-bottom:0.3rem">
+                <strong>{{ a.name }}.</strong>
+                {% if a.desc %}
+                <em>{{ a.desc }}</em>
+                {% else %}
+                <em>{% if a.bonus != None %}+{{ a.bonus }} to hit{% endif %}{% if a.damage %}, {{ a.damage }}{% endif %}</em>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
             {% if s.hp_note %}<div style="margin:0.2rem 0;font-style:italic">{{ s.hp_note }}</div>{% endif %}
             <div style="display:flex;gap:0.3rem;margin-top:0.4rem">
               <input type="number" value="{{ s.hp_current }}" min="0" max="{{ s.hp_max }}" style="width:4em;padding:0.1rem 0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem"
@@ -7580,6 +7609,8 @@ async function applyDeLevel() {
 // ══════ SUMMONS ══════
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 let characterSummons = {{ character.summons|tojson }};
+let _lastMonsterData = null;   // captured from monster API during fill
+let _lastTemplateKey = null;   // template key for addSummon to reference
 
 function toggleSummonBody(chip) {
   const body = chip.querySelector('.summon-body');
@@ -7729,15 +7760,46 @@ async function fillSummonTemplate(key) {
           }
           document.getElementById('s-speed').value = parts.join(', ') || t.speed || '30 ft.';
         }
+        // ── Capture full monster data for rich summon display ──
+        _lastMonsterData = {
+          actions: (m.actions || []).map(a => ({
+            name: a.name,
+            desc: a.desc || '',
+            attack_bonus: a.attack_bonus,
+            damage: a.damage || []
+          })),
+          special_abilities: (m.special_abilities || []).map(sa => ({
+            name: sa.name,
+            desc: sa.desc || ''
+          })),
+          skills: m.skills || {},
+          senses: m.senses || {},
+          languages: m.languages || '',
+          damage_resistances: m.damage_resistances || [],
+          damage_immunities: m.damage_immunities || [],
+          condition_immunities: (m.condition_immunities || []).map(c => typeof c === 'string' ? c : c.name || ''),
+          proficiencies: (m.proficiencies || []).map(p => ({
+            name: (p.proficiency?.name || '').replace('Skill: ',''),
+            value: p.value
+          }))
+        };
+        _lastTemplateKey = key;
+      } else {
+        _lastMonsterData = null;
       }
-    } catch(e) { console.warn('Monster fetch failed, using template defaults:', e); }
+    } catch(e) {
+      console.warn('Monster fetch failed, using template defaults:', e);
+      _lastMonsterData = null;
+    }
     const slRow = document.getElementById('summon-spell-level-row');
     if (slRow) slRow.style.display = 'none';
     return;
   }
 
-  // ── Spell-based summons (Tasha + class features) ──
+  // ── Spell-based summons — clear monster data, set template key ──
   if (t.spell_base_level != null) {
+    _lastMonsterData = null;
+    _lastTemplateKey = key;
     const slRow = document.getElementById('summon-spell-level-row');
     const slInput = document.getElementById('s-spell-level');
     if (slRow) slRow.style.display = 'block';
@@ -7815,38 +7877,99 @@ function addSummon() {
   const key = document.getElementById('summon-template').value;
   if (key && SUMMON_TEMPLATES[key]) {
     const t = SUMMON_TEMPLATES[key];
-    s.features = [...(t.features || [])];
-    s.skills = t.skills || '';
-    s.senses = t.senses || '';
-    s.hp_note = t.hp_note || '';
     s.category = t.category;
 
-    // Build attacks with calculated damage
-    if (t.attacks) {
-      s.attacks = t.attacks.map(a => {
-        let dmg = a.damage_base || a.damage || '1d4';
-        // Apply spell level scaling if applicable
-        if (t.spell_base_level != null && a.damage_scaling) {
-          const slInput = document.getElementById('s-spell-level');
-          const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
-          const aboveBase = Math.max(0, spellLvl - t.spell_base_level);
-          const scaled = parseInt(a.damage_scaling) * aboveBase;
-          if (scaled > 0) dmg += `+${scaled}`;
+    // ── Monster-based: build rich attacks + features from API data ──
+    if (_lastMonsterData && key === _lastTemplateKey) {
+      const md = _lastMonsterData;
+
+      // Build attacks with full descriptions
+      s.attacks = md.actions.map(a => {
+        let dmg = '';
+        if (a.damage && a.damage.length) {
+          dmg = a.damage.map(d => `${d.damage_dice || ''} ${d.damage_type?.name || ''}`.trim()).join(' + ');
         }
-        // Calculate attack bonus if spell-based
-        let bonus = a.bonus;
-        if (t.spell_base_level != null && bonus == null) {
-          const slInput = document.getElementById('s-spell-level');
-          const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
-          const atkBase = (t.atk_bonus_base || 0);
-          const atkScale = (t.atk_bonus_scaling || 0) * (spellLvl || 0);
-          bonus = atkBase + atkScale;
-        }
-        return {name: a.name, bonus: bonus, damage: dmg};
+        return {
+          name: a.name,
+          bonus: a.attack_bonus,
+          damage: dmg,
+          desc: a.desc || ''
+        };
       });
+
+      // Build features list: names for chip display, plus full feature_descs object
+      s.features = md.special_abilities.map(sa => sa.name);
+      s.feature_descs = {};
+      for (const sa of md.special_abilities) {
+        s.feature_descs[sa.name] = sa.desc || '';
+      }
+
+      // Skills from proficiencies
+      if (md.proficiencies && md.proficiencies.length) {
+        s.skills = md.proficiencies.map(p => `${p.name} +${p.value}`).join(', ');
+      } else if (md.skills && Object.keys(md.skills).length) {
+        s.skills = Object.entries(md.skills).map(([k,v]) => `${k} +${v}`).join(', ');
+      }
+
+      // Senses
+      if (md.senses && Object.keys(md.senses).length) {
+        const senseParts = [];
+        for (const [k,v] of Object.entries(md.senses)) {
+          senseParts.push(`${k.replace('_',' ')} ${v}`);
+        }
+        s.senses = senseParts.join(', ');
+      }
+
+      // Languages
+      if (md.languages) s.languages = md.languages;
+
+      // Resistances / immunities
+      if (md.damage_resistances && md.damage_resistances.length) {
+        s.resistances = md.damage_resistances.join(', ');
+      }
+      if (md.damage_immunities && md.damage_immunities.length) {
+        s.immunities = md.damage_immunities.join(', ');
+      }
+      if (md.condition_immunities && md.condition_immunities.length) {
+        s.condition_immunities = md.condition_immunities.join(', ');
+      }
+
+      s.hp_note = t.hp_note || '';
+
+    } else {
+      // ── Template-based (Tasha summons / class features) ──
+      s.features = [...(t.features || [])];
+      s.skills = t.skills || '';
+      s.senses = t.senses || '';
+      s.hp_note = t.hp_note || '';
+
+      if (t.attacks) {
+        s.attacks = t.attacks.map(a => {
+          let dmg = a.damage_base || a.damage || '1d4';
+          let desc = a.desc || '';
+          if (t.spell_base_level != null && a.damage_scaling) {
+            const slInput = document.getElementById('s-spell-level');
+            const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
+            const aboveBase = Math.max(0, spellLvl - t.spell_base_level);
+            const scaled = parseInt(a.damage_scaling) * aboveBase;
+            if (scaled > 0) dmg += `+${scaled}`;
+          }
+          let bonus = a.bonus;
+          if (t.spell_base_level != null && bonus == null) {
+            const slInput = document.getElementById('s-spell-level');
+            const spellLvl = slInput ? Math.max(t.spell_base_level, parseInt(slInput.value) || t.spell_base_level) : t.spell_base_level;
+            bonus = (t.atk_bonus_base || 0) + (t.atk_bonus_scaling || 0) * (spellLvl || 0);
+          }
+          return {name: a.name, bonus: bonus, damage: dmg, desc: desc};
+        });
+      }
     }
     s.form = s.form || t.form || '';
   }
+
+  // Clear captured data
+  _lastMonsterData = null;
+  _lastTemplateKey = null;
 
   characterSummons.push(s);
   saveSummons().then(() => location.reload());
