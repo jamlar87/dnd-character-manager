@@ -195,7 +195,105 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "monster_index": "elk",
     },
 
-    # ── Vehicles (PHB p.157, DMG p.119, GoS) — manual stats ──
+    
+    # ── Ranger Beast Master Companions (PHB p.93, CR ≤ 1/4, ≤ Medium) ──
+    "ranger_wolf": {
+        "name": "Wolf", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "wolf",
+    },
+    "ranger_panther": {
+        "name": "Panther", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "panther",
+    },
+    "ranger_giant_badger": {
+        "name": "Giant Badger", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-badger",
+    },
+    "ranger_boar": {
+        "name": "Boar", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "boar",
+    },
+    "ranger_giant_poisonous_snake": {
+        "name": "Giant Poisonous Snake", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-poisonous-snake",
+    },
+    "ranger_giant_wolf_spider": {
+        "name": "Giant Wolf Spider", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-wolf-spider",
+    },
+    "ranger_mastiff": {
+        "name": "Mastiff", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "mastiff",
+    },
+    "ranger_blood_hawk": {
+        "name": "Blood Hawk", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "blood-hawk",
+    },
+    "ranger_flying_snake": {
+        "name": "Flying Snake", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "flying-snake",
+    },
+    "ranger_giant_weasel": {
+        "name": "Giant Weasel", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-weasel",
+    },
+    "ranger_giant_crab": {
+        "name": "Giant Crab", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-crab",
+    },
+    "ranger_poisonous_snake": {
+        "name": "Poisonous Snake", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "poisonous-snake",
+    },
+    "ranger_stirge": {
+        "name": "Stirge", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "stirge",
+    },
+    "ranger_giant_fire_beetle": {
+        "name": "Giant Fire Beetle", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-fire-beetle",
+    },
+    "ranger_badger": {
+        "name": "Badger", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "badger",
+    },
+    "ranger_crab": {
+        "name": "Crab", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "crab",
+    },
+    "ranger_giant_frog": {
+        "name": "Giant Frog", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-frog",
+    },
+    "ranger_giant_lizard": {
+        "name": "Giant Lizard", "category": "ranger_companion", "source": "Beast Master",
+        "monster_index": "giant-lizard",
+    },
+    # Manual stats (not in SRD)
+    "ranger_pteranodon": {
+        "name": "Pteranodon", "category": "ranger_companion", "source": "Beast Master",
+        "ac_base": 13, "hp_base": 13, "hp_note": "3d8", "size": "Medium", "speed": "10 ft., fly 60 ft.",
+        "stats": {"str":12,"dex":15,"con":10,"int":2,"wis":9,"cha":5},
+        "features": ["Flyby"],
+        "feature_descs": {
+            "Flyby": "The pteranodon doesn't provoke opportunity attacks when it flies out of an enemy's reach.",
+        },
+        "atk_name": "Bite", "atk_bonus": 3, "atk_damage": "1d4+1", "atk_type": "piercing",
+    },
+    "ranger_velociraptor": {
+        "name": "Velociraptor", "category": "ranger_companion", "source": "Beast Master",
+        "ac_base": 13, "hp_base": 10, "hp_note": "3d4+3", "size": "Small", "speed": "30 ft.",
+        "stats": {"str":6,"dex":14,"con":13,"int":4,"wis":12,"cha":6},
+        "features": ["Pack Tactics","Multiattack"],
+        "feature_descs": {
+            "Pack Tactics": "Advantage on attack rolls if an ally is within 5 ft. of the target.",
+            "Multiattack": "The velociraptor makes two attacks: one with its bite and one with its claws.",
+        },
+        "atk_name": "Bite", "atk_bonus": 4, "atk_damage": "1d6+2", "atk_type": "piercing",
+    },
+
+
+# ── Vehicles (PHB p.157, DMG p.119, GoS) — manual stats ──
     "vehicle_cart": {
         "name": "Cart", "category": "vehicle", "source": "vehicle",
         "ac_base": 10, "hp_base": 30, "hp_note": "Pulled by 1 draft animal. Holds 1/2 ton cargo.",
