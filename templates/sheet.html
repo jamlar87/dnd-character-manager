@@ -1249,6 +1249,9 @@
               <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ rt.name }}</span>
+                {% if rt.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ rt.dice }}</span>
+                {% endif %}
               </span>
             </div>
             <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">

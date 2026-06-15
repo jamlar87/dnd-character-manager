@@ -2545,6 +2545,14 @@ for trait_name, trait_desc in RACIAL_TRAIT_DESCS.items():
     if key not in FEATURE_DESCRIPTIONS:
         FEATURE_DESCRIPTIONS[key] = trait_desc
 
+# Damage dice subscripts for natural weapon traits
+_TRAIT_DICE = {
+    "Cat's Claws": "1d4 + Str",       # Tabaxi
+    "Claws": "1d4 + Str",             # Tortle
+    "Bite": "1d6 + Str",              # Lizardfolk, Bearfolk, Shadowborn Bearfolk
+    "Sharp Tusks": "1 + 1d4 psy",     # Ratatosk
+}
+
 # Subrace-specific trait lists
 SUBRACE_TRAITS = {
     "Hill Dwarf": ["Dwarven Toughness"],
@@ -2779,7 +2787,8 @@ def _build_racial_traits(char: dict) -> list:
                 src = _trait_page_map.get(t, "")
                 if not src:
                     src = race_name
-                result.append({"name": t, "desc": desc, "source": src})
+                dice = _TRAIT_DICE.get(t, "")
+                result.append({"name": t, "desc": desc, "source": src, "dice": dice})
 
     if subrace:
         sub_traits = SUBRACE_TRAITS.get(subrace, [])
@@ -2794,7 +2803,8 @@ def _build_racial_traits(char: dict) -> list:
                 src = _trait_page_map.get(t, "")
                 if not src:
                     src = subrace
-                result.append({"name": t, "desc": desc, "source": src})
+                dice = _TRAIT_DICE.get(t, "")
+                result.append({"name": t, "desc": desc, "source": src, "dice": dice})
 
     return result
 
