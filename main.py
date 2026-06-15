@@ -7703,8 +7703,11 @@ async def character_sheet(char_id: int, request: Request):
                 for _ae in char["asi_history"]:
                     if _ae.get("level") == _lvl_num and _ae.get("type") == "feat":
                         _fkey = _ae.get("feat", "")
-                        _finfo = FEAT_BY_NAME.get(_fkey.lower(), {})
-                        _feat["asi_feat_name"] = _finfo.get("name", _fkey.replace("_", " ").title())
+                        # FEAT_BY_NAME uses space-separated keys, asi_history uses underscores
+                        _finfo = FEAT_BY_NAME.get(_fkey.lower(), None)
+                        if _finfo is None:
+                            _finfo = FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {})
+                        _feat["asi_feat_name"] = _finfo.get("name") or _fkey.replace("_", " ").title()
                         _feat["asi_feat_desc"] = _finfo.get("description", "") or _finfo.get("desc", "")
                         # Magic Initiate: pass spell config to frontend
                         if _fkey == "magic_initiate":
@@ -7723,6 +7726,38 @@ async def character_sheet(char_id: int, request: Request):
                                 for m in _fc["maneuvers"]
                             ]
                         break
+    # Inject orphaned feats: asi_history feats with no matching ASI feature_data entry
+    _asi_levels = set()
+    for _feat in char["feature_data"]:
+        if isinstance(_feat, dict) and "Ability Score Improvement" in _feat.get("name", ""):
+            try:
+                _asi_levels.add(int(str(_feat.get("level", "0")).replace("L", "")))
+            except (ValueError, TypeError):
+                pass
+    for _ae in (char.get("asi_history") or []):
+        if _ae.get("type") == "feat":
+            _lvl = _ae.get("level", 0)
+            if _lvl not in _asi_levels:
+                _fkey = _ae.get("feat", "")
+                _finfo = FEAT_BY_NAME.get(_fkey.lower(), None)
+                if _finfo is None:
+                    _finfo = FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {})
+                _new_asi = {
+                    "name": "Ability Score Improvement",
+                    "level": f"L{_lvl}",
+                    "description": FEATURE_DESCRIPTIONS.get("ability score improvement", ""),
+                    "source": FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {}).get("source", ""),
+                    "asi_feat_name": _finfo.get("name") or _fkey.replace("_", " ").title(),
+                    "asi_feat_desc": _finfo.get("description", "") or _finfo.get("desc", ""),
+                }
+                if _fkey == "magic_initiate":
+                    _mi = _ae.get("magic_initiate", {})
+                    if _mi:
+                        _new_asi["magic_initiate"] = _mi
+                _fc = _ae.get("feat_config")
+                if _fc:
+                    _new_asi["feat_config"] = _fc
+                char["feature_data"].append(_new_asi)
     # Enrich with pool_kind from LIMITED_USE (so existing characters get Lay on Hands HP pool)
     for _feat in char["feature_data"]:
         if isinstance(_feat, dict) and not _feat.get("pool_kind"):
