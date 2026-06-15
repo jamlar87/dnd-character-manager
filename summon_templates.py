@@ -66,6 +66,40 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "monster_index": "sprite",
     },
 
+    # ── Mounts (PHB p.157, MM) — pulled from monster DB ──
+    "mount_warhorse": {
+        "name": "Warhorse", "category": "mount", "source": "mount",
+        "monster_index": "warhorse",
+    },
+    "mount_riding_horse": {
+        "name": "Riding Horse", "category": "mount", "source": "mount",
+        "monster_index": "riding-horse",
+    },
+    "mount_pony": {
+        "name": "Pony", "category": "mount", "source": "mount",
+        "monster_index": "pony",
+    },
+    "mount_mastiff": {
+        "name": "Mastiff", "category": "mount", "source": "mount",
+        "monster_index": "mastiff",
+    },
+    "mount_camel": {
+        "name": "Camel", "category": "mount", "source": "mount",
+        "monster_index": "camel",
+    },
+    "mount_draft_horse": {
+        "name": "Draft Horse", "category": "mount", "source": "mount",
+        "monster_index": "draft-horse",
+    },
+    "mount_mule": {
+        "name": "Mule", "category": "mount", "source": "mount",
+        "monster_index": "mule",
+    },
+    "mount_elk": {
+        "name": "Elk", "category": "mount", "source": "mount",
+        "monster_index": "elk",
+    },
+
     # ── Tasha's Summon Spells (DTCOE) — calculated from character level ──
     "tashas_beast": {
         "name": "Summon Beast", "category": "tashas_summon", "source": "summon_beast",
