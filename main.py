@@ -16477,9 +16477,9 @@ async def startup():
     init_db()
 
 # ── Reference Manual Lookup ─────────────────────────────────────────────────
-# 18 D&D 5e PDFs on SlowDisk. Query by filename or indexed metadata.
+# Ingested manuals from data/manual_data/ + cached extracts from data/manual_cache/
 
-MANUALS_BASE = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals")
+MANUALS_BASE = (DATA_DIR.parent / "manuals").resolve()
 
 @app.get("/api/reference/manuals", response_class=JSONResponse)
 async def list_manuals(request: Request):
