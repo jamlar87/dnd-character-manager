@@ -4151,11 +4151,19 @@ async function loadCharacterSummons(charId, charName) {
       </div>
     </div>`;
     document.body.insertAdjacentHTML('beforeend', html);
+    // Trigger reflow then show
+    requestAnimationFrame(() => {
+      const modal = document.getElementById('summonModalDM');
+      if (modal) modal.classList.add('open');
+    });
   }
 
   function closeSummonModalDM() {
     const modal = document.getElementById('summonModalDM');
-    if (modal) modal.remove();
+    if (modal) {
+      modal.classList.remove('open');
+      setTimeout(() => modal.remove(), 200);
+    }
   }
 
   function fillSummonTemplateDM(key) {
