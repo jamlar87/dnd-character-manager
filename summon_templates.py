@@ -206,6 +206,71 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         },
     },
 
+    # ── Siege Equipment (DMG p.255) — manual stats ──
+    "siege_ballista": {
+        "name": "Ballista", "category": "siege", "source": "siege",
+        "ac_base": 15, "hp_base": 50, "hp_note": "3d10 piercing. Range 120/480 ft. Crew: 1 action to load+aim+fire.",
+        "size": "Large", "speed": "0 ft. (stationary, can be moved on wheels)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Bolt","Armor Piercing"],
+        "feature_descs": {
+            "Bolt": "Ranged Weapon Attack: +6 to hit, range 120/480 ft, one target. Hit: 16 (3d10) piercing damage.",
+            "Armor Piercing": "Ballista bolts ignore nonmagical damage resistance.",
+        },
+    },
+    "siege_mangonel": {
+        "name": "Mangonel", "category": "siege", "source": "siege",
+        "ac_base": 15, "hp_base": 100, "hp_note": "5d10 bludgeoning. Range 200/800 ft. Min 60 ft. Crew: 2 actions.",
+        "size": "Large", "speed": "0 ft. (stationary)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Mangonel Stone"],
+        "feature_descs": {
+            "Mangonel Stone": "Ranged Weapon Attack: +5 to hit, range 200/800 ft (can't hit within 60 ft), one target. Hit: 27 (5d10) bludgeoning damage.",
+        },
+    },
+    "siege_trebuchet": {
+        "name": "Trebuchet", "category": "siege", "source": "siege",
+        "ac_base": 15, "hp_base": 150, "hp_note": "8d10 bludgeoning. Range 300/1200 ft. Min 60 ft. Crew: 3 actions.",
+        "size": "Huge", "speed": "0 ft. (stationary)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Trebuchet Stone"],
+        "feature_descs": {
+            "Trebuchet Stone": "Ranged Weapon Attack: +5 to hit, range 300/1200 ft (can't hit within 60 ft), one target. Hit: 44 (8d10) bludgeoning damage.",
+        },
+    },
+    "siege_cannon": {
+        "name": "Cannon", "category": "siege", "source": "siege",
+        "ac_base": 19, "hp_base": 75, "hp_note": "8d10 bludgeoning. Range 600/2400 ft. Crew: 3 actions. Needs gunpowder.",
+        "size": "Large", "speed": "0 ft. (stationary)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Cannon Ball"],
+        "feature_descs": {
+            "Cannon Ball": "Ranged Weapon Attack: +6 to hit, range 600/2400 ft, one target. Hit: 44 (8d10) bludgeoning damage. Misfire: cannon takes the damage.",
+        },
+    },
+    "siege_ram": {
+        "name": "Battering Ram", "category": "siege", "source": "siege",
+        "ac_base": 15, "hp_base": 100, "hp_note": "3d10 vs structures. Double damage to structures. Crew: 4.",
+        "size": "Large", "speed": "as crew pushing (15 ft)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Ram","Siege Monster"],
+        "feature_descs": {
+            "Ram": "Melee Weapon Attack: +8 to hit, reach 5 ft, one object or structure. Hit: 16 (3d10) bludgeoning.",
+            "Siege Monster": "The ram deals double damage to objects and structures.",
+        },
+    },
+    "siege_tower": {
+        "name": "Siege Tower", "category": "siege", "source": "siege",
+        "ac_base": 15, "hp_base": 200, "hp_note": "Holds 10 crew. Provides full cover. Crew: 10 to move.",
+        "size": "Gargantuan", "speed": "as crew pushing (10 ft)",
+        "stats": {"str":10,"dex":10,"con":10,"int":0,"wis":0,"cha":0},
+        "features": ["Mobile Cover","Boarding Ramp"],
+        "feature_descs": {
+            "Mobile Cover": "Creatures inside the tower have total cover from attacks outside.",
+            "Boarding Ramp": "When adjacent to a wall, creatures inside can move onto the wall as part of their movement.",
+        },
+    },
+
     # ── Tasha's Summon Spells (DTCOE) — calculated from character level ──
     "tashas_beast": {
         "name": "Summon Beast", "category": "tashas_summon", "source": "summon_beast",
