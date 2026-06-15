@@ -89,6 +89,49 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "attacks": [{"name":"Tentacles","bonus":4,"damage":"1 bludgeoning, grappled (escape DC 10)"}],
     },
 
+    # ── Pact of the Chain special familiars (PHB p.107) ──
+    "chain_imp": {
+        "name": "Imp", "category": "pact_chain", "source": "pact_of_the_chain", "size": "Tiny",
+        "ac": 13, "hp_max": 10, "speed": "20 ft., fly 40 ft.",
+        "stats": {"str":6,"dex":17,"con":13,"int":11,"wis":12,"cha":14},
+        "skills": "Deception +4, Insight +3, Persuasion +4, Stealth +5",
+        "senses": "darkvision 120 ft., passive Perception 11",
+        "features": ["Shapechanger (rat/raven/spider)","Devil's Sight","Magic Resistance"],
+        "attacks": [{"name":"Sting","bonus":5,"damage":"1d4+3 piercing + 3d6 poison (DC 11 Con half)"}],
+        "hp_note": "Immune: fire, poison. Resist: cold, nonmagical non-silver B/P/S",
+    },
+    "chain_pseudodragon": {
+        "name": "Pseudodragon", "category": "pact_chain", "source": "pact_of_the_chain", "size": "Tiny",
+        "ac": 13, "hp_max": 7, "speed": "15 ft., fly 60 ft.",
+        "stats": {"str":6,"dex":15,"con":13,"int":10,"wis":12,"cha":10},
+        "skills": "Perception +3, Stealth +4",
+        "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 13",
+        "features": ["Keen Senses","Magic Resistance","Limited Telepathy (100 ft)"],
+        "attacks": [
+            {"name":"Bite","bonus":4,"damage":"1d4+2 piercing"},
+            {"name":"Sting","bonus":4,"damage":"1d4+2 piercing + poison (DC 11 Con; fail by 5+ = unconscious 1 hr)"},
+        ],
+    },
+    "chain_quasit": {
+        "name": "Quasit", "category": "pact_chain", "source": "pact_of_the_chain", "size": "Tiny",
+        "ac": 13, "hp_max": 7, "speed": "40 ft.",
+        "stats": {"str":5,"dex":17,"con":10,"int":7,"wis":10,"cha":10},
+        "skills": "Stealth +5",
+        "senses": "darkvision 120 ft., passive Perception 10",
+        "features": ["Shapechanger (bat/centipede/toad)","Magic Resistance","Scare (1/day)","Invisibility"],
+        "attacks": [{"name":"Claws","bonus":4,"damage":"1d4+3 slashing + 2d4 poison (DC 10 Con half)"}],
+        "hp_note": "Immune: poison. Resist: cold/fire/lightning, nonmagical B/P/S",
+    },
+    "chain_sprite": {
+        "name": "Sprite", "category": "pact_chain", "source": "pact_of_the_chain", "size": "Tiny",
+        "ac": 15, "hp_max": 2, "speed": "10 ft., fly 40 ft.",
+        "stats": {"str":3,"dex":18,"con":10,"int":14,"wis":13,"cha":11},
+        "skills": "Perception +3, Stealth +8",
+        "senses": "passive Perception 13",
+        "features": ["Heart Sight (touch: detect alignment + emotions)","Invisibility"],
+        "attacks": [{"name":"Shortbow (80/320)","bonus":6,"damage":"1 piercing + poison (DC 10 Con; fail by 5+ = unconscious 1 min)"}],
+    },
+
     # ── Tasha's Summon Spells (DTCOE) ──
     "tashas_beast": {
         "name": "Summon Beast", "category": "tashas_summon", "source": "summon_beast", "size": "Small",
@@ -134,6 +177,35 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "features": ["Beholderkin / Slaad / Star Spawn form","Regeneration 5 (star spawn)"],
         "attacks": [{"name":"Multiattack (2 claws)","bonus":5,"damage":"1d8+5 slashing per hit"}],
         "hp_note": "40 + 10/spell level above 4th",
+    },
+
+    # ── Tasha's Summon Fiend variants (6th level, warlock/wizard) ──
+    "tashas_fiend_devil": {
+        "name": "Summon Fiend (Devil)", "category": "tashas_summon", "source": "summon_fiend", "size": "Large",
+        "ac": 18, "hp_max": 40, "speed": "40 ft., fly 60 ft.",
+        "stats": {"str":13,"dex":16,"con":15,"int":10,"wis":10,"cha":16},
+        "senses": "darkvision 60 ft., Devil's Sight 120 ft., passive Perception 10",
+        "features": ["Devil's Sight (see through magical darkness)","Magic Resistance"],
+        "attacks": [{"name":"Hurl Flame (ranged 150 ft)","bonus":9,"damage":"2d6+9 fire"}],
+        "hp_note": "40 + 15/spell level above 6th",
+    },
+    "tashas_fiend_demon": {
+        "name": "Summon Fiend (Demon)", "category": "tashas_summon", "source": "summon_fiend", "size": "Large",
+        "ac": 18, "hp_max": 50, "speed": "40 ft., climb 40 ft.",
+        "stats": {"str":13,"dex":16,"con":15,"int":10,"wis":10,"cha":16},
+        "senses": "darkvision 60 ft., passive Perception 10",
+        "features": ["Death Throes (2d10+6 fire AoE on death)","Magic Resistance"],
+        "attacks": [{"name":"Bite","bonus":9,"damage":"1d12+9 necrotic"}],
+        "hp_note": "50 + 15/spell level above 6th",
+    },
+    "tashas_fiend_yugoloth": {
+        "name": "Summon Fiend (Yugoloth)", "category": "tashas_summon", "source": "summon_fiend", "size": "Large",
+        "ac": 18, "hp_max": 60, "speed": "40 ft., climb 40 ft.",
+        "stats": {"str":13,"dex":16,"con":15,"int":10,"wis":10,"cha":16},
+        "senses": "darkvision 60 ft., passive Perception 10",
+        "features": ["Teleport 30 ft after claw attack","Magic Resistance"],
+        "attacks": [{"name":"Claws + Teleport","bonus":9,"damage":"1d8+9 slashing + teleport 30 ft"}],
+        "hp_note": "60 + 15/spell level above 6th",
     },
 
     # ── Class Summons ──
