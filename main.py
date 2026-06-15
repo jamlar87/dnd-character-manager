@@ -4071,7 +4071,106 @@ def _load_monster_cache() -> list[dict]:
         for m in manual:
             _normalize_manual_monster(m)
         MANUAL_MONSTERS = manual
-    return base + MANUAL_MONSTERS
+    # Append summon-template-derived monsters (vehicles, siege, class summons, Tasha)
+    return base + MANUAL_MONSTERS + _template_monster_entries()
+
+
+def _template_monster_entries() -> list[dict]:
+    """Convert summon templates (no monster_index) into monster-list entries."""
+    from summon_templates import SUMMON_TEMPLATES
+    entries = []
+    for key, t in SUMMON_TEMPLATES.items():
+        if t.get("monster_index"):
+            continue  # already in SRD/manual cache
+        name = t["name"]
+        idx = "summon-" + key
+        ac_val = t.get("ac_base", t.get("ac", 10))
+        hp_val = t.get("hp_base", t.get("hp_max", t.get("hp_base", 20)))
+        stats = t.get("stats", {})
+        features = t.get("features", [])
+        descs = t.get("feature_descs", {})
+        attacks = t.get("attacks", [])
+        speed_val = t.get("speed", "30 ft.")
+
+        # Build speed dict from string
+        speed_dict = {}
+        for part in speed_val.split(","):
+            part = part.strip()
+            if "fly" in part:
+                speed_dict["fly"] = part
+            elif "swim" in part:
+                speed_dict["swim"] = part
+            elif "climb" in part:
+                speed_dict["climb"] = part
+            elif "burrow" in part:
+                speed_dict["burrow"] = part
+            else:
+                speed_dict["walk"] = part
+
+        # Determine type
+        cat = t.get("category", "")
+        if cat == "vehicle":
+            mtype = "construct"
+        elif cat == "siege":
+            mtype = "construct"
+        elif cat == "tashas_summon":
+            mtype = "construct"  # summoned spirits
+        elif cat == "class_feature":
+            mtype = "construct"
+        else:
+            mtype = "beast"
+
+        # CR estimate: ~1 per 20 HP for class features, 0 for vehicles/siege
+        if cat in ("vehicle", "siege"):
+            cr = 0
+        elif hp_val >= 300:
+            cr = 10
+        elif hp_val >= 150:
+            cr = 7
+        elif hp_val >= 80:
+            cr = 4
+        elif hp_val >= 40:
+            cr = 2
+        else:
+            cr = max(0.5, hp_val / 20)
+
+        entry = {
+            "index": idx,
+            "name": name,
+            "size": t.get("size", "Medium"),
+            "type": mtype,
+            "alignment": "unaligned",
+            "armor_class": [{"type": "natural" if cat in ("vehicle","siege") else "dex", "value": ac_val}],
+            "hit_points": hp_val,
+            "hit_dice": "",
+            "speed": speed_dict,
+            "strength": stats.get("str", 10),
+            "dexterity": stats.get("dex", 10),
+            "constitution": stats.get("con", 10),
+            "intelligence": stats.get("int", 0),
+            "wisdom": stats.get("wis", 0),
+            "charisma": stats.get("cha", 0),
+            "challenge_rating": cr,
+            "xp": {0: 0, 0.5: 100, 1: 200, 2: 450, 4: 1100, 7: 2900, 10: 5900}.get(cr, int(cr * 200)),
+            "proficiency_bonus": max(2, 2 + int((cr - 1) / 4)),
+            "special_abilities": [
+                {"name": f, "desc": descs.get(f, "")}
+                for f in features
+            ],
+            "actions": [
+                {
+                    "name": a.get("name", "Strike"),
+                    "desc": f"{a.get('damage_base','?')} damage.",
+                    "attack_bonus": a.get("atk_bonus_base", 4),
+                    "damage": [{"damage_type": {"name": "bludgeoning"}, "damage_dice": a.get("damage_base", "1d6")}]
+                }
+                for a in attacks
+            ] if attacks else [],
+            "source": t.get("source", "Summon"),
+            "tags": [cat],
+        }
+        entries.append(entry)
+    return entries
 
 
 def _normalize_manual_monster(m: dict):
