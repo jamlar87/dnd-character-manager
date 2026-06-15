@@ -61,6 +61,10 @@
   <!-- Step 0: Race -->
   <div class="wizard-step active" data-step="0">
     <h3>Choose Your Race</h3>
+    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
+      <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+      Core content only
+    </label>
     <div class="option-grid" id="race-grid"></div>
     <div id="subrace-section" style="margin-top:1rem;display:none">
       <h4>Subrace</h4>
@@ -74,6 +78,10 @@
   <!-- Step 1: Class -->
   <div class="wizard-step" data-step="1">
     <h3>Choose Your Class</h3>
+    <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none;margin-bottom:0.5rem" onclick="toggleCoreCreate(this)">
+      <span class="core-create-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+      Core content only
+    </label>
     <div class="option-grid" id="class-grid"></div>
     <div id="subclass-section" style="margin-top:1rem;display:none">
       <h4>Subclass</h4>
@@ -545,9 +553,34 @@ function openSourceRef(src, slug) {
 }
 
 // ── Step 0: Race ──
+let _coreOnlyCreate = false;
+const _CORE_BOOKS_C = ['PHB','PHB 2014','DMG','DMG 2014','MM','XGE','TCE','TCE 2020','VGM','MTF','SCAG','ERLW','FTD','MPMM','BPGG'];
+const _CORE_NAMES_C = ["player's handbook","dungeon master's guide","monster manual","xanathar's guide","tasha's cauldron","volo's guide","mordenkainen's tome","sword coast adventurer's guide","eberron: rising","fizban's treasury","mordenkainen presents","bigby presents","glory of the giants","elemental evil player's companion"];
+function isCoreSourceC(src) {
+  if (!src) return true;
+  const lower = src.toLowerCase();
+  const abbr = lower.split(' p.')[0].trim();
+  if (_CORE_BOOKS_C.some(b => abbr === b.toLowerCase())) return true;
+  if (_CORE_NAMES_C.some(n => lower.includes(n))) return true;
+  return false;
+}
+function toggleCoreCreate(el) {
+  _coreOnlyCreate = !_coreOnlyCreate;
+  el.querySelector('.core-create-box').textContent = _coreOnlyCreate ? '☑' : '☐';
+  el.style.color = _coreOnlyCreate ? 'var(--accent)' : 'var(--text-muted)';
+  // Update all toggle labels to stay in sync
+  document.querySelectorAll('.core-create-box').forEach(b => b.textContent = _coreOnlyCreate ? '☑' : '☐');
+  document.querySelectorAll('label').forEach(l => { if (l.querySelector('.core-create-box')) l.style.color = _coreOnlyCreate ? 'var(--accent)' : 'var(--text-muted)'; });
+  buildRaces();
+  buildClasses();
+}
 function buildRaces() {
   const grid = document.getElementById('race-grid');
-  grid.innerHTML = Object.entries(RACES).map(([name, r]) => `
+  let entries = Object.entries(RACES);
+  if (_coreOnlyCreate) {
+    entries = entries.filter(([name, r]) => isCoreSourceC(r.source));
+  }
+  grid.innerHTML = entries.map(([name, r]) => `
     <div class="option-card" data-name="${name}" onclick="selectRace('${name}')">
       <div class="name">${name}${r.source ? ` ${_srcBadge(r.source, r._source_slug)}` : ''}</div>
       <div class="detail">${Object.entries(r.asi).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') || 'No ASI'}</div>
@@ -629,7 +662,11 @@ function buildAncestryDropdown() {
 // ── Step 1: Class ──
 function buildClasses() {
   const grid = document.getElementById('class-grid');
-  grid.innerHTML = Object.entries(CLASSES).map(([name, c]) => `
+  let entries = Object.entries(CLASSES);
+  if (_coreOnlyCreate) {
+    entries = entries.filter(([name, c]) => isCoreSourceC(c.source));
+  }
+  grid.innerHTML = entries.map(([name, c]) => `
     <div class="option-card" data-name="${name}" onclick="selectClass('${name}')">
       <div class="name">${name}${c.source ? ` ${_srcBadge(c.source)}` : ''}</div>
       <div class="detail">d${c.hd} HD · ${c.skill_count} skills · Saves: ${c.saves.join(', ')}</div>

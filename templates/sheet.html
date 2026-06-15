@@ -3534,10 +3534,16 @@ async function toggleSpellSlotById(spellId, n, max) {
 let _spellCache = [];
 let _coreOnly = false;
 const _CORE_BOOKS = ['PHB','PHB 2014','DMG','DMG 2014','MM','XGE','TCE','TCE 2020','VGM','MTF','SCAG','ERLW','FTD','MPMM','BPGG'];
+const _CORE_NAMES = ["player's handbook","dungeon master's guide","monster manual","xanathar's guide","tasha's cauldron","volo's guide","mordenkainen's tome","sword coast adventurer's guide","eberron: rising","fizban's treasury","mordenkainen presents","bigby presents","glory of the giants","elemental evil player's companion"];
 function isCoreSource(book) {
   if (!book) return true; // SRD content = core
-  const abbr = book.split(' p.')[0].trim();
-  return _CORE_BOOKS.some(b => abbr === b || abbr.startsWith(b+' '));
+  const lower = book.toLowerCase();
+  // Check abbreviations (e.g. "PHB 2014 p.260")
+  const abbr = lower.split(' p.')[0].trim();
+  if (_CORE_BOOKS.some(b => abbr === b.toLowerCase())) return true;
+  // Check full names (e.g. "Eberron: Rising from the Last War p.59")
+  if (_CORE_NAMES.some(n => lower.includes(n))) return true;
+  return false;
 }
 
 function toggleCoreOnly() {
