@@ -1623,6 +1623,15 @@ def init_db():
         db.execute("ALTER TABLE characters ADD COLUMN dragonborn_ancestry TEXT DEFAULT ''")
     except sqlite3.OperationalError:
         pass
+    # Migration: ranger favored choices
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN favored_enemies TEXT DEFAULT '[]'")
+    except sqlite3.OperationalError:
+        pass
+    try:
+        db.execute("ALTER TABLE characters ADD COLUMN favored_terrains TEXT DEFAULT '[]'")
+    except sqlite3.OperationalError:
+        pass
     # Backfill: populate class_levels from class_name + level for existing characters
     db.execute("UPDATE characters SET class_levels = json_object(class_name, level) WHERE class_levels = '{}' OR class_levels IS NULL OR class_levels = ''")
     # Migration: character_relationships for History & Relationships tab
@@ -3889,7 +3898,7 @@ async def api_create_character(request: Request):
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
         damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
         feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt, expertise_skills, fighting_style,
-        metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, infusions)
+        metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, favored_enemies, favored_terrains, infusions)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"], name, race_name, subrace, class_name, subclass, level,
@@ -3915,6 +3924,8 @@ async def api_create_character(request: Request):
         json.dumps(data.get("magical_secrets", [])),
         json.dumps(data.get("totem_spirits", {})),
         data.get("hunters_prey", ""),
+        json.dumps(data.get("favored_enemies", [])),
+        json.dumps(data.get("favored_terrains", [])),
         json.dumps(data.get("infusions", []))
     ))
     char_id = cur.lastrowid
@@ -7590,7 +7601,7 @@ async def character_sheet(char_id: int, request: Request):
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
               "expertise_skills", "asi_history", "metamagic_history",
-              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons", "conditions"):
+              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons", "conditions", "favored_enemies", "favored_terrains"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
@@ -9943,6 +9954,40 @@ async def level_up_info(char_id: int, request: Request):
     
     # Artificer Infusions — L2
     infusion_info = None
+    # Ranger Favored Enemy — L1/6/14
+    favored_enemy_info = None
+    fe_levels_list = FAVORED_ENEMY_LEVELS.get(cls, [])
+    new_fe_levels = [l for l in fe_levels_list if class_level < l <= new_class_level]
+    if new_fe_levels:
+        existing = json.loads(char.get("favored_enemies", "[]"))
+        picks_count = len([l for l in fe_levels_list if l <= new_class_level])
+        gained = picks_count - len(existing)
+        if gained > 0:
+            favored_enemy_info = {
+                "levels": new_fe_levels,
+                "picks_gained": gained,
+                "total_picks": picks_count,
+                "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in FAVORED_ENEMY_OPTIONS.items()],
+                "existing": existing,
+            }
+
+    # Ranger Favored Terrain — L1/6/10
+    favored_terrain_info = None
+    ft_levels_list = FAVORED_TERRAIN_LEVELS.get(cls, [])
+    new_ft_levels = [l for l in ft_levels_list if class_level < l <= new_class_level]
+    if new_ft_levels:
+        existing = json.loads(char.get("favored_terrains", "[]"))
+        picks_count = len([l for l in ft_levels_list if l <= new_class_level])
+        gained = picks_count - len(existing)
+        if gained > 0:
+            favored_terrain_info = {
+                "levels": new_ft_levels,
+                "picks_gained": gained,
+                "total_picks": picks_count,
+                "options": [{"key":k,"name":v["name"],"desc":v["desc"]} for k,v in FAVORED_TERRAIN_OPTIONS.items()],
+                "existing": existing,
+            }
+
     inf_level = INFUSION_LEVELS.get(cls)
     if inf_level and class_level < inf_level <= new_class_level:
         existing = json.loads(char.get("infusions","[]"))
@@ -9979,6 +10024,8 @@ async def level_up_info(char_id: int, request: Request):
         "magical_secrets": magical_secrets_info,
         "totem_spirit": totem_info,
         "hunters_prey": hunters_prey_info,
+        "favored_enemy": favored_enemy_info,
+        "favored_terrain": favored_terrain_info,
         "infusions": infusion_info,
         "multiclass": {
             "class_levels": cl,
@@ -10406,6 +10453,28 @@ async def apply_level_up(char_id: int, request: Request):
         hp_name = HUNTERS_PREY_OPTIONS.get(hp_choice, {}).get("name", hp_choice)
         changes.append(f"Hunter's Prey: {hp_name}")
     
+    # Favored Enemy
+    fe_picks = data.get("favored_enemies", [])
+    if fe_picks:
+        current_fe = json.loads(char.get("favored_enemies", "[]"))
+        for pick in fe_picks:
+            if pick not in current_fe:
+                current_fe.append(pick)
+        updates["favored_enemies"] = json.dumps(current_fe)
+        fe_names = [FAVORED_ENEMY_OPTIONS.get(p,{}).get("name",p) for p in fe_picks]
+        changes.append(f"Favored Enemy: {', '.join(fe_names)}")
+
+    # Favored Terrain
+    ft_picks = data.get("favored_terrains", [])
+    if ft_picks:
+        current_ft = json.loads(char.get("favored_terrains", "[]"))
+        for pick in ft_picks:
+            if pick not in current_ft:
+                current_ft.append(pick)
+        updates["favored_terrains"] = json.dumps(current_ft)
+        ft_names = [FAVORED_TERRAIN_OPTIONS.get(p,{}).get("name",p) for p in ft_picks]
+        changes.append(f"Favored Terrain: {', '.join(ft_names)}")
+
     # Artificer Infusions
     inf_picks = data.get("infusions", [])
     if inf_picks:
@@ -10803,6 +10872,30 @@ async def apply_de_level(char_id: int, request: Request):
         changes.append(f"Hunter's Prey cleared ({char.get('hunters_prey')})")
     
     # Infusions — clear if reverting past L2
+    # Favored Enemy — trim to level threshold
+    fe_levels_list2 = FAVORED_ENEMY_LEVELS.get(cls, [])
+    current_fe = json.loads(char.get("favored_enemies", "[]"))
+    if current_fe and fe_levels_list2:
+        total_fe = len([l for l in fe_levels_list2 if l <= new_class_level])
+        if len(current_fe) > total_fe:
+            lost_fe = current_fe[total_fe:]
+            kept = current_fe[:total_fe]
+            updates["favored_enemies"] = json.dumps(kept)
+            fe_names = [FAVORED_ENEMY_OPTIONS.get(p,{}).get("name",p) for p in lost_fe]
+            changes.append(f"Favored Enemy lost: {', '.join(fe_names)}")
+
+    # Favored Terrain — trim to level threshold
+    ft_levels_list2 = FAVORED_TERRAIN_LEVELS.get(cls, [])
+    current_ft = json.loads(char.get("favored_terrains", "[]"))
+    if current_ft and ft_levels_list2:
+        total_ft = len([l for l in ft_levels_list2 if l <= new_class_level])
+        if len(current_ft) > total_ft:
+            lost_ft = current_ft[total_ft:]
+            kept = current_ft[:total_ft]
+            updates["favored_terrains"] = json.dumps(kept)
+            ft_names = [FAVORED_TERRAIN_OPTIONS.get(p,{}).get("name",p) for p in lost_ft]
+            changes.append(f"Favored Terrain lost: {', '.join(ft_names)}")
+
     inf_level = INFUSION_LEVELS.get(cls)
     if inf_level and inf_level > new_class_level and char.get("infusions"):
         updates["infusions"] = "[]"
@@ -11896,6 +11989,38 @@ HUNTERS_PREY_OPTIONS: dict[str, dict] = {
     "colossus_slayer": {"name":"Colossus Slayer","desc":"Once per turn, +1d8 damage to a wounded creature"},
     "giant_killer":    {"name":"Giant Killer","desc":"Reaction to attack Large+ creature that attacks you (whether it hits or misses)"},
     "horde_breaker":   {"name":"Horde Breaker","desc":"Once per turn, make an additional attack vs a different creature within 5 ft of first target"},
+}
+
+# ── Ranger Favored Enemy (PHB p.91, L1/6/14, pick 1 per tier) ────────
+FAVORED_ENEMY_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 14]}
+FAVORED_ENEMY_OPTIONS: dict[str, dict] = {
+    "aberrations": {"name":"Aberrations","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "beasts": {"name":"Beasts","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "celestials": {"name":"Celestials","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "constructs": {"name":"Constructs","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "dragons": {"name":"Dragons","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "elementals": {"name":"Elementals","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "fey": {"name":"Fey","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "fiends": {"name":"Fiends","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "giants": {"name":"Giants","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "monstrosities": {"name":"Monstrosities","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "oozes": {"name":"Oozes","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "plants": {"name":"Plants","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "undead": {"name":"Undead","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
+    "two_humanoids": {"name":"Two Humanoid Races","desc":"Pick two types of humanoid (e.g. orcs and goblins). Advantage on Survival checks to track them, plus Intelligence checks to recall info."},
+}
+
+# ── Ranger Favored Terrain / Natural Explorer (PHB p.91, L1/6/10) ────
+FAVORED_TERRAIN_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 10]}
+FAVORED_TERRAIN_OPTIONS: dict[str, dict] = {
+    "arctic": {"name":"Arctic","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "coast": {"name":"Coast","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "desert": {"name":"Desert","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "forest": {"name":"Forest","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "grassland": {"name":"Grassland","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "mountain": {"name":"Mountain","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "swamp": {"name":"Swamp","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
+    "underdark": {"name":"Underdark","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
 }
 
 # ── Artificer Infusions (L2, pick from list) ─────────────────────────

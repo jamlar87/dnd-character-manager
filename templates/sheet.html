@@ -6415,6 +6415,8 @@ async function openLevelUpDirect(targetNum) {
   if (luData.magical_secrets) luSteps.push({label: 'Magical Secrets', render: renderLuMagicalSecrets});
   if (luData.totem_spirit) luSteps.push({label: 'Totem Spirit', render: renderLuTotemSpirit});
   if (luData.hunters_prey) luSteps.push({label: "Hunter's Prey", render: renderLuHuntersPrey});
+  if (luData.favored_enemy) luSteps.push({label: 'Favored Enemy', render: renderLuFavoredEnemy});
+  if (luData.favored_terrain) luSteps.push({label: 'Favored Terrain', render: renderLuFavoredTerrain});
   if (luData.infusions) luSteps.push({label: 'Infusions', render: renderLuInfusions});
   if (luData.subclass) luSteps.push({label: luData.subclass.label, render: renderLuSubclass});
   if (luData.subclass_bonus_map && Object.keys(luData.subclass_bonus_map).length > 0) {
@@ -6910,6 +6912,52 @@ function renderLuHuntersPrey(el) {
   el.innerHTML = html;
 }
 
+// ── Level-Up: Favored Enemy ────────────────────────────────────────
+function renderLuFavoredEnemy(el) {
+  const fe = luData.favored_enemy;
+  if (!luChoices.favored_enemies) luChoices.favored_enemies = [];
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">🎯 Pick ${fe.picks_gained} Favored Enemy (Ranger — ${fe.levels.join(', ')})</p>`;
+  fe.options.forEach(opt => {
+    const sel = luChoices.favored_enemies.includes(opt.key);
+    const already = fe.existing && fe.existing.includes(opt.key);
+    html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':already?'var(--text-muted)':'var(--border)'};border-radius:6px;opacity:${already?'0.5':'1'}" onclick="toggleLuFavoredEnemy('${opt.key.replace(/'/g, "\\\\'")}')">
+      <strong>${opt.name}</strong>${already?' <span style="font-size:0.7rem;color:var(--text-muted)">(already chosen)</span>':''}<br><span style="font-size:0.75rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.favored_enemies.length} / ${fe.picks_gained} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuFavoredEnemy(key) {
+  if (!luChoices.favored_enemies) luChoices.favored_enemies = [];
+  const idx = luChoices.favored_enemies.indexOf(key);
+  if (idx >= 0) { luChoices.favored_enemies.splice(idx, 1); }
+  else { luChoices.favored_enemies.push(key); }
+  renderLevelUpStep();
+}
+
+// ── Level-Up: Favored Terrain ──────────────────────────────────────
+function renderLuFavoredTerrain(el) {
+  const ft = luData.favored_terrain;
+  if (!luChoices.favored_terrains) luChoices.favored_terrains = [];
+  let html = `<div><p style="font-weight:600;margin-bottom:0.5rem">🌲 Pick ${ft.picks_gained} Favored Terrain (Ranger — ${ft.levels.join(', ')})</p>`;
+  ft.options.forEach(opt => {
+    const sel = luChoices.favored_terrains.includes(opt.key);
+    const already = ft.existing && ft.existing.includes(opt.key);
+    html += `<div class="card" style="cursor:pointer;padding:0.5rem 0.7rem;margin-bottom:0.3rem;border:1px solid ${sel?'var(--accent)':already?'var(--text-muted)':'var(--border)'};border-radius:6px;opacity:${already?'0.5':'1'}" onclick="toggleLuFavoredTerrain('${opt.key.replace(/'/g, "\\\\'")}')">
+      <strong>${opt.name}</strong>${already?' <span style="font-size:0.7rem;color:var(--text-muted)">(already chosen)</span>':''}<br><span style="font-size:0.75rem;color:var(--text-muted)">${opt.desc}</span>
+    </div>`;
+  });
+  html += `<p style="font-size:0.75rem;margin-top:0.4rem">${luChoices.favored_terrains.length} / ${ft.picks_gained} selected</p></div>`;
+  el.innerHTML = html;
+}
+function toggleLuFavoredTerrain(key) {
+  if (!luChoices.favored_terrains) luChoices.favored_terrains = [];
+  const idx = luChoices.favored_terrains.indexOf(key);
+  if (idx >= 0) { luChoices.favored_terrains.splice(idx, 1); }
+  else { luChoices.favored_terrains.push(key); }
+  renderLevelUpStep();
+}
+
 // ── Level-Up: Infusions Picker ──────────────────────────────────────
 function renderLuInfusions(el) {
   const inf = luData.infusions;
@@ -7302,7 +7350,7 @@ async function applyLevelUp() {
     const resp = await fetch(`/api/character/${CHAR_ID}/apply-level-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...luChoices, expertise_skills: (luChoices.expertise || []), fighting_style: (luChoices.fighting_style || ''), metamagic: (luChoices.metamagic || {}), invocations: (luChoices.invocations || []), pact_boon: (luChoices.pact_boon || ''), maneuvers: (luChoices.maneuvers || []), magical_secrets: (luChoices.magical_secrets || []), totem_spirits: (luChoices.totem_spirits || {}), hunters_prey: (luChoices.hunters_prey || ''), infusions: (luChoices.infusions || []), class_to_level: luClassToLevel, target_level: nextLevel}),
+      body: JSON.stringify({...luChoices, expertise_skills: (luChoices.expertise || []), fighting_style: (luChoices.fighting_style || ''), metamagic: (luChoices.metamagic || {}), invocations: (luChoices.invocations || []), pact_boon: (luChoices.pact_boon || ''), maneuvers: (luChoices.maneuvers || []), magical_secrets: (luChoices.magical_secrets || []), totem_spirits: (luChoices.totem_spirits || {}), hunters_prey: (luChoices.hunters_prey || ''), favored_enemies: (luChoices.favored_enemies || []), favored_terrains: (luChoices.favored_terrains || []), infusions: (luChoices.infusions || []), class_to_level: luClassToLevel, target_level: nextLevel}),
     });
     const result = await resp.json();
     if (result.ok) {
