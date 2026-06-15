@@ -3491,6 +3491,7 @@ async function loadCombatEncounter() {
   }
   // Save full state now that players are restored and everything is in place
   saveCombatState();
+  startCombatPolling();
 }
 
 // ── Load campaign player characters ──
@@ -4012,6 +4013,14 @@ async function saveCombatHp(p, hp) {
         body: JSON.stringify({character_id: p.char_id, hp_current: hp})
       });
     } catch(e) {}
+  } else if (p.is_summon && p.owner_char_id && p.summon_idx !== undefined) {
+    // Save summon HP back to character sheet
+    try {
+      await fetch(`/api/character/${p.owner_char_id}/update-summon-hp`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({summon_idx: p.summon_idx, hp_current: hp})
+      });
+    } catch(e) {}
   } else if (p.en_id > 0 && _combatEncId) {
     // Save to encounter NPC table
     try {
@@ -4058,7 +4067,8 @@ async function loadCharacterSummons(charId, charName) {
       return;
     }
     let added = 0;
-    for (const s of data.summons) {
+    for (let i = 0; i < data.summons.length; i++) {
+      const s = data.summons[i];
       const enId = Date.now() + Math.random();
       _combatParticipants.push({
         en_id: enId,
@@ -4071,6 +4081,7 @@ async function loadCharacterSummons(charId, charName) {
         is_summon: true,
         owner_char_id: charId,
         owner_name: charName,
+        summon_idx: i,
         ac: s.ac || 10,
         hp_current: s.hp_current || s.hp_max || 1,
         hp_max: s.hp_max || 1,
@@ -4917,6 +4928,7 @@ function saveCombatState() {
 // ── End combat ──
 async function endCombat() {
   if (!confirm('End this combat? State will be saved for later.')) return;
+  stopCombatPolling();
   _combatRound = 1;
   _combatTurnIdx = 0;
   _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
@@ -4926,6 +4938,82 @@ async function endCombat() {
   renderBenchedNpcs();
   saveCombatState();
   document.getElementById('combatStatus').textContent = 'Combat ended — initiative saved';
+}
+
+// ── Live HP Polling ──────────────────────────────────────────────────────
+
+let _combatPollTimer = null;
+
+async function syncPlayerAndSummonHP() {
+  // Collect unique character IDs from players and summon owners
+  const charIds = new Set();
+  for (const p of _campaignPlayers) {
+    if (p.char_id) charIds.add(p.char_id);
+  }
+  for (const p of _combatParticipants) {
+    if (p.is_summon && p.owner_char_id) charIds.add(p.owner_char_id);
+    if (p.is_player && p.char_id) charIds.add(p.char_id);
+  }
+  if (charIds.size === 0) return;
+
+  try {
+    const r = await fetch('/api/sync-combat-hp', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({char_ids: Array.from(charIds)})
+    });
+    const data = await r.json();
+    const chars = data.characters || {};
+
+    // Update campaign players HP
+    for (const p of _campaignPlayers) {
+      const c = chars[String(p.char_id)];
+      if (c && c.hp_current !== undefined) {
+        p.hp_current = c.hp_current;
+        p.hp_max = c.hp_max;
+      }
+    }
+
+    // Update combat participants HP (players + summons)
+    let changed = false;
+    for (const p of _combatParticipants) {
+      if (p.is_player && p.char_id) {
+        const c = chars[String(p.char_id)];
+        if (c && c.hp_current !== undefined && c.hp_current !== p.hp_current) {
+          p.hp_current = c.hp_current;
+          p.hp_max = c.hp_max;
+          changed = true;
+        }
+      } else if (p.is_summon && p.owner_char_id && p.summon_idx !== undefined) {
+        const c = chars[String(p.owner_char_id)];
+        if (c && c.summons && c.summons[p.summon_idx]) {
+          const s = c.summons[p.summon_idx];
+          if (s.hp_current !== undefined && s.hp_current !== p.hp_current) {
+            p.hp_current = s.hp_current;
+            p.hp_max = s.hp_max;
+            changed = true;
+          }
+        }
+      }
+    }
+
+    // Re-render if anything changed
+    if (changed) {
+      renderInitiativeTrack();
+      renderPlayersPanel();
+    }
+  } catch(e) { /* silent */ }
+}
+
+function startCombatPolling() {
+  stopCombatPolling();
+  _combatPollTimer = setInterval(syncPlayerAndSummonHP, 5000);
+}
+
+function stopCombatPolling() {
+  if (_combatPollTimer) {
+    clearInterval(_combatPollTimer);
+    _combatPollTimer = null;
+  }
 }
 
 

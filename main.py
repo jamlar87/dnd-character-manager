@@ -8160,6 +8160,64 @@ async def create_summon(char_id: int, request: Request):
     db.close()
     return JSONResponse({"summon": summon, "total": len(summons)})
 
+@app.post("/api/character/{char_id}/update-summon-hp", response_class=JSONResponse)
+async def update_summon_hp(char_id: int, request: Request):
+    """Update a single summon's HP by index. Used by combat page to sync back."""
+    user = require_user(request)
+    data = await request.json()
+    idx = data.get("summon_idx")
+    hp = data.get("hp_current")
+    if idx is None or hp is None:
+        return JSONResponse({"error": "Missing summon_idx or hp_current"}, status_code=400)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        summons = json.loads(row["summons"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        summons = []
+    if idx < 0 or idx >= len(summons):
+        db.close()
+        return JSONResponse({"error": "Invalid summon index"}, status_code=400)
+    summons[idx]["hp_current"] = max(0, hp)
+    db.execute("UPDATE characters SET summons=? WHERE id=? AND user_id=?",
+               (json.dumps(summons), char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "hp_current": summons[idx]["hp_current"]})
+
+@app.post("/api/sync-combat-hp", response_class=JSONResponse)
+async def sync_combat_hp(request: Request):
+    """Batch fetch HP + summons for characters in combat. Takes {char_ids: [...]}."""
+    user = require_user(request)
+    data = await request.json()
+    char_ids = data.get("char_ids", [])
+    if not char_ids:
+        return JSONResponse({"characters": {}})
+    db = get_db()
+    result = {}
+    for cid in char_ids:
+        row = db.execute(
+            "SELECT name, hp_current, hp_max, summons FROM characters WHERE id=? AND user_id=?",
+            (cid, user["id"])
+        ).fetchone()
+        if not row:
+            continue
+        try:
+            summons = json.loads(row["summons"] or "[]")
+        except (json.JSONDecodeError, TypeError):
+            summons = []
+        result[str(cid)] = {
+            "name": row["name"],
+            "hp_current": row["hp_current"],
+            "hp_max": row["hp_max"],
+            "summons": summons,
+        }
+    db.close()
+    return JSONResponse({"characters": result})
+
 @app.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
 async def spend_charge(char_id: int, request: Request):
     """Spend one charge from an equipped charged item."""
