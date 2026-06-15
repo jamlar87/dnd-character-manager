@@ -85,7 +85,7 @@
     "disarm": {
       "dc": null,
       "method": "Avoid or bypass",
-      "detail": "Simply avoid stepping on the pit. No mechanism to disable \u2014 just don't walk into it."
+      "detail": "Simply avoid stepping on the pit. No mechanism to disable — just don't walk into it."
     },
     "effect": "Creature falls into the pit, taking falling damage based on depth (typically 10 feet: 1d6 bludgeoning).",
     "save_dc": null,
@@ -111,10 +111,10 @@
       "method": "Iron spike",
       "detail": "Wedge an iron spike between cover and floor to prevent it from opening. Arcane lock can also hold it shut."
     },
-    "effect": "The cover swings open like a trapdoor, dropping the creature into the pit. Typically 10\u201320 feet deep (potentially deeper). Falling damage applies.",
+    "effect": "The cover swings open like a trapdoor, dropping the creature into the pit. Typically 10–20 feet deep (potentially deeper). Falling damage applies.",
     "save_dc": null,
     "save_ability": null,
-    "damage": "2d6\u20134d6 (varies by depth)",
+    "damage": "2d6–4d6 (varies by depth)",
     "damage_type": "bludgeoning",
     "area": "5-foot square opening",
     "description": "A well-disguised pit identical to a Simple Pit but harder to detect. DC 15 Wisdom (Perception) to notice. The pit is 20 feet deep, dealing 2d6 bludgeoning damage."
@@ -138,7 +138,7 @@
     "effect": "Fall into pit, then the spring-loaded cover snaps shut, trapping the victim inside. Same falling damage as Hidden Pit, plus the victim is trapped until freed.",
     "save_dc": null,
     "save_ability": null,
-    "damage": "2d6\u20134d6 (varies by depth)",
+    "damage": "2d6–4d6 (varies by depth)",
     "damage_type": "bludgeoning",
     "area": "5-foot square opening",
     "description": "A pit trap with a spring-loaded lid that snaps shut after being triggered. DC 15 Perception to spot. The pit is 20 feet deep (2d6 bludgeoning), and the lid requires a DC 20 Strength check to lift."
@@ -159,7 +159,7 @@
       "method": "Same as pit variant",
       "detail": "Same disarming methods as the base pit type."
     },
-    "effect": "A pit with sharpened wooden or iron spikes at the bottom. Falling creature takes falling damage plus an extra 11 (2d10) piercing damage from spikes. Poisoned variant: spikes smeared with poison \u2014 DC 13 Constitution save or take 22 (4d10) poison damage (half on success).",
+    "effect": "A pit with sharpened wooden or iron spikes at the bottom. Falling creature takes falling damage plus an extra 11 (2d10) piercing damage from spikes. Poisoned variant: spikes smeared with poison — DC 13 Constitution save or take 22 (4d10) poison damage (half on success).",
     "save_dc": 13,
     "save_ability": "Constitution (poison variant)",
     "damage": "Falling + 11 (2d10) piercing + possible 22 (4d10) poison",
@@ -183,10 +183,10 @@
       "method": "Dexterity (thieves' tools)",
       "detail": "Block the dart tubes or disable the pressure plate/trip wire."
     },
-    "effect": "Darts fire from tubes in the wall. One or more targets must make a DC 15 Dexterity saving throw. Each failed save deals 2d10\u201310d10 poison damage depending on the trap's severity and how many darts hit. Each dart deals 2 (1d4) piercing damage plus 11 (2d10) poison damage.",
+    "effect": "Darts fire from tubes in the wall. One or more targets must make a DC 15 Dexterity saving throw. Each failed save deals 2d10–10d10 poison damage depending on the trap's severity and how many darts hit. Each dart deals 2 (1d4) piercing damage plus 11 (2d10) poison damage.",
     "save_dc": 15,
     "save_ability": "Dexterity",
-    "damage": "Varies: 2d10\u201310d10 poison",
+    "damage": "Varies: 2d10–10d10 poison",
     "damage_type": "poison",
     "area": "Line or cone from wall",
     "description": "Darts shoot from a wall or object when triggered. Each dart deals 1d4 piercing damage, and the target must succeed on a DC 15 Constitution saving throw or take 2d10 poison damage."
@@ -200,7 +200,7 @@
     "detection": {
       "dc": 20,
       "skill": "Perception",
-      "detail": "Spot the tiny spring-loaded needle. Extremely well-concealed \u2014 one of the hardest traps to find."
+      "detail": "Spot the tiny spring-loaded needle. Extremely well-concealed — one of the hardest traps to find."
     },
     "disarm": {
       "dc": 20,
@@ -244,7 +244,7 @@
     "type": "magical",
     "danger": "deadly",
     "source": "DMG p.123",
-    "trigger": "Proximity \u2014 the sphere sits in a fixed location, annihilating any matter that touches it.",
+    "trigger": "Proximity — the sphere sits in a fixed location, annihilating any matter that touches it.",
     "detection": {
       "dc": 20,
       "skill": "Intelligence (Arcana)",
@@ -255,7 +255,7 @@
       "method": "Intelligence (Arcana)",
       "detail": "A character can attempt to control the sphere by making a DC 25 Intelligence (Arcana) check while within 60 feet. On a success, the sphere moves up to 10 feet toward or away from the character. A talisman of the sphere allows automatic control."
     },
-    "effect": "Anything that touches the sphere is instantly destroyed (no save). Any creature within 5 feet of the sphere at the start of its turn must make a DC 13 Dexterity saving throw, taking 22 (4d10) force damage on a failed save, or half on success. The sphere has no hit points and cannot be damaged \u2014 it can only be moved or forced to exit the plane via a rod of cancellation or similar magic.",
+    "effect": "Anything that touches the sphere is instantly destroyed (no save). Any creature within 5 feet of the sphere at the start of its turn must make a DC 13 Dexterity saving throw, taking 22 (4d10) force damage on a failed save, or half on success. The sphere has no hit points and cannot be damaged — it can only be moved or forced to exit the plane via a rod of cancellation or similar magic.",
     "save_dc": 13,
     "save_ability": "Dexterity",
     "damage": "22 (4d10) force (near miss); instant destruction (contact)",
@@ -340,7 +340,7 @@
     "type": "magical",
     "danger": "dangerous",
     "source": "PHB p.245",
-    "trigger": "Magical inscription activates when a specific condition is met \u2014 creature approaches, touches object, opens warded container, etc.",
+    "trigger": "Magical inscription activates when a specific condition is met — creature approaches, touches object, opens warded container, etc.",
     "detection": {
       "dc": 14,
       "skill": "Intelligence (Investigation)",
@@ -351,7 +351,7 @@
       "method": "Intelligence (Arcana) or dispel magic",
       "detail": "A successful DC 14 Intelligence (Arcana) check allows you to deface or erase the glyph without triggering it. Dispel magic automatically removes it."
     },
-    "effect": "When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. Creatures in the area must make a Dexterity saving throw (DC = spellcaster's DC, typically 13\u201315), taking 5d8 damage of a type chosen by the caster (acid, cold, fire, lightning, or thunder) on a failed save, or half on success.",
+    "effect": "When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. Creatures in the area must make a Dexterity saving throw (DC = spellcaster's DC, typically 13–15), taking 5d8 damage of a type chosen by the caster (acid, cold, fire, lightning, or thunder) on a failed save, or half on success.",
     "save_dc": 14,
     "save_ability": "Dexterity",
     "damage": "5d8 (typically 22)",
@@ -378,7 +378,7 @@
     "effect": "Complex trap (rolls initiative +0). On each turn: water level rises by 1 foot. Once the water reaches 5 feet, creatures must swim (DC 10 Athletics). At 10 feet, creatures must hold their breath (CON minutes = CON mod, min 30 seconds). At ceiling height, creatures begin drowning. The trap can be bypassed by disarming the sluices or finding the hidden drain.",
     "save_dc": null,
     "save_ability": "Constitution (drowning)",
-    "damage": "None (environmental \u2014 drowning)",
+    "damage": "None (environmental — drowning)",
     "damage_type": "environmental",
     "area": "Entire room",
     "description": "The room seals and fills with water. Creatures must hold their breath or begin drowning after 1 + Constitution modifier minutes. The trap can be disarmed with a DC 15 Dexterity (Thieves' Tools) check on the mechanism."
@@ -479,7 +479,7 @@
     "disarm": {
       "dc": null,
       "method": "Avoidance",
-      "detail": "Once spotted, the pit trap is effectively disarmed \u2014 characters can walk around it or climb down and across."
+      "detail": "Once spotted, the pit trap is effectively disarmed — characters can walk around it or climb down and across."
     },
     "description": "A covered pit 20 feet deep. DC 15 Perception to notice. Creatures falling in take 2d6 bludgeoning damage."
   },
@@ -516,7 +516,7 @@
     "level": "1-4",
     "trigger": "Activates as soon as a non-undead creature enters the hallway; remains active while any non-undead creature is within the hall.",
     "effect": "Three active elements in a 160-foot hallway: (1) Whirling Blades (initiative 20): +5 attack bonus, 11 (2d10) slashing in first 80 ft. (2) Crushing Pillars (initiative 10): DC 15 Dex save or 11 (2d10) bludgeoning + prone in next 50 ft. (3) Rune of Fear (initiative 10): DC 15 Wis save or frightened, must move toward pillars in final 30 ft. Constant: blades attack any creature ending turn in their area; rune affects any ending turn within 30 ft of far end.",
-    "area": "20 ft. wide \u00d7 160 ft. long hallway (three zones)",
+    "area": "20 ft. wide × 160 ft. long hallway (three zones)",
     "damage": "11 (2d10) per element",
     "damage_type": "slashing/bludgeoning/psychic",
     "save_ability": "Varies (Dexterity/Constitution/Wisdom)",
@@ -529,7 +529,7 @@
     "disarm": {
       "dc": 15,
       "method": "Multiple checks (see detail)",
-      "detail": "Whirling Blades: DC 15 Int (Investigation) to anticipate (disadvantage on attacks vs creature), or attack blades (AC 15, 15 hp each, -2 attack bonus per blade destroyed), or DC 15 Dex (thieves' tools) to foil mechanism (-2 bonus per success). Rune of Fear: 3\u00d7 DC 15 Int (Arcana) checks or 3\u00d7 dispel magic (DC 13)."
+      "detail": "Whirling Blades: DC 15 Int (Investigation) to anticipate (disadvantage on attacks vs creature), or attack blades (AC 15, 15 hp each, -2 attack bonus per blade destroyed), or DC 15 Dex (thieves' tools) to foil mechanism (-2 bonus per success). Rune of Fear: 3× DC 15 Int (Arcana) checks or 3× dispel magic (DC 13)."
     },
     "description": "Scything blades sweep through a narrow passage. Creatures in a 5-foot-wide, 30-foot-long path must make a DC 15 Dexterity saving throw or take 6d6 slashing damage."
   },
@@ -541,7 +541,7 @@
     "level": "5-10",
     "trigger": "Opens when the door to the jester's tomb is opened. A magic portal disgorges an enormous steel sphere that rolls down a 150-foot sloped hallway, teleporting back to the top to repeat.",
     "effect": "Initiative 10: Each creature in sphere's path must make a DC 20 Strength saving throw. On a failed save: 22 (4d10) bludgeoning damage and knocked prone. On success: half damage, not prone. Dynamic: damage increases by 11 (2d10) after each turn. At 55 (10d10) or higher, the sphere acts on initiative 20 and 10.",
-    "area": "10 ft. wide \u00d7 150 ft. long sloped hallway",
+    "area": "10 ft. wide × 150 ft. long sloped hallway",
     "damage": "22 (4d10), escalating +11 (2d10)/round",
     "damage_type": "bludgeoning",
     "save_ability": "Strength",
@@ -554,7 +554,7 @@
     "disarm": {
       "dc": 20,
       "method": "Multiple checks (see detail)",
-      "detail": "Stop sphere with wall of force or obstacle with enough HP. Disrupt portals: 3\u00d7 DC 20 Int (Arcana) checks (examine runes, then vandalize); each success reduces sphere damage by 11 (2d10). Or 3\u00d7 dispel magic (DC 19) on runes. Destroying southern portal stops sphere permanently."
+      "detail": "Stop sphere with wall of force or obstacle with enough HP. Disrupt portals: 3× DC 20 Int (Arcana) checks (examine runes, then vandalize); each success reduces sphere damage by 11 (2d10). Or 3× dispel magic (DC 19) on runes. Destroying southern portal stops sphere permanently."
     },
     "description": "A massive sphere of stone rolls through the area, crushing all in its path. Creatures in a 15-foot-wide path must make a DC 15 Dexterity saving throw or take 8d10 bludgeoning damage."
   },
@@ -565,8 +565,8 @@
     "danger": "deadly",
     "level": "11-16",
     "trigger": "Activates when a ruby is pried from one of four serpent statues in the corners of a 60-foot-square room. Each statue's mouth opens, revealing gas pipes.",
-    "effect": "Locked Doors (initiative 20, once): four doors slam shut, magically locked. Poison Gas (initiative 20): DC 20 Con save, 33 (6d10) poison damage (half on success). Tempest (initiative 10): d6 table \u2014 hallucinatory gas (disadv Int/Wis), explosive gas (DC 20 Dex or 22/4d10 fire if flame), weakening gas (disadv Str/Dex), buffeting winds (DC 20 Str or prone), smoke (1 ft visibility), or additional poison gas. Dynamic: poison damage increases 11 (2d10)/round to max 55 (10d10).",
-    "area": "60 ft. \u00d7 60 ft. room",
+    "effect": "Locked Doors (initiative 20, once): four doors slam shut, magically locked. Poison Gas (initiative 20): DC 20 Con save, 33 (6d10) poison damage (half on success). Tempest (initiative 10): d6 table — hallucinatory gas (disadv Int/Wis), explosive gas (DC 20 Dex or 22/4d10 fire if flame), weakening gas (disadv Str/Dex), buffeting winds (DC 20 Str or prone), smoke (1 ft visibility), or additional poison gas. Dynamic: poison damage increases 11 (2d10)/round to max 55 (10d10).",
+    "area": "60 ft. × 60 ft. room",
     "damage": "33 (6d10), escalating +11 (2d10)/round",
     "damage_type": "poison",
     "save_ability": "Constitution",
@@ -574,7 +574,7 @@
     "detection": {
       "dc": 20,
       "skill": "Wisdom (Perception)",
-      "detail": "Inspect statues \u2014 rubies worth 200 gp each. DC 20 Intelligence (Arcana) reveals trap magic."
+      "detail": "Inspect statues — rubies worth 200 gp each. DC 20 Intelligence (Arcana) reveals trap magic."
     },
     "disarm": {
       "dc": 20,
