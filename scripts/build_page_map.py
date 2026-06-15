@@ -21,8 +21,8 @@ except ImportError:
     print("WARNING: pymupdf not available, will only use known page data", file=sys.stderr)
 
 # ── Config ──────────────────────────────────────────────────────────────────
-DATA_DIR = Path("/home/james/dnd-character-manager/data")
-MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+DATA_DIR = (Path(__file__).resolve().parent.parent / "data").resolve()
+MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
 OUTPUT_PATH = DATA_DIR / "item_page_map.json"
 
 # Source string → (pdf_path, display_prefix) mapping

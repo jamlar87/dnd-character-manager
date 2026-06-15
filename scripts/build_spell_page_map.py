@@ -19,8 +19,8 @@ except ImportError:
     HAS_FITZ = False
     print("WARNING: pymupdf not available", file=sys.stderr)
 
-DATA_DIR = Path("/home/james/dnd-character-manager/data")
-MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+DATA_DIR = (Path(__file__).resolve().parent.parent / "data").resolve()
+MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
 OUTPUT_PATH = DATA_DIR / "spell_page_map.json"
 
 SOURCE_TO_PDF = {

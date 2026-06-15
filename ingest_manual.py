@@ -61,7 +61,7 @@ class _TeeLogger:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 HERE = Path(__file__).parent
-MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+MANUALS_DIR = (HERE / "manuals").resolve()
 CACHE_DIR = HERE / "data" / "manual_cache"
 OUTPUT_DIR = HERE / "data" / "manual_data"
 STATE_FILE = HERE / 'data' / 'ingest_state.json'

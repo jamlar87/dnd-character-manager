@@ -5,7 +5,7 @@ from pathlib import Path
 from collections import defaultdict
 
 MANUAL_DATA = Path("/home/james/dnd-character-manager/data/manual_data")
-MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
 MANUALS_ALT = MANUALS_DIR / "Manuals"
 
 # Load meta

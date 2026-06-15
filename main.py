@@ -4481,7 +4481,7 @@ def _format_monster_action(action: dict) -> dict:
         "dc": action.get("dc", {}).get("dc_value") if action.get("dc") else None,
     }
 
-MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals")
+MANUALS_DIR = (Path(__file__).resolve().parent / "manuals").resolve()
 MANUAL_CACHE = DATA_DIR / "manual_cache"
 
 
@@ -4489,6 +4489,8 @@ def _ensure_manual_cache() -> dict[str, Path]:
     """Ensure all manual PDFs have been extracted to text cache.
     Returns {book_label: path_to_txt}.
     Uses _meta.json pdf_map to discover all ingested manuals.
+    If a PDF is missing but a cached .txt extract exists, that
+    cached extract is used — enabling rebuilds without source PDFs.
     """
     MANUAL_CACHE.mkdir(parents=True, exist_ok=True)
 
@@ -4530,6 +4532,9 @@ def _ensure_manual_cache() -> dict[str, Path]:
                 _extract_pdf(pdf_path, txt_path)
             if txt_path.exists():
                 cached[label] = txt_path
+        elif txt_path.exists():
+            # PDF not available but cached extract is — use it
+            cached[label] = txt_path
     return cached
 
 
