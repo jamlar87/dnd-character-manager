@@ -8329,7 +8329,7 @@ async def add_condition(char_id: int, request: Request):
         "name": name,
         "description": data.get("description", ""),
         "source": data.get("source", ""),
-        "applied_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "applied_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
     }
     conditions.append(condition)
     db.execute("UPDATE characters SET conditions=? WHERE id=? AND user_id=?",
