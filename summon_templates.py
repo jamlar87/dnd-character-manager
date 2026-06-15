@@ -66,6 +66,101 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "monster_index": "sprite",
     },
 
+    # ── Druid Wild Shape / Conjure Animals (PHB p.66, p.225) ──
+    "druid_brown_bear": {
+        "name": "Brown Bear (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "brown-bear",
+    },
+    "druid_dire_wolf": {
+        "name": "Dire Wolf (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "dire-wolf",
+    },
+    "druid_giant_eagle": {
+        "name": "Giant Eagle (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-eagle",
+    },
+    "druid_giant_hyena": {
+        "name": "Giant Hyena (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-hyena",
+    },
+    "druid_giant_spider": {
+        "name": "Giant Spider (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-spider",
+    },
+    "druid_giant_toad": {
+        "name": "Giant Toad (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-toad",
+    },
+    "druid_giant_octopus": {
+        "name": "Giant Octopus (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-octopus",
+    },
+    "druid_tiger": {
+        "name": "Tiger (CR 1)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "tiger",
+    },
+    "druid_giant_constrictor": {
+        "name": "Giant Constrictor Snake (CR 2)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-constrictor-snake",
+    },
+    "druid_giant_elk": {
+        "name": "Giant Elk (CR 2)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-elk",
+    },
+    "druid_giant_boar": {
+        "name": "Giant Boar (CR 2)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-boar",
+    },
+    "druid_polar_bear": {
+        "name": "Polar Bear (CR 2)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "polar-bear",
+    },
+    "druid_saber_tooth": {
+        "name": "Saber-Toothed Tiger (CR 2)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "saber-toothed-tiger",
+    },
+    "druid_giant_scorpion": {
+        "name": "Giant Scorpion (CR 3)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-scorpion",
+    },
+    "druid_killer_whale": {
+        "name": "Killer Whale (CR 3)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "killer-whale",
+    },
+    "druid_elephant": {
+        "name": "Elephant (CR 4)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "elephant",
+    },
+    "druid_giant_crocodile": {
+        "name": "Giant Crocodile (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-crocodile",
+    },
+    "druid_giant_shark": {
+        "name": "Giant Shark (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "giant-shark",
+    },
+    "druid_triceratops": {
+        "name": "Triceratops (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "triceratops",
+    },
+    # Elemental wild shapes (Moon Druid 10+)
+    "druid_air_elemental": {
+        "name": "Air Elemental (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "air-elemental",
+    },
+    "druid_earth_elemental": {
+        "name": "Earth Elemental (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "earth-elemental",
+    },
+    "druid_fire_elemental": {
+        "name": "Fire Elemental (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "fire-elemental",
+    },
+    "druid_water_elemental": {
+        "name": "Water Elemental (CR 5)", "category": "druid_wildshape", "source": "wild_shape",
+        "monster_index": "water-elemental",
+    },
+
     # ── Mounts (PHB p.157, MM) — pulled from monster DB ──
     "mount_warhorse": {
         "name": "Warhorse", "category": "mount", "source": "mount",
@@ -353,6 +448,41 @@ SUMMON_TEMPLATES: dict[str, dict] = {
             "Regeneration 5 (star spawn)": "The aberration regains 5 hit points at the start of its turn if it has at least 1 hit point.",
         },
         "attacks": [{"name":"Multiattack (2 claws)","damage_base":"1d8","damage_scaling":0}],
+    },
+    # ── Summon Elemental (Tasha's, 4th level) — 4 forms ──
+    "tashas_elemental": {
+        "name": "Summon Elemental", "category": "tashas_summon", "source": "summon_elemental",
+        "spell_base_level": 4,
+        "ac_base": 15, "ac_scaling": 0,
+        "hp_base": 40, "hp_scaling": 10,
+        "atk_bonus_base": 8, "atk_bonus_scaling": 0,
+        "size": "Medium", "speed": "30 ft. (Air: fly 30 ft hover, Earth: burrow 30 ft, Water: swim 30 ft)",
+        "stats": {"str":18,"dex":15,"con":17,"int":4,"wis":10,"cha":16},
+        "senses": "darkvision 60 ft., passive Perception 10",
+        "features": ["Air / Earth / Fire / Water form","Amorphous Form (air/water/fire)"],
+        "feature_descs": {
+            "Air / Earth / Fire / Water form": "Air: fly 30 ft hover, slam deals lightning. Earth: burrow 30 ft, slam deals bludgeoning, resists nonmagical B/P/S. Fire: immune fire, slam deals fire, sheds light 30 ft. Water: swim 30 ft, slam deals cold, can breathe water.",
+            "Amorphous Form (air/water/fire)": "The elemental can move through a space as narrow as 1 inch without squeezing.",
+        },
+        "attacks": [{"name":"Slam","damage_base":"1d10","damage_scaling":0}],
+    },
+    # ── Summon Draconic Spirit (Fizban's, 5th level) ──
+    "tashas_dragon": {
+        "name": "Summon Draconic Spirit", "category": "tashas_summon", "source": "summon_draconic_spirit",
+        "spell_base_level": 5,
+        "ac_base": 14, "ac_scaling": 1,
+        "hp_base": 50, "hp_scaling": 10,
+        "atk_bonus_base": 8, "atk_bonus_scaling": 0,
+        "size": "Large", "speed": "30 ft., fly 60 ft.",
+        "stats": {"str":19,"dex":14,"con":17,"int":10,"wis":14,"cha":14},
+        "senses": "blindsight 30 ft., darkvision 60 ft., passive Perception 12",
+        "features": ["Draconic Essence","Breath Weapon","Shared Resistances"],
+        "feature_descs": {
+            "Draconic Essence": "Choose a dragon type when casting: Metallic (AC+1, temp HP 5/spell lvl), Chromatic (extra 1d6 dmg on Rend), or Gem (fly speed 70 ft, psionic 1d6 psychic).",
+            "Breath Weapon": "The spirit exhales energy in a 30-foot cone. Each creature in the area makes a Dex save vs your spell DC, taking 2d6 damage of the dragon's type on a failure, or half on success. Damage increases by 1d6 per spell level above 5th.",
+            "Shared Resistances": "You and the spirit gain resistance to the damage type associated with the dragon's essence while within 30 ft of each other.",
+        },
+        "attacks": [{"name":"Rend","damage_base":"1d6","damage_scaling":0},{"name":"Breath (30 ft cone)","damage_base":"2d6","damage_scaling":1}],
     },
     "tashas_fiend_devil": {
         "name": "Summon Fiend (Devil)", "category": "tashas_summon", "source": "summon_fiend",
