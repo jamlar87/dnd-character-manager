@@ -469,7 +469,7 @@
       <!-- Conditions -->
       <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">
-          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▾</span> Conditions</span>
+          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▸</span> Conditions</span>
           <button onclick="event.stopPropagation();openConditionPicker()" title="Add condition"
             style="font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
         </div>
@@ -2621,7 +2621,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); });
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').innerHTML = ''; } });
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
@@ -2839,7 +2839,7 @@ function stopSheetPolling() {
 }
 
 // ── Conditions ──
-let _conditionsExpanded = true;
+let _conditionsExpanded = false;
 const CONDITION_COLORS = {
   Blinded: '#6a0dad;color:#fff', Charmed: '#e75480;color:#fff', Deafened: '#5c6bc0;color:#fff',
   Frightened: '#7b1fa2;color:#fff', Grappled: '#bf360c;color:#fff', Incapacitated: '#b71c1c;color:#fff',
@@ -2942,19 +2942,18 @@ async function dismissCondition(name) {
 function renderConditions(conditions) {
   const container = document.getElementById('condition-badges');
   if (!container) return;
+  if (!_conditionsExpanded) {
+    container.innerHTML = '';
+    return;
+  }
   if (!conditions || !conditions.length) {
     container.innerHTML = '<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>';
     return;
   }
   let html = '';
-  const showAll = _conditionsExpanded || conditions.length <= 3;
-  const visible = showAll ? conditions : conditions.slice(0, 3);
-  for (const c of visible) {
+  for (const c of conditions) {
     const style = CONDITION_COLORS[c.name] || 'var(--accent);color:#fff;border-color:var(--accent)';
     html += '<span class="cond-badge" style="background:'+style.split(';')[0]+';'+style.split(';')[1]+'" data-name="'+c.name+'" onclick="toggleConditionDetail(event,\''+c.name+'\',\''+(c.description||'').replace(/'/g,"\\'")+'\')">'+c.name+'<span class="dismiss" onclick="event.stopPropagation();dismissCondition(\''+c.name+'\')">✕</span></span>';
-  }
-  if (!showAll) {
-    html += '<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" onclick="toggleConditions()">+'+ (conditions.length - 3) +' more</span>';
   }
   container.innerHTML = html;
 }

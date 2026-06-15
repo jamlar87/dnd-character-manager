@@ -3900,18 +3900,15 @@ function renderInitiativeTrack() {
       <div class="init-cond-badges" style="display:flex;flex-wrap:wrap;gap:0.15rem;margin-top:0.15rem;align-items:center">
         ${(() => {
           const conds = p.conditions || [];
-          const expanded = _combatCondExpanded.has(p.en_id) || conds.length <= 3;
-          const visible = expanded ? conds : conds.slice(0, 3);
-          let out = visible.map(c => {
-            const style = CONDITION_COLORS[c.name] || '';
-            const bg = style ? style.split(';')[0] : 'var(--accent)';
-            const fg = style ? (style.split(';')[1]||'color:#fff') : 'color:#fff';
-            return `<span class="cond-badge" style="background:${bg};${fg}" onclick="event.stopPropagation();combatToggleCond(event,${p.en_id},'${c.name}','${(c.description||'').replace(/'/g,"\\'")}')">${c.name}<span class="dismiss" onclick="event.stopPropagation();combatDismissCond(${p.en_id},'${c.name}')">✕</span></span>`;
-          }).join('');
-          if (!expanded) {
-            out += `<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" onclick="event.stopPropagation();combatToggleCondExpand(${p.en_id})">+${conds.length - 3} more</span>`;
+          if (_combatCondExpanded.has(p.en_id)) {
+            return conds.map(c => {
+              const style = CONDITION_COLORS[c.name] || '';
+              const bg = style ? style.split(';')[0] : 'var(--accent)';
+              const fg = style ? (style.split(';')[1]||'color:#fff') : 'color:#fff';
+              return `<span class="cond-badge" style="background:${bg};${fg}" onclick="event.stopPropagation();combatToggleCond(event,${p.en_id},'${c.name}','${(c.description||'').replace(/'/g,"\\'")}')">${c.name}<span class="dismiss" onclick="event.stopPropagation();combatDismissCond(${p.en_id},'${c.name}')">✕</span></span>`;
+            }).join('');
           }
-          return out;
+          return conds.length ? `<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" onclick="event.stopPropagation();combatToggleCondExpand(${p.en_id})">${conds.length} condition${conds.length!==1?'s':''}</span>` : '';
         })()}
         <button onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="font-size:0.5rem;padding:0 0.25rem;line-height:1.4;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px">+</button>
       </div>
