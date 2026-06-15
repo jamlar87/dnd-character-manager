@@ -4869,6 +4869,7 @@ function filterCombatCreatures() {
   let filtered = _combatCreatureCache;
   if (q) filtered = filtered.filter(c => c.name.toLowerCase().includes(q));
   if (kind !== 'all') filtered = filtered.filter(c => c._kind === kind);
+  if (_coreOnlyDM) filtered = filtered.filter(c => c._kind === 'npc' || isCoreSourceDM((c._raw && c._raw.source) || ''));
 
   if (filtered.length === 0) {
     results.innerHTML = '<span style="color:var(--text-muted);font-size:0.75rem;text-align:center;padding:0.5rem">No matches</span>';
