@@ -67,6 +67,12 @@
   .senses-section { gap: 0.4rem; padding: 0.4rem 0.6rem; }
   .sense-row { font-size: 0.75rem; }
 }
+@media (max-width: 600px) {
+  .feat-header { padding: 0.4rem 0.5rem; font-size: 0.8rem; gap: 0.3rem; }
+  .feat-body { padding: 0.4rem 0.5rem 0.5rem; font-size: 0.72rem; overflow-wrap: break-word; word-break: break-word; }
+  .passive-chip { padding: 0.3rem 0.4rem !important; }
+  .passive-chip-body { padding: 0.3rem 0.4rem; font-size: 0.7rem; overflow-wrap: break-word; word-break: break-word; }
+}
 
 /* Two-column layout */
 .sheet-layout { display: flex; gap: 0.75rem; min-height: calc(100vh - 140px); }
@@ -843,6 +849,51 @@
     </div>
     {% endif %}
 
+    <!-- Summons -->
+    <div class="sidebar-section" style="margin-top:0.25rem">
+      <h4 style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
+        Summons
+        <button class="btn btn-outline btn-sm" onclick="openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
+      </h4>
+      <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem">
+        {% for s in character.summons %}
+        {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
+        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
+            <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}{% if s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
+            <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.15rem">
+            <div style="flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden">
+              <div style="height:100%;width:{{ hp_pct }}%;border-radius:2px;background:{% if hp_pct > 50 %}var(--success){% elif hp_pct > 25 %}var(--warn){% else %}var(--danger){% endif %};transition:width 0.3s"></div>
+            </div>
+            <span style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
+          </div>
+          <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.4;color:var(--text-muted)">
+            <div><strong>Size:</strong> {{ s.size }}</div>
+            <div><strong>Speed:</strong> {{ s.speed }}</div>
+            {% if s.skills %}<div><strong>Skills:</strong> {{ s.skills }}</div>{% endif %}
+            {% if s.senses %}<div><strong>Senses:</strong> {{ s.senses }}</div>{% endif %}
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.15rem;margin:0.3rem 0;font-family:monospace;text-align:center">
+              {% for ab in ['str','dex','con','int','wis','cha'] %}<div><span style="color:var(--accent)">{{ ab|upper }}</span><br>{{ s.stats[ab] }}</div>{% endfor %}
+            </div>
+            {% if s.features %}<div style="margin:0.2rem 0"><strong>Features:</strong> {{ s.features|join(', ') }}</div>{% endif %}
+            {% if s.attacks %}<div style="margin:0.2rem 0"><strong>Attacks:</strong>{% for a in s.attacks %}<br>• {{ a.name }} +{{ a.bonus }} ({{ a.damage }}){% endfor %}</div>{% endif %}
+            {% if s.hp_note %}<div style="margin:0.2rem 0;font-style:italic">{{ s.hp_note }}</div>{% endif %}
+            <div style="display:flex;gap:0.3rem;margin-top:0.4rem">
+              <input type="number" value="{{ s.hp_current }}" min="0" max="{{ s.hp_max }}" style="width:4em;padding:0.1rem 0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem"
+                onchange="updateSummonHP({{ loop.index0 }}, this.value)" onclick="event.stopPropagation()">
+              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem" onclick="event.stopPropagation();dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% if not character.summons %}
+        <span style="font-size:0.65rem;color:var(--text-muted);text-align:center;padding:0.3rem">No active summons</span>
+        {% endif %}
+      </div>
+    </div>
+
     <!-- Hidden inspiration toggle -->
     <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
   </div>
@@ -1306,6 +1357,8 @@
               <div style="margin-bottom:0.2rem"><strong>{{ inv_key|replace('_',' ')|title }}</strong>{% if invocation_options and invocation_options.get(inv_key) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ invocation_options[inv_key].desc }}</span>{% endif %}</div>
               {% endfor %}
               {% endif %}
+              {% elif feat.name == 'Pact Boon' and character.pact_boon %}
+              <div style="margin-bottom:0.2rem"><strong>{{ character.pact_boon|replace('_',' ')|title }}</strong>{% if pact_boon_options and pact_boon_options.get(character.pact_boon) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ pact_boon_options[character.pact_boon].desc }}</span>{% endif %}</div>
               {% else %}
               {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
               {% endif %}
@@ -1329,6 +1382,9 @@
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
               <span><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.name == "Hexblade's Curse" %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:600;margin-left:0.3rem;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+{{ character.proficiency_bonus }} dmg, crit 19–20</span>
+                {% endif %}
                 {% if 'Fighting Style' in feat.name and character.fighting_style %}
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
@@ -7506,6 +7562,146 @@ async function applyDeLevel() {
     btn.disabled = false;
     btn.textContent = '✅ Confirm De-Level';
   }
+}
+
+// ══════ SUMMONS ══════
+const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
+let characterSummons = {{ character.summons|tojson }};
+
+function toggleSummonBody(chip) {
+  const body = chip.querySelector('.summon-body');
+  if (body) body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+async function saveSummons() {
+  await fetch(`/api/character/${CHAR_ID}/update`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({summons: JSON.stringify(characterSummons)}),
+  });
+}
+
+async function updateSummonHP(idx, newHp) {
+  newHp = Math.max(0, Math.min(characterSummons[idx].hp_max, parseInt(newHp) || 0));
+  characterSummons[idx].hp_current = newHp;
+  await saveSummons();
+  location.reload();
+}
+
+async function dismissSummon(idx) {
+  if (!confirm(`Dismiss ${characterSummons[idx].name}?`)) return;
+  characterSummons.splice(idx, 1);
+  await saveSummons();
+  location.reload();
+}
+
+function openSummonModal() {
+  let html = `<div class="modal-overlay" id="summonModal" onclick="if(event.target===this)closeSummonModal()">
+    <div class="modal-content" style="max-width:600px">
+      <button class="modal-close" onclick="closeSummonModal()">✕</button>
+      <h2 style="margin:0 0 1rem 0">Add Summon</h2>
+      <div style="margin-bottom:0.75rem">
+        <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem">Quick Template</label>
+        <select id="summon-template" onchange="fillSummonTemplate(this.value)" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+          <option value="">— Custom —</option>`;
+
+  // Group templates by category
+  const categories = {
+    'familiar': '🐾 Find Familiar',
+    'tashas_summon': '✨ Tasha Summons',
+    'class_feature': '🎯 Class Features'
+  };
+  for (const [cat, label] of Object.entries(categories)) {
+    html += `<optgroup label="${label}">`;
+    for (const [key, tmpl] of Object.entries(SUMMON_TEMPLATES)) {
+      if (tmpl.category === cat) {
+        html += `<option value="${key}">${tmpl.name}${tmpl.form ? ' (' + tmpl.form + ')' : ''}</option>`;
+      }
+    }
+    html += `</optgroup>`;
+  }
+
+  html += `</select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+        <div><label style="font-size:0.7rem">Name</label><input id="s-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Stolas"></div>
+        <div><label style="font-size:0.7rem">Form/Type</label><input id="s-form" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="owl"></div>
+        <div><label style="font-size:0.7rem">AC</label><input id="s-ac" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="10"></div>
+        <div><label style="font-size:0.7rem">HP</label><input id="s-hp" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="1"></div>
+        <div><label style="font-size:0.7rem">Size</label><input id="s-size" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="Tiny"></div>
+        <div><label style="font-size:0.7rem">Speed</label><input id="s-speed" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="30 ft."></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.3rem;margin-top:0.5rem">
+        ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.6rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
+      </div>
+      <div style="margin-top:0.5rem">
+        <label style="font-size:0.7rem">Source (spell/feature)</label>
+        <input id="s-source" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="find_familiar">
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <button class="btn btn-primary" onclick="addSummon()" style="flex:1">Add Summon</button>
+        <button class="btn btn-outline" onclick="closeSummonModal()">Cancel</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeSummonModal() {
+  const modal = document.getElementById('summonModal');
+  if (modal) modal.remove();
+}
+
+function fillSummonTemplate(key) {
+  if (!key || !SUMMON_TEMPLATES[key]) return;
+  const t = SUMMON_TEMPLATES[key];
+  document.getElementById('s-name').value = t.name;
+  document.getElementById('s-form').value = t.form || '';
+  document.getElementById('s-ac').value = t.ac;
+  document.getElementById('s-hp').value = t.hp_max;
+  document.getElementById('s-size').value = t.size;
+  document.getElementById('s-speed').value = t.speed;
+  document.getElementById('s-source').value = t.source;
+  for (const [ab, val] of Object.entries(t.stats)) {
+    const el = document.getElementById('s-' + ab);
+    if (el) el.value = val;
+  }
+}
+
+function addSummon() {
+  const s = {
+    id: 'summon_' + Date.now(),
+    name: document.getElementById('s-name').value || 'Unnamed',
+    form: document.getElementById('s-form').value,
+    category: 'custom',
+    source: document.getElementById('s-source').value || 'custom',
+    ac: parseInt(document.getElementById('s-ac').value) || 10,
+    hp_max: parseInt(document.getElementById('s-hp').value) || 1,
+    hp_current: parseInt(document.getElementById('s-hp').value) || 1,
+    size: document.getElementById('s-size').value || 'Medium',
+    speed: document.getElementById('s-speed').value || '30 ft.',
+    stats: {},
+    features: [],
+    attacks: []
+  };
+  for (const ab of ['str','dex','con','int','wis','cha']) {
+    s.stats[ab] = parseInt(document.getElementById('s-' + ab).value) || 10;
+  }
+  
+  // Copy template features/attacks if a template was selected
+  const key = document.getElementById('summon-template').value;
+  if (key && SUMMON_TEMPLATES[key]) {
+    s.features = [...(SUMMON_TEMPLATES[key].features || [])];
+    s.attacks = [...(SUMMON_TEMPLATES[key].attacks || [])];
+    s.skills = SUMMON_TEMPLATES[key].skills || '';
+    s.senses = SUMMON_TEMPLATES[key].senses || '';
+    s.hp_note = SUMMON_TEMPLATES[key].hp_note || '';
+    s.category = SUMMON_TEMPLATES[key].category;
+    s.form = s.form || SUMMON_TEMPLATES[key].form || '';
+  }
+  
+  characterSummons.push(s);
+  saveSummons().then(() => location.reload());
 }
 
 </script>

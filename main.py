@@ -7457,7 +7457,7 @@ async def character_sheet(char_id: int, request: Request):
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
               "expertise_skills", "asi_history", "metamagic_history",
-              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions"):
+              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
@@ -7888,7 +7888,9 @@ async def character_sheet(char_id: int, request: Request):
                    invocation_levels=INVOCATION_LEVELS,
                    invocation_picks=INVOCATION_PICKS,
                    invocations_by_level=invocations_by_level,
-                   invocation_options=INVOCATION_OPTIONS)
+                   invocation_options=INVOCATION_OPTIONS,
+                   pact_boon_options=PACT_BOON_OPTIONS,
+                   summon_templates=SUMMON_TEMPLATES)
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -7919,6 +7921,7 @@ async def update_character(char_id: int, request: Request):
         "cp",
         "gp",
         "dragonborn_ancestry",
+        "summons",
     }
     updates = {}
     for k, v in data.items():
@@ -8067,6 +8070,21 @@ async def get_attacks(char_id: int, request: Request):
             except: pass
     attacks = _build_inventory_attacks(char)
     return JSONResponse({"attacks": attacks})
+
+@app.get("/api/character/{char_id}/summons", response_class=JSONResponse)
+async def get_summons(char_id: int, request: Request):
+    """Return character's active summons for combat tab integration."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    db.close()
+    if not row:
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        summons = json.loads(row["summons"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        summons = []
+    return JSONResponse({"summons": summons, "char_name": row["name"]})
 
 @app.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
 async def spend_charge(char_id: int, request: Request):
@@ -11520,6 +11538,9 @@ PACT_BOON_OPTIONS: dict[str, dict] = {
     "pact_of_the_talisman":{"name":"Pact of the Talisman","desc":"Wearer can add d4 to a failed ability check, prof bonus times per long rest"},
 }
 
+# ── Summon Templates (imported from summon_templates.py) ─────────────────
+from summon_templates import SUMMON_TEMPLATES
+
 # ── Battle Master Maneuvers (Fighter L3/7/10/15, requires Battle Master) ──
 MANEUVER_LEVELS: dict[str, list[int]] = {"Battle Master": [3, 7, 10, 15]}
 MANEUVER_OPTIONS: dict[str, dict] = {
@@ -12734,7 +12755,7 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "a light when all other lights go out":
         "A gift of hope and courage — the Warden kindles light in dark places, rallying companions against despair and the Shadow's influence.",
     "accursed specter":
-        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+        "Starting at 6th level, you can curse the soul of a person you slay, temporarily binding it to your service. When you slay a humanoid, you can cause its spirit to rise as a specter with temp HP equal to half your warlock level. It obeys your verbal commands and gains a bonus to attack rolls equal to your Charisma modifier. The specter vanishes after your next long rest. 1/long rest.",
     "alchemist spells":
         "An alchemical feature — brewing potent elixirs, identifying compounds, or using alchemical reagents to produce magical effects.",
     "ambush master":
@@ -12774,7 +12795,7 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "armor modifications":
         "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
     "armor of hexes":
-        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+        "At 10th level, your hex grows more powerful. If the target cursed by your Hexblade's Curse hits you with an attack roll, you can use your reaction to roll a d6. On a 4 or higher, the attack instead misses you, regardless of its roll.",
     "armorer spells":
         "A Armorer subclass feature. Grants a thematic ability tied to the Armorer's specialty — check your sourcebook for full mechanical details.",
     "armoured fury":
@@ -13208,9 +13229,9 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "heckle":
         "A College of the Arts subclass feature. Grants a thematic ability tied to the College of the Arts's specialty — check your sourcebook for full mechanical details.",
     "hex warrior":
-        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+        "At 1st level, you gain proficiency with medium armor, shields, and martial weapons. When you finish a long rest, touch one proficient weapon lacking the two-handed property — use Charisma for attack/damage rolls with it instead of Str/Dex. If you later gain Pact of the Blade, this extends to every pact weapon you conjure.",
     "hexblade's curse":
-        "A martial technique focused on blade mastery — enhancing weapon attacks with supernatural speed, precision, or magical effects.",
+        "Starting at 1st level, as a bonus action, curse a creature you can see within 30 ft for 1 minute. You gain +proficiency bonus to damage rolls against it. Any attack roll against it is a critical hit on 19-20. If the cursed target dies, you regain HP equal to your warlock level + Cha modifier. 1/short or long rest.",
     "hidden paths":
         "A Circle of Dreams subclass feature. Grants a thematic ability tied to the Circle of Dreams's specialty — check your sourcebook for full mechanical details.",
     "hide in shadows":
@@ -13326,7 +13347,7 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "master hunter (second choice)":
         "A hunter's technique — marking quarry, tracking with supernatural precision, or gaining combat bonuses against chosen prey.",
     "master of hexes":
-        "A The Hexblade subclass feature. Grants a thematic ability tied to the The Hexblade's specialty — check your sourcebook for full mechanical details.",
+        "Starting at 14th level, you can spread your Hexblade's Curse from a slain creature to another. When the cursed target dies, as a bonus action apply the curse to a different creature you can see within 30 ft. You don't regain HP from the previous target's death.",
     "master of intrigue":
         "A Mastermind subclass feature. Grants a thematic ability tied to the Mastermind's specialty — check your sourcebook for full mechanical details.",
     "master of lies":

@@ -87,6 +87,11 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 @media (max-width: 650px) {
   .initiative-track-col, #playersPanel { flex: 1 1 100% !important; min-width: 100% !important; width: 100% !important; }
 }
+@media (max-width: 600px) {
+  .search-bar { flex-direction: column; }
+  .search-bar input, .search-bar select { width: 100%; min-width: 0; }
+  .toolbar { flex-direction: column; }
+}
 .monster-palette { max-height: 60vh; overflow-y: auto; }
 .encounter-tracking { max-height: 60vh; overflow-y: auto; }
 
@@ -3579,6 +3584,7 @@ function renderPlayersPanel() {
         <div style="flex:1"></div>
         <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
         <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
+        <button class="init-btn" onclick="loadCharacterSummons(${p.char_id}, '${p.name}')" title="Load summons into combat" style="flex-shrink:0;color:var(--warn)">🐾</button>
       </div>
     </div>`;
   }).join('');
@@ -3853,6 +3859,7 @@ function renderInitiativeTrack() {
     const hpPct = p.hp_max > 0 ? Math.max(0, Math.round(p.hp_current / p.hp_max * 100)) : 0;
     const hpClass = hpPct <= 0 ? 'danger' : hpPct < 25 ? 'warn' : hpPct < 50 ? 'warn' : 'ok';
     const badge = p.is_player ? '<span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem">PC</span>'
+      : p.is_summon ? '<span class="badge" style="background:rgba(255,165,0,0.15);color:#ffa500;font-size:0.6rem">🐾</span>'
       : p.is_enemy ? '<span class="badge badge-accent" style="font-size:0.6rem">ENEMY</span>'
       : '<span class="badge badge-muted" style="font-size:0.6rem">ALLY</span>';
     const role = p.role ? ` · ${p.role}` : '';
@@ -4037,6 +4044,52 @@ async function toggleDefeatedCombat(enId) {
   if (_combatTurnIdx >= alive.length) _combatTurnIdx = Math.max(0, alive.length - 1);
   renderInitiativeTrack();
   saveCombatState();
+}
+
+// ── Load character summons into combat ──
+async function loadCharacterSummons(charId, charName) {
+  try {
+    const r = await fetch(`/api/character/${charId}/summons`);
+    const data = await r.json();
+    if (!data.summons || !data.summons.length) {
+      alert(`${charName} has no active summons.`);
+      return;
+    }
+    let added = 0;
+    for (const s of data.summons) {
+      const enId = Date.now() + Math.random();
+      _combatParticipants.push({
+        en_id: enId,
+        name: s.name + (s.form ? ` (${s.form})` : ''),
+        race: s.size || 'Medium',
+        class_name: s.source || 'Summon',
+        level: 0,
+        is_enemy: 0,
+        is_player: false,
+        is_summon: true,
+        owner_char_id: charId,
+        owner_name: charName,
+        ac: s.ac || 10,
+        hp_current: s.hp_current || s.hp_max || 1,
+        hp_max: s.hp_max || 1,
+        initiative: Math.floor(Math.random() * 20) + 1 + Math.floor(((s.stats?.dex || 10) - 10) / 2),
+        roll: 0,
+        dex_mod: Math.floor(((s.stats?.dex || 10) - 10) / 2),
+        defeated: 0,
+      });
+      added++;
+    }
+    _combatParticipants.sort((a, b) => {
+      if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+      return (b.initiative||0) - (a.initiative||0);
+    });
+    _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+    renderInitiativeTrack();
+    saveCombatState();
+  } catch(e) {
+    console.error('loadSummons:', e);
+    alert('Failed to load summons.');
+  }
 }
 
 // ── Full creature/NPC detail popup for combat cards ──
