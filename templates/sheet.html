@@ -2137,6 +2137,12 @@
       <div class="card" style="max-width:480px;width:92%;max-height:85vh;display:flex;flex-direction:column">
         <h3 style="margin:0 0 0.5rem 0;flex-shrink:0">Add Spell</h3>
         <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;flex-shrink:0">Loading available spells...</div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem">
+          <label id="core-toggle-label" style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;user-select:none" onclick="toggleCoreOnly()">
+            <span id="core-toggle-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+            Core content only
+          </label>
+        </div>
         <div style="position:relative;margin-bottom:0.5rem;flex:1;overflow-y:auto;min-height:0">
           <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
             style="width:100%;padding:0.5rem 0.75rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.9rem;outline:none"
@@ -3526,6 +3532,20 @@ async function toggleSpellSlotById(spellId, n, max) {
 
 // ── Add Spell (searchable dropdown) ──
 let _spellCache = [];
+let _coreOnly = false;
+const _CORE_BOOKS = ['PHB','PHB 2014','DMG','DMG 2014','MM','XGE','TCE','TCE 2020','VGM','MTF','SCAG','ERLW','FTD','MPMM','BPGG'];
+function isCoreSource(book) {
+  if (!book) return true; // SRD content = core
+  const abbr = book.split(' p.')[0].trim();
+  return _CORE_BOOKS.some(b => abbr === b || abbr.startsWith(b+' '));
+}
+
+function toggleCoreOnly() {
+  _coreOnly = !_coreOnly;
+  document.getElementById('core-toggle-box').textContent = _coreOnly ? '☑' : '☐';
+  document.getElementById('core-toggle-label').style.color = _coreOnly ? 'var(--accent)' : 'var(--text-muted)';
+  filterSpellResults();
+}
 
 async function showAddSpell() {
   document.getElementById('add-spell-modal').style.display = 'flex';
@@ -3559,6 +3579,9 @@ function filterSpellResults() {
   const q = document.getElementById('spell-search').value.toLowerCase().trim();
   const div = document.getElementById('spell-results');
   let spells = _spellCache;
+  if (_coreOnly) {
+    spells = spells.filter(s => isCoreSource(s.book));
+  }
   if (q) {
     spells = spells.filter(s =>
       s.name.toLowerCase().includes(q) ||
@@ -6973,6 +6996,10 @@ function renderLuSpells(el) {
     html += `<input id="lu-spell-search" type="text" placeholder="Search spells..." 
       style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none;margin-bottom:0.4rem"
       oninput="filterLuSpells()">`;
+    html += `<label style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:${_coreOnly?'var(--accent)':'var(--text-muted)'};cursor:pointer;user-select:none;margin-bottom:0.4rem" onclick="event.stopPropagation();_coreOnly=!_coreOnly;document.getElementById('lu-core-box').textContent=_coreOnly?'☑':'☐';this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';filterLuSpells();return false">
+      <span id="lu-core-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">${_coreOnly ? '☑' : '☐'}</span>
+      Core content only
+    </label>`;
     
     // Selected chips
     html += `<div id="lu-selected-spells" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem">`;
@@ -7031,6 +7058,9 @@ function filterLuSpells() {
   if (!div) return;
   
   let spells = _luSpellList;
+  if (_coreOnly) {
+    spells = spells.filter(s => isCoreSource(s.book));
+  }
   if (q) {
     spells = spells.filter(s =>
       s.name.toLowerCase().includes(q) ||
