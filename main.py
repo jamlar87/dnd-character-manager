@@ -7754,7 +7754,7 @@ async def character_sheet(char_id: int, request: Request):
             _new_feat = {
                 "name": _rf_name,
                 "level": str(_char_level),
-                "description": "",
+                "description": RACIAL_TRAIT_DESCS.get(_rf_name, "") or "",
                 "source": f"Race: {_race or 'Unknown'}",
                 "uses": 1,
                 "uses_max": 1,
@@ -15727,6 +15727,9 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             desc = FEATURE_DESCRIPTIONS.get(sc_key, "")
         if not desc:
             desc = FEATURE_DESCRIPTIONS.get(key, "")
+        # Fallback: check RACIAL_TRAIT_DESCS for racial features
+        if not desc:
+            desc = RACIAL_TRAIT_DESCS.get(name, "")
         # If composite name from multiclass dedup, try first segment
         if not desc and " | " in key:
             first_seg = key.split(" | ")[0].strip()
