@@ -5006,7 +5006,7 @@ async function syncPlayerAndSummonHP() {
 
 function startCombatPolling() {
   stopCombatPolling();
-  _combatPollTimer = setInterval(syncPlayerAndSummonHP, 5000);
+  _combatPollTimer = setInterval(syncPlayerAndSummonHP, 2000);
 }
 
 function stopCombatPolling() {

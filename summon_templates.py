@@ -233,4 +233,11 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         },
         "attacks": [{"name":"Bite","damage_base":"1d8","damage_scaling":0}],
     },
+    # ── Hexblade Warlock: Accursed Specter (XGtE p.56, MM p.279) ──
+    "accursed_specter": {
+        "name": "Accursed Specter", "category": "class_feature", "source": "Accursed Specter",
+        "monster_index": "specter",
+        "hp_note": "Add temp HP = ½ warlock level. Attack bonus + CHA mod. Max one at a time.",
+        "size": "Medium", "speed": "0 ft., fly 50 ft. (hover)",
+    },
 }
