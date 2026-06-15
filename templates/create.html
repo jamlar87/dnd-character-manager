@@ -574,6 +574,9 @@ function toggleCoreCreate(el) {
   document.querySelectorAll('label').forEach(l => { if (l.querySelector('.core-create-box')) l.style.color = _coreOnlyCreate ? 'var(--accent)' : 'var(--text-muted)'; });
   buildRaces();
   buildClasses();
+  // Refresh subrace/subclass grids for any selected race/class
+  if (state.race) selectRace(state.race);
+  if (state.class_name) selectClass(state.class_name);
 }
 function buildRaces() {
   const grid = document.getElementById('race-grid');
@@ -598,7 +601,9 @@ function selectRace(name) {
   if (r.subraces && r.subraces.length) {
     subsec.style.display = 'block';
     const srSrcs = r._subrace_sources || {};
-    subgrid.innerHTML = r.subraces.map(s => `
+    let filteredSubs = r.subraces;
+    if (_coreOnlyCreate) filteredSubs = r.subraces.filter(s => isCoreSourceC(srSrcs[s] || r.source || ''));
+    subgrid.innerHTML = filteredSubs.map(s => `
       <div class="option-card" data-name="${s}" onclick="selectSubrace('${s}')">
         <div class="name">${s}${(srSrcs[s]||r.source) ? ` ${_srcBadge(srSrcs[s]||r.source)}` : ''}</div>
         <div class="detail">${SUBASIS[s] ? Object.entries(SUBASIS[s]).map(([k,v])=>'+'+v+' '+k.slice(0,3).toUpperCase()).join(', ') : 'No extra ASI'}</div>
@@ -683,7 +688,9 @@ function selectClass(name) {
   if (c.subclasses && c.subclasses.length) {
     scsec.style.display = 'block';
     const scSrcs = c._subclass_sources || {};
-    scgrid.innerHTML = c.subclasses.map(s => `
+    let filteredScs = c.subclasses;
+    if (_coreOnlyCreate) filteredScs = c.subclasses.filter(s => isCoreSourceC(scSrcs[s] || c.source || ''));
+    scgrid.innerHTML = filteredScs.map(s => `
       <div class="option-card" data-name="${s}" onclick="selectSubclass('${s}')">
         <div class="name">${s}${scSrcs[s] ? ` ${_srcBadge(scSrcs[s])}` : ''}</div>
       </div>`).join('');
