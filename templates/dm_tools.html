@@ -4132,7 +4132,8 @@ async function loadCharacterSummons(charId, charName) {
       'familiar': '🐾 Find Familiar',
       'tashas_summon': '✨ Tasha Summons',
       'class_feature': '🎯 Class Features',
-      'mount': '🐴 Mounts'
+      'mount': '🐴 Mounts',
+      'vehicle': '🚢 Vehicles'
     };
     for (const [cat, label] of Object.entries(categories)) {
       html += `<optgroup label="${label}">`;
@@ -4302,7 +4303,9 @@ async function loadCharacterSummons(charId, charName) {
 
     // Fallback
     if (t.ac) document.getElementById('s-ac-dm').value = t.ac;
+    else if (t.ac_base != null) document.getElementById('s-ac-dm').value = t.ac_base;
     if (t.hp_max) document.getElementById('s-hp-dm').value = t.hp_max;
+    else if (t.hp_base != null) document.getElementById('s-hp-dm').value = t.hp_base;
     const slRow = document.getElementById('summon-spell-level-row-dm');
     if (slRow) slRow.style.display = 'none';
   }

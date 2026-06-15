@@ -100,6 +100,100 @@ SUMMON_TEMPLATES: dict[str, dict] = {
         "monster_index": "elk",
     },
 
+    # ── Vehicles (PHB p.157, DMG p.119, GoS) — manual stats ──
+    "vehicle_cart": {
+        "name": "Cart", "category": "vehicle", "source": "vehicle",
+        "ac_base": 10, "hp_base": 30, "hp_note": "Pulled by 1 draft animal. Holds 1/2 ton cargo.",
+        "size": "Large", "speed": "as draft animal",
+        "stats": {"str":14,"dex":10,"con":12,"int":2,"wis":11,"cha":5},
+        "features": ["Cargo Hauler","Animal-Pulled"],
+        "feature_descs": {
+            "Cargo Hauler": "Carries up to 500 lb of cargo plus 2 passengers.",
+            "Animal-Pulled": "Speed depends on the draft animal pulling it.",
+        },
+    },
+    "vehicle_wagon": {
+        "name": "Wagon", "category": "vehicle", "source": "vehicle",
+        "ac_base": 10, "hp_base": 50, "hp_note": "Pulled by 2 draft animals. Holds 1 ton cargo.",
+        "size": "Large", "speed": "as draft animals",
+        "stats": {"str":16,"dex":10,"con":12,"int":2,"wis":11,"cha":5},
+        "features": ["Cargo Hauler","Covered Option"],
+        "feature_descs": {
+            "Cargo Hauler": "Carries up to 1 ton of cargo plus 4 passengers.",
+            "Covered Option": "Can be fitted with canvas cover for weather protection.",
+        },
+    },
+    "vehicle_rowboat": {
+        "name": "Rowboat", "category": "vehicle", "source": "vehicle",
+        "ac_base": 11, "hp_base": 50, "hp_note": "Oars: 2 crew. Swim 1.5 mph.",
+        "size": "Large", "speed": "swim 15 ft.",
+        "stats": {"str":8,"dex":10,"con":12,"int":0,"wis":0,"cha":0},
+        "features": ["Oars"],
+        "feature_descs": {
+            "Oars": "Requires 2 crew to row. Moves 1.5 mph over water.",
+        },
+    },
+    "vehicle_keelboat": {
+        "name": "Keelboat", "category": "vehicle", "source": "vehicle",
+        "ac_base": 15, "hp_base": 100, "hp_note": "Crew: 3. Passengers: 4. Cargo: 1/2 ton.",
+        "size": "Gargantuan", "speed": "swim 10 ft., sail 30 ft.",
+        "stats": {"str":16,"dex":12,"con":14,"int":0,"wis":0,"cha":0},
+        "features": ["Oars","Sail","Ballista"],
+        "feature_descs": {
+            "Oars": "Can be rowed at 1 mph when wind is unfavorable.",
+            "Sail": "Moves 3 mph under sail with favorable wind.",
+            "Ballista": "Carries 1 ballista (3d10 piercing, range 120/480 ft).",
+        },
+    },
+    "vehicle_sailing_ship": {
+        "name": "Sailing Ship", "category": "vehicle", "source": "vehicle",
+        "ac_base": 15, "hp_base": 300, "hp_note": "Crew: 20. Passengers: 20. Cargo: 100 tons.",
+        "size": "Gargantuan", "speed": "sail 30 ft.",
+        "stats": {"str":20,"dex":12,"con":16,"int":0,"wis":0,"cha":0},
+        "features": ["Sails","2 Ballistas","Cargo Hold"],
+        "feature_descs": {
+            "Sails": "Moves 3 mph under sail in favorable wind.",
+            "2 Ballistas": "Armed with 2 ballistas (3d10 piercing, range 120/480 ft).",
+            "Cargo Hold": "Carries 100 tons of cargo in addition to crew and passengers.",
+        },
+    },
+    "vehicle_longship": {
+        "name": "Longship", "category": "vehicle", "source": "vehicle",
+        "ac_base": 15, "hp_base": 300, "hp_note": "Crew: 40. Passengers: 100. Cargo: 10 tons.",
+        "size": "Gargantuan", "speed": "row 20 ft., sail 45 ft.",
+        "stats": {"str":20,"dex":14,"con":16,"int":0,"wis":0,"cha":0},
+        "features": ["Oars + Sail","Shallow Draft","Beaching"],
+        "feature_descs": {
+            "Oars + Sail": "Moves 5 mph under sail, 2 mph under oar against wind.",
+            "Shallow Draft": "Navigates rivers and shallows that larger ships can't reach.",
+            "Beaching": "Can be beached on shore without a dock.",
+        },
+    },
+    "vehicle_warship": {
+        "name": "Warship", "category": "vehicle", "source": "vehicle",
+        "ac_base": 15, "hp_base": 500, "hp_note": "Crew: 40. Passengers: 60. Cargo: none.",
+        "size": "Gargantuan", "speed": "sail 25 ft.",
+        "stats": {"str":22,"dex":12,"con":18,"int":0,"wis":0,"cha":0},
+        "features": ["Sails","2 Ballistas + Ram","Reinforced Hull"],
+        "feature_descs": {
+            "Sails": "Moves 2.5 mph under sail.",
+            "2 Ballistas + Ram": "2 ballistas + reinforced ram (5d10 bludgeoning on collision).",
+            "Reinforced Hull": "Thick hull gives high durability in naval combat.",
+        },
+    },
+    "vehicle_galley": {
+        "name": "Galley", "category": "vehicle", "source": "vehicle",
+        "ac_base": 15, "hp_base": 500, "hp_note": "Crew: 80. Passengers: 40. Cargo: 150 tons.",
+        "size": "Gargantuan", "speed": "row 30 ft.",
+        "stats": {"str":22,"dex":10,"con":18,"int":0,"wis":0,"cha":0},
+        "features": ["Oars","Ram","2 Ballistas"],
+        "feature_descs": {
+            "Oars": "80 crew row at 3 mph. Does not require wind.",
+            "Ram": "Reinforced ram deals 5d10 bludgeoning on ship collision.",
+            "2 Ballistas": "Armed with 2 ballistas (3d10 piercing, range 120/480 ft).",
+        },
+    },
+
     # ── Tasha's Summon Spells (DTCOE) — calculated from character level ──
     "tashas_beast": {
         "name": "Summon Beast", "category": "tashas_summon", "source": "summon_beast",

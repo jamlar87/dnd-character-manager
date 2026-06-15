@@ -7759,7 +7759,8 @@ function openSummonModal() {
     'familiar': '🐾 Find Familiar',
     'tashas_summon': '✨ Tasha Summons',
     'class_feature': '🎯 Class Features',
-    'mount': '🐴 Mounts'
+    'mount': '🐴 Mounts',
+    'vehicle': '🚢 Vehicles'
   };
   for (const [cat, label] of Object.entries(categories)) {
     html += `<optgroup label="${label}">`;
@@ -7953,9 +7954,12 @@ async function fillSummonTemplate(key) {
     return;
   }
 
-  // Fallback: template has hardcoded ac/hp
+  // Fallback: template has hardcoded ac/hp (or ac_base/hp_base — vehicles etc)
   if (t.ac) document.getElementById('s-ac').value = t.ac;
+  else if (t.ac_base != null) document.getElementById('s-ac').value = t.ac_base;
   if (t.hp_max) document.getElementById('s-hp').value = t.hp_max;
+  else if (t.hp_base != null) document.getElementById('s-hp').value = t.hp_base;
+  if (t.hp_note) document.getElementById('s-hp').dataset.note = t.hp_note;
   const slRow = document.getElementById('summon-spell-level-row');
   if (slRow) slRow.style.display = 'none';
 }
