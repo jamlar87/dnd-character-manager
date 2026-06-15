@@ -4968,6 +4968,7 @@ const CONDITION_COLORS = {
   Poisoned:'#2e7d32;color:#fff',Prone:'#e65100;color:#fff',Restrained:'#c62828;color:#fff',
   Stunned:'#d84315;color:#fff',Unconscious:'#37474f;color:#fff',Exhaustion:'#827717;color:#fff',
   Concentration:'#6a1b9a;color:#fff',Blessed:'#f9a825;color:#333',Haste:'#00acc1;color:#fff',
+  Baned:'#8b0000;color:#fff',
 };
 const STANDARD_CONDITIONS = [
   {name:'Blinded',desc:"Can't see. Auto-fails ability checks requiring sight. Attack rolls against you have advantage. Your attacks have disadvantage."},
@@ -4988,6 +4989,7 @@ const STANDARD_CONDITIONS = [
   {name:'Concentration',desc:"Maintaining a spell. CON save on damage (DC 10 or half damage, whichever higher) or lose spell."},
   {name:'Blessed',desc:"+1d4 to attack rolls and saving throws (Bless spell)."},
   {name:'Haste',desc:"Speed doubled, +2 AC, adv DEX saves, extra action (Attack/Dash/Disengage/Hide/Use Object)."},
+  {name:'Baned',desc:"Subtract 1d4 from attack rolls and saving throws (Bane spell)."},
 ];
 
 function combatAddCondition(enId, name, desc) {
