@@ -861,11 +861,13 @@
 
     <!-- Summons -->
     <div class="sidebar-section" style="margin-top:0.25rem">
-      <h4 style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
-        Summons
-        <button class="btn btn-outline btn-sm" onclick="openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
-      </h4>
-      <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
+        <span id="summons-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0;flex:1">Summons</h4>
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
+      </div>
+      <div id="summons-body">
+      <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem;margin-top:0.3rem">
         {% for s in character.summons %}
         {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
         <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
@@ -902,6 +904,7 @@
         <span style="font-size:0.65rem;color:var(--text-muted);text-align:center;padding:0.3rem">No active summons</span>
         {% endif %}
       </div>
+      </div> <!-- /summons-body -->
     </div>
 
     <!-- Hidden inspiration toggle -->
