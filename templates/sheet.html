@@ -469,7 +469,7 @@
       <!-- Conditions -->
       <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">
-          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▸</span> Conditions</span>
+          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▾</span> Conditions</span>
           <button onclick="event.stopPropagation();openConditionPicker()" title="Add condition"
             style="font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
         </div>
@@ -2839,7 +2839,7 @@ function stopSheetPolling() {
 }
 
 // ── Conditions ──
-let _conditionsExpanded = false;
+let _conditionsExpanded = true;
 const CONDITION_COLORS = {
   Blinded: '#6a0dad;color:#fff', Charmed: '#e75480;color:#fff', Deafened: '#5c6bc0;color:#fff',
   Frightened: '#7b1fa2;color:#fff', Grappled: '#bf360c;color:#fff', Incapacitated: '#b71c1c;color:#fff',
