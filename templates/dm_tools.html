@@ -383,6 +383,13 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   </div>
 </div>
 
+<div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:0.5rem">
+  <label id="dm-core-toggle" style="display:flex;align-items:center;gap:0.3rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;user-select:none" onclick="toggleCoreDM()">
+    <span id="dm-core-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+    Core content only
+  </label>
+</div>
+
 <div class="dm-tabs" id="dmTabs">
   <button class="dm-tab" data-tab="campaigns">📜 Campaign</button>
   <button class="dm-tab" data-tab="encounters">⚡ Encounters</button>
@@ -416,7 +423,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <div class="monster-grid" id="monsterGrid">
     {% for m in monsters %}
     <div class="monster-card" data-name="{{ m.name|lower }}" data-type="{{ m.type|lower }}"
-         data-cr="{{ m.challenge_rating }}" onclick="showMonster('{{ m.index }}')">
+         data-cr="{{ m.challenge_rating }}" data-source="{{ m.source|default('') }}" onclick="showMonster('{{ m.index }}')">
       <div class="m-name">{{ m.name }}</div>
       <div class="m-type">{{ m.size }} {{ m.type }}{% if m.alignment %} · {{ m.alignment }}{% endif %}</div>
       {% if m.source %}
@@ -917,7 +924,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 
   <div class="trap-grid" id="trapGrid">
     {% for t in traps %}
-    <div class="trap-card" data-name="{{ t.name|lower }}" data-type="{{ t.type }}" data-danger="{{ t.danger }}">
+    <div class="trap-card" data-name="{{ t.name|lower }}" data-type="{{ t.type }}" data-danger="{{ t.danger }}" data-source="{{ t.source|default('') }}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem">
         <div class="trap-name">{{ t.name }}</div>
         <span class="trap-danger-badge trap-danger-{{ t.danger }}">{{ t.danger|capitalize }}</span>
@@ -1151,6 +1158,38 @@ function previewCharSheet(charId, charName) {
   openModal('charSheetModal');
 }
 
+// ── Core Content Toggle (DM Tools) ──
+let _coreOnlyDM = localStorage.getItem('coreOnly') === 'true';
+const _CORE_BOOKS_DM = ['phb','phb 2014','dmg','dmg 2014','mm','monster manual','xge','xanathar','tce','tasha','tce 2020','vgm','volo','mtf','mordenkainen','scag','sword coast','erlw','eberron','ftd','fizban','mpmm','mordenkainen presents','monsters of the multiverse','bpgg','bigby','glory of the giants'];
+function isCoreSourceDM(src) {
+  if (!src || src === 'SRD' || src.startsWith('SRD')) return true;
+  const lower = src.toLowerCase();
+  // Extract abbreviation before " p." if present
+  const abbr = lower.split(' p.')[0].trim();
+  for (const b of _CORE_BOOKS_DM) {
+    if (abbr === b || abbr.startsWith(b) || lower.includes(b)) return true;
+  }
+  return false;
+}
+function toggleCoreDM() {
+  _coreOnlyDM = !_coreOnlyDM;
+  localStorage.setItem('coreOnly', _coreOnlyDM);
+  document.getElementById('dm-core-box').textContent = _coreOnlyDM ? '☑' : '☐';
+  document.getElementById('dm-core-toggle').style.color = _coreOnlyDM ? 'var(--accent)' : 'var(--text-muted)';
+  // Re-filter whichever panel is active
+  const active = document.querySelector('.dm-panel.active');
+  if (active) {
+    if (active.id === 'panel-monsters') filterMonsters();
+    else if (active.id === 'panel-traps') filterTraps();
+    else if (active.id === 'panel-items' && _itemsCampId) loadAllItems();
+  }
+}
+// Init toggle UI from localStorage
+if (_coreOnlyDM) {
+  document.getElementById('dm-core-box').textContent = '☑';
+  document.getElementById('dm-core-toggle').style.color = 'var(--accent)';
+}
+
 // ── Monster filtering ──
 function filterMonsters() {
   const q = document.getElementById('monsterSearch').value.toLowerCase();
@@ -1164,7 +1203,8 @@ function filterMonsters() {
     const name = card.dataset.name;
     const mtype = card.dataset.type;
     const cr = parseFloat(card.dataset.cr);
-    const match = (!q || name.includes(q)) && (!type || mtype === type) && cr >= crMin && cr <= crMax;
+    const match = (!q || name.includes(q)) && (!type || mtype === type) && cr >= crMin && cr <= crMax
+      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source));
     card.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -2165,7 +2205,8 @@ function filterTraps() {
     const danger = card.getAttribute('data-danger') || '';
     const match = (!query || name.includes(query))
       && (!typeFilter || type === typeFilter)
-      && (!dangerFilter || danger === dangerFilter);
+      && (!dangerFilter || danger === dangerFilter)
+      && (!_coreOnlyDM || isCoreSourceDM(card.getAttribute('data-source') || ''));
     card.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -2945,6 +2986,8 @@ function searchItemPicker(query) {
 
 function renderPickerResults(items) {
   const results = document.getElementById('itemPickerResults');
+  // Apply core filter
+  if (_coreOnlyDM) items = items.filter(it => isCoreSourceDM(it.source || ''));
   if (!items.length) {
     results.innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">No items found</div>';
     return;
