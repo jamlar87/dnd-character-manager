@@ -2652,10 +2652,13 @@
     "healing": false
   },
   "witch bolt": {
-    "display": "",
+    "display": "1d12 +1d12/spell level",
     "level": 1,
-    "has_scaling": false,
-    "healing": false
+    "has_scaling": true,
+    "healing": false,
+    "all_dice": [
+      "1d12"
+    ]
   },
   "wrathful smite": {
     "display": "1d6 +d6spell level",
@@ -2836,10 +2839,13 @@
     "healing": false
   },
   "thunder step": {
-    "display": "",
+    "display": "3d10 +1d10/spell level",
     "level": 3,
-    "has_scaling": false,
-    "healing": false
+    "has_scaling": true,
+    "healing": false,
+    "all_dice": [
+      "3d10"
+    ]
   },
   "zephyr strike": {
     "display": "1d8",
@@ -2847,5 +2853,33 @@
     "has_scaling": false,
     "healing": false,
     "base_dice": "1d8"
+  },
+  "enlarge/reduce": {
+    "display": "+1d4",
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "all_dice": [
+      "1d4"
+    ],
+    "buff": true
+  },
+  "forbiddance": {
+    "display": "5d10",
+    "level": 6,
+    "has_scaling": false,
+    "healing": false,
+    "all_dice": [
+      "5d10"
+    ]
+  },
+  "glyph of warding": {
+    "display": "5d8 +1d8/spell level",
+    "level": 3,
+    "has_scaling": true,
+    "healing": false,
+    "all_dice": [
+      "5d8"
+    ]
   }
 }
