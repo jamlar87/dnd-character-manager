@@ -7638,6 +7638,11 @@ async def character_sheet(char_id: int, request: Request):
             if idx_entry:
                 inv_item["description"] = idx_entry.get("description", "") or _build_item_description(idx_entry)
                 inv_item["source"] = inv_item.get("source") or idx_entry.get("source", "")
+        # Enrich with damage dice from ITEM_INDEX
+        if not inv_item.get("dice"):
+            idx_entry = _resolve_item_key(inv_item.get("name", ""))
+            if idx_entry and idx_entry.get("dice"):
+                inv_item["dice"] = idx_entry["dice"]
     # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
     char["equipped"] = _normalize_equipped(char["equipped"])
     # Enrich equipped items too
@@ -7649,6 +7654,11 @@ async def character_sheet(char_id: int, request: Request):
             if idx_entry:
                 eq_item["description"] = idx_entry.get("description", "") or _build_item_description(idx_entry)
                 eq_item["source"] = eq_item.get("source") or idx_entry.get("source", "")
+        # Enrich with damage dice
+        if not eq_item.get("dice"):
+            idx_entry = _resolve_item_key(eq_item.get("name", ""))
+            if idx_entry and idx_entry.get("dice"):
+                eq_item["dice"] = idx_entry["dice"]
     # Load attuned_items
     try:
         char["attuned_items"] = json.loads(char.get("attuned_items") or "[]")

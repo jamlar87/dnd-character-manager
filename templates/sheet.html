@@ -2034,6 +2034,7 @@
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            {% if item.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ item.dice }}</span>{% endif %}
             {% set item_enh2 = item.enhancement|default(0) %}
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ item_enh2 }}</span>
             {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
@@ -2072,6 +2073,7 @@
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            {% if eq.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ eq.dice }}</span>{% endif %}
             {% if eq_name in item_attunement_dict %}
               {% if eq_name in character.attuned_items %}
               <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
@@ -6029,6 +6031,8 @@ function renderEquipped() {
     const item = typeof eq === 'object' ? eq.name : eq;
     const eqQty = typeof eq === 'object' ? (eq.qty || 1) : 1;
     const enhancement = typeof eq === 'object' ? (eq.enhancement || 0) : 0;
+    const eqDice = typeof eq === 'object' ? (eq.dice || '') : '';
+    const diceBadge = eqDice ? `<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">${eqDice}</span>` : '';
     const needsAttune = ITEM_NEEDS_ATTUNEMENT[item];
     const isAttuned = ATTUNED_ITEMS.includes(item);
     let attuneHtml = '';
@@ -6054,6 +6058,7 @@ function renderEquipped() {
       ${qtyBadge}
       ${attuneHtml}
       ${enhBadge}
+      ${diceBadge}
       <span class="wpn-badge item-tag" style="display:none">⚔️</span>
       <span class="arm-badge item-tag" style="display:none">🛡️</span>
       <button class="item-card-btn" onclick="quickUnequip('${item.replace(/'/g, "\\'")}', ${eqQty})" title="Unequip">⬇️</button>
