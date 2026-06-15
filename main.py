@@ -7731,6 +7731,18 @@ async def character_sheet(char_id: int, request: Request):
                 if lkey in _key and lu.get("pool_kind"):
                     _feat["pool_kind"] = lu["pool_kind"]
                     break
+        # Enrich racial traits missing uses_max (set from uses if present)
+        if isinstance(_feat, dict) and _feat.get("uses") and not _feat.get("uses_max"):
+            _feat["uses_max"] = _feat["uses"]
+        # Enrich action_type from FEATURE_ACTION_TYPES for all features
+        if isinstance(_feat, dict) and not _feat.get("action_type"):
+            _key = _feat.get("name", "").lower()
+            import re as _re
+            _clean_key = _re.sub(r'\s*\(\d+\s+uses?(?:\s+per\s+rest)?\s*\)\s*$', '', _key, flags=_re.IGNORECASE).strip()
+            _action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(_key)
+            if _action_info:
+                _feat["action_type"] = _action_info[0]
+                _feat["action_desc"] = _action_info[1]
     # Fallback: features still without source inherit from class or subclass
     _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
     _subclass = char.get("subclass", "")
@@ -12185,6 +12197,8 @@ FEATURE_ACTION_TYPES = {
     "warding flare":        ("Reaction", "Warding Flare — impose disadvantage on an attack against you"),
     "improved flare":       ("Reaction", "Improved Flare — impose disadvantage on an attack against ally"),
     "corona of light":      ("Action", "Corona of Light — 60ft bright light, 1 min, disadv on saves vs light/fire"),
+    # Ravenfolk
+    "sublime chord":       ("Action", "Sublime Chord — 30ft charm, DC 13 CHA (1/long rest)"),
     # Cleric — Nature Domain
     "dampen elements":      ("Reaction", "Dampen Elements — grant resistance to acid/cold/fire/lightning/thunder"),
     "master of nature":     ("Bonus Action", "Master of Nature — command beasts and plants (1/LR)"),
