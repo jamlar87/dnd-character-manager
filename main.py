@@ -364,7 +364,7 @@ def load_manual_data():
                 key = tname.lower()
                 if key not in LIMITED_USE:
                     LIMITED_USE[key] = {"min": tuses, "max": tuses,
-                        "recharge": "short" if "short" in trecharge.lower() else "long",
+                        "recharge": _normalize_recharge(trecharge),
                         "class": "", "per": "fixed"}
         for sr in race.get("subraces", []):
             for st in sr.get("traits", []):
@@ -375,7 +375,7 @@ def load_manual_data():
                     key = stname.lower()
                     if key not in LIMITED_USE:
                         LIMITED_USE[key] = {"min": stuses, "max": stuses,
-                            "recharge": "short" if "short" in strecharge.lower() else "long",
+                            "recharge": _normalize_recharge(strecharge),
                             "class": "", "per": "fixed"}
         sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
         print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
@@ -3797,9 +3797,9 @@ async def api_create_character(request: Request):
 
     # Generate build data (features, attacks, spell slots)
     build_features = get_class_features(class_name, level, subclass)
-    # Append racial limited-use features (e.g. Dragonborn Breath Weapon)
-    if race_name == "Dragonborn" and data.get("dragonborn_ancestry"):
-        build_features.append(f"{level}: Breath Weapon")
+    # Append ALL racial limited-use features (not just Dragonborn)
+    racial_features = _build_racial_limited_features(race_name, data.get("subrace", ""), level)
+    build_features.extend(racial_features)
     enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats}, subclass=subclass)
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
@@ -7743,6 +7743,35 @@ async def character_sheet(char_id: int, request: Request):
             if _action_info:
                 _feat["action_type"] = _action_info[0]
                 _feat["action_desc"] = _action_info[1]
+    # Inject missing racial limited-use features (they may not be in feature_data)
+    _existing_names = {f.get("name", "").lower() for f in char["feature_data"] if isinstance(f, dict)}
+    _race = char.get("race", "")
+    _subrace = char.get("subrace", "")
+    _char_level = char.get("level", 1)
+    for _rf in _build_racial_limited_features(_race, _subrace, _char_level):
+        _rf_name = _rf.split(": ", 1)[1] if ": " in _rf else _rf
+        if _rf_name.lower() not in _existing_names:
+            _new_feat = {
+                "name": _rf_name,
+                "level": str(_char_level),
+                "description": "",
+                "source": f"Race: {_race or 'Unknown'}",
+                "uses": 1,
+                "uses_max": 1,
+            }
+            # Enrich with LIMITED_USE data
+            _rf_key = _rf_name.lower()
+            if _rf_key in LIMITED_USE:
+                _lu = LIMITED_USE[_rf_key]
+                _new_feat["uses_max"] = _lu.get("max", 1)
+                _new_feat["uses"] = _lu.get("max", 1)
+                _new_feat["recharge"] = _lu.get("recharge", "long")
+            # Enrich action_type
+            _action_info = FEATURE_ACTION_TYPES.get(_rf_key, None)
+            if _action_info:
+                _new_feat["action_type"] = _action_info[0]
+                _new_feat["action_desc"] = _action_info[1]
+            char["feature_data"].append(_new_feat)
     # Fallback: features still without source inherit from class or subclass
     _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
     _subclass = char.get("subclass", "")
@@ -10332,11 +10361,13 @@ async def apply_level_up(char_id: int, request: Request):
     all_feature_names = [f["name"] if isinstance(f, dict) else str(f) for f in all_features]
     # Preserve racial limited-use features (they aren't class features)
     race = char.get("race", "")
-    ancestry = char.get("dragonborn_ancestry", "")
-    if race == "Dragonborn" and ancestry:
-        target_feat = f"{target_level}: Breath Weapon"
-        if target_feat not in all_feature_names:
-            all_feature_names.append(target_feat)
+    subrace = char.get("subrace", "")
+    racial_features = _build_racial_limited_features(race, subrace, target_level)
+    for rf in racial_features:
+        # Strip "L{N}: " prefix for comparison
+        rf_name = rf.split(": ", 1)[1] if ": " in rf else rf
+        if not any(fn == rf_name for fn in all_feature_names):
+            all_feature_names.append(rf)
     updates["features"] = json.dumps(all_feature_names)
     
     # Enriched feature_data
@@ -11576,6 +11607,63 @@ PACT_CASTERS = {"Warlock"}
 PREPARED_CASTERS = {"Cleric", "Druid", "Paladin", "Wizard"}
 SPELLS_KNOWN_CASTERS = {"Bard", "Ranger", "Sorcerer", "Warlock"}
 
+# ── Racial Limited-Use Feature Builder ────────────────────────────────────
+
+def _build_racial_limited_features(race_name: str, subrace: str = "", level: int = 1) -> list[str]:
+    """Return list of 'L{level}: TraitName' strings for all limited-use racial traits.
+    
+    Scans _manual_races_raw (full trait dicts) for traits with uses>0 and non-empty recharge.
+    RACES dict only stores string trait names so we must consult the raw data.
+    """
+    features = []
+    race_name_lower = race_name.lower()
+    try:
+        _mrr = _manual_races_raw
+    except NameError:
+        return features
+    
+    for race in _mrr:
+        if race.get("name", "").lower() != race_name_lower:
+            continue
+        # Main race traits
+        for t in race.get("traits", []):
+            if t.get("uses", 0) > 0 and t.get("recharge", ""):
+                features.append(f"L{level}: {t['name']}")
+        # Subrace traits
+        if subrace:
+            subrace_lower = subrace.lower()
+            for sr in race.get("subraces", []):
+                if sr.get("name", "").lower() == subrace_lower:
+                    for t in sr.get("traits", []):
+                        if t.get("uses", 0) > 0 and t.get("recharge", ""):
+                            features.append(f"L{level}: {t['name']}")
+                    break
+        break
+    return features
+
+
+def _normalize_recharge(recharge: str) -> str:
+    """Normalize racial trait recharge strings to canonical forms.
+    
+    Handles edge cases like 'combat', 'special', 'short or long rest'.
+    Canonical values: 'short', 'long', 'combat', 'special', 'dawn'.
+    """
+    r = recharge.lower().strip()
+    if "short" in r and "long" in r:
+        return "short"  # "short or long rest" → short (recharges on either)
+    if "short" in r:
+        return "short"
+    if "long" in r:
+        return "long"
+    if "combat" in r:
+        return "combat"
+    if "special" in r:
+        return "special"
+    if "dawn" in r:
+        return "dawn"
+    return r  # passthru unknown
+
+
 # ── PHB 2014 Limited-Use Feature Definitions ─────────────────────────────
 # (feature_key_lower, (min_level_uses, max_cap, recharge_type))
 # recharge_type: 'short' (short or long rest), 'long' (long rest only), 'dawn' (at dawn)
@@ -12167,23 +12255,6 @@ FEATURE_ACTION_TYPES = {
     "flurry of blows":      ("Bonus Action", "Flurry of Blows — two unarmed strikes (1 ki)"),
     "patient defense":      ("Bonus Action", "Patient Defense — Dodge as bonus action (1 ki)"),
     "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
-    # Dragonborn
-    "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
-    # Drow
-    "drow magic":           ("Action", "Drow Magic — faerie fire (L3) or darkness (L5)"),
-    # Tiefling
-    "infernal legacy":      ("Action", "Infernal Legacy — hellish rebuke (L3) or darkness (L5)"),
-    # Duergar
-    "duergar magic":        ("Action", "Duergar Magic — enlarge/reduce (L3) or invisibility (L5)"),
-    # Eladrin
-    "fey step":             ("Bonus Action", "Fey Step — teleport 30ft (1/short rest)"),
-    # Shadar-kai
-    "blessing of the raven queen": ("Bonus Action", "Blessing of the Raven Queen — teleport 30ft (1/long rest)"),
-    # Genasi
-    "mingle with the wind": ("Action", "Mingle with the Wind — levitate (1/long rest at L3)"),
-    "merge with stone":     ("Action", "Merge with Stone — pass without trace (1/long rest at L3)"),
-    "reach to the blaze":   ("Action", "Reach to the Blaze — burning hands (1/long rest at L3)"),
-    "call to the wave":     ("Action", "Call to the Wave — create or destroy water (1/long rest at L3)"),
     # Resource pools (not combat actions per se, but tracked on Actions tab)
     "ki":                   ("Resource", "Ki — spend on Flurry, Patient Defense, Step of the Wind"),
     "sorcery points":       ("Resource", "Sorcery Points — spend on Metamagic options"),
@@ -12197,8 +12268,68 @@ FEATURE_ACTION_TYPES = {
     "warding flare":        ("Reaction", "Warding Flare — impose disadvantage on an attack against you"),
     "improved flare":       ("Reaction", "Improved Flare — impose disadvantage on an attack against ally"),
     "corona of light":      ("Action", "Corona of Light — 60ft bright light, 1 min, disadv on saves vs light/fire"),
+    # —— Racial Limited-Use Traits ——
+    # Dragonborn
+    "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
+    # Drow
+    "drow magic":           ("Action", "Drow Magic — faerie fire (L3) or darkness (L5)"),
+    # Duergar
+    "duergar magic":        ("Action", "Duergar Magic — enlarge/reduce (L3) or invisibility (L5)"),
+    # Eladrin
+    "fey step":             ("Bonus Action", "Fey Step — teleport 30ft (1/short rest)"),
+    # Shadar-kai
+    "blessing of the raven queen": ("Bonus Action", "Blessing of the Raven Queen — teleport 30ft (1/long rest)"),
+    # Genasi
+    "mingle with the wind": ("Action", "Mingle with the Wind — levitate (1/long rest at L3)"),
+    "merge with stone":     ("Action", "Merge with Stone — pass without trace (1/long rest at L3)"),
+    "reach to the blaze":   ("Action", "Reach to the Blaze — burning hands (1/long rest at L3)"),
+    "call to the wave":     ("Action", "Call to the Wave — create or destroy water (1/long rest at L3)"),
     # Ravenfolk
     "sublime chord":       ("Action", "Sublime Chord — 30ft charm, DC 13 CHA (1/long rest)"),
+    # Tabaxi
+    "feline agility":       ("Bonus Action", "Feline Agility — double speed for one turn (recharges after not moving)"),
+    # Firbolg
+    "firbolg magic":        ("Action", "Firbolg Magic — detect magic or disguise self (1/short rest)"),
+    "hidden step":          ("Bonus Action", "Hidden Step — turn invisible until next turn (1/short rest)"),
+    # Goblin
+    "fury of the small":    ("Reaction", "Fury of the Small — add level to damage vs larger creature (1/short rest)"),
+    # Goliath
+    "stone's endurance":    ("Reaction", "Stone's Endurance — roll d12+CON, reduce damage (1/short rest)"),
+    # Hobgoblin
+    "saving face":          ("Reaction", "Saving Face — add +1-5 bonus to missed attack/save/check (1/short rest)"),
+    # Bugbear
+    "surprise attack":      ("Passive", "Surprise Attack — extra 2d6 damage when surprising (1/combat)"),
+    # Lizardfolk
+    "hungry jaws":          ("Bonus Action", "Hungry Jaws — bite attack + temp HP (1/short or long rest)"),
+    # Vedalken
+    "partially amphibious": ("Passive", "Partially Amphibious — breathe underwater for 1 hour (1/long rest)"),
+    # Sable Elf
+    "blood affinity":       ("Action", "Blood Affinity — cast a learned spell from chosen school (1/long rest)"),
+    # Shadow Fey
+    "path of shadows":      ("Bonus Action", "Path of Shadows — misty step in darkness (1/long rest)"),
+    "moon child":           ("Action", "Moon Child — moonbeam spell (1/long rest)"),
+    # Stygian Shade
+    "ghostly flesh":         ("Action", "Ghostly Flesh — dissolve into spirit form (1/long rest)"),
+    # Wyrd Gnome
+    "natural diviner":      ("Action", "Natural Diviner — guidance cantrip, identify/divination (1/long rest)"),
+    # Erina Spiritfarer
+    "spirit tongue":        ("Action", "Spirit Tongue — message cantrip, charm person (L3), speak with dead (L5) (1/long rest)"),
+    # Gith
+    "githyanki psionics":   ("Action", "Githyanki Psionics — mage hand, jump (L3), misty step (L5) (1/long rest)"),
+    "githzerai psionics":   ("Action", "Githzerai Psionics — mage hand, shield (L3), detect thoughts (L5) (1/long rest)"),
+    # Riverfolk Halfling
+    "preternatural navigator": ("Bonus Action", "Preternatural Navigator — sense ley lines, misty step to ley line (1/long rest)"),
+    # Courtfolk Halfling
+    "silent steps":         ("Action", "Silent Steps — silence spell centered on self (1/long rest)"),
+    # Ratatosk
+    "blessing of yggdrasil": ("Action", "Blessing of Yggdrasil — message/vicious mockery, mirror image (L5) (1/long rest)"),
+    "war chatter":          ("Bonus Action", "War Chatter — non-ratatosk CHA save or disadv on attacks (1/short rest)"),
+    # Darakhul
+    "undead fortitude":     ("Reaction", "Undead Fortitude — drop to 1 HP instead of 0 (1/long rest)"),
+    # Dark Folk
+    "whispers of shadow (recharge 5\u20136)": ("Action", "Whispers of Shadow — 30ft dim light, dispel sunlight (recharge 5-6)"),
+    # Tiefling
+    "infernal legacy":      ("Action", "Infernal Legacy — hellish rebuke (L3) or darkness (L5)"),
     # Cleric — Nature Domain
     "dampen elements":      ("Reaction", "Dampen Elements — grant resistance to acid/cold/fire/lightning/thunder"),
     "master of nature":     ("Bonus Action", "Master of Nature — command beasts and plants (1/LR)"),
