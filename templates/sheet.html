@@ -1987,7 +1987,13 @@
            ondrop="handleDrop(event, 'inventory')">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">🎒 Inventory</h3>
-          <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();">
+              <span style="display:inline-block;width:12px;height:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center;line-height:10px;font-size:9px;background:var(--bg)">☐</span>
+              Core only
+            </label>
+            <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
+          </div>
         </div>
         <!-- Item Search Bar -->
         <div id="item-search-bar" style="display:none;position:relative;margin-bottom:0.5rem">
@@ -2627,7 +2633,18 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; } });
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; }
+  // Init core toggle UI if persistent state is on
+  if (_coreOnly) {
+    const spellBox = document.getElementById('core-toggle-box');
+    const spellLabel = document.getElementById('core-toggle-label');
+    if (spellBox) spellBox.textContent = '☑';
+    if (spellLabel) spellLabel.style.color = 'var(--accent)';
+    // Inventory toggle
+    document.querySelectorAll('#tab-inventory label[onclick] span').forEach(s => s.textContent = '☑');
+    document.querySelectorAll('#tab-inventory label[onclick]').forEach(l => l.style.color = 'var(--accent)');
+  }
+});
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
@@ -3532,24 +3549,40 @@ async function toggleSpellSlotById(spellId, n, max) {
 
 // ── Add Spell (searchable dropdown) ──
 let _spellCache = [];
-let _coreOnly = false;
+let _coreOnly = localStorage.getItem('coreOnly') === 'true';
 const _CORE_BOOKS = ['PHB','PHB 2014','DMG','DMG 2014','MM','XGE','TCE','TCE 2020','VGM','MTF','SCAG','ERLW','FTD','MPMM','BPGG'];
 const _CORE_NAMES = ["player's handbook","dungeon master's guide","monster manual","xanathar's guide","tasha's cauldron","volo's guide","mordenkainen's tome","sword coast adventurer's guide","eberron: rising","fizban's treasury","mordenkainen presents","bigby presents","glory of the giants","elemental evil player's companion"];
 function isCoreSource(book) {
-  if (!book) return true; // SRD content = core
+  if (!book) return true;
   const lower = book.toLowerCase();
-  // Check abbreviations (e.g. "PHB 2014 p.260")
   const abbr = lower.split(' p.')[0].trim();
   if (_CORE_BOOKS.some(b => abbr === b.toLowerCase())) return true;
-  // Check full names (e.g. "Eberron: Rising from the Last War p.59")
   if (_CORE_NAMES.some(n => lower.includes(n))) return true;
+  return false;
+}
+// Extended check for item source strings (full book names, no abbreviation pattern)
+function isCoreItemSource(src) {
+  if (!src) return true;
+  const lower = src.toLowerCase();
+  for (const b of _CORE_BOOKS) if (lower.includes(b.toLowerCase())) return true;
+  for (const n of _CORE_NAMES) if (lower.includes(n)) return true;
   return false;
 }
 
 function toggleCoreOnly() {
   _coreOnly = !_coreOnly;
+  localStorage.setItem('coreOnly', _coreOnly);
   document.getElementById('core-toggle-box').textContent = _coreOnly ? '☑' : '☐';
   document.getElementById('core-toggle-label').style.color = _coreOnly ? 'var(--accent)' : 'var(--text-muted)';
+  filterSpellResults();
+}
+
+// Sync spell modal toggle when inventory toggle clicked
+function syncCoreToSpellToggle() {
+  const box = document.getElementById('core-toggle-box');
+  const label = document.getElementById('core-toggle-label');
+  if (box) box.textContent = _coreOnly ? '☑' : '☐';
+  if (label) label.style.color = _coreOnly ? 'var(--accent)' : 'var(--text-muted)';
   filterSpellResults();
 }
 
@@ -6231,14 +6264,16 @@ function searchItems(query) {
     if (!results) return;
     if (q.length < 1) { results.style.display = 'none'; return; }
     try {
-      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}&limit=20`);
+      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}&limit=50`);
       const d = await r.json();
-      if (!d.results || !d.results.length) {
+      let items = d.results || [];
+      if (_coreOnly) items = items.filter(it => isCoreItemSource(it.source || ''));
+      if (!items.length) {
         results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No items found</div>';
         results.style.display = 'block';
         return;
       }
-      results.innerHTML = d.results.map(item =>
+      results.innerHTML = items.map(item =>
         `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" onmousedown="if(event.button===0)selectItem(this.dataset.name)" style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);overflow-wrap:break-word;word-break:break-word">${item.name} <span style="color:var(--text-muted);font-size:0.7rem;white-space:nowrap">${item.type}</span></div>`
       ).join('');
       results.style.display = 'block';
