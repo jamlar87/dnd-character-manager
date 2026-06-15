@@ -2621,7 +2621,7 @@ function initAbilityEditors() {
   observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
-document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').innerHTML = ''; } });
+document.addEventListener('DOMContentLoaded', () => { initAbilityEditors(); initEditable(); tagWeapons(); startSheetPolling(); if (!_conditionsExpanded) { document.getElementById('condition-badges').style.display = 'none'; } });
 
 // Auto-open level-up wizard if ?level-up=N in URL (from character creation)
 (function() {
@@ -2942,10 +2942,6 @@ async function dismissCondition(name) {
 function renderConditions(conditions) {
   const container = document.getElementById('condition-badges');
   if (!container) return;
-  if (!_conditionsExpanded) {
-    container.innerHTML = '';
-    return;
-  }
   if (!conditions || !conditions.length) {
     container.innerHTML = '<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>';
     return;
@@ -2961,13 +2957,8 @@ function renderConditions(conditions) {
 function toggleConditions() {
   _conditionsExpanded = !_conditionsExpanded;
   document.getElementById('cond-chevron').textContent = _conditionsExpanded ? '▾' : '▸';
-  if (_conditionsExpanded) {
-    fetch('/api/character/'+CHAR_ID+'/conditions')
-      .then(r => r.json())
-      .then(d => renderConditions(d.conditions));
-  } else {
-    renderConditions([]);
-  }
+  const container = document.getElementById('condition-badges');
+  if (container) container.style.display = _conditionsExpanded ? '' : 'none';
 }
 
 function toggleConditionDetail(event, name, desc) {
