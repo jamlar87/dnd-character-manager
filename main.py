@@ -7732,6 +7732,14 @@ async def character_sheet(char_id: int, request: Request):
         except (json.JSONDecodeError, TypeError):
             char[f] = [] if f != "spell_slot_data" else {}
     # Enrich existing feature_data with Channel Divinity sub-options and source (rebuild-safe)
+    # First: normalize string-format features to dicts (legacy characters)
+    if char["feature_data"] and isinstance(char["feature_data"][0], str):
+        char["feature_data"] = enrich_features(
+            char["feature_data"],
+            class_name=char.get("class_name", ""),
+            level=char.get("level", 1),
+            subclass=char.get("subclass", ""),
+        )
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
     # Enrich features with dice badge data from FEATS/RACES lookup
