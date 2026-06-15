@@ -877,11 +877,21 @@
           </div>
           <div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.15rem">
             <div style="flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden">
-              <div style="height:100%;width:{{ hp_pct }}%;border-radius:2px;background:{% if hp_pct > 50 %}var(--success){% elif hp_pct > 25 %}var(--warn){% else %}var(--danger){% endif %};transition:width 0.3s"></div>
+              <div class="summon-bar-fill" style="height:100%;width:{{ hp_pct }}%;border-radius:2px;background:{% if hp_pct > 50 %}var(--success){% elif hp_pct > 25 %}var(--warn){% else %}var(--danger){% endif %};transition:width 0.3s"></div>
             </div>
-            <span style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
+            <span class="summon-hp-text" style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
           <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
+            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+              <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
+                style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.6rem;-moz-appearance:textfield;appearance:textfield"
+                onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+              <style>.summon-hp-controls input[type=number]::-webkit-inner-spin-button,.summon-hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
+              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
+              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
+              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.55rem;padding:0 0.3rem;width:auto">↺ Full</button>
+              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+            </div>
             <div><strong>Size:</strong> {{ s.size }}</div>
             <div><strong>Speed:</strong> {{ s.speed }}</div>
             {% if s.skills %}<div><strong>Skills:</strong> {{ s.skills }}</div>{% endif %}
@@ -921,11 +931,6 @@
             </div>
             {% endif %}
             {% if s.hp_note %}<div style="margin:0.2rem 0;font-style:italic">{{ s.hp_note }}</div>{% endif %}
-            <div style="display:flex;gap:0.3rem;margin-top:0.4rem">
-              <input type="number" value="{{ s.hp_current }}" min="0" max="{{ s.hp_max }}" style="width:4em;padding:0.1rem 0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem"
-                onchange="updateSummonHP({{ loop.index0 }}, this.value)" onclick="event.stopPropagation()">
-              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem" onclick="event.stopPropagation();dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
-            </div>
           </div>
         </div>
         {% endfor %}
@@ -7625,11 +7630,43 @@ async function saveSummons() {
   });
 }
 
-async function updateSummonHP(idx, newHp) {
-  newHp = Math.max(0, Math.min(characterSummons[idx].hp_max, parseInt(newHp) || 0));
-  characterSummons[idx].hp_current = newHp;
+async function applySummonHP(idx, sign) {
+  const deltaEl = document.getElementById('summon-hp-delta-' + idx);
+  const raw = parseInt(deltaEl.value) || 1;
+  const delta = sign === -1 ? -raw : raw;
+  let hp = characterSummons[idx].hp_current + delta;
+  hp = Math.max(0, hp);  // floor at 0, allow over max
+  characterSummons[idx].hp_current = hp;
+
+  // Update DOM — bar fill + hp text on the collapsed chip
+  const chip = document.querySelector(`.summon-chip[data-summon-id="${idx}"]`);
+  if (chip) {
+    const barFill = chip.querySelector('.summon-bar-fill');
+    const hpText = chip.querySelector('.summon-hp-text');
+    if (barFill && characterSummons[idx].hp_max) {
+      const pct = hp / characterSummons[idx].hp_max * 100;
+      barFill.style.width = pct + '%';
+      barFill.style.background = pct > 50 ? 'var(--success)' : pct > 25 ? 'var(--warn)' : 'var(--danger)';
+    }
+    if (hpText) hpText.textContent = hp + '/' + characterSummons[idx].hp_max;
+  }
+
   await saveSummons();
-  location.reload();
+}
+
+async function resetSummonHP(idx) {
+  const hp = characterSummons[idx].hp_max;
+  characterSummons[idx].hp_current = hp;
+
+  const chip = document.querySelector(`.summon-chip[data-summon-id="${idx}"]`);
+  if (chip) {
+    const barFill = chip.querySelector('.summon-bar-fill');
+    const hpText = chip.querySelector('.summon-hp-text');
+    if (barFill) { barFill.style.width = '100%'; barFill.style.background = 'var(--success)'; }
+    if (hpText) hpText.textContent = hp + '/' + hp;
+  }
+
+  await saveSummons();
 }
 
 async function dismissSummon(idx) {

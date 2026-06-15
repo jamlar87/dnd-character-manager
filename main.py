@@ -3632,6 +3632,34 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
     resp.set_cookie("dnd_token", token, httponly=True, max_age=60*60*24*30, samesite="lax")
     return resp
 
+# ── Password Reset ──────────────────────────────────────────────────────
+
+@app.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(request: Request):
+    return _render("reset_password.html", request=request)
+
+@app.post("/reset-password")
+async def reset_password(request: Request, email: str = Form(...), password: str = Form(...)):
+    if len(password) < 6:
+        return _render("reset_password.html", request=request,
+                       email=email, error="Password must be at least 6 characters")
+    user = _get_user(email.lower().strip())
+    if not user:
+        return _render("reset_password.html", request=request,
+                       email=email, error="No account found with that email")
+    db = get_db()
+    db.execute("UPDATE users SET password_hash = ? WHERE id = ?",
+               (_hash(password), user["id"]))
+    db.commit()
+    db.close()
+    # Clear any existing sessions for this user
+    db = get_db()
+    db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
+    db.commit()
+    db.close()
+    return _render("reset_password.html", request=request,
+                   success="Password reset! You can now log in.")
+
 @app.get("/logout")
 async def logout(request: Request):
     token = request.cookies.get("dnd_token")
