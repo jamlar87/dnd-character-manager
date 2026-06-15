@@ -7590,7 +7590,7 @@ async def character_sheet(char_id: int, request: Request):
     for f in ("skills","features","inventory","equipped","languages","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
               "save_proficiencies","damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
               "expertise_skills", "asi_history", "metamagic_history",
-              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons"):
+              "metamagic", "invocations", "maneuvers", "magical_secrets", "infusions", "summons", "conditions"):
         try:
             char[f] = json.loads(char[f])
         except (json.JSONDecodeError, TypeError):
@@ -8287,6 +8287,82 @@ async def update_summon_hp(char_id: int, request: Request):
     db.close()
     return JSONResponse({"ok": True, "hp_current": summons[idx]["hp_current"]})
 
+# ── Conditions (CRUD) ─────────────────────────────────────────────
+@app.get("/api/character/{char_id}/conditions", response_class=JSONResponse)
+async def get_conditions(char_id: int, request: Request):
+    """Get active conditions for a character."""
+    user = require_user(request)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    db.close()
+    if not row:
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        conditions = json.loads(row["conditions"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        conditions = []
+    return JSONResponse({"conditions": conditions, "char_name": row["name"]})
+
+@app.post("/api/character/{char_id}/conditions", response_class=JSONResponse)
+async def add_condition(char_id: int, request: Request):
+    """Add a condition to a character."""
+    user = require_user(request)
+    data = await request.json()
+    name = (data.get("name") or "").strip()
+    if not name:
+        return JSONResponse({"error": "Condition name required"}, status_code=400)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        conditions = json.loads(row["conditions"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        conditions = []
+    # Don't add duplicate
+    existing = [c for c in conditions if c.get("name","").lower() == name.lower()]
+    if existing:
+        db.close()
+        return JSONResponse({"conditions": conditions, "duplicate": True})
+    condition = {
+        "name": name,
+        "description": data.get("description", ""),
+        "source": data.get("source", ""),
+        "applied_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
+    conditions.append(condition)
+    db.execute("UPDATE characters SET conditions=? WHERE id=? AND user_id=?",
+               (json.dumps(conditions), char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"conditions": conditions, "added": condition})
+
+@app.delete("/api/character/{char_id}/conditions", response_class=JSONResponse)
+async def remove_condition(char_id: int, request: Request):
+    """Remove a condition by name."""
+    user = require_user(request)
+    data = await request.json()
+    name = (data.get("name") or "").strip()
+    if not name:
+        return JSONResponse({"error": "Condition name required"}, status_code=400)
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        conditions = json.loads(row["conditions"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        conditions = []
+    conditions = [c for c in conditions if c.get("name","").lower() != name.lower()]
+    db.execute("UPDATE characters SET conditions=? WHERE id=? AND user_id=?",
+               (json.dumps(conditions), char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"conditions": conditions, "removed": name})
+
+
 @app.post("/api/sync-combat-hp", response_class=JSONResponse)
 async def sync_combat_hp(request: Request):
     """Batch fetch HP + summons for characters in combat. Takes {char_ids: [...]}."""
@@ -8299,7 +8375,7 @@ async def sync_combat_hp(request: Request):
     result = {}
     for cid in char_ids:
         row = db.execute(
-            "SELECT name, hp_current, hp_max, summons FROM characters WHERE id=? AND user_id=?",
+            "SELECT name, hp_current, hp_max, summons, conditions FROM characters WHERE id=? AND user_id=?",
             (cid, user["id"])
         ).fetchone()
         if not row:
@@ -8308,11 +8384,16 @@ async def sync_combat_hp(request: Request):
             summons = json.loads(row["summons"] or "[]")
         except (json.JSONDecodeError, TypeError):
             summons = []
+        try:
+            conditions = json.loads(row["conditions"] or "[]")
+        except (json.JSONDecodeError, TypeError):
+            conditions = []
         result[str(cid)] = {
             "name": row["name"],
             "hp_current": row["hp_current"],
             "hp_max": row["hp_max"],
             "summons": summons,
+            "conditions": conditions,
         }
     db.close()
     return JSONResponse({"characters": result})

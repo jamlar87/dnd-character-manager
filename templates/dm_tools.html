@@ -185,6 +185,10 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 }
 .initiative-card .init-btn:hover { background: rgba(255,255,255,0.06); color: var(--text); }
 .initiative-card .init-btn.dmg-btn:hover { color: var(--danger); border-color: var(--danger); }
+/* Combat condition badges — compact */
+.cond-badge { display: inline-flex; align-items: center; gap: 0.15rem; padding: 0.1rem 0.3rem; border-radius: 10px; font-size: 0.55rem; font-weight: 600; cursor: pointer; user-select: none; }
+.cond-badge .dismiss { font-size: 0.5rem; opacity: 0.6; }
+.cond-badge .dismiss:hover { opacity: 1; }
 .initiative-card .init-btn.heal-btn:hover { color: var(--success); border-color: var(--success); }
 
 @media (max-width: 600px) {
@@ -3893,6 +3897,15 @@ function renderInitiativeTrack() {
         <span style="font-size:0.7rem;color:var(--text-muted)">/${p.hp_max}</span>
         <div class="init-hp-bar"><div class="init-hp-bar-fill ${hpClass}" style="width:${hpPct}%"></div></div>
       </div>
+      <div class="init-cond-badges" style="display:flex;flex-wrap:wrap;gap:0.15rem;margin-top:0.15rem;align-items:center">
+        ${(p.conditions||[]).map(c => {
+          const style = CONDITION_COLORS[c.name] || '';
+          const bg = style ? style.split(';')[0] : 'var(--accent)';
+          const fg = style ? (style.split(';')[1]||'color:#fff') : 'color:#fff';
+          return `<span class="cond-badge" style="background:${bg};${fg}" onclick="event.stopPropagation();combatToggleCond(event,${p.en_id},'${c.name}','${(c.description||'').replace(/'/g,"\\'")}')">${c.name}<span class="dismiss" onclick="event.stopPropagation();combatDismissCond(${p.en_id},'${c.name}')">✕</span></span>`;
+        }).join('')}
+        <button onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="font-size:0.5rem;padding:0 0.25rem;line-height:1.4;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px">+</button>
+      </div>
       <div class="init-actions">
         <input type="number" class="init-hp-input" id="dmg-input-${p.en_id}" value="" placeholder="dmg"
           style="width:44px"
@@ -4947,6 +4960,97 @@ async function endCombat() {
   document.getElementById('combatStatus').textContent = 'Combat ended — initiative saved';
 }
 
+// ── Combat Conditions ────────────────────────────────────────────────────
+const CONDITION_COLORS = {
+  Blinded:'#6a0dad;color:#fff',Charmed:'#e75480;color:#fff',Deafened:'#5c6bc0;color:#fff',
+  Frightened:'#7b1fa2;color:#fff',Grappled:'#bf360c;color:#fff',Incapacitated:'#b71c1c;color:#fff',
+  Invisible:'#1e88e5;color:#fff',Paralyzed:'#880e4f;color:#fff',Petrified:'#4e342e;color:#fff',
+  Poisoned:'#2e7d32;color:#fff',Prone:'#e65100;color:#fff',Restrained:'#c62828;color:#fff',
+  Stunned:'#d84315;color:#fff',Unconscious:'#37474f;color:#fff',Exhaustion:'#827717;color:#fff',
+  Concentration:'#6a1b9a;color:#fff',Blessed:'#f9a825;color:#333',Haste:'#00acc1;color:#fff',
+};
+const STANDARD_CONDITIONS = [
+  {name:'Blinded',desc:"Can't see. Auto-fails ability checks requiring sight. Attack rolls against you have advantage. Your attacks have disadvantage."},
+  {name:'Charmed',desc:"Can't attack the charmer or target them with harmful abilities. Charmer has advantage on social checks against you."},
+  {name:'Deafened',desc:"Can't hear. Auto-fails ability checks requiring hearing."},
+  {name:'Frightened',desc:"Disadvantage on ability checks and attack rolls while source of fear is in sight. Can't willingly move closer to the source."},
+  {name:'Grappled',desc:"Speed becomes 0. Grappler can release at any time. Ends if grappler is incapacitated or you're moved out of reach."},
+  {name:'Incapacitated',desc:"Can't take actions or reactions."},
+  {name:'Invisible',desc:"Impossible to see without magic. Attack rolls against you have disadvantage. Your attacks have advantage."},
+  {name:'Paralyzed',desc:"Can't move or speak. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical."},
+  {name:'Petrified',desc:"Transformed to solid stone. Incapacitated, can't move or speak. Resistant to all damage. Immune to poison and disease."},
+  {name:'Poisoned',desc:"Disadvantage on attack rolls and ability checks."},
+  {name:'Prone',desc:"Crawling unless you stand up. Disadvantage on attacks. Attackers within 5 ft have advantage; farther have disadvantage."},
+  {name:'Restrained',desc:"Speed becomes 0. Disadvantage on attack rolls and DEX saves. Attackers have advantage on attacks against you."},
+  {name:'Stunned',desc:"Incapacitated, can't move, speak falteringly. Auto-fails STR/DEX saves. Attackers have advantage."},
+  {name:'Unconscious',desc:"Incapacitated, can't move or speak, unaware. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical."},
+  {name:'Exhaustion',desc:"6 levels. 1: disadv ability checks. 2: speed halved. 3: disadv atk/saves. 4: HP max halved. 5: speed 0. 6: death."},
+  {name:'Concentration',desc:"Maintaining a spell. CON save on damage (DC 10 or half damage, whichever higher) or lose spell."},
+  {name:'Blessed',desc:"+1d4 to attack rolls and saving throws (Bless spell)."},
+  {name:'Haste',desc:"Speed doubled, +2 AC, adv DEX saves, extra action (Attack/Dash/Disengage/Hide/Use Object)."},
+];
+
+function combatAddCondition(enId, name, desc) {
+  if (!name) return;
+  const p = _combatParticipants.find(x => x.en_id === enId);
+  if (!p) return;
+  if (!p.conditions) p.conditions = [];
+  if (p.conditions.some(c => c.name.toLowerCase() === name.toLowerCase())) return;
+  p.conditions.push({name:name, description:desc||'', source:''});
+  // If it's a PC, also save to character DB
+  if (p.char_id && p.is_player) {
+    fetch('/api/character/'+p.char_id+'/conditions', {
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name,description:desc||'',source:''})
+    }).catch(()=>{});
+  }
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+async function combatDismissCond(enId, name) {
+  const p = _combatParticipants.find(x => x.en_id === enId);
+  if (!p) return;
+  p.conditions = (p.conditions||[]).filter(c => c.name.toLowerCase() !== name.toLowerCase());
+  if (p.char_id && p.is_player) {
+    fetch('/api/character/'+p.char_id+'/conditions', {
+      method:'DELETE',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name})
+    }).catch(()=>{});
+  }
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
+function combatToggleCond(event, enId, name, desc) {
+  document.querySelectorAll('.cond-detail-popout').forEach(el => el.remove());
+  const badge = event.currentTarget;
+  const popout = document.createElement('div');
+  popout.className = 'cond-popout cond-detail-popout';
+  const style = CONDITION_COLORS[name] || 'var(--accent)';
+  popout.innerHTML = '<strong style="color:'+style.split(';')[0]+'">'+name+'</strong><div style="font-size:0.65rem;color:var(--text-muted);margin:0.3rem 0;line-height:1.3">'+desc+'</div><button style="display:block;margin-top:0.4rem;width:100%;padding:0.2rem;border:1px solid var(--danger);border-radius:4px;background:transparent;color:var(--danger);cursor:pointer;font-size:0.6rem" onclick="combatDismissCond('+enId+',\''+name+'\');this.parentElement.remove()">Remove</button>';
+  popout.style.cssText = 'position:absolute;z-index:1001;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem;min-width:180px;max-width:250px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-size:0.7rem';
+  badge.parentElement.style.position = 'relative';
+  badge.parentElement.appendChild(popout);
+  const rect = badge.getBoundingClientRect();
+  const parentRect = badge.parentElement.getBoundingClientRect();
+  popout.style.left = '0';
+  popout.style.top = (rect.bottom - parentRect.top + 4) + 'px';
+}
+
+function combatOpenCondPicker(enId) {
+  document.querySelectorAll('.cond-detail-popout').forEach(el => el.remove());
+  let html = '<div class="cond-popout" id="cond-picker-combat" style="position:fixed;top:20%;left:50%;transform:translateX(-50%);z-index:2000;min-width:240px;max-height:55vh;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.8rem;box-shadow:0 4px 12px rgba(0,0,0,0.4)">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem"><strong style="font-size:0.75rem">Add Condition</strong><span onclick="document.getElementById(\'cond-picker-combat\').remove()" style="cursor:pointer;font-size:0.75rem">✕</span></div>';
+  for (const c of STANDARD_CONDITIONS) {
+    const style = CONDITION_COLORS[c.name] || 'var(--accent)';
+    html += '<div onclick="combatAddCondition('+enId+',\''+c.name+'\',\''+c.desc.replace(/'/g,"\\'")+'\');document.getElementById(\'cond-picker-combat\').remove()" style="padding:0.25rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.1rem;font-size:0.65rem;display:flex;align-items:center;gap:0.3rem"><span class="cond-badge" style="background:'+style.split(';')[0]+';'+style.split(';')[1]+'">'+c.name+'</span><span style="color:var(--text-muted);font-size:0.58rem">'+c.desc.substring(0,50)+'…</span></div>';
+  }
+  html += '<div style="margin-top:0.4rem;border-top:1px solid var(--border);padding-top:0.4rem"><input id="custom-cond-name-combat" placeholder="Custom condition…" style="width:100%;padding:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.65rem;margin-bottom:0.2rem"><button onclick="combatAddCondition('+enId+',document.getElementById(\'custom-cond-name-combat\').value,\'\');document.getElementById(\'cond-picker-combat\').remove()" style="width:100%;padding:0.2rem;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.65rem">Add Custom</button></div>';
+  html += '</div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
 // ── Live HP Polling ──────────────────────────────────────────────────────
 
 let _combatPollTimer = null;
@@ -4989,6 +5093,15 @@ async function syncPlayerAndSummonHP() {
           p.hp_current = c.hp_current;
           p.hp_max = c.hp_max;
           changed = true;
+        }
+        // Sync conditions from sheet
+        if (c && c.conditions) {
+          const srvConds = JSON.stringify(c.conditions);
+          const localConds = JSON.stringify(p.conditions || []);
+          if (srvConds !== localConds) {
+            p.conditions = c.conditions;
+            changed = true;
+          }
         }
       } else if (p.is_summon && p.owner_char_id && p.summon_idx !== undefined) {
         const c = chars[String(p.owner_char_id)];

@@ -216,6 +216,16 @@
 .hp-btn.heal { background: var(--success); color: #fff; }
 .hp-btn.dmg { background: var(--danger); color: #fff; }
 
+/* Condition badges */
+.cond-badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.15rem 0.4rem; border-radius: 12px; font-size: 0.62rem; font-weight: 600; cursor: pointer; user-select: none; border: 1px solid; transition: all 0.15s; }
+.cond-badge:hover { filter: brightness(1.15); }
+.cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.55rem; opacity: 0.6; cursor: pointer; }
+.cond-badge.dismiss:hover { opacity: 1; }
+.cond-popout { position: absolute; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
+.cond-popout .cond-desc { color: var(--text-muted); margin: 0.3rem 0; line-height: 1.4; }
+.cond-popout .cond-dismiss { display: block; margin-top: 0.4rem; width: 100%; padding: 0.2rem; border: 1px solid var(--danger); border-radius: 4px; background: transparent; color: var(--danger); cursor: pointer; font-size: 0.65rem; }
+.cond-popout .cond-dismiss:hover { background: var(--danger); color: #fff; }
+
 /* Death saves */
 .ds-box { display: flex; gap: 0.4rem; }
 .ds-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.15s; }
@@ -455,6 +465,23 @@
         <button class="hp-btn dmg" onclick="applyHP(-1)" title="Subtract HP">−</button>
         <button class="hp-btn" onclick="resetHP()" title="Reset to full HP"
           style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.7rem;padding:0 0.5rem;width:auto">↺ Full</button>
+      </div>
+      <!-- Conditions -->
+      <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem">
+          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Conditions</span>
+          <button onclick="openConditionPicker()" title="Add condition"
+            style="font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
+        </div>
+        <div id="condition-badges" style="display:flex;flex-wrap:wrap;gap:0.25rem">
+          {% for c in (character.conditions or []) %}
+          <span class="cond-badge" style="background:var(--danger);color:#fff;border-color:var(--danger)"
+            data-name="{{ c.name }}">{{ c.name }}<span class="dismiss" onclick="event.stopPropagation();dismissCondition('{{ c.name }}')">✕</span></span>
+          {% endfor %}
+          {% if not character.conditions %}
+          <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>
+          {% endif %}
+        </div>
       </div>
       <!-- Hit Dice (collapsible) -->
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" onclick="toggleHitDice()">
@@ -2353,6 +2380,7 @@ const HD_USED = {{ character.hit_dice_used|default(0)|int }};
 const CON_MOD = {{ ((character.constitution or 10) - 10) // 2 }};
 const PREPARED_MAX = {{ prepared_max }};
 let _sheetPollTimer = null;
+let _lastConditions = null;
 const CASTER_TYPE = '{{ caster_type }}';
 let CHARACTER_GP = {{ character.gp|default(0)|int }};
 
@@ -2786,6 +2814,15 @@ async function syncSheetHP() {
         }
       }
     }
+    // ── Conditions ──
+    if (info.conditions) {
+      const srvConds = JSON.stringify(info.conditions);
+      const localConds = JSON.stringify(_lastConditions || []);
+      if (srvConds !== localConds) {
+        _lastConditions = info.conditions;
+        renderConditions(info.conditions);
+      }
+    }
   } catch(e) { /* silent */ }
 }
 
@@ -2799,6 +2836,106 @@ function stopSheetPolling() {
     clearInterval(_sheetPollTimer);
     _sheetPollTimer = null;
   }
+}
+
+// ── Conditions ──
+const CONDITION_COLORS = {
+  Blinded: '#6a0dad;color:#fff', Charmed: '#e75480;color:#fff', Deafened: '#5c6bc0;color:#fff',
+  Frightened: '#7b1fa2;color:#fff', Grappled: '#bf360c;color:#fff', Incapacitated: '#b71c1c;color:#fff',
+  Invisible: '#1e88e5;color:#fff', Paralyzed: '#880e4f;color:#fff', Petrified: '#4e342e;color:#fff',
+  Poisoned: '#2e7d32;color:#fff', Prone: '#e65100;color:#fff', Restrained: '#c62828;color:#fff',
+  Stunned: '#d84315;color:#fff', Unconscious: '#37474f;color:#fff', Exhaustion: '#827717;color:#fff',
+  Concentration: '#6a1b9a;color:#fff', Blessed: '#f9a825;color:#333', Haste: '#00acc1;color:#fff',
+};
+const STANDARD_CONDITIONS = [
+  {name:'Blinded',desc:'Can\'t see. Auto-fails ability checks requiring sight. Attack rolls against you have advantage. Your attack rolls have disadvantage.'},
+  {name:'Charmed',desc:'Can\'t attack the charmer or target them with harmful abilities. Charmer has advantage on social checks against you.'},
+  {name:'Deafened',desc:'Can\'t hear. Auto-fails ability checks requiring hearing.'},
+  {name:'Frightened',desc:'Disadvantage on ability checks and attack rolls while source of fear is in sight. Can\'t willingly move closer to the source.'},
+  {name:'Grappled',desc:'Speed becomes 0. Grappler can release at any time. Ends if grappler is incapacitated or you\'re moved out of reach.'},
+  {name:'Incapacitated',desc:'Can\'t take actions or reactions.'},
+  {name:'Invisible',desc:'Impossible to see without magic or special senses. Attack rolls against you have disadvantage. Your attacks have advantage.'},
+  {name:'Paralyzed',desc:'Can\'t move or speak. Auto-fails STR/DEX saves. Attackers have advantage and hit within 5 ft is a critical.'},
+  {name:'Petrified',desc:'Transformed to solid stone. Incapacitated, can\'t move or speak. Resistant to all damage. Immune to poison and disease.'},
+  {name:'Poisoned',desc:'Disadvantage on attack rolls and ability checks.'},
+  {name:'Prone',desc:'Crawling unless you stand up. Disadvantage on attack rolls. Attackers within 5 ft have advantage; farther have disadvantage.'},
+  {name:'Restrained',desc:'Speed becomes 0. Disadvantage on attack rolls and DEX saves. Attackers have advantage on attacks against you.'},
+  {name:'Stunned',desc:'Incapacitated, can\'t move, speak falteringly. Auto-fails STR/DEX saves. Attackers have advantage.'},
+  {name:'Unconscious',desc:'Incapacitated, can\'t move or speak, unaware of surroundings. Auto-fails STR/DEX saves. Attackers have advantage; hits within 5 ft are critical.'},
+  {name:'Exhaustion',desc:'6 levels. 1: disadv on ability checks. 2: speed halved. 3: disadv on atk/saves. 4: HP max halved. 5: speed 0. 6: death.'},
+  {name:'Concentration',desc:'Maintaining a spell. Must make CON save on taking damage (DC 10 or half damage, whichever is higher) or lose the spell.'},
+  {name:'Blessed',desc:'+1d4 to attack rolls and saving throws (Bless spell).'},
+  {name:'Haste',desc:'Speed doubled, +2 AC, adv on DEX saves, extra action (Attack/Dash/Disengage/Hide/Use Object).'},
+];
+
+function openConditionPicker() {
+  let html = '<div class="cond-popout" id="cond-picker" style="position:fixed;top:25%;left:50%;transform:translateX(-50%);z-index:2000;min-width:260px;max-height:60vh;overflow-y:auto">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem"><strong style="font-size:0.8rem">Add Condition</strong><span onclick="closeConditionPicker()" style="cursor:pointer;font-size:0.8rem">✕</span></div>';
+  for (const c of STANDARD_CONDITIONS) {
+    html += '<div onclick="addCondition(\''+c.name+'\', \''+c.desc.replace(/'/g,"\\'")+'\');closeConditionPicker()" style="padding:0.3rem 0.4rem;cursor:pointer;border-radius:4px;margin-bottom:0.15rem;font-size:0.68rem;display:flex;align-items:center;gap:0.3rem" onmouseover="this.style.background=\'var(--bg)\'" onmouseout="this.style.background=\'transparent\'">';
+    html += '<span class="cond-badge" style="background:'+CONDITION_COLORS[c.name]+';border-color:'+CONDITION_COLORS[c.name].split(';')[0]+'">'+c.name+'</span>';
+    html += '<span style="color:var(--text-muted);font-size:0.6rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">'+c.desc.substring(0,60)+'…</span></div>';
+  }
+  html += '<div style="margin-top:0.5rem;border-top:1px solid var(--border);padding-top:0.4rem"><input id="custom-cond-name" placeholder="Custom condition…" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.68rem;margin-bottom:0.25rem"><button onclick="addCondition(document.getElementById(\'custom-cond-name\').value,\'\');closeConditionPicker()" style="width:100%;padding:0.25rem;background:var(--accent);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.68rem">Add Custom</button></div>';
+  html += '</div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeConditionPicker() {
+  const el = document.getElementById('cond-picker');
+  if (el) el.remove();
+}
+
+async function addCondition(name, desc) {
+  if (!name) return;
+  try {
+    const r = await fetch('/api/character/'+CHAR_ID+'/conditions', {
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name,description:desc||'',source:''})
+    });
+    const d = await r.json();
+    renderConditions(d.conditions);
+  } catch(e) { /* silent */ }
+}
+
+async function dismissCondition(name) {
+  try {
+    const r = await fetch('/api/character/'+CHAR_ID+'/conditions', {
+      method:'DELETE',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name:name})
+    });
+    const d = await r.json();
+    renderConditions(d.conditions);
+  } catch(e) { /* silent */ }
+}
+
+function renderConditions(conditions) {
+  const container = document.getElementById('condition-badges');
+  if (!container) return;
+  if (!conditions || !conditions.length) {
+    container.innerHTML = '<span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>';
+    return;
+  }
+  let html = '';
+  for (const c of conditions) {
+    const style = CONDITION_COLORS[c.name] || 'var(--accent);color:#fff;border-color:var(--accent)';
+    html += '<span class="cond-badge" style="background:'+style.split(';')[0]+';'+style.split(';')[1]+'" data-name="'+c.name+'" onclick="toggleConditionDetail(event,\''+c.name+'\',\''+(c.description||'').replace(/'/g,"\\'")+'\')">'+c.name+'<span class="dismiss" onclick="event.stopPropagation();dismissCondition(\''+c.name+'\')">✕</span></span>';
+  }
+  container.innerHTML = html;
+}
+
+function toggleConditionDetail(event, name, desc) {
+  // Remove any existing popouts
+  document.querySelectorAll('.cond-detail-popout').forEach(el => el.remove());
+  const badge = event.currentTarget;
+  const popout = document.createElement('div');
+  popout.className = 'cond-popout cond-detail-popout';
+  popout.innerHTML = '<strong style="color:'+(CONDITION_COLORS[name]||'var(--text)').split(';')[0]+'">'+name+'</strong><div class="cond-desc">'+desc+'</div><button class="cond-dismiss" onclick="dismissCondition(\''+name+'\');this.parentElement.remove()">Remove</button>';
+  badge.parentElement.appendChild(popout); // Add to the flex container
+  // Position below the badge
+  const rect = badge.getBoundingClientRect();
+  popout.style.left = '0';
+  popout.style.top = (rect.bottom + 4) + 'px';
 }
 
 // ── Death Saves ──
