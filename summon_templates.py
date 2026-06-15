@@ -193,6 +193,18 @@ SUMMON_TEMPLATES: dict[str, dict] = {
             "2 Ballistas": "Armed with 2 ballistas (3d10 piercing, range 120/480 ft).",
         },
     },
+    "vehicle_airship": {
+        "name": "Airship", "category": "vehicle", "source": "vehicle",
+        "ac_base": 13, "hp_base": 300, "hp_note": "Crew: 10. Passengers: 20. Cargo: 1 ton. Fly 8 mph.",
+        "size": "Gargantuan", "speed": "fly 80 ft. (hover)",
+        "stats": {"str":14,"dex":12,"con":14,"int":0,"wis":0,"cha":0},
+        "features": ["Elemental-Powered","Hover","Ballista"],
+        "feature_descs": {
+            "Elemental-Powered": "A bound fire elemental provides lift. Losing the elemental causes the ship to descend at 30 ft/round.",
+            "Hover": "Can hover in place indefinitely without moving.",
+            "Ballista": "Armed with 1 ballista (3d10 piercing, range 120/480 ft).",
+        },
+    },
 
     # ── Tasha's Summon Spells (DTCOE) — calculated from character level ──
     "tashas_beast": {
