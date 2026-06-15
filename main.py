@@ -4959,7 +4959,8 @@ async def dm_tools(request: Request):
                    encounters=encounters, campaigns=campaigns,
                    traps=all_traps,
                    named_item_types=_get_named_item_types(),
-                   source_map_json=json.dumps(_get_source_slug_map()))
+                   source_map_json=json.dumps(_get_source_slug_map()),
+                   summon_templates=SUMMON_TEMPLATES)
 
 
 @app.get("/api/dm/monster/{index}", response_class=JSONResponse)
@@ -8085,6 +8086,46 @@ async def get_summons(char_id: int, request: Request):
     except (json.JSONDecodeError, TypeError):
         summons = []
     return JSONResponse({"summons": summons, "char_name": row["name"]})
+
+@app.post("/api/character/{char_id}/summons", response_class=JSONResponse)
+async def create_summon(char_id: int, request: Request):
+    """Create a new summon for a character. Returns the created summon object."""
+    user = require_user(request)
+    data = await request.json()
+    db = get_db()
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    try:
+        summons = json.loads(row["summons"] or "[]")
+    except (json.JSONDecodeError, TypeError):
+        summons = []
+
+    summon = {
+        "id": "summon_" + str(int(time.time() * 1000)),
+        "name": data.get("name", "Unnamed"),
+        "form": data.get("form", ""),
+        "category": data.get("category", "custom"),
+        "source": data.get("source", "custom"),
+        "ac": data.get("ac", 10),
+        "hp_max": data.get("hp_max", 1),
+        "hp_current": data.get("hp_current", data.get("hp_max", 1)),
+        "size": data.get("size", "Medium"),
+        "speed": data.get("speed", "30 ft."),
+        "stats": data.get("stats", {}),
+        "features": data.get("features", []),
+        "attacks": data.get("attacks", []),
+        "skills": data.get("skills", ""),
+        "senses": data.get("senses", ""),
+        "hp_note": data.get("hp_note", ""),
+    }
+    summons.append(summon)
+    db.execute("UPDATE characters SET summons=? WHERE id=? AND user_id=?",
+               (json.dumps(summons), char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"summon": summon, "total": len(summons)})
 
 @app.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
 async def spend_charge(char_id: int, request: Request):

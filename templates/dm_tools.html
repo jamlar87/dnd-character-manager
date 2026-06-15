@@ -3495,6 +3495,7 @@ async function loadCombatEncounter() {
 
 // ── Load campaign player characters ──
 let _campaignPlayers = []; // {char_id, name, race, class_name, level, ac, hp_current, hp_max, dex_mod, initiative}
+const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 let _benchedNpcs = [];     // NPCs dragged out of combat — can be dragged back in
 
 async function loadCombatCampaign() {
@@ -3585,6 +3586,7 @@ function renderPlayersPanel() {
         <button class="init-btn" onclick="addPlayerToInitiative(${p.char_id})" title="Add to initiative" style="flex-shrink:0;color:var(--accent)">➕</button>
         <button class="init-btn" onclick="previewCharSheet(${p.char_id}, '${p.name}')" title="View sheet" style="flex-shrink:0">📋</button>
         <button class="init-btn" onclick="loadCharacterSummons(${p.char_id}, '${p.name}')" title="Load summons into combat" style="flex-shrink:0;color:var(--warn)">🐾</button>
+        <button class="init-btn" onclick="openSummonModalDM(${p.char_id}, '${p.name}')" title="Quick add summon mid-combat" style="flex-shrink:0;color:var(--accent)">⚡</button>
       </div>
     </div>`;
   }).join('');
@@ -4087,13 +4089,178 @@ async function loadCharacterSummons(charId, charName) {
     renderInitiativeTrack();
     saveCombatState();
   } catch(e) {
-    console.error('loadSummons:', e);
-    alert('Failed to load summons.');
+      console.error('loadSummons:', e);
+      alert('Failed to load summons.');
+    }
   }
-}
 
-// ── Full creature/NPC detail popup for combat cards ──
-async function showCombatantDetails(enId) {
+  // ── Quick Add Summon from Combat Tab ──
+  let _summonDMCharId = null;
+  let _summonDMCharName = null;
+
+  function openSummonModalDM(charId, charName) {
+    _summonDMCharId = charId;
+    _summonDMCharName = charName;
+
+    let html = `<div class="modal-overlay" id="summonModalDM" onclick="if(event.target===this)closeSummonModalDM()">
+      <div class="modal-content" style="max-width:600px">
+        <button class="modal-close" onclick="closeSummonModalDM()">✕</button>
+        <h2 style="margin:0 0 0.5rem 0">⚡ Summon for ${charName}</h2>
+        <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem">Adds to sheet + auto-inserts into initiative</p>
+        <div style="margin-bottom:0.75rem">
+          <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.25rem">Quick Template</label>
+          <select id="summon-template-dm" onchange="fillSummonTemplateDM(this.value)" style="width:100%;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+            <option value="">— Custom —</option>`;
+
+    const categories = {
+      'familiar': '🐾 Find Familiar',
+      'tashas_summon': '✨ Tasha Summons',
+      'class_feature': '🎯 Class Features'
+    };
+    for (const [cat, label] of Object.entries(categories)) {
+      html += `<optgroup label="${label}">`;
+      for (const [key, tmpl] of Object.entries(SUMMON_TEMPLATES)) {
+        if (tmpl.category === cat) {
+          html += `<option value="${key}">${tmpl.name}${tmpl.form ? ' (' + tmpl.form + ')' : ''}</option>`;
+        }
+      }
+      html += `</optgroup>`;
+    }
+
+    html += `</select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div><label style="font-size:0.7rem">Name</label><input id="s-name-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Stolas"></div>
+          <div><label style="font-size:0.7rem">Form/Type</label><input id="s-form-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="owl"></div>
+          <div><label style="font-size:0.7rem">AC</label><input id="s-ac-dm" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="10"></div>
+          <div><label style="font-size:0.7rem">HP</label><input id="s-hp-dm" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="1"></div>
+          <div><label style="font-size:0.7rem">Size</label><input id="s-size-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="Tiny"></div>
+          <div><label style="font-size:0.7rem">Speed</label><input id="s-speed-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="30 ft."></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.3rem;margin-top:0.5rem">
+          ${['STR','DEX','CON','INT','WIS','CHA'].map(a => `<div style="text-align:center"><label style="font-size:0.6rem;color:var(--text-muted)">${a}</label><input id="s-${a.toLowerCase()}-dm" type="number" style="width:100%;padding:0.15rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.75rem;text-align:center" value="10"></div>`).join('')}
+        </div>
+        <div style="margin-top:0.5rem">
+          <label style="font-size:0.7rem">Source (spell/feature)</label>
+          <input id="s-source-dm" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="find_familiar">
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-top:1rem">
+          <button class="btn btn-primary" onclick="addSummonDM()" style="flex:1">Add to Combat ⚡</button>
+          <button class="btn btn-outline" onclick="closeSummonModalDM()">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+
+  function closeSummonModalDM() {
+    const modal = document.getElementById('summonModalDM');
+    if (modal) modal.remove();
+  }
+
+  function fillSummonTemplateDM(key) {
+    if (!key || !SUMMON_TEMPLATES[key]) return;
+    const t = SUMMON_TEMPLATES[key];
+    document.getElementById('s-name-dm').value = t.name;
+    document.getElementById('s-form-dm').value = t.form || '';
+    document.getElementById('s-ac-dm').value = t.ac;
+    document.getElementById('s-hp-dm').value = t.hp_max;
+    document.getElementById('s-size-dm').value = t.size;
+    document.getElementById('s-speed-dm').value = t.speed;
+    document.getElementById('s-source-dm').value = t.source;
+    for (const [ab, val] of Object.entries(t.stats)) {
+      const el = document.getElementById('s-' + ab + '-dm');
+      if (el) el.value = val;
+    }
+  }
+
+  async function addSummonDM() {
+    const charId = _summonDMCharId;
+    if (!charId) return;
+
+    const s = {
+      name: document.getElementById('s-name-dm').value || 'Unnamed',
+      form: document.getElementById('s-form-dm').value,
+      category: 'custom',
+      source: document.getElementById('s-source-dm').value || 'custom',
+      ac: parseInt(document.getElementById('s-ac-dm').value) || 10,
+      hp_max: parseInt(document.getElementById('s-hp-dm').value) || 1,
+      size: document.getElementById('s-size-dm').value || 'Medium',
+      speed: document.getElementById('s-speed-dm').value || '30 ft.',
+      stats: {},
+      features: [],
+      attacks: [],
+      skills: '',
+      senses: '',
+      hp_note: ''
+    };
+    for (const ab of ['str','dex','con','int','wis','cha']) {
+      s.stats[ab] = parseInt(document.getElementById('s-' + ab + '-dm').value) || 10;
+    }
+
+    const key = document.getElementById('summon-template-dm').value;
+    if (key && SUMMON_TEMPLATES[key]) {
+      s.features = [...(SUMMON_TEMPLATES[key].features || [])];
+      s.attacks = [...(SUMMON_TEMPLATES[key].attacks || [])];
+      s.skills = SUMMON_TEMPLATES[key].skills || '';
+      s.senses = SUMMON_TEMPLATES[key].senses || '';
+      s.hp_note = SUMMON_TEMPLATES[key].hp_note || '';
+      s.category = SUMMON_TEMPLATES[key].category;
+      s.form = s.form || SUMMON_TEMPLATES[key].form || '';
+    }
+
+    try {
+      const r = await fetch(`/api/character/${charId}/summons`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(s)
+      });
+      const data = await r.json();
+      if (!r.ok || data.error) {
+        alert('Failed: ' + (data.error || r.status));
+        return;
+      }
+
+      // Auto-insert into combat initiative
+      const summon = data.summon;
+      const enId = Date.now() + Math.random();
+      const dex = summon.stats?.dex || 10;
+      _combatParticipants.push({
+        en_id: enId,
+        name: summon.name + (summon.form ? ` (${summon.form})` : ''),
+        race: summon.size || 'Medium',
+        class_name: summon.source || 'Summon',
+        level: 0,
+        is_enemy: 0,
+        is_player: false,
+        is_summon: true,
+        owner_char_id: charId,
+        owner_name: _summonDMCharName || '',
+        ac: summon.ac || 10,
+        hp_current: summon.hp_current || summon.hp_max || 1,
+        hp_max: summon.hp_max || 1,
+        initiative: Math.floor(Math.random() * 20) + 1 + Math.floor((dex - 10) / 2),
+        roll: 0,
+        dex_mod: Math.floor((dex - 10) / 2),
+        defeated: 0,
+      });
+      _combatParticipants.sort((a, b) => {
+        if ((a.defeated||0) !== (b.defeated||0)) return (a.defeated ? 1 : -1);
+        return (b.initiative||0) - (a.initiative||0);
+      });
+      _combatOrder = _combatParticipants.filter(p => !p.defeated).map(p => p.en_id);
+      renderInitiativeTrack();
+      saveCombatState();
+
+      closeSummonModalDM();
+    } catch(e) {
+      console.error('addSummonDM:', e);
+      alert('Failed to create summon.');
+    }
+  }
+
+  // ── Full creature/NPC detail popup for combat cards ──
+  async function showCombatantDetails(enId) {
   const p = _combatParticipants.find(p => p.en_id === enId);
   if (!p) return;
   // Redirect player characters to their character sheet
