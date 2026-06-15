@@ -1988,7 +1988,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">🎒 Inventory</h3>
           <div style="display:flex;align-items:center;gap:0.5rem">
-            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();">
+            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();var q=document.getElementById('item-search-input');if(q&&q.value.trim())searchItems(q.value);">
               <span style="display:inline-block;width:12px;height:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center;line-height:10px;font-size:9px;background:var(--bg)">☐</span>
               Core only
             </label>

@@ -1182,7 +1182,10 @@ function toggleCoreDM() {
     if (active.id === 'panel-monsters') filterMonsters();
     else if (active.id === 'panel-traps') filterTraps();
     else if (active.id === 'panel-items' && _itemsCampId) loadAllItems();
+    else if (active.id === 'panel-combat') filterCombatCreatures();
   }
+  // Also re-filter encounter builder palette if visible
+  if (typeof filterCreaturePalette === 'function') filterCreaturePalette();
 }
 // Init toggle UI from localStorage
 if (_coreOnlyDM) {
