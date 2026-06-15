@@ -1,0 +1,586 @@
+[
+  {
+    "name": "Collapsing Roof",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.122",
+    "trigger": "Trip wire 3 inches off the ground stretched between two support beams. Can also be triggered by knocking over a support beam as an action.",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "Spot the trip wire. Anyone examining the beams can see they are merely wedged in place. The ceiling above the wire is visibly in bad repair."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disables the trip wire harmlessly. Without thieves' tools, attempt with disadvantage using an edged weapon or tool. On failure, the trap triggers."
+    },
+    "effect": "When triggered, the unstable ceiling collapses. Creatures beneath must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half on success. The area becomes difficult terrain from rubble.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "bludgeoning",
+    "area": "Ceiling section above trip wire",
+    "description": "A section of ceiling collapses when triggered. Creatures in the area must make a DC 15 Dexterity saving throw, taking 4d10 bludgeoning damage on a failed save or half as much on a success."
+  },
+  {
+    "name": "Falling Net",
+    "type": "mechanical",
+    "danger": "setback",
+    "source": "DMG p.122",
+    "trigger": "Trip wire 3 inches off the ground between two columns or trees releases a net hidden by cobwebs or foliage.",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "Spot the trip wire and the net."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Break the trip wire harmlessly. Without tools, attempt with disadvantage using an edged weapon. On failure, the trap triggers."
+    },
+    "effect": "Net covers a 10-foot-square area. Creatures in area are restrained; those failing a DC 10 Strength save are also knocked prone. A creature can use an action to make a DC 10 Strength check to free itself or another within reach. Net has AC 10, 20 hit points. Dealing 5 slashing damage (AC 10) destroys a 5-foot-square section, freeing creatures there.",
+    "save_dc": 10,
+    "save_ability": "Strength",
+    "damage": "None (restrains)",
+    "damage_type": "control",
+    "area": "10-foot square",
+    "description": "A net drops from the ceiling, covering a 10-foot square. Creatures in the area are restrained. A creature can use its action to make a DC 10 Strength check to break free. The net has AC 10 and 20 hit points."
+  },
+  {
+    "name": "Fire-Breathing Statue",
+    "type": "magical",
+    "danger": "dangerous",
+    "source": "DMG p.122",
+    "trigger": "Hidden pressure plate activates when more than 20 pounds of weight is placed on it.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spot the hidden pressure plate and faint scorch marks on floor and walls. Detect magic reveals an aura of evocation magic on the statue."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "dispel magic or iron spike",
+      "detail": "Wedge an iron spike under the pressure plate to prevent activation. A successful dispel magic (DC 13) on the statue destroys the trap."
+    },
+    "effect": "Statue releases a 30-foot cone of fire. Each creature in the cone must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half on success.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "fire",
+    "area": "30-foot cone",
+    "description": "A statue releases a 15-foot cone of magical fire. Creatures in the area must make a DC 13 Dexterity saving throw, taking 4d6 fire damage on a failed save or half as much on a success."
+  },
+  {
+    "name": "Simple Pit",
+    "type": "mechanical",
+    "danger": "setback",
+    "source": "DMG p.122",
+    "trigger": "Stepping on a cloth covering camouflaged with dirt and debris.",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "Spot the hole covered by a camouflaged cloth."
+    },
+    "disarm": {
+      "dc": null,
+      "method": "Avoid or bypass",
+      "detail": "Simply avoid stepping on the pit. No mechanism to disable \u2014 just don't walk into it."
+    },
+    "effect": "Creature falls into the pit, taking falling damage based on depth (typically 10 feet: 1d6 bludgeoning).",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "1d6 per 10 feet (typically 1d6)",
+    "damage_type": "bludgeoning",
+    "area": "5-foot square opening",
+    "description": "A covered pit opens when weight is placed on it. The pit is 10 feet deep, dealing 1d6 bludgeoning damage. A DC 10 Wisdom (Perception) check reveals the trap."
+  },
+  {
+    "name": "Hidden Pit",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.122",
+    "trigger": "Stepping on a cover identical to the surrounding floor.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Notice the absence of foot traffic over the section. DC 15 Intelligence (Investigation) confirms it's a pit cover."
+    },
+    "disarm": {
+      "dc": null,
+      "method": "Iron spike",
+      "detail": "Wedge an iron spike between cover and floor to prevent it from opening. Arcane lock can also hold it shut."
+    },
+    "effect": "The cover swings open like a trapdoor, dropping the creature into the pit. Typically 10\u201320 feet deep (potentially deeper). Falling damage applies.",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "2d6\u20134d6 (varies by depth)",
+    "damage_type": "bludgeoning",
+    "area": "5-foot square opening",
+    "description": "A well-disguised pit identical to a Simple Pit but harder to detect. DC 15 Wisdom (Perception) to notice. The pit is 20 feet deep, dealing 2d6 bludgeoning damage."
+  },
+  {
+    "name": "Locking Pit",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.122",
+    "trigger": "Identical to a Hidden Pit, stepping on the cover triggers the fall.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Same as Hidden Pit. DC 15 Wisdom (Perception) to notice absence of foot traffic."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Strength or thieves' tools",
+      "detail": "After falling: DC 20 Strength check to pry cover open, or smash it. From inside, DC 15 Dexterity (thieves' tools) to disable spring mechanism if reachable. Some pits have a nearby secret mechanism to open them."
+    },
+    "effect": "Fall into pit, then the spring-loaded cover snaps shut, trapping the victim inside. Same falling damage as Hidden Pit, plus the victim is trapped until freed.",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "2d6\u20134d6 (varies by depth)",
+    "damage_type": "bludgeoning",
+    "area": "5-foot square opening",
+    "description": "A pit trap with a spring-loaded lid that snaps shut after being triggered. DC 15 Perception to spot. The pit is 20 feet deep (2d6 bludgeoning), and the lid requires a DC 20 Strength check to lift."
+  },
+  {
+    "name": "Spiked Pit",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.122",
+    "trigger": "Same as Simple, Hidden, or Locking Pit.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Same as Hidden Pit variant."
+    },
+    "disarm": {
+      "dc": null,
+      "method": "Same as pit variant",
+      "detail": "Same disarming methods as the base pit type."
+    },
+    "effect": "A pit with sharpened wooden or iron spikes at the bottom. Falling creature takes falling damage plus an extra 11 (2d10) piercing damage from spikes. Poisoned variant: spikes smeared with poison \u2014 DC 13 Constitution save or take 22 (4d10) poison damage (half on success).",
+    "save_dc": 13,
+    "save_ability": "Constitution (poison variant)",
+    "damage": "Falling + 11 (2d10) piercing + possible 22 (4d10) poison",
+    "damage_type": "piercing/poison",
+    "area": "5-foot square opening",
+    "description": "A pit with sharpened stakes at the bottom. DC 15 Perception to notice. Deals 2d6 bludgeoning from the fall plus 2d10 piercing damage from the spikes."
+  },
+  {
+    "name": "Poison Darts",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.123",
+    "trigger": "Pressure plate or trip wire causes tiny tubes in the wall to fire darts.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spot tiny holes in the walls and a pressure plate or trip wire."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Block the dart tubes or disable the pressure plate/trip wire."
+    },
+    "effect": "Darts fire from tubes in the wall. One or more targets must make a DC 15 Dexterity saving throw. Each failed save deals 2d10\u201310d10 poison damage depending on the trap's severity and how many darts hit. Each dart deals 2 (1d4) piercing damage plus 11 (2d10) poison damage.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "Varies: 2d10\u201310d10 poison",
+    "damage_type": "poison",
+    "area": "Line or cone from wall",
+    "description": "Darts shoot from a wall or object when triggered. Each dart deals 1d4 piercing damage, and the target must succeed on a DC 15 Constitution saving throw or take 2d10 poison damage."
+  },
+  {
+    "name": "Poison Needle",
+    "type": "mechanical",
+    "danger": "deadly",
+    "source": "DMG p.123",
+    "trigger": "Hidden needle springs from a lock, chest, or doorknob when handled.",
+    "detection": {
+      "dc": 20,
+      "skill": "Perception",
+      "detail": "Spot the tiny spring-loaded needle. Extremely well-concealed \u2014 one of the hardest traps to find."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Jam the needle mechanism or safely trigger it from a distance (e.g., with a shield or pole)."
+    },
+    "effect": "Spring-loaded needle pricks the victim. Target must make a DC 15 Constitution saving throw, taking 2 (1d4) piercing damage plus 11 (2d10) poison damage on a failed save, or half poison damage on success.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "2 (1d4) piercing + 11 (2d10) poison",
+    "damage_type": "piercing + poison",
+    "area": "Single target (touch)",
+    "description": "A spring-loaded needle injects poison when a lock or container is opened. DC 15 Perception to spot. Deals 1 piercing damage plus DC 15 Constitution save or 2d10 poison damage."
+  },
+  {
+    "name": "Rolling Sphere",
+    "type": "mechanical",
+    "danger": "deadly",
+    "source": "DMG p.123",
+    "trigger": "Pressure plate releases a massive stone sphere from a hidden chute at the top of a corridor.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Spot the hidden pressure plate. The corridor may have subtle grooves or wear marks from past activations."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disable the pressure plate before the sphere releases. Once released, the only options are to outrun it or find cover."
+    },
+    "effect": "A 10-foot-diameter stone sphere rolls down a corridor at initiative count 20 (and 10 on following rounds). Creatures in its path must make a DC 15 Dexterity saving throw, taking 55 (10d10) bludgeoning damage on a failed save, or half on success. The sphere stops when it hits a wall or similar barrier. It can be slowed by obstacles (each slows it by 15 feet).",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "55 (10d10)",
+    "damage_type": "bludgeoning",
+    "area": "10-foot-wide corridor path",
+    "description": "A massive stone sphere rolls down a corridor. Creatures in a 10-foot-wide path must make a DC 15 Dexterity saving throw or take 10d10 bludgeoning damage."
+  },
+  {
+    "name": "Sphere of Annihilation",
+    "type": "magical",
+    "danger": "deadly",
+    "source": "DMG p.123",
+    "trigger": "Proximity \u2014 the sphere sits in a fixed location, annihilating any matter that touches it.",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Recognize the sphere for what it is. A character who succeeds on a DC 20 Intelligence (Arcana) check can identify it as a sphere of annihilation. Those who fail may mistake it for a sphere of darkness or similar effect."
+    },
+    "disarm": {
+      "dc": 25,
+      "method": "Intelligence (Arcana)",
+      "detail": "A character can attempt to control the sphere by making a DC 25 Intelligence (Arcana) check while within 60 feet. On a success, the sphere moves up to 10 feet toward or away from the character. A talisman of the sphere allows automatic control."
+    },
+    "effect": "Anything that touches the sphere is instantly destroyed (no save). Any creature within 5 feet of the sphere at the start of its turn must make a DC 13 Dexterity saving throw, taking 22 (4d10) force damage on a failed save, or half on success. The sphere has no hit points and cannot be damaged \u2014 it can only be moved or forced to exit the plane via a rod of cancellation or similar magic.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10) force (near miss); instant destruction (contact)",
+    "damage_type": "force",
+    "area": "5-foot sphere",
+    "description": "A 2-foot-diameter sphere of absolute nothingness sits in a fixed position. Any creature that touches it takes 4d10 force damage. If a creature ends its turn within 5 feet, it must succeed on a DC 13 Strength save or be pulled into the sphere and destroyed."
+  },
+  {
+    "name": "Bear Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "source": "XGE p.113",
+    "trigger": "Stepping on a hidden pressure plate snaps steel jaws shut around the victim's leg.",
+    "detection": {
+      "dc": 12,
+      "skill": "Perception",
+      "detail": "Spot the iron jaws partially hidden under leaves or debris."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Dexterity (thieves' tools) or Strength",
+      "detail": "Disable the pressure mechanism with thieves' tools, or make a DC 15 Strength check to force the jaws open."
+    },
+    "effect": "Steel jaws snap shut on the victim's leg. The target takes 3 (1d6) piercing damage, its speed is reduced by half until it receives at least 1 point of magical healing or is freed with a DC 15 Strength check. The trap can also be smashed (AC 15, 20 HP).",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "3 (1d6)",
+    "damage_type": "piercing",
+    "area": "Single target",
+    "description": "A hidden steel-jaw trap. DC 10 Perception to spot. Deals 1d10 piercing damage and reduces the target's speed to 0 until freed with a DC 15 Strength check."
+  },
+  {
+    "name": "Crossbow Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "source": "XGE p.113",
+    "trigger": "Trip wire fires a heavy crossbow hidden in a wall or alcove.",
+    "detection": {
+      "dc": 12,
+      "skill": "Perception",
+      "detail": "Spot the trip wire and the firing slit in the wall."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Cut the trip wire or block the firing slit."
+    },
+    "effect": "A heavy crossbow fires at the creature that triggered it. +8 to hit, dealing 6 (1d10+1) piercing damage on a hit.",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "6 (1d10+1)",
+    "damage_type": "piercing",
+    "area": "Line (80/320 ft range)",
+    "description": "A hidden crossbow fires when a tripwire is triggered. Ranged attack +8, deals 1d10 piercing damage. DC 15 Perception to spot."
+  },
+  {
+    "name": "Scything Blade",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "XGE p.113",
+    "trigger": "Pressure plate releases a pendulum blade from the ceiling that sweeps through the room.",
+    "detection": {
+      "dc": 14,
+      "skill": "Perception",
+      "detail": "Spot the pressure plate and the slot in the ceiling where the blade is hidden."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Jam the ceiling slot or disable the pressure plate."
+    },
+    "effect": "A massive pendulum blade sweeps through a 10-foot-wide path. Creatures in the area must make a DC 15 Dexterity saving throw, taking 22 (4d10) slashing damage on a failed save, or half on success. The blade resets and triggers again each round until disarmed.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "slashing",
+    "area": "10-foot-wide path",
+    "description": "A large blade swings from the ceiling or wall. +8 to hit, deals 2d10 slashing damage. DC 15 Perception to spot the trigger mechanism."
+  },
+  {
+    "name": "Glyph of Warding (Explosive)",
+    "type": "magical",
+    "danger": "dangerous",
+    "source": "PHB p.245",
+    "trigger": "Magical inscription activates when a specific condition is met \u2014 creature approaches, touches object, opens warded container, etc.",
+    "detection": {
+      "dc": 14,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Spot the faintly glowing magical runes. Detect magic reveals an aura of abjuration. A successful Intelligence (Arcana) check reveals the glyph's nature."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Intelligence (Arcana) or dispel magic",
+      "detail": "A successful DC 14 Intelligence (Arcana) check allows you to deface or erase the glyph without triggering it. Dispel magic automatically removes it."
+    },
+    "effect": "When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. Creatures in the area must make a Dexterity saving throw (DC = spellcaster's DC, typically 13\u201315), taking 5d8 damage of a type chosen by the caster (acid, cold, fire, lightning, or thunder) on a failed save, or half on success.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "5d8 (typically 22)",
+    "damage_type": "varies (acid/cold/fire/lightning/thunder)",
+    "area": "20-foot-radius sphere",
+    "description": "A magical glyph explodes when triggered. Creatures within a 20-foot radius must make a DC 15 Dexterity saving throw, taking 5d8 fire, cold, acid, lightning, or thunder damage on a failed save or half as much on a success. DC 15 Intelligence (Investigation) to detect."
+  },
+  {
+    "name": "Flooding Room",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "source": "DMG p.123 (Complex Trap)",
+    "trigger": "Opening a chest, door, or pulling a lever causes water to pour in from hidden sluices.",
+    "detection": {
+      "dc": 14,
+      "skill": "Perception",
+      "detail": "Spot the sluice gates and drainage channels. Damp floor, water stains on walls, or the smell of mildew may hint at the trap."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools) or Strength",
+      "detail": "Jam the sluice gates before they open, or force them shut. If already flooding: DC 18 Strength check to force a door open against water pressure, or find the hidden drain lever (DC 15 Investigation)."
+    },
+    "effect": "Complex trap (rolls initiative +0). On each turn: water level rises by 1 foot. Once the water reaches 5 feet, creatures must swim (DC 10 Athletics). At 10 feet, creatures must hold their breath (CON minutes = CON mod, min 30 seconds). At ceiling height, creatures begin drowning. The trap can be bypassed by disarming the sluices or finding the hidden drain.",
+    "save_dc": null,
+    "save_ability": "Constitution (drowning)",
+    "damage": "None (environmental \u2014 drowning)",
+    "damage_type": "environmental",
+    "area": "Entire room",
+    "description": "The room seals and fills with water. Creatures must hold their breath or begin drowning after 1 + Constitution modifier minutes. The trap can be disarmed with a DC 15 Dexterity (Thieves' Tools) check on the mechanism."
+  },
+  {
+    "name": "Falling Portcullis",
+    "source": "XGE p.115",
+    "type": "mechanical",
+    "danger": "moderate",
+    "level": "1-4",
+    "trigger": "A creature that steps on the pressure plate triggers the trap.",
+    "effect": "An iron portcullis drops from the ceiling, blocking an exit or passageway.",
+    "area": "Blocks one exit/passageway",
+    "damage": "None (barrier)",
+    "damage_type": "control",
+    "save_ability": null,
+    "save_dc": null,
+    "detection": {
+      "dc": 20,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spot the pressure plate. A successful DC 20 Wisdom (Perception) check reveals it."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 20 Dexterity check using thieves' tools disables the pressure plate. A check totaling 5 or lower triggers the trap."
+    },
+    "description": "A heavy iron gate drops from the ceiling, separating the party. DC 20 Strength check to lift. Creatures in the path must succeed on a DC 15 Dexterity save or take 3d10 bludgeoning damage."
+  },
+  {
+    "name": "Fiery Blast",
+    "source": "XGE p.115",
+    "type": "magical",
+    "danger": "dangerous",
+    "level": "5-10",
+    "trigger": "Anyone who steps on the mosaic causes fire to erupt from it. Those wearing holy symbols of Pyremius don't trigger the trap.",
+    "effect": "A 15-foot cube of fire erupts, covering the pressure plate and the area around it. Each creature in the area must make a DC 15 Dexterity saving throw, taking 24 (7d6) fire damage on a failed save, or half as much on a successful one.",
+    "area": "15-foot cube",
+    "damage": "24 (7d6)",
+    "damage_type": "fire",
+    "save_ability": "Dexterity",
+    "save_dc": 15,
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spot the presence of ash and faint burn marks in the area. A DC 15 Intelligence (Religion) check identifies the trap's nature."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Religion) or dispel magic",
+      "detail": "A successful DC 15 Intelligence (Religion) check enables defacing a key rune to destroy the trap; failing triggers it. A dispel magic (DC 15) cast on the runes also destroys the trap."
+    },
+    "description": "A burst of magical fire erupts in a 20-foot radius. Creatures in the area must make a DC 15 Dexterity saving throw, taking 6d6 fire damage on a failed save or half as much on a success."
+  },
+  {
+    "name": "Net Trap",
+    "source": "XGE p.116",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "level": "1-4",
+    "trigger": "A trip wire strung across a hallway is rigged to a large net. If the trip wire is broken, the net falls on intruders. An iron bell also rings, alerting nearby guards.",
+    "effect": "A net covering a 10-foot-by-10-foot area falls. Any creature fully within this area must succeed on a DC 15 Dexterity saving throw or be restrained. A creature can use its action to make a DC 10 Strength check to try to free itself or another creature in the net. Dealing 5 slashing damage to the net (AC 10, 20 hp) also frees a creature without harm.",
+    "area": "10-foot-by-10-foot area centered on the trip wire",
+    "damage": "None (restrains)",
+    "damage_type": "control",
+    "save_ability": "Dexterity",
+    "save_dc": 15,
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spot the trip wire and the net."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 15 Dexterity check using thieves' tools disables the trip wire without causing the net to drop or the bell to ring; failing triggers the trap."
+    },
+    "description": "A weighted net drops from above, covering a 15-foot square. Creatures are restrained. A DC 12 Strength check is required to escape. The net has AC 10 and 15 hit points."
+  },
+  {
+    "name": "Pit Trap",
+    "source": "XGE p.116",
+    "type": "mechanical",
+    "danger": "moderate",
+    "level": "1-4",
+    "trigger": "Anyone who steps on the canvas might fall into the pit.",
+    "effect": "The triggering creature must make a DC 10 Dexterity saving throw. On a successful save, the creature catches itself on the pit's edge or instinctively steps back. On a failed save, the creature falls into the 10-foot-deep pit and takes 3 (1d6) bludgeoning damage.",
+    "area": "Single pit (10 ft. deep)",
+    "damage": "3 (1d6)",
+    "damage_type": "bludgeoning",
+    "save_ability": "Dexterity",
+    "save_dc": 10,
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spot the tattered canvas and the 1-foot-wide ledge around the edges of the pit where it is safe to travel."
+    },
+    "disarm": {
+      "dc": null,
+      "method": "Avoidance",
+      "detail": "Once spotted, the pit trap is effectively disarmed \u2014 characters can walk around it or climb down and across."
+    },
+    "description": "A covered pit 20 feet deep. DC 15 Perception to notice. Creatures falling in take 2d6 bludgeoning damage."
+  },
+  {
+    "name": "Sleep of Ages",
+    "source": "XGE p.117",
+    "type": "magical",
+    "danger": "deadly",
+    "level": "11-16",
+    "trigger": "Stepping on the pressure plate triggers this trap.",
+    "effect": "When activated, this trap casts the sleep spell centered on the pressure plate, using a 9th-level spell slot (21d8; average 94 hp of creatures affected).",
+    "area": "20-foot-radius sphere centered on pressure plate",
+    "damage": "None (unconsciousness: 21d8 hp of creatures)",
+    "damage_type": "control",
+    "save_ability": null,
+    "save_dc": null,
+    "detection": {
+      "dc": 20,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spot the pressure plate."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Intelligence (Arcana) or dispel magic",
+      "detail": "A successful DC 20 Intelligence (Arcana) check made within 5 feet of the pressure plate disables the trap; a check totaling 10 or lower triggers it. A dispel magic (DC 19) cast on the pressure plate destroys the trap."
+    },
+    "description": "A magical trap that casts sleep at 5th level (13d8 hit points affected) when triggered, targeting all creatures within 20 feet. DC 15 Wisdom (Perception) to spot the magical runes."
+  },
+  {
+    "name": "Path of Blades",
+    "source": "XGE p.119",
+    "type": "complex",
+    "danger": "dangerous",
+    "level": "1-4",
+    "trigger": "Activates as soon as a non-undead creature enters the hallway; remains active while any non-undead creature is within the hall.",
+    "effect": "Three active elements in a 160-foot hallway: (1) Whirling Blades (initiative 20): +5 attack bonus, 11 (2d10) slashing in first 80 ft. (2) Crushing Pillars (initiative 10): DC 15 Dex save or 11 (2d10) bludgeoning + prone in next 50 ft. (3) Rune of Fear (initiative 10): DC 15 Wis save or frightened, must move toward pillars in final 30 ft. Constant: blades attack any creature ending turn in their area; rune affects any ending turn within 30 ft of far end.",
+    "area": "20 ft. wide \u00d7 160 ft. long hallway (three zones)",
+    "damage": "11 (2d10) per element",
+    "damage_type": "slashing/bludgeoning/psychic",
+    "save_ability": "Varies (Dexterity/Constitution/Wisdom)",
+    "save_dc": 15,
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Bloodstains, gouges in floor, and scrape marks indicate danger. DC 15 Intelligence (Investigation) reveals the trap zones."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Multiple checks (see detail)",
+      "detail": "Whirling Blades: DC 15 Int (Investigation) to anticipate (disadvantage on attacks vs creature), or attack blades (AC 15, 15 hp each, -2 attack bonus per blade destroyed), or DC 15 Dex (thieves' tools) to foil mechanism (-2 bonus per success). Rune of Fear: 3\u00d7 DC 15 Int (Arcana) checks or 3\u00d7 dispel magic (DC 13)."
+    },
+    "description": "Scything blades sweep through a narrow passage. Creatures in a 5-foot-wide, 30-foot-long path must make a DC 15 Dexterity saving throw or take 6d6 slashing damage."
+  },
+  {
+    "name": "Sphere of Crushing Doom",
+    "source": "XGE p.120",
+    "type": "complex",
+    "danger": "deadly",
+    "level": "5-10",
+    "trigger": "Opens when the door to the jester's tomb is opened. A magic portal disgorges an enormous steel sphere that rolls down a 150-foot sloped hallway, teleporting back to the top to repeat.",
+    "effect": "Initiative 10: Each creature in sphere's path must make a DC 20 Strength saving throw. On a failed save: 22 (4d10) bludgeoning damage and knocked prone. On success: half damage, not prone. Dynamic: damage increases by 11 (2d10) after each turn. At 55 (10d10) or higher, the sphere acts on initiative 20 and 10.",
+    "area": "10 ft. wide \u00d7 150 ft. long sloped hallway",
+    "damage": "22 (4d10), escalating +11 (2d10)/round",
+    "damage_type": "bludgeoning",
+    "save_ability": "Strength",
+    "save_dc": 20,
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Faint runes in ceiling and floor at both ends. DC 20 Intelligence (Arcana) reveals portal magic."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Multiple checks (see detail)",
+      "detail": "Stop sphere with wall of force or obstacle with enough HP. Disrupt portals: 3\u00d7 DC 20 Int (Arcana) checks (examine runes, then vandalize); each success reduces sphere damage by 11 (2d10). Or 3\u00d7 dispel magic (DC 19) on runes. Destroying southern portal stops sphere permanently."
+    },
+    "description": "A massive sphere of stone rolls through the area, crushing all in its path. Creatures in a 15-foot-wide path must make a DC 15 Dexterity saving throw or take 8d10 bludgeoning damage."
+  },
+  {
+    "name": "Poisoned Tempest",
+    "source": "XGE p.121",
+    "type": "complex",
+    "danger": "deadly",
+    "level": "11-16",
+    "trigger": "Activates when a ruby is pried from one of four serpent statues in the corners of a 60-foot-square room. Each statue's mouth opens, revealing gas pipes.",
+    "effect": "Locked Doors (initiative 20, once): four doors slam shut, magically locked. Poison Gas (initiative 20): DC 20 Con save, 33 (6d10) poison damage (half on success). Tempest (initiative 10): d6 table \u2014 hallucinatory gas (disadv Int/Wis), explosive gas (DC 20 Dex or 22/4d10 fire if flame), weakening gas (disadv Str/Dex), buffeting winds (DC 20 Str or prone), smoke (1 ft visibility), or additional poison gas. Dynamic: poison damage increases 11 (2d10)/round to max 55 (10d10).",
+    "area": "60 ft. \u00d7 60 ft. room",
+    "damage": "33 (6d10), escalating +11 (2d10)/round",
+    "damage_type": "poison",
+    "save_ability": "Constitution",
+    "save_dc": 20,
+    "detection": {
+      "dc": 20,
+      "skill": "Wisdom (Perception)",
+      "detail": "Inspect statues \u2014 rubies worth 200 gp each. DC 20 Intelligence (Arcana) reveals trap magic."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Multiple checks (see detail)",
+      "detail": "Open doors: DC 20 Wis (Perception) to find lock, DC 20 Int (Arcana) to disable force sphere, DC 20 Dex (thieves' tools) to pick, DC 20 Str (Athletics) to push open. Block statues: DC 20 Dex (thieves' tools) or DC 15 Str to block pipe (cloth/object), reduces poison by 5 (1d10) per blocked statue. All 4 blocked = trap deactivates."
+    },
+    "description": "A whirlwind of poisoned gas fills the room. Creatures in the area must make a DC 15 Constitution saving throw at the start of each turn, taking 3d6 poison damage on a failure."
+  }
+]

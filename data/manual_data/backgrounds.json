@@ -1,0 +1,1584 @@
+[
+  {
+    "name": "Barding",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [
+      "A fur-lined travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a backpack or saddlebags",
+      "comfortable boots",
+      "5d6 silver pennies",
+      "plus choose any two: a tent, extra blankets, rope, a magical toy, a silver comb, an amulet of a raven’s feather, a bottle of wine from Dorwinion"
+    ],
+    "feature": {
+      "name": "Standard of Living",
+      "description": "Thanks to their trade with Elves, Dwarves and far lands to the south, a Barding can choose any trade and be almost sure to thrive. Craftsmen from Dale include carpenters, cartwrights, shoemakers, tailors, tanners and weavers, not to mention those apprenticed to Dwarven weaponsmiths and masons. For these reasons, Bardings are considered a Prosperous folk."
+    },
+    "description": "The Men of Dale are Northmen of noble origins. They are often tall and strong-limbed, with fair hair, although dark or even black hair is not unknown.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Mirkwood Elf (Standard of Living)",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [
+      "A grey or green travelling cloak",
+      "travelling gear for the current season",
+      "a backpack or saddlebags",
+      "a belt dagger",
+      "boots",
+      "3d6 silver pennies",
+      "choose any two: A grey blanket, a wineskin, a short bow and a quiver of 20 arrows, a white jewel on a chain of silver, a hunting knife, a musical instrument"
+    ],
+    "feature": {
+      "name": "Standard of Living",
+      "description": "The Elves of Mirkwood are a folk at a war, and dedicate much of their wealth to their defence, ranking their culture as Martial."
+    },
+    "description": "The Elves of Mirkwood are a folk at a war, and dedicate much of their wealth to their defence.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Men of Bree",
+    "skill_proficiencies": [
+      "Perception"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Westron"
+    ],
+    "equipment": [
+      "A fur-lined travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a backpack or saddlebags",
+      "comfortable boots",
+      "5d6 silver pennies",
+      "plus choose any two: a staff or cudgel, a dwarf-made set of cooking pans, a lucky ring of ancient design, a letter from your family, a spare pair of walking boots, an extra travelling cloak."
+    ],
+    "feature": {
+      "name": "Standard of Living",
+      "description": "The Bree-land is not as wealthy as the Shire, but the Bree-folk still maintain a lifestyle that is Prosperous. Part of their good fortune is due to the protection of their Guardians, the Rangers of the North; these mysterious wanderers roam the land, silently patrolling the borders and roads, without anyone in Bree-land knowing for certain what they are up to."
+    },
+    "description": "The inhabitants of the Bree-land are mostly Men, but there are many families of Hobbits spread among the villages, especially in Staddle, and several of their customs and habits have been adopted by the Big Folk.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Loyal Servant",
+    "skill_proficiencies": [
+      "Insight",
+      "Traditions"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Inseparable",
+      "description": "You are always close at hand when your master is concerned, though your presence is often ignored. Unless the Loremaster rules otherwise, you are always considered to be nearby your master, even in situations where you would not normally be expected to be. For example, if your master is summoned to a secret council, you are assumed to tag along and eavesdrop. If your master tries to sneak off alone, you are assumed to have followed after him like a loyal hound."
+    },
+    "description": "You have dedicated your life to the service of another. You might be a member of a retinue of followers, or a knight in the king's house, or just a humble gardener in the employ of a gentle-hobbit. You always put your master's needs above your own, even when your master ignores or overlooks yours.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Doomed to Die",
+    "skill_proficiencies": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Dark Foreboding",
+      "description": "While they know not the hour or manner of their death, those Doomed to Die often have a sixth sense of sorts when in the presence of Shadow. They may not know exactly what is behind this feeling, but they can sense its presence grow stronger or weaker. The Doomed to Die can usually tell, for example, whether an Orc band is an isolated raiding party or part of a larger force being driven by something more sinister, or whether a nearby ruin is steeped in Shadow."
+    },
+    "description": "Things are not going to end well for you. You’ve known this for most of your life, although you don’t quite understand why.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Driven from Home",
+    "skill_proficiencies": [
+      "Intimidation",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Infamous",
+      "description": "Those who know of your past speak in half-hushed whispers of what drove you from your home. For some this is reason enough to give you a wide berth, for others it hints at a person desperate enough to take any job, no matter how menial or lowly. You can always find some sort of upkeep, at least enough to match your Standard of Living, whenever you are in a settlement of some sort."
+    },
+    "description": "You have no place to call home. This may be because it no longer exists, your people cast you out for some real or imagined reason, or you have done something that would prove troublesome should you ever return. For whatever reason, those who you meet know that you are no longer welcome home even if they do not know the full details. You know that you are on your own as others are intimidated by you and prefer to keep you at arm's reach, placating you only for as long as they must tolerate your presence.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Emissary of your People",
+    "skill_proficiencies": [
+      "Persuasion",
+      "Traditions"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Sigil of Your Master",
+      "description": "As an emissary you are entitled to a certain consideration amongst foreign peoples. While you cannot speak with the authority of your lord and master, you do receive some official respect. You can expect to pass through the lands of other Free Peoples unmolested, be able to call upon other kings and chieftains for lodging, and be received into the halls of power."
+    },
+    "description": "The Free People of the West are beginning to again make connections with each other. Trade is improving, alliances are forming and folk who have had nothing to do with each other for centuries are finding reasons to communicate. You have been sent by your people to go out and meet other cultures, see strange lands and report back on what is out there in the grand world. The Shadow is lifting, and not just in Wilderland, and you are a beacon of hope for a new age.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fallen Scion",
+    "skill_proficiencies": [
+      "History",
+      "Traditions"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Noble Bearing",
+      "description": "Your family's wealth, power and holdings may be gone, but your title remains. In social gatherings you are still a lord amongst lords and you are treated accordingly as such. You may call upon the rights of hospitality in any noble home and your words and advice often carry great weight; you aren't easily dismissed. You are also expected"
+    },
+    "description": "You are the last of a powerful bloodline, or at least that's what your parents and those closest to them keep telling you. Your aristocratic line was highly influential, perhaps even royal, before some calamity befell them. Perhaps the lands they once ruled were overrun or a coup drove them from power. Perhaps it's as simple as your forebears disappearing while travelling through treacherous terrain. Whatever the case, you have a powerful destiny ahead of you should you choose to seize it.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Harrowed",
+    "skill_proficiencies": [
+      "Lore",
+      "Investigation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Foreknowledge",
+      "description": "Your dream often grants you riddles, verses and visions that not only directly aid you on your quest but also tangentially give you an insight into people and places that may only be peripherally related to your dream. Whenever you enter a new community or meet a person of note, you may have a flash of insight about their relationship to your dream. For example, if you are meeting a lord for the first time you may recall that a dream-verse indicates that he acts honourably, which likely means that you can trust him. Similarly, you may walk into a community with a vision of their friendly faces turning to abandonment and even betrayal when they stand with others in the face of Shadow."
+    },
+    "description": "You are plagued by a persistent dream. It beckons you to complete some task, although you are currently unsure of its particulars and whether fulfilling the dream will lead to good or ill. All that you do know is that the dream is strong and its intensity increases whenever you neglect its demands of you. It is simply impossible for you to get a good night’s sleep otherwise.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hunted by the Shadow",
+    "skill_proficiencies": [
+      "Stealth",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Troubling to the Wise",
+      "description": "You or your family’s deeds are well-known amongst the notables of Middle-earth and you have come to know many lords, Elves and even Wizards. Some of these you count as friends and others are merely names you can mention to be accorded food and shelter for the night. Even your friends know that trouble follows you and they will do everything they can to help you on your way while keeping you as safe as possible. This means that you often have knowledge of the lesser-known hiding places and catacombs in the castles and cities that you visit."
+    },
+    "description": "You or your family have struck a blow against the Shadow and it hit back hard. The Shadow’s agents are tracking you everywhere, making it dangerous for you to stay in one place for too long. If that wasn’t enough, your reputation precedes you and your mere presence is disturbing and troubling to local notables. Most will still extend you the common courtesies due your station, but you are often encouraged to move quickly onward before the Shadow finds you.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Lure of the Road",
+    "skill_proficiencies": [
+      "Animal Handling",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Weather-lore",
+      "description": "As a seasoned traveller you have an uncanny ability to predict the weather; you can ‘smell’ rain or snow earlier than others or sense when a fog is about to roll in. You also know the best places to shelter from sudden storms and which areas to avoid. You have well-established habits and the ability to quickly forage what you need before settling in to wait out a storm. You also have a good grasp of creature habits in various types of weather conditions; you know where bears hibernate and where a Goblin band is likely to camp when a storm hits."
+    },
+    "description": "You are a rover; the road calls to you and you must answer. Sometimes, rare years, you return home to friends and family, but it does not take long before you start longing for the next adventure, to explore a new land, or meet unusual people.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Magician",
+    "skill_proficiencies": [
+      "Performance",
+      "Sleight of Hand"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Air of Magic",
+      "description": "While you rely on your theatrics and prestidigitation to provide you with room and board in your travels, there is another benefit to holding yourself as a magician: people tend to give you the benefit of the doubt. They may not believe that you can do everything that you say and most are savvy enough to know that at least some of your tricks are simple legerdemain, but that doesn't mean that you don't have some true magic inside you. No one wants to fall victim to a spiteful curse or be accused of being an agent of Shadow. As a result, people tend to give you a wide berth and accede to reasonable requests, so long as you don't take undue advantage. A barn is always available to you even if the inn is full, food and wine are produced on request, and even minor conveniences like freshly washed clothes or grooming can be had with a simple ask. You can also sway opinions by noting that you prefer a particular course of action and insinuate that things may go badly if another course is taken, but be wary – there are always those who'll gladly take a few coins to rid a community of a troublesome 'Wizard.'"
+    },
+    "description": "When your wagon rolls into a village you are immediately beset by happy children who can't wait to watch you perform magic under the sceptical eyes of their parents. You are only too happy to oblige – that is how you make your coin, after all – but you are careful to guard your illusions as real magic. Amongst your company, of course, you are free to operate as you truly are, a companion whose skills at deception, legerdemain and other such arts are useful assets to have on an adventure.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Oathsworn",
+    "skill_proficiencies": [
+      "Intimidation",
+      "Traditions"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Mighty Oath",
+      "description": "You have sworn a mighty oath, one that is now indelibly associated with your name. The oath itself should be both suitably epic and possible to accomplish; \"I want to kill the merchant who cheated me\" fails the first test, while \"I want to rid the world of Shadow\" fails the second. Vowing to destroy a Dragon plaguing the land is suitably epic, as is overthrowing an evil kingdom. \nA mighty oath carries its own legend and you often find yourself receiving aid from those who want to help the legend or even become embroiled in it. When you enter Lake-town, for example, you may find a merchant or two willing to donate a priceless weapon to your cause or re-provision you, while an eager young would-be adventurer may ask to join you on your quest. \nThe downside is that the subject of any such oath obviously wants to do away with you and if you enter a town or countryside that is beholden to the subject you may quickly find yourself in very difficult circumstances!\nFate also frowns on oath-breakers. If you ever abandon or break your oath, then fate conspires against you. Your reputation suffers and you become a magnet of ill-fortune. Such troubles tend to be minor at first, coaxing you back towards fulfilling your oath, but eventually the weight of them becomes so much that it destroys you in spirit if not of body as well (death is often too merciful for an oath-breaker)."
+    },
+    "description": "You are a pillar of your community, whether noble-born or someone who has already accomplished great deeds, and you have publicly sworn a great oath. Due to your station no one doubts that you'll either succeed in your oath or die trying.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Reluctant Adventurer",
+    "skill_proficiencies": [
+      "Medicine",
+      "Nature"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Pathetic and Bedraggled",
+      "description": "You can take on the mien of a sad, desperate and despondent figure. As long as you are not threatening, strangers will take pity on you and give you a warm place to sleep for the night, hot food and a bit of comfort. Every time this happens you promise yourself that you will just stay home, yet you always soon find yourself back out in the Wild, living off of roots and berries, without any handkerchiefs."
+    },
+    "description": "If you had your way, you’d lead an idyllic life staying at home and tending your garden, perfectly boring and peaceful. You don’t know why you keep leaving home and walking the roads and trails of the land. It is never your choice, at least never your direct choice, but circumstances conspire and there you are, a hundred miles from home, cold, wet and without your handkerchiefs. You never actually enjoy your adventures… do you?",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Seeker of the Lost",
+    "skill_proficiencies": [
+      "Lore",
+      "Investigation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Lore of the Lost",
+      "description": "While you have not found that which you seek, you have come across much lost lore concerning other issues. You know titbits of lore, hints of where lost kingdoms lie, ruins lay buried and relics have been discarded. \nWhen you hear about a new region or ruin for the first time, you probably know at least a bit of lore about it and where you can likely find even more information (such as a song known to minstrels of a particular region, an old book in a library in Rivendell, Goblin cave paintings in the Misty Mountains and so on)."
+    },
+    "description": "There is something missing from the world and you feel that it is your mission to find it, whether is be something from your own history or from those close to you. You might wish to reclaim an ancestral home, a forgotten treasure, or long faded lineage. Whatever it is, the search drives you and threatens to consume you.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "World Weary",
+    "skill_proficiencies": [
+      "History",
+      "Insight"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Seasoned Connections",
+      "description": "Through the course of your long career you've met many people and made friends throughout the land; it is rare for you to enter a large town or city where you don't know at least one person of import. Usually you can call upon these old connections for specific aid and favours based upon their professions and influence.\nYour enemy amongst these connections is time. A lot could happen between the heyday of your travels and now. Old friends that owed you favours may be dead and their children uninterested in helping you, a local prince may have fallen under the influence of the Shadow, or something unresolved since the last time you left still festers. Such difficulties are even more pronounced if you are a member of a long-lived race and it has been decades since you last set out on an adventure. Whenever you call on old contacts for aid be aware that your Loremaster may twist them into something else due to the passage of time."
+    },
+    "description": "You've had quite enough of the world; you're either very long-lived or you've just seen so much in your life that you've grown tired of it. All of the pain and misery that you have endured was for naught; you simply want to live out the rest of your days until that merciful final journey commences. Unfortunately, something always calls you back to face danger one last time…but you'll never admit that that 'something' likely comes from within.",
+    "source": "AIPG",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Acolyte Background",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Spellcasting Services",
+      "description": "A character possessing the acolyte background requesting spellcasting services at a temple of his or her faith may request one spell per day from the Spellcasting Services table for free. The only cost paid for the spell is the base price for the consumed material component, if any."
+    },
+    "description": "A character possessing the acolyte background requesting spellcasting services at a temple of his or her faith may request one spell per day from the Spellcasting Services table for free.",
+    "source": "DDP",
+    "_source_manual": "DDP"
+  },
+  {
+    "name": "Azorius Functionary",
+    "skill_proficiencies": [
+      "Insight",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "An Azorius insignia",
+      "a scroll containing the text of a law important to you",
+      "a bottle of blue ink",
+      "a pen",
+      "a set of fine clothes",
+      "and a belt pouch containing 10 gp (Azorius-minted 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Legal Authority",
+      "description": "You have the authority to enforce the laws of Ravnica, and that status inspires a certain amount of respect and even fear in the populace. People mind their manners in your presence and avoid drawing your attention; they assume you have the right to be wherever you are. Showing your Azorius insignia gets you an audience with anyone you want to talk to (though it might cause more problems than it solves when you're dealing with incorrigible lawbreakers). If you abuse this privilege, though, you can get in serious trouble with your superiors and even be stripped of your position."
+    },
+    "description": "The brutes are at the gate, chaos is looming, and the only thing standing in the way of disaster is the foundation of law and order- as embodied in the Azorius Senate. You're a proud member of the Azorius guild, which both enacts and enforces the laws that make Ravnican society function smoothly and safely.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Boros Legionnaire",
+    "skill_proficiencies": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set"
+    ],
+    "languages": [
+      "Choose one of Celestial, Draconic, Goblin, or Minotaur"
+    ],
+    "equipment": [
+      "A Boros insignia",
+      "a feather from an angel's wing",
+      "a tattered piece of a Boros banner (a souvenir from a famous battle)",
+      "a set of common clothes",
+      "and a belt pouch containing 2 gp (Boros-minted 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Legion Station",
+      "description": "You have an established place in the hierarchy of the Boros Legion. You can requisition simple equipment for temporary use, and you can gain access to any Boros garrison in Ravnica, where you can rest in safety and receive the attention of medics. You are also paid a salary of 1 gp (a Boros-minted 1-zino coin) per week, which (combined with free lodging in your garrison) enables you to maintain a poor lifestyle between adventures."
+    },
+    "description": "As a member of the Boros Legion, your life is devoted to the service of angels and consecrated to the work of establishing justice and peace on the streets of Ravnica.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Dimir Operative",
+    "skill_proficiencies": [
+      "Deception",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A Dimir insignia",
+      "three small knives",
+      "a set of dark-colored common clothes",
+      "and the starting equipment of the background described in this chapter for your secondary guild"
+    ],
+    "feature": {
+      "name": "False Identity",
+      "description": "You have more than one identity. The one you wear most of the time makes you appear to be a member of a guild other than House Dimir. You have documentation, established acquaintances, and disguises that allow you to assume that persona and fit into the secondary guild. Whenever you choose, you can drop this identity and blend into the guild less masses of the city.\n\nConsider why you're embedded in the secondary guild. Create a story with your DM, inspired by rolling on the following table or choosing a reason that suits you.\n\nd8 Reason for Infiltration\n1 My parents belong to this guild, and I let them think I'm following in their footsteps.\n2 I've been assigned to track this guild's activities.\n3 I've been assigned to get close to an individual in this guild and learn their secrets.\n4 I've been assigned to recruit a new Dimir spy from the ranks of this guild.\n5 I was a member of this guild before the Dimir recruited me.\n6 I don't like what this guild stands for and want to destroy it from within.\n7 I secretly wish I could leave the Dimir and join this guild, but there is no escaping the Dimir.\n8 I chose this guild at random or on a lark."
+    },
+    "description": "You're a spy. Secrets and misinformation are your stock in trade. You skulk in the shadows, infiltrate other guilds. and steal the most precious secrets, whether they're written in locked journals or hidden away in someone's mind. Even you might not be aware of all the reasons behind the missions you carry out. Sometimes a mission's sole purpose is to conceal the motivation behind another strike performed in a different part of the city, or simply to spread fear.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Golgari Agent",
+    "skill_proficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "Poisoner's kit"
+    ],
+    "languages": [
+      "Elvish",
+      "Giant",
+      "Kraul"
+    ],
+    "equipment": [
+      "A Golgari insignia",
+      "a poisoner's kit",
+      "a pet beetle or spider",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp worth of mixed coins"
+    ],
+    "feature": {
+      "name": "Undercity Paths",
+      "description": "You know hidden, underground pathways that you can use to bypass crowds, obstacles, and observation as you move through the city. When you aren't in combat, you and companions you lead can travel between any two locations in the city twice as fast as your speed would normally allow. The paths of the undercity are haunted by dangers that rarely brave the light of the surface world, so your journey isn't guaranteed to be safe."
+    },
+    "description": "You are a member of a teeming horde-one small part of a sprawling organism. Just as you are part of the swarm, the swarm is part of a larger ecosystem, a never-ending cycle of life, death, rot, and rebirth.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Gruul Anarch",
+    "skill_proficiencies": [
+      "Animal Handling",
+      "Athletics"
+    ],
+    "tool_proficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": [
+      "Choose one of Draconic, Giant, Goblin, or Sylvan"
+    ],
+    "equipment": [
+      "A Gruul insignia",
+      "a hunting trap",
+      "an herbalism kit",
+      "the skull of a boar",
+      "a beast-hide cloak",
+      "a set of traveler's clothes",
+      "a belt pouch containing 10 gp (Azorius 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Rubblebelt Refuge",
+      "description": "You are intimately familiar with areas of the city that most people shun: ruined neighborhoods where wurms rampaged, overgrown parks that no hand has tended in decades, and the vast, sprawling rubblebelts of broken terrain that civilized folk have long abandoned. You can find a suitable place for you and your allies to hide or rest in these areas. In addition, you can find food and fresh water in these areas for yourself and up to five other people each day."
+    },
+    "description": "The entire world of Ravnica is a sprawling metropolis, but you are a native of the wild areas that still exist—the abandoned districts, the rubblebelts, the overgrown parks, and the crumbling ruins. You are part of a savage society that clings desperately to the Old Ways—attuned to nature, full of primal rage, and given short shrift by a world consumed with continuing civilization's march of progress.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Izzet Engineer",
+    "skill_proficiencies": [
+      "Arcana",
+      "Investigation"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools"
+    ],
+    "languages": [
+      "Choose one of Draconic, Goblin, or Vedalken"
+    ],
+    "equipment": [
+      "An Izzet insignia",
+      "one set of artisan's tools",
+      "the charred and twisted remains of a failed experiment",
+      "a hammer",
+      "a block and tackle",
+      "a set of common clothes",
+      "a belt pouch containing 5 gp (Azorius 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Urban Infrastructure",
+      "description": "The popular conception of the Izzet League is based on mad inventions, dangerous experiments, and explosive blasts. Much of that perception is accurate, but the league is also involved with mundane tasks of construction and architecture- primarily in crafting the infrastructure that allows Ravnicans to enjoy running water, levitating platforms, and other magical and technological wonders.\n\nYou have a basic knowledge of the structure of buildings, including the stuff behind the walls. You can also find blueprints of a specific building in order to learn the details of its construction. Such blueprints might provide knowledge of entry points, structural weaknesses, or secret spaces. Your access to such information isn't unlimited. If obtaining or using the information gets you in trouble with the law, the guild can't shield you from the repercussions."
+    },
+    "description": "Armed with an inventive intellect, a love of magical technology, and an unquenchable energy, you are an enthusiastic participant in the research work of the Izzet League. Though you're likely to begin your career as a mere attendant, you can aspire to become a skilled mage or alchemist, a laboratory supervisor, or even a flamethrower-wielding scorchbringer tasked with defending Izzet laboratories. The Izzet are obsessive, brilliant, inspired, and an unpredictable force of chaos in Ravnica, and you epitomize all of those qualities.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Orzhov Representative",
+    "skill_proficiencies": [
+      "Intimidation",
+      "Religion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "An Orzhov insignia",
+      "a foot-long chain made of ten gold coins",
+      "vestments",
+      "a set of fine clothes",
+      "and a belt pouch containing 1 pp (an Orzhov-minted 10-zino coin)"
+    ],
+    "feature": {
+      "name": "Leverage",
+      "description": "You can exert leverage over one or more individuals below you in the guild's hierarchy and demand their help as needs warrant. For example, you can have a message carried across a neighborhood, procure a short carriage ride without paying, or have others clean up a"
+    },
+    "description": "The prospect of immense wealth is the promise of membership in the Orzhov Syndicate. All of the guild's endeavors channel wealth from Ravoican society into the ranks of the Orzhov- and concentrates the spoils at the top of the hierarchy. As a functionary in that system, your best hope is to claim as much as possible of the money that passes through your hands on its way up, so that you can work your way into a more prominent position. Regardless of your past and the wealth of your family. your initial status with the guild is near the bottom, until you have proven your value.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Orzhov Syndicate",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [
+      "ld coins",
+      "vestments",
+      "a set of fine clothes",
+      "a belt pouch containing 1 pp (an Orzhov-minted 10-zino coin)"
+    ],
+    "feature": {
+      "name": "Leverage",
+      "description": "You can exert leverage over one or more individuals below you in the guild's hierarchy and demand their help as needs warrant. For example, you can have a message carried across a neighborhood, procure a short carriage ride without paying, or have others clean up a bloody mess you left in an alley. The OM decides if your demands are reasonable and if there are subordinates available to fulfill them. As your status in the guild improves, you gain influence over more people, including ones in greater positions of power."
+    },
+    "description": "Members of the Orzhov Syndicate range from the decadent nobility at the top of the oligarchy to the debt-ridden wretches at the bottom.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Rakdos Cultist",
+    "skill_proficiencies": [
+      "Acrobatics",
+      "Performance"
+    ],
+    "tool_proficiencies": [
+      "One type of musical instrument"
+    ],
+    "languages": [
+      "Abyssal",
+      "Giant"
+    ],
+    "equipment": [
+      "A Rakdos insignia",
+      "a musical instrument (one of your choice)",
+      "a costume",
+      "a hooded lantern made of wrought iron",
+      "a 10-foot length of chain with sharply spiked links",
+      "a tinderbox",
+      "10 torches",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp (a mix of Azorius and Boros 1-zino coins)",
+      "and a bottle of sweet, red juice"
+    ],
+    "feature": {
+      "name": "Fearsome Reputation",
+      "description": "People recognize you as a member of the Cult of Rakdos, and they're careful not to draw your anger or ridicule. You can get away with minor criminal offenses, such as refusing to pay for food at a restaurant or breaking down a door at a local shop, if no legal authorities witness the crime. Most people are too daunted by you to report your wrongdoing to the Azorius."
+    },
+    "description": "You're an entertainer at heart, a performer with a flair for the dramatic and a love of the spotlight. You've spent years honing your craft, mastering a demanding set of skills so you can perform them with panache and make them look easy. The wild applause, the screams of the crowds, the mayhem and terror spreading into the streets—this is what you live for. You're also a member of a cult devoted to an ancient demon who delights in violence and chaos.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Rakdos Guild Spells",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Rakdos Guild Spells",
+      "description": "Prerequisite: Spellcasting or Pact Magic class feature\nFor you, the spells on the Rakdos Guild Spells table are added to the spell list of your spellcasting class. (If you are a multiclass character with multiple spell lists, these spells are added to all of them.)\n\nRAKDOS GUILD SPELLS\nSpell Level\nSpells\nCantrip\nfire bolt, vicious mockery\n1st\nburning hands, dissonant whispers, hellish rebuke\n2nd\ncrown of madness, enthrall, flaming sphere\n3rd\nfear, haste\n4th\nconfusion, wall of fire\n5th\ndominate person\n\nYour magic often produces a flashy spectacle, wreathing you or your targets in a mixture of harmless flame and shadowy shapes. When you manipulate an opponent's mind, a flaming symbol of Rakdos might momentarily appear like a mask over the target's face."
+    },
+    "description": "Background feature for members of the Cult of Rakdos, granting additional spells and a flashy magical style.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Selesnya Initiate",
+    "skill_proficiencies": [
+      "Nature",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools or one musical instrument"
+    ],
+    "languages": [
+      "Choose one of Elvish, Loxodon, or Sylvan"
+    ],
+    "equipment": [
+      "A Selesnya insignia",
+      "a healer's kit",
+      "robes",
+      "a set of common clothes",
+      "a belt pouch containing 5 gp (Azorius 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Conclave's Shelter",
+      "description": "As a member of the Selesnya Conclave, you can count on your guild mates to provide shelter and aid. You and your companions can find a place to hide or rest in any Selesnya enclave in the city, unless you have proven to be a danger to them. The members of the enclave will shield you from the law or anyone else searching for you, though they will not risk their lives in this effort. In addition, as a guild member you can receive free healing and care at a Selesnya enclave, though you must provide any material components needed for spells."
+    },
+    "description": "You are a member of a blessed community, built on the ideals of harmony. Here, nature and civilization coexist peacefully, living and growing in accordance with the will of the Worldsoul, Mat'Selesnya.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Simic Scientist",
+    "skill_proficiencies": [
+      "Arcana",
+      "Medicine"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A Simic insignia",
+      "a set of commoner's clothes",
+      "a book of research notes",
+      "an ink pen",
+      "a bottle of squid ink",
+      "a flask of oil (made from blubber)",
+      "a vial of acid (derived from digestive juices)",
+      "a vial of fish scales",
+      "a vial of seaweed",
+      "a vial of jellyfish stingers",
+      "a glass bottle of unidentified slime",
+      "and a belt pouch containing 10 gp (Azorius 1-zino coins)"
+    ],
+    "feature": {
+      "name": "Researcher",
+      "description": "When you attempt to learn or recall a magical or scientific fact, if you don't know that information, you know where and from whom you can obtain it. Usually, this information comes from a Simic laboratory, or sometimes from an Izzet facility, a library, a university, or an independent scholar or other learned person or creature. Knowing where the information can be found doesn't automatically enable you to learn it; you might need to offer bribes, favors, or other incentives to induce people to reveal their secrets. Your DM might rule that the knowledge you seek is secreted away in an inaccessible place, or that it simply can't be found. Unearthing the deepest secrets of the multiverse can require an adventure or even a whole campaign."
+    },
+    "description": "Imagine a perfect world: one in which nature and civilization exist in harmony, adapted to each other; one in which life is shaped to match its environment and the environment is shaped to match life. That's the world you have been trying to grow in the laboratories of the Simic Combine. Nature is all about adaptation, evolution, and balance- but for it to keep up with the pace of advancing civilization, nature needs some help from biomancers and terraformers. If, along the way, you happen to create super-soldiers and mutant monsters that can bolster the combine's defenses against the schemes and ambitions of the other guilds, so much the better.",
+    "source": "GGR",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Cult of the Dragon Infiltrator",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Cult of the Dragon Infiltrator",
+      "description": "You have infiltrated the ranks of the Cult of the Dragon. Having spied on the organization for quite some time, you are familiar with its inner workings and customs. You have a second identity as an initiate of the cult, enough of a facade to blend in as a simple grunt or servant."
+    },
+    "description": "Optional feature that can replace the feature normally granted by your background.",
+    "source": "HotDQ",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Dragon Scholar",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Dragon Scholar",
+      "description": "You have studied dragons and their lore for many years. You can automatically identify locations built or used by dragons and can identify dragon eggs and scales by sight. If you fail an Intelligence check to recall lore relating to dragons, you know someone or some book you can consult for the answer unless the DM rules that the lore is unknown."
+    },
+    "description": "Optional feature that can replace the feature normally granted by your background.",
+    "source": "HotDQ",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Dwarf of the Iron Hills (Cultural Background)",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [
+      "A heavy woollen travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a backpack",
+      "boots",
+      "3d6 silver pennies",
+      "plus choose any one: another 1d6 silver pennies, artisan's tools of your choice, or a flask of dwarven spirits."
+    ],
+    "feature": {
+      "name": "Standard of Living",
+      "description": "What lies under the roots of the Iron Hills cannot compare to the wealth in precious stones and gold that rests below Erebor. The death of the Dragon has improved the trade between the Iron Hills and the lands to the west, but the eastern Dwarves remain much poorer than their western cousins. Because of this, their culture ranks as Martial."
+    },
+    "description": "The Dwarves of the Iron Hills are close kin to those of Erebor and the Grey Mountains and have similar names.",
+    "source": "LMRG",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Dwarf of the Grey Mountains",
+    "skill_proficiencies": [
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "artisan's tools of your choice: mason's tools, miner's tools, smith's tools, or woodcarver's tools",
+      "one musical instrument of your choice"
+    ],
+    "languages": [
+      "Dalish",
+      "the secret language of your people"
+    ],
+    "equipment": [
+      "a travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a belt dagger",
+      "2d6 silver pennies",
+      "plus choose any one: a haphazard set of tools, a hunting trap or a memento recovered from one of the lost Dwarf holds"
+    ],
+    "feature": {
+      "name": "Dark for Dark Business",
+      "description": "'We like the dark,' said the dwarves. 'Dark for dark business! There are many hours before dawn.' You often have been forced to find sanctuary in cold and lightless caves, to hide from your enemies. In time, your senses have become keen and you are comfortable in even the deepest darkness. If you are making a Perception check while in the dark (at night, underground, or in deep forest), you have Advantage."
+    },
+    "description": "Living a life of constant travel and trade has not allowed for the Dwarves of the Grey Mountains to accumulate great hoards of wealth. As such they are considered to have a Frugal standard of living.",
+    "source": "LMRG",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Forest Dweller",
+    "skill_proficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "Woodcarver’s tools",
+      "herbalism kit"
+    ],
+    "languages": [
+      "Sylvan"
+    ],
+    "equipment": [
+      "A set of common clothes",
+      "a hunting trap",
+      "a wood staff",
+      "a whetstone",
+      "an explorer’s pack",
+      "a pouch containing 5 gp"
+    ],
+    "feature": {
+      "name": "Forester",
+      "description": "Your experience living, hunting, and foraging in the woods gives you a wealth of experience to draw upon when you are traveling within a forest. If you spend 1 hour observing, examining, and exploring your surroundings while in a forest, you are able to identify a safe location to rest. The area is protected from all but the most extreme elements and from the non‑magical native beasts of the forest. In addition, you are able to find sufficient kindling for a small fire throughout the night."
+    },
+    "description": "You are a creature of the forest, born and reared under a canopy of green. You expected to live all your days in the Margreve, at one with the green things of the world, until an unforeseen occurrence, traumatic or transformative, drove you from your familiar home and into the larger world.",
+    "source": "MPG",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Variant Forest Dweller: Feral One",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "The Forest Provides",
+      "description": "Having spent most of your life within the forest providing for yourself, you have learned how to forage, hunt, and fish well enough to ensure your survival in a forest. If you spend 2 hours investigating game trails, spoor, and foliage in a forest, you are able to procure enough food to feed yourself and up to four others for one day. In addition, you are able to determine if any water you find in the forest is potable."
+    },
+    "description": "You abandoned civilization, or civilization abandoned you, for the forest long ago. Regardless of whether it was by choice or by chance, the effect on you is the same. You live, hunt, eat, and sleep in solitude. Caves are your shelter, the ground your bed, and the creatures of the forest your companions. You have learned that you can trust no one but yourself and that you will live, and ultimately die, by your skills, wits, and strength.",
+    "source": "MPG",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Changeling",
+    "skill_proficiencies": [
+      "Stealth",
+      "Lore"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Child of the Woodland Realm",
+      "description": "Your were raised by the First-born and will likely never be close to your own kin. If you select a Cultural Heirloom as an Open Virtue, you may only select from the Elves of Mirkwood list on page 159 of the Adventures in Middle-earth Player's Guide. You cannot use the Barding heirlooms. When selecting Cultural Virtues you use the Barding list on page 101 of the Player's Guide."
+    },
+    "description": "You wandered into the enchanted land of the Elves as a young child, and grew up under their care and tutelage. They delighted in your mortal innocence and wonder, and taught you the ways of the Elves. Now, you have returned to the mortal realm, but you remember with fondness the teachings of your foster-parents. You are a child of the twilight, halfway between the starry night of the Elves and the harsh day of the Edain.",
+    "source": "MWC",
+    "_source_manual": "MWC"
+  },
+  {
+    "name": "Charlatan",
+    "skill_proficiencies": [
+      "Deception",
+      "Sleight of Hand"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "forgery kit"
+    ],
+    "languages": [],
+    "equipment": [
+      "A set of fine clothes",
+      "a disguise kit",
+      "tools of the con of your choice (ten stoppered bottles filled with colored liquid, a set of weighted dice, a deck of marked cards, or a signet ring of an imaginary duke)",
+      "and a belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "False Identity",
+      "description": "You have created a second identity that includes documentation, established acquaintances, and disguises that allow you to assume that persona. Additionally, you can forge documents including official papers and personal letters, as long as you have seen an example of the kind of document or the handwriting you are trying to copy."
+    },
+    "description": "You have always had a way with people. You know what makes them tick, you can tease out their hearts' desires after a few minutes of conversation, and with a few leading questions you can read them like they were children's books. It's a useful talent, and one that you're perfectly willing to use for your advantage. You know what people want and you deliver, or rather, you promise to deliver. Common sense should steer people away from things that sound too good to be true, but common sense seems to be in short supply when you're around. The bottle of pink-colored liquid will surely cure that unseemly rash, this ointment-nothing more than a bit of fat with a sprinkle of silver dust-can restore youth and vigor, and there's a bridge in the city that just happens to be for sale. These marvels sound implausible, but you make them sound like the real deal.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Criminal",
+    "skill_proficiencies": [
+      "Deception",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set",
+      "Thieves' tools"
+    ],
+    "languages": [],
+    "equipment": [
+      "A crowbar",
+      "a set of dark common clothes including a hood",
+      "and a belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Criminal Contact",
+      "description": "You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you."
+    },
+    "description": "You are an experienced criminal with a history of breaking the law. You have spent a lot of time among other criminals and still have contacts within the criminal underworld. You're far closer than most people to the world of murder, theft, and violence that pervades the underbelly of civilization, and you have survived up to this point by flouting the rules and regulations of society.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Variant Criminal: Spy",
+    "skill_proficiencies": [
+      "Deception",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set",
+      "Thieves' tools"
+    ],
+    "languages": [],
+    "equipment": [
+      "A crowbar",
+      "a set of dark common clothes including a hood",
+      "and a belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Criminal Contact",
+      "description": "You have a reliable and trustworthy contact who acts as your liaison to a network of other criminals. You know how to get messages to and from your contact, even over great distances; specifically, you know the local messengers, corrupt caravan masters, and seedy sailors who can deliver messages for you."
+    },
+    "description": "Although your capabilities are not much different from those of a burglar or smuggler, you learned and practiced them in a very different context: as an espionage agent. You might have been an officially sanctioned agent of the crown, or perhaps you sold the secrets you uncovered to the highest bidder.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Entertainer",
+    "skill_proficiencies": [
+      "Acrobatics",
+      "Performance"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "one type of musical instrument"
+    ],
+    "languages": [],
+    "equipment": [
+      "A musical instrument (one of your choice)",
+      "the favor of an admirer (love letter, lock of hair, or trinket)",
+      "a costume",
+      "and a belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "By Popular Demand",
+      "description": "You can always find a place to perform, usually in an inn or tavern but possibly with a circus, at a theater, or even in a noble's court. At such a place, you receive free lodging and food of a modest or comfortable standard (depending on the quality of the establishment), as long as you perform each night. In addition, your performance makes you something of a local figure. When strangers recognize you in a town where you have performed, they typically take a liking to you."
+    },
+    "description": "You thrive in front of an audience. You know how to entrance them, entertain them, and even inspire them. Your poetics can stir the hearts of those who hear you, awakening grief or joy, laughter or anger. Your music raises their spirits or captures their sorrow. Your dance steps captivate, your humor cuts to the quick. Whatever techniques you use, your art is your life.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Folk Hero",
+    "skill_proficiencies": [
+      "Animal Handling",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools",
+      "vehicles (land)"
+    ],
+    "languages": [],
+    "equipment": [
+      "A set of artisan's tools (one of your choice)",
+      "a shovel",
+      "an iran pot",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Rustic Hospitality",
+      "description": "Since you come from the ranks of the common folk, you fit in among them with ease. Vou can find a place to hide, rest, or recuperate among other commoners, unless you have shown yourself to be a danger to them. They will shield you from the law or anyone else searching for you, though they will not risk their lives for YOU."
+    },
+    "description": "Vou come from a humble social rank, but you are destined for so much more. Already the people of your home village regard you as their champion, and your destiny calls you to stand against the tyrants and monsters that threaten the common folk everywhere.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Guild Artisan",
+    "skill_proficiencies": [
+      "Insight",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A set of artisan's tools (one of your choice)",
+      "a letter of introduction from your guild",
+      "a set of traveler's clothes",
+      "and a belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Guild Business",
+      "description": "Guilds are generally found in cities large enough to support several artisans practicing the same trade. However, your guild might instead be a loose network of artisans who each work in a different village within a larger realm. Work with your DM to determine the nature of your guild. You can select your guild business from the Guild Business table or roll randomly.\n\nd20 Guild Business\n1 Alchemists and apothecaries\n2 Armorers, locksmiths, and finesmiths\n3 Brewers, distillers, and vintners\n4 Calligraphers, scribes, and scriveners\n5 Carpenters, roofers, and plasterers\n6 Cartographers, surveyors, and chart-makers\n7 Cobblers and shoemakers\n8 Cooks and bakers\n9 Glassblowers and glaziers\n10 Jewelers and gemcutters\n11 Leatherworkers, skinners, and tanners\n12 Masons and stonecutters\n13 Painters, limners, and sign-makers\n14 Potters and tile-makers\n15 Shipwrights and sailmakers\n16 Smiths and metal-forgers\n17 Tinkers, pewterers, and casters\n18 Wagon-makers and wheelwrights\n19 Weavers and dyers\n20 Woodcarvers, coopers, and bowyers"
+    },
+    "description": "You are a member of an artisan's guild, skilled in a particular field and closely associated with other artisans. You are a well-established part of the mercantile world, freed by talent and wealth from the constraints of a feudal social order. You learned your skills as an apprentice to a master artisan, under the sponsorship of your guild, until you became a master in your own right.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Guild Merchant",
+    "skill_proficiencies": [
+      "Insight",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "Navigator's tools or an additional language"
+    ],
+    "languages": [
+      "One language of your choice"
+    ],
+    "equipment": [
+      "A mule",
+      "A cart",
+      "A letter of introduction from your guild",
+      "A set of traveler's clothes",
+      "A belt pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Guild Membership",
+      "description": "As an established and respected member of a guild, you can rely on certain benefits that membership provides. Your fellow guild members will provide you with lodging and food if necessary, and pay for your funeral if needed. In some cities and towns, a guildhall offers a central place to meet other members of your profession, which can be a good place to meet potential patrons, allies, or hirelings. Guilds often wield tremendous political power. If you are accused of a crime, your guild will support you if a good case can be made for your innocence or the crime is justifiable. You can also gain access to powerful political figures through the guild, if you are a member in good standing. Such connections might require the donation of money or magic items to the guild's coffers. You must pay dues of 5 gp per month to the guild. If you miss payments, you must make up back dues to remain in the guild's good graces."
+    },
+    "description": "Instead of an artisans' guild, you might belong to a guild of traders, caravan masters, or shopkeepers. You don't craft items yourself but earn a living by buying and selling the works of others (or the raw materials artisans need to practice their craft). Your guild might be a large merchant consortium (or family) with interests across the region. Perhaps you transported goods from one place to another, by ship, wagon, or caravan, or bought them from traveling traders and sold them in your own little shop. In some ways, the traveling merchant's life lends itself to adventure far more than the life of an artisan.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Hermit",
+    "skill_proficiencies": [
+      "Medicine",
+      "Religion"
+    ],
+    "tool_proficiencies": [
+      "Herbalism kit"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A scroll case stuffed full of notes from your studies or prayers",
+      "a winter blanket",
+      "a set of common clothes",
+      "an herbalism kit",
+      "5 gp"
+    ],
+    "feature": {
+      "name": "Discovery",
+      "description": "The quiet seclusion of your extended hermitage gave you access to a unique and powerful discovery. The exact nature of this revelation depends on the nature of your seclusion. It might be a great truth about the cosmos, the deities, the powerful beings of the outer planes, or the forces of nature. It could be a site that no one else has ever seen. You might have uncovered a fact that has long been forgotten, or unearthed some relic of the past that could rewrite history. It might be information that would be damaging to the people who or consigned you to exile, and hence the reason for your return to society. Work with your DM to determine the details of your discovery and its impact on the campaign."
+    },
+    "description": "You lived in seclusion—either in a sheltered community such as a monastery, or entirely alone—for a formative part of your life. In your time apart from the clamor of society, you found quiet, solitude, and perhaps some of the answers you were looking for.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Noble",
+    "skill_proficiencies": [
+      "History",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A set of fine clothes",
+      "a signet ring",
+      "a scroll of pedigree",
+      "and a purse containing 25 gp"
+    ],
+    "feature": {
+      "name": "Position of Privilege",
+      "description": "Thanks to your noble birth, people are inclined to think the best of you. You are welcome in high society, and people assume you have the right to be wherever you are. The common folk make every effort to accommodate you and avoid your displeasure, and other people of high birth treat you as a member of the same social sphere. You can secure an audience with a local noble if you need to."
+    },
+    "description": "You understand wealth, power, and privilege. You carry a noble title, and your family owns land, collects taxes, and wields significant political influence. You might be a pampered aristocrat unfamiliar with work or discomfort, a former merchant just elevated to the nobility, or a disinherited scoundrel with a disproportionate sense of entitlement. Or you could be an honest, hard-working landowner who cares deeply about the people who live and work on your land, keenly aware of your responsibility to them.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Outlander",
+    "skill_proficiencies": [
+      "Athletics",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "One type of musical instrument"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A staff",
+      "a hunting trap",
+      "a trophy from an animal you killed",
+      "a set of traveler's clothes",
+      "and a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Wanderer",
+      "description": "You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth."
+    },
+    "description": "You grew up in the wilds, far from civilization and the comforts of town and technology. You've witnessed the migration of herds larger than forests, survived weather more extreme than any city-dweller could comprehend, and enjoyed the solitude of being the only thinking creature for miles in any direction. The wilds are in your blood, whether you were a nomad, an explorer, a recluse, a hunter-gatherer, or even a marauder. Even in places where you don't know the specific features of the terrain, you know the ways of the wild.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Sage",
+    "skill_proficiencies": [
+      "Arcana",
+      "History"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A bottle of black ink",
+      "a quill",
+      "a small knife",
+      "a letter from a dead colleague posing a question you have not yet been able to answer",
+      "a set of common clothes",
+      "and a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "",
+      "description": ""
+    },
+    "description": "You spent years learning the lore of the multiverse. You scoured manuscripts, studied scrolls, and listened to the greatest experts on the subjects that interest you. Your efforts have made you a master in your fields of study.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Sailor",
+    "skill_proficiencies": [
+      "Athletics",
+      "Perception"
+    ],
+    "tool_proficiencies": [
+      "Navigator's tools",
+      "vehicles (water)"
+    ],
+    "languages": [],
+    "equipment": [
+      "a belaying pin (club)",
+      "50 feet of silk rope",
+      "a lucky charm such as a rabbit foot or a small stone with a hole in the center (or you may roll for a random trinket on the Trinkets table in chapter 5)",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Ship's Passage",
+      "description": "When you need to, you can secure free passage on a sailing ship for yourself and your adventuring companions. You might sail on the ship you served on, or another ship you have good relations with (perhaps one captained by a former crewmate). Because you're calling in a favor, you can't be certain of a schedule or route that will meet your every need. Your Dungeon Master will determine how long it takes to get where you need to go. In return for your free passage, you and your companions are expected to assist the crew during the voyage."
+    },
+    "description": "You sailed on a seagoing vessel for years. In that time, you faced down mighty storms, monsters of the deep, and those who wanted to sink your craft to the bottomless depths. Your first love is the distant line of the horizon, but the time has come to try your hand at something new.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Soldier",
+    "skill_proficiencies": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set",
+      "vehicles (land)"
+    ],
+    "languages": [],
+    "equipment": [
+      "An insignia of rank",
+      "a trophy taken from a fallen enemy (a dagger, broken blade, or piece of a banner)",
+      "a set of bone dice or deck of cards",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Military Rank",
+      "description": "You have a military rank from your career as a soldier. Soldiers loyal to your former military organization still recognize your authority and influence, and they defer to you if they are of a lower rank. You can invoke your rank to exert influence over other soldiers and requisition simple equipment or horses for temporary use. You can also usually gain access to friendly military encampments and fortresses where your rank is recognized."
+    },
+    "description": "War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor, learned basic survival techniques, including how to stay alive on the battlefield. You might have been part of a standing national army or a mercenary company, or perhaps a member of a local militia who rose to prominence during a recent war.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Urchin",
+    "skill_proficiencies": [
+      "Sleight of Hand",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "Disguise kit",
+      "thieves' tools"
+    ],
+    "languages": [],
+    "equipment": [
+      "A small knife",
+      "a map of the city you grew up in",
+      "a pet mouse",
+      "a token to remember your parents by",
+      "a set of common clothes",
+      "a belt pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "City Secrets",
+      "description": "You know the secret patterns and flow to cities and can find passages through the urban sprawl that others would miss. When you are not in combat, you (and companions you lead) can travel between any two locations in the city twice as fast as your speed would normally allow."
+    },
+    "description": "You grew up on the streets alone, orphaned, and poor. You had no one to watch over you or to provide for you, so you learned to provide for yourself. You fought fiercely over food and kept a constant watch out for other desperate souls who might steal from you. You slept on rooftops and in alleyways, exposed to the elements, and endured sickness without the advantage of medicine or a place to recuperate. You've survived despite all odds, and did so through cunning, strength, speed, or some combination of each.",
+    "source": "PHB",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Woodmen of Mountain Hall",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [
+      "A grey travelling cloak",
+      "travelling gear for the current season",
+      "a backpack",
+      "a belt dagger",
+      "boots",
+      "3d6 silver pennies",
+      "plus choose any one: a fine woollen blanket, a basket of berries, a hunting trap or a hand-carved gaming set"
+    ],
+    "feature": {
+      "name": "Standard of Living",
+      "description": "Woodmen of Mountain Hall are scarcely more rich than their cousins, however there is more ready coin in their communities and they are ranked as Martial."
+    },
+    "description": "The folk of Firienseld are close kin with those who live under the eaves of Mirkwood and share both their physical appearance and naming conventions. Similarly, they are treated the same as other Woodmen, and regard other cultures in much the same way, except that they are Friendly to Dwarves.",
+    "source": "RRG",
+    "_source_manual": "RRG"
+  },
+  {
+    "name": "City Watch",
+    "skill_proficiencies": [
+      "Athletics",
+      "Insight"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A uniform in the style of your unit and indicative of your rank",
+      "a horn with which to summon help",
+      "a set of manacles",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Watcher's Eye",
+      "description": "Your experience in enforcing the law, and dealing with lawbreakers, gives you a feel for local laws and criminals. You can easily find the local outpost of the watch or a similar organization, and just as easily pick out the dens of criminal activity in a community, although you're more likely to be welcome in the former locations rather than the latter."
+    },
+    "description": "You have served the community where you grew up, standing as its first line of defense against crime.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Clan Crafter",
+    "skill_proficiencies": [
+      "History",
+      "Insight"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools"
+    ],
+    "languages": [
+      "Dwarvish or one other of your choice if you already speak Dwarvish"
+    ],
+    "equipment": [
+      "A set of artisan's tools with which you are proficient",
+      "a maker's mark chisel used to mark your handiwork with the symbol of the clan of crafters you learned your skill from",
+      "a set of traveler's clothes",
+      "a pouch containing 5 gp and a gem worth 10 gp"
+    ],
+    "feature": {
+      "name": "Respect of the Stout Folk",
+      "description": "As well respected as clan crafters are among outsiders, no one esteems them quite so highly as dwarves do. You always have free room and board in any place where shield dwarves or gold dwarves dwell, and the individuals in such a settlement might vie among themselves to determine who can offer you (and possibly your compatriots) the finest accommodations and assistance."
+    },
+    "description": "The Stout Folk are well known for their artisanship and the worth of their handiworks, and you have been trained in that ancient tradition.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Cloistered Scholar",
+    "skill_proficiencies": [
+      "History",
+      "plus your choice of one from among Arcana, Nature, and Religion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "The scholar's robes of your cloister",
+      "a writing kit (small pouch with a quill, ink, folded parchment, and a small penknife)",
+      "a borrowed book on the subject of your current study",
+      "and a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Library Access",
+      "description": "Though others must often endure extensive interviews and significant fees to gain access to even the most common archives in your library, you have free and easy access to the majority of the library, though it might also have repositories of lore that are too valuable, magical, or secret to permit anyone immediate access. You have a working knowledge of your cloister's personnel and bureaucracy, and you know how to navigate those connections with some ease. Additionally, you are likely to gain preferential treatment at other libraries across the Realms, as professional courtesy shown to a fellow scholar."
+    },
+    "description": "As a child, you were inquisitive and found your way to one of Faerûn's great institutes of learning, where you were apprenticed and taught that knowledge is a more valuable treasure than gold or gems.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Courtier",
+    "skill_proficiencies": [
+      "Insight",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A set of fine clothes",
+      "a signet ring or brooch",
+      "a scroll of pedigree",
+      "a purse containing 25 gp"
+    ],
+    "feature": {
+      "name": "Court Functionary",
+      "description": "You know the protocols, etiquette, and expectations of the court, and you can gain access to the noble and bureaucratic circles of a city or region. Your knowledge of who's who and how things work can help you navigate the social and political landscape."
+    },
+    "description": "In your earlier days, you were a personage of some significance in a noble court or a bureaucratic organization, using your talents rather than birth to secure your position.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Faction Agent",
+    "skill_proficiencies": [
+      "Insight",
+      "one Intelligence, Wisdom, or Charisma skill of your choice, as appropriate to your faction"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "Badge or emblem of your faction",
+      "a copy of a seminal faction text (or a code-book for a covert faction)",
+      "a set of common clothes",
+      "a pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Safe Haven",
+      "description": "As a faction agent, you have access to a secret network of supporters and operatives who can provide assistance on your adventures. You know a set of secret signs and passwords you can use to identify such operatives, who can provide you with access to a hidden safe house, free room and board, or assistance in finding information. These agents never risk their lives for you or risk revealing their true identities."
+    },
+    "description": "You served as an agent of a particular faction in Faerun, such as the Harpers, the Order of the Gauntlet, the Emerald Enclave, the Lords' Alliance, or the Zhentarim.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Far Traveler",
+    "skill_proficiencies": [
+      "Insight",
+      "Perception"
+    ],
+    "tool_proficiencies": [
+      "Any one musical instrument or gaming set of your choice, likely something native to your homeland"
+    ],
+    "languages": [
+      "Any one of your choice"
+    ],
+    "equipment": [
+      "One set of traveler's clothes",
+      "any one musical instrument or gaming set you are proficient with",
+      "poorly wrought maps from your homeland that depict where you are in Faerun",
+      "a small piece of jewelry worth 10 gp in the style of your homeland's craftsmanship",
+      "and a pouch containing 5 gp"
+    ],
+    "feature": {
+      "name": "Why Are You Here?",
+      "description": "A far traveler might have set out on a journey for one of a number of reasons, and the departure from his or her homeland could have been voluntary or involuntary. To determine why you are so far from home, roll on the table below or choose from the options provided. The following section, discussing possible homelands, includes some suggested reasons that are appropriate for each location.\n\nWHY ARE YOU HERE?\nd6 Reason\n1 Emissary\n2 Exile\n3 Fugitive\n4 Pilgrim\n5 Sightseer\n6 Wanderer\n\nWHERE ARE YOU FROM?\nThe most important decision in creating a far traveler background is determining your homeland. The places discussed here are all sufficiently distant from the North and the Sword Coast to justify the use of this background.\n\nEvermeet. The fabled elven islands far to the west are home to elves who have never been to Faerun. They often find it a harsher place than they expected when they do make the trip. If you are an elf, Evermeet is a logical (though not mandatory) choice for your homeland. Most of those who emigrate from Evermeet are either exiles, forced out for committing some infraction of elven law, or emissaries who come to Faerun for a purpose that benefits elven culture or society.\n\nHalruaa. Located on the southern edges of the Shining South, and hemmed in by mountains all around, the magocracy of Halruaa is a bizarre land to most in Faerun who know about it. Many folk have heard of the strange skyships the Halruaans sail, and a few know of the tales that even the least of their people can work magic. Halruaans usually make their journeys into Faerun for personal reasons, since their government has a strict"
+    },
+    "description": "Almost all of the common people and other folk that one might encounter along the Sword Coast or in the North have one thing in common: they live out their lives without ever traveling more than a few miles from where they were born. You aren't one of those folk. You are from a distant place, one so remote that few of the common folk in the North realize that it exists, and chances are good that even if some people you meet have heard of your homeland, they know merely the name and perhaps a few outrageous stories. You have come to this part of Faerun for your own reasons, which you might or might not choose to share.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Inheritor",
+    "skill_proficiencies": [
+      "Survival",
+      "Arcana",
+      "History",
+      "Religion"
+    ],
+    "tool_proficiencies": [
+      "Your choice of a gaming set or a musical instrument"
+    ],
+    "languages": [
+      "Any one of your choice"
+    ],
+    "equipment": [
+      "Your inheritance",
+      "a set of traveler's clothes",
+      "any items with which you are proficient",
+      "a pouch containing 15 gp"
+    ],
+    "feature": {
+      "name": "Inheritance",
+      "description": "Choose or randomly determine your inheritance from among the possibilities in the table below. Work with your Dungeon Master to come up with details: Why is your inheritance so important, and what is its full story? You might prefer for the DM to invent these details as part of the game, allowing you to learn more about your inheritance as your character does.\nThe Dungeon Master is free to use your inheritance as a story hook, sending you on quests to learn more about its history or true nature, or confronting you with foes who want to claim it for themselves or prevent you from learning what you seek. The DM also determines the properties of your inheritance and how they figure into the item's history and importance. For instance, the object might be a minor magic item, or one that begins with a modest ability and increases in potency with the passage of time. Or, the true nature of your inheritance might not be apparent at first and is revealed only when certain conditions are met.\nWhen you begin your adventuring career, you can decide whether to tell your companions about your in-"
+    },
+    "description": "You are the heir to something of great value- not mere coin or wealth, but an object that has been entrusted to you and you alone. Your inheritance might have come directly to you from a member of your family, by right of birth, or it could have been left to you by a friend, a mentor, a teacher, or someone else important in your life. The revelation of your inheritance changed your life, and might have set you on the path to adventure, but it could also come with many dangers, including those who covet your gift and want to take it from you- by force, if need be.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Knight of the Order",
+    "skill_proficiencies": [
+      "Persuasion",
+      "one from among Arcana, History, Nature, and Religion, as appropriate for your order"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set or musical instrument"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "One set of traveler's clothes",
+      "a signet, banner or seal representing your place or rank in the order",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Knightly Regard",
+      "description": "You receive shelter and succor from members of your knightly order and those who are sympathetic to its aims. If your order is a religious one, you can gain aid from temples and other religious communities of your deity. Knights of civic orders can get help from the community- whether a lone settlement or a great nation- that they serve, and knights of philosophical orders can find help from those they have aided in pursuit of their ideals, and those who share those ideals. This help comes in the form of shelter and meals, and healing when appropriate, as well as occasionally risky assistance, such as a band of local citizens rallying to"
+    },
+    "description": "You belong to an order of knights who have sworn oaths to achieve a certain goal. The nature of this goal depends on the order you serve, but in your eyes it is without question a vital and honorable endeavor.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Mercenary Veteran",
+    "skill_proficiencies": [
+      "Athletics",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set",
+      "vehicles (land)"
+    ],
+    "languages": [],
+    "equipment": [
+      "A uniform of your company (traveler's clothes in quality)",
+      "an insignia of your rank",
+      "a gaming set of your choice",
+      "and a pouch containing the remainder of your last wages (10 gp)"
+    ],
+    "feature": {
+      "name": "Mercenary Life",
+      "description": "You know the mercenary life as only someone who has experienced it can. You are able to identify mercenary companies by their emblems, and you know a little about any such company, including the names and reputations of its commanders and leaders, and who has hired them recently. You can find the taverns and festhalls where mercenaries abide in any area, as long as you speak the language. You can find mercenary work between adventures sufficient to maintain a comfortable lifestyle (see \"Practicing a Profession\" under \"Downtime Activities\" in chapter 8 of the Player's Handbook)."
+    },
+    "description": "As a sell-sword who fought battles for coin, you're well acquainted with risking life and limb for a chance at a share of treasure. Now, you look forward to fighting foes and reaping even greater rewards as an adventurer.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Urban Bounty Hunter",
+    "skill_proficiencies": [
+      "Deception",
+      "Insight",
+      "Persuasion",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "one type of gaming set",
+      "one musical instrument",
+      "thieves' tools"
+    ],
+    "languages": [],
+    "equipment": [
+      "A set of clothes appropriate to your duties",
+      "a pouch containing 20 gp"
+    ],
+    "feature": {
+      "name": "Ear to the Ground",
+      "description": "You are in frequent contact with people in the segment of society that your chosen quarries move through. These people might be associated with the criminal underworld, the rough-and-tumble folk of the streets, or members of high society. This connection comes in the form of a contact in any city you visit, a person who provides information about the people and places of the local area."
+    },
+    "description": "Before you became an adventurer, your life was already full of conflict and excitement, because you made a living tracking down people for pay.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Uthgardt Tribe Member",
+    "skill_proficiencies": [
+      "Athletics",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "One type of musical instrument or artisan's tools"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A hunting trap",
+      "a totemic token or set of tattoos marking your loyalty to Uthgar and your tribal totem",
+      "a set of traveler's clothes",
+      "and a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Uthgardt Heritage",
+      "description": "You have an excellent knowledge of not only your tribe's territory, but also the terrain and natural resources of the rest of the North. You are familiar enough with any wilderness area that you find twice as much food and water as you normally would when you forage there.\n\nAdditionally, you can call upon the hospitality of your people, and those folk allied with your tribe, often including members of druid circles, tribes of nomadic elves, the Harpers, and the priesthoods devoted to the gods of the First Circle."
+    },
+    "description": "You are a member of one of the Uthgardt barbarian tribes of the North, holding to the old ways and the traditions of your people.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Waterdhavian Noble",
+    "skill_proficiencies": [
+      "History",
+      "Persuasion"
+    ],
+    "tool_proficiencies": [
+      "One type of gaming set or one musical instrument"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A set of fine clothes",
+      "a signet ring or brooch",
+      "a scroll of pedigree",
+      "a skin of fine zzar or wine",
+      "and a purse containing 20 gp"
+    ],
+    "feature": {
+      "name": "Kept in Style",
+      "description": "While you are in Waterdeep or elsewhere in the North your house sees to your everyday needs. Your name and signet are sufficient to cover most of your expenses; the inns, taverns, and festhalls you frequent are glad to record your debt and send an accounting to your family's estate in Waterdeep to settle what you owe.\n\nThis advantage enables you to live a comfortable lifestyle without having to pay 2 gp a day for it, or reduces the cost of a wealthy or aristocratic lifestyle by that amount. You may not maintain a less affluent lifestyle and use the difference as income—the benefit is a line of credit, not an actual monetary reward."
+    },
+    "description": "You are a scion of one of the great noble families of Waterdeep, with a reputation for being eccentric, spoiled, venal, and rich.",
+    "source": "SCAG",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Anthropologist",
+    "skill_proficiencies": [
+      "Insight",
+      "Religion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Two of your choice"
+    ],
+    "equipment": [
+      "A leather-bound diary",
+      "a bottle of ink",
+      "an ink pen",
+      "a set of traveler's clothes",
+      "one trinket of special significance",
+      "and a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Adept Linguist",
+      "description": "You can communicate with humanoids who don't speak any language you know. You must observe the humanoids interacting with one another for at least 1 day, after which you learn a handful of important words, expressions, and gestures—enough to communicate on a rudimentary level."
+    },
+    "description": "You have always been fascinated by other cultures, from the most ancient and primeval lost lands to the most modern civilizations. By studying other cultures' customs, philosophies, laws, rituals, religious beliefs, languages, and art, you have learned how tribes, empires, and all forms of society in between craft their own destinies and doom.",
+    "source": "ToA",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Archaeologist",
+    "skill_proficiencies": [
+      "History",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "Cartographer's tools or navigator's tools"
+    ],
+    "languages": [
+      "One of your choice"
+    ],
+    "equipment": [
+      "A wooden case containing a map to a ruin or dungeon",
+      "a bullseye lantern",
+      "a miner's pick",
+      "a set of traveler's clothes",
+      "a shovel",
+      "a two-person tent",
+      "a trinket recovered from a dig site",
+      "and a pouch containing 25 gp"
+    ],
+    "feature": {
+      "name": "Historical Knowledge",
+      "description": "When you enter a ruin or dungeon, you can correctly ascertain its original purpose and determine its builders, whether those were dwarves, elves, humans, yuan-ti, or some other known race. In addition, you can determine the monetary value of art objects more than a century old."
+    },
+    "description": "An archaeologist learns about the long-lost and fallen cultures of the past by studying their remains—their bones, their ruins, their surviving masterworks, and their tombs. Those who practice archaeology travel to the far corners of the world to root through crumbled cities and lost dungeons, digging in search of artifacts that might tell the stories of monarchs and high priests, wars and cataclysms.",
+    "source": "ToA",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Silver Mountain Kingdom Scout",
+    "skill_proficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Giant"
+    ],
+    "equipment": [
+      "A hunting trap",
+      "a tent",
+      "a tinder box",
+      "a cold weather outfit",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Emergency Supply Cache",
+      "description": "While you are traveling in the Silver Mountains, you can find and use small supply caches left by other scouts. Caches are small by necessity with a value that doesn’t exceed 5 gp. A typical cache consists of enough rations for four people for one day, two full waterskins, two torches, plus a dagger, a quiver of 20 arrows, or a case of 20 crossbow bolts. You can find a cache by spending an hour searching. If you search for more than one cache in a seven-day period, the second takes two hours and a successful DC 10 Wisdom (Survival) check to find. The Wisdom (Survival) check DC increases by 5 for each cache sought after the second. For example, if you are searching for a fifth supply cache in a seven-day period, you must search for two hours and make a DC 25 Wisdom (Survival) check. If you use the caches left by other scouts but never leave supplies for others to use, you risk gaining a negative reputation amongst your fellow freedom fighters."
+    },
+    "description": "When the giants of the Northlands sacked the Silver Mountain Kingdom, you were one of the lucky few who escaped into the wider environs of Domovogrod. What you were before the invaders came is inconsequential. Now you spend your time planning and executing strikes against your conquerors. The harsh wilds of the north have melted any softness from your body and spirit, leaving only a hard determination as unforgiving as the mountains themselves.",
+    "source": "W3",
+    "_source_manual": "W3"
+  },
+  {
+    "name": "Court Servant",
+    "skill_proficiencies": [
+      "Insight",
+      "Nature"
+    ],
+    "tool_proficiencies": [
+      "One artisan's tools set of your choice"
+    ],
+    "languages": [
+      "Elven"
+    ],
+    "equipment": [
+      "One artisan's tools set of your choice",
+      "a unique piece of elven jewelry",
+      "a set of fine clothes",
+      "a handcrafted pipe",
+      "a belt pouch containing 20 gp"
+    ],
+    "feature": {
+      "name": "Servant's Invisibility",
+      "description": "The art of excellent service requires a balance struck between being always available and yet unobtrusive, and you’ve mastered it. If you do not perform a visible action, speak or be spoken to, or otherwise have attention drawn to you for at least 1 minute, creatures nearby have trouble remembering you are even in the room. Until you speak, perform a visible action, or have someone draw attention to you, creatures must attempt a Wisdom save (DC 8 + your Charisma modifier + your proficiency bonus) to notice you. Otherwise, they will conduct themselves as though you aren’t present until either attention is drawn to you or one of their actions would take them into or adjacent to the square you occupy."
+    },
+    "description": "Courtfolk are a long-lived race, and old habits have been hard to shake. The majority of courtfolk, even independent now, were once servants at some point in their lives. These halflings are experts in complex social dynamics and knowledgeable in elven history and customs.",
+    "source": "W3",
+    "_source_manual": "W3"
+  },
+  {
+    "name": "Zymurgist",
+    "skill_proficiencies": [
+      "Nature",
+      "Medicine"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools (alchemist's supplies or brewer's supplies)"
+    ],
+    "languages": [],
+    "equipment": [
+      "A set of artisan's tools (either alchemist's supplies or brewer's supplies)",
+      "an apron",
+      "glass vials and jars filled with bubbling substances",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Local Sourcing",
+      "description": "You have a knack for sourcing food anywhere you go, even if the nature of that food might be distasteful to your fellow party members. You can make something palatable out of almost nothing and can preserve whatever you make for weeks and even months. This makes you a resourceful traveling companion, especially for longer journeys where finding sustenance may prove difficult."
+    },
+    "description": "You are a naturalist who has studied the fermentation process and its effects on organic materials. Yours is a community of druids, alchemists, witches, and various artisans and crafters—though many others regularly seek out your expertise. You appreciate that change is a part of life everywhere in the multiverse. Rather than resent that, you see the beauty and potential to apply these processes to your life, and to your magic.",
+    "source": "W4",
+    "_source_manual": "W4"
+  }
+]

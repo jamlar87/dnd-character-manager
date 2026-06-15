@@ -1,0 +1,381 @@
+{
+  "_batch_started": "2026-06-08T13:57:34",
+  "_batch_completed": "2026-06-08T16:19:28",
+  "_order": [
+    "TTP",
+    "EEPC",
+    "SCAG",
+    "VGM",
+    "MTF",
+    "XGE",
+    "DMG",
+    "GGR",
+    "WGE"
+  ],
+  "PHB": {
+    "title": "Player's Handbook",
+    "slug": "PHB",
+    "status": "done",
+    "started_at": "2026-06-08T13:17:00",
+    "completed_at": "2026-06-08T13:47:00",
+    "exit_code": 0,
+    "elapsed_min": 30.0,
+    "entries": 241,
+    "upgrades": 44,
+    "issues": 13,
+    "categories": {
+      "backgrounds": 14,
+      "equipment": 54,
+      "feats": 66,
+      "monsters": 1,
+      "races": 3,
+      "spells": 61,
+      "subclasses": 42
+    },
+    "error": null,
+    "note": "First full extraction — 44 quality upgrades, 13 validation issues (armor costs, Duergar)"
+  },
+  "AW": {
+    "title": "Ancestral Weapons Final v1.2",
+    "slug": "AW",
+    "status": "done",
+    "started_at": "2026-06-08T16:15:28",
+    "completed_at": "2026-06-08T16:16:28",
+    "exit_code": 0,
+    "entries": 9,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "magic_items": 9
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 1.0
+  },
+  "LMoP": {
+    "title": "D&D 5E - Lost Mine of Phandelver",
+    "slug": "LMoP",
+    "status": "done",
+    "started_at": "2026-06-08T15:23:00",
+    "completed_at": "2026-06-08T15:28:35",
+    "exit_code": 0,
+    "entries": 44,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 3,
+      "magic_items": 15,
+      "monsters": 15,
+      "npcs": 11
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 5.6
+  },
+  "ToA": {
+    "title": "D&D 5E - Tomb of Annihilation",
+    "slug": "ToA",
+    "status": "done",
+    "started_at": "2026-06-08T15:39:35",
+    "completed_at": "2026-06-08T15:58:17",
+    "exit_code": 0,
+    "entries": 223,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "backgrounds": 2,
+      "equipment": 41,
+      "magic_items": 33,
+      "monsters": 83,
+      "npcs": 60,
+      "spells": 4
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 18.7
+  },
+  "HotDQ": {
+    "title": "D&D 5E - Tyranny of Dragons - Hoard of the Dragon Queen",
+    "slug": "HotDQ",
+    "status": "done",
+    "started_at": "2026-06-08T15:28:35",
+    "completed_at": "2026-06-08T15:33:37",
+    "exit_code": 0,
+    "entries": 57,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "backgrounds": 2,
+      "equipment": 2,
+      "magic_items": 15,
+      "monsters": 17,
+      "npcs": 21
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 5.0
+  },
+  "RoT": {
+    "title": "D&D 5E - Tyranny of Dragons - The Rise of Tiamat",
+    "slug": "RoT",
+    "status": "done",
+    "started_at": "2026-06-08T15:33:37",
+    "completed_at": "2026-06-08T15:39:35",
+    "exit_code": 0,
+    "entries": 46,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 3,
+      "magic_items": 9,
+      "monsters": 15,
+      "npcs": 19
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 6.0
+  },
+  "WDH": {
+    "title": "D&D 5E - Waterdeep - Dragon Heist",
+    "slug": "WDH",
+    "status": "done",
+    "started_at": "2026-06-08T15:58:17",
+    "completed_at": "2026-06-08T16:15:04",
+    "exit_code": 0,
+    "entries": 171,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 14,
+      "magic_items": 23,
+      "monsters": 41,
+      "npcs": 92,
+      "spells": 1
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 16.8
+  },
+  "WSC": {
+    "title": "The Wild Sheep Chase V2",
+    "slug": "WSC",
+    "status": "done",
+    "started_at": "2026-06-08T16:15:04",
+    "completed_at": "2026-06-08T16:15:28",
+    "exit_code": 0,
+    "entries": 6,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "magic_items": 2,
+      "monsters": 3,
+      "npcs": 1
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 0.4
+  },
+  "DMG": {
+    "title": "D&D 5E - Dungeon Master's Guide",
+    "slug": "DMG",
+    "status": "done",
+    "started_at": "2026-06-08T15:06:43",
+    "completed_at": "2026-06-08T15:07:17",
+    "exit_code": 0,
+    "entries": 110,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 36,
+      "magic_items": 60,
+      "monsters": 10,
+      "races": 2,
+      "subclasses": 2
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 0.6
+  },
+  "EEPC": {
+    "title": "D&D 5E - Elemental Evil Player's Companion",
+    "slug": "EEPC",
+    "status": "done",
+    "started_at": "2026-06-08T13:57:44",
+    "completed_at": "2026-06-08T14:03:08",
+    "exit_code": 0,
+    "entries": 50,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "feats": 1,
+      "races": 6,
+      "spells": 43
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 5.4
+  },
+  "GGR": {
+    "title": "D&D 5E - Guildmasters' Guide to Ravnica",
+    "slug": "GGR",
+    "status": "done",
+    "started_at": "2026-06-08T15:07:17",
+    "completed_at": "2026-06-08T15:22:57",
+    "exit_code": 0,
+    "entries": 167,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "backgrounds": 12,
+      "equipment": 5,
+      "feats": 8,
+      "magic_items": 41,
+      "monsters": 81,
+      "npcs": 10,
+      "races": 6,
+      "spells": 2,
+      "subclasses": 2
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 15.7
+  },
+  "MM": {
+    "title": "D&D 5E - Monster Manual",
+    "slug": "MM",
+    "status": "pending",
+    "started_at": null,
+    "completed_at": null,
+    "exit_code": null,
+    "entries": 0,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {},
+    "error": null,
+    "note": ""
+  },
+  "MTF": {
+    "title": "D&D 5E - Mordenkainen's Tome of Foes",
+    "slug": "MTF",
+    "status": "done",
+    "started_at": "2026-06-08T14:45:55",
+    "completed_at": "2026-06-08T15:06:43",
+    "exit_code": 0,
+    "entries": 152,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 3,
+      "feats": 1,
+      "magic_items": 2,
+      "monsters": 140,
+      "races": 6
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 20.8
+  },
+  "SCAG": {
+    "title": "D&D 5E - Sword Coast Adventurer's Guide",
+    "slug": "SCAG",
+    "status": "done",
+    "started_at": "2026-06-08T14:03:08",
+    "completed_at": "2026-06-08T14:12:09",
+    "exit_code": 0,
+    "entries": 46,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "backgrounds": 12,
+      "equipment": 12,
+      "feats": 1,
+      "races": 4,
+      "spells": 4,
+      "subclasses": 13
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 9.0
+  },
+  "TTP": {
+    "title": "D&D 5E - The Tortle Package",
+    "slug": "TTP",
+    "status": "done",
+    "started_at": "2026-06-08T13:57:34",
+    "completed_at": "2026-06-08T13:57:44",
+    "exit_code": 0,
+    "entries": 14,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 4,
+      "monsters": 6,
+      "npcs": 3,
+      "races": 1
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 0.2
+  },
+  "VGM": {
+    "title": "D&D 5E - Volo's Guide to Monsters",
+    "slug": "VGM",
+    "status": "done",
+    "started_at": "2026-06-08T14:12:09",
+    "completed_at": "2026-06-08T14:31:20",
+    "exit_code": 0,
+    "entries": 148,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 2,
+      "magic_items": 4,
+      "monsters": 120,
+      "npcs": 4,
+      "races": 16,
+      "spells": 2
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 19.2
+  },
+  "WGE": {
+    "title": "D&D 5E - Wayfinders Guide to Eberron",
+    "slug": "WGE",
+    "status": "done",
+    "started_at": "2026-06-08T16:17:52",
+    "completed_at": "2026-06-08T16:19:28",
+    "exit_code": 0,
+    "entries": 4,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "races": 4
+    },
+    "error": null,
+    "note": "Reset for re-run",
+    "elapsed_min": 1.6
+  },
+  "XGE": {
+    "title": "D&D 5E - Xanathar's Guide to Everything",
+    "slug": "XGE",
+    "status": "done",
+    "started_at": "2026-06-08T14:31:20",
+    "completed_at": "2026-06-08T14:45:55",
+    "exit_code": 0,
+    "entries": 197,
+    "upgrades": 0,
+    "issues": 0,
+    "categories": {
+      "equipment": 4,
+      "feats": 15,
+      "magic_items": 51,
+      "monsters": 1,
+      "spells": 95,
+      "subclasses": 31
+    },
+    "error": null,
+    "note": "",
+    "elapsed_min": 14.6
+  }
+}

@@ -1,0 +1,2162 @@
+{
+  "acid arrow": {
+    "display": "4d4 +1d4/spell level",
+    "all_dice": [
+      "7d4",
+      "9d4",
+      "5d4",
+      "10d4",
+      "8d4"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "acid splash": {
+    "display": "1d6",
+    "base_dice": "1d6",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "aid": {
+    "display": "5 +5/spell level",
+    "all_dice": [],
+    "level": 2,
+    "has_scaling": true,
+    "healing": true
+  },
+  "arcane hand": {
+    "display": "4d8 +2d8/spell level",
+    "all_dice": [
+      "2d8",
+      "4d8",
+      "2d6"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "arcane sword": {
+    "display": "3d10",
+    "all_dice": [
+      "3d10"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "bane": {
+    "display": "-1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false,
+    "buff": true
+  },
+  "black tentacles": {
+    "display": "3d6",
+    "all_dice": [
+      "3d6"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "blade barrier": {
+    "display": "6d10",
+    "all_dice": [
+      "6d10"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "bless": {
+    "display": "+1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false,
+    "buff": true
+  },
+  "blight": {
+    "display": "8d8 +1d8/spell level",
+    "all_dice": [
+      "11d8",
+      "13d8",
+      "12d8",
+      "9d8",
+      "10d8"
+    ],
+    "level": 4,
+    "has_scaling": true,
+    "healing": false
+  },
+  "branding smite": {
+    "display": "2d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "5d6",
+      "8d6",
+      "9d6",
+      "6d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "burning hands": {
+    "display": "3d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "11d6",
+      "5d6",
+      "8d6",
+      "9d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "call lightning": {
+    "display": "3d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "8d10",
+      "4d10",
+      "9d10"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "chain lightning": {
+    "display": "10d8",
+    "all_dice": [
+      "10d8"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "chill touch": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "circle of death": {
+    "display": "8d6 +2d6/spell level",
+    "all_dice": [
+      "12d6",
+      "10d6",
+      "8d6",
+      "14d6"
+    ],
+    "level": 6,
+    "has_scaling": true,
+    "healing": false
+  },
+  "cloudkill": {
+    "display": "5d8 +1d8/spell level",
+    "all_dice": [
+      "7d8",
+      "9d8",
+      "5d8",
+      "6d8",
+      "8d8"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "cone of cold": {
+    "display": "8d8 +1d8/spell level",
+    "all_dice": [
+      "11d8",
+      "12d8",
+      "9d8",
+      "10d8",
+      "8d8"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "contact other plane": {
+    "display": "6d6",
+    "all_dice": [
+      "6d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "control water": {
+    "display": "2d8",
+    "all_dice": [
+      "2d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "cure wounds": {
+    "display": "1d8 + MOD +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "7d8",
+      "5d8",
+      "9d8",
+      "6d8"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": true
+  },
+  "delayed blast fireball": {
+    "display": "12d6 +1d6/spell level",
+    "all_dice": [
+      "12d6",
+      "14d6",
+      "13d6"
+    ],
+    "level": 7,
+    "has_scaling": true,
+    "healing": false
+  },
+  "dimension door": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "disintegrate": {
+    "display": "10d6 + 40",
+    "all_dice": [
+      "10d6"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "divine favor": {
+    "display": "1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "dream": {
+    "display": "3d6",
+    "all_dice": [
+      "3d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "earthquake": {
+    "display": "5d6",
+    "all_dice": [
+      "1d10",
+      "5d6",
+      "1d6"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "eldritch blast": {
+    "display": "1d10",
+    "base_dice": "1d10",
+    "cantrip_scaling": false,
+    "all_dice": [
+      "1d10"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "faithful hound": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "false life": {
+    "display": "1d4 + 4 +1d4 + 9/spell level",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": true
+  },
+  "feeblemind": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "finger of death": {
+    "display": "7d8 + 30",
+    "all_dice": [
+      "7d8"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "fire bolt": {
+    "display": "1d10",
+    "base_dice": "1d10",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "3d10",
+      "4d10",
+      "1d10",
+      "2d10"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "fire shield": {
+    "display": "2d8",
+    "all_dice": [
+      "2d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "fire storm": {
+    "display": "7d10",
+    "all_dice": [
+      "7d10"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "fireball": {
+    "display": "8d6 +1d6/spell level",
+    "all_dice": [
+      "11d6",
+      "8d6",
+      "13d6",
+      "9d6",
+      "10d6"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "flame blade": {
+    "display": "3d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "5d6",
+      "6d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "flame strike": {
+    "display": "4d6 + 4d6 +4d6 + 5d6/spell level",
+    "all_dice": [
+      "4d6",
+      "5d6",
+      "8d6",
+      "6d6",
+      "7d6"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "flaming sphere": {
+    "display": "2d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "5d6",
+      "8d6",
+      "9d6",
+      "6d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "freezing sphere": {
+    "display": "10d6",
+    "all_dice": [
+      "10d6"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "geas": {
+    "display": "5d10",
+    "all_dice": [
+      "5d10"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "guardian of faith": {
+    "display": "20",
+    "all_dice": [],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "guidance": {
+    "display": "+1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true
+  },
+  "guiding bolt": {
+    "display": "4d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "11d6",
+      "5d6",
+      "8d6",
+      "9d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "harm": {
+    "display": "14d6",
+    "all_dice": [
+      "14d6"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "haste": {
+    "display": "+2",
+    "all_dice": [],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "heal": {
+    "display": "70 +10/spell level",
+    "all_dice": [],
+    "level": 6,
+    "has_scaling": true,
+    "healing": true
+  },
+  "healing word": {
+    "display": "1d4 + MOD +1d4/spell level",
+    "all_dice": [
+      "3d4",
+      "7d4",
+      "9d4",
+      "1d4",
+      "5d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": true
+  },
+  "heat metal": {
+    "display": "2d8 +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "7d8",
+      "5d8",
+      "9d8",
+      "6d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "hellish rebuke": {
+    "display": "2d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "8d10",
+      "10d10",
+      "4d10"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "ice storm": {
+    "display": "2d8 + 4d6 +1d8/spell level",
+    "all_dice": [
+      "4d6",
+      "2d8",
+      "7d8",
+      "5d8",
+      "6d8"
+    ],
+    "level": 4,
+    "has_scaling": true,
+    "healing": false
+  },
+  "incendiary cloud": {
+    "display": "10d8",
+    "all_dice": [
+      "10d8"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "inflict wounds": {
+    "display": "3d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "8d10",
+      "10d10",
+      "4d10"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "insect plague": {
+    "display": "4d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "8d10",
+      "4d10",
+      "5d10"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "lightning bolt": {
+    "display": "8d6 +1d6/spell level",
+    "all_dice": [
+      "11d6",
+      "8d6",
+      "13d6",
+      "9d6",
+      "10d6"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "mage armor": {
+    "display": "+3",
+    "all_dice": [],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "magic missile": {
+    "display": "3d4 + 3 +1d4/spell level",
+    "all_dice": [
+      "3d4",
+      "7d4",
+      "9d4",
+      "5d4",
+      "10d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "mass cure wounds": {
+    "display": "3d8 + MOD +1d8/spell level",
+    "all_dice": [
+      "7d8",
+      "5d8",
+      "6d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": true
+  },
+  "mass heal": {
+    "display": "700",
+    "all_dice": [],
+    "level": 9,
+    "has_scaling": false,
+    "healing": true
+  },
+  "mass healing word": {
+    "display": "1d4 + MOD +1d4/spell level",
+    "all_dice": [
+      "3d4",
+      "7d4",
+      "1d4",
+      "5d4",
+      "2d4"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": true
+  },
+  "meld into stone": {
+    "display": "6d6",
+    "all_dice": [
+      "6d6"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "meteor swarm": {
+    "display": "20d6 + 20d6",
+    "all_dice": [
+      "20d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "moonbeam": {
+    "display": "2d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "8d10",
+      "4d10",
+      "9d10"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "phantasmal killer": {
+    "display": "4d10",
+    "all_dice": [
+      "4d10"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "poison spray": {
+    "display": "1d12",
+    "base_dice": "1d12",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d12",
+      "4d12",
+      "1d12",
+      "3d12"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "prayer of healing": {
+    "display": "2d8 + MOD +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "7d8",
+      "5d8",
+      "9d8",
+      "6d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": true
+  },
+  "prismatic spray": {
+    "display": "10d6",
+    "all_dice": [
+      "10d6"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "prismatic wall": {
+    "display": "10d6",
+    "all_dice": [
+      "10d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "produce flame": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "ray of frost": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "regenerate": {
+    "display": "4d8 + 15",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": true
+  },
+  "resistance": {
+    "display": "+1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": false,
+    "buff": true
+  },
+  "sacred flame": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "scorching ray": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "shatter": {
+    "display": "3d8 +1d8/spell level",
+    "all_dice": [
+      "7d8",
+      "5d8",
+      "9d8",
+      "6d8",
+      "10d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "shield": {
+    "display": "+5",
+    "all_dice": [],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "shield of faith": {
+    "display": "+2",
+    "all_dice": [],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "shocking grasp": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "sleep": {
+    "display": "5d8",
+    "all_dice": [
+      "5d8"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "spike growth": {
+    "display": "2d4",
+    "all_dice": [
+      "2d4"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "spirit guardians": {
+    "display": "3d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "3d8"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "spiritual weapon": {
+    "display": "1d8 + MOD +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "storm of vengeance": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "sunbeam": {
+    "display": "6d8",
+    "all_dice": [
+      "6d8"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "sunburst": {
+    "display": "12d6",
+    "all_dice": [
+      "12d6"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "teleport": {
+    "display": "3d10",
+    "all_dice": [
+      "3d10",
+      "1d10"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "thunderwave": {
+    "display": "2d8 +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "7d8",
+      "5d8",
+      "9d8",
+      "6d8"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "vampiric touch": {
+    "display": "3d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "5d6",
+      "8d6",
+      "9d6",
+      "6d6"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "vicious mockery": {
+    "display": "1d4",
+    "base_dice": "1d4",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "1d4",
+      "4d4",
+      "3d4",
+      "2d4"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "wall of fire": {
+    "display": "5d8",
+    "all_dice": [
+      "5d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "wall of ice": {
+    "display": "10d6 +2d6/spell level",
+    "all_dice": [
+      "12d6",
+      "10d6",
+      "14d6",
+      "16d6"
+    ],
+    "level": 6,
+    "has_scaling": true,
+    "healing": false
+  },
+  "wall of thorns": {
+    "display": "7d8 +1d8/spell level",
+    "all_dice": [
+      "9d8",
+      "8d8",
+      "7d8",
+      "10d8"
+    ],
+    "level": 6,
+    "has_scaling": true,
+    "healing": false
+  },
+  "warding bond": {
+    "display": "+1",
+    "all_dice": [],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "web": {
+    "display": "2d4",
+    "all_dice": [
+      "2d4"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "weird": {
+    "display": "4d10",
+    "all_dice": [
+      "4d10"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "wind wall": {
+    "display": "3d8",
+    "all_dice": [
+      "3d8"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "wish": {
+    "display": "1d10",
+    "all_dice": [
+      "1d10",
+      "2d4"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ley energy bolt": {
+    "display": "5d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "5d8"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "ley leech": {
+    "display": "8d10 +1d10/spell level",
+    "all_dice": [
+      "1d10",
+      "8d10"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "ley storm": {
+    "display": "2d6",
+    "all_dice": [
+      "1d6",
+      "2d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ley surge": {
+    "display": "14d6",
+    "all_dice": [
+      "14d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ray of life suppression": {
+    "display": "6d8",
+    "all_dice": [
+      "6d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "volley shield": {
+    "display": "+5",
+    "all_dice": [],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "black swan storm": {
+    "display": "2d8 +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "1d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "tongue tied": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "tasha's mind whip": {
+    "display": "3d6",
+    "all_dice": [
+      "3d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "tasha's otherworldly guise": {
+    "display": "+2",
+    "all_dice": [],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "blade of disaster": {
+    "display": "4d12",
+    "all_dice": [
+      "4d12",
+      "12d12"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "lightning lure": {
+    "display": "1d8",
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d8",
+    "cantrip_scaling": true
+  },
+  "mind sliver": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "1d4",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "sword burst": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "tasha's caustic brew": {
+    "display": "2d4 +2d4/spell level",
+    "all_dice": [
+      "2d4"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "bitter wind": {
+    "display": "1d12 +1d12/spell level",
+    "all_dice": [
+      "1d12"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "blade of blood and bone": {
+    "display": "1d6",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "doom of poor fortune": {
+    "display": "1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ebon tide": {
+    "display": "2d12",
+    "all_dice": [
+      "1d4",
+      "2d12"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "grim shadows": {
+    "display": "1d8",
+    "all_dice": [
+      "1d8"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "krail's rot": {
+    "display": "3d8",
+    "all_dice": [
+      "6d8",
+      "9d8",
+      "3d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "leiloch\u2019s irritating kazoo": {
+    "display": "1d6",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "lunar transfer": {
+    "display": "2d12",
+    "all_dice": [
+      "2d12",
+      "1d20"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ominous winds": {
+    "display": "-1d12",
+    "all_dice": [
+      "1d12"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false,
+    "buff": true
+  },
+  "radiant beacon": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "storm door": {
+    "display": "1d12",
+    "all_dice": [
+      "2d12",
+      "1d12"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "thunderclap": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "earth tremor": {
+    "display": "1d6 +1d6/spell level",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "create bonfire": {
+    "display": "1d8",
+    "all_dice": [
+      "2d8",
+      "1d8",
+      "4d8",
+      "3d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d8",
+    "cantrip_scaling": true
+  },
+  "frostbite": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "ice knife": {
+    "display": "1d10 +1d6/spell level",
+    "all_dice": [
+      "1d10",
+      "1d6",
+      "2d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "dust devil": {
+    "display": "1d8 +1d8/spell level",
+    "all_dice": [
+      "1d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "erupting earth": {
+    "display": "3d12 +1d12/spell level",
+    "all_dice": [
+      "1d12",
+      "3d12"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "tidal wave": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "maelstrom": {
+    "display": "6d6",
+    "all_dice": [
+      "6d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "transmute rock": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "investiture of flame": {
+    "display": "1d10",
+    "all_dice": [
+      "1d10",
+      "4d8"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "investiture of ice": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "investiture of wind": {
+    "display": "2d10",
+    "all_dice": [
+      "2d10"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "whirlwind": {
+    "display": "10d6",
+    "all_dice": [
+      "10d6",
+      "3d6"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "maximilian\u2019s earthen grasp": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "immolation": {
+    "display": "7d6",
+    "all_dice": [
+      "7d6",
+      "3d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "melf\u2019s minute meteors": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "snilloc's snowball swarm": {
+    "display": "3d6 +1d6/spell level",
+    "all_dice": [
+      "3d6",
+      "1d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "storm sphere": {
+    "display": "2d6",
+    "all_dice": [
+      "4d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "vitriolic sphere": {
+    "display": "10d4 +2d4/spell level",
+    "all_dice": [
+      "10d4",
+      "5d4",
+      "2d4"
+    ],
+    "level": 4,
+    "has_scaling": true,
+    "healing": false
+  },
+  "chaos bolt": {
+    "display": "2d8 + 1d6 +1d6/spell level",
+    "all_dice": [
+      "2d8",
+      "1d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "ooze touch": {
+    "display": "+1",
+    "all_dice": [],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "slime form": {
+    "display": "+5",
+    "all_dice": [],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "ooze touch, lesser": {
+    "display": "+1",
+    "all_dice": [],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "blood offering": {
+    "display": "1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": true
+  },
+  "hamstring": {
+    "display": "1d4",
+    "all_dice": [
+      "1d4",
+      "4d4",
+      "3d4",
+      "2d4"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": false
+  },
+  "maim": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "primal infusion": {
+    "display": "+2",
+    "all_dice": [],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "storm of wings": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "tree heal": {
+    "display": "1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 0,
+    "has_scaling": false,
+    "healing": true
+  },
+  "arms of hadar": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "aura of vitality": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": true
+  },
+  "bigby's hand": {
+    "display": "4d8 +2d8/spell level",
+    "all_dice": [
+      "2d8",
+      "4d8",
+      "2d6"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "chromatic orb": {
+    "display": "3d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "3d8"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "cloud of daggers": {
+    "display": "4d4 +2d4/spell level",
+    "all_dice": [
+      "4d4",
+      "2d4"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "conjure barrage": {
+    "display": "3d8",
+    "all_dice": [
+      "3d8"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "conjure volley": {
+    "display": "8d8",
+    "all_dice": [
+      "8d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "destructive wave": {
+    "display": "5d6",
+    "all_dice": [
+      "5d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "dissonant whispers": {
+    "display": "3d6",
+    "all_dice": [
+      "3d6"
+    ],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ensnaring strike": {
+    "display": "1d6 +1d6/spell level",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "evard's black tentacles": {
+    "display": "3d6",
+    "all_dice": [
+      "3d6"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "hunger of hadar": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "lightning arrow": {
+    "display": "4d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "2d8",
+      "4d8"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "melf's acid arrow": {
+    "display": "4d4 +1d4/spell level",
+    "all_dice": [
+      "1d4",
+      "4d4",
+      "2d4"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "mordenkainen's faithful hound": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "mordenkainen's sword": {
+    "display": "3d10",
+    "all_dice": [
+      "3d10"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "otiluke's freezing sphere": {
+    "display": "10d6 +1d6/spell level",
+    "all_dice": [
+      "10d6",
+      "1d6"
+    ],
+    "level": 6,
+    "has_scaling": true,
+    "healing": false
+  },
+  "phantasmal force": {
+    "display": "1d6",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "ray of sickness": {
+    "display": "2d8 +1d8/spell level",
+    "all_dice": [
+      "2d8",
+      "1d8"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "searing smite": {
+    "display": "1d6 +1d6/spell level",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 1,
+    "has_scaling": true,
+    "healing": false
+  },
+  "thorn whip": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "tsunami": {
+    "display": "6d10",
+    "all_dice": [
+      "1d10",
+      "6d10",
+      "5d10"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "spear of yggdrasil": {
+    "display": "4d6 +1d6/spell level",
+    "all_dice": [
+      "4d6",
+      "1d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "putrescent faerie circle": {
+    "display": "4d8",
+    "all_dice": [
+      "4d8",
+      "8d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "spirit of the hills": {
+    "display": "1d10",
+    "all_dice": [
+      "1d10"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": false
+  },
+  "zymurgic aura": {
+    "display": "10d6",
+    "all_dice": [
+      "10d6"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "rise of the green": {
+    "display": "1d6 +1d6/spell level",
+    "all_dice": [
+      "6d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 8,
+    "has_scaling": true,
+    "healing": false
+  },
+  "phantasm": {
+    "display": "4d10 +1d10/spell level",
+    "all_dice": [
+      "6d10",
+      "7d10",
+      "4d10",
+      "1d10",
+      "5d10"
+    ],
+    "level": 6,
+    "has_scaling": true,
+    "healing": false
+  },
+  "word of parzelon": {
+    "display": "5d8",
+    "all_dice": [
+      "1d8",
+      "5d8"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "pyroclastic burst": {
+    "display": "1d8 +1d8/spell level",
+    "all_dice": [
+      "6d8",
+      "1d8"
+    ],
+    "level": 4,
+    "has_scaling": true,
+    "healing": false
+  },
+  "synaptic static": {
+    "display": "8d6",
+    "all_dice": [
+      "8d6"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "psychic scream": {
+    "display": "14d6",
+    "all_dice": [
+      "14d6"
+    ],
+    "level": 9,
+    "has_scaling": false,
+    "healing": false
+  },
+  "toll the dead": {
+    "display": "1d8",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "1d8",
+      "1d12",
+      "2d8",
+      "2d12",
+      "3d8",
+      "3d12",
+      "4d8",
+      "4d12"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false
+  },
+  "word of radiance": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "ceremony": {
+    "display": "+2",
+    "all_dice": [],
+    "level": 1,
+    "has_scaling": false,
+    "healing": false,
+    "ac_bonus": true
+  },
+  "life transference": {
+    "display": "4d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "4d8"
+    ],
+    "level": 3,
+    "has_scaling": true,
+    "healing": false
+  },
+  "holy weapon": {
+    "display": "4d8",
+    "all_dice": [
+      "2d8",
+      "4d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "temple of the gods": {
+    "display": "-1d4",
+    "all_dice": [
+      "1d4"
+    ],
+    "level": 7,
+    "has_scaling": true,
+    "healing": false,
+    "buff": true
+  },
+  "infestation": {
+    "display": "1d6",
+    "all_dice": [
+      "4d6",
+      "3d6",
+      "1d6",
+      "2d6"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d6",
+    "cantrip_scaling": true
+  },
+  "primal savagery": {
+    "display": "1d10",
+    "all_dice": [
+      "3d10",
+      "4d10",
+      "1d10",
+      "2d10"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "base_dice": "1d10",
+    "cantrip_scaling": true
+  },
+  "healing spirit": {
+    "display": "1d6 +1d6/spell level",
+    "all_dice": [
+      "1d6"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": true
+  },
+  "abi-dalzim's horrid wilting": {
+    "display": "12d8",
+    "all_dice": [
+      "12d8"
+    ],
+    "level": 8,
+    "has_scaling": false,
+    "healing": false
+  },
+  "aganazzar's scorcher": {
+    "display": "3d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "3d8"
+    ],
+    "level": 2,
+    "has_scaling": true,
+    "healing": false
+  },
+  "crown of stars": {
+    "display": "4d12",
+    "all_dice": [
+      "4d12"
+    ],
+    "level": 7,
+    "has_scaling": false,
+    "healing": false
+  },
+  "enervation": {
+    "display": "2d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "2d8",
+      "4d8"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "maximilian's earthen grasp": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "melf's minute meteors": {
+    "display": "2d6",
+    "all_dice": [
+      "2d6"
+    ],
+    "level": 3,
+    "has_scaling": false,
+    "healing": false
+  },
+  "shadow blade": {
+    "display": "2d8",
+    "all_dice": [
+      "2d8",
+      "4d8",
+      "5d8",
+      "3d8"
+    ],
+    "level": 2,
+    "has_scaling": false,
+    "healing": false
+  },
+  "sickening radiance": {
+    "display": "4d10",
+    "all_dice": [
+      "4d10"
+    ],
+    "level": 4,
+    "has_scaling": false,
+    "healing": false
+  },
+  "soul cage": {
+    "display": "2d8",
+    "all_dice": [
+      "2d8"
+    ],
+    "level": 6,
+    "has_scaling": false,
+    "healing": true
+  },
+  "steel wind strike": {
+    "display": "6d10",
+    "all_dice": [
+      "6d10"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "wall of light": {
+    "display": "4d8 +1d8/spell level",
+    "all_dice": [
+      "1d8",
+      "4d8"
+    ],
+    "level": 5,
+    "has_scaling": true,
+    "healing": false
+  },
+  "wrath of nature": {
+    "display": "4d6",
+    "all_dice": [
+      "4d6",
+      "3d8"
+    ],
+    "level": 5,
+    "has_scaling": false,
+    "healing": false
+  },
+  "green-flame blade": {
+    "display": "+{scaled} fire",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "1d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "display_at_1": "MOD fire"
+  },
+  "booming blade": {
+    "display": "+{scaled} thunder",
+    "base_dice": "1d8",
+    "cantrip_scaling": true,
+    "all_dice": [
+      "1d8"
+    ],
+    "level": 0,
+    "has_scaling": true,
+    "healing": false,
+    "display_at_1": "1d8 move"
+  }
+}

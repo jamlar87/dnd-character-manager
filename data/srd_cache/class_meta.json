@@ -1,0 +1,269 @@
+{
+  "barbarian": {
+    "index": "barbarian",
+    "name": "Barbarian",
+    "hit_die": 12,
+    "saving_throws": [
+      "STR",
+      "CON"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Medium Armor",
+      "Shields",
+      "Simple Weapons",
+      "Martial Weapons",
+      "Saving Throw: STR",
+      "Saving Throw: CON"
+    ],
+    "subclasses": [
+      "Berserker"
+    ],
+    "spellcasting_level": null
+  },
+  "bard": {
+    "index": "bard",
+    "name": "Bard",
+    "hit_die": 8,
+    "saving_throws": [
+      "DEX",
+      "CHA"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Simple Weapons",
+      "Longswords",
+      "Rapiers",
+      "Shortswords",
+      "Hand crossbows",
+      "Saving Throw: DEX",
+      "Saving Throw: CHA"
+    ],
+    "subclasses": [
+      "Lore"
+    ],
+    "spellcasting_level": 1
+  },
+  "cleric": {
+    "index": "cleric",
+    "name": "Cleric",
+    "hit_die": 8,
+    "saving_throws": [
+      "WIS",
+      "CHA"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Medium Armor",
+      "Shields",
+      "Simple Weapons",
+      "Saving Throw: WIS",
+      "Saving Throw: CHA"
+    ],
+    "subclasses": [
+      "Life"
+    ],
+    "spellcasting_level": 1
+  },
+  "druid": {
+    "index": "druid",
+    "name": "Druid",
+    "hit_die": 8,
+    "saving_throws": [
+      "INT",
+      "WIS"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Medium Armor",
+      "Shields",
+      "Clubs",
+      "Daggers",
+      "Javelins",
+      "Maces",
+      "Quarterstaffs",
+      "Sickles",
+      "Spears",
+      "Darts",
+      "Slings",
+      "Scimitars",
+      "Herbalism Kit",
+      "Saving Throw: INT",
+      "Saving Throw: WIS"
+    ],
+    "subclasses": [
+      "Land"
+    ],
+    "spellcasting_level": 1
+  },
+  "fighter": {
+    "index": "fighter",
+    "name": "Fighter",
+    "hit_die": 10,
+    "saving_throws": [
+      "STR",
+      "CON"
+    ],
+    "proficiencies": [
+      "All armor",
+      "Shields",
+      "Simple Weapons",
+      "Martial Weapons",
+      "Saving Throw: STR",
+      "Saving Throw: CON"
+    ],
+    "subclasses": [
+      "Champion"
+    ],
+    "spellcasting_level": null
+  },
+  "monk": {
+    "index": "monk",
+    "name": "Monk",
+    "hit_die": 8,
+    "saving_throws": [
+      "STR",
+      "DEX"
+    ],
+    "proficiencies": [
+      "Simple Weapons",
+      "Shortswords",
+      "Saving Throw: DEX",
+      "Saving Throw: STR"
+    ],
+    "subclasses": [
+      "Open Hand"
+    ],
+    "spellcasting_level": null
+  },
+  "paladin": {
+    "index": "paladin",
+    "name": "Paladin",
+    "hit_die": 10,
+    "saving_throws": [
+      "WIS",
+      "CHA"
+    ],
+    "proficiencies": [
+      "All armor",
+      "Shields",
+      "Simple Weapons",
+      "Martial Weapons",
+      "Saving Throw: WIS",
+      "Saving Throw: CHA"
+    ],
+    "subclasses": [
+      "Devotion"
+    ],
+    "spellcasting_level": 2
+  },
+  "ranger": {
+    "index": "ranger",
+    "name": "Ranger",
+    "hit_die": 10,
+    "saving_throws": [
+      "STR",
+      "DEX"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Medium Armor",
+      "Shields",
+      "Simple Weapons",
+      "Martial Weapons",
+      "Saving Throw: DEX",
+      "Saving Throw: STR"
+    ],
+    "subclasses": [
+      "Hunter"
+    ],
+    "spellcasting_level": 2
+  },
+  "rogue": {
+    "index": "rogue",
+    "name": "Rogue",
+    "hit_die": 8,
+    "saving_throws": [
+      "DEX",
+      "INT"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Simple Weapons",
+      "Longswords",
+      "Rapiers",
+      "Shortswords",
+      "Hand crossbows",
+      "Thieves' Tools",
+      "Saving Throw: DEX",
+      "Saving Throw: INT"
+    ],
+    "subclasses": [
+      "Thief"
+    ],
+    "spellcasting_level": null
+  },
+  "sorcerer": {
+    "index": "sorcerer",
+    "name": "Sorcerer",
+    "hit_die": 6,
+    "saving_throws": [
+      "CON",
+      "CHA"
+    ],
+    "proficiencies": [
+      "Daggers",
+      "Darts",
+      "Slings",
+      "Quarterstaffs",
+      "Crossbows, light",
+      "Saving Throw: CON",
+      "Saving Throw: CHA"
+    ],
+    "subclasses": [
+      "Draconic"
+    ],
+    "spellcasting_level": 1
+  },
+  "warlock": {
+    "index": "warlock",
+    "name": "Warlock",
+    "hit_die": 8,
+    "saving_throws": [
+      "WIS",
+      "CHA"
+    ],
+    "proficiencies": [
+      "Light Armor",
+      "Simple Weapons",
+      "Saving Throw: WIS",
+      "Saving Throw: CHA"
+    ],
+    "subclasses": [
+      "Fiend"
+    ],
+    "spellcasting_level": 1
+  },
+  "wizard": {
+    "index": "wizard",
+    "name": "Wizard",
+    "hit_die": 6,
+    "saving_throws": [
+      "INT",
+      "WIS"
+    ],
+    "proficiencies": [
+      "Daggers",
+      "Darts",
+      "Slings",
+      "Quarterstaffs",
+      "Crossbows, light",
+      "Saving Throw: INT",
+      "Saving Throw: WIS"
+    ],
+    "subclasses": [
+      "Evocation"
+    ],
+    "spellcasting_level": 1
+  }
+}
