@@ -1484,10 +1484,12 @@ async function generateAiEncounter(event) {
     });
 
     if (enc.tactics) html += `<p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem"><strong>Tactics:</strong> ${enc.tactics}</p>`;
+    if (enc.dynamic) html += `<p style="font-size:0.85rem;color:var(--accent);margin-top:0.25rem;border-left:3px solid var(--accent);padding-left:0.5rem">⚡ <strong>Dynamic:</strong> ${enc.dynamic}</p>`;
 
-    // Store composition + tactics for saveAiEncounter to use
+    // Store composition + tactics + dynamic for saveAiEncounter
     window._aiComposition = enc.composition;
     window._aiTactics = enc.tactics || '';
+    window._aiDynamic = enc.dynamic || '';
 
     // Save button
     html += `<div style="margin-top:1rem;display:flex;gap:0.5rem">
@@ -1504,9 +1506,12 @@ async function generateAiEncounter(event) {
 
 async function saveAiEncounter(name, description, environment, difficulty) {
   const tactics = window._aiTactics || '';
+  const dynamic = window._aiDynamic || '';
+  // Append dynamic element to notes
+  const notes = dynamic ? (tactics + '\n⚡ Dynamic: ' + dynamic) : tactics;
   const r = await fetch('/api/dm/encounter/create', {
     method: 'POST', headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, description, environment, difficulty, location: '', notes: tactics})
+    body: JSON.stringify({name, description, environment, difficulty, location: '', notes})
   });
   const d = await r.json();
   if (!d.ok) return;
@@ -1537,6 +1542,7 @@ async function saveAiEncounter(name, description, environment, difficulty) {
   const note = failed > 0 ? ` (${failed} of ${total} creatures failed to save)` : '';
   window._aiComposition = null;
   window._aiTactics = null;
+  window._aiDynamic = null;
   closeModal('aiEncounterModal');
   if (failed > 0) { alert(`Saved ${added} creatures to encounter${note}.`); }
   location.reload();

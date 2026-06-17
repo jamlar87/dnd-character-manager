@@ -4522,8 +4522,8 @@ def _encounter_mult(count):
 
 def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
     """Assign monster counts to hit XP budget, accounting for DMG p.83 multiplier.
-    AI picks which monsters; this function does the math.
-    Aggressively fills to ≥85% of adjusted XP budget.
+    AI picks which monsters and suggests counts; this function fine-tunes.
+    First pass: apply AI's suggested counts. Second pass: pad/trim to hit ≥85% budget.
     Capped at MAX_CREATURES total (default 12).
     Returns (composition, raw_xp)."""
     MAX_CREATURES = 12  # raised from 10
@@ -4541,8 +4541,6 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
 
     # Swarm: compute exact counts upfront to fill budget
     if encounter_type == "swarm":
-        # For swarm, use ONE creature type repeated to hit budget
-        # Try each pick, compute how many needed for ~95% budget
         best = None
         best_score = float('inf')
         best_count = 0
@@ -4564,82 +4562,44 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
             raw_xp = best["xp"] * best_count
         return composition, raw_xp
 
-    # Solo lair: boss only + guards if needed
+    # ── First pass: apply AI's suggested counts ──
+    for m in sorted_picks:
+        count = m.get("_suggested_count", 0) or 1
+        # Cap suggested count to avoid blowing the budget or exceeding MAX
+        count = min(count, MAX_CREATURES - _total())
+        if count < 1:
+            count = 1
+        existing = next((c for c in composition if c["index"] == m["index"]), None)
+        if existing:
+            existing["count"] += count
+        else:
+            composition.append({**m, "count": count})
+        raw_xp += m["xp"] * count
+        if _total() >= MAX_CREATURES:
+            break
+
+    # Solo lair: boss + guards — suggested counts work as-is
     if encounter_type == "solo_lair":
-        boss = sorted_picks[0]
-        composition.append({**boss, "count": 1})
-        raw_xp += boss["xp"]
-        # Add guards if undershooting budget
-        if raw_xp < xp_budget * 0.65 and len(sorted_picks) > 1 and _total() < MAX_CREATURES:
-            guard = sorted_picks[1]
-            # Fill remaining budget with guards
-            remaining_adj = xp_budget - raw_xp  # no mult for solo
-            guard_xp_each = guard["xp"]
-            guard_count = max(1, min(int(remaining_adj / guard_xp_each), MAX_CREATURES - _total()))
-            composition.append({**guard, "count": guard_count})
-            raw_xp += guard["xp"] * guard_count
         return composition, raw_xp
 
-    # Default: boss + elites + minions (skirmish, ambush, social, rival)
-    # Fill using adjusted XP directly — add minions while budget allows
-    boss = sorted_picks[0]
-    composition.append({**boss, "count": 1})
-    raw_xp += boss["xp"]
-
-    rest = sorted_picks[1:] if len(sorted_picks) > 1 else []
-
-    def _adj(count, xp):
-        return int(xp * _encounter_mult(count))
-
-    if rest:
-        minions = [m for m in rest if m.get("role") != "elite"] or rest
-        # Add minions while adjusted XP stays within 130% of budget
-        # (DMG multiplier curve makes small encounters overshoot easily)
-        overshoot_cap = 1.30
-        ri = 0
-        while ri < 50 and _total() < MAX_CREATURES:
-            m = minions[ri % len(minions)]
-            trial_total = _total() + 1
-            trial_xp = raw_xp + m["xp"]
-            trial_adj = _adj(trial_total, trial_xp)
-            if trial_adj <= xp_budget * overshoot_cap:
-                existing = next((c for c in composition if c["index"] == m["index"]), None)
-                if existing:
-                    existing["count"] += 1
-                else:
-                    composition.append({**m, "count": 1})
-                raw_xp += m["xp"]
-            elif _total() <= 1:
-                # Force at least 1 minion even if overshoot (solo boss is boring)
-                composition.append({**m, "count": 1})
-                raw_xp += m["xp"]
-                break
-            else:
-                break
-            ri += 1
-
-    # Multi-pass padding: if under 80% budget, add more of cheapest creature
     total_count = _total()
-    mult = _encounter_mult(total_count)
-    adjusted = int(raw_xp * mult)
-    budget_pct = adjusted / xp_budget if xp_budget > 0 else 0
+    mult = _encounter_mult(total_count) if total_count > 0 else 1.0
+    adjusted = int(raw_xp * mult) if total_count > 0 else 0
 
-    for _pass in range(3):  # up to 3 padding passes
-        if budget_pct >= 0.85 or total_count >= MAX_CREATURES:
+    # ── Second pass: pad if under budget ──
+    # Build pool of eligible minion/elite picks for padding
+    pad_pool = [m for m in sorted_picks if m.get("role") not in ("boss",) or len(sorted_picks) == 1]
+    for _pass in range(5):
+        total_count = _total()
+        if total_count >= MAX_CREATURES:
             break
-        if not rest and not composition:
+        if xp_budget > 0 and adjusted / xp_budget >= 0.85:
             break
-        # Find cheapest available creature
-        pad_pool = [c for c in composition] + (rest if rest else [])
         if not pad_pool:
             break
+        # Pick cheapest creature to pad with
         cheapest = min(pad_pool, key=lambda m: m["xp"])
-        # How many more can we add?
-        raw_needed = int((xp_budget * 0.90 / max(_encounter_mult(_total() + 1), 1)) - raw_xp)
-        extra = max(1, raw_needed // max(cheapest["xp"], 1))
-        extra = min(extra, MAX_CREATURES - total_count)
-        if extra <= 0:
-            break
+        extra = 1
         existing = next((c for c in composition if c["index"] == cheapest["index"]), None)
         if existing:
             existing["count"] += extra
@@ -4649,39 +4609,33 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         total_count = _total()
         mult = _encounter_mult(total_count)
         adjusted = int(raw_xp * mult)
-        budget_pct = adjusted / xp_budget if xp_budget > 0 else 0
-    # Trim if overshooting budget (>130%)
+
+    # ── Third pass: trim if way over budget (>130%) ──
     if xp_budget > 0 and adjusted > xp_budget * 1.30:
-        # Remove cheapest creatures one at a time until within 130%
-        # Never trim below 2 creature types (keep boss + at least 1 minion type)
         for _ in range(50):
             if not composition:
                 break
             total_count = _total()
             total_types = len(composition)
-            # Never remove the LAST creature
-            if total_count <= 1:
+            if total_count <= 1 or total_types <= 1:
                 break
-            # Don't remove if down to boss alone (keep boss + 1 minion type minimum)
-            if total_types <= 1:
+            # Remove one of the cheapest non-boss creature
+            non_boss = [c for c in composition if c.get("role") != "boss" and c["count"] > 0]
+            if not non_boss:
                 break
-            mult = _encounter_mult(total_count - 1) if total_count > 1 else 1.0
-            # Find entry with most duplicates to trim
-            cheapest = min(composition, key=lambda c: c["xp"])
+            cheapest = min(non_boss, key=lambda c: c["xp"])
             if cheapest["count"] > 1:
                 cheapest["count"] -= 1
-                raw_xp -= cheapest["xp"]
-                if cheapest["count"] == 0:
-                    composition.remove(cheapest)
             else:
-                raw_xp -= cheapest["xp"]
                 composition.remove(cheapest)
+            raw_xp -= cheapest["xp"]
             total_count = _total()
-            mult = _encounter_mult(total_count)
-            adjusted = int(raw_xp * mult)
+            mult = _encounter_mult(total_count) if total_count > 0 else 1
+            adjusted = int(raw_xp * mult) if total_count > 0 else 0
             if adjusted <= xp_budget * 1.10:
                 break
 
+    print(f"[Counts] final: {[(c['name'], c['count']) for c in composition]} raw={raw_xp} adj={adjusted} budget={xp_budget}")
     return composition, raw_xp
 
 
@@ -6165,51 +6119,54 @@ async def dm_ai_build_encounter(request: Request):
         budget_lines.append(f"  Minion target: ≤{minion_budget} XP each" if encounter_type != "swarm" else f"  Per creature target: ~{minion_budget} XP (×10 to fill)")
     budget_section = "\n".join(budget_lines)
 
-    # Archetype-specific prompt templates
+    # ── Tier-based scaling guidance ──
+    tier_guides = {
+        "low": "Tier 1 (L1-4): Keep it simple. 1-2 monster types max. Clear threat roles. No legendary actions. Focus on basic tactics — flanking, cover, simple terrain. Party has few resources; don't grind them down with 6+ creatures.",
+        "mid": "Tier 2 (L5-10): Medium complexity. 2-4 monster types. Add synergy between types. Start using multi-attack monsters, spellcasters. Terrain and positioning matter. Party has extra attack and L3 spells; they can handle tactical challenges.",
+        "high": "Tier 3 (L11-16): High complexity. 3-5 monster types. Include legendary/lair actions. Use resistances, immunities, and legendary saves. Multi-phase fight structure. Party has powerful magic and features; the encounter must challenge resource management.",
+        "epic": "Tier 4 (L17-20): Maximum complexity. Multi-phase boss encounters. Legendary + lair actions. Environmental hazards that shift each round. Minion waves. Punish saves, bypass resistances. Party is demigod-level; anything less is a speed bump.",
+    }
+    tier_key = "low" if party_level <= 4 else "mid" if party_level <= 10 else "high" if party_level <= 16 else "epic"
+    tier_guide = tier_guides[tier_key]
+
+    # ── Archetype-specific design guides ──
     archetype_guides = {
         "skirmish": (
-            "Pick 2-5 monsters. Start with a boss suited to a {environment} setting, "
-            "then pick elites and minions that are thematically allied with or subservient to that boss — "
-            "they should feel like a coherent faction (e.g., dragon + kobolds, vampire + spawn + bats, "
-            "orc chief + orcs + wolves, beholder + cultists). For each, assign a role:\n"
-            "- \"boss\": main threat, CR near party level (at most 1)\n"
-            "- \"elite\": strong support, CR slightly below party\n"
-            "- \"minion\": weaker filler"
+            "DESIGN CONCEPT: Think about monster synergy. Why do these specific creatures fight together? "
+            "What's their combined tactical approach? (e.g., brute front line + ranged support + flanker). "
+            "Pick 2-4 monster types that complement each other — a primary threat and creatures that enable it."
         ),
         "swarm": (
-            "Pick 1-2 creature types that make sense as a swarm/horde in a {environment}. "
-            "Do NOT pick a boss — this is a many-vs-party encounter. Pick creatures that are weaker "
-            "individually but dangerous in numbers (CR 0.125 to CR 2 preferred). "
-            "The system will add lots of them. Assign role \"minion\" to all picks."
+            "DESIGN CONCEPT: A horde encounter where numbers are the threat. Pick 1-2 creature types "
+            "appropriate for the environment. Each creature should be weak individually (CR 0.125 to CR 2). "
+            "Describe how the swarm attacks — does it surround, ambush from above, surge in waves? "
+            "No boss. Role is always 'minion'."
         ),
         "ambush": (
-            "Pick 2-4 creatures suited to a stealthy ambush in a {environment}. "
-            "Pick at least one with high Stealth or surprise abilities (goblins, bugbears, assassins, etc.). "
-            "Describe how the ambush is set up — terrain, cover, surprise round. "
-            "Tactics should include: who ambushes from where, what the first round looks like.\n"
-            "Assign roles: \"boss\" (ambush leader), \"elite\", \"minion\" as appropriate."
+            "DESIGN CONCEPT: The environment is the first enemy. The ambushers use terrain, surprise, "
+            "and first-round alpha strike. Pick 2-4 creatures, at least one with Stealth proficiency "
+            "or surprise ability. Tactics must describe: ambush setup, trigger, first-round plan, "
+            "and fallback plan if surprise fails."
         ),
         "solo_lair": (
-            "Pick 1 boss creature for a solo + lair encounter. CR should be 2-4 above party level "
-            "(a solo boss needs to be tougher). Add 0-2 \"minion\" picks for lair guards or hazards. "
-            "The description should set up the lair environment, and tactics should include "
-            "lair actions, terrain advantages, and escape contingencies. "
-            "Tactics should be 3-4 sentences (longer than usual for lair encounters)."
+            "DESIGN CONCEPT: One legendary monster with lair actions. CR should be 2-5 above party level "
+            "(solo monsters need the action economy advantage). Pick exactly 1 boss + 0-2 minions "
+            "as lair guards. Tactics: lair action rotation, terrain hazards, escape route. "
+            "Description: set up the lair — size, hazards, environment features."
         ),
         "rival_faction": (
-            "Pick two rival groups (2-4 monsters each) that would fight each other AND the party. "
-            "e.g., goblins vs. hobgoblins, cultists vs. guards, wolves vs. bears. "
-            "For the JSON, assign roles as \"faction_a\" and \"faction_b\" instead of boss/elite/minion. "
-            "Description: set up the three-way conflict. Tactics: how each faction behaves."
+            "DESIGN CONCEPT: Three-way fight. Two rival groups (2-3 creatures each) that hate each other "
+            "more than the party — at least initially. E.g., goblins vs hobgoblins, cultists vs guards. "
+            "In JSON use roles 'faction_a' and 'faction_b'. Tactics: How each faction fights AND when they "
+            "might switch targets or flee."
         ),
         "social_combat": (
-            "Pick 1-3 creatures that could be negotiated with or fought, in a {environment} setting. "
-            "They should be intelligent enough for social interaction. "
-            "Description: set up the social tension — why might they fight? What do they want? "
-            "Tactics: first sentence = what they want (negotiation hook), second = what happens if combat starts."
+            "DESIGN CONCEPT: Negotiation first, violence second. Pick 1-3 intelligent creatures "
+            "that have something the party wants (information, passage, treasure). "
+            "Description: the social tension. Tactics: what they want + what happens if combat starts."
         ),
     }
-    guide = archetype_guides.get(encounter_type, archetype_guides["skirmish"]).replace("{environment}", environment)
+    guide = archetype_guides.get(encounter_type, archetype_guides["skirmish"])
 
     # Build role-labeled candidate section
     role_section = ""
@@ -6220,24 +6177,41 @@ async def dm_ai_build_encounter(request: Request):
     if minion_pool:
         role_section += f"\nMINION CANDIDATES (≤{minion_budget} XP each):\n{minion_lines}\n"
 
-    # AI picks monsters and roles; algorithm assigns counts to hit budget
-    ai_prompt = f"""Design a {difficulty.upper()} difficulty D&D 5e encounter for {cr_info}.
-Setting: {environment} environment{f' — {theme}' if theme else ''}{f' ({tone} tone)' if tone else ''}
-Encounter type: {encounter_type}
+    ai_prompt = f"""DESIGN A {difficulty.upper()} D&D 5e ENCOUNTER — {cr_info} in a {environment} setting
+Tier: {tier_guide}
+Type: {encounter_type}  |  Tone: {tone if tone else 'standard'}  |  Theme: {theme if theme else 'any'}
 {budget_section}{party_section}{boss_rotation_context}
+
+STEP 1 — ENCOUNTER CONCEPT
+What makes this encounter interesting and dynamic? Think about:
+• Monster synergy — how do the chosen creatures fight together?
+• Tactical setup — positions, terrain use, opening moves
+• Combat flow — how does the fight evolve? Waves? Enrage? Morale break?
+• Choice points — what decisions does the party face? (focus fire? split up? retreat?)
+
 {guide}
 
-Pick monsters that stay within the per-role budget targets above.
-DO NOT guess counts — the system calculates those to fill the budget.
+STEP 2 — PICK MONSTERS
+From the candidates below, pick monsters that fit your concept. For each, provide:
+- index: the EXACT bracketed [index] shown next to the monster name
+- role: "boss" / "elite" / "minion" (or "faction_a"/"faction_b" for rival_faction)
+- count: your suggested number (the system may adjust slightly for XP budget)
 
 {role_section}
 
-Return ONLY valid JSON (no markdown). Vary choices each time.
-Use the EXACT [index] shown in brackets above for each monster:
-{{"name": "encounter name", "description": "1-2 sentence setup vignette",
-  "picks": [{{"index": "monster-index", "role": "boss"}}, {{"index": "monster-index", "role": "minion"}}],
-  "tactics": "1-2 sentence tactics (describe terrain advantage, opening move, or counter-play)"}}"""
-    print(f"[AI Encounter] env={environment} diff={difficulty} budget={xp_budget} candidates={len(candidates)}")
+Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repeat the same composition twice.
+
+{{"name": "short evocative encounter name",
+  "picks": [
+    {{"index": "monster-index-1", "role": "boss", "count": 1}},
+    {{"index": "monster-index-2", "role": "elite", "count": 1}},
+    {{"index": "monster-index-3", "role": "minion", "count": 3}}
+  ],
+  "description": "vignette setting the scene and why these creatures are together",
+  "tactics": "2-3 sentences: terrain use, opening combo, how monsters adapt when hurt",
+  "dynamic": "1 sentence about what changes mid-fight (reinforcements, enrage, terrain shift, morale)"}}"""
+    
+    print(f"[AI Encounter] env={environment} diff={difficulty} tier={tier_key} budget={xp_budget} candidates={len(candidates)}")
 
     text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
@@ -6270,7 +6244,9 @@ Use the EXACT [index] shown in brackets above for each monster:
                 suffix = idx.split("-")[-1]
                 m = next((c for c in candidates if str(c["index"]).lower().endswith(suffix) and len(suffix) > 3), None)
             if m:
-                picks.append({**m, "role": role})
+                # Capture AI's suggested count as hint
+                suggested = int(entry.get("count", entry.get("suggested_count", 0)))
+                picks.append({**m, "role": role, "_suggested_count": max(0, suggested)})
             else:
                 pick_failures.append(idx)
 
@@ -6339,6 +6315,7 @@ Use the EXACT [index] shown in brackets above for each monster:
     name = (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter"
     desc = ((ai.get("description") or "") if ai else "") or monster_str or f"A {difficulty} encounter in a {environment} setting."
     tactics = (ai.get("tactics") or "") if ai else ""
+    dynamic = (ai.get("dynamic") or "") if ai else ""
 
     # If AI's picks fell through (composition is algorithmic), override description
     ai_picks_had_content = bool(ai and (ai.get("picks") or ai.get("composition")))
@@ -6347,6 +6324,7 @@ Use the EXACT [index] shown in brackets above for each monster:
         desc = f"A {difficulty} encounter in a {environment} setting featuring {monster_str}."
         name = f"{environment.title()} Encounter"
         tactics = ""
+        dynamic = ""
     elif pick_failures and composition and comp_name_list:
         # Some AI picks failed — blend AI description with actual composition
         ai_desc = (ai.get("description") or "") if ai else ""
@@ -6354,8 +6332,10 @@ Use the EXACT [index] shown in brackets above for each monster:
             desc = f"{monster_str}. {ai_desc}"
         else:
             desc = ai_desc or f"A {difficulty} encounter in a {environment} setting with {monster_str}."
+        dynamic = dynamic or ""
     elif not composition and monster_str:
         desc = f"A {difficulty} encounter in a {environment} setting with {monster_str}."
+        dynamic = ""
 
     print(f"[AI Encounter] Final composition: {monster_str[:200]}")
 
@@ -6374,6 +6354,7 @@ Use the EXACT [index] shown in brackets above for each monster:
         "name": name or (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
         "description": desc or f"A {difficulty} encounter in a {environment} setting.",
         "tactics": tactics or "",
+        "dynamic": dynamic,
         "composition": composition,
         "xp": {"raw_total": xp_total, "adjusted": adjusted_xp, "budget": xp_budget, "budget_pct": budget_pct},
         "difficulty": difficulty.capitalize(),
