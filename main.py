@@ -6223,7 +6223,13 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
     else:
         print(f"[AI Encounter] _extract_json returned None, raw text length={len(text) if text else 0}")
 
-    # Resolve AI picks into candidate objects — with fuzzy fallback
+    # Build the allowed pool — AI can ONLY pick monsters shown in pools
+    pool_indices = set()
+    for m in boss_pool + elite_pool + minion_pool:
+        pool_indices.add(m["index"])
+    pool_candidates = [c for c in candidates if c["index"] in pool_indices] or candidates
+
+    # Resolve AI picks into candidate objects — restricted to pool-only
     picks = []
     pick_failures = []
     if ai:
@@ -6233,19 +6239,20 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
             role = entry.get("role", "minion").lower()
             if encounter_type == "swarm":
                 role = "minion"
+            # Only match against pool members (AI can only pick what it saw)
             # Exact match on index
-            m = next((c for c in candidates if str(c["index"]).lower() == idx), None)
+            m = next((c for c in pool_candidates if str(c["index"]).lower() == idx), None)
             # Fallback: match by name (lowercased hyphenated)
             if not m:
                 name_from_idx = idx.replace("-", " ").replace("_", " ")
-                m = next((c for c in candidates if c["name"].lower() == name_from_idx), None)
+                m = next((c for c in pool_candidates if c["name"].lower() == name_from_idx), None)
             # Fallback: match by name substring (AI sometimes abbreviates)
             if not m and len(idx) > 3:
-                m = next((c for c in candidates if idx in c["name"].lower().replace(" ", "-")), None)
+                m = next((c for c in pool_candidates if idx in c["name"].lower().replace(" ", "-")), None)
             # Fallback: match by index suffix (AI sometimes prepends numbers)
             if not m and "-" in idx:
                 suffix = idx.split("-")[-1]
-                m = next((c for c in candidates if str(c["index"]).lower().endswith(suffix) and len(suffix) > 3), None)
+                m = next((c for c in pool_candidates if str(c["index"]).lower().endswith(suffix) and len(suffix) > 3), None)
             if m:
                 # Capture AI's suggested count as hint
                 suggested = int(entry.get("count", entry.get("suggested_count", 0)))
@@ -6289,10 +6296,9 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
 
     ai_desc = (ai.get("description") or "").lower() if ai else ""
     if ai_desc and len(ai_desc) > 10:
-        # Build name→candidate lookup from the full candidates list
+        # Build name→candidate lookup from POOL members only (budget-filtered)
         mentioned_extra = []
-        desc_words = set(ai_desc.split())
-        for c in candidates:
+        for c in pool_candidates:  # pool_candidates already filtered by budget
             cname_lower = c["name"].lower()
             # Check if monster name appears in description (whole word or phrase)
             if cname_lower in ai_desc:
