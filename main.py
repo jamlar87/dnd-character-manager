@@ -6254,6 +6254,39 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
                 pick_failures.append(idx)
 
     # Safety net: scan AI description for monster names mentioned but not picked
+
+    # ── STRIP invented monster names from ALL AI text output ──
+    # AI must never describe creatures that don't exist in our database
+    if ai and all_monsters:
+        valid_names = {c["name"].lower() for c in all_monsters}
+        common_words = {"the","a","an","its","their","and","or","but","with","from","they","them",
+            "these","those","while","when","then","than","that","this","what","which","who","whom",
+            "where","how","why","all","any","each","every","both","few","more","most","other",
+            "some","such","no","nor","not","only","own","same","so","too","very","just","also",
+            "into","onto","upon","within","without","through","during","before","after","above",
+            "below","between","under","again","further","once","ice","body","armor","attack",
+            "magic","battle","make","does","down","off","over","out","up","here","there","about"}
+        for field in ("description", "tactics", "dynamic"):
+            raw = ai.get(field, "")
+            if not raw:
+                continue
+            # Find all capitalized phrases that look like creature names
+            invented = []
+            for m in re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', raw):
+                ml = m.lower()
+                if ml not in valid_names and ml not in common_words and len(m) > 4:
+                    invented.append(m)
+            if invented:
+                # Strip entire sentences that mention invented monsters
+                sentences = re.split(r'(?<=[.!?])\s+', raw)
+                kept = [s for s in sentences if not any(inv.lower() in s.lower() for inv in invented)]
+                cleaned = " ".join(kept).strip()
+                if cleaned:
+                    ai[field] = cleaned
+                else:
+                    ai[field] = ""  # whole field was invented — clear it
+                print(f"[AI Encounter] Stripped invented monsters from '{field}': {invented}")
+
     ai_desc = (ai.get("description") or "").lower() if ai else ""
     if ai_desc and len(ai_desc) > 10:
         # Build name→candidate lookup from the full candidates list
