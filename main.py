@@ -6076,7 +6076,7 @@ async def dm_ai_build_encounter(request: Request):
             if not is_trivial and xp <= minion_budget * 3:
                 minion_pool.append(c)
         else:
-            if boss_budget > 0 and xp >= boss_budget * 0.3:
+            if boss_budget > 0 and xp >= boss_budget * 0.3 and xp <= boss_budget * 3.0:
                 boss_pool.append(c)
             if elite_budget > 0 and xp >= elite_budget * 0.2 and xp <= elite_budget * 2.5:
                 elite_pool.append(c)
@@ -6274,7 +6274,23 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
             for m in mentioned_extra[:3]:  # cap at 3 extra
                 picks.append(m)
                 print(f"[AI Encounter] Auto-injected {m['name']} from description (×{m['_suggested_count']})")
-
+        # Log description monsters NOT in candidate pool (can't auto-inject)
+        # Look for capitalized words that aren't articles/prepositions
+        desc_monsters = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ai.get("description", ""))
+        candidate_names = {c["name"].lower() for c in all_monsters}
+        unknown = [m for m in desc_monsters if m.lower() not in candidate_names and m.lower() not in (
+            "the", "a", "an", "its", "their", "thei", "and", "or", "but", "with", "from",
+            "they", "them", "these", "those", "while", "when", "then", "than", "that",
+            "this", "what", "which", "who", "whom", "where", "how", "why", "all", "any",
+            "each", "every", "both", "few", "more", "most", "other", "some", "such", "no",
+            "nor", "not", "only", "own", "same", "so", "too", "very", "just", "also",
+            "into", "onto", "upon", "within", "without", "through", "during", "before",
+            "after", "above", "below", "between", "under", "again", "further", "once",
+            "ice", "body", "armor", "attack", "magic", "battle", "make", "does", "down",
+            "off", "over", "out", "up", "here", "there", "about", "after", "around",
+        ) and len(m) > 3]
+        if unknown:
+            print(f"[AI Encounter] DESCRIPTION mentions creatures NOT in monster data: {unknown}")
     # Swarm: override AI picks with algorithmic selection
     # AI is bad at picking budget-appropriate creatures for swarms
     if encounter_type == "swarm":
