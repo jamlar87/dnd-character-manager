@@ -6227,7 +6227,22 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
     pool_indices = set()
     for m in boss_pool + elite_pool + minion_pool:
         pool_indices.add(m["index"])
-    pool_candidates = [c for c in candidates if c["index"] in pool_indices] or candidates
+    pool_candidates = [c for c in candidates if c["index"] in pool_indices]
+    if not pool_candidates:
+        # All pools empty — environment/budget filters too strict for this party
+        # Can't show AI any meaningful choices; skip to algorithmic fallback
+        print(f"[AI Encounter] Pools empty ({len(boss_pool)} boss, {len(elite_pool)} elite, "
+              f"{len(minion_pool)} minion from {len(candidates)} candidates) — algorithmic fallback")
+        pools_empty = True
+    else:
+        pools_empty = False
+        print(f"[AI Encounter] Pools: {len(boss_pool)} boss, {len(elite_pool)} elite, "
+              f"{len(minion_pool)} minion → {len(pool_candidates)} unique pool candidates")
+
+    if pools_empty or not pool_candidates:
+        if ai:
+            print(f"[AI Encounter] Pools empty — discarding AI picks, using algorithmic fallback")
+        ai = None  # skip AI entirely, go straight to algorithmic fallback
 
     # Resolve AI picks into candidate objects — restricted to pool-only
     picks = []
@@ -6370,11 +6385,15 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
     # Fallback: fully algorithmic if AI returned nothing usable
     # Uses the same budget-filtered pools the AI should have picked from
     if not composition:
-        if not boss_pool:
-            # If pools are empty (e.g., very low budget), widen to candidates
-            fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
-        else:
+        # Prefer pool_candidates (budget-filtered), fall back to candidates (CR-filtered only)
+        if boss_pool and pool_candidates:
             fb_pool = boss_pool
+        elif pool_candidates:
+            # No boss in pool but pool candidates exist — pick highest CR from pool
+            fb_pool = sorted(pool_candidates, key=lambda c: c["cr"], reverse=True)[:5]
+        else:
+            # Nothing in pools — use CR-adjacent candidates
+            fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
         boss = random.choice(fb_pool) if fb_pool else None
         if boss:
             picks = [{**boss, "role": "boss"}]
