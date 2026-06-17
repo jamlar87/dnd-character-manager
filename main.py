@@ -5813,6 +5813,25 @@ async def dm_ai_build_encounter(request: Request):
                 if not any(e in env_words or e in suitable or e in extra for e in env_words) and not any(kw in m_name for kw in env_words):
                     env_match = False
 
+        # ── Negative environment filter: exclude clearly wrong creatures ──
+        if env_match and environment.lower() not in ("any", "", "coastal", "swamp", "underdark"):
+            # For land-based environments, exclude aquatic creatures
+            aquatic_keywords = ["dolphin", "whale", "shark", "crab", "octopus", "eel", "jellyfish",
+                               "squid", "seal", "sea ", "coral", "ray ", "manta", "crocodile",
+                               "turtle", "toad", "frog", "axolot", "merfolk", "merrow", "water ",
+                               "koi", "piranha", "giant sea", "reef", "platypus", "beaver", "otter",
+                               "hippopotamus", "rhinoceros"]
+            if any(kw in m_name for kw in aquatic_keywords):
+                env_match = False
+
+        # ── Also filter by tags ──
+        m_tags = m.get("tags", [])
+        if isinstance(m_tags, list):
+            if env_match:
+                # If monster is tagged "aquatic" and environment isn't aquatic, exclude
+                if "aquatic" in m_tags and environment.lower() not in ("coastal", "swamp", "underdark", "any"):
+                    env_match = False
+
         if not env_match:
             continue
 
@@ -6176,10 +6195,10 @@ async def dm_ai_build_encounter(request: Request):
         role_section += f"\nMINION CANDIDATES (≤{minion_budget} XP each):\n{minion_lines}\n"
 
     # ── Phase 1: Algorithm picks monsters (AI can't do this reliably) ──
-    # Pick boss from boss pool, minions from minion pool
-    fb_pool = boss_pool if boss_pool else (minion_pool[:5] if minion_pool else candidates[:20])
-    if not fb_pool:
-        fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
+    # Pick boss from boss pool, or CR-appropriate candidates if pool empty
+    fb_pool = boss_pool if boss_pool else (
+        [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1]
+        or candidates[:20])
 
     boss = random.choice(fb_pool) if fb_pool else None
     picks = []
