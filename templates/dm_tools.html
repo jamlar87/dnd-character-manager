@@ -1512,24 +1512,34 @@ async function saveAiEncounter(name, description, environment, difficulty) {
   if (!d.ok) return;
   const encId = d.id;
   // Add creatures from AI composition to the encounter
+  let added = 0, failed = 0, total = 0;
   if (window._aiComposition && window._aiComposition.length) {
     for (const m of window._aiComposition) {
+      total += m.count || 1;
       for (let i = 0; i < (m.count || 1); i++) {
-        await fetch(`/api/dm/encounter/${encId}/add-creature`, {
-          method: 'POST', headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            name: m.name, race: m.type || '', class_name: '', level: 1,
-            hp: m.hp || 10, hp_max: m.hp || 10, ac: m.ac || 10,
-            is_enemy: 1, role: `${m.size || ''} ${m.type || ''}`.trim(),
-            xp_reward: m.xp || 0, _monster_index: m.index || '',
-          })
-        });
+        try {
+          const ar = await fetch(`/api/dm/encounter/${encId}/add-creature`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              name: m.name, race: m.type || '', class_name: '', level: 1,
+              hp: m.hp || 10, hp_max: m.hp || 10, ac: m.ac || 10,
+              is_enemy: 1, role: `${m.size || ''} ${m.type || ''}`.trim(),
+              xp_reward: m.xp || 0, _monster_index: m.index || '',
+            })
+          });
+          const ad = await ar.json();
+          if (ad.ok) added++;
+          else failed++;
+        } catch(e) { failed++; }
       }
     }
   }
+  const note = failed > 0 ? ` (${failed} of ${total} creatures failed to save)` : '';
   window._aiComposition = null;
   window._aiTactics = null;
-  closeModal('aiEncounterModal'); location.reload();
+  closeModal('aiEncounterModal');
+  if (failed > 0) { alert(`Saved ${added} creatures to encounter${note}.`); }
+  location.reload();
 }
 
 async function openEncounter(id) {

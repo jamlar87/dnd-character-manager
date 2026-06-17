@@ -6246,18 +6246,33 @@ Use the EXACT [index] shown in brackets above for each monster:
     else:
         print(f"[AI Encounter] _extract_json returned None, raw text length={len(text) if text else 0}")
 
-    # Resolve AI picks into candidate objects
+    # Resolve AI picks into candidate objects — with fuzzy fallback
     picks = []
+    pick_failures = []
     if ai:
         raw_entries = ai.get("picks") or ai.get("composition") or []
         for entry in raw_entries:
-            idx = str(entry.get("index", "")).lower()
+            idx = str(entry.get("index", "")).lower().strip()
             role = entry.get("role", "minion").lower()
             if encounter_type == "swarm":
                 role = "minion"
+            # Exact match on index
             m = next((c for c in candidates if str(c["index"]).lower() == idx), None)
+            # Fallback: match by name (lowercased hyphenated)
+            if not m:
+                name_from_idx = idx.replace("-", " ").replace("_", " ")
+                m = next((c for c in candidates if c["name"].lower() == name_from_idx), None)
+            # Fallback: match by name substring (AI sometimes abbreviates)
+            if not m and len(idx) > 3:
+                m = next((c for c in candidates if idx in c["name"].lower().replace(" ", "-")), None)
+            # Fallback: match by index suffix (AI sometimes prepends numbers)
+            if not m and "-" in idx:
+                suffix = idx.split("-")[-1]
+                m = next((c for c in candidates if str(c["index"]).lower().endswith(suffix) and len(suffix) > 3), None)
             if m:
                 picks.append({**m, "role": role})
+            else:
+                pick_failures.append(idx)
 
     # Swarm: override AI picks with algorithmic selection
     # AI is bad at picking budget-appropriate creatures for swarms
@@ -6302,6 +6317,48 @@ Use the EXACT [index] shown in brackets above for each monster:
                 picks.append({**m, "role": "minion"})
         composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type)
 
+    # Log pick resolution stats
+    if pick_failures:
+        names_str = ", ".join(pick_failures[:5])
+        if len(pick_failures) > 5:
+            names_str += f" +{len(pick_failures)-5} more"
+        pct = int(len(composition) / max(len(pick_failures) + len(composition), 1) * 100)
+        print(f"[AI Encounter] PICK RESOLUTION: {len(composition)} matched, {len(pick_failures)} failed ({pct}%) — failed: {names_str}")
+
+    # Fix description to match actual composition (not AI's hallucinated picks)
+    comp_name_list = []
+    seen_names = set()
+    for c in composition:
+        n = c.get("name", "?")
+        if n not in seen_names:
+            seen_names.add(n)
+            comp_name_list.append(f"{c.get('count', 1)}× {n}")
+    monster_str = ", ".join(comp_name_list)
+
+    # Defaults: use AI's creative output when it matches reality
+    name = (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter"
+    desc = ((ai.get("description") or "") if ai else "") or monster_str or f"A {difficulty} encounter in a {environment} setting."
+    tactics = (ai.get("tactics") or "") if ai else ""
+
+    # If AI's picks fell through (composition is algorithmic), override description
+    ai_picks_had_content = bool(ai and (ai.get("picks") or ai.get("composition")))
+    if ai_picks_had_content and not picks:
+        # AI returned picks but none resolved — full fallback
+        desc = f"A {difficulty} encounter in a {environment} setting featuring {monster_str}."
+        name = f"{environment.title()} Encounter"
+        tactics = ""
+    elif pick_failures and composition and comp_name_list:
+        # Some AI picks failed — blend AI description with actual composition
+        ai_desc = (ai.get("description") or "") if ai else ""
+        if ai_desc:
+            desc = f"{monster_str}. {ai_desc}"
+        else:
+            desc = ai_desc or f"A {difficulty} encounter in a {environment} setting with {monster_str}."
+    elif not composition and monster_str:
+        desc = f"A {difficulty} encounter in a {environment} setting with {monster_str}."
+
+    print(f"[AI Encounter] Final composition: {monster_str[:200]}")
+
     # Calculate adjusted XP multiplier (DMG p.83 — Encounter Multipliers)
     total_monsters = sum(c.get("count", 1) for c in composition)
     if total_monsters == 1: mult = 1.0
@@ -6314,9 +6371,9 @@ Use the EXACT [index] shown in brackets above for each monster:
     budget_pct = int((adjusted_xp / xp_budget * 100)) if xp_budget > 0 else 100
 
     return JSONResponse({
-        "name": (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
-        "description": (ai.get("description") or f"A {difficulty} encounter in a {environment} setting.") if ai else f"A {difficulty} encounter in a {environment} setting.",
-        "tactics": (ai.get("tactics") or "") if ai else "",
+        "name": name or (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter",
+        "description": desc or f"A {difficulty} encounter in a {environment} setting.",
+        "tactics": tactics or "",
         "composition": composition,
         "xp": {"raw_total": xp_total, "adjusted": adjusted_xp, "budget": xp_budget, "budget_pct": budget_pct},
         "difficulty": difficulty.capitalize(),
