@@ -6312,6 +6312,25 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
         else:
             print(f"[AI Encounter] Swarm override SKIPPED: minion_pool is EMPTY (candidates={len(candidates)})")
 
+    # Validate: AI picks must have meaningful combined XP for the party level
+    # If picks are all CR 0-0.5 fodder (AI invented unavailable monsters), override
+    if picks and target_raw > 0:
+        pick_raw_xp = sum(m["xp"] * max(m.get("_suggested_count", 1), 1) for m in picks)
+        has_real_threat = any(m["cr"] >= 0.5 for m in picks)  # at least one real combat threat
+        # Check if AI's description has monsters not in any candidate pool
+        invented_count = 0
+        if ai_desc:
+            known_names = {c["name"].lower() for c in candidates}
+            # Extract capitalized nouns from description (potential monster names)
+            invented = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ai.get("description", ""))
+            invented_count = sum(1 for m in invented if m.lower() not in known_names and len(m) > 4)
+        # Trigger fallback if: picks are extremely weak (<30% budget) OR AI invented monsters
+        # AND the AI's actual picks are inadequate
+        if (pick_raw_xp < target_raw * 0.30 or not has_real_threat) and invented_count > 0:
+            print(f"[AI Encounter] Override: AI's picks too weak ({pick_raw_xp} raw XP vs {int(target_raw)} target) "
+                  f"and AI invented {invented_count} unavailable monsters — using algorithmic fallback")
+            picks = []
+
     # Algorithmic count assignment — AI doesn't do math
     composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type) if picks else ([], 0)
 
