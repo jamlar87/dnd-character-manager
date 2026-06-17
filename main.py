@@ -5749,7 +5749,7 @@ async def dm_ai_build_encounter(request: Request):
         min_cr = max(0, target_cr - 2)
     else:
         max_cr = party_level + 2
-        min_cr = max(0, party_level - 3)
+        min_cr = max(0, (party_level // 2) - 1)  # L1→0, L5→1, L7→2, L11→4, L15→6, L20→8
 
     # Filter by environment/theme hints
     candidates = []
@@ -6201,6 +6201,11 @@ async def dm_ai_build_encounter(request: Request):
         or candidates[:20])
 
     boss = random.choice(fb_pool) if fb_pool else None
+    # Safety: validate boss is budget-appropriate (should be from pool, but guard)
+    if boss and boss_budget > 0 and boss["xp"] > boss_budget * 3.5:
+        print(f"[AI Encounter] Safety: boss {boss['name']} ({boss['xp']} XP > {boss_budget*3.5}) over budget — re-picking from filtered pool")
+        budget_ok = [c for c in fb_pool if c["xp"] <= boss_budget * 3.0]
+        boss = random.choice(budget_ok) if budget_ok else None
     picks = []
     if boss:
         picks.append({**boss, "role": "boss", "_suggested_count": 1})
