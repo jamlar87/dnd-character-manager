@@ -6345,45 +6345,40 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
         else:
             print(f"[AI Encounter] Swarm override SKIPPED: minion_pool is EMPTY (candidates={len(candidates)})")
 
-    # Validate: AI picks must have meaningful combined XP for the party level
-    # If picks are all CR 0-0.5 fodder (AI invented unavailable monsters), override
+    # Validate: AI picks must have combat-appropriate CR for party level
+    # AI tends to pick CR 0 trash when it can't think of good options
     if picks and target_raw > 0:
         pick_raw_xp = sum(m["xp"] * max(m.get("_suggested_count", 1), 1) for m in picks)
-        has_real_threat = any(m["cr"] >= 0.5 for m in picks)  # at least one real combat threat
-        # Check if AI's description has monsters not in any candidate pool
-        invented_count = 0
-        if ai_desc:
-            known_names = {c["name"].lower() for c in candidates}
-            # Extract capitalized nouns from description (potential monster names)
-            invented = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ai.get("description", ""))
-            invented_count = sum(1 for m in invented if m.lower() not in known_names and len(m) > 4)
-        # Trigger fallback if: picks are extremely weak (<30% budget) OR AI invented monsters
-        # AND the AI's actual picks are inadequate
-        if (pick_raw_xp < target_raw * 0.30 or not has_real_threat) and invented_count > 0:
-            print(f"[AI Encounter] Override: AI's picks too weak ({pick_raw_xp} raw XP vs {int(target_raw)} target) "
-                  f"and AI invented {invented_count} unavailable monsters — using algorithmic fallback")
+        max_pick_cr = max(m["cr"] for m in picks)
+        min_expected_cr = max(0.125, (party_level // 3) * 0.5)  # L1→0.125, L3→0.5, L7→1.0, L11→1.5, L15→2.5, L20→3.0
+        is_too_weak = pick_raw_xp < target_raw * 0.50  # under 50% of target XP
+        is_all_fodder = max_pick_cr < min_expected_cr  # nothing above minimum threat level
+        if is_too_weak or is_all_fodder:
+            print(f"[AI Encounter] Override: AI picks too weak (XP:{int(pick_raw_xp)}/{int(target_raw)}, "
+                  f"maxCR:{max_pick_cr}, need≥{min_expected_cr}) — using algorithmic fallback")
             picks = []
 
     # Algorithmic count assignment — AI doesn't do math
     composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type) if picks else ([], 0)
 
     # Fallback: fully algorithmic if AI returned nothing usable
+    # Uses the same budget-filtered pools the AI should have picked from
     if not composition:
-        boss_candidates = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1]
-        if not boss_candidates:
-            boss_candidates = candidates[:20]
-        boss = random.choice(boss_candidates) if boss_candidates else None
+        if not boss_pool:
+            # If pools are empty (e.g., very low budget), widen to candidates
+            fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
+        else:
+            fb_pool = boss_pool
+        boss = random.choice(fb_pool) if fb_pool else None
         if boss:
             picks = [{**boss, "role": "boss"}]
-            # Prefer minions of same type as boss (thematic cohesion)
-            minion_pool = [c for c in candidates
-                          if c["cr"] < party_level and c["index"] != boss["index"]]
-            same_type = [c for c in minion_pool if c["type"] == boss["type"]]
-            random.shuffle(same_type)
-            random.shuffle(minion_pool)
-            chosen = (same_type + minion_pool)[:3]
-            for m in chosen:
-                picks.append({**m, "role": "minion"})
+            # Minions: prefer same-type from minion_pool, or nearby CR
+            if minion_pool:
+                same_type = [c for c in minion_pool if c["type"] == boss["type"]]
+                random.shuffle(same_type)
+                pool = same_type if same_type else minion_pool
+                for m in (pool[:3] if len(pool) > 3 else pool):
+                    picks.append({**m, "role": "minion"})
         composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type)
 
     # Log pick resolution stats
