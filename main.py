@@ -4610,29 +4610,27 @@ def _assign_encounter_counts(picks, xp_budget, encounter_type="skirmish"):
         mult = _encounter_mult(total_count)
         adjusted = int(raw_xp * mult)
 
-    # ── Third pass: trim if way over budget (>130%) ──
-    if xp_budget > 0 and adjusted > xp_budget * 1.30:
+    # ── Third pass: trim if extremely over budget (>200%) — keep all AI-chosen types ──
+    if xp_budget > 0 and adjusted > xp_budget * 2.0:
         for _ in range(50):
             if not composition:
                 break
             total_count = _total()
             total_types = len(composition)
-            if total_count <= 1 or total_types <= 1:
+            if total_count <= total_types:
+                # Keep at least 1 of each type (don't remove unique types)
                 break
-            # Remove one of the cheapest non-boss creature
-            non_boss = [c for c in composition if c.get("role") != "boss" and c["count"] > 0]
+            # Reduce count of the cheapest non-boss with duplicates
+            non_boss = [c for c in composition if c.get("role") != "boss" and c["count"] > 1]
             if not non_boss:
                 break
             cheapest = min(non_boss, key=lambda c: c["xp"])
-            if cheapest["count"] > 1:
-                cheapest["count"] -= 1
-            else:
-                composition.remove(cheapest)
+            cheapest["count"] -= 1
             raw_xp -= cheapest["xp"]
             total_count = _total()
             mult = _encounter_mult(total_count) if total_count > 0 else 1
             adjusted = int(raw_xp * mult) if total_count > 0 else 0
-            if adjusted <= xp_budget * 1.10:
+            if adjusted <= xp_budget * 1.50:
                 break
 
     print(f"[Counts] final: {[(c['name'], c['count']) for c in composition]} raw={raw_xp} adj={adjusted} budget={xp_budget}")
@@ -6199,6 +6197,11 @@ From the candidates below, pick monsters that fit your concept. For each, provid
 
 {role_section}
 
+CRITICAL RULE: Your "description" field may ONLY mention monsters you listed in "picks".
+Do NOT describe creatures you didn't pick. If your concept needs a creature, add it to picks.
+If you only picked one monster, your description must only reference that one monster.
+Every named creature in the description MUST have a corresponding entry in the picks array.
+
 Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repeat the same composition twice.
 
 {{"name": "short evocative encounter name",
@@ -6207,7 +6210,7 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
     {{"index": "monster-index-2", "role": "elite", "count": 1}},
     {{"index": "monster-index-3", "role": "minion", "count": 3}}
   ],
-  "description": "vignette setting the scene and why these creatures are together",
+  "description": "vignette setting the scene — ONLY mention monsters from the picks array above",
   "tactics": "2-3 sentences: terrain use, opening combo, how monsters adapt when hurt",
   "dynamic": "1 sentence about what changes mid-fight (reinforcements, enrage, terrain shift, morale)"}}"""
     
@@ -6249,6 +6252,28 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
                 picks.append({**m, "role": role, "_suggested_count": max(0, suggested)})
             else:
                 pick_failures.append(idx)
+
+    # Safety net: scan AI description for monster names mentioned but not picked
+    ai_desc = (ai.get("description") or "").lower() if ai else ""
+    if ai_desc and len(ai_desc) > 10:
+        # Build name→candidate lookup from the full candidates list
+        mentioned_extra = []
+        desc_words = set(ai_desc.split())
+        for c in candidates:
+            cname_lower = c["name"].lower()
+            # Check if monster name appears in description (whole word or phrase)
+            if cname_lower in ai_desc:
+                # Skip if already picked
+                already = any(p["index"] == c["index"] for p in picks)
+                if not already:
+                    # Count roughly how many the AI described — look for "N×" or "N " prefix
+                    mention_counts = re.findall(rf'(\d+)\s*×?\s*{re.escape(cname_lower)}', ai_desc)
+                    suggested = int(mention_counts[0]) if mention_counts else 1
+                    mentioned_extra.append({**c, "role": "minion", "_suggested_count": suggested})
+        if mentioned_extra:
+            for m in mentioned_extra[:3]:  # cap at 3 extra
+                picks.append(m)
+                print(f"[AI Encounter] Auto-injected {m['name']} from description (×{m['_suggested_count']})")
 
     # Swarm: override AI picks with algorithmic selection
     # AI is bad at picking budget-appropriate creatures for swarms
