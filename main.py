@@ -6175,246 +6175,28 @@ async def dm_ai_build_encounter(request: Request):
     if minion_pool:
         role_section += f"\nMINION CANDIDATES (≤{minion_budget} XP each):\n{minion_lines}\n"
 
-    ai_prompt = f"""DESIGN A {difficulty.upper()} D&D 5e ENCOUNTER — {cr_info} in a {environment} setting
-Tier: {tier_guide}
-Type: {encounter_type}  |  Tone: {tone if tone else 'standard'}  |  Theme: {theme if theme else 'any'}
-{budget_section}{party_section}{boss_rotation_context}
+    # ── Phase 1: Algorithm picks monsters (AI can't do this reliably) ──
+    # Pick boss from boss pool, minions from minion pool
+    fb_pool = boss_pool if boss_pool else (minion_pool[:5] if minion_pool else candidates[:20])
+    if not fb_pool:
+        fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
 
-STEP 1 — ENCOUNTER CONCEPT
-What makes this encounter interesting and dynamic? Think about:
-• Monster synergy — how do the chosen creatures fight together?
-• Tactical setup — positions, terrain use, opening moves
-• Combat flow — how does the fight evolve? Waves? Enrage? Morale break?
-• Choice points — what decisions does the party face? (focus fire? split up? retreat?)
-
-{guide}
-
-STEP 2 — PICK MONSTERS
-From the candidates below, pick monsters that fit your concept. For each, provide:
-- index: the EXACT bracketed [index] shown next to the monster name
-- role: "boss" / "elite" / "minion" (or "faction_a"/"faction_b" for rival_faction)
-- count: your suggested number (the system may adjust slightly for XP budget)
-
-{role_section}
-
-CRITICAL RULE: Your "description" field may ONLY mention monsters you listed in "picks".
-Do NOT describe creatures you didn't pick. If your concept needs a creature, add it to picks.
-If you only picked one monster, your description must only reference that one monster.
-Every named creature in the description MUST have a corresponding entry in the picks array.
-
-Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repeat the same composition twice.
-
-{{"name": "short evocative encounter name",
-  "picks": [
-    {{"index": "monster-index-1", "role": "boss", "count": 1}},
-    {{"index": "monster-index-2", "role": "elite", "count": 1}},
-    {{"index": "monster-index-3", "role": "minion", "count": 3}}
-  ],
-  "description": "vignette setting the scene — ONLY mention monsters from the picks array above",
-  "tactics": "2-3 sentences: terrain use, opening combo, how monsters adapt when hurt",
-  "dynamic": "1 sentence about what changes mid-fight (reinforcements, enrage, terrain shift, morale)"}}"""
-    
-    print(f"[AI Encounter] env={environment} diff={difficulty} tier={tier_key} budget={xp_budget} candidates={len(candidates)}")
-
-    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
-    ai = _extract_json(text) if text else None
-    if ai:
-        print(f"[AI Encounter] parsed: name={bool(ai.get('name'))} desc={bool(ai.get('description'))} tactics={bool(ai.get('tactics'))} picks={len(ai.get('picks', ai.get('composition', [])))}")
-    else:
-        print(f"[AI Encounter] _extract_json returned None, raw text length={len(text) if text else 0}")
-
-    # Build the allowed pool — AI can ONLY pick monsters shown in pools
-    pool_indices = set()
-    for m in boss_pool + elite_pool + minion_pool:
-        pool_indices.add(m["index"])
-    pool_candidates = [c for c in candidates if c["index"] in pool_indices]
-    if not pool_candidates:
-        # All pools empty — environment/budget filters too strict for this party
-        # Can't show AI any meaningful choices; skip to algorithmic fallback
-        print(f"[AI Encounter] Pools empty ({len(boss_pool)} boss, {len(elite_pool)} elite, "
-              f"{len(minion_pool)} minion from {len(candidates)} candidates) — algorithmic fallback")
-        pools_empty = True
-    else:
-        pools_empty = False
-        print(f"[AI Encounter] Pools: {len(boss_pool)} boss, {len(elite_pool)} elite, "
-              f"{len(minion_pool)} minion → {len(pool_candidates)} unique pool candidates")
-
-    if pools_empty or not pool_candidates:
-        if ai:
-            print(f"[AI Encounter] Pools empty — discarding AI picks, using algorithmic fallback")
-        ai = None  # skip AI entirely, go straight to algorithmic fallback
-
-    # Resolve AI picks into candidate objects — restricted to pool-only
+    boss = random.choice(fb_pool) if fb_pool else None
     picks = []
-    pick_failures = []
-    if ai:
-        raw_entries = ai.get("picks") or ai.get("composition") or []
-        for entry in raw_entries:
-            idx = str(entry.get("index", "")).lower().strip()
-            role = entry.get("role", "minion").lower()
-            if encounter_type == "swarm":
-                role = "minion"
-            # Only match against pool members (AI can only pick what it saw)
-            # Exact match on index
-            m = next((c for c in pool_candidates if str(c["index"]).lower() == idx), None)
-            # Fallback: match by name (lowercased hyphenated)
-            if not m:
-                name_from_idx = idx.replace("-", " ").replace("_", " ")
-                m = next((c for c in pool_candidates if c["name"].lower() == name_from_idx), None)
-            # Fallback: match by name substring (AI sometimes abbreviates)
-            if not m and len(idx) > 3:
-                m = next((c for c in pool_candidates if idx in c["name"].lower().replace(" ", "-")), None)
-            # Fallback: match by index suffix (AI sometimes prepends numbers)
-            if not m and "-" in idx:
-                suffix = idx.split("-")[-1]
-                m = next((c for c in pool_candidates if str(c["index"]).lower().endswith(suffix) and len(suffix) > 3), None)
-            if m:
-                # Capture AI's suggested count as hint
-                suggested = int(entry.get("count", entry.get("suggested_count", 0)))
-                picks.append({**m, "role": role, "_suggested_count": max(0, suggested)})
-            else:
-                pick_failures.append(idx)
-
-    # Safety net: scan AI description for monster names mentioned but not picked
-
-    # ── STRIP invented monster names from ALL AI text output ──
-    # AI must never describe creatures that don't exist in our database
-    if ai and all_monsters:
-        valid_names = {c["name"].lower() for c in all_monsters}
-        common_words = {"the","a","an","its","their","and","or","but","with","from","they","them",
-            "these","those","while","when","then","than","that","this","what","which","who","whom",
-            "where","how","why","all","any","each","every","both","few","more","most","other",
-            "some","such","no","nor","not","only","own","same","so","too","very","just","also",
-            "into","onto","upon","within","without","through","during","before","after","above",
-            "below","between","under","again","further","once","ice","body","armor","attack",
-            "magic","battle","make","does","down","off","over","out","up","here","there","about"}
-        for field in ("description", "tactics", "dynamic"):
-            raw = ai.get(field, "")
-            if not raw:
-                continue
-            # Find all capitalized phrases that look like creature names
-            invented = []
-            for m in re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', raw):
-                ml = m.lower()
-                if ml not in valid_names and ml not in common_words and len(m) > 4:
-                    invented.append(m)
-            if invented:
-                # Strip entire sentences that mention invented monsters
-                sentences = re.split(r'(?<=[.!?])\s+', raw)
-                kept = [s for s in sentences if not any(inv.lower() in s.lower() for inv in invented)]
-                cleaned = " ".join(kept).strip()
-                if cleaned:
-                    ai[field] = cleaned
-                else:
-                    ai[field] = ""  # whole field was invented — clear it
-                print(f"[AI Encounter] Stripped invented monsters from '{field}': {invented}")
-
-    ai_desc = (ai.get("description") or "").lower() if ai else ""
-    if ai_desc and len(ai_desc) > 10:
-        # Build name→candidate lookup from POOL members only (budget-filtered)
-        mentioned_extra = []
-        for c in pool_candidates:  # pool_candidates already filtered by budget
-            cname_lower = c["name"].lower()
-            # Check if monster name appears in description (whole word or phrase)
-            if cname_lower in ai_desc:
-                # Skip if already picked
-                already = any(p["index"] == c["index"] for p in picks)
-                if not already:
-                    # Count roughly how many the AI described — look for "N×" or "N " prefix
-                    mention_counts = re.findall(rf'(\d+)\s*×?\s*{re.escape(cname_lower)}', ai_desc)
-                    suggested = int(mention_counts[0]) if mention_counts else 1
-                    mentioned_extra.append({**c, "role": "minion", "_suggested_count": suggested})
-        if mentioned_extra:
-            for m in mentioned_extra[:3]:  # cap at 3 extra
-                picks.append(m)
-                print(f"[AI Encounter] Auto-injected {m['name']} from description (×{m['_suggested_count']})")
-        # Log description monsters NOT in candidate pool (can't auto-inject)
-        # Look for capitalized words that aren't articles/prepositions
-        desc_monsters = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', ai.get("description", ""))
-        candidate_names = {c["name"].lower() for c in all_monsters}
-        unknown = [m for m in desc_monsters if m.lower() not in candidate_names and m.lower() not in (
-            "the", "a", "an", "its", "their", "thei", "and", "or", "but", "with", "from",
-            "they", "them", "these", "those", "while", "when", "then", "than", "that",
-            "this", "what", "which", "who", "whom", "where", "how", "why", "all", "any",
-            "each", "every", "both", "few", "more", "most", "other", "some", "such", "no",
-            "nor", "not", "only", "own", "same", "so", "too", "very", "just", "also",
-            "into", "onto", "upon", "within", "without", "through", "during", "before",
-            "after", "above", "below", "between", "under", "again", "further", "once",
-            "ice", "body", "armor", "attack", "magic", "battle", "make", "does", "down",
-            "off", "over", "out", "up", "here", "there", "about", "after", "around",
-        ) and len(m) > 3]
-        if unknown:
-            print(f"[AI Encounter] DESCRIPTION mentions creatures NOT in monster data: {unknown}")
-    # Swarm: override AI picks with algorithmic selection
-    # AI is bad at picking budget-appropriate creatures for swarms
-    if encounter_type == "swarm":
+    if boss:
+        picks.append({**boss, "role": "boss", "_suggested_count": 1})
+        # Minions: prefer same-type from minion_pool
         if minion_pool:
-            # Find the best creature that fills budget with 8-12 of them
-            best = None
-            best_score = float('inf')
-            for m in minion_pool:
-                for count in range(8, 13):
-                    raw = m["xp"] * count
-                    adj = raw * _encounter_mult(count)
-                    score = abs(adj - xp_budget)
-                    if score < best_score:
-                        best_score = score
-                        best = (m, count)
-            if best:
-                m, count = best
-                picks = [{**m, "role": "minion"}]
-        else:
-            print(f"[AI Encounter] Swarm override SKIPPED: minion_pool is EMPTY (candidates={len(candidates)})")
-
-    # Validate: AI picks must have combat-appropriate CR for party level
-    # AI tends to pick CR 0 trash when it can't think of good options
-    if picks and target_raw > 0:
-        pick_raw_xp = sum(m["xp"] * max(m.get("_suggested_count", 1), 1) for m in picks)
-        max_pick_cr = max(m["cr"] for m in picks)
-        min_expected_cr = max(0.125, (party_level // 3) * 0.5)  # L1→0.125, L3→0.5, L7→1.0, L11→1.5, L15→2.5, L20→3.0
-        is_too_weak = pick_raw_xp < target_raw * 0.50  # under 50% of target XP
-        is_all_fodder = max_pick_cr < min_expected_cr  # nothing above minimum threat level
-        if is_too_weak or is_all_fodder:
-            print(f"[AI Encounter] Override: AI picks too weak (XP:{int(pick_raw_xp)}/{int(target_raw)}, "
-                  f"maxCR:{max_pick_cr}, need≥{min_expected_cr}) — using algorithmic fallback")
-            picks = []
-
-    # Algorithmic count assignment — AI doesn't do math
+            same_type = [c for c in minion_pool if c["type"] == boss["type"]]
+            other = [c for c in minion_pool if c["index"] != boss["index"]]
+            random.shuffle(same_type)
+            random.shuffle(other)
+            minion_picks = (same_type + other)[:3]
+            for m in minion_picks:
+                picks.append({**m, "role": "minion", "_suggested_count": 2 if m["cr"] <= 0.5 else 1})
     composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type) if picks else ([], 0)
 
-    # Fallback: fully algorithmic if AI returned nothing usable
-    # Uses the same budget-filtered pools the AI should have picked from
-    if not composition:
-        # Prefer pool_candidates (budget-filtered), fall back to candidates (CR-filtered only)
-        if boss_pool and pool_candidates:
-            fb_pool = boss_pool
-        elif pool_candidates:
-            # No boss in pool but pool candidates exist — pick highest CR from pool
-            fb_pool = sorted(pool_candidates, key=lambda c: c["cr"], reverse=True)[:5]
-        else:
-            # Nothing in pools — use CR-adjacent candidates
-            fb_pool = [c for c in candidates if abs(c["cr"] - party_level) <= 1 and c["cr"] >= 1] or candidates[:20]
-        boss = random.choice(fb_pool) if fb_pool else None
-        if boss:
-            picks = [{**boss, "role": "boss"}]
-            # Minions: prefer same-type from minion_pool, or nearby CR
-            if minion_pool:
-                same_type = [c for c in minion_pool if c["type"] == boss["type"]]
-                random.shuffle(same_type)
-                pool = same_type if same_type else minion_pool
-                for m in (pool[:3] if len(pool) > 3 else pool):
-                    picks.append({**m, "role": "minion"})
-        composition, xp_total = _assign_encounter_counts(picks, xp_budget, encounter_type)
-
-    # Log pick resolution stats
-    if pick_failures:
-        names_str = ", ".join(pick_failures[:5])
-        if len(pick_failures) > 5:
-            names_str += f" +{len(pick_failures)-5} more"
-        pct = int(len(composition) / max(len(pick_failures) + len(composition), 1) * 100)
-        print(f"[AI Encounter] PICK RESOLUTION: {len(composition)} matched, {len(pick_failures)} failed ({pct}%) — failed: {names_str}")
-
-    # Fix description to match actual composition (not AI's hallucinated picks)
+    # Build composition summary for AI
     comp_name_list = []
     seen_names = set()
     for c in composition:
@@ -6422,35 +6204,38 @@ Return ONLY valid JSON. No markdown, no explanation. Vary choices — don't repe
         if n not in seen_names:
             seen_names.add(n)
             comp_name_list.append(f"{c.get('count', 1)}× {n}")
-    monster_str = ", ".join(comp_name_list)
+    monster_str = ", ".join(comp_name_list) or "various creatures"
 
-    # Defaults: use AI's creative output when it matches reality
+    # ── Phase 2: AI writes narrative for the actual composition ──
+    ai_prompt = f"""Write flavor text for a D&D 5e encounter:
+Difficulty: {difficulty.upper()} | Setting: {environment} | Type: {encounter_type}
+Party: {cr_info}
+Monsters: {monster_str}
+{tier_guide}{party_section}{boss_rotation_context}
+
+Write a vivid scene description that sets up WHY these specific monsters are here and
+how they work together. Then describe their tactics and any dynamic element.
+
+Return ONLY valid JSON:
+{{"name": "short evocative encounter name",
+  "description": "vignette setting the scene and why these creatures are together",
+  "tactics": "2-3 sentences: terrain use, opening combo, how monsters adapt when hurt",
+  "dynamic": "1 sentence about what changes mid-fight (reinforcements, enrage, terrain shift, morale)"}}"""
+    
+    print(f"[AI Encounter] Phase 1: {monster_str} — calling AI for flavor")
+    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    ai = _extract_json(text) if text else None
+    if ai:
+        print(f"[AI Encounter] Phase 2: name={bool(ai.get('name'))} desc={bool(ai.get('description'))} tactics={bool(ai.get('tactics'))}")
+    else:
+        print(f"[AI Encounter] Phase 2 FAILED, using generic flavor")
+
     name = (ai.get("name") or f"{environment.title()} Encounter") if ai else f"{environment.title()} Encounter"
-    desc = ((ai.get("description") or "") if ai else "") or monster_str or f"A {difficulty} encounter in a {environment} setting."
+    desc = ((ai.get("description") or "") if ai else "") or f"A {difficulty} encounter in a {environment} setting with {monster_str}."
     tactics = (ai.get("tactics") or "") if ai else ""
     dynamic = (ai.get("dynamic") or "") if ai else ""
 
-    # If AI's picks fell through (composition is algorithmic), override description
-    ai_picks_had_content = bool(ai and (ai.get("picks") or ai.get("composition")))
-    if ai_picks_had_content and not picks:
-        # AI returned picks but none resolved — full fallback
-        desc = f"A {difficulty} encounter in a {environment} setting featuring {monster_str}."
-        name = f"{environment.title()} Encounter"
-        tactics = ""
-        dynamic = ""
-    elif pick_failures and composition and comp_name_list:
-        # Some AI picks failed — blend AI description with actual composition
-        ai_desc = (ai.get("description") or "") if ai else ""
-        if ai_desc:
-            desc = f"{monster_str}. {ai_desc}"
-        else:
-            desc = ai_desc or f"A {difficulty} encounter in a {environment} setting with {monster_str}."
-        dynamic = dynamic or ""
-    elif not composition and monster_str:
-        desc = f"A {difficulty} encounter in a {environment} setting with {monster_str}."
-        dynamic = ""
-
-    print(f"[AI Encounter] Final composition: {monster_str[:200]}")
+    print(f"[AI Encounter] Final composition: {monster_str}")
 
     # Calculate adjusted XP multiplier (DMG p.83 — Encounter Multipliers)
     total_monsters = sum(c.get("count", 1) for c in composition)
