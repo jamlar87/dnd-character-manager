@@ -1635,8 +1635,8 @@ function randomName() {
 
   if (data) {
     const first = data[gender][Math.floor(Math.random() * data[gender].length)];
-    // 30% chance: no clan name
-    if (Math.random() < 0.3) {
+    // Skip clan if empty or 30% random chance
+    if (!data.clan || !data.clan.length || Math.random() < 0.3) {
       document.getElementById('char-name').value = first;
       state.name = first;
       return;

@@ -11209,8 +11209,8 @@ def random_name(race: str, gender: str = "any") -> dict:
         if gender == "any":
             gender = random.choice(["male", "female"])
         first = random.choice(data[gender])
-        # 30% chance: no clan name (not every character needs a surname)
-        if random.random() < 0.3:
+        # Skip clan if empty or 30% random chance
+        if not data.get("clan") or not data["clan"] or random.random() < 0.3:
             return {"name": first, "first": first, "clan": ""}
         clan = random.choice(data["clan"])
         return {"name": f"{first} {clan}", "first": first, "clan": clan}
