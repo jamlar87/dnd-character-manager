@@ -901,7 +901,7 @@
         {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
         <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
-            <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}{% if s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
+            <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.main_name or s.name }}{% if s.main_name and s.name %} <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">({{ s.name }})</span>{% endif %}{% if not s.main_name and s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
             <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
           </div>
           <div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.15rem">
@@ -8049,7 +8049,8 @@ async function resetSummonHP(idx) {
 }
 
 async function dismissSummon(idx) {
-  if (!confirm(`Dismiss ${characterSummons[idx].name}?`)) return;
+  const label = characterSummons[idx].main_name || characterSummons[idx].name;
+  if (!confirm(`Dismiss ${label}?`)) return;
   characterSummons.splice(idx, 1);
   await saveSummons();
   location.reload();
@@ -8095,8 +8096,12 @@ function openSummonModal() {
           onchange="fillSummonTemplate(document.getElementById('summon-template').value)">
         <span id="summon-hp-calc" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.5rem"></span>
       </div>
+      <div style="margin-bottom:0.5rem">
+        <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Main Name <span style="font-size:0.6rem">(e.g. "Stolas")</span></label>
+        <input id="s-main-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="">
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-        <div><label style="font-size:0.7rem">Name</label><input id="s-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Stolas"></div>
+        <div><label style="font-size:0.7rem">Name <span style="color:var(--text-muted)">(creature type)</span></label><input id="s-name" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="Imp"></div>
         <div><label style="font-size:0.7rem">Form/Type</label><input id="s-form" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" placeholder="owl"></div>
         <div><label style="font-size:0.7rem">AC</label><input id="s-ac" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="10"></div>
         <div><label style="font-size:0.7rem">HP</label><input id="s-hp" type="number" style="width:100%;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem" value="1"></div>
@@ -8141,7 +8146,10 @@ async function fillSummonTemplate(key) {
   }
   const t = SUMMON_TEMPLATES[key];
 
-  // Name + form
+  // Name + form — preserve main_name if already set
+  if (!document.getElementById('s-main-name').value) {
+    document.getElementById('s-main-name').value = t.name;
+  }
   document.getElementById('s-name').value = t.name;
   document.getElementById('s-form').value = '';
   document.getElementById('s-size').value = t.size || 'Medium';
@@ -8282,6 +8290,7 @@ async function fillSummonTemplate(key) {
 function addSummon() {
   const s = {
     id: 'summon_' + Date.now(),
+    main_name: document.getElementById('s-main-name').value,
     name: document.getElementById('s-name').value || 'Unnamed',
     form: document.getElementById('s-form').value,
     category: 'custom',
