@@ -3996,15 +3996,15 @@ function showDetail() {
   const title = document.getElementById('popup-title');
   const body = document.getElementById('popup-body');
 
-  const race = '{{ character.race }}';
-  const subrace = '{{ character.subrace or "" }}';
-  const cls = '{{ character.class_name }}';
-  const subclass = '{{ character.subclass or "" }}';
-  const bg = '{{ character.background or "" }}';
-  const align = '{{ character.alignment or "" }}';
+  const race = {{ character.race|tojson }};
+  const subrace = {{ (character.subrace or "")|tojson }};
+  const cls = {{ character.class_name|tojson }};
+  const subclass = {{ (character.subclass or "")|tojson }};
+  const bg = {{ (character.background or "")|tojson }};
+  const align = {{ (character.alignment or "")|tojson }};
   const bgData = {{ character.background_data|tojson if character.background_data else '{}' }};
 
-  title.textContent = '{{ character.name }}';
+  title.textContent = {{ character.name|tojson }};
 
   let html = '';
   const raceData = DESCRIPTIONS.race[race];
