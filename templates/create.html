@@ -229,6 +229,34 @@
   </div>
 </div>
 
+<!-- Favored Enemy Picker (Ranger L1) -->
+<div id="favored-enemy-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem">🎯 Favored Enemy</h3>
+    <p id="favored-enemy-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Choose your Ranger's Favored Enemy (PHB p.91)</p>
+    <div id="favored-enemy-picker-options"></div>
+    <p id="favored-enemy-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 1 selected</p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipFavoredEnemyPicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmFavoredEnemyPicker()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Favored Terrain Picker (Ranger L1) -->
+<div id="favored-terrain-picker-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+  <div style="background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;padding:1.5rem;max-width:550px;width:95%;max-height:85vh;overflow-y:auto">
+    <h3 style="margin:0 0 0.5rem">🌲 Favored Terrain</h3>
+    <p id="favored-terrain-picker-info" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem">Choose your Ranger's Favored Terrain (PHB p.91)</p>
+    <div id="favored-terrain-picker-options"></div>
+    <p id="favored-terrain-picker-count" style="font-size:0.8rem;color:var(--text-muted)">0 / 1 selected</p>
+    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem">
+      <button class="btn btn-outline" onclick="skipFavoredTerrainPicker()">Skip →</button>
+      <button class="btn btn-primary" onclick="confirmFavoredTerrainPicker()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
@@ -257,6 +285,10 @@ const TOTEM_SPIRIT_LEVELS = {{ totem_spirit_levels | tojson }};
 const TOTEM_SPIRIT_TIER_LABELS = {{ totem_spirit_tier_labels | tojson }};
 const HUNTERS_PREY_OPTIONS = {{ hunters_prey_options | tojson }};
 const HUNTERS_PREY_LEVELS = {{ hunters_prey_levels | tojson }};
+const FAVORED_ENEMY_OPTIONS = {{ favored_enemy_options | tojson }};
+const FAVORED_ENEMY_LEVELS = {{ favored_enemy_levels | tojson }};
+const FAVORED_TERRAIN_OPTIONS = {{ favored_terrain_options | tojson }};
+const FAVORED_TERRAIN_LEVELS = {{ favored_terrain_levels | tojson }};
 const INFUSION_OPTIONS = {{ infusion_options | tojson }};
 const INFUSION_LEVELS = {{ infusion_levels | tojson }};
 const INFUSION_PICKS = {{ infusion_picks | tojson }};
@@ -413,7 +445,7 @@ const STARTING_EQUIPMENT = {
   "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
 };
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], expertise_skills: [], fighting_style: "", metamagic: [], invocations: [], pact_boon: "", maneuvers: [], magical_secrets: [], totem_spirits: {}, hunters_prey: "", infusions: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], expertise_skills: [], fighting_style: "", metamagic: [], invocations: [], pact_boon: "", maneuvers: [], magical_secrets: [], totem_spirits: {}, hunters_prey: "", infusions: [], favored_enemies: [], favored_terrains: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
 let step = 0;
 
 // Subclass bonus proficiency map (same as backend SUBCLASS_PROFICIENCIES)
@@ -448,6 +480,16 @@ function nextStep() {
   // Intercept: infusion picker for Artificer L2 (after class step)
   if (step === 1 && hasL1Infusions() && !state._infusionShown) {
     showInfusionPicker();
+    return;
+  }
+  // Intercept: favored enemy picker for Ranger L1
+  if (step === 1 && hasL1FavoredEnemy() && !state._favoredEnemyShown) {
+    showFavoredEnemyPicker();
+    return;
+  }
+  // Intercept: favored terrain picker for Ranger L1 (after FE picked)
+  if (step === 1 && hasL1FavoredTerrain() && state._favoredEnemyShown && !state._favoredTerrainShown) {
+    showFavoredTerrainPicker();
     return;
   }
   // Intercept: expertise picker for classes with L1 Expertise (after skills step)
@@ -1343,12 +1385,12 @@ function showFightingStylePicker() {
 function skipFightingStylePicker() {
   state.fighting_style = '';
   document.getElementById('fighting-style-picker-overlay').style.display = 'none';
-  showStep(2);  // Proceed to Abilities
+  nextStep();  // Chain into FE/FT pickers for Ranger
 }
 
 function confirmFightingStylePicker() {
   document.getElementById('fighting-style-picker-overlay').style.display = 'none';
-  showStep(2);  // Proceed to Abilities
+  nextStep();  // Chain into FE/FT pickers for Ranger
 }
 
 // ── Metamagic Picker (Sorcerer L1 — not gained at L1, so skip) ────
@@ -1417,57 +1459,161 @@ function confirmInfusionPicker() {
   showStep(2);
 }
 
-// ── Create ──
-async function createCharacter() {
-  buildReview();
-
-  // Validate Dragonborn ancestry
-  if (state.race === 'Dragonborn' && !state.dragonborn_ancestry) {
-    alert('Please select a Draconic Ancestry (Step 0 → Race). This determines your damage resistance and breath weapon.');
-    showStep(0);
+// ── Favored Enemy Picker (Ranger L1) ─────────────────────────────
+function hasL1FavoredEnemy() {
+  return state.class_name === 'Ranger';
+}
+function showFavoredEnemyPicker() {
+  var opts = Object.entries(FAVORED_ENEMY_OPTIONS);
+  var container = document.getElementById('favored-enemy-picker-options');
+  container.innerHTML = '';
+  var info = document.getElementById('favored-enemy-picker-info');
+  info.textContent = 'Choose your Favored Enemy (Ranger L1 — PHB p.91)';
+  var selected = false;
+  opts.forEach(function(entry) {
+    var key = entry[0], opt = entry[1];
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'cursor:pointer;padding:0.6rem 0.8rem;margin-bottom:0.4rem;border:1px solid var(--border);border-radius:6px;transition:border-color 0.15s';
+    card.onclick = function() {
+      document.querySelectorAll('#favored-enemy-picker-options .card').forEach(function(c) {
+        c.classList.remove('selected');
+        c.style.borderColor = 'var(--border)';
+      });
+      card.classList.add('selected');
+      card.style.borderColor = 'var(--accent)';
+      state._favoredEnemyPick = key;
+    };
+    card.innerHTML = '<strong>' + opt.name + '</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">' + opt.desc + '</span>';
+    container.appendChild(card);
+  });
+  document.getElementById('favored-enemy-picker-overlay').style.display = 'flex';
+}
+function skipFavoredEnemyPicker() {
+  state.favored_enemies = [];
+  state._favoredEnemyShown = true;
+  state._favoredEnemyPick = null;
+  document.getElementById('favored-enemy-picker-overlay').style.display = 'none';
+  nextStep();
+}
+function confirmFavoredEnemyPicker() {
+  if (!state._favoredEnemyPick) {
+    alert('Please select a Favored Enemy');
     return;
   }
+  state.favored_enemies = [state._favoredEnemyPick];
+  state._favoredEnemyShown = true;
+  document.getElementById('favored-enemy-picker-overlay').style.display = 'none';
+  nextStep();
+}
 
-  const btn = document.getElementById('create-btn');
-  btn.textContent = 'Creating...'; btn.disabled = true;
-
-  const payload = {
-    name: state.name, race: state.race, subrace: state.subrace,
-    class_name: state.class_name, subclass: state.subclass,
-    abilities: state.abilities, skills: state.skills,
-    expertise_skills: state.expertise_skills,
-    fighting_style: state.fighting_style,
-    metamagic: state.metamagic,
-    invocations: state.invocations,
-    pact_boon: state.pact_boon,
-    maneuvers: state.maneuvers,
-    magical_secrets: state.magical_secrets,
-    totem_spirits: state.totem_spirits,
-    hunters_prey: state.hunters_prey,
-    infusions: state.infusions,
-    asi_picks: state.asi_picks, background: state.background,
-    background_data: state.background_data || '',
-    alignment: state.alignment, personality: state.personality, backstory: state.backstory,
-    level: 1,  // Always create at L1 — level-up wizard handles higher levels
-    spells: state.spells || [],  // Starting spells from picker
-    equipment: state.equipment,
-    dragonborn_ancestry: state.dragonborn_ancestry || '',
-    subclass_bonus: state.subclass_bonus || [],
-    portrait_url: state.portrait_url || '',
-    portrait_prompt: state.portrait_prompt || ''
-  };
-
-  const r = await fetch('/api/character/create', {
-    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+// ── Favored Terrain Picker (Ranger L1) ────────────────────────────
+function hasL1FavoredTerrain() {
+  return state.class_name === 'Ranger';
+}
+function showFavoredTerrainPicker() {
+  var opts = Object.entries(FAVORED_TERRAIN_OPTIONS);
+  var container = document.getElementById('favored-terrain-picker-options');
+  container.innerHTML = '';
+  var info = document.getElementById('favored-terrain-picker-info');
+  info.textContent = 'Choose your Favored Terrain (Ranger L1 — PHB p.91)';
+  opts.forEach(function(entry) {
+    var key = entry[0], opt = entry[1];
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'cursor:pointer;padding:0.6rem 0.8rem;margin-bottom:0.4rem;border:1px solid var(--border);border-radius:6px;transition:border-color 0.15s';
+    card.onclick = function() {
+      document.querySelectorAll('#favored-terrain-picker-options .card').forEach(function(c) {
+        c.classList.remove('selected');
+        c.style.borderColor = 'var(--border)';
+      });
+      card.classList.add('selected');
+      card.style.borderColor = 'var(--accent)';
+      state._favoredTerrainPick = key;
+    };
+    card.innerHTML = '<strong>' + opt.name + '</strong><br><span style="font-size:0.8rem;color:var(--text-muted)">' + opt.desc + '</span>';
+    container.appendChild(card);
   });
-  const data = await r.json();
-  if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
-  // If target level > 1, redirect to sheet with auto-level-up
-  const targetLevel = parseInt(document.getElementById('char-level').value) || 1;
-  if (targetLevel > 1) {
-    window.location.href = '/character/' + data.id + '?level-up=' + targetLevel;
-  } else {
-    window.location.href = '/character/' + data.id;
+  document.getElementById('favored-terrain-picker-overlay').style.display = 'flex';
+}
+function skipFavoredTerrainPicker() {
+  state.favored_terrains = [];
+  state._favoredTerrainShown = true;
+  state._favoredTerrainPick = null;
+  document.getElementById('favored-terrain-picker-overlay').style.display = 'none';
+  nextStep();
+}
+function confirmFavoredTerrainPicker() {
+  if (!state._favoredTerrainPick) {
+    alert('Please select a Favored Terrain');
+    return;
+  }
+  state.favored_terrains = [state._favoredTerrainPick];
+  state._favoredTerrainShown = true;
+  document.getElementById('favored-terrain-picker-overlay').style.display = 'none';
+  nextStep();
+}
+
+// ── Create ──
+async function createCharacter() {
+  try {
+    buildReview();
+
+    // Validate Dragonborn ancestry
+    if (state.race === 'Dragonborn' && !state.dragonborn_ancestry) {
+      alert('Please select a Draconic Ancestry (Step 0 → Race). This determines your damage resistance and breath weapon.');
+      showStep(0);
+      return;
+    }
+
+    const btn = document.getElementById('create-btn');
+    btn.textContent = 'Creating...'; btn.disabled = true;
+
+    const payload = {
+      name: state.name, race: state.race, subrace: state.subrace,
+      class_name: state.class_name, subclass: state.subclass,
+      abilities: state.abilities, skills: state.skills,
+      expertise_skills: state.expertise_skills,
+      fighting_style: state.fighting_style,
+      metamagic: state.metamagic,
+      invocations: state.invocations,
+      pact_boon: state.pact_boon,
+      maneuvers: state.maneuvers,
+      magical_secrets: state.magical_secrets,
+      totem_spirits: state.totem_spirits,
+      hunters_prey: state.hunters_prey,
+      favored_enemies: state.favored_enemies,
+      favored_terrains: state.favored_terrains,
+      infusions: state.infusions,
+      asi_picks: state.asi_picks, background: state.background,
+      background_data: state.background_data || '',
+      alignment: state.alignment, personality: state.personality, backstory: state.backstory,
+      level: 1,  // Always create at L1 — level-up wizard handles higher levels
+      spells: state.spells || [],  // Starting spells from picker
+      equipment: state.equipment,
+      dragonborn_ancestry: state.dragonborn_ancestry || '',
+      subclass_bonus: state.subclass_bonus || [],
+      portrait_url: state.portrait_url || '',
+      portrait_prompt: state.portrait_prompt || ''
+    };
+
+    const r = await fetch('/api/character/create', {
+      method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload)
+    });
+    const data = await r.json();
+    if (data.error) { alert(data.error); btn.textContent = '✓ Create Character'; btn.disabled = false; return; }
+    // If target level > 1, redirect to sheet with auto-level-up
+    const targetLevel = parseInt(document.getElementById('char-level').value) || 1;
+    if (targetLevel > 1) {
+      window.location.href = '/character/' + data.id + '?level-up=' + targetLevel;
+    } else {
+      window.location.href = '/character/' + data.id;
+    }
+  } catch(e) {
+    alert('Failed to create character: ' + (e.message || e));
+    const btn = document.getElementById('create-btn');
+    if (btn) { btn.textContent = '✓ Create Character'; btn.disabled = false; }
+    console.error(e);
   }
 }
 
