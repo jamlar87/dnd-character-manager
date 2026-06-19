@@ -911,6 +911,20 @@
             <span class="summon-hp-text" style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
           </div>
           <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
+            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+              <div style="flex:1">
+                <label style="font-size:0.6rem;color:var(--text-muted)">Main Name</label>
+                <input class="summon-edit-main-name" value="{{ s.main_name or '' }}" placeholder="{{ s.name }}"
+                  onchange="saveSummonName({{ loop.index0 }})"
+                  style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
+              </div>
+              <div style="flex:1">
+                <label style="font-size:0.6rem;color:var(--text-muted)">Name (creature)</label>
+                <input class="summon-edit-name" value="{{ s.name }}"
+                  onchange="saveSummonName({{ loop.index0 }})"
+                  style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
+              </div>
+            </div>
             <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
               <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
                 style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.6rem;-moz-appearance:textfield;appearance:textfield"
@@ -8043,6 +8057,31 @@ async function resetSummonHP(idx) {
     const hpText = chip.querySelector('.summon-hp-text');
     if (barFill) { barFill.style.width = '100%'; barFill.style.background = 'var(--success)'; }
     if (hpText) hpText.textContent = hp + '/' + hp;
+  }
+
+  await saveSummons();
+}
+
+async function saveSummonName(idx) {
+  const chip = document.querySelector(`.summon-chip[data-summon-id="${idx}"]`);
+  if (!chip) return;
+  const mainInput = chip.querySelector('.summon-edit-main-name');
+  const nameInput = chip.querySelector('.summon-edit-name');
+  if (!mainInput || !nameInput) return;
+
+  characterSummons[idx].main_name = mainInput.value;
+  characterSummons[idx].name = nameInput.value || 'Unnamed';
+
+  // Update chip header display
+  const headerSpan = chip.querySelector('div:first-child > span:first-child');
+  if (headerSpan) {
+    const mn = characterSummons[idx].main_name;
+    const nm = characterSummons[idx].name;
+    if (mn && nm) {
+      headerSpan.innerHTML = mn + ` <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">(` + nm + `)</span>`;
+    } else {
+      headerSpan.textContent = mn || nm;
+    }
   }
 
   await saveSummons();
