@@ -7783,29 +7783,39 @@ async def character_sheet(char_id: int, request: Request):
                                 for m in _fc["maneuvers"]
                             ]
                         break
-    # Inject orphaned feats: asi_history feats with no matching ASI feature_data entry
-    _asi_levels = set()
-    for _feat in char["feature_data"]:
-        if isinstance(_feat, dict) and "Ability Score Improvement" in _feat.get("name", ""):
-            try:
-                _asi_levels.add(int(str(_feat.get("level", "0")).replace("L", "")))
-            except (ValueError, TypeError):
-                pass
+    # Inject orphaned feats: asi_history feats with no matching ASI feature_data entry, or enrich existing
     for _ae in (char.get("asi_history") or []):
         if _ae.get("type") == "feat":
             _lvl = _ae.get("level", 0)
-            if _lvl not in _asi_levels:
-                _fkey = _ae.get("feat", "")
-                _finfo = FEAT_BY_NAME.get(_fkey.lower(), None)
-                if _finfo is None:
-                    _finfo = FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {})
+            _fkey = _ae.get("feat", "")
+            _finfo = FEAT_BY_NAME.get(_fkey.lower(), None)
+            if _finfo is None:
+                _finfo = FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {})
+            _feat_name = _finfo.get("name") or _fkey.replace("_", " ").title()
+            _feat_desc = _finfo.get("description", "") or _finfo.get("desc", "")
+            # Try to enrich existing ASI entry first
+            _existing = None
+            for _ef in char["feature_data"]:
+                if isinstance(_ef, dict) and "Ability Score Improvement" in _ef.get("name", ""):
+                    try:
+                        if int(str(_ef.get("level", "0")).replace("L", "")) == _lvl:
+                            _existing = _ef
+                            break
+                    except (ValueError, TypeError):
+                        pass
+            if _existing is not None:
+                _existing["asi_feat_name"] = _feat_name
+                _existing["asi_feat_desc"] = _feat_desc
+                _existing["source"] = _existing.get("source") or _finfo.get("source", "")
+            else:
+                # Orphaned feat — create new entry
                 _new_asi = {
                     "name": "Ability Score Improvement",
                     "level": f"L{_lvl}",
                     "description": FEATURE_DESCRIPTIONS.get("ability score improvement", ""),
-                    "source": FEAT_BY_NAME.get(_fkey.lower().replace("_", " "), {}).get("source", ""),
-                    "asi_feat_name": _finfo.get("name") or _fkey.replace("_", " ").title(),
-                    "asi_feat_desc": _finfo.get("description", "") or _finfo.get("desc", ""),
+                    "source": _finfo.get("source", ""),
+                    "asi_feat_name": _feat_name,
+                    "asi_feat_desc": _feat_desc,
                 }
                 if _fkey == "magic_initiate":
                     _mi = _ae.get("magic_initiate", {})
