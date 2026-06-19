@@ -411,9 +411,12 @@ def load_manual_data():
             if _post_src and _post_name not in SUBRACE_SOURCES:
                 SUBRACE_SOURCES[_post_name] = _post_src
             # Copy description
-            _post_desc = _post_child.get("desc", "")
+            _post_desc = _post_child.get("description", "") or _post_child.get("desc", "")
             if _post_desc and _post_name not in RICH_SUBRACE_DESCS:
                 RICH_SUBRACE_DESCS[_post_name] = _post_desc
+            # Also set in parent's subrace_descs for the detail modal
+            if _post_desc:
+                RACES[_post_parent].setdefault("subrace_descs", {})[_post_name] = _post_desc
             # Remove top-level entry — it's a subrace now
             del RACES[_post_name]
             print(f"  ↳ Moved '{_post_name}' → subrace of '{_post_parent}'")
@@ -2394,6 +2397,29 @@ RICH_SUBRACE_DESCS: dict[str, str] = {
         "at 3rd level, and detect thoughts at 5th level, each 1/long rest. Githzerai are ascetic "
         "philosophers who found peace in the chaos of Limbo. They channel psionic power through "
         "discipline and meditation, opposing both mind flayers and their githyanki cousins."
+    ),
+    "Shadowborn Bearfolk": (
+        "Shadowborn bearfolk are cubs born in the Shadow Realm with a proclivity for the darkness, "
+        "marked by dark fur, glowing eyes, and an innate connection to shadow magic. They are "
+        "brooding and intense, their ursine strength amplified by the eerie power of the Shadowfell."
+    ),
+    "Woodmen of Wilderland": (
+        "Woodmen carve a living out of meagre hunts, burning charcoal and breeding animals. They "
+        "stand between the shadows of Mirkwood and the open plains, hardy survivors who know the "
+        "forest's dangers intimately. Skilled trackers and woodsmen, they protect their settlements "
+        "from the creeping darkness of the forest."
+    ),
+    "Woodmen of Mountain Hall": (
+        "The folk of Firienseld are close kin with those who live under the eaves of Mirkwood and "
+        "share both their hardy nature and their suspicion of outsiders. Dwellers in mountain halls, "
+        "they are sturdier and more isolated than their lowland cousins, expert miners and defenders "
+        "of mountain passes."
+    ),
+    "Shadow Goblin": (
+        "Shadow goblins are blue- or purple-skinned with bright orange or yellow eyes, evolved to "
+        "thrive in the darkness of the Underdark or Shadowfell. More cunning and stealthy than "
+        "their surface kin, they possess an innate connection to shadow magic that makes them "
+        "elusive and dangerous opponents."
     ),
 }
 
