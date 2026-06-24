@@ -1021,11 +1021,31 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <input type="text" id="combatCreatureSearch" placeholder="Search NPCs or monsters..."
           style="flex:1;min-width:180px;padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem"
           oninput="filterCombatCreatures()">
-        <select id="combatCreatureKind" onchange="filterCombatCreatures()"
+        <select id="combatCreatureKind" onchange="toggleCombatFilters();filterCombatCreatures()"
           style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
           <option value="all">All</option>
           <option value="npc">NPCs</option>
           <option value="monster">Monsters</option>
+        </select>
+        <select id="combatCreatureType" onchange="filterCombatCreatures()"
+          style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;display:none">
+          <option value="all">All Types</option>
+        </select>
+        <select id="combatCreatureCr" onchange="filterCombatCreatures()"
+          style="padding:0.35rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem;display:none">
+          <option value="all">All CR</option>
+          <option value="0">CR 0</option>
+          <option value="0.125">CR ⅛</option>
+          <option value="0.25">CR ¼</option>
+          <option value="0.5">CR ½</option>
+          <option value="1-3">CR 1–3</option>
+          <option value="4-6">CR 4–6</option>
+          <option value="7-9">CR 7–9</option>
+          <option value="10-12">CR 10–12</option>
+          <option value="13-16">CR 13–16</option>
+          <option value="17-20">CR 17–20</option>
+          <option value="21-24">CR 21–24</option>
+          <option value="25+">CR 25+</option>
         </select>
       </div>
       <div id="combatCreatureResults" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:0.2rem">
@@ -3505,10 +3525,14 @@ async function loadCombatEncounter() {
       fetch('/api/dm/monsters').then(r => r.json())
     ]);
     // Monsters first (so they show up before NPCs in All filter)
+    const _monsterTypes = new Set();
     (mr.monsters || []).forEach(m => {
+      if (m.type) _monsterTypes.add(m.type);
       _combatCreatureCache.push({
         id: `m_${m.index || m.name}`, name: m.name,
         _kind: 'monster', _raw: m,
+        _type: m.type || '',
+        _cr: m.challenge_rating,
         race: m.type || '', hp_current: m.hit_points || 10,
         hp_max: m.hit_points || 10, ac: (m.armor_class && m.armor_class[0] ? m.armor_class[0].value : 10),
         level: m.challenge_rating || '?', is_enemy: 1,
@@ -3516,10 +3540,30 @@ async function loadCombatEncounter() {
         xp_reward: m.xp || 0
       });
     });
+    // Populate type dropdown from monster types
+    const typeSel = document.getElementById('combatCreatureType');
+    if (typeSel) {
+      // Keep only the "All Types" default
+      while (typeSel.options.length > 1) typeSel.remove(1);
+      // Get existing CR sort order
+      const crSel = document.getElementById('combatCreatureCr');
+      const wasCrVisible = crSel && crSel.style.display !== 'none';
+      // Add types in alphabetical order
+      [..._monsterTypes].sort().forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+        typeSel.appendChild(opt);
+      });
+      // Show type/CR filters when monsters are loaded
+      typeSel.style.display = '';
+      if (crSel) crSel.style.display = '';
+    }
     (nr.npcs || []).forEach(n => {
       _combatCreatureCache.push({...n, _kind: 'npc'});
     });
   } catch(e) {}
+  toggleCombatFilters();
   filterCombatCreatures();
 
   // Load participants from encounter
@@ -4879,16 +4923,43 @@ function initDrop(e, targetEnId) {
   saveCombatState();
 }
 
+// ── Quick Add: toggle type/CR filters based on kind selector ──
+function toggleCombatFilters() {
+  const kind = document.getElementById('combatCreatureKind')?.value || 'all';
+  const typeSel = document.getElementById('combatCreatureType');
+  const crSel = document.getElementById('combatCreatureCr');
+  const showMonsterFilters = kind === 'all' || kind === 'monster';
+  if (typeSel) typeSel.style.display = showMonsterFilters ? '' : 'none';
+  if (crSel) crSel.style.display = showMonsterFilters ? '' : 'none';
+}
+
 // ── Quick Add: filter creature search results ──
 function filterCombatCreatures() {
   const q = (document.getElementById('combatCreatureSearch')?.value || '').toLowerCase();
   const kind = document.getElementById('combatCreatureKind')?.value || 'all';
+  const typeFilter = document.getElementById('combatCreatureType')?.value || 'all';
+  const crFilter = document.getElementById('combatCreatureCr')?.value || 'all';
   const results = document.getElementById('combatCreatureResults');
   if (!results) return;
 
   let filtered = _combatCreatureCache;
   if (q) filtered = filtered.filter(c => c.name.toLowerCase().includes(q));
   if (kind !== 'all') filtered = filtered.filter(c => c._kind === kind);
+  if (typeFilter !== 'all') filtered = filtered.filter(c => c._type === typeFilter);
+  if (crFilter !== 'all') {
+    filtered = filtered.filter(c => {
+      if (c._kind !== 'monster') return true;  // NPCs pass through
+      const cr = parseFloat(c._cr);
+      if (isNaN(cr)) return false;
+      if (crFilter === '0') return cr === 0;
+      if (crFilter === '0.125') return cr === 0.125;
+      if (crFilter === '0.25') return cr === 0.25;
+      if (crFilter === '0.5') return cr === 0.5;
+      if (crFilter === '25+') return cr >= 25;
+      const [lo, hi] = crFilter.split('-').map(Number);
+      return cr >= lo && cr <= hi;
+    });
+  }
   if (_coreOnlyDM) filtered = filtered.filter(c => c._kind === 'npc' || isCoreSourceDM((c._raw && c._raw.source) || ''));
 
   if (filtered.length === 0) {
@@ -4904,8 +4975,9 @@ function filterCombatCreatures() {
       ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
       : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
     const crDisplay = c._kind === 'monster' ? `CR ${c.level} · ` : '';
+    const typeDisplay = c._kind === 'monster' && c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
     const detailDisplay = c._kind === 'monster'
-      ? `${crDisplay}AC ${c.ac} · ${c.race || '?'}`
+      ? `${crDisplay}${typeDisplay}AC ${c.ac} · ${c.race || '?'}`
       : `${c.race || ''}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
     const hpDisplay = c._kind === 'monster'
       ? `HP ${c.hp_current}`
