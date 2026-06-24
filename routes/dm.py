@@ -10,6 +10,10 @@ from main import get_db, require_user, _render, get_current_user
 from main import _user_where
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS
 from main import _load_monster_cache, _load_manual_json, enrich_features
+from main import MANUAL_TRAPS, _get_named_item_types, get_caster_type
+from main import _get_source_slug_map, get_spell_slots
+from main import _search_manuals
+from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
 
