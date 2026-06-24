@@ -18,6 +18,27 @@ from fastapi import FastAPI, Request, Form, HTTPException, Response
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
 from jinja2 import Environment, FileSystemLoader
 
+from data import (
+    ABILITY_NAMES, SKILL_ABILITIES, ALL_SKILLS, LANGUAGES,
+    BACKGROUNDS, BACKGROUND_INFO, ALIGNMENTS, DRACONIC_ANCESTRIES,
+    STARTING_EQUIPMENT, ASI_LEVELS,
+    FEATS, FEAT_BY_NAME,
+    FEATURE_DESCRIPTIONS, FEATURE_ACTION_TYPES,
+    FULL_CASTERS, HALF_CASTERS, PACT_CASTERS, PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
+    SUBCLASS_LEVELS, SUBCLASS_FEATURES,
+    LIMITED_USE, METAMAGIC_OPTIONS, METAMAGIC_LEVELS, METAMAGIC_PICKS,
+    INVOCATION_LEVELS, INVOCATION_PICKS, INVOCATION_OPTIONS,
+    PACT_BOON_OPTIONS, PACT_BOON_LEVELS,
+    MANEUVER_LEVELS, MANEUVER_OPTIONS,
+    TOTEM_SPIRIT_OPTIONS, HUNTERS_PREY_OPTIONS,
+    FAVORED_ENEMY_OPTIONS, FAVORED_TERRAIN_OPTIONS,
+    INFUSION_OPTIONS,
+    MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES,
+    EXPERTISE_LEVELS,
+    RACIAL_TRAIT_EFFECTS, RACIAL_TRAIT_DESCS,
+    RECOMMENDED_FEATS, SCALED_EQUIPMENT,
+)
+
 # ── Config ──────────────────────────────────────────────────────────────────
 
 HERE = Path(__file__).parent
@@ -2857,20 +2878,7 @@ def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = 
     return result
 
 
-# PHB p.34 — Draconic Ancestry table
-# color → {resist, damage_type, shape, save_stat}
-DRACONIC_ANCESTRIES = {
-    "Black":     {"resist": "Acid",      "damage": "Acid",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
-    "Blue":      {"resist": "Lightning", "damage": "Lightning",  "shape": "5 by 30 ft. line",  "save": "Dexterity"},
-    "Brass":     {"resist": "Fire",      "damage": "Fire",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
-    "Bronze":    {"resist": "Lightning", "damage": "Lightning",  "shape": "5 by 30 ft. line",  "save": "Dexterity"},
-    "Copper":    {"resist": "Acid",      "damage": "Acid",       "shape": "5 by 30 ft. line",  "save": "Dexterity"},
-    "Gold":      {"resist": "Fire",      "damage": "Fire",       "shape": "15 ft. cone",       "save": "Dexterity"},
-    "Green":     {"resist": "Poison",    "damage": "Poison",     "shape": "15 ft. cone",       "save": "Constitution"},
-    "Red":       {"resist": "Fire",      "damage": "Fire",       "shape": "15 ft. cone",       "save": "Dexterity"},
-    "Silver":    {"resist": "Cold",      "damage": "Cold",       "shape": "15 ft. cone",       "save": "Constitution"},
-    "White":     {"resist": "Cold",      "damage": "Cold",       "shape": "15 ft. cone",       "save": "Constitution"},
-}
+# ── From data.py: DRACONIC_ANCESTRIES
 
 
 def _build_racial_traits(char: dict) -> list:
@@ -3180,38 +3188,9 @@ try:
 except Exception as _e:
     print(f"  (trait page map unavailable: {_e})")
 
-SKILL_ABILITIES = {
-    "Acrobatics":"dexterity","Animal Handling":"wisdom","Arcana":"intelligence",
-    "Athletics":"strength","Deception":"charisma","History":"intelligence",
-    "Insight":"wisdom","Intimidation":"charisma","Investigation":"intelligence",
-    "Medicine":"wisdom","Nature":"intelligence","Perception":"wisdom",
-    "Performance":"charisma","Persuasion":"charisma","Religion":"intelligence",
-    "Sleight of Hand":"dexterity","Stealth":"dexterity","Survival":"wisdom",
-}
+# ── From data.py: SKILL_ABILITIES, ALL_SKILLS, LANGUAGES
 
-ALL_SKILLS = sorted(SKILL_ABILITIES.keys())
-
-# PHB standard languages (p.123)
-LANGUAGES = ["Common", "Dwarvish", "Elvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc",
-             "Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan", "Undercommon"]
-
-BACKGROUNDS = ["Acolyte","Charlatan","Criminal","Entertainer","Folk Hero","Guild Artisan","Hermit","Noble","Outlander","Sage","Sailor","Soldier","Urchin","Custom"]
-BACKGROUND_INFO = {
-    "Acolyte":       "You served in a temple. Skill Proficiencies: Insight, Religion. Languages: Two of your choice. Equipment: Holy symbol, prayer book, 5 sticks of incense, vestments, common clothes, 15 gp. Feature: Shelter of the Faithful.",
-    "Charlatan":     "You've made a living by your wits. Skill Proficiencies: Deception, Sleight of Hand. Tool Proficiencies: Disguise kit, forgery kit. Equipment: Fine clothes, disguise kit, tools of the con, 15 gp. Feature: False Identity.",
-    "Criminal":      "You are an experienced criminal. Skill Proficiencies: Deception, Stealth. Tool Proficiencies: One gaming set, thieves' tools. Equipment: Crowbar, dark clothes, 15 gp. Feature: Criminal Contact.",
-    "Entertainer":   "You thrive before an audience. Skill Proficiencies: Acrobatics, Performance. Tool Proficiencies: Disguise kit, one musical instrument. Equipment: Musical instrument, costume, 15 gp. Feature: By Popular Demand.",
-    "Folk Hero":     "You come from a humble social rank. Skill Proficiencies: Animal Handling, Survival. Tool Proficiencies: One artisan's tools, land vehicles. Equipment: Artisan's tools, shovel, iron pot, common clothes, 10 gp. Feature: Rustic Hospitality.",
-    "Guild Artisan": "You are a member of an artisan's guild. Skill Proficiencies: Insight, Persuasion. Tool Proficiencies: One artisan's tools. Languages: One of your choice. Equipment: Artisan's tools, letter of introduction, traveler's clothes, 15 gp. Feature: Guild Membership.",
-    "Hermit":        "You lived in seclusion. Skill Proficiencies: Medicine, Religion. Tool Proficiencies: Herbalism kit. Equipment: Scroll case of notes, winter blanket, common clothes, herbalism kit, 5 gp. Feature: Discovery.",
-    "Noble":         "You were born into wealth and power. Skill Proficiencies: History, Persuasion. Tool Proficiencies: One gaming set. Languages: One of your choice. Equipment: Fine clothes, signet ring, scroll of pedigree, 25 gp. Feature: Position of Privilege.",
-    "Outlander":     "You grew up in the wilds. Skill Proficiencies: Athletics, Survival. Tool Proficiencies: One musical instrument. Languages: One of your choice. Equipment: Staff, hunting trap, trophy, traveler's clothes, 10 gp. Feature: Wanderer.",
-    "Sage":          "You spent years learning lore. Skill Proficiencies: Arcana, History. Languages: Two of your choice. Equipment: Black ink, quill, small knife, letter from dead colleague, common clothes, 10 gp. Feature: Researcher.",
-    "Sailor":        "You have sailed the high seas. Skill Proficiencies: Athletics, Perception. Tool Proficiencies: Navigator's tools, water vehicles. Equipment: Belaying pin, 50 ft silk rope, lucky charm, common clothes, 10 gp. Feature: Ship's Passage.",
-    "Soldier":       "You served in a military force. Skill Proficiencies: Athletics, Intimidation. Tool Proficiencies: One gaming set, land vehicles. Equipment: Insignia of rank, trophy, bone dice, common clothes, 10 gp. Feature: Military Rank.",
-    "Urchin":        "You grew up on the streets alone. Skill Proficiencies: Sleight of Hand, Stealth. Tool Proficiencies: Disguise kit, thieves' tools. Equipment: Small knife, city map, pet mouse, token of parents, common clothes, 10 gp. Feature: City Secrets.",
-    "Custom":        "Define your own background. Equipment: 3 useful items of your choice, traveler's clothes, 10 gp. Feature: Your own unique story.",
-}
+# ── From data.py: BACKGROUNDS, BACKGROUND_INFO
 BACKGROUND_SOURCES = {bg: "Player's Handbook p.125-141" for bg in BACKGROUNDS if bg != "Custom"}
 BACKGROUND_SOURCES["Custom"] = ""
 
@@ -3241,7 +3220,7 @@ try:
 except Exception as _e:
     print(f"  (background page map unavailable: {_e})")
 
-ALIGNMENTS = ["Lawful Good","Neutral Good","Chaotic Good","Lawful Neutral","True Neutral","Chaotic Neutral","Lawful Evil","Neutral Evil","Chaotic Evil"]
+# ── From data.py: ALIGNMENTS
 
 # ── SRD Weapons (PHB p.149) ─────────────────────────────────────────────────
 WEAPONS = {
@@ -11257,20 +11236,7 @@ if _expanded_path.exists():
     except (json.JSONDecodeError, OSError):
         pass  # Keep existing RACE_NAMES as-is
 
-STARTING_EQUIPMENT = {
-    "Barbarian": ["Greataxe", "2 Handaxes", "Explorer's Pack", "4 Javelins"],
-    "Bard": ["Rapier", "Entertainer's Pack", "Lute", "Leather Armor", "Dagger"],
-    "Cleric": ["Mace", "Scale Mail", "Light Crossbow + 20 Bolts", "Priest's Pack", "Shield", "Holy Symbol"],
-    "Druid": ["Wooden Shield", "Scimitar", "Leather Armor", "Explorer's Pack", "Druidic Focus"],
-    "Fighter": ["Chain Mail", "Longsword", "Shield", "Light Crossbow + 20 Bolts", "Dungeoneer's Pack"],
-    "Monk": ["Shortsword", "Dungeoneer's Pack", "10 Darts"],
-    "Paladin": ["Longsword", "Shield", "5 Javelins", "Priest's Pack", "Chain Mail", "Holy Symbol"],
-    "Ranger": ["Longbow + 20 Arrows", "Shortsword", "Scale Mail", "Explorer's Pack"],
-    "Rogue": ["Rapier", "Shortbow + 20 Arrows", "Burglar's Pack", "Leather Armor", "2 Daggers", "Thieves' Tools"],
-    "Sorcerer": ["Light Crossbow + 20 Bolts", "Arcane Focus", "Dungeoneer's Pack", "2 Daggers"],
-    "Warlock": ["Light Crossbow + 20 Bolts", "Arcane Focus", "Scholar's Pack", "Leather Armor", "Dagger"],
-    "Wizard": ["Quarterstaff", "Arcane Focus", "Scholar's Pack", "Spellbook"],
-}
+# ── From data.py: STARTING_EQUIPMENT
 
 def random_name(race: str, gender: str = "any") -> dict:
     """Generate a random name for the given race."""
@@ -11431,66 +11397,9 @@ def has_casters(class_levels: dict[str, int]) -> bool:
     return any(get_caster_type(cls) in ("full", "half", "pact") for cls in class_levels)
 
 
-# ── Subclass Feature Names (PHB 2014) ─────────────────────────────────
-# Maps subclass → {level: [feature names]}.
-# Used to replace generic SRD names ("Martial Archetype feature") with real names.
-SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
-    # Barbarian
-    "Path of the Berserker": {3: ["Frenzy"], 6: ["Mindless Rage"], 10: ["Intimidating Presence"], 14: ["Retaliation"]},
-    "Path of the Totem Warrior": {3: ["Spirit Seeker", "Totem Spirit"], 6: ["Aspect of the Beast"], 10: ["Spirit Walker"], 14: ["Totemic Attunement"]},
-    # Bard
-    "College of Lore": {3: ["Bonus Proficiencies", "Cutting Words"], 6: ["Additional Magical Secrets"], 14: ["Peerless Skill"]},
-    "College of Valor": {3: ["Bonus Proficiencies", "Combat Inspiration"], 6: ["Extra Attack"], 14: ["Battle Magic"]},
-    # Cleric
-    "Knowledge Domain": {1: ["Blessings of Knowledge"], 2: ["Channel Divinity: Knowledge of the Ages"], 6: ["Channel Divinity: Read Thoughts"], 8: ["Potent Spellcasting"], 17: ["Visions of the Past"]},
-    "Life Domain": {1: ["Disciple of Life"], 2: ["Channel Divinity: Preserve Life"], 6: ["Blessed Healer"], 8: ["Divine Strike"], 17: ["Supreme Healing"]},
-    "Light Domain": {1: ["Warding Flare"], 2: ["Channel Divinity: Radiance of the Dawn"], 6: ["Improved Flare"], 8: ["Potent Spellcasting"], 17: ["Corona of Light"]},
-    "Nature Domain": {1: ["Acolyte of Nature", "Bonus Proficiency"], 2: ["Channel Divinity: Charm Animals and Plants"], 6: ["Dampen Elements"], 8: ["Divine Strike"], 17: ["Master of Nature"]},
-    "Tempest Domain": {1: ["Wrath of the Storm"], 2: ["Channel Divinity: Destructive Wrath"], 6: ["Thunderbolt Strike"], 8: ["Divine Strike"], 17: ["Stormborn"]},
-    "Trickery Domain": {1: ["Blessing of the Trickster"], 2: ["Channel Divinity: Invoke Duplicity"], 6: ["Channel Divinity: Cloak of Shadows"], 8: ["Divine Strike"], 17: ["Improved Duplicity"]},
-    "War Domain": {1: ["War Priest"], 2: ["Channel Divinity: Guided Strike"], 6: ["Channel Divinity: War God's Blessing"], 8: ["Divine Strike"], 17: ["Avatar of Battle"]},
-    # Druid
-    "Circle of the Land": {2: ["Bonus Cantrip", "Natural Recovery"], 6: ["Land's Stride"], 10: ["Nature's Ward"], 14: ["Nature's Sanctuary"]},
-    "Circle of the Moon": {2: ["Combat Wild Shape", "Circle Forms"], 6: ["Primal Strike"], 10: ["Elemental Wild Shape"], 14: ["Thousand Forms"]},
-    # Fighter
-    "Champion": {3: ["Improved Critical"], 7: ["Remarkable Athlete"], 10: ["Additional Fighting Style"], 15: ["Superior Critical"], 18: ["Survivor"]},
-    "Battle Master": {3: ["Combat Superiority"], 7: ["Know Your Enemy"], 10: ["Improved Combat Superiority"], 15: ["Relentless"]},
-    "Eldritch Knight": {3: ["Spellcasting", "Weapon Bond"], 7: ["War Magic"], 10: ["Eldritch Strike"], 15: ["Arcane Charge"], 18: ["Improved War Magic"]},
-    # Monk
-    "Way of the Open Hand": {3: ["Open Hand Technique"], 6: ["Wholeness of Body"], 11: ["Tranquility"], 17: ["Quivering Palm"]},
-    "Way of Shadow": {3: ["Shadow Arts"], 6: ["Shadow Step"], 11: ["Cloak of Shadows"], 17: ["Opportunist"]},
-    "Way of the Four Elements": {3: ["Disciple of the Elements"]},
-    # Paladin
-    "Oath of Devotion": {3: ["Channel Divinity: Sacred Weapon", "Channel Divinity: Turn the Unholy"], 7: ["Aura of Devotion"], 15: ["Purity of Spirit"], 20: ["Holy Nimbus"]},
-    "Oath of the Ancients": {3: ["Channel Divinity: Nature's Wrath", "Channel Divinity: Turn the Faithless"], 7: ["Aura of Warding"], 15: ["Undying Sentinel"], 20: ["Elder Champion"]},
-    "Oath of Vengeance": {3: ["Channel Divinity: Abjure Enemy", "Channel Divinity: Vow of Enmity"], 7: ["Relentless Avenger"], 15: ["Soul of Vengeance"], 20: ["Avenging Angel"]},
-    # Ranger
-    "Hunter": {3: ["Hunter's Prey"], 7: ["Defensive Tactics"], 11: ["Multiattack"], 15: ["Superior Hunter's Defense"]},
-    "Beast Master": {3: ["Ranger's Companion"], 7: ["Exceptional Training"], 11: ["Bestial Fury"], 15: ["Share Spells"]},
-    # Rogue
-    "Thief": {3: ["Fast Hands", "Second-Story Work"], 9: ["Supreme Sneak"], 13: ["Use Magic Device"], 17: ["Thief's Reflexes"]},
-    "Assassin": {3: ["Assassinate", "Bonus Proficiencies"], 9: ["Infiltration Expertise"], 13: ["Impostor"], 17: ["Death Strike"]},
-    "Arcane Trickster": {3: ["Spellcasting", "Mage Hand Legerdemain"], 9: ["Magical Ambush"], 13: ["Versatile Trickster"], 17: ["Spell Thief"]},
-    # Sorcerer
-    "Draconic Bloodline": {1: ["Dragon Ancestor", "Draconic Resilience"], 6: ["Elemental Affinity"], 14: ["Dragon Wings"], 18: ["Draconic Presence"]},
-    "Wild Magic": {1: ["Wild Magic Surge", "Tides of Chaos"], 6: ["Bend Luck"], 14: ["Controlled Chaos"], 18: ["Spell Bombardment"]},
-    # Warlock
-    "The Archfey": {1: ["Fey Presence"], 6: ["Misty Escape"], 10: ["Beguiling Defenses"], 14: ["Dark Delirium"]},
-    "The Fiend": {1: ["Dark One's Blessing"], 6: ["Dark One's Own Luck"], 10: ["Fiendish Resilience"], 14: ["Hurl Through Hell"]},
-    "The Great Old One": {1: ["Awakened Mind"], 6: ["Entropic Ward"], 10: ["Thought Shield"], 14: ["Create Thrall"]},
-    # Wizard
-    "School of Abjuration": {2: ["Abjuration Savant", "Arcane Ward"], 6: ["Projected Ward"], 10: ["Improved Abjuration"], 14: ["Spell Resistance"]},
-    "School of Conjuration": {2: ["Conjuration Savant", "Minor Conjuration"], 6: ["Benign Transposition"], 10: ["Focused Conjuration"], 14: ["Durable Summons"]},
-    "School of Divination": {2: ["Divination Savant", "Portent"], 6: ["Expert Divination"], 10: ["The Third Eye"], 14: ["Greater Portent"]},
-    "School of Enchantment": {2: ["Enchantment Savant", "Hypnotic Gaze"], 6: ["Instinctive Charm"], 10: ["Split Enchantment"], 14: ["Alter Memories"]},
-    "School of Evocation": {2: ["Evocation Savant", "Sculpt Spells"], 6: ["Potent Cantrip"], 10: ["Empowered Evocation"], 14: ["Overchannel"]},
-    "School of Illusion": {2: ["Illusion Savant", "Improved Minor Illusion"], 6: ["Malleable Illusions"], 10: ["Illusory Self"], 14: ["Illusory Reality"]},
-    "School of Necromancy": {2: ["Necromancy Savant", "Grim Harvest"], 6: ["Undead Thralls"], 10: ["Inured to Undeath"], 14: ["Command Undead"]},
-    "School of Transmutation": {2: ["Transmutation Savant", "Minor Alchemy"], 6: ["Transmuter's Stone"], 10: ["Shapechanger"], 14: ["Master Transmuter"]},
-    # DMG
-    "Death Domain": {1: ["Death Domain Spells", "Bonus Proficiency", "Reaper"], 2: ["Channel Divinity: Touch of Death"], 6: ["Inescapable Destruction"], 8: ["Divine Strike"], 17: ["Improved Reaper"]},
-    "Oathbreaker": {3: ["Oathbreaker Spells", "Channel Divinity: Control Undead", "Channel Divinity: Dreadful Aspect"], 7: ["Aura of Hate"], 15: ["Supernatural Resistance"], 20: ["Dread Lord"]},
-}
+# ── From data.py: SUBCLASS_FEATURES (includes DMG subclasses: Death Domain, Oathbreaker)
+
+
 
 # PHB-granted proficiencies that come from subclass choice (not base class)
 SUBCLASS_PROFICIENCIES = {
@@ -12045,23 +11954,7 @@ def get_multiclass_spell_slots(class_levels: dict[str, int]) -> dict:
             "caster_level": caster_level, "multiclass": True}
 
 # ── Level-Up Data ──────────────────────────────────────────────────────
-ABILITY_NAMES = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]
-
-# Which levels grant ASI per class (PHB 2014)
-ASI_LEVELS: dict[str, list[int]] = {
-    "Barbarian": [4,8,12,16,19],
-    "Bard": [4,8,12,16,19],
-    "Cleric": [4,8,12,16,19],
-    "Druid": [4,8,12,16,19],
-    "Fighter": [4,6,8,12,14,16,19],
-    "Monk": [4,8,12,16,19],
-    "Paladin": [4,8,12,16,19],
-    "Ranger": [4,8,12,16,19],
-    "Rogue": [4,8,10,12,16,19],
-    "Sorcerer": [4,8,12,16,19],
-    "Warlock": [4,8,12,16,19],
-    "Wizard": [4,8,12,16,19],
-}
+# ── From data.py: ABILITY_NAMES, ASI_LEVELS
 
 # Subclass selection levels + options per class (PHB 2014)
 SUBCLASS_LEVELS: dict[str, dict] = {
