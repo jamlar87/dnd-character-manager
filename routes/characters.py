@@ -1,7 +1,7 @@
 """Character routes — create, sheet, level-up, spells, combat, relationships."""
 
 from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
 import sqlite3, json, math, random, re, urllib.parse, os
 from pathlib import Path
 from datetime import datetime

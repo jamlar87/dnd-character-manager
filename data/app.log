@@ -3867,3 +3867,107 @@ Traceback (most recent call last):
                          ~~~~^^^
 KeyError: 'expertise_skills'
 2026-06-24 15:26:01 [INFO] HTTP Request: GET http://testserver/character/1 "HTTP/1.1 500 Internal Server Error"
+2026-06-24 15:27:23 [INFO] GET /create 200 41ms
+2026-06-24 15:27:26 [INFO] GET / 303 3ms
+2026-06-24 15:27:26 [INFO] GET /dashboard 200 97ms
+2026-06-24 15:27:30 [INFO] GET /character/87 200 468ms
+2026-06-24 15:27:32 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:27:34 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:36 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:27:38 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:40 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:27:42 [INFO] POST /api/sync-combat-hp 200 6ms
+2026-06-24 15:27:44 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:46 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:48 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:51 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:53 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:55 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:57 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:27:58 [ERROR] GET /api/character/87/pdf 500 99ms | NameError: name 'Response' is not defined
+Traceback (most recent call last):
+  File "/home/james/dnd-character-manager/main.py", line 1460, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/routes/characters.py", line 2664, in character_pdf
+    return Response(
+           ^^^^^^^^
+NameError: name 'Response' is not defined
+2026-06-24 15:27:58 [INFO] GET /favicon.ico 404 0ms
+2026-06-24 15:28:00 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:02 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:04 [INFO] POST /api/sync-combat-hp 200 7ms
+2026-06-24 15:28:06 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:08 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:28:10 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:12 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:14 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:17 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:28:19 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:21 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:23 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:25 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:27 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:29 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:31 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:33 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:35 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:37 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:39 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:28:41 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:43 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:45 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:48 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:28:50 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:52 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:54 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:56 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:28:58 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:29:00 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:29:02 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:29:04 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:29:06 [INFO] POST /api/sync-combat-hp 200 6ms
+2026-06-24 15:29:08 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:29:10 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:29:12 [INFO] POST /api/sync-combat-hp 200 7ms
+2026-06-24 15:29:15 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:29:17 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 15:29:19 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:29:21 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 15:29:23 [INFO] POST /api/sync-combat-hp 200 6ms
