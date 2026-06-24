@@ -7885,23 +7885,47 @@ async def character_sheet(char_id: int, request: Request):
                 _new_feat["action_desc"] = _action_info[1]
             char["feature_data"].append(_new_feat)
     # Fallback: features still without source inherit from class or subclass
-    _cls_source = CLASSES.get(char.get("class_name", ""), {}).get("source", "")
+    # For multiclass, assign per-class sources using SRD class level data
+    # Build per-class feature→source map from SRD class_levels data
+    _cl_data = parse_class_levels(char)
+    _cls_sources = {}
+    _feature_to_class = {}
     _subclass = char.get("subclass", "")
     _sub_source = ""
     _subclass_feature_names = set()
     if _subclass:
-        _sub_source = CLASSES.get(char.get("class_name", ""), {}).get("_subclass_sources", {}).get(_subclass, "")
+        for _cls in (_cl_data or {char.get("class_name","Fighter"): char.get("level",1)}):
+            _src = CLASSES.get(_cls, {}).get("_subclass_sources", {}).get(_subclass, "")
+            if _src:
+                _sub_source = _src
+                break
         if _subclass in SUBCLASS_FEATURES:
             for _lvl_feats in SUBCLASS_FEATURES[_subclass].values():
                 _subclass_feature_names.update(_lvl_feats)
-    if _cls_source:
-        for _feat in char["feature_data"]:
-            if not _feat.get("source") or _feat.get("source") in ("SRD 5.1", "PHB 2014"):
-                _fname = _feat.get("name", "")
-                if _sub_source and _fname in _subclass_feature_names:
-                    _feat["source"] = _sub_source
-                else:
-                    _feat["source"] = _cls_source
+    for _cls in (_cl_data or {char.get("class_name","Fighter"): char.get("level",1)}):
+        _cls_lower = _cls.lower()
+        _cls_sources[_cls] = CLASSES.get(_cls, {}).get("source", "")
+        for _entry in SRD_LEVELS.get(_cls_lower, []):
+            for _f in _entry.get("features", []):
+                _fname = _f.get("name", "")
+                if _fname and _fname not in _feature_to_class:
+                    _feature_to_class[_fname] = _cls
+    # Primary class source as fallback
+    _primary_source = CLASSES.get(char.get("class_name", "Fighter"), {}).get("source", "")
+    # Assign sources
+    for _feat in char["feature_data"]:
+        if not _feat.get("source") or _feat.get("source") in ("SRD 5.1", "PHB 2014"):
+            _fname = _feat.get("name", "")
+            # Check subclass features first
+            if _sub_source and _fname in _subclass_feature_names:
+                _feat["source"] = _sub_source
+            else:
+                # Look up which class owns this feature via SRD class levels
+                _owning_cls = _feature_to_class.get(_fname)
+                if _owning_cls and _cls_sources.get(_owning_cls):
+                    _feat["source"] = _cls_sources[_owning_cls]
+                elif _primary_source:
+                    _feat["source"] = _primary_source
     # Load background data
     # Load spell_slots_used
     try:
