@@ -1434,6 +1434,39 @@ _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)))
 
 app = FastAPI(title="D&D Character Manager")
 
+# ── Logging ───────────────────────────────────────────────────────────────────
+import logging as _logging, time as _time, uuid as _uuid
+
+_logging.basicConfig(
+    level=_logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    handlers=[
+        _logging.StreamHandler(),
+        _logging.FileHandler(str(DATA_DIR / "app.log"), mode="a"),
+    ],
+)
+_log = _logging.getLogger(__name__)
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    req_id = _uuid.uuid4().hex[:12]
+    start = _time.time()
+    try:
+        response = await call_next(request)
+        elapsed = _time.time() - start
+        _log.info("%s %s %s %.0fms", request.method, request.url.path, response.status_code, elapsed * 1000)
+        return response
+    except Exception as e:
+        elapsed = _time.time() - start
+        _log.error("%s %s 500 %.0fms | %s: %s", request.method, request.url.path, elapsed * 1000, type(e).__name__, e, exc_info=True)
+        return HTMLResponse("Internal Server Error", status_code=500)
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    _log.error("Unhandled %s on %s %s: %s", type(exc).__name__, request.method, request.url.path, exc, exc_info=True)
+    return HTMLResponse("Internal Server Error", status_code=500)
+
 # ── DB ──────────────────────────────────────────────────────────────────────
 
 def get_db() -> sqlite3.Connection:

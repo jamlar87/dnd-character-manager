@@ -1,0 +1,33 @@
+2026-06-24 13:54:19 [INFO] GET / 200 7ms
+2026-06-24 13:54:19 [INFO] HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2026-06-24 13:54:19 [INFO] GET /login 200 2ms
+2026-06-24 13:54:19 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 13:54:19 [INFO] GET /register 200 3ms
+2026-06-24 13:54:19 [INFO] HTTP Request: GET http://testserver/register "HTTP/1.1 200 OK"
+2026-06-24 13:54:19 [INFO] GET /api/dm/user-characters 303 1ms
+2026-06-24 13:54:19 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 303 See Other"
+2026-06-24 13:54:19 [INFO] GET /login 200 0ms
+2026-06-24 13:54:19 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 13:54:20 [INFO] GET /api/dm/user-characters 200 2ms
+2026-06-24 13:54:20 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 200 OK"
+2026-06-24 13:54:21 [INFO] GET /create 200 31ms
+2026-06-24 13:54:21 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 13:54:22 [INFO] GET /api/dm/npcs 200 22ms
+2026-06-24 13:54:22 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 200 OK"
+2026-06-24 13:54:22 [INFO] GET /api/dm/npcs 303 0ms
+2026-06-24 13:54:22 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 303 See Other"
+2026-06-24 13:54:22 [INFO] GET /login 200 1ms
+2026-06-24 13:54:22 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 13:54:23 [INFO] GET /api/dm/monsters 200 163ms
+2026-06-24 13:54:23 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 13:54:24 [INFO] GET /api/dm/monsters 200 102ms
+2026-06-24 13:54:24 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 13:54:25 [INFO] GET /api/dm/encounters 200 2ms
+2026-06-24 13:54:25 [INFO] HTTP Request: GET http://testserver/api/dm/encounters "HTTP/1.1 200 OK"
+2026-06-24 13:54:26 [INFO] POST /api/dm/encounter/create 200 3ms
+2026-06-24 13:54:26 [INFO] HTTP Request: POST http://testserver/api/dm/encounter/create "HTTP/1.1 200 OK"
+2026-06-24 13:54:27 [INFO] GET /create 200 5ms
+2026-06-24 13:54:27 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 13:54:28 [INFO] GET /api/user/characters 404 0ms
+2026-06-24 13:54:28 [INFO] HTTP Request: GET http://testserver/api/user/characters "HTTP/1.1 404 Not Found"
+2026-06-24 13:54:40 [INFO] GET /character/81 200 445ms
