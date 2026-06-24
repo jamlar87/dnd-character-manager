@@ -808,3 +808,25 @@ RACIAL_TRAIT_DESCS = {
     "Infernal Legacy":    "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast hellish rebuke as a 2nd-level spell once per day. When you reach 5th level, you can cast darkness once per day.",
     "Nimble Escape":      "You can take the Disengage or Hide action as a bonus action on each of your turns.",
 }
+
+
+# ── RACES, CLASSES, RACE_NAMES loaded from exported JSON ──────────────
+import json as _json
+import os as _os
+
+_data_dir = _os.path.dirname(_os.path.abspath(__file__))
+
+_races_path = _os.path.join(_data_dir, "data", "races_export.json")
+if _os.path.exists(_races_path):
+    with open(_races_path) as _f:
+        RACES = _json.load(_f)
+
+_classes_path = _os.path.join(_data_dir, "data", "classes_export.json")
+if _os.path.exists(_classes_path):
+    with open(_classes_path) as _f:
+        CLASSES = _json.load(_f)
+
+_rn_path = _os.path.join(_data_dir, "data", "race_names_export.json")
+if _os.path.exists(_rn_path):
+    with open(_rn_path) as _f:
+        RACE_NAMES = _json.load(_f)

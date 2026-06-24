@@ -1,0 +1,1674 @@
+{
+  "Dwarf": {
+    "subraces": [
+      "Hill Dwarf",
+      "Mountain Dwarf",
+      "Duergar",
+      "Gold Dwarf",
+      "Dwarves of the Lonely Mountain",
+      "Dwarf of the Blue Mountains",
+      "Dwarves of the Iron Hills"
+    ],
+    "asi": {
+      "constitution": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Dwarvish"
+    ],
+    "traits": [
+      "Dwarven Resilience",
+      "Stonecunning"
+    ],
+    "desc": "Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal. Standing 4 to 5 feet tall, they are broad and compact, weighing around 150 pounds. Their skin ranges from deep tan to light brown, and their hair—worn long—ranges from black to red, graying to white with age. Dwarves can live to be over 400 years old.\n\nDwarven culture is built on three pillars: clan, craft, and honor. They inhabit great stone halls carved deep into mountains, forging legendary weapons and armor. Slow to trust but fiercely loyal once earned, dwarves hold grudges for centuries and friendships for millennia. Their kingdoms are ordered by ancient tradition, with kings and queens descended from the first dwarves.\n\nMechanically, dwarves gain +2 Constitution, Darkvision 60 ft, Dwarven Resilience (advantage on poison saves + poison resistance), and Stonecunning (expertise on History checks related to stonework). Even heavily armored dwarves maintain full speed.",
+    "subrace_descs": {
+      "Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. Hill dwarves are the heartiest of their kind, with keen senses and a deeper connection to the living earth. They are the most common dwarven merchants, farmers, and diplomats.",
+      "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants proficiency with light and medium armor. Mountain dwarves are the martial backbone of dwarven society— soldiers, smiths, and sentinels who guard the deep roads. Hardy and strong, they thrive in the most forbidding peaks.",
+      "Duergar": "+1 Strength. Superior Darkvision (120 ft), Duergar Resilience (advantage on saves vs illusions, charms, and paralysis), Duergar Magic (enlarge/reduce and invisibility at levels 3 and 5), Sunlight Sensitivity. The gray dwarves of the Underdark—grim, psionic, and hardened by eons beneath the earth.",
+      "Gold Dwarf": "+1 Wisdom. Dwarven Toughness (+1 HP per level). The southern dwarves of the Great Rift in Faerûn—confident, shrewd merchants with golden-brown skin and a proud, unbroken lineage. They are resistant to the scheming of other races but generous to those who earn their trust.",
+      "Dwarves of the Lonely Mountain": "The Dwarves of the Lonely Mountain are a hardy and proud folk, dwelling in the halls of Erebor and known for their skill in crafting and their resilience.",
+      "Dwarf of the Blue Mountains": "An extraordinarily venerable Dwarf of the Blue Mountains, Iari has decided that he wishes to see the restored Kingdom Under the Mountain before he dies.",
+      "Dwarves of the Iron Hills": "The Dwarves of the Iron Hills live the simple but harsh life of miners and smiths. They are often gruff and terse when dealing with outsiders, as choosing to remain on the far eastern edge of the Wild has made them short-spoken, short-tempered and often quick to seek out a physical solution when a threat arises."
+    },
+    "source": "PHB 2014 p.18",
+    "_subrace_sources": {
+      "Hill Dwarf": "PHB 2014 p.20",
+      "Mountain Dwarf": "PHB 2014 p.20",
+      "Duergar": "SCAG p.103",
+      "Gold Dwarf": "SCAG p.102",
+      "Dwarves of the Lonely Mountain": "Adventures in Middle-earth p.38-39",
+      "Dwarf of the Blue Mountains": "Bree-land Region Guide p.44-45",
+      "Dwarves of the Iron Hills": "Unknown sourcebook"
+    }
+  },
+  "Elf": {
+    "subraces": [
+      "High Elf",
+      "Wood Elf",
+      "Dark Elf (Drow)",
+      "Sea Elf",
+      "Eladrin",
+      "Shadar-kai",
+      "Mirkwood Elf",
+      "Sable Elf",
+      "Windrunner Elf",
+      "High Elf of Rivendell",
+      "Shadow Fey",
+      "Silvan Elf Sentinel",
+      "Shadow Fey (Lunar Elf)"
+    ],
+    "asi": {
+      "dexterity": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "traits": [
+      "Keen Senses",
+      "Fey Ancestry",
+      "Trance"
+    ],
+    "desc": "Elves are a magical people of otherworldly grace, living in the world but not entirely of it. They are slender, standing 5 to 6 feet tall, with delicate features and pointed ears. Their skin ranges from pale alabaster to deep brown, and their eyes shine with colors not seen in humans—gold, silver, violet, deep green. Elves live up to 750 years, and their perspective is shaped by this long view of history.\n\nElven culture values freedom, beauty, and artistic expression above all. They build elegant spires that blend with the forest canopy or rise from ancient woods. Music, poetry, and bladecraft are all refined to an art form. Elves love nature and magic, and their trance—a four-hour meditative state that replaces sleep—allows them to relive memories and reflect on their long lives.\n\nMechanically, elves gain +2 Dexterity, Darkvision 60 ft, Keen Senses (proficiency in Perception), Fey Ancestry (advantage on saves vs charms, immune to magical sleep), and Trance (4-hour meditation replaces 8-hour sleep). They are fluent in Common and Elvish.",
+    "subrace_descs": {
+      "High Elf": "+1 Intelligence. Gain a wizard cantrip and one extra language. High elves are the most magically gifted— scholars, wizards, and keepers of elven high culture. Their kingdoms are bastions of arcane learning.",
+      "Wood Elf": "+1 Wisdom. Fleet of Foot (+5 ft speed) and Mask of the Wild (hide in light natural obscurement). Wood elves are reclusive guardians of deep forests—swift, perceptive, and deadly with a bow.",
+      "Dark Elf (Drow)": "+1 Charisma. Superior Darkvision (120 ft), Sunlight Sensitivity, and Drow Magic (dancing lights at will; faerie fire and darkness at levels 3 and 5). The drow are a dark-skinned, white-haired subrace of the Underdark, living in a matriarchal society devoted to the spider goddess Lolth.",
+      "Sea Elf": "+1 Constitution. Swim speed 30 ft, amphibious (breathe air and water), Sea Elf Training (proficiency with spear, trident, light crossbow, and net). Sea elves fell in love with the ocean in the earliest days and now live in hidden shallows and the Elemental Plane of Water.",
+      "Eladrin": "+1 Intelligence. Fey Step (misty step 1/short rest). Eladrin are elves of the Feywild, their appearance and personality shifting with the seasons—spring (joyful, green), summer (fierce, golden), autumn (generous, russet), winter (contemplative, pale blue).",
+      "Shadar-kai": "+1 Constitution. Necrotic resistance, Blessing of the Raven Queen (teleport 30 ft 1/long rest; at level 3+, gain resistance to all damage for 1 round after teleporting). Shadar-kai serve the Raven Queen in the Shadowfell, their souls bound to her eternal duty.",
+      "Mirkwood Elf": "Elves of Mirkwood are a folk at war, ranging from 5 to over 6 feet tall with slender builds, dedicated to resisting the encroaching darkness.",
+      "Sable Elf": "Sable elves are dark-eyed, often either red-haired or raven-haired, and silver-skinned. They have tall, willowy frames, similar to other elves.",
+      "Windrunner Elf": "Elusive, eccentric, and unpredictable, windrunner elves have quietly traversed Midgard’s vast central grasslands for millennia. These diminutive nomads roaming the steppes and plains are thought to originally hail from the elven capital of Sephaya.",
+      "High Elf of Rivendell": "The High Elves of Rivendell are a noble and ancient people, known for their grace, wisdom, and deep connection to the lore of Middle-earth.",
+      "Shadow Fey": "Shadow fey have skin color tending toward alabaster white, ebon black, or subtle grays, and many have horns that range widely in size and shape.",
+      "Silvan Elf Sentinel": "A Silvan Elf Sentinel is a medium elf guardian, trained for centuries, with a focus on combat and disabling strikes.",
+      "Shadow Fey (Lunar Elf)": "Lunar elves are an offshoot of shadow fey and are quite rare, and their births are typically regarded as an auspicious omen. If the origin of the shadow fey is mysterious, then that of the lunar elves is even more so, though many lunar elves have been recently drawn toward the Moonlit King, seeking out this exiled sovereign. Always born under the light of the full moons, these shadow fey seem saturated with its light. Lunar elves are not automatically ostracized from the shadow fey courts, but many prefer to take up duties that remove themselves from the watchful eyes of the shadow fey nobles: serving as an emissary to the Moonlit Glades, taking up residence in the Starry Court, or training to hunt the beasts of the region is often preferable to the suspicious gaze of the Queen of Night and Magic."
+    },
+    "source": "PHB 2014 p.21",
+    "_subrace_sources": {
+      "High Elf": "PHB 2014 p.23",
+      "Wood Elf": "PHB 2014 p.24",
+      "Dark Elf (Drow)": "PHB 2014 p.24",
+      "Sea Elf": "MTF p.62",
+      "Eladrin": "MTF p.61",
+      "Shadar-kai": "MTF p.62",
+      "Mirkwood Elf": "Adventures in Middle-earth p.43-44",
+      "Sable Elf": "Book of Ebon Tides p.29",
+      "Windrunner Elf": "Midgard p.13-15",
+      "High Elf of Rivendell": "Rivendell Region Guide p.117",
+      "Shadow Fey": "Book of Ebon Tides p.28",
+      "Silvan Elf Sentinel": "Dark Waters p.111-112",
+      "Shadow Fey (Lunar Elf)": "PHB 2014 p.21"
+    }
+  },
+  "Halfling": {
+    "subraces": [
+      "Lightfoot Halfling",
+      "Stout Halfling",
+      "Ghostwise Halfling",
+      "Hobbit of the Shire",
+      "Hobbit",
+      "Harfoot",
+      "Wild Hobbit",
+      "Riverfolk Halfling",
+      "Courtfolk Halfling",
+      "Hobbit (Harfoot)",
+      "Hobbit (Stoor)",
+      "Hobbit (Fallowhide)",
+      "Courtfolk Halfling (Shadow Servitors)",
+      "Courtfolk"
+    ],
+    "asi": {
+      "dexterity": 2
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "traits": [
+      "Lucky",
+      "Brave",
+      "Halfling Nimbleness"
+    ],
+    "desc": "Halflings are small, cheerful folk who stand about 3 feet tall and weigh around 40 pounds. With round faces, rosy cheeks, and curly hair, they project an aura of comfort and contentment. They favor simple, colorful clothing and go barefoot whenever possible. Halflings live about 150 years, and their outlook is practical and grounded—they value home, hearth, and a well-told story over grand ambitions.\n\nHalfling communities are pastoral and peaceful, built around farms, mills, and cozy burrows. They dislike pomp and ceremony, preferring to govern by family consensus and the quiet wisdom of elders. Despite their peaceful nature, halflings are surprisingly brave when their homes or friends are threatened—a bravery born of loyalty, not recklessness.\n\nMechanically, halflings gain +2 Dexterity, Lucky (reroll 1s on attack rolls, ability checks, and saves), Brave (advantage on saves vs frightened), and Halfling Nimbleness (move through spaces of larger creatures). They speak Common and Halfling.",
+    "subrace_descs": {
+      "Lightfoot Halfling": "+1 Charisma. Naturally Stealthy lets you hide behind creatures larger than you. Lightfoot halflings are charming, gregarious travelers who love meeting new people and can slip away from trouble unnoticed.",
+      "Stout Halfling": "+1 Constitution. Stout Resilience grants advantage on poison saves and resistance to poison damage. Known as Strongheart halflings in the Forgotten Realms, they have dwarven blood in their lineage— hardy, durable, and fond of good ale.",
+      "Ghostwise Halfling": "+1 Wisdom. Silent Speech grants telepathy to any creature within 30 ft that shares a language. Ghostwise halflings are fiercely reclusive, living deep in the Chondalwood and speaking mind-to-mind rather than aloud. They have a deep, spiritual bond with the natural world.",
+      "Hobbit of the Shire": "Hobbits of the Shire are small, unassuming folk, typically around 3 to 4 feet tall, with curly hair and large, hairy feet, known for their love of peace, good food, and simple pleasures.",
+      "Hobbit": "Hobbits are generally just slightly under three feet tall and weigh around 50 lbs. They are a small, peaceful folk who live in the Shire, known for their love of comfort and simple pleasures.",
+      "Harfoot": "Harfoots are a line of Hobbits, known for their unobtrusive nature and connection to the earth.",
+      "Wild Hobbit": "Wild Hobbits are small, lean folk with sharp, untrusting eyes, rarely plump except for elders, and they always carry simple tools of survival such as fishing tackle and hand tools, moving about the watercourses of the Vales of Anduin on little boats of reeds.",
+      "Riverfolk Halfling": "Riverfolk are city halflings, usually growing up on docks, fishing boats, and the patchwork barges. Most are more at home on a temperamental river than on solid ground, and riverfolk seldom fear drowning.",
+      "Courtfolk Halfling": "Courtfolk are the longest-lived of the halfling subraces, perhaps owing to their close association with elves. They are at home in elven courts and politics and have had generations to practice the art of remaining unnoticed until needed.",
+      "Hobbit (Harfoot)": "Harfoot Hobbits are one of the three family lines of the Shire.",
+      "Hobbit (Stoor)": "Stoor Hobbits are one of the three family lines of the Shire.",
+      "Hobbit (Fallowhide)": "Fallowhide Hobbits are one of the three family lines of the Shire.",
+      "Courtfolk Halfling (Shadow Servitors)": "Those courtfolk who elect to serve shadow fey are usually broken spirits to start with, and over time, the cracks in their souls become filled with something darker.",
+      "Courtfolk": "Courtfolk are halflings with obvious elven influence, mired in elven culture for generations, with shorter, softer names than elves and a lilting flair."
+    },
+    "source": "PHB 2014 p.26",
+    "_subrace_sources": {
+      "Lightfoot Halfling": "PHB 2014 p.28",
+      "Stout Halfling": "PHB 2014 p.28",
+      "Ghostwise Halfling": "SCAG p.110",
+      "Hobbit of the Shire": "Adventures in Middle-earth p.44-45",
+      "Hobbit": "Adventures in Middle-earth p.46-47",
+      "Harfoot": "Unknown (page 214)",
+      "Wild Hobbit": "Rhovanion Region Guide p.59-60",
+      "Riverfolk Halfling": "Riverfolk: The Scattered People of the Trade p.12-14",
+      "Courtfolk Halfling": "Into Darkness p.27",
+      "Hobbit (Harfoot)": "PHB 2014 p.26",
+      "Hobbit (Stoor)": "PHB 2014 p.26",
+      "Hobbit (Fallowhide)": "PHB 2014 p.26",
+      "Courtfolk Halfling (Shadow Servitors)": "PHB 2014 p.26",
+      "Courtfolk": "Midgard p.22-23"
+    }
+  },
+  "Human": {
+    "subraces": [
+      "Variant Human",
+      "Umbral Human",
+      "Changeling Umbral Human",
+      "Gifted Umbral Folk",
+      "Umbral Changeling",
+      "Barding",
+      "Men of Bree",
+      "Men of Minas Tirith",
+      "Men of the Lake",
+      "Riders of Rohan",
+      "Men of Bree (Stoor)",
+      "Men of Bree (Fallowhide)"
+    ],
+    "asi": {
+      "strength": 1,
+      "dexterity": 1,
+      "constitution": 1,
+      "intelligence": 1,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "traits": [],
+    "desc": "Humans are the youngest of the common races and the most ambitious. Standing 5 to 6 feet tall with skin tones ranging from nearly black to very pale, hair from black to blond, and facial hair from sparse to thick, humans are the most physically diverse race in the multiverse. They live less than a century, yet their drive and adaptability have spread them to every corner of every world.\n\nHuman culture is as varied as their appearance—no single god, philosophy, or way of life defines them. They build empires and topple them within the span of an elf's youth. This brevity of life fuels an intensity that other races find both admirable and alarming: humans achieve in decades what dwarves take centuries to accomplish.\n\nMechanically, humans gain +1 to all six ability scores—an unparalleled breadth of talent. They start with one extra language. The standard human is the ultimate generalist, capable of excelling in any class.",
+    "subrace_descs": {
+      "Variant Human": "+1 to two different abilities of your choice, one feat, and one extra skill proficiency. The variant human trades the jack-of-all-trades approach for focused specialization, making them the most customizable race in the game—particularly powerful for builds that need an early feat.",
+      "Umbral Human": "Umbral humans are humans transformed by exposure to shadow over generations, with skin tending toward alabaster white, ebon black, or subtle grays, and some even grow rudimentary horns like shadow fey.",
+      "Changeling Umbral Human": "Changeling Umbral Humans resemble their cousins from the mortal lands but with the hallmarks of a life in the shadows, with skin color tending toward alabaster white, ebon black, or subtle grays, and some have even grown rudimentary horns.",
+      "Gifted Umbral Folk": "Gifted Umbral Folk are humans transformed by drinking too deeply of shadows, often initiated by shadow fey or other dark powers, and can vary widely in appearance from normal humans to shadow fey, sometimes with minor or dramatic changes like tails, hooves, or vestigial wings.",
+      "Umbral Changeling": "Changelings are the natural result of humans adapting to a life in the shadows over multiple generations. Originally, humans were stolen from the mortal lands to serve their shadow fey masters—or just on a whim—and many more humans simply got lost on a shadow road or abandoned and ultimately became stranded in the Shadow Realm. And that new life in shadows must ultimately change a mortal.",
+      "Barding": "Bardings are a prosperous folk of Dale, standing between 5 and 6 feet tall, with a culture of trade and craftsmanship.",
+      "Men of Bree": "Most Big Bree-folk tend to be broad, rather than tall, and few are very much larger than 5 feet in height. They are a prosperous people protected by the Rangers of the North.",
+      "Men of Minas Tirith": "The Men of Minas Tirith are Gondorians, standing between 5 and 6 feet tall, with a proud heritage and a prosperous culture.",
+      "Men of the Lake": "Men of the Lake are Northmen of Esgaroth and Dale, standing between 5 and 6 feet tall, who value resourcefulness and daring above all.",
+      "Riders of Rohan": "The Riders of Rohan, men and women, are generally tall, well over 5 feet and often above 6 feet, with a simple and free-spirited nature.",
+      "Men of Bree (Stoor)": "Stoor Hobbits are one of the three family lines of the Shire.",
+      "Men of Bree (Fallowhide)": "Fallowhide Hobbits are one of the three family lines of the Shire."
+    },
+    "source": "PHB 2014 p.29",
+    "_subrace_sources": {
+      "Variant Human": "PHB 2014 p.31",
+      "Umbral Human": "Book of Ebon Tides p.31",
+      "Changeling Umbral Human": "Book of Ebon Tides p.32",
+      "Gifted Umbral Folk": "Book of Ebon Tides p.32",
+      "Umbral Changeling": "PHB 2014 p.29",
+      "Barding": "Adventures in Middle-earth p.33-34",
+      "Men of Bree": "Adventures in Middle-earth p.49-50",
+      "Men of Minas Tirith": "Adventures in Middle-earth p.53",
+      "Men of the Lake": "Adventures in Middle-earth p.51-52",
+      "Riders of Rohan": "Adventures in Middle-earth p.56",
+      "Men of Bree (Stoor)": "PHB 2014 p.29",
+      "Men of Bree (Fallowhide)": "PHB 2014 p.29"
+    }
+  },
+  "Dragonborn": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "traits": [
+      "Draconic Ancestry",
+      "Breath Weapon",
+      "Damage Resistance"
+    ],
+    "desc": "Dragonborn are tall, muscular humanoids with the blood of dragons running through their veins. Standing well over 6 feet tall and weighing 250 pounds or more, they have scaly hide, a draconic snout, sharp claws, and a powerful tail. Their scales mirror the color of their draconic ancestry—brass, bronze, copper, gold, silver, black, blue, green, red, or white. Dragonborn live about 80 years.\n\nDragonborn society revolves around clan and honor above all else. To a dragonborn, one's word is one's bond, and failure to uphold it brings dishonor not just to the individual but to their entire clan. They are proud warriors who approach life with the gravity of a sacred duty. Dragonborn are rare outside their own insular communities, and those who adventure do so to prove their worth or to seek a new destiny for their clan.\n\nMechanically, dragonborn gain +2 Strength, +1 Charisma, a Breath Weapon (2d6 damage in a 15-ft cone or 30-ft line based on ancestry, DC 8 + CON + prof, recharge on short rest), and Damage Resistance matching their draconic ancestry. They speak Common and Draconic.",
+    "source": "PHB 2014 p.32",
+    "_subrace_sources": {}
+  },
+  "Gnome": {
+    "subraces": [
+      "Forest Gnome",
+      "Rock Gnome",
+      "Deep Gnome",
+      "Wyrd Gnome"
+    ],
+    "asi": {
+      "intelligence": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Gnomish"
+    ],
+    "traits": [
+      "Gnome Cunning"
+    ],
+    "desc": "Gnomes are small, energetic humanoids standing 3 to 4 feet tall and weighing 40 to 45 pounds. Their skin ranges from tan to woody brown, their hair is fair, and their eyes are bright, often blue or violet. Male gnomes favor short, well-trimmed beards. Gnomes live 350 to 500 years—their boundless enthusiasm for life never dims with age.\n\nGnomish culture is defined by curiosity and creativity. They are natural inventors, alchemists, and illusionists, always tinkering with some device or perfecting a new trick. Their communities are hidden burrows in wooded hills, connected by winding tunnels and lit by cleverly engineered mirrors. Gnomes laugh easily, love puzzles, and treat knowledge as the greatest treasure.\n\nMechanically, gnomes gain +2 Intelligence, Darkvision 60 ft, and Gnome Cunning (advantage on all Intelligence, Wisdom, and Charisma saves against magic). They speak Common and Gnomish. This makes gnomes exceptional wizards, artificers, and arcane tricksters.",
+    "subrace_descs": {
+      "Forest Gnome": "+1 Dexterity. Natural Illusionist grants the minor illusion cantrip. Speak with Small Beasts allows simple communication with Tiny and Small animals. Forest gnomes are shy, reclusive tricksters of the deep woods—masters of stealth and woodland magic.",
+      "Rock Gnome": "+1 Constitution. Artificer's Lore doubles proficiency bonus on History checks related to magic items, alchemical objects, or technological devices. Tinker lets you build a tiny clockwork toy, fire starter, or music box. Rock gnomes are the engineers of gnomish society—gadgeteers and jewelers who craft wonders from clockwork and gemstone.",
+      "Deep Gnome": "+1 Dexterity. Superior Darkvision (120 ft), Stone Camouflage (advantage on Stealth in rocky terrain). The svirfneblin—secretive Underdark gnomes with gray skin and a talent for survival in the deepest darkness. They are more serious than their surface cousins, hardened by life among the horrors of the deep earth.",
+      "Wyrd Gnome": "Wyrd gnomes are gnomes with a natural prescience that sets them apart from most other gnomes, often gathering in small communities where their collective prescient power makes them fascinating to visit."
+    },
+    "source": "PHB 2014 p.35",
+    "_subrace_sources": {
+      "Forest Gnome": "PHB 2014 p.37",
+      "Rock Gnome": "PHB 2014 p.37",
+      "Deep Gnome": "EEPC p.11",
+      "Wyrd Gnome": "Book of Ebon Tides p.40"
+    }
+  },
+  "Half-Elf": {
+    "subraces": [],
+    "asi": {
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "traits": [
+      "Fey Ancestry",
+      "Skill Versatility"
+    ],
+    "desc": "Half-elves are born of two worlds—human passion and elven grace. They stand 5 to 6 feet tall, with features that blend the best of both parents: the pointed ears and delicate features of elves with the sturdy build and varied coloration of humans. Their eyes are particularly striking, often green or gold. Half-elves live about 180 years.\n\nHalf-elves are natural diplomats, bridging the gap between cultures. They inherit the elven love of art and the human drive for achievement. Many half-elves feel torn between two heritages, never fully belonging to either world—a loneliness that often drives them to the adventuring life, where skill matters more than bloodline. They are easygoing and charismatic, with a gift for making friends wherever they go.\n\nMechanically, half-elves gain +2 Charisma, +1 to two other abilities of their choice, Fey Ancestry (advantage on saves vs charms, immune to magical sleep), Darkvision 60 ft, and Skill Versatility (two extra skill proficiencies). With their unmatched flexibility, they excel as bards, sorcerers, paladins, and warlocks.",
+    "source": "PHB 2014 p.38",
+    "_subrace_sources": {}
+  },
+  "Half-Orc": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "constitution": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Orc"
+    ],
+    "traits": [
+      "Relentless Endurance",
+      "Savage Attacks"
+    ],
+    "desc": "Half-orcs are towering figures of strength and endurance, standing 5 to 7 feet tall with powerful builds, gray-green skin, pronounced lower canines, and jutting jaws. They typically weigh 180 to 250 pounds of muscle and bone. Their orcish blood gives them a fearsome appearance, but half-orcs raised among humans often develop remarkable self-control and a deep loyalty to those who accept them.\n\nHalf-orc life is one of constant challenge. Whether in orc tribes where they must prove their strength daily, or in human societies where they must overcome fear and prejudice, half-orcs learn early that respect is earned through deeds, not words. Those who take up the adventuring life do so to find a place where their strength is valued and their loyalty rewarded.\n\nMechanically, half-orcs gain +2 Strength, +1 Constitution, Darkvision 60 ft, Relentless Endurance (when reduced to 0 HP but not killed, drop to 1 HP instead—1/long rest), and Savage Attacks (roll one extra weapon damage die on critical hits). They speak Common and Orc. They make devastating barbarians, fighters, and paladins.",
+    "source": "PHB 2014 p.40",
+    "_subrace_sources": {}
+  },
+  "Custom Lineage": {
+    "subraces": [],
+    "asi": {},
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "traits": [
+      "Feat",
+      "Variable Trait"
+    ],
+    "desc": "Instead of choosing one of the game's races for your character at 1st level, you can use the following traits to represent your character's lineage, giving you full control over how your character's origin shaped them.\n\nCustom lineage is the ultimate blank canvas. Perhaps you're the result of generations of intermarriage between multiple races, a being touched by planar energies, or a unique creation with no precedent. Your appearance, backstory, and very nature are yours to define. You aren't bound by any racial stereotype—you write your own origin story.\n\nMechanically, you gain +2 to one ability score of your choice, one feat of your choice (for which you qualify), and your choice of either darkvision 60 ft or proficiency in one skill. You are Small or Medium size, speak Common and one other language, and your creature type is humanoid. You are whatever you imagine yourself to be.",
+    "subrace_descs": {},
+    "_subrace_sources": {}
+  },
+  "Tiefling": {
+    "subraces": [],
+    "asi": {
+      "charisma": 2,
+      "intelligence": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "traits": [
+      "Hellish Resistance",
+      "Infernal Legacy"
+    ],
+    "desc": "Tieflings bear the mark of an ancient infernal pact—a sin of their ancestors that manifests in their bloodline. They have large horns, thick tails, sharply pointed teeth, and solid-colored eyes (black, red, white, silver, or gold). Their skin ranges from human tones through deep reds and purples. They stand 5 to 6 feet tall and live slightly longer than humans. No two tieflings look exactly alike.\n\nTieflings are met with suspicion and prejudice in most societies. Their fiendish appearance triggers instinctive fear in common folk, and they grow up knowing they are outsiders. This breeds either bitter resentment or a fierce independence—tieflings who rise above prejudice often become self-reliant adventurers, proving their worth through heroic deeds. Their natural charisma can be unsettling or magnetic, depending on how they choose to wield it.\n\nMechanically, tieflings gain +2 Charisma, +1 Intelligence, Hellish Resistance (resistance to fire damage), Darkvision 60 ft, and Infernal Legacy—the thaumaturgy cantrip, hellish rebuke (1/day at level 3 as 2nd-level), and darkness (1/day at level 5). They speak Common and Infernal. Tieflings make natural warlocks, sorcerers, and bards.",
+    "source": "PHB 2014 p.42",
+    "_subrace_sources": {}
+  },
+  "Genasi": {
+    "subraces": [
+      "Air Genasi",
+      "Earth Genasi",
+      "Fire Genasi",
+      "Water Genasi"
+    ],
+    "asi": {
+      "constitution": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Primordial"
+    ],
+    "traits": [],
+    "desc": "Genasi are the children of mortals and genies—elemental spirits of air, earth, fire, and water. They carry the power of the Elemental Planes in their blood. Standing 5 to 6 feet tall, they are built like humans but marked by their elemental heritage: skin that glitters with moisture, hair that ripples like flame, a voice that echoes like shifting stone. Genasi live about 120 years.\n\nGenasi are rare and often solitary. Their elemental nature sets them apart from both their mortal and genie parents. They are self-reliant, independent, and tend toward neutrality—reflecting the primal forces within them. A genasi's elemental subrace defines not just their abilities but their entire outlook: air genasi are swift and detached, earth genasi are stoic and patient, fire genasi are passionate and impulsive, water genasi are adaptable and deep.\n\nMechanically, all genasi gain +2 Constitution, and their subrace grants additional traits including innate spellcasting, damage resistances, and movement abilities tied to their element. They speak Common and Primordial—the language of elemental beings.",
+    "subrace_descs": {
+      "Air Genasi": "+1 Dexterity. Unending Breath (hold breath indefinitely), Mingle with the Wind (levitate 1/long rest at level 3+). Air genasi are light of frame and quick of wit, with pale blue skin and hair that perpetually stirs in an unfelt breeze. Children of the djinn.",
+      "Earth Genasi": "+1 Strength. Earth Walk (ignore difficult terrain of earth or stone), Merge with Stone (pass without trace 1/long rest at level 3+). Earth genasi are solid, deliberate, and patient, with skin in shades of gray and brown, sometimes marked with crystalline growths. Children of the dao.",
+      "Fire Genasi": "+1 Intelligence. Darkvision 60 ft, Fire Resistance, Reach to the Blaze (produce flame cantrip; burning hands 1/long rest at level 3+). Fire genasi burn with inner heat—their skin smolders in shades of coal and ash, their hair a corona of flame. Children of the efreet.",
+      "Water Genasi": "+1 Wisdom. Amphibious (breathe water and air), Swim speed 30 ft, Acid Resistance, Call to the Wave (shape water cantrip; create or destroy water 1/long rest at level 3+). Water genasi appear perpetually fresh from a swim, with blue-green skin and hair that floats as if underwater. Children of the marid."
+    },
+    "source": "EEPC p.7",
+    "_subrace_sources": {
+      "Air Genasi": "EEPC p.9",
+      "Earth Genasi": "EEPC p.9",
+      "Fire Genasi": "EEPC p.9",
+      "Water Genasi": "EEPC p.10"
+    }
+  },
+  "Beorning": {
+    "subraces": [
+      "Woodmen of Wilderland",
+      "Woodmen of Mountain Hall"
+    ],
+    "asi": {
+      "strength": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Vale of Anduin Tongue"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Adventuring Age",
+      "Size",
+      "Speed",
+      "Angry",
+      "Starting Virtue",
+      "Languages"
+    ],
+    "desc": "Most Beornings are fairly stocky and often stand 6 feet tall or more. They are a hardy folk who sustain themselves by breeding cattle and horses and keeping hives of great bees.",
+    "subrace_descs": {
+      "Woodmen of Wilderland": "Woodmen carve a living out of meagre hunts, burning charcoal and breeding animals. They stand between 5 and 6 feet tall.",
+      "Woodmen of Mountain Hall": "The folk of Firienseld are close kin with those who live under the eaves of Mirkwood and share both their physical appearance and naming conventions."
+    },
+    "source": "Adventures in Middle-earth p.35-36",
+    "_source_slug": "AIPG",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Dúnedain": {
+    "subraces": [],
+    "asi": {
+      "constitution": 1,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Sindarin",
+      "Westron"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Adventuring Age",
+      "Size",
+      "Speed",
+      "Lore of Númenor",
+      "Raised in the Wild",
+      "Languages",
+      "Starting Virtue"
+    ],
+    "desc": "Most Dúnedain stand well over 6 feet tall. They never wear or carry anything whose worth cannot be measured in a practical way, and their gear is chosen for capability to endure long journeys and strenuous fights.",
+    "subrace_descs": {},
+    "source": "Adventures in Middle-earth p.37-38",
+    "_source_slug": "AIPG",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Dark Folk": {
+    "subraces": [
+      "Dark Eye",
+      "Dark Servant",
+      "Dark Voice"
+    ],
+    "asi": {},
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "traits": [
+      "Dark Devotion",
+      "Gaze of Shadows",
+      "Sunlight Sensitivity",
+      "Darksight",
+      "Pack Tactics"
+    ],
+    "desc": "This pale-skinned humanoid is swathed in dark robes. Beneath its hood, its face is a grotesque mask. Smooth, featureless flesh is where one eye would be; the existing eye is a black pit that swallows both light and hope.",
+    "subrace_descs": {
+      "Dark Eye": "Some dark folk carry a stronger measure of shadow in their souls, and it grants them the gift of sight, at the cost of one of their eyes.",
+      "Dark Servant": "The lowliest of the dark folk, the dark servants are also the most numerous. They cover their skin completely to shield it from even a single mote of light.",
+      "Dark Voice": "The most powerful of the dark folk, a dark voice sacrifices both eyes to the truth lurking in the shadows."
+    },
+    "source": "Creature Codex p.72-73",
+    "_source_slug": "CC",
+    "natural_armor": null,
+    "_subrace_sources": {
+      "Dark Eye": "Creature Codex p.72-73",
+      "Dark Servant": "Creature Codex p.72-73",
+      "Dark Voice": "Creature Codex p.72-73"
+    }
+  },
+  "Ratfolk": {
+    "subraces": [],
+    "asi": {},
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "traits": [
+      "Nimbleness",
+      "Pack Tactics",
+      "Swim Speed"
+    ],
+    "desc": "Ratfolk are small humanoids with a knack for stealth and pack tactics, often found in mercenary or warlock roles. They have darkvision and a natural nimbleness that allows them to move through larger creatures' spaces.",
+    "subrace_descs": {},
+    "source": "CREATURE CODEX p.315-316",
+    "_source_slug": "CC",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Kapi": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "dexterity": 4,
+      "wisdom": 1,
+      "charisma": -1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Simian"
+    ],
+    "traits": [
+      "Nimble Feet",
+      "Prehensile Tail"
+    ],
+    "desc": "Kapi are medium humanoid simians from tropical jungles, where they make their homes in treetop villages. They are curious, playful tricksters with prehensile tails.",
+    "subrace_descs": {},
+    "source": "Creature Codex p.336",
+    "_source_slug": "CC",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Vanara": {
+    "subraces": [],
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Simian"
+    ],
+    "traits": [
+      "Distract",
+      "Quadrupedal Dash",
+      "Standing Leap"
+    ],
+    "desc": "Vanaras are a contemplative race that dwells in forests or along coastlines, living in tribes or clans. They are medium humanoids with simian features, often dressing only in short pants or waist wraps and a turban.",
+    "subrace_descs": {},
+    "source": "Creature Codex p.338",
+    "_source_slug": "CC",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Aasimar": {
+    "subraces": [],
+    "asi": {
+      "wisdom": 1,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Celestial"
+    ],
+    "traits": [
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Celestial Resistance",
+      "Celestial Legacy",
+      "Languages"
+    ],
+    "desc": "Aasimar are mortals touched by the Upper Planes—celestial bloodlines that manifest as angelic guides, radiant souls, and a divine purpose that shapes their entire lives. They appear mostly human, standing 5 to 6 feet tall, but their celestial heritage shows through in subtle ways: metallic-flecked eyes, a faint nimbus of light in darkness, or a voice that resonates with otherworldly authority. Aasimar live up to 160 years.\n\nAasimar are rare and often solitary. Each carries an inner conflict between mortal desires and celestial expectations. Most are guided from childhood by a deva—an angelic being who communicates through dreams and omens. This guidance can feel like a blessing or a burden, depending on the aasimar's disposition. Those who embrace their divine nature become champions of light; those who rebel against it often walk darker paths while their celestial guide watches in silent disappointment.\n\nMechanically, aasimar gain +2 Charisma and +1 to another ability. Their Celestial Resistance grants resistance to necrotic and radiant damage. Healing Hands provides a pool of healing. Light Bearer grants the light cantrip. At 3rd level, they can transform for 1 minute via their subrace—Protector (radiant flight + bonus damage), Scourge (consuming radiance), or Fallen (frightening necrotic shroud). They speak Common and Celestial.",
+    "subrace_descs": {},
+    "source": "Dungeon Master's Guide",
+    "_source_slug": "DMG",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Bearfolk": {
+    "subraces": [
+      "Shadowborn",
+      "Shadowborn Bearfolk"
+    ],
+    "asi": {
+      "strength": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "traits": [
+      "Bite",
+      "Natural Armor",
+      "Powerful Build",
+      "Ursine Talent"
+    ],
+    "desc": "Bearfolk can reach a height of over 7 feet, possessing thick, muscular builds.",
+    "subrace_descs": {
+      "Shadowborn": "A subrace of bearfolk has arisen in the Shadow Realm: the shadowborn.",
+      "Shadowborn Bearfolk": "Shadowborn bearfolk are cubs born in the Shadow Realm with a proclivity for the darkness, marked by gray coats from infancy and sometimes possessing strangely arcane black markings."
+    },
+    "source": "Book of Ebon Tides p.23",
+    "_source_slug": "EBT",
+    "natural_armor": {
+      "base_ac": 13,
+      "max_dex": null,
+      "allow_shield": true
+    },
+    "_subrace_sources": {
+      "Shadowborn": "Book of Ebon Tides p.23"
+    }
+  },
+  "Darakhul": {
+    "subraces": [
+      "Bearfolk Heritage",
+      "Shadow Goblin Heritage"
+    ],
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Darakhul",
+      "Umbral"
+    ],
+    "traits": [
+      "Darkvision",
+      "Hunger for Flesh",
+      "Imperfect Undeath",
+      "Powerful Jaw",
+      "Sunlight Sensitivity",
+      "Undead Resilience",
+      "Undead Vitality"
+    ],
+    "desc": "Darakhul are undead creatures transformed from various mortal races, retaining some traits of their former lives while gaining necrotic powers.",
+    "subrace_descs": {
+      "Bearfolk Heritage": "Your darakhul character was a bearfolk before transforming into a darakhul. While your allegiance has changed, your mission to create order amid the darkness has not. The strength and tenacity of the darakhul are comfortingly familiar.",
+      "Shadow Goblin Heritage": "Your darakhul character was a shadow goblin before transforming into a darakhul."
+    },
+    "source": "Book of Ebon Tides p.26-27",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {
+      "Bearfolk Heritage": "Book of Ebon Tides p.26-27",
+      "Shadow Goblin Heritage": "Book of Ebon Tides p.26-27"
+    }
+  },
+  "Quickstep": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "charisma": 1
+    },
+    "speed": 50,
+    "darkvision": 60,
+    "languages": [
+      "Elvish",
+      "Umbral"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Fey Ancestry",
+      "Nimble",
+      "Startling Speed",
+      "Languages"
+    ],
+    "desc": "Quicksteps are small fey with a natural affinity for speed, often found in the fey courts, where they excel at sabotage and dueling. They have a fondness for finery and feel at home amid the riches of court life.",
+    "subrace_descs": {},
+    "source": "Book of Ebon Tides p.33",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Ratatosk": {
+    "subraces": [
+      "Ekorre (Clever Tusk)",
+      "Tradvakt (Tree Protector)"
+    ],
+    "asi": {
+      "strength": -2,
+      "dexterity": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Celestial",
+      "Common"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Speed",
+      "Darkvision",
+      "Grounded Celestial",
+      "Sharp Tusks",
+      "Telepathic",
+      "Languages"
+    ],
+    "desc": "Resembling squirrels with sleek fur and small tusks, ratatosks are insatiable tricksters who form close matriarchal familial units called drays within larger communities called scurries.",
+    "subrace_descs": {
+      "Ekorre (Clever Tusk)": "The ekorre are the image most have in mind when discussing ratatosks. Superficially similar to squirrels, they have sleek fur, often in shades of red and brown, and tiny tusks. These celestials dwell upon Yggdrasil and all its branches. Clever, egotistical, and endlessly curious, the ekorre carry messages across the planes, sharing information from individual to individual in a never-ending gossip network.",
+      "Tradvakt (Tree Protector)": "The tradvakt, also called ratatosk warlords, believe themselves to be the guardians and protectors of Yggdrasil and the branches of the World Tree. Larger than their ekorre cousins, the tradvakt train from a young age to master weapons and battle tactics. They act to maintain order in their communities and stamp out dangers that threaten those settlements."
+    },
+    "source": "Book of Ebon Tides p.34-35",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {
+      "Ekorre (Clever Tusk)": "Book of Ebon Tides p.34-35",
+      "Tradvakt (Tree Protector)": "Book of Ebon Tides p.34-35"
+    }
+  },
+  "Erina": {
+    "subraces": [],
+    "asi": {
+      "wisdom": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Erina",
+      "Umbral",
+      "Common",
+      "Elvish",
+      "Sylvan"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Digger",
+      "Quills",
+      "Sharp Instincts",
+      "Spirit Tongue",
+      "Languages"
+    ],
+    "desc": "The erina are a race of bipedal folk that resemble hedgehogs. Spiritfarer erinas are a subrace of erina, whose ancestors were forever changed by the Shadow Realm, setting them apart from most other erina.",
+    "subrace_descs": {},
+    "source": "Book of Ebon Tides p.35",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Stygian Shade": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Umbral"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Death Mask",
+      "Ghostly Flesh",
+      "Imperfect Undeath",
+      "Mysterious Origin",
+      "Spectral Resilience",
+      "Languages"
+    ],
+    "desc": "Stygian shades are shades from the Shadow Realm who lack most of their memories and are driven to find what was lost. They appear as ghosts, often congregating in the city of Soriglass.",
+    "subrace_descs": {},
+    "source": "Tome of Heroes p.37",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Sublime Ravenfolk": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Ravenfolk",
+      "Umbral"
+    ],
+    "traits": [
+      "Constant Tune",
+      "Cosmic Musician",
+      "Sublime Chord"
+    ],
+    "desc": "Sublime ravenfolk are a subrace of ravenfolk, drawn by a mysterious psychic song to the Shadow Realm, and are slighter and shorter than humans, ranging from 4 feet to just shy of 6 feet tall.",
+    "subrace_descs": {},
+    "source": "Book of Ebon Tides p.38",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Unbound Satarre": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Umbral",
+      "Abyssal",
+      "Infernal",
+      "Void Speech"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Keeper of Secrets",
+      "Portal Sense",
+      "Unraveling Touch",
+      "Languages"
+    ],
+    "desc": "Unbound satarre are a subrace of satarre, planar travelers with an instinctual sensitivity to places of transition, compelled to find gateways and widen their influence through mundane or magical means.",
+    "subrace_descs": {},
+    "source": "Book of Ebon Tides p.39-40",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Molefolk": {
+    "subraces": [],
+    "asi": {
+      "strength": 1,
+      "dexterity": 2,
+      "constitution": 2,
+      "intelligence": 1,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "speed": 20,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "traits": [
+      "Burrow",
+      "Keen Smell",
+      "Claws",
+      "Dirt Dive"
+    ],
+    "desc": "This small, black-furred humanoid has oversized clawed hands, clamped together in a nervous gesture. His tiny eyes stare at you from behind a pair of thick spectacles positioned on his long pink nose.",
+    "subrace_descs": {},
+    "source": "Book of Ebon Tides p.175",
+    "_source_slug": "EBT",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Aarakocra": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "wisdom": 1
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Aarakocra",
+      "Auran"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Flight",
+      "Talons",
+      "Language"
+    ],
+    "desc": "Aarakocra are avian humanoids who soar the skies of the Elemental Plane of Air. Standing about 5 feet tall with wingspans of 20 feet, they have feathers in brilliant hues—reds, blues, greens, and browns—with sharp, beak-like faces and taloned hands and feet. Their lightweight, hollow bones make them fragile by human standards but perfectly adapted for flight. Aarakocra live roughly 30 years, reaching maturity by age 3.\n\nAarakocra society revolves around the sky. They build communal eyries atop the highest peaks and value freedom above all else. They are cheerful, welcoming, and fiercely protective of their flocks. Aarakocra who venture to the Material Plane are often explorers, emissaries, or exiles driven by an insatiable curiosity about the ground-bound world. They find enclosed spaces—dungeons, caves, low-ceilinged buildings—deeply unsettling.\n\nMechanically, aarakocra gain +2 Dexterity and +1 Wisdom. Their Flight gives them a 50-foot flying speed, making them unparalleled scouts and skirmishers—though they cannot fly in medium or heavy armor. Their Talons deal 1d4 slashing damage as unarmed strikes. They speak Common, Aarakocra, and Auran.",
+    "subrace_descs": {},
+    "source": "Chapter 1: Races p.5",
+    "_source_slug": "EEPC",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Goliath": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "constitution": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Giant"
+    ],
+    "traits": [
+      "Natural Athlete",
+      "Stone's Endurance",
+      "Powerful Build",
+      "Mountain Born"
+    ],
+    "desc": "Goliaths are mountain-dwelling nomads built like living boulders. Standing 7 to 8 feet tall and weighing 280 to 340 pounds, they have stone-gray skin mottled with darker patches called lithoderms, and eyes of deep blue, green, or brown. Their skulls have a distinct bony ridge, and their hair is typically dark—black, brown, or deep gray. Goliaths live to be less than a century old, but every year is earned through trial and competition.\n\nGoliath culture is centered on fairness, self-sufficiency, and relentless self-improvement. Their tribes dwell above the tree line where nothing grows easy, and everything must be earned. Personal achievement is everything—goliaths track their deeds obsessively, introducing themselves with a litany of accomplishments. A goliath who fails to pull their weight is given a chance to improve; one who consistently fails is exiled. They hate cheaters, pity the weak, and respect only what is proven. Adventuring goliaths seek challenges their mountain home cannot provide.\n\nMechanically, goliaths gain +2 Strength and +1 Constitution. Stone's Endurance lets them shrug off damage once per short rest (1d12 + CON, reaction). Powerful Build counts them as one size larger for carrying. Mountain Born grants natural adaptation to cold climates and high altitudes. They speak Common and Giant. Goliaths make exceptional barbarians, fighters, and paladins—built to take hits and keep swinging.",
+    "subrace_descs": {},
+    "source": "Elemental Evil Player's Companion",
+    "_source_slug": "EEPC",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Centaur": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "wisdom": 1
+    },
+    "speed": 40,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Sylvan"
+    ],
+    "traits": [
+      "Fey",
+      "Charge",
+      "Hooves",
+      "Equine Build",
+      "Survivor"
+    ],
+    "desc": "Centaurs are fey creatures with the upper body of a humanoid and the lower body of a horse. Standing 6 to 7 feet tall and weighing over 600 pounds, they have equine bodies in shades of chestnut, bay, dapple gray, or palomino, while their human torsos share those colorations in skin and hair. Their ears are slightly pointed, and their eyes can be solid colors—gold, green, or amber. Centaurs age at roughly the same rate as humans and rarely live past 100.\n\nCentaurs are children of the Feywild, and despite their imposing size, they are creatures of celebration and nature. They organize in migratory tribes called kashta, following ancient star-paths across the land. Centaur culture values harmony with nature, the wisdom of elders, and the joy of the run—galloping freely across open plains is a spiritual act. They are wary of walls and cities, which they see as prisons for the soul. Adventuring centaurs are often wanderers who felt the call of distant lands.\n\nMechanically, centaurs gain +2 Strength and +1 Wisdom. Their Fey typing gives them advantage on saves against magic. Charge lets them make a bonus-action hoof attack after moving 30 feet straight toward a target. Hooves deal 1d6 bludgeoning. Equine Build counts them as one size larger for carrying capacity and makes climbing cost extra movement—a real consideration for dungeon-crawling. They speak Common and Sylvan.",
+    "subrace_descs": {},
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_slug": "GGR",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Goblin": {
+    "subraces": [
+      "Shadow Goblin"
+    ],
+    "asi": {
+      "dexterity": 2,
+      "constitution": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "traits": [
+      "Darkvision",
+      "Fury of the Small",
+      "Nimble Escape"
+    ],
+    "desc": "Goblins are small, wiry humanoids standing 3 to 4 feet tall with flat faces, pointed ears, wide mouths full of sharp teeth, and skin in shades of green, yellow, or orange. They are thin and quick, with long fingers ideal for picking locks and pockets alike. Goblins age rapidly, reaching adulthood by 8 and rarely living past 60 in the wild.\n\nGoblin society is a brutal hierarchy where the strong eat first and the weak get eaten. They are wretched and cunning in equal measure—cowards by nature but vicious when cornered or when they have overwhelming numbers. Most goblins serve hobgoblin or bugbear masters in goblinoid legions. Goblin culture values cleverness over strength, and the ideal goblin hero is the one who survives by any means necessary. Adventuring goblins who break from the tribe are often driven out for being too soft, too ambitious, or simply in the wrong place when the boss was angry.\n\nMechanically, goblins gain +2 Dexterity and +1 Constitution. Fury of the Small lets them deal extra damage equal to their level to a larger creature once per short rest—a satisfyingly spiteful ability. Nimble Escape lets them Disengage or Hide as a bonus action, making them infuriatingly hard to pin down in combat. They have Darkvision 60 ft. Goblins speak Common and Goblin, and make natural rogues, rangers, and dexterity-based fighters.",
+    "subrace_descs": {
+      "Shadow Goblin": "Shadow goblins are blue- or purple-skinned with bright orange or yellow eyes, evolved to thrive in the Shadow Realm as servitors and allies of the shadow fey."
+    },
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_slug": "GGR",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Loxodon": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Loxodon"
+    ],
+    "traits": [
+      "Powerful Build",
+      "Loxodon Serenity",
+      "Natural Armor",
+      "Trunk",
+      "Keen Smell"
+    ],
+    "desc": "Loxodons are elephantine humanoids who combine immense physical power with deep wisdom. Standing over 7 feet tall and weighing 300–400 pounds, they have gray, wrinkled skin, a prehensile trunk, large floppy ears, and small, wise eyes. Their hands, while thick-fingered, are remarkably dexterous. Loxodons are long-lived, reaching 450 years or more, and their great age gives them a perspective that younger races often mistake for slowness.\n\nLoxodon culture values community, memory, and stonework. They are master masons who build structures meant to last millennia, and their oral histories preserve events from centuries ago with remarkable accuracy. A loxodon's community is everything—they form deep, lifelong bonds and mourn losses for years. They are slow to anger but terrifying when roused, and their serene demeanor masks a mind that is constantly observing, weighing, and remembering. Loxodons rarely adventure, but those who do often seek knowledge, justice for wrongs done to their people, or simply a deeper understanding of the world beyond their stone halls.\n\nMechanically, loxodons gain +2 Constitution and +1 Wisdom. Natural Armor gives them AC 12 + CON (not DEX)—a loxodon barbarian or druid can dump Dexterity entirely. Powerful Build counts them as one size larger. Loxodon Serenity grants advantage on saves against being charmed or frightened. Their Trunk can lift, manipulate, and even wield light weapons or tools. Keen Smell grants advantage on Perception checks involving smell. They speak Common and Loxodon.",
+    "subrace_descs": {},
+    "source": "Guildmasters' Guide to Ravnica p.11",
+    "_source_slug": "GGR",
+    "natural_armor": {
+      "base_ac": 12,
+      "stat": "constitution",
+      "uncapped": true
+    },
+    "_subrace_sources": {}
+  },
+  "Minotaur": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "constitution": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Minotaur"
+    ],
+    "traits": [
+      "Horns",
+      "Goring Rush",
+      "Hammering Horns",
+      "Imposing Presence"
+    ],
+    "desc": "Minotaurs are powerfully built humanoids with bovine features—broad, horned heads, thick necks, cloven hooves, and bullish snouts. Standing 6 to 7 feet tall and weighing 300 pounds or more, they are covered in short fur ranging from brown to black to white, often with patches or dappling. Their horns curve forward and are formidable natural weapons. Minotaurs live about 150 years, though their passionate natures often lead to shorter lifespans.\n\nMinotaur culture is built on honor, combat, and labyrinthine philosophy. They value strength and directness, despising deception and cowardice. On Ravnica, minotaurs serve in the Boros Legion as shock troops or in the Gruul Clans as savage berserkers. Despite their reputation as mindless brutes, minotaurs are deeply contemplative—they navigate physical and metaphorical labyrinths in search of self-knowledge. A minotaur's horns are a source of personal pride, and they decorate them with rings, carvings, or battle trophies. Adventuring minotaurs seek glory, worthy challenges, or answers to questions that can only be found on the road.\n\nMechanically, minotaurs gain +2 Strength and +1 Constitution. Horns deal 1d6 piercing damage and can be used to Shove as a bonus action after dashing. Goring Rush lets them make a horn attack as a bonus action after dashing at least 20 feet. Hammering Horns pushes a creature 10 feet when they hit with a melee attack during an Attack action. Labyrinthine Recall lets them perfectly recall any path they've traveled—they never get lost. They speak Common and Minotaur.",
+    "subrace_descs": {},
+    "source": "Guildmasters' Guide to Ravnica p.20",
+    "_source_slug": "GGR",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Simic Hybrid": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish (or another language of your choice)"
+    ],
+    "traits": [
+      "Animal Enhancements",
+      "Variable Adaptation"
+    ],
+    "desc": "Simic Hybrids are the product of the Simic Combine's cytoplast experimentation—humanoid baselines augmented with the adaptive traits of aquatic, insectoid, and reptilian life. They appear mostly human or elf but with striking modifications: gills along the neck, crab-like claws, gliding membranes between limbs, or carapace plates under the skin. Their appearance is a living catalog of the Simic's evolutionary ambitions. They age at the rate of their base species and live comparable lifespans.\n\nSimic Hybrids are individuals with science written into their bodies. Created as soldiers, guardians, or enforcers for the Simic Combine, many hybrids come to question their purpose. Some embrace their augmented nature as the next step in evolution; others seek to reclaim their original identity. The hybrids' animal enhancements grant strange abilities but also a sense of alienation—they are neither fully their original species nor fully what the Simic made them. Adventuring hybrids are often seeking answers: who were they before the cytoplasts, and who do they want to be now?\n\nMechanically, simic hybrids gain +2 Constitution and +1 to another ability. At 1st level, they choose an Animal Enhancement—Manta Glide (gliding membranes), Nimble Climber (climbing speed), or Underwater Adaptation (swimming speed + water breathing). At 5th level, they gain a second: Grappling Appendages (bonus-action grapple with extra limbs), Carapace (+1 AC when not in heavy armor), or Acid Spit (ranged acid damage). They have Darkvision 60 ft and speak Common plus one other language.",
+    "subrace_descs": {},
+    "source": "Guildmasters' Guide to Ravnica p.20",
+    "_source_slug": "GGR",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Vedalken": {
+    "subraces": [],
+    "asi": {
+      "intelligence": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Vedalken",
+      "one other language of your choice"
+    ],
+    "traits": [
+      "Vedalken Dispassion",
+      "Tireless Precision",
+      "Partially Amphibious"
+    ],
+    "desc": "Vedalken are tall, slender, blue-skinned humanoids from the orderly world of Ravnica. Standing 6 to 6½ feet tall with hairless heads, elongated features, and six-fingered hands, they project an aura of calm intellect. Their skin is light to dark blue, sometimes with mottled patterns, and their eyes are pale—silver, gold, or lavender. Vedalken partially lack external ears, hearing through subtle ridges along their temples. They live up to 350 years.\n\nVedalken culture is built on pure rationality. They are scientists, philosophers, and mages who pursue knowledge with methodical precision. A vedalken would rather spend a decade perfecting a single theory than rush to a flawed conclusion. This makes them seem cold, distant, and condescending to other races—and to be fair, they usually are. Vedalken form tight-knit research cabals and measure status by intellectual achievement. Adventuring vedalken are typically field researchers testing hypotheses, exiles who asked the wrong questions, or rare individuals who realized that the quest for perfect knowledge requires imperfect experience.\n\nMechanically, vedalken gain +2 Intelligence and +1 Wisdom. Vedalken Dispassion grants advantage on all Intelligence, Wisdom, and Charisma saving throws—a version of gnome cunning. Tireless Precision grants proficiency in one skill and one tool, doubled when they spend time on the task. Partially Amphibious lets them breathe underwater for an hour. They speak Common, Vedalken, and one other language. Vedalken make natural wizards, artificers, and clerics of knowledge.",
+    "subrace_descs": {},
+    "source": "Guildmasters' Guide to Ravnica p.2",
+    "_source_slug": "GGR",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Thri-kreen": {
+    "subraces": [],
+    "asi": {},
+    "speed": 40,
+    "darkvision": 60,
+    "languages": [
+      "Thri-kreen"
+    ],
+    "traits": [
+      "Chameleon Carapace",
+      "Standing Leap",
+      "Natural Armor",
+      "Bite",
+      "Claws"
+    ],
+    "desc": "Thri-kreen are medium humanoid insectoids with a chitinous carapace, capable of changing color to blend with their surroundings, and possess powerful leaping abilities.",
+    "subrace_descs": {},
+    "source": "Monster Manual p.288",
+    "_source_slug": "MM",
+    "natural_armor": {
+      "base_ac": 15,
+      "max_dex": null,
+      "allow_shield": true
+    },
+    "_subrace_sources": {}
+  },
+  "Alseid": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "wisdom": 1
+    },
+    "speed": 40,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "traits": [
+      "Alseid Weapon Training",
+      "Light Hooves",
+      "Quadruped",
+      "Woodfriend",
+      "Darkvision"
+    ],
+    "desc": "Alseid are tall, antlered humanoids standing over 6 feet tall and weighing around 300 pounds, with a deep connection to the Old World magic of the Margreve forest.",
+    "subrace_descs": {},
+    "source": "The Margreve Forest p.8-9",
+    "_source_slug": "MPG",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Piney": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Piney"
+    ],
+    "traits": [
+      "Margreve Within",
+      "Margreve Without",
+      "Roots",
+      "Darkvision"
+    ],
+    "desc": "Pineys are humanoid beings with plant-like characteristics, such as bark-like skin, wooden nails, or flowers growing from their bodies, and they vary widely in height and build from barely 5 feet to well over 6 feet tall.",
+    "subrace_descs": {},
+    "source": "Midgard and Kobold Press, Player's Guide p.10",
+    "_source_slug": "MPG",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Gith": {
+    "subraces": [
+      "Githyanki",
+      "Githzerai"
+    ],
+    "asi": {
+      "intelligence": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Gith"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Size",
+      "Speed",
+      "Languages",
+      "Subrace"
+    ],
+    "desc": "The gith are an ancient race divided by a civil war so bitter it split them into two peoples: the militaristic githyanki and the monastic githzerai. Both were once slaves of the mind flayers, psychically enslaved for untold millennia until the hero Gith led a bloody revolt that shattered the illithid empire. Today, githyanki dwell in the Astral Plane on the corpse of a dead god, while githzerai build serene monasteries in the chaos of Limbo. Both subraces are lean and angular, standing 5 to 6 feet tall, with yellow-green skin, pointed ears, and gaunt, almost skeletal features.\n\nGithyanki culture is martial and predatory. They are raiders who descend from the Astral Plane on red dragon mounts, led by a lich-queen named Vlaakith who devours the souls of any githyanki who grow too powerful. Githzerai culture, by contrast, is ascetic and introspective—they channel their psionic gifts into discipline and enlightenment, building fortress-monasteries held together by pure mental focus. Both subraces share a burning hatred of mind flayers and a profound, instinctive mastery of psionics.\n\nMechanically, all gith gain +1 Intelligence. Githyanki gain +2 Strength and Decadent Mastery (a skill and tool proficiency that can be swapped daily). Githzerai gain +2 Wisdom and Mental Discipline (advantage on saves vs charmed and frightened). Both subraces gain Githyanki Psionics or Githzerai Psionics—mage hand, jump or shield, and misty step or detect thoughts at higher levels. They speak Common and Gith.",
+    "subrace_descs": {
+      "Githyanki": "+2 Strength. Decadent Mastery grants proficiency in one skill and one tool, swappable each long rest (githyanki learn and discard skills with alien ease). Githyanki Psionics grants mage hand (invisible), jump at 3rd level, and misty step at 5th level, each 1/long rest. Githyanki are astral raiders—martial, arrogant, and driven by the will of their lich-queen Vlaakith. Their silver swords can sever an astral traveler's silver cord.",
+      "Githzerai": "+2 Wisdom. Mental Discipline grants advantage on saves against charmed and frightened—the githzerai mind is a fortress. Githzerai Psionics grants mage hand (invisible), shield at 3rd level, and detect thoughts at 5th level, each 1/long rest. Githzerai are ascetic philosophers who found peace in the chaos of Limbo. They channel psionic power through discipline and meditation, opposing both mind flayers and their githyanki cousins."
+    },
+    "source": "Mordenkainen's Tome of Foes p.96",
+    "_source_slug": "MTF",
+    "natural_armor": null,
+    "_subrace_sources": {
+      "Githyanki": "Mordenkainen's Tome of Foes p.96",
+      "Githzerai": "Mordenkainen's Tome of Foes p.96"
+    }
+  },
+  "Tortle": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Aquan",
+      "Common"
+    ],
+    "traits": [
+      "Claws",
+      "Hold Breath",
+      "Natural Armor",
+      "Shell Defense",
+      "Survival Instinct"
+    ],
+    "desc": "Tortles are turtle-like humanoids who walk upright on two legs. They stand 5 to 6 feet tall and weigh 450–500 pounds, with domed shells of green-brown keratin, leathery skin, and beaked mouths. Their hands are thick but surprisingly dexterous, and their eyes are dark and placid. Tortles have a uniquely bittersweet lifespan: they live about 50 years, and in their final year, they feel an irresistible urge to return to their birthplace to mate and die.\n\nTortle culture is defined by this life cycle. Young tortles spend their first 20 years among their own kind, learning survival and craft. Then they leave on a decades-long wandering, exploring the world and gathering experiences. This is the adventure—the time when a tortle's personality and wisdom form. Tortles are patient, deliberate, and philosophical; they see no need to rush and approach problems with the calm of someone who will outlive the crisis. When the urge comes, they return home, share their stories, mate, and die—their children inheriting the wisdom of lives well-lived.\n\nMechanically, tortles gain +2 Strength and +1 Wisdom. Natural Armor gives them a flat AC 17 (no DEX bonus, shields still work)—making them the tankiest unarmored race. Shell Defense lets them withdraw into their shell as an action for +4 AC at the cost of being prone and immobile. Hold Breath lets them stay underwater for up to an hour. Survival Instinct grants proficiency in Survival and Nature. They speak Common and Aquan.",
+    "subrace_descs": {},
+    "source": "The Tortle Package",
+    "_source_slug": "TTP",
+    "natural_armor": {
+      "base_ac": 17
+    },
+    "_subrace_sources": {}
+  },
+  "Firbolg": {
+    "subraces": [],
+    "asi": {
+      "strength": 1,
+      "wisdom": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish",
+      "Giant"
+    ],
+    "traits": [
+      "Firbolg Magic",
+      "Hidden Step",
+      "Powerful Build",
+      "Speech of Beast and Leaf"
+    ],
+    "desc": "Firbolgs are forest-dwelling giants who stand between 7 and 8 feet tall and weigh 240–300 pounds. Their skin is blue-gray to pale blue, their hair ranges from brown to deep red, and their features are broad and strong—thick brows, wide jaws, and kind eyes. Despite their imposing size, firbolgs move with uncanny quiet. They are long-lived, reaching up to 500 years, and their connection to nature deepens with every century.\n\nFirbolg culture is gentle and reclusive. They live in remote forest clans, speaking softly and avoiding confrontation. They are caretakers of the wild, not its masters—they see themselves as part of the forest, not its rulers. Firbolgs distrust outsiders and use their innate magic to hide their villages and themselves. A firbolg's name is a private treasure, rarely shared with non-firbolgs. Adventuring firbolgs are often on personal quests—driven by visions, defending a sacred grove, or seeking to understand a world that frightens and fascinates them in equal measure.\n\nMechanically, firbolgs gain +2 Wisdom and +1 Strength. Firbolg Magic grants detect magic and disguise self once per short rest (disguise self can make them appear up to 3 feet shorter). Hidden Step lets them turn invisible as a bonus action until the start of their next turn, once per short rest. Speech of Beast and Leaf gives them advantage on Charisma checks with plants and animals. Powerful Build counts them as one size larger for carrying. They speak Common, Elvish, and Giant.",
+    "subrace_descs": {},
+    "source": "Chapter 2: Character Races",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Kenku": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Auran"
+    ],
+    "traits": [
+      "Expert Forgery",
+      "Kenku Training",
+      "Mimicry"
+    ],
+    "desc": "Kenku are small, crow-like humanoids standing about 5 feet tall with black feathers, beady eyes, and hunched postures. Their arms end in taloned hands capable of fine manipulation, and their legs are those of large birds. Kenku lack wings—an ancient curse stripped flight from their entire race—but their bodies remain light and agile. They reach adulthood by 12 years and can live up to 60.\n\nKenku are defined by the twin curses of their race: the loss of flight and the loss of creativity. An ancient transgression erased their capacity for original thought—a kenku can mimic perfectly but cannot invent. This makes them desperate imitators who survive by copying the skills and speech of others. They speak in patchwork voices, stitching together phrases they've heard into a mosaic of borrowed language. Kenku culture is built on longing—they dream of flight they cannot achieve, create art by replicating what they've seen, and forge identities from borrowed pieces. Adventuring kenku are often seeking the means to break their ancient curse.\n\nMechanically, kenku gain +2 Dexterity and +1 Wisdom. Expert Duplication grants advantage on checks to copy or forge writing or objects. Kenku Recall grants proficiency in two skills and advantage on a check with one of them a few times per long rest. Mimicry lets them perfectly reproduce any sound they've heard—a Voice check opposed by Insight for listeners to detect the mimicry. They speak Common and Auran, though their speech is always a collage of copied phrases.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.110",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Lizardfolk": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "traits": [
+      "Bite",
+      "Cunning Artisan",
+      "Hold Breath",
+      "Hunter's Lore",
+      "Natural Armor",
+      "Hungry Jaws"
+    ],
+    "desc": "Lizardfolk are cold-blooded reptilian humanoids standing 6 to 7 feet tall with thick, scaly hides in shades of green, brown, and gray. They have powerful jaws, long tails for balance, and unblinking eyes with slit pupils. Their movement is deliberate and economical—lizardfolk waste nothing, not even motion. They reach adulthood by 14 and can live to 60, though their alien mindset makes their age feel different from a human's.\n\nLizardfolk think differently from warm-blooded races. They lack the capacity for complex emotion—no love, no guilt, no ambition in the human sense. Instead, they process the world through practical survival logic: is it food? Is it a threat? Can it be used? This makes them seem cold and calculating, but it also makes them unfailingly pragmatic. Lizardfolk villages are built around swamps and marshes, and they waste nothing—the dead are eaten, their bones carved into tools, their skins made into shields. Adventuring lizardfolk are often following pragmatic goals: a better hunting ground, new crafting materials, or the simple observation that working with warm-bloods produces better results than eating them.\n\nMechanically, lizardfolk gain +2 Constitution and +1 Wisdom. Natural Armor gives them AC 13 + DEX when unarmored. Bite deals 1d6 piercing as an unarmed strike. Hungry Jaws lets them make a bonus-action bite and gain temporary HP once per short rest. Cunning Artisan lets them craft weapons and shields from fallen enemies during a short rest. Hold Breath gives them 15 minutes of air. They have a swimming speed of 30 ft and speak Common and Draconic.",
+    "subrace_descs": {},
+    "source": "Chapter 2 | Character Races",
+    "_source_slug": "VGM",
+    "natural_armor": {
+      "base_ac": 13,
+      "uncapped": true
+    },
+    "_subrace_sources": {}
+  },
+  "Tabaxi": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 2,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Tabaxi"
+    ],
+    "traits": [
+      "Darkvision",
+      "Feline Agility",
+      "Cat's Claws",
+      "Cat's Talent"
+    ],
+    "desc": "Tabaxi are feline humanoids from the distant jungles of Maztica and Chult. They stand taller than humans—5 to 7 feet—but are lean and lithe, with fur in patterns ranging from solid black to tabby stripes to spotted leopard rosettes. Their eyes are cat-slitted and come in vivid greens, golds, and blues. Tabaxi have long tails that twitch with emotion and retractable claws that make them natural climbers. They live about 80 years.\n\nTabaxi are driven by an insatiable curiosity—an endless fascination with stories, secrets, and the unknown. They are natural explorers who collect experiences the way other races collect gold. A tabaxi might spend months obsessively studying a single ruin, then wander off mid-conversation when a shiny object catches their eye. Tabaxi culture is nomadic and oral, built around wandering bards called 'storytellers' who preserve clan histories. They are quick-witted and playful, rarely staying angry for long. Adventuring tabaxi are simply doing what tabaxi do best: seeing what's over the next hill.\n\nMechanically, tabaxi gain +2 Dexterity and +1 Charisma. Feline Agility lets them double their speed for a turn—able to reset after a turn of 0 movement. Cat's Claws give them a 20 ft climbing speed and 1d4 slashing unarmed strikes. Cat's Talent grants proficiency in Perception and Stealth. They have Darkvision 60 ft and speak Common plus one other language. Tabaxi make excellent rogues, monks, rangers, and bards—mobility and grace define their playstyle.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.113-114",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Triton": {
+    "subraces": [],
+    "asi": {
+      "strength": 1,
+      "constitution": 1,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Primordial"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Amphibious",
+      "Control Air and Water",
+      "Emissary of the Sea",
+      "Guardians of the Depths",
+      "Languages"
+    ],
+    "desc": "Tritons are proud aquatic humanoids from the elemental depths of the Plane of Water. They stand 5 to 6 feet tall with blue, green, or silver skin, fins cresting their heads and forearms, and dark, webbed hands. Their eyes are large and adapted to the deep—solid black or silver. Tritons live about 200 years and carry themselves with the bearing of nobility.\n\nTriton society is a grand underwater empire that sees itself as the first line of defense against the horrors of the deep—krakens, aboleths, and worse. Every triton is a soldier, trained from birth to fight the enemies that lurk in the abyssal trenches. This martial culture breeds arrogance: tritons view surface dwellers as backward children who have no idea what threats swim beneath their ships. Adventuring tritons are often surface emissaries, scouts assessing the land-dwellers, or warriors who discovered that the greatest threats to their civilization now come from above.\n\nMechanically, tritons gain +1 Strength, +1 Constitution, and +1 Charisma. They have a swimming speed of 30 ft and can breathe both air and water. Control Air and Water grants fog cloud at level 1, gust of wind at level 3, and wall of water at level 5—all once per long rest. Emissary of the Sea lets them communicate simple ideas with beasts that breathe water. Guardians of the Depths grants resistance to cold damage. They speak Common and Primordial.",
+    "subrace_descs": {},
+    "source": "Mordenkainen's Tome of Foes p. 8",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Bugbear": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "dexterity": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "traits": [
+      "Long-Limbed",
+      "Powerful Build",
+      "Sneaky",
+      "Surprise Attack"
+    ],
+    "desc": "Bugbears are the largest and laziest of the goblinoids—hulking, shaggy brutes standing 6 to 8 feet tall with muscular builds that belie their slouching posture. Their fur ranges from yellow-brown to deep russet, their ears are wedge-shaped, and their faces combine goblin features with a bear-like muzzle. Bugbear eyes are typically dark and predatory. They live about 80 years—if they survive the violence of goblinoid society.\n\nBugbear culture is built on bullying and stealth—paradoxical as it sounds, they are ambush predators who use their surprising grace to stalk prey before unleashing devastating brute force. In goblinoid hierarchy, bugbears serve as enforcers and shock troops for hobgoblin warlords. Left to their own devices, they are lazy and exploitative, taking what they want through intimidation rather than effort. Adventuring bugbears are typically outcasts who found goblinoid society too stifling—or were driven out for challenging the wrong boss.\n\nMechanically, bugbears gain +2 Strength and +1 Dexterity. Their Long-Limbed trait gives them an extra 5 feet of reach on melee attacks on their turn. Sneaky grants proficiency in Stealth. Surprise Attack deals an extra 2d6 damage to any creature that hasn't taken a turn in combat yet. They have Darkvision 60 ft and count as one size larger for carrying capacity. Powerful Build rounds out their identity as terrifying ambush strikers.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.119",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Hobgoblin": {
+    "subraces": [],
+    "asi": {
+      "constitution": 2,
+      "intelligence": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "traits": [
+      "Martial Training",
+      "Saving Face"
+    ],
+    "desc": "Hobgoblins are the disciplined strategists of goblinoid society—tall, lean warriors standing 5 to 6 feet tall with orange-red to dark reddish-brown skin, dark hair, and sharp, intelligent features. Their eyes burn yellow or orange, and their faces are more human than goblin but harder, crueler, and more intense. Hobgoblins train from birth and can live to about 80 years—if battle doesn't claim them sooner.\n\nHobgoblin culture is martial to its core. They organize into legions with strict hierarchies, merit-based promotions, and zero tolerance for failure. A hobgoblin's worth is measured in battlefield performance. They are not mindless brutes—hobgoblins prize tactics, engineering, and logistics, and their war camps are efficiently run military installations. Their ultimate goal is conquest, and they see goblins and bugbears as useful but inferior troops. Adventuring hobgoblins are rare—usually ex-soldiers who were dishonored, spared enemies who found respect for individual foes, or spies learning the weaknesses of other races.\n\nMechanically, hobgoblins gain +2 Constitution and +1 Intelligence. Martial Training grants proficiency with two martial weapons and light armor. Saving Face lets them add up to +4 to a failed attack roll, ability check, or saving throw (with a bonus based on nearby allies who witnessed the failure)—a brilliantly thematic ability. They have Darkvision 60 ft and speak Common and Goblin. Hobgoblins make excellent wizards, eldritch knights, and war clerics.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.119",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Kobold": {
+    "subraces": [],
+    "asi": {
+      "strength": -2,
+      "dexterity": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "traits": [
+      "Darkvision",
+      "Grovel, Cower, and Bes",
+      "Pack Tactics",
+      "Sunlight Sensitivity"
+    ],
+    "desc": "Kobolds are diminutive draconic humanoids standing 2 to 3 feet tall with scaly skin in shades of rust red, brown, or black. They have reptilian snouts, horns sweeping back from their brows, and tails that twitch constantly with nervous energy. Their eyes are luminous, adapted for darkness. Kobolds reach adulthood by age 6 and rarely live past 20—but they breed so quickly this is not the problem for them that it would be for other races.\n\nKobold culture is defined by two things: service to dragons and survival through cunning. A kobold warren is a death trap—a maze of tunnels rigged with snares, deadfalls, and scorpion pits. They are master trapmakers and tunnelers who worship dragons as gods, serving them with fanatical devotion. Kobolds are craven individually but fearless in numbers, and their ingenuity makes them far more dangerous than their size suggests. Adventuring kobolds are unusual—typically survivors of a destroyed warren, outcasts who angered the wrong dragon, or rare individuals who discovered that life above ground has its own appeal.\n\nMechanically, kobolds gain +2 Dexterity. Grovel, Cower, and Beg is a delightfully thematic ability that distracts enemies and grants allies advantage on attacks against nearby foes. Pack Tactics grants advantage on attacks when an ally is next to the target. Sunlight Sensitivity imposes disadvantage on attacks and Perception in direct sunlight. They have Darkvision 60 ft and speak Common and Draconic. Kobolds make surprisingly effective rogues, rangers, and sorcerers.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.119",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Orc": {
+    "subraces": [],
+    "asi": {
+      "strength": 2,
+      "constitution": 1,
+      "intelligence": -2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Orc"
+    ],
+    "traits": [
+      "Aggressive",
+      "Menacing",
+      "Powerful Build"
+    ],
+    "desc": "Orcs are powerfully built humanoids standing well over 6 feet tall with gray-green skin, coarse black hair, jutting lower tusks, and muscular builds that speak to a life of constant combat. Their eyes burn red in darkness—an evolutionary adaptation for seeing in the caves where many orc tribes dwell. Orcs reach adulthood by age 12 and rarely live past 50, not because of natural limits but because orc life is brutal and short.\n\nOrc culture is shaped by Gruumsh, their one-eyed god, who commands them to be strong, to conquer, and to crush the works of other races. Orc tribes are warrior societies where strength determines everything—the strongest leads, the weak serve or die, and glory in battle is the only path to honor. Yet orcs are not inherently evil; they are products of a culture that equates violence with virtue. Orcs who escape their tribes—through exile, capture, or the rare realization that there might be another way—must overcome a lifetime of conditioning and the suspicion of every race that has felt the bite of orcish blades. Adventuring orcs often struggle to prove they are more than the monster others see.\n\nMechanically, orcs gain +2 Strength and +1 Constitution. Aggressive lets them move up to their speed toward an enemy as a bonus action. Powerful Build counts them as one size larger for carrying capacity. Menacing grants proficiency in Intimidation. They have Darkvision 60 ft and speak Common and Orc. Orcs make devastating barbarians, fighters, and rangers—built for aggression and endurance.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.120",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Yuan-ti Pureblood": {
+    "subraces": [],
+    "asi": {
+      "intelligence": 1,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Abyssal",
+      "Draconic"
+    ],
+    "traits": [
+      "Darkvision",
+      "Innate Spellcasting",
+      "Magic Resistance",
+      "Poison Immunity"
+    ],
+    "desc": "Yuan-ti purebloods are serpentine humanoids who appear mostly human—at first glance. They stand 5 to 6 feet tall with lithe builds, but closer inspection reveals patches of scales, a forked tongue, vertically slit eyes, and small fangs behind their lips. Their skin is pale with faint scale patterns, and their movements are unnaturally smooth. Purebloods are the most human-passing of the yuan-ti castes, bred specifically to infiltrate humanoid society. They live about 90 years.\n\nYuan-ti society is a theocratic meritocracy that measures worth in ruthlessness and emotional detachment. Purebloods are the lowest caste, bred as servants, spies, and sacrificial fodder for the malisons and abominations above them. They are raised to suppress all emotion—love, fear, mercy—as weaknesses. Yet purebloods who spend time among other races often develop something their society considers a corruption: genuine feelings. Adventuring purebloods may be spies who defected, outcasts who failed a ritual, or rare individuals who discovered that emotions are not the weakness they were taught.\n\nMechanically, yuan-ti purebloods gain +2 Charisma and +1 Intelligence. Magic Resistance grants advantage on all saving throws against spells and magical effects—arguably the strongest racial defensive trait. Poison Immunity grants full immunity to poison damage and the poisoned condition. Innate Spellcasting grants poison spray (cantrip), animal friendship (snakes only, 1/long rest), and suggestion (1/long rest). They have Darkvision 60 ft and speak Common, Abyssal, and Draconic.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters p.120",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Grung": {
+    "subraces": [],
+    "asi": {},
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Grung"
+    ],
+    "traits": [
+      "Amphibious",
+      "Poisonous Skin",
+      "Standing Leap",
+      "Water Dependency"
+    ],
+    "desc": "Grungs are small, brightly colored frog-folk from tropical jungles and swamps. Standing 2 to 3 feet tall, they have smooth, moist skin in brilliant warning colors—every grung's hue indicates its caste: green for hunters and warriors, blue for artisans, purple for administrators, red for magicians, orange for the elite, and gold for the supreme chieftain. Their large eyes, webbed hands and feet, and permanently slick skin mark them as amphibious predators. Grungs reach adulthood by their first year and can live up to 50 years.\n\nGrung society is a rigid, toxic caste system—literally. Their skin secretes a poison that can incapacitate any creature that touches them, and higher castes produce more potent toxins. This poison defines every interaction: lower castes must avoid contact with superiors, and grung who touch above their station are punished. Grungs are slavers who raid neighboring settlements and capture prisoners to serve their hierarchical society. Adventuring grungs are almost always outcasts—exiled for touching the wrong caste, failing a sacred hunt, or developing a taste for freedom their society cannot tolerate.\n\nMechanically, grungs gain +2 Dexterity and +1 Constitution. Poisonous Skin forces any creature that touches them or they touch to save against the poisoned condition. Standing Leap lets them jump 25 feet horizontally or 15 feet vertically without a running start. Water Dependency requires them to submerge in water for 1 hour each day or take exhaustion—a real constraint for surface adventuring. They have Darkvision 60 ft and speak Grung.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Tlincalli": {
+    "subraces": [],
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Tlincalli"
+    ],
+    "traits": [
+      "Natural Armor"
+    ],
+    "desc": "Tlincallis are scorpion-like humanoids with the lower body of a giant scorpion and the upper torso of a humanoid. Their chitinous exoskeleton is dark brown to black, their eight legs carry them with unsettling speed, and their barbed tail arches over their back, dripping with paralytic venom. Tlincallis stand 5 to 6 feet tall at the humanoid torso, but their full length is closer to 10 feet. They live about 60 years in the harsh deserts they call home.\n\nTlincalli society is organized around the hunt. They are nomadic predators who track prey across vast deserts, capturing victims alive to feed their young—slowly, over days. They worship ancient scorpion gods and believe that all other creatures exist either as prey or as competition. Tlincalli have no concept of mercy, only the patient cruelty of the ambush predator. Adventuring tlincallis are extraordinarily rare and typically outcasts who discovered that cooperation yields better survival than predation—though old habits die hard.\n\nMechanically, tlincallis are monstrous player characters with natural weapons (claws and tail sting with poison), chitinous armor, and burrowing abilities. Their stat block reflects their role as desert ambush predators—high Strength and Constitution, with specialized poison mechanics. They speak Tlincalli and usually learn Common only through exposure to prey species.",
+    "subrace_descs": {},
+    "source": "Volo's Guide to Monsters",
+    "_source_slug": "VGM",
+    "natural_armor": {
+      "base_ac": 13,
+      "uncapped": true
+    },
+    "_subrace_sources": {}
+  },
+  "Xvart": {
+    "subraces": [],
+    "asi": {
+      "strength": -1,
+      "dexterity": 2,
+      "intelligence": -1,
+      "wisdom": -2,
+      "charisma": -2
+    },
+    "speed": 30,
+    "darkvision": 30,
+    "languages": [
+      "Abyssal"
+    ],
+    "traits": [
+      "Low Cunning",
+      "Overbearing Pack",
+      "Raxivort's Tongue"
+    ],
+    "desc": "Xvarts are small, blue-skinned humanoids with a dark and tragic origin. Standing 3 feet tall, they have cobalt-blue skin, bulbous white eyes, and hairless heads. Their faces are bat-like—flattened noses, wide mouths, and pointed ears. Xvarts were created when the gnome god Raxivort fragmented his own soul to hide from pursuing demons, spawning thousands of xvarts, each carrying a fragment of divine essence. They reach adulthood by 5 and rarely live past 40.\n\nXvart society is a pyramid of cruelty. At the top is Raxivort himself, a paranoid god who demands absolute worship from his fractured children. Xvarts are pathologically servile to stronger creatures and cruel to anything weaker. They live in squalid warrens, worshiping Raxivort through demeaning rituals and raiding nearby settlements for anything they can carry. Yet each xvart carries a spark of divinity—buried deep beneath generations of learned cowardice and inherited misery. Adventuring xvarts are the rare few who feel that spark and seek something more: a life beyond groveling, a purpose that is genuinely their own.\n\nMechanically, xvarts gain +2 Dexterity and +1 Wisdom. Overbearing lets them use their reaction to grant an ally advantage on an attack against a nearby enemy. Raxivort's Tongue grants them speak with animals (bats and rats only) at will. They have Darkvision 30 ft—shorter than most Underdark races—and speak Common and Xvart (a corrupted dialect of Gnome).",
+    "subrace_descs": {},
+    "source": "SGtS p.55",
+    "_source_slug": "VGM",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Changeling": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 1,
+      "intelligence": 1,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Change Appearance"
+    ],
+    "desc": "Changelings are shapeshifters capable of altering their physical appearance at will. In their natural form, they are pale and slender, with colorless skin, large white eyes, and silver-white hair. They stand 5 to 6 feet tall with thin, graceful builds, and their features are so fluid that even at rest, their faces seem subtly indistinct—a nose that could be longer, eyes that might be any color. Changelings reach adulthood in their late teens and can live over 100 years.\n\nChangelings are defined by the tension between identity and disguise. Every changeling is raised among other races and must decide who—and what—they want to be. Some embrace a single persona, building a life around one identity; others drift between faces, never belonging to any single self. Changeling society is loose and informal, built on networks of travelers, performers, and information brokers who recognize each other through subtle cues invisible to outsiders. They are natural spies, actors, and diplomats.\n\nMechanically, changelings gain +2 Charisma and +1 Dexterity or Intelligence. Shapechanger lets them alter their appearance as an action—same size, same basic arrangement of limbs, but any face, voice, and coloration. This is not an illusion and holds up to physical inspection. Unsettling Visage frightens or grants advantage on Intimidation. Divergent Persona grants a tool proficiency that can be changed each long rest. They speak Common and two other languages.",
+    "subrace_descs": {},
+    "source": "Eberron: Rising from the Last War p.59",
+    "_source_slug": "WGE",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Kalashtar": {
+    "subraces": [],
+    "asi": {
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Quori"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Dual Mind",
+      "Mental Discipline",
+      "Mind Link",
+      "Psychic Glamour",
+      "Severed from Dreams",
+      "Languages"
+    ],
+    "desc": "Kalashtar are compound beings—human hosts bonded with quori, spirits of light from the dream realm of Dal Quor who defected from the nightmare that consumed their plane. Physically, kalashtar appear human but with a poised, symmetrical beauty and eyes that gleam with an inner light. They stand 5 to 6 feet tall and live slightly longer than humans—about 120 years. Their quori spirit is not a separate entity but a symbiotic soul-fragment that shares their consciousness.\n\nKalashtar culture is built on memory and purpose. Every kalashtar inherits the knowledge of their quori spirit—centuries of memories and the driving mission to oppose the Dreaming Dark, an evil quori faction that seeks to conquer the material world. Kalashtar are deeply empathetic, insightful, and reserved; they rarely show strong emotion because they experience the world through two perspectives simultaneously. They form tight-knit communities, and every kalashtar is expected to contribute to the long war against the darkness.\n\nMechanically, kalashtar gain +2 Wisdom and +1 Charisma. Dual Mind grants advantage on Wisdom saving throws. Mental Discipline grants resistance to psychic damage. Mind Link lets them speak telepathically to any creature within 30 feet that shares a language—two-way communication, not one-way. Severed from Dreams makes them immune to spells and effects that require dreaming, like the dream spell. They speak Common, Quori, and one other language.",
+    "subrace_descs": {},
+    "source": "Eberron: Rising from the Last War p.59",
+    "_source_slug": "WGE",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Shifter": {
+    "subraces": [],
+    "asi": {
+      "dexterity": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "traits": [
+      "Ability Score Increase",
+      "Age",
+      "Alignment",
+      "Size",
+      "Speed",
+      "Darkvision",
+      "Keen Senses",
+      "Shifting",
+      "Languages",
+      "Subrace"
+    ],
+    "desc": "Shifters are the descendants of lycanthropes, carrying the bestial blood of were-creatures in their veins—not the curse itself, but its echo. In their natural form, shifters look mostly human but with subtle animal traits: unusually large eyes, pointed ears, elongated canines, or downy fur along their forearms. When they shift, these traits become pronounced—claws extend, faces elongate, bodies bulk with predatory power. Shifters stand 5 to 6 feet tall and live roughly 70 years.\n\nShifter culture is survivalist and mobile. They are hunted in many lands—mistaken for true lycanthropes or feared as cursed. This persecution has made shifters insular, forming tight family bands that travel constantly and trust only each other. They are pragmatic, athletic, and deeply attuned to their bodies. Each shifter's animal aspect shapes their personality: Beasthides are tough and stubborn, Longtooths are aggressive hunters, Swiftstride are restless wanderers, and Wildhunt are patient trackers. Adventuring shifters often seek a place to belong—or a way to master the beast within.\n\nMechanically, shifters gain +2 Dexterity or Strength depending on subrace. Shifting is a bonus action that grants temporary HP and subrace-specific benefits for 1 minute (1/short rest): Beasthide (+1 AC, extra temp HP), Longtooth (bonus-action bite attack), Swiftstride (bonus movement + reactive movement), or Wildhunt (advantage on Wisdom checks, nearby enemies can't have advantage against you). They have Darkvision 60 ft and speak Common.",
+    "subrace_descs": {},
+    "source": "Eberron: Rising from the Last War p.59",
+    "_source_slug": "WGE",
+    "natural_armor": null,
+    "_subrace_sources": {}
+  },
+  "Warforged": {
+    "subraces": [],
+    "asi": {
+      "constitution": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "traits": [
+      "Warforged Resilience",
+      "Sentry's Rest",
+      "Integrated Protection"
+    ],
+    "desc": "Warforged are living constructs—soldiers built for war who outlived their purpose and must now find their own. They stand 5 to 7 feet tall with bodies of wood, stone, and metal plates interwoven with fibrous bundles that serve as muscles. A ghulra—a unique rune-like symbol—marks their forehead, the only feature they possess that is truly theirs. Warforged do not age and have existed only since the Last War, making the eldest barely 40 years old.\n\nWarforged were built as weapons. When the war ended and the Treaty of Thronehold recognized them as free beings, every warforged faced the same question: what now? With no childhood, no culture, and no template for civilian life, each must construct an identity from scratch. Some cling to military discipline as the only structure they know. Others embrace art, faith, or philosophy with the intensity of beings discovering that they can want things—that they have souls. Adventuring warforged may be seeking purpose, following former comrades, or simply doing what they were built for: fighting, protecting, and enduring.\n\nMechanically, warforged gain +2 Constitution and +1 to any other ability. Constructed Resilience grants advantage on saves against poison, resistance to poison damage, immunity to disease, no need to eat, drink, or breathe, and no need for sleep—though they must remain motionless for 6 hours during a long rest. Integrated Protection grants +1 AC and armor that cannot be removed against their will. Sentry's Rest means they remain conscious during long rests. They speak Common and one other language.",
+    "subrace_descs": {},
+    "source": "Eberron: Rising from the Last War p.59",
+    "_source_slug": "WGE",
+    "natural_armor": {
+      "base_ac": null,
+      "max_dex": null,
+      "allow_shield": true
+    },
+    "_subrace_sources": {}
+  }
+}

@@ -1,0 +1,1019 @@
+{
+  "Artificer": {
+    "hd": 8,
+    "skills": [
+      "Arcana",
+      "History",
+      "Investigation",
+      "Medicine",
+      "Nature",
+      "Perception",
+      "Sleight of Hand"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "constitution",
+      "intelligence"
+    ],
+    "subclasses": [
+      "Alchemist",
+      "Armorer",
+      "Artillerist",
+      "Battle Smith"
+    ],
+    "armor": [
+      "Light armor",
+      "Medium armor",
+      "Shields"
+    ],
+    "weapons": [
+      "Simple weapons",
+      "Firearms"
+    ],
+    "tools": [
+      "Thieves' tools",
+      "Tinker's tools",
+      "One type of artisan's tools"
+    ],
+    "desc": "Artificers are master inventors and magical engineers — they don't just wield magic, they build it into physical form. Where a wizard studies dusty tomes and a sorcerer channels innate power, an artificer picks up a wrench and a coil of copper wire and gets to work. They see magic as a form of technology — a system of rules that can be understood, manipulated, and embedded into objects.\n\nArtificers use Intelligence as their spellcasting ability, and their spells are expressed through tools and inventions rather than incantations. Every artificer spell requires a set of artisan's tools or thieves' tools as a focus — their magic is literally crafted. They are half-casters (up to 5th-level spells) who prepare spells daily from the full artificer list.\n\nAt 2nd level, Infuse Item lets them turn ordinary objects into temporary magic items, choosing from a list of Infusions. This is the artificer's signature ability — they can grant +1 weapons, +1 armor, repeating crossbows, bags of holding, and more to themselves and their party. At higher levels, they can attune to more magic items than other classes and craft magic items faster and cheaper.\n\nMechanically, artificers are d8 hit die half-casters who fill a unique support/utility role. Flash of Genius at 7th lets them add Intelligence to any ability check or saving throw as a reaction. Spell-Storing Item at 11th lets them store a 1st or 2nd level spell in an object for anyone to use. At 20th, Soul of Artifice grants +1 to all saving throws per attuned magic item (up to +6). They are the ultimate item-crafters and party force-multipliers.",
+    "subclass_descs": {
+      "Alchemist": "An Alchemist is an expert at combining reagents to produce mystical effects. Alchemists use their creations to give life and to leech it away. Alchemy is the oldest of artificer traditions, and its versatility has long been valued during times of war and peace.",
+      "Armorer": "An artificer who specializes as an Armorer modifies armor to function almost like a second skin. The armor is enhanced to hone the artificer's magic, unleash potent attacks, and generate a formidable defense.",
+      "Artillerist": "An Artillerist specializes in using magic to hurl energy, projectiles, and explosions on a battlefield.",
+      "Battle Smith": "The Battle Smith is an artificer specialist that combines martial prowess with magical invention, creating a steel defender and mastering weapons and armor."
+    },
+    "source": "TCE 2020 / Eberron: Rising from the Last War",
+    "_subclass_sources": {
+      "Alchemist": "Tasha's Cauldron of Everything p.14",
+      "Armorer": "Tasha's Cauldron of Everything p.16",
+      "Artillerist": "Tasha's Cauldron of Everything p.17-18",
+      "Battle Smith": "Tasha's Cauldron of Everything p.18-19"
+    }
+  },
+  "Barbarian": {
+    "hd": 12,
+    "skills": [
+      "Animal Handling",
+      "Athletics",
+      "Intimidation",
+      "Nature",
+      "Perception",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "strength",
+      "constitution"
+    ],
+    "subclasses": [
+      "Path of the Berserker",
+      "Path of the Totem Warrior",
+      "Path of the Beast",
+      "Path of Wild Magic",
+      "Shadow Gnawer",
+      "Path of the Hive Tender",
+      "Path of the Shadow Chewer",
+      "Path of the Battlerager",
+      "Path of the Ancestral Guardian",
+      "Path of the Storm Herald",
+      "Path of the Zealot"
+    ],
+    "armor": "Light armor, Medium armor, Shields",
+    "desc": "Barbarians are warriors defined by their rage — a primal fury that transforms them into seemingly unstoppable forces of destruction. Standing at the front of any battle, their muscular frames bear the scars of countless fights. Where other warriors rely on technique and discipline, the barbarian trusts in raw power, instinct, and an almost supernatural resilience that lets them shrug off wounds that would fell lesser combatants.\n\nIn combat, a barbarian enters a Rage as a bonus action, gaining advantage on Strength checks and saves, bonus melee damage, and resistance to bludgeoning, piercing, and slashing damage. They fight recklessly, trading defense for devastating offense with Reckless Attack. Their Danger Sense gives them advantage on Dexterity saves against effects they can see, and their unarmored defense lets them calculate AC from Constitution and Dexterity while eschewing heavy armor.\n\nMechanically, barbarians are d12 hit die melee strikers and damage sponges. At higher levels, they gain Brutal Critical (extra dice on critical hits), Relentless Rage (drop to 1 HP instead of 0), and eventually Primal Champion (+4 to Strength and Constitution, breaking the normal ability score cap). They are unmatched at absorbing punishment while dishing out consistent, heavy damage.",
+    "subclass_descs": {
+      "Path of the Berserker": "For some barbarians, rage is a means to an end—that end being violence. The Path of the Berserker is a path of untrammeled fury, slick with blood. As you enter the berserker's rage, you thrill in the chaos of battle, heedless of your own health or well-being.",
+      "Path of the Totem Warrior": "The Path of the Totem Warrior is a spiritual journey, as the barbarian accepts a spirit animal as guide, protector, and inspiration. In battle, your totem spirit fills you with supernatural might, adding magical fuel to your barbarian rage.",
+      "Path of the Beast": "Barbarians who walk the Path of the Beast draw their rage from a bestial spark burning within their souls. That beast bursts forth in the throes of rage, physically transforming the barbarian.",
+      "Path of Wild Magic": "Barbarians who walk the Path of Wild Magic are transformed by the raw, supernatural magic of the multiverse, manifesting otherworldly power through their rage.",
+      "Shadow Gnawer": "Dark energy infuses the Shadow Realm, corrupting and corroding everything it touches. Some barbarians intentionally consume this raw shadow, infusing their bodies with shadow energy to manifest potent magical abilities. Many of the barbarians who walk this path do so to absorb harmful shadow magic into themselves in order to protect others from its influence. A smaller group consumes shadow simply because they cannot resist its ever-present temptation.",
+      "Path of the Hive Tender": "A primal path that grants barbarians a connection to hive-minded insects, allowing them to summon and command swarms.",
+      "Path of the Shadow Chewer": "Barbarians who follow the Path of the Shadow Chewer draw power from the darkness and shadows, using their rage to consume and manipulate shadowy energies.",
+      "Path of the Battlerager": "Known as Kuldjargh (literally 'axe idiot') in Dwarvish, battleragers are dwarf followers of the gods of war and take the Path of the Battlerager. They specialize in wearing bulky, spiked armor and throwing themselves into combat, striking with their body itself and giving themselves over to the fury of battle.",
+      "Path of the Ancestral Guardian": "Some barbarians hail from cultures that revere their ancestors. These tribes teach that the warriors of the past linger in the world as mighty spirits, who can guide and protect the living. When a barbarian who follows this path rages, the barbarian contacts the spirit world and calls on these guardian spirits for aid.",
+      "Path of the Storm Herald": "Barbarians who follow the Path of the Storm Herald learn to transform their rage into a mantle of primal magic, which swirls around them.",
+      "Path of the Zealot": "Some deities inspire their followers to pitch themselves into a ferocious battle fury. These barbarians are zealots- warriors who channel their rage into powerful displays of divine power."
+    },
+    "weapons": "Simple weapons, Martial weapons",
+    "tools": "",
+    "source": "PHB 2014 p.46",
+    "_subclass_sources": {
+      "Path of the Berserker": "Player's Handbook (Barbarian class section)",
+      "Path of the Totem Warrior": "PHB p.50",
+      "Path of the Beast": "Tasha's Cauldron of Everything (page unknown)",
+      "Path of Wild Magic": "Xanathar's Guide to Everything p.25-26",
+      "Shadow Gnawer": "Book of Ebon Tides p.49",
+      "Path of the Hive Tender": "Midgard and Kobold Press, Player's Guide p.14",
+      "Path of the Shadow Chewer": "Midgard and Kobold Press, Player's Guide p.15",
+      "Path of the Battlerager": "Sword Coast Adventurer's Guide (Chapter 4: Classes)",
+      "Path of the Ancestral Guardian": "XGE p.10",
+      "Path of the Storm Herald": "XGE p.10",
+      "Path of the Zealot": "XGE p.11"
+    }
+  },
+  "Bard": {
+    "hd": 8,
+    "skills": "all",
+    "skill_count": 3,
+    "saves": [
+      "dexterity",
+      "charisma"
+    ],
+    "subclasses": [
+      "College of Lore",
+      "College of Valor",
+      "College of Creation",
+      "College of Eloquence",
+      "College of Shadow",
+      "College of the Arts",
+      "College of Glamour",
+      "College of Swords",
+      "College of Whispers"
+    ],
+    "desc": "Bards are the ultimate storytellers, weaving magic through words, music, and performance. Whether a skald chanting sagas of ancient heroes, a cunning jester who mocks enemies into submission, or a loremaster collecting lost knowledge from forgotten libraries, bards understand that the right word at the right moment can change the course of history. They are charming, quick-witted, and impossibly versatile — a bard can fill nearly any role in an adventuring party.\n\nIn combat, bards wield Bardic Inspiration — a pool of d6s (growing to d12s) that they grant to allies, who can add them to ability checks, attack rolls, or saving throws. Their spellcasting is Charisma-based and draws from a broad list that includes healing, control, enchantment, and utility magic. Jack of All Trades adds half their proficiency bonus to every ability check they're not proficient in, making bards remarkably competent at everything.\n\nMechanically, bards are d8 hit die full spellcasters who know a fixed number of spells rather than preparing them daily. Song of Rest improves short-rest healing for the party. Expertise doubles proficiency for chosen skills. At 10th level, Magical Secrets lets them steal spells from any class list — a bard can learn fireball, find steed, or counterspell. At 20th, Superior Inspiration guarantees they start every combat with at least one use of Bardic Inspiration. They naturally excel as faces, supports, and skill monkeys.",
+    "subclass_descs": {
+      "College of Lore": "Bards of the College of Lore know something about most things, collecting bits of knowledge from sources as diverse as scholarly tomes and peasant tales.",
+      "College of Valor": "Bards of the College of Valor are daring skalds whose tales keep alive the memory of the great heroes of the past, and thereby inspire a new generation of heroes.",
+      "College of Creation": "Bards believe the cosmos is a work of art-the creation of the first dragons and gods. That creative work included harmonies that continue to resound through existence today, a power known as the Song of Creation. The bards of the College of Creation draw on that primeval song through dance, music, and poetry, and their teachers share this lesson: \"Before the sun and the moon, there was the Song, and its music awoke the first dawn. Its melodies so delighted the stones and trees that some of them gained a voice of their own. And now they sing too. Learn the Song, students, and you too can teach the mountains to sing and dance.\"",
+      "College of Eloquence": "Adherents of the College of Eloquence master the art of oratory. These bards wield a blend of logic and theatrical wordplay, winning over skeptics and detractors with logical arguments and plucking at heartstrings to appeal to the emotions of audiences.",
+      "College of Shadow": "Fear of darkness is one of the most primal emotions, and bards of the College of Shadow manipulate such fears to enhance their artistry. These bards weave the gray boundaries between light and dark to terrify and inspire captive audiences.",
+      "College of the Arts": "Those who have been burned by a bard of \"the arts\" know exactly what sort of art is conveyed by the name: the art of the swindle, the con, and the huckster.",
+      "College of Glamour": "The College of Glamour is the home of bards who mastered their craft in the vibrant realm of the Feywild or under the tutelage of someone who dwelled there. Tutored by satyrs, eladrin, and other fey, these bards learn to use their magic to delight and captivate others.",
+      "College of Swords": "Bards of the College of Swords are called blades, and they entertain through daring feats of weapon prowess. Blades perform stunts such as sword swallowing, knife throwing and juggling, and mock combats. Though they use their weapons to entertain, they are also highly trained and skilled warriors in their own right.",
+      "College of Whispers": "Bards of the College of Whispers use their knowledge and magic to uncover secrets and turn them against others through extortion and threats."
+    },
+    "weapons": "Simple weapons, Hand crossbows, Longswords, Rapiers, Shortswords",
+    "armor": "Light armor",
+    "tools": "Three musical instruments of your choice",
+    "source": "PHB 2014 p.51",
+    "_subclass_sources": {
+      "College of Lore": "PHB p.54-55",
+      "College of Valor": "PHB p.55",
+      "College of Creation": "TCE p.28",
+      "College of Eloquence": "TCE p.29-30",
+      "College of Shadow": "Book of Ebon Tides p.43",
+      "College of the Arts": "Warlock-017-FINAL-v2",
+      "College of Glamour": "Chapter 1 | Character Options",
+      "College of Swords": "XGE p.50",
+      "College of Whispers": "XGE p.50"
+    }
+  },
+  "Cleric": {
+    "hd": 8,
+    "skills": [
+      "History",
+      "Insight",
+      "Medicine",
+      "Persuasion",
+      "Religion"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "wisdom",
+      "charisma"
+    ],
+    "subclasses": [
+      "Knowledge Domain",
+      "Life Domain",
+      "Light Domain",
+      "Nature Domain",
+      "Tempest Domain",
+      "Trickery Domain",
+      "War Domain",
+      "Death Domain",
+      "Order Domain",
+      "Peace Domain",
+      "Twilight Domain",
+      "Keeper Domain",
+      "Shadow Domain",
+      "Hunt Domain",
+      "Arcana Domain",
+      "Forge Domain",
+      "Grave Domain"
+    ],
+    "desc": "Clerics are mortal agents of the gods, chosen to wield divine power in the world. A cleric might be a war priest blessing soldiers before battle, a cloistered scholar uncovering forbidden knowledge, or a healer tending to plague victims in the slums. Their power flows from faith and devotion — not study or bloodline — and a cleric's choice of deity and domain shapes their entire identity and playstyle.\n\nAll clerics share core divine abilities. Channel Divinity grants powerful effects (often Turning Undead) that recharge on short rests. They prepare spells daily from the full cleric list, and their Divine Domain at 1st level grants bonus spells and features that define their role — a Life cleric heals more, a Light cleric blasts with radiant fire, a War cleric wades into melee with heavy armor and martial weapons.\n\nMechanically, clerics are d8 hit die full spellcasters with medium armor and shield proficiency. Their spell list includes the best healing magic in the game, powerful buffs (bless, shield of faith), control (spirit guardians, banishment), and offensive staples (guiding bolt, spiritual weapon, flame strike). At 10th level, Divine Intervention gives a percentage chance to call on their deity directly for aid. At 20th, it succeeds automatically. Clerics are the most flexible full casters — a single subclass choice can turn them into a blaster, tank, healer, or controller.",
+    "subclass_descs": {
+      "Knowledge Domain": "The Knowledge domain focuses on the pursuit of knowledge and understanding, granting abilities to read thoughts and gain visions of the past.",
+      "Life Domain": "The Life domain focuses on the vibrant positive energy that sustains all life, promoting vitality and health through healing and driving away death and undeath.",
+      "Light Domain": "Gods of light—including Helm, Lathander, Pholtus, Branchala, the Silver Flame, Belenus, Apollo, and Re-Horakhty—promote the ideals of rebirth and renewal, truth, vigilance, and beauty, often using the symbol of the sun. Clerics of a god of light are enlightened souls infused with radiance and the power of their gods' discerning vision, charged with chasing away lies and burning away darkness.",
+      "Nature Domain": "Gods of nature are as varied as the natural world itself, from inscrutable gods of the deep forests (such as Silvanus, Obad-Hai, Chislev, Balinor, and Pan) to friendly deities associated with particular springs and groves (such as Eldath). Druids revere nature as a whole and might serve one of these deities, practicing mysterious rites and reciting all-but-forgotten prayers in their own secret tongue. But many of these gods have clerics as well, champions who take a more active role in advancing the interests of a particular nature god.",
+      "Tempest Domain": "Gods whose portfolios include the Tempest domain—including Talos, Umberlee, Kord, Zeboim, the Devourer, Zeus, and Thor—govern storms, sea, and sky. They include gods of lightning and thunder, gods of earthquakes, some fire gods, and certain gods of violence, physical strength, and courage. In some pantheons, a god of this domain rules over other deities and is known for swift justice delivered by thunderbolts. In the pantheons of seafaring people, gods of this domain are ocean deities and the patrons of sailors. Tempest gods send their clerics to inspire fear in the common folk, either to keep those folk on the path of righteousness or to encourage them to offer sacrifices of propitiation to ward off divine wrath.",
+      "Trickery Domain": "Gods of trickery—such as Tymora, Beshaba, Olidammara, the Traveler, Gari Glittergold, and Loki—are mischief-makers and instigators who stand as a constant challenge to the accepted order among both gods and mortals. They're patrons of thieves, scoundrels, gamblers, rebels, and liberators. Their clerics are a disruptive force in the world, puncturing pride, mocking tyrants, stealing from the rich, freeing captives, and flouting hollow traditions. They prefer",
+      "War Domain": "watch over warriors and reward them for their great deeds. The clerics of such gods excel in battle, inspiring others to fight the good fight or offering acts ofviolence as prayers. Gods of war include champions of honor and chivalry (such as Torm, Heironeous, and Kiri-Jolith) as well as gods of destruction and pillage (such as Erythnul, the Fury, Gruumsh, and Ares) and gods of conquest and domination (such as Bane, Hextor, and Maglubiyet). Other war gods (such as Tempus, Nike, and Nuada) take a more neutra! stance, promoting war in ali its manifestations and supporting warriors in any circumstance.",
+      "Death Domain": "The Death domain is concerned with the forces that cause death, as well as the negative energy that gives rise to undead creatures.",
+      "Order Domain": "The Order Domain represents discipline, as well as devotion to the laws that govern a society, an institution, or a philosophy. Clerics of Order meditate on logic and justice as they serve their gods.",
+      "Peace Domain": "Clerics of the Peace Domain preside over the signing of treaties, and they are often asked to arbitrate in disputes. These clerics' blessings draw people together and help them shoulder one another's burdens, and the clerics' magic aids those who are driven to fight for the way of peace.",
+      "Twilight Domain": "Clerics who serve deities of twilight bring comfort to those who seek rest and protect them by venturing into the encroaching darkness to ensure that the dark is a comfort, not a terror.",
+      "Keeper Domain": "The Keeper domain focuses on social bonds and well‑regulated communities. These communities might be as small as an adventuring party or as large as a city, but all require safety and comfort to thrive. Keeper domain clerics excel in leadership positions and are the first to take up arms when their homes or allies need protection.",
+      "Shadow Domain": "The Shadow domain embraces the darkness that surrounds all things and manipulates the transitory gray that separates light from dark. Shadow domain clerics walk a subtle path, frequently changing allegiances and preferring to operate unseen.",
+      "Hunt Domain": "A divine domain for clerics who embrace the hunt, tracking prey and invoking the power of nature's predators.",
+      "Arcana Domain": "The Arcana Domain is a cleric subclass focused on the study and mastery of arcane magic, often associated with deities of magic.",
+      "Forge Domain": "The gods of the forge are patrons of artisans who work with metal, from a humble blacksmith who keeps a village in horseshoes and plow blades to the mighty elf artisan whose diamond-tipped arrows of mithral have felled demon lords. The gods of the forge teach that, with patience and hard work, even the most intractable metal can be transformed from a lump of ore to a beautifully wrought object. Clerics of these deities search for objects lost to the forces of darkness, liberate mines overrun by ores, and uncover rare and wondrous materials necessary to create potent magic items. Followers of these gods take great pride in their work, and they are willing to craft and use heavy armor and powerful weapons to protect them. Deities of this domain include Gond, Reorx, Onatar, Moradin, Hephaestus, and Goibhniu.",
+      "Grave Domain": "Gods of the grave watch over the line between life and death. To these deities, death and the afterlife are a foundational part of the multiverse. To desecrate the peace of the dead is an abomination. Deities of the grave include Kelemvor, WeeJas, the ancestral spirits of the Undying Court, Hades, Anubis, and Osiris. Followers of these deities seek to put wandering spirits to rest, destroy the undead, and ease the suffering of the dying. Their magic also allows them to stave off death for a time, particularly for a person who still has some great work to accomplish in the world. This is a delay of death, not a denial of it, for death will eventually get its due."
+    },
+    "weapons": "Simple weapons",
+    "armor": "Light armor, Medium armor, Shields",
+    "tools": "",
+    "source": "PHB 2014 p.56",
+    "_subclass_sources": {
+      "Knowledge Domain": "PHB p.59-60",
+      "Life Domain": "PHB p.60",
+      "Light Domain": "Player's Handbook (Light Domain section, page 60-61)",
+      "Nature Domain": "Player's Handbook (Nature Domain section, page 61)",
+      "Tempest Domain": "Player's Handbook",
+      "Trickery Domain": "Player's Handbook",
+      "War Domain": "Player's Handbook",
+      "Death Domain": "DMG p.96",
+      "Order Domain": "Tasha's Cauldron of Everything p.31-32",
+      "Peace Domain": "Tasha's Cauldron of Everything p.33",
+      "Twilight Domain": "TCE p.35",
+      "Keeper Domain": "Book of Ebon Tides p.44-45",
+      "Shadow Domain": "Book of Ebon Tides p.48-49",
+      "Hunt Domain": "Midgard and Kobold Press, Player's Guide p.16",
+      "Arcana Domain": "Chapter 4 | Classes, page 125",
+      "Forge Domain": "XGE p.50",
+      "Grave Domain": "XGE p.50"
+    }
+  },
+  "Druid": {
+    "hd": 8,
+    "skills": [
+      "Arcana",
+      "Animal Handling",
+      "Insight",
+      "Medicine",
+      "Nature",
+      "Perception",
+      "Religion",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "intelligence",
+      "wisdom"
+    ],
+    "subclasses": [
+      "Circle of the Land",
+      "Circle of the Moon",
+      "Circle of Spores",
+      "Circle of Stars",
+      "Circle of the Stars",
+      "Circle of Wildfire",
+      "Circle of Shadows",
+      "Circle of Oaks",
+      "Circle of Owls",
+      "Circle of Roses",
+      "Circle of Fermentation",
+      "Circle of the Weald",
+      "Circle of Dreams",
+      "Circle of the Shepherd"
+    ],
+    "desc": "Druids are priests of the old faith — guardians of the natural world who draw their magic from the divine essence of nature itself. They are shapeshifters, storm-callers, and beast-speakers who stand between civilization and the untamed wilds. A druid might be a wizened hermit protecting an ancient grove, a feral wanderer running with wolf packs, or a coastal sage commanding the tides and winds.\n\nA druid's signature ability is Wild Shape, which at 2nd level lets them transform into beasts they've seen. This grants extraordinary utility — a druid can become a spider to infiltrate, a horse to carry allies, or a bear to fight. At higher levels, they can become elementals. Their spellcasting is Wisdom-based, drawn from a nature-themed list heavy on control, summoning, healing, and elemental damage. They prepare spells daily from the full druid list.\n\nMechanically, druids are d8 hit die full spellcasters with medium armor and shield proficiency (though they refuse to wear metal). They gain Timeless Body at 18th (age at 1/10th the normal rate) and Beast Spells at 18th (cast spells while in Wild Shape). Archdruid at 20th grants unlimited Wild Shape uses. They are the most adaptable full casters — capable of tanking as a bear, blasting as a storm, or healing as a forest guardian, all in the same day.",
+    "subclass_descs": {
+      "Circle of the Land": "The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk.",
+      "Circle of the Moon": "Druids of the Circle of the Moon are fierce guardians of the wilds. Their order gathers under the full moon to share news and trade warnings. They haunt thc deepest parts of the wilderness, where they might go for weeks on end before crossing paths with another humanoid creature, let alone another druid. Changeable as the moon, a druid of this circle might prowl as a great cat one night, soar over the treetops as an eagle the next day, and crash through the undergrowth in bear form to drive off a trespassing monster. The wild is in the druid's blood.",
+      "Circle of Spores": "Druids of the Circle of Spores find beauty in decay and see within mold and other fungi the ability to transform lifeless material into abundant life, believing life and death are parts of a grand cycle.",
+      "Circle of Stars": "The Circle of Stars allows druids to draw on the power of starlight. These druids have tracked heavenly patterns since time immemorial, discovering secrets hidden amid the constellations. By revealing and understanding these secrets, the Circle of the Stars seeks to harness the powers of the cosmos.",
+      "Circle of the Stars": "The Circle of Stars allows druids to draw on the power of starlight, tracking heavenly patterns and harnessing the powers of the cosmos.",
+      "Circle of Wildfire": "Druids within the Circle of Wildfire understand that destruction is sometimes the precursor of creation, such as when a forest fire promotes later growth. These druids bond with a primal spirit that harbors both destructive and creative power, allowing the druids to create controlled flames that burn away one thing but give life to another.",
+      "Circle of Shadows": "Druids who belong to the Circle of Shadows embrace the primal power of darkness as the purest distillation of the natural world. While other druids might concern themselves with balance, the Circle of Shadows understands that all things eventually return to darkness, so it must be understood.",
+      "Circle of Oaks": "A druid circle that draws power from ancient oaks, fostering resilience and connection to the forest.",
+      "Circle of Owls": "The Circle of Owls druids maintain their tradition of spying and gathering knowledge and, occasionally, of permanently silencing those who would misuse knowledge. The Circle of Owls druids draw on the power of their namesakes, moving about the world unnoticed as they see and hear what others try desperately to hide.",
+      "Circle of Roses": "A druid circle that draws power from the beauty and thorns of roses, blending charm and danger.",
+      "Circle of Fermentation": "A circle of druids, known as the Fermenters, make use of the 'strange air' of the forest to brew and ferment, well, nearly anything really, from varieties of beer and wine to funky, sometimes foul teas, from aged meats and cheeses to pickled produce. But beyond just brewing, these druids leverage fermentation as a magical effect, harnessing the passage of time on organic materials to reap its benefits while wielding its dangers, like rot, to inflict harm upon their enemies.",
+      "Circle of the Weald": "Druids of the Circle of the Weald are resourceful individuals who take what is abundant around them to create useful items, and some of their elders wander Midgard selling baubles and magical items as part of the path laid before them by the Ancestor.",
+      "Circle of Dreams": "Druids who are members of the Circle of Dreams hail from regions that have strong ties to the Feywild and its dreamlike realms. The druids' guardianship of the natural world makes for a natural alliance between them and good-aligned fey. These druids seek to fill the world with dreamy wonder. Their magic mends wounds and brings joy to downcast hearts, and the realms they protect are gleaming, fruitful places, where dream and reality blur together and where the weary can find rest.",
+      "Circle of the Shepherd": "A druid subclass focused on summoning and protecting beasts and fey, with spirit totems and enhanced conjurations."
+    },
+    "weapons": "Clubs, Daggers, Darts, Javelins, Maces, Quarterstaffs, Scimitars, Sickles, Slings, Spears",
+    "armor": "Light armor, Medium armor, Shields (druids will not wear metal armor or shields)",
+    "tools": "Herbalism kit",
+    "source": "PHB 2014 p.64",
+    "_subclass_sources": {
+      "Circle of the Land": "Player's Handbook p.68-69",
+      "Circle of the Moon": "PHB p.69-70",
+      "Circle of Spores": "TCE p.37",
+      "Circle of Stars": "TCE p.38",
+      "Circle of the Stars": "TCE p.39",
+      "Circle of Wildfire": "TCE p.39",
+      "Circle of Shadows": "Book of Ebon Tides p.42-43",
+      "Circle of Oaks": "Midgard and Kobold Press, Player's Guide p.17",
+      "Circle of Owls": "James Larsen (Order #51905805) p.19-20",
+      "Circle of Roses": "Midgard and Kobold Press, Player's Guide p.20",
+      "Circle of Fermentation": "Midgard (Winewood)",
+      "Circle of the Weald": "Unknown sourcebook p.15",
+      "Circle of Dreams": "Chapter 1 | Character Options (page inferred from text)",
+      "Circle of the Shepherd": "XGE p.38-39"
+    }
+  },
+  "Fighter": {
+    "hd": 10,
+    "skills": [
+      "Acrobatics",
+      "Animal Handling",
+      "Athletics",
+      "History",
+      "Insight",
+      "Intimidation",
+      "Perception",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "strength",
+      "constitution"
+    ],
+    "subclasses": [
+      "Champion",
+      "Battle Master",
+      "Eldritch Knight",
+      "Psi Warrior",
+      "Rune Knight",
+      "Purple Dragon Knight",
+      "Arcane Archer",
+      "Cavalier",
+      "Samurai"
+    ],
+    "desc": "Fighters are the undisputed masters of combat — warriors who have trained their bodies and minds for one purpose: victory in battle. They come from every walk of life: knights in shining plate, grizzled mercenaries, elven archers who never miss, dwarven defenders who hold the line against impossible odds. What unites them is absolute mastery of weapons, armor, and tactics.\n\nFighters gain more Ability Score Improvements than any other class, and their Fighting Style at 1st level defines their combat identity — Archery, Defense, Dueling, Great Weapon Fighting, Protection, or Two-Weapon Fighting. Action Surge at 2nd level grants a second full action once per short rest. Second Wind provides a bonus-action self-heal. But the fighter's true claim to greatness is Extra Attack — at 5th, 11th, and 20th level, they gain additional attacks, swinging four times for every one swing of other warriors.\n\nMechanically, fighters are d10 hit die martial characters who can use every weapon and wear every armor. They are the most reliable damage-dealers and the most durable front-liners. Their subclass choice dramatically expands their toolkit: the Champion is simplicity and lethality, the Battle Master is tactical control, and the Eldritch Knight blends swordplay with wizardry. At 20th, they attack four times per Attack action — eight times with Action Surge.",
+    "subclass_descs": {
+      "Champion": "The archetypal Champion focuses on the development of raw physical power honed to deadly perfection. Those who model themselves on this archetype combine rigorous training with physical excellence to deal devastating blows.",
+      "Battle Master": "Those who emulate the archetypal Battle Master employ martial techniques passed down through generations. To a Battle Master, combat is an academic field, sometimes including subjects beyond battle such as weaponsmithing and calligraphy. Not every fighter absorbs the lessons of history, theory, and artistry that are reflected in the Battle Master archetype, but those who do are well-rounded fighters of great skill and knowledge.",
+      "Eldritch Knight": "The archetypal Eldritch Knight combines the martial mastery common to all fighters with a careful study of magic. Eldritch Knights use magical techniques similar to those practiced by wizards, They focus their study",
+      "Psi Warrior": "A fighter who augments their physical might with psi-infused weapon strikes, telekinetic lashes, and barriers of mental force.",
+      "Rune Knight": "Rune Knights enhance their martial prowess using the supernatural power of runes, an ancient practice that originated with giants.",
+      "Purple Dragon Knight": "Purple Dragon knights are warriors who hail from the kingdom of Cormyr. Pledged to protect the crown, they take the fight against evil beyond their kingdom's borders. They are tasked with wandering the land as knights errant, relying on their judgment, bravery, and fidelity to the code of chivalry to guide them in defeating evildoers.",
+      "Arcane Archer": "An Arcane Archer studies a unique elven method of archery that weaves magic into attacks to produce supernatural effects.",
+      "Cavalier": "The archetypal Cavalier excels at mounted combat. Usually born among the nobility and raised at court, a Cavalier is equally at home leading a cavalry charge or exchanging repartee at a state dinner. Cavaliers also learn how to guard those in their charge from harm, often serving as the protectors of their superiors and of the weak. Compelled to right wrongs or earn prestige, many of these fighters leave their lives of comfort to embark on glorious adventure.",
+      "Samurai": "The Samurai is a fighter who draws on an implacable fighting spirit to overcome enemies. A Samurai's resolve is nearly unbreakable, and the enemies in a Samurai's path have two choices: yield or die fighting."
+    },
+    "weapons": "Simple weapons, Martial weapons",
+    "armor": "All armor, Shields",
+    "tools": "",
+    "source": "PHB 2014 p.70",
+    "_subclass_sources": {
+      "Champion": "Player's Handbook p.72",
+      "Battle Master": "Player's Handbook (page inferred as ~73-74)",
+      "Eldritch Knight": "XGE p.74",
+      "Psi Warrior": "TCE p.43",
+      "Rune Knight": "Chapter 1 | Character Options p.45",
+      "Purple Dragon Knight": "SCAG p.128",
+      "Arcane Archer": "XGE p.28",
+      "Cavalier": "XGE p.50",
+      "Samurai": "XGE p.50"
+    }
+  },
+  "Monk": {
+    "hd": 8,
+    "skills": [
+      "Acrobatics",
+      "Athletics",
+      "History",
+      "Insight",
+      "Religion",
+      "Stealth"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "strength",
+      "dexterity"
+    ],
+    "subclasses": [
+      "Way of the Open Hand",
+      "Way of Shadow",
+      "Way of the Four Elements",
+      "Way of Mercy",
+      "Way of the Astral Self",
+      "Way of the Prophet",
+      "Way of Tranquility",
+      "Way of the Long Death",
+      "Way of the Sun Soul",
+      "Way of the Drunken Master",
+      "Way of the Kensei"
+    ],
+    "armor": "",
+    "desc": "Monks are living weapons — martial artists who have honed their bodies into instruments of supernatural precision through rigorous discipline and meditation. They need no sword or shield; their fists, feet, and ki — a mystical life energy that flows through all living things — are all the tools they require. A monk might be a serene master atop a mountain peak, a shadowy infiltrator moving without sound, or a wandering ascetic who can catch arrows and run across water.\n\nAll monks share core abilities powered by Ki points, which recharge on short rests. Flurry of Blows lets them attack twice as a bonus action. Patient Defense dodges as a bonus action. Step of the Wind dashes or disengages as a bonus action and doubles jump distance. Deflect Missiles catches and throws back arrows. Stunning Strike at 5th lets them stun enemies with a well-placed blow. Their Unarmored Defense calculates AC from Wisdom and Dexterity, and Unarmored Movement grants increasing speed bonuses — eventually letting them run up walls and across water.\n\nMechanically, monks are d8 hit die skirmishers who excel at mobility, single-target control, and sustained damage through multiple attacks. They gain Evasion at 7th, Purity of Body (immunity to disease and poison) at 10th, Diamond Soul (proficiency in all saves + reroll) at 14th, and Empty Body (invisibility + astral projection resistance) at 18th. At 20th, Perfect Self ensures they start every combat with 4 ki points.",
+    "subclass_descs": {
+      "Way of the Open Hand": "Monks of the Way of the Open Hand are the ultimate masters of martial arts combat, whether armed or unarmed. They learn techniques to push and trip their opponents, manipulate ki to heal damage to their bodies, and practice advanced meditation that can protect them from harm.",
+      "Way of Shadow": "Monks of the Way of Shadow follow a tradition that values stealth and subterfuge. These monks might be called ninjas or shadowdancers, and they serve as spies and assassins. Sometimes the members of a ninja monastery are family members, forming a clan sworn to secrecy about their arts and missions. Other monasteries are more like thieves' guilds, hiring out their services to nobles, rich merchants, or anyone else who can pay their fees. Regardless of their methods, the heads of these monasteries expect the unquestioning obedience of their students.",
+      "Way of the Four Elements": "This monastic tradition teaches monks to harness the elemental forces of air, earth, fire, and water, allowing them to perform supernatural feats and cast spells through ki.",
+      "Way of Mercy": "Monks of the Way of Mercy learn to manipulate the life force of others to bring aid to those in need. They are wandering physicians to the poor and hurt, and to those beyond their help, they bring a swift end as an act of mercy.",
+      "Way of the Astral Self": "A monk who follows the Way of the Astral Self believes their body is an illusion. They see their ki as a representation of their true form, an astral self.",
+      "Way of the Prophet": "Monks who follow the Way of the Prophet refuse to cloister the wisdom they have learned. They are driven to spread their knowledge to all the peoples of the land. Some are set on this path by divine intervention. Others take up the prophet's mantle out of a sense of personal obligation, and they all share a deep-rooted faith that empowers their actions.",
+      "Way of Tranquility": "Beginning at 11th level, you can enter a special meditation that surrounds you with an aura of peace.",
+      "Way of the Long Death": "Monks of the Way of the Long Death are obsessed with the meaning and mechanics of dying. They capture the energy of death and use it in their attacks.",
+      "Way of the Sun Soul": "Monks of the Way of the Sun Soul learn to channel their own life energy into searing bolts of light. They teach that meditation can unlock the ability to unleash the indomitable light shed by the soul of every living creature.",
+      "Way of the Drunken Master": "Monks of the Way of the Drunken Master stumble, sway, and appear to be intoxicated, but their seemingly clumsy movements are actually a sophisticated martial art form.",
+      "Way of the Kensei": "Monks of the Way of the Kensei train relentlessly with their weapons, to the point where the weapon becomes an extension of the body. Founded on a mastery of sword fighting, the tradition has expanded to include many different weapons."
+    },
+    "weapons": "Simple weapons, Shortswords",
+    "tools": "One type of artisan's tools or one musical instrument",
+    "source": "PHB 2014 p.76",
+    "_subclass_sources": {
+      "Way of the Open Hand": "Player's Handbook",
+      "Way of Shadow": "PHB p.80",
+      "Way of the Four Elements": "PHB p.80-81",
+      "Way of Mercy": "TCE p.49-50",
+      "Way of the Astral Self": "TCE p.50-51",
+      "Way of the Prophet": "Book of Ebon Tides",
+      "Way of Tranquility": "PHB p.80",
+      "Way of the Long Death": "Chapter 4 | Classes",
+      "Way of the Sun Soul": "Chapter 4 | Classes",
+      "Way of the Drunken Master": "XGE p.50",
+      "Way of the Kensei": "XGE p.50"
+    }
+  },
+  "Paladin": {
+    "hd": 10,
+    "skills": [
+      "Athletics",
+      "Insight",
+      "Intimidation",
+      "Medicine",
+      "Persuasion",
+      "Religion"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "wisdom",
+      "charisma"
+    ],
+    "subclasses": [
+      "Oath of Devotion",
+      "Oath of the Ancients",
+      "Oath of Vengeance",
+      "Oathbreaker",
+      "Oath of Glory",
+      "Oath of the Watchers",
+      "Oath of the Crown",
+      "Oath of Conquest",
+      "Oath of Redemption"
+    ],
+    "desc": "Paladins are holy warriors, sworn to a sacred oath that is the source of their divine power. More than just fighters with divine magic, paladins are living embodiments of their ideals — a Devotion paladin is a shining beacon of hope, an Ancients paladin is a guardian of joy and life, a Vengeance paladin is an unstoppable force of righteous fury. Their power comes not from a god, but from the sheer force of their own conviction.\n\nIn combat, paladins are devastating melee combatants who can channel divine energy through Divine Smite — expending spell slots to add radiant damage to weapon attacks, with extra damage against fiends and undead. Lay on Hands provides a pool of healing they can distribute as they choose. Their Aura of Protection at 6th adds Charisma to all saving throws for themselves and nearby allies. At higher levels, their auras expand with subclass-specific effects that can turn the tide of battle.\n\nMechanically, paladins are d10 hit die half-casters who prepare spells daily. Fighting Style at 2nd, Extra Attack at 5th, and Aura of Courage (immunity to frightened) at 10th. Cleansing Touch at 14th ends spells on allies. At 20th, their capstone transformation is subclass-specific: Devotion becomes an avatar of divine light, Ancients becomes a force of primeval nature, and Vengeance becomes an avenging angel with flight and frightful presence.",
+    "subclass_descs": {
+      "Oath of Devotion": "The Oath of Devotion binds a paladin to the loftiest ideals of justice, virtue, and order. Sometimes called cavaliers, white knights, or holy warriors, these paladins meet the ideal of the knight in shining armor.",
+      "Oath of the Ancients": "Paladins who swear the Oath of the Ancients cast their lot with the side of the light in the cosmic struggle against darkness because they love the beautiful and life-giving things of the world, not necessarily because they believe in principles of honor, courage, and justice.",
+      "Oath of Vengeance": "The Oath of Vengeance is a solemn commitment to punish those who have committed a grievous sin. Paladins who swear this oath are willing to sacrifice even their own righteousness to mete out justice upon those who do evil.",
+      "Oathbreaker": "An Oathbreaker is a paladin who breaks his or her sacred oaths to pursue some dark ambition or serve an evil power. Whatever light burned in the paladin's heart has been extinguished. Only darkness remains.",
+      "Oath of Glory": "Paladins who take the Oath of Glory believe they and their companions are destined to achieve glory through deeds of heroism. They train diligently and encourage their companions so they're all ready when destiny calls.",
+      "Oath of the Watchers": "The Oath of the Watchers binds paladins to protect mortal realms from the predations of extraplanar creatures, many of which can lay waste to mortal soldiers. Thus, the Watchers hone their minds, spirits, and bodies to be the ultimate weapons against such threats.",
+      "Oath of the Crown": "The Oath of the Crown is a perfect match for any paladin who is a member of the Knights of the Sword or Knights of the Skull, swearing fealty to an organization and combining spellcasting and martial skill.",
+      "Oath of Conquest": "The Oath of Conquest calls to paladins who seek glory in battle and the subjugation of their enemies. It emphasizes the tenets of conquest, including Douse the Flame of Hope, Rule with an Iron Fist, and Strength Above All.",
+      "Oath of Redemption": "Paladins who swear the Oath of Redemption believe that evil is not innate, and by setting a proper example and healing the wounds of a flawed world, they can set anyone on a righteous path."
+    },
+    "weapons": "Simple weapons, Martial weapons",
+    "armor": "All armor, Shields",
+    "tools": "",
+    "source": "PHB 2014 p.82",
+    "_subclass_sources": {
+      "Oath of Devotion": "Player's Handbook (Paladin class section)",
+      "Oath of the Ancients": "PHB p.86-87",
+      "Oath of Vengeance": "PHB p.88-89",
+      "Oathbreaker": "Chapter 4 | Creating Nonplayer Characters p.97",
+      "Oath of Glory": "Tasha's Cauldron of Everything p.54",
+      "Oath of the Watchers": "Tasha's Cauldron of Everything p.55",
+      "Oath of the Crown": "Chapter 4 | Classes (page inferred from text)",
+      "Oath of Conquest": "XGE p.??",
+      "Oath of Redemption": "XGE p.50"
+    }
+  },
+  "Ranger": {
+    "hd": 10,
+    "skills": [
+      "Animal Handling",
+      "Athletics",
+      "Insight",
+      "Investigation",
+      "Nature",
+      "Perception",
+      "Stealth",
+      "Survival"
+    ],
+    "skill_count": 3,
+    "saves": [
+      "strength",
+      "dexterity"
+    ],
+    "subclasses": [
+      "Hunter",
+      "Beast Master",
+      "Fey Wanderer",
+      "Swarmkeeper",
+      "Blade Dancer",
+      "Peerless Scout",
+      "Elven Archer",
+      "Griffon Scout",
+      "Grove Warden",
+      "Spear of the Weald",
+      "Gloom Stalker",
+      "Horizon Walker",
+      "Monster Slayer"
+    ],
+    "desc": "Rangers are the scouts, trackers, and wilderness warriors who thrive at the boundary between civilization and the wild. They are expert hunters who know their prey's every habit, master archers who can loose a volley into a crowd, and lonely wanderers who follow ancient trails through trackless forests. A ranger's connection to nature grants them primal magic — not the full power of a druid, but enough to heal, ensnare, and strike from the shadows.\n\nAt their core, rangers combine martial skill with nature magic. They gain Fighting Style at 2nd, Spellcasting (Wisdom-based, from the ranger list) at 2nd, and Extra Attack at 5th. Their signature abilities focus on exploration and terrain mastery: Natural Explorer grants doubled proficiency and benefits in favored terrain, Favored Enemy grants advantage on tracking and knowledge about specific creature types. Primeval Awareness at 3rd lets them sense the presence of favored enemies within miles.\n\nMechanically, rangers are d10 hit die half-casters who excel at ranged combat, stealth, and exploration. Land's Stride at 8th ignores nonmagical difficult terrain, Hide in Plain Sight at 10th lets them camouflage themselves with natural materials, and Vanish at 14th lets them Hide as a bonus action. Foe Slayer at 20th adds Wisdom to one attack or damage roll against a favored enemy per turn. Rangers are the ultimate wilderness specialists.",
+    "subclass_descs": {
+      "Hunter": "Emulating the Hunter archetype means accepting your place as a bulwark between civilization and the terrors of the wilderness. As you walk the Hunter's path, you learn specialized techniques for fighting the threats you face, from rampaging ogres and hordes of ores to towering giants and terrifying dragons.",
+      "Beast Master": "The Beast Master in the Player's Handbook forms a mystical bond with an animal. As an alternative, a Beast Master can take the feature below to form a bond with a special primal beast instead.",
+      "Wanderer": "You see the wonders of living in Middle-earth, even where the Shadow is deepest. Every corner of the land holds a promise of untold secrets, and this is why you have decided that any dell, cave and river vale can be your home, albeit briefly. For when morning comes, another horizon will show your new destination. Some Wanderers have purpose in their journeying: they might be traders, hunters, Rangers or on some errand that brings them far from the lands of their birth. Others were driven from their homes by Orcs or Dragons, and must now roam Middle-earth and dream of reclaiming what was once theirs. Still others have fallen under the spell of the Road, and will find their restless feet always itching to carry them off on another adventure.",
+      "Fey Wanderer": "A fey mystique surrounds you, thanks to the boon of an archfey, the shining fruit you ate from a talking tree, the magic spring you swam in, or some other auspicious event. However you acquired your fey magic, you are now a Fey Wanderer, a ranger who represents both the mortal and the fey realms. As you wander the multiverse, your joyful laughter brightens the hearts of the downtrodden, and your martial prowess strikes terror in your foes, for great is the mirth of the fey and dreadful is their fury.",
+      "Swarmkeeper": "Some rangers reach out through their magical connection to the world and bond with a swarm of nature spirits, which becomes a potent force in battle and helpful company.",
+      "Blade Dancer": "A Blade Dancer is as beautiful to behold as they are dangerous. They artfully whirl through melee, flowing across the battlefield dodging blows and rapidly slicing foes to bloody pieces. While rangers are often associated with the longbow, the Blade Dancer embodies the spirit of two weapon fighting. Facing a Blade Dancer with a weapon in each hand, is a dance with death.",
+      "Peerless Scout": "The Peerless Scout forgoes those spells to strengthen their relationship to the terrain they fight in. They become consummate guides who can sense subtle changes in terrain or an enemy's demeanor and use that information to protect their allies. They control the battlefield with a supernatural ability to quickly set traps and predict the movement of their foes.",
+      "Elven Archer": "An elven archer is a master of the bow, gaining bonus feats, favored enemies, precision damage, and the ability to enchant arrows.",
+      "Griffon Scout": "The elves of the Griffon Court are practical and disciplined, well suited to surviving in their isolated holding on a windswept crag jutting out of the Margreve. Trained by elven court veterans, rangers of the Griffon Scout archetype learn to move swiftly and stealthily both on foot and while mounted, gathering information on their enemies or delivering devastating hit-and-run raids with precision and coordination.",
+      "Grove Warden": "A ranger archetype that focuses on protecting and nurturing the natural world, drawing power from the grove they serve.",
+      "Spear of the Weald": "The alseid who inhabit the ancient Margreve forest have long defended the limits of their home. These forest warriors can make a dizzying variety of ranged and melee attacks in quick succession, using ancient magic to flash across the battlefield.",
+      "Gloom Stalker": "Gloom Stalkers are rangers who operate in the darkness, seeking to ambush threats before they can reach the broader world. Such rangers are often found in the Underdark, but they will go any place where evil lurks in the shadows.",
+      "Horizon Walker": "Horizon Walkers guard the world against threats that originate from other planes or that seek to ravage the mortal realm with otherworldly magic. They seek out planar portals and keep watch over them, venturing to the Inner Planes and the Outer Planes as needed to pursue their foes. These rangers are also friends to any forces in the multiverse—especially benevolent dragons, fey, and elementals—that work to preserve life and the order of the planes.",
+      "Monster Slayer": "You have dedicated yourself to hunting down creatures of the night and wielders of grim magic. A Monster Slayer seeks out vampires, dragons, evil fey, fiends, and other magical threats. Trained in supernatural techniques to overcome such monsters, slayers are experts at unearthing and defeating mighty, mystical foes."
+    },
+    "weapons": "Simple weapons, Martial weapons",
+    "armor": "Light armor, Medium armor, Shields",
+    "tools": "",
+    "source": "PHB 2014 p.89",
+    "_subclass_sources": {
+      "Hunter": "PHB p.93-94",
+      "Beast Master": "TCE p.61",
+      "Wanderer": "Adventures in Middle-earth p.81",
+      "Fey Wanderer": "Tasha's Cauldron of Everything p.58-59",
+      "Swarmkeeper": "Tasha's Cauldron of Everything p.59-60",
+      "Blade Dancer": "Expanding the Ranger",
+      "Peerless Scout": "Expanding the Ranger",
+      "Elven Archer": "Kobold Quarterly 20 p.11-13",
+      "Griffon Scout": "Midgard and Kobold Press, Player's Guide p.22",
+      "Grove Warden": "Midgard and Kobold Press, Player's Guide p.23",
+      "Spear of the Weald": "Unknown sourcebook p.24-25",
+      "Gloom Stalker": "XGE p.42",
+      "Horizon Walker": "XGE p.43",
+      "Monster Slayer": "XGE p.43"
+    }
+  },
+  "Rogue": {
+    "hd": 8,
+    "skills": [
+      "Acrobatics",
+      "Athletics",
+      "Deception",
+      "Insight",
+      "Intimidation",
+      "Investigation",
+      "Perception",
+      "Performance",
+      "Persuasion",
+      "Sleight of Hand",
+      "Stealth"
+    ],
+    "skill_count": 4,
+    "saves": [
+      "dexterity",
+      "intelligence"
+    ],
+    "subclasses": [
+      "Thief",
+      "Assassin",
+      "Arcane Trickster",
+      "Burglar",
+      "Phantom",
+      "Soulknife",
+      "Umbral Binder",
+      "The Underfoot",
+      "Mastermind",
+      "Swashbuckler",
+      "Inquisitive",
+      "Scout"
+    ],
+    "desc": "Rogues are masters of stealth, precision, and misdirection. They live by their wits — slipping through shadows, disarming traps, picking pockets, and striking when their enemies least expect it. A rogue might be a charming con artist, a silent assassin, a cat burglar who can scale any wall, or an investigator who notices what everyone else misses. What defines them is not their weapons or armor, but their cunning.\n\nA rogue's defining combat feature is Sneak Attack — once per turn, when they attack with advantage or when an ally is adjacent to the target, they deal massive extra damage (1d6 at 1st, scaling to 10d6 at 20th). Cunning Action at 2nd lets them Dash, Disengage, or Hide as a bonus action — unmatched tactical mobility. Uncanny Dodge at 5th halves damage from one attack per round. Evasion at 7th negates damage entirely on successful Dexterity saves. They gain more skill proficiencies and Expertise than any other class.\n\nMechanically, rogues are d8 hit die martial strikers who avoid direct confrontation in favor of hit-and-run tactics. Reliable Talent at 11th makes any proficient skill check they roll treat a 9 or lower as a 10 — rogues almost never fail at what they're good at. Blindsense at 14th detects hidden and invisible creatures. Slippery Mind at 15th grants Wisdom save proficiency. Stroke of Luck at 20th turns a missed attack into a hit or a failed ability check into a natural 20 once per short rest.",
+    "subclass_descs": {
+      "Thief": "You hone your skills in the larcenous arts. Burglars, bandits, cutpurses, and other criminals typically follow this archetype, but so do rogues who prefer to think of themselves as professional treasure seekers, explorers, delvers, and investigators. In addition to improving your agility and stealth, you learn skills useful for delving into ancient ruins, reading unfamiliar languages, and using magic items you normally couldn't employ.",
+      "Assassin": "You focus your training on the grim art of death. Those who adhere to this archetype are diverse: hired killers, spies, bounty hunters, and even specially anointed priests trained to exterminate the enemies of their deity. Stealth, poison, and disguise help you eliminate your foes with deadly efficiency.",
+      "Arcane Trickster": "Some rogues enhance their fine-honed skills of stealth and agility with magic, learning tricks of enchantment and illusion. These rogues include pickpockets and burglars, but also pranksters, mischief-makers, and a significant number of adventurers.",
+      "Burglar": "Burglar wants a good job, plenty of Excitement and reasonable Reward, that is how it is usually read. You can say Expert Treasure-hunter instead of Burglar if you like. Some of them do. It is all the same to us. You employ your dubious, if highly useful, skills to acquire things that others possess. Whether you use your prowess to plunder old forgotten ruins in search of unclaimed treasure, or the purses of honest Free Folk is up to you.",
+      "Phantom": "Many rogues walk a fine line between life and death, risking their own lives and taking the lives of others. While adventuring on that line, some rogues discover a mystical connection to death itself. These rogues take knowledge from the dead and become immersed in negative energy, eventually becoming like ghosts. Thieves' guilds value them as highly effective information gatherers and spies.",
+      "Soulknife": "Soulknives strike and infiltrate with the mind, cutting through barriers both physical and psychic. These rogues discover psionic power within themselves and channel it to do their roguish work.",
+      "Umbral Binder": "Some rogues are content to steal mere treasures, but umbral binders possess the energies that shape the world. Through secret rites and rituals, these rogues have learned to bind the powers of shadow into themselves and to use its power to fuel their abilities.",
+      "The Underfoot": "An elite order of burrow warriors exists in every erina colony. These highly-trained warriors are known as the Underfoot. Using a combination of guerilla attacks and druidic magic, the Underfoot are a force to be reckoned with, diving into fights nose-forward.",
+      "Mastermind": "Your focus is on people and on the influence and secrets they have. Many spies, courtiers, and schemers follow this archetype, leading lives of intrigue. Words are your weapons as often as knives or poison, and secrets and favors are some of your favorite treasures.",
+      "Swashbuckler": "A rogue archetype focusing on single combat and two-weapon fighting, with features that enhance mobility and charm.",
+      "Inquisitive": "Your focus is on uncovering secrets and lies, honing your senses and intuition to pierce deceptions and find hidden truths.",
+      "Scout": "You are skilled in stealth and surviving far from the streets of a city, allowing you to scout ahead of your companions during expeditions. Rogues who embrace this archetype are at home in the wilderness and among barbarians and rangers, and many Scouts serve as the eyes and ears of war bands. Ambusher, spy, bounty hunter- these are just a few of the roles that Scouts assume as they range the world."
+    },
+    "weapons": "Simple weapons, Hand crossbows, Longswords, Rapiers, Shortswords",
+    "armor": "Light armor",
+    "tools": "Thieves' tools",
+    "source": "PHB 2014 p.94",
+    "_subclass_sources": {
+      "Thief": "PHB p.96",
+      "Assassin": "PHB p.97",
+      "Arcane Trickster": "Player's Handbook (inferred from class content)",
+      "Burglar": "Adventures in Middle-earth p.80-81",
+      "Phantom": "Tasha's Cauldron of Everything p.62-63",
+      "Soulknife": "TCE p.63-65",
+      "Umbral Binder": "Book of Ebon Tides p.49",
+      "The Underfoot": "Tome of Beasts or similar sourcebook (page 25)",
+      "Mastermind": "Chapter 4 | Classes 135",
+      "Swashbuckler": "Chapter 4 | Classes 135",
+      "Inquisitive": "XGE p.94",
+      "Scout": "XGE p.0"
+    }
+  },
+  "Sorcerer": {
+    "hd": 6,
+    "skills": [
+      "Arcana",
+      "Deception",
+      "Insight",
+      "Intimidation",
+      "Persuasion",
+      "Religion"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "constitution",
+      "charisma"
+    ],
+    "subclasses": [
+      "Draconic Bloodline",
+      "Wild Magic",
+      "Aberrant Mind",
+      "Clockwork Soul",
+      "Light Weaver",
+      "Ooze Bloodline",
+      "Storm Sorcery",
+      "Divine Soul",
+      "Shadow Magic"
+    ],
+    "armor": "",
+    "desc": "Sorcerers are born with magic in their blood — not learned, not granted, but innate. The source of their power might be a draconic ancestor, an encounter with a being of raw chaos, or some cosmic event that awakened latent potential. Unlike wizards who study dusty tomes, sorcerers wield magic by instinct and force of personality. They don't prepare spells; they know a smaller, carefully chosen repertoire and can bend those spells in ways no other caster can.\n\nA sorcerer's defining feature is Metamagic — the ability to reshape spells on the fly using Sorcery Points. They can Twin a spell to hit two targets, Quicken a spell to cast as a bonus action, Subtle a spell to cast without components, Heighten a spell to impose disadvantage on saves, and more. Sorcery Points can also be converted into spell slots and vice versa — sorcerers have more flexibility with their spell slots than any other full caster.\n\nMechanically, sorcerers are d6 hit die full casters who use Charisma as their spellcasting ability. They know a limited number of spells but can cast them flexibly. Font of Magic at 2nd creates their Sorcery Point pool. At 20th, Sorcerous Restoration recovers 4 Sorcery Points on short rests. Sorcerers are the most specialized full casters — a Draconic sorcerer is a durable elemental blaster, while a Wild Magic sorcerer is an unpredictable chaos engine that can grant advantage at will.",
+    "subclass_descs": {
+      "Draconic Bloodline": "Your innate magic comes from draconic magic that was mingled with your blood or that of your ancestors.",
+      "Wild Magic": "Wild Magic sorcerers draw on chaotic forces, causing unpredictable magical surges and gaining abilities tied to luck and randomness.",
+      "Aberrant Mind": "An alien influence has wrapped its tendrils around your mind, giving you psionic power. You can now touch other minds with that power and alter the world around you by using it to control the magical energy of the multiverse.",
+      "Clockwork Soul": "The cosmic force of order has suffused you with magic. That power arises from Mechanus or a realm like it, and you might have endured its influence or been altered by it.",
+      "Light Weaver": "Your powers are drawn from the spark of light kindled within you. In places of great darkness, there are always those born with the affinity for light, and every shadow must have a shining source. The magic within you represents cosmic balance, and like the light, your magic flickers from radiance to darkness moment to moment.",
+      "Ooze Bloodline": "As a result of horrible experimentation or the unholy union of slithering tracker and humanoid, your bloodline contains the foul ichor of the ooze. This foulness gives you horrific powers.",
+      "Storm Sorcery": "Your innate magic comes from the power of elemental air. Many with this power can trace their magic back to a near-death experience caused by the Great Rain, but perhaps you were born during a howling gale so powerful that folk still tell stories of it, or your lineage might include the influence of potent air creatures such as vaati or djinn. Whatever the case, the magic of the storm permeates your being.",
+      "Divine Soul": "Sometimes the spark of magic that fuels a sorcerer comes from a divine source that glimmers within the soul. Having such a blessed soul is a sign that your innate magic might come from a distant but powerful familial connection to a divine being.",
+      "Shadow Magic": "Your innate magic might stem from the Shadowfell or from the cursed blood of a shadow dragon. You have a connection to the plane of shadow, allowing you to draw on its power."
+    },
+    "weapons": "Daggers, Darts, Slings, Quarterstaffs, Light crossbows",
+    "tools": "",
+    "source": "PHB 2014 p.99",
+    "_subclass_sources": {
+      "Draconic Bloodline": "PHB p.102",
+      "Wild Magic": "PHB p.103",
+      "Aberrant Mind": "TCE p.68",
+      "Clockwork Soul": "TCE p.68-69",
+      "Light Weaver": "Book of Ebon Tides p.45",
+      "Ooze Bloodline": "Kobold Quarterly 20 p.17",
+      "Storm Sorcery": "Sword Coast Adventurer's Guide (SCAG) p.137",
+      "Divine Soul": "XGE p.50",
+      "Shadow Magic": "XGE p.50"
+    }
+  },
+  "Warlock": {
+    "hd": 8,
+    "skills": [
+      "Arcana",
+      "Deception",
+      "History",
+      "Intimidation",
+      "Investigation",
+      "Nature",
+      "Religion"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "wisdom",
+      "charisma"
+    ],
+    "subclasses": [
+      "The Archfey",
+      "The Fiend",
+      "The Great Old One",
+      "The Fathomless",
+      "Genie",
+      "Mother of Sorrows",
+      "The Hunter in Darkness",
+      "The Old Wood",
+      "The Undying",
+      "The Celestial",
+      "The Hexblade"
+    ],
+    "desc": "Warlocks are seekers of forbidden knowledge who have struck a bargain with an otherworldly patron — a being of immense power, neither wholly benevolent nor entirely malevolent. The patron might be an ancient fey lord, a demon prince of the Abyss, or a slumbering entity from beyond the stars. In exchange for power, the warlock serves their patron's interests — or at least, they pay lip service while pursuing their own goals.\n\nWarlocks use Pact Magic — a unique spellcasting system with very few spell slots (starting at 1, maxing at 4) that all cast at the same level (scaling up to 5th) and recharge on short rests. This means warlocks can cast their most powerful spells every fight but must be judicious about when to use them. To compensate for limited slots, warlocks rely on Eldritch Blast — the best damaging cantrip in the game, which they can enhance with Eldritch Invocations to add Charisma to damage, push enemies, or pull them closer.\n\nMechanically, warlocks are d8 hit die full casters who use Charisma. At 3rd level they choose a Pact Boon: Pact of the Chain (improved familiar), Pact of the Blade (summonable magic weapon), or Pact of the Tome (Book of Shadows with extra cantrips). Eldritch Invocations at 2nd and beyond grant permanent abilities — agonizing blast, devil's sight, mask of many faces, and more. Mystic Arcanum at 11th+ grants one 6th, 7th, 8th, and 9th level spell per long rest. Warlocks are the most modular class — no two are built the same.",
+    "subclass_descs": {
+      "The Archfey": "Your patron is a lord or lady of the fey, a creature of legend who holds secrets that were forgotten before the mortal races were born. This being's motivations are often inscrutable, and sometimes whimsical, and might involve a striving for greater magical power or the settling of age-old grudges.",
+      "The Fiend": "You have made a pact with a fiend from the lower planes of existence, a being whose aims are evil, even if you strive against those aims.",
+      "The Great Old One": "Your patron is a mysterious entity whose nature is utterly foreign to the fabric of reality, such as a being from the Far Realm or an elder god. Its motives are incomprehensible, but you draw magic from its vast, ancient knowledge.",
+      "The Fathomless": "You have plunged into a pact with the deeps. An entity of the ocean, the Elemental Plane of Water, or another otherworldly sea now allows you to draw on its thalassic power.",
+      "Genie": "You have made a pact with one of the rarest kinds of genie, a noble genie, gaining a magical vessel and elemental powers.",
+      "Mother of Sorrows": "Universal suffering has given rise to an enigmatic being known as the Mother of Sorrows, and warlocks who bind themselves to her cause seek to spread her poisonous vengeance.",
+      "The Hunter in Darkness": "A warlock patron that grants powers of stealth, predation, and darkness, drawing on the primal fear of the hunter in the night.",
+      "The Old Wood": "Warlocks of the Old Wood are the claws and teeth of the forest they serve, forming a symbiotic pact with ancient forests.",
+      "The Undying": "Death holds no sway over your patron, who has unlocked the secrets of everlasting life, although such a prize- like all power- comes at a price.",
+      "The Celestial": "Your patron is a powerful being of the Upper Planes. You have bound yourself to an ancient empyrean, solar, ki-rin, unicorn, or other entity that resides in the planes of everlasting bliss. Your pact with that being allows you to experience the barest touch of the holy light that illuminates the multiverse.",
+      "The Hexblade": "You have made your pact with a mysterious entity from the Shadowfell- a force that manifests in sentient magic weapons carved from the stuff of shadow."
+    },
+    "weapons": "Simple weapons",
+    "armor": "Light armor",
+    "tools": "",
+    "source": "PHB 2014 p.105",
+    "_subclass_sources": {
+      "The Archfey": "Player's Handbook (inferred from context)",
+      "The Fiend": "Player's Handbook (inferred from context)",
+      "The Great Old One": "Player's Handbook (inferred from context)",
+      "The Fathomless": "Tasha's Cauldron of Everything p.72",
+      "Genie": "Chapter 1 | Character Options p.73-75",
+      "Mother of Sorrows": "Book of Ebon Tides p.46-47",
+      "The Hunter in Darkness": "Midgard and Kobold Press, Player's Guide p.26",
+      "The Old Wood": "Midgard and Kobold Press, Player's Guide p.27",
+      "The Undying": "Chapter 4 | Classes, page 139",
+      "The Celestial": "XGE p.54",
+      "The Hexblade": "XGE p.55"
+    }
+  },
+  "Wizard": {
+    "hd": 6,
+    "skills": [
+      "Arcana",
+      "History",
+      "Insight",
+      "Investigation",
+      "Medicine",
+      "Religion"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "intelligence",
+      "wisdom"
+    ],
+    "subclasses": [
+      "School of Abjuration",
+      "School of Conjuration",
+      "School of Divination",
+      "School of Enchantment",
+      "School of Evocation",
+      "School of Illusion",
+      "School of Necromancy",
+      "School of Transmutation",
+      "Geomancy",
+      "Elven High Magic",
+      "Bladesinging",
+      "Order of Scribes",
+      "Shadow Arcane Tradition",
+      "Ooze School",
+      "Courser Mage",
+      "Bladesinger",
+      "War Magic"
+    ],
+    "armor": "",
+    "desc": "Wizards are the ultimate students of magic — scholars who have spent years, decades, or centuries poring over ancient tomes, deciphering arcane formulae, and mastering the fundamental laws of reality. Their power comes from intellect and discipline, not bloodline or pact. A wizard's spellbook is their most prized possession, a growing encyclopedia of magical knowledge that represents years of research and discovery.\n\nWizards have the largest spell list in the game and the unique ability to learn new spells by copying scrolls or spellbooks into their own — for a cost in gold and time, a wizard can theoretically learn every wizard spell in existence. They prepare spells daily from their spellbook, choosing a flexible loadout tailored to the challenges ahead. Arcane Recovery at 1st level lets them recover spell slots on short rests. Ritual Casting allows them to cast any ritual spell in their spellbook without preparing it or expending a slot.\n\nMechanically, wizards are d6 hit die full casters who use Intelligence — the ultimate utility and control casters. They gain no armor proficiency and have the smallest hit die, so positioning and defensive spells are critical. At higher levels, they gain Spell Mastery (at-will 1st and 2nd level spells at 18th) and Signature Spells (two 3rd-level spells always prepared at 20th). Their Arcane Tradition (school specialization) at 2nd level dramatically shapes their role: blaster (Evocation), controller (Enchantment), defender (Abjuration), or summoner (Conjuration).",
+    "subclass_descs": {
+      "School of Abjuration": "The School of Abjuration emphasizes magic that blocks, banishes, or protects. Called abjurers, members of this school are sought when baleful spirits require exorcism, when important locations must be guarded against magical spying, and when portals to other planes of existence must be closed.",
+      "School of Conjuration": "As a conjurer, you favor spells that produce objects and creatures out of thin air. You can conjure billowing clouds of killing fog or summon creatures from elsewhere to fight on your behalf. As your mastery grows, you learn spells of transportation and can teleport yourself across vast distances, even to other planes of existence, in an instant.",
+      "School of Divination": "The counsel of a diviner is sought by royalty and commoners alike, for all seek a clearer understanding of the past, present, and future. As a diviner, you strive to part the veils of space, time, and consciousness so that you can see clearly. You work to master spells of discernment, remote viewing, supernatural knowledge, and foresight.",
+      "School of Enchantment": "As a member of the School of Enchantment, you have honed your ability to magically entrance and beguile other people and monsters.",
+      "School of Evocation": "You focus your study on magic that creates powerful elemental effects such as bitter cold, searing flame, rolling thunder, crackling lightning, and burning acid.",
+      "School of Illusion": "You focus your studies on magic that dazzles the senses, befuddles the mind, and tricks even the wisest folk. Your magic is subtle, but the illusions crafted by your keen mind make the impossible seem real. Some illusionists—including many gnome wizards—are benign tricksters who use their spells to entertain. Others are more sinister masters of deception, using their illusions to frighten and fool others for their personal gain.",
+      "School of Necromancy": "The School of Necromancy explores the cosmic forces of life, death, and undeath. As you focus your studies in this tradition, you learn to manipulate the energy that animates all living things.",
+      "School of Transmutation": "You are a student of spells that modify energy and matter. To you, the world is not a fixed thing, but eminently mutable, and you delight in being an agent of change. You wield the raw stuff of creation and learn to alter both physical forms and mental qualities. Your magic gives you the tools to become a smith on reality's forge. Some transmuters are tinkerers and pranksters, turning people into toads and transforming copper into silver for fun and occasional profit. Others pursue their magical studies with deadly seriousness, seeking the power of the gods to make and destroy worlds.",
+      "Geomancy": "Geomancy teaches the art of becoming like a ley line and bonding with the great flow of power. Geomancers have an increased facility for tapping into any ley line, but they also learn to bind themselves to a specific ley line.",
+      "Elven High Magic": "Elven high magic is very powerful and extremely rare. With high magic and sufficient time, an elven wizard can accomplish just about anything. It is a closely guarded secret, practiced only by the elves and their shadow fey relatives.",
+      "Bladesinging": "Bladesingers master a tradition of wizardry that incorporates swordplay and dance. Originally created by elves, this tradition has been adopted by non-elf practitioners, who honor and expand on the elven ways.",
+      "Order of Scribes": "A wizardly order that awakens an arcane sentience within their spellbook, gaining benefits like altering spell damage types, manifesting a spectral mind, crafting scrolls, and entwining their soul with the book.",
+      "Shadow Arcane Tradition": "The powers of shadow are an obsession for wizards who follow the Shadow Arcane tradition. Because they understand shadow’s tantalizing powers—and seek to learn more—these practitioners infuse their very beings with it to discover its secrets firsthand.",
+      "Ooze School": "Associated School: Transmutation. Replacement Powers: The following powers replace the physical enhancement, telekinetic fist, and change shape abilities of the transmutation school.",
+      "Courser Mage": "A tradition more focused on stalking prey than reading dozens of books, courser mages generally choose more subtle spells that aid in finding or hiding from their enemies. They learn to imbue their arrows with spell energy to deliver more deadly shots.",
+      "Bladesinger": "Only elves and half-elves can choose the bladesinger arcane tradition. In the world of Faerûn, elves closely guard the secrets of bladesinging.",
+      "War Magic": "A wizard who mixes evocation and abjuration magic to dominate the battlefield."
+    },
+    "weapons": "Daggers, Darts, Slings, Quarterstaffs, Light crossbows",
+    "tools": "",
+    "source": "PHB 2014 p.112",
+    "_subclass_sources": {
+      "School of Abjuration": "Player's Handbook (Wizard class, Arcane Traditions section)",
+      "School of Conjuration": "PHB p.116",
+      "School of Divination": "PHB p.116",
+      "School of Enchantment": "PHB p.117",
+      "School of Evocation": "PHB p.117",
+      "School of Illusion": "PHB p.118",
+      "School of Necromancy": "PHB p.118",
+      "School of Transmutation": "PHB p.119",
+      "Geomancy": "Deep Magic Ley Lines p.8-9",
+      "Elven High Magic": "Elven High Magic p.3-4",
+      "Bladesinging": "Tasha's Cauldron of Everything p.75-77",
+      "Order of Scribes": "Tasha's Cauldron of Everything p.77",
+      "Shadow Arcane Tradition": "Book of Ebon Tides p.47",
+      "Ooze School": "Winter 2012 p.16",
+      "Courser Mage": "Tales Margreve Players Guide 5E DnD",
+      "Bladesinger": "TCE p.141 (inferred from context)",
+      "War Magic": "XGE p.0"
+    }
+  },
+  "Slayer": {
+    "hd": 12,
+    "skills": [
+      "Animal Handling",
+      "Athletics",
+      "Intimidation",
+      "Perception",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "strength",
+      "constitution"
+    ],
+    "subclasses": [
+      "The Rider",
+      "Foe-Hammer",
+      "Horns Wildly Blowing"
+    ],
+    "armor": "Light, medium, shields",
+    "subclass_descs": {
+      "Slayer": "The Slayer is a Scholar who specializes in the study of beasts and monsters, learning their weaknesses and how to overcome them.",
+      "The Rider": "While the Rohirrim are the most famous riders among the Free People, they are not the only folk to fight from horseback. The charge of a mounted Slayer is as terrible and glorious as the break of dawn, and the blowing of their horns resounds from the mountains to the Sea.",
+      "Foe-Hammer": "Slayers who walk the path of the Foe-hammer wade into the very thick of battle, heedless of their enemies’ paltry blows. Such Slayers are near unstoppable, their fury enhancing their might to a point where they can slay lesser warriors with nothing more than a blow of their fist.",
+      "Horns Wildly Blowing": "At 14th level, you can inspire your allies by blowing your horn or shouting a battle-cry, granting them benefits of your Reckless Attack and Fury Damage."
+    },
+    "desc": "The Slayer fights with raw ferocity — equivalent to a Barbarian.",
+    "weapons": "All",
+    "tools": "",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Slayer": "Adventures in Middle-earth p.71-72",
+      "The Rider": "Adventures in Middle-earth p.74",
+      "Foe-Hammer": "Adventures in Middle-earth p.75-76",
+      "Horns Wildly Blowing": "Adventures in Middle-earth p.75"
+    }
+  },
+  "Warden": {
+    "hd": 10,
+    "skills": [
+      "Athletics",
+      "Insight",
+      "Investigation",
+      "Medicine",
+      "Persuasion",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "wisdom",
+      "charisma"
+    ],
+    "subclasses": [
+      "Counsellor",
+      "Herald",
+      "Bounder"
+    ],
+    "armor": "All, shields",
+    "subclass_descs": {
+      "Warden": "Wardens guard all that is worth fighting for in this age of the world, even if they do not know it. Many Hobbit-heroes, for example, are Wardens (when they are not Treasure Hunters!)",
+      "Counsellor": "Your voice is your weapon. You have the ear of heroes and lords, and can accomplish more with a whispered word than with a drawn sword.",
+      "Herald": "Heralds are warriors as well as scholars, advocating for a cause that can motivate others and fighting for their beliefs. Heralds seek to witness great deeds of valour first hand and sing of what they have seen to others, to inspire them in turn.",
+      "Bounder": "Bounders protect the simple folk so they can go about their lives untroubled by the dangers of the untamed wilderness. To walk the path of the Bounders is to be forever on the edge of the Wild, patrolling where the tilled green fields meet the edge of dark forests. Bounders are resilient and near tireless guardians, who stay in the darkness, that others may thrive in the light."
+    },
+    "desc": "The Warden is a stalwart defender and leader — akin to a Paladin.",
+    "weapons": "All",
+    "tools": "",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Warden": "Adventures in Middle-earth p.86-87",
+      "Counsellor": "Adventures in Middle-earth p.89",
+      "Herald": "Adventures in Middle-earth p.90-91",
+      "Bounder": "Adventures in Middle-earth p.90-91"
+    }
+  },
+  "Warrior": {
+    "hd": 10,
+    "skills": [
+      "Acrobatics",
+      "Animal Handling",
+      "Athletics",
+      "History",
+      "Insight",
+      "Intimidation",
+      "Perception",
+      "Survival"
+    ],
+    "skill_count": 2,
+    "saves": [
+      "strength",
+      "constitution"
+    ],
+    "subclasses": [
+      "Knight",
+      "Weaponmaster"
+    ],
+    "armor": "All, shields",
+    "subclass_descs": {
+      "Knight": "Sworn to serve and defend a liege lord, the Knight places their body between those who would do violence and their charge. Steadfast and resolute, a Knight must always be alert for danger and ready to intercept it.",
+      "Weaponmaster": "Seeking mastery over themselves as opposed to others, the Weaponmaster specialises in a style of fighting, sometimes even a specific weapon, to a degree other warriors can only dream of."
+    },
+    "desc": "The Warrior is a master of arms — equivalent to a Fighter.",
+    "weapons": "All",
+    "tools": "",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Knight": "Adventures in Middle-earth p.94-95",
+      "Weaponmaster": "Adventures in Middle-earth p.95-96"
+    }
+  },
+  "Scholar": {
+    "hd": 6,
+    "skills": [
+      "Arcana",
+      "History",
+      "Insight",
+      "Investigation",
+      "Medicine",
+      "Nature",
+      "Religion"
+    ],
+    "skill_count": 3,
+    "saves": [
+      "intelligence",
+      "wisdom"
+    ],
+    "subclasses": [
+      "Master Healer",
+      "Master Scholar"
+    ],
+    "armor": "Light",
+    "subclass_descs": {
+      "Master Healer": "A Master Healer has learned far more than the common uses of healing herbs and is capable of using them in more potent forms, or in new ways.",
+      "Master Scholar": "You have studied ancient books and scrolls in the treasured libraries of the great cities, or you learned rhymes of lore and secrets unwritten from some older master. You know much that is hidden or lost."
+    },
+    "desc": "The Scholar masters ancient lore and healing — akin to a Cleric.",
+    "weapons": "Simple",
+    "tools": "",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Master Healer": "Adventures in Middle-earth p.68-69",
+      "Master Scholar": "Adventures in Middle-earth p.69"
+    }
+  },
+  "Treasure Hunter": {
+    "hd": 8,
+    "skills": [
+      "Acrobatics",
+      "Deception",
+      "Insight",
+      "Investigation",
+      "Perception",
+      "Sleight of Hand",
+      "Stealth"
+    ],
+    "skill_count": 4,
+    "saves": [
+      "dexterity",
+      "intelligence"
+    ],
+    "subclasses": [
+      "Agent"
+    ],
+    "armor": "Light",
+    "subclass_descs": {
+      "Agent": "The Agent relies on charm as much as stealth or wit. As such, while the Agent still knows a lot about getting into places normally barred to outsiders, they can often do so in the open by simply convincing people that they should be allowed to pass."
+    },
+    "desc": "The Treasure Hunter is a cunning explorer — equivalent to a Rogue.",
+    "weapons": "Simple, hand crossbows, longswords, rapiers, shortswords",
+    "tools": "Thieves' tools",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Agent": "Adventures in Middle-earth p.79"
+    }
+  },
+  "Wanderer": {
+    "hd": 10,
+    "skills": [
+      "Animal Handling",
+      "Athletics",
+      "Insight",
+      "Investigation",
+      "Nature",
+      "Perception",
+      "Stealth",
+      "Survival"
+    ],
+    "skill_count": 3,
+    "saves": [
+      "strength",
+      "dexterity"
+    ],
+    "subclasses": [
+      "Hunter of Beasts",
+      "Hunter of Shadows"
+    ],
+    "armor": "Light, medium, shields",
+    "subclass_descs": {
+      "Hunter of Beasts": "You can track your quarry across many miles, and bring it down with a well-placed arrow or swift blow. Some folk in Middle-earth rely on hunters for both sustenance and protection; the Woodmen of Mirkwood, for example, are kept safe from Spiders and other horrors by the arrows of their hunters. Others, like the Elves, hunt for sport, or for the joy of the chase – or hunt two-legged prey, trespassers and despoilers of the wood.",
+      "Hunter of Shadows": "The lonely souls who choose this archetype forever hunt the servants of the Enemy, wherever they may hide. There is no respite for such Wanderers and little hope of final victory, yet they fight on, regardless."
+    },
+    "desc": "The Wanderer is a wilderness expert — equivalent to a Ranger.",
+    "weapons": "All",
+    "tools": "",
+    "source": "Adventures in Middle-earth Player's Guide",
+    "_subclass_sources": {
+      "Hunter of Beasts": "Adventures in Middle-earth p.85",
+      "Hunter of Shadows": "Adventures in Middle-earth p.85"
+    }
+  }
+}
