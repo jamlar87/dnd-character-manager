@@ -5,7 +5,7 @@ const FEAT_SETUP = {
   martial_adept: {label:'Choose 2 Battle Master maneuvers',field:'maneuvers',kind:'maneuvers',picks:2},
 };
 const ATTUNEMENT_SLOTS_MAX = 3;
-const ITEM_NEEDS_ATTUNEMENT = {{ item_attunement_json|safe if item_attunement_json else '{}' }};
+/* ITEM_NEEDS_ATTUNEMENT set by template */
 let _sheetPollTimer = null;
 let _lastConditions = null;
 
@@ -1557,7 +1557,7 @@ async function regenerateSheetPortrait() {
 // ── Detail Popup ──
 const DESCRIPTIONS = {
 };
-const CLASS_LEVELS = {{ (class_levels or {})|tojson }};
+/* CLASS_LEVELS set by template */
 
 
 // ── Action Detail Popup ──
@@ -1567,7 +1567,7 @@ function showDetail() {
   const title = document.getElementById('popup-title');
   const body = document.getElementById('popup-body');
 
-  const bgData = {{ character.background_data|tojson if character.background_data else '{}' }};
+  /* bgData set by template */
 
 
   let html = '';

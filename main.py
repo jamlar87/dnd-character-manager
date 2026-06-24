@@ -1434,6 +1434,10 @@ _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)))
 
 app = FastAPI(title="D&D Character Manager")
 
+# ── Static files ──────────────────────────────────────────────────────────────
+from starlette.staticfiles import StaticFiles
+app.mount("/static", StaticFiles(directory=str(STATIC)), name="static")
+
 # ── Logging ───────────────────────────────────────────────────────────────────
 import logging as _logging, time as _time, uuid as _uuid
 
