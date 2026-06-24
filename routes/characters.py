@@ -44,6 +44,7 @@ from data import (
     ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
     RACIAL_TRAIT_DESCS,
 )
+from routes.schemas import CreateCharacter, AddSpell, EditASI, ApplyLevelUp, UpdateCharacter
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
@@ -80,9 +81,16 @@ async def create_character_page(request: Request):
 async def api_create_character(request: Request):
     user = require_user(request)
     try:
-        data = await request.json()
+        raw = await request.json()
     except Exception:
         return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+    # Validate core fields with Pydantic
+    from pydantic import ValidationError
+    try:
+        body = CreateCharacter.model_validate(raw)
+    except ValidationError as e:
+        return JSONResponse({"error": str(e)}, status_code=422)
+    data = raw  # Keep full raw data for auxiliary fields
 
     # Compute ability scores
     def _asi(base, bonuses):
@@ -2188,9 +2196,10 @@ async def character_sheet(char_id: int, request: Request):
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
 @router.post("/api/character/{char_id}/update", response_class=JSONResponse)
-async def update_character(char_id: int, request: Request):
+async def update_character(char_id: int, request: Request, body: UpdateCharacter):
     user = require_user(request)
-    data = await request.json()
+    # Build data dict from model (extra fields pass through)
+    data = body.model_dump(exclude_none=True) | (body.model_extra or {})
 
     db = get_db()
     row = _require_owned(db, user, "characters", char_id)
@@ -2239,15 +2248,11 @@ async def update_character(char_id: int, request: Request):
     return JSONResponse({"ok": True})
 
 @router.post("/api/character/{char_id}/edit-asi", response_class=JSONResponse)
-async def edit_asi_choice(char_id: int, request: Request):
+async def edit_asi_choice(char_id: int, request: Request, body: EditASI):
     """Edit a past ASI/feat choice for a given level."""
     user = require_user(request)
-    data = await request.json()
-    level = data.get("level")
-    entry = data.get("entry")  # dict: {type: "asi", ...} or {type: "feat", feat: "...", ...}
-
-    if level is None or not entry:
-        return JSONResponse({"error": "Missing level or entry"}, status_code=400)
+    if body.entry is None:
+        return JSONResponse({"error": "Missing entry"}, status_code=400)
 
     db = get_db()
     row = _require_owned(db, user, "characters", char_id)
@@ -2259,18 +2264,18 @@ async def edit_asi_choice(char_id: int, request: Request):
     asi_history = json.loads(char.get("asi_history", "[]") or "[]")
 
     # Ensure entry has level set before saving
-    entry["level"] = level
+    body.entry["level"] = body.level
 
     # Replace the entry for this level, or append if not found
     # Also match old entries that lack a level field (legacy data)
     found = False
     for i, ae in enumerate(asi_history):
-        if ae.get("level") == level:
-            asi_history[i] = entry
+        if ae.get("level") == body.level:
+            asi_history[i] = body.entry
             found = True
             break
     if not found:
-        asi_history.append(entry)
+        asi_history.append(body.entry)
 
     db.execute(
         "UPDATE characters SET asi_history=? WHERE id=?",
@@ -2673,12 +2678,12 @@ async def character_pdf(char_id: int, request: Request):
     )
 
 @router.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
-async def add_spell(char_id: int, request: Request):
+async def add_spell(char_id: int, request: Request, body: AddSpell):
+    """Add a spell to a character's spell list."""
     user = require_user(request)
-    data = await request.json()
     db = get_db()
     db.execute("INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
-               (char_id, data.get("name",""), data.get("level",0), data.get("prepared",1), data.get("slots_max",0), 0))
+               (char_id, body.name, body.level, int(body.prepared), body.slots_max or 0, 0))
     db.commit()
     sp_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
     db.close()
@@ -4247,10 +4252,10 @@ def _spellcasting_ability(class_name: str) -> str:
 
 
 @router.post("/api/character/{char_id}/apply-level-up", response_class=JSONResponse)
-async def apply_level_up(char_id: int, request: Request):
+async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     """Apply all level-up choices across potentially multiple levels."""
     user = require_user(request)
-    data = await request.json()
+    data = body.model_dump(exclude_none=True) | (body.model_extra or {})
     db = get_db()
     row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
     if not row:
