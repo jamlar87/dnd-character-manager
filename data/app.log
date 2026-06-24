@@ -31,3 +31,8 @@
 2026-06-24 13:54:28 [INFO] GET /api/user/characters 404 0ms
 2026-06-24 13:54:28 [INFO] HTTP Request: GET http://testserver/api/user/characters "HTTP/1.1 404 Not Found"
 2026-06-24 13:54:40 [INFO] GET /character/81 200 445ms
+2026-06-24 13:55:40 [INFO] GET /dm 404 0ms
+2026-06-24 13:55:46 [INFO] GET /dm-tools 200 217ms
+2026-06-24 13:55:55 [INFO] GET /character/81 200 16ms
+2026-06-24 13:55:55 [INFO] GET /create 303 2ms
+2026-06-24 13:55:55 [INFO] GET /dashboard 303 2ms
