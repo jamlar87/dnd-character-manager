@@ -1189,7 +1189,10 @@ def _build_item_description(item: dict) -> str:
     # Fallback: use gear category + cost/weight
     subcat = (item.get("gear_category") or {}).get("name", "")
     cost = item.get("cost", {})
-    cost_str = f"{cost.get('quantity','?')} {cost.get('unit','gp')}"
+    if isinstance(cost, dict):
+        cost_str = f"{cost.get('quantity','?')} {cost.get('unit','gp')}"
+    else:
+        cost_str = str(cost) if cost else "? gp"
     weight = item.get("weight", "?")
     if subcat:
         return f"{subcat}. {weight} lb. {cost_str}."
@@ -1482,6 +1485,7 @@ def init_db():
             prepared INTEGER DEFAULT 0,
             slots_max INTEGER DEFAULT 0,
             slots_used INTEGER DEFAULT 0,
+            source TEXT DEFAULT '',
             FOREIGN KEY (character_id) REFERENCES characters(id) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS dm_npcs (
@@ -1665,6 +1669,12 @@ def init_db():
         db.execute("ALTER TABLE dm_campaigns ADD COLUMN characters TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
+    # Migration: source on character_spells for Magic Initiate / class-source spell tagging
+    try:
+        db.execute("ALTER TABLE character_spells ADD COLUMN source TEXT DEFAULT ''")
+    except sqlite3.OperationalError:
+        pass
+
     # Migration: dm_campaigns npcs column
     try:
         db.execute("ALTER TABLE dm_campaigns ADD COLUMN npcs TEXT DEFAULT '[]'")
