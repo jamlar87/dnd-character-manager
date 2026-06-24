@@ -836,7 +836,7 @@ def load_manual_data():
     global MANUAL_TRAPS
     manual_traps = _load_manual_json("traps.json")
     if manual_traps:
-        MANUAL_TRAPS = manual_traps
+        MANUAL_TRAPS.clear(); MANUAL_TRAPS.extend(manual_traps)
         print(f"  + Traps: {len(manual_traps)}")
 
     print(f"  Manual data loaded: {meta.get('totals', {})}")
@@ -4031,7 +4031,7 @@ def _load_monster_cache() -> list[dict]:
         # Normalize manual monster format to SRD format
         for m in manual:
             _normalize_manual_monster(m)
-        MANUAL_MONSTERS = manual
+        MANUAL_MONSTERS.clear(); MANUAL_MONSTERS.extend(manual)
     # Append summon-template-derived monsters (vehicles, siege, class summons, Tasha)
     return base + MANUAL_MONSTERS + _template_monster_entries()
 
