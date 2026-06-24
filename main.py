@@ -112,7 +112,6 @@ for _item in SRD_MAGIC_ITEMS:
         _item["source"] = "DMG 2014 p.150"
 
 # Build feature lookup by class+name for enrichment
-FEATURE_DESCRIPTIONS: dict[str, str] = {}
 for f in SRD_FEATURES:
     key = f.get("name", "").lower()
     desc = " ".join(f.get("desc", []))
@@ -1883,20 +1882,6 @@ def _render(template: str, request: Request | None = None, **ctx) -> HTMLRespons
 # PHB page references inline.
 
 # PHB Ch.2 p.17-43 — Races
-RACES = {
-    "Dwarf": {"subraces": ["Hill Dwarf", "Mountain Dwarf", "Duergar", "Gold Dwarf"], "asi": {"constitution": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Dwarvish"], "traits": ["Dwarven Resilience", "Stonecunning"], "desc": "Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal. Standing 4 to 5 feet tall, they are broad and compact, weighing around 150 pounds. Their skin ranges from deep tan to light brown, and their hair—worn long—ranges from black to red, graying to white with age. Dwarves can live to be over 400 years old.\n\nDwarven culture is built on three pillars: clan, craft, and honor. They inhabit great stone halls carved deep into mountains, forging legendary weapons and armor. Slow to trust but fiercely loyal once earned, dwarves hold grudges for centuries and friendships for millennia. Their kingdoms are ordered by ancient tradition, with kings and queens descended from the first dwarves.\n\nMechanically, dwarves gain +2 Constitution, Darkvision 60 ft, Dwarven Resilience (advantage on poison saves + poison resistance), and Stonecunning (expertise on History checks related to stonework). Even heavily armored dwarves maintain full speed.", "subrace_descs": {"Hill Dwarf": "+1 Wisdom. Dwarven Toughness grants +1 HP per level. Hill dwarves are the heartiest of their kind, with keen senses and a deeper connection to the living earth. They are the most common dwarven merchants, farmers, and diplomats.", "Mountain Dwarf": "+2 Strength. Dwarven Armor Training grants proficiency with light and medium armor. Mountain dwarves are the martial backbone of dwarven society— soldiers, smiths, and sentinels who guard the deep roads. Hardy and strong, they thrive in the most forbidding peaks.", "Duergar": "+1 Strength. Superior Darkvision (120 ft), Duergar Resilience (advantage on saves vs illusions, charms, and paralysis), Duergar Magic (enlarge/reduce and invisibility at levels 3 and 5), Sunlight Sensitivity. The gray dwarves of the Underdark—grim, psionic, and hardened by eons beneath the earth.", "Gold Dwarf": "+1 Wisdom. Dwarven Toughness (+1 HP per level). The southern dwarves of the Great Rift in Faerûn—confident, shrewd merchants with golden-brown skin and a proud, unbroken lineage. They are resistant to the scheming of other races but generous to those who earn their trust."}, "source": "PHB 2014 p.18"},
-    "Elf": {"subraces": ["High Elf", "Wood Elf", "Dark Elf (Drow)", "Sea Elf", "Eladrin", "Shadar-kai"], "asi": {"dexterity": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Keen Senses", "Fey Ancestry", "Trance"], "desc": "Elves are a magical people of otherworldly grace, living in the world but not entirely of it. They are slender, standing 5 to 6 feet tall, with delicate features and pointed ears. Their skin ranges from pale alabaster to deep brown, and their eyes shine with colors not seen in humans—gold, silver, violet, deep green. Elves live up to 750 years, and their perspective is shaped by this long view of history.\n\nElven culture values freedom, beauty, and artistic expression above all. They build elegant spires that blend with the forest canopy or rise from ancient woods. Music, poetry, and bladecraft are all refined to an art form. Elves love nature and magic, and their trance—a four-hour meditative state that replaces sleep—allows them to relive memories and reflect on their long lives.\n\nMechanically, elves gain +2 Dexterity, Darkvision 60 ft, Keen Senses (proficiency in Perception), Fey Ancestry (advantage on saves vs charms, immune to magical sleep), and Trance (4-hour meditation replaces 8-hour sleep). They are fluent in Common and Elvish.", "subrace_descs": {"High Elf": "+1 Intelligence. Gain a wizard cantrip and one extra language. High elves are the most magically gifted— scholars, wizards, and keepers of elven high culture. Their kingdoms are bastions of arcane learning.", "Wood Elf": "+1 Wisdom. Fleet of Foot (+5 ft speed) and Mask of the Wild (hide in light natural obscurement). Wood elves are reclusive guardians of deep forests—swift, perceptive, and deadly with a bow.", "Dark Elf (Drow)": "+1 Charisma. Superior Darkvision (120 ft), Sunlight Sensitivity, and Drow Magic (dancing lights at will; faerie fire and darkness at levels 3 and 5). The drow are a dark-skinned, white-haired subrace of the Underdark, living in a matriarchal society devoted to the spider goddess Lolth.", "Sea Elf": "+1 Constitution. Swim speed 30 ft, amphibious (breathe air and water), Sea Elf Training (proficiency with spear, trident, light crossbow, and net). Sea elves fell in love with the ocean in the earliest days and now live in hidden shallows and the Elemental Plane of Water.", "Eladrin": "+1 Intelligence. Fey Step (misty step 1/short rest). Eladrin are elves of the Feywild, their appearance and personality shifting with the seasons—spring (joyful, green), summer (fierce, golden), autumn (generous, russet), winter (contemplative, pale blue).", "Shadar-kai": "+1 Constitution. Necrotic resistance, Blessing of the Raven Queen (teleport 30 ft 1/long rest; at level 3+, gain resistance to all damage for 1 round after teleporting). Shadar-kai serve the Raven Queen in the Shadowfell, their souls bound to her eternal duty."}, "source": "PHB 2014 p.21"},
-    "Halfling": {"subraces": ["Lightfoot Halfling", "Stout Halfling", "Ghostwise Halfling"], "asi": {"dexterity": 2}, "speed": 25, "darkvision": 0, "languages": ["Common", "Halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"], "desc": "Halflings are small, cheerful folk who stand about 3 feet tall and weigh around 40 pounds. With round faces, rosy cheeks, and curly hair, they project an aura of comfort and contentment. They favor simple, colorful clothing and go barefoot whenever possible. Halflings live about 150 years, and their outlook is practical and grounded—they value home, hearth, and a well-told story over grand ambitions.\n\nHalfling communities are pastoral and peaceful, built around farms, mills, and cozy burrows. They dislike pomp and ceremony, preferring to govern by family consensus and the quiet wisdom of elders. Despite their peaceful nature, halflings are surprisingly brave when their homes or friends are threatened—a bravery born of loyalty, not recklessness.\n\nMechanically, halflings gain +2 Dexterity, Lucky (reroll 1s on attack rolls, ability checks, and saves), Brave (advantage on saves vs frightened), and Halfling Nimbleness (move through spaces of larger creatures). They speak Common and Halfling.", "subrace_descs": {"Lightfoot Halfling": "+1 Charisma. Naturally Stealthy lets you hide behind creatures larger than you. Lightfoot halflings are charming, gregarious travelers who love meeting new people and can slip away from trouble unnoticed.", "Stout Halfling": "+1 Constitution. Stout Resilience grants advantage on poison saves and resistance to poison damage. Known as Strongheart halflings in the Forgotten Realms, they have dwarven blood in their lineage— hardy, durable, and fond of good ale.", "Ghostwise Halfling": "+1 Wisdom. Silent Speech grants telepathy to any creature within 30 ft that shares a language. Ghostwise halflings are fiercely reclusive, living deep in the Chondalwood and speaking mind-to-mind rather than aloud. They have a deep, spiritual bond with the natural world."}, "source": "PHB 2014 p.26"},
-    "Human": {"subraces": ["Variant Human"], "asi": {"strength": 1, "dexterity": 1, "constitution": 1, "intelligence": 1, "wisdom": 1, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": [], "desc": "Humans are the youngest of the common races and the most ambitious. Standing 5 to 6 feet tall with skin tones ranging from nearly black to very pale, hair from black to blond, and facial hair from sparse to thick, humans are the most physically diverse race in the multiverse. They live less than a century, yet their drive and adaptability have spread them to every corner of every world.\n\nHuman culture is as varied as their appearance—no single god, philosophy, or way of life defines them. They build empires and topple them within the span of an elf's youth. This brevity of life fuels an intensity that other races find both admirable and alarming: humans achieve in decades what dwarves take centuries to accomplish.\n\nMechanically, humans gain +1 to all six ability scores—an unparalleled breadth of talent. They start with one extra language. The standard human is the ultimate generalist, capable of excelling in any class.", "subrace_descs": {"Variant Human": "+1 to two different abilities of your choice, one feat, and one extra skill proficiency. The variant human trades the jack-of-all-trades approach for focused specialization, making them the most customizable race in the game—particularly powerful for builds that need an early feat."}, "source": "PHB 2014 p.29"},
-    "Dragonborn": {"subraces": [], "asi": {"strength": 2, "charisma": 1}, "speed": 30, "darkvision": 0, "languages": ["Common", "Draconic"], "traits": ["Draconic Ancestry", "Breath Weapon", "Damage Resistance"], "desc": "Dragonborn are tall, muscular humanoids with the blood of dragons running through their veins. Standing well over 6 feet tall and weighing 250 pounds or more, they have scaly hide, a draconic snout, sharp claws, and a powerful tail. Their scales mirror the color of their draconic ancestry—brass, bronze, copper, gold, silver, black, blue, green, red, or white. Dragonborn live about 80 years.\n\nDragonborn society revolves around clan and honor above all else. To a dragonborn, one's word is one's bond, and failure to uphold it brings dishonor not just to the individual but to their entire clan. They are proud warriors who approach life with the gravity of a sacred duty. Dragonborn are rare outside their own insular communities, and those who adventure do so to prove their worth or to seek a new destiny for their clan.\n\nMechanically, dragonborn gain +2 Strength, +1 Charisma, a Breath Weapon (2d6 damage in a 15-ft cone or 30-ft line based on ancestry, DC 8 + CON + prof, recharge on short rest), and Damage Resistance matching their draconic ancestry. They speak Common and Draconic.", "source": "PHB 2014 p.32"},
-    "Gnome": {"subraces": ["Forest Gnome", "Rock Gnome", "Deep Gnome"], "asi": {"intelligence": 2}, "speed": 25, "darkvision": 60, "languages": ["Common", "Gnomish"], "traits": ["Gnome Cunning"], "desc": "Gnomes are small, energetic humanoids standing 3 to 4 feet tall and weighing 40 to 45 pounds. Their skin ranges from tan to woody brown, their hair is fair, and their eyes are bright, often blue or violet. Male gnomes favor short, well-trimmed beards. Gnomes live 350 to 500 years—their boundless enthusiasm for life never dims with age.\n\nGnomish culture is defined by curiosity and creativity. They are natural inventors, alchemists, and illusionists, always tinkering with some device or perfecting a new trick. Their communities are hidden burrows in wooded hills, connected by winding tunnels and lit by cleverly engineered mirrors. Gnomes laugh easily, love puzzles, and treat knowledge as the greatest treasure.\n\nMechanically, gnomes gain +2 Intelligence, Darkvision 60 ft, and Gnome Cunning (advantage on all Intelligence, Wisdom, and Charisma saves against magic). They speak Common and Gnomish. This makes gnomes exceptional wizards, artificers, and arcane tricksters.", "subrace_descs": {"Forest Gnome": "+1 Dexterity. Natural Illusionist grants the minor illusion cantrip. Speak with Small Beasts allows simple communication with Tiny and Small animals. Forest gnomes are shy, reclusive tricksters of the deep woods—masters of stealth and woodland magic.", "Rock Gnome": "+1 Constitution. Artificer's Lore doubles proficiency bonus on History checks related to magic items, alchemical objects, or technological devices. Tinker lets you build a tiny clockwork toy, fire starter, or music box. Rock gnomes are the engineers of gnomish society—gadgeteers and jewelers who craft wonders from clockwork and gemstone.", "Deep Gnome": "+1 Dexterity. Superior Darkvision (120 ft), Stone Camouflage (advantage on Stealth in rocky terrain). The svirfneblin—secretive Underdark gnomes with gray skin and a talent for survival in the deepest darkness. They are more serious than their surface cousins, hardened by life among the horrors of the deep earth."}, "source": "PHB 2014 p.35"},
-    "Half-Elf": {"subraces": [], "asi": {"charisma": 2}, "speed": 30, "darkvision": 60, "languages": ["Common", "Elvish"], "traits": ["Fey Ancestry", "Skill Versatility"], "desc": "Half-elves are born of two worlds—human passion and elven grace. They stand 5 to 6 feet tall, with features that blend the best of both parents: the pointed ears and delicate features of elves with the sturdy build and varied coloration of humans. Their eyes are particularly striking, often green or gold. Half-elves live about 180 years.\n\nHalf-elves are natural diplomats, bridging the gap between cultures. They inherit the elven love of art and the human drive for achievement. Many half-elves feel torn between two heritages, never fully belonging to either world—a loneliness that often drives them to the adventuring life, where skill matters more than bloodline. They are easygoing and charismatic, with a gift for making friends wherever they go.\n\nMechanically, half-elves gain +2 Charisma, +1 to two other abilities of their choice, Fey Ancestry (advantage on saves vs charms, immune to magical sleep), Darkvision 60 ft, and Skill Versatility (two extra skill proficiencies). With their unmatched flexibility, they excel as bards, sorcerers, paladins, and warlocks.", "source": "PHB 2014 p.38"},
-    "Half-Orc": {"subraces": [], "asi": {"strength": 2, "constitution": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Orc"], "traits": ["Relentless Endurance", "Savage Attacks"], "desc": "Half-orcs are towering figures of strength and endurance, standing 5 to 7 feet tall with powerful builds, gray-green skin, pronounced lower canines, and jutting jaws. They typically weigh 180 to 250 pounds of muscle and bone. Their orcish blood gives them a fearsome appearance, but half-orcs raised among humans often develop remarkable self-control and a deep loyalty to those who accept them.\n\nHalf-orc life is one of constant challenge. Whether in orc tribes where they must prove their strength daily, or in human societies where they must overcome fear and prejudice, half-orcs learn early that respect is earned through deeds, not words. Those who take up the adventuring life do so to find a place where their strength is valued and their loyalty rewarded.\n\nMechanically, half-orcs gain +2 Strength, +1 Constitution, Darkvision 60 ft, Relentless Endurance (when reduced to 0 HP but not killed, drop to 1 HP instead—1/long rest), and Savage Attacks (roll one extra weapon damage die on critical hits). They speak Common and Orc. They make devastating barbarians, fighters, and paladins.", "source": "PHB 2014 p.40"},
-    "Custom Lineage": {"subraces": [], "asi": {}, "speed": 30, "darkvision": 0, "languages": ["Common"], "traits": ["Feat", "Variable Trait"], "desc": "Instead of choosing one of the game's races for your character at 1st level, you can use the following traits to represent your character's lineage, giving you full control over how your character's origin shaped them.\n\nCustom lineage is the ultimate blank canvas. Perhaps you're the result of generations of intermarriage between multiple races, a being touched by planar energies, or a unique creation with no precedent. Your appearance, backstory, and very nature are yours to define. You aren't bound by any racial stereotype—you write your own origin story.\n\nMechanically, you gain +2 to one ability score of your choice, one feat of your choice (for which you qualify), and your choice of either darkvision 60 ft or proficiency in one skill. You are Small or Medium size, speak Common and one other language, and your creature type is humanoid. You are whatever you imagine yourself to be.", "subrace_descs": {}},
-    "Tiefling": {"subraces": [], "asi": {"charisma": 2, "intelligence": 1}, "speed": 30, "darkvision": 60, "languages": ["Common", "Infernal"], "traits": ["Hellish Resistance", "Infernal Legacy"], "desc": "Tieflings bear the mark of an ancient infernal pact—a sin of their ancestors that manifests in their bloodline. They have large horns, thick tails, sharply pointed teeth, and solid-colored eyes (black, red, white, silver, or gold). Their skin ranges from human tones through deep reds and purples. They stand 5 to 6 feet tall and live slightly longer than humans. No two tieflings look exactly alike.\n\nTieflings are met with suspicion and prejudice in most societies. Their fiendish appearance triggers instinctive fear in common folk, and they grow up knowing they are outsiders. This breeds either bitter resentment or a fierce independence—tieflings who rise above prejudice often become self-reliant adventurers, proving their worth through heroic deeds. Their natural charisma can be unsettling or magnetic, depending on how they choose to wield it.\n\nMechanically, tieflings gain +2 Charisma, +1 Intelligence, Hellish Resistance (resistance to fire damage), Darkvision 60 ft, and Infernal Legacy—the thaumaturgy cantrip, hellish rebuke (1/day at level 3 as 2nd-level), and darkness (1/day at level 5). They speak Common and Infernal. Tieflings make natural warlocks, sorcerers, and bards.", "source": "PHB 2014 p.42"},
-    "Genasi": {"subraces": ["Air Genasi", "Earth Genasi", "Fire Genasi", "Water Genasi"], "asi": {"constitution": 2}, "speed": 30, "darkvision": 0, "languages": ["Common", "Primordial"], "traits": [], "desc": "Genasi are the children of mortals and genies—elemental spirits of air, earth, fire, and water. They carry the power of the Elemental Planes in their blood. Standing 5 to 6 feet tall, they are built like humans but marked by their elemental heritage: skin that glitters with moisture, hair that ripples like flame, a voice that echoes like shifting stone. Genasi live about 120 years.\n\nGenasi are rare and often solitary. Their elemental nature sets them apart from both their mortal and genie parents. They are self-reliant, independent, and tend toward neutrality—reflecting the primal forces within them. A genasi's elemental subrace defines not just their abilities but their entire outlook: air genasi are swift and detached, earth genasi are stoic and patient, fire genasi are passionate and impulsive, water genasi are adaptable and deep.\n\nMechanically, all genasi gain +2 Constitution, and their subrace grants additional traits including innate spellcasting, damage resistances, and movement abilities tied to their element. They speak Common and Primordial—the language of elemental beings.", "subrace_descs": {"Air Genasi": "+1 Dexterity. Unending Breath (hold breath indefinitely), Mingle with the Wind (levitate 1/long rest at level 3+). Air genasi are light of frame and quick of wit, with pale blue skin and hair that perpetually stirs in an unfelt breeze. Children of the djinn.", "Earth Genasi": "+1 Strength. Earth Walk (ignore difficult terrain of earth or stone), Merge with Stone (pass without trace 1/long rest at level 3+). Earth genasi are solid, deliberate, and patient, with skin in shades of gray and brown, sometimes marked with crystalline growths. Children of the dao.", "Fire Genasi": "+1 Intelligence. Darkvision 60 ft, Fire Resistance, Reach to the Blaze (produce flame cantrip; burning hands 1/long rest at level 3+). Fire genasi burn with inner heat—their skin smolders in shades of coal and ash, their hair a corona of flame. Children of the efreet.", "Water Genasi": "+1 Wisdom. Amphibious (breathe water and air), Swim speed 30 ft, Acid Resistance, Call to the Wave (shape water cantrip; create or destroy water 1/long rest at level 3+). Water genasi appear perpetually fresh from a swim, with blue-green skin and hair that floats as if underwater. Children of the marid."}},
-}
-
 # Races with flexible ASI: +2 to one ability of choice (ASI not in sourcebook)
 FLEXIBLE_ASI_RACES = {
     "Custom Lineage", "Dark Folk", "Ratfolk", "Vanara",
@@ -2504,168 +2489,6 @@ for _r_name, _r in RACES.items():
     _r["_subrace_sources"] = srcs
 
 # PHB p.17-43 — Racial trait descriptions
-RACIAL_TRAIT_DESCS = {
-    # Dwarf
-    "Dwarven Resilience": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
-    "Stonecunning": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus.",
-    "Dwarven Toughness": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
-    "Dwarven Armor Training": "You have proficiency with light and medium armor.",
-    # Elf
-    "Keen Senses": "You have proficiency in the Perception skill.",
-    "Fey Ancestry": "You have advantage on saving throws against being charmed, and magic can't put you to sleep.",
-    "Trance": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
-    "Elf Weapon Training": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
-    "Cantrip (High Elf)": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
-    "Fleet of Foot": "Your base walking speed increases to 35 feet.",
-    "Mask of the Wild": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
-    "Superior Darkvision": "Your darkvision has a radius of 120 feet.",
-    "Sunlight Sensitivity": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
-    "Drow Magic": "You know the dancing lights cantrip. At 3rd level, you can cast faerie fire once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
-    # Halfling
-    "Lucky": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.",
-    "Brave": "You have advantage on saving throws against being frightened.",
-    "Halfling Nimbleness": "You can move through the space of any creature that is of a size larger than yours.",
-    "Naturally Stealthy": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
-    "Stout Resilience": "You have advantage on saving throws against poison, and you have resistance against poison damage.",
-    # Ghostwise Halfling
-    "Silent Speech": "You can speak telepathically to any creature within 30 feet of you. The creature understands you only if the two of you share a language. You can speak telepathically in this way to one creature at a time.",
-    # Dragonborn
-    "Draconic Ancestry": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type.",
-    "Breath Weapon": "You can use your action to exhale destructive energy in a 15 ft cone or 5 by 30 ft line (by ancestry). Each creature in the area must make a saving throw (DC = 8 + Con mod + proficiency bonus). A creature takes 2d6 damage on a failed save, half on success. Damage increases to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th. Recharges on a short or long rest.",
-    "Damage Resistance": "You have resistance to the damage type associated with your draconic ancestry.",
-    # Gnome
-    "Gnome Cunning": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.",
-    "Natural Illusionist": "You know the minor illusion cantrip. Intelligence is your spellcasting ability for it.",
-    "Speak with Small Beasts": "Through sounds and gestures, you can communicate simple ideas with Small or smaller beasts.",
-    "Artificer's Lore": "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus.",
-    "Tinker": "You have proficiency with tinker's tools. Using those tools, you can spend 1 hour and 10 gp to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours. You can have up to three such devices active at a time.",
-    # Deep Gnome
-    "Stone Camouflage": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain.",
-    # Air Genasi
-    "Unending Breath": "You can hold your breath indefinitely while you're not incapacitated.",
-    "Mingle with the Wind": "You can cast the levitate spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
-    # Earth Genasi
-    "Earth Walk": "You can move across difficult terrain made of earth or stone without expending extra movement.",
-    "Merge with Stone": "You can cast the pass without trace spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
-    # Fire Genasi
-    "Fire Resistance": "You have resistance to fire damage.",
-    "Reach to the Blaze": "You know the produce flame cantrip. Starting at 3rd level, you can cast burning hands once with this trait as a 1st-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
-    # Water Genasi
-    "Amphibious": "You can breathe air and water.",
-    "Swim": "You have a swimming speed of 30 feet.",
-    "Acid Resistance": "You have resistance to acid damage.",
-    "Call to the Wave": "You know the shape water cantrip. Starting at 3rd level, you can cast create or destroy water once with this trait as a 2nd-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
-    # Half-Elf
-    "Skill Versatility": "You gain proficiency in two skills of your choice.",
-    # Half-Orc
-    "Relentless Endurance": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest.",
-    "Savage Attacks": "When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.",
-    # Tiefling
-    "Hellish Resistance": "You have resistance to fire damage.",
-    "Infernal Legacy": "You know the thaumaturgy cantrip. At 3rd level, you can cast hellish rebuke as a 2nd-level spell once per long rest. At 5th level, you can cast darkness once per long rest. Charisma is your spellcasting ability for these spells.",
-    # Duergar (PHB Dwarf subrace)
-    "Superior Darkvision": "Your darkvision has a radius of 120 feet.",
-    "Duergar Resilience": "You have advantage on saving throws against illusions and against being charmed or paralyzed.",
-    "Duergar Magic": "Starting at 3rd level, you can cast the enlarge/reduce spell with this trait, without a material component. Starting at 5th level, you can also cast the invisibility spell with this trait, without a material component. Once you cast either spell, you can't cast it again until you finish a long rest. Intelligence is your spellcasting ability for these spells.",
-    "Sunlight Sensitivity": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight.",
-    # Sea Elf
-    "Sea Elf Training": "You have proficiency with the spear, trident, light crossbow, and net.",
-    "Child of the Sea": "You have a swimming speed of 30 feet, and you can breathe air and water.",
-    # Eladrin
-    "Fey Step": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once you use this trait, you can't do so again until you finish a short or long rest. When you reach 3rd level, your Fey Step gains an additional effect based on your season; if the effect requires a saving throw, the DC is 8 + your proficiency bonus + your Intelligence modifier.",
-    # Shadar-kai
-    "Necrotic Resistance": "You have resistance to necrotic damage.",
-    "Blessing of the Raven Queen": "As a bonus action, you can magically teleport up to 30 feet to an unoccupied space you can see. Once you use this trait, you can't do so again until you finish a long rest. Starting at 3rd level, you also gain resistance to all damage when you teleport using this trait. The resistance lasts until the start of your next turn, and during that time you appear ghostly and translucent.",
-
-    # ── Custom Lineage (TCE) ──
-    "Feat": "You gain one feat of your choice for which you qualify. This represents a specialized talent, training, or innate ability that sets your character apart.",
-    "Variable Trait": "You gain your choice of one of the following options: (a) darkvision with a range of 60 feet, or (b) proficiency in one skill of your choice.",
-
-    # ── AiME Dwarf Variants ──
-    "Dwarven Combat Training": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer.",
-    "Night Vision": "Accustomed to twilit forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
-    "Road Wisdom": "You have proficiency in the Survival skill. When you make an Intelligence or Wisdom check related to the lands of your people, you can add twice your proficiency bonus instead of your normal proficiency bonus.",
-    "Night Vision (Dwarf)": "Accustomed to life underground and twilit forges, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray.",
-    "Weapons of the Trade": "You have proficiency with light hammers, handaxes, battleaxes, and throwing hammers.",
-    "Tool Proficiency": "You gain proficiency with one set of artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools.",
-    "Singer of the Old Songs": "You know the history of your people and the great deeds of your ancestors. You have proficiency in the Performance skill, and you can add twice your proficiency bonus to any Intelligence (History) check related to dwarven history.",
-    "Tales of Days Gone By": "You have advantage on saving throws against being frightened.",
-    "Tools for War": "You have proficiency with the smith's tools, and you can add twice your proficiency bonus to any ability check you make with them.",
-
-    # ── AiME Elf Variants ──
-    "The Eyes of Elves": "You have proficiency in the Perception skill. When in a forest, you can add twice your proficiency bonus to any Wisdom (Perception) check that relies on sight.",
-    "Elvish Dreams": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep.",
-    "The Tools of War": "You have proficiency with the longsword, shortsword, shortbow, and longbow.",
-    "A Whisper Through the Leaves": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena.",
-    "Against the Unseen": "You have advantage on saving throws against being frightened, and you can add your proficiency bonus to any Intelligence (Arcana) check made to identify or recall information about the Enemy (Sauron's forces) and their works.",
-    "Elf-wise": "You have advantage on Wisdom saving throws against spells and other magical effects.",
-    "Beset by Woe": "Elves of Rivendell have witnessed much sorrow. When you take a long rest, you can choose to have a vision of the past or future. The Loremaster will describe what you see.",
-
-    # ── AiME Hobbit/Halfling Variants ──
-    "Resilient": "You have advantage on saving throws against being frightened, and you can add your proficiency bonus to saving throws against being charmed.",
-    "Hobbit Nimbleness": "You can move through the space of any creature that is of a size larger than yours.",
-    "Noble Pursuits": "You have proficiency in one of the following skills of your choice: History, Performance, or Persuasion. You also gain proficiency with one musical instrument or gaming set of your choice.",
-    "Hobbit Elusiveness": "When you take damage, you can use your reaction to halve the damage. Once you use this trait, you can't use it again until you finish a short or long rest.",
-    "Family Ties (Pick One)": "Choose one of the three hobbit families: Harfoot, Stoor, or Fallowhide. Each grants additional traits reflecting your family's character and traditions.",
-    "Harfoot": "Harfoots are the most common hobbits — brown-skinned, smaller than the others, and most inclined to settle in hillsides. You have proficiency in the Stealth skill.",
-    "Stoor": "Stoors are broader, heavier hobbits who favor riversides and flatlands — the only hobbits comfortable with boats and swimming. You have proficiency with water vehicles and a swim speed of 20 feet.",
-    "Fallowhide": "Fallowhides are fair-skinned hobbits, taller and slimmer than most, with a love of the woods and a keen interest in Elves. You have proficiency in the Nature skill and can speak, read, and write Elvish.",
-    "Keen-eyed": "You have proficiency in the Perception skill. When you make a Wisdom (Perception) check that relies on sight, you can add twice your proficiency bonus.",
-    "Story-telling": "You have proficiency in the Performance skill. When telling stories, singing, or reciting poetry, you have advantage on Charisma (Performance) checks.",
-    "Unobtrusive": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.",
-    "Known Lands": "You have an excellent memory for maps and geography, and you can always recall the general layout of terrain, settlements, and other features around you. In addition, you can find food and fresh water for yourself and up to five other people each day, provided that the land offers berries, small game, water, and so forth.",
-    "Ways of the Wild": "You have proficiency in the Survival skill. When tracking other creatures, you can add twice your proficiency bonus to the check.",
-    "Weather Lore": "By observing the sky, winds, and wildlife, you can accurately predict the weather for the next 24 hours. You have advantage on Wisdom (Survival) checks related to predicting weather or navigating by natural signs.",
-    "Cultural Virtue: None": "Not all hobbits embrace a specific cultural virtue — some forge their own path. You gain proficiency in one skill or tool of your choice.",
-    "Untroubled by Shadows": "You have advantage on saving throws against being frightened, and against the corrupting influence of the Shadow. When you fail a saving throw against fear, you can reroll it — you must use the new roll.",
-    "Clever Beyond Compare": "You have a knack for finding simple solutions to complex problems. You can add your proficiency bonus to any Intelligence check made to devise or recognize a clever plan, riddle, or puzzle solution. If you are already proficient, you add twice your proficiency bonus.",
-    "Preternatural Navigator": "You have an innate sense of direction and an excellent memory for routes. You have proficiency in the Survival skill, and can add twice your proficiency bonus to any check made to avoid becoming lost.",
-    "Animal Ken": "You have proficiency in the Animal Handling skill. Beasts of the riverlands — otters, waterfowl, fish — are naturally inclined to trust you.",
-    "Riverfolk Toughness": "Your life on the water has made you hardy. Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.",
-    "Boon Companion": "You are remarkably skilled at making people feel at ease. You have proficiency in the Persuasion skill, and you can add twice your proficiency bonus to any Charisma check made to befriend or charm a humanoid with a noble or courtly background.",
-    "Wee Glamour": "You know the minor illusion cantrip. Charisma is your spellcasting ability for this spell.",
-    "Student of Old Lore": "You have spent many hours in libraries and archives. You have proficiency in the History skill, and you can add twice your proficiency bonus to any Intelligence (History) check related to ancient kingdoms, lineages, or artifacts.",
-    "Disquiet": "As an action, you can cause one creature you can see within 30 feet to become unsettled. The target must succeed on a Wisdom saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or be frightened of you until the end of your next turn. Once you use this trait, you can't use it again until you finish a short or long rest.",
-    "Silent Steps": "You have proficiency in the Stealth skill. When moving through dim light or darkness, you can add twice your proficiency bonus to Dexterity (Stealth) checks.",
-
-    # ── Other Middle-earth variants ──
-    "Clear Eyed": "You have advantage on Wisdom (Insight) checks to determine if someone is lying, and on saving throws against being chararmed.",
-    "Crossroad Glance": "You have proficiency in the Insight skill. When you first meet someone, you can make a Wisdom (Insight) check to gain a general sense of their intentions.",
-    "Proud Heritage": "You have proficiency in the History skill. When making a check related to Gondor's history, lineages, or military traditions, you can add twice your proficiency bonus.",
-    "Natural Born Traders": "You have proficiency in the Persuasion skill, and you can add twice your proficiency bonus to any ability check made to negotiate prices or barter.",
-    "Horse Lords": "You have proficiency in the Animal Handling skill, and when you use a mount, you can add twice your proficiency bonus to any check to control or remain mounted.",
-
-    # ── Kobold Press — Shadow Fey ──
-    "Shadow Fey Weapon Training": "You have proficiency with rapiers, shortswords, hand crossbows, and longbows.",
-    "Path of Shadows": "As a bonus action, you can teleport up to 30 feet to an unoccupied space you can see that is in dim light or darkness. Once you use this trait, you can't use it again until you finish a short or long rest.",
-    "Traveler in Darkness": "You have advantage on Dexterity (Stealth) checks made in dim light or darkness. You can also see in dim light within 120 feet of you as if it were bright light, and in darkness as if it were dim light.",
-    "Luminous": "You know the light cantrip. When you reach 3rd level, you can cast the faerie fire spell once per long rest. When you reach 5th level, you can cast the moonbeam spell once per long rest. Charisma is your spellcasting ability for these spells.",
-    "Moon Child": "You have resistance to necrotic damage. While in moonlight, you have advantage on Wisdom saving throws.",
-
-    # ── Kobold Press — Sable Elf ──
-    "Blood Affinity": "When you reduce a hostile creature to 0 hit points, you gain temporary hit points equal to your proficiency bonus. These temporary hit points last for 1 minute.",
-
-    # ── Kobold Press — Wyrd Gnome ──
-    "Natural Diviner": "You know the guidance cantrip. When you reach 3rd level, you can cast the augury spell once per long rest. When you reach 5th level, you can cast the clairvoyance spell once per long rest. Intelligence is your spellcasting ability for these spells.",
-    "Prescience": "When you finish a long rest, roll a d20 and record the number rolled. You can replace any attack roll, saving throw, or ability check made by you or a creature you can see with this foretelling roll. You must choose to do so before the roll. Once you use this trait, you can't use it again until you finish a long rest.",
-
-    # ── Kobold Press — Umbral Human variants ──
-    "Dark Infusion": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the hex spell once per long rest. When you reach 5th level, you can cast the darkness spell once per long rest. Charisma is your spellcasting ability for these spells.",
-    "Fade Away": "When you take damage, you can use your reaction to become invisible until the end of your next turn. Once you use this trait, you can't use it again until you finish a short or long rest.",
-    "Cover Story": "You have proficiency in the Deception skill and the disguise kit. You can mimic the speech, writing, and mannerisms of another humanoid you have observed for at least one hour.",
-    "Shadow Glamour": "You know the friends cantrip. When you reach 3rd level, you can cast the disguise self spell once per long rest. Charisma is your spellcasting ability for these spells.",
-    "Cursed Infusion": "You know the chill touch cantrip. When you reach 3rd level, you can cast the ray of sickness spell once per long rest. When you reach 5th level, you can cast the bestow curse spell once per long rest. Charisma is your spellcasting ability for these spells.",
-    "Shadow Gift": "As a bonus action, you can grant one creature you touch darkvision out to 60 feet for 1 hour. If the creature already has darkvision, its range increases by 30 feet for the duration. Once you use this trait, you can't use it again until you finish a short or long rest.",
-
-    # ── Silvan Elf Sentinel (Eberron monster stat block, not a race) ──
-    "Disabling Strike": "When you hit a creature with a weapon attack, you can force the target to make a Constitution saving throw (DC 8 + your proficiency bonus + your Strength or Dexterity modifier). On a failure, the target's speed is reduced to 0 until the end of its next turn.",
-    "Focused": "You have advantage on saving throws against being charmed or frightened.",
-    "Multiattack": "You can make two weapon attacks when you take the Attack action.",
-    "Great Spear": "You have proficiency with the greatspear. This weapon has the heavy, reach, and two-handed properties and deals 1d12 piercing damage.",
-    "Great Bow": "You have proficiency with the greatbow. This weapon has the heavy and two-handed properties, a range of 150/600 feet, and deals 1d10 piercing damage.",
-    "Parry": "When another creature damages you with a melee attack, you can use your reaction to add your proficiency bonus to your AC against that attack, potentially causing it to miss.",
-}
-
 # Merge racial trait descriptions into the feature lookup so Breath Weapon etc. show descriptions
 for trait_name, trait_desc in RACIAL_TRAIT_DESCS.items():
     key = trait_name.lower()
@@ -2708,107 +2531,6 @@ SUBRACE_TRAITS = {
 # PHB p.17-43 — Racial trait mechanical effects for automatic application
 # Each key is a trait name; value is {armor_profs, weapon_profs, tool_profs,
 #   skill_profs, damage_resist, condition_immune, speed, darkvision, hp_per_level}
-RACIAL_TRAIT_EFFECTS = {
-    # ── Dwarf (base) ──
-    "Dwarven Resilience": {"damage_resist": ["Poison"]},
-    "Stonecunning": {},  # ribbon
-
-    # ── Hill Dwarf ──
-    "Dwarven Toughness": {"hp_per_level": 1},
-
-    # ── Mountain Dwarf ──
-    "Dwarven Armor Training": {"armor_profs": ["Light armor", "Medium armor"]},
-
-    # ── Elf (base) ──
-    "Keen Senses": {"skill_profs": ["Perception"]},
-    "Fey Ancestry": {"condition_immune": ["Sleep"]},
-    "Trance": {},  # ribbon
-
-    # ── High Elf ──
-    "Elf Weapon Training": {"weapon_profs": ["Longsword", "Shortsword", "Shortbow", "Longbow"]},
-    "Cantrip (High Elf)": {},  # choice-based
-
-    # ── Wood Elf ──
-    "Fleet of Foot": {"speed": 35},
-    "Mask of the Wild": {},  # ribbon
-
-    # ── Dark Elf (Drow) ──
-    "Superior Darkvision": {"darkvision": 120},
-    "Sunlight Sensitivity": {},  # ribbon
-    "Drow Magic": {},  # ribbon
-
-    # ── Sea Elf ──
-    "Sea Elf Training": {"weapon_profs": ["Spear", "Trident", "Light Crossbow", "Net"]},
-    "Child of the Sea": {},  # swim 30ft + amphibious (ribbon)
-
-    # ── Eladrin ──
-    "Fey Step": {},  # misty step 1/short rest (ribbon)
-
-    # ── Shadar-kai ──
-    "Necrotic Resistance": {"damage_resist": ["Necrotic"]},
-    "Blessing of the Raven Queen": {},  # teleport 1/long rest (ribbon)
-
-    # ── Halfling (base) ──
-    "Lucky": {},  # ribbon
-    "Brave": {},
-    "Halfling Nimbleness": {},  # ribbon
-
-    # ── Lightfoot Halfling ──
-    "Naturally Stealthy": {},  # ribbon
-
-    # ── Stout Halfling ──
-    "Stout Resilience": {"damage_resist": ["Poison"]},
-
-    # ── Ghostwise Halfling ──
-    "Silent Speech": {},  # telepathy 30ft (ribbon)
-
-    # ── Dragonborn ──
-    "Draconic Ancestry": {},  # choice-based resistance
-    "Breath Weapon": {},  # ribbon (attack feature)
-    "Damage Resistance": {},  # handled by ancestry choice
-
-    # ── Gnome (base) ──
-    "Gnome Cunning": {},  # advantage on INT/WIS/CHA saves vs magic
-
-    # ── Forest Gnome ──
-    "Natural Illusionist": {},  # ribbon
-    "Speak with Small Beasts": {},  # ribbon
-
-    # ── Rock Gnome ──
-    "Artificer's Lore": {},  # ribbon
-    "Tinker": {"tool_profs": ["Tinker's tools"]},
-
-    # ── Deep Gnome ──
-    "Stone Camouflage": {},  # advantage on Stealth in rocky terrain (ribbon)
-
-    # ── Air Genasi ──
-    "Unending Breath": {},  # hold breath indefinitely (ribbon)
-    "Mingle with the Wind": {},  # levitate 1/long rest (ribbon)
-    # ── Earth Genasi ──
-    "Earth Walk": {},  # ignore earth/stone difficult terrain (ribbon)
-    "Merge with Stone": {},  # pass without trace 1/long rest (ribbon)
-    # ── Fire Genasi ──
-    "Fire Resistance": {"damage_resist": ["Fire"]},
-    "Reach to the Blaze": {},  # produce flame cantrip + burning hands 1/long (ribbon)
-    # ── Water Genasi ──
-    "Amphibious": {},  # breathe air + water (ribbon)
-    "Swim": {},  # swim 30ft (ribbon)
-    "Acid Resistance": {"damage_resist": ["Acid"]},
-    "Call to the Wave": {},  # shape water cantrip + create/destroy water 1/long (ribbon)
-
-    # ── Half-Elf ──
-    "Skill Versatility": {},  # choice-based
-
-    # ── Half-Orc ──
-    "Relentless Endurance": {},  # ribbon
-    "Savage Attacks": {},  # ribbon
-
-    # ── Tiefling ──
-    "Hellish Resistance": {"damage_resist": ["Fire"]},
-    "Infernal Legacy": {},  # ribbon
-}
-
-
 def get_racial_trait_effects(race_name: str, subrace: str = "", ancestry: str = "") -> dict:
     """Return merged mechanical effects for a race/subrace combination.
 
@@ -3096,29 +2818,6 @@ for _r_name, _r in RACES.items():
     _r["_subrace_sources"] = srcs
 
 print(f"[subrace migration] Extended {len(_SUBRACE_MIGRATIONS)} manual races → core subraces")
-
-CLASSES = {
-    "Artificer": {"hd": 8, "skills": ["Arcana","History","Investigation","Medicine","Nature","Perception","Sleight of Hand"], "skill_count": 2, "saves": ["constitution","intelligence"], "subclasses": ["Alchemist","Armorer","Artillerist","Battle Smith"], "armor": ["Light armor","Medium armor","Shields"], "weapons": ["Simple weapons","Firearms"], "tools": ["Thieves' tools","Tinker's tools","One type of artisan's tools"], "desc": "Artificers are master inventors and magical engineers \u2014 they don't just wield magic, they build it into physical form. Where a wizard studies dusty tomes and a sorcerer channels innate power, an artificer picks up a wrench and a coil of copper wire and gets to work. They see magic as a form of technology \u2014 a system of rules that can be understood, manipulated, and embedded into objects.\n\nArtificers use Intelligence as their spellcasting ability, and their spells are expressed through tools and inventions rather than incantations. Every artificer spell requires a set of artisan's tools or thieves' tools as a focus \u2014 their magic is literally crafted. They are half-casters (up to 5th-level spells) who prepare spells daily from the full artificer list.\n\nAt 2nd level, Infuse Item lets them turn ordinary objects into temporary magic items, choosing from a list of Infusions. This is the artificer's signature ability \u2014 they can grant +1 weapons, +1 armor, repeating crossbows, bags of holding, and more to themselves and their party. At higher levels, they can attune to more magic items than other classes and craft magic items faster and cheaper.\n\nMechanically, artificers are d8 hit die half-casters who fill a unique support/utility role. Flash of Genius at 7th lets them add Intelligence to any ability check or saving throw as a reaction. Spell-Storing Item at 11th lets them store a 1st or 2nd level spell in an object for anyone to use. At 20th, Soul of Artifice grants +1 to all saving throws per attuned magic item (up to +6). They are the ultimate item-crafters and party force-multipliers.", "subclass_descs": {"Alchemist": "Masters of potions and elixirs. At 3rd level, Experimental Elixir lets you create one random elixir per long rest (bonus elixirs for spell slots). At 5th, Alchemical Savant adds INT to one damage or healing roll of spells cast through alchemist's supplies. At 9th, Restorative Reagents grants temporary HP when drinking elixirs and free lesser restoration castings. At 15th, Chemical Mastery grants resistance to acid/poison and free heal/greater restoration per long rest.", "Armorer": "Heavy-armor inventors who treat armor as a second skin. At 3rd level, Arcane Armor turns a suit of heavy armor into a spellcasting focus with no Strength requirement. Choose Guardian (thunder gauntlets that taunt enemies) or Infiltrator (lightning launcher for stealth). At 5th, Extra Attack. At 9th, Armor Modifications splits armor into multiple pieces for more infusions. At 15th, Perfected Armor pulls enemies toward you (Guardian) or grants advantage on attacks (Infiltrator).", "Artillerist": "Wielders of arcane cannons. At 3rd level, Eldritch Cannon can be summoned as a bonus action \u2014 choose Flamethrower (15 ft cone), Force Ballista (ranged push), or Protector (temporary HP aura). At 5th, Arcane Firearm wand adds d8 to spell damage. At 9th, cannons explode on destruction. At 15th, Fortified Position summons two cannons and grants half cover.", "Battle Smith": "Combat engineers with a Steel Defender companion. At 3rd level, Battle Ready lets you use INT for magic weapon attacks and grants martial weapon proficiency. Steel Defender (bonus action commands, force-empowered rend, Deflect Attack reaction). At 5th, Extra Attack. At 9th, Arcane Jolt adds 2d6 force damage or healing to weapon attacks (INT mod per long rest). At 15th, Improved Defender adds Arcane Jolt to the defender's attacks and grants it increased damage."}, "source": "TCE 2020 / Eberron: Rising from the Last War"},
-    "Barbarian": {"hd": 12, "skills": ["Animal Handling","Athletics","Intimidation","Nature","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Path of the Berserker","Path of the Totem Warrior"], "armor": ["Light armor","Medium armor","Shields"], "desc": "Barbarians are warriors defined by their rage — a primal fury that transforms them into seemingly unstoppable forces of destruction. Standing at the front of any battle, their muscular frames bear the scars of countless fights. Where other warriors rely on technique and discipline, the barbarian trusts in raw power, instinct, and an almost supernatural resilience that lets them shrug off wounds that would fell lesser combatants.\n\nIn combat, a barbarian enters a Rage as a bonus action, gaining advantage on Strength checks and saves, bonus melee damage, and resistance to bludgeoning, piercing, and slashing damage. They fight recklessly, trading defense for devastating offense with Reckless Attack. Their Danger Sense gives them advantage on Dexterity saves against effects they can see, and their unarmored defense lets them calculate AC from Constitution and Dexterity while eschewing heavy armor.\n\nMechanically, barbarians are d12 hit die melee strikers and damage sponges. At higher levels, they gain Brutal Critical (extra dice on critical hits), Relentless Rage (drop to 1 HP instead of 0), and eventually Primal Champion (+4 to Strength and Constitution, breaking the normal ability score cap). They are unmatched at absorbing punishment while dishing out consistent, heavy damage.", "subclass_descs": {"Path of the Berserker": "At 3rd level, you can go into a Frenzy during your rage, allowing a bonus action melee weapon attack each turn at the cost of a level of exhaustion when the rage ends. Mindless Rage at 6th prevents being charmed or frightened while raging. Intimidating Presence at 10th lets you frighten foes with a display of raw menace. At 14th, Retaliation lets you strike back at anyone who damages you — no action required.", "Path of the Totem Warrior": "At 3rd level, choose a spirit totem: Bear (resistance to all damage except psychic while raging), Eagle (bonus action Dash and enemies have disadvantage on opportunity attacks), or Wolf (allies within 5 feet gain advantage on melee attacks). At 6th, gain an animal aspect: Bear (double carrying capacity), Eagle (see a mile), or Wolf (track at fast pace). At 14th, gain a totemic attunement: Bear (enemies within 5 feet have disadvantage on attacks against others), Eagle (limited flight), or Wolf (bonus action knock prone on hit)."}, "weapons": "Simple weapons, Martial weapons", "armor": "Light armor, Medium armor, Shields", "tools": "", "source": "PHB 2014 p.46"},
-    "Bard": {"hd": 8, "skills": "all", "skill_count": 3, "saves": ["dexterity","charisma"], "subclasses": ["College of Lore","College of Valor"], "desc": "Bards are the ultimate storytellers, weaving magic through words, music, and performance. Whether a skald chanting sagas of ancient heroes, a cunning jester who mocks enemies into submission, or a loremaster collecting lost knowledge from forgotten libraries, bards understand that the right word at the right moment can change the course of history. They are charming, quick-witted, and impossibly versatile — a bard can fill nearly any role in an adventuring party.\n\nIn combat, bards wield Bardic Inspiration — a pool of d6s (growing to d12s) that they grant to allies, who can add them to ability checks, attack rolls, or saving throws. Their spellcasting is Charisma-based and draws from a broad list that includes healing, control, enchantment, and utility magic. Jack of All Trades adds half their proficiency bonus to every ability check they're not proficient in, making bards remarkably competent at everything.\n\nMechanically, bards are d8 hit die full spellcasters who know a fixed number of spells rather than preparing them daily. Song of Rest improves short-rest healing for the party. Expertise doubles proficiency for chosen skills. At 10th level, Magical Secrets lets them steal spells from any class list — a bard can learn fireball, find steed, or counterspell. At 20th, Superior Inspiration guarantees they start every combat with at least one use of Bardic Inspiration. They naturally excel as faces, supports, and skill monkeys.", "subclass_descs": {"College of Lore": "At 3rd level, gain three bonus skill proficiencies and Cutting Words: spend a Bardic Inspiration die as a reaction to subtract from an enemy's attack roll, ability check, or damage roll. At 6th, Additional Magical Secrets lets you learn two spells from any class — the Lore bard becomes a magical Swiss Army knife. At 14th, Peerless Skill lets you add Bardic Inspiration to your own ability checks, turning failure into success on demand.", "College of Valor": "At 3rd level, gain proficiency with medium armor, shields, and martial weapons. Combat Inspiration allows allies to add Bardic Inspiration to weapon damage rolls or use it as a reaction to boost AC against an attack. At 6th, Extra Attack grants a second attack when you take the Attack action. At 14th, Battle Magic lets you make a weapon attack as a bonus action after casting a bard spell — the spellblade who sings and swings."}, "weapons": "Simple weapons, Hand crossbows, Longswords, Rapiers, Shortswords", "armor": "Light armor", "tools": "Three musical instruments of your choice", "source": "PHB 2014 p.51"},
-    "Cleric": {"hd": 8, "skills": ["History","Insight","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain"], "desc": "Clerics are mortal agents of the gods, chosen to wield divine power in the world. A cleric might be a war priest blessing soldiers before battle, a cloistered scholar uncovering forbidden knowledge, or a healer tending to plague victims in the slums. Their power flows from faith and devotion — not study or bloodline — and a cleric's choice of deity and domain shapes their entire identity and playstyle.\n\nAll clerics share core divine abilities. Channel Divinity grants powerful effects (often Turning Undead) that recharge on short rests. They prepare spells daily from the full cleric list, and their Divine Domain at 1st level grants bonus spells and features that define their role — a Life cleric heals more, a Light cleric blasts with radiant fire, a War cleric wades into melee with heavy armor and martial weapons.\n\nMechanically, clerics are d8 hit die full spellcasters with medium armor and shield proficiency. Their spell list includes the best healing magic in the game, powerful buffs (bless, shield of faith), control (spirit guardians, banishment), and offensive staples (guiding bolt, spiritual weapon, flame strike). At 10th level, Divine Intervention gives a percentage chance to call on their deity directly for aid. At 20th, it succeeds automatically. Clerics are the most flexible full casters — a single subclass choice can turn them into a blaster, tank, healer, or controller.", "subclass_descs": {"Knowledge Domain": "Blessings of Knowledge grants expertise in two knowledge skills. Channel Divinity: Read Thoughts lets you read surface thoughts and cast suggestion. Visions of the Past at 17th lets you psychically experience an object's or location's history. The ultimate lore-seeker.", "Life Domain": "Disciple of Life adds 2 + spell level bonus healing to every healing spell. Preserve Life (Channel Divinity) restores HP to allies up to half their max. Blessed Healer heals you when you heal others. Supreme Healing at 17th maximizes all healing dice.", "Light Domain": "Warding Flare imposes disadvantage on attackers as a reaction. Radiance of the Dawn (Channel Divinity) deals radiant damage in a 30-ft radius and dispels magical darkness. Corona of Light at 17th gives enemies disadvantage on saves against your fire and radiant spells. The burning light of truth.", "Nature Domain": "Acolyte of Nature grants a druid cantrip and skill. Charm Animals and Plants (Channel Divinity) pacifies beasts and plants. Dampen Elements at 6th grants resistance to elemental damage as a reaction. Master of Nature at 17th lets you command animals and plants.", "Tempest Domain": "Wrath of the Storm deals thunder or lightning damage as a reaction. Destructive Wrath (Channel Divinity) maximizes thunder/lightning damage instead of rolling. Thunderbolt Strike at 6th pushes foes 10 ft on lightning damage. Stormborn at 17th grants a flying speed.", "Trickery Domain": "Invoke Duplicity (Channel Divinity) creates a perfect illusory double that you can cast spells through. Cloak of Shadows at 6th lets you turn invisible for a round. Divine Strike at 8th adds poison damage. The god of shadows and mischief smiles.", "War Domain": "War Priest grants bonus action weapon attacks (limited WIS mod times per long rest). Guided Strike (Channel Divinity) adds +10 to attack rolls. War God's Blessing at 6th lets allies add +10 to their attacks. Avatar of Battle at 17th grants resistance to nonmagical weapon damage."}, "weapons": "Simple weapons", "armor": "Light armor, Medium armor, Shields", "tools": "", "source": "PHB 2014 p.56"},
-    "Druid": {"hd": 8, "skills": ["Arcana","Animal Handling","Insight","Medicine","Nature","Perception","Religion","Survival"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["Circle of the Land","Circle of the Moon"], "desc": "Druids are priests of the old faith — guardians of the natural world who draw their magic from the divine essence of nature itself. They are shapeshifters, storm-callers, and beast-speakers who stand between civilization and the untamed wilds. A druid might be a wizened hermit protecting an ancient grove, a feral wanderer running with wolf packs, or a coastal sage commanding the tides and winds.\n\nA druid's signature ability is Wild Shape, which at 2nd level lets them transform into beasts they've seen. This grants extraordinary utility — a druid can become a spider to infiltrate, a horse to carry allies, or a bear to fight. At higher levels, they can become elementals. Their spellcasting is Wisdom-based, drawn from a nature-themed list heavy on control, summoning, healing, and elemental damage. They prepare spells daily from the full druid list.\n\nMechanically, druids are d8 hit die full spellcasters with medium armor and shield proficiency (though they refuse to wear metal). They gain Timeless Body at 18th (age at 1/10th the normal rate) and Beast Spells at 18th (cast spells while in Wild Shape). Archdruid at 20th grants unlimited Wild Shape uses. They are the most adaptable full casters — capable of tanking as a bear, blasting as a storm, or healing as a forest guardian, all in the same day.", "subclass_descs": {"Circle of the Land": "At 2nd level, gain a bonus druid cantrip and Natural Recovery (recover spell slots on a short rest, like a wizard's Arcane Recovery). At 3rd and higher, Circle Spells grant terrain-based bonus spells: Arctic, Coast, Desert, Forest, Grassland, Mountain, Swamp, or Underdark. Land's Stride at 6th ignores nonmagical difficult terrain. Nature's Ward at 10th grants immunity to poison, disease, and charm/frighten from fey and elementals. Nature's Sanctuary at 14th makes beasts and plants hesitate to attack you.", "Circle of the Moon": "At 2nd level, Combat Wild Shape lets you transform as a bonus action and expend spell slots to heal 1d8 per slot level while transformed. Your Wild Shape CR caps at 1 (instead of 1/4), scaling to CR 6 at 18th. Primal Strike at 6th makes your beast form attacks magical. Elemental Wild Shape at 10th lets you expend both uses to become an air, earth, fire, or water elemental. Thousand Forms at 14th grants alter self at will."}, "weapons": "Clubs, Daggers, Darts, Javelins, Maces, Quarterstaffs, Scimitars, Sickles, Slings, Spears", "armor": "Light armor, Medium armor, Shields (druids will not wear metal armor or shields)", "tools": "Herbalism kit", "source": "PHB 2014 p.64"},
-    "Fighter": {"hd": 10, "skills": ["Acrobatics","Animal Handling","Athletics","History","Insight","Intimidation","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": ["Champion","Battle Master","Eldritch Knight"], "desc": "Fighters are the undisputed masters of combat — warriors who have trained their bodies and minds for one purpose: victory in battle. They come from every walk of life: knights in shining plate, grizzled mercenaries, elven archers who never miss, dwarven defenders who hold the line against impossible odds. What unites them is absolute mastery of weapons, armor, and tactics.\n\nFighters gain more Ability Score Improvements than any other class, and their Fighting Style at 1st level defines their combat identity — Archery, Defense, Dueling, Great Weapon Fighting, Protection, or Two-Weapon Fighting. Action Surge at 2nd level grants a second full action once per short rest. Second Wind provides a bonus-action self-heal. But the fighter's true claim to greatness is Extra Attack — at 5th, 11th, and 20th level, they gain additional attacks, swinging four times for every one swing of other warriors.\n\nMechanically, fighters are d10 hit die martial characters who can use every weapon and wear every armor. They are the most reliable damage-dealers and the most durable front-liners. Their subclass choice dramatically expands their toolkit: the Champion is simplicity and lethality, the Battle Master is tactical control, and the Eldritch Knight blends swordplay with wizardry. At 20th, they attack four times per Attack action — eight times with Action Surge.", "subclass_descs": {"Champion": "At 3rd level, Improved Critical scores a critical hit on 19–20 (later 18–20 at 15th). Remarkable Athlete at 7th adds half your proficiency bonus to any Strength, Dexterity, or Constitution check you aren't proficient in. Additional Fighting Style at 10th broadens your combat options. Survivor at 18th regenerates 5 + CON mod HP each turn while below half HP.", "Battle Master": "At 3rd level, Combat Superiority grants four d8 superiority dice and three maneuvers chosen from 16 options: Precision Attack (+die to hit), Trip Attack (+die to damage + knock prone), Riposte (counterattack as reaction), Menacing Attack (frighten), Disarming Attack, and more. Know Your Enemy at 7th lets you size up foes' stats relative to yours. Superiority dice grow to d10 at 10th and d12 at 18th. Relentless at 15th ensures you start every combat with at least one die.", "Eldritch Knight": "At 3rd level, gain wizard spellcasting (abjuration/evocation mostly) with 1/3 caster progression — slots up to 4th level. Weapon Bond prevents you from being disarmed and lets you summon bonded weapons across planes as a bonus action. War Magic at 7th lets you make a weapon attack as a bonus action after casting a cantrip. Eldritch Strike at 10th imposes disadvantage on saves against your next spell. Arcane Charge at 15th lets you teleport before Action Surge."}, "weapons": "Simple weapons, Martial weapons", "armor": "All armor, Shields", "tools": "", "source": "PHB 2014 p.70"},
-    "Monk": {"hd": 8, "skills": ["Acrobatics","Athletics","History","Insight","Religion","Stealth"], "skill_count": 2, "saves": ["strength","dexterity"], "subclasses": ["Way of the Open Hand","Way of Shadow","Way of the Four Elements"], "armor": [], "desc": "Monks are living weapons — martial artists who have honed their bodies into instruments of supernatural precision through rigorous discipline and meditation. They need no sword or shield; their fists, feet, and ki — a mystical life energy that flows through all living things — are all the tools they require. A monk might be a serene master atop a mountain peak, a shadowy infiltrator moving without sound, or a wandering ascetic who can catch arrows and run across water.\n\nAll monks share core abilities powered by Ki points, which recharge on short rests. Flurry of Blows lets them attack twice as a bonus action. Patient Defense dodges as a bonus action. Step of the Wind dashes or disengages as a bonus action and doubles jump distance. Deflect Missiles catches and throws back arrows. Stunning Strike at 5th lets them stun enemies with a well-placed blow. Their Unarmored Defense calculates AC from Wisdom and Dexterity, and Unarmored Movement grants increasing speed bonuses — eventually letting them run up walls and across water.\n\nMechanically, monks are d8 hit die skirmishers who excel at mobility, single-target control, and sustained damage through multiple attacks. They gain Evasion at 7th, Purity of Body (immunity to disease and poison) at 10th, Diamond Soul (proficiency in all saves + reroll) at 14th, and Empty Body (invisibility + astral projection resistance) at 18th. At 20th, Perfect Self ensures they start every combat with 4 ki points.", "subclass_descs": {"Way of the Open Hand": "At 3rd level, Open Hand Technique modifies Flurry of Blows: each hit can knock prone, push 15 ft, or prevent reactions. Wholeness of Body at 6th heals 3 × monk level HP per long rest. Tranquility at 11th grants a permanent sanctuary effect. Quivering Palm at 17th delivers a death touch — on a failed CON save, the target dies; on success, it takes 10d10 necrotic damage.", "Way of Shadow": "At 3rd level, Shadow Arts lets you cast darkness, darkvision, pass without trace, or silence for 2 ki each. Shadow Step at 6th allows bonus action teleport between dim light/darkness up to 60 ft, granting advantage on your next attack. Cloak of Shadows at 11th grants invisibility in dim light/darkness. Opportunist at 17th lets you make an opportunity attack against anyone hit by an ally." , "Way of the Four Elements": "At 3rd level, Elemental Attunement grants a minor elemental cantrip and access to Elemental Disciplines — spell-like effects powered by ki: Fangs of the Fire Snake, Water Whip, Fist of Unbroken Air, Shape the Flowing River. At 6th, 11th, and 17th, learn additional disciplines including fireball, fly, stoneskin, and wall of fire. The monk who commands the elements."}, "weapons": "Simple weapons, Shortswords", "armor": "", "tools": "One type of artisan's tools or one musical instrument", "source": "PHB 2014 p.76"},
-    "Paladin": {"hd": 10, "skills": ["Athletics","Insight","Intimidation","Medicine","Persuasion","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["Oath of Devotion","Oath of the Ancients","Oath of Vengeance"], "desc": "Paladins are holy warriors, sworn to a sacred oath that is the source of their divine power. More than just fighters with divine magic, paladins are living embodiments of their ideals — a Devotion paladin is a shining beacon of hope, an Ancients paladin is a guardian of joy and life, a Vengeance paladin is an unstoppable force of righteous fury. Their power comes not from a god, but from the sheer force of their own conviction.\n\nIn combat, paladins are devastating melee combatants who can channel divine energy through Divine Smite — expending spell slots to add radiant damage to weapon attacks, with extra damage against fiends and undead. Lay on Hands provides a pool of healing they can distribute as they choose. Their Aura of Protection at 6th adds Charisma to all saving throws for themselves and nearby allies. At higher levels, their auras expand with subclass-specific effects that can turn the tide of battle.\n\nMechanically, paladins are d10 hit die half-casters who prepare spells daily. Fighting Style at 2nd, Extra Attack at 5th, and Aura of Courage (immunity to frightened) at 10th. Cleansing Touch at 14th ends spells on allies. At 20th, their capstone transformation is subclass-specific: Devotion becomes an avatar of divine light, Ancients becomes a force of primeval nature, and Vengeance becomes an avenging angel with flight and frightful presence.", "subclass_descs": {"Oath of Devotion": "Tenets: honesty, courage, compassion, honor, duty. At 3rd, Sacred Weapon (Channel Divinity) adds CHA to attack rolls and makes the weapon magical and glowing. Turn the Unholy frightens fiends and undead. Aura of Devotion at 7th prevents charm within 10 ft. Purity of Spirit at 15th grants permanent protection from evil and good. Holy Nimbus at 20th deals 10 radiant damage per round to enemies within 30 ft — the ultimate holy avatar.", "Oath of the Ancients": "Tenets: kindle light, shelter joy, preserve life, be the light. At 3rd, Nature's Wrath (Channel Divinity) restrains a foe with spectral vines. Turn the Faithless frightens fey and fiends. Aura of Warding at 7th grants resistance to all spell damage within 10 ft — one of the strongest defensive features in the game. Undying Sentinel at 15th drops you to 1 HP instead of 0 once per long rest. Elder Champion at 20th grants fast healing, quickened smite spells, and disadvantage on enemy saves.", "Oath of Vengeance": "Tenets: fight evil, no mercy, by any means, restitution. At 3rd, Vow of Enmity (Channel Divinity) grants advantage on all attacks against one foe for 1 minute. Abjure Enemy frightens and immobilizes. Relentless Avenger at 7th lets you move half speed after opportunity attacks without provoking. Soul of Vengeance at 15th lets you make an attack as a reaction against the target of your Vow. Avenging Angel at 20th grants 60-ft flight, a frightful presence aura, and advantage on Vow of Enmity attacks."}, "weapons": "Simple weapons, Martial weapons", "armor": "All armor, Shields", "tools": "", "source": "PHB 2014 p.82"},
-    "Ranger": {"hd": 10, "skills": ["Animal Handling","Athletics","Insight","Investigation","Nature","Perception","Stealth","Survival"], "skill_count": 3, "saves": ["strength","dexterity"], "subclasses": ["Hunter","Beast Master"], "desc": "Rangers are the scouts, trackers, and wilderness warriors who thrive at the boundary between civilization and the wild. They are expert hunters who know their prey's every habit, master archers who can loose a volley into a crowd, and lonely wanderers who follow ancient trails through trackless forests. A ranger's connection to nature grants them primal magic — not the full power of a druid, but enough to heal, ensnare, and strike from the shadows.\n\nAt their core, rangers combine martial skill with nature magic. They gain Fighting Style at 2nd, Spellcasting (Wisdom-based, from the ranger list) at 2nd, and Extra Attack at 5th. Their signature abilities focus on exploration and terrain mastery: Natural Explorer grants doubled proficiency and benefits in favored terrain, Favored Enemy grants advantage on tracking and knowledge about specific creature types. Primeval Awareness at 3rd lets them sense the presence of favored enemies within miles.\n\nMechanically, rangers are d10 hit die half-casters who excel at ranged combat, stealth, and exploration. Land's Stride at 8th ignores nonmagical difficult terrain, Hide in Plain Sight at 10th lets them camouflage themselves with natural materials, and Vanish at 14th lets them Hide as a bonus action. Foe Slayer at 20th adds Wisdom to one attack or damage roll against a favored enemy per turn. Rangers are the ultimate wilderness specialists.", "subclass_descs": {"Hunter": "At 3rd level, choose a Hunter's Prey: Colossus Slayer (extra 1d8 damage to wounded foes once per turn), Giant Killer (reaction attack when Large+ creatures miss you), or Horde Breaker (free extra attack against a nearby creature once per turn). Defensive Tactics at 7th: Escape the Horde (opportunity attacks have disadvantage), Multiattack Defense (+4 AC against subsequent attacks), or Steel Will (advantage on saves vs frightened). Multiattack at 11th: Volley (attack everything in a 10-ft radius) or Whirlwind Attack (melee attack everything within 5 ft). Superior Hunter's Defense at 15th: Evasion, Stand Against the Tide (force attacker to hit someone else), or Uncanny Dodge.", "Beast Master": "At 3rd level, gain an animal companion — a beast of CR 1/4 or lower that acts on your initiative and obeys your commands. At 7th, Exceptional Training lets your companion Dash, Disengage, Dodge, or Help as a bonus action. At 11th, Bestial Fury grants your companion two attacks. At 15th, Share Spells lets spells you cast on yourself also affect your companion. The bond between ranger and beast is unbreakable — if it dies, you can spend 8 hours magically bonding with a new one."}, "weapons": "Simple weapons, Martial weapons", "armor": "Light armor, Medium armor, Shields", "tools": "", "source": "PHB 2014 p.89"},
-    "Rogue": {"hd": 8, "skills": ["Acrobatics","Athletics","Deception","Insight","Intimidation","Investigation","Perception","Performance","Persuasion","Sleight of Hand","Stealth"], "skill_count": 4, "saves": ["dexterity","intelligence"], "subclasses": ["Thief","Assassin","Arcane Trickster"], "desc": "Rogues are masters of stealth, precision, and misdirection. They live by their wits — slipping through shadows, disarming traps, picking pockets, and striking when their enemies least expect it. A rogue might be a charming con artist, a silent assassin, a cat burglar who can scale any wall, or an investigator who notices what everyone else misses. What defines them is not their weapons or armor, but their cunning.\n\nA rogue's defining combat feature is Sneak Attack — once per turn, when they attack with advantage or when an ally is adjacent to the target, they deal massive extra damage (1d6 at 1st, scaling to 10d6 at 20th). Cunning Action at 2nd lets them Dash, Disengage, or Hide as a bonus action — unmatched tactical mobility. Uncanny Dodge at 5th halves damage from one attack per round. Evasion at 7th negates damage entirely on successful Dexterity saves. They gain more skill proficiencies and Expertise than any other class.\n\nMechanically, rogues are d8 hit die martial strikers who avoid direct confrontation in favor of hit-and-run tactics. Reliable Talent at 11th makes any proficient skill check they roll treat a 9 or lower as a 10 — rogues almost never fail at what they're good at. Blindsense at 14th detects hidden and invisible creatures. Slippery Mind at 15th grants Wisdom save proficiency. Stroke of Luck at 20th turns a missed attack into a hit or a failed ability check into a natural 20 once per short rest.", "subclass_descs": {"Thief": "At 3rd level, Fast Hands lets you use objects, pick locks, and disarm traps as a bonus action — plus make Sleight of Hand checks. Second-Story Work adds climbing speed equal to your walking speed and increased running jump distance. Supreme Sneak at 9th grants advantage on Stealth checks when moving slowly. Use Magic Device at 13th ignores all class, race, and level restrictions on magic items. Thief's Reflexes at 17th grants an extra turn in the first round of combat.", "Assassin": "At 3rd level, Assassinate gives advantage against creatures that haven't acted yet and auto-crits surprised creatures. Bonus proficiencies with disguise kit and poisoner's kit. Infiltration Expertise at 9th lets you create false identities over 7 days of preparation. Impostor at 13th lets you perfectly mimic a studied person's speech, writing, and behavior. Death Strike at 17th forces a CON save on surprised targets you hit — on failure, double the damage.", "Arcane Trickster": "At 3rd level, gain wizard spellcasting (illusion/enchantment mostly) with 1/3 caster progression. Mage Hand Legerdemain makes your mage hand invisible and capable of pickpocketing, lockpicking, and stowing objects. Magical Ambush at 9th imposes disadvantage on spell saves when you're hidden. Versatile Trickster at 13th lets you use your bonus action to grant advantage via mage hand. Spell Thief at 17th lets you steal a spell from an enemy and cast it yourself."}, "weapons": "Simple weapons, Hand crossbows, Longswords, Rapiers, Shortswords", "armor": "Light armor", "tools": "Thieves' tools", "source": "PHB 2014 p.94"},
-    "Sorcerer": {"hd": 6, "skills": ["Arcana","Deception","Insight","Intimidation","Persuasion","Religion"], "skill_count": 2, "saves": ["constitution","charisma"], "subclasses": ["Draconic Bloodline","Wild Magic"], "armor": [], "desc": "Sorcerers are born with magic in their blood — not learned, not granted, but innate. The source of their power might be a draconic ancestor, an encounter with a being of raw chaos, or some cosmic event that awakened latent potential. Unlike wizards who study dusty tomes, sorcerers wield magic by instinct and force of personality. They don't prepare spells; they know a smaller, carefully chosen repertoire and can bend those spells in ways no other caster can.\n\nA sorcerer's defining feature is Metamagic — the ability to reshape spells on the fly using Sorcery Points. They can Twin a spell to hit two targets, Quicken a spell to cast as a bonus action, Subtle a spell to cast without components, Heighten a spell to impose disadvantage on saves, and more. Sorcery Points can also be converted into spell slots and vice versa — sorcerers have more flexibility with their spell slots than any other full caster.\n\nMechanically, sorcerers are d6 hit die full casters who use Charisma as their spellcasting ability. They know a limited number of spells but can cast them flexibly. Font of Magic at 2nd creates their Sorcery Point pool. At 20th, Sorcerous Restoration recovers 4 Sorcery Points on short rests. Sorcerers are the most specialized full casters — a Draconic sorcerer is a durable elemental blaster, while a Wild Magic sorcerer is an unpredictable chaos engine that can grant advantage at will.", "subclass_descs": {"Draconic Bloodline": "At 1st level, choose a dragon color (determining your damage affinity). Draconic Resilience grants +1 HP per sorcerer level and natural AC of 13 + DEX. At 6th, Elemental Affinity adds CHA to spell damage of your chosen element and grants resistance to that element for 1 hour per Sorcery Point. Dragon Wings at 14th grant a flying speed of your walking speed. Draconic Presence at 18th frightens or charms creatures within 60 ft.", "Wild Magic": "At 1st level, Wild Magic Surge: after casting a non-cantrip spell, the DM can have you roll a d20 — on a 1, roll on the Wild Magic table (50 random effects from self-fireball to feather beard to flumph summoning). Tides of Chaos grants advantage on any d20 roll, recharging after your next surge. Bend Luck at 6th spends 2 Sorcery Points to add or subtract 1d4 from any creature's roll as a reaction. Controlled Chaos at 14th lets you roll twice on the Wild Magic table and choose. Spell Bombardment at 18th lets you reroll damage dice on spells and take the higher."}, "weapons": "Daggers, Darts, Slings, Quarterstaffs, Light crossbows", "armor": "", "tools": "", "source": "PHB 2014 p.99"},
-    "Warlock": {"hd": 8, "skills": ["Arcana","Deception","History","Intimidation","Investigation","Nature","Religion"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": ["The Archfey","The Fiend","The Great Old One"], "desc": "Warlocks are seekers of forbidden knowledge who have struck a bargain with an otherworldly patron — a being of immense power, neither wholly benevolent nor entirely malevolent. The patron might be an ancient fey lord, a demon prince of the Abyss, or a slumbering entity from beyond the stars. In exchange for power, the warlock serves their patron's interests — or at least, they pay lip service while pursuing their own goals.\n\nWarlocks use Pact Magic — a unique spellcasting system with very few spell slots (starting at 1, maxing at 4) that all cast at the same level (scaling up to 5th) and recharge on short rests. This means warlocks can cast their most powerful spells every fight but must be judicious about when to use them. To compensate for limited slots, warlocks rely on Eldritch Blast — the best damaging cantrip in the game, which they can enhance with Eldritch Invocations to add Charisma to damage, push enemies, or pull them closer.\n\nMechanically, warlocks are d8 hit die full casters who use Charisma. At 3rd level they choose a Pact Boon: Pact of the Chain (improved familiar), Pact of the Blade (summonable magic weapon), or Pact of the Tome (Book of Shadows with extra cantrips). Eldritch Invocations at 2nd and beyond grant permanent abilities — agonizing blast, devil's sight, mask of many faces, and more. Mystic Arcanum at 11th+ grants one 6th, 7th, 8th, and 9th level spell per long rest. Warlocks are the most modular class — no two are built the same.", "subclass_descs": {"The Archfey": "At 1st level, Fey Presence (once per short rest) charms or frightens creatures in a 10-ft cube. Misty Escape at 6th lets you teleport 60 ft and turn invisible until your next turn when you take damage. Beguiling Defenses at 10th grants immunity to charm and reflects charm attempts back at the source. Dark Delirium at 14th sends a creature into an illusory nightmare realm where it is charmed or frightened of you.", "The Fiend": "At 1st level, Dark One's Blessing grants temporary HP equal to CHA + warlock level when you reduce a hostile creature to 0 HP. Dark One's Own Luck at 6th adds 1d10 to an ability check or saving throw once per short rest. Fiendish Resilience at 10th grants resistance to one damage type (changeable on short rest). Hurl Through Hell at 14th sends a creature on a psychic journey through the lower planes — they return at the end of your next turn, taking 10d10 psychic damage.", "The Great Old One": "At 1st level, Awakened Mind grants two-way telepathy with any creature within 30 ft that understands a language. Entropic Ward at 6th imposes disadvantage on an attacker's roll as a reaction — if they miss, you gain advantage on your next attack against them. Thought Shield at 10th grants resistance to psychic damage and prevents your thoughts from being read. Create Thrall at 14th lets you permanently charm a humanoid touched while incapacitated."}, "weapons": "Simple weapons", "armor": "Light armor", "tools": "", "source": "PHB 2014 p.105"},
-    "Wizard": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Religion"], "skill_count": 2, "saves": ["intelligence","wisdom"], "subclasses": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"], "armor": [], "desc": "Wizards are the ultimate students of magic — scholars who have spent years, decades, or centuries poring over ancient tomes, deciphering arcane formulae, and mastering the fundamental laws of reality. Their power comes from intellect and discipline, not bloodline or pact. A wizard's spellbook is their most prized possession, a growing encyclopedia of magical knowledge that represents years of research and discovery.\n\nWizards have the largest spell list in the game and the unique ability to learn new spells by copying scrolls or spellbooks into their own — for a cost in gold and time, a wizard can theoretically learn every wizard spell in existence. They prepare spells daily from their spellbook, choosing a flexible loadout tailored to the challenges ahead. Arcane Recovery at 1st level lets them recover spell slots on short rests. Ritual Casting allows them to cast any ritual spell in their spellbook without preparing it or expending a slot.\n\nMechanically, wizards are d6 hit die full casters who use Intelligence — the ultimate utility and control casters. They gain no armor proficiency and have the smallest hit die, so positioning and defensive spells are critical. At higher levels, they gain Spell Mastery (at-will 1st and 2nd level spells at 18th) and Signature Spells (two 3rd-level spells always prepared at 20th). Their Arcane Tradition (school specialization) at 2nd level dramatically shapes their role: blaster (Evocation), controller (Enchantment), defender (Abjuration), or summoner (Conjuration).", "subclass_descs": {"School of Abjuration": "At 2nd level, Arcane Ward creates a magical HP buffer equal to wizard level × 2 + INT mod, recharged by casting abjuration spells. Projected Ward at 6th lets you extend your ward to protect allies. Improved Abjuration at 10th adds proficiency to ability checks when casting abjuration spells (like counterspell and dispel magic). Spell Resistance at 14th grants advantage on all saving throws against spells and resistance to spell damage.", "School of Conjuration": "At 2nd level, Minor Conjuration creates a nonmagical object (max 10 lbs, 3 ft per side) that glows faintly and lasts 1 hour. Benign Transposition at 6th teleports you 30 ft or swaps places with a willing ally — recharges when you cast a conjuration spell. Focused Conjuration at 10th prevents concentration from being broken by damage on conjuration spells. Durable Summons at 14th grants 30 temporary HP to any creature you summon.", "School of Divination": "At 2nd level, Portent: after each long rest, roll two d20s and record the results. Before any creature you can see makes an attack roll, saving throw, or ability check, you can replace their roll with one of your portent dice. Expert Divination at 6th recovers a lower-level spell slot when you cast a divination spell. The Third Eye at 10th grants darkvision, ethereal sight, greater comprehension, or see invisibility. Greater Portent at 14th adds a third portent die.", "School of Enchantment": "At 2nd level, Hypnotic Gaze incapacitates a creature within 5 ft until your next turn. Instinctive Charm at 6th redirects an attack against you to the nearest creature as a reaction. Split Enchantment at 10th lets you target two creatures with any enchantment spell that normally targets one. Alter Memories at 14th makes a charmed creature unaware of being charmed and forgets some of the time spent charmed.", "School of Evocation": "At 2nd level, Sculpt Spells lets you designate 1 + spell level creatures to automatically succeed on saves and take no damage from your evocation spells. Potent Cantrip at 6th makes your cantrips deal half damage on successful saves. Empowered Evocation at 10th adds INT mod to evocation spell damage. Overchannel at 14th maximizes the damage of a 5th-level-or-lower evocation spell — at the cost of necrotic damage to yourself on repeat uses.", "School of Illusion": "At 2nd level, Improved Minor Illusion creates both sound and image with one casting. Malleable Illusions at 6th lets you reshape ongoing illusion spells as an action. Illusory Self at 10th creates an illusory double that intercepts an attack, making it miss — recharges on short rest. Illusory Reality at 14th makes one inanimate object in your illusion temporarily real — a bridge that can be crossed, a wall that blocks attacks, a cage that holds prisoners.", "School of Necromancy": "At 2nd level, Grim Harvest heals you for 2 × spell level (or 3 × for necromancy spells) when you kill a creature with a spell. Undead Thralls at 6th lets you animate more undead and gives them extra HP and your proficiency bonus to damage. Inured to Undeath at 10th grants resistance to necrotic damage and prevents your HP maximum from being reduced. Command Undead at 14th lets you permanently control any undead that fails an INT save — even a mummy lord or a lich, if you're lucky.", "School of Transmutation": "At 2nd level, Minor Alchemy temporarily transforms wood, stone, iron, copper, or silver into another of those materials for 1 hour per 10 minutes spent. Transmuter's Stone at 6th creates a stone that grants you or a holder a buff: darkvision, speed +10 ft, proficiency in CON saves, or resistance to one element. Shapechanger at 10th lets you cast polymorph on yourself once per short rest (CR 1 or lower). Master Transmuter at 14th lets you destroy your stone to raise dead, de-age, restore youth, or cure all diseases."}, "weapons": "Daggers, Darts, Slings, Quarterstaffs, Light crossbows", "armor": "", "tools": "", "source": "PHB 2014 p.112"},
-    # ── AiME class stubs (Adventures in Middle-earth) ──
-    "Slayer": {"hd": 12, "skills": ["Animal Handling","Athletics","Intimidation","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": [], "armor": ['Light armor', 'Medium armor', 'Shields'], "subclass_descs": {}, "desc": "The Slayer fights with raw ferocity — equivalent to a Barbarian.", "weapons": "All", "armor": "Light, medium, shields", "tools": "", "source": "Adventures in Middle-earth Player's Guide"},
-    "Warden": {"hd": 10, "skills": ["Athletics","Insight","Investigation","Medicine","Persuasion","Survival"], "skill_count": 2, "saves": ["wisdom","charisma"], "subclasses": [], "armor": ['All armor', 'Shields'], "subclass_descs": {}, "desc": "The Warden is a stalwart defender and leader — akin to a Paladin.", "weapons": "All", "armor": "All, shields", "tools": "", "source": "Adventures in Middle-earth Player's Guide"},
-    "Warrior": {"hd": 10, "skills": ["Acrobatics","Animal Handling","Athletics","History","Insight","Intimidation","Perception","Survival"], "skill_count": 2, "saves": ["strength","constitution"], "subclasses": [], "armor": ['All armor', 'Shields'], "subclass_descs": {}, "desc": "The Warrior is a master of arms — equivalent to a Fighter.", "weapons": "All", "armor": "All, shields", "tools": "", "source": "Adventures in Middle-earth Player's Guide"},
-    "Scholar": {"hd": 6, "skills": ["Arcana","History","Insight","Investigation","Medicine","Nature","Religion"], "skill_count": 3, "saves": ["intelligence","wisdom"], "subclasses": [], "armor": ['Light armor'], "subclass_descs": {}, "desc": "The Scholar masters ancient lore and healing — akin to a Cleric.", "weapons": "Simple", "armor": "Light", "tools": "", "source": "Adventures in Middle-earth Player's Guide"},
-    "Treasure Hunter": {"hd": 8, "skills": ["Acrobatics","Deception","Insight","Investigation","Perception","Sleight of Hand","Stealth"], "skill_count": 4, "saves": ["dexterity","intelligence"], "subclasses": [], "armor": ['Light armor'], "subclass_descs": {}, "desc": "The Treasure Hunter is a cunning explorer — equivalent to a Rogue.", "weapons": "Simple, hand crossbows, longswords, rapiers, shortswords", "armor": "Light", "tools": "Thieves' tools", "source": "Adventures in Middle-earth Player's Guide"},
-    "Wanderer": {"hd": 10, "skills": ["Animal Handling","Athletics","Insight","Investigation","Nature","Perception","Stealth","Survival"], "skill_count": 3, "saves": ["strength","dexterity"], "subclasses": [], "armor": ['Light armor', 'Medium armor', 'Shields'], "subclass_descs": {}, "desc": "The Wanderer is a wilderness expert — equivalent to a Ranger.", "weapons": "All", "armor": "Light, medium, shields", "tools": "", "source": "Adventures in Middle-earth Player's Guide"},
-}
 
 # Tag hardcoded classes with source
 _class_page_map: dict[str, str] = {}
@@ -11176,54 +10875,6 @@ async def delete_character(char_id: int, request: Request):
 
 # ── Name Generators ─────────────────────────────────────────────────────────
 
-RACE_NAMES = {
-    "Dwarf": {
-        "male": ["Thorin","Durin","Balin","Dwalin","Oin","Gloin","Bofur","Bombur","Nori","Dori","Fili","Kili","Gimli","Dain","Thrain","Thror","Fundin","Gror","Farin","Borin","Nain","Bifur","Floi","Loni","Frar","Onar","Brokk","Eitri","Sindri","Thekk","Vist"],
-        "female": ["Dis","Hilda","Brunhild","Gerta","Helga","Inga","Sigrid","Thyra","Yrsa","Kara","Freya","Astrid","Ragna","Gudrun","Sif","Bodil","Dagmar","Frida","Ingrid","Sigrun","Thora","Aldis","Eira","Liv","Revna","Solveig","Torunn","Unn","Ylva","Brynhild"],
-        "clan": ["Ironforge","Battlehammer","Bronzebeard","Darkiron","Stoutmantle","Deepdelve","Anvilmar","Stonebrow","Hammersmith","Forgefire","Thunderaxe","Runefist","Steelmantle","Goldshaper","Coppervault","Grimstone","Boulderhelm","Firebeard","Frostforge","Shieldbreaker","Oathkeeper","Rubyhelm","Stormshield","Ironfist"]
-    },
-    "Elf": {
-        "male": ["Elrond","Thranduil","Legolas","Finrod","Celeborn","Haldir","Fingolfin","Glorfindel","Cirdan","Eol","Maedhros","Fingon","Turgon","Thingol","Beleg","Gwindor","Amroth","Oropher","Galathil","Angrod","Aegnor","Caranthir","Celegorm","Curufin","Maglor","Daeron","Saeros","Voronwe","Edrahil","Gildor","Lindir"],
-        "female": ["Galadriel","Arwen","Luthien","Idril","Nimrodel","Earwen","Aredhel","Elwing","Miriel","Finduilas","Melian","Elenwe","Nienna","Varda","Yavanna","Este","Nessa","Indis","Nerdanel","Anaire","Lalwen","Amarie","Celebrian","Elanor","Morwen","Nienor","Rian","Silmarien","Tar-Miriel","Beruthiel","Ilmare"],
-        "clan": ["Silverleaf","Moonshadow","Starbreeze","Dawnwhisper","Nightbreeze","Goldenoak","Swiftarrow","Brightsong","Dewdrop","Windwalker","Starlight","Moonsong","Dawnmist","Silverbrook","Summerstar","Wintershade","Crystalbrook","Amberwave","Fairbreeze","Lightfoot","Silverveil","Dreamweaver","Moonrise","Starfall"]
-    },
-    "Halfling": {
-        "male": ["Bilbo","Frodo","Samwise","Meriadoc","Peregrin","Fredegar","Tobold","Hamfast","Drogo","Odo","Adelard","Andwise","Blanco","Bodo","Carl","Cottar","Dinodas","Dodinas","Everard","Falco","Ferdinand","Ferumbras","Folco","Fortinbras","Gormadoc","Halfred","Harding","Holman","Isembard","Largo","Lotho","Madoc","Marmadas","Mungo","Nob","Olo","Paladin","Posco","Reginard","Robin","Rorimac","Rudigar","Saradas","Saradoc","Tolman","Wilcome"],
-        "female": ["Rosie","Belladonna","Primula","Lobelia","Daisy","Marigold","Pearl","Esmeralda","Pansy","Ruby","Amaranth","Angelica","Asphodel","Belba","Camellia","Celandine","Cora","Dahlia","Donnamira","Eglantine","Elanor","Estella","Gilly","Hanna","Ivy","Jasmine","Lily","Linda","Malva","Mirabella","Myrtle","Petunia","Poppy","Primrose","Rosa","Rosamunda","Rowan","Salvia","Sapphire","Tulip","Viola","Zinnia"],
-        "clan": ["Baggins","Took","Brandybuck","Gamgee","Bolger","Proudfoot","Greenhand","Brockhouse","Goodbody","Chubb","Banks","Boffin","Bracegirdle","Bunce","Burrows","Cotton","Fairbairn","Goold","Grubb","Hayward","Hornblower","Longbottom","Maggot","Noakes","Pott","Roper","Sandyman","Smallburrow","Twofoot","Whitfoot"]
-    },
-    "Human": {
-        "male": ["Aldric","Cedric","Edmund","Garret","Harold","Lothar","Merek","Oswald","Roland","Theron","Alaric","Baldwin","Beric","Caspian","Conrad","Corwin","Darius","Darian","Eddard","Eldric","Emmerich","Ewald","Florian","Gareth","Gawain","Geraint","Gregor","Hadrian","Hartwin","Jorah","Kendrick","Leofric","Manfred","Mathis","Odric","Ormund","Percival","Ragnar","Reinhardt","Roderick","Sigismund","Talbot","Thaddeus","Tobias","Tybalt","Ulric","Valerian","Victor","Wilfred","Wolfram"],
-        "female": ["Alys","Brynn","Catelyn","Elara","Gwendolyn","Isolde","Liana","Morwen","Rowena","Seraphine","Adela","Anya","Beatrix","Celandra","Daria","Eleanora","Elyse","Freya","Geneva","Helena","Ilyana","Jessamy","Katrin","Lenore","Lisette","Lyanna","Magnolia","Margot","Mira","Odette","Petra","Ravenna","Renata","Sabine","Selene","Tanith","Tatiana","Thessaly","Valeria","Vesper","Yvette","Zelda"],
-        "clan": ["Hawke","Blackwood","Stormwind","Ashford","Ravencroft","Thornfield","Westbrook","Northrend","Hightower","Greymane","Brightshield","Coldwater","Dawnguard","Eastwatch","Falconer","Frost","Goldcrest","Highcastle","Ironwood","Kingsley","Lockwood","Mistvale","Oakheart","Redmane","Shadowvale","Silverton","Starling","Steel","Strong","Swift","Warbringer","Weatherby","Whiteoak","Windham","Wolfhart"]
-    },
-    "Dragonborn": {
-        "male": ["Kriv","Medrash","Nadarr","Pandjed","Patrin","Rhogar","Sora","Torrin","Ushar","Vrakas","Adrex","Bharash","Donaar","Durir","Erash","Faar","Ghesh","Harann","Heskan","Kava","Korinn","Korth","Maaz","Menereth","Mishann","Naar","Orin","Orn","Perra","Rhas","Shamash","Shedinn","Tarhun","Thava","Uadjit","Vaal","Verin","Vrondiss","Zaan","Zarosh","Zorath"],
-        "female": ["Akra","Biri","Daar","Farideh","Harann","Jheri","Kava","Korinn","Nala","Sora","Arileth","Baylith","Ceras","Dira","Erris","Fenrys","Ghesha","Havilar","Iris","Kass","Kethra","Lorath","Maeris","Nalass","Ophir","Paela","Quila","Raiann","Shaena","Tazith","Uri","Vessa","Welsa","Xyra","Yrissa","Zofie"],
-        "clan": ["Clethtinthiallor","Daardendrian","Delmirev","Drachedandion","Fenkenkabradon","Kepeshkmolik","Kerrhylon","Nemmonis","Verthisathurgiesh","Yarjerit","Akambherylliax","Bhergav","Cheth","Daar","Dendi","Esthanaar","Gix","Kanjentellequor","Linxakasendalor","Myastan","Norixius","Ophinshtalajiir","Prexijandilin","Shestendeliath","Turnuroth","Vayemniri","Weryon"]
-    },
-    "Gnome": {
-        "male": ["Fizzwick","Gimble","Nackle","Orryn","Pock","Quill","Sprocket","Tinker","Wizzle","Zook","Alston","Boddynock","Coggle","Dabble","Eldon","Fiddle","Gadget","Hobble","Jingle","Kettle","Loopmottin","Mender","Nix","Oddle","Pibble","Rumble","Snibble","Thimble","Vex","Wobble","Yonkle"],
-        "female": ["Bimpnottin","Caramip","Duvamil","Ellywick","Lilli","Loopmottin","Mardnab","Roywyn","Shamil","Zanna","Arinda","Breena","Carlin","Donella","Ellyjobell","Frug","Gilla","Helva","Joybell","Kithri","Lolly","Mopsa","Nyxie","Orla","Pippa","Quinby","Roslin","Tana","Ummy","Vexia","Wenna","Xelli","Yoli","Zina"],
-        "clan": ["Beren","Daergel","Folkor","Garrick","Nackle","Raulnor","Scheppen","Turen","Warrick","Wiggens","Aleslosh","Ashhearth","Bafflestone","Cogglepot","Dappledew","Fapplestamp","Gimble","Higgle","Jumble","Kettlewhistle","Nimblefizz","Pockle","Quibble","Rangle","Scattercloak","Sparklegem","Thimblegear","Tosslecoat","Whizzle","Zenick"]
-    },
-    "Half-Elf": {
-        "male": ["Aelar","Caelum","Doran","Eryndor","Fenris","Kael","Lorien","Myles","Theron","Varek","Arannis","Berrian","Coren","Darian","Elrohir","Faelan","Garel","Hadrian","Ilphas","Jorah","Keth","Lirien","Maethor","Nalion","Orin","Peren","Quillan","Raegar","Soril","Talasin","Uldred","Varis","Westin","Xandor","Yorin","Zephyr"],
-        "female": ["Aeris","Caelia","Elowen","Illyria","Kyra","Lyra","Maeris","Nyx","Seren","Vaela","Arwyn","Berenice","Corinne","Delphine","Elara","Fianna","Gwyneth","Iris","Jessara","Kethra","Lunara","Miriel","Nerys","Ophelia","Phaedra","Quinna","Rowena","Sylvie","Thalia","Una","Vianne","Wisteria","Xanthe","Ysolde","Zara"],
-        "clan": ["Amakiir","Ilphelkiir","Moonflower","Wintermere","Summerwind","Autumnvale","Springbrook","Truehart","Goodfellow","Whispermoon","Brightwood","Dawnfield","Evernight","Fairmeadow","Goldengrove","Highhollow","Ivywood","Mistral","Riverstone","Shadowglen","Silvermist","Starfall","Thornwood","Wildrose"]
-    },
-    "Half-Orc": {
-        "male": ["Durgash","Goruk","Hrogath","Krusk","Lurtz","Morg","Ogruk","Thokk","Ulfgrim","Zugor","Azog","Borgakh","Durgath","Garoth","Grishnak","Huruk","Kazrak","Khargol","Magra","Mog","Nargol","Ogol","Ront","Shagrol","Taruk","Uloth","Vorgak","Wurzak","Xarg","Yagak","Zog"],
-        "female": ["Borga","Druga","Grenka","Hagra","Kella","Murook","Rogga","Sutha","Urzul","Vorga","Azuk","Baggi","Durgath","Ekk","Forga","Gruna","Hurki","Kansif","Lurka","Neega","Ovak","Prug","Quagg","Rendar","Shautha","Taruk","Ugga","Wrek","Yatur","Zogga"],
-        "clan": ["Bonecrusher","Doomhammer","Ironhide","Skullsplitter","Warsong","Bloodfist","Gorehowl","Dreadmaw","Stormrage","Blackrock","Bloodaxe","Bonechewer","Corpsegrinder","Dreadskull","Frostrider","Gorefiend","Hatefury","Ironskin","Killgore","Maul","Ragehowl","Sever","Skullcrusher","Spinebreaker","Thundertusk","Warhowl"]
-    },
-    "Tiefling": {
-        "male": ["Akmenos","Damakos","Ekemon","Iados","Kairon","Leucis","Melech","Morthos","Phelan","Skamos","Amnon","Arkan","Barachiel","Carac","Caim","Dama","Ged","Hadran","Incus","Israfel","Kallik","Levistus","Malkizid","Mammon","Merodach","Moloch","Naberius","Orias","Raum","Rhyxali","Sallos","Shax","Sitri","Valafar","Vapula","Vepar","Verin","Xaphan","Zagan","Zepar"],
-        "female": ["Akta","Anakis","Bryseis","Criella","Damaia","Ea","Kallista","Lerissa","Makaria","Nemeia","Akriel","Arista","Belladonna","Calista","Demeter","Eris","Fiera","Gorgona","Hecate","Jezebel","Kali","Lamia","Lilith","Medea","Naamah","Nyx","Onyx","Persephone","Raven","Sable","Tempest","Vespera","Willow","Xenia","Yama","Zara"],
-        "clan": ["Art","Carrion","Chant","Creed","Despair","Fear","Glory","Hope","Ideal","Music","Reverie","Sorrow","Torment","Weary","Anguish","Beauty","Chaos","Darkness","Ecstasy","Fury","Grief","Harmony","Infinity","Justice","Knowledge","Liberty","Madness","Nightmare","Oblivion","Pain","Quest","Ruin","Silence","Twilight","Vengeance","Whimsy"]
-    },
-}
-
 # Extend RACE_NAMES with expanded data covering all ingested races
 # Loads from data/race_names.json; graceful fallback if file is missing.
 _expanded_path = DATA_DIR / "race_names.json"
@@ -11647,12 +11298,6 @@ def get_srd_spells_for_class(class_name: str, max_level: int) -> dict:
 
 # ── Caster type detection & prepared spell computation ────────────────────
 
-FULL_CASTERS = {"Bard", "Cleric", "Druid", "Sorcerer", "Wizard"}
-HALF_CASTERS = {"Paladin", "Ranger"}
-PACT_CASTERS = {"Warlock"}
-PREPARED_CASTERS = {"Cleric", "Druid", "Paladin", "Wizard"}
-SPELLS_KNOWN_CASTERS = {"Bard", "Ranger", "Sorcerer", "Warlock"}
-
 # ── Racial Limited-Use Feature Builder ────────────────────────────────────
 
 def _build_racial_limited_features(race_name: str, subrace: str = "", level: int = 1) -> list[str]:
@@ -11716,153 +11361,10 @@ def _normalize_recharge(recharge: str) -> str:
 # max_cap of 99 means scales with character level (capped by level-based formula)
 
 # PHB Limited-Use Abilities (p.186+ per class)
-LIMITED_USE = {
-    # Barbarian (PHB p.46-50)
-    "rage":                {"min": 2, "max": 99, "recharge": "long", "class": "Barbarian", "per": "level"},
-    # Bard (PHB p.51-55) — Bardic Inspiration die increases at L5/10/15
-    "bardic inspiration":  {"min": 3, "max": 99, "recharge": "short", "class": "Bard", "per": "level"},
-    # Cleric (PHB p.56-62) / Paladin (PHB p.83-89) — single entry, class-differentiated in get_uses_for_level
-    "channel divinity":    {"min": 1, "max": 3,  "recharge": "short", "class": "", "per": "level"},
-    # Druid (PHB p.63-68)
-    "wild shape":          {"min": 2, "max": 99, "recharge": "short", "class": "Druid", "per": "level"},
-    # Fighter (PHB p.69-75)
-    "action surge":        {"min": 1, "max": 2,  "recharge": "short", "class": "Fighter", "per": "fixed"},
-    "second wind":         {"min": 1, "max": 1,  "recharge": "short", "class": "Fighter", "per": "fixed"},
-    "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "fixed"},
-    # Monk (PHB p.76-82)
-    "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level", "pool_kind": "points"},
-    # Paladin (PHB p.83-89)
-    "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
-    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level", "pool_kind": "hp"},
-    # (channel divinity merged above — class-differentiated in get_uses_for_level)
-    # Sorcerer (PHB p.99-105)
-    "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level", "pool_kind": "points"},
-    # Warlock (PHB p.105-112)
-    "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
-    # Wizard (PHB p.112-120)
-    "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Dragonborn (PHB p.34) — Breath Weapon, 1/short rest
-    "breath weapon":       {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
-    # Cleric (PHB p.59) — Divine Intervention, 1/long rest (L10: roll; L20: auto)
-    "divine intervention": {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Paladin (PHB p.85) — Cleansing Touch, CHA mod/long rest
-    "cleansing touch":     {"min": 1, "max": 5,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    # Rogue (PHB p.97) — Stroke of Luck, 1/short rest
-    "stroke of luck":      {"min": 1, "max": 1,  "recharge": "short", "class": "Rogue", "per": "fixed"},
-    # Warlock (PHB p.107-108) — Eldritch Master (1/long), Fiend features
-    "eldritch master":     {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
-    "dark one's own luck": {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    "hurl through hell":   {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
-    # Druid Land (PHB p.68) — Natural Recovery, 1/short rest
-    "natural recovery":    {"min": 1, "max": 1,  "recharge": "short", "class": "Druid", "per": "fixed"},
-    # Wizard Evocation (PHB p.117-118) — Overchannel, 1/long rest
-    "overchannel":         {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Wizard (PHB p.115) — Signature Spell, 2 free casts/short rest (one per chosen spell)
-    "signature spell":     {"min": 2, "max": 2,  "recharge": "short", "class": "Wizard", "per": "fixed"},
-    # ── Racial Traits ──
-    "breath weapon":        {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
-    "fey step":             {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
-    "blessing of the raven queen": {"min": 1, "max": 1, "recharge": "long", "class": "", "per": "fixed"},
-    "drow magic":           {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "infernal legacy":      {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "duergar magic":        {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "mingle with the wind": {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "merge with stone":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "reach to the blaze":   {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-    "call to the wave":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
-
-    # ── Subclass Features ──
-    # Fighter — Battle Master (PHB p.73-74)
-    "combat superiority":   {"min": 4, "max": 6,  "recharge": "short", "class": "Fighter", "per": "fixed", "pool_kind": "dice"},
-    # Cleric — Light Domain (PHB p.60-61): WIS mod/long (min 1)
-    "warding flare":        {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
-    "improved flare":       {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
-    "corona of light":      {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Cleric — Nature Domain (PHB p.62): WIS mod/long (min 1)
-    "dampen elements":      {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
-    # Cleric — Tempest Domain (PHB p.62): Wrath = WIS mod/long; Thunderbolt Strike = at-will (not limited)
-    "wrath of the storm":   {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
-    # Paladin — capstones (PHB p.88-89): 1/long each
-    "holy nimbus":          {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    "avenging angel":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    "elder champion":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    # Sorcerer — Draconic Bloodline (PHB p.103-104)
-    "draconic presence":    {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
-    # Sorcerer — Wild Magic (PHB p.103)
-    "tides of chaos":       {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
-    # Warlock — The Archfey (PHB p.108-109): 1/short each
-    "fey presence":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    "misty escape":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    "dark delirium":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    # Warlock — The Great Old One (PHB p.109-110)
-    "entropic ward":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
-    "create thrall":        {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
-    # Wizard — School of Divination (PHB p.115-116)
-    "portent":              {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Wizard — misc (PHB p.117-119)
-    "benign transposition": {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "instinctive charm":    {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
-    "illusory self":        {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
-    "master transmuter":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    # Additional subclass limited-use features
-    "thunderbolt strike":   {"min": 1, "max": 1,  "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "dragon wings":         {"min": 1, "max": 1,  "recharge": "at will", "class": "Sorcerer", "per": "fixed"},
-    "bend luck":            {"min": 1, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "fixed"},
-    "minor conjuration":    {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
-    "greater portent":      {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "alter memories":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "command undead":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "minor alchemy":        {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
-    "transmuter's stone":   {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "improved minor illusion": {"min": 1, "max": 1, "recharge": "at will", "class": "Wizard", "per": "fixed"},
-    # Cleric — capstones (PHB p.59-63)
-    "master of nature":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    "visions of the past":  {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
-    "improved duplicity":   {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
-    "avatar of battle":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
-    # Cleric — Trickery Domain (PHB p.63): WIS mod/long (min 1)
-    "blessing of the trickster": {"min": 1, "max": 5, "recharge": "long", "class": "Cleric", "per": "wis"},
-    # Paladin — Oathbreaker (DMG p.97)
-    "dread lord":           {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
-    # Arcane Trickster (PHB p.97-98)
-    "spell thief":          {"min": 1, "max": 1,  "recharge": "long", "class": "Rogue", "per": "fixed"},
-}
-
-
 # ── Multiclass Support (PHB 2014 p.163-165) ──────────────────────────────
-
-MULTICLASS_PREREQS = {
-    "Barbarian": {"Strength": 13},
-    "Bard": {"Charisma": 13},
-    "Cleric": {"Wisdom": 13},
-    "Druid": {"Wisdom": 13},
-    "Fighter": {"Strength": 13, "Dexterity": 13},  # OR — either meets requirement
-    "Monk": {"Dexterity": 13, "Wisdom": 13},
-    "Paladin": {"Strength": 13, "Charisma": 13},
-    "Ranger": {"Dexterity": 13, "Wisdom": 13},
-    "Rogue": {"Dexterity": 13},
-    "Sorcerer": {"Charisma": 13},
-    "Warlock": {"Charisma": 13},
-    "Wizard": {"Intelligence": 13},
-}
 
 # Proficiencies gained when multiclassing INTO a class (PHB p.164)
 # None of these grant saving throw proficiencies
-MULTICLASS_PROFICIENCIES = {
-    "Barbarian": {"weapons": "simple,martial", "armor": "shields"},
-    "Bard": {"armor": "light", "skills": 1},
-    "Cleric": {"armor": "light,medium,shields"},
-    "Druid": {"armor": "light,medium,shields"},
-    "Fighter": {"weapons": "simple,martial", "armor": "light,medium,shields"},
-    "Monk": {"weapons": "simple,shortswords"},
-    "Paladin": {"weapons": "simple,martial", "armor": "light,medium,shields"},
-    "Ranger": {"weapons": "simple,martial", "armor": "light,medium,shields", "skills": 1},
-    "Rogue": {"armor": "light", "skills": 1},
-    "Sorcerer": {},
-    "Warlock": {"weapons": "simple", "armor": "light"},
-    "Wizard": {},
-}
-
 def parse_class_levels(char_dict: dict) -> dict[str, int]:
     """Parse class_levels JSON from DB. Falls back to {class_name: level} for old chars."""
     import json as _json
@@ -11958,33 +11460,6 @@ def get_multiclass_spell_slots(class_levels: dict[str, int]) -> dict:
 # ── From data.py: ABILITY_NAMES, ASI_LEVELS
 
 # Subclass selection levels + options per class (PHB 2014)
-SUBCLASS_LEVELS: dict[str, dict] = {
-    "Barbarian": {"level": 3, "label": "Primal Path",
-        "options": ["Path of the Berserker","Path of the Totem Warrior"]},
-    "Bard": {"level": 3, "label": "Bard College",
-        "options": ["College of Lore","College of Valor"]},
-    "Cleric": {"level": 1, "label": "Divine Domain",
-        "options": ["Knowledge Domain","Life Domain","Light Domain","Nature Domain","Tempest Domain","Trickery Domain","War Domain"]},
-    "Druid": {"level": 2, "label": "Druid Circle",
-        "options": ["Circle of the Land","Circle of the Moon"]},
-    "Fighter": {"level": 3, "label": "Martial Archetype",
-        "options": ["Champion","Battle Master","Eldritch Knight"]},
-    "Monk": {"level": 3, "label": "Monastic Tradition",
-        "options": ["Way of the Open Hand","Way of Shadow","Way of the Four Elements"]},
-    "Paladin": {"level": 3, "label": "Sacred Oath",
-        "options": ["Oath of Devotion","Oath of the Ancients","Oath of Vengeance"]},
-    "Ranger": {"level": 3, "label": "Ranger Archetype",
-        "options": ["Hunter","Beast Master"]},
-    "Rogue": {"level": 3, "label": "Roguish Archetype",
-        "options": ["Thief","Assassin","Arcane Trickster"]},
-    "Sorcerer": {"level": 1, "label": "Sorcerous Origin",
-        "options": ["Draconic Bloodline","Wild Magic"]},
-    "Warlock": {"level": 1, "label": "Otherworldly Patron",
-        "options": ["The Archfey","The Fiend","The Great Old One"]},
-    "Wizard": {"level": 2, "label": "Arcane Tradition",
-        "options": ["School of Abjuration","School of Conjuration","School of Divination","School of Enchantment","School of Evocation","School of Illusion","School of Necromancy","School of Transmutation"]},
-}
-
 # Expertise progression — class/subclass → {levels: [...], options: "skills" | "skills_and_thieves_tools" | [...]}
 EXPERTISE_LEVELS: dict = {
     "Rogue":         {"levels": [1, 6], "options": "skills_and_thieves_tools"},
@@ -12044,88 +11519,19 @@ FIGHTING_STYLE_OPTIONS: dict[str, list[str]] = {
 # 8 roleplay/combat choice systems: level maps, options, and descriptions
 # ── Metamagic (Sorcerer L3/10/17, pick from list each time) ──────────
 METAMAGIC_LEVELS: dict[str, list[int]] = {"Sorcerer": [3, 10, 17]}
-METAMAGIC_OPTIONS: dict[str, dict] = {
-    "careful_spell":    {"name":"Careful Spell","desc":"Allows creatures you choose to automatically succeed on saving throws against your spell"},
-    "distant_spell":    {"name":"Distant Spell","desc":"Double the range of a spell (touch→30 ft, range ×2)"},
-    "empowered_spell":  {"name":"Empowered Spell","desc":"Reroll up to Cha mod damage dice, must use new rolls"},
-    "extended_spell":   {"name":"Extended Spell","desc":"Double the duration of a spell (max 24 hours)"},
-    "heightened_spell": {"name":"Heightened Spell","desc":"One target has disadvantage on its first saving throw against your spell"},
-    "quickened_spell":  {"name":"Quickened Spell","desc":"Cast a spell with casting time of 1 action as a bonus action"},
-    "subtle_spell":     {"name":"Subtle Spell","desc":"Cast a spell without verbal or somatic components"},
-    "twinned_spell":    {"name":"Twinned Spell","desc":"Target a second creature in range with the same spell (single-target spells only)"},
-}
 METAMAGIC_PICKS: dict[int, int] = {3: 2, 10: 1, 17: 1}  # level → number of choices
 
 # ── Eldritch Invocations (Warlock L2+, ~33 SRD options) ──────────────
 INVOCATION_LEVELS: dict[str, list[int]] = {"Warlock": [2, 5, 7, 9, 12, 15, 18]}
-INVOCATION_OPTIONS: dict[str, dict] = {
-    "agonizing_blast":       {"name":"Agonizing Blast","desc":"Add Cha modifier to Eldritch Blast damage","level":2},
-    "armor_of_shadows":      {"name":"Armor of Shadows","desc":"Cast Mage Armor at will without expending a spell slot","level":2},
-    "ascendant_step":        {"name":"Ascendant Step","desc":"Cast Levitate at will without expending a spell slot","level":9},
-    "beast_speech":          {"name":"Beast Speech","desc":"Cast Speak with Animals at will","level":2},
-    "beguiling_influence":   {"name":"Beguiling Influence","desc":"Gain proficiency in Deception and Persuasion","level":2},
-    "bewitching_whispers":   {"name":"Bewitching Whispers","desc":"Cast Compulsion once per long rest using a Warlock spell slot","level":7},
-    "book_of_ancient_secrets":{"name":"Book of Ancient Secrets","desc":"Learn 2 L1 rituals, can add more from scrolls (requires Pact of the Tome)","level":2,"prereq":"Pact of the Tome"},
-    "chains_of_carceri":     {"name":"Chains of Carceri","desc":"Cast Hold Monster at will on celestial/fiend/elemental, 1/long rest per target","level":15,"prereq":"Pact of the Chain"},
-    "devils_sight":          {"name":"Devil's Sight","desc":"See normally in darkness (magical and nonmagical) to 120 ft","level":2},
-    "dreadful_word":         {"name":"Dreadful Word","desc":"Cast Confusion once per long rest using a Warlock spell slot","level":7},
-    "eldritch_sight":        {"name":"Eldritch Sight","desc":"Cast Detect Magic at will","level":2},
-    "eldritch_spear":        {"name":"Eldritch Spear","desc":"Eldritch Blast range becomes 300 ft","level":2},
-    "eyes_of_the_rune_keeper":{"name":"Eyes of the Rune Keeper","desc":"Read all writing","level":2},
-    "fiendish_vigor":        {"name":"Fiendish Vigor","desc":"Cast False Life at 1st level at will (1d4+4 temp HP)","level":2},
-    "gaze_of_two_minds":     {"name":"Gaze of Two Minds","desc":"Use a willing humanoid's senses, cast targeted spells from their space","level":2},
-    "lifedrinker":           {"name":"Lifedrinker","desc":"Add Cha mod as necrotic damage on Pact Weapon hit (requires Pact of the Blade)","level":12,"prereq":"Pact of the Blade"},
-    "mask_of_many_faces":    {"name":"Mask of Many Faces","desc":"Cast Disguise Self at will","level":2},
-    "master_of_myriad_forms":{"name":"Master of Myriad Forms","desc":"Cast Alter Self at will","level":15},
-    "minions_of_chaos":      {"name":"Minions of Chaos","desc":"Cast Conjure Elemental once per long rest using a Warlock spell slot","level":9},
-    "mire_the_mind":         {"name":"Mire the Mind","desc":"Cast Slow once per long rest using a Warlock spell slot","level":5},
-    "misty_visions":         {"name":"Misty Visions","desc":"Cast Silent Image at will","level":2},
-    "one_with_shadows":      {"name":"One with Shadows","desc":"Become invisible in dim light/darkness while not moving or acting","level":5},
-    "otherworldly_leap":     {"name":"Otherworldly Leap","desc":"Cast Jump at will","level":9},
-    "repelling_blast":       {"name":"Repelling Blast","desc":"Eldritch Blast pushes target 10 ft away (per hit)","level":2},
-    "sculptor_of_flesh":     {"name":"Sculptor of Flesh","desc":"Cast Polymorph once per long rest using a Warlock spell slot","level":7},
-    "sign_of_ill_omen":      {"name":"Sign of Ill Omen","desc":"Cast Bestow Curse once per long rest using a Warlock spell slot","level":5},
-    "thief_of_five_fates":   {"name":"Thief of Five Fates","desc":"Cast Bane once per long rest using a Warlock spell slot","level":2},
-    "thirsting_blade":       {"name":"Thirsting Blade","desc":"Attack twice with Pact Weapon (Extra Attack, requires Pact of the Blade)","level":5,"prereq":"Pact of the Blade"},
-    "visions_of_distant_realms":{"name":"Visions of Distant Realms","desc":"Cast Arcane Eye at will","level":15},
-    "voice_of_the_chain_master":{"name":"Voice of the Chain Master","desc":"Communicate telepathically with, perceive through, and speak through your familiar (requires Pact of the Chain)","level":2,"prereq":"Pact of the Chain"},
-    "whispers_of_the_grave": {"name":"Whispers of the Grave","desc":"Cast Speak with Dead at will","level":9},
-    "witch_sight":           {"name":"Witch Sight","desc":"See invisible creatures/illusions within 30 ft without needing to perceive them","level":15},
-}
 INVOCATION_PICKS: dict[int,int] = {2:2,5:1,7:1,9:1,12:1,15:1,18:1}
 
 # ── Pact Boon (Warlock L3, pick 1 of 4) ──────────────────────────────
 PACT_BOON_LEVELS: dict[str, int] = {"Warlock": 3}
-PACT_BOON_OPTIONS: dict[str, dict] = {
-    "pact_of_the_chain":  {"name":"Pact of the Chain","desc":"Learn Find Familiar; familiar can take the Attack action, gains special forms (imp, pseudodragon, quasit, sprite)"},
-    "pact_of_the_blade":  {"name":"Pact of the Blade","desc":"Create a pact weapon as an action; you are proficient with it; it counts as magical"},
-    "pact_of_the_tome":   {"name":"Pact of the Tome","desc":"Gain a Book of Shadows with 3 cantrips from any class; ritual casting if you take Book of Ancient Secrets"},
-    "pact_of_the_talisman":{"name":"Pact of the Talisman","desc":"Wearer can add d4 to a failed ability check, prof bonus times per long rest"},
-}
-
 # ── Summon Templates (imported from summon_templates.py) ─────────────────
 from summon_templates import SUMMON_TEMPLATES
 
 # ── Battle Master Maneuvers (Fighter L3/7/10/15, requires Battle Master) ──
 MANEUVER_LEVELS: dict[str, list[int]] = {"Battle Master": [3, 7, 10, 15]}
-MANEUVER_OPTIONS: dict[str, dict] = {
-    "commanders_strike":   {"name":"Commander's Strike","desc":"Forgo one attack; ally uses reaction to make one weapon attack + superiority die to damage"},
-    "disarming_attack":    {"name":"Disarming Attack","desc":"Add superiority die to damage; target makes Str save or drops held item"},
-    "distracting_strike":  {"name":"Distracting Strike","desc":"Add superiority die to damage; next ally attack vs target has advantage"},
-    "evasive_footwork":    {"name":"Evasive Footwork","desc":"Add superiority die to AC while moving (no action, on your turn)"},
-    "feinting_attack":     {"name":"Feinting Attack","desc":"Bonus action: add superiority die to next attack roll + damage (if hit)"},
-    "goading_attack":      {"name":"Goading Attack","desc":"Add superiority die to damage; target Wis save or disadv vs others until your next turn end"},
-    "lunging_attack":      {"name":"Lunging Attack","desc":"Add superiority die to damage; melee weapon reach +5ft for this attack"},
-    "maneuvering_attack":  {"name":"Maneuvering Attack","desc":"Add superiority die to damage; one ally moves half speed without provoking OA (reaction)"},
-    "menacing_attack":     {"name":"Menacing Attack","desc":"Add superiority die to damage; target Wis save or frightened until your next turn end"},
-    "parry":               {"name":"Parry","desc":"Reaction: reduce incoming melee damage by superiority die + Dex mod"},
-    "precision_attack":    {"name":"Precision Attack","desc":"Add superiority die to attack roll after roll but before result known"},
-    "pushing_attack":      {"name":"Pushing Attack","desc":"Add superiority die to damage; target Str save or pushed 15 ft"},
-    "rally":               {"name":"Rally","desc":"Bonus action: ally gains temp HP = superiority die + Cha mod"},
-    "riposte":             {"name":"Riposte","desc":"Reaction: when a creature misses you, make a melee attack + superiority die to damage"},
-    "sweeping_attack":     {"name":"Sweeping Attack","desc":"Add superiority die to damage; deal superiority die damage to different adjacent creature"},
-    "trip_attack":         {"name":"Trip Attack","desc":"Add superiority die to damage; target Str save or knocked prone (Large or smaller)"},
-}
 MANEUVER_PICKS: dict[int,int] = {3:3,7:2,10:2,15:2}  # level → total known
 
 # ── Magical Secrets (Bard L10/14/18, Lore Bard gets L6 bonus) ────────
@@ -12134,69 +11540,16 @@ MAGICAL_SECRETS_PICKS: dict[int,int] = {6:2,10:2,14:2,18:2}
 
 # ── Totem Spirit (Barbarian Totem Warrior L3/6/14, pick per tier) ────
 TOTEM_SPIRIT_LEVELS: dict[str, list[int]] = {"Path of the Totem Warrior": [3, 6, 14]}
-TOTEM_SPIRIT_OPTIONS: dict[str, dict] = {
-    "bear":   {"name":"Bear","desc":"Resistance to all damage except psychic while raging"},
-    "eagle":  {"name":"Eagle","desc":"Bonus action Dash while raging; opportunity attacks against you have disadvantage"},
-    "wolf":   {"name":"Wolf","desc":"Allies within 5 ft of you have advantage on melee attacks vs targets adjacent to you"},
-    "elk":    {"name":"Elk (SCAG)","desc":"Speed +15 ft while raging"},
-    "tiger":  {"name":"Tiger (SCAG)","desc":"Jump distance +10 ft while raging; bonus action: move up to half speed after jump attack"},
-}
 TOTEM_SPIRIT_TIER_LABELS: dict[int, str] = {3:"Totem Spirit", 6:"Aspect of the Beast", 14:"Totemic Attunement"}
 
 # ── Hunter's Prey (Ranger Hunter L3, pick 1 of 3) ─────────────────────
 HUNTERS_PREY_LEVELS: dict[str, int] = {"Hunter": 3}
-HUNTERS_PREY_OPTIONS: dict[str, dict] = {
-    "colossus_slayer": {"name":"Colossus Slayer","desc":"Once per turn, +1d8 damage to a wounded creature"},
-    "giant_killer":    {"name":"Giant Killer","desc":"Reaction to attack Large+ creature that attacks you (whether it hits or misses)"},
-    "horde_breaker":   {"name":"Horde Breaker","desc":"Once per turn, make an additional attack vs a different creature within 5 ft of first target"},
-}
-
 # ── Ranger Favored Enemy (PHB p.91, L1/6/14, pick 1 per tier) ────────
 FAVORED_ENEMY_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 14]}
-FAVORED_ENEMY_OPTIONS: dict[str, dict] = {
-    "aberrations": {"name":"Aberrations","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "beasts": {"name":"Beasts","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "celestials": {"name":"Celestials","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "constructs": {"name":"Constructs","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "dragons": {"name":"Dragons","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "elementals": {"name":"Elementals","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "fey": {"name":"Fey","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "fiends": {"name":"Fiends","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "giants": {"name":"Giants","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "monstrosities": {"name":"Monstrosities","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "oozes": {"name":"Oozes","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "plants": {"name":"Plants","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "undead": {"name":"Undead","desc":"Advantage on Survival checks to track, plus Intelligence checks to recall info. Learn one language spoken by them."},
-    "two_humanoids": {"name":"Two Humanoid Races","desc":"Pick two types of humanoid (e.g. orcs and goblins). Advantage on Survival checks to track them, plus Intelligence checks to recall info."},
-}
-
 # ── Ranger Favored Terrain / Natural Explorer (PHB p.91, L1/6/10) ────
 FAVORED_TERRAIN_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 10]}
-FAVORED_TERRAIN_OPTIONS: dict[str, dict] = {
-    "arctic": {"name":"Arctic","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "coast": {"name":"Coast","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "desert": {"name":"Desert","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "forest": {"name":"Forest","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "grassland": {"name":"Grassland","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "mountain": {"name":"Mountain","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "swamp": {"name":"Swamp","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-    "underdark": {"name":"Underdark","desc":"Difficult terrain doesn't slow group travel. No navigation errors. Always alert to danger while tracking/foraging/scouting. Tracking provides exact numbers+sizes+time."},
-}
-
 # ── Artificer Infusions (L2, pick from list) ─────────────────────────
 INFUSION_LEVELS: dict[str, int] = {"Artificer": 2}
-INFUSION_OPTIONS: dict[str, dict] = {
-    "enhanced_defense":        {"name":"Enhanced Defense","desc":"+1 AC to armor or shield (+2 at L10)"},
-    "enhanced_weapon":         {"name":"Enhanced Weapon","desc":"+1 to attack and damage rolls (+2 at L10)"},
-    "repeating_shot":          {"name":"Repeating Shot","desc":"Weapon gains +1 atk/dmg, ignores loading, creates its own ammo"},
-    "returning_weapon":        {"name":"Returning Weapon","desc":"Thrown weapon returns to hand immediately after attack"},
-    "replicate_magic_item":    {"name":"Replicate Magic Item","desc":"Create a common/uncommon magic item from a list"},
-    "homunculus_servant":      {"name":"Homunculus Servant","desc":"Create a tiny construct companion"},
-    "radiant_weapon":          {"name":"Radiant Weapon","desc":"+1 atk/dmg; reaction to blind attacker for 1 round (Con save)"},
-    "spell_refueling_ring":    {"name":"Spell-Refueling Ring","desc":"Recover one spell slot of L3 or lower once per day"},
-    "boots_of_the_winding_path":{"name":"Boots of the Winding Path","desc":"Bonus action teleport 15 ft to unoccupied space you've been this turn"},
-    "armor_of_magical_strength":{"name":"Armor of Magical Strength","desc":"+Int mod to Str checks/saves, limited uses"},
-}
 INFUSION_PICKS: dict[int,int] = {2:4}  # level → known infusions
 
 # Cantrip progression
@@ -12207,53 +11560,6 @@ CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
 }
 
 # ── PHB 2014 Feats ─────────────────────────────────────────────────────
-FEATS: dict[str, dict] = {
-    "alert": {"name":"Alert","desc":"+5 initiative, can't be surprised, hidden creatures don't get advantage on attack rolls","prereq":None},
-    "athlete": {"name":"Athlete","desc":"+1 Str/Dex, standing from prone costs 5 ft, climbing doesn't cost extra movement, running jump only needs 5 ft","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
-    "actor": {"name":"Actor","desc":"+1 Cha, adv on Deception/Performance to pass as someone else, mimic speech","prereq":None,"asi":{"choices":["Charisma"],"amount":1}},
-    "charger": {"name":"Charger","desc":"When you Dash, bonus action melee attack with +5 dmg or shove 10 ft","prereq":None},
-    "crossbow_expert": {"name":"Crossbow Expert","desc":"Ignore loading, no disadv on ranged attacks in melee, bonus action hand crossbow attack","prereq":None},
-    "defensive_duelist": {"name":"Defensive Duelist","desc":"While wielding finesse weapon, add prof to AC as reaction vs melee attack","prereq":"Dexterity 13+"},
-    "dual_wielder": {"name":"Dual Wielder","desc":"+1 AC while dual wielding, use non-light one-handed weapons, draw/stow two at once","prereq":None},
-    "dungeon_delver": {"name":"Dungeon Delver","desc":"Adv on Perception/Investigation vs secret doors & traps, adv on trap saves, resist trap dmg","prereq":None},
-    "durable": {"name":"Durable","desc":"+1 Con, min heal from Hit Die = 2×Con mod","prereq":None,"asi":{"choices":["Constitution"],"amount":1}},
-    "elemental_adept": {"name":"Elemental Adept","desc":"Pick one damage type; spells ignore resistance, treat 1s as 2s on dmg dice","prereq":"Ability to cast at least one spell"},
-    "fey_touched": {"name":"Fey Touched","desc":"+1 Int/Wis/Cha, learn Misty Step + 1 L1 div/ench spell, free 1/day each","prereq":None,"asi":{"choices":["Intelligence","Wisdom","Charisma"],"amount":1}},
-    "grappler": {"name":"Grappler","desc":"Adv on attacks vs grappled targets, can pin restrained creature","prereq":"Strength 13+"},
-    "great_weapon_master": {"name":"Great Weapon Master","desc":"On crit/kill with heavy melee, bonus action attack. -5 atk for +10 dmg on heavy attacks","prereq":None},
-    "healer": {"name":"Healer","desc":"Stabilize → 1 HP. Use healer's kit: 1d6+4+target's HD HP per short rest","prereq":None},
-    "heavily_armored": {"name":"Heavily Armored","desc":"+1 Str, gain heavy armor proficiency","prereq":"Medium armor proficiency","asi":{"choices":["Strength"],"amount":1}},
-    "heavy_armor_master": {"name":"Heavy Armor Master","desc":"+1 Str, B/P/S from nonmagical weapons reduced by 3 while in heavy armor","prereq":"Heavy armor proficiency","asi":{"choices":["Strength"],"amount":1}},
-    "inspiring_leader": {"name":"Inspiring Leader","desc":"10-min speech gives up to 6 allies temp HP = level + Cha mod","prereq":"Charisma 13+"},
-    "keen_mind": {"name":"Keen Mind","desc":"+1 Int, always know north, time till sunrise/sunset, recall past month perfectly","prereq":None,"asi":{"choices":["Intelligence"],"amount":1}},
-    "lightly_armored": {"name":"Lightly Armored","desc":"+1 Str/Dex, gain light armor proficiency","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
-    "linguist": {"name":"Linguist","desc":"+1 Int, learn 3 languages, create written ciphers","prereq":None,"asi":{"choices":["Intelligence"],"amount":1}},
-    "lucky": {"name":"Lucky","desc":"3 luck points per long rest, spend to reroll any d20 or force enemy reroll","prereq":None},
-    "mage_slayer": {"name":"Mage Slayer","desc":"Reaction melee attack vs adjacent caster, adv on saves vs adjacent spells","prereq":None},
-    "magic_initiate": {"name":"Magic Initiate","desc":"Learn 2 cantrips + 1 L1 spell from one class's list; free 1/day casting","prereq":None},
-    "martial_adept": {"name":"Martial Adept","desc":"Learn 2 Battle Master maneuvers, one d6 superiority die","prereq":None},
-    "medium_armor_master": {"name":"Medium Armor Master","desc":"No disadv on Stealth in medium armor, Dex cap +3 instead of +2","prereq":"Medium armor proficiency"},
-    "mobile": {"name":"Mobile","desc":"Speed +10 ft, Dash ignores difficult terrain, no OA from targets you attacked","prereq":None},
-    "moderately_armored": {"name":"Moderately Armored","desc":"+1 Str/Dex, gain medium armor + shield proficiency","prereq":"Light armor proficiency","asi":{"choices":["Strength","Dexterity"],"amount":1}},
-    "mounted_combatant": {"name":"Mounted Combatant","desc":"Adv on melee vs unmounted smaller than mount, redirect attacks to you, mount takes half/zero AoE","prereq":None},
-    "observant": {"name":"Observant","desc":"+1 Int/Wis, +5 passive Perception and Investigation, read lips","prereq":None,"asi":{"choices":["Intelligence","Wisdom"],"amount":1}},
-    "polearm_master": {"name":"Polearm Master","desc":"Bonus action 1d4 butt attack, OA when creatures enter reach with polearms","prereq":None},
-    "resilient": {"name":"Resilient","desc":"+1 to one ability, gain proficiency in that ability's saving throw","prereq":None,"asi":{"choices":["Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"],"amount":1}},
-    "ritual_caster": {"name":"Ritual Caster","desc":"Gain ritual book; learn 2 L1 rituals, can add more from scrolls","prereq":"Intelligence or Wisdom 13+"},
-    "savage_attacker": {"name":"Savage Attacker","desc":"Once per turn, reroll melee weapon damage dice and use either total","prereq":None},
-    "sentinel": {"name":"Sentinel","desc":"OA reduces speed to 0, OA even vs Disengage, reaction attack vs attackers who target allies","prereq":None},
-    "shadow_touched": {"name":"Shadow Touched","desc":"+1 Int/Wis/Cha, learn Invisibility + one L1 necro/illusion spell, free 1/day each","prereq":None,"asi":{"choices":["Intelligence","Wisdom","Charisma"],"amount":1}},
-    "sharpshooter": {"name":"Sharpshooter","desc":"No disadv at long range, ignore half/three-quarters cover, -5 atk for +10 dmg","prereq":None},
-    "shield_master": {"name":"Shield Master","desc":"Bonus action shove after Attack, add shield AC to Dex saves vs single-target spells, take zero dmg instead of half on successful AoE Dex save","prereq":None},
-    "skilled": {"name":"Skilled","desc":"Gain proficiency in any 3 skills or tools","prereq":None},
-    "skulker": {"name":"Skulker","desc":"Ranged attacks in dim light don't reveal position, hiding only needs light obscurement","prereq":"Dexterity 13+"},
-    "spell_sniper": {"name":"Spell Sniper","desc":"Ranged spell attacks ignore half/three-quarters cover, range doubled, learn one attack cantrip","prereq":"Ability to cast at least one spell"},
-    "tavern_brawler": {"name":"Tavern Brawler","desc":"+1 Str/Con, proficient in improvised weps (d4), bonus action grapple on unarmed hit","prereq":None,"asi":{"choices":["Strength","Constitution"],"amount":1}},
-    "tough": {"name":"Tough","desc":"HP maximum increases by 2 per character level (retroactive)","prereq":None},
-    "war_caster": {"name":"War Caster","desc":"Adv on Con saves for concentration, somatic components with weapon/shield, cast spell as OA","prereq":"Ability to cast at least one spell"},
-    "weapon_master": {"name":"Weapon Master","desc":"+1 Str/Dex, gain proficiency with 4 weapons","prereq":None,"asi":{"choices":["Strength","Dexterity"],"amount":1}},
-}
-
 # Tag all PHB 2014 feats with source
 for _feat in FEATS.values():
     if not _feat.get("source"):
@@ -12262,184 +11568,6 @@ for _feat in FEATS.values():
 # ── Feature → Combat Action mapping ──────────────────────────────────
 # Maps feature name (lowercase) to (action_type, short_action_label)
 # action_type: "Action", "Bonus Action", or "Reaction"
-FEATURE_ACTION_TYPES = {
-    # Barbarian
-    "rage":                 ("Bonus Action", "Rage — advantage on STR, +2 dmg, resist B/P/S"),
-    # Bard
-    "bardic inspiration":   ("Bonus Action", "Bardic Inspiration — grant 1d6 to ally"),
-    # Cleric / Paladin
-    "channel divinity":     ("Action", "Channel Divinity — invoke divine power"),
-    # Druid
-    "wild shape":           ("Action", "Wild Shape — transform into a beast"),
-    # Fighter
-    "action surge":         ("Action", "Action Surge — take an additional action"),
-    "indomitable":          ("Reaction", "Indomitable — reroll a failed saving throw"),
-    "second wind":          ("Bonus Action", "Second Wind — regain 1d10 + level HP"),
-    # Paladin
-    "divine sense":         ("Action", "Divine Sense — detect celestials/fiends/undead"),
-    "lay on hands":         ("Action", "Lay on Hands — heal 5×level HP"),
-    # Rogue (features not in LIMITED_USE but present in get_class_features)
-    "cunning action":       ("Bonus Action", "Cunning Action — Dash, Disengage, or Hide"),
-    "uncanny dodge":        ("Reaction", "Uncanny Dodge — halve damage from one attack"),
-    # Monk
-    "flurry of blows":      ("Bonus Action", "Flurry of Blows — two unarmed strikes (1 ki)"),
-    "patient defense":      ("Bonus Action", "Patient Defense — Dodge as bonus action (1 ki)"),
-    "step of the wind":     ("Bonus Action", "Step of the Wind — Dash/Disengage + jump (1 ki)"),
-    # Resource pools (not combat actions per se, but tracked on Actions tab)
-    "ki":                   ("Resource", "Ki — spend on Flurry, Patient Defense, Step of the Wind"),
-    "sorcery points":       ("Resource", "Sorcery Points — spend on Metamagic options"),
-    # Recovery / out-of-combat features
-    "mystic arcanum":       ("Action", "Mystic Arcanum — cast a high-level Warlock spell (1/LR)"),
-    "arcane_recovery":      ("Short Rest", "Arcane Recovery — regain spell slots on short rest"),
-    # Barbarian — Path of the Berserker
-    "intimidating presence":("Action", "Intimidating Presence — frighten one creature, WIS save"),
-    "retaliation":          ("Reaction", "Retaliation — melee attack against attacker who damaged you"),
-    # Cleric — Light Domain
-    "warding flare":        ("Reaction", "Warding Flare — impose disadvantage on an attack against you"),
-    "improved flare":       ("Reaction", "Improved Flare — impose disadvantage on an attack against ally"),
-    "corona of light":      ("Action", "Corona of Light — 60ft bright light, 1 min, disadv on saves vs light/fire"),
-    # —— Racial Limited-Use Traits ——
-    # Dragonborn
-    "breath weapon":        ("Action", "Breath Weapon — 2d6 damage, DEX save (DC 8+CON+PB)"),
-    # Drow
-    "drow magic":           ("Action", "Drow Magic — faerie fire (L3) or darkness (L5)"),
-    # Duergar
-    "duergar magic":        ("Action", "Duergar Magic — enlarge/reduce (L3) or invisibility (L5)"),
-    # Eladrin
-    "fey step":             ("Bonus Action", "Fey Step — teleport 30ft (1/short rest)"),
-    # Shadar-kai
-    "blessing of the raven queen": ("Bonus Action", "Blessing of the Raven Queen — teleport 30ft (1/long rest)"),
-    # Genasi
-    "mingle with the wind": ("Action", "Mingle with the Wind — levitate (1/long rest at L3)"),
-    "merge with stone":     ("Action", "Merge with Stone — pass without trace (1/long rest at L3)"),
-    "reach to the blaze":   ("Action", "Reach to the Blaze — burning hands (1/long rest at L3)"),
-    "call to the wave":     ("Action", "Call to the Wave — create or destroy water (1/long rest at L3)"),
-    # Ravenfolk
-    "sublime chord":       ("Action", "Sublime Chord — 30ft charm, DC 13 CHA (1/long rest)"),
-    # Tabaxi
-    "feline agility":       ("Bonus Action", "Feline Agility — double speed for one turn (recharges after not moving)"),
-    # Firbolg
-    "firbolg magic":        ("Action", "Firbolg Magic — detect magic or disguise self (1/short rest)"),
-    "hidden step":          ("Bonus Action", "Hidden Step — turn invisible until next turn (1/short rest)"),
-    # Goblin
-    "fury of the small":    ("Reaction", "Fury of the Small — add level to damage vs larger creature (1/short rest)"),
-    # Goliath
-    "stone's endurance":    ("Reaction", "Stone's Endurance — roll d12+CON, reduce damage (1/short rest)"),
-    # Hobgoblin
-    "saving face":          ("Reaction", "Saving Face — add +1-5 bonus to missed attack/save/check (1/short rest)"),
-    # Bugbear
-    "surprise attack":      ("Passive", "Surprise Attack — extra 2d6 damage when surprising (1/combat)"),
-    # Lizardfolk
-    "hungry jaws":          ("Bonus Action", "Hungry Jaws — bite attack + temp HP (1/short or long rest)"),
-    # Vedalken
-    "partially amphibious": ("Passive", "Partially Amphibious — breathe underwater for 1 hour (1/long rest)"),
-    # Sable Elf
-    "blood affinity":       ("Action", "Blood Affinity — cast a learned spell from chosen school (1/long rest)"),
-    # Shadow Fey
-    "path of shadows":      ("Bonus Action", "Path of Shadows — misty step in darkness (1/long rest)"),
-    "moon child":           ("Action", "Moon Child — moonbeam spell (1/long rest)"),
-    # Stygian Shade
-    "ghostly flesh":         ("Action", "Ghostly Flesh — dissolve into spirit form (1/long rest)"),
-    # Wyrd Gnome
-    "natural diviner":      ("Action", "Natural Diviner — guidance cantrip, identify/divination (1/long rest)"),
-    # Erina Spiritfarer
-    "spirit tongue":        ("Action", "Spirit Tongue — message cantrip, charm person (L3), speak with dead (L5) (1/long rest)"),
-    # Gith
-    "githyanki psionics":   ("Action", "Githyanki Psionics — mage hand, jump (L3), misty step (L5) (1/long rest)"),
-    "githzerai psionics":   ("Action", "Githzerai Psionics — mage hand, shield (L3), detect thoughts (L5) (1/long rest)"),
-    # Riverfolk Halfling
-    "preternatural navigator": ("Bonus Action", "Preternatural Navigator — sense ley lines, misty step to ley line (1/long rest)"),
-    # Courtfolk Halfling
-    "silent steps":         ("Action", "Silent Steps — silence spell centered on self (1/long rest)"),
-    # Ratatosk
-    "blessing of yggdrasil": ("Action", "Blessing of Yggdrasil — message/vicious mockery, mirror image (L5) (1/long rest)"),
-    "war chatter":          ("Bonus Action", "War Chatter — non-ratatosk CHA save or disadv on attacks (1/short rest)"),
-    # Darakhul
-    "undead fortitude":     ("Reaction", "Undead Fortitude — drop to 1 HP instead of 0 (1/long rest)"),
-    # Dark Folk
-    "whispers of shadow (recharge 5\u20136)": ("Action", "Whispers of Shadow — 30ft dim light, dispel sunlight (recharge 5-6)"),
-    # Tiefling
-    "infernal legacy":      ("Action", "Infernal Legacy — hellish rebuke (L3) or darkness (L5)"),
-    # Cleric — Nature Domain
-    "dampen elements":      ("Reaction", "Dampen Elements — grant resistance to acid/cold/fire/lightning/thunder"),
-    "master of nature":     ("Bonus Action", "Master of Nature — command beasts and plants (1/LR)"),
-    # Cleric — Tempest Domain
-    "wrath of the storm":   ("Reaction", "Wrath of the Storm — 2d8 lightning/thunder vs attacker"),
-    "thunderbolt strike":   ("Reaction", "Thunderbolt Strike — push Large or smaller creature 10ft on lightning dmg"),
-    "stormborn":            ("Action", "Stormborn — 60ft fly speed, 1 min (1/LR)"),
-    # Cleric — Trickery Domain
-    "blessing of the trickster": ("Action", "Blessing of the Trickster — grant adv on Stealth for 1 hour"),
-    "improved duplicity":   ("Action", "Improved Duplicity — create up to 4 illusory duplicates"),
-    # Cleric — Knowledge Domain
-    "visions of the past":  ("Action", "Visions of the Past — object/area reading, 1/SR"),
-    # Cleric — War Domain
-    "war priest":           ("Bonus Action", "War Priest — make one weapon attack (WIS mod/LR)"),
-    "avatar of battle":     ("Action", "Avatar of Battle — resist B/P/S from nonmagical weapons, 1 min (1/LR)"),
-    # Paladin capstones
-    "holy nimbus":          ("Action", "Holy Nimbus — 30ft bright light, 10 radiant dmg/turn, 1 min (1/LR)"),
-    "avenging angel":       ("Action", "Avenging Angel — 60ft fly, 30ft fear aura, 1 hour (1/LR)"),
-    "elder champion":       ("Action", "Elder Champion — regen 10 HP/turn, BA spells, 1 min (1/LR)"),
-    # Paladin — Oathbreaker
-    "dread lord":           ("Action", "Dread Lord — 30ft fear/punish aura, minions, 1 min (1/LR)"),
-    # Sorcerer — Draconic
-    "dragon wings":         ("Bonus Action", "Dragon Wings — fly speed = walk speed"),
-    "draconic presence":    ("Action", "Draconic Presence — 60ft awe/fear aura, 1 min, 5 sorcery pts (1/LR)"),
-    # Sorcerer — Wild Magic
-    "wild magic surge":     ("Reaction", "Wild Magic Surge — roll on d100 table when triggered"),
-    "tides of chaos":       ("Reaction", "Tides of Chaos — grant self advantage on attack/save/check (1/SR)"),
-    "bend luck":            ("Reaction", "Bend Luck — add/subtract 1d4 to a creature's roll (2 sorcery pts)"),
-    # Warlock — The Archfey
-    "fey presence":         ("Action", "Fey Presence — 10ft cube, WIS save or charmed/frightened (1/SR)"),
-    "misty escape":         ("Reaction", "Misty Escape — teleport 60ft + invisible after taking damage (1/SR)"),
-    "dark delirium":        ("Action", "Dark Delirium — target in illusory realm, 1 min (1/SR)"),
-    # Warlock — The Great Old One
-    "awakened mind":        ("Action", "Awakened Mind — telepathy 30ft"),
-    "entropic ward":        ("Reaction", "Entropic Ward — impose disadvantage on attack (1/SR)"),
-    "create thrall":        ("Action", "Create Thrall — permanently charm an incapacitated humanoid (1/LR)"),
-    # Warlock — The Fiend
-    "dark one's blessing":  ("Reaction", "Dark One's Blessing — gain temp HP on kill"),
-    "dark one's own luck":  ("Reaction", "Dark One's Own Luck — add d10 to ability check/save (1/SR)"),
-    "hurl through hell":    ("Action", "Hurl Through Hell — 10d10 psychic, 1 round banish (1/LR)"),
-    # Wizard — Divination
-    "portent":              ("Reaction", "Portent — replace any d20 roll with a pre-rolled result (2/LR)"),
-    "greater portent":      ("Reaction", "Greater Portent — replace a third d20 roll (3/LR)"),
-    "the third eye":        ("Action", "The Third Eye — darkvision, ethereal sight, read any language"),
-    # Wizard — Conjuration
-    "minor conjuration":    ("Action", "Minor Conjuration — create a small nonmagical object"),
-    "benign transposition": ("Action", "Benign Transposition — teleport 30ft or swap with ally (1/LR)"),
-    # Wizard — Enchantment
-    "hypnotic gaze":        ("Action", "Hypnotic Gaze — incapacitate a creature until next turn"),
-    "instinctive charm":    ("Reaction", "Instinctive Charm — redirect an attack to another creature (1/LR)"),
-    "alter memories":       ("Action", "Alter Memories — modify memory of charmed target"),
-    # Wizard — Illusion
-    "improved minor illusion": ("Action", "Improved Minor Illusion — create sound + image together"),
-    "illusory self":        ("Reaction", "Illusory Self — auto-miss vs one attack (1/SR)"),
-    "illusory reality":     ("Bonus Action", "Illusory Reality — make one illusion object temporarily real (1/LR)"),
-    # Wizard — Necromancy
-    "command undead":       ("Action", "Command Undead — charm an undead (INT save, 1/LR)"),
-    # Wizard — Transmutation
-    "minor alchemy":        ("Action", "Minor Alchemy — temporarily transmute material"),
-    "transmuter's stone":   ("Action", "Transmuter's Stone — grant buff to holder (darkvision/speed/resist/CON)"),
-    "master transmuter":    ("Action", "Master Transmuter — Panacea, Restore Life, or Restore Youth (1 use)"),
-    # Wizard — Evocation
-    "sculpt spells":        ("Reaction", "Sculpt Spells — protect allies from your AoE spells"),
-    # Barbarian — Path of the Totem Warrior
-    "totem spirit":         ("Action", "Totem Spirit — choose Bear/Eagle/Wolf spirit boon"),
-    "aspect of the beast":  ("Action", "Aspect of the Beast — choose a second totem animal benefit"),
-    "totemic attunement":   ("Action", "Totemic Attunement — choose a third totem animal benefit"),
-    # Rogue — Arcane Trickster
-    "mage hand legerdemain": ("Bonus Action", "Mage Hand Legerdemain — invisible hand, stow/retrieve, pickpocket"),
-    "magical ambush":       ("Bonus Action", "Magical Ambush — impose disadvantage on spell save from hiding"),
-    "versatile trickster":  ("Bonus Action", "Versatile Trickster — Mage Hand distracts for advantage"),
-    "spell thief":          ("Reaction", "Spell Thief — steal a spell being cast (1/LR)"),
-    # Rogue — Thief
-    "fast hands":           ("Bonus Action", "Fast Hands — Sleight of Hand, thieves' tools, or Use an Object"),
-    # Rogue — Assassin
-    "assassinate":          ("Reaction", "Assassinate — auto-crit surprised creatures, adv vs lower initiative"),
-    # Ranger — Hunter
-    "multiattack":          ("Action", "Multiattack — Volley (ranged AoE) or Whirlwind Attack (melee AoE)"),
-}
-
 # ── Channel Divinity sub-option descriptions (PHB 2014, not in SRD) ──────
 CHANNEL_DIVINITY_DESCRIPTIONS: dict[str, str] = {
     # Cleric domains — PHB p.59-62
@@ -15005,110 +14133,8 @@ def get_spells_for_level(class_name: str, level: int) -> dict:
     return get_srd_spells_for_class(class_name, level)
 
 # Feats by class tier (PHB-optimal picks at ASI levels 4,8,12,16,19)
-RECOMMENDED_FEATS = {
-    "Barbarian":    ["Great Weapon Master","Polearm Master","Sentinel","Resilient (Wisdom)","Tough"],
-    "Bard":         ["Inspiring Leader","War Caster","Resilient (Constitution)","Lucky","Alert","Fey Touched"],
-    "Cleric":       ["War Caster","Resilient (Constitution)","Telekinetic","Lucky","Alert","Fey Touched"],
-    "Druid":        ["War Caster","Resilient (Constitution)","Observant","Lucky","Alert","Fey Touched"],
-    "Fighter":      ["Great Weapon Master","Polearm Master","Sentinel","Sharpshooter","Crossbow Expert","Tough"],
-    "Monk":         ["Mobile","Crusher","Sentinel","Alert","Tough"],
-    "Paladin":      ["Great Weapon Master","Polearm Master","Sentinel","Inspiring Leader","Resilient (Constitution)","Fey Touched"],
-    "Ranger":       ["Sharpshooter","Crossbow Expert","Fey Touched","Resilient (Constitution)","Alert","Lucky"],
-    "Rogue":        ["Sharpshooter","Crossbow Expert","Skulker","Lucky","Alert","Mobile"],
-    "Sorcerer":     ["War Caster","Metamagic Adept","Fey Touched","Lucky","Alert","Elemental Adept"],
-    "Warlock":      ["War Caster","Resilient (Constitution)","Fey Touched","Spell Sniper","Lucky","Alert"],
-    "Wizard":       ["War Caster","Resilient (Constitution)","Telekinetic","Lucky","Alert","Fey Touched"],
-}
-
 # Scaled equipment by class and level tier (PHB starting equipment + reasonable progression)
 # Levels: 1, 5, 10, 15, 20
-SCALED_EQUIPMENT = {
-    "Barbarian": {
-        1:  ["Greataxe","2 Handaxes","Explorer's Pack","4 Javelins"],
-        5:  ["+1 Greataxe","2 Handaxes","Explorer's Pack","4 Javelins","Breastplate"],
-        10: ["+2 Greataxe","Explorer's Pack","Half Plate","Javelin of Lightning","Cloak of Protection","Potion of Giant Strength (Hill)"],
-        15: ["+2 Greatsword","Half Plate +1","Cloak of Displacement","Belt of Giant Strength (Fire)","Ring of Protection","Boots of Speed"],
-        20: ["+3 Greataxe","Half Plate +2","Belt of Storm Giant Strength","Cloak of Displacement","Ring of Protection","Boots of Speed","Mantle of Spell Resistance"],
-    },
-    "Bard": {
-        1:  ["Rapier","Entertainer's Pack","Lute","Leather Armor","Dagger"],
-        5:  ["+1 Rapier","Studded Leather","Entertainer's Pack","Lute","Wand of Magic Missiles"],
-        10: ["+2 Rapier","Studded Leather +1","Instrument of the Bards (Cli Lyre)","Cloak of Protection","Wand of Web","Hat of Disguise"],
-        15: ["+2 Rapier","Studded Leather +2","Instrument of the Bards (Bandore)","Ring of Protection","Cloak of Displacement","Mantle of Spell Resistance"],
-        20: ["+3 Rapier","Studded Leather +3","Instrument of the Bards (Ollamh Harp)","Ring of Protection","Cloak of Displacement","Robe of the Archmagi"],
-    },
-    "Cleric": {
-        1:  ["Mace","Scale Mail","Light Crossbow + 20 Bolts","Priest's Pack","Shield","Holy Symbol"],
-        5:  ["+1 Mace","Splint Mail","Shield","Holy Symbol","Priest's Pack","Necklace of Prayer Beads"],
-        10: ["+2 Mace","Plate Armor","Shield +1","Necklace of Prayer Beads","Cloak of Protection","Periapt of Wound Closure"],
-        15: ["+2 Mace","Plate Armor +1","Shield +2","Amulet of the Devout +2","Cloak of Displacement","Ring of Spell Storing"],
-        20: ["+3 Mace","Plate Armor +2","Shield +3","Amulet of the Devout +3","Cloak of Displacement","Ring of Spell Storing","Rod of Resurrection"],
-    },
-    "Druid": {
-        1:  ["Wooden Shield","Scimitar","Leather Armor","Explorer's Pack","Druidic Focus"],
-        5:  ["+1 Scimitar","Hide Armor","Wooden Shield","Explorer's Pack","Moon Sickle +1","Cloak of Elvenkind"],
-        10: ["+2 Scimitar","Studded Leather","Wooden Shield +1","Moon Sickle +2","Staff of the Woodlands","Cloak of Protection"],
-        15: ["+2 Scimitar","Studded Leather +1","Wooden Shield +2","Moon Sickle +2","Staff of the Woodlands","Ring of Protection","Dragonhide Breastplate"],
-        20: ["+3 Scimitar","Dragonhide Half Plate","Wooden Shield +3","Moon Sickle +3","Staff of the Woodlands","Ring of Protection","Cloak of Displacement"],
-    },
-    "Fighter": {
-        1:  ["Chain Mail","Longsword","Shield","Light Crossbow + 20 Bolts","Dungeoneer's Pack"],
-        5:  ["Plate Armor","+1 Longsword","Shield","Longbow + 20 Arrows","Dungeoneer's Pack","Cloak of Protection"],
-        10: ["Plate Armor +1","+2 Longsword","Shield +1","Longbow +1","Cloak of Displacement","Ring of Protection","Gauntlets of Ogre Power"],
-        15: ["Plate Armor +2","+2 Greatsword","Longbow +2","Belt of Giant Strength (Hill)","Cloak of Displacement","Ring of Protection","Winged Boots"],
-        20: ["Plate Armor +3","+3 Greatsword","Longbow +3","Belt of Giant Strength (Storm)","Cloak of Displacement","Ring of Protection","Winged Boots","Mantle of Spell Resistance"],
-    },
-    "Monk": {
-        1:  ["Shortsword","Dungeoneer's Pack","10 Darts"],
-        5:  ["+1 Shortsword","Dungeoneer's Pack","10 Darts","Bracers of Defense","Cloak of Protection"],
-        10: ["+2 Shortsword","Bracers of Defense","Cloak of Displacement","Ring of Protection","Insignia of Claws","Boots of Speed"],
-        15: ["+2 Shortsword","Bracers of Defense +1","Cloak of Displacement","Ring of Protection","Insignia of Claws","Boots of Speed","Dragonhide Belt +2"],
-        20: ["+3 Shortsword","Bracers of Defense +2","Cloak of Displacement","Ring of Protection","Boots of Speed","Dragonhide Belt +3","Tome of Understanding"],
-    },
-    "Paladin": {
-        1:  ["Longsword","Shield","5 Javelins","Priest's Pack","Chain Mail","Holy Symbol"],
-        5:  ["+1 Longsword","Shield","Plate Armor","5 Javelins","Priest's Pack","Holy Symbol"],
-        10: ["+2 Longsword","Shield +1","Plate Armor +1","Cloak of Protection","Holy Avenger (base)","Necklace of Prayer Beads"],
-        15: ["+2 Greatsword","Plate Armor +2","Cloak of Displacement","Holy Avenger","Ring of Protection","Belt of Giant Strength (Hill)","Necklace of Prayer Beads"],
-        20: ["+3 Greatsword","Plate Armor +3","Holy Avenger","Belt of Giant Strength (Storm)","Cloak of Displacement","Ring of Protection","Mantle of Spell Resistance"],
-    },
-    "Ranger": {
-        1:  ["Longbow + 20 Arrows","Shortsword","Scale Mail","Explorer's Pack"],
-        5:  ["+1 Longbow","Breastplate","Shortsword","Explorer's Pack","Cloak of Elvenkind","Bracers of Archery"],
-        10: ["+2 Longbow","Studded Leather +1","Shortsword +1","Cloak of Elvenkind","Bracers of Archery","Ring of Protection","Boots of Elvenkind"],
-        15: ["+2 Longbow","Studded Leather +2","Cloak of Displacement","Bracers of Archery","Ring of Protection","Oathbow","Boots of Speed"],
-        20: ["+3 Longbow","Studded Leather +3","Cloak of Displacement","Bracers of Archery","Ring of Protection","Oathbow","Boots of Speed","Mantle of Spell Resistance"],
-    },
-    "Rogue": {
-        1:  ["Rapier","Shortbow + 20 Arrows","Burglar's Pack","Leather Armor","2 Daggers","Thieves' Tools"],
-        5:  ["+1 Rapier","Studded Leather","Shortbow","Burglar's Pack","Thieves' Tools","Cloak of Elvenkind","Gloves of Thievery"],
-        10: ["+2 Rapier","Studded Leather +1","Shortbow +1","Cloak of Elvenkind","Gloves of Thievery","Ring of Protection","Boots of Elvenkind"],
-        15: ["+2 Rapier","Studded Leather +2","Cloak of Displacement","Ring of Protection","Boots of Speed","Dagger of Venom","Hat of Disguise"],
-        20: ["+3 Rapier","Studded Leather +3","Cloak of Displacement","Ring of Protection","Boots of Speed","Dagger of Venom","Hat of Disguise","Mantle of Spell Resistance"],
-    },
-    "Sorcerer": {
-        1:  ["Light Crossbow + 20 Bolts","Arcane Focus","Dungeoneer's Pack","2 Daggers"],
-        5:  ["Arcane Focus","Dungeoneer's Pack","Cloak of Protection","Wand of Magic Missiles","Elven Chain"],
-        10: ["Bloodwell Vial +2","Elven Chain","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
-        15: ["Bloodwell Vial +2","Elven Chain +1","Cloak of Displacement","Ring of Spell Storing","Wand of Fireballs","Robe of Stars","Staff of Power"],
-        20: ["Bloodwell Vial +3","Robe of the Archmagi","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Tome of Leadership and Influence"],
-    },
-    "Warlock": {
-        1:  ["Light Crossbow + 20 Bolts","Arcane Focus","Scholar's Pack","Leather Armor","Dagger"],
-        5:  ["+1 Rod of the Pact Keeper","Studded Leather","Scholar's Pack","Cloak of Protection","Wand of Web"],
-        10: ["+2 Rod of the Pact Keeper","Studded Leather +1","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
-        15: ["+2 Rod of the Pact Keeper","Studded Leather +2","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Illusionist's Bracers"],
-        20: ["+3 Rod of the Pact Keeper","Studded Leather +3","Cloak of Displacement","Ring of Spell Storing","Robe of the Archmagi","Staff of Power","Illusionist's Bracers"],
-    },
-    "Wizard": {
-        1:  ["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"],
-        5:  ["Arcane Focus","Scholar's Pack","Spellbook","Cloak of Protection","Wand of Magic Missiles","Elven Chain"],
-        10: ["Arcane Grimoire +2","Elven Chain","Cloak of Protection","Wand of Fireballs","Ring of Spell Storing","Broom of Flying"],
-        15: ["Arcane Grimoire +2","Elven Chain +1","Cloak of Displacement","Ring of Spell Storing","Wand of Fireballs","Robe of Stars","Staff of Power"],
-        20: ["Arcane Grimoire +3","Robe of the Archmagi","Cloak of Displacement","Ring of Spell Storing","Robe of Stars","Staff of Power","Tome of Clear Thought"],
-    },
-}
-
 # HP calculation: max at level 1, average (rounded up) thereafter
 def calc_hp(class_name: str, level: int, con_mod: int) -> int:
     hd = CLASSES.get(class_name, {}).get("hd", 8)
