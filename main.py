@@ -3459,15 +3459,33 @@ async def dashboard(request: Request):
 
 @app.get("/api/dm/traps", response_class=JSONResponse)
 async def dm_list_traps(request: Request):
-    """List custom traps for the current user."""
+    """List all traps — manual data + custom user traps."""
     user = require_user(request)
     db = get_db()
-    traps = [dict(r) for r in db.execute(
+    all_traps = list(MANUAL_TRAPS)
+    custom = [dict(r) for r in db.execute(
         "SELECT * FROM dm_custom_traps WHERE user_id = ? ORDER BY created_at DESC",
         (user["id"],)
     ).fetchall()]
     db.close()
-    return JSONResponse({"traps": traps})
+    for ct in custom:
+        all_traps.append({
+            "name": ct["name"],
+            "type": ct["type"],
+            "danger": ct["danger"],
+            "trigger": ct.get("trigger", ""),
+            "detection": {"dc": ct.get("detection_dc"), "skill": ct.get("detection_skill", "Perception"), "detail": ct.get("detection_detail", "")},
+            "disarm": {"dc": ct.get("disarm_dc"), "method": ct.get("disarm_method", ""), "detail": ct.get("disarm_detail", "")},
+            "effect": ct.get("effect", ""),
+            "save_dc": ct.get("save_dc"),
+            "save_ability": ct.get("save_ability", "Dexterity"),
+            "damage": ct.get("damage", ""),
+            "damage_type": ct.get("damage_type", ""),
+            "area": ct.get("area", ""),
+            "description": ct.get("description", ""),
+            "_custom_id": ct["id"],
+        })
+    return JSONResponse({"traps": all_traps})
 
 
 @app.post("/api/dm/traps/create", response_class=JSONResponse)
@@ -3620,9 +3638,6 @@ async def describe_item(name: str = ""):
     return JSONResponse(item)
 
 
-
-MANUAL_TRAPS: list[dict] = []
-MANUAL_MONSTERS: list[dict] = []
 
 def _normalize_manual_monster(m: dict):
     """Normalize a manually-extracted monster to match SRD cache format."""
@@ -3947,6 +3962,9 @@ def _template_monster_entries() -> list[dict]:
     return entries
 
 
+
+MANUAL_TRAPS: list[dict] = []
+MANUAL_MONSTERS: list[dict] = []
 
 # ── Shared helpers imported by route modules ──
 
