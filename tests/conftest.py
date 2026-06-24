@@ -14,7 +14,8 @@ os.environ.setdefault("DND_DATA_DIR", str(HERE / "data"))
 # Import main — triggers all the SRD loading, data enrichment, etc.
 # This takes ~0.5s and runs once per test session.
 import main as app_module
-from main import app, get_db, init_db, parse_class_levels, CLASSES, RACES
+from main import app, get_db, init_db, CLASSES, RACES
+from routes.characters import parse_class_levels
 from main import SUBCLASS_FEATURES, LIMITED_USE, FEAT_BY_NAME
 
 from fastapi.testclient import TestClient

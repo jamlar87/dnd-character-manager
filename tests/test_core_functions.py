@@ -4,11 +4,12 @@ Tests the utility/business-logic functions that don't need a running server.
 """
 
 import pytest
-from main import (
+from main import get_racial_trait_effects
+from routes.characters import (
     parse_class_levels, total_level, primary_class,
     get_spellcasting_mod, get_caster_type, get_prepared_max,
     get_spells_known_max, get_cantrips_known_max,
-    get_racial_trait_effects, random_name, random_equipment,
+    random_name, random_equipment,
 )
 
 
