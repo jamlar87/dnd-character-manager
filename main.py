@@ -3424,7 +3424,7 @@ def check_armor_proficiency_from_set(profs: set[str], armor_category: str) -> di
     }
 
 
-# ── Routes: Auth ────────────────────────────────────────────────────────────
+# ── Routes: Landing ───────────────────────────────────────────────────────────
 
 @app.get("/", response_class=HTMLResponse)
 async def landing(request: Request):
@@ -3432,85 +3432,6 @@ async def landing(request: Request):
     if user:
         return RedirectResponse("/dashboard", 303)
     return _render("landing.html", request=request)
-
-@app.get("/register", response_class=HTMLResponse)
-async def register_page(request: Request):
-    return _render("register.html", request=request)
-
-@app.post("/register")
-async def register(request: Request, email: str = Form(...), password: str = Form(...)):
-    if email.lower().strip() == "admin":
-        return _render("register.html", request=request, error="That email is unavailable")
-    if len(password) < 6:
-        return _render("register.html", request=request, error="Password must be at least 6 characters")
-    db = get_db()
-    try:
-        db.execute("INSERT INTO users (email, password_hash) VALUES (?, ?)",
-                   (email.lower().strip(), _hash(password)))
-        db.commit()
-        user = _get_user(email.lower().strip())
-        token = _create_session(user["id"])
-        resp = RedirectResponse("/dashboard", 303)
-        resp.set_cookie("dnd_token", token, httponly=True, max_age=60*60*24*30, samesite="lax")
-        return resp
-    except sqlite3.IntegrityError:
-        return _render("register.html", request=request, error="Email already registered")
-    finally:
-        db.close()
-
-@app.get("/login", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return _render("login.html", request=request)
-
-@app.post("/login")
-async def login(request: Request, email: str = Form(...), password: str = Form(...)):
-    user = _get_user(email.lower().strip())
-    if not user or not _verify(password, user["password_hash"]):
-        return _render("login.html", request=request, error="Invalid email or password")
-    token = _create_session(user["id"])
-    resp = RedirectResponse("/dashboard", 303)
-    resp.set_cookie("dnd_token", token, httponly=True, max_age=60*60*24*30, samesite="lax")
-    return resp
-
-# ── Password Reset ──────────────────────────────────────────────────────
-
-@app.get("/reset-password", response_class=HTMLResponse)
-async def reset_password_page(request: Request):
-    return _render("reset_password.html", request=request)
-
-@app.post("/reset-password")
-async def reset_password(request: Request, email: str = Form(...), password: str = Form(...)):
-    if len(password) < 6:
-        return _render("reset_password.html", request=request,
-                       email=email, error="Password must be at least 6 characters")
-    user = _get_user(email.lower().strip())
-    if not user:
-        return _render("reset_password.html", request=request,
-                       email=email, error="No account found with that email")
-    db = get_db()
-    db.execute("UPDATE users SET password_hash = ? WHERE id = ?",
-               (_hash(password), user["id"]))
-    db.commit()
-    db.close()
-    # Clear any existing sessions for this user
-    db = get_db()
-    db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
-    db.commit()
-    db.close()
-    return _render("reset_password.html", request=request,
-                   success="Password reset! You can now log in.")
-
-@app.get("/logout")
-async def logout(request: Request):
-    token = request.cookies.get("dnd_token")
-    if token:
-        db = get_db()
-        db.execute("DELETE FROM sessions WHERE token = ?", (token,))
-        db.commit()
-        db.close()
-    resp = RedirectResponse("/", 303)
-    resp.delete_cookie("dnd_token")
-    return resp
 
 # ── Routes: Dashboard ───────────────────────────────────────────────────────
 
@@ -16195,6 +16116,9 @@ async def describe_item(name: str = ""):
 @app.on_event("startup")
 async def startup():
     init_db()
+    # Register route modules (deferred to avoid circular imports)
+    from routes.auth import router as auth_router
+    app.include_router(auth_router)
 
 # ── Reference Manual Lookup ─────────────────────────────────────────────────
 # Ingested manuals from data/manual_data/ + cached extracts from data/manual_cache/
