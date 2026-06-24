@@ -500,59 +500,115 @@ SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
 # ── PHB Limited-Use Features ──────────────────────────────────────────
 
 LIMITED_USE = {
+    # Barbarian (PHB p.46-50)
     "rage":                {"min": 2, "max": 99, "recharge": "long", "class": "Barbarian", "per": "level"},
+    # Bard (PHB p.51-55) — Bardic Inspiration die increases at L5/10/15
     "bardic inspiration":  {"min": 3, "max": 99, "recharge": "short", "class": "Bard", "per": "level"},
+    # Cleric (PHB p.56-62) / Paladin (PHB p.83-89) — single entry, class-differentiated in get_uses_for_level
     "channel divinity":    {"min": 1, "max": 3,  "recharge": "short", "class": "", "per": "level"},
+    # Druid (PHB p.63-68)
     "wild shape":          {"min": 2, "max": 99, "recharge": "short", "class": "Druid", "per": "level"},
+    # Fighter (PHB p.69-75)
     "action surge":        {"min": 1, "max": 2,  "recharge": "short", "class": "Fighter", "per": "fixed"},
     "second wind":         {"min": 1, "max": 1,  "recharge": "short", "class": "Fighter", "per": "fixed"},
     "indomitable":         {"min": 1, "max": 3,  "recharge": "long", "class": "Fighter", "per": "fixed"},
+    # Monk (PHB p.76-82)
     "ki":                  {"min": 2, "max": 99, "recharge": "short", "class": "Monk", "per": "level", "pool_kind": "points"},
-    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level", "pool_kind": "hp"},
+    # Paladin (PHB p.83-89)
     "divine sense":        {"min": 1, "max": 99, "recharge": "long", "class": "Paladin", "per": "level"},
-    "channel divinity: abjure enemy":     {"min": 1, "max": 1, "recharge": "short", "class": "Paladin", "per": "fixed"},
-    "channel divinity: vow of enmity":    {"min": 1, "max": 1, "recharge": "short", "class": "Paladin", "per": "fixed"},
-    "favored foe":         {"min": 1, "max": 1, "recharge": "long", "class": "Ranger", "per": "fixed"},
-    "wholeness of body":   {"min": 3, "max": 3, "recharge": "long", "class": "Monk", "per": "fixed"},
-    "empty body":          {"min": 1, "max": 1, "recharge": "long", "class": "Monk", "per": "fixed"},
-    "archery":             {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "defense":             {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "dueling":             {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "great weapon fighting": {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "protection":          {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "two-weapon fighting": {"min": 1, "max": 1, "recharge": "long", "class": "Fighter", "per": "fixed"},
-    "thunderbolt strike":  {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "divine strike":       {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "potent spellcasting": {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "blessed strikes":     {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "war priest":          {"min": 3, "max": 3, "recharge": "long", "class": "Cleric", "per": "fixed"},
-    "wrath of the storm":  {"min": 1, "max": 1, "recharge": "long", "class": "Cleric", "per": "fixed"},
-    "warding flare":       {"min": 3, "max": 5, "recharge": "long", "class": "Cleric", "per": "fixed"},
-    "inured to death":     {"min": 1, "max": 1, "recharge": "at will", "class": "Wizard", "per": "fixed"},
-    "portent":             {"min": 2, "max": 3, "recharge": "long", "class": "Wizard", "per": "fixed"},
-    "dragon wings":        {"min": 1, "max": 1, "recharge": "at will", "class": "Sorcerer", "per": "fixed"},
-    "sneak attack":        {"min": 1, "max": 1, "recharge": "at will", "class": "Rogue", "per": "fixed"},
-    "evasion":             {"min": 1, "max": 1, "recharge": "at will", "class": "Rogue", "per": "fixed"},
-    "uncanny dodge":       {"min": 1, "max": 1, "recharge": "at will", "class": "Rogue", "per": "fixed"},
-    "stroke of luck":      {"min": 1, "max": 1, "recharge": "short", "class": "Rogue", "per": "fixed"},
-    "reliable talent":     {"min": 1, "max": 1, "recharge": "at will", "class": "Rogue", "per": "fixed"},
-    "master of myraid forms": {"min": 1, "max": 1, "recharge": "at will", "class": "Warlock", "per": "fixed"},
-    "one with shadows":    {"min": 1, "max": 1, "recharge": "at will", "class": "Warlock", "per": "fixed"},
-    "vanish":              {"min": 1, "max": 1, "recharge": "at will", "class": "Ranger", "per": "fixed"},
-    "mask of the wild":    {"min": 1, "max": 1, "recharge": "at will", "class": "Ranger", "per": "fixed"},
-    "hide in plain sight": {"min": 1, "max": 1, "recharge": "at will", "class": "Ranger", "per": "fixed"},
-    "feral senses":        {"min": 1, "max": 1, "recharge": "at will", "class": "Ranger", "per": "fixed"},
-    "dwarven resilience":  {"min": 1, "max": 1, "recharge": "at will", "class": "Dwarf", "per": "fixed"},
-    "superior inspiration":{"min": 1, "max": 1, "recharge": "at will", "class": "Bard", "per": "fixed"},
-    "countercharm":        {"min": 1, "max": 1, "recharge": "at will", "class": "Bard", "per": "fixed"},
-    "cutting words":       {"min": 1, "max": 99, "recharge": "long", "class": "Bard", "per": "level"},
-    "blessed healer":      {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "disciple of life":    {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "sanctuary":           {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "spirit guardians":    {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "spiritual weapon":    {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
-    "healing word":        {"min": 1, "max": 99, "recharge": "at will", "class": "Cleric", "per": "level"},
-    "mass healing word":   {"min": 1, "max": 1, "recharge": "at will", "class": "Cleric", "per": "fixed"},
+    "lay on hands":        {"min": 5, "max": 99, "recharge": "long", "class": "Paladin", "per": "level", "pool_kind": "hp"},
+    # (channel divinity merged above — class-differentiated in get_uses_for_level)
+    # Sorcerer (PHB p.99-105)
+    "sorcery points":      {"min": 2, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "level", "pool_kind": "points"},
+    # Warlock (PHB p.105-112)
+    "mystic arcanum":      {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    # Wizard (PHB p.112-120)
+    "arcane recovery":     {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Dragonborn (PHB p.34) — Breath Weapon, 1/short rest
+    "breath weapon":       {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    # Cleric (PHB p.59) — Divine Intervention, 1/long rest (L10: roll; L20: auto)
+    "divine intervention": {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Paladin (PHB p.85) — Cleansing Touch, CHA mod/long rest
+    "cleansing touch":     {"min": 1, "max": 5,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Rogue (PHB p.97) — Stroke of Luck, 1/short rest
+    "stroke of luck":      {"min": 1, "max": 1,  "recharge": "short", "class": "Rogue", "per": "fixed"},
+    # Warlock (PHB p.107-108) — Eldritch Master (1/long), Fiend features
+    "eldritch master":     {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    "dark one's own luck": {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "hurl through hell":   {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    # Druid Land (PHB p.68) — Natural Recovery, 1/short rest
+    "natural recovery":    {"min": 1, "max": 1,  "recharge": "short", "class": "Druid", "per": "fixed"},
+    # Wizard Evocation (PHB p.117-118) — Overchannel, 1/long rest
+    "overchannel":         {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Wizard (PHB p.115) — Signature Spell, 2 free casts/short rest (one per chosen spell)
+    "signature spell":     {"min": 2, "max": 2,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    # ── Racial Traits ──
+    "breath weapon":        {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    "fey step":             {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
+    "blessing of the raven queen": {"min": 1, "max": 1, "recharge": "long", "class": "", "per": "fixed"},
+    "drow magic":           {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "infernal legacy":      {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "duergar magic":        {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "mingle with the wind": {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "merge with stone":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "reach to the blaze":   {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+    "call to the wave":     {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
+
+    # ── Subclass Features ──
+    # Fighter — Battle Master (PHB p.73-74)
+    "combat superiority":   {"min": 4, "max": 6,  "recharge": "short", "class": "Fighter", "per": "fixed", "pool_kind": "dice"},
+    # Cleric — Light Domain (PHB p.60-61): WIS mod/long (min 1)
+    "warding flare":        {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    "improved flare":       {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    "corona of light":      {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Cleric — Nature Domain (PHB p.62): WIS mod/long (min 1)
+    "dampen elements":      {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Cleric — Tempest Domain (PHB p.62): Wrath = WIS mod/long; Thunderbolt Strike = at-will (not limited)
+    "wrath of the storm":   {"min": 1, "max": 5,  "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Paladin — capstones (PHB p.88-89): 1/long each
+    "holy nimbus":          {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    "avenging angel":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    "elder champion":       {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Sorcerer — Draconic Bloodline (PHB p.103-104)
+    "draconic presence":    {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    # Sorcerer — Wild Magic (PHB p.103)
+    "tides of chaos":       {"min": 1, "max": 1,  "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    # Warlock — The Archfey (PHB p.108-109): 1/short each
+    "fey presence":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "misty escape":         {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "dark delirium":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    # Warlock — The Great Old One (PHB p.109-110)
+    "entropic ward":        {"min": 1, "max": 1,  "recharge": "short", "class": "Warlock", "per": "fixed"},
+    "create thrall":        {"min": 1, "max": 1,  "recharge": "long", "class": "Warlock", "per": "fixed"},
+    # Wizard — School of Divination (PHB p.115-116)
+    "portent":              {"min": 2, "max": 3,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Wizard — misc (PHB p.117-119)
+    "benign transposition": {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "instinctive charm":    {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    "illusory self":        {"min": 1, "max": 1,  "recharge": "short", "class": "Wizard", "per": "fixed"},
+    "master transmuter":    {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    # Additional subclass limited-use features
+    "thunderbolt strike":   {"min": 1, "max": 1,  "recharge": "at will", "class": "Cleric", "per": "fixed"},
+    "dragon wings":         {"min": 1, "max": 1,  "recharge": "at will", "class": "Sorcerer", "per": "fixed"},
+    "bend luck":            {"min": 1, "max": 99, "recharge": "long", "class": "Sorcerer", "per": "fixed"},
+    "minor conjuration":    {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
+    "greater portent":      {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "alter memories":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "command undead":       {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "minor alchemy":        {"min": 1, "max": 1,  "recharge": "at will", "class": "Wizard", "per": "fixed"},
+    "transmuter's stone":   {"min": 1, "max": 1,  "recharge": "long", "class": "Wizard", "per": "fixed"},
+    "improved minor illusion": {"min": 1, "max": 1, "recharge": "at will", "class": "Wizard", "per": "fixed"},
+    # Cleric — capstones (PHB p.59-63)
+    "master of nature":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    "visions of the past":  {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
+    "improved duplicity":   {"min": 1, "max": 1,  "recharge": "short", "class": "Cleric", "per": "fixed"},
+    "avatar of battle":     {"min": 1, "max": 1,  "recharge": "long", "class": "Cleric", "per": "fixed"},
+    # Cleric — Trickery Domain (PHB p.63): WIS mod/long (min 1)
+    "blessing of the trickster": {"min": 1, "max": 5, "recharge": "long", "class": "Cleric", "per": "wis"},
+    # Paladin — Oathbreaker (DMG p.97)
+    "dread lord":           {"min": 1, "max": 1,  "recharge": "long", "class": "Paladin", "per": "fixed"},
+    # Arcane Trickster (PHB p.97-98)
+    "spell thief":          {"min": 1, "max": 1,  "recharge": "long", "class": "Rogue", "per": "fixed"},
 }
 
 # ── Scaled Equipment by Class and Level ───────────────────────────────
