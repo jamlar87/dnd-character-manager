@@ -1850,6 +1850,12 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
+    # Migration: shared flag on dm_encounters
+    try:
+        db.execute("ALTER TABLE dm_encounters ADD COLUMN shared INTEGER DEFAULT 0")
+    except sqlite3.OperationalError:
+        pass
+
     # Seed ADMIN account if not exists
     admin_row = db.execute("SELECT id FROM users WHERE email = 'admin'").fetchone()
     if not admin_row:

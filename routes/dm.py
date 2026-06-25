@@ -80,11 +80,18 @@ async def dm_tools(request: Request):
             "_narrative": is_narrative,
         })
 
-    # Load encounters
-    encounters = [dict(r) for r in db.execute(
-        "SELECT * FROM dm_encounters WHERE user_id = ? ORDER BY created_at DESC",
-        (user["id"],)
-    ).fetchall()]
+    # Load encounters (own + shared)
+    encounters = [dict(r) for r in db.execute("""
+        SELECT e.*, u.email as owner_email, 1 as is_owner
+        FROM dm_encounters e JOIN users u ON u.id = e.user_id
+        WHERE e.user_id = ? ORDER BY e.created_at DESC
+    """, (user["id"],)).fetchall()]
+    shared_encs = [dict(r) for r in db.execute("""
+        SELECT e.*, u.email as owner_email, 0 as is_owner
+        FROM dm_encounters e JOIN users u ON u.id = e.user_id
+        WHERE e.shared = 1 AND e.user_id != ? ORDER BY e.created_at DESC
+    """, (user["id"],)).fetchall()]
+    encounters = encounters + shared_encs
 
     # Load campaigns
     campaigns = [dict(r) for r in db.execute(
@@ -1585,22 +1592,32 @@ async def dm_encounter_create(request: Request):
 
 @router.get("/api/dm/encounters", response_class=JSONResponse)
 async def dm_encounters_list(request: Request):
-    """List all encounters."""
+    """List all encounters — own encounters + shared encounters from other users."""
     user = require_user(request)
     db = get_db()
+    # Own encounters
     where, params = _user_where(user)
     rows = [dict(r) for r in db.execute(
-        f"SELECT * FROM dm_encounters {where} ORDER BY created_at DESC", params
+        f"SELECT e.*, u.email as owner_email FROM dm_encounters e JOIN users u ON u.id = e.user_id {where} ORDER BY e.created_at DESC", params
     ).fetchall()]
+    # Shared encounters from other users
+    shared = [dict(r) for r in db.execute("""
+        SELECT e.*, u.email as owner_email FROM dm_encounters e
+        JOIN users u ON u.id = e.user_id
+        WHERE e.shared = 1 AND e.user_id != ?
+        ORDER BY e.created_at DESC
+    """, (user["id"],)).fetchall()]
     # Count participants
-    for r in rows:
+    all_rows = rows + shared
+    for r in all_rows:
         npcs = db.execute(
             "SELECT COUNT(*) as cnt FROM dm_encounter_npcs WHERE encounter_id = ?",
             (r["id"],)
         ).fetchone()
         r["npc_count"] = npcs["cnt"] if npcs else 0
+        r["is_owner"] = r["user_id"] == user["id"]
     db.close()
-    return JSONResponse({"encounters": rows})
+    return JSONResponse({"encounters": all_rows})
 
 
 @router.get("/api/dm/encounter/{enc_id}", response_class=JSONResponse)
@@ -1608,8 +1625,11 @@ async def dm_encounter_detail(enc_id: int, request: Request):
     """Full encounter detail with NPC participants."""
     user = require_user(request)
     db = get_db()
-    row = db.execute("SELECT * FROM dm_encounters WHERE id = ? AND user_id = ?",
-                     (enc_id, user["id"])).fetchone()
+    row = db.execute("""
+        SELECT e.*, u.email as owner_email FROM dm_encounters e
+        JOIN users u ON u.id = e.user_id
+        WHERE e.id = ? AND (e.user_id = ? OR e.shared = 1)
+    """, (enc_id, user["id"])).fetchone()
     if not row:
         db.close()
         raise HTTPException(status_code=404)
@@ -1652,6 +1672,21 @@ async def dm_encounter_detail(enc_id: int, request: Request):
     xp_total = sum(p.get("xp_reward", 0) or 0 for p in participants)
     db.close()
     return JSONResponse({"encounter": enc, "xp_total": xp_total})
+
+
+@router.post("/api/dm/encounter/{enc_id}/share", response_class=JSONResponse)
+async def dm_encounter_share(enc_id: int, request: Request):
+    """Toggle sharing on an encounter (owner only)."""
+    user = require_user(request)
+    data = await request.json()
+    shared = 1 if data.get("shared", False) else 0
+    db = get_db()
+    db.execute("UPDATE dm_encounters SET shared=? WHERE id=? AND user_id=?",
+               (shared, enc_id, user["id"]))
+    db.commit()
+    rows = db.execute("SELECT COUNT(*) as c FROM dm_encounters WHERE shared=1").fetchone()
+    db.close()
+    return JSONResponse({"ok": True, "shared": bool(shared), "total_shared": rows["c"] if rows else 0})
 
 
 @router.post("/api/dm/encounter/{enc_id}/add-npc", response_class=JSONResponse)
@@ -1902,11 +1937,13 @@ async def dm_encounter_roll_initiative(enc_id: int, request: Request):
 
 @router.post("/api/dm/encounter/{enc_id}/combat-state", response_class=JSONResponse)
 async def dm_encounter_combat_state(enc_id: int, request: Request):
-    """Save or load combat state (round, turn_index, participant order)."""
+    """Save or load combat state. Non-owners can load shared encounters but not save."""
     user = require_user(request)
     db = get_db()
-    enc = db.execute("SELECT id, combat_state FROM dm_encounters WHERE id = ? AND user_id = ?",
-                     (enc_id, user["id"])).fetchone()
+    enc = db.execute("""
+        SELECT e.id, e.combat_state FROM dm_encounters e
+        WHERE e.id = ? AND (e.user_id = ? OR e.shared = 1)
+    """, (enc_id, user["id"])).fetchone()
     if not enc:
         db.close()
         raise HTTPException(status_code=404)
@@ -1915,13 +1952,19 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
     action = data.get("action", "load")
 
     if action == "save":
+        # Non-owners can't save combat state
+        enc_owner = db.execute("SELECT user_id FROM dm_encounters WHERE id=?", (enc_id,)).fetchone()
+        if enc_owner and enc_owner[0] != user["id"]:
+            db.close()
+            raise HTTPException(status_code=403, detail="Only the owner can modify combat state")
         state = json.dumps({
             "round": data.get("round", 1),
             "turn_index": data.get("turn_index", 0),
             "initiative_order": data.get("initiative_order", []),
             "benched_en_ids": data.get("benched_en_ids", []),
             "player_participants": data.get("player_participants", []),
-            "campaign_id": data.get("campaign_id")
+            "campaign_id": data.get("campaign_id"),
+            "participant_conditions": data.get("participant_conditions", {})
         })
         db.execute("UPDATE dm_encounters SET combat_state=? WHERE id=?", (state, enc_id))
         db.commit()
@@ -1941,6 +1984,7 @@ async def dm_encounter_combat_state(enc_id: int, request: Request):
         "benched_en_ids": state.get("benched_en_ids", []),
         "player_participants": state.get("player_participants", []),
         "campaign_id": state.get("campaign_id"),
+        "participant_conditions": state.get("participant_conditions", {}),
         "ok": True
     })
 

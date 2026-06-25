@@ -500,6 +500,16 @@ async function saveAiEncounter(name, description, environment, difficulty) {
   location.reload();
 }
 
+function toggleShareEncounter(encId, currentlyShared) {
+  const newState = !currentlyShared;
+  fetch(`/api/dm/encounter/${encId}/share`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({shared: newState})
+  }).then(r => r.json()).then(d => {
+    if (d.ok) location.reload();
+  }).catch(() => {});
+}
+
 async function openEncounter(id) {
   openModal('encounterModal');
   document.getElementById('encounterDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
@@ -2349,6 +2359,7 @@ let _combatRound = 1;
 let _combatTurnIdx = 0;        // index into alive participants
 let _combatOrder = [];         // en_id order array
 let _savedBenchedEnIds = [];   // restored from combat_state on load
+let _savedConditions = {};      // conditions per en_id, persisted across reloads
 
 // ── Init: populate encounter dropdown when Combat tab opened ──
 const combatTabObserver = new MutationObserver(() => {
@@ -2431,7 +2442,8 @@ async function loadCombatEncounter() {
     _savedBenchedEnIds = d.benched_en_ids || [];
     _savedPlayerParticipants = d.player_participants || [];
     _savedCampaignId = d.campaign_id || null;
-  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; _savedCampaignId = null; }
+    _savedConditions = d.participant_conditions || {};
+  } catch(e) { _combatRound = 1; _combatTurnIdx = 0; _combatOrder = []; _savedBenchedEnIds = []; _savedPlayerParticipants = []; _savedCampaignId = null; _savedConditions = {}; }
 
   // Auto-load linked campaign (localStorage first, combat_state fallback)
   let linkedCampId = null;
@@ -2529,6 +2541,16 @@ async function loadCombatEncounter() {
   for (const pp of _savedPlayerParticipants) {
     if (!_combatParticipants.find(p => p.en_id === pp.en_id)) {
       _combatParticipants.push({...pp, is_player: true, is_enemy: 0, role: '', roll: pp.initiative});
+    }
+  }
+
+  // Restore conditions for all participants (not just players)
+  if (Object.keys(_savedConditions).length > 0) {
+    for (const p of _combatParticipants) {
+      if (_savedConditions[p.en_id]) p.conditions = _savedConditions[p.en_id];
+    }
+    for (const p of _benchedNpcs) {
+      if (_savedConditions[p.en_id]) p.conditions = _savedConditions[p.en_id];
     }
   }
   _combatParticipants.sort((a, b) => {
@@ -2951,9 +2973,10 @@ function renderInitiativeTrack() {
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
       <div class="init-info">
-        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
+        <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name.replace(/'/g, "\\'")}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
       </div>
+      <button class="init-btn" onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="flex-shrink:0;font-size:0.55rem;line-height:1.2;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px;padding:0 0.25rem">+</button>
       <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated" style="flex-shrink:0">${isDefeated ? '⬆' : '💀'}</button>
       <div class="init-hp-group">
         <span style="font-size:0.85rem;font-weight:600;min-width:2.5em;text-align:right">${p.hp_current}</span>
@@ -2973,7 +2996,6 @@ function renderInitiativeTrack() {
           }
           return conds.length ? `<span class="cond-badge" style="background:var(--bg);color:var(--text-muted);border:1px dashed var(--border);cursor:pointer" onclick="event.stopPropagation();combatToggleCondExpand(${p.en_id})">${conds.length} condition${conds.length!==1?'s':''}</span>` : '';
         })()}
-        <button onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="font-size:0.5rem;padding:0 0.25rem;line-height:1.4;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px">+</button>
       </div>
       <div class="init-actions">
         <input type="number" class="init-hp-input" id="dmg-input-${p.en_id}" value="" placeholder="dmg"
@@ -3754,6 +3776,21 @@ function unbenchCombatant(enId) {
   saveCombatState();
 }
 
+function removeBenchedCombatant(enId) {
+  const idx = _benchedNpcs.findIndex(p => p.en_id === enId);
+  if (idx === -1) return;
+  _benchedNpcs.splice(idx, 1);
+  // Delete from DB
+  fetch(`/api/dm/encounter/${_combatEncId}/remove-npc`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({en_id: enId})
+  }).catch(() => {});
+  _combatOrder = _combatOrder.filter(id => id !== enId);
+  renderBenchedNpcs();
+  renderInitiativeTrack();
+  saveCombatState();
+}
+
 // ── Drop on benched area: remove NPC from combat ──
 function dropOnBenched(e) {
   e.preventDefault();
@@ -3818,6 +3855,7 @@ function renderBenchedNpcs() {
         <div class="init-meta">AC ${p.ac} · HP ${p.hp_current}/${p.hp_max}</div>
       </div>
       <button class="init-btn" onclick="event.stopPropagation();unbenchCombatant(${p.en_id})" title="Return to combat" style="color:var(--success)">▶</button>
+      <button class="init-btn" onclick="event.stopPropagation();removeBenchedCombatant(${p.en_id})" title="Remove permanently" style="color:var(--danger);font-size:0.7rem">✕</button>
     </div>`;
   }).join('');
 }
@@ -4052,6 +4090,14 @@ function saveCombatState() {
     hp_current: p.hp_current, hp_max: p.hp_max, defeated: p.defeated || 0,
     initiative: p.initiative || 0, dex_mod: p.dex_mod || 0
   }));
+  // Save conditions for ALL participants (incl. benched) so they persist on reload
+  const conditions = {};
+  _combatParticipants.forEach(p => {
+    if (p.conditions && p.conditions.length > 0) conditions[p.en_id] = p.conditions;
+  });
+  _benchedNpcs.forEach(p => {
+    if (p.conditions && p.conditions.length > 0) conditions[p.en_id] = p.conditions;
+  });
   fetch(`/api/dm/encounter/${_combatEncId}/combat-state`, {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
@@ -4059,7 +4105,8 @@ function saveCombatState() {
       initiative_order: _combatOrder,
       benched_en_ids: _benchedNpcs.map(p => p.en_id),
       player_participants: players,
-      campaign_id: _combatCampId || null
+      campaign_id: _combatCampId || null,
+      participant_conditions: conditions
     })
   }).catch(() => {});
 }

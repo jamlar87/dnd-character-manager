@@ -461,14 +461,21 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
           <strong>{{ enc.name }}</strong>
           <span class="badge badge-{{ 'accent' if enc.status == 'active' else 'muted' }}">{{ enc.status|capitalize }}</span>
           {% if enc.difficulty %}<span class="badge badge-muted">{{ enc.difficulty|capitalize }}</span>{% endif %}
+          {% if enc.shared %}<span class="badge badge-accent" style="font-size:0.55rem">🌐 Shared</span>{% endif %}
+          {% if not enc.is_owner %}<span style="font-size:0.7rem;color:var(--text-muted)">by {{ enc.owner_email }}</span>{% endif %}
         </div>
-        <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
+        <div style="display:flex;gap:0.3rem;align-items:center">
+          {% if enc.is_owner %}
+          <button class="btn btn-outline btn-sm" onclick="toggleShareEncounter('{{ enc.id }}', {{ 'true' if enc.shared else 'false' }})" title="{{ 'Unshare' if enc.shared else 'Share with everyone' }}" style="font-size:0.65rem">{{ '🔓 Shared' if enc.shared else '🔒 Share' }}</button>
+          {% endif %}
+          <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
+        </div>
       </div>
       {% if enc.description %}<p style="font-size:0.85rem;color:var(--text-muted);margin:0.3rem 0">{{ enc.description }}</p>{% endif %}
       {% if enc.notes %}<details style="margin:0.3rem 0"><summary style="font-size:0.75rem;color:var(--accent);cursor:pointer">📋 Tactics</summary><p style="font-size:0.8rem;color:var(--text-muted);margin:0.15rem 0 0 0.5rem;border-left:2px solid var(--accent);padding-left:0.4rem;max-height:4em;overflow:hidden">{{ enc.notes }}</p></details>{% endif %}
       {% if enc.location %}<p style="font-size:0.8rem;color:var(--text-muted)">📍 {{ enc.location }}</p>{% endif %}
       <div style="display:flex;justify-content:flex-end;margin-top:0.5rem">
-        <button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕ Delete</button>
+        {% if enc.is_owner %}<button class="btn btn-danger btn-sm" onclick="deleteEncounter('{{ enc.id }}')">✕ Delete</button>{% endif %}
       </div>
     </div>
     {% else %}
@@ -1072,5 +1079,5 @@ const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
     </script>
-<script src="/static/dm_tools.js?v=5"></script>
+<script src="/static/dm_tools.js?v=10"></script>
 {% endblock %}
