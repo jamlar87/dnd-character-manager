@@ -6200,15 +6200,52 @@ function deleteInventoryItem(name) {
 // ── Toggle attunement ──
 async function toggleAttune(itemName) {
   const trimmed = itemName.trim();
+  // Extract char_id from URL (/character/{id})
+  const pathMatch = window.location.pathname.match(/\/character\/(\d+)/);
+  if (!pathMatch) { alert('Could not determine character'); return; }
+  const charId = pathMatch[1];
   try {
-    const r = await fetch(window.location.pathname + '/toggle-attune', {
+    const r = await fetch(`/api/character/${charId}/toggle-attune`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({item: trimmed})
     });
     const d = await r.json();
     if (d.error) { alert(d.error); return; }
-    location.reload();
+    // Update badge and slots without full reload
+    const card = document.querySelector(`.equipped-card[data-item-name="${CSS.escape(trimmed)}"]`);
+    if (card) {
+      const badge = card.querySelector('.item-attune-badge');
+      if (badge) {
+        if (d.action === 'attuned') {
+          badge.className = 'item-attune-badge attuned';
+          badge.textContent = '◆';
+          badge.title = 'Attuned — click to break';
+        } else {
+          badge.className = 'item-attune-badge';
+          badge.textContent = '◇';
+          badge.title = 'Needs attunement — click to attune';
+        }
+      }
+    }
+    // Update attunement slots
+    const slots = document.querySelectorAll('#attunement-slots .attune-slot');
+    slots.forEach((el, i) => {
+      if (i < d.slots_used) {
+        el.classList.add('filled');
+        el.style.background = 'var(--accent)';
+        el.style.borderColor = 'var(--accent)';
+        el.textContent = '◆';
+      } else {
+        el.classList.remove('filled');
+        el.style.background = '';
+        el.style.borderColor = '';
+        el.textContent = '◇';
+      }
+    });
+    // Update count
+    const countEl = document.querySelector('#attunement-slots span:last-child');
+    if (countEl) countEl.textContent = `${d.slots_used}/3`;
   } catch(e) {
     alert('Failed to toggle attunement');
   }
