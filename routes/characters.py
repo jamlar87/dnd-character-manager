@@ -4458,7 +4458,23 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     eff_subclass = updates.get("subclass", char.get("subclass", ""))
     enriched = enrich_features(all_feature_names, class_name=class_to_level, level=target_level, mods=mods, class_levels=new_cl, subclass=eff_subclass)
     updates["feature_data"] = json.dumps(enriched)
-    
+
+    # ── Unarmored Movement (Monk) & Fast Movement (Barbarian) ──
+    um_bonus = 0
+    for fn in all_feature_names:
+        if "Unarmored Movement" in fn:
+            # Look up the bonus from SRD data
+            srd_levels = SRD_LEVELS.get("monk", [])
+            for entry in srd_levels:
+                if entry.get("level") == target_level:
+                    um_bonus = entry.get("class_specific", {}).get("unarmored_movement", 0)
+                    break
+            break
+    base_speed = char.get("speed", 30)
+    try: base_speed = int(base_speed)
+    except: base_speed = 30
+    updates["speed"] = base_speed + um_bonus
+
     # Spell slots — multiclass-aware
     char_copy = dict(char)
     char_copy["class_levels"] = json.dumps(new_cl)
@@ -5080,7 +5096,22 @@ async def apply_de_level(char_id: int, request: Request):
     eff_sub = updates.get("subclass", char.get("subclass", ""))
     enriched = enrich_features(all_feature_names, class_name=cls, level=target_level, mods=final_mods, subclass=eff_sub)
     updates["feature_data"] = json.dumps(enriched)
-    
+
+    # ── Unarmored Movement (Monk) speed bonus ──
+    um_bonus = 0
+    for fn in all_feature_names:
+        if "Unarmored Movement" in fn:
+            srd_levels = SRD_LEVELS.get("monk", [])
+            for entry in srd_levels:
+                if entry.get("level") == target_level:
+                    um_bonus = entry.get("class_specific", {}).get("unarmored_movement", 0)
+                    break
+            break
+    base_speed = char.get("speed", 30)
+    try: base_speed = int(base_speed)
+    except: base_speed = 30
+    updates["speed"] = base_speed + um_bonus
+
     # Spell slots
     caster_type = get_caster_type(cls)
     if caster_type != "none":
