@@ -4709,4 +4709,4 @@ async def open_manual(slug: str, page: int = 0):
 # ── Run ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=os.environ.get("DND_RELOAD", "1") == "1")
