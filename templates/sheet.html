@@ -2250,8 +2250,12 @@
       <div class="form-group" id="rel-ai-fields" style="display:none">
         <label>Describe who you want (be vivid):</label>
         <textarea id="rel-prompt" placeholder="e.g. An aging sword master with a missing eye who trained me in the mountains. He's stern but secretly proud of me." style="width:100%;min-height:80px;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);resize:vertical"></textarea>
-        <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="margin-top:0.5rem;font-size:0.8rem">🪄 Generate NPC</button>
-        <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
+        <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem">
+          <label style="font-size:0.8rem;white-space:nowrap">Level:</label>
+          <input type="number" id="rel-npc-level" value="{{ character.level }}" min="1" max="20" style="width:60px;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+          <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="font-size:0.8rem">🪄 Generate NPC</button>
+          <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
+        </div>
       </div>
       </div>
       <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-shrink:0">
@@ -7484,6 +7488,8 @@ function renderRelationships() {
   el.innerHTML = relationships.map(r => {
     const npc = JSON.parse(r.npc_data || '{}');
     const extra = npc.race ? `${npc.race} ${npc.class || ''} L${npc.level || '?'}` : '';
+    const st = npc.stats || {};
+    const hasStats = st.ac || st.hp || st.attacks;
     return `<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
@@ -7497,6 +7503,14 @@ function renderRelationships() {
         </div>
       </div>
       ${r.description ? `<p style="margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--text);line-height:1.4">${r.description}</p>` : ''}
+      ${hasStats ? `<div style="margin-top:0.5rem;padding:0.5rem;background:var(--bg);border-radius:6px;font-size:0.75rem;font-family:monospace;line-height:1.5">` +
+        (st.ac ? `AC ${st.ac}  HP ${st.hp || '?'}  Spd ${st.speed || '30 ft.'}` : '') +
+        (st.str ? `<br>STR ${st.str} DEX ${st.dex} CON ${st.con} INT ${st.int} WIS ${st.wis} CHA ${st.cha}` : '') +
+        (st.skills?.length ? `<br>Skills: ${st.skills.join(', ')}` : '') +
+        (st.saves?.length ? `<br>Saves: ${st.saves.join(', ')}` : '') +
+        (st.attacks?.length ? `<br>Attacks: ${st.attacks.map(a => `${a.name} ${a.bonus} ${a.damage} ${a.type||''}`).join(' | ')}` : '') +
+        (st.cr ? `<br>CR ${st.cr}` : '') +
+      `</div>` : ''}
       ${r.ai_generated ? '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI-generated</span>' : ''}
     </div>`;
   }).join('');
@@ -7562,6 +7576,7 @@ async function generateRelationship() {
       body: JSON.stringify({
         prompt: prompt,
         relationship_type: document.getElementById('rel-type').value,
+        level: parseInt(document.getElementById('rel-npc-level').value) || 1,
       }),
     });
     const result = await resp.json();
