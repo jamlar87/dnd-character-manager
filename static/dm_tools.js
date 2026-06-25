@@ -2339,7 +2339,7 @@ async function keepAllLoot() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// ⚔️ COMBAT TRACKER
+// ⚔️ COMBAT TRACKER  [v2 — characters inline]
 // ═══════════════════════════════════════════════════════════
 let _combatEncId = null;
 let _combatCampId = null;
