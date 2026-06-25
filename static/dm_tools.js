@@ -1,8 +1,11 @@
 
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
+const _missingSourceAlerted = new Set();
+const _knownMissingSources = new Set(['magical treasure index']);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
+  if (_knownMissingSources.has(src.toLowerCase().trim())) return;
   const pageMatch = src.match(/\b[pP]\.?\s*(\d+)/);
   const page = pageMatch ? parseInt(pageMatch[1]) : 0;
   // If we have a direct slug, use it immediately — no matching needed
@@ -44,8 +47,11 @@ function openSourceRef(src, slug) {
       return;
     }
   }
-  // No match found — don't open a broken URL, just alert
-  alert(`📚 Could not find the source book for:\n"${src}"\n\nIt may reference a book not in the library.`);
+  // No match found — alert once per source instead of spamming
+  if (!_missingSourceAlerted.has(src)) {
+    _missingSourceAlerted.add(src);
+    alert(`📚 Could not find the source book for:\n"${src}"\n\nIt may reference a book not in the library.`);
+  }
 }
 
 // ── Tab switching (persisted to localStorage) ──
