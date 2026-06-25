@@ -55,7 +55,7 @@ class EditASI(BaseModel):
 
 class ApplyLevelUp(BaseModel):
     target_level: int = Field(..., ge=1, le=20)
-    class_to_level: Optional[dict[str, int]] = None
+    class_to_level: Optional[str | dict[str, int]] = None
     # Optional choice systems — each endpoint validates structure at runtime
     asi_choices: Optional[dict[str, dict | str]] = None
     expertise_skills: Optional[list[str]] = None

@@ -10319,3 +10319,82 @@ KeyError: 'expertise_skills'
 2026-06-24 19:24:01 [INFO] GET /login 200 1ms
 2026-06-24 19:24:01 [INFO] POST /api/character/98/apply-level-up 303 1ms
 2026-06-24 19:24:01 [INFO] GET /login 200 1ms
+2026-06-24 19:25:23 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:25:25 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:25:25 [INFO] POST /api/character/98/apply-level-up 422 1ms
+2026-06-24 19:25:28 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:25:30 [INFO] POST /api/sync-combat-hp 200 6ms
+2026-06-24 19:25:38 [INFO] GET /api/character/98/level-up-info 200 11ms
+2026-06-24 19:25:38 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:25:40 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:25:42 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:25:44 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:25:46 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:25:48 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:25:50 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:25:51 [INFO] POST /api/character/98/apply-level-up 422 1ms
+2026-06-24 19:26:03 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:05 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:26:06 [INFO] GET / 303 3ms
+2026-06-24 19:26:07 [INFO] GET /dashboard 200 79ms
+2026-06-24 19:26:09 [INFO] GET /character/98 200 522ms
+2026-06-24 19:26:11 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:13 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:15 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:26:17 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:26:19 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:26:22 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:22 [INFO] GET /api/character/98/level-up-info 200 7ms
+2026-06-24 19:26:24 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:26 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:26:28 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:26:30 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:26:32 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:26:34 [INFO] POST /api/character/98/apply-level-up 422 1ms
+2026-06-24 19:27:43 [ERROR] POST /api/character/98/apply-level-up 500 4ms | TypeError: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "/home/james/dnd-character-manager/main.py", line 1460, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/routes/characters.py", line 4273, in apply_level_up
+    is_multiclass = class_to_level not in cl
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+2026-06-24 19:28:12 [INFO] GET /api/character/98/level-up-info 200 4ms
+2026-06-24 19:28:42 [INFO] POST /api/character/98/apply-level-up 200 25ms
