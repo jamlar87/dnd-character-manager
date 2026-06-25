@@ -2,7 +2,13 @@
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
 const _missingSourceAlerted = new Set();
-const _knownMissingSources = new Set([]);
+const _knownMissingSources = new Set([
+  'page 157', 'page 180', 'page 20', 'page 24', 'page 27', 'page 30',
+  'page 39', 'page 42', 'page 59', 'page 60', 'unknown page',
+  'unknown source', 'unknown sourcebook', 'unknown sourcebook page',
+  'sourcebook', 'sourcebook page', 'adventure text',
+  'baldur\'s gate: descent into avernus', 'mythic odysseys of theros',
+]);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
   if (_knownMissingSources.has(src.toLowerCase().trim())) return;
