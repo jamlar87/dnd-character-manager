@@ -866,28 +866,6 @@
       </div>
     </div>
 
-    <!-- Attunement -->
-    {% if item_effects.notes or item_effects.attunement_slots_used > 0 or item_effects.ac_bonus or item_effects.save_bonus %}
-    <div class="sidebar-section" style="margin-top:0.25rem">
-      <div style="display:flex;align-items:center;gap:0.3rem">
-        <h4 style="margin:0;font-size:0.75rem">Attunement <span style="font-size:0.55rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h4>
-      </div>
-      <div id="attunement-slots" style="display:flex;gap:0.3rem;margin-top:0.2rem">
-        {% for i in range(3) %}
-        <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" style="width:14px;height:14px;border-radius:3px;border:2px solid var(--border);display:inline-block;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
-        {% endfor %}
-        <span style="font-size:0.55rem;color:var(--text-muted);margin-left:0.3rem">{{ item_effects.attunement_slots_used }}/3</span>
-      </div>
-      {% if item_effects.notes %}
-      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem">
-        {% for note in item_effects.notes %}
-        <div>• {{ note }}</div>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    {% endif %}
-
     <!-- Summons -->
     <div class="sidebar-section" style="margin-top:0.25rem">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
@@ -2111,6 +2089,26 @@
           {% endif %}
         </div>
         <div id="equipped-empty" style="display:{{ 'none' if character.equipped else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drag items here to equip</div>
+      </div>
+
+      <!-- ATTUNEMENT (below Equipped) -->
+      <div class="card" id="attunement-card" style="margin-top:0.75rem">
+        <div style="display:flex;align-items:center;gap:0.3rem">
+          <h3 style="margin:0;flex:1">🔮 Attunement <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
+        </div>
+        <div id="attunement-slots" style="display:flex;gap:0.5rem;margin-top:0.5rem;align-items:center">
+          {% for i in range(3) %}
+          <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" onclick="event.stopPropagation()" style="width:28px;height:28px;border-radius:5px;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:1rem;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
+          {% endfor %}
+          <span style="font-size:0.85rem;color:var(--text-muted);margin-left:0.3rem;font-weight:600">{{ item_effects.attunement_slots_used }}/3</span>
+        </div>
+        {% if item_effects.notes %}
+        <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.4rem">
+          {% for note in item_effects.notes %}
+          <div>• {{ note }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
 
       <!-- GP TRACKER CARD -->
@@ -6197,6 +6195,23 @@ function deleteInventoryItem(name) {
   const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
   if (card) card.remove();
   _flushInventory();
+}
+
+// ── Toggle attunement ──
+async function toggleAttune(itemName) {
+  const trimmed = itemName.trim();
+  try {
+    const r = await fetch(window.location.pathname + '/toggle-attune', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({item: trimmed})
+    });
+    const d = await r.json();
+    if (d.error) { alert(d.error); return; }
+    location.reload();
+  } catch(e) {
+    alert('Failed to toggle attunement');
+  }
 }
 
 // ── Save inventory (card-based) ──
