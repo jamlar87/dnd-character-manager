@@ -146,6 +146,17 @@ async def dm_tools(request: Request):
             })
     except Exception:
         pass
+
+    # Load characters for Quick Add in combat
+    db3 = get_db()
+    characters = [dict(r) for r in db3.execute("""
+        SELECT id, name, race, subrace, class_name, level, subclass,
+               hp_max, hp_current, ac, strength, dexterity, constitution,
+               intelligence, wisdom, charisma, speed, proficiency_bonus
+        FROM characters ORDER BY name
+    """).fetchall()]
+    db3.close()
+
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,
                    cr_ranges=cr_ranges, npcs=npcs,
@@ -153,7 +164,8 @@ async def dm_tools(request: Request):
                    traps=all_traps,
                    named_item_types=_get_named_item_types(),
                    source_map_json=json.dumps(_get_source_slug_map()),
-                   summon_templates=SUMMON_TEMPLATES)
+                   summon_templates=SUMMON_TEMPLATES,
+                   characters_json=json.dumps(characters))
 
 
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)

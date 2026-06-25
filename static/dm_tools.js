@@ -2452,10 +2452,9 @@ async function loadCombatEncounter() {
   // Build combined NPC + monster + character cache for Quick Add search
   _combatCreatureCache = [];
   try {
-    const [nr, mr, cr] = await Promise.all([
+    const [nr, mr] = await Promise.all([
       fetch('/api/dm/npcs').then(r => r.json()),
-      fetch('/api/dm/monsters').then(r => r.json()),
-      fetch('/api/dm/characters-for-combat').then(r => r.json())
+      fetch('/api/dm/monsters').then(r => r.json())
     ]);
     // Monsters first (so they show up before NPCs in All filter)
     const _monsterTypes = new Set();
@@ -2495,8 +2494,8 @@ async function loadCombatEncounter() {
     (nr.npcs || []).forEach(n => {
       _combatCreatureCache.push({...n, _kind: 'npc'});
     });
-    // Characters — player characters from the character manager
-    (cr.characters || []).forEach(ch => {
+    // Characters — player characters from the character manager (inline from server)
+    (COMBAT_CHARACTERS || []).forEach(ch => {
       const dexMod = Math.floor((ch.dexterity || 10) - 10) / 2;
       _combatCreatureCache.push({
         id: `c_${ch.id}`, name: ch.name,
