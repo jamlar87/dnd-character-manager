@@ -1638,6 +1638,7 @@ async def dm_encounter_detail(enc_id: int, request: Request):
             p["role"] = cd.get("role", "")
             p["xp_reward"] = cd.get("xp_reward", 0)
             p["_monster_index"] = cd.get("_monster_index", "")
+            p["char_id"] = cd.get("char_id")
     # Compute spell slots for caster NPCs
     for p in participants:
         cls = p.get("class_name", "")
@@ -1710,6 +1711,7 @@ async def dm_encounter_add_creature(enc_id: int, request: Request):
         "role": data.get("role", ""),
         "xp_reward": data.get("xp_reward", 0),
         "_monster_index": data.get("_monster_index", ""),
+        "char_id": data.get("char_id"),
         # Full stat block (from manual NPCs, SRD monsters)
         "ability_scores": data.get("ability_scores"),
         "spellcasting": data.get("spellcasting"),

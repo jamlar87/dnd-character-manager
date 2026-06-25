@@ -2856,7 +2856,7 @@ async function refreshCombatParticipants() {
       ac: p.ac || p.npc_ac || 10, hp_current: p.hp_current,
       hp_max: p.hp_max || p.npc_hp_max || 10,
       defeated: p.defeated || 0, initiative: p.initiative || 0,
-      is_player: false, char_id: null,
+      is_player: false, char_id: p.char_id || null,
       creature_data: p.creature_data || null
     }));
     _combatParticipants = [...players, ...npcs];
@@ -4007,6 +4007,7 @@ async function addCombatCreature(cacheIndex) {
         role: isCharacter ? `L${c.level} ${c.class_name}${c.subclass ? ' ('+c.subclass+')' : ''}` : (c.role || ''),
         xp_reward: c.xp_reward || 0,
         _monster_index: c._kind === 'monster' ? (c._raw?.index || '') : '',
+        char_id: isCharacter ? c.char_id : undefined,
       };
       // Include full stat block for monsters
       if (c._kind === 'monster' && c._raw) {
