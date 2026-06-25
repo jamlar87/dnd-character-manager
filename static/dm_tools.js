@@ -38,6 +38,21 @@ const _knownMissingSources = new Set([
   'page 6', 'page 6-7', 'page 7', 'page 8', 'page 9', 'page 94',
   'page 96', 'page 97', 'pages 11-12', 'pages 12-13',
   'pages 17-19', 'pages 19-20', 'pages 30-31',
+  'what lies beneath', 'the night messengers', 'radiance lost',
+  'the green knight of the woods', 'the eel hounds',
+  'the deeper woods and the fey roads', 'siege of the false mill',
+  'river court rogue\'s gallery', 'the lands about the mountain',
+  'dark waters', 'shadows in the north', 'nightmares of angmar',
+  'harder than stone', 'the company of the wain', 'imladris',
+  'shadows over tyrn gorthad', 'krenko\'s hideout',
+  'loremaster\'s guide (page inferred from text)',
+  'dungeon master\'s tools', 'appendix a | monsters & npcs 30',
+  'appendix a | monsters & npcs 31',
+  'chapter 6 | friends and foes', 'chapter 6 i bestiary',
+  'warlock', 'dinosaurs page', 'sourcebook',
+  '169', 'page 5', 'page 10-11', 'page 23', 'page 26-27',
+  'page 30', 'page 49', 'page 54', 'page 55', 'page 152',
+  'page 180', 'page 191', 'page 15-16',
 ]);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
