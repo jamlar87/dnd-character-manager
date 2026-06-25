@@ -2308,3 +2308,17 @@ async def dm_user_characters(request: Request):
     db.close()
     return JSONResponse({"characters": rows})
 
+
+@router.get("/api/dm/characters-for-combat", response_class=JSONResponse)
+async def dm_characters_for_combat(request: Request):
+    """List all characters with full combat stats for Quick Add."""
+    db = get_db()
+    rows = [dict(r) for r in db.execute("""
+        SELECT id, name, race, subrace, class_name, level, subclass,
+               hp_max, hp_current, ac, strength, dexterity, constitution,
+               intelligence, wisdom, charisma, speed, proficiency_bonus
+        FROM characters ORDER BY name
+    """).fetchall()]
+    db.close()
+    return JSONResponse({"characters": rows})
+

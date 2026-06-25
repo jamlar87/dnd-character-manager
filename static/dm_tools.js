@@ -2449,12 +2449,13 @@ async function loadCombatEncounter() {
     }
   }
 
-  // Build combined NPC + monster cache for Quick Add search
+  // Build combined NPC + monster + character cache for Quick Add search
   _combatCreatureCache = [];
   try {
-    const [nr, mr] = await Promise.all([
+    const [nr, mr, cr] = await Promise.all([
       fetch('/api/dm/npcs').then(r => r.json()),
-      fetch('/api/dm/monsters').then(r => r.json())
+      fetch('/api/dm/monsters').then(r => r.json()),
+      fetch('/api/dm/characters-for-combat').then(r => r.json())
     ]);
     // Monsters first (so they show up before NPCs in All filter)
     const _monsterTypes = new Set();
@@ -2493,6 +2494,30 @@ async function loadCombatEncounter() {
     }
     (nr.npcs || []).forEach(n => {
       _combatCreatureCache.push({...n, _kind: 'npc'});
+    });
+    // Characters — player characters from the character manager
+    (cr.characters || []).forEach(ch => {
+      const dexMod = Math.floor((ch.dexterity || 10) - 10) / 2;
+      _combatCreatureCache.push({
+        id: `c_${ch.id}`, name: ch.name,
+        _kind: 'character', _raw: ch,
+        _type: '',
+        _cr: null,
+        race: ch.race || '', subrace: ch.subrace || '',
+        class_name: ch.class_name || '', level: ch.level || 1,
+        subclass: ch.subclass || '',
+        hp_current: ch.hp_current || ch.hp_max || 10,
+        hp_max: ch.hp_max || 10,
+        ac: ch.ac || 10,
+        char_id: ch.id,
+        strength: ch.strength, dexterity: ch.dexterity,
+        constitution: ch.constitution, intelligence: ch.intelligence,
+        wisdom: ch.wisdom, charisma: ch.charisma,
+        speed: ch.speed || 30,
+        proficiency_bonus: ch.proficiency_bonus || 2,
+        is_enemy: 0,
+        dex_mod: Math.floor(dexMod)
+      });
     });
   } catch(e) {}
   toggleCombatFilters();
@@ -3861,6 +3886,7 @@ function toggleCombatFilters() {
   const typeSel = document.getElementById('combatCreatureType');
   const crSel = document.getElementById('combatCreatureCr');
   const showMonsterFilters = kind === 'all' || kind === 'monster';
+  const showCharacterFilters = kind === 'all' || kind === 'character';
   if (typeSel) typeSel.style.display = showMonsterFilters ? '' : 'none';
   if (crSel) crSel.style.display = showMonsterFilters ? '' : 'none';
 }
@@ -3905,22 +3931,39 @@ function filterCombatCreatures() {
   shown.forEach((c, ci) => {
     const kindBadge = c._kind === 'monster'
       ? '<span class="badge badge-accent" style="font-size:0.55rem">MON</span>'
+      : c._kind === 'character' ? '<span class="badge badge-success" style="font-size:0.55rem">PC</span>'
       : c.id < 0 ? '<span class="badge badge-muted" style="font-size:0.55rem">📖</span>' : '';
-    const crDisplay = c._kind === 'monster' ? `CR ${c.level} · ` : '';
-    const typeDisplay = c._kind === 'monster' && c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
-    const detailDisplay = c._kind === 'monster'
-      ? `${crDisplay}${typeDisplay}AC ${c.ac} · ${c.race || '?'}`
-      : `${c.race || ''}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
-    const hpDisplay = c._kind === 'monster'
-      ? `HP ${c.hp_current}`
-      : `HP ${c.hp_current}/${c.hp_max}`;
-    const sourceHtml = c._kind === 'monster' && c._raw?.source
-      ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
-      : '';
+    let detailDisplay, crDisplay, typeDisplay, sourceHtml, hpDisplay, infoBtn;
+
+    if (c._kind === 'character') {
+      const subStr = c.subclass ? ` ${c.subclass}` : '';
+      detailDisplay = `${c.race || ''} L${c.level} ${c.class_name || ''}${subStr} · AC ${c.ac}`;
+      hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
+      sourceHtml = '';
+      infoBtn = '';
+    } else if (c._kind === 'monster') {
+      crDisplay = `CR ${c.level} · `;
+      typeDisplay = c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
+      detailDisplay = `${crDisplay}${typeDisplay}AC ${c.ac} · ${c.race || '?'}`;
+      hpDisplay = `HP ${c.hp_current}`;
+      sourceHtml = c._raw?.source
+        ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${c._raw.source.replace(/'/g, "\\'")}')" style="font-size:0.55rem;cursor:pointer;opacity:0.7" title="Click to open ${c._raw.source}">📚</span>`
+        : '';
+      infoBtn = c._raw?.index
+        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        : '';
+    } else {
+      // NPC
+      detailDisplay = `${c.race || ''}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
+      hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
+      sourceHtml = '';
+      infoBtn = c.id > 0
+        ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`
+        : '';
+    }
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
       data-idx="${_combatCreatureCache.indexOf(c)}">
-      ${c._kind === 'monster' && c._raw?.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
-      ${c._kind === 'npc' && c.id > 0 ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>` : ''}
+      ${infoBtn}
       <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span>${sourceHtml}</span>
       <button class="btn btn-primary btn-sm" style="flex-shrink:0;font-size:0.7rem" onclick="addCombatCreature(${_combatCreatureCache.indexOf(c)})">+ Add</button>
     </div>`;
@@ -3954,13 +3997,15 @@ async function addCombatCreature(cacheIndex) {
       saveCombatState();
     } catch(e) { alert('Failed to add NPC'); }
   } else {
-    // Monster or manual NPC — use add-creature
+    // Monster, manual NPC, or Character — use add-creature
+    const isCharacter = c._kind === 'character';
     try {
       const body = {
         name: c.name, race: c.race || '', class_name: c.class_name || '',
-        level: c._kind === 'monster' ? 1 : (c.level || 1),
+        level: isCharacter ? c.level : (c._kind === 'monster' ? 1 : (c.level || 1)),
         hp: c.hp_current || 10, hp_max: c.hp_max || 10, ac: c.ac || 10,
-        is_enemy: c.is_enemy || 0, role: c.role || '',
+        is_enemy: isCharacter ? 0 : (c.is_enemy || 0),
+        role: isCharacter ? `L${c.level} ${c.class_name}${c.subclass ? ' ('+c.subclass+')' : ''}` : (c.role || ''),
         xp_reward: c.xp_reward || 0,
         _monster_index: c._kind === 'monster' ? (c._raw?.index || '') : '',
       };
