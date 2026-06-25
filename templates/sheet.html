@@ -2093,14 +2093,14 @@
 
       <!-- ATTUNEMENT (below Equipped) -->
       <div class="card" id="attunement-card" style="margin-top:0.75rem">
-        <div style="display:flex;align-items:center;gap:0.3rem">
-          <h3 style="margin:0;flex:1">🔮 Attunement <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
-        </div>
-        <div id="attunement-slots" style="display:flex;gap:0.5rem;margin-top:0.5rem;align-items:center">
-          {% for i in range(3) %}
-          <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" onclick="event.stopPropagation()" style="width:28px;height:28px;border-radius:5px;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:1rem;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
-          {% endfor %}
-          <span style="font-size:0.85rem;color:var(--text-muted);margin-left:0.3rem;font-weight:600">{{ item_effects.attunement_slots_used }}/3</span>
+        <div style="display:flex;align-items:center;gap:0.5rem">
+          <h3 style="margin:0;flex:none;white-space:nowrap">🔮 Attunement <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
+          <div id="attunement-slots" style="display:flex;gap:0.3rem;align-items:center;flex:none">
+            {% for i in range(3) %}
+            <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
+            {% endfor %}
+            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600">{{ item_effects.attunement_slots_used }}/3</span>
+          </div>
         </div>
         {% if item_effects.notes %}
         <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.4rem">
@@ -2113,16 +2113,16 @@
 
       <!-- GP TRACKER CARD -->
       <div class="card" id="gp-card" style="margin-top:0.75rem">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 style="margin:0">🪙 Gold</h3>
-          <span id="gp-display" onclick="openGpPopup()" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700">{{ character.gp|default(0) }}</span>
-        </div>
-        <div style="display:flex;gap:0.3rem;margin-top:0.4rem">
-          <button class="btn btn-outline btn-sm" onclick="adjustGp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustGp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustGp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
-          <button class="btn btn-outline btn-sm" onclick="adjustGp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
-          <button class="btn btn-outline btn-sm" onclick="openGpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem;margin-left:auto">⋯</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
+          <h3 style="margin:0;flex:none;white-space:nowrap">🪙 Gold</h3>
+          <span id="gp-display" onclick="openGpPopup()" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700;flex:none;white-space:nowrap">{{ character.gp|default(0) }}</span>
+          <div style="display:flex;gap:0.3rem;align-items:center;flex:none">
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
+            <button class="btn btn-outline btn-sm" onclick="openGpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem">⋯</button>
+          </div>
         </div>
       </div>
 
@@ -2200,7 +2200,7 @@
 <!-- 📜 HISTORY & RELATIONSHIPS TAB -->
 <div class="tab-content" id="tab-history">
   <div class="card" style="margin-bottom:1rem">
-    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History</h3>
+    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History <span id="history-lock-btn" onclick="toggleHistoryLock()" style="cursor:pointer;font-size:0.9rem;user-select:none" title="Click to lock/unlock editing">🔓</span></h3>
     <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
     <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
       <input id="history-keywords" type="text" placeholder="Keywords or flavor text (optional) — e.g. 'orphaned by dragon, raised by monks'" style="flex:1;min-width:200px;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
@@ -7615,6 +7615,27 @@ async function deleteRelationship(relId) {
     await fetch(`/api/character/${CHAR_ID}/relationships/${relId}`, {method: 'DELETE'});
     loadRelationships();
   } catch(e) { console.error(e); }
+}
+
+// ── Lock/unlock history backstory textarea ──
+let _historyLocked = false;
+function toggleHistoryLock() {
+  _historyLocked = !_historyLocked;
+  const ta = document.getElementById('history-backstory');
+  const btn = document.getElementById('history-lock-btn');
+  if (_historyLocked) {
+    ta.readOnly = true;
+    ta.style.background = 'var(--bg-muted)';
+    ta.style.opacity = '0.7';
+    btn.textContent = '🔒';
+    btn.title = 'Click to unlock editing';
+  } else {
+    ta.readOnly = false;
+    ta.style.background = 'var(--bg)';
+    ta.style.opacity = '1';
+    btn.textContent = '🔓';
+    btn.title = 'Click to lock editing';
+  }
 }
 
 async function saveBackstory() {
