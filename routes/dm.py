@@ -11,7 +11,7 @@ from main import _user_where
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
 from main import enrich_features, get_caster_type, get_spell_slots, _search_manuals, MANUAL_TRAPS
-from routes.characters import _load_monster_cache
+from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
