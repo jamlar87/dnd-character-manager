@@ -2202,7 +2202,7 @@
   <div class="card" style="margin-bottom:1rem">
     <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History <span id="history-lock-btn" onclick="toggleHistoryLock()" style="cursor:pointer;font-size:0.9rem;user-select:none" title="Click to lock/unlock editing">🔓</span></h3>
     <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
-    <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
+    <div id="history-tools" style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
       <input id="history-keywords" type="text" placeholder="Keywords or flavor text (optional) — e.g. 'orphaned by dragon, raised by monks'" style="flex:1;min-width:200px;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
       <button class="btn btn-outline btn-sm" onclick="generateHistory()" id="history-gen-btn" style="font-size:0.8rem;white-space:nowrap">✨ AI Generate</button>
       <span id="history-loading" style="display:none;font-size:0.8rem;color:var(--text-muted)">Generating...</span>
@@ -7618,25 +7618,46 @@ async function deleteRelationship(relId) {
 }
 
 // ── Lock/unlock history backstory textarea ──
-let _historyLocked = false;
-function toggleHistoryLock() {
-  _historyLocked = !_historyLocked;
+function getHistoryLockKey() {
+  const m = window.location.pathname.match(/\/character\/(\d+)/);
+  return m ? `history-lock-${m[1]}` : null;
+}
+function applyHistoryLock(locked) {
   const ta = document.getElementById('history-backstory');
   const btn = document.getElementById('history-lock-btn');
-  if (_historyLocked) {
+  const tools = document.getElementById('history-tools');
+  if (!ta || !btn) return;
+  if (locked) {
     ta.readOnly = true;
     ta.style.background = 'var(--bg-muted)';
     ta.style.opacity = '0.7';
     btn.textContent = '🔒';
     btn.title = 'Click to unlock editing';
+    if (tools) tools.style.display = 'none';
   } else {
     ta.readOnly = false;
     ta.style.background = 'var(--bg)';
     ta.style.opacity = '1';
     btn.textContent = '🔓';
     btn.title = 'Click to lock editing';
+    if (tools) tools.style.display = '';
   }
 }
+function toggleHistoryLock() {
+  const key = getHistoryLockKey();
+  if (!key) return;
+  const locked = localStorage.getItem(key) === 'true';
+  const newVal = !locked;
+  localStorage.setItem(key, newVal ? 'true' : 'false');
+  applyHistoryLock(newVal);
+}
+// Restore lock state on page load
+(function() {
+  const key = getHistoryLockKey();
+  if (key && localStorage.getItem(key) === 'true') {
+    applyHistoryLock(true);
+  }
+})();
 
 async function saveBackstory() {
   const text = document.getElementById('history-backstory').value;
