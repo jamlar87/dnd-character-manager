@@ -1772,6 +1772,28 @@ def init_db():
         db.execute("ALTER TABLE characters ADD COLUMN favored_terrains TEXT DEFAULT '[]'")
     except sqlite3.OperationalError:
         pass
+    # Migration: monk/paladin/warlock choices
+    for col, coltype in [
+        ("expertise_skills", "TEXT DEFAULT '[]'"),
+        ("fighting_style", "TEXT DEFAULT ''"),
+        ("metamagic", "TEXT DEFAULT '[]'"),
+        ("invocations", "TEXT DEFAULT '[]'"),
+        ("pact_boon", "TEXT DEFAULT ''"),
+        ("maneuvers", "TEXT DEFAULT '[]'"),
+        ("magical_secrets", "TEXT DEFAULT '[]'"),
+        ("totem_spirits", "TEXT DEFAULT '{}'"),
+        ("hunters_prey", "TEXT DEFAULT ''"),
+        ("infusions", "TEXT DEFAULT '[]'"),
+        ("asi_history", "TEXT DEFAULT '[]'"),
+        ("metamagic_history", "TEXT DEFAULT '[]'"),
+        ("summons", "TEXT DEFAULT '[]'"),
+        ("conditions", "TEXT DEFAULT '[]'"),
+        ("combat_notes", "TEXT DEFAULT ''"),
+    ]:
+        try:
+            db.execute(f"ALTER TABLE characters ADD COLUMN {col} {coltype}")
+        except sqlite3.OperationalError:
+            pass
     # Backfill: populate class_levels from class_name + level for existing characters
     db.execute("UPDATE characters SET class_levels = json_object(class_name, level) WHERE class_levels = '{}' OR class_levels IS NULL OR class_levels = ''")
     # Migration: character_relationships for History & Relationships tab
