@@ -3939,7 +3939,7 @@ function filterCombatCreatures() {
       detailDisplay = `${c.race || ''} L${c.level} ${c.class_name || ''}${subStr} · AC ${c.ac}`;
       hpDisplay = `HP ${c.hp_current}/${c.hp_max}`;
       sourceHtml = '';
-      infoBtn = '';
+      infoBtn = `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();window.open('/character/${c.char_id}?dm_preview=1','_blank')" title="View character sheet" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">ℹ️</button>`;
     } else if (c._kind === 'monster') {
       crDisplay = `CR ${c.level} · `;
       typeDisplay = c._type ? `${c._type.charAt(0).toUpperCase() + c._type.slice(1)} · ` : '';
