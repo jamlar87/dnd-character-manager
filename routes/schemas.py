@@ -54,12 +54,14 @@ class EditASI(BaseModel):
 
 
 class ApplyLevelUp(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     target_level: int = Field(..., ge=1, le=20)
     class_to_level: Optional[str | dict[str, int]] = None
     # Optional choice systems — each endpoint validates structure at runtime
     asi_choices: Optional[dict[str, dict | str]] = None
     expertise_skills: Optional[list[str]] = None
-    metamagic: Optional[list[str]] = None
+    metamagic: Optional[list | dict] = None
     invocations: Optional[list[str]] = None
     maneuvers: Optional[list[str]] = None
     fighting_style: Optional[str] = ""
