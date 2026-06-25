@@ -53,6 +53,19 @@ const _knownMissingSources = new Set([
   '169', 'page 5', 'page 10-11', 'page 23', 'page 26-27',
   'page 30', 'page 49', 'page 54', 'page 55', 'page 152',
   'page 180', 'page 191', 'page 15-16',
+  'magic items and trickery', 'baubles of the darkened druids',
+  'wondrous, legendary and healing items (page 139)',
+  'dungeon master\'s tools p.?', 'the night messengers',
+  'adventure text', 'unknown (mind flayer section)',
+  'appendix c: magic items', 'appendix a | magic items',
+  'appendix b | magic items', 'appendix a: magic items',
+  'appendix b: magic items', 'appendix c: council scorecard',
+  'appendix c | discoveries', 'appendix 1 | monster & npc statistics',
+  'appendix c p.206',
+  'chapter 2, the land of chult, page 57',
+  'page 59', 'page 29', 'page 8', 'page 7', 'page 9', 'page 27',
+  'page 157', 'page 201', 'page 203', 'page 180', 'page 8',
+  'page 180', 'page 191', '161', '169',
 ]);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
