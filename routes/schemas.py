@@ -62,15 +62,20 @@ class ApplyLevelUp(BaseModel):
     metamagic: list[str] = []
     invocations: list[str] = []
     maneuvers: list[str] = []
-    fighting_style: str = ""
-    pact_boon: str = ""
+    fighting_style: Optional[str] = ""
+    pact_boon: Optional[str] = ""
     totem_choices: list[str] = []
-    hunters_prey: str = ""
-    favored_enemy: str = ""
-    favored_terrain: str = ""
+    hunters_prey: Optional[str] = ""
+    favored_enemy: Optional[str] = ""
+    favored_terrain: Optional[str] = ""
     infusions: list[str] = []
     magical_secrets: list[str] = []
-    feat: str = ""
+    feat: Optional[str] = ""
+
+    @field_validator("fighting_style", "pact_boon", "hunters_prey", "favored_enemy", "favored_terrain", "feat", mode="before")
+    @classmethod
+    def none_to_empty(cls, v: Optional[str]) -> str:
+        return v or ""
 
 
 class UpdateCharacter(BaseModel):

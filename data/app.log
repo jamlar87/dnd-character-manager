@@ -9974,3 +9974,160 @@ Traceback (most recent call last):
                          ~~~~^^^
 KeyError: 'expertise_skills'
 2026-06-24 19:09:52 [INFO] HTTP Request: GET http://testserver/character/1 "HTTP/1.1 500 Internal Server Error"
+2026-06-24 19:13:19 [INFO] POST /api/character/create 200 25ms
+2026-06-24 19:13:20 [INFO] GET /character/98 200 583ms
+2026-06-24 19:13:22 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:13:24 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:26 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:28 [INFO] POST /api/sync-combat-hp 200 8ms
+2026-06-24 19:13:30 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:13:32 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:13:34 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:13:36 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:39 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:13:41 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:43 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:45 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:47 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:49 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:51 [INFO] POST /api/sync-combat-hp 200 8ms
+2026-06-24 19:13:53 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:13:55 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:13:57 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:13:59 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:14:01 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:14:03 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:14:06 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:14:08 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:14:10 [INFO] POST /api/sync-combat-hp 200 6ms
+2026-06-24 19:14:12 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:14:14 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:14:16 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:14:19 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:14:21 [INFO] GET / 303 10ms
+2026-06-24 19:14:21 [INFO] POST /api/sync-combat-hp 200 12ms
+2026-06-24 19:14:21 [INFO] GET /dashboard 200 103ms
+2026-06-24 19:14:25 [INFO] GET / 200 7ms
+2026-06-24 19:14:25 [INFO] HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2026-06-24 19:14:25 [INFO] GET /login 200 3ms
+2026-06-24 19:14:25 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:14:25 [INFO] GET /register 200 2ms
+2026-06-24 19:14:25 [INFO] HTTP Request: GET http://testserver/register "HTTP/1.1 200 OK"
+2026-06-24 19:14:25 [INFO] GET /api/dm/user-characters 303 1ms
+2026-06-24 19:14:25 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 303 See Other"
+2026-06-24 19:14:25 [INFO] GET /login 200 0ms
+2026-06-24 19:14:25 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:14:26 [INFO] GET /api/dm/user-characters 200 2ms
+2026-06-24 19:14:26 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 200 OK"
+2026-06-24 19:14:27 [INFO] GET /create 200 33ms
+2026-06-24 19:14:27 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 19:14:28 [INFO] GET /api/dm/npcs 200 22ms
+2026-06-24 19:14:28 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 200 OK"
+2026-06-24 19:14:29 [INFO] GET /api/dm/npcs 303 0ms
+2026-06-24 19:14:29 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 303 See Other"
+2026-06-24 19:14:29 [INFO] GET /login 200 0ms
+2026-06-24 19:14:29 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:14:30 [INFO] GET /api/dm/monsters 200 163ms
+2026-06-24 19:14:30 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 19:14:31 [INFO] GET /api/dm/monsters 200 142ms
+2026-06-24 19:14:31 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 19:14:32 [INFO] GET /api/dm/encounters 200 2ms
+2026-06-24 19:14:32 [INFO] HTTP Request: GET http://testserver/api/dm/encounters "HTTP/1.1 200 OK"
+2026-06-24 19:14:33 [INFO] POST /api/dm/encounter/create 200 4ms
+2026-06-24 19:14:33 [INFO] HTTP Request: POST http://testserver/api/dm/encounter/create "HTTP/1.1 200 OK"
+2026-06-24 19:14:34 [INFO] GET /create 200 5ms
+2026-06-24 19:14:34 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 19:14:36 [INFO] GET /api/user/characters 404 3ms
+2026-06-24 19:14:36 [INFO] HTTP Request: GET http://testserver/api/user/characters "HTTP/1.1 404 Not Found"
+2026-06-24 19:14:37 [ERROR] GET /character/1 500 14ms | KeyError: 'expertise_skills'
+Traceback (most recent call last):
+  File "/home/james/dnd-character-manager/main.py", line 1460, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/routes/characters.py", line 1633, in character_sheet
+    char[f] = json.loads(char[f])
+                         ~~~~^^^
+KeyError: 'expertise_skills'
+2026-06-24 19:14:37 [INFO] HTTP Request: GET http://testserver/character/1 "HTTP/1.1 500 Internal Server Error"
+2026-06-24 19:14:38 [ERROR] GET /character/1 500 2ms | KeyError: 'expertise_skills'
+Traceback (most recent call last):
+  File "/home/james/dnd-character-manager/main.py", line 1460, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/james/dnd-character-manager/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/james/dnd-character-manager/routes/characters.py", line 1633, in character_sheet
+    char[f] = json.loads(char[f])
+                         ~~~~^^^
+KeyError: 'expertise_skills'
+2026-06-24 19:14:38 [INFO] HTTP Request: GET http://testserver/character/1 "HTTP/1.1 500 Internal Server Error"
