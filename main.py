@@ -4670,6 +4670,18 @@ def _get_source_slug_map() -> dict[str, dict]:
                 "display": display,
                 "path": info.get("path", ""),
             }
+        # Add chapter/section aliases that point to their parent book
+        _chapter_aliases = {
+            "Magical Treasure Index": {"slug": "AIPG", "display": "Adventures in Middle-earth Player's Guide — Magical Treasure Index"},
+        }
+        for alias, target in _chapter_aliases.items():
+            key = alias.upper().replace(" ", "_")
+            if key not in _source_slug_cache and target["slug"] in _source_slug_cache:
+                _source_slug_cache[key] = {
+                    "title": alias,
+                    "display": target["display"],
+                    "path": _source_slug_cache[target["slug"]]["path"],
+                }
     return _source_slug_cache
 
 

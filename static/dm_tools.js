@@ -2,7 +2,7 @@
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
 const _missingSourceAlerted = new Set();
-const _knownMissingSources = new Set(['magical treasure index']);
+const _knownMissingSources = new Set([]);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
   if (_knownMissingSources.has(src.toLowerCase().trim())) return;
