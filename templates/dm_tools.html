@@ -468,6 +468,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
           {% if enc.is_owner %}
           <button class="btn btn-outline btn-sm" onclick="toggleShareEncounter('{{ enc.id }}', {{ 'true' if enc.shared else 'false' }})" title="{{ 'Unshare' if enc.shared else 'Share with everyone' }}" style="font-size:0.65rem">{{ '🔓 Shared' if enc.shared else '🔒 Share' }}</button>
           {% endif %}
+          <button class="btn btn-outline btn-sm" onclick="copyEncounter('{{ enc.id }}')" title="Make a copy" style="font-size:0.65rem">📋 Copy</button>
           <button class="btn btn-outline btn-sm" onclick="openEncounter('{{ enc.id }}')">Open</button>
         </div>
       </div>
@@ -1079,5 +1080,5 @@ const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
     </script>
-<script src="/static/dm_tools.js?v=10"></script>
+<script src="/static/dm_tools.js?v=11"></script>
 {% endblock %}

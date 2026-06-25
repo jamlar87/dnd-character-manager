@@ -9368,7 +9368,7 @@ async def _call_ollama(prompt: str) -> str | None:
         async with httpx.AsyncClient(timeout=20) as client:
             resp = await client.post(
                 "http://192.168.1.31:11434/api/generate",
-                json={"model": "hermes3:8b-llama3.1-q8_0", "prompt": prompt, "stream": False},
+                json={"model": "hermes3:8b-llama3.1-q8_0", "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
             )
             result = resp.json()
             return result.get("response", "")

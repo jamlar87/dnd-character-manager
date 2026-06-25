@@ -11,7 +11,7 @@ from main import _user_where
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
 from main import enrich_features, get_caster_type, get_spell_slots, _search_manuals, MANUAL_TRAPS
-from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json
+from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
@@ -1445,9 +1445,11 @@ Type: {trap_type}
 Danger: {danger} ({guidelines}){level_note}
 Theme/location: {theme or 'any'}{' — ' + location if location else ''}
 
+Generate a FRESH, UNIQUE trap — do NOT use common names like "Whispering Blade". Think of something original.
+
 Return a single JSON object with these keys:
 {{
-  "name": "Short evocative trap name (4-6 words)",
+  "name": "Short evocative trap name (4-6 words) — be creative and original",
   "trigger": "What activates it (1 sentence)",
   "detection_dc": <int, appropriate for {danger}>,
   "detection_skill": "Perception or Investigation",
@@ -1588,6 +1590,69 @@ async def dm_encounter_create(request: Request):
     enc_id = cur.lastrowid
     db.close()
     return JSONResponse({"id": enc_id, "ok": True})
+
+
+@router.post("/api/dm/encounter/{enc_id}/copy", response_class=JSONResponse)
+async def dm_encounter_copy(enc_id: int, request: Request):
+    """Deep copy an encounter (shared or own) — creates a new encounter with unique name."""
+    user = require_user(request)
+    db = get_db()
+    # Load source encounter (allow shared)
+    src = db.execute("""
+        SELECT * FROM dm_encounters WHERE id = ? AND (user_id = ? OR shared = 1)
+    """, (enc_id, user["id"])).fetchone()
+    if not src:
+        db.close()
+        raise HTTPException(status_code=404, detail="Encounter not found")
+    src = dict(src)
+
+    # Generate unique name
+    base_name = src["name"]
+    # Strip existing copy suffix for cleaner base
+    import re
+    base = re.sub(r"\s*\(Copy \d+\)\s*$", "", base_name).strip()
+    # Find next available copy number
+    existing = [r[0] for r in db.execute(
+        "SELECT name FROM dm_encounters WHERE user_id = ? AND name LIKE ?",
+        (user["id"], f"{base}%")
+    ).fetchall()]
+    copy_num = 1
+    while f"{base} (Copy {copy_num})" in existing:
+        copy_num += 1
+    new_name = f"{base} (Copy {copy_num})"
+
+    # Create new encounter
+    cur = db.execute("""
+        INSERT INTO dm_encounters (user_id, name, description, location, environment, difficulty, status, notes, xp_total)
+        VALUES (?,?,?,?,?,?,?,?,?)
+    """, (
+        user["id"], new_name,
+        src.get("description", ""),
+        src.get("location", ""),
+        src.get("environment", ""),
+        src.get("difficulty", "medium"),
+        src.get("status", "planned"),
+        src.get("notes", ""),
+        src.get("xp_total", 0)
+    ))
+    new_id = cur.lastrowid
+
+    # Copy NPC participants
+    participants = [dict(r) for r in db.execute(
+        "SELECT * FROM dm_encounter_npcs WHERE encounter_id = ?", (enc_id,)
+    ).fetchall()]
+    for p in participants:
+        db.execute("""
+            INSERT INTO dm_encounter_npcs (encounter_id, npc_id, initiative, hp_current, hp_max, ac, notes, defeated, spell_slots_used, creature_data)
+            VALUES (?,?,?,?,?,?,?,?,?,?)
+        """, (
+            new_id, p["npc_id"], p["initiative"], p["hp_current"],
+            p["hp_max"], p["ac"], p.get("notes", ""), p.get("defeated", 0),
+            p.get("spell_slots_used", "{}"), p.get("creature_data", "")
+        ))
+    db.commit()
+    db.close()
+    return JSONResponse({"id": new_id, "name": new_name, "ok": True})
 
 
 @router.get("/api/dm/encounters", response_class=JSONResponse)

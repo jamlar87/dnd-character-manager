@@ -510,6 +510,16 @@ function toggleShareEncounter(encId, currentlyShared) {
   }).catch(() => {});
 }
 
+function copyEncounter(encId) {
+  fetch(`/api/dm/encounter/${encId}/copy`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: '{}'
+  }).then(r => r.json()).then(d => {
+    if (d.ok) location.reload();
+    else alert(d.detail || 'Failed to copy');
+  }).catch(() => alert('Failed to copy encounter'));
+}
+
 async function openEncounter(id) {
   openModal('encounterModal');
   document.getElementById('encounterDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
