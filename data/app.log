@@ -10131,3 +10131,191 @@ Traceback (most recent call last):
                          ~~~~^^^
 KeyError: 'expertise_skills'
 2026-06-24 19:14:38 [INFO] HTTP Request: GET http://testserver/character/1 "HTTP/1.1 500 Internal Server Error"
+2026-06-24 19:16:55 [INFO] GET /character/98 200 454ms
+2026-06-24 19:16:57 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:16:59 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:01 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:03 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:05 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:07 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:09 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:11 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:17:13 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:15 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:17 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:17:19 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:22 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:17:24 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:17:26 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:28 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:30 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:37 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:39 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:41 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:17:43 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:45 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:47 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:49 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:17:51 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:54 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:17:56 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:17:58 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:00 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:02 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:04 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:18:06 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:08 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:18:10 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:12 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:18:14 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:18:16 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:18:19 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:21 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:23 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:25 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:27 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:29 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:31 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:33 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:35 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:37 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:39 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:41 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:18:43 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:46 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:18:47 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:49 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:52 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:54 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:56 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:18:58 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:00 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:02 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:04 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:06 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:08 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:10 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:12 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:14 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:16 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:18 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:21 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:23 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:25 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:19:27 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:29 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:31 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:33 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:35 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:37 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:39 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:41 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:43 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:45 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:47 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:50 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:52 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:19:54 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:19:56 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:19:58 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:00 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:02 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:04 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:06 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:08 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:10 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:12 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:14 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:16 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:18 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:21 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:23 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:26 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:28 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:30 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:32 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:34 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:36 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:20:38 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:20:40 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:42 [INFO] POST /api/sync-combat-hp 200 6ms
+2026-06-24 19:20:44 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:46 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:48 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:51 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:53 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:55 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:57 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:20:59 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:01 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:03 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:05 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:21:07 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:09 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:11 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:21:13 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:21:15 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:17 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:23 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:25 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:27 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:21:29 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:33 [INFO] GET /api/character/98/level-up-info 200 19ms
+2026-06-24 19:21:33 [INFO] POST /api/sync-combat-hp 200 4ms
+2026-06-24 19:21:35 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:37 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:39 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:41 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:43 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:45 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:47 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:49 [INFO] POST /api/sync-combat-hp 200 5ms
+2026-06-24 19:21:51 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:53 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:55 [INFO] POST /api/sync-combat-hp 200 3ms
+2026-06-24 19:21:57 [INFO] POST /api/sync-combat-hp 200 2ms
+2026-06-24 19:21:57 [INFO] POST /api/character/98/apply-level-up 422 6ms
+2026-06-24 19:22:54 [INFO] POST /api/character/98/apply-level-up 303 1ms
+2026-06-24 19:22:54 [INFO] GET /login 200 2ms
+2026-06-24 19:23:01 [INFO] POST /api/character/98/apply-level-up 303 1ms
+2026-06-24 19:23:01 [INFO] GET /login 200 0ms
+2026-06-24 19:23:44 [INFO] GET / 200 7ms
+2026-06-24 19:23:44 [INFO] HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2026-06-24 19:23:44 [INFO] GET /login 200 2ms
+2026-06-24 19:23:44 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:23:44 [INFO] GET /register 200 3ms
+2026-06-24 19:23:44 [INFO] HTTP Request: GET http://testserver/register "HTTP/1.1 200 OK"
+2026-06-24 19:23:44 [INFO] GET /api/dm/user-characters 303 1ms
+2026-06-24 19:23:44 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 303 See Other"
+2026-06-24 19:23:44 [INFO] GET /login 200 0ms
+2026-06-24 19:23:44 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:23:45 [INFO] GET /api/dm/user-characters 200 2ms
+2026-06-24 19:23:45 [INFO] HTTP Request: GET http://testserver/api/dm/user-characters "HTTP/1.1 200 OK"
+2026-06-24 19:23:47 [INFO] GET /create 200 59ms
+2026-06-24 19:23:47 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 19:23:48 [INFO] GET /api/dm/npcs 200 49ms
+2026-06-24 19:23:48 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 200 OK"
+2026-06-24 19:23:48 [INFO] GET /api/dm/npcs 303 0ms
+2026-06-24 19:23:48 [INFO] HTTP Request: GET http://testserver/api/dm/npcs "HTTP/1.1 303 See Other"
+2026-06-24 19:23:48 [INFO] GET /login 200 0ms
+2026-06-24 19:23:48 [INFO] HTTP Request: GET http://testserver/login "HTTP/1.1 200 OK"
+2026-06-24 19:23:49 [INFO] GET /api/dm/monsters 200 173ms
+2026-06-24 19:23:49 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 19:23:50 [INFO] GET /api/dm/monsters 200 72ms
+2026-06-24 19:23:50 [INFO] HTTP Request: GET http://testserver/api/dm/monsters "HTTP/1.1 200 OK"
+2026-06-24 19:23:51 [INFO] GET /api/dm/encounters 200 2ms
+2026-06-24 19:23:51 [INFO] HTTP Request: GET http://testserver/api/dm/encounters "HTTP/1.1 200 OK"
+2026-06-24 19:23:53 [INFO] POST /api/dm/encounter/create 200 4ms
+2026-06-24 19:23:53 [INFO] HTTP Request: POST http://testserver/api/dm/encounter/create "HTTP/1.1 200 OK"
+2026-06-24 19:23:54 [INFO] GET /create 200 6ms
+2026-06-24 19:23:54 [INFO] HTTP Request: GET http://testserver/create "HTTP/1.1 200 OK"
+2026-06-24 19:23:55 [INFO] GET /api/user/characters 404 3ms
+2026-06-24 19:23:55 [INFO] HTTP Request: GET http://testserver/api/user/characters "HTTP/1.1 404 Not Found"
+2026-06-24 19:24:01 [INFO] POST /api/character/98/apply-level-up 303 14ms
+2026-06-24 19:24:01 [INFO] GET /login 200 13ms
+2026-06-24 19:24:01 [INFO] POST /api/character/98/apply-level-up 303 1ms
+2026-06-24 19:24:01 [INFO] GET /login 200 1ms
+2026-06-24 19:24:01 [INFO] POST /api/character/98/apply-level-up 303 1ms
+2026-06-24 19:24:01 [INFO] GET /login 200 1ms
+2026-06-24 19:24:01 [INFO] POST /api/character/98/apply-level-up 303 1ms
+2026-06-24 19:24:01 [INFO] GET /login 200 1ms

@@ -55,21 +55,21 @@ class EditASI(BaseModel):
 
 class ApplyLevelUp(BaseModel):
     target_level: int = Field(..., ge=1, le=20)
-    class_to_level: dict[str, int] = Field(default_factory=dict)
+    class_to_level: Optional[dict[str, int]] = None
     # Optional choice systems — each endpoint validates structure at runtime
-    asi_choices: dict[str, dict | str] = {}
-    expertise_skills: list[str] = []
-    metamagic: list[str] = []
-    invocations: list[str] = []
-    maneuvers: list[str] = []
+    asi_choices: Optional[dict[str, dict | str]] = None
+    expertise_skills: Optional[list[str]] = None
+    metamagic: Optional[list[str]] = None
+    invocations: Optional[list[str]] = None
+    maneuvers: Optional[list[str]] = None
     fighting_style: Optional[str] = ""
     pact_boon: Optional[str] = ""
-    totem_choices: list[str] = []
+    totem_choices: Optional[list[str]] = None
     hunters_prey: Optional[str] = ""
     favored_enemy: Optional[str] = ""
     favored_terrain: Optional[str] = ""
-    infusions: list[str] = []
-    magical_secrets: list[str] = []
+    infusions: Optional[list[str]] = None
+    magical_secrets: Optional[list[str]] = None
     feat: Optional[str] = ""
 
     @field_validator("fighting_style", "pact_boon", "hunters_prey", "favored_enemy", "favored_terrain", "feat", mode="before")
