@@ -2,14 +2,17 @@
 
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
+from pydantic import ConfigDict
 
 
 class CreateCharacter(BaseModel):
+    model_config = ConfigDict(coerce_numbers_to_str=True)
+
     name: str = Field(..., min_length=1, max_length=100)
     race: str = Field(..., min_length=1)
-    subrace: str = ""
+    subrace: Optional[str] = ""
     class_name: str = Field(..., min_length=1)
-    subclass: str = ""
+    subclass: Optional[str] = ""
     level: int = Field(default=1, ge=1, le=20)
     strength: int = Field(default=10, ge=3, le=20)
     dexterity: int = Field(default=10, ge=3, le=20)
@@ -18,11 +21,16 @@ class CreateCharacter(BaseModel):
     wisdom: int = Field(default=10, ge=3, le=20)
     charisma: int = Field(default=10, ge=3, le=20)
     asi_picks: list[str] = []
-    background: str = ""
-    alignment: str = ""
+    background: Optional[str] = ""
+    alignment: Optional[str] = ""
     hp_max: int = Field(default=10, ge=1, le=999)
     gp: int = Field(default=0, ge=0)
     cp: int = Field(default=0, ge=0)
+
+    @field_validator("subrace", "subclass", "background", "alignment", mode="before")
+    @classmethod
+    def none_to_empty(cls, v: Optional[str]) -> str:
+        return v or ""
 
     @field_validator("name")
     @classmethod
