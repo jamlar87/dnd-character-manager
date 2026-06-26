@@ -7,11 +7,11 @@ from pathlib import Path
 from datetime import datetime
 
 from main import get_db, require_user, _render, get_current_user
-from main import _user_where
-from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS
+from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character
+from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
-from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS
-from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals
+from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
+from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
@@ -574,6 +574,203 @@ async def dm_npc_delete(npc_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+# ── DM Tools: Build NPC to Character (Fully Build button) ──────────────────
+
+def _detect_creation_gaps(npc: dict) -> list[dict]:
+    """Given an NPC dict (from DB or manual), detect what's missing for full build.
+    Returns list of gap dicts e.g. {field: 'class_name', label: 'Class', type: 'class_picker'}."""
+    gaps = []
+    race = npc.get("race", "").strip()
+    subrace = npc.get("subrace", "").strip()
+    class_name = npc.get("class_name", "").strip()
+    subclass = npc.get("subclass", "").strip()
+    level = int(npc.get("level", 1) or 1)
+
+    # 1. Race must be a known PHB-equivalent
+    if race not in RACES and race not in RACE_NAMES:
+        gaps.append({"field": "race", "label": "Race (PHB equivalent)", "type": "race_picker",
+                      "current": race, "note": f"\"{race}\" not in PHB — pick closest match"})
+
+    # 2. Subrace needed? If race has subraces & none set & race is known
+    if race in RACES and not subrace:
+        race_data = RACES.get(race, {})
+        race_subraces = race_data.get("subraces", [])
+        if race_subraces:
+            gaps.append({"field": "subrace", "label": "Subrace", "type": "subrace_picker",
+                          "options": race_subraces, "note": f"{race} has subraces: pick one"})
+
+    # 3. Class required
+    if not class_name:
+        gaps.append({"field": "class_name", "label": "Class", "type": "class_picker",
+                      "note": "NPC has no class — pick one"})
+    elif class_name not in CLASSES:
+        gaps.append({"field": "class_name", "label": "Class (PHB equivalent)", "type": "class_picker",
+                      "current": class_name, "note": f"\"{class_name}\" not in PHB — pick closest match"})
+    else:
+        if class_name in SUBCLASS_LEVELS:
+            sc_info = SUBCLASS_LEVELS[class_name]
+            if level >= sc_info["level"] and not subclass:
+                gaps.append({"field": "subclass", "label": f"Subclass ({sc_info['label']})",
+                              "type": "subclass_picker", "options": sc_info.get("options", []),
+                              "note": f"L{level} {class_name} needs a subclass (pick or skip)"})
+
+    # Abilities: all 6 must be non-zero
+    scores = npc.get("ability_scores", {})
+    if isinstance(scores, str):
+        try: scores = json.loads(scores)
+        except: scores = {}
+    for abil in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
+        val = scores.get(abil, npc.get(abil, 0))
+        try: val = int(val)
+        except: val = 0
+        if val == 0:
+            gaps.append({"field": f"ability_scores.{abil}", "label": abil.capitalize(),
+                          "type": "ability_input", "note": f"{abil.capitalize()} score is 0"})
+
+    # Half-Elf / Custom Lineage: need asi_picks
+    if race in FLEXIBLE_ASI_RACES:
+        gaps.append({"field": "asi_picks", "label": "Ability Score Picks", "type": "asi_picks",
+                      "note": f"{race} needs ability score bonuses assigned"})
+
+    return gaps
+
+
+def _npc_to_character_data(npc: dict) -> dict:
+    """Map NPC dict → character creation data dict for _build_character."""
+    scores = npc.get("ability_scores", {})
+    if isinstance(scores, str):
+        try: scores = json.loads(scores)
+        except: scores = {}
+    abilities = {}
+    for abil in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]:
+        abilities[abil] = int(scores.get(abil, npc.get(abil, 10)) or 10)
+
+    skills = npc.get("skills", [])
+    if isinstance(skills, str):
+        try: skills = json.loads(skills)
+        except: skills = []
+
+    inventory = npc.get("inventory", npc.get("equipment", []))
+    if isinstance(inventory, str):
+        try: inventory = json.loads(inventory)
+        except: inventory = []
+
+    features = npc.get("features", [])
+    if isinstance(features, str):
+        try: features = json.loads(features)
+        except: features = []
+
+    notes = npc.get("notes", npc.get("description", ""))
+
+    return {
+        "name": npc.get("name", "Unknown NPC"),
+        "race": npc.get("race", "Human"),
+        "subrace": npc.get("subrace", ""),
+        "class_name": npc.get("class_name", ""),
+        "subclass": npc.get("subclass", ""),
+        "level": int(npc.get("level", 1) or 1),
+        "abilities": abilities,
+        "skills": skills,
+        "equipment": inventory,
+        "alignment": npc.get("alignment", "True Neutral"),
+        "background": npc.get("role", ""),
+        "personality": "",
+        "backstory": notes,
+        "features": features,
+    }
+
+
+@router.post("/api/dm/npc/{npc_id}/build-to-character", response_class=JSONResponse)
+async def dm_npc_build_to_character(npc_id: int, request: Request):
+    """Build a full player character from an NPC. Detects gaps and returns them."""
+    user = require_user(request)
+    npc = None
+
+    # Manual NPC (negative ID)
+    if npc_id < 0:
+        manual_npcs = _load_manual_json("npcs.json")
+        idx = -npc_id - 1
+        if 0 <= idx < len(manual_npcs):
+            mn = manual_npcs[idx]
+            scores = mn.get("ability_scores", {})
+            has_stats = scores and any(v != 0 and v is not None for v in scores.values())
+            npc = {
+                "name": mn.get("name", "Unknown"),
+                "race": mn.get("race", ""),
+                "subrace": mn.get("subrace", ""),
+                "class_name": mn.get("class_name", ""),
+                "subclass": mn.get("subclass", ""),
+                "level": mn.get("level", 1),
+                "ability_scores": scores if has_stats else {},
+                "skills": mn.get("skills", []),
+                "features": mn.get("features", []),
+                "inventory": mn.get("equipment", []),
+                "alignment": mn.get("alignment", ""),
+                "notes": mn.get("description", ""),
+                "role": mn.get("role", "NPC"),
+            }
+    else:
+        db = get_db()
+        row = db.execute("SELECT * FROM dm_npcs WHERE id = ? AND user_id = ?",
+                         (npc_id, user["id"])).fetchone()
+        db.close()
+        if row:
+            npc = dict(row)
+
+    if not npc:
+        raise HTTPException(status_code=404, detail="NPC not found")
+
+    gaps = _detect_creation_gaps(npc)
+    char_data = _npc_to_character_data(npc)
+
+    if gaps:
+        return JSONResponse({"ok": False, "gaps": gaps, "npc_data": char_data,
+                              "npc_name": npc.get("name", "Unknown"),
+                              "message": f"Need {len(gaps)} more field(s) before building"})
+
+    try:
+        char_id, name = _build_character(char_data, user["id"])
+        return JSONResponse({"ok": True, "character_id": char_id, "name": name,
+                              "message": f"Built {name} as a full character"})
+    except (ValueError, KeyError) as e:
+        return JSONResponse({"ok": False, "error": str(e),
+                              "message": "Build failed — fill in gaps manually"}, status_code=400)
+
+
+@router.post("/api/dm/npc/build-from-gaps", response_class=JSONResponse)
+async def dm_npc_build_from_gaps(request: Request):
+    """Complete NPC→character build with user-filled gaps."""
+    user = require_user(request)
+    data = await request.json()
+    char_data = data.get("char_data", {})
+    gap_values = data.get("gap_values", {})
+
+    for field, value in gap_values.items():
+        if field.startswith("ability_scores."):
+            abil = field.split(".")[1]
+            if "abilities" not in char_data:
+                char_data["abilities"] = {}
+            char_data["abilities"][abil] = int(value)
+        elif field == "asi_picks":
+            char_data["asi_picks"] = value if isinstance(value, list) else [value]
+        else:
+            char_data[field] = value
+
+    if not char_data.get("name"):
+        return JSONResponse({"error": "Name required"}, status_code=400)
+    if not char_data.get("race"):
+        return JSONResponse({"error": "Race required"}, status_code=400)
+    if not char_data.get("class_name"):
+        return JSONResponse({"error": "Class required"}, status_code=400)
+
+    try:
+        char_id, name = _build_character(char_data, user["id"])
+        return JSONResponse({"ok": True, "character_id": char_id, "name": name,
+                              "message": f"Built {name} as a full character"})
+    except (ValueError, KeyError) as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
 
 def _build_party_profile(db, campaign_id: int) -> dict | None:

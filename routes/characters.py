@@ -77,21 +77,9 @@ async def create_character_page(request: Request):
         infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
         source_map_json=json.dumps(_get_source_slug_map()))
 
-@router.post("/api/character/create", response_class=JSONResponse)
-async def api_create_character(request: Request):
-    user = require_user(request)
-    try:
-        raw = await request.json()
-    except Exception:
-        return JSONResponse({"error": "Invalid JSON"}, status_code=400)
-    # Validate core fields with Pydantic
-    from pydantic import ValidationError
-    try:
-        body = CreateCharacter.model_validate(raw)
-    except ValidationError as e:
-        return JSONResponse({"error": str(e)}, status_code=422)
-    data = raw  # Keep full raw data for auxiliary fields
-
+def _build_character(data: dict, user_id: int) -> tuple[int, str]:
+    """Synchronous character builder. Takes creation dict + user_id, returns (char_id, name).
+    Raises ValueError or KeyError on bad input — caller wraps for HTTP."""
     # Compute ability scores
     def _asi(base, bonuses):
         stats = {}
@@ -106,7 +94,7 @@ async def api_create_character(request: Request):
     level = max(1, int(data.get("level", 1) or 1))
     name = data.get("name", "").strip()
     if not name or not race_name or not class_name:
-        return JSONResponse({"error": "Name, race, and class required"}, status_code=400)
+        raise ValueError("Name, race, and class required")
 
     # Race ASIs
     race_data = RACES.get(race_name, {})
@@ -260,7 +248,7 @@ async def api_create_character(request: Request):
         metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, favored_enemies, favored_terrains, infusions)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
-        user["id"], name, race_name, subrace, class_name, subclass, level,
+        user_id, name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
         stats["strength"], stats["dexterity"], stats["constitution"],
         stats["intelligence"], stats["wisdom"], stats["charisma"],
@@ -335,7 +323,29 @@ async def api_create_character(request: Request):
         db.commit()
     
     db.close()
-    return JSONResponse({"id": char_id, "name": name})
+    return (char_id, name)
+
+
+@router.post("/api/character/create", response_class=JSONResponse)
+async def api_create_character(request: Request):
+    """Create a new character. Thin async wrapper around _build_character."""
+    user = require_user(request)
+    try:
+        raw = await request.json()
+    except Exception:
+        return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+    # Validate core fields with Pydantic
+    from pydantic import ValidationError
+    try:
+        body = CreateCharacter.model_validate(raw)
+    except ValidationError as e:
+        return JSONResponse({"error": str(e)}, status_code=422)
+    try:
+        char_id, name = _build_character(raw, user["id"])
+        return JSONResponse({"id": char_id, "name": name})
+    except ValueError as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
 
 # ── Starting spells lookup (no character needed — creation wizard) ──────────
 

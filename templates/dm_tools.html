@@ -525,6 +525,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% endif %}
       </div>
       <div class="npc-actions">
+        <button class="btn btn-accent btn-sm" onclick="buildNpcToCharacter({{ npc.id }}, '{{ npc.name|replace("'", "\\'") }}')" title="Build full character sheet from this NPC">🛠️ Build</button>
         {% if npc.get('_manual') %}
         <span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>
         {% else %}
@@ -623,6 +624,41 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <div class="modal-content" style="max-width:700px">
     <button class="modal-close" onclick="closeModal('npcModal')">✕</button>
     <div id="npcEditor"></div>
+  </div>
+</div>
+
+{# ───── CHARACTER BUILDER WIZARD (NPC→Full Build) ───── #}
+<style>
+.cb-wizard { padding: 0.5rem 0; }
+.cb-wizard h2 { margin: 0 0 0.5rem 0; }
+.cb-wizard .cb-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+.cb-step { display: none; }
+.cb-step.active { display: block; }
+.cb-gap-card { background: var(--bg); border: 1px solid var(--accent2); border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; }
+.cb-gap-card .cb-gap-label { font-weight: 600; font-size: 0.9rem; }
+.cb-gap-card .cb-gap-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.cb-stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
+.cb-stat-box { text-align: center; background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; }
+.cb-stat-box .cb-stat-lbl { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); }
+.cb-stat-box input { width: 4ch; text-align: center; font-size: 1.1rem; font-weight: 700; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--text); padding: 0.2rem; }
+.cb-result { text-align: center; padding: 2rem; }
+.cb-result .cb-success-icon { font-size: 3rem; }
+.cb-picker { width: 100%; padding: 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.9rem; }
+</style>
+<div class="modal-overlay" id="charBuilderModal" style="z-index:1200">
+  <div class="modal-content" style="max-width:650px">
+    <button class="modal-close" onclick="closeModal('charBuilderModal')">✕</button>
+    <div id="charBuilderContent">
+      <div class="cb-wizard">
+        <h2 id="cbTitle">🛠️ Character Builder</h2>
+        <div id="cbBody"><p style="text-align:center;padding:2rem;color:var(--text-muted)">Loading...</p></div>
+        <div id="cbNav" style="display:none;margin-top:1rem" class="wizard-nav">
+          <button id="cbBack" class="btn btn-outline btn-sm" onclick="cbPrevStep()" style="display:none">← Back</button>
+          <span></span>
+          <button id="cbNext" class="btn btn-primary btn-sm" onclick="cbNextStep()">Next →</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1080,5 +1116,5 @@ const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
     </script>
-<script src="/static/dm_tools.js?v=18"></script>
+<script src="/static/dm_tools.js?v=19"></script>
 {% endblock %}
