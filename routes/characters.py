@@ -2906,6 +2906,7 @@ async def available_spells(char_id: int, request: Request):
     class_name = char["class_name"] or ""
     subclass = char["subclass"] or ""
     race_name = char["race"] or ""
+    subrace = char["subrace"] or ""
     # Allow override for level-up preview (still at old level in DB)
     level = int(request.query_params.get("level", 0)) or max(1, int(char.get("level", 1) or 1))
 
@@ -3013,6 +3014,20 @@ async def available_spells(char_id: int, request: Request):
         "yuan-ti pureblood": {0: ["poison spray"], 1: ["animal friendship"], 2: ["suggestion"]},
         "aasimar": {0: ["light"], 1: ["lesser restoration"]},
     }
+    # Tiefling variant subrace innate spells (override base tiefling)
+    tiefling_subrace_spells = {
+        "Asmodeus": {1: ["hellish rebuke"], 2: ["darkness"]},          # PHB default
+        "Mephistopheles": {1: ["burning hands"], 2: ["flame blade"]},   # SCAG p.118
+        "Zariel": {1: ["searing smite"], 2: ["branding smite"]},       # SCAG p.118
+        "Dispater": {1: ["disguise self"], 2: ["invisibility"]},       # SCAG p.118
+        "Fierna": {1: ["charm person"], 2: ["suggestion"]},            # SCAG p.118
+        "Glasya": {1: ["disguise self"], 2: ["invisibility"]},         # SCAG p.118
+        "Levistus": {0: ["ray of frost"], 2: ["darkness"]},              # SCAG p.118
+        "Mammon": {0: ["mage hand"], 2: ["arcane lock"]},              # SCAG p.118
+    }
+    # Subrace-specific spells override base race spells
+    if subrace and race_name.lower() == "tiefling" and subrace in tiefling_subrace_spells:
+        race_innate_spells["tiefling"] = tiefling_subrace_spells[subrace]
     race_key = race_name.lower()
     if race_key in race_innate_spells:
         for req_lvl, spell_names in race_innate_spells[race_key].items():
