@@ -14,7 +14,7 @@ const _knownMissingSources = new Set([
   'sourcebook', 'sourcebook page', 'adventure text',
   'adventure text (page 18)', 'adventure text (page 19)', 'adventure text p.46',
   'baldur\'s gate: descent into avernus', 'mythic odysseys of theros',
-  'james larsen (order #51905805)', '225', 'r66', '~66', '~99',
+  '225', 'r66', '~66', '~99',
   '!89', '103-104', '104', '145', '168', '169', '45',
   'p.103', 'p.131', 'p.136', 'p.136-137', 'p.141', 'p.170-171', 'p.171',
   'p.172-173', 'p.173', 'p.174', 'p.174-175', 'p.35-36', 'p.51',
