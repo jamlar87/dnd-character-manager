@@ -417,7 +417,7 @@ EXPERTISE_LEVELS = {
     "Rogue":    {1: 2, 6: 2,  11: 1},          # L1 x2, L6 +2, L11 +1 (PHB p.95, 96)
 }
 
-# ── Subclass Selection Levels (PHB 2014) ──────────────────────────────
+# ── Subclass Selection Levels (PHB 2014 + TCE + AiME) ─────────────────
 
 SUBCLASS_LEVELS = {
     "Barbarian": {"level": 3, "label": "Primal Path",
@@ -447,6 +447,22 @@ SUBCLASS_LEVELS = {
         "options": ["School of Abjuration", "School of Conjuration", "School of Divination",
                      "School of Enchantment", "School of Evocation", "School of Illusion",
                      "School of Necromancy", "School of Transmutation"]},
+    # TCE + homebrew
+    "Artificer": {"level": 3, "label": "Artificer Specialist",
+        "options": ["Alchemist", "Armorer", "Artillerist", "Battle Smith"]},
+    # Adventures in Middle-earth
+    "Scholar": {"level": 3, "label": "Scholarly Pursuit",
+        "options": ["Master Healer", "Master Scholar"]},
+    "Slayer": {"level": 3, "label": "Slayer Calling",
+        "options": ["The Rider", "Foe-Hammer", "Horns Wildly Blowing"]},
+    "Treasure Hunter": {"level": 3, "label": "Treasure Hunter Specialty",
+        "options": ["Agent"]},
+    "Wanderer": {"level": 3, "label": "Wanderer Path",
+        "options": ["Hunter of Beasts", "Hunter of Shadows"]},
+    "Warden": {"level": 3, "label": "Warden Calling",
+        "options": ["Counsellor", "Herald", "Bounder"]},
+    "Warrior": {"level": 3, "label": "Warrior Calling",
+        "options": ["Knight", "Weaponmaster"]},
 }
 
 # ── Class Features per Subclass (PHB 2014) ────────────────────────────
@@ -470,7 +486,7 @@ SUBCLASS_FEATURES: dict[str, dict[int, list[str]]] = {
     "Eldritch Knight":             {3: ["Spellcasting", "Weapon Bond"], 7: ["War Magic"], 10: ["Eldritch Strike"], 15: ["Arcane Charge"], 18: ["Improved War Magic"]},
     "Way of the Open Hand":        {3: ["Open Hand Technique"], 6: ["Wholeness of Body"], 11: ["Tranquility"], 17: ["Quivering Palm"]},
     "Way of Shadow":               {3: ["Shadow Arts"], 6: ["Shadow Step"], 11: ["Cloak of Shadows"], 17: ["Opportunist"]},
-    "Way of the Four Elements":    {3: ["Disciple of the Elements"]},
+    "Way of the Four Elements":    {3: ["Disciple of the Elements"], 6: ["Disciple of the Elements"], 11: ["Disciple of the Elements"], 17: ["Disciple of the Elements"]},
     "Oath of Devotion":            {3: ["Channel Divinity: Sacred Weapon", "Channel Divinity: Turn the Unholy"], 7: ["Aura of Devotion"], 15: ["Purity of Spirit"], 20: ["Holy Nimbus"]},
     "Oath of the Ancients":        {3: ["Channel Divinity: Nature's Wrath", "Channel Divinity: Turn the Faithless"], 7: ["Aura of Warding"], 15: ["Undying Sentinel"], 20: ["Elder Champion"]},
     "Oath of Vengeance":           {3: ["Channel Divinity: Abjure Enemy", "Channel Divinity: Vow of Enmity"], 7: ["Relentless Avenger"], 15: ["Soul of Vengeance"], 20: ["Avenging Angel"]},
