@@ -177,6 +177,34 @@ def _load_manual_json(filename: str) -> list[dict]:
         return []
 
 
+def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str:
+    """Rebuild source string with proper book prefix when it's missing or malformed.
+
+    Handles bare page references like 'Page 9', 'p.141', 'page 20-21' by
+    reconstructing them as '{display_name} p.{page}' using _source_manual metadata.
+    """
+    source = (source or "").strip()
+    if not source_manual:
+        return source
+    is_bare_page = bool(re.match(r'^(page|p\.?|pg)\b', source, re.IGNORECASE))
+    if source and "Unknown" not in source and not is_bare_page:
+        return source  # Already has a valid format
+    slug = source_manual
+    page_match = re.search(r'(\d+)', source) if source else None
+    page_str = f" p.{page_match.group(1)}" if page_match else ""
+    book_info = (meta.get("pdf_map", {}) if isinstance(meta, dict) else {}).get(slug, {})
+    if book_info:
+        title = book_info.get("title", slug)
+        title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
+        # Prefer curated display name from slug map over raw PDF title
+        slug_map = _get_source_slug_map()
+        slug_info = slug_map.get(slug, {})
+        display = slug_info.get("display", "")
+        title = display if display else title
+        return f"{title}{page_str}"
+    return f"{slug}{page_str}"
+
+
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
     global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE
@@ -545,15 +573,8 @@ def load_manual_data():
         if item.get("name", "").lower() not in existing_item_names:
             # Enrich source from _source_manual + pdf_map
             source = (item.get("source") or "").strip()
-            if (not source or "Unknown" in source) and item.get("_source_manual"):
-                slug = item["_source_manual"]
-                book_info = (meta.get("pdf_map", {}) if isinstance(meta, dict) else {}).get(slug, {})
-                if book_info:
-                    title = book_info.get("title", slug)
-                    title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
-                    source = title
-                else:
-                    source = slug
+            if item.get("_source_manual"):
+                source = _normalize_manual_source(source, item["_source_manual"], meta)
             # Normalize rarity (handle non-standard strings from ingested data)
             raw_rarity = (item.get("rarity") or "unknown").strip()
             rarity_lower = raw_rarity.lower()
@@ -638,13 +659,8 @@ def load_manual_data():
             key = name.lower()
             if key not in ITEM_INDEX:
                 source = (item.get("source") or "").strip()
-                if (not source or "Unknown" in source) and item.get("_source_manual"):
-                    slug = item["_source_manual"]
-                    book_info = (meta.get("pdf_map", {}) if isinstance(meta, dict) else {}).get(slug, {})
-                    if book_info:
-                        title = book_info.get("title", slug)
-                        title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
-                        source = title
+                if item.get("_source_manual"):
+                    source = _normalize_manual_source(source, item["_source_manual"], meta)
                 rarity = item.get("rarity", "varies")
                 entry_dict = {
                     "name": name,
@@ -3915,18 +3931,9 @@ def _normalize_manual_monster(m: dict):
 
     # Enrich source from _source_manual + pdf_map for manual monsters
     source = m.get("source", "")
-    if (not source or "Unknown page" in str(source)) and m.get("_source_manual"):
-        slug = m["_source_manual"]
+    if m.get("_source_manual"):
         manual_meta = _load_manual_json("_meta.json")
-        pdf_map = manual_meta.get("pdf_map", {}) if isinstance(manual_meta, dict) else {}
-        book_info = pdf_map.get(slug, {})
-        if book_info:
-            title = book_info.get("title", slug)
-            # Strip "D&D 5E - " prefix for cleaner display
-            title = re.sub(r"^D&D 5E\s*[-–—]\s*", "", title)
-            m["source"] = title
-        else:
-            m["source"] = slug  # Fallback to the slug itself
+        m["source"] = _normalize_manual_source(source, m["_source_manual"], manual_meta)
     elif not m.get("source"):
         m["source"] = ""
 
