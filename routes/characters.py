@@ -930,7 +930,7 @@ def _format_monster_action(action: dict) -> dict:
         "dc": action.get("dc", {}).get("dc_value") if action.get("dc") else None,
     }
 
-MANUALS_DIR = (Path(__file__).resolve().parent / "manuals").resolve()
+MANUALS_DIR = Path("/media/james/SlowDisk1tb/home-move/DnD-Manuals").resolve()
 MANUAL_CACHE = DATA_DIR / "manual_cache"
 
 
