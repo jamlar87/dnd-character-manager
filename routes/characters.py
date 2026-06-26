@@ -8387,6 +8387,9 @@ def get_uses_for_level(feat_key: str, class_name: str, level: int) -> int:
         if feat_key == "lay on hands":
             # Paladin: 5 * level (HP pool, not per-use)
             return level * 5
+        if feat_key == "hands of the healer":
+            # Scholar: 1 Healing Die per level, short rest
+            return level
         if feat_key == "sorcery points":
             # Sorcery points = sorcerer level (PHB p.101)
             return level

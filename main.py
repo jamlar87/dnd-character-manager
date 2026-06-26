@@ -857,6 +857,16 @@ def load_manual_data():
 
     print(f"  Manual data loaded: {meta.get('totals', {})}")
 
+    # ── Register homebrew class limited-use features not in SRD ──
+    _HOMEBREW_LIMITED_USE = {
+        # Scholar: 1 Healing Die per level, short rest
+        "hands of the healer": {"min": 1, "max": 99, "recharge": "short",
+                                "class": "Scholar", "per": "level"},
+    }
+    for _hk, _hv in _HOMEBREW_LIMITED_USE.items():
+        if _hk not in LIMITED_USE:
+            LIMITED_USE[_hk] = _hv
+
 # ── Enrich spell sources with page numbers ──
 _spell_page_map: dict[str, str] = {}
 try:
