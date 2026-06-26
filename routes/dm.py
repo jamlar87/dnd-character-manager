@@ -10,8 +10,8 @@ from main import get_db, require_user, _render, get_current_user
 from main import _user_where
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
-from main import enrich_features, get_caster_type, get_spell_slots, _search_manuals, MANUAL_TRAPS
-from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts
+from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS
+from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals
 from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
@@ -1510,7 +1510,6 @@ Keep within the danger level bounds — don't overpower a setback trap or underp
 @router.post("/api/dm/search-manuals", response_class=JSONResponse)
 async def dm_search_manuals(request: Request):
     """Full-text search across all D&D reference manuals (cached PDF text)."""
-    user = require_user(request)
     data = await request.json()
     query = (data.get("query", "") or "").strip()
     if not query or len(query) < 2:
@@ -1523,7 +1522,6 @@ async def dm_search_manuals(request: Request):
 @router.post("/api/dm/search-manuals/summarize", response_class=JSONResponse)
 async def dm_search_manuals_summarize(request: Request):
     """AI-powered research summary: search manuals, then distill with LLM."""
-    user = require_user(request)
     data = await request.json()
     query = (data.get("query", "") or "").strip()
     if not query or len(query) < 2:

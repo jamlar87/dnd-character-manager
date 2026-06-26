@@ -1275,6 +1275,8 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
         for k in ("_prox", "_density", "_exact", "_fallback"):
             r.pop(k, None)
 
+    return final[:max_results]
+
 
 # DM routes moved to routes/dm.py — see startup event
 
