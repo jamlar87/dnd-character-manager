@@ -25,6 +25,7 @@ from main import _load_manual_json
 from main import get_racial_trait_effects, check_armor_proficiency_from_set, get_character_armor_profs
 from main import load_manual_data
 from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
+from main import _manual_races_raw as _MANUAL_RACES_RAW
 from data import (
     SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
     ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
@@ -2158,10 +2159,30 @@ async def character_sheet(char_id: int, request: Request):
                 if opt not in expertise_options:
                     expertise_options.append(opt)
 
+    # ── Merge manual race data into races dict for description popup ──
+    merged_races = dict(RACES)
+    # Also add common race name aliases (plurals, alternate names)
+    _aliases = {
+        "elves of mirkwood": "Mirkwood Elf",
+        "hobbits of the shire": "Hobbit of the Shire",
+        "hobbit of the shire": "Hobbit of the Shire",
+        "high elves of rivendell": "High Elf of Rivendell",
+    }
+    for _mr in _MANUAL_RACES_RAW:
+        merged_races[_mr["name"]] = {
+            "desc": _mr.get("description", ""),
+            "source": _mr.get("source", ""),
+            "asi": _mr.get("asi", {}),
+        }
+    # Alias entries so "Elves of Mirkwood" → "Mirkwood Elf" data
+    for _alias, _target in _aliases.items():
+        if _target in merged_races and _alias not in merged_races:
+            merged_races[_alias] = merged_races[_target]
+
     return _render("sheet.html", request=request, character=char, spells=spells,
                    mi_spells_data=mi_spells_data,
                    dm_preview=dm_preview,
-                   skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=RACES,
+                   skill_abilities=SKILL_ABILITIES, classes=CLASSES, races=merged_races,
                    bg_info=BACKGROUND_INFO, saves_class=saves_class, attacks=all_attacks,
                    charged_items=charged_items,
                    named_item_types=_get_named_item_types(),
