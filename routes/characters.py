@@ -168,19 +168,25 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
                         _en = _ef.split(": ", 1)[1] if ": " in _ef else _ef
                         _existing_names.add(_en.lower().strip())
                     for _t in _mrr.get("traits", []):
-                        if _t.get("name", "").lower().strip() not in _existing_names:
+                        _tname = _t.get("name", "").lower().strip()
+                        # Always add manual race trait descriptions (overrides worse NPC cross-refs)
+                        if _t.get('description'):
+                            _homebrew_feature_descs[_tname] = _t.get('description', '')
+                        if _tname not in _existing_names:
                             racial_features.append(f"L{level}: {_t['name']}")
-                            _homebrew_feature_descs[_t['name'].lower().strip()] = _t.get('description', '')
                     break
         except Exception:
             pass
     build_features.extend(racial_features)
     enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats}, subclass=subclass)
     # Patch descriptions for homebrew features (from NPC data or manual races)
+    # Always override SRD enrichment — homebrew source data is authoritative for
+    # manual races and NPC-original features (SRD may match wrong features like
+    # "Night Vision" resolving to a subclass entry instead of the racial trait)
     if _homebrew_feature_descs:
         for _ef in enriched:
             _name = (_ef.get("name") or "").lower().strip()
-            if _name in _homebrew_feature_descs and not _ef.get("description"):
+            if _name in _homebrew_feature_descs:
                 _ef["description"] = _homebrew_feature_descs[_name]
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
