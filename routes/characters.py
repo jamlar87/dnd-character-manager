@@ -1002,8 +1002,18 @@ def _extract_pdf(pdf_path: Path, txt_path: Path):
 # ── OCR fuzzy matching helpers ──────────────────────────────────────────
 def _fuzzy_variants(word: str) -> list[str]:
     """Generate OCR-tolerant variants of a word for pdftotext artifacts.
-    Common confusions: l↔t (lhe/the), I↔l (aI/at), i↔l, rn↔m, cl↔d."""
+    Common confusions: l↔t (lhe/the), I↔l (aI/at), i↔l, rn↔m, cl↔d.
+    Also normalizes apostrophe types (curly ↔ straight) for PDF extracts.
+    """
     variants = {word}
+    # Normalize any apostrophe type to straight apostrophe variant
+    if "'" in word or "\u2018" in word or "\u2019" in word:
+        straight = word.replace("\u2018", "'").replace("\u2019", "'")
+        if straight != word:
+            variants.add(straight)
+        # Also add curly variants if the word uses straight
+        if "'" in word:
+            variants.add(word.replace("'", "\u2019"))
     # Character-level substitutions for each position
     confusions = [
         # (original, replacements) — one substitution per word max
@@ -1019,7 +1029,9 @@ def _fuzzy_variants(word: str) -> list[str]:
     for orig, reps in confusions:
         if orig in word:
             for rep in reps:
-                variants.add(word.replace(orig, rep, 1))
+                # Escape regex special chars so OCR variants are literal in rg
+                esc_rep = rep.replace("|", "\\|").replace(".", "\\.")
+                variants.add(word.replace(orig, esc_rep, 1))
     # Also try common multi-char: "the"<>"lhe", "th"<>"lh"
     if "th" in word:
         variants.add(word.replace("th", "lh"))
