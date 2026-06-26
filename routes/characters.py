@@ -1853,6 +1853,15 @@ async def character_sheet(char_id: int, request: Request):
                 if lkey in _key and lu.get("pool_kind"):
                     _feat["pool_kind"] = lu["pool_kind"]
                     break
+        # Enrich missing uses_max/recharge from LIMITED_USE for all features
+        if isinstance(_feat, dict) and not _feat.get("uses_max"):
+            _fname_lower = _feat.get("name", "").lower()
+            if _fname_lower in LIMITED_USE:
+                _lu = LIMITED_USE[_fname_lower]
+                _feat["uses_max"] = _lu.get("max", 1)
+                _feat["uses"] = _lu.get("max", 1)
+                if _lu.get("recharge"):
+                    _feat["recharge"] = _lu["recharge"]
         # Enrich racial traits missing uses_max (set from uses if present)
         if isinstance(_feat, dict) and _feat.get("uses") and not _feat.get("uses_max"):
             _feat["uses_max"] = _feat["uses"]

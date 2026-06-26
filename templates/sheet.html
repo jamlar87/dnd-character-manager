@@ -1293,7 +1293,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
@@ -1455,7 +1455,7 @@
         {% endif %}
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
-              <span><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+              <span style="flex:1;min-width:0"><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
                 {% if feat.dice %}
                 <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
                 {% endif %}
@@ -1491,7 +1491,7 @@
                 <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
                 {% endif %}
                 {% if feat.source %}
-                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;flex-shrink:0;cursor:pointer" title="Click to open {{ feat.source }}">📚 {{ feat.source }}</span>
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
                 {% endif %}
                 {% if feat.recharge == "short" %}
                 <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
@@ -1516,8 +1516,7 @@
                   {% for i in range(feat.uses_max) %}
                   <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
                   {% endfor %}
-                </span>
-                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
+                  <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
                 {% endif %}
                 <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
               </span>
