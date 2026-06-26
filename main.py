@@ -977,6 +977,28 @@ def _resolve_item_key(item_name: str):
             break
     return None
 
+
+def _split_curse_text(desc: str) -> tuple[str, str]:
+    """Split item description into safe text and hidden curse subsection."""
+    if not desc or "curse" not in desc.lower():
+        return desc, ""
+    m = re.search(
+        r"(?ms)(?:^|\n\n|\n|(?<=\.)\s)"
+        r"(?:(?:[A-Z][a-z]+(?:'s)?\s+)?Curse\.)",
+        desc
+    )
+    if not m:
+        idx = desc.lower().find("curse.")
+        if idx < 0:
+            return desc, ""
+        curse_start = idx
+    else:
+        curse_start = m.start()
+    safe = desc[:curse_start].strip()
+    curse = desc[curse_start:].strip()
+    return safe, curse
+
+
 def _build_item_description(item: dict) -> str:
     """Generate a PHB 2014-accurate description for any equipment item.
     Uses SRD desc if available, otherwise derives from metadata."""
@@ -3718,7 +3740,16 @@ async def describe_item(name: str = ""):
     item = _resolve_item_key(name)
     if not item:
         return JSONResponse({"name": name, "description": "No description available.", "type": "Unknown"})
-    return JSONResponse(item)
+    # Split curse text from description for hidden rendering
+    desc = item.get("description") or item.get("desc", "")
+    if isinstance(desc, list):
+        desc = " ".join(desc)
+    safe_desc, curse_text = _split_curse_text(desc)
+    enriched = dict(item)
+    enriched["description"] = safe_desc
+    if curse_text:
+        enriched["curse"] = curse_text
+    return JSONResponse(enriched)
 
 
 

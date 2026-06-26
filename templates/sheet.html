@@ -4181,6 +4181,18 @@ function showCombatPopup(key) {
   popup.style.display = 'flex';
 }
 
+// ── Curse spoiler section for item descriptions ──
+function _curseSectionHtml(curseText) {
+  if (!curseText) return '';
+  const safe = curseText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return `<details style="margin-top:0.5rem;border:1px solid var(--danger, #e74c3c);border-radius:6px;padding:0.3rem 0.5rem;background:rgba(231,76,60,0.08);cursor:pointer">
+    <summary style="font-size:0.7rem;font-weight:600;color:var(--danger, #e74c3c);user-select:none">
+      ⚠️ Curse (DM permission to reveal)
+    </summary>
+    <div style="margin-top:0.3rem;font-size:0.7rem;line-height:1.4;color:var(--text-danger, #c0392b)">${safe}</div>
+  </details>`;
+}
+
 // ── Item Info Popup ──
 async function showItemInfo(name) {
   if (!name || !name.trim()) return;
@@ -4198,6 +4210,7 @@ async function showItemInfo(name) {
     title.textContent = data.name || name;
     const typeTag = data.type ? `<span style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem">${data.type}</span>` : '';
     body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${data.description || 'No description available.'}</p>
+      ${data.curse ? _curseSectionHtml(data.curse) : ''}
       <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center">${typeTag}${data.source ? `${_srcBadge(data.source)}` : ''}</div>`;
   } catch(e) {
     body.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Unable to load description.</p>';
@@ -4237,7 +4250,8 @@ async function toggleItemExpand(btn) {
       const qtyBadge = card.querySelector('.item-qty');
       const currentQty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
       const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}${srcTag}
-        <br><span style="color:var(--text);font-size:0.65rem;line-height:1.4">${data.description || 'No description available.'}</span>`;
+        <br><span style="color:var(--text);font-size:0.65rem;line-height:1.4">${data.description || 'No description available.'}</span>
+        ${data.curse ? _curseSectionHtml(data.curse) : ''}`;
       _itemDetailCache[name] = descHtml;
       detail.innerHTML = descHtml + buildQtyRow(currentQty);
     } catch(e) {
