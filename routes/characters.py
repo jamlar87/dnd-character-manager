@@ -3001,21 +3001,20 @@ async def available_spells(char_id: int, request: Request):
                             })
 
     # 3. Race spells (e.g. Tiefling: Hellish Rebuke, Darkness; Drow: Faerie Fire)
-    race_innate_spells = {
-        "tiefling": {1: ["hellish rebuke"], 2: ["darkness"]},
-        "drow": {1: ["faerie fire"], 2: ["darkness"]},
-        "high elf": {0: ["any wizard cantrip"]},
-        "forest gnome": {0: ["minor illusion"]},
-        "deep gnome": {1: ["disguise self"], 2: ["nondetection"]},
-        "duergar": {1: ["enlarge/reduce"], 2: ["invisibility"]},
-        "firbolg": {0: ["detect magic"], 1: ["disguise self"]},
-        "githyanki": {0: ["mage hand"], 1: ["jump"], 2: ["misty step"]},
-        "githzerai": {0: ["mage hand"], 1: ["shield"], 2: ["detect thoughts"]},
-        "yuan-ti pureblood": {0: ["poison spray"], 1: ["animal friendship"], 2: ["suggestion"]},
-        "aasimar": {0: ["light"], 1: ["lesser restoration"]},
-    }
-    # Tiefling variant subrace innate spells (override base tiefling)
-    tiefling_subrace_spells = {
+    # Subrace-gated spells (keyed by subrace name, resolved first)
+    subrace_innate_spells = {
+        # Elf subraces
+        "High Elf": {0: ["any wizard cantrip"]},
+        "Dark Elf (Drow)": {1: ["faerie fire"], 2: ["darkness"]},
+        # Dwarf subraces
+        "Duergar": {1: ["enlarge/reduce"], 2: ["invisibility"]},
+        # Gnome subraces
+        "Forest Gnome": {0: ["minor illusion"]},
+        "Deep Gnome": {1: ["disguise self"], 2: ["nondetection"]},
+        # Gith subraces
+        "Githyanki": {0: ["mage hand"], 1: ["jump"], 2: ["misty step"]},
+        "Githzerai": {0: ["mage hand"], 1: ["shield"], 2: ["detect thoughts"]},
+        # Tiefling variant subrace innate spells (override base tiefling)
         "Asmodeus": {1: ["hellish rebuke"], 2: ["darkness"]},          # PHB default
         "Mephistopheles": {1: ["burning hands"], 2: ["flame blade"]},   # SCAG p.118
         "Zariel": {1: ["searing smite"], 2: ["branding smite"]},       # SCAG p.118
@@ -3025,12 +3024,20 @@ async def available_spells(char_id: int, request: Request):
         "Levistus": {0: ["ray of frost"], 2: ["darkness"]},              # SCAG p.118
         "Mammon": {0: ["mage hand"], 2: ["arcane lock"]},              # SCAG p.118
     }
-    # Subrace-specific spells override base race spells
-    if subrace and race_name.lower() == "tiefling" and subrace in tiefling_subrace_spells:
-        race_innate_spells["tiefling"] = tiefling_subrace_spells[subrace]
-    race_key = race_name.lower()
-    if race_key in race_innate_spells:
-        for req_lvl, spell_names in race_innate_spells[race_key].items():
+    # Standalone-race innate spells (keyed by race name)
+    race_innate_spells = {
+        "tiefling": {1: ["hellish rebuke"], 2: ["darkness"]},  # fallback if no subrace
+        "firbolg": {0: ["detect magic"], 1: ["disguise self"]},
+        "yuan-ti pureblood": {0: ["poison spray"], 1: ["animal friendship"], 2: ["suggestion"]},
+        "aasimar": {0: ["light"], 1: ["lesser restoration"]},
+    }
+    # Resolve spells: subrace-specific takes priority, then race-level
+    if subrace and subrace in subrace_innate_spells:
+        innate_spells = subrace_innate_spells[subrace]
+    else:
+        race_key = race_name.lower()
+        innate_spells = race_innate_spells.get(race_key, {})
+    for req_lvl, spell_names in innate_spells.items():
             if req_lvl > level:
                 continue
             for sname in spell_names:
