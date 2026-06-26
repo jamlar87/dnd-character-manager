@@ -867,6 +867,62 @@ def load_manual_data():
         if _hk not in LIMITED_USE:
             LIMITED_USE[_hk] = _hv
 
+    # ── Catch-up: register limited-use race traits that were missed by the main
+    #    loop (SRD races already in RACES, subrace-migrated races, etc.) ──
+    def _normalize_recharge_light(_r: str) -> str:
+        _r = _r.lower().strip()
+        if "short" in _r and "long" in _r:
+            return "short"
+        if "short" in _r:
+            return "short"
+        if "long" in _r:
+            return "long"
+        return _r
+    for _race in _load_manual_json("races.json"):
+        for _t in _race.get("traits", []):
+            _tname = _t.get("name", "") if isinstance(_t, dict) else ""
+            _tuses = _t.get("uses", 0) if isinstance(_t, dict) else 0
+            _trech = _t.get("recharge", "") if isinstance(_t, dict) else ""
+            if _tname and (_tuses or _trech):
+                _key = _tname.lower()
+                if _key not in LIMITED_USE:
+                    LIMITED_USE[_key] = {
+                        "min": _tuses, "max": _tuses,
+                        "recharge": _normalize_recharge_light(_trech) if _trech else "long",
+                        "class": "", "per": "fixed",
+                    }
+        for _sr in _race.get("subraces", []):
+            for _st in _sr.get("traits", []):
+                _stname = _st.get("name", "") if isinstance(_st, dict) else ""
+                _stuses = _st.get("uses", 0) if isinstance(_st, dict) else 0
+                _strech = _st.get("recharge", "") if isinstance(_st, dict) else ""
+                if _stname and (_stuses or _strech):
+                    _key = _stname.lower()
+                    if _key not in LIMITED_USE:
+                        LIMITED_USE[_key] = {
+                            "min": _stuses, "max": _stuses,
+                            "recharge": _normalize_recharge_light(_strech) if _strech else "long",
+                            "class": "", "per": "fixed",
+                        }
+
+    # ── Catch-up: register NPC features with uses/recharge ──
+    for _npc in _load_manual_json("npcs.json"):
+        for _f in _npc.get("features", []):
+            if not isinstance(_f, dict):
+                continue
+            _fn = _f.get("name", "")
+            _fu = _f.get("uses", 0) or 0
+            _fr = _f.get("recharge", "") or ""
+            if _fn and (_fu or _fr):
+                _key = _fn.lower()
+                if _key not in LIMITED_USE:
+                    _cls = _npc.get("class_name", "")
+                    LIMITED_USE[_key] = {
+                        "min": _fu, "max": _fu,
+                        "recharge": _normalize_recharge_light(_fr) if _fr else "long",
+                        "class": _cls, "per": "fixed",
+                    }
+
 # ── Enrich spell sources with page numbers ──
 _spell_page_map: dict[str, str] = {}
 try:
