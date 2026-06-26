@@ -41,7 +41,8 @@
       "Dwarves of the Lonely Mountain": "Adventures in Middle-earth p.38-39",
       "Dwarf of the Blue Mountains": "Bree-land Region Guide p.44-45",
       "Dwarves of the Iron Hills": "Unknown sourcebook"
-    }
+    },
+    "_source_slug": "PHB"
   },
   "Elf": {
     "subraces": [
@@ -56,7 +57,6 @@
       "Windrunner Elf",
       "High Elf of Rivendell",
       "Shadow Fey",
-      "Silvan Elf Sentinel",
       "Shadow Fey (Lunar Elf)"
     ],
     "asi": {
@@ -86,7 +86,6 @@
       "Windrunner Elf": "Elusive, eccentric, and unpredictable, windrunner elves have quietly traversed Midgard’s vast central grasslands for millennia. These diminutive nomads roaming the steppes and plains are thought to originally hail from the elven capital of Sephaya.",
       "High Elf of Rivendell": "The High Elves of Rivendell are a noble and ancient people, known for their grace, wisdom, and deep connection to the lore of Middle-earth.",
       "Shadow Fey": "Shadow fey have skin color tending toward alabaster white, ebon black, or subtle grays, and many have horns that range widely in size and shape.",
-      "Silvan Elf Sentinel": "A Silvan Elf Sentinel is a medium elf guardian, trained for centuries, with a focus on combat and disabling strikes.",
       "Shadow Fey (Lunar Elf)": "Lunar elves are an offshoot of shadow fey and are quite rare, and their births are typically regarded as an auspicious omen. If the origin of the shadow fey is mysterious, then that of the lunar elves is even more so, though many lunar elves have been recently drawn toward the Moonlit King, seeking out this exiled sovereign. Always born under the light of the full moons, these shadow fey seem saturated with its light. Lunar elves are not automatically ostracized from the shadow fey courts, but many prefer to take up duties that remove themselves from the watchful eyes of the shadow fey nobles: serving as an emissary to the Moonlit Glades, taking up residence in the Starry Court, or training to hunt the beasts of the region is often preferable to the suspicious gaze of the Queen of Night and Magic."
     },
     "source": "PHB 2014 p.21",
@@ -102,9 +101,9 @@
       "Windrunner Elf": "Midgard p.13-15",
       "High Elf of Rivendell": "Rivendell Region Guide p.117",
       "Shadow Fey": "Book of Ebon Tides p.28",
-      "Silvan Elf Sentinel": "Dark Waters p.111-112",
       "Shadow Fey (Lunar Elf)": "PHB 2014 p.21"
-    }
+    },
+    "_source_slug": "PHB"
   },
   "Halfling": {
     "subraces": [
@@ -170,7 +169,8 @@
       "Hobbit (Fallowhide)": "PHB 2014 p.26",
       "Courtfolk Halfling (Shadow Servitors)": "PHB 2014 p.26",
       "Courtfolk": "Midgard p.22-23"
-    }
+    },
+    "_source_slug": "PHB"
   },
   "Human": {
     "subraces": [
@@ -230,7 +230,8 @@
       "Riders of Rohan": "Adventures in Middle-earth p.56",
       "Men of Bree (Stoor)": "PHB 2014 p.29",
       "Men of Bree (Fallowhide)": "PHB 2014 p.29"
-    }
+    },
+    "_source_slug": "PHB"
   },
   "Dragonborn": {
     "subraces": [],
@@ -251,7 +252,8 @@
     ],
     "desc": "Dragonborn are tall, muscular humanoids with the blood of dragons running through their veins. Standing well over 6 feet tall and weighing 250 pounds or more, they have scaly hide, a draconic snout, sharp claws, and a powerful tail. Their scales mirror the color of their draconic ancestry—brass, bronze, copper, gold, silver, black, blue, green, red, or white. Dragonborn live about 80 years.\n\nDragonborn society revolves around clan and honor above all else. To a dragonborn, one's word is one's bond, and failure to uphold it brings dishonor not just to the individual but to their entire clan. They are proud warriors who approach life with the gravity of a sacred duty. Dragonborn are rare outside their own insular communities, and those who adventure do so to prove their worth or to seek a new destiny for their clan.\n\nMechanically, dragonborn gain +2 Strength, +1 Charisma, a Breath Weapon (2d6 damage in a 15-ft cone or 30-ft line based on ancestry, DC 8 + CON + prof, recharge on short rest), and Damage Resistance matching their draconic ancestry. They speak Common and Draconic.",
     "source": "PHB 2014 p.32",
-    "_subrace_sources": {}
+    "_subrace_sources": {},
+    "_source_slug": "PHB"
   },
   "Gnome": {
     "subraces": [
@@ -285,7 +287,8 @@
       "Rock Gnome": "PHB 2014 p.37",
       "Deep Gnome": "EEPC p.11",
       "Wyrd Gnome": "Book of Ebon Tides p.40"
-    }
+    },
+    "_source_slug": "PHB"
   },
   "Half-Elf": {
     "subraces": [],
@@ -304,7 +307,8 @@
     ],
     "desc": "Half-elves are born of two worlds—human passion and elven grace. They stand 5 to 6 feet tall, with features that blend the best of both parents: the pointed ears and delicate features of elves with the sturdy build and varied coloration of humans. Their eyes are particularly striking, often green or gold. Half-elves live about 180 years.\n\nHalf-elves are natural diplomats, bridging the gap between cultures. They inherit the elven love of art and the human drive for achievement. Many half-elves feel torn between two heritages, never fully belonging to either world—a loneliness that often drives them to the adventuring life, where skill matters more than bloodline. They are easygoing and charismatic, with a gift for making friends wherever they go.\n\nMechanically, half-elves gain +2 Charisma, +1 to two other abilities of their choice, Fey Ancestry (advantage on saves vs charms, immune to magical sleep), Darkvision 60 ft, and Skill Versatility (two extra skill proficiencies). With their unmatched flexibility, they excel as bards, sorcerers, paladins, and warlocks.",
     "source": "PHB 2014 p.38",
-    "_subrace_sources": {}
+    "_subrace_sources": {},
+    "_source_slug": "PHB"
   },
   "Half-Orc": {
     "subraces": [],
@@ -324,7 +328,8 @@
     ],
     "desc": "Half-orcs are towering figures of strength and endurance, standing 5 to 7 feet tall with powerful builds, gray-green skin, pronounced lower canines, and jutting jaws. They typically weigh 180 to 250 pounds of muscle and bone. Their orcish blood gives them a fearsome appearance, but half-orcs raised among humans often develop remarkable self-control and a deep loyalty to those who accept them.\n\nHalf-orc life is one of constant challenge. Whether in orc tribes where they must prove their strength daily, or in human societies where they must overcome fear and prejudice, half-orcs learn early that respect is earned through deeds, not words. Those who take up the adventuring life do so to find a place where their strength is valued and their loyalty rewarded.\n\nMechanically, half-orcs gain +2 Strength, +1 Constitution, Darkvision 60 ft, Relentless Endurance (when reduced to 0 HP but not killed, drop to 1 HP instead—1/long rest), and Savage Attacks (roll one extra weapon damage die on critical hits). They speak Common and Orc. They make devastating barbarians, fighters, and paladins.",
     "source": "PHB 2014 p.40",
-    "_subrace_sources": {}
+    "_subrace_sources": {},
+    "_source_slug": "PHB"
   },
   "Custom Lineage": {
     "subraces": [],
@@ -340,10 +345,21 @@
     ],
     "desc": "Instead of choosing one of the game's races for your character at 1st level, you can use the following traits to represent your character's lineage, giving you full control over how your character's origin shaped them.\n\nCustom lineage is the ultimate blank canvas. Perhaps you're the result of generations of intermarriage between multiple races, a being touched by planar energies, or a unique creation with no precedent. Your appearance, backstory, and very nature are yours to define. You aren't bound by any racial stereotype—you write your own origin story.\n\nMechanically, you gain +2 to one ability score of your choice, one feat of your choice (for which you qualify), and your choice of either darkvision 60 ft or proficiency in one skill. You are Small or Medium size, speak Common and one other language, and your creature type is humanoid. You are whatever you imagine yourself to be.",
     "subrace_descs": {},
-    "_subrace_sources": {}
+    "_subrace_sources": {},
+    "_source_slug": "DMG",
+    "source": "Tasha's Cauldron of Everything p.8"
   },
   "Tiefling": {
-    "subraces": [],
+    "subraces": [
+      "Asmodeus",
+      "Mephistopheles",
+      "Zariel",
+      "Dispater",
+      "Fierna",
+      "Glasya",
+      "Levistus",
+      "Mammon"
+    ],
     "asi": {
       "charisma": 2,
       "intelligence": 1
@@ -360,7 +376,27 @@
     ],
     "desc": "Tieflings bear the mark of an ancient infernal pact—a sin of their ancestors that manifests in their bloodline. They have large horns, thick tails, sharply pointed teeth, and solid-colored eyes (black, red, white, silver, or gold). Their skin ranges from human tones through deep reds and purples. They stand 5 to 6 feet tall and live slightly longer than humans. No two tieflings look exactly alike.\n\nTieflings are met with suspicion and prejudice in most societies. Their fiendish appearance triggers instinctive fear in common folk, and they grow up knowing they are outsiders. This breeds either bitter resentment or a fierce independence—tieflings who rise above prejudice often become self-reliant adventurers, proving their worth through heroic deeds. Their natural charisma can be unsettling or magnetic, depending on how they choose to wield it.\n\nMechanically, tieflings gain +2 Charisma, +1 Intelligence, Hellish Resistance (resistance to fire damage), Darkvision 60 ft, and Infernal Legacy—the thaumaturgy cantrip, hellish rebuke (1/day at level 3 as 2nd-level), and darkness (1/day at level 5). They speak Common and Infernal. Tieflings make natural warlocks, sorcerers, and bards.",
     "source": "PHB 2014 p.42",
-    "_subrace_sources": {}
+    "_subrace_sources": {
+      "Asmodeus": "PHB 2014 p.42",
+      "Mephistopheles": "SCAG p.118",
+      "Zariel": "SCAG p.118",
+      "Dispater": "SCAG p.118",
+      "Fierna": "SCAG p.118",
+      "Glasya": "SCAG p.118",
+      "Levistus": "SCAG p.118",
+      "Mammon": "SCAG p.118"
+    },
+    "_source_slug": "PHB",
+    "subrace_descs": {
+      "Asmodeus": "+1 Intelligence. The default tiefling bloodline—crafty, ambitious wielders of infernal power. Innate spellcasting: thaumaturgy, hellish rebuke at 3rd level (2nd-level), darkness at 5th level. PHB 2014 p.42.",
+      "Mephistopheles": "+1 Intelligence. Mephistopheles tieflings are scholars of forbidden magic—arrogant, calculating, and endlessly curious about the secrets of the Nine Hells. Innate spellcasting: mage hand, burning hands at 3rd level (1st-level), flame blade at 5th level (3rd-level). SCAG p.118.",
+      "Zariel": "+1 Strength. Zariel tieflings are born warriors—fiery-tempered, aggressive, and forged for battle in Avernus. They make natural paladins, fighters, and barbarians. Innate spellcasting: thaumaturgy, searing smite at 3rd level (1st-level), branding smite at 5th level (2nd-level). SCAG p.118.",
+      "Dispater": "+1 Dexterity. Dispater tieflings are subtle and cunning, preferring guile and charm over brute force. They are natural rogues, bards, and warlocks. Innate spellcasting: thaumaturgy, disguise self at 3rd level, invisibility at 5th level. SCAG p.118.",
+      "Fierna": "+1 Wisdom. Fierna tieflings are masters of persuasion and manipulation, gifted with an otherworldly charm that makes them natural diplomats. Innate spellcasting: thaumaturgy, charm person at 3rd level (1st-level), suggestion at 5th level (2nd-level). SCAG p.118.",
+      "Glasya": "+1 Dexterity. Glasya tieflings are elegant and deceptive, favoring shadow and illusion to achieve their aims without ever getting their hands dirty. Innate spellcasting: thaumaturgy, disguise self at 3rd level, invisibility at 5th level. SCAG p.118.",
+      "Levistus": "+1 Constitution. Levistus tieflings are survivors—cold, patient, and enduring, with an icy calm that serves them well in any crisis. Innate spellcasting: thaumaturgy, ray of frost (cantrip), darkness at 5th level. SCAG p.118.",
+      "Mammon": "+1 Intelligence. Mammon tieflings are hoarders and schemers with an eye for value, always calculating how to turn a situation to their advantage. Innate spellcasting: thaumaturgy, mage hand (cantrip), arcane lock at 5th level (1/day). SCAG p.118."
+    }
   },
   "Genasi": {
     "subraces": [
@@ -392,7 +428,8 @@
       "Earth Genasi": "EEPC p.9",
       "Fire Genasi": "EEPC p.9",
       "Water Genasi": "EEPC p.10"
-    }
+    },
+    "_source_slug": "EEPC"
   },
   "Beorning": {
     "subraces": [
@@ -424,7 +461,10 @@
     "source": "Adventures in Middle-earth p.35-36",
     "_source_slug": "AIPG",
     "natural_armor": null,
-    "_subrace_sources": {}
+    "_subrace_sources": {
+      "Woodmen of Wilderland": "Adventures in Middle-earth p.35-36",
+      "Woodmen of Mountain Hall": "Adventures in Middle-earth p.35-36"
+    }
   },
   "Dúnedain": {
     "subraces": [],
@@ -557,7 +597,11 @@
     "_subrace_sources": {}
   },
   "Aasimar": {
-    "subraces": [],
+    "subraces": [
+      "Protector",
+      "Scourge",
+      "Fallen"
+    ],
     "asi": {
       "wisdom": 1,
       "charisma": 2
@@ -579,11 +623,19 @@
       "Languages"
     ],
     "desc": "Aasimar are mortals touched by the Upper Planes—celestial bloodlines that manifest as angelic guides, radiant souls, and a divine purpose that shapes their entire lives. They appear mostly human, standing 5 to 6 feet tall, but their celestial heritage shows through in subtle ways: metallic-flecked eyes, a faint nimbus of light in darkness, or a voice that resonates with otherworldly authority. Aasimar live up to 160 years.\n\nAasimar are rare and often solitary. Each carries an inner conflict between mortal desires and celestial expectations. Most are guided from childhood by a deva—an angelic being who communicates through dreams and omens. This guidance can feel like a blessing or a burden, depending on the aasimar's disposition. Those who embrace their divine nature become champions of light; those who rebel against it often walk darker paths while their celestial guide watches in silent disappointment.\n\nMechanically, aasimar gain +2 Charisma and +1 to another ability. Their Celestial Resistance grants resistance to necrotic and radiant damage. Healing Hands provides a pool of healing. Light Bearer grants the light cantrip. At 3rd level, they can transform for 1 minute via their subrace—Protector (radiant flight + bonus damage), Scourge (consuming radiance), or Fallen (frightening necrotic shroud). They speak Common and Celestial.",
-    "subrace_descs": {},
+    "subrace_descs": {
+      "Protector": "+1 Wisdom. Radiant Soul: At 3rd level, you can use a bonus action to manifest a pair of spectral wings for 1 minute. While transformed, you gain a flying speed of 30 ft, and once per turn when you deal damage, you can add your level to the radiant damage. Usable 1/long rest. Protector aasimar are guided by a celestial being and serve as emissaries of divine will.",
+      "Scourge": "+1 Constitution. Radiant Consumption: At 3rd level, you can use a bonus action to unleash a searing light for 1 minute. While transformed, you shed bright light in 10 ft and dim light in 10 ft beyond, dealing radiant damage equal to half your level (rounded up) to yourself and any creature within 10 ft that hits you with a melee attack, once per turn. Usable 1/long rest. Scourge aasimar are the instruments of divine wrath.",
+      "Fallen": "+1 Strength. Necrotic Shroud: At 3rd level, you can use a bonus action to manifest a terrifying presence for 1 minute. While transformed, creatures within 10 ft that can see you must succeed on a Cha save (DC 8 + prof + Cha) or become frightened until the end of your next turn. Once per turn when you deal damage, you can add your level to the necrotic damage. Usable 1/long rest. Fallen aasimar have turned from the light."
+    },
     "source": "Dungeon Master's Guide",
     "_source_slug": "DMG",
     "natural_armor": null,
-    "_subrace_sources": {}
+    "_subrace_sources": {
+      "Protector": "Volo's Guide to Monsters p.104",
+      "Scourge": "Volo's Guide to Monsters p.105",
+      "Fallen": "Volo's Guide to Monsters p.105"
+    }
   },
   "Bearfolk": {
     "subraces": [
@@ -618,7 +670,8 @@
       "allow_shield": true
     },
     "_subrace_sources": {
-      "Shadowborn": "Book of Ebon Tides p.23"
+      "Shadowborn": "Book of Ebon Tides p.23",
+      "Shadowborn Bearfolk": "Book of Ebon Tides p.24"
     }
   },
   "Darakhul": {
@@ -984,7 +1037,9 @@
     "source": "Guildmasters' Guide to Ravnica",
     "_source_slug": "GGR",
     "natural_armor": null,
-    "_subrace_sources": {}
+    "_subrace_sources": {
+      "Shadow Goblin": "Book of Ebon Tides p.30-31"
+    }
   },
   "Loxodon": {
     "subraces": [],

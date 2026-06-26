@@ -823,6 +823,9 @@ RACIAL_TRAIT_DESCS = {
     "Skill Versatility":  "You gain proficiency in two skills of your choice.",
     "Infernal Legacy":    "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast hellish rebuke as a 2nd-level spell once per day. When you reach 5th level, you can cast darkness once per day.",
     "Nimble Escape":      "You can take the Disengage or Hide action as a bonus action on each of your turns.",
+    "Radiant Soul":        "At 3rd level, you can use a bonus action to manifest spectral wings for 1 minute. While transformed, you gain a flying speed of 30 ft, and once per turn when you deal damage to a target, you can add your level to the radiant damage. Usable once per long rest.",
+    "Radiant Consumption":"At 3rd level, you can use a bonus action to unleash a searing light for 1 minute. While transformed, you shed bright light in 10 ft and dim light in 10 ft beyond, and each creature within 10 ft that hits you with a melee attack takes radiant damage equal to half your level (rounded up). You also take this damage at the end of each turn. Usable once per long rest.",
+    "Necrotic Shroud":    "At 3rd level, you can use a bonus action to manifest a terrifying aspect for 1 minute. While transformed, creatures within 10 ft that can see you must succeed on a Charisma saving throw (DC 8 + proficiency bonus + Charisma modifier) or become frightened of you until the end of your next turn. Once per turn when you deal damage, you can add your level to the necrotic damage. Usable once per long rest.",
 }
 
 

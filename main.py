@@ -2544,6 +2544,19 @@ SUBRACE_SOURCES: dict[str, str] = {
     "Earth Genasi": "EEPC p.9",
     "Fire Genasi": "EEPC p.9",
     "Water Genasi": "EEPC p.10",
+    # Aasimar subraces — Volo's Guide to Monsters
+    "Protector": "Volo's Guide to Monsters p.104",
+    "Scourge": "Volo's Guide to Monsters p.105",
+    "Fallen": "Volo's Guide to Monsters p.105",
+    # Tiefling variants — SCAG
+    "Asmodeus": "PHB 2014 p.42",
+    "Mephistopheles": "SCAG p.118",
+    "Zariel": "SCAG p.118",
+    "Dispater": "SCAG p.118",
+    "Fierna": "SCAG p.118",
+    "Glasya": "SCAG p.118",
+    "Levistus": "SCAG p.118",
+    "Mammon": "SCAG p.118",
 }
 # Attach _subrace_sources to each race (all subraces default to parent source)
 for _r_name, _r in RACES.items():
@@ -2591,6 +2604,20 @@ SUBRACE_TRAITS = {
     "Fire Genasi": ["Fire Resistance", "Reach to the Blaze"],
     "Water Genasi": ["Amphibious", "Swim", "Acid Resistance", "Call to the Wave"],
     "Variant Human": [],
+    # Aasimar subraces
+    "Protector": ["Radiant Soul"],
+    "Scourge": ["Radiant Consumption"],
+    "Fallen": ["Necrotic Shroud"],
+    # Tiefling infernal variants — inherit base tiefling traits (Hellish Resistance, Infernal Legacy)
+    # Each variant has a different +1 ASI (handled in SUBASIS) and variant spell list
+    "Asmodeus": [],
+    "Mephistopheles": [],
+    "Zariel": [],
+    "Dispater": [],
+    "Fierna": [],
+    "Glasya": [],
+    "Levistus": [],
+    "Mammon": [],
 }
 
 # PHB p.17-43 — Racial trait mechanical effects for automatic application
@@ -2730,6 +2757,19 @@ SUBASIS = {
     "Earth Genasi": {"strength": 1},
     "Fire Genasi": {"intelligence": 1},
     "Water Genasi": {"wisdom": 1},
+    # Aasimar subraces
+    "Protector": {"wisdom": 1},
+    "Scourge": {"constitution": 1},
+    "Fallen": {"strength": 1},
+    # Tiefling infernal variants
+    "Asmodeus": {"intelligence": 1},
+    "Mephistopheles": {"intelligence": 1},
+    "Zariel": {"strength": 1},
+    "Dispater": {"dexterity": 1},
+    "Fierna": {"wisdom": 1},
+    "Glasya": {"dexterity": 1},
+    "Levistus": {"constitution": 1},
+    "Mammon": {"intelligence": 1},
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -2780,7 +2820,6 @@ _SUBRACE_MIGRATIONS: list[tuple[str, str, str | None, str | None]] = [
     ("Windrunner Elf",          "Elf", None, None),
     ("High Elf of Rivendell",   "Elf", None, None),
     ("Shadow Fey",              "Elf", None, None),
-    ("Silvan Elf Sentinel",     "Elf", None, None),
     # Flattened child subraces of Shadow Fey
     ("Shadow Fey (Lunar Elf)",  "Elf", None, "Lunar Elf"),  # from Shadow Fey subraces
     # === DWARF ===

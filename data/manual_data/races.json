@@ -2563,7 +2563,7 @@
     "asi": {
       "strength": 0,
       "dexterity": 0,
-      "constitution": 2,
+      "constitution": 1,
       "intelligence": 1,
       "wisdom": 0,
       "charisma": 0
@@ -7137,76 +7137,6 @@
     "_source_manual": "EEPC"
   },
   {
-    "name": "Silvan Elf Sentinel",
-    "source": "Dark Waters p.111-112",
-    "asi": {
-      "strength": 16,
-      "dexterity": 18,
-      "constitution": 17,
-      "intelligence": 11,
-      "wisdom": 14,
-      "charisma": 13
-    },
-    "speed": 30,
-    "darkvision": 0,
-    "languages": [
-      "Sindarin",
-      "Westron"
-    ],
-    "size": "Medium",
-    "traits": [
-      {
-        "name": "Disabling Strike",
-        "description": "By spending a Focus point, the Sentinel can force a target that they has struck to make a DC 13 Constitution saving throw or become Stunned until the end of the Sentinel’s next turn."
-      },
-      {
-        "name": "Focused",
-        "description": "The Sentinel has trained for centuries. They have 5 Focus points, which they regain when they finish a short or long rest. The Sentinel can use their bonus action and spend one Focus point on their turn to take the Dash, Disengage, or Dodge action, to make an attack with their great spear, or attempt a Disabling Strike."
-      },
-      {
-        "name": "Multiattack",
-        "description": "The Sentinel makes two attacks with either their Great Spear or Great Bow."
-      },
-      {
-        "name": "Great Spear",
-        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage.",
-        "dice": "1d12+3"
-      },
-      {
-        "name": "Great Bow",
-        "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage",
-        "dice": "1d8+4"
-      },
-      {
-        "name": "Parry",
-        "description": "The Sentinel adds 3 to their AC against one melee attack that would hit them. To do so, the Sentinel must see the attacker and be wielding a melee weapon."
-      }
-    ],
-    "subraces": [],
-    "description": "A Silvan Elf Sentinel is a medium elf guardian, trained for centuries, with a focus on combat and disabling strikes.",
-    "_effects": {
-      "Disabling Strike": {
-        "notes": "Can force a target struck to make a DC 13 Constitution saving throw or become Stunned until the end of the Sentinel's next turn. Requires spending a Focus point."
-      },
-      "Focused": {
-        "notes": "Has 5 Focus points regained on short or long rest. Can spend 1 Focus point as a bonus action to take Dash, Disengage, or Dodge action, make an attack with great spear, or attempt a Disabling Strike."
-      },
-      "Multiattack": {
-        "notes": "Can make two attacks with either Great Spear or Great Bow."
-      },
-      "Great Spear": {
-        "notes": "Melee weapon attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage."
-      },
-      "Great Bow": {
-        "notes": "Ranged weapon attack: +7 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage."
-      },
-      "Parry": {
-        "notes": "Adds 3 to AC against one melee attack that would hit them. Must see the attacker and be wielding a melee weapon."
-      }
-    },
-    "_source_manual": "EREA"
-  },
-  {
     "name": "Centaur",
     "source": "Guildmasters' Guide to Ravnica",
     "asi": {
@@ -7829,9 +7759,9 @@
     "name": "Dwarves of the Iron Hills",
     "source": "Unknown sourcebook",
     "asi": {
-      "strength": 2,
+      "strength": 1,
       "dexterity": 0,
-      "constitution": 2,
+      "constitution": 1,
       "intelligence": 0,
       "wisdom": 0,
       "charisma": 0
@@ -9749,9 +9679,9 @@
     "asi": {
       "strength": 0,
       "dexterity": 0,
-      "constitution": 2,
+      "constitution": 0,
       "intelligence": 0,
-      "wisdom": 0,
+      "wisdom": 1,
       "charisma": 0
     },
     "speed": 30,
@@ -9880,9 +9810,9 @@
     "name": "Gray Dwarf (Duergar)",
     "source": "Sword Coast Adventurer's Guide p.103",
     "asi": {
-      "strength": 0,
+      "strength": 1,
       "dexterity": 0,
-      "constitution": 2,
+      "constitution": 0,
       "intelligence": 0,
       "wisdom": 0,
       "charisma": 0
