@@ -1167,6 +1167,9 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
                     start = max(0, match_lines[0] - 3)
                     end = match_lines[-1] + 3
                     region_text = " ".join(lines[start - 1:end]).lower()
+                    # Normalize apostrophes so curly quotes from PDF extraction
+                    # don't prevent exact-match bonus against user's straight apostrophe
+                    region_text = region_text.replace("\u2018", "'").replace("\u2019", "'")
                     if query.lower() in region_text:
                         exact = 0.35
                 except Exception:
