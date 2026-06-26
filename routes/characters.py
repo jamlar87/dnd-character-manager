@@ -25,7 +25,7 @@ from main import _load_manual_json
 from main import get_racial_trait_effects, check_armor_proficiency_from_set, get_character_armor_profs
 from main import load_manual_data
 from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
-from main import _manual_races_raw as _MANUAL_RACES_RAW
+from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
 from data import (
     SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
     ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
@@ -127,10 +127,61 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
 
     # Generate build data (features, attacks, spell slots)
     build_features = get_class_features(class_name, level, subclass)
+    _homebrew_feature_descs = {}  # name → description from NPC data (for homebrew fallback)
+    if not build_features:
+        # Homebrew class not in SRD — carry over NPC's original features
+        build_features = data.get("features", [])
+        if isinstance(build_features, str):
+            try: build_features = json.loads(build_features)
+            except: build_features = []
+        if build_features:
+            # Save original descriptions for later enrichment
+            for _f in build_features:
+                if isinstance(_f, dict) and _f.get('name'):
+                    _homebrew_feature_descs[_f['name'].lower().strip()] = _f.get('description', '')
+            # Normalize to string format: "L{lvl}: Name"
+            # Level 1 assumed for raw NPC features (or try to extract level marker)
+            build_features = [
+                f"L{level}: {f['name']}" if isinstance(f, dict) and f.get('name')
+                else f"L{level}: {f}" if isinstance(f, str) and not f.startswith("L")
+                else f
+                for f in build_features
+            ]
     # Append ALL racial limited-use features (not just Dragonborn)
     racial_features = _build_racial_limited_features(race_name, data.get("subrace", ""), level)
+    if not racial_features:
+        # Manual race not in PHB — load all traits from manual data
+        try:
+            # Normalize race name through known aliases
+            _lookup = race_name.lower().strip()
+            _race_aliases = {
+                "elves of mirkwood": "Mirkwood Elf",
+                "hobbits of the shire": "Hobbit of the Shire",
+                "hobbit of the shire": "Hobbit of the Shire",
+                "high elves of rivendell": "High Elf of Rivendell",
+            }
+            _target = _race_aliases.get(_lookup, race_name)
+            for _mrr in _manual_races_raw:
+                if _mrr.get("name", "").lower() == _target.lower():
+                    _existing_names = set()
+                    for _ef in build_features:
+                        _en = _ef.split(": ", 1)[1] if ": " in _ef else _ef
+                        _existing_names.add(_en.lower().strip())
+                    for _t in _mrr.get("traits", []):
+                        if _t.get("name", "").lower().strip() not in _existing_names:
+                            racial_features.append(f"L{level}: {_t['name']}")
+                            _homebrew_feature_descs[_t['name'].lower().strip()] = _t.get('description', '')
+                    break
+        except Exception:
+            pass
     build_features.extend(racial_features)
     enriched = enrich_features(build_features, class_name=class_name, level=level, mods={a: (stats[a] - 10) // 2 for a in stats}, subclass=subclass)
+    # Patch descriptions for homebrew features (from NPC data or manual races)
+    if _homebrew_feature_descs:
+        for _ef in enriched:
+            _name = (_ef.get("name") or "").lower().strip()
+            if _name in _homebrew_feature_descs and not _ef.get("description"):
+                _ef["description"] = _homebrew_feature_descs[_name]
     build_attacks = _calculate_attacks(class_name, level,
         {a: (stats[a] - 10) // 2 for a in stats}, prof_bonus,
         data.get("equipment", []))
