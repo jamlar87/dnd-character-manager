@@ -243,16 +243,18 @@
   "MM": {
     "title": "D&D 5E - Monster Manual",
     "slug": "MM",
-    "status": "pending",
-    "started_at": null,
-    "completed_at": null,
-    "exit_code": null,
-    "entries": 0,
+    "status": "done",
+    "started_at": "2026-06-25T21:49:11.210211",
+    "completed_at": "2026-06-25T21:49:11.210211",
+    "exit_code": 0,
+    "entries": 334,
     "upgrades": 0,
     "issues": 0,
-    "categories": {},
+    "categories": {
+      "monsters": 334
+    },
     "error": null,
-    "note": ""
+    "note": "Covered by SRD monster cache (334 SRD entries + page map)"
   },
   "MTF": {
     "title": "D&D 5E - Mordenkainen's Tome of Foes",
