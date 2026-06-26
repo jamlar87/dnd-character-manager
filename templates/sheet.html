@@ -1071,11 +1071,9 @@
             </button>
           </div>
           {% endif %}
-          <div class="atk-detail" style="display:none">
-            {% if ci.description %}<div class="item-detail" data-loaded="true" style="padding:0.4rem 0;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ ci.description }}</div>{% endif %}
-            {% if ci.recharge %}
-            <div style="font-size:0.7rem;color:var(--accent);margin-top:0.2rem">↻ {{ ci.recharge }}</div>
-            {% endif %}
+          <div class="item-detail" data-loaded="true" style="padding:0.4rem 0;font-size:0.75rem;color:var(--text-muted);line-height:1.4;display:none">
+            {% if ci.description %}{{ ci.description }}{% endif %}
+            {% if ci.recharge %}<div style="margin-top:0.3rem;font-size:0.7rem;color:var(--accent)">↻ {{ ci.recharge }}</div>{% endif %}
           </div>
         </div>
         {% endfor %}
