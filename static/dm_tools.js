@@ -2298,6 +2298,7 @@ async function dmToggleItemExpand(btn) {
     let descHtml = '';
     if (data.description) {
       descHtml = `<p style="margin:0;font-size:0.7rem;line-height:1.4;white-space:normal;overflow:visible">${data.description}</p>`;
+      if (data.curse) descHtml += _dmCurseSectionHtml(data.curse);
       if (data.rarity) descHtml += `<br><span class="detail-label">Rarity</span> ${data.rarity}`;
       if (data.source) descHtml += ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${data.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;cursor:pointer;opacity:0.7" title="Click to open ${data.source}">📚 ${data.source}</span>`;
     } else {
@@ -2319,6 +2320,18 @@ function dmBuildQtyRow(qty) {
       onchange="dmUpdateItemQty(this)" onclick="event.stopPropagation()">
     <button class="qty-stepper" onclick="event.stopPropagation();dmStepQty(this, 1)">+</button>
   </div>`;
+}
+
+// ── Curse spoiler for DM item cards ──
+function _dmCurseSectionHtml(curseText) {
+  if (!curseText) return '';
+  const safe = curseText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return `<details style="margin-top:0.4rem;border:1px solid var(--danger, #e74c3c);border-radius:6px;padding:0.25rem 0.4rem;background:rgba(231,76,60,0.08);cursor:pointer">
+    <summary style="font-size:0.65rem;font-weight:600;color:var(--danger, #e74c3c);user-select:none">
+      ⚠️ Curse (DM permission to reveal)
+    </summary>
+    <div style="margin-top:0.25rem;font-size:0.65rem;line-height:1.4;color:var(--text-danger, #c0392b)">${safe}</div>
+  </details>`;
 }
 
 function dmStepQty(btn, delta) {
