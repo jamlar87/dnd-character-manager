@@ -473,7 +473,7 @@ async def campaign_claim_team_item(camp_id: int, item_id: int, request: Request)
 
     # Detect currency — absorb as GP instead of adding to inventory
     import re as _re
-    currency_match = _re.search(r'(\d[\d,]*)\s*(cp|sp|ep|gp|pp)', item_name.lower().replace(',', ''))
+    currency_match = _re.match(r'(\d[\d,]*)\s*(cp|sp|ep|gp|pp)', item_name.lower().replace(',', ''))
     is_currency = bool(currency_match)
 
     if is_currency:

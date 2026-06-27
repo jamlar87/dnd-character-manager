@@ -2159,6 +2159,21 @@ function addTeamItem() {
   openItemPicker();
 }
 
+async function addDiamond() {
+  if (!_itemsCampId) return alert('Select a campaign first');
+  const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Diamond (500gp)', qty: 1, gp_value: 500 })
+  });
+  const data = await resp.json();
+  if (data.ok) {
+    loadItemsPanel();
+  } else {
+    alert(data.error || 'Failed to add diamond');
+  }
+}
+
 async function deleteTeamItem(itemId) {
   if (!confirm('Remove this item from the pool?')) return;
   const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items/${itemId}`, { method: 'DELETE' });
