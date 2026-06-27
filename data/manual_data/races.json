@@ -4981,24 +4981,40 @@
   },
   {
     "name": "Dragonblood",
-    "source": "Tal'Dorei Campaign Setting: Reborn p.46",
+    "source": "Tal'Dorei Campaign Setting: Reborn p.152",
     "asi": {
-      "strength": 0,
+      "strength": 2,
       "dexterity": 0,
       "constitution": 0,
       "intelligence": 0,
       "wisdom": 0,
-      "charisma": 0
+      "charisma": 1
     },
     "speed": 30,
     "darkvision": 0,
     "languages": [
-      "Common"
+      "Common",
+      "Draconic"
     ],
     "size": "Medium",
-    "traits": [],
+    "traits": [
+      {
+        "name": "Draconic Ancestry",
+        "description": "You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table."
+      },
+      {
+        "name": "Breath Weapon",
+        "description": "When you take the Attack action, you can replace one of your attacks with an exhalation of magical energy in a 15-foot cone. Each creature in that area must make a Dexterity saving throw (DC = 8 + your Constitution modifier + your proficiency bonus). On a failed save, the creature takes damage of the type associated with your draconic ancestry. The damage is 2d6 at 1st level, and increases by 1d6 when you reach 6th level (3d6), 11th level (4d6), and 16th level (5d6). Once you use your breath weapon, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Damage Resistance",
+        "description": "You have resistance to the damage type associated with your draconic ancestry."
+      }
+    ],
     "subraces": [],
-    "description": "A humanoid with patches of scales and reptilian eyes, bearing the traits of a dragonblood parent.",
+    "description": "Dragonblood are humanoids with draconic ancestry, bearing patches of scales and reptilian eyes. Found across Exandria, they trace their origins to the fallen city-state of Draconia. Dragonblood use the same racial traits as PHB Dragonborn, reflavored with Tal'Dorei lore. See PHB p.32-34 for the full Draconic Ancestry table.",
     "_source_manual": "TCSR"
   }
 ]
