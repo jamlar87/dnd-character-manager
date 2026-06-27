@@ -4744,7 +4744,13 @@ async def open_manual(slug: str, page: int = 0):
     Page is the printed page number (not PDF page index).
     """
     slug_map = _get_source_slug_map()
-    info = slug_map.get(slug.upper())
+    # Case-insensitive lookup: check as-given, all-upper, all-lower, then scan keys
+    info = slug_map.get(slug) or slug_map.get(slug.upper()) or slug_map.get(slug.lower())
+    if not info:
+        for k in slug_map:
+            if k.lower() == slug.lower():
+                info = slug_map[k]
+                break
     if not info:
         raise HTTPException(status_code=404, detail=f"Unknown manual slug: {slug}")
 
