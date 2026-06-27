@@ -906,6 +906,19 @@ def load_manual_data():
                         }
 
     # ── Catch-up: register NPC features with uses/recharge ──
+    # First pass: structured uses/recharge fields from extraction
+    # Second pass: scan feature descriptions for usage patterns
+    _USAGE_PATTERNS = [
+        (re.compile(r'(?:can be used|usable|use)\s*(?:\w+\s+)*?(\d+)\s*(?:times\s*)?per\s+(short|long)\s+rest', re.I), None),
+        (re.compile(r'(\d+)\s*(?:times?\s*)?per\s+(short|long)\s+rest', re.I), None),
+        (re.compile(r'(\d+)/(?:day|long rest)', re.I), None),
+        (re.compile(r'(\d+)/(?:short rest|encounter)', re.I), 'short'),
+        (re.compile(r'recharges?\s*(?:on|after|upon)?\s*(?:a\s+)?(\d)[-–]\s*(\d)', re.I), None),
+        (re.compile(r'recharges?\s*(?:on|after|upon)?\s*a\s+(short|long)\s+rest', re.I), None),
+        (re.compile(r'once per day', re.I), 'long'),
+        (re.compile(r'once per short rest', re.I), 'short'),
+        (re.compile(r'(\d+)\s*use', re.I), None),
+    ]
     for _npc in _load_manual_json("npcs.json"):
         for _f in _npc.get("features", []):
             if not isinstance(_f, dict):
@@ -913,6 +926,8 @@ def load_manual_data():
             _fn = _f.get("name", "")
             _fu = _f.get("uses", 0) or 0
             _fr = _f.get("recharge", "") or ""
+            _desc = _f.get("description", "") or ""
+            # First pass: explicit structured fields
             if _fn and (_fu or _fr):
                 _key = _fn.lower()
                 if _key not in LIMITED_USE:
@@ -920,6 +935,39 @@ def load_manual_data():
                     LIMITED_USE[_key] = {
                         "min": _fu, "max": _fu,
                         "recharge": _normalize_recharge_light(_fr) if _fr else "long",
+                        "class": _cls, "per": "fixed",
+                    }
+            # Second pass: scan description for usage patterns
+            if _fn and _desc and not _fu and not _fr:
+                _key = _fn.lower()
+                if _key in LIMITED_USE:
+                    continue  # Already registered by structured fields
+                _found_uses = 0
+                _found_recharge = ""
+                for _pat, _default_recharge in _USAGE_PATTERNS:
+                    _m = _pat.search(_desc)
+                    if _m:
+                        if _default_recharge:
+                            _found_recharge = _default_recharge
+                            _found_uses = int(_m.group(1)) if _m.lastindex is not None and _m.lastindex >= 1 and _m.group(1).isdigit() else 1
+                        elif len(_m.groups()) == 1:
+                            _g1 = _m.group(1)
+                            if _g1.lower() in ('short', 'long'):
+                                _found_recharge = _g1.lower()
+                                _found_uses = 1
+                            elif _g1.isdigit():
+                                _found_uses = int(_g1)
+                                _found_recharge = "long"
+                        elif len(_m.groups()) >= 2:
+                            # Recharge range (e.g., "recharges on a 5-6")
+                            _found_recharge = "short"
+                            _found_uses = 1  # treat dice-recharge as 1 use per short
+                        break
+                if _found_uses and _found_recharge:
+                    _cls = _npc.get("class_name", "")
+                    LIMITED_USE[_key] = {
+                        "min": _found_uses, "max": _found_uses,
+                        "recharge": _found_recharge,
                         "class": _cls, "per": "fixed",
                     }
 
@@ -4663,6 +4711,9 @@ def _get_source_slug_map() -> dict[str, dict]:
             "new creatures and magic items": {"slug": "DPM1", "display": "New Creatures and Magic Items — Deep Magic: Ley Lines"},
             "bree-land & around": {"slug": "BLRG", "display": "Bree-land & Around — Bree-land Region Guide"},
             "ggr p.?": {"slug": "GGR", "display": "Guildmasters' Guide to Ravnica (GGR p.?)"},
+            # ── Adventure/scenario titles referenced in source fields ──
+            "Shadows In the north": {"slug": "EREA", "display": "Erebor Adventures — Shadows In the North"},
+            "Shadows Over Tyrn Gorthad": {"slug": "ERIA", "display": "Eriador Adventures — Shadows Over Tyrn Gorthad"},
         }
         for alias, target in _chapter_aliases.items():
             key = alias.upper().replace(" ", "_")

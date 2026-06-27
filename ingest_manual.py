@@ -945,14 +945,39 @@ CRITICAL — SUBCLASSES:
 CRITICAL — FEATS:
 - Feats often have prerequisites. Look for text like "Prerequisite: Dexterity 13 or higher"
   or "Prerequisite: Proficiency with martial weapons" at the start of the feat entry.
-- ALWAYS extract the prerequisite. If there is none, use an empty string "".
-- A feat without a prerequisite field is INCOMPLETE — the field must always be present.
+|- ALWAYS extract the prerequisite. If there is none, use an empty string "".
+|- A feat without a prerequisite field is INCOMPLETE — the field must always be present.
 
 CRITICAL — EQUIPMENT:
-- Equipment items (especially weapons and armor) have cost AND weight in the source.
-- Look for entries like "Cost: 15 gp" and "Weight: 3 lb." in the equipment table.
-- ALWAYS extract cost (as a string like "15 gp") and weight (as a number in pounds).
-- Without cost/weight the equipment data is incomplete for inventory management.
+|- Equipment items (especially weapons and armor) have cost AND weight in the source.
+|- Look for entries like "Cost: 15 gp" and "Weight: 3 lb." in the equipment table.
+|- ALWAYS extract cost (as a string like "15 gp") and weight (as a number in pounds).
+|- Without cost/weight the equipment data is incomplete for inventory management.
+}
+
+CRITICAL — TRAPS:
+|- Extract traps with COMPLETE mechanical details: trigger, detection DC/skill, disarm DC/method, effect, save, damage.
+|- A trap without a clear trigger, effect, and detection DC is incomplete.
+|- The "type" field is one of: "mechanical", "magical", or "hazard".
+|- The "danger" field is one of: "setback", "dangerous", or "deadly".
+|- Always extract source with page number when determinable.
+
+Traps JSON template:
+{
+  "name": "Trap Name",
+  "type": "mechanical",
+  "danger": "dangerous",
+  "trigger": "How the trap is triggered",
+  "detection": {"dc": 15, "skill": "Perception", "detail": "How to spot it"},
+  "disarm": {"dc": 15, "method": "Dexterity (thieves' tools)", "detail": "How to disarm"},
+  "effect": "What happens when triggered",
+  "save_dc": 15,
+  "save_ability": "Dexterity",
+  "damage": "22 (4d10)",
+  "damage_type": "bludgeoning",
+  "area": "Affected area description",
+  "description": "Brief 1-2 sentence description of the trap",
+  "source": "DMG p.122"
 }
 
 Rules:
@@ -1352,7 +1377,8 @@ def _wire_trait_effects(race: dict) -> dict | None:
 def _empty_result() -> dict:
     return {
         "races": [], "spells": [], "magic_items": [], "equipment": [],
-        "monsters": [], "npcs": [], "feats": [], "backgrounds": [], "subclasses": []
+        "monsters": [], "npcs": [], "feats": [], "backgrounds": [],
+        "subclasses": [], "traps": [],
     }
 
 
@@ -1494,7 +1520,8 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
     """Post-process and validate extracted data. Removes invalid entries."""
     cleaned = {
         "races": [], "spells": [], "magic_items": [], "equipment": [],
-        "monsters": [], "npcs": [], "feats": [], "backgrounds": [], "subclasses": []
+        "monsters": [], "npcs": [], "feats": [], "backgrounds": [],
+        "subclasses": [], "traps": [],
     }
     issues = []
 
@@ -1603,6 +1630,23 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
             continue
         if m.get("size") and m["size"] not in VALID_SIZES:
             issues.append(f"Monster {m['name']}: unknown size={m.get('size')}")
+        # Validate XP matches CR per the 5e XP table
+        cr = m.get("challenge_rating", "")
+        xp = m.get("xp", 0)
+        _XP_TABLE = {
+            "0": 10, "1/8": 25, "1/4": 50, "1/2": 100, "1": 200, "2": 450,
+            "3": 700, "4": 1100, "5": 1800, "6": 2300, "7": 2900, "8": 3900,
+            "9": 5000, "10": 5900, "11": 7200, "12": 8400, "13": 10000,
+            "14": 11500, "15": 13000, "16": 15000, "17": 18000, "18": 20000,
+            "19": 22000, "20": 25000, "21": 33000, "22": 41000, "23": 50000,
+            "24": 62000, "25": 75000, "26": 90000, "27": 105000, "28": 120000,
+            "29": 135000, "30": 155000,
+        }
+        if cr and xp and str(cr) in _XP_TABLE:
+            expected = _XP_TABLE[str(cr)]
+            ratio = xp / expected if expected else 0
+            if ratio < 0.5 or ratio > 2.0:
+                issues.append(f"Monster {m['name']}: XP ({xp}) doesn't match CR {cr} (expected {expected})")
         # Normalize abilities
         if "ability_scores" in m and isinstance(m["ability_scores"], dict):
             m["ability_scores"] = {_normalize_ability_key(k): v
@@ -1628,6 +1672,11 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
         f = _ensure_dict(f)
         if not f or not f.get("name"):
             continue
+        # Validate prerequisite field presence (LLM sometimes omits it)
+        prereq = f.get("prerequisite")
+        if prereq is None:
+            issues.append(f"Feat {f['name']}: missing prerequisite field (added empty)")
+            f["prerequisite"] = ""
         f.setdefault("source", book_slug)
         cleaned["feats"].append(f)
 
@@ -1636,6 +1685,15 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
         bg = _ensure_dict(bg)
         if not bg or not bg.get("name"):
             continue
+        # Validate skill proficiencies against known D&D skills
+        raw_skills = bg.get("skill_proficiencies", [])
+        if raw_skills:
+            cleaned_skills = [s for s in raw_skills if s in VALID_SKILLS]
+            invalid = len(raw_skills) - len(cleaned_skills)
+            if invalid:
+                bad = [s for s in raw_skills if s not in VALID_SKILLS]
+                issues.append(f"Background {bg['name']}: {invalid} unknown skill(s) stripped: {bad}")
+            bg["skill_proficiencies"] = cleaned_skills
         bg.setdefault("source", book_slug)
         cleaned["backgrounds"].append(bg)
 
@@ -1647,7 +1705,32 @@ def validate_extraction(data: dict, book_slug: str) -> dict:
         sc.setdefault("source", book_slug)
         # Strip features that belong to a different subclass (cross-contamination guard)
         sc["features"] = _strip_wrong_features(sc.get("name", ""), sc.get("class", ""), sc.get("features", []))
+        # Flag subclasses with unusually few features (likely incomplete extraction)
+        feat_count = len(sc.get("features", []))
+        if feat_count < 3 and feat_count > 0:
+            issues.append(f"Subclass {sc['name']}: only {feat_count} features — may be incomplete")
         cleaned["subclasses"].append(sc)
+
+    # ── Traps ──
+    for t in data.get("traps", []):
+        t = _ensure_dict(t)
+        if not t or not t.get("name"):
+            continue
+        # Validate required fields for traps
+        if not t.get("trigger"):
+            issues.append(f"Trap {t['name']}: missing trigger")
+        if not t.get("effect") and not t.get("damage"):
+            issues.append(f"Trap {t['name']}: missing effect and damage (may be incomplete)")
+        # Validate danger level
+        valid_dangers = {"setback", "dangerous", "deadly"}
+        if t.get("danger") and t["danger"].lower() not in valid_dangers:
+            issues.append(f"Trap {t['name']}: unknown danger={t.get('danger')}")
+        # Validate type
+        valid_types = {"mechanical", "magical", "hazard"}
+        if t.get("type") and t["type"].lower() not in valid_types:
+            issues.append(f"Trap {t['name']}: unknown type={t.get('type')}")
+        t.setdefault("source", book_slug)
+        cleaned["traps"].append(t)
 
     if issues:
         print(f"    ⚠ Validation issues: {len(issues)}")
@@ -1759,6 +1842,7 @@ def _structural_bonus(entry: dict, category: str) -> float:
         "feats": ["prerequisite"],
         "backgrounds": ["skill_proficiencies", "equipment"],
         "subclasses": ["class", "features"],
+        "traps": ["trigger", "effect", "damage", "save_dc"],
     }
     expected = fields.get(category, [])
     if not expected:
@@ -1805,7 +1889,8 @@ def _pick_better(existing: dict, new: dict, category: str) -> dict:
 def _load_base_names() -> dict[str, set]:
     """Load known names from SRD cache and hardcoded data to avoid duplicates."""
     names = {k: set() for k in ["races", "spells", "magic_items", "equipment",
-                                  "monsters", "npcs", "feats", "backgrounds", "subclasses"]}
+                                  "monsters", "npcs", "feats", "backgrounds",
+                                  "subclasses", "traps"]}
 
     srd_dir = HERE / "data" / "srd_cache"
 
@@ -2115,7 +2200,8 @@ def _process_chapter(chapter: dict, slug: str, base_names: dict) -> dict:
     # 2. Extract from each chunk
     accumulated = {
         "races": [], "spells": [], "magic_items": [], "equipment": [],
-        "monsters": [], "npcs": [], "feats": [], "backgrounds": [], "subclasses": []
+        "monsters": [], "npcs": [], "feats": [], "backgrounds": [],
+        "subclasses": [], "traps": [],
     }
 
     for chunk in chunks:
@@ -2281,6 +2367,7 @@ def process_manual(manual: dict) -> dict | None:
         "feats": existing.get("feats", []),
         "backgrounds": existing.get("backgrounds", []),
         "subclasses": existing.get("subclasses", []),
+        "traps": existing.get("traps", []),
     }
 
     for i, chapter in enumerate(chapters):
@@ -2426,7 +2513,8 @@ def merge_all_extractions():
 
     merged = {
         "races": [], "spells": [], "magic_items": [], "equipment": [],
-        "monsters": [], "npcs": [], "feats": [], "backgrounds": [], "subclasses": []
+        "monsters": [], "npcs": [], "feats": [], "backgrounds": [],
+        "subclasses": [], "traps": [],
     }
 
     seen = {cat: set() for cat in merged}
@@ -2449,6 +2537,24 @@ def merge_all_extractions():
                     item["_source_manual"] = slug  # Record which PDF this came from
                     merged[cat].append(item)
                     sources[cat][name_norm] = slug
+
+    # ── Preserve existing data for categories with no new extractions ──
+    # If a category has no entries from PDF extractions but a file already
+    # exists on disk, load it to prevent accidental data loss (e.g. traps
+    # that were created outside the ingestion pipeline).
+    for cat in list(merged.keys()):
+        if not merged[cat]:
+            existing_path = OUTPUT_DIR / f"{cat}.json"
+            if existing_path.exists():
+                existing_data = _load_json(existing_path)
+                if isinstance(existing_data, list) and existing_data:
+                    merged[cat] = existing_data
+                    for item in existing_data:
+                        name = item.get("name", "")
+                        name_norm = _normalize_name(name)
+                        if name_norm:
+                            seen[cat].add(name_norm)
+                    print(f"  Preserved {len(existing_data)} existing {cat} entries (no new extractions)")
 
     # ── Spell classes cross-reference: if extracted spells lack classes,
     #     backfill from SRD cache (which has per-class spell lists) ────────
@@ -2625,18 +2731,70 @@ def _normalize_merged_sources(merged: dict) -> None:
         "WDH": "Waterdeep: Dragon Heist", "WSC": "The Wild Sheep Chase",
         "TCE": "Tasha's Cauldron of Everything",
     }
+    # Full book title map: _source_manual slug → human-readable display name
+    # Covers all third-party, Kobold Press, and TOR books used in the library
+    book_title_map = {
+        "AIPG": "Adventures in Middle-earth Player's Guide",
+        "AW": "Ancestral Weapons", "BLRG": "Bree-land Region Guide",
+        "CC": "Creature Codex", "CSF": "Courts of the Shadow Fey",
+        "DD": "Dues for the Dead", "DDP": "Defiance in Phlan",
+        "DMG": "Dungeon Master's Guide", "DPM": "Deep Magic: Elven High Magic",
+        "DPM1": "Deep Magic: Ley Lines", "EBT": "Book of Ebon Tides",
+        "EEPC": "Elemental Evil Player's Companion", "EIA": "Encounters in Avernus",
+        "EREA": "Erebor Adventures", "ERIA": "Eriador Adventures",
+        "ETR": "Expanding the Ranger", "GGR": "Guildmasters' Guide to Ravnica",
+        "HotDQ": "Hoard of the Dragon Queen", "KW": "Kobold Quarterly 20",
+        "LMG": "Adventures in Middle-earth Loremaster's Guide",
+        "LMRG": "Lonely Mountain Region Guide", "LMoP": "Lost Mine of Phandelver",
+        "MM": "Monster Manual", "MOM": "Marauders of the Margreve",
+        "MPG": "Margreve Player's Guide", "MTF": "Mordenkainen's Tome of Foes",
+        "MWC": "Mirkwood Campaign", "PHB": "Player's Handbook",
+        "RAT": "Ratatosk", "RGEO": "The Road Goes Ever On",
+        "RRG": "Rhovanion Region Guide", "RVR": "Rivendell Region Guide",
+        "RoT": "The Rise of Tiamat", "SCAG": "Sword Coast Adventurer's Guide",
+        "SDQ": "Shadows of the Dusk Queen", "SME": "Saltmarsh Encounters",
+        "SOM": "Shadows over the Moonsea", "SSK": "Secrets of Sokol Keep",
+        "TFS": "Tales from the Shadows", "TLT": "The Tortured Land",
+        "TMFRV": "Tales of the Margreve", "TTP": "The Tortle Package",
+        "ToA": "Tomb of Annihilation", "VGM": "Volo's Guide to Monsters",
+        "W": "Wrath of the Bramble King", "W1": "Pride of the Mushroom Queen",
+        "W2": "Warlock 7", "W3": "Warlock 17",
+        "W4": "Warlock 22: Druids", "W5": "Warlock 32",
+        "W6": "Warlock 34", "W7": "Warlock Bestiary",
+        "W8": "Warlock Lair: The Returners' Tower",
+        "W9": "Warlock Lair: The Dark Aerie",
+        "WDH": "Waterdeep: Dragon Heist", "WGE": "Wayfinder's Guide to Eberron",
+        "WLA": "Wilderland Adventures", "WLL": "Warlock Lairs: Into the Wilds",
+        "WRKF": "Wrath of the River King", "WS": "Shadows Envy",
+        "WSC": "The Wild Sheep Chase", "XGE": "Xanathar's Guide to Everything",
+    }
 
     fixed = 0
     for cat, items in merged.items():
         for item in items:
             src = item.get("source", "")
+            slug = item.get("_source_manual", "")
             if not src:
-                # If no source, try to use the _source_manual field
-                slug = item.get("_source_manual", "")
-                if slug and slug in abbrev_map:
-                    item["source"] = abbrev_map[slug]
+                # If no source, try to use the _source_manual slug
+                if slug and slug in book_title_map:
+                    item["source"] = book_title_map[slug]
                     fixed += 1
                 continue
+
+            # Check if source is a bare adventure/scenario title (no book name)
+            # that should be prefixed with the parent book title
+            is_bare_adventure = (
+                slug and slug in book_title_map
+                and not any(abbr in src for abbr in abbrev_map)
+                and not re.search(r'(?:Player\'s|Dungeon|Monster|Guide|Manual|Adventure|Tome)', src, re.IGNORECASE)
+            )
+            if is_bare_adventure:
+                book_title = book_title_map[slug]
+                # Only prepend if the source doesn't already contain the book title
+                if book_title.lower() not in src.lower():
+                    item["source"] = f"{book_title} — {src}"
+                    fixed += 1
+                    src = item["source"]
 
             # Expand abbreviations
             for abbrev, full in sorted(abbrev_map.items(), key=lambda x: -len(x[0])):
@@ -2826,6 +2984,39 @@ def _apply_post_merge_fixups(output_dir: Path) -> None:
             if fixed:
                 _save_json(items_path, items)
                 print(f"  Magic item fixups: {fixed} rarity gap(s) filled")
+
+    # ── Cross-reference validation ──────────────────────────────────
+    # Check subclass→class references, spell→class references for known class names
+    _xref_known_classes = {
+        "Barbarian","Bard","Cleric","Druid","Fighter","Monk","Paladin",
+        "Ranger","Rogue","Sorcerer","Warlock","Wizard",
+        # AiME / homebrew classes
+        "Scholar","Slayer","Warden","Troubadour","Marauder",
+        "Spirit Dancer","Skald","Treasure Hunter",
+    }
+    _xref_issues = 0
+    # Subclasses: check parent class exists
+    _sc_path = output_dir / "subclasses.json"
+    if _sc_path.exists():
+        for _sc in _load_json(_sc_path):
+            _paren = _sc.get("class", "")
+            if _paren and _paren not in _xref_known_classes:
+                _xref_issues += 1
+                if _xref_issues <= 5:
+                    print(f"  ⚠ Cross-ref: subclass '{_sc.get('name','?')}' references unknown class '{_paren}'")
+    # Spells: check class references are valid
+    _spell_path = output_dir / "spells.json"
+    if _spell_path.exists():
+        for _s in _load_json(_spell_path):
+            for _c in _s.get("classes", []):
+                if isinstance(_c, dict):
+                    _c = _c.get("name", "")
+                if _c and _c not in _xref_known_classes:
+                    _xref_issues += 1
+                    if _xref_issues <= 5:
+                        print(f"  ⚠ Cross-ref: spell '{_s.get('name','?')}' references unknown class '{_c}'")
+    if _xref_issues:
+        print(f"  ({_xref_issues} total cross-reference issues flagged)")
 
 
 def _build_pdf_map() -> dict:

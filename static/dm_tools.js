@@ -1003,9 +1003,174 @@ function showNpcInfo(id, name) {
       <div class="ps-stat"><div class="ps-lbl">XP</div><div class="ps-val">${c.xp_reward || 0}</div></div>
     </div>
     <div style="margin-top:1rem;text-align:right">
+      <button class="btn btn-primary btn-sm" onclick="openNpcBuilder(${id}, ${JSON.stringify(c).replace(/"/g, '&quot;')})" title="Create a fully playable character from this NPC" style="margin-right:0.5rem">🛠️ Fully Build</button>
       <button class="btn btn-outline btn-sm" onclick="closeModal('npcModal')">Close</button>
     </div>`;
   document.getElementById('npcEditor').innerHTML = html;
+}
+
+// ── NPC → Character Builder ─────────────────────────────────────────
+// Opens the NPC info modal with a "Fully Build" interface that lets the
+// user fill in gaps and create a full character from an NPC stat block.
+async function openNpcBuilder(id, npcData) {
+  openModal('npcModal');
+  document.getElementById('npcEditor').innerHTML = '<div style="text-align:center;padding:2rem">⏳ Analyzing NPC…</div>';
+
+  // Convert encounter-creature cache format to npc.json format
+  const npc = npcData._raw || npcData;
+  if (!npc.name && npcData.name) npc.name = npcData.name;
+  if (!npc.race && npcData.race) npc.race = npcData.race;
+  if (!npc.class_name && npcData.class_name) npc.class_name = npcData.class_name;
+  if (!npc.level && npcData.level) npc.level = npcData.level;
+  if (!npc.ability_scores) {
+    npc.ability_scores = {};
+    for (const ab of ['strength','dexterity','constitution','intelligence','wisdom','charisma']) {
+      if (npcData[ab] !== undefined) npc.ability_scores[ab] = npcData[ab];
+    }
+  }
+  if (!npc.hit_points && npcData.hp_max) npc.hit_points = npcData.hp_max;
+
+  try {
+    const resp = await fetch('/api/build-from-npc', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({npc}),
+    });
+    const result = await resp.json();
+    if (!result.ok) {
+      document.getElementById('npcEditor').innerHTML = `<p style="color:var(--danger)">Error: ${result.error || 'Unknown'}</p>`;
+      return;
+    }
+    renderNpcBuilder(result);
+  } catch (e) {
+    document.getElementById('npcEditor').innerHTML = `<p style="color:var(--danger)">Error: ${e.message}</p>`;
+  }
+}
+
+function renderNpcBuilder(result) {
+  const ad = result.auto_detected;
+  const gaps = result.gaps || [];
+  const cd = result.character_data;
+
+  let html = `<h2 style="margin:0 0 0.5rem 0">🛠️ Fully Build: ${cd.name}</h2>
+    <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem">Auto-detected fields from NPC stat block — fill in any gaps below.</p>`;
+
+  // Auto-detected summary
+  html += `<div class="ps-grid" style="margin-bottom:1rem">`;
+  const autoFields = [
+    {label: 'Race', value: ad.race || cd.race, icon: '🧬'},
+    {label: 'Class', value: ad.class || cd.class_name, icon: '⚔️'},
+    {label: 'Subclass', value: ad.subclass || '—', icon: '🔮'},
+    {label: 'Level', value: ad.level, icon: '⬆️'},
+    {label: 'Ability Scores', value: ad.has_ability_scores ? '✅ Detected' : '⚠️ Missing', icon: '📊'},
+    {label: 'Skills', value: ad.has_skills ? '✅ Detected' : '❌ None', icon: '🎯'},
+    {label: 'Features', value: ad.has_features ? '✅ Detected' : '❌ None', icon: '⭐'},
+    {label: 'Equipment', value: ad.has_equipment ? '✅ Detected' : '❌ None', icon: '🎒'},
+    {label: 'Spellcasting', value: ad.has_spellcasting ? '✅ Detected' : '❌ None', icon: '✨'},
+  ];
+  for (const f of autoFields) {
+    html += `<div class="ps-stat"><div class="ps-lbl">${f.icon} ${f.label}</div><div class="ps-val" style="font-size:0.75rem">${f.value || '?'}</div></div>`;
+  }
+  html += `</div>`;
+
+  // Gaps section
+  if (gaps.length > 0) {
+    html += `<h3 style="margin:0.5rem 0">⚠️ Requires Your Input</h3>
+      <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:0.75rem;margin-bottom:1rem">`;
+    for (let i = 0; i < gaps.length; i++) {
+      const g = gaps[i];
+      html += `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+        <label style="flex:0 0 120px;font-size:0.8rem;font-weight:600">${g.label}</label>`;
+      if (g.options && g.options.length > 0) {
+        html += `<select id="bg-gap-${i}" style="flex:1;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+          <option value="">— Select ${g.label} —</option>`;
+        for (const opt of g.options) {
+          html += `<option value="${opt.replace(/"/g, '&quot;')}">${opt}</option>`;
+        }
+        html += `</select>`;
+      } else if (g.field === 'alignment') {
+        const alignments = ['Lawful Good','Neutral Good','Chaotic Good','Lawful Neutral','True Neutral','Chaotic Neutral','Lawful Evil','Neutral Evil','Chaotic Evil'];
+        html += `<select id="bg-gap-${i}" style="flex:1;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">
+          <option value="">— Select Alignment —</option>`;
+        for (const a of alignments) {
+          html += `<option value="${a}">${a}</option>`;
+        }
+        html += `</select>`;
+      } else {
+        html += `<input id="bg-gap-${i}" type="text" value="${(g.original || '').replace(/"/g, '&quot;')}" placeholder="${g.note || ''}" style="flex:1;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text)">`;
+      }
+      html += `<span style="font-size:0.7rem;color:var(--text-muted)">${g.note || ''}</span>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  } else {
+    html += `<p style="color:var(--success);font-size:0.85rem">✅ All fields detected — ready to build!</p>`;
+  }
+
+  // Action buttons
+  html += `<div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+    <button class="btn btn-primary" onclick="submitNpcBuild(${JSON.stringify(cd).replace(/"/g, '&quot;')}, ${JSON.stringify(gaps.map((g,i) => ({field: g.field, index: i}))).replace(/"/g, '&quot;')})">
+      🚀 Create Character
+    </button>
+    <button class="btn btn-outline" onclick="closeModal('npcModal')">Cancel</button>
+  </div>`;
+
+  document.getElementById('npcEditor').innerHTML = html;
+}
+
+async function submitNpcBuild(charData, gapDefs) {
+  // Fill in gaps from the form
+  for (const gd of gapDefs) {
+    const el = document.getElementById(`bg-gap-${gd.index}`);
+    if (el) {
+      charData[gd.field] = el.value;
+    }
+  }
+
+  // Build the POST payload matching /api/character/create shape
+  const body = {
+    name: charData.name,
+    race: charData.race || 'Human',
+    class_name: charData.class_name || 'Fighter',
+    subclass: charData.subclass || '',
+    level: charData.level || 1,
+    strength: (charData.ability_scores && charData.ability_scores.strength) || 10,
+    dexterity: (charData.ability_scores && charData.ability_scores.dexterity) || 10,
+    constitution: (charData.ability_scores && charData.ability_scores.constitution) || 10,
+    intelligence: (charData.ability_scores && charData.ability_scores.intelligence) || 10,
+    wisdom: (charData.ability_scores && charData.ability_scores.wisdom) || 10,
+    charisma: (charData.ability_scores && charData.ability_scores.charisma) || 10,
+    alignment: charData.alignment || 'True Neutral',
+    hp_max: charData.hit_points || 10,
+    features: JSON.stringify(charData.features || []),
+    equipment: JSON.stringify(charData.equipment || []),
+    source: charData.source || '',
+    description: charData.description || '',
+  };
+
+  try {
+    const resp = await fetch('/api/character/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    const result = await resp.json();
+    if (result.id) {
+      document.getElementById('npcEditor').innerHTML = `<div style="text-align:center;padding:1.5rem">
+        <h3>✅ Character Created!</h3>
+        <p><strong>${result.name}</strong> (ID: ${result.id})</p>
+        <p style="font-size:0.8rem;color:var(--text-muted)">You can now view and edit this character from the main character list.</p>
+        <div style="margin-top:1rem">
+          <button class="btn btn-primary" onclick="window.open('/sheet/${result.id}','_blank')">📄 Open Sheet</button>
+          <button class="btn btn-outline" onclick="closeModal('npcModal')">Close</button>
+        </div>
+      </div>`;
+    } else {
+      document.getElementById('npcEditor').innerHTML = `<p style="color:var(--danger)">Error: ${result.error || 'Failed to create character'}</p>`;
+    }
+  } catch (e) {
+    document.getElementById('npcEditor').innerHTML = `<p style="color:var(--danger)">Error: ${e.message}</p>`;
+  }
 }
 
 async function showNpcEditor(id) {

@@ -405,6 +405,243 @@ async def api_create_character(request: Request):
         return JSONResponse({"error": str(e)}, status_code=400)
 
 
+# ── NPC ↦ Character conversion helpers ──────────────────────────────────
+
+# Maps NPC race strings → canonical RACES keys (case-insensitive lookup)
+_NPC_RACE_ALIASES: dict[str, str] = {
+    "half-elf": "Half-Elf", "half elve": "Half-Elf", "half-elf (variant)": "Half-Elf",
+    'half-orc': 'Half-Orc', 'half ore': 'Half-Orc', 'half-ore': 'Half-Orc',
+    "half-elf (dmg)": "Half-Elf",
+    "wood elf": "Wood Elf", "wood-elf": "Wood Elf", "wild elf": "Wood Elf",
+    "high elf": "High Elf", "high-elf": "High Elf",
+    "dark elf (drow)": "Dark Elf (Drow)", "dark elf": "Dark Elf (Drow)", "drow": "Dark Elf (Drow)",
+    "moon elf": "Moon Elf", "moon-elf": "Moon Elf",
+    "deep gnome (svirfneblin)": "Deep Gnome (Svirfneblin)", "svirfneblin": "Deep Gnome (Svirfneblin)",
+    "rock gnome": "Rock Gnome",
+    "forest gnome": "Forest Gnome",
+    "lightfoot halfling": "Lightfoot Halfling", "lightfoot halflings": "Lightfoot Halfling",
+    "stout halfling": "Stout Halfling", "strongheart halfling": "Stout Halfling",
+    "hill dwarf": "Hill Dwarf",
+    "mountain dwarf": "Mountain Dwarf",
+    "shield dwarf": "Shield Dwarf",
+    "fire genasi": "Fire Genasi", "genasi (fire)": "Fire Genasi",
+    "water genasi": "Water Genasi", "genasi (water)": "Water Genasi",
+    "air genasi": "Air Genasi", "genasi (air)": "Air Genasi",
+    "earth genasi": "Earth Genasi", "genasi (earth)": "Earth Genasi",
+    "dragonborn (bronze dragon ancestry)": "Dragonborn",
+    "gold dragonborn": "Dragonborn",
+    "ghostwise halflings": "Ghostwise Halfling",
+    "tiefling (variant)": "Tiefling",
+    "half-umbral dragon bugbear": "Bugbear",
+    "goblin (custom)": "Goblin",
+    "hobbit of the shire": "Hobbit of the Shire",
+    "mirkwood elf": "Mirkwood Elf",
+    "high elf of rivendell": "High Elf of Rivendell",
+    "woodman": "Woodman",
+    "bearfolk": "Bearfolk",
+    "trollkin": "Trollkin",
+    "erina": "Erina",
+    "wyrd gnome": "Wyrd Gnome",
+    "alseid": "Alseid",
+    "satarre": "Satarre",
+    "sidhe": "Sidhe",
+    "shadow fey": "Shadow Fey",
+    "elfmarked": "Elfmarked",
+    "saurial": "Saurial",
+    "vodyanoi": "Vodyanoi",
+    "ratatosk": "Ratatosk",
+    "umbral human": "Umbral Human",
+    "gearforged": "Gearforged",
+    "dorwinion": "Dorwinion",
+    "easterling": "Easterling",
+    "northman": "Northman",
+    "hill-man": "Hill-man",
+    "hill-man of rhudaur": "Hill-man",
+}
+
+# Strip parenthetical context and case-fold for race matching
+def _normalize_npc_race(race_str: str) -> str:
+    """Map an NPC race string to a canonical RACES key.
+    Returns the matched RACES key, or the original string if no match."""
+    if not race_str:
+        return ""
+    key = race_str.strip().lower()
+    # Direct alias lookup
+    if key in _NPC_RACE_ALIASES:
+        return _NPC_RACE_ALIASES[key]
+    # Strip parenthetical context: "Human (Barding)" → "Human"
+    base = re.sub(r"\s*\(.*?\)", "", key).strip()
+    if base != key and base in _NPC_RACE_ALIASES:
+        return _NPC_RACE_ALIASES[base]
+    # Try base against RACES keys directly
+    for rk in RACES:
+        if rk.lower() == base or rk.lower() == key:
+            return rk
+    # Try partial match: any RACES key that contains the base name
+    for rk in RACES:
+        if base in rk.lower() or rk.lower() in base:
+            return rk
+    return race_str  # No match found — return original for user to resolve
+
+def _normalize_npc_class(class_str: str) -> tuple[str, str]:
+    """Map an NPC class_name string to (canonical CLASSES key, extracted subclass).
+    
+    Examples:
+      "Wizard (Necromancer)" → ("Wizard", "Necromancer")
+      "bard" → ("Bard", "")
+      "Fighter (Knight of the Black Fist)" → ("Fighter", "Knight of the Black Fist")
+      "Monk (Way of the Sacred Fists) / Cleric" → ("Monk", "Way of the Sacred Fists")
+    """
+    if not class_str:
+        return ("", "")
+    key = class_str.strip()
+    subclass = ""
+    # Extract subclass from parenthetical: "ClassName (Subclass)" → ("ClassName", "Subclass")
+    paren_match = re.match(r"^([^(]+)\s*\(([^)]+)\)", key)
+    if paren_match:
+        key = paren_match.group(1).strip()
+        subclass = paren_match.group(2).strip()
+    # Handle multi-class: "Fighter/Druid" → take the first class
+    if "/" in key:
+        key = key.split("/")[0].strip()
+    # Case-insensitive match
+    key_lower = key.lower()
+    for ck in CLASSES:
+        if ck.lower() == key_lower:
+            return (ck, subclass)
+    return (class_str, subclass)
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Build a character from an NPC stat block
+# ═══════════════════════════════════════════════════════════════════════
+
+@router.post("/api/build-from-npc", response_class=JSONResponse)
+async def build_from_npc(request: Request):
+    """Convert an NPC stat block into a playable character.
+    Accepts NPC data (from npcs.json or user-supplied) and attempts to
+    auto-detect race, class, subclass, level, ability scores, etc.
+    
+    Returns a dict with:
+      - auto_detected: what the system could infer
+      - gaps: fields the user needs to fill in
+      - character_data: pre-filled build data ready for /api/character/create
+    """
+    user = require_user(request)
+    try:
+        raw = await request.json()
+    except Exception:
+        return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+
+    npc = raw.get("npc", {})
+    if not npc or not npc.get("name"):
+        return JSONResponse({"error": "NPC must have a 'name' field"}, status_code=400)
+
+    # ── Auto-detect race ──
+    race_str = npc.get("race", "")
+    detected_race = _normalize_npc_race(race_str) if race_str else ""
+
+    # ── Auto-detect class / subclass / level ──
+    class_str = npc.get("class_name", "")
+    detected_class, detected_subclass = _normalize_npc_class(class_str) if class_str else ("", "")
+    level = npc.get("level", 1)
+
+    # ── Parse hit points ──
+    hp_raw = npc.get("hit_points", "")
+    hp = 0
+    if isinstance(hp_raw, str):
+        hp_match = re.match(r"(\d+)", hp_raw)
+        if hp_match:
+            hp = int(hp_match.group(1))
+    elif isinstance(hp_raw, (int, float)):
+        hp = int(hp_raw)
+
+    # ── Build gaps list ──
+    gaps = []
+    if not detected_race or detected_race == race_str:
+        gaps.append({
+            "field": "race",
+            "label": "Race / Species",
+            "original": race_str,
+            "note": "Unknown race — select from available races" if race_str else "No race set",
+        })
+    if not detected_class or detected_class == class_str:
+        gaps.append({
+            "field": "class_name",
+            "label": "Class",
+            "original": class_str,
+            "note": "Unknown class — select from available classes" if class_str else "No class set",
+        })
+    if not npc.get("alignment"):
+        gaps.append({
+            "field": "alignment",
+            "label": "Alignment",
+            "original": "",
+            "note": "Pick an alignment",
+        })
+    # Subclass gap: class has subclasses but none detected
+    if detected_class and detected_class in CLASSES:
+        class_subclasses = CLASSES[detected_class].get("subclasses", [])
+        if class_subclasses and not detected_subclass:
+            gaps.append({
+                "field": "subclass",
+                "label": "Subclass",
+                "original": "",
+                "options": class_subclasses,
+                "note": f"Select a subclass for {detected_class}",
+            })
+    elif detected_subclass:
+        # Subclass was extracted from parenthetical but may not be registered
+        if detected_subclass not in SUBCLASS_FEATURES:
+            gaps.append({
+                "field": "subclass",
+                "label": "Subclass",
+                "original": detected_subclass,
+                "note": f"Subclass '{detected_subclass}' not found in library — may need manual entry",
+            })
+
+    # ── Build character data payload ──
+    char_data = {
+        "name": npc.get("name", ""),
+        "race": detected_race,
+        "class_name": detected_class,
+        "subclass": detected_subclass,
+        "level": level,
+        "ability_scores": npc.get("ability_scores", {}),
+        "hit_points": hp,
+        "alignment": npc.get("alignment", ""),
+        "skills": npc.get("skills", {}),
+        "saving_throws": npc.get("saving_throws", {}),
+        "features": npc.get("features", []),
+        "equipment": npc.get("equipment", []),
+        "spellcasting": npc.get("spellcasting"),
+        "role": npc.get("role", "Ally"),
+        "is_enemy": npc.get("is_enemy", False),
+        "xp_reward": npc.get("xp_reward", 0),
+        "source": npc.get("source", ""),
+        "description": npc.get("description", ""),
+    }
+
+    # ── Build response with modal prompt data ──
+    result = {
+        "ok": True,
+        "auto_detected": {
+            "race": detected_race if detected_race and detected_race != race_str else None,
+            "class": detected_class if detected_class and detected_class != class_str else None,
+            "subclass": detected_subclass or None,
+            "level": level,
+            "has_ability_scores": bool(npc.get("ability_scores")),
+            "has_skills": bool(npc.get("skills")),
+            "has_features": bool(npc.get("features")),
+            "has_equipment": bool(npc.get("equipment")),
+            "has_spellcasting": bool(npc.get("spellcasting")),
+        },
+        "gaps": gaps,
+        "character_data": char_data,
+    }
+    return JSONResponse(result)
+
+
 # ── Starting spells lookup (no character needed — creation wizard) ──────────
 
 @router.get("/api/spells/starting", response_class=JSONResponse)
