@@ -209,7 +209,7 @@ def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str
 
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
-    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE
+    global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, FEAT_BY_NAME
 
     meta = _load_manual_json("_meta.json")
     if not meta or isinstance(meta, list):
@@ -693,6 +693,10 @@ def load_manual_data():
                 "description": manual_desc,
                 "source": feat.get("source", ""),
             }
+            # Also register in FEAT_BY_NAME so feat picker finds it
+            _lkey = name.lower()
+            if _lkey not in FEAT_BY_NAME:
+                FEAT_BY_NAME[_lkey] = FEATS[key]
         elif manual_desc and len(manual_desc) > len(FEATS[key].get("description", "")):
             # Skip OCR-garbled descriptions — never replace clean text with garbage
             _ocr_markers = [
