@@ -1,0 +1,2553 @@
+{
+  "races": [
+    {
+      "name": "Dragonblood",
+      "source": "Tal'Dorei Campaign Setting: Reborn",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common"
+      ],
+      "size": "Medium",
+      "traits": [],
+      "subraces": [],
+      "description": "A humanoid with patches of scales and reptilian eyes, bearing the traits of a dragonblood parent."
+    }
+  ],
+  "spells": [
+    {
+      "name": "Freedom of the Waves",
+      "level": 3,
+      "school": "Conjuration",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a strand of seaweed)",
+      "duration": "Instantaneous",
+      "description": "You conjure a deluge of seawater in a 15-foot-radius sphere centered on a point within range. Each creature in the area must make a Strength saving throw. On a failure, it takes 4d8 bludgeoning damage and is pushed 20 feet away from the center. On a success, it takes half damage and isn't pushed. The water then extinguishes all nonmagical flames in the area.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer"
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Freedom of the Winds",
+      "level": 5,
+      "school": "Abjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a feather)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "Winds surround you, granting you a flying speed of 60 feet. Additionally, you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks. You can use a bonus action to teleport up to 30 feet to an unoccupied space you can see.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer"
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Boots of Haste",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "While you wear these boots, you can click your heels together to cast the haste spell on yourself as a bonus action. You don't suffer from lethargy when the spell ends when cast using these boots. Once this property is used, it can't be used again until next dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.194"
+    },
+    {
+      "name": "Boots of the Vigilant",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While you wear these boots, you can sense impending danger. After you roll initiative, you can choose to roll a d8 and add it to your initiative roll. Once this property is used, it can't be used again until the next dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.194"
+    },
+    {
+      "name": "Cataclysm Bolts",
+      "type": "Ammunition",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "These steel crossbow bolts were first created by the Jaggenstrike Clan during the Scattered War, and the secret to crafting them remains well guarded by the Houses of Kraghammer. Cataclysm bolts are usually kept in sets of ten, though anyone who holds even one can feel it thrumming with magical power. When you hit with an attack using a cataclysm bolt, the attack deals normal damage. Then roll a d6 on the following table to determine its additional effect.\n\nCATACLYSM BOLT EFFECTS\nd6 Effect\n1-2 The bolt explodes in a blast of fire, dealing 3d8 fire damage to the target and each creature within 5 feet of it.\n3-4 The bolt freezes the air around the target into jagged ice. The target and each creature within 5 feet of it must succeed on a DC 17 Dexterity saving throw or take 1d10 cold damage and be restrained until the end of your next turn.\n5 The bolt releases a pulse of necrotic energy. The target takes 2d6 necrotic damage and must succeed on a DC 16 Strength saving throw or be stunned until the end of your next turn.\n6 The bolt shatters to unleash a burst of shrapnel. Make six additional ranged attacks against the target, each of which has a +7 attack bonus and deals 1d6 piercing damage on a hit.\n\nOnce the bolt hits, the enchantment ends and it becomes a normal piece of ammunition.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.194"
+    },
+    {
+      "name": "Coat of the Crest",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This exquisite brocade coat is cut in a long, high-collared style popular among nobles of the Clovis Concord\u2014a nation on the west coast of Wildemount whose stylish fashion is often mimicked in Tal' Dorei. Its shimmering lining hints at its magical properties.\n\nYou gain a +1 bonus to AC while wearing this coat, which can be worn over light armor.\n\nAdditionally, the coat has 3 charges and regains 1d3 expended charges daily at dawn. When you are the target of an attack while wearing this coat, you can spend 1 charge as a reaction to gain resistance to one type of damage from the triggering attack. This resistance is effective against the triggering attack and lasts until the start of your next turn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.194"
+    },
+    {
+      "name": "Corecut Dagger",
+      "type": "Weapon (dagger)",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This dark metal blade bends in a wicked, hooked curve. You gain a +1 bonus to attack and damage rolls made with this magic weapon. When you hit with an attack using this weapon, you can spend 1 Hit Die to deal an extra 346 necrotic d: unconscious. Instead, you are incapacitated and your speed becomes 0, but you can speak and communicate. You make death saving throws as normal, but if you roll a 1 on the d20, you swoon with a loud gasp and die instantly. \nEcho Stone \nCurse. This weapon is cursed, a fact that is revealed only when an identify spell is cast on the weapon or you attune to it. Attuning to the dagger curses you until you are targeted by the remove curse spell or similar magic; disposing of the dagger fails to end the curse. While cursed, whenever you receive magical healing, you must spend 1 Hit Die to regain any hit points. If you spend all your Hit Dice at any point, you die.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Dagger of Denial",
+      "type": "Weapon (dagger)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This silver stiletto blade bears intricate grooves that spiral from its tip to its ivory hilt and handle. You gain a 42 bonus to attack and damage rolls made with this magic weapon. As an action, you can place the point of the blade into any keyhole and seal it shut. A keyhole sealed in this way can\u2019t be unlocked until this dagger is placed into that keyhole once more (though a sealed door or container can still be broken, bypassing the lock). Sealing a keyhole unseals any keyholes previously sealed with this weapon.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Doublet of Dramatic Demise",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This striking satin jacket allows you to make the most of your dying moments. When you drop to 0 hit points while wearing this doublet, you do not fall unconscious. Instead, you are incapacitated and your speed becomes 0, but you can speak and communicate. You make death saving throws as normal, but if you roll a 1 on the d20, you swoon with a loud gasp and die instantly.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Echo Stone",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This dull-blue river stone is soft to the touch, and makes remarkably little sound if dropped. When an echo stone is squeezed as an action, it glows faintly for 1 minute. The stone records all sound made within 15 feet of it while glowing, then repeats that recorded sound at an equal volume once every 5 minutes. This cycle of repetition continues until the stone is squeezed again as an action, which silences it. Squeezing the stone twice in quick succession as an action causes it to play the sounds it has most recently recorded, rather than recording new sounds.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Graz'tchar, the Decadent End",
+      "type": "Weapon (greatsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This blade appears to be a beautiful cruciform sword of shining silver, inlaid with sparkling rubies. You gain a +3 bonus to attack and damage rolls made with this magic weapon, which has the following properties. \nCorrosive Submission. When you hit a creature that has an Intelligence score of 4 or higher with an attack using this sword, the target takes an extra 346 acid damage and must succeed on a DC 17 Charisma saving throw or be charmed by you for 1 hour. If you attack the creature again while it is charmed in this way, the extra acid damage increases to 10d6 and the charmed condition ends. If the target succeeds",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Graz'tchar",
+      "type": "Weapon (greatsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "at has an Intelligence score of 4 or higher with an attack using this sword, the target takes an extra 346 acid damage and must succeed on a DC 17 Charisma saving throw or be charmed by you for 1 hour. If you attack the creature again while it is charmed in this way, the extra acid damage increases to 10d6 and the charmed condition ends. If the target succeeds on its saving throw or the charm ends for it, it can't be charmed again in this way for 24 hours. Hidden Nature. The acid damage dealt by this greatsword appears to be radiant damage to all who perceive it. A true seeing spell or similar magic reveals that the sword is actually a rusted, pitted blade dripping with acid. Sentience. Graztchar is a sentient neutral evil weapon with an Intelligence of 14, a Wisdom of 12, and a Charisma of 18. It has hearing and darkvision. \u2018out to a range of 120 feet. \u2018The sword can speak, read, and understand Common, and can communicate with its wielder telepathically. Anyone who holds it hears the wise voice of a sorrowful king, beckoning the user to seize their destiny. A creature that succeeds on a DC 26 Wisdom (Insight) check while listening to the blade\u2019s voice hears a sliver of malice that suggests the truth: the voice is a corrupting trick of the Demon Prince of Indulgence. Personality. Graz'tchar slowly attempts to sway its wielder to sow chaos in Exandria, telling lies and spreading malign truths about great leaders, and claiming that the members of the Tal'Dorei Council are corrupt and must be overthrown. The voice of this blade is actually the Demon Prince of Indulgence, speaking from his Abyssal prison. If the sword's attuned wielder disobeys the urges of the weapon for an extended period of time, Graz'tchar can attempt to control the wielder, who must succeed on a DC 17 Charisma saving throw or become charmed by the sword for 24 hours. While the wielder is charmed in this way, the sword can compel them to take an action of the sword\u2019s choice once per hour, though the wielder believes this action is taken of their own free will. If the chosen action leads to the harm of someone the wielder considers a trusted friend or ally, the charmed condition immediately ends. On a successful saving throw or if the charmed condition ends for the wielder, they are immune to this property of the sword for 24 hours.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.196"
+    },
+    {
+      "name": "Inescapable Lash",
+      "type": "Weapon (whip)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This braided cord is dull bronze in color, ends in a splayed set of three barbs, and gleams like metal under any light. You gain a +1 bonus to attack and damage rolls made with this magic weapon, which has a reach of 20 feet. When you hit a creature or object using this whip, you can attempt to grapple the target as a bonus action. While you have a creature grappled using this whip, you can use your action to either pull the creature up to 20 feet toward you, or cause the creature to be restrained until you let go of the whip. A creature restrained in this way can escape by making a successful Strength (Athletics) or Dexterity (Acrobatics) check as an action. The DC of this check equals 8+ your proficiency bonus + your Strength modifier.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Magician's Judge",
+      "type": "Weapon (greatsword)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "An executioner's blade from the Age of Arcanum, this magic greatsword is one of many similar weapons once used to execute magic-wielding criminals. Though most commonly found in the lands now known as Wildemount and Issylra, a few such blades have found their way to Tal'Dorei. If you hit a creature with an attack using this weapon, you can cast the dispel magic spell from the sword against the target as part of the attack. Alternatively, you can use an action to cast dispel magic from the sword against a target of your choice. If you need to make a check with your spellcasting ability modifier as part of casting the spell, you make this check with a +3 modifier or your own spellcasting ability modifier, whichever is higher. Once you cast dispel magic using this weapon, you can't do so again until the next dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Mirror of Infinite Transpondence",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "These silver hand mirrors always come in pairs. When activated as an action, a mirror establishes a visual link with its paired mirror for 10 minutes, with the two mirrors acting as opposite sides of the same open window. The mirrors create this connection even if both are on different planes. When a single mirror of infinite transpondence is found, the GM decides where its paired mirror is and who possesses it. A random possessor and location can be determined by rolling on the table below. Named bearers are described in chapter 2. MIRROR LOCATIONS d8 Location Possessor 1 Emon Seeker Odessa Tal'Dorei 2 Whitestone None; the mirror is in an empty dungeon 3 Kymal Syiker \"The Millionaire\" Uttolot 4 Westruun Realmseer Eskil Ryndarien 5 Syngorn Questra, the Voice of Memory 6 The Elemental Plane of Water Khedive Xundi, Lord of Silver Silt 7 The Plane of Shadow Remnant chosen (see page 251) 8 An untraceable location The Wonderworker",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Raven's Slumber",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This black crystal pendant is a magical gateway to a small pocket dimension. You can use the pendant as an improvised weapon to make a melee or ranged weapon attack against a Large or smaller creature. On a hit, the target must succeed on a DC 10 Wisdom saving throw or be trapped within the crystal. A creature that wants to be trapped can intentionally fail this saving throw. Only one creature at a time can be held in a raven's slumber. That creature is aware of the passage of time and can see the world outside of this talisman as if through a window. You can release a held creature to an unoccupied space within 5 feet of you as a bonus action. If a companion creature granted to you by a class feature, or a beast that you've tamed as a companion, is reduced to 0 hit points while within 100 feet of you, it is immediately drawn into the pendant and stabilized. If the pendant already holds a creature, this effect fails.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197"
+    },
+    {
+      "name": "Rod of Mercurial Form",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This humble steel rod is engraved with tiny symbols representing different weapons, as well as the monogram \"T.D.\" A creature holding this rod can speak the name of any simple or martial weapon aloud as a bonus action, causing the rod to transform into an ordinary weapon of that type. When in the form of a ranged weapon, this rod magically creates its own ammunition, which disappears after a ranged attack hits or misses.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197"
+    },
+    {
+      "name": "Stormrider Boots",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "These dark leather boots look to be of common make, but a subtle pattern of swirling storm clouds upon their soles suggests the potency of their enchantment. You can activate these boots as part of your movement, gaining the following benefits until the end of your turn: You have a flying speed of 90 feet. Opportunity attacks against you are made with disadvantage. Whenever you move within 5 feet of a hostile creature, it must succeed on a DC 15 Dexterity saving throw or take 3d8 lightning damage. A creature can't be damaged in this way more than once per turn. Once this property is used, it can't be used again until the next dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197"
+    },
+    {
+      "name": "Summer's Dance",
+      "type": "Weapon (scimitar)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This beautiful golden blade appears to bend and flex like a reed with your movements. You gain a +1 bonus to attack and damage rolls made with this magic weapon. Additionally, the scimitar has 3 charges and regains 1 expended charge daily at dawn. While wielding this scimitar, you can expend 1 charge as a bonus action to cast the misty step spell.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197"
+    },
+    {
+      "name": "Tinkertop Boltblaster 1000",
+      "type": "Weapon (hand crossbow)",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This strange contraption of gears, wires, and lacquered wood has a handle with a metal grip and crank, Its stock bears a flamboyant maker's mark that reads: \"Made in Hupperdook,\" a city in Wildemount. You gain a +1 bonus to attack and damage rolls made with this magic weapon. When you roll a 20 on an attack roll made with this weapon, you can immediately make another attack with this weapon after resolving the critical hit, When you roll a 1 on an attack roll made with this weapon, you must succeed on a DC 14 Dexterity saving throw or take 1d6 piercing damage as some of its gears and wires spring loose.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197"
+    },
+    {
+      "name": "Earthboard",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "An earthboard is a slab of granite about three inches thick, nine feet long, and two feet wide, with smooth, tapered ends. However, its mundane appearance belies its unique elemental power, which reduces its weight to 40 pounds while a creature is attuned to it. The Earth Ashari of Terrah can often be seen with these stone boards upon their backs as they trek into the crags of the Cliffkeep Mountains.\n\nWhile standing on an earthboard, you gain the following benefits:\nYour speed increases to 60 feet as the board skims across solid ground (but not liquid surfaces).\nIf you ramp off a surface of solid earth, you can long jump up to 60 feet. When you end this jump, you can choose to slam into the ground, creating a shockwave. Each creature standing on the ground within 20 feet of you must succeed on a DC 14 Strength saving throw or fall prone.\nYou have a burrowing speed of 20 feet that allows you to tunnel through earth or solid rock, leaving a 5-foot-diameter tunnel in your wake. As an action, you can increase this burrowing speed to 60 feet until the start of your next turn.\nThe earthboard always moves with you until you decide to dismount it (no action required).\nThese benefits last until you end your turn not standing on the earthboard.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.197-198"
+    },
+    {
+      "name": "Flamefriend Lantern",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This wrought-iron lantern holds a small fire elemental spirit. To attune to this item, you must also succeed on a DC 10 Charisma check to bond with the spirit inside the lantern.\n\nLight and Flame. While attuned to the lantern, you can verbally ask the elemental to glow (no action required), causing the lantern to cast bright light in a radius of your choice up to 60 feet and dim light for the same distance beyond that. You can also cast the produce flame cantrip from the lantern at will. Wisdom is your spellcasting ability for this spell.\n\nElemental Essence. The fire elemental spirit in the lantern can grant you a small fragment of its power. As an action, you gain one of the following benefits of your choice for 1 hour:\n- You have resistance to fire damage.\n- Whenever a creature hits you with a melee attack, that creature takes fire damage equal to your proficiency bonus.\n- You can cast the burning hands spell (spell save DC 15) from the lantern at 3rd level. Once you cast the spell, you can't do so again until the next time you use this property of the lantern.\n\nOnce the elemental has shared its power with you in this way, it can't do so again until the next dawn.\n\nWillful Attunement. Your attunement to the lantern lasts until you choose to end it, or until you anger the elemental (by dousing the lantern in water, attacking another nonhostile elemental being, and so forth). You can attempt to attune to the lantern again and repeat the check to bond with the elemental during a short or long rest, but you make this check with disadvantage until you have made amends to the spirit, as the GM determines.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.198"
+    },
+    {
+      "name": "Oceanic Weapon",
+      "type": "Weapon (any ranged or thrown)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This elegant weapon is adorned with engravings depicting leaping dolphins and drifting jellyfish. You gain a +1 bonus to attack and damage rolls made with this magic weapon, and you ignore the normal penalties on ranged weapon attacks while using this weapon underwater. While holding the weapon in front of you with both hands, you have a swimming speed of 30 feet.\n\nAdditionally, while you hold the weapon, you can use an action to cast the water breathing spell. Once this property is used, it can't be used again until the next dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.198"
+    },
+    {
+      "name": "Skysail",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "These batlike wings were first used by the Air Ashari to soar through the sky. They are constructed of either leather and bone, or cloth and wood, and are set onto a sturdy wooden pole that helps their user remain stable during flight.\n\nWhile these wings are open and you are riding the skysail, you can glide through the air. You have a flying speed of 60 feet, but you must descend at least 10 feet by the end of each of your turns and you can't gain altitude.\n\nAdditionally, while in contact with the skysail, you can use an action to cast the fly spell on yourself, with a duration of 1 minute and requiring no concentration. The spell ends if you lose physical contact with the skysail. Once this property is used, it can't be used again until the next dawn, or unless the skysail is immersed in powerful magic of elemental air. (This includes magic such as that found at the top of the Summit Peaks near the rift of air in Zephrah, or on the Elemental Plane of Air).\n\nWhen the skysail is not in use, its wings can be retracted, and its pole can be used as a quarterstaff.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.198"
+    },
+    {
+      "name": "Agony",
+      "type": "Weapon (flail)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Utilized in countless tortures and slow executions, the hooked chains of this brutal weapon constantly show dried blood and rot. Legend says that Agony was wielded in the Calamity by the gnoll scion of a flesh-eating Demon Lord.\n\nDORMANT\nWhile Agony is in a dormant state, you gain a +2 bonus to attack and damage rolls made with this magic weapon. Whenever you damage a creature with Agony, that creature is marked for 10 minutes or until you damage a different creature. When you hit a creature marked in this way with this weapon, the target takes an extra 1d6 piercing damage.\n\nAWAKENED\nWhen Agony reaches an awakened state, you gain the following benefits:\n+ The extra damage when you hit a marked creature increases to 1d8.\n+ A marked creature has disadvantage on Constitution checks and Constitution saving throws.\n+ When you reduce a creature to 0 hit points with an attack using Agony, you can immediately make an additional melee attack with this weapon as a bonus action.\n\nEXALTED\nWhen Agony reaches an exalted state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +3.\n+ The extra damage when you hit a marked creature increases to 2d8.\n+ When you score a critical hit with this weapon, the target must succeed on a DC 17 Wisdom saving throw or become frightened of you for 1 minute. On a success, the target is immune to this effect for 24 hours.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.202"
+    },
+    {
+      "name": "Armor of the Valiant Soul",
+      "type": "Armor (scale)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This antique armor forged from jade and black-dragon scales was once worn by J'mon Sa Ord of Ank'Harel.\n\nDormant\nWhile the Armor of the Valiant Soul is in a dormant state, you gain a +1 bonus to AC while wearing it. You can also cast the command spell (save DC 14) while attuned to this armor. Once this property is used, it can't be used again until you finish a long rest.\n\nAWAKENED:\nWhen the Armor of the Valiant Soul reaches an awakened state, you gain the following benefits:\n+ The AC bonus of the armor increases to +2.\n+ You have resistance to acid damage while wearing this armor.\n+ You are immune to the frightened condition while wearing this armor.\n+ The spell save DC for the armor's command spell increases to 16, and the spell can target up to three creatures.\n\nEXALTED\nWhen the Armor of the Valiant Soul reaches an exalted state, you gain the following benefits:\n+ The AC bonus of the armor increases to +3.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Cabal's Ruin",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This cloak is made of heavy dark cloth trimmed with golden patterns, and occasionally shimmers with sparks of arcane energy. It was once worn by the famed gunslinger Percival Fredrickstein von Musel Klos de Rolo III of Whitestone. DORMANT While Cabal\u2019s Ruin is in a dormant state, the cloak has 4 charges and it regains 1d4 expended charges daily at dawn. When you hit with an attack, you can expend any number of charges from the cloak, with the attack dealing an extra 1d6 lightning damage per charge expended. If your attack strikes multiple targets, you choose one target that takes this extra damage. When you are targeted by an enemy\u2019s spell, you can use your reaction to absorb a portion of the spell\u2019s energy into the cloak. The spell affects you normally, but the cloak regains a number of charges equal to the level of the spell. This property can't be used again until you finish a short or long rest. AWAKENED When Cabal's Ruin reaches an awakened state, you gain the following benefits: You have advantage on saving throws against spells and other magical effects while wearing this cloak. The cloak has 6 charges and it regains 1d4 +2 expended charges daily at dawn. When you use the cloak to absorb a spell, you gain resistance to one type of damage dealt by the spell (your choice). This resistance then lasts until the end of your next turn. EXALTED When Cabal's Ruin reaches an exalted state, you gain the following benefit: + The cloak has 10 charges and it regains 1d6 +4 expended charges daily at dawn.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Circlet of Barbed Vision",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": "by a creature of non-good alignment",
+      "description": "When you don this circlet of gnarled onyx, black barbs dig into your head, imparting power to you as the circlet twists your appearance to amuse the Spider Queen. The current resting place of the Circlet of Barbed Vision is unknown, but rumor has it that a spectral assassin known as the Inevitable End seeks this relic. DORMANT While the Circlet of Barbed Vision is in a dormant state, you have advantage on initiative rolls while you wear it, but your Charisma score decreases by 2. Your Charisma score returns to normal if you remove the circlet, but you take 4d6 psychic damage when you do so. Additionally, when you make an attack roll, you can use your reaction to gain a +5 bonus to the roll. You make this choice after you see the roll but before the GM says whether the attack hits or misses. You can't use this property again until you finish a short or long rest. AWAKENED When the Circlet of Barbed Vision reaches an awakened state, you gain the following benefits: + You have resistance to poison damage, and you are immune to the poisoned condition. + Your ability to gain a bonus to an attack roll can be used twice between rests. EXALTED When the Circlet of Barbed Vision reaches an exalted state, you gain the following benefits: + You are immune to poison damage. + You have truesight out to a range of 60 feet. + Your ability to gain a bonus to an attack roll can be used three times between rests.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.203"
+    },
+    {
+      "name": "Condemner",
+      "type": "Weapon (heavy crossbow)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This shadow-touched hand crossbow once served as the weapon of choice for the legendary assassin Todora. Though few know this, Condemner is now in the possession of an equally infamous assassin named Ixrattu Khar (see her statistics in chapter 6). DORMANT When Condemner is in a dormant state, you gain a +1 bonus to attack and damage rolls made with this magic weapon. When you hit with an attack using this weapon, the target takes an extra 1d4 poison damage. Additionally, if you hit with an attack using this weapon, you can activate one of the following effects instead of dealing damage: + You cast fog cloud centered on the target's space. + You cast silence centered on the target's space. When an effect is used, it can't be used again until you finish a short or long rest. AWAKENED When Condemner reaches an awakened state, you gain the following benefits: + The weapon's bonus to attack and damage rolls increases to +2. The extra poison damage dealt by the weapon increases to 1d6. You gain an additional effect that can be triggered in place of dealing damage when you hit with an attack: You cast hold person on the target (save DC 15). This effect can\u2019t be used again until you finish a short or long rest. EXALTED When Condemner reaches an exalted state, you gain the following benefits: + The weapon's bonus to attack and damage rolls increases to +3. The extra poison damage dealt by the weapon increases to 1d8. The save DC for the weapon's hold person spell increases to 17. + You gain an additional effect that can be triggered in place of damage when you hit with an attack: You cast the blight spell on the target (save DC 17). This effect can\u2019t be used again until you finish a short or long rest.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Deathwalker's Ward",
+      "type": "Armor",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This beautiful black leather armor is made from hide that is as tough as dragon scales, and has a mantle bearing the black feathers of the Matron of Ravens. Legends say that it has been worn by a number of that deity's champions over the centuries\u2014most recently, Vax'ildan of Vox Machina.\n\nDORMANT\nWhen the Deathwalker\u2019s Ward is in a dormant state, you gain a +1 bonus to AC and you have advantage on death saving throws while wearing the armor.\n\nAWAKENED\nWhen the Deathwalker's Ward reaches an awakened state, you gain the following benefits:\n+ The AC bonus of the armor increases to +2\n+ While wearing the armor, you have resistance to one of the following damage types of your choice: acid, cold, fire, lightning, necrotic, or poison. You can change the damage type when you finish a short rest\n\nEXALTED\nWhen the Deathwalker's Ward reaches an exalted state, you gain the following benefit:\n+ The AC bonus of the armor increases to +3.\n+ As a bonus action, you grow large black raven wings that grant you a flying speed of 60 feet for 1 hour. Once this property is used, it can't be used again until you finish a long rest.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Fenthras",
+      "type": "Weapon (longbow)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This gorgeous longbow made of everbark from the Fey Realm flexes and shifts like a living entity. It is said to have been wielded by the legendary ranger Vex\u2019ahlia against great evils.\n\nDORMANT\nWhile Fenthras is in a dormant state, you gain a +1 bonus to attack and damage rolls made with this magic weapon.\nWhen you make an attack with Fenthras, you can declare it an oracle shot, allowing you to experience the area around the arrow using your normal senses for 10 minutes. Once this property is used, it can't be used again until you finish a short or long rest.\nAdditionally, when a creature is killed by an attack using this weapon, a six-foot-tall tree rapidly grows out of the corpse over the next minute. The tree is rooted in the ground to make the body difficult to move, but does not permanently damage the corpse or its organs.\n\nAWAKENED\nWhen Fenthras reaches an awakened state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +2. Additionally, when you hit with an attack using this weapon, the target takes an extra 1d4 lightning damage.\nWhen you hit with an attack using this weapon, you can declare it a bramble shot. The attack deals an extra 3d8 piercing damage, and the target must succeed on a DC 15 Strength saving throw or become restrained by steely brambles that burst from the arrow. A restrained target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Once this property is used, it can\u2019t be used again until you finish a short or long rest.\n\nEXALTED\nWhen Fenthras reaches an exalted state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +3.\n+ The extra lightning damage dealt by attacks using the bow increases to 1d6.\n+ You can declare a bramble shot twice between rests, and the saving throw DC increases to 17.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Honor's Last Stand",
+      "type": "Armor (shield)",
+      "rarity": "legendary",
+      "requires_attunement": "by a creature of non-evil alignment",
+      "description": "This massive silvered shield bears the crest of the Platinum Dragon and never tarnishes. Its metal is always warm to the touch.\n\nDORMANT\nWhile Honor\u2019s Last Stand is in a dormant state, you gain a +1 bonus to AC while holding the shield. This bonus is in addition to the shield\u2019s normal bonus to AC. You also can\u2019t be knocked prone while bearing this shield.\n\nAWAKENED\nWhen Honor\u2019s Last Stand reaches an awakened state, you gain the following benefits:\n+ The shield\u2019s bonus to AC increases to +2.\n+ If you successfully shove a creature while holding this shield, that creature takes 2d6 force damage.\n+ When a creature within 5 feet of you misses you with an attack, you can attempt to shove that creature as a reaction.\n\nEXALTED\nWhen Honor\u2019s Last Stand reaches an exalted state, you gain the following benefit:\n+ The shield\u2019s bonus to AC increases to +3.\n+ When you successfully shove a creature while holding this shield, you can move it up to 15 feet away from you.\n+ As a bonus action, you can protect an ally within 5 feet of you, granting that ally a +3 bonus to AC until the start of your next turn or until they are no longer within 5 feet of you.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Kiss of the Changebringer",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "When you make an attack roll, ability check, or saving throw, you can roll an additional d20. You can choose to do so after you make the attack roll, ability check, or saving throw, but before the outcome is determined. You choose which of the d20s to use for your roll. This property of the amulet can't be used again until you finish a short or long rest.\n\nDORMANT\nWhile the Kiss of the Changebringer is in a dormant state, you gain a +1 bonus to saving throws. You can use an action to cast the blink spell on yourself. This property of the amulet can't be used again until you finish a long rest.\n\nAWAKENED\nWhen the Kiss of the Changebringer reaches an awakened state, you gain the following benefits:\n+ The bonus to saving throws increases to +2.\n+ You are immune to the poisoned condition.\n\nEXALTED\nWhen the Kiss of the Changebringer reaches an exalted state, you gain the following benefits:\n+ The bonus to saving throws increases to +3.\n+ You are immune to the paralyzed and petrified conditions.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Mythcarver",
+      "type": "Weapon (longsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This incredible silvered blade once belonged to the legendary White Duke, a founding member of the Golden Grin, and many other master bards before him, It resonates with nearby musical tones. In the modern era, it is best known as the personal weapon of famed bard Scanlan Shorthalt.\n\nDORMANT\nWhile Mythcarver is in a dormant state, you gain a +1 bonus to attack and damage rolls made with this magic weapon. This longsword's enchantments and light construction also grant it the Finesse property, which allows you to use either your Strength or Dexterity modifier for the attack and damage rolls when making an attack with this weapon.\nAdditionally, when you target an ally with your Bardic Inspiration feature, you gain advantage on attacks with this weapon until the end of your turn.\n\nAWAKENED\nWhen Mythcarver reaches an awakened state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +2. Additionally, when you hit with an attack using this weapon, the target takes an extra 1d6 force damage.\nWhen you use your Bardic Inspiration to affect an enemy while wielding this sword, that enemy has disadvantage on their next saving throw.\n\nEXALTED\nWhen Mythcarver reaches an exalted state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +3.\nAs an action, you let the spirit of the sword overtake your body and guide your strikes. You make 4 melee attacks with the sword, then gain 1 level of exhaustion. Once this property is used, it can't be used again until you finish a long rest.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Plate of the Dawnmartyr",
+      "type": "Armor (plate)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Beautiful silver scrollwork and priceless cut rubies adorn this set of brass-and-gold armor. Legend holds that it was worn by Duana, High Priest of the Dawnfather, when she was martyred in the Battle of Ghor Dranas in the final days of the Calamity. In more recent times, it was worn by Pike Trickfoot, a legendary cleric of the Everlight, while fighting against the Chroma Conclave and the Whispered One.\n\nDORMANT\nWhile the Plate of the Dawnmartyr is in a dormant state, you gain a +1 bonus to AC while wearing it. When a creature within 5 feet of you hits you with a melee attack, you can use your reaction to rebuke that creature, dealing it 1d6 fire damage.\n\nAWAKENED\nWhen the Plate of the Dawnmartyr reaches an awakened state, you gain the following benefits:\n+ The armor's bonus to AC increases to +2.\n+ You are immune to the frightened condition.\n+ You have resistance to fire damage.\n+ The fire damage you deal when you rebuke an attacker increases to 2d6.\n\nEXALTED\nWhen the Plate of the Dawnmartyr reaches an exalted state, you gain the following benefits:\n+ The armor's bonus to AC increases to +3.\n+ When you rebuke an attacker, you can choose to deal either fire damage or radiant damage.\n+ When you are reduced to 0 hit points, you can choose to have a blast of healing flame surround you. You regain 1 hit point and are lifted to your feet. Each enemy within 10 feet of you takes 2d6 fire damage or radiant damage (your choice). This property of the armor can't be used again until you finish a long rest.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Pyremaul",
+      "type": "Weapon (maul)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "As an action, you can slam Pyremaul into the ground to cast the burning hands spell at 2nd level (save DC 15). You can't use this property again until you finish a short or long rest. Whenever you score a critical hit with this weapon, the target must succeed on a DC 15 Strength saving throw or be knocked prone.\n\nEXALTED\nWhen Pyremaul reaches an exalted state, you gain the following benefits:\nThe weapon's bonus to attack rolls increases to +3.\nThe extra fire damage dealt by the weapon increases to 3d6.\nWhen you cast burning hands with the weapon, you do so at 3rd level and the save DC increases to 17.\nWhen you score a critical hit with this weapon, the saving throw to avoid being knocked prone increases to 17. You also roll an extra 3d6 fire damage when determining the extra damage for the critical hit.\nWhen you kill a creature with an attack using this weapon, you can take 10d10 fire damage and immolate the creature's corpse. This damage can't be reduced in any way, and you die if this damage reduces you to 0 hit points. The immolated creature and everything it is wearing and carrying, except magic items, are reduced to a pile of ash. The creature can be restored to life only by means of a true resurrection or a wish spell. You can't use this property of the maul again until 7 days have passed.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Spire of Conflux",
+      "type": "Staff",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "A powerful relic passed down from generation to generation of Ashari leaders, the Spire of Conflux was lost over three centuries ago when Joran the Sea-Speaker, a respected leader of the Water Ashari, was devoured by a demon of the Abyss. It was rediscovered by the legendary druid Keyleth of Zephrah, Voice of the Tempest. However, rumors swirl that she is seeking another hero to wield it\u2014one who can travel the land and do good in small ways as she once did.\n\nDormant\nWhile the Spire of Conflux is in a dormant state, the staff has 8 charges and regains 1d4 + 2 expended charges daily at dawn. While holding the staff, you can expend 1 or more of its charges to cast one of the following spells from it, using your spell save DC: burning hands (1 charge) or fireball (3 charges). Additionally, while holding this staff, you have a +1 bonus to spell attack rolls and your spell save DC increases by 1.\n\nAWAKENED\nWhen the Spire of Conflux reaches an awakened state, you gain the following benefits:\nThe staff has 12 charges, and it regains 1d6 +2 expended charges daily at dawn.\nYou can also spend charges to cast the following spells from the staff: conjure elemental (5 charges) or ice storm (4 charges).\nWhen you cast a spell that deals bludgeoning, cold, fire, lightning, or thunder damage and you roll a 1 on a damage die, you can reroll the die and must use the new roll.\n\nEXALTED\nWhen the Spire of Conflux reaches an exalted state, you gain the following benefits:\nThe staff has 20 charges, and it regains 1d6 + 4 expended charges daily at dawn.\nYou can also spend charges to cast the following spells from the staff: chain lightning (6 charges) or fire storm (7 charges).\nThe bonus to spell attack rolls and your spell save DC increases to +2.",
+      "source": "Tal'Dorei Campaign Setting: Reborn p.209"
+    },
+    {
+      "name": "Star Razor",
+      "type": "Weapon (longsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "The thick, grooved blade of this shining silver longsword is lined with etched runes that sparkle blue in the light. Star Razor\u2014known also as Dwueth'var\u2014was thought to have been destroyed or lost after the Calamity, but new rumors suggest that it might be wielded by a half-orc somewhere in Wildemount.\n\nDORMANT\nWhile Star Razor is in a dormant state, you can hold this magic longsword and use a bonus action to speak the command word Galas-var, causing the sword to emit a pale blue glow that sheds bright light in a 20-foot radius and dim light for an additional 20 feet. This glow lasts until you use a bonus action to speak the command word again, or until you drop or sheathe the sword.\nWhile this longsword is glowing, you gain a +1 bonus to attack and damage rolls made with the weapon, and you have resistance to radiant damage.\nYou can cast the faerie fire spell from the weapon as an action, requiring no components (save DC 13). Once a spell has been cast using Star Razor, that spell can't be cast from the sword until the next dawn.\n\nAWAKENED\nWhen Star Razor reaches an awakened state, you gain the following benefits:\nThe weapon's bonus to attack and damage rolls increases to +2.\nWhen a creature within 5 feet of you hits you with a melee attack, you can use your reaction to create a burst of radiance from the sword, dealing 1d8 radiant damage to the attacker.\nYou can cast the see invisibility spell from the sword as an action, and the save DC for spells cast using the sword increases to 15.\n\nEXALTED\nWhen Star Razor reaches an exalted state, you gain the following benefits:\nThe weapon's bonus to attack and damage rolls increases to +3.\nThe burst of radiance you can create as a reaction when hit with a melee attack deals 1d12 radiant damage, and you can immediately teleport to an unoccupied space you can see within 15 feet of you as part of the same reaction.\nYou can cast the fly spell from the sword as an action, and the save DC for spells cast using the sword increases to 17.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Titanstone Knuckles",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Carved from the heartstone of a slain earth primordial, these gauntlets bestow immeasurable might to their wearer. In recent times, they were wielded by the legendary barbarian Grog Strongjaw, who continues to use them as he seeks worthy challengers across Tal'Dorei and Exandria.\n\nDormant\nWhile the Titanstone Knuckles are in a dormant state, your Strength score becomes 22 while you wear these gauntlets. Additionally, your weapon attacks deal double damage to objects and structures.\n\nAWAKENED\nWhen the Titanstone Knuckles reach an awakened state, they gain the following properties:\nYour Strength score becomes 24.\n+ You can use an action to cast the enlarge/reduce spell from the gauntlets on yourself (enlarge only), with a duration of 10 minutes. This property of the gauntlets can't be used again until you finish a long\n\nEXALTED\nWhen the Titanstone Knuckles reach an exalted state, they gain the following properties:\n+ Your Strength score becomes 26.\n+ While you are under the effect of the enlange/reduce spell cast by the gauntlets, you have resistance to cold, fire, lightning, and thunder damage.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Whisper",
+      "type": "Weapon (dagger)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Forged with a mercurial metal accidentally drawn from the Realms Beyond, this dagger shimmers with an unsettling sourceless light. It was once wielded by Vax'ildan, a legendary champion of the Matron of Ravens. Two raven feathers are linked to its pommel as a memento of its former bearer.\n\nDORMANT\nWhile Whisper is in a dormant state, you gain a +1 bonus to attack and damage rolls made with this magic weapon.\nAdditionally, when you score a critical hit with this dagger, the target must succeed on a DC 13 Wisdom saving throw or become frightened of you for 1 minute. On a success, the target is immune to this effect for 24 hours.\n\nAWAKENED\nWhen Whisper reaches an awakened state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +2. Additionally, when you hit with an attack using this dagger, the target takes an extra 1d6 psychic damage.\n+ The DC to resist being frightened from a critical hit increases to 15.\n\nEXALTED\nWhen Whisper reaches an exalted state, you gain the following benefits:\n+ The weapon's bonus to attack and damage rolls increases to +3, and the extra psychic damage deals increases to 148.\nThe DC to resist being frightened from a critical hit increases to 17.\n+ When this dagger is used to make a ranged attack, you can choose to transform into shadow and merge with the blade as part of the action used to attack, teleporting to another location. If the attack hits, you appear in an unoccupied space of your choice within 5 feet of the target. If the attack misses, you appear where the GM determines the dagger lands (typically within 1d6 * 5 feet of the target). In either case, you appear with the dagger in your hand.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Wraps of Dyamak",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": "by a monk",
+      "description": "Created and wielded by the ancient warrior-monk Dyamak, these thick strips of enchanted cloth are stained to appear dark crimson with blood of unknown origin. The current resting place of the wraps is unknown.\n\nDORMANT\nWhen the Wraps of Dyamak are in a dormant state, you gain a +1 bonus to attack and damage rolls made with your unarmed strike while wearing them.\nIn addition, when you finish a short or long rest, you gain a number of temporary hit points equal to your total number of ki points.\n\nAWAKENED\nWhen the Wraps of Dyamak reach an awakened state, they gain the following properties:\n+ The bonus to attack and damage rolls with your unarmed strike increases to +2.\n+ You can cast the misty step spell from the wraps as a bonus action, vanishing in a cloud of crimson mist. This property of the wraps can't be used again until you finish a short or long rest, or until you score a critical hit with an unarmed strike against a hostile creature.\n\nEXALTED\nWhen the Wraps of Dyamak reach an exalted state, they gain the following properties:\nThe bonus to attack and damage rolls with your unarmed strike increases to +3.\nWhen you hit with an unarmed strike, you can choose to make the attack a ravenous strike. The target takes an extra 6d6 necrotic damage, and you regain hit points equal to the amount of necrotic damage dealt. This property of the wraps can't be used again until you finish a long rest, or until you score a critical hit with an unarmed strike against a hostile creature.",
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Dynamite",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "6d6 fire",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 0,
+      "source": "TCSR"
+    },
+    {
+      "name": "Gluebomb",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 0,
+      "source": "TCSR"
+    },
+    {
+      "name": "Stinkbomb",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 0,
+      "source": "TCSR"
+    },
+    {
+      "name": "Skyship",
+      "type": "Vehicle",
+      "subtype": "Airship",
+      "damage": "",
+      "properties": [],
+      "cost": "100,000 gp",
+      "weight": 0,
+      "source": "TCSR"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Black King",
+      "size": "Large",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "178 (17d10+85)",
+      "speed": "60 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 9,
+        "constitution": 20,
+        "intelligence": 18,
+        "charisma": 18,
+        "wisdom": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic",
+        "bludgeoning, piercing, slashing from nonmagical attacks that aren't adamantine"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": [
+        "Common"
+      ],
+      "challenge_rating": "10",
+      "xp": 5900,
+      "features": [
+        {
+          "name": "Immutable Form",
+          "description": "The golem is immune to any spell or effect that would alter its form."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The golem has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The golem's weapon attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The golem makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 19 (3d8+6) bludgeoning damage."
+        },
+        {
+          "name": "Slow (Recharge 5-6)",
+          "description": "The golem targets one or more creatures it can see within 10 ft. of it. Each target must make a DC 17 Wisdom saving throw against this magic. On a failed save, a target can't use reactions, its speed is halved, and it can't make more than one attack on its turn. In addition, the target can take either an action or a bonus action on its turn, not both. These effects last for 1 minute. A target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tal'Dorei Campaign Setting: Reborn p.92"
+    },
+    {
+      "name": "Adranach",
+      "size": "Huge",
+      "type": "construct",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "170 (20d12 + 40)",
+      "speed": "40 ft, fly 60 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 8,
+        "wisdom": 14,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "Strength": 11,
+        "Dexterity": 8
+      },
+      "skills": {
+        "Athletics": 11,
+        "Perception": 7
+      },
+      "damage_resistances": [
+        "damage from spells"
+      ],
+      "damage_immunities": [
+        "poison",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 17",
+      "languages": [
+        "understands the languages spoken by its creator but can\u2019t speak"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Arcane Leak",
+          "description": "When the adranach is reduced to half its hit point maximum (85 hit points), its mithral mask cracks and its arcane form begins to waver, creating a field of unstable magic around it. Any creature that starts its tum within 10 feet of the adranach or enters that area for the first time on a turn takes 10 (346) radiant damage. Additionally, if a creature casts a spell within this area, it must make a DC 14 ability check using its spelicasting ability. On a failure, the spell backfires, consuming the spell slot and dealing 3 (106) force damage to the caster for each level of the spell slot that was consumed."
+        },
+        {
+          "name": "Immutable Form",
+          "description": "The adranach is immune to any spell or effect that would alter its form."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The adranach has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The adranach\u2019s weapon attacks are magical"
+        },
+        {
+          "name": "Powerful Build",
+          "description": "The adranach counts as one size larger when determining its carrying capacity and the weight it can push, drag, or lift"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The adranach makes two attacks with its claws."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +11 to hit, one target, reach 5 ft. Hit: 32 (4d12 + 6) slashing damage."
+        },
+        {
+          "name": "Force Bolts (Recharge 5-6)",
+          "description": "The adranach targets up to four creatures it can see within 60 feet of it. Each target must succeed on a DC 18 Dexterity saving throw or take 28 (8d6) force damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tal'Dorei Campaign Setting: Reborn p.223-224"
+    },
+    {
+      "name": "Ashari Firetamer",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "any",
+      "armor_class": 17,
+      "hit_points": "92 (16d8 + 20)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 18,
+        "charisma": 16
+      },
+      "skills": [
+        "Perception +7",
+        "Survival +7"
+      ],
+      "damage_resistances": "fire",
+      "senses": "passive Perception 17",
+      "languages": "Common, Ignan",
+      "challenge_rating": 5,
+      "features": [
+        {
+          "name": "Elemental Attunement",
+          "description": "The Ashari firetamer has advantage on saving throws against spells and magical effects."
+        },
+        {
+          "name": "Fire Affinity",
+          "description": "The firetamer can cast control flames at will. Its spellcasting ability is Wisdom."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Scorching Blast",
+          "description": "Ranged Spell Attack: +7 to hit, range 120 ft., one target. Hit: 14 (4d6) fire damage."
+        },
+        {
+          "name": "Flame Wall",
+          "description": "The firetamer creates a wall of fire on a solid surface within 60 feet. The wall is 40 feet long, 10 feet high, and 5 feet thick. Creatures within 10 feet take 3d8 fire damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Ashari Stoneguard",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "any",
+      "armor_class": 15,
+      "hit_points": "152 (16d8 + 80)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 10,
+        "constitution": 20,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 10
+      },
+      "damage_resistances": "acid, lightning",
+      "senses": "tremorsense 30 ft., passive Perception 12",
+      "languages": "Common, Terran",
+      "challenge_rating": 6,
+      "features": [
+        {
+          "name": "Earth Glide",
+          "description": "The stoneguard can burrow through nonmagical, unworked earth and stone. While doing so, it doesn't disturb the material."
+        },
+        {
+          "name": "Adamantine Skin",
+          "description": "Critical hits against the stoneguard are treated as normal hits."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The stoneguard makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 4) bludgeoning damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Ashari Waverider",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "any",
+      "armor_class": 14,
+      "hit_points": "77 (14d8 + 14)",
+      "speed": "30 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 12
+      },
+      "damage_resistances": "cold",
+      "senses": "passive Perception 13",
+      "languages": "Common, Aquan",
+      "challenge_rating": 4,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The waverider can breathe air and water."
+        },
+        {
+          "name": "Water Affinity",
+          "description": "The waverider can cast shape water at will and has advantage on spell attacks against creatures in water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Tidal Strike",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage plus 4 (1d8) cold damage."
+        },
+        {
+          "name": "Healing Tides (1/Day)",
+          "description": "The waverider touches a creature and causes it to regain 21 (6d6) hit points."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Cinderslag Elemental",
+      "size": "Large",
+      "type": "elemental",
+      "alignment": "neutral",
+      "armor_class": 15,
+      "hit_points": "102 (12d10 + 36)",
+      "speed": "20 ft., burrow 40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 17,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 6
+      },
+      "damage_immunities": "fire, poison",
+      "condition_immunities": "exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": "Ignan, Terran",
+      "challenge_rating": 5,
+      "features": [
+        {
+          "name": "Fire Aura",
+          "description": "Any creature that starts its turn within 10 feet of the elemental takes 5 (1d10) fire damage."
+        },
+        {
+          "name": "Death Burst",
+          "description": "When the elemental dies, it explodes. Each creature within 15 feet must make a DC 14 Dexterity saving throw, taking 14 (4d6) fire damage on a failure."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The elemental makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 12 (2d8 + 2) bludgeoning damage plus 7 (2d6) fire damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Cold Snap Spirit",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "hit_points": "65 (10d8 + 20)",
+      "speed": "0 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "damage_resistances": "cold, necrotic; bludgeoning, piercing, slashing from nonmagical attacks",
+      "damage_immunities": "poison",
+      "condition_immunities": "charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained",
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": "Common",
+      "challenge_rating": 4,
+      "features": [
+        {
+          "name": "Cold Aura",
+          "description": "Any creature that starts its turn within 10 feet of the spirit takes 4 (1d8) cold damage."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The spirit can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Life Drain",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) necrotic damage. The target's hp maximum is reduced by the damage taken."
+        },
+        {
+          "name": "Freezing Breath (Recharge 5-6)",
+          "description": "The spirit exhales a blast of cold in a 15-foot cone. Each creature in that area must make a DC 13 Constitution saving throw, taking 21 (6d6) cold damage on a failure."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Cyclops Stormcaller",
+      "size": "Large",
+      "type": "giant",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "hit_points": "85 (10d10 + 30)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 8,
+        "wisdom": 14,
+        "charisma": 10
+      },
+      "senses": "passive Perception 12",
+      "languages": "Giant",
+      "challenge_rating": 5,
+      "features": [
+        {
+          "name": "Poor Depth Perception",
+          "description": "The cyclops has disadvantage on attack rolls against targets more than 30 feet away."
+        },
+        {
+          "name": "Storm Magic",
+          "description": "The cyclops stormcaller can cast call lightning once per day."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The cyclops makes two greatclub attacks."
+        },
+        {
+          "name": "Greatclub",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage."
+        },
+        {
+          "name": "Lightning Bolt (3/Day)",
+          "description": "Ranged Spell Attack: +5 to hit, range 120 ft., one target. Hit: 16 (3d10) lightning damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Cobalt Golem",
+      "size": "Huge",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 21,
+      "hit_points": "300 (24d12 + 144)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 28,
+        "dexterity": 9,
+        "constitution": 22,
+        "intelligence": 3,
+        "wisdom": 11,
+        "charisma": 1
+      },
+      "damage_immunities": "poison, psychic; bludgeoning, piercing, slashing from nonmagical attacks",
+      "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": "understands commands but can't speak",
+      "challenge_rating": 14,
+      "features": [
+        {
+          "name": "Magic Resistance",
+          "description": "The golem has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Immutable Form",
+          "description": "The golem is immune to any spell or effect that would alter its form."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The golem makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +14 to hit, reach 10 ft., one target. Hit: 25 (4d8 + 9) bludgeoning damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Forge Guardian",
+      "size": "Gargantuan",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 24,
+      "hit_points": "420 (24d20 + 168)",
+      "speed": "50 ft.",
+      "ability_scores": {
+        "strength": 30,
+        "dexterity": 10,
+        "constitution": 24,
+        "intelligence": 3,
+        "wisdom": 11,
+        "charisma": 1
+      },
+      "damage_immunities": "fire, poison; bludgeoning, piercing, slashing from nonmagical attacks",
+      "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": "understands commands but can't speak",
+      "challenge_rating": 18,
+      "features": [
+        {
+          "name": "Fire Absorption",
+          "description": "Whenever the forge guardian is subjected to fire damage, it takes no damage and instead regains hp equal to the fire damage dealt."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The forge guardian has advantage on saving throws against spells and magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The forge guardian makes two slam attacks and one stomp attack."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +16 to hit, reach 10 ft., one target. Hit: 30 (4d10 + 10) bludgeoning damage plus 10 (3d6) fire damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Mage Hunter Golem",
+      "size": "Large",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 20,
+      "hit_points": "243 (18d10 + 144)",
+      "speed": "30 ft., fly 20 ft.",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 9,
+        "constitution": 26,
+        "intelligence": 3,
+        "wisdom": 11,
+        "charisma": 1
+      },
+      "damage_immunities": "poison, psychic; bludgeoning, piercing, slashing from nonmagical attacks",
+      "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "senses": "truesight 60 ft., passive Perception 10",
+      "languages": "understands commands but can't speak",
+      "challenge_rating": 15,
+      "features": [
+        {
+          "name": "Antimagic Cone",
+          "description": "The golem emits a 60-foot antimagic cone. Spells and magical effects within the cone are suppressed."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The golem has advantage on saving throws against spells."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The golem makes two claw attacks."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +12 to hit, reach 10 ft., one target. Hit: 24 (4d8 + 7) slashing damage. If the target is concentrating on a spell, it has disadvantage on its Constitution save."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Platinum Golem",
+      "size": "Large",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 21,
+      "hit_points": "189 (18d10 + 90)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 10,
+        "constitution": 21,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 1
+      },
+      "damage_immunities": "poison, radiant; bludgeoning, piercing, slashing from nonmagical attacks",
+      "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": "understands commands but can't speak",
+      "challenge_rating": 13,
+      "features": [
+        {
+          "name": "Radiant Aura",
+          "description": "At the start of each of the golem's turns, each creature within 10 feet takes 7 (2d6) radiant damage."
+        },
+        {
+          "name": "Divine Core",
+          "description": "When the golem is reduced to 0 hp, it explodes. Each creature within 30 feet must make a DC 18 Dexterity saving throw, taking 28 (8d6) radiant damage on a failure."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The golem makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 20 (3d8 + 6) bludgeoning damage plus 9 (2d8) radiant damage."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Guardian Tofor Brotoras",
+      "race": "Dragonblood",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Stern, honorable, and quick to anger, Tofor is proud to serve on the council. After losing many friends (and one of her own arms) in the struggles against the Chroma Conclave, she took the vulnerability of the city to heart, swearing never to allow such a thing to happen again. She is a beloved hero of the war against the Chroma Conclave and has served on the council since before the death of the Last Sovereign. Most folk in Emon suspect she'll win reelection until the day she dies.",
+      "role": "Council Member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Seeker Odessa Tal'Dorei",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "When the eldest daughter of the Last Sovereign campaigned for the Master of Information's seat, its current holder was Seeker Assum Emring, a loyal servant of her father's. He bowed out of the race, and his blithe quote made headlines in Emon: \"I taught her everything she knows.\" She won in a landslide. Odessa wields the dual blades of Assum's spy network and the mercenary agents of the Clasp with practiced finesse. Nevertheless, her name and the legacy of her father's martyrdom weigh heavily upon her. As Seeker, Odessa is calm, methodical, and laconic, but she carries a dignified sorrow.",
+      "role": "Council Member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Arcanist Allura Vysoren",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Allura Vysoren has held the position of Master of Arcana since before the Chroma Conclave's attack, and is held in the esteem of Tal'Dorei's people\u2014mages and common folk alike. As a member of the Arcana Pansophical, she is also increasingly worried as politicians fall in debt to the League of Miracles. After decades of investigating supernatural abnormalities herself, age has finally forced her to limit her adventuresome excursions. She now is one of the council's foremost employers of adventurers.",
+      "role": "Council Member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Arbiter Brom Goldhand",
+      "race": "Human",
+      "class_name": "Master of Law",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "As stone-faced, gray-haired, flame-scarred cleric of the Knowing Mentor, Brom is as mysterious as he is proficient with law. One thing is clear: he is dedicated to keeping the realm just and orderly, and there are few who would dare challenge his judgement.",
+      "role": "Council member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Hearthmaker Edelbern Cleareyes",
+      "race": "Goliath",
+      "class_name": "Master of Development",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "As a goliath of the Rivermaw nomads, no one expected Edelbern to have an interest in civic architecture. Yet, after growing up in Westruun while it was occupied by the Herd of Storms some twenty years ago, he found that he preferred the beauty of stone towers to towering pines. He also possessed a remarkable gift of mathematical acuity, and used his skills to set Westruun\u2014and eventually all of Tal'Dorei\u2014on the path of reconstruction. Edelbern is also idealistic to a fault, and has, in his dedication to restoration, been manipulated into handing numerous lucrative contracts to the League of Miracles, allowing them to amass greater and greater power.",
+      "role": "Council member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Coinmistress Vex'ahlia de Rolo",
+      "race": "Half-elf",
+      "class_name": "Master of Commerce",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "As a member of Vox Machina and hero of the realm, Vex'ahlia could help Tal'Dorei in any number of ways. She already held a ceremonial title in Whitestone as Grand Mistress of the Grey Hunt. Yet when she and her husband pushed for Whitestone to be formally recognized as a constituent city of the Republic of Tal'Dorei, all who knew her name (and her legendary financial savvy) clamored for her to be elected to the council as Coinmistress. She took to the duty with aplomb, and fights hard to ensure that Emon never gets the bad end of a deal when gold is involved.",
+      "role": "Council member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Ambassador Syldor Vessar",
+      "race": "Elf",
+      "class_name": "Ambassador from Syngorn",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Vex'ahlia's elven father has served as his city's ambassador to Emon for well over a century, and requested to be appointed a seated ambassador as soon as the office was created. Though he is otherwise a staunch traditionalist, Syldor was inspired by his brave children to move past his old racial prejudices and drive his homeland to be less bigoted and xenophobic\u2014learning from his own mistakes as a father to two half-elven children. His relationship with his elder daughter is still strained, and it is a newsworthy occasion when they vote in accord.",
+      "role": "Ambassador",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Ambassador Deirdrik Greyspine",
+      "race": "Dwarf",
+      "class_name": "Ambassador from Kraghammer",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The youngest son of the ruling House Greyspine of Kraghammer, Deirdrik has little hope of being elected Ironkeeper. Instead, this ambitious young dwarf\u2014a scant seventy years old\u2014left his home to win political renown in the national arena. He is a romantic idealist at heart and always votes for bold new policies, but doesn't always think through the consequences of his actions.",
+      "role": "Ambassador",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Ambassador Keyleth of the Ashari",
+      "race": "Half-elf",
+      "class_name": "Ambassador from Zephrah",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A legendary archdruid and member of Vox Machina, Keyleth is both leader of the Air Ashari and ambassador for all Tal'Dorei's Ashari peoples. She despises politics, and is focused entirely on improving the wellbeing of as many people as possible\u2014as well as involving the Ashari on the national stage. She spends most of her time in Zephrah, with her people\u2014including her father, Korrin, and her newly returned mother, Vilya\u2014but she can and will arrive in Emon at the drop of a hat, if Vex asks it of her.",
+      "role": "Ambassador",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Delegate Kel'jaia Uloeh",
+      "race": "Gnome",
+      "class_name": "Delegate from Syngorn",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Kel'jaia is a confident gnome with incredible strength and resilience\u2014both physical and emotional. She is thought by all to be the council's first choice for Master of War, should the time ever call for it. She was born in the Rifenmist Jungle and grew up amidst mercenaries who fought against the Iron Authority. After her commander was killed in battle, she traveled north to Syngorn to seek aid in her fight. She dreams of forging bonds of unity between her homeland and Tal'Dorei.",
+      "role": "Delegate",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.46"
+    },
+    {
+      "name": "Magus Seanor Wiles",
+      "race": "Human",
+      "class_name": "Wizard",
+      "subclass": "Enchanter",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A humble-looking traveler, Wiles delights in finding fresh and emerging talent and helping his new students refine their arcane gifts.",
+      "role": "Maker, and tutor",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.4"
+    },
+    {
+      "name": "Planerider Ryn",
+      "race": "Tiefling",
+      "class_name": "Wizard",
+      "subclass": "Conjurer",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This former pupil of Yurek Windseeker has grown into a master of planar travel. She likewise has taken an interest in the flow of magic across the world by means of ley lines. She's constantly on the move, traveling from plane to plane to conduct her research.",
+      "role": "Maker, and planar studies specialist",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.4"
+    },
+    {
+      "name": "Tinkerer Quash Dentdruggle",
+      "race": "Gnome",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Obsessed with the development of autonomous and living arcane constructs, Quash is usually holed up in his laboratory within Kraghammer.",
+      "role": "Construct specialist and Guide",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.4"
+    },
+    {
+      "name": "Elementalist Drake Thunderbrand",
+      "race": "Dwarf",
+      "class_name": "Wizard",
+      "subclass": "Evoker",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Driven to bind the physical elements of the chaotic planes to his will, Drake is a prodigy of new incantations in the field. He and Allura Vysoren are lifelong friends, and together they're renowned for achieving the impossible.",
+      "role": "Guide",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.4"
+    },
+    {
+      "name": "Realmseer Eskil Ryndarien",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Though he was a Maker for most of his life, Realmseer Ryndarien grew frustrated with the politics and factions of the Pansophical, eventually retiring to Westruun to pursue his own interests. These days, he has found a way to rejuvenate his aged body and is now renowned as a handsome and aloof man about town\u2014much to the annoyance of all who formerly knew him.",
+      "role": "Archmage and Maker emeritus",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.4"
+    },
+    {
+      "name": "Pa'tice, Heart of the Mountain",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elderly leader of the Earth Ashari, Pa'tice still shows vigor and strength to resist his age, having led his people through many very tough challenges. His stubbornness is legendary, and it's said even death has been forced to wait until Pa'tice sees it his proper time. Many believe that his druidic training will keep him alive until he himself chooses to let go of this mortal coil.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.49"
+    },
+    {
+      "name": "Korrin of Zephrah",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "His wife Vilya was lost while she undertook the Aramente, and when the previous Voice of the Tempest died of illness, Korrin was called upon to act as Voice until his daughter Keyleth came of age and completed her Aramente. Korrin was shocked when, Vilya suddenly returned, and now spends his days in disbelieving bliss, reunited with his long-lost wife. He is gentle with those who show honor, and merciless to those who threaten his people.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.49"
+    },
+    {
+      "name": "Vilya, Who Escaped Death",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Vilya disappeared on her Aramente nearly thirty years ago, and was presumed dead. Her daughter, Keyleth, took up her own Aramente ten years after Vilya left, and discovered from the Water Ashari of Vesrah that Vilya was killed by a kraken, and only her leg was able to be recovered. Less than a year ago, Vilya suddenly strode out of a tree in Zephrah, her leg replaced with a druidic prosthetic of her own creation, shocking all\u2014though none were more overwhelmed with emotion than her daughter and husband. Though Vilya never earned the title of Voice of the Tempest, she now aids her daughter in leading her people without the faintest trace of jealousy.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.49"
+    },
+    {
+      "name": "Keyleth, Voice of the Tempest",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hero of Tal'Dorei and member of Vox Machina, Keyleth completed her Aramente and took leadership among her people following the destruction of the Chroma Conclave. She seems to have not aged a day since Vox Machina's victory over the Whispered One. Since her beloved's death, she has kept busy to fill the void in her heart. From expanding the crisis orb network across the realm and building beautiful windmills in the Summit Peaks with Percy's aid to",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.49"
+    },
+    {
+      "name": "Lady Cassandra Johanna de Rolo",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Cassandra is Percival's younger sister, thought dead until he discovered her in the thrall of the Briarwoods. She now manages Whitestone's most pressing matters, with daily briefings from other members of the chamber, She is beloved throughout the city for her resilience and her decisive leadership.",
+      "role": "Guardian of Woven Stone",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting Reborn"
+    },
+    {
+      "name": "Cassandra de Rolo",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Human head of the Chamber of Whitestone. Cassandra is Percival's younger sister, thought dead until he discovered her in the thrall of the Briarwoods. She now manages Whitestone\u2019s most pressing matters, with daily briefings from other members of the chamber, She is beloved throughout the city for her resilience and her decisive leadership.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Lord Percival Fredrickstein von Musel Klossowski de Rolo III",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Human member of the Chamber of Whitestone. Percival is Cassandra's older brother, thought dead Vox Machina discovered him in a prison cell. His life was filled with countless joys and regrets. He has taken well to retirement from adventuring, and is renowned across Tal'Dorei for his creations.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Lady Vex'ahlia de Rolo",
+      "race": "Half-Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Half-Elf Member of the Chamber of Whitestone. Vex'ahlia is the Grand Mistress of the Grey Hunt, a title she has held since before she married Percival. Over the past twenty-four years, she has become a talented and respected leader of the Grey Hunters. And though the hunters use guns inspired by her husband\u2019s own designs, she still prefers to wield her trusty bow.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Grog Strongjaw",
+      "race": "Goliath",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Goliath friend. The noble, if simple, warrior of Vox Machina, no one really knows if Grog\u2019s title is a real title at all, or if Percy was just joking when he gave it to him. Grog likes it, and that's good enough for most people.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn"
+    },
+    {
+      "name": "Claret Director Alasterre de Vitrevos",
+      "race": "Human",
+      "class_name": "Cleric",
+      "subclass": "Blood Domain",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Calm and sanguine to a fault, Alasterre de Vitrevos is the youngest-ever director of Tal'Dorei's Claret Order. He sees his position as one he deserves without question, and is willing to use his command more boldly than his mentor, director emeritus Teresa Dulamar. He is frequently seen in the field, working with various adventuring parties and his own blood hunters to wipe out monsters wherever they emerge. The combination of his relaxed personality and his aggressive strategy may seem a contradiction at first glance, but those who know him see the truth of the immense self-assurance that lets him make hard decisions without hesitation. This quality is a strength when coolheaded leadership is needed in the thick of battle, but it can make him challenging to work with as an equal.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Director Emeritus Teresa Dulamar",
+      "race": "Dwarf",
+      "class_name": "Cleric",
+      "subclass": "Blood Domain",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The former head of Tal'Dorei's Claret Orders retired ten years ago after suffering a traumatic death in combat. Her soul accepted resurrection, but she took her defeat as a sign to let younger, fresher blood take her place. She remains a part of the Claret Orders to advise the current director on matters he is too young to have experienced himself. Though she displays a chilly demeanor, she simply keeps her compassionate side hidden from the untrusted riffraff.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Hunter Jorick Lamensh",
+      "race": "Human",
+      "class_name": "Blood Hunter",
+      "subclass": "Order of the Profane Soul",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Once among the greatest of all blood hunters, Jorick is now Director Emeritus Teresa Dulamar's personal bodyguard. He is still a capable member of the Order of the Profane Soul, and urges immediate, decisive action to destroy demons and devils whenever their occult activity is discovered.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Shenn",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A powerful illusionist, Shenn runs a far-reaching network of spies and informants. In his younger days, he was a canny negotiator who sought to spread the Clasp beyond Tal'Dorei. The arrival of the Myriad forced the Clasp onto the defensive, and he will never forgive them for souring his ambitions.",
+      "role": "Spireling of Secrets (Emon)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Warren",
+      "race": "Half-Orc",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Deadly duelist turned master assassin of the Clasp, Warren handles all contracts that involve kidnapping, assassination, and intimidation. He hates public appearances.",
+      "role": "Spireling of Blades (Emon)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Zilloa",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An accomplished burglar, Zilloa has risen to the head of all thieving, smuggling, and black-market dealings within the Clasp of Emon. She plays a dangerous game by enjoying folk hero status as the public liaison between the Clasp and the Tal'Dorei Council.",
+      "role": "Spireling of Shadows (Emon)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Gholesh",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A crass and ambitious man, Gholesh's appearance is a mystery as his face is always hidden behind a leather mask that resembles an ogre. He has secretly thrown in his lot with the League of Miracles and, with their backing, he aspires to take over the Clasp and enjoy all its wealth and prestige.",
+      "role": "Spireling of Shadows (Westruun)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Melchior",
+      "race": "Tiefling",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This clean-faced, curly-haired tiefling with pale blue skin and stubby horns may have a soft, babyish visage, but it belies their powerful physique. They are equally skilled with a sword, axe, or bow, and made their name in underground brawling rings before joining the Clasp.",
+      "role": "Spireling of Blades (Westruun)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "Spireling Fetch",
+      "race": "Halfling",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Creepy and unkempt in appearance, Fetch's gaunt face only distracts from his cunning and skills of keen manipulation.",
+      "role": "Spireling of Secrets (Westruun)",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.53"
+    },
+    {
+      "name": "The Wonderworker",
+      "race": "Humanoid",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Mysterious enactor of true miracles. All spellwrights hear the authoritative\u2014yet enigmatically distorted\u2014voice of the Wonderworker. The Wonderworker has supposedly appeared in the flesh only three times throughout the league's twenty-four-year history, as a humanoid draped in robes of starlight and wearing a mithral mask. In those moments, they have produced true miracles\u2014raising a castle from the ground in a matter of seconds, halting the rampaging silver dragon Saldarthoryn in her tracks and healing her twisted mind, and stopping the Center Slab of Kraghammer from collapsing into the Pits in a catastrophic mining accident that would have cost countless lives.",
+      "role": "Major NPC",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.58"
+    },
+    {
+      "name": "Blaine Kraverrogg",
+      "race": "Half-halfling",
+      "class_name": "Necromancer",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Halt-halfling mercenary necromancer. Short and brimming with a malign lust for power, Blaine appears to be a short, skeletally skinny human who hides his lack of stature in billowing black-and-gold robes. He is a member of the Remnants, but pays his bills by doing undercover grave-robbing for the league. He longs to reach the bottom of Shadebarrow, a mysterious crypt somewhere on the Dividing Plains. His obsession with Shadebarrow stems from a hunger for the power of the Demon Prince of Undeath.",
+      "role": "Major NPC",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.58"
+    },
+    {
+      "name": "Honor Kinnabari",
+      "race": "Tiefling",
+      "class_name": "Blood mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tiefling blood mage and novice spellwright. As the newest spellwright in the League of Miracles, Honor Kinnabari has a lot to prove. She was granted a chance to prove her quality in the eyes of the Wonderworker when the league was contracted to rebuild the Market Ward of Westruun after it was devastated by a herd of magma landsharks that descended from the Cliffkeep Mountains. Her red eyes and sheet-white skin and horns complement a traditional red-and-white mage\u2019s robe from the reclusive dwarven clans of the Alabaster Sierras. She is fully dedicated to the league, but she is as honorable as her name implies; her fellow spellwrights fear that she could turn traitor, should the unsavory truth of the league be laid plain before her.",
+      "role": "Major NPC",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.58"
+    },
+    {
+      "name": "High Curator Greisalda Cassios",
+      "race": "Half-dragonblood",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Half-dragonblood leader of the Cobalt Reserve. The High Curator of the Westruun archive of the Cobalt Soul is a high-cheekboned, bald woman who would appear fully human if not for her slitted, er eyes and the silver scales that run across her head, neck, and upper arms. She is regarded as one of the fastest minds in Tal'Dorei, for she has the rare gift of perfect recall. Monks tremble when her lear, unpretentious voice rings through an archive chamber, for Greisalda remembers acts of justice and personal slights with equal intensity, making her a powerful ally and a furious enemy. She is concerned that corruption is spreading throughout the Tal'Dorei Council.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.59"
+    },
+    {
+      "name": "Greisalda",
+      "race": "Unknown",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Regarded as one of the fastest minds in Tal'Dorei, for she has the rare gift of perfect recall. Monks tremble when her clear, unpretentious voice rings through an archive chamber, for Greisalda remembers acts of justice and personal slights with equal intensity, making her a powerful ally and a furious enemy. She is concerned that corruption is spreading throughout the Tal'Dorei Council.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.59"
+    },
+    {
+      "name": "Cressida Holt",
+      "race": "Ore",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The name Cressida Holt is synonymous with style and effortless charisma\u2014and also a blunt, merciless coldness. Cressida is nonbinary, and uses both she and they pronouns interchangeably. Though she's fresh blood to the expositors of the Cobalt Reserve, she has already taken advantage of her license to kill on her espionage missions. They are slim for an ore, but still more muscular than many of their human colleagues. Their assignments take them across Tal'Dorei in search of political corruption. She is currently stationed in Emon to observe a person of interest on the Tal'Dorei Council, where she alternates between lurking on rooftops and striding through ballrooms in fine suits.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.59"
+    },
+    {
+      "name": "Archivist Salomane Rothtree",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A haggard, overworked administrator, Archivist Rothtree is known throughout the Cobalt Reserve as someone who tries too hard to prove himself and constantly bites off more than he can chew. Half-ore and half-elf, he has said that he hopes to accomplish as much in his lifetime as an elf could in theirs. He often is tasked with helping adventurers find information. Though he resents the task, he may slowly open up to heroes who treat him well.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.59"
+    },
+    {
+      "name": "Lustran \"The Backstabber\" Zeth",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Human boss of Stilben. Lustran was one of the first Clasp members to turn double agent. By the time anyone realized his betrayal, he had granted the Myriad their foothold in Tal\u2019Dorei in the swampy port city of Stilben. His lean, hungry face and graying hair give him a handsome, intimidating appearance. All Myriad agents in Tal'Dorei respect him, and all members of the Clasp hate him, He revels in his bad reputation as the renowned Backstabber of Stilben.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.61"
+    },
+    {
+      "name": "Tully \"The Conclave of One\" Dezzeram",
+      "race": "Gold dragonblood",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Gold dragonblood boss of Emon. Tully's distasteful nickname delights her inner circle in Emon's underground. The Myriad boss of Emon is a position that usually changes hands by the season, thanks to the diligent efforts of the Clasp, but Tully has evaded capture for three years, and grown rich and powerful in her reign of smuggling, trafficking, and grand burglary.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.61"
+    },
+    {
+      "name": "Sylker \"The Millionaire\" Uttolot",
+      "race": "Half-elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Half-elf boss of Kymal. This gold-eyed half-elf, a former underling of the crime families of Shady Creek Run in Wildemount, joined the Myriad and became the first individual on that continent to hoard one million gold pieces. He has a masterful mind for money, and spearheaded the Myriad\u2019s infiltration of Kymal. \"Gold is a disease,\" he often says, \"and I'm bloody sick.\"",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.61"
+    },
+    {
+      "name": "Quinton Puck",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Human jeweler, Master of the Unveiled Sight. While he runs a middling jewelry business within Emon, Quinton is secretly the leader of the Unveiled Sight. He is a master of creating and piercing illusions, deciphering ancient script, and all things to do with the magical arts of obscurement and unveiling. He can be recognized by his blood-red spectacles.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.61"
+    },
+    {
+      "name": "Ixrattu Khar",
+      "race": "Tiefling",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tiefling vampire, Master of the Devouring Blood. This escapee from the Black Bastille prison in Emon is Tal'Dorei's most infamous mass murderer, who once slaughtered and consumed hundreds of innocents on a deadly killing spree from Kymal to Emon. During her imprisonment, Ixrattu was plagued by shadowy visions of a woman beckoning to her from beyond the bars. The visions pointed her towards weaknesses within the Black Bastille\u2019s guard, and helped her achieve the unthinkable: escape. Once free, she vanished for a year as she scoured the countryside, puzzling over the cryptic whispers of her continuing visions. At the end of her quest was a fateful discovery: within a lightless underground passage, she found the venomous crossbow Condemner, a Vestige of Divergence (see page 204). Now she lurks in Kraghammer, where she trains a network of elite assassins who gleefully dispatch anyone the Unveiled Sight identifies as an enemy of the Remnants.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting: Reborn p.61"
+    },
+    {
+      "name": "High Warden Tirelda",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Though she is in her twilight years, even by elven standards, High Warden Tirelda is a trusted descendent of Yenlara, founder of Syngorn. She is skilled with magic and blessed with calm wisdom. Thus, she was entrusted with the highest level of responsibility amongst the Wardens\u2014to maintain law, guide society, and preside over all other Wardens.",
+      "role": "Warden of Syngorn",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting Reborn p.63"
+    },
+    {
+      "name": "Verdant Lord Celindar",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Head of the Verdant Guard of Syngorn, and an accomplished warrior in their own right, Celindar handles all military strategy and instruction within the forest's bounds. They only return to Syngorn when called by their fellow wardens, and can otherwise constantly be found prowling the Verdant Expanse. They use any pronouns, and have relinquished any sort of gender presentation after receiving a vision from the Arch Heart.",
+      "role": "Warden of Syngorn",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting Reborn p.63"
+    },
+    {
+      "name": "Questra, the Voice of Memory",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A renowned historian and a beloved vocalist, Questra is charged with the preservation of Syngorn's history and culture. It's said her most magical songs can control moonlight and bring light even to the Abyss itself. These days, she has grown somewhat unpopular by also singing songs of Syngorn's darker days, for she says true greatness can only be inspired by learning from failure.",
+      "role": "Warden of Syngorn",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting Reborn p.63"
+    },
+    {
+      "name": "Guildrunner Rawndel",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "One of the oldest living elves within Syngorn, Rawndel is more cunning and insightful than most, allowing him to be a very effective head of commerce, business, and the treasury.",
+      "role": "Warden of Syngorn",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tal'Dorei Campaign Setting Reborn p.63"
+    }
+  ],
+  "feats": [
+    {
+      "name": "Fortune's Grace",
+      "prerequisite": "",
+      "description": "Your fate-touched essence can cause events to shift in your favor. When you make an attack roll, ability check, or saving throw, you can choose to reroll the d20. Alternatively, when a creature attacks you or makes a saving throw against one of your spells or features, you can force that creature to reroll. Once per long rest.",
+      "benefits": "Reroll a d20 once per long rest",
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Cruel",
+      "prerequisite": "",
+      "description": "You delight in inflicting pain and anguish upon others. You gain a number of cruelty dice (d6s) equal to your proficiency bonus. You can roll only one cruelty die per turn. When you deal damage to a creature, spend one cruelty die to deal extra damage. When you score a critical hit, spend one cruelty die to gain temporary hit points. When you make a Charisma (Intimidation) check, spend one cruelty die and add the roll.",
+      "benefits": "Gain cruelty dice (d6s = proficiency bonus) for extra damage, temp hp on crits, or Intimidation bonus",
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Thrown Arms Master",
+      "prerequisite": "",
+      "description": "You've honed your ability to lob weaponry. Increase your Strength or Dexterity score by 1, to a maximum of 20. Simple and martial melee weapons without the thrown property have the thrown property for you. When you miss with a thrown weapon attack using a light weapon, the weapon returns to your grasp at the end of your turn.",
+      "benefits": "+1 Str or Dex, melee weapons gain thrown property, thrown weapons return on miss",
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Vital Sacrifice",
+      "prerequisite": "",
+      "description": "You've learned secrets of hemocraft. As a bonus action, you can take 1d6 necrotic damage to gain a blood boon lasting 1 hour. You can expend the boon to gain one of: +1d6 to an attack roll, +2d6 necrotic damage on a hit, or force a creature to subtract the roll from a saving throw.",
+      "benefits": "Take 1d6 necrotic for a blood boon: bonus to attack, damage, or save penalty",
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    }
+  ],
+  "backgrounds": [
+    {
+      "name": "Clasp Agent",
+      "description": "You were a member of the Clasp, a powerful thieves' guild with operations across Tal'Dorei. You know the value of information, the weight of a coin, and the sharp edge of a blade. Whether you left the guild or still work for them, the Clasp's influence follows you.",
+      "skills": [
+        "Deception",
+        "Stealth"
+      ],
+      "tool_proficiencies": [
+        "Thieves' tools",
+        "Poisoner's kit"
+      ],
+      "feature": {
+        "name": "A Favor in Turn",
+        "description": "You have gained enough clout in the Clasp that you can call in a favor from your contacts whenever you're close enough to a center of syndicate activity. A request for a favor can be no longer than 20 words."
+      },
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Lyceum Student",
+      "description": "You studied at the Lyceum of Emon, one of Tal'Dorei's most prestigious academies of magic. Your education grants you access to scholarly resources and a network of fellow alumni.",
+      "skills": [
+        "Arcana",
+        "History"
+      ],
+      "tool_proficiencies": [
+        "Calligrapher's supplies"
+      ],
+      "feature": {
+        "name": "Academic Requisition",
+        "description": "You've gained an ally among the staff, enabling access to certain private areas within the Lyceum and other allied universities. Whenever you're on Lyceum grounds, you can access restricted sections of the library."
+      },
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Reformed Cultist",
+      "description": "You once belonged to a cult dedicated to one of the Betrayer Gods. Whether you escaped, were cast out, or saw the error of your ways, you now carry the dark knowledge of your former faith.",
+      "skills": [
+        "Deception",
+        "Religion"
+      ],
+      "tool_proficiencies": [],
+      "feature": {
+        "name": "Fell Teachings",
+        "description": "You were inundated with knowledge about one of the Betrayer Gods. You know by heart everything from their basic commandments to some of their most esoteric secrets."
+      },
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Whitestone Rifle Corps",
+      "description": "You served in the Whitestone Rifle Corps, an elite military unit armed with the famous firearms of Whitestone. Your training with black powder weapons and dedication to protecting Whitestone sets you apart.",
+      "skills": [
+        "Athletics",
+        "Intimidation"
+      ],
+      "tool_proficiencies": [
+        "Tinker's tools",
+        "Firearms (if used in campaign)"
+      ],
+      "feature": {
+        "name": "Rifle Corps Training",
+        "description": "You have extensive training with firearms and explosives. You can maintain and repair firearms, and you know where to acquire black powder and ammunition in any major city."
+      },
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    }
+  ],
+  "subclasses": [
+    {
+      "name": "Path of the Juggernaut",
+      "class": "Barbarian",
+      "description": "Barbarians who follow the Path of the Juggernaut become unstoppable forces of destruction, anchoring themselves against any force that would move them and hurling foes through the air.",
+      "features": [
+        {
+          "name": "Spirit of the Mountain",
+          "level": 3,
+          "description": "While you are raging, you can't be knocked prone or moved along the ground against your will."
+        },
+        {
+          "name": "Demolishing Might",
+          "level": 6,
+          "description": "Your melee weapon attacks deal an extra 1d8 damage to constructs, and deal double damage to objects and structures."
+        },
+        {
+          "name": "Resolute Stance",
+          "level": 6,
+          "description": "At the start of your turn, you can assume a defensive stance until the start of your next turn. While in this stance, you can't be grappled, attack rolls against you have disadvantage, and your weapon attacks are made with disadvantage."
+        },
+        {
+          "name": "Thunderous Blows",
+          "level": 10,
+          "description": "Starting at 10th level, you can push a creature up to 10 feet when you hit it with a melee attack while you're raging."
+        },
+        {
+          "name": "Hurricane Strike",
+          "level": 14,
+          "description": "As a reaction when you push a creature at least 5 feet, you can leap into an unoccupied space next to the creature. The creature must succeed on a Strength saving throw or be knocked prone."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "College of Tragedy",
+      "class": "Bard",
+      "description": "Bards of the College of Tragedy know that sorrow and pathos are emotions just as potent as joy and delight. They specialize in the power of tragic storytelling, weaving words and spells together to dramatic and devastating effect.",
+      "features": [
+        {
+          "name": "Poetry in Misery",
+          "level": 3,
+          "description": "Whenever you or an ally within 30 feet of you rolls a 1 on the d20 for an attack roll, ability check, or saving throw, you can use your reaction to regain one expended use of your Bardic Inspiration feature."
+        },
+        {
+          "name": "Sorrowful Fate",
+          "level": 3,
+          "description": "When you or an ally forces a creature to make a saving throw, you can expend one use of Bardic Inspiration to change the save type to a Wisdom save instead. If the target fails, roll a Bardic Inspiration die; the target takes psychic damage equal to the result and is plagued with regret for 1 minute."
+        },
+        {
+          "name": "Nimbus of Pathos",
+          "level": 14,
+          "description": "You can touch a willing creature as an action and empower it with tragic heroism for 1 minute. The creature gains +4 AC, advantage on attack rolls and saving throws, and deals extra 1d10 radiant damage on hits. Any weapon attack against the creature scores a crit on 18-20. When the effect ends, the creature drops to 0 hit points and is dying. Once per long rest."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Blood Domain",
+      "class": "Cleric",
+      "description": "The Blood Domain centers around the understanding of the natural life force as it exists within the body, and the divine conduit it can become. Those who take up this domain understand that the power of blood is the power of sacrifice.",
+      "features": [
+        {
+          "name": "Bonus Proficiencies",
+          "level": 1,
+          "description": "You gain proficiency with martial weapons."
+        },
+        {
+          "name": "Bloodletting Focus",
+          "level": 1,
+          "description": "When you cast a damage-dealing spell of 1st level or higher with instantaneous duration, any creature with blood that takes damage takes extra necrotic damage equal to 2 + the spell's level."
+        },
+        {
+          "name": "Channel Divinity: Crimson Bond",
+          "level": 2,
+          "description": "Form a supernatural bond with a creature you can see. Lasts 1 hour or until concentration breaks. You can learn the target's distance, direction, current hp, and conditions. You can also attempt to see/hear through the target's senses for a number of minutes equal to your Wisdom modifier."
+        },
+        {
+          "name": "Channel Divinity: Blood Puppet",
+          "level": 6,
+          "description": "Briefly control a Large or smaller creature or corpse with blood within 60 feet. Target must succeed on a Wisdom saving throw or you control its movement and actions for a short duration."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Moon Domain",
+      "class": "Cleric",
+      "description": "Clerics of the Moon Domain draw on their divine connection to the moons to wield light and shadow, invoke good fortune and ill favor, and reveal or conceal as they see fit.",
+      "features": [
+        {
+          "name": "Clarity of Catha",
+          "level": 1,
+          "description": "When a creature within 30 feet of you that you can see makes a Wisdom saving throw, you can use your reaction to grant advantage on the save. Usable proficiency bonus times per long rest."
+        },
+        {
+          "name": "Mind of Two Moons",
+          "level": 6,
+          "description": "You can maintain concentration on two Moon Domain spells at once. When you take damage, you make a Constitution save with disadvantage or lose concentration on both."
+        },
+        {
+          "name": "Empowered Cantrips",
+          "level": 8,
+          "description": "Your cleric cantrips deal extra damage equal to your Wisdom modifier (minimum 1)."
+        },
+        {
+          "name": "Eclipse of Ill Omen",
+          "level": 17,
+          "description": "As a bonus action, create dim light in a 60-foot radius. Creatures in the area make saving throws with disadvantage. Once per turn when you deal radiant damage in the area, you can curse a creature: its speed is halved and it can't regain hp. Lasts up to 1 minute (concentration). Once per long rest."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Circle of the Blighted",
+      "class": "Druid",
+      "description": "Druids of the Circle of the Blighted channel corrupted natural energy, binding themselves to poisoned or tainted natural sites and wielding the power of rot and decay.",
+      "features": [
+        {
+          "name": "Defile Ground",
+          "level": 2,
+          "description": "As a bonus action, corrupt a 10-foot radius patch of land or water within 60 feet for 1 minute. The area is difficult terrain for hostile creatures. Creatures in the area take an extra 1d4 necrotic damage when hit for the first time on a turn. Can move the corruption 30 feet as a bonus action. Once per short or long rest. Radius increases to 20 feet at 10th level, extra damage to 1d6 at 10th and 1d8 at 14th."
+        },
+        {
+          "name": "Blighted Shape",
+          "level": 2,
+          "description": "You gain proficiency in Intimidation. While in Wild Shape, your beast form gains +2 AC and darkvision 60 feet (or +60 feet if already has darkvision)."
+        },
+        {
+          "name": "Call of the Shadowseeds",
+          "level": 6,
+          "description": "When a creature that is not undead or construct takes damage within your Defile Ground, you can use your reaction to summon a blighted sapling that attacks a creature within 5 feet."
+        },
+        {
+          "name": "Incarnation of Corruption",
+          "level": 14,
+          "description": "You gain resistance to necrotic damage and +2 AC. When you start your turn within your Defile Ground, you can gain temp hp equal to your proficiency bonus as a bonus action."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Way of the Cobalt Soul",
+      "class": "Monk",
+      "description": "Monks of the Cobalt Soul dedicate themselves to the pursuit of knowledge, studying their enemies to break through mental and physical defenses.",
+      "features": [
+        {
+          "name": "Extract Aspects",
+          "level": 3,
+          "description": "As an action, you can touch a creature and learn its damage vulnerabilities, resistances, immunities, and condition immunities."
+        },
+        {
+          "name": "Extort Truth",
+          "level": 6,
+          "description": "When you hit a creature with an unarmed strike, you can spend 1 ki point to force a Charisma saving throw. On a failure, the creature can't deliberately lie for up to 10 minutes."
+        },
+        {
+          "name": "Mystical Erudition",
+          "level": 6,
+          "description": "You learn one language and gain proficiency in one skill (Arcana, History, Investigation, Nature, or Religion). Gain additional at 11th and 17th level."
+        },
+        {
+          "name": "Mind of Mercury",
+          "level": 11,
+          "description": "Once per turn, if you've already taken your reaction, you may spend 1 ki point to take an additional reaction."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Oath of the Open Sea",
+      "class": "Paladin",
+      "description": "Paladins who swear the Oath of the Open Sea champion freedom, trusting the guidance of nature and adapting like water to overcome any obstacle.",
+      "features": [
+        {
+          "name": "Channel Divinity: Marine Layer",
+          "level": 3,
+          "description": "As an action, create a 20-foot radius cloud of fog that moves with you. The area is heavily obscured, but you and creatures within 5 feet treat it as lightly obscured. Lasts 10 minutes."
+        },
+        {
+          "name": "Channel Divinity: Fury of the Storm",
+          "level": 3,
+          "description": "As a bonus action, channel the power of storms to grant yourself advantage on attack rolls until the end of your turn."
+        },
+        {
+          "name": "Aura of Liberation",
+          "level": 7,
+          "description": "You and allies within 10 feet cannot be grappled or restrained, and ignore underwater movement/attack penalties. Becomes 30 feet at 18th level."
+        },
+        {
+          "name": "Stormy Waters",
+          "level": 15,
+          "description": "As a reaction when a creature moves into or out of your reach, it takes 1d12 bludgeoning damage and must make a Strength save or be knocked prone."
+        },
+        {
+          "name": "Mythic Swashbuckler",
+          "level": 20,
+          "description": "As an action, gain benefits for 1 minute: advantage on Athletics, climbing speed equal to walking speed, advantage on attacks when within 5 feet of a creature with no other creatures within 5 feet, can Dash/Disengage as a bonus action, advantage on Dexterity checks and saves. Once per long rest."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Runechild",
+      "class": "Sorcerer",
+      "description": "Runechild sorcerers manifest their innate magic as runes that appear on their skin, storing magical energy and unleashing it in powerful ways.",
+      "features": [
+        {
+          "name": "Essence Runes",
+          "level": 1,
+          "description": "You start with 1 essence rune, gaining another each level. When you expend sorcery points, an equal number of essence runes become charged. Charged runes power your Runechild features."
+        },
+        {
+          "name": "Glyph of Aegis",
+          "level": 1,
+          "description": "As a bonus action, you or a creature within 30 feet gains protective runes. The next time that creature takes damage within the next hour, it rolls 1d6 per charged rune spent and reduces the damage by the total. Die becomes d8 at 14th level."
+        },
+        {
+          "name": "Sigilic Augmentation",
+          "level": 6,
+          "description": "Expend a charged rune as a reaction to gain advantage on Strength, Dexterity, or Constitution ability checks or saving throws."
+        },
+        {
+          "name": "Manifest Inscriptions",
+          "level": 6,
+          "description": "As an action, expend a charged rune to reveal hidden arcane traps, marks, runes, wards, sensors, or glyphs within 60 feet for 1 minute."
+        },
+        {
+          "name": "Runic Torrent",
+          "level": 14,
+          "description": "When you cast a spell, expend 2 charged runes to change its damage to force damage. Creatures in the area must succeed on a Strength save or be knocked prone or pushed 15 feet."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    },
+    {
+      "name": "Blood Magic",
+      "class": "Wizard",
+      "description": "Blood Magic wizards use the magical art of hemocraft, weaving their life force into spells and using blood to fuel their arcane power.",
+      "features": [
+        {
+          "name": "Blood Channeling",
+          "level": 2,
+          "description": "You can use your own life force to power your magic. When you cast a spell of 1st level or higher and have no available spell slots, you can sacrifice hit points equal to 5 times the spell's level to cast it."
+        },
+        {
+          "name": "Sanguine Burst",
+          "level": 2,
+          "description": "Whenever you roll damage for a spell you've cast of 1st level or higher, you can take necrotic damage equal to the spell's level to reroll a number of damage dice up to your Intelligence modifier (minimum one)."
+        },
+        {
+          "name": "Bond of Mutual Suffering",
+          "level": 6,
+          "description": "When a creature you can see hits you with an attack, you can use your reaction to force the attacker to take damage equal to the damage you took. Cannot be used against constructs or undead. Once per short or long rest (twice at 14th)."
+        },
+        {
+          "name": "Glyph of Hemorrhaging",
+          "level": 10,
+          "description": "When you damage a creature with a spell, you can curse it for 1 minute. Whenever the cursed creature is hit by an attack, it takes an extra 1d6 necrotic damage. Once per short or long rest."
+        },
+        {
+          "name": "Thicker Than Water",
+          "level": 14,
+          "description": "Whenever a spell or magical effect causes you to regain hit points, you regain additional hp equal to your proficiency bonus. While concentrating, you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks."
+        }
+      ],
+      "source": "TCSR",
+      "_source_manual": "TCSR"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "Chapter 1",
+    "Chapter 2",
+    "Chapter 4",
+    "Chapter 5",
+    "Chapter 6"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 9,
+  "_book_slug": "TCSR",
+  "_book_title": "taldorei campaign setting reborn compress",
+  "_completed": true,
+  "_timestamp": 1782524252.5936027
+}
