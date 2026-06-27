@@ -293,7 +293,7 @@
     "type": "Shield",
     "rarity": "uncommon",
     "requires_attunement": false,
-    "description": "A sentinel shield and a frost brand longsword.",
+    "description": "While holding this shield, you have advantage on initiative rolls and Wisdom (Perception) checks. The shield is emblazoned with a symbol of an eye.",
     "source": "Call of the Netherdeep",
     "_source_manual": "CotN"
   },
@@ -863,7 +863,7 @@
     "type": "Weapon (longsword)",
     "rarity": "uncommon",
     "requires_attunement": false,
-    "description": "a +1 longsword",
+    "description": "You have a +1 bonus to attack and damage rolls made with this magic weapon.",
     "source": "Call of the Netherdeep"
   },
   {
@@ -871,7 +871,7 @@
     "type": "Weapon (longbow)",
     "rarity": "uncommon",
     "requires_attunement": false,
-    "description": "a +1 longbow",
+    "description": "You have a +1 bonus to attack and damage rolls made with this magic weapon.",
     "source": "Call of the Netherdeep"
   },
   {
@@ -879,8 +879,8 @@
     "type": "Armor (leather)",
     "rarity": "uncommon",
     "requires_attunement": false,
-    "description": "+1 leather armor",
-    "source": "Call of the Netherdeep"
+    "description": "You have a +1 bonus to AC while wearing this armor.",
+    "source": "Dungeon Master's Guide"
   },
   {
     "name": "Hazirawn",
@@ -1980,7 +1980,7 @@
     "type": "Scroll",
     "rarity": "uncommon",
     "requires_attunement": false,
-    "description": "A folded-up spell scroll of bestow curse.",
+    "description": "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is interrupted, the scroll is not lost.\n\nIf the spell is on your class's spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC equals 10 + the spell's level. On a failed check, the spell disappears from the scroll with no other effect.\n\nAs a 3rd-level spell scroll, Bestow Curse has a save DC of 15 and an attack bonus of +7.",
     "source": "Call of the Netherdeep p.54",
     "_source_manual": "CotN"
   },
@@ -2052,7 +2052,7 @@
     "type": "Weapon (longsword)",
     "rarity": "very rare",
     "requires_attunement": true,
-    "description": "A sentinel shield and a frost brand longsword.",
+    "description": "When you hit with an attack using this magic sword, the target takes an extra 1d6 cold damage. In addition, while you hold the sword, you have resistance to fire damage.\n\nIn freezing temperatures, the blade sheds bright light in a 10-foot radius and dim light for an additional 10 feet.\n\nWhen you draw this weapon, you can extinguish all nonmagical flames within 30 feet of you. This property can be used no more than once per hour.",
     "source": "Call of the Netherdeep",
     "_source_manual": "CotN"
   },
@@ -2070,7 +2070,7 @@
     "type": "Weapon (greatsword)",
     "rarity": "unknown",
     "requires_attunement": false,
-    "description": "A ruidium greatsword (described in appendix B)",
+    "description": "This magic weapon has a dull, rusty color or has veins of ruidium running through it. While this weapon is on your person, you gain the ability to breathe water and a swimming speed equal to your walking speed. A creature you hit with this weapon takes an extra 2d6 psychic damage. When you roll a 1 on an attack roll made with this weapon, you must make a DC 20 Charisma saving throw. On a failed save, you gain 1 level of exhaustion. If you are not already suffering from ruidium corruption, you become corrupted when you fail this save. If the Apotheon is killed or redeemed, all the ruidium in Exandria is destroyed instantly, and a Ruidium Weapon becomes a +2 Weapon.",
     "source": "Chapter 6, The Netherdeep",
     "_source_manual": "CotN"
   },
