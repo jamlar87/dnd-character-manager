@@ -20,7 +20,7 @@ Data extracted: races, subraces, racial traits, spells, magic items,
 """
 from __future__ import annotations
 
-import json, os, re, sys, time, hashlib, urllib.request, urllib.error
+import json, os, re, sys, time, hashlib, subprocess, urllib.request, urllib.error
 from pathlib import Path
 from typing import Any
 
@@ -522,8 +522,8 @@ def discover_manuals() -> list[dict]:
         r'(?i)endpaper',           # decorative endpapers
         r'(?i)\\bcover\\b',         # standalone cover art
     ]
-    for f in sorted(MANUALS_DIR.rglob("*.pdf")):
-        title = f.stem.replace("_", " ").replace("  ", " ").strip()
+    for f in sorted(MANUALS_DIR.rglob("*.pdf", recurse_symlinks=True)):
+        title = f.stem.replace("_", " ").replace("-", " ").replace("  ", " ").strip()
         parent = str(f.parent.name)
         # Skip non-content PDFs (maps, endpapers, character sheets, covers, screens)
         if any(re.search(pat, title) for pat in _skip_filename_only):
@@ -627,6 +627,10 @@ def _derive_slug(title: str) -> str:
         ("secrets of sokol keep", "SSK"),
         ("shadows over the moonsea", "SOM"),
         ("dues for the dead", "DFD"),
+        # ── Critical Role ──
+        ("call of the netherdeep", "CotN"),
+        ("wildemount", "EGW"),
+        ("taldorei", "TCSR"),
     ]:
         if kw in title_lower:
             return slug
@@ -671,10 +675,12 @@ def extract_text(manual: dict) -> str | None:
 
 def _extract_pymupdf(pdf_path: str, cache_path: str) -> str | None:
     """Try pymupdf (fitz) for better multi-column text extraction.
+    Falls back to OCR for scanned/image-only PDFs.
     Injects page markers for chapter detection."""
     try:
         import fitz
         doc = fitz.open(pdf_path)
+        total_pages = len(doc)
         pages = []
         for i, page in enumerate(doc):
             page_text = page.get_text("text").strip()
@@ -682,18 +688,56 @@ def _extract_pymupdf(pdf_path: str, cache_path: str) -> str | None:
                 pages.append(f"--- PAGE {i + 1} ---\n{page_text}")
         doc.close()
         text = "\n\n".join(pages)
+
+        # If pymupdf extracted very little text for many pages, try OCR
+        if len(text) < 500 and total_pages > 5:
+            ocr_text = _ocr_pymupdf(pdf_path)
+            if ocr_text and len(ocr_text) > len(text):
+                text = ocr_text
+
         if len(text) > 500:
             # Fix OCR artifacts before caching — downstream consumers
             # (LLM prompts, chapter extraction) all get clean text.
             text = _fix_ocr_artifacts(text)
             Path(cache_path).write_text(text, encoding="utf-8", errors="replace")
-            print(f"  Extracted {len(text):,} chars ({len(pages)} pages) via pymupdf → {Path(cache_path).name}")
+            print(f"  Extracted {len(text):,} chars ({total_pages} pages) via pymupdf → {Path(cache_path).name}")
             return text
     except ImportError:
         pass
     except Exception as e:
         print(f"  pymupdf error: {e}")
     return None
+
+
+def _ocr_pymupdf(pdf_path: str) -> str | None:
+    """Fallback OCR for scanned/image-only PDFs using tesseract."""
+    print("  PDF appears scanned — running OCR (this may take a while)...")
+    try:
+        import fitz
+        import pytesseract
+        from PIL import Image
+
+        doc = fitz.open(pdf_path)
+        total = len(doc)
+        all_pages = []
+        for i, page in enumerate(doc):
+            pix = page.get_pixmap(dpi=200)
+            img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+            page_text = pytesseract.image_to_string(img).strip()
+            if page_text:
+                all_pages.append(f"--- PAGE {i + 1} ---\n{page_text}")
+            if (i + 1) % 10 == 0:
+                print(f"    OCR progress: {i+1}/{total} pages")
+        doc.close()
+        text = "\n\n".join(all_pages)
+        print(f"  OCR complete: {len(text):,} chars from {len(all_pages)} pages")
+        return text
+    except ImportError as e:
+        print(f"  OCR not available: {e}. Install pytesseract + tesseract-ocr.")
+        return None
+    except Exception as e:
+        print(f"  OCR error: {e}")
+        return None
 
 
 def _extract_pdftotext(pdf_path: str, cache_path: str) -> str | None:

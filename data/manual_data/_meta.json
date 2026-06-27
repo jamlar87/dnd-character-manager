@@ -1,17 +1,21 @@
 {
-  "merged_at": 1782520689.4902563,
-  "source_manuals": [],
+  "merged_at": 1782524252.6821072,
+  "source_manuals": [
+    "TCSR",
+    "EGW",
+    "CotN"
+  ],
   "totals": {
-    "races": 0,
-    "spells": 0,
-    "magic_items": 0,
-    "equipment": 0,
-    "monsters": 0,
-    "npcs": 0,
+    "races": 18,
+    "spells": 17,
+    "magic_items": 121,
+    "equipment": 32,
+    "monsters": 70,
+    "npcs": 195,
     "feats": 0,
-    "backgrounds": 0,
-    "subclasses": 0,
-    "traps": 24
+    "backgrounds": 6,
+    "subclasses": 3,
+    "traps": 40
   },
   "pdf_map": {
     "AW": {
@@ -20,64 +24,374 @@
       "path": "Ancestral_Weapons_Final_v1.2.pdf"
     },
     "DMG": {
-      "title": "D&D 5E - Dungeon Master's Guide",
+      "title": "D&D 5E  Dungeon Master's Guide",
       "filename": "D&D 5E - Dungeon Master's Guide.pdf",
       "path": "D&D 5E - Dungeon Master's Guide.pdf"
     },
     "EEPC": {
-      "title": "D&D 5E - Elemental Evil Player's Companion",
+      "title": "D&D 5E  Elemental Evil Player's Companion",
       "filename": "D&D 5E - Elemental Evil Player's Companion.pdf",
       "path": "D&D 5E - Elemental Evil Player's Companion.pdf"
     },
     "GGR": {
-      "title": "D&D 5E - Guildmasters' Guide to Ravnica",
+      "title": "D&D 5E  Guildmasters' Guide to Ravnica",
       "filename": "D&D 5E - Guildmasters' Guide to Ravnica.pdf",
       "path": "D&D 5E - Guildmasters' Guide to Ravnica.pdf"
     },
     "MM": {
-      "title": "D&D 5E - Monster Manual",
+      "title": "D&D 5E  Monster Manual",
       "filename": "D&D 5E - Monster Manual.pdf",
       "path": "D&D 5E - Monster Manual.pdf"
     },
     "MTF": {
-      "title": "D&D 5E - Mordenkainen's Tome of Foes",
+      "title": "D&D 5E  Mordenkainen's Tome of Foes",
       "filename": "D&D 5E - Mordenkainen's Tome of Foes.pdf",
       "path": "D&D 5E - Mordenkainen's Tome of Foes.pdf"
     },
     "PHB": {
-      "title": "D&D 5E - Player's Handbook",
+      "title": "D&D 5E  Player's Handbook",
       "filename": "D&D 5E - Player's Handbook.pdf",
       "path": "D&D 5E - Player's Handbook.pdf"
     },
     "SCAG": {
-      "title": "D&D 5E - Sword Coast Adventurer's Guide",
+      "title": "D&D 5E  Sword Coast Adventurer's Guide",
       "filename": "D&D 5E - Sword Coast Adventurer's Guide.pdf",
       "path": "D&D 5E - Sword Coast Adventurer's Guide.pdf"
     },
     "DTCOE": {
-      "title": "D&D 5E - Tasha's Cauldron of Everything",
+      "title": "D&D 5E  Tasha's Cauldron of Everything",
       "filename": "D&D 5E - Tasha's Cauldron of Everything.pdf",
       "path": "D&D 5E - Tasha's Cauldron of Everything.pdf"
     },
     "TTP": {
-      "title": "D&D 5E - The Tortle Package",
+      "title": "D&D 5E  The Tortle Package",
       "filename": "D&D 5E - The Tortle Package.pdf",
       "path": "D&D 5E - The Tortle Package.pdf"
     },
     "VGM": {
-      "title": "D&D 5E - Volo's Guide to Monsters",
+      "title": "D&D 5E  Volo's Guide to Monsters",
       "filename": "D&D 5E - Volo's Guide to Monsters.pdf",
       "path": "D&D 5E - Volo's Guide to Monsters.pdf"
     },
     "WGE": {
-      "title": "D&D 5E - Wayfinders Guide to Eberron",
+      "title": "D&D 5E  Wayfinders Guide to Eberron",
       "filename": "D&D 5E - Wayfinders Guide to Eberron.pdf",
       "path": "D&D 5E - Wayfinders Guide to Eberron.pdf"
     },
     "XGE": {
-      "title": "D&D 5E - Xanathar's Guide to Everything",
+      "title": "D&D 5E  Xanathar's Guide to Everything",
       "filename": "D&D 5E - Xanathar's Guide to Everything.pdf",
       "path": "D&D 5E - Xanathar's Guide to Everything.pdf"
+    },
+    "TTLT": {
+      "title": "1346683 The Tortured Land  Taster",
+      "filename": "1346683-The_Tortured_Land_-_Taster.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/1346683-The_Tortured_Land_-_Taster.pdf"
+    },
+    "SME": {
+      "title": "177004 Saltmarsh Encounters",
+      "filename": "177004-Saltmarsh_Encounters.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/177004-Saltmarsh_Encounters.pdf"
+    },
+    "EIA": {
+      "title": "378310 Encounters In Avernus",
+      "filename": "378310-Encounters_In_Avernus.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/378310-Encounters_In_Avernus.pdf"
+    },
+    "EBT": {
+      "title": "Book of Ebon Tides",
+      "filename": "Book_of_Ebon_Tides.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Book_of_Ebon_Tides.pdf"
+    },
+    "CSF": {
+      "title": "Courts Shadow Fey 5E",
+      "filename": "Courts_Shadow_Fey_5E.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Courts_Shadow_Fey_5E.pdf"
+    },
+    "CC": {
+      "title": "Creature Codex (5E) v2.1",
+      "filename": "Creature_Codex_(5E)_v2.1.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Creature_Codex_(5E)_v2.1.pdf"
+    },
+    "DDP": {
+      "title": "DDEX11 Defiance in Phlan",
+      "filename": "DDEX11_Defiance_in_Phlan.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/DDEX11_Defiance_in_Phlan.pdf"
+    },
+    "SSK": {
+      "title": "DDEX12 Secrets of Sokol Keep",
+      "filename": "DDEX12_Secrets_of_Sokol_Keep.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/DDEX12_Secrets_of_Sokol_Keep.pdf"
+    },
+    "SOM": {
+      "title": "DDEX13 Shadows over the Moonsea",
+      "filename": "DDEX13_Shadows_over_the_Moonsea.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/DDEX13_Shadows_over_the_Moonsea.pdf"
+    },
+    "DD": {
+      "title": "DDEX14 DuesfortheDead",
+      "filename": "DDEX14_DuesfortheDead.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/DDEX14_DuesfortheDead.pdf"
+    },
+    "DPM": {
+      "title": "Deep Magic 5E Elven High Magic",
+      "filename": "Deep_Magic_5E_Elven_High_Magic.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Deep_Magic_5E_Elven_High_Magic.pdf"
+    },
+    "DPM1": {
+      "title": "Deep Magic 5E Ley Lines",
+      "filename": "Deep_Magic_5E_Ley_Lines.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Deep_Magic_5E_Ley_Lines.pdf"
+    },
+    "ETR": {
+      "title": "Expanding the Ranger",
+      "filename": "Expanding_the_Ranger.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Expanding_the_Ranger.pdf"
+    },
+    "KW": {
+      "title": "KQ20 Winter2012",
+      "filename": "KQ20_Winter2012.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/KQ20_Winter2012.pdf"
+    },
+    "MOM": {
+      "title": "Marauders of the Margreve",
+      "filename": "Marauders_of_the_Margreve.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Marauders_of_the_Margreve.pdf"
+    },
+    "RAT": {
+      "title": "Ratatosk",
+      "filename": "Ratatosk.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Ratatosk.pdf"
+    },
+    "SDQ": {
+      "title": "Shadows of the Dusk Queen 5E FINAL",
+      "filename": "Shadows_of_the_Dusk_Queen_5E_FINAL.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Shadows_of_the_Dusk_Queen_5E_FINAL.pdf"
+    },
+    "TMFRV": {
+      "title": "Tales Margreve 5E FINAL REOPTIMIZED v2",
+      "filename": "Tales_Margreve_5E_FINAL_REOPTIMIZED_v2.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Tales_Margreve_5E_FINAL_REOPTIMIZED_v2.pdf"
+    },
+    "MPG": {
+      "title": "Tales Margreve Players Guide 5E DnD",
+      "filename": "Tales_Margreve_Players_Guide_5E_DnD.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Tales_Margreve_Players_Guide_5E_DnD.pdf"
+    },
+    "TFS": {
+      "title": "Tales from the Shadows",
+      "filename": "Tales_from_the_Shadows.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Tales_from_the_Shadows.pdf"
+    },
+    "WWOTBK": {
+      "title": "WL23 Wrath of the Bramble King",
+      "filename": "WL23-Wrath-of-the-Bramble-King.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/WL23-Wrath-of-the-Bramble-King.pdf"
+    },
+    "WPOTMQ": {
+      "title": "WL24 Pride of the Mushroom Queen",
+      "filename": "WL24-Pride-of-the-Mushroom-Queen.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/WL24-Pride-of-the-Mushroom-Queen.pdf"
+    },
+    "WSE": {
+      "title": "WL25 Shadows Envy",
+      "filename": "WL25_Shadows-Envy.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/WL25_Shadows-Envy.pdf"
+    },
+    "W": {
+      "title": "Warlock 007",
+      "filename": "Warlock-007.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-007.pdf"
+    },
+    "WFV": {
+      "title": "Warlock 017 FINAL v2",
+      "filename": "Warlock-017-FINAL-v2.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-017-FINAL-v2.pdf"
+    },
+    "WDZ": {
+      "title": "Warlock 022 Druids zkpxhg",
+      "filename": "Warlock-022-Druids-zkpxhg.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-022-Druids-zkpxhg.pdf"
+    },
+    "WF": {
+      "title": "Warlock 032 FINAL 1uxx3u",
+      "filename": "Warlock-032-FINAL-1uxx3u.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-032-FINAL-1uxx3u.pdf"
+    },
+    "WO": {
+      "title": "Warlock 034 onlvlm",
+      "filename": "Warlock-034-onlvlm.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-034-onlvlm.pdf"
+    },
+    "WLB": {
+      "title": "Warlock Bestiary",
+      "filename": "Warlock-Bestiary.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-Bestiary.pdf"
+    },
+    "WLL": {
+      "title": "Warlock Lair 9 The Returners Tower",
+      "filename": "Warlock-Lair-9-The-Returners-Tower.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-Lair-9-The-Returners-Tower.pdf"
+    },
+    "WLL1": {
+      "title": "Warlock Lair The Dark Aerie 082219",
+      "filename": "Warlock-Lair-The-Dark-Aerie-082219.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock-Lair-The-Dark-Aerie-082219.pdf"
+    },
+    "WLL2": {
+      "title": "Warlock Lairs 1 Into the Wilds FINAL",
+      "filename": "Warlock_Lairs_1_Into_the_Wilds_FINAL.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Warlock_Lairs_1_Into_the_Wilds_FINAL.pdf"
+    },
+    "WRKF": {
+      "title": "Wrath River King 5E Final 240",
+      "filename": "Wrath_River_King_5E_Final_240.pdf",
+      "path": "DnD-Manuals/5e Kobold Press Resources/Wrath_River_King_5E_Final_240.pdf"
+    },
+    "BLRG": {
+      "title": "bree landregionguide",
+      "filename": "bree_landregionguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Bree-Land Region Guide/bree_landregionguide.pdf"
+    },
+    "EOM": {
+      "title": "eavesofmirkwood optionalclass rules v2",
+      "filename": "eavesofmirkwood_optionalclass_rules_v2.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Eaves of Mirkwood & Loremaster's Screen/eavesofmirkwood_optionalclass_rules_v2.pdf"
+    },
+    "LMG": {
+      "title": "theeavesofmirkwood loremastersscreen",
+      "filename": "theeavesofmirkwood_loremastersscreen.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Eaves of Mirkwood & Loremaster's Screen/theeavesofmirkwood_loremastersscreen.pdf"
+    },
+    "LMG1": {
+      "title": "theeavesofmirkwood loremastersscreen v2",
+      "filename": "theeavesofmirkwood_loremastersscreen_v2.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Eaves of Mirkwood & Loremaster's Screen/theeavesofmirkwood_loremastersscreen_v2.pdf"
+    },
+    "EREA": {
+      "title": "ereboradventures",
+      "filename": "ereboradventures.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Erebor Adventures/ereboradventures.pdf"
+    },
+    "EREA1": {
+      "title": "ereboradventures maps",
+      "filename": "ereboradventures_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Erebor Adventures/ereboradventures_maps.pdf"
+    },
+    "ERIA": {
+      "title": "eriadoradventures",
+      "filename": "eriadoradventures.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Eriador Adventures/eriadoradventures.pdf"
+    },
+    "LMRG": {
+      "title": "lonelymountain regionguide",
+      "filename": "lonelymountain_regionguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Lonely Mountain Region Guide/lonelymountain_regionguide.pdf"
+    },
+    "LMRG1": {
+      "title": "lonelymountain regionguide large maps",
+      "filename": "lonelymountain_regionguide_large_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Lonely Mountain Region Guide/lonelymountain_regionguide_large_maps.pdf"
+    },
+    "LMG2": {
+      "title": "adventuresinmiddle earthloremastersguide",
+      "filename": "adventuresinmiddle_earthloremastersguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Loremaster's Guide/adventuresinmiddle_earthloremastersguide.pdf"
+    },
+    "MWC": {
+      "title": "mirkwoodcampaign",
+      "filename": "mirkwoodcampaign.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Mirkwood campaign/mirkwoodcampaign.pdf"
+    },
+    "AIPG": {
+      "title": "adventuresinmiddle earthplayersguide",
+      "filename": "adventuresinmiddle_earthplayersguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Player's Guide/adventuresinmiddle_earthplayersguide.pdf"
+    },
+    "AIPG1": {
+      "title": "adventuresinmiddle earthplayersguide guide maps",
+      "filename": "adventuresinmiddle_earthplayersguide_guide_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Player's Guide/adventuresinmiddle_earthplayersguide_guide_maps.pdf"
+    },
+    "RRG": {
+      "title": "rhovanionregionguide",
+      "filename": "rhovanionregionguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Rhovannion Region Guide/rhovanionregionguide.pdf"
+    },
+    "RVR": {
+      "title": "rivendellregionguide",
+      "filename": "rivendellregionguide.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Rivendell Region Guide/rivendellregionguide.pdf"
+    },
+    "RVR1": {
+      "title": "rivendellregionguide guide maps",
+      "filename": "rivendellregionguide_guide_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Rivendell Region Guide/rivendellregionguide_guide_maps.pdf"
+    },
+    "RGEO": {
+      "title": "theroadgoeseveron",
+      "filename": "theroadgoeseveron.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/The Road Goes Ever On/theroadgoeseveron.pdf"
+    },
+    "RGEO1": {
+      "title": "theroadgoeseveron maps",
+      "filename": "theroadgoeseveron_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/The Road Goes Ever On/theroadgoeseveron_maps.pdf"
+    },
+    "WLA": {
+      "title": "wilderlandadventures",
+      "filename": "wilderlandadventures.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Wilderland Adventures/wilderlandadventures.pdf"
+    },
+    "WLA1": {
+      "title": "wilderlandadventures battle maps",
+      "filename": "wilderlandadventures_battle_maps.pdf",
+      "path": "DnD-Manuals/5e TLOTR Setting/Wilderland Adventures/wilderlandadventures_battle_maps.pdf"
+    },
+    "LMoP": {
+      "title": "D&D 5E  Lost Mine of Phandelver",
+      "filename": "D&D 5E - Lost Mine of Phandelver.pdf",
+      "path": "DnD-Manuals/Campaigns/D&D 5E - Lost Mine of Phandelver.pdf"
+    },
+    "ToA": {
+      "title": "D&D 5E  Tomb of Annihilation",
+      "filename": "D&D 5E - Tomb of Annihilation.pdf",
+      "path": "DnD-Manuals/Campaigns/D&D 5E - Tomb of Annihilation.pdf"
+    },
+    "HotDQ": {
+      "title": "D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen",
+      "filename": "D&D 5E - Tyranny of Dragons - Hoard of the Dragon Queen.pdf",
+      "path": "DnD-Manuals/Campaigns/D&D 5E - Tyranny of Dragons - Hoard of the Dragon Queen.pdf"
+    },
+    "RoT": {
+      "title": "D&D 5E  Tyranny of Dragons  The Rise of Tiamat",
+      "filename": "D&D 5E - Tyranny of Dragons - The Rise of Tiamat.pdf",
+      "path": "DnD-Manuals/Campaigns/D&D 5E - Tyranny of Dragons - The Rise of Tiamat.pdf"
+    },
+    "WDH": {
+      "title": "D&D 5E  Waterdeep  Dragon Heist",
+      "filename": "D&D 5E - Waterdeep - Dragon Heist.pdf",
+      "path": "DnD-Manuals/Campaigns/D&D 5E - Waterdeep - Dragon Heist.pdf"
+    },
+    "WSC": {
+      "title": "The Wild Sheep Chase V2",
+      "filename": "The_Wild_Sheep_Chase_V2.pdf",
+      "path": "DnD-Manuals/Campaigns/The_Wild_Sheep_Chase_V2.pdf"
+    },
+    "CotN": {
+      "title": "critical role presents call of the netherdeep dd adventure book wizards rpg team compress",
+      "filename": "critical-role-presents-call-of-the-netherdeep-dd-adventure-book-wizards-rpg-team_compress.pdf",
+      "path": "DnD-Manuals/CritRoll/critical-role-presents-call-of-the-netherdeep-dd-adventure-book-wizards-rpg-team_compress.pdf"
+    },
+    "EGW": {
+      "title": "explorers guide to wildemountpdf compress",
+      "filename": "explorers-guide-to-wildemountpdf_compress.pdf",
+      "path": "DnD-Manuals/CritRoll/explorers-guide-to-wildemountpdf_compress.pdf"
+    },
+    "TCSR": {
+      "title": "taldorei campaign setting reborn compress",
+      "filename": "taldorei-campaign-setting-reborn_compress.pdf",
+      "path": "DnD-Manuals/CritRoll/taldorei-campaign-setting-reborn_compress.pdf"
     }
   }
 }

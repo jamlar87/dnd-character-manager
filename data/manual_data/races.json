@@ -1,1 +1,1820 @@
-[]
+[
+  {
+    "name": "Firbolg",
+    "source": "Call of the Netherdeep p.??",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Powerful Build",
+        "description": "The firbolg counts as one size larger when determining its carrying capacity and the weight it can push, drag, or lift.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Speech of Beast and Leaf",
+        "description": "The firbolg can communicate in a limited way with Beasts and Plants. These creatures understand the meaning of the firbolg's words, though the firbolg has no ability to understand their languages. In addition, the firbolg has advantage on Charisma checks it makes to influence a Beast or Plant.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Firbolgs are forest-dwelling Humanoids native to the Greying Wild lands of Wildemount. They are on the tall side of Medium, and their bodies are covered with thick fur ranging in color from tones of brown and ruddy red to cool gray and blue, and occasionally in hues of pink or green.",
+    "_effects": {
+      "Powerful Build": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Counts as one size larger when determining carrying capacity and weight it can push, drag, or lift."
+      },
+      "Speech of Beast and Leaf": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can communicate in a limited way with Beasts and Plants; they understand the firbolg's words but the firbolg cannot understand their languages. Advantage on Charisma checks to influence a Beast or Plant."
+      }
+    },
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Pallid Elf",
+    "source": "Explorer's Guide to Wildemount p.??",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1."
+      },
+      {
+        "name": "Incisive Sense",
+        "description": "You have advantage on Intelligence (Investigation) and Wisdom (Insight) checks."
+      },
+      {
+        "name": "Blessing of the Moon Weaver",
+        "description": "You know the light cantrip. When you reach 3rd level, you can cast the sleep spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the invisibility spell (targeting yourself only) once with this trait and regain the ability to do so when you finish a long rest. Casting these spells with this trait doesn't require material components. Wisdom is your spellcasting ability for these spells."
+      }
+    ],
+    "subraces": [],
+    "description": "The pallid elves are a mystical and insightful people with skin as pale as the surface of Exandria's largest moon. They emerged from the Pallid Grove this century and wander the world with childlike curiosity.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 1."
+      },
+      "Incisive Sense": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on Intelligence (Investigation) and Wisdom (Insight) checks."
+      },
+      "Blessing of the Moon Weaver": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the light cantrip. At 3rd level, can cast sleep once per long rest. At 5th level, can cast invisibility (self only) once per long rest. No material components required. Wisdom is spellcasting ability."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Sea Elf",
+    "source": "C HAPTER 4 J CHARACTER O PTIONS",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Aquan"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Sea ElfTraining",
+        "description": "You have proficiency with the spear, trident, light crossbow, and net.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Child of the Sea",
+        "description": "You have a swimming speed of 30 feet, and you can breathe air and water.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Friend of the Sea",
+        "description": "Using gestures and sounds, you can communicate simple ideas with any beast that has an innate swimming speed.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Sea elves are a reclusive and deeply territorial people who have as much in common with merfolk as they do with other elves.",
+    "_effects": {
+      "Sea ElfTraining": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Spear",
+          "Trident",
+          "Light crossbow",
+          "Net"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Child of the Sea": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Swimming speed of 30 feet; can breathe air and water."
+      },
+      "Friend of the Sea": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can communicate simple ideas with any beast that has an innate swimming speed using gestures and sounds."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Lotusden Halfling",
+    "source": "C HAPTER 4 I CHARACTER OPTIONS",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1."
+      },
+      {
+        "name": "Child of the Wood",
+        "description": "You know the druidcraft cantrip. When you reach 3rd level, you can cast the entangle spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the spike growth spell once with this trait and regain the ability to do so when you finish a long rest. Casting these spells with this trait doesn't require material components. Wisdom is your spellcasting ability for these spells."
+      },
+      {
+        "name": "Timberwalk",
+        "description": "Ability checks made to track you have disadvantage, and you can move across difficult terrain made of nonmagical plants and undergrowth without expending extra movement."
+      }
+    ],
+    "subraces": [],
+    "description": "Long tied to the natural heart of the Lotusden Greenwood, these halflings have adapted to live synergistically with the chaotic laws of the wilds.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 1."
+      },
+      "Child of the Wood": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows druidcraft cantrip. At 3rd level, can cast entangle once per long rest. At 5th level, can cast spike growth once per long rest. No material components needed. Wisdom is spellcasting ability."
+      },
+      "Timberwalk": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Ability checks to track you have disadvantage. Can move through nonmagical plant difficult terrain without extra movement cost."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Aarakocra",
+    "source": "Chapter 4 | Character Options, page 166",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Aarakocra",
+      "Auran",
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity score increases by 2, and your Wisdom score increases by 1."
+      },
+      {
+        "name": "Age",
+        "description": "Aarakocra reach maturity by age 3. They don't usually live longer than 30 years."
+      },
+      {
+        "name": "Alignment",
+        "description": "Most aarakocra are good and rarely choose sides when it comes to law and chaos. Tribal leaders and warriors might be lawful, while explorers and adventurers might tend toward chaotic."
+      },
+      {
+        "name": "Size",
+        "description": "Aarakocra average 5 feet tall and have slender, lightweight bodies. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 25 feet."
+      },
+      {
+        "name": "Flight",
+        "description": "You have a flying speed of 50 feet. To use this speed, you can't be wearing medium or heavy armor."
+      },
+      {
+        "name": "Talons",
+        "description": "Your talons are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Aarakocra, Auran, and Common."
+      }
+    ],
+    "subraces": [],
+    "description": "Aarakocra are bird-like humanoids native to the mountains and jungles of western Wildemount, averaging 5 feet tall with slender, lightweight bodies.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity +2, Wisdom +1"
+      },
+      "Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Reach maturity by age 3, live up to 30 years"
+      },
+      "Alignment": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Mostly good, tend toward chaotic"
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Medium size"
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 25,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Flight": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flying speed 50 feet, cannot use in medium or heavy armor"
+      },
+      "Talons": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Natural weapon: 1d4 slashing damage on unarmed strikes"
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Speak, read, write Aarakocra, Auran, Common"
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Aasimar",
+    "source": "Unknown source (page not determinable)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Celestial"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Charisma score increases by 2."
+      },
+      {
+        "name": "Age",
+        "description": "Aasimar mature at the same rate as humans, but they can live up to 160 years."
+      },
+      {
+        "name": "Alignment",
+        "description": "Imbued with celestial power, most aasimar are good. Outcast aasimar are most often neutral or even evil."
+      },
+      {
+        "name": "Size",
+        "description": "Aasimar have the same range of height and weight as humans. Your size is Medium. Here's how to determine your height and weight randomly, starting with rolling a size modifier: Size modifier = 2dl0 Height = 4 feet + 8 inches + your size modifier in inches Weight in pounds = 1 1 0  + (2d4 x your size modifier)"
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Darkvision",
+        "description": "Blessed with a radiant soul, your vision can easily cut through darkness. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Celestial Resistance",
+        "description": "You have resistance to necrotic damage and radiant damage."
+      },
+      {
+        "name": "Healing Hands",
+        "description": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest."
+      },
+      {
+        "name": "Light Bearer",
+        "description": "You know the light cantrip. Charisma is your spellcasting ability for it."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and Celestial."
+      },
+      {
+        "name": "Subrace",
+        "description": "Three subraces for aasimar exist: protector aasimar, scourge aasimar, and fallen aasimar. Choose one of them for your character."
+      }
+    ],
+    "subraces": [
+      {
+        "name": "Protector Aasimar",
+        "asi": {
+          "str": 0,
+          "dex": 0,
+          "con": 0,
+          "int": 0,
+          "wis": 1,
+          "cha": 0
+        },
+        "traits": [
+          {
+            "name": "Radiant Soul",
+            "description": "Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to glimmer and two luminous, incorporeal wings to sprout from your back. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet, and once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level. Once you use this trait, you can't use it again until you finish a long rest.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "Protector aasimar are charged by the powers of good to protect the weak, to strike at evil wherever it arises, and to stand vigilant against the darkness. From a young age, a protector aasimar receives advice and directives that urge them to stand against evil."
+      },
+      {
+        "name": "Scourge Aasimar",
+        "asi": {
+          "str": 0,
+          "dex": 0,
+          "con": 1,
+          "int": 0,
+          "wis": 0,
+          "cha": 0
+        },
+        "traits": [
+          {
+            "name": "Radiant Consumption",
+            "description": "Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing a searing light to radiate from you, pouring out of your eyes and mouth, and threaten to char you. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you shed bright light in a 10-foot radius and dim light for an additional 10 feet, and at the end of each of your turns, you and each creature within 10 feet of you take radiant damage equal to half your level (rounded up). In addition, once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level. Once you use this trait, you can't use it again until you finish a long rest.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "Scourge aasimar are imbued with a divine energy that blazes intensely within them. It feeds a powerful desire to destroy evil-a desire that is, at its best, unflinching and, at its worst, all-consuming. Many scourge aasimar wear masks to block out the world and focus on containing this power, unmasking themselves only in battle."
+      }
+    ],
+    "description": "Aasimar are humanoids with a celestial spark, often bearing an inner light and a link to an angelic guide, with a range of appearances similar to humans.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Charisma score increases by 2."
+      },
+      "Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Matures at same rate as humans, lives up to 160 years."
+      },
+      "Alignment": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Most aasimar are good; outcasts are neutral or evil."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can see in dim light as bright light and darkness as dim light; no color in darkness."
+      },
+      "Celestial Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Necrotic",
+          "Radiant"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Healing Hands": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As an action, touch a creature to restore hit points equal to your level. Once per long rest."
+      },
+      "Light Bearer": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the light cantrip. Charisma is spellcasting ability."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Speaks, reads, and writes Common and Celestial."
+      },
+      "Subrace": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose one subrace: protector aasimar, scourge aasimar, or fallen aasimar."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fallen Aasimar",
+    "source": "Explorer's Guide to Wildemount p.168",
+    "asi": {
+      "strength": 1,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Celestial"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "Blessed with a radiant soul, your vision can easily cut through darkness. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Celestial Resistance",
+        "description": "You have resistance to necrotic damage and radiant damage."
+      },
+      {
+        "name": "Healing Hands",
+        "description": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest."
+      },
+      {
+        "name": "Light Bearer",
+        "description": "You know the light cantrip. Charisma is your spellcasting ability for it."
+      },
+      {
+        "name": "Necrotic Shroud",
+        "description": "Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to turn into pools of darkness and two skeletal, ghostly, flightless wings to sprout from your back. The instant you transform, other creatures within 10 feet of you that can see you must each succeed on a Charisma saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or become frightened of you until the end of your next turn. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, once on each of your turns, you can deal extra necrotic damage to one target when you deal damage to it with an attack or a spell. The extra necrotic damage equals your level. Once you use this trait, you can't use it again until you finish a long rest."
+      }
+    ],
+    "subraces": [],
+    "description": "An aasimar who was touched by dark powers as a youth or who turns evil in early adulthood can become one of the fallen—a group of aasimar whose inner light has been replaced by shadow.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Celestial Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Necrotic",
+          "Radiant"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Healing Hands": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest."
+      },
+      "Light Bearer": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You know the light cantrip. Charisma is your spellcasting ability for it."
+      },
+      "Necrotic Shroud": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to turn into pools of darkness and two skeletal, ghostly, flightless wings to sprout from your back. The instant you transform, other creatures within 10 feet of you that can see you must each succeed on a Charisma saving throw (DC 8 + your proficiency bonus + your Charisma modifier) or become frightened of you until the end of your next turn. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, once on each of your turns, you can deal extra necrotic damage to one target when you deal damage to it with an attack or a spell. The extra necrotic damage equals your level. Once you use this trait, you can't use it again until you finish a long rest."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Genasi (Fire)",
+    "source": "Chapter 4 | Character Options p.172",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Primordial"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. Your ties to the Elemental Plane of Fire make your darkvision unusual: everything you see in darkness is a shade of red.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Fire Resistance",
+        "description": "You have resistance to fire damage.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Reach to the Blaze",
+        "description": "You know the produce flame cantrip. When you reach 3rd level, you can cast burning hands as a 1st-level spell once with this trait, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "As a fire genasi, you have inherited the volatile mood and keen mind of the efreet. You tend toward impatience and making snap judgments.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Darkvision sees in shades of red."
+      },
+      "Fire Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Fire"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Reach to the Blaze": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows produce flame cantrip. At 3rd level, can cast burning hands once per long rest. Spellcasting ability is Constitution."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Bugbear",
+    "source": "Explorer's Guide to Wildemount p.174",
+    "asi": {
+      "strength": 2,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Long-Limbed",
+        "description": "When you make a melee attack on your turn, your reach for it is 5 feet greater than normal."
+      },
+      {
+        "name": "Powerful Build",
+        "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+      },
+      {
+        "name": "Sneaky",
+        "description": "You are proficient in the Stealth skill."
+      },
+      {
+        "name": "Surprise Attack",
+        "description": "If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage to it. You can use this trait only once per combat.",
+        "uses": 1,
+        "recharge": "combat"
+      }
+    ],
+    "subraces": [],
+    "description": "Bugbears are between 6 and 8 feet tall and weigh between 250 and 350 pounds. They value self-sufficiency and violence, and are generally chaotic, organizing in loose tribes under charismatic and powerful leaders.",
+    "_effects": {
+      "Long-Limbed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Your reach for melee attacks is 5 feet greater than normal."
+      },
+      "Powerful Build": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You count as one size larger when determining carrying capacity and the weight you can push, drag, or lift."
+      },
+      "Sneaky": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Stealth"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Surprise Attack": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "If you surprise a creature and hit it with an attack on your first turn in combat, the attack deals an extra 2d6 damage. Can be used only once per combat."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Goblin",
+    "source": "Explorer's Guide to Wildemount p.175",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Fury of the Small",
+        "description": "When you damage a creature with an attack or a spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage to the creature. The extra damage equals your level. Once you use this trait, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Nimble Escape",
+        "description": "You can take the Disengage or Hide action as a bonus action on each of your turns."
+      }
+    ],
+    "subraces": [],
+    "description": "Goblins are between 3 and 4 feet tall and weigh between 40 and 80 pounds. Your size is Small.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can see in dim light within 60 feet as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      "Fury of the Small": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When you damage a creature with an attack or spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage equal to your level. Once used, cannot be used again until finishing a short or long rest."
+      },
+      "Nimble Escape": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can take the Disengage or Hide action as a bonus action on each of your turns."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Hobgoblin",
+    "source": "Explorer's Guide to Wildemount p.175",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Goblin"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Martial Training",
+        "description": "You are proficient with two martial weapons of your choice and with light armor."
+      },
+      {
+        "name": "Saving Face",
+        "description": "Hobgoblins are careful not to show weakness in front of their allies, for fear of losing status. If you miss with an attack roll or fail an ability check or a saving throw, you can gain a bonus to the roll equal to the number of allies you can see within 30 feet of you (maximum bonus of +5). Once you use this trait, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Hobgoblins are between 5 and 6 feet tall and weigh between 150 and 200 pounds. They adhere to a strict code of honor and a rigid idea of martial discipline.",
+    "_effects": {
+      "Darkvision": {
+        "darkvision": 60
+      },
+      "Martial Training": {
+        "armor_profs": [
+          "Light armor"
+        ],
+        "weapon_profs": [
+          "two martial weapons of your choice"
+        ]
+      },
+      "Saving Face": {
+        "notes": "If you miss with an attack roll or fail an ability check or a saving throw, you can gain a bonus to the roll equal to the number of allies you can see within 30 feet of you (maximum bonus of +5). Once used, cannot be used again until you finish a short or long rest."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Goliath",
+    "source": "Chapter 4 | Character Options, page 175",
+    "asi": {
+      "strength": 2,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Giant"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Natural Athlete",
+        "description": "You have proficiency in the Athletics skill.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Stone's Endurance",
+        "description": "You can focus yourself to occasionally shrug off injury. When you take damage, you can use your reaction to roll a d12. Add your Constitution modifier to the number rolled, and reduce the damage by that total. After you use this trait, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Powerful Build",
+        "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Mountain Born",
+        "description": "You're acclimated to high altitude, including elevations above 20,000 feet. You're also naturally adapted to cold climates, as described in chapter 5 of the Dungeon Master's Guide.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Goliaths stand between 7 and 8 feet tall and weigh between 280 and 340 pounds. They have lifespans comparable to humans, entering adulthood in their late teens and usually living less than a century.",
+    "_effects": {
+      "Natural Athlete": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Athletics"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Stone's Endurance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Reaction to reduce damage by 1d12 + Constitution modifier, usable once per short or long rest."
+      },
+      "Powerful Build": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Count as one size larger for carrying capacity and push/drag/lift weight."
+      },
+      "Mountain Born": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Cold"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Acclimated to high altitude (elevations above 20,000 feet)."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Kenku",
+    "source": "Explorer's Guide to Wildemount p.177",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Auran",
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Expert Forgery",
+        "description": "You can duplicate other creatures' handwriting and craftwork. You have advantage on all checks made to produce forgeries or duplicates of existing objects."
+      },
+      {
+        "name": "Kenku Training",
+        "description": "You are proficient in your choice of two of the following skills: Acrobatics, Deception, Stealth, and Sleight of Hand."
+      },
+      {
+        "name": "Mimicry",
+        "description": "You can mimic sounds you have heard, including voices. A creature that hears the sounds you make can tell they are imitations with a successful Wisdom (Insight) check contested by your Charisma (Deception) check."
+      }
+    ],
+    "subraces": [],
+    "description": "Kenku are around 5 feet tall and weigh between 90 and 120 pounds. They have shorter lifespans than humans, reaching maturity at about 12 years old and can live to 60.",
+    "_effects": {
+      "Expert Forgery": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on all checks to produce forgeries or duplicates of existing objects."
+      },
+      "Kenku Training": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Acrobatics",
+          "Deception",
+          "Stealth",
+          "Sleight of Hand"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose two of the listed skills to gain proficiency in."
+      },
+      "Mimicry": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can mimic sounds and voices. Creatures can detect imitation with a successful Wisdom (Insight) check contested by your Charisma (Deception) check."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Orc",
+    "source": "Explorer's Guide to Wildemount p.177",
+    "asi": {
+      "strength": 2,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Orc"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Aggressive",
+        "description": "As a bonus action, you can move up to your speed toward an enemy of your choice that you can see or hear. You must end this move closer to the enemy than you started."
+      },
+      {
+        "name": "Powerful Build",
+        "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+      },
+      {
+        "name": "Primal Intuition",
+        "description": "You have proficiency in two skills of your choice from the following list: Animal Handling, Insight, Intimidation, Medicine, Perception, and Survival."
+      }
+    ],
+    "subraces": [],
+    "description": "No physical description available in the provided text.",
+    "_effects": {
+      "Aggressive": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As a bonus action, you can move up to your speed toward an enemy of your choice that you can see or hear. You must end this move closer to the enemy than you started."
+      },
+      "Powerful Build": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+      },
+      "Primal Intuition": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Animal Handling",
+          "Insight",
+          "Intimidation",
+          "Medicine",
+          "Perception",
+          "Survival"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You gain proficiency in two skills of your choice from the listed options."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Tabaxi",
+    "source": "Explorer's Guide to Wildemount p.179",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "one other language of your choice"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Feline Agility",
+        "description": "Your reflexes and agility allow you to move with a burst of speed. When you move on your turn in combat, you can double your speed until the end of the turn. Once you use this trait, you can't use it again until you move 0 feet on one of your turns.",
+        "uses": 1,
+        "recharge": "special (move 0 feet on one of your turns)"
+      },
+      {
+        "name": "Cat's Claws",
+        "description": "Because of your claws, you have a climbing speed of 20 feet. In addition, your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
+      },
+      {
+        "name": "Cat's Talent",
+        "description": "You have proficiency in the Perception and Stealth skills."
+      }
+    ],
+    "subraces": [],
+    "description": "Tabaxi are taller on average than humans and relatively slender, with feline features and a curious, impulsive nature.",
+    "_effects": {
+      "Feline Agility": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When you move on your turn in combat, you can double your speed until the end of the turn. Once used, cannot use again until you move 0 feet on one of your turns."
+      },
+      "Cat's Claws": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Climbing speed of 20 feet. Natural weapons (claws): unarmed strike deals 1d4 + Strength modifier slashing damage instead of normal bludgeoning."
+      },
+      "Cat's Talent": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Perception",
+          "Stealth"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Tortle",
+    "source": "Chapter 4 | Character Options p.181",
+    "asi": {
+      "strength": 2,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Aquan",
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Claws",
+        "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Hold Breath",
+        "description": "You can hold your breath for up to 1 hour at a time. Tortles aren't natural swimmers, but they can remain underwater for some time before needing to come up for air.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Natural Armor",
+        "description": "Due to your shell and the shape of your body, you are ill-suited to wearing armor. Your shell provides ample protection, however; it gives you a base AC of 17 (your Dexterity modifier doesn't affect this number). You gain no benefit from wearing armor, but if you are using a shield, you can apply the shield's bonus as normal.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Shell Defense",
+        "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can't increase, you have disadvantage on Dexterity saving throws, you can't take reactions, and the only action you can take is a bonus action to emerge from your shell.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Survival Instinct",
+        "description": "You gain proficiency in the Survival skill. Tortles have finely honed survival instincts.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Tortles are humanoid tortoises that stand 5 to 6 feet tall and average about 450 pounds, with shells accounting for roughly one-third of their weight.",
+    "_effects": {
+      "Claws": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Your claws are natural weapons. You can make unarmed strikes with them, dealing 1d4 + Strength modifier slashing damage instead of normal bludgeoning damage."
+      },
+      "Hold Breath": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can hold your breath for up to 1 hour at a time."
+      },
+      "Natural Armor": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": {
+          "base_ac": 17,
+          "max_dex": null,
+          "allow_shield": true
+        },
+        "notes": "You gain no benefit from wearing armor, but can use a shield normally."
+      },
+      "Shell Defense": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As an action, withdraw into shell: +4 AC, advantage on Strength and Constitution saves, prone, speed 0, disadvantage on Dexterity saves, no reactions, only action is bonus action to emerge."
+      },
+      "Survival Instinct": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Survival"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Hollow One",
+    "source": "Chapter 4 | Character Options p.181",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ageless",
+        "description": "You don't age, and effects that would cause you to age don't work on you."
+      },
+      {
+        "name": "Cling to Life",
+        "description": "When you make a death saving throw and roll 16 or higher, you regain 1 hit point."
+      },
+      {
+        "name": "Revenance",
+        "description": "You retain your creature type, yet you register as undead to spells and other effects that detect the presence of the undead creature type."
+      },
+      {
+        "name": "Unsettling Presence",
+        "description": "As an action, you can unsettle a creature you can see within 15 feet of you. The target has disadvantage on the next saving throw it makes within the next minute. Constructs, undead, and creatures that can't be frightened are immune to this feature. Once you use this feature, you can't use it again until you finish a long rest."
+      }
+    ],
+    "subraces": [],
+    "description": "Hollow Ones are beings whose departed soul has been replaced by the strange magic of Blightshore, marked by feelings of unease, dread, or sadness, and faintly smelling of necromancy.",
+    "_effects": {
+      "Ageless": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You don't age, and effects that would cause you to age don't work on you."
+      },
+      "Cling to Life": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When you make a death saving throw and roll 16 or higher, you regain 1 hit point."
+      },
+      "Revenance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You retain your creature type, yet you register as undead to spells and other effects that detect the presence of the undead creature type."
+      },
+      "Unsettling Presence": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As an action, you can unsettle a creature you can see within 15 feet of you. The target has disadvantage on the next saving throw it makes within the next minute. Constructs, undead, and creatures that can't be frightened are immune to this feature. Once you use this feature, you can't use it again until you finish a long rest."
+      }
+    },
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dragonblood",
+    "source": "Tal'Dorei Campaign Setting: Reborn",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [],
+    "subraces": [],
+    "description": "A humanoid with patches of scales and reptilian eyes, bearing the traits of a dragonblood parent.",
+    "_source_manual": "TCSR"
+  }
+]

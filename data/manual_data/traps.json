@@ -1,586 +1,1002 @@
 [
   {
-    "name": "Collapsing Roof",
-    "type": "mechanical",
-    "danger": "dangerous",
-    "source": "DMG p.122",
-    "trigger": "Trip wire 3 inches off the ground stretched between two support beams. Can also be triggered by knocking over a support beam as an action.",
-    "detection": {
-      "dc": 10,
-      "skill": "Perception",
-      "detail": "Spot the trip wire. Anyone examining the beams can see they are merely wedged in place. The ceiling above the wire is visibly in bad repair."
-    },
-    "disarm": {
-      "dc": 15,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "Disables the trip wire harmlessly. Without thieves' tools, attempt with disadvantage using an edged weapon or tool. On failure, the trap triggers."
-    },
-    "effect": "When triggered, the unstable ceiling collapses. Creatures beneath must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half on success. The area becomes difficult terrain from rubble.",
-    "save_dc": 15,
-    "save_ability": "Dexterity",
-    "damage": "22 (4d10)",
-    "damage_type": "bludgeoning",
-    "area": "Ceiling section above trip wire",
-    "description": "A section of ceiling collapses when triggered. Creatures in the area must make a DC 15 Dexterity saving throw, taking 4d10 bludgeoning damage on a failed save or half as much on a success."
-  },
-  {
-    "name": "Falling Net",
+    "name": "The Box's Riddle (Electric Shock Trap)",
     "type": "mechanical",
     "danger": "setback",
-    "source": "DMG p.122",
-    "trigger": "Trip wire 3 inches off the ground between two columns or trees releases a net hidden by cobwebs or foliage.",
+    "trigger": "Inserting the incorrect key or trying to pick the lock",
     "detection": {
-      "dc": 10,
-      "skill": "Perception",
-      "detail": "Spot the trip wire and the net."
+      "dc": 13,
+      "skill": "Intelligence (Arcana or History)",
+      "detail": "Recognizing the shape of the dragon lock or the box's aquatic decorations as indicative of a bronze dragon; if a character saw someone get shocked by lightning after an incorrect guess, the DC for this check is reduced to 11."
     },
     "disarm": {
-      "dc": 15,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "Break the trip wire harmlessly. Without tools, attempt with disadvantage using an edged weapon. On failure, the trap triggers."
+      "dc": 0,
+      "method": "",
+      "detail": "Inserting the correct bronze key opens the lock without triggering the trap."
     },
-    "effect": "Net covers a 10-foot-square area. Creatures in area are restrained; those failing a DC 10 Strength save are also knocked prone. A creature can use an action to make a DC 10 Strength check to free itself or another within reach. Net has AC 10, 20 hit points. Dealing 5 slashing damage (AC 10) destroys a 5-foot-square section, freeing creatures there.",
-    "save_dc": 10,
-    "save_ability": "Strength",
-    "damage": "None (restrains)",
-    "damage_type": "control",
-    "area": "10-foot square",
-    "description": "A net drops from the ceiling, covering a 10-foot square. Creatures in the area are restrained. A creature can use its action to make a DC 10 Strength check to break free. The net has AC 10 and 20 hit points."
+    "effect": "The lock emits an electric shock.",
+    "save_dc": 16,
+    "save_ability": "Dexterity",
+    "damage": "2 (1d4)",
+    "damage_type": "lightning",
+    "area": "The lock itself",
+    "description": "A locked wooden box with a dragon-shaped lock that shocks those who insert the wrong key or try to pick it.",
+    "source": "Unknown page",
+    "_source_manual": "CotN"
   },
   {
-    "name": "Fire-Breathing Statue",
+    "name": "Ghostgrass Patch",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature tries to swim past the ghostgrass",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pale plants blocking the exit to the cavern are ghostgrass, a carnivorous variety of sea grass."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Strength (Athletics)",
+      "detail": "A creature can use an action to try to free itself or another creature within its reach from the ghostgrass, doing so with a successful DC 12 Strength (Athletics) check."
+    },
+    "effect": "A creature that tries to swim past the ghostgrass must succeed on a DC 12 Dexterity saving throw or take 3 (1d6) necrotic damage and be restrained. A restrained creature takes the damage again at the start of each of its turns until it escapes.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6)",
+    "damage_type": "necrotic",
+    "area": "A thick patch of bone-white sea grass blocking the exit to the cavern",
+    "description": "A carnivorous variety of sea grass that restrains and damages creatures that fail a Dexterity save.",
+    "source": "Emerald Grotto, E4: Ghostgrass Patch",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Landslide",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "As you swim into this area, ripples course through the water as more rocky debris begins to slide toward you.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "One side of the chamber is covered in the crumbled and muddy remains of a landslide."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Each character must make a DC 14 Dexterity saving throw, taking 10 (3d6) bludgeoning damage from the landslide on a failed save, or half as much damage on a successful one.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "10 (3d6)",
+    "damage_type": "bludgeoning",
+    "area": "One side of the chamber covered in crumbled and muddy remains of a landslide",
+    "description": "A landslide of rocky debris that damages characters who fail a Dexterity save.",
+    "source": "Emerald Grotto, E5: Landslide",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Sacrifice Engine",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature is in the pit while the blades are spinning",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pit is 30 feet deep and lined with rows of silver blades; a lever near the edge can be pulled to spin the blades."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Pulling the lever near the edge of the pit stops the blades from spinning."
+    },
+    "effect": "A creature in the pit while the blades are spinning takes 44 (8d10) slashing damage at the start of each of its turns.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "44 (8d10)",
+    "damage_type": "slashing",
+    "area": "30-foot-deep pit",
+    "description": "A 30-foot-deep pit lined with rows of silver blades that can be made to spin by pulling a lever near the edge.",
+    "source": "Chapter 3 | Bazzoxan p.51",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Vrock Corpse Spore Eruption",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A failed DC 15 Wisdom (Survival) check to extract the contents of the vrock's stomach.",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Survival)",
+      "detail": "To extract the contents of the vrock's stomach, a character must first cleave through the vrock's hide."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described; avoid triggering by succeeding on the Survival check."
+    },
+    "effect": "An eruption of spores from the vrock's corpse that fill a 10-foot-radius sphere centered on the corpse. All creatures in that area must succeed on a DC 14 Constitution saving throw or become poisoned. A creature poisoned in this way takes 5 (1d10) poison damage at the start of each of its turns. It can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+    "save_dc": 14,
+    "save_ability": "Constitution",
+    "damage": "5 (1d10)",
+    "damage_type": "poison",
+    "area": "10-foot-radius sphere centered on the corpse",
+    "description": "A failed attempt to cut open a dead vrock's stomach causes a spore eruption.",
+    "source": "Call of the Netherdeep p.54",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Bladed Corridor",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Whenever one or more creatures are in the hall, the floor tilts to one side and then the other so that creatures stumble into the blades.",
+    "detection": {
+      "dc": 12,
+      "skill": "Perception",
+      "detail": "Characters who have a passive Wisdom (Perception) score of 12 or higher notice a phrase written in Undercommon on the floor between the two statues."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "If the crystal canister is destroyed, the characters have no way to disable the hall's trap."
+    },
+    "effect": "A creature that moves into the corridor or starts its turn there must make a DC 20 Dexterity saving throw, taking 17 (5d6) slashing damage on a failed saving throw, or half as much damage on a successful one.",
+    "save_dc": 20,
+    "save_ability": "Dexterity",
+    "damage": "17 (5d6)",
+    "damage_type": "slashing",
+    "area": "The corridor north of the statues",
+    "description": "A corridor with twitching silver blades protruding from its walls; the floor tilts to make creatures stumble into the blades.",
+    "source": "Bazzoxan p.65",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Stained-Glass Mosaic Trap",
     "type": "magical",
     "danger": "dangerous",
-    "source": "DMG p.122",
-    "trigger": "Hidden pressure plate activates when more than 20 pounds of weight is placed on it.",
+    "trigger": "A creature presses an incorrect symbol on the mosaic",
     "detection": {
-      "dc": 15,
-      "skill": "Perception",
-      "detail": "Spot the hidden pressure plate and faint scorch marks on floor and walls. Detect magic reveals an aura of evocation magic on the statue."
+      "dc": 11,
+      "skill": "Intelligence (Religion)",
+      "detail": "A character who succeeds on a DC 11 Intelligence (Religion) check recognizes these as the symbols of evil gods."
     },
     "disarm": {
-      "dc": 13,
-      "method": "dispel magic or iron spike",
-      "detail": "Wedge an iron spike under the pressure plate to prevent activation. A successful dispel magic (DC 13) on the statue destroys the trap."
+      "dc": 0,
+      "method": "Pressing the correct four symbols in order",
+      "detail": "If four of the symbols are pressed in the correct order, as noted in the Symbol Sequence table, a door opens at the base of the wall."
     },
-    "effect": "Statue releases a 30-foot cone of fire. Each creature in the cone must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half on success.",
-    "save_dc": 13,
-    "save_ability": "Dexterity",
-    "damage": "22 (4d10)",
-    "damage_type": "fire",
-    "area": "30-foot cone",
-    "description": "A statue releases a 15-foot cone of magical fire. Creatures in the area must make a DC 13 Dexterity saving throw, taking 4d6 fire damage on a failed save or half as much on a success."
+    "effect": "A creature that presses an incorrect symbol must make a DC 16 Wisdom saving throw, taking 28 (8d6) psychic damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "28 (8d6)",
+    "damage_type": "psychic",
+    "area": "The stained-glass mosaic",
+    "description": "A 10-foot-wide section of wall at the north end of the basilica resembles a tall, stained-glass window. Its imagery changes constantly, but nine symbols remain static. If four of the symbols are pressed in the correct order, a door opens. Pressing an incorrect symbol deals psychic damage.",
+    "source": "Chapter 3 | Bazzoxan",
+    "_source_manual": "CotN"
   },
   {
-    "name": "Simple Pit",
-    "type": "mechanical",
-    "danger": "setback",
-    "source": "DMG p.122",
-    "trigger": "Stepping on a cloth covering camouflaged with dirt and debris.",
-    "detection": {
-      "dc": 10,
-      "skill": "Perception",
-      "detail": "Spot the hole covered by a camouflaged cloth."
-    },
-    "disarm": {
-      "dc": null,
-      "method": "Avoid or bypass",
-      "detail": "Simply avoid stepping on the pit. No mechanism to disable — just don't walk into it."
-    },
-    "effect": "Creature falls into the pit, taking falling damage based on depth (typically 10 feet: 1d6 bludgeoning).",
-    "save_dc": null,
-    "save_ability": null,
-    "damage": "1d6 per 10 feet (typically 1d6)",
-    "damage_type": "bludgeoning",
-    "area": "5-foot square opening",
-    "description": "A covered pit opens when weight is placed on it. The pit is 10 feet deep, dealing 1d6 bludgeoning damage. A DC 10 Wisdom (Perception) check reveals the trap."
-  },
-  {
-    "name": "Hidden Pit",
+    "name": "Chains of Darkness Trap",
     "type": "mechanical",
     "danger": "dangerous",
-    "source": "DMG p.122",
-    "trigger": "Stepping on a cover identical to the surrounding floor.",
+    "trigger": "A creature falls prone in the hall (area R10)",
     "detection": {
-      "dc": 15,
-      "skill": "Perception",
-      "detail": "Notice the absence of foot traffic over the section. DC 15 Intelligence (Investigation) confirms it's a pit cover."
-    },
-    "disarm": {
-      "dc": null,
-      "method": "Iron spike",
-      "detail": "Wedge an iron spike between cover and floor to prevent it from opening. Arcane lock can also hold it shut."
-    },
-    "effect": "The cover swings open like a trapdoor, dropping the creature into the pit. Typically 10–20 feet deep (potentially deeper). Falling damage applies.",
-    "save_dc": null,
-    "save_ability": null,
-    "damage": "2d6–4d6 (varies by depth)",
-    "damage_type": "bludgeoning",
-    "area": "5-foot square opening",
-    "description": "A well-disguised pit identical to a Simple Pit but harder to detect. DC 15 Wisdom (Perception) to notice. The pit is 20 feet deep, dealing 2d6 bludgeoning damage."
-  },
-  {
-    "name": "Locking Pit",
-    "type": "mechanical",
-    "danger": "dangerous",
-    "source": "DMG p.122",
-    "trigger": "Identical to a Hidden Pit, stepping on the cover triggers the fall.",
-    "detection": {
-      "dc": 15,
-      "skill": "Perception",
-      "detail": "Same as Hidden Pit. DC 15 Wisdom (Perception) to notice absence of foot traffic."
-    },
-    "disarm": {
-      "dc": 20,
-      "method": "Strength or thieves' tools",
-      "detail": "After falling: DC 20 Strength check to pry cover open, or smash it. From inside, DC 15 Dexterity (thieves' tools) to disable spring mechanism if reachable. Some pits have a nearby secret mechanism to open them."
-    },
-    "effect": "Fall into pit, then the spring-loaded cover snaps shut, trapping the victim inside. Same falling damage as Hidden Pit, plus the victim is trapped until freed.",
-    "save_dc": null,
-    "save_ability": null,
-    "damage": "2d6–4d6 (varies by depth)",
-    "damage_type": "bludgeoning",
-    "area": "5-foot square opening",
-    "description": "A pit trap with a spring-loaded lid that snaps shut after being triggered. DC 15 Perception to spot. The pit is 20 feet deep (2d6 bludgeoning), and the lid requires a DC 20 Strength check to lift."
-  },
-  {
-    "name": "Spiked Pit",
-    "type": "mechanical",
-    "danger": "dangerous",
-    "source": "DMG p.122",
-    "trigger": "Same as Simple, Hidden, or Locking Pit.",
-    "detection": {
-      "dc": 15,
-      "skill": "Perception",
-      "detail": "Same as Hidden Pit variant."
-    },
-    "disarm": {
-      "dc": null,
-      "method": "Same as pit variant",
-      "detail": "Same disarming methods as the base pit type."
-    },
-    "effect": "A pit with sharpened wooden or iron spikes at the bottom. Falling creature takes falling damage plus an extra 11 (2d10) piercing damage from spikes. Poisoned variant: spikes smeared with poison — DC 13 Constitution save or take 22 (4d10) poison damage (half on success).",
-    "save_dc": 13,
-    "save_ability": "Constitution (poison variant)",
-    "damage": "Falling + 11 (2d10) piercing + possible 22 (4d10) poison",
-    "damage_type": "piercing/poison",
-    "area": "5-foot square opening",
-    "description": "A pit with sharpened stakes at the bottom. DC 15 Perception to notice. Deals 2d6 bludgeoning from the fall plus 2d10 piercing damage from the spikes."
-  },
-  {
-    "name": "Poison Darts",
-    "type": "mechanical",
-    "danger": "dangerous",
-    "source": "DMG p.123",
-    "trigger": "Pressure plate or trip wire causes tiny tubes in the wall to fire darts.",
-    "detection": {
-      "dc": 15,
-      "skill": "Perception",
-      "detail": "Spot tiny holes in the walls and a pressure plate or trip wire."
+      "dc": 14,
+      "skill": "Wisdom",
+      "detail": "A creature that enters this hall immediately feels weighed down and senses a terrible dread. The creature must make a DC 14 Wisdom saving throw."
     },
     "disarm": {
       "dc": 15,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "Block the dart tubes or disable the pressure plate/trip wire."
+      "method": "Strength (Athletics)",
+      "detail": "Any creature that is not grappled by the chains can use an action to try to free a chained creature within reach, doing so with a successful DC 15 Strength (Athletics) check."
     },
-    "effect": "Darts fire from tubes in the wall. One or more targets must make a DC 15 Dexterity saving throw. Each failed save deals 2d10–10d10 poison damage depending on the trap's severity and how many darts hit. Each dart deals 2 (1d4) piercing damage plus 11 (2d10) poison damage.",
+    "effect": "The creature must succeed on a DC 15 Dexterity saving throw or be grappled by the chains (escape DC 15). Until it escapes, the creature takes 5 (1d10) psychic damage at the start of each of its turns. Whatever the result of the check, the creature making the attempt takes 11 (2d10) psychic damage.",
     "save_dc": 15,
     "save_ability": "Dexterity",
-    "damage": "Varies: 2d10–10d10 poison",
-    "damage_type": "poison",
-    "area": "Line or cone from wall",
-    "description": "Darts shoot from a wall or object when triggered. Each dart deals 1d4 piercing damage, and the target must succeed on a DC 15 Constitution saving throw or take 2d10 poison damage."
+    "damage": "5 (1d10) per turn while grappled; 11 (2d10) to the rescuer",
+    "damage_type": "psychic",
+    "area": "The hall (area R10)",
+    "description": "When a creature falls prone in this hall, the chains on the floor slither toward it, and the figures carved in the walls drone in low voices. The creature must succeed on a DC 15 Dexterity saving throw or be grappled by the chains, taking psychic damage each turn.",
+    "source": "Chapter 3 | Bazzoxan",
+    "_source_manual": "CotN"
   },
   {
-    "name": "Poison Needle",
-    "type": "mechanical",
+    "name": "Abyssal Rift",
+    "type": "magical",
     "danger": "deadly",
-    "source": "DMG p.123",
-    "trigger": "Hidden needle springs from a lock, chest, or doorknob when handled.",
+    "trigger": "When a creature passes through the gaping mouth of the stone-carved face of Gruumsh in area R15",
     "detection": {
-      "dc": 20,
-      "skill": "Perception",
-      "detail": "Spot the tiny spring-loaded needle. Extremely well-concealed — one of the hardest traps to find."
+      "dc": 0,
+      "skill": "",
+      "detail": "The rift is visible as a 10-foot-wide, 20-foot-long orifice filled with impenetrable darkness. Horrible shrieks emanate from it."
     },
     "disarm": {
-      "dc": 20,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "Jam the needle mechanism or safely trigger it from a distance (e.g., with a shield or pole)."
+      "dc": 0,
+      "method": "",
+      "detail": "The rift closes after 1 minute automatically. No disarm method is given."
     },
-    "effect": "Spring-loaded needle pricks the victim. Target must make a DC 15 Constitution saving throw, taking 2 (1d4) piercing damage plus 11 (2d10) poison damage on a failed save, or half poison damage on success.",
+    "effect": "A creature that enters the rift from this side is magically transported, along with anything it is wearing or carrying, to the Abyss. The creature emerges from a similar rift located inside a colossal cyclone of poisonous gas. A creature caught in the cyclone is trapped there and takes 14 (4d6) poison damage at the start of each of its turns. A creature that has a flying speed can escape the cyclone by flying into the rift; a creature without a flying speed can use an action to try to harness the winds of the cyclone, propelling itself through the rift with a successful DC 19 Dexterity (Acrobatics) check.",
+    "save_dc": 19,
+    "save_ability": "Dexterity",
+    "damage": "14 (4d6)",
+    "damage_type": "poison",
+    "area": "10-foot-wide, 20-foot-long orifice; cyclone is colossal",
+    "description": "A planar rift that opens in the floor on the east side of the chasm when a creature passes through the carving of Gruumsh's face. It is a gateway to the Abyss.",
+    "source": "Chapter 3 | Bazzoxan p.71",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Vault Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If the vault is opened by any means other than using the master key, the vault's magical trap is triggered.",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who examines the vault and succeeds on a successful DC 20 Intelligence (Investigation) check finds a thin keyhole near its base."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dispel Magic",
+      "detail": "The trap can't be disarmed, but successfully casting dispel magic (DC 15) on the lock before an attempt is made to open it suppresses the trap for 1 minute, allowing the lock to be manipulated without negative consequences."
+    },
+    "effect": "Each creature within 5 feet of the vault must make a DC 16 Wisdom saving throw. On a failed saving throw, a creature takes 36 (8d8) psychic damage and is stunned for 1 minute. On a successful save, a creature takes half as much damage and isn't stunned.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "36 (8d8)",
+    "damage_type": "psychic",
+    "area": "Each creature within 5 feet of the vault",
+    "description": "A magical trap on the casino's coin vault that triggers if opened without the master key.",
+    "source": "Chapter 4 | The Jewel of Hope",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Vault Door Energy Blast Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Forcing the vault door open (DC 21 Strength (Athletics) check)",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A character who searches the basement and succeeds on a DC 15 Wisdom (Perception) check notices the faint outline of a circular stone door in the wall next to a bookcase that is bolted to the floor."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Cannot be disarmed",
+      "detail": "This trap can't be disarmed."
+    },
+    "effect": "A loud, concussive blast of energy fills a 15-foot cube immediately outside the vault. Any creature in the cube must make a DC 18 Constitution saving throw, taking 33 (6d10) thunder damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "33 (6d10)",
+    "damage_type": "thunder",
+    "area": "15-foot cube immediately outside the vault",
+    "description": "A magical trap that releases a concussive blast of energy when the vault door is forced open.",
+    "source": "Unknown page",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Trapdoor (disguised as symbol of Corellon)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A character who searches the tower ruins and succeeds on a DC 15 Intelligence (Investigation) check discovers a large symbol of Corellon inscribed on the floor, mostly hidden under sand and debris. Closer examination discloses a 5-foot-diameter, circular stone trapdoor disguised as part of the symbol.",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who searches the tower ruins and succeeds on a DC 15 Intelligence (Investigation) check discovers a large symbol of Corellon inscribed on the floor, mostly hidden under sand and debris. Closer examination discloses a 5-foot-diameter, circular stone trapdoor disguised as part of the symbol."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Strength (Athletics) or crowbar",
+      "detail": "The trapdoor is closed and stuck. A character can use an action to try to pry it up by using a crowbar or similar tool."
+    },
+    "effect": "The trapdoor is closed and stuck. A character can use an action to try to pry it up by using a crowbar or similar tool.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "5-foot-diameter circular stone trapdoor",
+    "description": "A stone trapdoor disguised as part of a symbol of Corellon, stuck and requiring effort to open.",
+    "source": "Chapter 5, The Drowned City p.135",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Burst of Radiance Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature enters the armory without first saying a prayer to Corellon.",
+    "detection": {
+      "dc": 17,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who searches the opening for traps and succeeds on a DC 17 Intelligence (Investigation) check spots a tiny glyph inscribed along the edge of the opening, in a location that's not visible while the trapdoor is closed."
+    },
+    "disarm": {
+      "dc": 17,
+      "method": "dispel magic (DC 17) or defaced using mason's tools or similar equipment",
+      "detail": "If this glyph is dispelled with a successful casting of dispel magic (DC 17) or defaced using mason's tools or similar equipment, the following trap ceases to function."
+    },
+    "effect": "A burst of radiance flares from the chamber. Each creature in the armory and within 15 feet of the trapdoor must make a DC 18 Constitution saving throw, taking 33 (6d10) radiant damage on a failed save, or half as much damage on a successful one. This trap can be triggered only once.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "33 (6d10)",
+    "damage_type": "radiant",
+    "area": "The armory and within 15 feet of the trapdoor",
+    "description": "A magical trap that triggers a burst of radiant damage when a creature enters the armory without praying to Corellon.",
+    "source": "Call of the Netherdeep p.??",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Secret Door (Netherdeep)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Any creature within 10 feet of a secret door that deals damage to it",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who spends at least 10 minutes searching an area for secret doors can make a DC 20 Intelligence (Investigation) check at the end of that search. If the check succeeds and there's a secret door to be found, the character finds it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Secret doors in the Netherdeep are unlocked unless otherwise noted, and they open easily despite their great weight."
+    },
+    "effect": "Any creature within 10 feet of a secret door that deals damage to it must make a DC 15 Constitution saving throw, taking 22 (4d10) psychic damage on a failed save, or half as much damage on a successful one.",
     "save_dc": 15,
     "save_ability": "Constitution",
-    "damage": "2 (1d4) piercing + 11 (2d10) poison",
-    "damage_type": "piercing + poison",
-    "area": "Single target (touch)",
-    "description": "A spring-loaded needle injects poison when a lock or container is opened. DC 15 Perception to spot. Deals 1 piercing damage plus DC 15 Constitution save or 2d10 poison damage."
+    "damage": "22 (4d10)",
+    "damage_type": "psychic",
+    "area": "10-foot radius around the secret door",
+    "description": "A secret door made of ruidium-veined stone that deals psychic damage to creatures that damage it.",
+    "source": "Call of the Netherdeep p.??",
+    "_source_manual": "CotN"
   },
   {
-    "name": "Rolling Sphere",
+    "name": "Boiling Water (Vents of Fury)",
     "type": "mechanical",
-    "danger": "deadly",
-    "source": "DMG p.123",
-    "trigger": "Pressure plate releases a massive stone sphere from a hidden chute at the top of a corridor.",
+    "danger": "dangerous",
+    "trigger": "If the bloodfin is killed, the vents in the floor flare with bright red light and spew forth a flood of boiling-hot water.",
+    "detection": {
+      "dc": 17,
+      "skill": "Perception",
+      "detail": "Characters who have a passive Wisdom (Perception) score of 17 or higher notice something more: At the far end of the thirty-foot-high cavern, a monstrous fish with a red-streaked body chases a school of much smaller fish."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described."
+    },
+    "effect": "Any creature that starts its turn in the boiling-hot water must make a DC 15 Constitution saving throw, taking 21 (6d6) fire damage on a failed saving throw, or half as much damage on a successful one. The scalding heat lasts for 1 hour, after which the vents return to their normal illumination and the water temperature in the cavern again becomes bearably warm.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "21 (6d6)",
+    "damage_type": "fire",
+    "area": "The entire cavern (area N10)",
+    "description": "The bubbling columns of water rising from the vents are hot, but not hot enough to damage creatures that enter them. If the bloodfin is killed, the vents spew boiling-hot water.",
+    "source": "Chapter 6 | The Netherdeep",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Ruidium Spines (Current Trap)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "If the characters kill the light devourer, the current intensifies for 1 hour. Until the current returns to normal, any creature that starts its turn in this chamber must succeed on a DC 14 Strength saving throw or be thrust against a wall by the current and skewered by ruidium spines.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The walls are lined with ruidium spines, visible to any creature entering the chamber."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described; the trap is triggered by killing the light devourer."
+    },
+    "effect": "The creature takes 5 (1d10) piercing damage from the spines and must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion. If the creature is not already suffering from ruidium corruption, it becomes corrupted when it fails the saving throw.",
+    "save_dc": 14,
+    "save_ability": "Strength",
+    "damage": "5 (1d10)",
+    "damage_type": "piercing",
+    "area": "Area N11 (Frothing Hollow)",
+    "description": "A current threatens to pull creatures into this chamber, the walls of which are lined with ruidium spines. The Apotheon's ragged breathing is audible. Thermal vents in the floor give off swirling bubbles, dim light, and warmth.",
+    "source": "Chapter 6 | The Netherdeep",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Scalding Pit (Boiling Water)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "If either the ruidium greatsword or the ruidium shield is removed from its resting place, the vents in the floor flare with bright red light and spew forth a flood of boiling-hot water",
     "detection": {
       "dc": 15,
       "skill": "Perception",
-      "detail": "Spot the hidden pressure plate. The corridor may have subtle grooves or wear marks from past activations."
+      "detail": "The vents in the floor are visible, but the trap is triggered by removing the items."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "None",
+      "detail": "The trap cannot be disarmed; it lasts for 1 hour after triggering."
+    },
+    "effect": "Any creature that starts its turn in the boiling water must make a DC 15 Constitution saving throw, taking 21 (6d6) fire damage on a failed save, or half as much damage on a successful one. The scalding heat lasts for 1 hour, after which the vents return to their normal illumination and the water temperature changes from boiling hot to bearably warm.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "21 (6d6)",
+    "damage_type": "fire",
+    "area": "The water in the chamber up to a height of 30 feet",
+    "description": "Natural vents spew red light and jets of bubbling water. Removing the ruidium items triggers a flood of boiling-hot water.",
+    "source": "Chapter 6, The Netherdeep",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Ruidium Tendrils (Apotheon's Fury)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "When all three serpentmaws in area N13 are dead, dozens of tendrils of ruidium emerge from the statues in the cavern.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The tendrils emerge automatically after the serpentmaws are killed."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "None",
+      "detail": "The tendrils persist for 1 minute, after which they recede back into the statues."
+    },
+    "effect": "Any creature that enters the cavern or starts its turn there must succeed on a DC 15 Dexterity saving throw or be grappled by a tendril (escape DC 15). While grappled in this way, a creature is also restrained. No more than one tendril can grapple a single creature. Each tendril is an Ooze that has AC 15; 10 hit points; immunity to all damage except slashing; Strength, Dexterity, and Constitution scores of 20; and Intelligence, Wisdom, and Charisma scores of 1. A tendril reduced to 0 hit points disintegrates in a crimson haze. On initiative count 0, each creature grappled by a tendril takes 3 (1d6) piercing damage and 3 (1d6) psychic damage as it is flung against one of the cavern's ruidium spikes. The creature remains grappled after taking this damage; in addition, it must succeed on a DC 20 Charisma saving throw or gain 1 level of exhaustion. If the creature is not already suffering from ruidium corruption, it becomes corrupted when it fails the saving throw.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6) piercing and 3 (1d6) psychic",
+    "damage_type": "piercing and psychic",
+    "area": "The cavern (area N13)",
+    "description": "When the serpentmaws are killed, ruidium tendrils emerge from statues, grappling and flinging creatures against spikes.",
+    "source": "Chapter 6, The Netherdeep",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "East Door Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "The first time the door is touched",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The door gives off a flash of crimson light when touched."
+    },
+    "disarm": {
+      "dc": 22,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A character can use an action to try to pick the lock with thieves' tools, doing so with a successful DC 22 Dexterity check. A knock spell or similar magic also opens the door."
+    },
+    "effect": "Any creature within 10 feet of the door when this happens must succeed on a DC 18 Strength saving throw or be pushed 20 feet away from the door- and into the death embrace's tentacles, if that creature is still alive and present.",
+    "save_dc": 18,
+    "save_ability": "Strength",
+    "damage": "",
+    "damage_type": "",
+    "area": "10 feet of the door",
+    "description": "A sturdy cellar door with a built-in lock that triggers a crimson flash and pushes creatures away when first touched.",
+    "source": "Chapter 6 | The Netherdeep p.168",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Gravity Funnel",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Entering or being within the area",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A 10-foot-tall and 10-foot-diameter area of altered gravity."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed."
+    },
+    "effect": "Strength checks made within a gravity funnel have disadvantage. A ranged weapon attack made through or within a gravity funnel automatically misses a target beyond the weapon's normal range. Creatures and objects that are fully contained within a gravity funnel have resistance against force damage. The gravity funnel counts as difficult terrain.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "10-foot-tall and 10-foot-diameter cylinder",
+    "description": "A 10-foot-tall and 10-foot-diameter area of altered gravity that imposes disadvantage on Strength checks, causes ranged attacks to miss beyond normal range, grants resistance to force damage, and counts as difficult terrain.",
+    "source": "Wildemount Gazetteer (page unknown)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Psychic Miasma",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature enters the cloud or starts its turn there",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A virtually imperceptible mist of preternatural psychotropic vapor hovers above the ground."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed."
+    },
+    "effect": "Creatures that are fully immersed in psychic miasma have vulnerability to psychic damage. Any creature that enters a cloud of psychic miasma or starts its turn there must succeed on a DC 15 Constitution saving throw or become afflicted with a random form of long-term madness (see 'Madness' in chapter 8 of the Dungeon Master's Guide). Creatures that can't be poisoned automatically succeed on the saving throw. A creature that successfully saves against the psychic miasma is immune to its effects for 24 hours. An undead creature that spends at least 1 minute in a cloud of psychic miasma gains advantage on ability checks and saving throws for 24 hours.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "psychic (vulnerability)",
+    "area": "Cloud of vapor",
+    "description": "A virtually imperceptible mist of preternatural psychotropic vapor that corrupts the sanity of the living and fortifies the grim resolve of the undead.",
+    "source": "Wildemount Gazetteer (page unknown)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Rust Rain",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Exposure to the rain (starting a turn in it or object being exposed)",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Crimson precipitation."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed; can be avoided by covering (umbrella, shield, or other rain protection)."
+    },
+    "effect": "Rust rain corrodes nonmagical, ferrous metal objects. If the object isn't being worn or carried, the rain destroys 1 cubic foot of it for every 10 minutes of exposure. An object must be covered to avoid exposure. If the exposed object is nonmagical metal armor, a nonmagical metal weapon, or a nonmagical metal shield being worn or carried, it takes a permanent and cumulative -1 penalty to damage rolls or the AC it offers for every 10 minutes of exposure to rust rain. A weapon that drops to a -5 penalty, armor reduced to an AC of 10, or a shield that drops to a +0 bonus is destroyed. Any creature that starts its turn in rust rain and isn't covered by an umbrella, a shield, or some other form of rain protection takes 1d4 acid damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d4",
+    "damage_type": "acid",
+    "area": "Area of precipitation",
+    "description": "Crimson precipitation corrosive to ferrous metal and caustic to creatures.",
+    "source": "Wildemount Gazetteer (page unknown)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Toxic Fungus Colony",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A non-plant creature comes within 20 feet of the colony",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A virulent expanse of malignant fungal growths blankets the landscape."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed."
+    },
+    "effect": "Any non-plant creature within 20 feet of a toxic fungus colony is poisoned. A creature poisoned by the colony for 1 hour has a 20 percent chance of gaining a random form of short-term madness (see 'Madness' in chapter 8 of the Dungeon Master's Guide). A toxic fungus colony can be bioluminescent. A bioluminescent colony sheds dim light within its area and for an additional 20 feet beyond its outer edges.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "20-foot radius from the colony",
+    "description": "A virulent expanse of malignant fungal growths that poisons creatures and can cause madness.",
+    "source": "Wildemount Gazetteer (page unknown)",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Volatile Materials Storage Explosion",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Any open flame brought into the area (including that of a torch), as well as any fire or lightning-based effect used in the area, has a 30 percent chance of detonating the materials stored here.",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "Any character with a passive Wisdom (Perception) score of 13 or higher, or who succeeds on a DC 13 Wisdom (Perception) check, notices that the materials are stored unsafely and assesses that it's a miracle none of it has exploded yet."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "This detonation deals 4d10 bludgeoning damage to each creature within the room and in the armory (area L2). It also partially collapses this cavern and alerts every creature within the lair to the characters' intrusion.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "4d10",
+    "damage_type": "bludgeoning",
+    "area": "Within the room and in the armory (area L2)",
+    "description": "This cavern is extremely dangerous. Any open flame brought into the area (including that of a torch), as well as any fire or lightning-based effect used in the area, has a 30 percent chance of detonating the materials stored here.",
+    "source": "Chapter 5 | Adventures in Wildemount",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Kitchen Fire",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A creature that enters the fire for the first time on a turn or starts its turn there",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A smoky fire heats the cauldron."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "A creature that enters the fire for the first time on a turn or starts its turn there takes 3 (1d6) fire damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6)",
+    "damage_type": "fire",
+    "area": "The fire under the cauldron",
+    "description": "A smoky fire heats the cauldron.",
+    "source": "Chapter 5 | Adventures in Wildemount",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Cauldron Fire",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A creature enters the fire for the first time on a turn or starts its turn there",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible fire"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described"
+    },
+    "effect": "A creature that enters the fire for the first time on a turn or starts its turn there takes 3 (1d6) fire damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6)",
+    "damage_type": "fire",
+    "area": "The fire under the cauldron",
+    "description": "A smoky fire heats the cauldron. A creature that enters the fire for the first time on a turn or starts its turn there takes fire damage.",
+    "source": "Chapter 5 | Adventures in Wildemount p.231",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Iron Floor Trap (Shark Chamber)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "More than 50 pounds of weight is placed on the iron floor",
+    "detection": {
+      "dc": 12,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character notices that the iron floor is set with a groove at its center, bisecting it lengthwise."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described"
+    },
+    "effect": "The iron floor splits open and its two halves swing down, revealing a 10-foot-deep pool of water 5 feet below where three hungry reef sharks are waiting. The floor resets automatically, snapping shut after being open for 1 minute. Each creature standing on the iron floor when it opens must succeed on a DC 13 Dexterity saving throw to grab onto the wall and avoid tumbling into the water below. A creature can try to avoid falling into the shark-infested pool by staying close to the wall; it must succeed on a DC 10 Strength (Athletics) check for every 10 feet it moves or tumble into the pool.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "Iron floor, 40 feet long and 20 feet wide",
+    "description": "A trap door floor that opens into a shark-infested pool when weight is placed on it.",
+    "source": "Chapter 5 | Adventures in Wildemount p.231",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Chest Trap (Ambassador's Bedroom)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Opening the chest without using the key after the lock is picked",
+    "detection": {
+      "dc": 14,
+      "skill": "Intelligence (Investigation)",
+      "detail": "The chest is trapped, which can be noted with a successful DC 14 Intelligence (Investigation) check."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The trap can be disabled with thieves' tools and a successful DC 14 Dexterity check."
+    },
+    "effect": "Opening the chest causes a loud shrieking noise to blare for 3 rounds, alerting creatures in areas L9 and L11 if they have not already been dealt with. Opening the chest with the key doesn't trigger the trap.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The chest in area L10",
+    "description": "A trapped chest that emits a loud shrieking noise when opened without the key.",
+    "source": "Chapter 5 | Adventures in Wildemount p.231",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Steam Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Both sets of double doors swing shut and lock tight once all the characters (or a majority of the characters if some are hanging back) have entered, and Stahlmast has been alerted to their presence.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The holes in the walls extend 1 foot in, then angle downward, preventing the mechanisms of the trap from being seen."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Plugging the holes",
+      "detail": "If all four steam holes are plugged up with cloth or some similar material, the trap stops dealing damage."
+    },
+    "effect": "With the doors locked, Stahlmast taunts the characters via the speaking tube in the ceiling before filling the chamber with scalding hot steam from the holes in the wall plates. Each creature that starts its turn in the steam takes 2 (1d4) fire damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2 (1d4)",
+    "damage_type": "fire",
+    "area": "The roughly diamond-shaped cavern (area L12)",
+    "description": "A steam trap in a diamond-shaped cavern that fills with scalding steam when triggered, dealing fire damage to creatures that start their turn in the area.",
+    "source": "Chapter 5 | Adventures in Wildemount p.232",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fire Hazards (brazier and fireplace)",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Any creature that comes into contact with the brazier or the fireplace for the first time on its turn, or that starts its turn there",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible fire sources"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Avoiding contact"
+    },
+    "effect": "Takes 2 (1d4) fire damage",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2 (1d4)",
+    "damage_type": "fire",
+    "area": "The brazier or the fireplace",
+    "description": "Any creature that comes into contact with the brazier or the fireplace for the first time on its turn, or that starts its turn there, takes 2 (1d4) fire damage.",
+    "source": "Chapter 5 | Adventures in Wildemount p.237",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Frigid Pool",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A creature completely submerged in a pool",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pool is murky and frigid; characters can see it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm; avoid submersion."
+    },
+    "effect": "A creature completely submerged in a pool must succeed on a DC 10 Constitution saving throw or gain one level of exhaustion. Creatures with resistance or immunity to cold damage automatically succeed on this saving throw. For each minute the creature spends submerged in a pool, it must repeat this saving throw, gaining another level of exhaustion on a failure.",
+    "save_dc": 10,
+    "save_ability": "constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "Each pool is 10 feet deep.",
+    "description": "Pools of murky, frigid water within the caverns are created by melting snow on the rocky ground above dripping down through the ceiling.",
+    "source": "Chapter 5 | Adventures in Wildemount p.239",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Pit Trap (under bedroll)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Walking across the bedroll covering the pit",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "The trap can be spotted with a DC 10 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Anyone walking across the bedroll falls into the pit, taking 3 (1d6) bludgeoning damage and landing prone. A creature that falls into the pit makes enough noise that the bandits in area C2 investigate.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6)",
+    "damage_type": "bludgeoning",
+    "area": "10-foot-deep pit",
+    "description": "A pit trap hidden under a bedroll in the bandit camp.",
+    "source": "C4 I Adventures in Wildemount p.239",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Stone Chest Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature touches the chest without speaking a prayer to Tiamat, a gust of wind escapes the dragon's mouth. If the blue powder is still in the dragon's mouth, it forms a cloud that fills a 15-foot cube in front of the chest.",
+    "detection": {
+      "dc": 12,
+      "skill": "Perception",
+      "detail": "A character who examines the chest and succeeds on a DC 12 Wisdom (Perception) check finds pin-sized openings in the dragon's mouth that contain a blue powder."
     },
     "disarm": {
       "dc": 15,
       "method": "Dexterity (thieves' tools)",
-      "detail": "Disable the pressure plate before the sphere releases. Once released, the only options are to outrun it or find cover."
+      "detail": "The powder can be removed with a successful DC 15 Dexterity check using thieves' tools. A character who fails this check must succeed on a DC 11 Constitution saving throw or contract frigid woe."
     },
-    "effect": "A 10-foot-diameter stone sphere rolls down a corridor at initiative count 20 (and 10 on following rounds). Creatures in its path must make a DC 15 Dexterity saving throw, taking 55 (10d10) bludgeoning damage on a failed save, or half on success. The sphere stops when it hits a wall or similar barrier. It can be slowed by obstacles (each slows it by 15 feet).",
-    "save_dc": 15,
-    "save_ability": "Dexterity",
-    "damage": "55 (10d10)",
-    "damage_type": "bludgeoning",
-    "area": "10-foot-wide corridor path",
-    "description": "A massive stone sphere rolls down a corridor. Creatures in a 10-foot-wide path must make a DC 15 Dexterity saving throw or take 10d10 bludgeoning damage."
+    "effect": "Each creature within the 15-foot cube area must succeed on a DC 11 Constitution saving throw or contract frigid woe.",
+    "save_dc": 11,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "15-foot cube in front of the chest",
+    "description": "A stone chest with a dragon face carved on its lid, containing pin-sized openings in the dragon's mouth that hold a blue powder. When touched without a prayer to Tiamat, a gust of wind releases the powder as a cloud.",
+    "source": "Chapter 5 | Adventures in Wildemount",
+    "_source_manual": "EGW"
   },
   {
-    "name": "Sphere of Annihilation",
+    "name": "Cold Energy Beam Trap (Chest)",
     "type": "magical",
-    "danger": "deadly",
-    "source": "DMG p.123",
-    "trigger": "Proximity — the sphere sits in a fixed location, annihilating any matter that touches it.",
+    "danger": "setback",
+    "trigger": "When a creature makes a failed attempt to pick the chest's lock, or attacks or attempts to force the chest open",
     "detection": {
-      "dc": 20,
-      "skill": "Intelligence (Arcana)",
-      "detail": "Recognize the sphere for what it is. A character who succeeds on a DC 20 Intelligence (Arcana) check can identify it as a sphere of annihilation. Those who fail may mistake it for a sphere of darkness or similar effect."
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "A character who searches the exterior of either chest and succeeds on a DC 13 Wisdom (Perception) check finds an archaic Draconic word for 'ice' carved in tiny letters near the hinges. With a successful DC 10 Intelligence (Arcana) check, a character senses that the inscription is connected to a trap."
     },
     "disarm": {
-      "dc": 25,
-      "method": "Intelligence (Arcana)",
-      "detail": "A character can attempt to control the sphere by making a DC 25 Intelligence (Arcana) check while within 60 feet. On a success, the sphere moves up to 10 feet toward or away from the character. A talisman of the sphere allows automatic control."
+      "dc": 10,
+      "method": "Intelligence (Arcana) or scratching out the inscription with a tool or weapon",
+      "detail": "Scratching out the inscription with a tool or a weapon causes the trap to stop functioning on that chest."
     },
-    "effect": "Anything that touches the sphere is instantly destroyed (no save). Any creature within 5 feet of the sphere at the start of its turn must make a DC 13 Dexterity saving throw, taking 22 (4d10) force damage on a failed save, or half on success. The sphere has no hit points and cannot be damaged — it can only be moved or forced to exit the plane via a rod of cancellation or similar magic.",
-    "save_dc": 13,
+    "effect": "The chest shoots a beam of cold energy at the creature.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "4 (1d8)",
+    "damage_type": "cold",
+    "area": "Single target",
+    "description": "A magical trap on a stone chest that fires a beam of cold energy when triggered.",
+    "source": "Chapter 5 | Adventures in Wildemount",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Flame Hazard (Iron Lever)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature pulls the iron lever down (as an action)",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "A character who examines the lever notices spots of faded red paint on it with a successful DC 13 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Push the lever back up (as an action)",
+      "detail": "A creature can use an action to push the lever back up, which shuts off the flames."
+    },
+    "effect": "Flames shoot down from the ceiling in area S5.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "fire",
+    "area": "Area S5 (ceiling)",
+    "description": "A lever-controlled flame hazard that shoots fire from the ceiling in area S5.",
+    "source": "Chapter 5 | Adventures in Wildemount",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Trapped Door",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "When a creature makes a failed attempt to pick the door's lock, or attacks or attempts to force the door open",
+    "detection": {
+      "dc": 13,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who searches the door and succeeds on a DC 13 Intelligence (Investigation) check finds an archaic Draconic word for 'disappear' carved in tiny letters near the foot of the door on both sides."
+    },
+    "disarm": {
+      "dc": 10,
+      "method": "Intelligence (Arcana) or scratching out the inscription",
+      "detail": "With a successful DC 10 Intelligence (Arcana) check, a character senses that the inscription is connected to a trap. Scratching out either inscription with a tool or a weapon causes the trap to stop functioning."
+    },
+    "effect": "That creature is teleported into the middle of area S15.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A magical trap on a locked door that teleports a creature to area S15 when triggered.",
+    "source": "Chapter 5 | Adventures in Wildemount p.247",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Wall of Flame (Area S5)",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature enters this area or starts its turn there while the flames are active",
+    "detection": {
+      "dc": 13,
+      "skill": "Wisdom (Perception)",
+      "detail": "If the flames aren't active, a character who succeeds on a DC 13 Wisdom (Perception) check notes a faint oily smell in the room and notices pin-sized holes covering the ceiling."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "A creature can use an action to push the lever back up, which shuts off the flames.",
+      "detail": "A creature can use an action to push the lever back up, which shuts off the flames."
+    },
+    "effect": "Each creature that enters this area or starts its turn there must make a DC 12 Dexterity saving throw, taking 4 (1d8) fire damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 12,
     "save_ability": "Dexterity",
-    "damage": "22 (4d10) force (near miss); instant destruction (contact)",
-    "damage_type": "force",
-    "area": "5-foot sphere",
-    "description": "A 2-foot-diameter sphere of absolute nothingness sits in a fixed position. Any creature that touches it takes 4d10 force damage. If a creature ends its turn within 5 feet, it must succeed on a DC 13 Strength save or be pulled into the sphere and destroyed."
+    "damage": "4 (1d8)",
+    "damage_type": "fire",
+    "area": "Area S5",
+    "description": "A wall of roiling flame that shoots down from the ceiling, dealing fire damage to creatures in the area.",
+    "source": "Chapter 5 | Adventures in Wildemount p.247",
+    "_source_manual": "EGW"
   },
   {
     "name": "Bear Trap",
     "type": "mechanical",
-    "danger": "setback",
-    "source": "XGE p.113",
-    "trigger": "Stepping on a hidden pressure plate snaps steel jaws shut around the victim's leg.",
-    "detection": {
-      "dc": 12,
-      "skill": "Perception",
-      "detail": "Spot the iron jaws partially hidden under leaves or debris."
-    },
-    "disarm": {
-      "dc": 13,
-      "method": "Dexterity (thieves' tools) or Strength",
-      "detail": "Disable the pressure mechanism with thieves' tools, or make a DC 15 Strength check to force the jaws open."
-    },
-    "effect": "Steel jaws snap shut on the victim's leg. The target takes 3 (1d6) piercing damage, its speed is reduced by half until it receives at least 1 point of magical healing or is freed with a DC 15 Strength check. The trap can also be smashed (AC 15, 20 HP).",
-    "save_dc": null,
-    "save_ability": null,
-    "damage": "3 (1d6)",
-    "damage_type": "piercing",
-    "area": "Single target",
-    "description": "A hidden steel-jaw trap. DC 10 Perception to spot. Deals 1d10 piercing damage and reduces the target's speed to 0 until freed with a DC 15 Strength check."
-  },
-  {
-    "name": "Crossbow Trap",
-    "type": "mechanical",
-    "danger": "setback",
-    "source": "XGE p.113",
-    "trigger": "Trip wire fires a heavy crossbow hidden in a wall or alcove.",
-    "detection": {
-      "dc": 12,
-      "skill": "Perception",
-      "detail": "Spot the trip wire and the firing slit in the wall."
-    },
-    "disarm": {
-      "dc": 13,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "Cut the trip wire or block the firing slit."
-    },
-    "effect": "A heavy crossbow fires at the creature that triggered it. +8 to hit, dealing 6 (1d10+1) piercing damage on a hit.",
-    "save_dc": null,
-    "save_ability": null,
-    "damage": "6 (1d10+1)",
-    "damage_type": "piercing",
-    "area": "Line (80/320 ft range)",
-    "description": "A hidden crossbow fires when a tripwire is triggered. Ranged attack +8, deals 1d10 piercing damage. DC 15 Perception to spot."
-  },
-  {
-    "name": "Scything Blade",
-    "type": "mechanical",
     "danger": "dangerous",
-    "source": "XGE p.113",
-    "trigger": "Pressure plate releases a pendulum blade from the ceiling that sweeps through the room.",
+    "trigger": "A character steps on a bear trap hidden in tall grass. Characters who don't spot the traps have a 50 percent chance of stepping on a bear trap and triggering it whenever they move through the area.",
     "detection": {
-      "dc": 14,
+      "dc": 12,
       "skill": "Perception",
-      "detail": "Spot the pressure plate and the slot in the ceiling where the blade is hidden."
+      "detail": "A character with a passive Wisdom (Perception) score of 12 or higher is able to spot the traps and avoid them."
     },
     "disarm": {
-      "dc": 15,
+      "dc": 10,
       "method": "Dexterity (thieves' tools)",
-      "detail": "Jam the ceiling slot or disable the pressure plate."
+      "detail": "A successful DC 10 Dexterity check using thieves' tools disables a bear trap."
     },
-    "effect": "A massive pendulum blade sweeps through a 10-foot-wide path. Creatures in the area must make a DC 15 Dexterity saving throw, taking 22 (4d10) slashing damage on a failed save, or half on success. The blade resets and triggers again each round until disarmed.",
+    "effect": "A bear trap's attack is +8 to hit and deals 5 (1d10) piercing damage on a hit. This attack can't be made with advantage or disadvantage. A creature hit by the trap also has its speed reduced to 0 and can't move until it breaks free of the trap. Breaking free requires a successful DC 15 Strength check by the trapped creature or another creature within 5 feet of the trap.",
     "save_dc": 15,
-    "save_ability": "Dexterity",
-    "damage": "22 (4d10)",
-    "damage_type": "slashing",
-    "area": "10-foot-wide path",
-    "description": "A large blade swings from the ceiling or wall. +8 to hit, deals 2d10 slashing damage. DC 15 Perception to spot the trigger mechanism."
+    "save_ability": "Strength",
+    "damage": "5 (1d10)",
+    "damage_type": "piercing",
+    "area": "40-foot-wide area surrounding the palisade",
+    "description": "Scores of bear traps are hidden among the tall grass in a 40-foot-wide area surrounding the palisade.",
+    "source": "Chapter 5 | Adventures in Wildemount p.257",
+    "_source_manual": "EGW"
   },
   {
-    "name": "Glyph of Warding (Explosive)",
-    "type": "magical",
-    "danger": "dangerous",
-    "source": "PHB p.245",
-    "trigger": "Magical inscription activates when a specific condition is met — creature approaches, touches object, opens warded container, etc.",
+    "name": "Spiked Barricade",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Any Large or bigger creature that moves through an area of spiked barricades.",
     "detection": {
-      "dc": 14,
-      "skill": "Intelligence (Investigation)",
-      "detail": "Spot the faintly glowing magical runes. Detect magic reveals an aura of abjuration. A successful Intelligence (Arcana) check reveals the glyph's nature."
+      "dc": 0,
+      "skill": "",
+      "detail": "Visually formidable, these barricades built of crossed rows of spiked poles are obvious."
     },
     "disarm": {
-      "dc": 14,
-      "method": "Intelligence (Arcana) or dispel magic",
-      "detail": "A successful DC 14 Intelligence (Arcana) check allows you to deface or erase the glyph without triggering it. Dispel magic automatically removes it."
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method described; the area is difficult terrain."
     },
-    "effect": "When triggered, the glyph erupts with magical energy in a 20-foot-radius sphere. Creatures in the area must make a Dexterity saving throw (DC = spellcaster's DC, typically 13–15), taking 5d8 damage of a type chosen by the caster (acid, cold, fire, lightning, or thunder) on a failed save, or half on success.",
+    "effect": "Any Large or bigger creature that moves through an area of spiked barricades must succeed on a DC 14 Dexterity saving throw or take 5 (1d6 + 2) piercing damage.",
     "save_dc": 14,
     "save_ability": "Dexterity",
-    "damage": "5d8 (typically 22)",
-    "damage_type": "varies (acid/cold/fire/lightning/thunder)",
-    "area": "20-foot-radius sphere",
-    "description": "A magical glyph explodes when triggered. Creatures within a 20-foot radius must make a DC 15 Dexterity saving throw, taking 5d8 fire, cold, acid, lightning, or thunder damage on a failed save or half as much on a success. DC 15 Intelligence (Investigation) to detect."
+    "damage": "5 (1d6 + 2)",
+    "damage_type": "piercing",
+    "area": "Any area containing a spiked barricade",
+    "description": "Though visually formidable, these barricades built of crossed rows of spiked poles pose a threat only to Large and larger creatures. Any area containing a spiked barricade is difficult terrain.",
+    "source": "Chapter 5 | Adventures in Wildemount p.257",
+    "_source_manual": "EGW"
   },
   {
-    "name": "Flooding Room",
+    "name": "Poisoned Needle Trap",
     "type": "mechanical",
     "danger": "dangerous",
-    "source": "DMG p.123 (Complex Trap)",
-    "trigger": "Opening a chest, door, or pulling a lever causes water to pour in from hidden sluices.",
-    "detection": {
-      "dc": 14,
-      "skill": "Perception",
-      "detail": "Spot the sluice gates and drainage channels. Damp floor, water stains on walls, or the smell of mildew may hint at the trap."
-    },
-    "disarm": {
-      "dc": 15,
-      "method": "Dexterity (thieves' tools) or Strength",
-      "detail": "Jam the sluice gates before they open, or force them shut. If already flooding: DC 18 Strength check to force a door open against water pressure, or find the hidden drain lever (DC 15 Investigation)."
-    },
-    "effect": "Complex trap (rolls initiative +0). On each turn: water level rises by 1 foot. Once the water reaches 5 feet, creatures must swim (DC 10 Athletics). At 10 feet, creatures must hold their breath (CON minutes = CON mod, min 30 seconds). At ceiling height, creatures begin drowning. The trap can be bypassed by disarming the sluices or finding the hidden drain.",
-    "save_dc": null,
-    "save_ability": "Constitution (drowning)",
-    "damage": "None (environmental — drowning)",
-    "damage_type": "environmental",
-    "area": "Entire room",
-    "description": "The room seals and fills with water. Creatures must hold their breath or begin drowning after 1 + Constitution modifier minutes. The trap can be disarmed with a DC 15 Dexterity (Thieves' Tools) check on the mechanism."
-  },
-  {
-    "name": "Falling Portcullis",
-    "source": "XGE p.115",
-    "type": "mechanical",
-    "danger": "moderate",
-    "level": "1-4",
-    "trigger": "A creature that steps on the pressure plate triggers the trap.",
-    "effect": "An iron portcullis drops from the ceiling, blocking an exit or passageway.",
-    "area": "Blocks one exit/passageway",
-    "damage": "None (barrier)",
-    "damage_type": "control",
-    "save_ability": null,
-    "save_dc": null,
-    "detection": {
-      "dc": 20,
-      "skill": "Wisdom (Perception)",
-      "detail": "Spot the pressure plate. A successful DC 20 Wisdom (Perception) check reveals it."
-    },
-    "disarm": {
-      "dc": 20,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "A successful DC 20 Dexterity check using thieves' tools disables the pressure plate. A check totaling 5 or lower triggers the trap."
-    },
-    "description": "A heavy iron gate drops from the ceiling, separating the party. DC 20 Strength check to lift. Creatures in the path must succeed on a DC 15 Dexterity save or take 3d10 bludgeoning damage."
-  },
-  {
-    "name": "Fiery Blast",
-    "source": "XGE p.115",
-    "type": "magical",
-    "danger": "dangerous",
-    "level": "5-10",
-    "trigger": "Anyone who steps on the mosaic causes fire to erupt from it. Those wearing holy symbols of Pyremius don't trigger the trap.",
-    "effect": "A 15-foot cube of fire erupts, covering the pressure plate and the area around it. Each creature in the area must make a DC 15 Dexterity saving throw, taking 24 (7d6) fire damage on a failed save, or half as much on a successful one.",
-    "area": "15-foot cube",
-    "damage": "24 (7d6)",
-    "damage_type": "fire",
-    "save_ability": "Dexterity",
-    "save_dc": 15,
+    "trigger": "A character attempts to open the locked wooden chest without disarming the trap.",
     "detection": {
       "dc": 15,
-      "skill": "Wisdom (Perception)",
-      "detail": "Spot the presence of ash and faint burn marks in the area. A DC 15 Intelligence (Religion) check identifies the trap's nature."
-    },
-    "disarm": {
-      "dc": 15,
-      "method": "Intelligence (Religion) or dispel magic",
-      "detail": "A successful DC 15 Intelligence (Religion) check enables defacing a key rune to destroy the trap; failing triggers it. A dispel magic (DC 15) cast on the runes also destroys the trap."
-    },
-    "description": "A burst of magical fire erupts in a 20-foot radius. Creatures in the area must make a DC 15 Dexterity saving throw, taking 6d6 fire damage on a failed save or half as much on a success."
-  },
-  {
-    "name": "Net Trap",
-    "source": "XGE p.116",
-    "type": "mechanical",
-    "danger": "dangerous",
-    "level": "1-4",
-    "trigger": "A trip wire strung across a hallway is rigged to a large net. If the trip wire is broken, the net falls on intruders. An iron bell also rings, alerting nearby guards.",
-    "effect": "A net covering a 10-foot-by-10-foot area falls. Any creature fully within this area must succeed on a DC 15 Dexterity saving throw or be restrained. A creature can use its action to make a DC 10 Strength check to try to free itself or another creature in the net. Dealing 5 slashing damage to the net (AC 10, 20 hp) also frees a creature without harm.",
-    "area": "10-foot-by-10-foot area centered on the trip wire",
-    "damage": "None (restrains)",
-    "damage_type": "control",
-    "save_ability": "Dexterity",
-    "save_dc": 15,
-    "detection": {
-      "dc": 15,
-      "skill": "Wisdom (Perception)",
-      "detail": "Spot the trip wire and the net."
-    },
-    "disarm": {
-      "dc": 15,
-      "method": "Dexterity (thieves' tools)",
-      "detail": "A successful DC 15 Dexterity check using thieves' tools disables the trip wire without causing the net to drop or the bell to ring; failing triggers the trap."
-    },
-    "description": "A weighted net drops from above, covering a 15-foot square. Creatures are restrained. A DC 12 Strength check is required to escape. The net has AC 10 and 15 hit points."
-  },
-  {
-    "name": "Pit Trap",
-    "source": "XGE p.116",
-    "type": "mechanical",
-    "danger": "moderate",
-    "level": "1-4",
-    "trigger": "Anyone who steps on the canvas might fall into the pit.",
-    "effect": "The triggering creature must make a DC 10 Dexterity saving throw. On a successful save, the creature catches itself on the pit's edge or instinctively steps back. On a failed save, the creature falls into the 10-foot-deep pit and takes 3 (1d6) bludgeoning damage.",
-    "area": "Single pit (10 ft. deep)",
-    "damage": "3 (1d6)",
-    "damage_type": "bludgeoning",
-    "save_ability": "Dexterity",
-    "save_dc": 10,
-    "detection": {
-      "dc": 10,
-      "skill": "Wisdom (Perception)",
-      "detail": "Spot the tattered canvas and the 1-foot-wide ledge around the edges of the pit where it is safe to travel."
-    },
-    "disarm": {
-      "dc": null,
-      "method": "Avoidance",
-      "detail": "Once spotted, the pit trap is effectively disarmed — characters can walk around it or climb down and across."
-    },
-    "description": "A covered pit 20 feet deep. DC 15 Perception to notice. Creatures falling in take 2d6 bludgeoning damage."
-  },
-  {
-    "name": "Sleep of Ages",
-    "source": "XGE p.117",
-    "type": "magical",
-    "danger": "deadly",
-    "level": "11-16",
-    "trigger": "Stepping on the pressure plate triggers this trap.",
-    "effect": "When activated, this trap casts the sleep spell centered on the pressure plate, using a 9th-level spell slot (21d8; average 94 hp of creatures affected).",
-    "area": "20-foot-radius sphere centered on pressure plate",
-    "damage": "None (unconsciousness: 21d8 hp of creatures)",
-    "damage_type": "control",
-    "save_ability": null,
-    "save_dc": null,
-    "detection": {
-      "dc": 20,
-      "skill": "Wisdom (Perception)",
-      "detail": "Spot the pressure plate."
-    },
-    "disarm": {
-      "dc": 20,
-      "method": "Intelligence (Arcana) or dispel magic",
-      "detail": "A successful DC 20 Intelligence (Arcana) check made within 5 feet of the pressure plate disables the trap; a check totaling 10 or lower triggers it. A dispel magic (DC 19) cast on the pressure plate destroys the trap."
-    },
-    "description": "A magical trap that casts sleep at 5th level (13d8 hit points affected) when triggered, targeting all creatures within 20 feet. DC 15 Wisdom (Perception) to spot the magical runes."
-  },
-  {
-    "name": "Path of Blades",
-    "source": "XGE p.119",
-    "type": "complex",
-    "danger": "dangerous",
-    "level": "1-4",
-    "trigger": "Activates as soon as a non-undead creature enters the hallway; remains active while any non-undead creature is within the hall.",
-    "effect": "Three active elements in a 160-foot hallway: (1) Whirling Blades (initiative 20): +5 attack bonus, 11 (2d10) slashing in first 80 ft. (2) Crushing Pillars (initiative 10): DC 15 Dex save or 11 (2d10) bludgeoning + prone in next 50 ft. (3) Rune of Fear (initiative 10): DC 15 Wis save or frightened, must move toward pillars in final 30 ft. Constant: blades attack any creature ending turn in their area; rune affects any ending turn within 30 ft of far end.",
-    "area": "20 ft. wide × 160 ft. long hallway (three zones)",
-    "damage": "11 (2d10) per element",
-    "damage_type": "slashing/bludgeoning/psychic",
-    "save_ability": "Varies (Dexterity/Constitution/Wisdom)",
-    "save_dc": 15,
-    "detection": {
-      "dc": 15,
-      "skill": "Wisdom (Perception)",
-      "detail": "Bloodstains, gouges in floor, and scrape marks indicate danger. DC 15 Intelligence (Investigation) reveals the trap zones."
-    },
-    "disarm": {
-      "dc": 15,
-      "method": "Multiple checks (see detail)",
-      "detail": "Whirling Blades: DC 15 Int (Investigation) to anticipate (disadvantage on attacks vs creature), or attack blades (AC 15, 15 hp each, -2 attack bonus per blade destroyed), or DC 15 Dex (thieves' tools) to foil mechanism (-2 bonus per success). Rune of Fear: 3× DC 15 Int (Arcana) checks or 3× dispel magic (DC 13)."
-    },
-    "description": "Scything blades sweep through a narrow passage. Creatures in a 5-foot-wide, 30-foot-long path must make a DC 15 Dexterity saving throw or take 6d6 slashing damage."
-  },
-  {
-    "name": "Sphere of Crushing Doom",
-    "source": "XGE p.120",
-    "type": "complex",
-    "danger": "deadly",
-    "level": "5-10",
-    "trigger": "Opens when the door to the jester's tomb is opened. A magic portal disgorges an enormous steel sphere that rolls down a 150-foot sloped hallway, teleporting back to the top to repeat.",
-    "effect": "Initiative 10: Each creature in sphere's path must make a DC 20 Strength saving throw. On a failed save: 22 (4d10) bludgeoning damage and knocked prone. On success: half damage, not prone. Dynamic: damage increases by 11 (2d10) after each turn. At 55 (10d10) or higher, the sphere acts on initiative 20 and 10.",
-    "area": "10 ft. wide × 150 ft. long sloped hallway",
-    "damage": "22 (4d10), escalating +11 (2d10)/round",
-    "damage_type": "bludgeoning",
-    "save_ability": "Strength",
-    "save_dc": 20,
-    "detection": {
-      "dc": 20,
       "skill": "Intelligence (Investigation)",
-      "detail": "Faint runes in ceiling and floor at both ends. DC 20 Intelligence (Arcana) reveals portal magic."
+      "detail": "Any character who examines the chest and succeeds on a DC 15 Intelligence (Investigation) check discovers a poisoned needle hidden in the chest's lock."
     },
     "disarm": {
-      "dc": 20,
-      "method": "Multiple checks (see detail)",
-      "detail": "Stop sphere with wall of force or obstacle with enough HP. Disrupt portals: 3× DC 20 Int (Arcana) checks (examine runes, then vandalize); each success reduces sphere damage by 11 (2d10). Or 3× dispel magic (DC 19) on runes. Destroying southern portal stops sphere permanently."
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The needle can be removed with a successful DC 15 Dexterity check using thieves' tools."
     },
-    "description": "A massive sphere of stone rolls through the area, crushing all in its path. Creatures in a 15-foot-wide path must make a DC 15 Dexterity saving throw or take 8d10 bludgeoning damage."
-  },
-  {
-    "name": "Poisoned Tempest",
-    "source": "XGE p.121",
-    "type": "complex",
-    "danger": "deadly",
-    "level": "11-16",
-    "trigger": "Activates when a ruby is pried from one of four serpent statues in the corners of a 60-foot-square room. Each statue's mouth opens, revealing gas pipes.",
-    "effect": "Locked Doors (initiative 20, once): four doors slam shut, magically locked. Poison Gas (initiative 20): DC 20 Con save, 33 (6d10) poison damage (half on success). Tempest (initiative 10): d6 table — hallucinatory gas (disadv Int/Wis), explosive gas (DC 20 Dex or 22/4d10 fire if flame), weakening gas (disadv Str/Dex), buffeting winds (DC 20 Str or prone), smoke (1 ft visibility), or additional poison gas. Dynamic: poison damage increases 11 (2d10)/round to max 55 (10d10).",
-    "area": "60 ft. × 60 ft. room",
-    "damage": "33 (6d10), escalating +11 (2d10)/round",
-    "damage_type": "poison",
+    "effect": "On a failed check to remove the needle, the character attempting to remove the needle takes 1 piercing damage and 7 (2d6) poison damage, and must succeed on a DC 15 Constitution saving throw or be poisoned for 1 hour.",
+    "save_dc": 15,
     "save_ability": "Constitution",
-    "save_dc": 20,
-    "detection": {
-      "dc": 20,
-      "skill": "Wisdom (Perception)",
-      "detail": "Inspect statues — rubies worth 200 gp each. DC 20 Intelligence (Arcana) reveals trap magic."
-    },
-    "disarm": {
-      "dc": 20,
-      "method": "Multiple checks (see detail)",
-      "detail": "Open doors: DC 20 Wis (Perception) to find lock, DC 20 Int (Arcana) to disable force sphere, DC 20 Dex (thieves' tools) to pick, DC 20 Str (Athletics) to push open. Block statues: DC 20 Dex (thieves' tools) or DC 15 Str to block pipe (cloth/object), reduces poison by 5 (1d10) per blocked statue. All 4 blocked = trap deactivates."
-    },
-    "description": "A whirlwind of poisoned gas fills the room. Creatures in the area must make a DC 15 Constitution saving throw at the start of each turn, taking 3d6 poison damage on a failure."
+    "damage": "1 piercing + 7 (2d6) poison",
+    "damage_type": "piercing and poison",
+    "area": "The lock of the chest",
+    "description": "A poisoned needle hidden in the lock of a wooden chest.",
+    "source": "Chapter 5 | Adventures in Wildemount p.259",
+    "_source_manual": "EGW"
   }
 ]

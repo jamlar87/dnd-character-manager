@@ -1,1 +1,362 @@
-[]
+[
+  {
+    "name": "Potions of Healing",
+    "type": "Potion",
+    "subtype": "healing",
+    "damage": "",
+    "properties": [],
+    "cost": "—",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Oil Flask",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Potion of Healing",
+    "type": "Potion",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Quiver of 20 Arrows",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Quiver of 20 Crossbow Bolts",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "emerald rings",
+    "type": "Adventuring Gear",
+    "subtype": "jewelry",
+    "damage": "",
+    "properties": [],
+    "cost": "1,500 gp each",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "string of pearls",
+    "type": "Adventuring Gear",
+    "subtype": "jewelry",
+    "damage": "",
+    "properties": [],
+    "cost": "750 gp",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Jade Dagger",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d4 piercing",
+    "properties": [
+      "finesse",
+      "light",
+      "thrown (range 20/60)"
+    ],
+    "cost": "250 gp",
+    "weight": 1,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Ruidium Spear",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "unknown",
+    "properties": [
+      "nonmagical"
+    ],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "CotN",
+    "_source_manual": "CotN"
+  },
+  {
+    "name": "Solvia Groves Diamond Plum Wine",
+    "type": "Adventuring Gear",
+    "subtype": "Wine",
+    "damage": "",
+    "properties": [],
+    "cost": "60 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Oveso Family Dark Red",
+    "type": "Adventuring Gear",
+    "subtype": "Wine",
+    "damage": "",
+    "properties": [],
+    "cost": "35 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Rustlecall's Evening Dream Plum Wine",
+    "type": "Adventuring Gear",
+    "subtype": "Wine",
+    "damage": "",
+    "properties": [],
+    "cost": "40 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Solvia Groves Sunset White Wine",
+    "type": "Adventuring Gear",
+    "subtype": "Wine",
+    "damage": "",
+    "properties": [],
+    "cost": "30 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Cuthras Silver Vineyard Premium Red Wine",
+    "type": "Adventuring Gear",
+    "subtype": "Wine",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Theki Root",
+    "type": "Adventuring Gear",
+    "subtype": "Herb",
+    "damage": "",
+    "properties": [],
+    "cost": "3 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Muroosa Balm",
+    "type": "Adventuring Gear",
+    "subtype": "Herb",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp per dose for sunburn, 100 gp for a full application against fire",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Olisuba Leaf",
+    "type": "Adventuring Gear",
+    "subtype": "Herb",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Willowshade Oil",
+    "type": "Adventuring Gear",
+    "subtype": "Herb",
+    "damage": "",
+    "properties": [],
+    "cost": "30 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Skyship",
+    "type": "Vehicle",
+    "subtype": "Airship",
+    "damage": "",
+    "properties": [],
+    "cost": "100,000 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Stassman's Thistle Branch Dark Blood Red Wine",
+    "type": "Adventuring Gear",
+    "subtype": "wine",
+    "damage": "",
+    "properties": [],
+    "cost": "85 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Wagner & Waltz Emerald Embrace Green Wine",
+    "type": "Adventuring Gear",
+    "subtype": "wine",
+    "damage": "",
+    "properties": [],
+    "cost": "65 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Stassman's Truscan Sunrise White Wine",
+    "type": "Adventuring Gear",
+    "subtype": "wine",
+    "damage": "",
+    "properties": [],
+    "cost": "45 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Lionett Vineyard Purple Cinder Red Wine",
+    "type": "Adventuring Gear",
+    "subtype": "wine",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Errenath Family Private Wish Red Wine",
+    "type": "Adventuring Gear",
+    "subtype": "wine",
+    "damage": "",
+    "properties": [],
+    "cost": "75 gp",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Pride Silk (1 square yard)",
+    "type": "Clothing",
+    "subtype": "raw material",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 1,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Pride Silk Outfit",
+    "type": "Clothing",
+    "subtype": "outfit",
+    "damage": "",
+    "properties": [
+      "If you aren't wearing armor, your base Armor Class is 11 + your Dexterity modifier while wearing it."
+    ],
+    "cost": "500 gp",
+    "weight": 4,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Crossbow",
+    "type": "Weapon",
+    "subtype": "ranged",
+    "damage": "",
+    "properties": [],
+    "cost": "—",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Hunter's coat",
+    "type": "Wondrous item",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "—",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "+1 scimitar",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "",
+    "properties": [],
+    "cost": "—",
+    "weight": 0,
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dynamite",
+    "type": "Explosive",
+    "subtype": "",
+    "damage": "6d6 fire",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Gluebomb",
+    "type": "Explosive",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Stinkbomb",
+    "type": "Explosive",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  }
+]
