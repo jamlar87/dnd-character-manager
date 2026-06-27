@@ -20,7 +20,7 @@ from pathlib import Path
 MM_PATH = "/media/james/SlowDisk1tb/home-move/DnD-Manuals/D&D 5E - Monster Manual.pdf"
 SRD_CACHE = Path(__file__).resolve().parent.parent / "data" / "srd_cache" / "monsters.json"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-OUTPUT = DATA_DIR / "monster_page_map.json"
+OUTPUT = DATA_DIR / "page_maps" / "monster_page_map.json"
 
 # ── OCR Corrections ─────────────────────────────────────────────────────────
 OCR_FIXES = {

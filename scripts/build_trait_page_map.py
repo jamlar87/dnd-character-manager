@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 DATA_DIR = Path("/home/james/dnd-character-manager/data")
-OUTPUT_PATH = DATA_DIR / "trait_page_map.json"
+OUTPUT_PATH = DATA_DIR / "page_maps" / "trait_page_map.json"
 
 # ── Race→Page mapping ──
 RACE_PAGES = {

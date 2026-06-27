@@ -23,7 +23,7 @@ except ImportError:
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR = (Path(__file__).resolve().parent.parent / "data").resolve()
 MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
-OUTPUT_PATH = DATA_DIR / "item_page_map.json"
+OUTPUT_PATH = DATA_DIR / "page_maps" / "item_page_map.json"
 
 # Source string → (pdf_path, display_prefix) mapping
 SOURCE_TO_PDF = {

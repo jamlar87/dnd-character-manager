@@ -835,17 +835,17 @@ import os as _os
 
 _data_dir = _os.path.dirname(_os.path.abspath(__file__))
 
-_races_path = _os.path.join(_data_dir, "data", "races_export.json")
+_races_path = _os.path.join(_data_dir, "data", "exports", "races_export.json")
 if _os.path.exists(_races_path):
     with open(_races_path) as _f:
         RACES = _json.load(_f)
 
-_classes_path = _os.path.join(_data_dir, "data", "classes_export.json")
+_classes_path = _os.path.join(_data_dir, "data", "exports", "classes_export.json")
 if _os.path.exists(_classes_path):
     with open(_classes_path) as _f:
         CLASSES = _json.load(_f)
 
-_rn_path = _os.path.join(_data_dir, "data", "race_names_export.json")
+_rn_path = _os.path.join(_data_dir, "data", "exports", "race_names_export.json")
 if _os.path.exists(_rn_path):
     with open(_rn_path) as _f:
         RACE_NAMES = _json.load(_f)

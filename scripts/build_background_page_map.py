@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 DATA_DIR = Path("/home/james/dnd-character-manager/data")
-OUTPUT_PATH = DATA_DIR / "background_page_map.json"
+OUTPUT_PATH = DATA_DIR / "page_maps" / "background_page_map.json"
 
 # ── PHB 2014 Backgrounds (Chapter 4, pp.125-141) ──
 PHB_BACKGROUNDS = {

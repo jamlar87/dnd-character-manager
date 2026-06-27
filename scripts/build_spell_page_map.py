@@ -21,7 +21,7 @@ except ImportError:
 
 DATA_DIR = (Path(__file__).resolve().parent.parent / "data").resolve()
 MANUALS_DIR = (Path(__file__).resolve().parent.parent / "manuals").resolve()
-OUTPUT_PATH = DATA_DIR / "spell_page_map.json"
+OUTPUT_PATH = DATA_DIR / "page_maps" / "spell_page_map.json"
 
 SOURCE_TO_PDF = {
     "PHB 2014": ("D&D 5E - Player's Handbook.pdf", "PHB 2014"),

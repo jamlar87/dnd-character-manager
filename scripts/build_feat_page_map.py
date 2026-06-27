@@ -17,7 +17,7 @@ except ImportError:
     import sys; sys.exit(1)
 
 DATA_DIR = Path("/home/james/dnd-character-manager/data")
-OUTPUT_PATH = DATA_DIR / "feat_page_map.json"
+OUTPUT_PATH = DATA_DIR / "page_maps" / "feat_page_map.json"
 MANUAL_DIR = Path("/media/james/SlowDisk1tb/dnd-character-manager/manuals/DnD-Manuals")
 PHB_PATH = MANUAL_DIR / "D&D 5E - Player's Handbook.pdf"
 

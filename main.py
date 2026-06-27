@@ -44,6 +44,8 @@ from data import (
 
 HERE = Path(__file__).parent
 DATA_DIR = Path(os.environ.get("DND_DATA_DIR", str(HERE / "data")))
+PAGE_MAP_DIR = DATA_DIR / "page_maps"
+EXPORTS_DIR = DATA_DIR / "exports"
 DB_PATH = DATA_DIR / "characters.db"
 TEMPLATES = HERE / "templates"
 STATIC = HERE / "static"
@@ -716,7 +718,7 @@ def load_manual_data():
     # ── Enrich feat sources with page numbers ──
     _feat_page_map: dict[str, str] = {}
     try:
-        _fpm_path = DATA_DIR / "feat_page_map.json"
+        _fpm_path = PAGE_MAP_DIR / "feat_page_map.json"
         if _fpm_path.exists():
             with open(_fpm_path) as _f:
                 _feat_page_map = json.load(_f)
@@ -877,6 +879,8 @@ def load_manual_data():
             return "short"
         if "long" in _r:
             return "long"
+        if "special" in _r:
+            return "special"
         return _r
     for _race in _load_manual_json("races.json"):
         for _t in _race.get("traits", []):
@@ -974,7 +978,7 @@ def load_manual_data():
 # ── Enrich spell sources with page numbers ──
 _spell_page_map: dict[str, str] = {}
 try:
-    _spm_path = DATA_DIR / "spell_page_map.json"
+    _spm_path = PAGE_MAP_DIR / "spell_page_map.json"
     if _spm_path.exists():
         with open(_spm_path) as _f:
             _raw_spm = json.load(_f)
@@ -1392,7 +1396,7 @@ def _build_item_type(item: dict) -> str:
 # ── Load item→page map for source badges ──
 _item_page_map: dict[str, str] = {}
 try:
-    _ppm_path = DATA_DIR / "item_page_map.json"
+    _ppm_path = PAGE_MAP_DIR / "item_page_map.json"
     if _ppm_path.exists():
         with open(_ppm_path) as _f:
             _raw_map = json.load(_f)
@@ -1591,7 +1595,7 @@ from starlette.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory=str(STATIC)), name="static")
 
 # ── Logging ───────────────────────────────────────────────────────────────────
-import logging as _logging, time as _time, uuid as _uuid
+import logging as _logging, logging.handlers as _logging_handlers, time as _time, uuid as _uuid
 
 _logging.basicConfig(
     level=_logging.INFO,
@@ -1599,7 +1603,9 @@ _logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
         _logging.StreamHandler(),
-        _logging.FileHandler(str(DATA_DIR / "app.log"), mode="a"),
+        _logging_handlers.RotatingFileHandler(
+            str(DATA_DIR / "app.log"), maxBytes=5*1024*1024, backupCount=3
+        ),
     ],
 )
 _log = _logging.getLogger(__name__)
@@ -2660,7 +2666,7 @@ RICH_SUBRACE_DESCS: dict[str, str] = {
 # Tag hardcoded races with source
 _race_page_map: dict[str, str] = {}
 try:
-    _rpm_path = DATA_DIR / "race_page_map.json"
+    _rpm_path = PAGE_MAP_DIR / "race_page_map.json"
     if _rpm_path.exists():
         with open(_rpm_path) as _f:
             _raw_rpm = json.load(_f)
@@ -3078,7 +3084,7 @@ print(f"[subrace migration] Extended {len(_SUBRACE_MIGRATIONS)} manual races →
 # Tag hardcoded classes with source
 _class_page_map: dict[str, str] = {}
 try:
-    _cpm_path = DATA_DIR / "class_page_map.json"
+    _cpm_path = PAGE_MAP_DIR / "class_page_map.json"
     if _cpm_path.exists():
         with open(_cpm_path) as _f:
             _raw_cpm = json.load(_f)
@@ -3112,7 +3118,7 @@ if _subclass_enriched:
 # ── Subrace source enrichment from subrace_page_map.json ──
 _subrace_page_map: dict[str, str] = {}
 try:
-    _srpm_path = DATA_DIR / "subrace_page_map.json"
+    _srpm_path = PAGE_MAP_DIR / "subrace_page_map.json"
     if _srpm_path.exists():
         with open(_srpm_path) as _f:
             _raw_srpm = json.load(_f)
@@ -3136,7 +3142,7 @@ except Exception as _e:
 # ── Load racial trait→page map for source badges ──
 _trait_page_map: dict[str, str] = {}
 try:
-    _tpm_path = DATA_DIR / "trait_page_map.json"
+    _tpm_path = PAGE_MAP_DIR / "trait_page_map.json"
     if _tpm_path.exists():
         with open(_tpm_path) as _f:
             _trait_page_map = json.load(_f)
@@ -3153,7 +3159,7 @@ BACKGROUND_SOURCES["Custom"] = ""
 # ── Enrich background sources with exact pages ──
 _background_page_map: dict[str, str] = {}
 try:
-    _bgpm_path = DATA_DIR / "background_page_map.json"
+    _bgpm_path = PAGE_MAP_DIR / "background_page_map.json"
     if _bgpm_path.exists():
         with open(_bgpm_path) as _f:
             _background_page_map = json.load(_f)
@@ -4208,7 +4214,7 @@ def _load_monster_cache() -> list[dict]:
     # Load monster→page map for source badges
     _monster_page_map: dict[str, int] = {}
     try:
-        _mpm_path = DATA_DIR / "monster_page_map.json"
+        _mpm_path = PAGE_MAP_DIR / "monster_page_map.json"
         if _mpm_path.exists():
             with open(_mpm_path) as _f:
                 _monster_page_map = json.load(_f)

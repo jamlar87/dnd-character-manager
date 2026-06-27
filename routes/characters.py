@@ -703,7 +703,7 @@ def _load_monster_cache() -> list[dict]:
     # Load monster→page map for source badges
     _monster_page_map: dict[str, int] = {}
     try:
-        _mpm_path = DATA_DIR / "monster_page_map.json"
+        _mpm_path = DATA_DIR / "page_maps" / "monster_page_map.json"
         if _mpm_path.exists():
             with open(_mpm_path) as _f:
                 _monster_page_map = json.load(_f)
