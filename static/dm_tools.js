@@ -2075,7 +2075,7 @@ function renderItemsPanel(items, chars) {
 function dmTagItemBadges() {
   const cards = document.querySelectorAll('#lootStagingItems .item-card, #itemsPanelContent .item-card');
   if (!cards.length) return;
-  const wpnKw = ['sword','axe','hammer','bow','dagger','mace','spear','flail','rapier','scimitar','glaive','halberd','pike','lance','whip','club','staff','quarterstaff','crossbow','sling','dart','javelin','trident','war pick','morningstar','greatsword','longsword','shortsword','battleaxe','greataxe','warhammer','maul','handaxe','sickle','blowgun','net','pistol','musket','rifle'];
+  const wpnKw = ['sword','axe','hammer','bow','dagger','mace','spear','flail','rapier','scimitar','glaive','halberd','pike','lance','whip','club','staff','quarterstaff','crossbow','sling','dart','javelin','trident','war pick','morningstar','greatsword','longsword','shortsword','battleaxe','greataxe','warhammer','maul','handaxe','sickle','blowgun','net','pistol','musket','rifle','blade'];
   const armKw = ['padded','leather','studded','hide','chain shirt','scale mail','breastplate','half plate','ring mail','chain mail','splint','plate','shield','armor'];
   cards.forEach(card => {
     const name = (card.querySelector('.item-card-name')?.textContent || '').toLowerCase().trim();
