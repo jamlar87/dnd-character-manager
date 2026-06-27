@@ -4600,6 +4600,10 @@ def _get_source_slug_map() -> dict[str, dict]:
             "WS": "Shadows Envy",
             "WSC": "The Wild Sheep Chase",
             "XGE": "Xanathar's Guide to Everything",
+            # ── Critical Role ──
+            "CotN": "Call of the Netherdeep",
+            "EGW": "Explorer's Guide to Wildemount",
+            "TCSR": "Tal'Dorei Campaign Setting Reborn",
         }
         for slug, info in pdf_map.items():
             title = info.get("title", slug)

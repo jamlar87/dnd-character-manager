@@ -276,5 +276,39 @@
     "concentration": false,
     "source": "EGW",
     "_source_manual": "EGW"
+  },
+  {
+    "name": "Freedom of the Waves",
+    "level": 3,
+    "school": "Conjuration",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S, M (a strand of seaweed)",
+    "duration": "Instantaneous",
+    "description": "You conjure a deluge of seawater in a 15-foot-radius sphere centered on a point within range. Each creature in the area must make a Strength saving throw. On a failure, it takes 4d8 bludgeoning damage and is pushed 20 feet away from the center. On a success, it takes half damage and isn't pushed. The water then extinguishes all nonmagical flames in the area.",
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Sorcerer"
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Freedom of the Winds",
+    "level": 5,
+    "school": "Abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a feather)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "Winds surround you, granting you a flying speed of 60 feet. Additionally, you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks. You can use a bonus action to teleport up to 30 feet to an unoccupied space you can see.",
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Sorcerer"
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
   }
 ]

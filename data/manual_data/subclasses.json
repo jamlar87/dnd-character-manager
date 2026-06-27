@@ -130,5 +130,281 @@
     ],
     "source": "Explorer's Guide to Wildemount p.185",
     "_source_manual": "EGW"
+  },
+  {
+    "name": "Path of the Juggernaut",
+    "class": "Barbarian",
+    "description": "Barbarians who follow the Path of the Juggernaut become unstoppable forces of destruction, anchoring themselves against any force that would move them and hurling foes through the air.",
+    "features": [
+      {
+        "name": "Spirit of the Mountain",
+        "level": 3,
+        "description": "While you are raging, you can't be knocked prone or moved along the ground against your will."
+      },
+      {
+        "name": "Demolishing Might",
+        "level": 6,
+        "description": "Your melee weapon attacks deal an extra 1d8 damage to constructs, and deal double damage to objects and structures."
+      },
+      {
+        "name": "Resolute Stance",
+        "level": 6,
+        "description": "At the start of your turn, you can assume a defensive stance until the start of your next turn. While in this stance, you can't be grappled, attack rolls against you have disadvantage, and your weapon attacks are made with disadvantage."
+      },
+      {
+        "name": "Thunderous Blows",
+        "level": 10,
+        "description": "Starting at 10th level, you can push a creature up to 10 feet when you hit it with a melee attack while you're raging."
+      },
+      {
+        "name": "Hurricane Strike",
+        "level": 14,
+        "description": "As a reaction when you push a creature at least 5 feet, you can leap into an unoccupied space next to the creature. The creature must succeed on a Strength saving throw or be knocked prone."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "College of Tragedy",
+    "class": "Bard",
+    "description": "Bards of the College of Tragedy know that sorrow and pathos are emotions just as potent as joy and delight. They specialize in the power of tragic storytelling, weaving words and spells together to dramatic and devastating effect.",
+    "features": [
+      {
+        "name": "Poetry in Misery",
+        "level": 3,
+        "description": "Whenever you or an ally within 30 feet of you rolls a 1 on the d20 for an attack roll, ability check, or saving throw, you can use your reaction to regain one expended use of your Bardic Inspiration feature."
+      },
+      {
+        "name": "Sorrowful Fate",
+        "level": 3,
+        "description": "When you or an ally forces a creature to make a saving throw, you can expend one use of Bardic Inspiration to change the save type to a Wisdom save instead. If the target fails, roll a Bardic Inspiration die; the target takes psychic damage equal to the result and is plagued with regret for 1 minute."
+      },
+      {
+        "name": "Nimbus of Pathos",
+        "level": 14,
+        "description": "You can touch a willing creature as an action and empower it with tragic heroism for 1 minute. The creature gains +4 AC, advantage on attack rolls and saving throws, and deals extra 1d10 radiant damage on hits. Any weapon attack against the creature scores a crit on 18-20. When the effect ends, the creature drops to 0 hit points and is dying. Once per long rest."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Blood Domain",
+    "class": "Cleric",
+    "description": "The Blood Domain centers around the understanding of the natural life force as it exists within the body, and the divine conduit it can become. Those who take up this domain understand that the power of blood is the power of sacrifice.",
+    "features": [
+      {
+        "name": "Bonus Proficiencies",
+        "level": 1,
+        "description": "You gain proficiency with martial weapons."
+      },
+      {
+        "name": "Bloodletting Focus",
+        "level": 1,
+        "description": "When you cast a damage-dealing spell of 1st level or higher with instantaneous duration, any creature with blood that takes damage takes extra necrotic damage equal to 2 + the spell's level."
+      },
+      {
+        "name": "Channel Divinity: Crimson Bond",
+        "level": 2,
+        "description": "Form a supernatural bond with a creature you can see. Lasts 1 hour or until concentration breaks. You can learn the target's distance, direction, current hp, and conditions. You can also attempt to see/hear through the target's senses for a number of minutes equal to your Wisdom modifier."
+      },
+      {
+        "name": "Channel Divinity: Blood Puppet",
+        "level": 6,
+        "description": "Briefly control a Large or smaller creature or corpse with blood within 60 feet. Target must succeed on a Wisdom saving throw or you control its movement and actions for a short duration."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Moon Domain",
+    "class": "Cleric",
+    "description": "Clerics of the Moon Domain draw on their divine connection to the moons to wield light and shadow, invoke good fortune and ill favor, and reveal or conceal as they see fit.",
+    "features": [
+      {
+        "name": "Clarity of Catha",
+        "level": 1,
+        "description": "When a creature within 30 feet of you that you can see makes a Wisdom saving throw, you can use your reaction to grant advantage on the save. Usable proficiency bonus times per long rest."
+      },
+      {
+        "name": "Mind of Two Moons",
+        "level": 6,
+        "description": "You can maintain concentration on two Moon Domain spells at once. When you take damage, you make a Constitution save with disadvantage or lose concentration on both."
+      },
+      {
+        "name": "Empowered Cantrips",
+        "level": 8,
+        "description": "Your cleric cantrips deal extra damage equal to your Wisdom modifier (minimum 1)."
+      },
+      {
+        "name": "Eclipse of Ill Omen",
+        "level": 17,
+        "description": "As a bonus action, create dim light in a 60-foot radius. Creatures in the area make saving throws with disadvantage. Once per turn when you deal radiant damage in the area, you can curse a creature: its speed is halved and it can't regain hp. Lasts up to 1 minute (concentration). Once per long rest."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Circle of the Blighted",
+    "class": "Druid",
+    "description": "Druids of the Circle of the Blighted channel corrupted natural energy, binding themselves to poisoned or tainted natural sites and wielding the power of rot and decay.",
+    "features": [
+      {
+        "name": "Defile Ground",
+        "level": 2,
+        "description": "As a bonus action, corrupt a 10-foot radius patch of land or water within 60 feet for 1 minute. The area is difficult terrain for hostile creatures. Creatures in the area take an extra 1d4 necrotic damage when hit for the first time on a turn. Can move the corruption 30 feet as a bonus action. Once per short or long rest. Radius increases to 20 feet at 10th level, extra damage to 1d6 at 10th and 1d8 at 14th."
+      },
+      {
+        "name": "Blighted Shape",
+        "level": 2,
+        "description": "You gain proficiency in Intimidation. While in Wild Shape, your beast form gains +2 AC and darkvision 60 feet (or +60 feet if already has darkvision)."
+      },
+      {
+        "name": "Call of the Shadowseeds",
+        "level": 6,
+        "description": "When a creature that is not undead or construct takes damage within your Defile Ground, you can use your reaction to summon a blighted sapling that attacks a creature within 5 feet."
+      },
+      {
+        "name": "Incarnation of Corruption",
+        "level": 14,
+        "description": "You gain resistance to necrotic damage and +2 AC. When you start your turn within your Defile Ground, you can gain temp hp equal to your proficiency bonus as a bonus action."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Way of the Cobalt Soul",
+    "class": "Monk",
+    "description": "Monks of the Cobalt Soul dedicate themselves to the pursuit of knowledge, studying their enemies to break through mental and physical defenses.",
+    "features": [
+      {
+        "name": "Extract Aspects",
+        "level": 3,
+        "description": "As an action, you can touch a creature and learn its damage vulnerabilities, resistances, immunities, and condition immunities."
+      },
+      {
+        "name": "Extort Truth",
+        "level": 6,
+        "description": "When you hit a creature with an unarmed strike, you can spend 1 ki point to force a Charisma saving throw. On a failure, the creature can't deliberately lie for up to 10 minutes."
+      },
+      {
+        "name": "Mystical Erudition",
+        "level": 6,
+        "description": "You learn one language and gain proficiency in one skill (Arcana, History, Investigation, Nature, or Religion). Gain additional at 11th and 17th level."
+      },
+      {
+        "name": "Mind of Mercury",
+        "level": 11,
+        "description": "Once per turn, if you've already taken your reaction, you may spend 1 ki point to take an additional reaction."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Oath of the Open Sea",
+    "class": "Paladin",
+    "description": "Paladins who swear the Oath of the Open Sea champion freedom, trusting the guidance of nature and adapting like water to overcome any obstacle.",
+    "features": [
+      {
+        "name": "Channel Divinity: Marine Layer",
+        "level": 3,
+        "description": "As an action, create a 20-foot radius cloud of fog that moves with you. The area is heavily obscured, but you and creatures within 5 feet treat it as lightly obscured. Lasts 10 minutes."
+      },
+      {
+        "name": "Channel Divinity: Fury of the Storm",
+        "level": 3,
+        "description": "As a bonus action, channel the power of storms to grant yourself advantage on attack rolls until the end of your turn."
+      },
+      {
+        "name": "Aura of Liberation",
+        "level": 7,
+        "description": "You and allies within 10 feet cannot be grappled or restrained, and ignore underwater movement/attack penalties. Becomes 30 feet at 18th level."
+      },
+      {
+        "name": "Stormy Waters",
+        "level": 15,
+        "description": "As a reaction when a creature moves into or out of your reach, it takes 1d12 bludgeoning damage and must make a Strength save or be knocked prone."
+      },
+      {
+        "name": "Mythic Swashbuckler",
+        "level": 20,
+        "description": "As an action, gain benefits for 1 minute: advantage on Athletics, climbing speed equal to walking speed, advantage on attacks when within 5 feet of a creature with no other creatures within 5 feet, can Dash/Disengage as a bonus action, advantage on Dexterity checks and saves. Once per long rest."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Runechild",
+    "class": "Sorcerer",
+    "description": "Runechild sorcerers manifest their innate magic as runes that appear on their skin, storing magical energy and unleashing it in powerful ways.",
+    "features": [
+      {
+        "name": "Essence Runes",
+        "level": 1,
+        "description": "You start with 1 essence rune, gaining another each level. When you expend sorcery points, an equal number of essence runes become charged. Charged runes power your Runechild features."
+      },
+      {
+        "name": "Glyph of Aegis",
+        "level": 1,
+        "description": "As a bonus action, you or a creature within 30 feet gains protective runes. The next time that creature takes damage within the next hour, it rolls 1d6 per charged rune spent and reduces the damage by the total. Die becomes d8 at 14th level."
+      },
+      {
+        "name": "Sigilic Augmentation",
+        "level": 6,
+        "description": "Expend a charged rune as a reaction to gain advantage on Strength, Dexterity, or Constitution ability checks or saving throws."
+      },
+      {
+        "name": "Manifest Inscriptions",
+        "level": 6,
+        "description": "As an action, expend a charged rune to reveal hidden arcane traps, marks, runes, wards, sensors, or glyphs within 60 feet for 1 minute."
+      },
+      {
+        "name": "Runic Torrent",
+        "level": 14,
+        "description": "When you cast a spell, expend 2 charged runes to change its damage to force damage. Creatures in the area must succeed on a Strength save or be knocked prone or pushed 15 feet."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Blood Magic",
+    "class": "Wizard",
+    "description": "Blood Magic wizards use the magical art of hemocraft, weaving their life force into spells and using blood to fuel their arcane power.",
+    "features": [
+      {
+        "name": "Blood Channeling",
+        "level": 2,
+        "description": "You can use your own life force to power your magic. When you cast a spell of 1st level or higher and have no available spell slots, you can sacrifice hit points equal to 5 times the spell's level to cast it."
+      },
+      {
+        "name": "Sanguine Burst",
+        "level": 2,
+        "description": "Whenever you roll damage for a spell you've cast of 1st level or higher, you can take necrotic damage equal to the spell's level to reroll a number of damage dice up to your Intelligence modifier (minimum one)."
+      },
+      {
+        "name": "Bond of Mutual Suffering",
+        "level": 6,
+        "description": "When a creature you can see hits you with an attack, you can use your reaction to force the attacker to take damage equal to the damage you took. Cannot be used against constructs or undead. Once per short or long rest (twice at 14th)."
+      },
+      {
+        "name": "Glyph of Hemorrhaging",
+        "level": 10,
+        "description": "When you damage a creature with a spell, you can curse it for 1 minute. Whenever the cursed creature is hit by an attack, it takes an extra 1d6 necrotic damage. Once per short or long rest."
+      },
+      {
+        "name": "Thicker Than Water",
+        "level": 14,
+        "description": "Whenever a spell or magical effect causes you to regain hit points, you regain additional hp equal to your proficiency bonus. While concentrating, you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
   }
 ]

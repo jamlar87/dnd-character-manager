@@ -4764,5 +4764,449 @@
     "legendary_actions": [],
     "source": "Tal'Dorei Campaign Setting: Reborn p.223-224",
     "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ashari Firetamer",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "any",
+    "armor_class": 17,
+    "hit_points": "92 (16d8 + 20)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 12,
+      "wisdom": 18,
+      "charisma": 16
+    },
+    "skills": [
+      "Perception +7",
+      "Survival +7"
+    ],
+    "damage_resistances": "fire",
+    "senses": "passive Perception 17",
+    "languages": "Common, Ignan",
+    "challenge_rating": 5,
+    "features": [
+      {
+        "name": "Elemental Attunement",
+        "description": "The Ashari firetamer has advantage on saving throws against spells and magical effects."
+      },
+      {
+        "name": "Fire Affinity",
+        "description": "The firetamer can cast control flames at will. Its spellcasting ability is Wisdom."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Scorching Blast",
+        "description": "Ranged Spell Attack: +7 to hit, range 120 ft., one target. Hit: 14 (4d6) fire damage."
+      },
+      {
+        "name": "Flame Wall",
+        "description": "The firetamer creates a wall of fire on a solid surface within 60 feet. The wall is 40 feet long, 10 feet high, and 5 feet thick. Creatures within 10 feet take 3d8 fire damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ashari Stoneguard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "any",
+    "armor_class": 15,
+    "hit_points": "152 (16d8 + 80)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 20,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    "damage_resistances": "acid, lightning",
+    "senses": "tremorsense 30 ft., passive Perception 12",
+    "languages": "Common, Terran",
+    "challenge_rating": 6,
+    "features": [
+      {
+        "name": "Earth Glide",
+        "description": "The stoneguard can burrow through nonmagical, unworked earth and stone. While doing so, it doesn't disturb the material."
+      },
+      {
+        "name": "Adamantine Skin",
+        "description": "Critical hits against the stoneguard are treated as normal hits."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The stoneguard makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 4) bludgeoning damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Ashari Waverider",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "any",
+    "armor_class": 14,
+    "hit_points": "77 (14d8 + 14)",
+    "speed": "30 ft., swim 60 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 12
+    },
+    "damage_resistances": "cold",
+    "senses": "passive Perception 13",
+    "languages": "Common, Aquan",
+    "challenge_rating": 4,
+    "features": [
+      {
+        "name": "Amphibious",
+        "description": "The waverider can breathe air and water."
+      },
+      {
+        "name": "Water Affinity",
+        "description": "The waverider can cast shape water at will and has advantage on spell attacks against creatures in water."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Tidal Strike",
+        "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage plus 4 (1d8) cold damage."
+      },
+      {
+        "name": "Healing Tides (1/Day)",
+        "description": "The waverider touches a creature and causes it to regain 21 (6d6) hit points."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Cinderslag Elemental",
+    "size": "Large",
+    "type": "elemental",
+    "alignment": "neutral",
+    "armor_class": 15,
+    "hit_points": "102 (12d10 + 36)",
+    "speed": "20 ft., burrow 40 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 17,
+      "intelligence": 6,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "damage_immunities": "fire, poison",
+    "condition_immunities": "exhaustion, grappled, paralyzed, petrified, poisoned, prone, restrained, unconscious",
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": "Ignan, Terran",
+    "challenge_rating": 5,
+    "features": [
+      {
+        "name": "Fire Aura",
+        "description": "Any creature that starts its turn within 10 feet of the elemental takes 5 (1d10) fire damage."
+      },
+      {
+        "name": "Death Burst",
+        "description": "When the elemental dies, it explodes. Each creature within 15 feet must make a DC 14 Dexterity saving throw, taking 14 (4d6) fire damage on a failure."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The elemental makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 12 (2d8 + 2) bludgeoning damage plus 7 (2d6) fire damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Cold Snap Spirit",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "chaotic evil",
+    "armor_class": 13,
+    "hit_points": "65 (10d8 + 20)",
+    "speed": "0 ft., fly 40 ft.",
+    "ability_scores": {
+      "strength": 6,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 12,
+      "charisma": 15
+    },
+    "damage_resistances": "cold, necrotic; bludgeoning, piercing, slashing from nonmagical attacks",
+    "damage_immunities": "poison",
+    "condition_immunities": "charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained",
+    "senses": "darkvision 60 ft., passive Perception 11",
+    "languages": "Common",
+    "challenge_rating": 4,
+    "features": [
+      {
+        "name": "Cold Aura",
+        "description": "Any creature that starts its turn within 10 feet of the spirit takes 4 (1d8) cold damage."
+      },
+      {
+        "name": "Incorporeal Movement",
+        "description": "The spirit can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Life Drain",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) necrotic damage. The target's hp maximum is reduced by the damage taken."
+      },
+      {
+        "name": "Freezing Breath (Recharge 5-6)",
+        "description": "The spirit exhales a blast of cold in a 15-foot cone. Each creature in that area must make a DC 13 Constitution saving throw, taking 21 (6d6) cold damage on a failure."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Cyclops Stormcaller",
+    "size": "Large",
+    "type": "giant",
+    "alignment": "chaotic evil",
+    "armor_class": 14,
+    "hit_points": "85 (10d10 + 30)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 20,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 8,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    "senses": "passive Perception 12",
+    "languages": "Giant",
+    "challenge_rating": 5,
+    "features": [
+      {
+        "name": "Poor Depth Perception",
+        "description": "The cyclops has disadvantage on attack rolls against targets more than 30 feet away."
+      },
+      {
+        "name": "Storm Magic",
+        "description": "The cyclops stormcaller can cast call lightning once per day."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The cyclops makes two greatclub attacks."
+      },
+      {
+        "name": "Greatclub",
+        "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 18 (3d8 + 5) bludgeoning damage."
+      },
+      {
+        "name": "Lightning Bolt (3/Day)",
+        "description": "Ranged Spell Attack: +5 to hit, range 120 ft., one target. Hit: 16 (3d10) lightning damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Cobalt Golem",
+    "size": "Huge",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 21,
+    "hit_points": "300 (24d12 + 144)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 28,
+      "dexterity": 9,
+      "constitution": 22,
+      "intelligence": 3,
+      "wisdom": 11,
+      "charisma": 1
+    },
+    "damage_immunities": "poison, psychic; bludgeoning, piercing, slashing from nonmagical attacks",
+    "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+    "senses": "darkvision 120 ft., passive Perception 10",
+    "languages": "understands commands but can't speak",
+    "challenge_rating": 14,
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The golem has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Immutable Form",
+        "description": "The golem is immune to any spell or effect that would alter its form."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The golem makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +14 to hit, reach 10 ft., one target. Hit: 25 (4d8 + 9) bludgeoning damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Forge Guardian",
+    "size": "Gargantuan",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 24,
+    "hit_points": "420 (24d20 + 168)",
+    "speed": "50 ft.",
+    "ability_scores": {
+      "strength": 30,
+      "dexterity": 10,
+      "constitution": 24,
+      "intelligence": 3,
+      "wisdom": 11,
+      "charisma": 1
+    },
+    "damage_immunities": "fire, poison; bludgeoning, piercing, slashing from nonmagical attacks",
+    "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+    "senses": "darkvision 120 ft., passive Perception 10",
+    "languages": "understands commands but can't speak",
+    "challenge_rating": 18,
+    "features": [
+      {
+        "name": "Fire Absorption",
+        "description": "Whenever the forge guardian is subjected to fire damage, it takes no damage and instead regains hp equal to the fire damage dealt."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The forge guardian has advantage on saving throws against spells and magical effects."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The forge guardian makes two slam attacks and one stomp attack."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +16 to hit, reach 10 ft., one target. Hit: 30 (4d10 + 10) bludgeoning damage plus 10 (3d6) fire damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Mage Hunter Golem",
+    "size": "Large",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 20,
+    "hit_points": "243 (18d10 + 144)",
+    "speed": "30 ft., fly 20 ft.",
+    "ability_scores": {
+      "strength": 24,
+      "dexterity": 9,
+      "constitution": 26,
+      "intelligence": 3,
+      "wisdom": 11,
+      "charisma": 1
+    },
+    "damage_immunities": "poison, psychic; bludgeoning, piercing, slashing from nonmagical attacks",
+    "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+    "senses": "truesight 60 ft., passive Perception 10",
+    "languages": "understands commands but can't speak",
+    "challenge_rating": 15,
+    "features": [
+      {
+        "name": "Antimagic Cone",
+        "description": "The golem emits a 60-foot antimagic cone. Spells and magical effects within the cone are suppressed."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The golem has advantage on saving throws against spells."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The golem makes two claw attacks."
+      },
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +12 to hit, reach 10 ft., one target. Hit: 24 (4d8 + 7) slashing damage. If the target is concentrating on a spell, it has disadvantage on its Constitution save."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Platinum Golem",
+    "size": "Large",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 21,
+    "hit_points": "189 (18d10 + 90)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 22,
+      "dexterity": 10,
+      "constitution": 21,
+      "intelligence": 3,
+      "wisdom": 12,
+      "charisma": 1
+    },
+    "damage_immunities": "poison, radiant; bludgeoning, piercing, slashing from nonmagical attacks",
+    "condition_immunities": "charmed, exhaustion, frightened, paralyzed, petrified, poisoned",
+    "senses": "darkvision 120 ft., passive Perception 11",
+    "languages": "understands commands but can't speak",
+    "challenge_rating": 13,
+    "features": [
+      {
+        "name": "Radiant Aura",
+        "description": "At the start of each of the golem's turns, each creature within 10 feet takes 7 (2d6) radiant damage."
+      },
+      {
+        "name": "Divine Core",
+        "description": "When the golem is reduced to 0 hp, it explodes. Each creature within 30 feet must make a DC 18 Dexterity saving throw, taking 28 (8d6) radiant damage on a failure."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The golem makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 20 (3d8 + 6) bludgeoning damage plus 9 (2d8) radiant damage."
+      }
+    ],
+    "source": "TCSR",
+    "_source_manual": "TCSR"
   }
 ]

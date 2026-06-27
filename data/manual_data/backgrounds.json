@@ -106,5 +106,73 @@
     "description": "Little is known about the Augen Trust, even within the court of the Dwendalian Empire. Only one person knows all the members of this elite network of imperial spies: its leader, Oliver Schreiber, a noble gnome with the ear of King Dwendal.",
     "source": "EGW",
     "_source_manual": "EGW"
+  },
+  {
+    "name": "Clasp Agent",
+    "description": "You were a member of the Clasp, a powerful thieves' guild with operations across Tal'Dorei. You know the value of information, the weight of a coin, and the sharp edge of a blade. Whether you left the guild or still work for them, the Clasp's influence follows you.",
+    "skills": [
+      "Deception",
+      "Stealth"
+    ],
+    "tool_proficiencies": [
+      "Thieves' tools",
+      "Poisoner's kit"
+    ],
+    "feature": {
+      "name": "A Favor in Turn",
+      "description": "You have gained enough clout in the Clasp that you can call in a favor from your contacts whenever you're close enough to a center of syndicate activity. A request for a favor can be no longer than 20 words."
+    },
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Lyceum Student",
+    "description": "You studied at the Lyceum of Emon, one of Tal'Dorei's most prestigious academies of magic. Your education grants you access to scholarly resources and a network of fellow alumni.",
+    "skills": [
+      "Arcana",
+      "History"
+    ],
+    "tool_proficiencies": [
+      "Calligrapher's supplies"
+    ],
+    "feature": {
+      "name": "Academic Requisition",
+      "description": "You've gained an ally among the staff, enabling access to certain private areas within the Lyceum and other allied universities. Whenever you're on Lyceum grounds, you can access restricted sections of the library."
+    },
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Reformed Cultist",
+    "description": "You once belonged to a cult dedicated to one of the Betrayer Gods. Whether you escaped, were cast out, or saw the error of your ways, you now carry the dark knowledge of your former faith.",
+    "skills": [
+      "Deception",
+      "Religion"
+    ],
+    "tool_proficiencies": [],
+    "feature": {
+      "name": "Fell Teachings",
+      "description": "You were inundated with knowledge about one of the Betrayer Gods. You know by heart everything from their basic commandments to some of their most esoteric secrets."
+    },
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Whitestone Rifle Corps",
+    "description": "You served in the Whitestone Rifle Corps, an elite military unit armed with the famous firearms of Whitestone. Your training with black powder weapons and dedication to protecting Whitestone sets you apart.",
+    "skills": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [
+      "Tinker's tools",
+      "Firearms (if used in campaign)"
+    ],
+    "feature": {
+      "name": "Rifle Corps Training",
+      "description": "You have extensive training with firearms and explosives. You can maintain and repair firearms, and you know where to acquire black powder and ammunition in any major city."
+    },
+    "source": "TCSR",
+    "_source_manual": "TCSR"
   }
 ]

@@ -1,1 +1,138 @@
-[]
+[
+  {
+    "name": "Explorer",
+    "prerequisite": "",
+    "description": "You gain proficiency in two skills of your choice: Animal Handling, Athletics, Investigation, Medicine, Nature, Perception, Stealth, or Survival. If you already have proficiency, you can double your proficiency bonus instead.",
+    "benefits": "Proficiency in two skills from a list",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Bountiful Luck",
+    "prerequisite": "Halfling",
+    "description": "When an ally you can see within 30 feet rolls a 1 on the d20 for an attack roll, ability check, or saving throw, you can use your reaction to let them reroll. They must use the new roll.",
+    "benefits": "Let allies reroll 1s within 30 feet",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Draconic Wings",
+    "prerequisite": "Dragonborn",
+    "description": "You grow a pair of dragon wings. You gain a flying speed equal to your walking speed. If you are wearing heavy armor, the wings don't function.",
+    "benefits": "Gain flying speed equal to walking speed",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dragon Fear",
+    "prerequisite": "Dragonborn",
+    "description": "Instead of exhaling destructive energy, you can expend a use of your Breath Weapon to roar, forcing each creature of your choice within 30 feet to make a Wisdom saving throw (DC 8 + proficiency + Charisma). On a failure, a creature becomes frightened of you for 1 minute.",
+    "benefits": "Alternative breath weapon that frightens enemies",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Dragon Hide",
+    "prerequisite": "Dragonborn",
+    "description": "Your scales grow tougher, granting a +1 bonus to AC when you're not wearing armor. Your claws become natural weapons (1d4 slashing).",
+    "benefits": "+1 AC unarmored, claw natural weapons 1d4",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Drow High Magic",
+    "prerequisite": "Elf (drow)",
+    "description": "You can cast detect magic at will. You learn one 2nd-level and one 3rd-level spell from: darkness, faerie fire, levitate, misty step, dispel magic, or suggestion. Each can be cast once per long rest without a spell slot.",
+    "benefits": "At-will detect magic, additional spells per long rest",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Elven Accuracy",
+    "prerequisite": "Elf or half-elf",
+    "description": "Increase Dexterity, Intelligence, Wisdom, or Charisma by 1. When you have advantage on an attack roll, you can reroll one of the dice once.",
+    "benefits": "+1 to Dex/Int/Wis/Cha, super-advantage on attacks",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fey Teleportation",
+    "prerequisite": "Elf (high elf)",
+    "description": "Increase Intelligence or Charisma by 1. You learn the misty step spell and can cast it once per short or long rest. You also learn Sylvan and one cantrip from the wizard list.",
+    "benefits": "+1 Int/Cha, misty step 1/short rest, Sylvan language",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Flames of Phlegethos",
+    "prerequisite": "Tiefling",
+    "description": "Increase Intelligence or Charisma by 1. When you roll fire damage on a spell, reroll 1s until you get something other than a 1. When you cast a fire spell, you become wreathed in flames for 1 minute, causing attackers to take fire damage when they hit you.",
+    "benefits": "+1 Int/Cha, reroll 1s on fire damage, defensive flames",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Infernal Constitution",
+    "prerequisite": "Tiefling",
+    "description": "Increase Constitution by 1. You gain resistance to cold and poison damage. You have advantage on saving throws against being poisoned.",
+    "benefits": "+1 Con, cold/poison resistance, poison save advantage",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Second Chance",
+    "prerequisite": "Halfling",
+    "description": "Increase Dexterity, Constitution, or Charisma by 1. When a creature hits you, you can use your reaction to force it to reroll the attack roll. Once you use this, you can't do so again until combat ends.",
+    "benefits": "+1 Dex/Con/Cha, force enemy to reroll attacks once per combat",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Squat Nimbleness",
+    "prerequisite": "Dwarf or a Small race",
+    "description": "Increase Strength or Dexterity by 1. Your speed increases by 5 feet. You gain proficiency in Acrobatics or Athletics. You have advantage on escape checks to avoid being grappled.",
+    "benefits": "+1 Str/Dex, +5 speed, skill, grapple escape advantage",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Wood Elf Magic",
+    "prerequisite": "Elf (wood elf)",
+    "description": "You learn one cantrip from the druid list, and can cast longstrider and pass without trace once per long rest each.",
+    "benefits": "Druid cantrip, longstrider, pass without trace 1/day",
+    "source": "EGW",
+    "_source_manual": "EGW"
+  },
+  {
+    "name": "Fortune's Grace",
+    "prerequisite": "",
+    "description": "Your fate-touched essence can cause events to shift in your favor. When you make an attack roll, ability check, or saving throw, you can choose to reroll the d20. Alternatively, when a creature attacks you or makes a saving throw against one of your spells or features, you can force that creature to reroll. Once per long rest.",
+    "benefits": "Reroll a d20 once per long rest",
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Cruel",
+    "prerequisite": "",
+    "description": "You delight in inflicting pain and anguish upon others. You gain a number of cruelty dice (d6s) equal to your proficiency bonus. You can roll only one cruelty die per turn. When you deal damage to a creature, spend one cruelty die to deal extra damage. When you score a critical hit, spend one cruelty die to gain temporary hit points. When you make a Charisma (Intimidation) check, spend one cruelty die and add the roll.",
+    "benefits": "Gain cruelty dice (d6s = proficiency bonus) for extra damage, temp hp on crits, or Intimidation bonus",
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Thrown Arms Master",
+    "prerequisite": "",
+    "description": "You've honed your ability to lob weaponry. Increase your Strength or Dexterity score by 1, to a maximum of 20. Simple and martial melee weapons without the thrown property have the thrown property for you. When you miss with a thrown weapon attack using a light weapon, the weapon returns to your grasp at the end of your turn.",
+    "benefits": "+1 Str or Dex, melee weapons gain thrown property, thrown weapons return on miss",
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  },
+  {
+    "name": "Vital Sacrifice",
+    "prerequisite": "",
+    "description": "You've learned secrets of hemocraft. As a bonus action, you can take 1d6 necrotic damage to gain a blood boon lasting 1 hour. You can expend the boon to gain one of: +1d6 to an attack roll, +2d6 necrotic damage on a hit, or force a creature to subtract the roll from a saving throw.",
+    "benefits": "Take 1d6 necrotic for a blood boon: bonus to attack, damage, or save penalty",
+    "source": "TCSR",
+    "_source_manual": "TCSR"
+  }
+]
