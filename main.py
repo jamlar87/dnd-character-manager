@@ -3506,14 +3506,14 @@ def _build_named_item_types() -> dict:
                     result[lower] = "arm"
                     break
 
-    # Also classify magic items by their equipment_category (SRD + manual merged)
+    # Also classify magic items by their equipment_category (SRD + manual merged).
+    # Runs AFTER ITEM_INDEX to override incorrect keyword-based guesses
+    # (e.g. "sentinel shield" misclassified as wpn, "+1 yklwa" misclassified as arm).
     for item in SRD_MAGIC_ITEMS:
         name = item.get("name", "")
         if not name:
             continue
         key = name.lower()
-        if key in result:
-            continue  # already classified
         cat = (item.get("equipment_category", {}) or {}).get("name", "").lower()
         if cat == "weapon":
             result[key] = "wpn"
