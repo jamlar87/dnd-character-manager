@@ -1911,11 +1911,10 @@
                       onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
                       data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
                       title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
-              {% elif sp.spell_level == 0 %}
-              <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;flex-shrink:0;color:var(--danger);opacity:0.6"
-                      onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
-                      title="Unlearn this cantrip">🗑</button>
               {% endif %}
+              <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;flex-shrink:0;color:var(--danger);opacity:0.45"
+                      onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
+                      title="Unlearn {{ sp.spell_name }}">🗑</button>
               <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
             </div>
             <div class="spell-body" style="padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;margin-bottom:0.25rem;font-size:0.8rem">
