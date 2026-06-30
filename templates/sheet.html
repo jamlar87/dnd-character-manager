@@ -1576,8 +1576,10 @@
               {% endif %}
               {% elif feat.name == 'Pact Boon' and character.pact_boon %}
               <div style="margin-bottom:0.2rem"><strong>{{ character.pact_boon|replace('_',' ')|title }}</strong>{% if pact_boon_options and pact_boon_options.get(character.pact_boon) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ pact_boon_options[character.pact_boon].desc }}</span>{% endif %}</div>
+              {% elif feat.asi_feat_name %}
+              <strong>{{ feat.asi_feat_name }}</strong><br>{{ feat.asi_feat_desc or 'Feat description not available in SRD data.' }}
               {% else %}
-              {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
+              {{ feat.description or 'No description available.' }}
               {% endif %}
             </div>
           </div>
@@ -1668,7 +1670,11 @@
               </span>
             </div>
             <div class="feat-body">
-              {{ feat.asi_feat_desc or feat.description or 'No description available.' }}
+              {% if feat.asi_feat_name %}
+              <strong>{{ feat.asi_feat_name }}</strong><br>{{ feat.asi_feat_desc or 'Feat description not available in SRD data.' }}
+              {% else %}
+              {{ feat.description or 'No description available.' }}
+              {% endif %}
               {% if feat.sub_options %}
               <div style="margin-top:0.6rem;border-top:1px solid var(--border);padding-top:0.4rem">
                 {% for sub in feat.sub_options %}
