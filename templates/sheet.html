@@ -674,10 +674,10 @@
       {% if character.class_name == 'Barbarian' and character.level >= 2 %}
       <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
       {% endif %}
+      </div>
       <div id="saves-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
         A saving throw represents an attempt to resist a spell, trap, poison, or similar threat. Roll d20 + ability modifier + proficiency (if proficient).<br><br>
         Each class grants proficiency in two saves. The DC is set by the effect (e.g. a spell's DC = 8 + caster's proficiency + ability mod). Usually a success means no harm or reduced harm.
-      </div>
       </div>
     </div>
 
@@ -710,7 +710,8 @@
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
         <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
-        <h4 style="margin:0">Defenses <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Damage Resistance halves damage of that type (PHB p.197). Damage Immunity negates it entirely. Damage Vulnerability doubles it. Condition Immunity makes you immune to that condition's effects (PHB p.290-292).">ⓘ</span></h4>
+        <h4 style="margin:0">Defenses</h4>
+        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="defenses-body" style="display:none">
       <div style="font-size:0.8rem" id="defenses-section">
@@ -805,13 +806,21 @@
         </div>
       </div>
       </div>
+      <div id="defenses-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.5rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        <strong>Damage Resistance</strong> — halves damage of that type (PHB p.197). If you have resistance to a type, you take half damage from that source (rounded down). Multiple resistances don't stack — you still take half damage.<br><br>
+        <strong>Damage Immunity</strong> — negates all damage of that type entirely. No damage from that source.<br><br>
+        <strong>Damage Vulnerability</strong> — doubles damage of that type. Very rare, usually from curses or special monster traits (PHB p.197).<br><br>
+        <strong>Condition Immunity</strong> — immune to that condition's effects. Magic can't put an elf to sleep, poison can't paralyze a creature immune to poisoned (PHB p.290-292).<br><br>
+        <strong>Damage types:</strong> acid, bludgeoning, cold, fire, force, lightning, necrotic, piercing, poison, psychic, radiant, slashing, thunder.
+      </div>
     </div>
 
     <!-- Proficiencies -->
     <div class="sidebar-section">
       <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
         <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
-        <h4 style="margin:0">Proficiencies <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Proficiency bonus (+{{ character.proficiency_bonus }}) adds to: attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC. Armor proficiency removes penalties for wearing that armor type.">ⓘ</span></h4>
+        <h4 style="margin:0">Proficiencies</h4>
+        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
       </div>
       <div id="profs-body" style="display:none">
       <div style="font-size:0.8rem" id="prof-section">
@@ -863,6 +872,13 @@
           </div>
         </div>
       </div>
+      </div>
+      <div id="profs-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.5rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        <strong>Proficiency Bonus</strong> (<strong>+{{ character.proficiency_bonus }}</strong>) — adds to attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC (PHB p.173-174).<br><br>
+        <strong>Armor</strong> — wearing armor without proficiency imposes disadvantage on Strength/Dexterity checks, saving throws, and prevents casting spells (PHB p.144).<br><br>
+        <strong>Weapons</strong> — without proficiency, you don't add your proficiency bonus to attack rolls (PHB p.146).<br><br>
+        <strong>Tools</strong> — add proficiency bonus to ability checks made with a tool you're proficient in (PHB p.154).<br><br>
+        <strong>Languages</strong> — you can speak, read, and sign languages you know (PHB p.123-124).
       </div>
     </div>
 
@@ -3053,6 +3069,18 @@ function toggleSavesBlurb() {
   const body = document.getElementById('saves-blurb');
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
+}
+
+function toggleDefensesBlurb() {
+  const body = document.getElementById('defenses-blurb');
+  if (!body) return;
+  body.style.display = body.style.display !== 'none' ? 'none' : 'block';
+}
+
+function toggleProfsBlurb() {
+  const body = document.getElementById('profs-blurb');
+  if (!body) return;
+  body.style.display = body.style.display !== 'none' ? 'none' : 'block';
 }
 
 // ── Sidebar Section Toggles ──
