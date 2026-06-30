@@ -2281,7 +2281,7 @@ async def ai_select_spells(char_id: int, request: Request):
     level = max(1, int(char.get("level", 1) or 1))
 
     # Get existing spells
-    known_rows = db.execute("SELECT spell_name, spell_level FROM character_spells WHERE character_id = ?",
+    known_rows = db.execute("SELECT spell_name, spell_level, prepared FROM character_spells WHERE character_id = ?",
                             (char_id,)).fetchall()
     known_names = {r[0].lower() for r in known_rows}
 
@@ -2301,7 +2301,7 @@ async def ai_select_spells(char_id: int, request: Request):
         prep_max = level + sc_mod  # Cleric/Druid/Paladin/Wizard: level + mod
         if caster_class == "Paladin":
             prep_max = max(1, (level // 2) + sc_mod)  # Paladin: half level + CHA
-        current_prepared = sum(1 for r in known_rows if r[1] is not None)
+        current_prepared = sum(1 for r in known_rows if r[2] == 1)  # prepared column
         can_add = max(0, prep_max - current_prepared)
     else:
         # Spells known
