@@ -1776,6 +1776,7 @@
           <span style="font-size:0.75rem;color:var(--text-muted);font-weight:normal">
             (<span id="cantrips-known-count2">{{ learned_cantrips|length }}</span>{% if cantrips_max > 0 %}/{{ cantrips_max }}{% endif %})
           </span>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showAddSpell()" style="font-size:0.65rem;padding:0.1rem 0.35rem;margin-left:auto">+ Add</button>
         </h3>
         <div>
         {% if learned_cantrips %}
@@ -2389,8 +2390,8 @@
           <div id="spell-results" style="margin-top:0.25rem"></div>
         </div>
         <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto;flex-shrink:0"></div>
-        <div class="form-group" style="flex-shrink:0"><label><input type="checkbox" id="spell-prepared" checked> Prepared</label></div>
-        <div class="form-group" style="flex-shrink:0"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
+        <div class="form-group" style="flex-shrink:0"><label><input type="checkbox" id="spell-prepared" checked> <span id="spell-prepared-label">Prepared</span></label></div>
+        <div class="form-group" style="flex-shrink:0" id="spell-slots-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
         <input type="hidden" id="spell-name" value="">
         <input type="hidden" id="spell-level" value="0">
         <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem;flex-shrink:0">
@@ -3921,6 +3922,12 @@ function selectSpell(idx) {
   document.getElementById('spell-level').value = s.level;
   document.getElementById('spell-search').value = s.name;
   document.getElementById('spell-results').innerHTML = '';
+
+  // Show/hide fields based on cantrip vs leveled spell
+  const isCantrip = s.level === 0;
+  document.getElementById('spell-prepared-label').textContent = isCantrip ? 'Known (cantrip)' : 'Prepared';
+  document.getElementById('spell-prepared').checked = isCantrip ? true : true;
+  document.getElementById('spell-slots-group').style.display = isCantrip ? 'none' : '';
 
   // Show spell detail
   const detail = document.getElementById('spell-detail');
