@@ -2280,10 +2280,10 @@ async def ai_select_spells(char_id: int, request: Request):
     subclass = char["subclass"] or ""
     level = max(1, int(char.get("level", 1) or 1))
 
-    # Get existing spells
-    known_rows = db.execute("SELECT spell_name, spell_level, prepared FROM character_spells WHERE character_id = ?",
+    # Get existing spells — include id for potential UPDATE on prepared casters
+    known_rows = db.execute("SELECT id, spell_name, spell_level, prepared FROM character_spells WHERE character_id = ?",
                             (char_id,)).fetchall()
-    known_names = {r[0].lower() for r in known_rows}
+    known_names = {r[1].lower() for r in known_rows}
 
     # Determine limits
     caster_class = class_name
@@ -2301,19 +2301,19 @@ async def ai_select_spells(char_id: int, request: Request):
         prep_max = level + sc_mod  # Cleric/Druid/Paladin/Wizard: level + mod
         if caster_class == "Paladin":
             prep_max = max(1, (level // 2) + sc_mod)  # Paladin: half level + CHA
-        current_prepared = sum(1 for r in known_rows if r[2] == 1)  # prepared column
+        current_prepared = sum(1 for r in known_rows if r[3] == 1 and (r[2] or 0) > 0)  # exclude cantrips
         can_add = max(0, prep_max - current_prepared)
     else:
         # Spells known
         spells_known = _spells_known_for_class(caster_class, level)
-        current_known = sum(1 for r in known_rows if (r[1] or 0) > 0)  # exclude cantrips
+        current_known = sum(1 for r in known_rows if (r[2] or 0) > 0)  # exclude cantrips
         can_add = max(0, spells_known - current_known)
 
     if can_add <= 0:
         db.close()
         return JSONResponse({"added": 0, "message": "Already at spell limit"})
 
-    # Get available spells (reuse available_spells logic — fetch from SRD)
+    # Get available spell slots (for max spell level filtering)
     slots = get_spell_slots(caster_class, level)
     max_spell_level = 0
     if caster_class == "Warlock":
@@ -2321,21 +2321,14 @@ async def ai_select_spells(char_id: int, request: Request):
     elif slots and slots.get("by_level"):
         max_spell_level = max((int(lvl) for lvl, cnt in slots["by_level"].items() if cnt > 0), default=0)
 
-    # Build candidate pool from SRD
-    pool = []
+    # Build SRD lookup by name for scoring existing spells
+    srd_by_name = {}
     for spell in SRD_SPELLS:
         name = spell.get("name", "")
-        if not name or name.lower() in known_names:
-            continue
-        classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
-        if caster_class.lower() not in classes:
-            continue
-        slvl = int(spell.get("level", 0) or 0)
-        if slvl > 0 and slvl > max_spell_level:
-            continue
-        pool.append({"name": name, "level": slvl, "spell": spell})
+        if name:
+            srd_by_name[name.lower()] = spell
 
-    # Score each spell by class-specific priority
+    # Score function (used for both existing and new candidates)
     def _score(spell_name: str, slvl: int, spell: dict) -> int:
         name_lower = spell_name.lower()
         score = 0
@@ -2365,35 +2358,81 @@ async def ai_select_spells(char_id: int, request: Request):
 
         return score
 
-    # Score and sort
-    for item in pool:
+    # Build candidate pool
+    candidates = []
+
+    if is_prepared:
+        # Source 1: existing known spells that are NOT prepared — toggle them on
+        for r in known_rows:
+            if r[3] == 0 and (r[2] or 0) > 0:  # not prepared, non-cantrip
+                name = r[1]
+                name_lower = name.lower()
+                srd_spell = srd_by_name.get(name_lower)
+                if srd_spell:
+                    candidates.append({"name": name, "level": r[2], "spell": srd_spell, "is_new": False, "known_id": r[0], "name_lower": name_lower})
+                else:
+                    # No SRD data — use a minimal placeholder for scoring
+                    candidates.append({"name": name, "level": r[2], "spell": {"name": name, "level": r[2], "desc": [], "ritual": False}, "is_new": False, "known_id": r[0], "name_lower": name_lower})
+
+    # Source 2: SRD spells not yet known (for both prepared and known casters)
+    for spell in SRD_SPELLS:
+        name = spell.get("name", "")
+        if not name or name.lower() in known_names:
+            continue
+        classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
+        if caster_class.lower() not in classes:
+            continue
+        slvl = int(spell.get("level", 0) or 0)
+        if slvl > 0 and slvl > max_spell_level:
+            continue
+        candidates.append({"name": name, "level": slvl, "spell": spell, "is_new": True, "known_id": None, "name_lower": name.lower()})
+
+    # Score all candidates
+    for item in candidates:
         sp = item["spell"]
         item["score"] = _score(item["name"], item["level"], sp)
-        item["name"] = sp.get("name", "")
+        item["name"] = sp.get("name", item["name"])
         item["school"] = (sp.get("school") or {}).get("name", "") if isinstance(sp.get("school"), dict) else ""
 
-    # Sort: prioritize spells with scores, then by level (higher first), then alphabetically
-    pool.sort(key=lambda x: (-x["score"], -x["level"], x["name"].lower()))
+    # Sort: best score first, then higher level, then alphabetical
+    candidates.sort(key=lambda x: (-x["score"], -x["level"], x["name"].lower()))
 
     # Pick top spells up to limit
-    selected = pool[:can_add]
+    selected = candidates[:can_add]
 
-    # Batch insert
-    added = 0
+    # Apply: UPDATE existing unprepared spells as prepared, INSERT new ones
+    prepared_count = 0
+    added_count = 0
     for item in selected:
-        db.execute(
-            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
-            (char_id, item["name"], item["level"], 1 if is_prepared else 0, 0, 0))
-        added += 1
+        if is_prepared and not item["is_new"]:
+            # Mark existing spell as prepared
+            db.execute("UPDATE character_spells SET prepared=1 WHERE id=?", (item["known_id"],))
+            prepared_count += 1
+        else:
+            # Insert new spell
+            db.execute(
+                "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
+                (char_id, item["name"], item["level"], 1 if is_prepared else 0, 0, 0))
+            added_count += 1
 
     db.commit()
     db.close()
 
+    total = prepared_count + added_count
     names = [s["name"] for s in selected]
+    parts = []
+    if prepared_count:
+        parts.append(f"{prepared_count} spells prepared")
+    if added_count:
+        parts.append(f"{added_count} new spells learned")
+    msg = f"{class_name} L{level}" + (f" ({subclass})" if subclass else "") + " — " + ", ".join(parts)
+
     return JSONResponse({
-        "added": added,
+        "added": total,
         "spells": names,
-        "message": f"Added {added} spells for {class_name} L{level}" + (f" ({subclass})" if subclass else ""),
+        "prepared": prepared_count,
+        "new": added_count,
+        "message": msg,
     })
 
 
