@@ -6642,21 +6642,21 @@ async function toggleAttune(itemName) {
 }
 
 // ── Save inventory (card-based) ──
-let _invSavePending = false;
+let _invSaveBusy = false;
 async function saveInventory() {
-  if (_invSavePending) {
-    // Queue another save after current one finishes
+  if (_invSaveBusy) {
+    // Save already in flight — schedule a retry that re-reads fresh DOM
     clearTimeout(window._invSaveQueued);
-    window._invSaveQueued = setTimeout(saveInventory, 100);
+    window._invSaveQueued = setTimeout(saveInventory, 50);
     return;
   }
-  _invSavePending = true;
+  _invSaveBusy = true;
   try {
     await _flushInventory();
   } catch(e) {
     console.error('saveInventory failed:', e);
   }
-  _invSavePending = false;
+  _invSaveBusy = false;
 }
 
 async function _flushInventory() {
@@ -6676,11 +6676,13 @@ async function _flushInventory() {
   });
   const emptyEl = document.getElementById('inv-empty');
   if (emptyEl) emptyEl.style.display = items.length === 0 ? 'block' : 'none';
+  console.log('Saving inventory:', JSON.stringify(items));
   const resp = await api('/update', { inventory: JSON.stringify(items) });
   if (!resp.ok) {
     console.error('Inventory save failed:', resp.status, await resp.text().catch(()=>''));
     return;
   }
+  console.log('Inventory save OK');
   tagWeapons();
 }
 
