@@ -126,6 +126,7 @@ FEATS = {
     "elemental_adept":      {"name":"Elemental Adept",     "desc":"Ignore resistance to chosen element, treat 1s as 2s on damage dice"},
     "fey_touched":          {"name":"Fey Touched",         "desc":"+1 Int/Wis/Cha, misty step + one 1st-level divination/enchantment spell 1/day each"},
     "grappler":             {"name":"Grappler",            "desc":"Advantage on attacks vs grappled creatures, pin creatures, restrained condition"},
+    "gunner":               {"name":"Gunner",              "desc":"You have a quick hand and keen eye when employing firearms. +1 Dex, gain firearm proficiency, ignore loading property of firearms, no disadvantage on ranged attacks in melee range."},
     "great_weapon_master":  {"name":"Great Weapon Master", "desc":"-5 attack +10 dmg with heavy melee weapon, bonus action on crit/kill"},
     "healer":               {"name":"Healer",              "desc":"Stabilize as action, heal 1d6+4+HD 1/short rest per creature"},
     "heavily_armored":      {"name":"Heavily Armored",     "desc":"+1 Str, gain heavy armor proficiency"},
