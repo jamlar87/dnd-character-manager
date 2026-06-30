@@ -263,6 +263,7 @@
 .prepared-spell-chip.open .prep-body { display: block !important; }
 .prepared-spell-chip.open .prep-header { border-radius: 4px 4px 0 0; }
 .prepared-spell-chip.open .prep-arrow { transform: rotate(90deg); }
+.lc-arrow.rotated { transform: rotate(90deg); }
 .feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
 
 /* Feature use checkbox dots */
@@ -1768,7 +1769,10 @@
       <!-- Learned Cantrips -->
       {% set learned_cantrips = spells|selectattr("spell_level","eq",0)|list %}
       <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent2)">
-        <h3 style="margin:0 0 0.5rem 0">✨ Learned Cantrips
+        <h3 style="margin:0 0 0.5rem 0;cursor:pointer;display:flex;align-items:center;gap:0.4rem"
+            onclick="const b=this.nextElementSibling;b.style.display=b.style.display==='none'?'':'none';this.querySelector('.lc-arrow').classList.toggle('rotated')">
+          <span class="lc-arrow" style="font-size:0.7rem;transition:transform 0.2s">▶</span>
+          ✨ Learned Cantrips
           <span style="font-size:0.75rem;color:var(--text-muted);font-weight:normal">
             (<span id="cantrips-known-count2">{{ learned_cantrips|length }}</span>{% if cantrips_max > 0 %}/{{ cantrips_max }}{% endif %})
           </span>
