@@ -1011,6 +1011,10 @@ async def character_sheet(char_id: int, request: Request):
         char["background_data"] = json.loads(char["background_data"] or "")
     except (json.JSONDecodeError, TypeError):
         char["background_data"] = {}
+    try:
+        char["personality_data"] = json.loads(char.get("personality_data") or "{}")
+    except (json.JSONDecodeError, TypeError):
+        char["personality_data"] = {}
 
     spells = [dict(r) for r in db.execute(
         "SELECT * FROM character_spells WHERE character_id = ? ORDER BY spell_level, spell_name",
@@ -1388,6 +1392,8 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
         "gp",
         "dragonborn_ancestry",
         "summons",
+        "background_data",
+        "personality_data",
     }
     updates = {}
     for k, v in data.items():
@@ -1729,10 +1735,13 @@ async def sync_combat_hp(request: Request):
 
 @router.post("/api/character/{char_id}/spend-charge", response_class=JSONResponse)
 async def spend_charge(char_id: int, request: Request):
-    """Spend one charge from an equipped charged item."""
+    """Spend one or more charges from an equipped charged item."""
     user = require_user(request)
     data = await request.json()
     item_name = (data.get("name") or "").strip()
+    amount = int(data.get("amount", 1))
+    if amount < 1:
+        amount = 1
     if not item_name:
         return JSONResponse({"error": "No item name"}, status_code=400)
 
@@ -1751,7 +1760,15 @@ async def spend_charge(char_id: int, request: Request):
             continue
         if item.get("name", "").strip().lower() == item_name.lower():
             used = item.get("charges_used", 0)
-            item["charges_used"] = used + 1
+            # Cap amount: don't go below 0 available
+            info = _resolve_item_key(item_name.lower())
+            max_charges = info.get("charges", 0) if info else 0
+            available = max(0, max_charges - used)
+            spend = min(amount, available)
+            if spend < 1:
+                item["charges_used"] = max_charges  # fully deplete
+            else:
+                item["charges_used"] = used + spend
             updated = True
             break
 

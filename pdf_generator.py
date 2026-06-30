@@ -97,6 +97,7 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
         "save_proficiencies", "damage_resistances", "damage_immunities",
         "damage_vulnerabilities", "condition_immunities", "class_levels",
         "attuned_items", "background_data", "spell_slots_used",
+        "personality_data",
     ]
     for field in json_fields:
         val = d.get(field)
@@ -108,15 +109,23 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
 
     for field in json_fields:
         if d.get(field) is None:
-            d[field] = {} if field in ("spell_slots_used", "spell_slot_data", "background_data") else []
+            d[field] = {} if field in ("spell_slots_used", "spell_slot_data", "background_data", "personality_data") else []
 
     for f in ["personality", "backstory", "alignment", "subrace", "subclass"]:
         d.setdefault(f, "")
 
+    pd = d.get("personality_data", {}) or {}
     bg_data = d.get("background_data", {}) or {}
-    d["ideals"] = d.get("ideals", "") or bg_data.get("ideals", "") or ""
-    d["bonds"] = d.get("bonds", "") or bg_data.get("bonds", "") or ""
-    d["flaws"] = d.get("flaws", "") or bg_data.get("flaws", "") or ""
+    # Personality Traits: personality_data.traits → old personality field
+    d["personality_traits"] = pd.get("traits", "") or d.get("personality", "")
+    d["ideals"] = pd.get("ideals", "") or bg_data.get("ideals", "") or d.get("ideals", "") or ""
+    d["bonds"] = pd.get("bonds", "") or bg_data.get("bonds", "") or d.get("bonds", "") or ""
+    d["flaws"] = pd.get("flaws", "") or bg_data.get("flaws", "") or d.get("flaws", "") or ""
+    # Physical appearance
+    for fld in ("age", "height", "weight", "eyes", "skin", "hair"):
+        d[fld] = pd.get(fld, "")
+    # Allies & Organizations
+    d["allies"] = pd.get("allies", "")
 
     d["initiative"] = mod_int(d.get("dexterity", 10))
     d["passive_perception"] = d.get("passive_perception", 10) or 10
@@ -883,7 +892,7 @@ def _draw_col3_personality(c, d):
     block_h, gap = 50, 12
     w = COL3_W
     for i, (lbl, txt) in enumerate([
-        ("Personality Traits", d.get("personality", "")),
+        ("Personality Traits", d.get("personality_traits", "")),
         ("Ideals", d.get("ideals", "")),
         ("Bonds", d.get("bonds", "")),
         ("Flaws", d.get("flaws", "")),
@@ -904,8 +913,8 @@ def draw_page2(c, d):
     # Physical properties row
     phys_w = 92
     for i, (lbl, val) in enumerate([
-        ("Age", ""), ("Height", ""), ("Weight", ""),
-        ("Eyes", ""), ("Skin", ""), ("Hair", ""),
+        ("Age", d.get("age", "")), ("Height", d.get("height", "")), ("Weight", d.get("weight", "")),
+        ("Eyes", d.get("eyes", "")), ("Skin", d.get("skin", "")), ("Hair", d.get("hair", "")),
     ]):
         px = COL1_X + i * (phys_w + 4)
         _label(c, px, y0 - 9, lbl)
@@ -915,12 +924,18 @@ def draw_page2(c, d):
     right_x, right_w = left_x + left_w + 16, 260
 
     # Left: Character Appearance, Character Backstory
-    _text_box(c, left_x, y2, left_w, 280, "", size=5, label_text="Character Appearance")
+    _appearance_lines = []
+    for fld in ("age", "height", "weight", "eyes", "skin", "hair"):
+        v = d.get(fld, "")
+        if v:
+            _appearance_lines.append(f"{fld.capitalize()}: {v}")
+    _appearance_txt = ", ".join(_appearance_lines) if _appearance_lines else d.get("race", "") or ""
+    _text_box(c, left_x, y2, left_w, 280, _appearance_txt, size=5, label_text="Character Appearance")
     _text_box(c, left_x, y2 + 290, left_w, 400, d.get("backstory", ""), size=5,
               label_text="Character Backstory")
 
     # Right: Allies & Organizations, Additional Features & Traits, Treasure
-    _text_box(c, right_x, y2, right_w, 180, "", size=5, label_text="Allies & Organizations")
+    _text_box(c, right_x, y2, right_w, 180, d.get("allies", ""), size=5, label_text="Allies & Organizations")
     # Faction symbol square
     sym_x, sym_y, sym_sz = right_x + right_w - 48, y2 + 8, 44
     c.setStrokeColor((0, 0, 0))

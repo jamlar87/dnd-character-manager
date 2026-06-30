@@ -1065,11 +1065,18 @@
         <div id="attacks-charged-list">
         {% for ci in charged %}
         {% set is_reload = ci.recharge and ci.recharge is string and ci.recharge.startswith('reload') %}
+        {% set multi_charge = ci.max_charges > 1 %}
         <div class="atk-card item-card charge-card{% if ci.current_charges <= 0 %} depleted{% endif %}"
             data-item-name="{{ ci.name }}"
             data-recharge="{{ ci.recharge or '' }}"
-             onclick="{% if ci.current_charges > 0 %}spendCharge(this.dataset.itemName){% elif is_reload %}reloadCharge(this.dataset.itemName){% endif %}"
-             style="cursor:{% if ci.current_charges > 0 or is_reload %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 and not is_reload %}opacity:0.45{% endif %}">
+            data-max-charges="{{ ci.max_charges }}"
+            data-current-charges="{{ ci.current_charges }}"
+            {% if not multi_charge and ci.current_charges > 0 %}
+            onclick="spendCharge(this.dataset.itemName, 1)"
+            {% elif not multi_charge and is_reload %}
+            onclick="reloadCharge(this.dataset.itemName)"
+            {% endif %}
+            style="cursor:{% if ci.current_charges > 0 and not multi_charge %}pointer{% elif is_reload %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 and not is_reload %}opacity:0.45{% endif %}">
           <div style="display:flex;justify-content:space-between;align-items:baseline">
             <span style="display:flex;align-items:center;gap:0.3rem">
               <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
@@ -1080,6 +1087,14 @@
               {{ ci.current_charges }}/{{ ci.max_charges }} charges
             </span>
           </div>
+          {% if multi_charge and ci.current_charges > 0 %}
+          <div class="charge-stepper" style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;justify-content:flex-end" onclick="event.stopPropagation()">
+            <button class="charge-amount-btn" onclick="chargeStep(this, -1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">−</button>
+            <span class="charge-amount-display" style="font-family:monospace;font-size:0.8rem;min-width:1.2rem;text-align:center">1</span>
+            <button class="charge-amount-btn" onclick="chargeStep(this, 1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">+</button>
+            <button class="charge-spend-btn" onclick="spendCharge(this.closest('.charge-card').dataset.itemName, parseInt(this.closest('.charge-stepper').querySelector('.charge-amount-display').textContent))" style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">⚡ Spend</button>
+          </div>
+          {% endif %}
           {% if ci.current_charges <= 0 and is_reload %}
           <div style="margin-top:0.3rem;text-align:right">
             <button class="reload-btn" onclick="event.stopPropagation();reloadCharge('{{ ci.name|replace("'","\\'") }}')"
@@ -1411,6 +1426,9 @@
                 <span class="collapse-arrow" style="flex-shrink:0">▶</span>
                 <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
                 <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ feat.name }}</span>
+                {% if feat.get("action_type") == "Bonus Action" %}
+                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem;flex-shrink:0">⚡ BA</span>
+                {% endif %}
                 {% if feat.dice %}
                 <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ feat.dice }}</span>
                 {% endif %}
@@ -1581,6 +1599,9 @@
           <div class="feat-card" data-feat-index="{{ idx }}">
             <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
               <span style="flex:1;min-width:0"><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.get("action_type") == "Bonus Action" %}
+                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
+                {% endif %}
                 {% if feat.dice %}
                 <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
                 {% endif %}
@@ -2469,6 +2490,63 @@
   </div>
 </div>
 
+<!-- Personality Section -->
+<div class="card" style="margin-bottom:1rem;margin-top:0.5rem">
+  <div onclick="togglePersonalitySection()" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;user-select:none;margin-bottom:0">
+    <span id="personality-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▸</span>
+    <h3 style="margin:0;font-size:1rem">Personality & Appearance</h3>
+  </div>
+  <div id="personality-body" style="display:none;margin-top:0.75rem">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.75rem">
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Age</label>
+      <input type="text" class="personality-input" data-field="age" value="{{ character.personality_data.get('age','') }}" onchange="savePersonalityField('age',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Height</label>
+      <input type="text" class="personality-input" data-field="height" value="{{ character.personality_data.get('height','') }}" onchange="savePersonalityField('height',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Weight</label>
+      <input type="text" class="personality-input" data-field="weight" value="{{ character.personality_data.get('weight','') }}" onchange="savePersonalityField('weight',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Eyes</label>
+      <input type="text" class="personality-input" data-field="eyes" value="{{ character.personality_data.get('eyes','') }}" onchange="savePersonalityField('eyes',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Skin</label>
+      <input type="text" class="personality-input" data-field="skin" value="{{ character.personality_data.get('skin','') }}" onchange="savePersonalityField('skin',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Hair</label>
+      <input type="text" class="personality-input" data-field="hair" value="{{ character.personality_data.get('hair','') }}" onchange="savePersonalityField('hair',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem">
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Personality Traits</label>
+      <textarea class="personality-input" data-field="traits" onchange="savePersonalityField('traits',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('traits','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Ideals</label>
+      <textarea class="personality-input" data-field="ideals" onchange="savePersonalityField('ideals',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('ideals','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Bonds</label>
+      <textarea class="personality-input" data-field="bonds" onchange="savePersonalityField('bonds',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('bonds','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Flaws</label>
+      <textarea class="personality-input" data-field="flaws" onchange="savePersonalityField('flaws',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('flaws','') }}</textarea>
+    </div>
+  </div>
+  <div style="margin-top:0.75rem">
+    <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Allies & Organizations</label>
+    <textarea class="personality-input" data-field="allies" onchange="savePersonalityField('allies',this.value)" style="width:100%;min-height:80px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('allies','') }}</textarea>
+  </div>
+</div>
+</div>
 
 <!-- /sheet-main -->
 </div>
@@ -3234,6 +3312,16 @@ function toggleConditionDetail(event, name, desc) {
   const rect = badge.getBoundingClientRect();
   popout.style.left = '0';
   popout.style.top = (rect.bottom + 4) + 'px';
+}
+
+// ── Personality Section toggle ──
+function togglePersonalitySection() {
+  const body = document.getElementById('personality-body');
+  const arrow = document.getElementById('personality-arrow');
+  if (!body || !arrow) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : '';
+  arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(90deg)';
 }
 
 // ── Death Saves ──
@@ -6185,13 +6273,27 @@ async function useFeature(name, btn) {
   } catch(e) { console.error(e); }
 }
 
-// ── Charged Items ── click card to spend one charge ──
-async function spendCharge(itemName) {
+// ── Charged Items ── click card to spend charges ──
+function chargeStep(btn, delta) {
+  const stepper = btn.closest('.charge-stepper');
+  const display = stepper.querySelector('.charge-amount-display');
+  const card = btn.closest('.charge-card');
+  const maxCharge = parseInt(card.dataset.maxCharges);
+  const currentCharge = parseInt(card.dataset.currentCharges);
+  const available = Math.min(maxCharge, currentCharge);
+  let val = parseInt(display.textContent) + delta;
+  if (val < 1) val = 1;
+  if (val > available) val = available;
+  display.textContent = val;
+}
+
+async function spendCharge(itemName, amount) {
+  amount = amount || 1;
   try {
     const resp = await fetch(`/api/character/${CHAR_ID}/spend-charge`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name: itemName})
+      body: JSON.stringify({name: itemName, amount: amount})
     });
     const data = await resp.json();
     if (!data.charged_items) return;
@@ -6238,8 +6340,36 @@ function updateSingleChargeCard(card, ci) {
   if (countEl) {
     countEl.textContent = `${ci.current_charges}/${ci.max_charges} charges`;
   }
+  // Update data attributes
+  card.dataset.currentCharges = ci.current_charges;
+  card.dataset.maxCharges = ci.max_charges;
   const recharge = card.dataset.recharge || '';
   const isReload = recharge.startsWith('reload');
+  const multiCharge = ci.max_charges > 1;
+  // Update stepper visibility and reset amount to 1
+  let stepper = card.querySelector('.charge-stepper');
+  if (multiCharge && ci.current_charges > 0) {
+    if (!stepper) {
+      // Rebuild stepper if missing (e.g. after depletion → recharge)
+      stepper = document.createElement('div');
+      stepper.className = 'charge-stepper';
+      stepper.style.cssText = 'display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;justify-content:flex-end';
+      stepper.onclick = (e) => e.stopPropagation();
+      stepper.innerHTML = `<button class="charge-amount-btn" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">−</button><span class="charge-amount-display" style="font-family:monospace;font-size:0.8rem;min-width:1.2rem;text-align:center">1</span><button class="charge-amount-btn" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">+</button><button class="charge-spend-btn" style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">⚡ Spend</button>`;
+      stepper.querySelector('.charge-amount-btn:first-child').onclick = (e) => { e.stopPropagation(); chargeStep(e.target, -1); };
+      stepper.querySelector('.charge-amount-btn:last-child').onclick = (e) => { e.stopPropagation(); chargeStep(e.target, 1); };
+      stepper.querySelector('.charge-spend-btn').onclick = (e) => {
+        e.stopPropagation();
+        spendCharge(card.dataset.itemName, parseInt(stepper.querySelector('.charge-amount-display').textContent));
+      };
+      card.appendChild(stepper);
+    }
+    stepper.style.display = '';
+    const disp = stepper.querySelector('.charge-amount-display');
+    if (disp) disp.textContent = '1';
+  } else if (stepper) {
+    stepper.style.display = 'none';
+  }
   if (ci.current_charges <= 0) {
     card.classList.add('depleted');
     if (isReload) {
@@ -7939,6 +8069,22 @@ async function saveBackstory() {
       body: JSON.stringify({backstory: text}),
     });
   } catch(e) { console.error(e); }
+}
+
+async function savePersonalityField(field, value) {
+  try {
+    // Build the full personality_data object from all inputs
+    const inputs = document.querySelectorAll('.personality-input');
+    const data = {};
+    inputs.forEach(el => data[el.dataset.field] = el.value);
+    // Override with the changed field
+    data[field] = value;
+    await fetch(`/api/character/${CHAR_ID}/update`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({personality_data: JSON.stringify(data)}),
+    });
+  } catch(e) { console.error('savePersonalityField error:', e); }
 }
 
 async function generateHistory() {
