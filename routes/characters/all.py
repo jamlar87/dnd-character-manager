@@ -2548,6 +2548,29 @@ async def toggle_prepared(char_id: int, request: Request):
     return JSONResponse({"ok": True})
 
 
+@router.post("/api/character/{char_id}/unlearn-spell", response_class=JSONResponse)
+async def unlearn_spell(char_id: int, request: Request):
+    """Delete a spell from the character's spellbook."""
+    user = require_user(request)
+    data = await request.json()
+    spell_id = data.get("id")
+    if not spell_id:
+        return JSONResponse({"error": "Missing spell id"}, status_code=400)
+    db = get_db()
+    row = db.execute(
+        "SELECT id, spell_name FROM character_spells WHERE id=? AND character_id=?",
+        (spell_id, char_id)
+    ).fetchone()
+    if not row:
+        db.close()
+        return JSONResponse({"error": "Spell not found"}, status_code=404)
+    name = row["spell_name"]
+    db.execute("DELETE FROM character_spells WHERE id=?", (spell_id,))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "spell_name": name, "message": f"Unlearned {name}"})
+
+
 @router.get("/api/character/{char_id}/gp", response_class=JSONResponse)
 async def get_character_gp(char_id: int, request: Request):
     """Return just the gp value for a character (lightweight)."""
