@@ -135,12 +135,9 @@
 }
 .item-card .item-qty {
   background: var(--accent); color: #000; border-radius: 8px;
-  padding: 0.05rem 0.2rem; font-size: 0.6rem; font-weight: 700;
-  width: 2.8ch; text-align: center; border: none; outline: none;
-  font-family: monospace; line-height: 1.4;
+  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  min-width: 1.2rem; text-align: center;
 }
-.item-card .item-qty::-webkit-inner-spin-button,
-.item-card .item-qty::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .item-card .item-card-btn {
   background: none; border: none; color: var(--text-muted);
   cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
@@ -2257,7 +2254,7 @@
                    onchange="autoSaveInventory();tagWeapons()"
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
-            {% if item_qty > 1 %}<input type="number" class="item-qty" value="{{ item_qty }}" min="1" max="999" onchange="updateItemQty(this)" onclick="event.stopPropagation()">{% endif %}
+            {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
@@ -4570,7 +4567,7 @@ async function toggleItemExpand(btn) {
     // Use cache if available
     if (_itemDetailCache[name]) {
       const qtyBadge2 = card.querySelector('.item-qty');
-      const currentQty2 = qtyBadge2 ? parseInt(qtyBadge2.value || qtyBadge2.textContent) || 1 : 1;
+      const currentQty2 = qtyBadge2 ? parseInt(qtyBadge2.textContent) || 1 : 1;
       detail.innerHTML = _itemDetailCache[name] + buildQtyRow(currentQty2);
       detail.dataset.loaded = '1';
       return;
@@ -4583,7 +4580,7 @@ async function toggleItemExpand(btn) {
       const typeTag = data.type ? ` · ${data.type}` : '';
       const srcTag = data.source ? `${_srcBadge(data.source)}` : '';
       const qtyBadge = card.querySelector('.item-qty');
-      const currentQty = qtyBadge ? parseInt(qtyBadge.value || qtyBadge.textContent) || 1 : 1;
+      const currentQty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
       const descHtml = `<span class="detail-label">${data.name || name}</span>${typeTag}${srcTag}
         <br><span style="color:var(--text);font-size:0.65rem;line-height:1.4">${data.description || 'No description available.'}</span>
         ${data.curse ? _curseSectionHtml(data.curse) : ''}`;
@@ -4623,22 +4620,19 @@ async function updateItemQty(input) {
   const qty = Math.max(1, parseInt(input.value) || 1);
   input.value = qty;
 
-  // Update or remove qty badge on the card — editable number input
+  // Update or remove qty badge on the card
   let badge = card.querySelector('.item-qty');
   if (qty > 1) {
     if (!badge) {
-      badge = document.createElement('input');
-      badge.type = 'number';
+      badge = document.createElement('span');
       badge.className = 'item-qty';
-      badge.min = '1';
-      badge.max = '999';
-      badge.onchange = function() { updateItemQty(this); };
-      badge.onclick = function(e) { e.stopPropagation(); };
-      const nameEl2 = card.querySelector('.item-card-name');
-      if (nameEl2) card.insertBefore(badge, nameEl2.nextSibling);
-      else card.appendChild(badge);
+      badge.style.cursor = 'pointer';
+      badge.title = 'Click to expand';
+      badge.onclick = function(e) { e.stopPropagation(); toggleItemExpand(card.querySelector('.item-expand-btn')); };
+      const btn = card.querySelector('.item-card-btn');
+      card.insertBefore(badge, btn);
     }
-    badge.value = qty;
+    badge.textContent = qty;
   } else if (badge) {
     badge.remove();
   }
@@ -4648,7 +4642,7 @@ async function updateItemQty(input) {
   const name = (nameEl?.value || nameEl?.textContent || '').trim();
   card.setAttribute('ondragstart', `handleDragStart(event, '${name.replace(/'/g, "\\'")}', 'inventory', ${qty})`);
 
-  saveInventory();
+  await saveInventory();
 }
 
 // ── Edit Mode Toggle ──
@@ -6556,9 +6550,7 @@ function addInventoryCard(name, qty, enhancement) {
   const emptyEl = document.getElementById('inv-empty');
   if (emptyEl) emptyEl.style.display = 'none';
 
-  const qtyBadge = qty > 1
-    ? `<input type="number" class="item-qty" value="${qty}" min="1" max="999" onchange="updateItemQty(this)" onclick="event.stopPropagation()">`
-    : '';
+  const qtyBadge = qty > 1 ? `<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">${qty}</span>` : '';
   const safeName = name.replace(/"/g, '&quot;');
   const safeNameAttr = name.replace(/'/g, "\\'");
 
@@ -6588,11 +6580,11 @@ function addInventoryCard(name, qty, enhancement) {
 }
 
 // ── Delete inventory item ──
-function deleteInventoryItem(name) {
+async function deleteInventoryItem(name) {
   if (!confirm(`Remove "${name}" from inventory?`)) return;
   const card = document.querySelector(`#inv-list .item-card[data-item-name="${CSS.escape(name)}"]`);
   if (card) card.remove();
-  _flushInventory();
+  await _flushInventory();
 }
 
 // ── Toggle attunement ──
@@ -6652,10 +6644,14 @@ async function toggleAttune(itemName) {
 // ── Save inventory (card-based) ──
 let _invSavePending = false;
 async function saveInventory() {
-  if (_invSavePending) return;
+  if (_invSavePending) {
+    // Queue another save after current one finishes
+    clearTimeout(window._invSaveQueued);
+    window._invSaveQueued = setTimeout(saveInventory, 100);
+    return;
+  }
   _invSavePending = true;
   try {
-    await new Promise(r => setTimeout(r, 50));
     await _flushInventory();
   } catch(e) {
     console.error('saveInventory failed:', e);
@@ -6670,7 +6666,7 @@ async function _flushInventory() {
     const qtyBadge = card.querySelector('.item-qty');
     const name = (nameEl?.value || nameEl?.textContent || '').trim();
     if (!name) return;
-    const qty = qtyBadge ? parseInt(qtyBadge.value || qtyBadge.textContent) || 1 : 1;
+    const qty = qtyBadge ? parseInt(qtyBadge.textContent) || 1 : 1;
     const enhancement = parseInt(card.dataset.enhancement || '0');
     items.push(enhancement > 0 ? { name, qty, enhancement } : { name, qty });
   });
@@ -6680,7 +6676,11 @@ async function _flushInventory() {
   });
   const emptyEl = document.getElementById('inv-empty');
   if (emptyEl) emptyEl.style.display = items.length === 0 ? 'block' : 'none';
-  await api('/update', { inventory: JSON.stringify(items) });
+  const resp = await api('/update', { inventory: JSON.stringify(items) });
+  if (!resp.ok) {
+    console.error('Inventory save failed:', resp.status, await resp.text().catch(()=>''));
+    return;
+  }
   tagWeapons();
 }
 
@@ -6795,20 +6795,16 @@ function selectItem(name) {
       console.log('selectItem: existing found, incrementing qty');
       const qtyBadge = existing.querySelector('.item-qty');
       if (qtyBadge) {
-        const newQty = parseInt(qtyBadge.value || qtyBadge.textContent || '1') + 1;
-        qtyBadge.value = newQty;
+        qtyBadge.textContent = parseInt(qtyBadge.textContent) + 1;
       } else {
-        const input = document.createElement('input');
-        input.type = 'number';
-        input.className = 'item-qty';
-        input.value = '2';
-        input.min = '1';
-        input.max = '999';
-        input.onchange = function() { updateItemQty(this); };
-        input.onclick = function(e) { e.stopPropagation(); };
-        const nameEl2 = existing.querySelector('.item-card-name');
-        if (nameEl2) existing.insertBefore(input, nameEl2.nextSibling);
-        else existing.appendChild(input);
+        const span = document.createElement('span');
+        span.className = 'item-qty';
+        span.style.cursor = 'pointer';
+        span.title = 'Click to expand';
+        span.onclick = function(e) { e.stopPropagation(); toggleItemExpand(existing.querySelector('.item-expand-btn')); };
+        span.textContent = '2';
+        const btn = existing.querySelector('.item-card-btn');
+        if (btn) existing.insertBefore(span, btn);
       }
     } else {
       console.log('selectItem: creating new card for', name);
@@ -6836,7 +6832,7 @@ function selectItem(name) {
       console.log('selectItem: card appended');
     }
     toggleItemSearch();
-    saveInventory();
+    await saveInventory();
   } catch(e) {
     console.error('selectItem error:', e);
   } finally {
@@ -8181,7 +8177,7 @@ async function claimFromTeam(itemId, itemName) {
       // Add item to inventory DOM (server already added it to DB)
       if (!d.currency && d.added) {
         addInventoryCard(d.added, d.qty || 1);
-        _flushInventory();
+        await _flushInventory();
       }
       try { reloadGp(); } catch(e) {}
     } else {
