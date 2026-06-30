@@ -1400,6 +1400,14 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
         if k in allowed:
             updates[k] = v
 
+    if "inventory" in updates:
+        import logging as _invlog
+        _invlog.getLogger(__name__).info(
+            f"INVENTORY SAVE char={char_id} user={user['id']} "
+            f"value_len={len(str(updates['inventory']))} "
+            f"sample={str(updates['inventory'])[:200]}"
+        )
+
     if updates:
         sets = ", ".join(f"{k}=?" for k in updates)
         vals = list(updates.values())

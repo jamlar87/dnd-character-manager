@@ -4615,10 +4615,12 @@ function stepQty(btn, delta) {
 }
 
 async function updateItemQty(input) {
+  console.log('updateItemQty called');
   const card = input.closest('.item-card');
-  if (!card) return;
+  if (!card) { console.log('updateItemQty: no card found'); return; }
   const qty = Math.max(1, parseInt(input.value) || 1);
   input.value = qty;
+  console.log('updateItemQty: qty =', qty, 'card name =', (card.querySelector('.item-card-name')?.value || ''));
 
   // Update or remove qty badge on the card
   let badge = card.querySelector('.item-qty');
@@ -6661,7 +6663,9 @@ async function saveInventory() {
 
 async function _flushInventory() {
   const items = [];
-  document.querySelectorAll('#inv-list .item-card').forEach(card => {
+  const cards = document.querySelectorAll('#inv-list .item-card');
+  console.log('_flushInventory: found', cards.length, 'cards in #inv-list');
+  cards.forEach(card => {
     const nameEl = card.querySelector('.item-card-name');
     const qtyBadge = card.querySelector('.item-qty');
     const name = (nameEl?.value || nameEl?.textContent || '').trim();
@@ -6793,9 +6797,11 @@ async function selectItem(name) {
     if (emptyEl) emptyEl.style.display = 'none';
     const safeName = CSS.escape(name);
     const existing = list.querySelector(`.item-card[data-item-name="${safeName}"]`);
+    console.log('selectItem: existing card?', !!existing);
     if (existing) {
       console.log('selectItem: existing found, incrementing qty');
       const qtyBadge = existing.querySelector('.item-qty');
+      console.log('selectItem: existing badge?', !!qtyBadge, 'textContent:', qtyBadge?.textContent);
       if (qtyBadge) {
         qtyBadge.textContent = parseInt(qtyBadge.textContent) + 1;
       } else {
