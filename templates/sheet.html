@@ -6779,7 +6779,7 @@ function handleSearchKey(e) {
 }
 
 let _selectingItem = false;
-function selectItem(name) {
+async function selectItem(name) {
   console.log('selectItem called:', name);
   // Guard against rapid double-clicks
   if (_selectingItem) { console.log('selectItem blocked by guard'); return; }
