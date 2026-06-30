@@ -4026,18 +4026,20 @@ function showDetail() {
   title.textContent = {{ character.name|tojson }};
 
   let html = '';
-  const raceData = DESCRIPTIONS.race[race];
+  // Case-insensitive race lookup: try exact first, then lowercase
+  const raceData = DESCRIPTIONS.race[race] || DESCRIPTIONS.race[race.toLowerCase()];
   const classData = DESCRIPTIONS.class[cls];
   const bgDesc = DESCRIPTIONS.bg[bg];
 
   // Race
+  const effectiveSubrace = subrace || raceData?.subrace || '';
   const raceSrc = raceData?.source || '';
   html += `<div style="margin-bottom:1rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong style="color:var(--accent)">${race}</strong>${raceSrc ? ` ${_srcBadge(raceSrc)}` : ''}</div>`;
   if (raceData?.desc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${raceData.desc}</p>`;
-  if (subrace) {
-    const srSrc = (raceData?._subrace_sources || {})[subrace] || '';
-    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${subrace}</strong>${srSrc ? ` ${_srcBadge(srSrc)}` : ''}</div>`;
-    const srDesc = (raceData?.subrace_descs || {})[subrace];
+  if (effectiveSubrace) {
+    const srSrc = (raceData?._subrace_sources || {})[effectiveSubrace] || '';
+    html += `<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem"><strong>${effectiveSubrace}</strong>${srSrc ? ` ${_srcBadge(srSrc)}` : ''}</div>`;
+    const srDesc = (raceData?.subrace_descs || {})[effectiveSubrace];
     if (srDesc) html += `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:var(--text-muted)">${srDesc}</p>`;
     html += '</div>';
   }

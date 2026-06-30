@@ -1288,9 +1288,28 @@ async def character_sheet(char_id: int, request: Request):
             "asi": _mr.get("asi", {}),
         }
     # Alias entries so "Elves of Mirkwood" → "Mirkwood Elf" data
+    # Also store title-cased fallback key for case-insensitive JS lookup
     for _alias, _target in _aliases.items():
-        if _target in merged_races and _alias not in merged_races:
+        if _alias in merged_races:
+            continue
+        if _target in merged_races:
             merged_races[_alias] = merged_races[_target]
+        else:
+            # Target may be a migrated subrace (e.g. Mirkwood Elf subrace of Elf)
+            # Find which parent race owns it and pull the subrace description
+            for _parent_name, _parent_data in merged_races.items():
+                if _target in _parent_data.get("subraces", []):
+                    _sr_desc = _parent_data.get("subrace_descs", {}).get(_target, "")
+                    _sr_src = _parent_data.get("_subrace_sources", {}).get(_target, "")
+                    _entry = {
+                        "desc": _sr_desc,
+                        "source": _sr_src,
+                        "subrace": _target,
+                    }
+                    merged_races[_alias] = _entry
+                    # Also store title-cased version for matching character.race
+                    merged_races[_alias.title()] = _entry
+                    break
 
     return _render("sheet.html", request=request, character=char, spells=spells,
                    mi_spells_data=mi_spells_data,
