@@ -1765,6 +1765,74 @@
       </div>
       {% endif %}
 
+      <!-- Learned Cantrips -->
+      {% set learned_cantrips = spells|selectattr("spell_level","eq",0)|list %}
+      <div class="card" style="margin-bottom:0.75rem;border-color:var(--accent2)">
+        <h3 style="margin:0 0 0.5rem 0">✨ Learned Cantrips
+          <span style="font-size:0.75rem;color:var(--text-muted);font-weight:normal">
+            (<span id="cantrips-known-count2">{{ learned_cantrips|length }}</span>{% if cantrips_max > 0 %}/{{ cantrips_max }}{% endif %})
+          </span>
+        </h3>
+        <div>
+        {% if learned_cantrips %}
+        {% for sp in learned_cantrips %}
+        <div class="prepared-spell-chip" id="prep-spell-{{ sp.id }}" style="margin-bottom:0.2rem">
+          <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+               style="display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
+            <strong>{{ sp.spell_name }}</strong>
+            {% if sp.srd and sp.srd.source %}
+            <span class="source-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
+            {% endif %}
+            {% if sp.srd and sp.srd.school %}
+            <span class="badge badge-muted" style="font-size:0.55rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+            {% endif %}
+            {% if sp.srd and sp.srd.concentration %}
+            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff">Conc.</span>
+            {% endif %}
+            {% if sp.dice %}
+            {% if sp.dice_healing %}
+            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(34,197,94,0.15);color:var(--success);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            {% elif sp.ac_bonus %}
+            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(59,130,246,0.15);color:#3b82f6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            {% elif sp.buff %}
+            <span class="badge" style="font-size:0.55rem;font-weight:600;background:rgba(139,92,246,0.15);color:#8b5cf6;font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            {% else %}
+            <span class="badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px">{{ sp.dice }}</span>
+            {% endif %}
+            {% endif %}
+            <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;color:var(--danger);opacity:0.6"
+                    onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
+                    title="Unlearn this cantrip">🗑</button>
+            <span style="font-size:0.65rem;color:var(--text-muted);margin-left:auto;transition:transform 0.2s" class="prep-arrow">▶</span>
+          </div>
+          <div class="prep-body" style="display:none;padding:0.5rem 0.6rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.8rem">
+            {% if sp.srd %}
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:0.15rem 0.6rem;margin-bottom:0.4rem">
+              <span style="color:var(--text-muted);font-size:0.72rem">Casting Time:</span><span>{{ sp.srd.casting_time }}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Range:</span><span>{{ sp.srd.range }}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Components:</span><span>{{ sp.srd.components|join(', ') }}{% if sp.srd.material %} ({{ sp.srd.material }}){% endif %}</span>
+              <span style="color:var(--text-muted);font-size:0.72rem">Duration:</span><span>{{ sp.srd.duration }}{% if sp.srd.concentration %} (concentration){% endif %}</span>
+            </div>
+            {% for line in sp.srd.desc %}
+            <p style="margin:0.3rem 0;line-height:1.45">{{ line }}</p>
+            {% endfor %}
+            {% if sp.srd.higher_level %}
+            <p style="margin:0.3rem 0;line-height:1.45;color:var(--accent);font-size:0.78rem">
+              <strong>At Higher Levels.</strong> {{ sp.srd.higher_level|join(' ') }}
+            </p>
+            {% endif %}
+            {% else %}
+            <p style="color:var(--text-muted);font-size:0.78rem">No SRD data available.</p>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p style="color:var(--text-muted);font-size:0.85rem;margin:0">No cantrips learned yet.</p>
+        {% endif %}
+        </div>
+      </div>
+
       <!-- Prepared Spells (prepared casters only) -->
       {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") %}
       {% set prepared_spells = spells|selectattr("prepared","eq",1)|selectattr("spell_level","gt",0)|list %}
@@ -1911,10 +1979,6 @@
                       onclick="event.stopPropagation();togglePrepared({{ sp.id }}, this)"
                       data-checked="{% if sp.prepared %}true{% else %}false{% endif %}"
                       title="{% if sp.prepared %}Unprepare{% else %}Prepare{% endif %}">{% if sp.prepared %}✕{% else %}+{% endif %}</button>
-              {% elif sp.spell_level == 0 %}
-              <button class="btn btn-outline btn-sm" style="font-size:0.6rem;padding:0.1rem 0.3rem;line-height:1;flex-shrink:0;color:var(--danger);opacity:0.6"
-                      onclick="event.stopPropagation();unlearnSpell({{ sp.id }}, '{{ sp.spell_name|e }}')"
-                      title="Unlearn this cantrip">🗑</button>
               {% endif %}
               <span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;flex-shrink:0">▶</span>
             </div>
