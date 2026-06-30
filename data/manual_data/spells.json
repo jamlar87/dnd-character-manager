@@ -3069,5 +3069,2653 @@
     "concentration": false,
     "source": "Explorer's Guide to Wildemount p.190",
     "_source_manual": "EGW"
+  },
+  {
+    "name": "Tasha's Caustic Brew",
+    "level": 1,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self (30-foot line)",
+    "components": "V, S, M (a bit of rotten food)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A stream of acid emanates from you in a line 30 feet long and 5 feet wide in a direction you choose. Each creature in the line must succeed on a Dexterity saving throw or be covered in acid for the spell's duration or until a creature uses its action to scrape or wash the acid off. A creature covered in acid takes 2d4 acid damage at the start of each of its turns.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the initial damage increases by 2d4 for each slot level above 1st.",
+    "classes": [
+      "Artificer",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Tasha's Mind Whip",
+    "level": 2,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V",
+    "duration": "1 round",
+    "description": "You psychically lash out at one creature you can see within range. The target must make an Intelligence saving throw. On a failed save, the target takes 3d6 psychic damage, and it can't take a reaction until the end of its next turn. Moreover, on its next turn, it must choose whether it gets a move, an action, or a bonus action; it gets only one of the three.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Tasha's Otherworldly Guise",
+    "level": 6,
+    "school": "transmutation",
+    "casting_time": "1 bonus action",
+    "range": "Self",
+    "components": "V, S, M (an object engraved with a symbol of the Outer Planes worth at least 500 gp)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You draw on the magic of the Lower Planes or Upper Planes (your choice) to transform yourself. You gain the following benefits: You gain immunity to either fire or radiant damage (your choice). You are immune to the poisoned condition. Your melee weapon attacks deal an extra 2d8 damage of a type depending on the plane you chose: psychic or radiant (Upper Planes) or necrotic (Lower Planes).",
+    "higher_levels": "",
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Intellect Fortress",
+    "level": 3,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "30 feet",
+    "components": "V",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You create a protective shield around the mind of yourself or one willing creature you can see within range. For the duration, the target has resistance to psychic damage, and it has advantage on Intelligence, Wisdom, and Charisma saving throws.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd.",
+    "classes": [
+      "Artificer",
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Spirit Shroud",
+    "level": 3,
+    "school": "necromancy",
+    "casting_time": "1 bonus action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You call forth spirits of the dead that surround you for the spell's duration. The spirits are intangible and invulnerable. Until the spell ends, any attack you make deals 1d8 extra damage when you hit a creature within 10 feet of you. You choose the damage type: radiant, necrotic, or cold. Additionally, any creature that starts its turn within 10 feet of you has its speed reduced by 10 feet.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the extra damage increases by 1d8 for every two slot levels above 3rd.",
+    "classes": [
+      "Cleric",
+      "Paladin",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Blade of Disaster",
+    "level": 9,
+    "school": "conjuration",
+    "casting_time": "1 bonus action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A black blade of planar energy appears in an unoccupied space within range. On each of your turns after you cast this spell, you can make a melee spell attack with the blade. On a hit, the target takes 4d12 force damage. On a critical hit, the target must succeed on a Constitution saving throw or be reduced to 0 hit points. The blade scores a critical hit on a roll of 18\u201320.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Aberration",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a pickled tentacle and an eyeball in a vial worth 400 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth an aberrant spirit that manifests in an unoccupied space you can see. The spirit uses the Aberrant Spirit stat block. When you cast the spell, choose Beholderkin, Slaad, or Star Spawn. The creature resembles an aberration of that type, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Construct",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a clay pot, metal file, and marble worth 400 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth a construct spirit that manifests in an unoccupied space you can see. The spirit uses the Construct Spirit stat block. When you cast the spell, choose Clay, Metal, or Stone. The creature resembles a construct of that type, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Artificer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Elemental",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (air, a pebble, ash, and water in a crystal vial worth 400 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth an elemental spirit that manifests in an unoccupied space you can see. The spirit uses the Elemental Spirit stat block. When you cast the spell, choose Air, Earth, Fire, or Water. The creature resembles an elemental of that type, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Fey",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a gilded flower worth 300 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth a fey spirit that manifests in an unoccupied space you can see. The spirit uses the Fey Spirit stat block. When you cast the spell, choose a mood: Fuming, Mirthful, or Tricksy. The creature resembles a fey creature of that mood, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Druid",
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Fiend",
+    "level": 6,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a bloody vial worth 600 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth a fiendish spirit that manifests in an unoccupied space you can see. The spirit uses the Fiendish Spirit stat block. When you cast the spell, choose Demon, Devil, or Yugoloth. The creature resembles a fiend of that type, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Undead",
+    "level": 3,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a gilded skull worth 300 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth an undead spirit that manifests in an unoccupied space you can see. The spirit uses the Undead Spirit stat block. When you cast the spell, choose Ghostly, Putrid, or Skeletal. The creature resembles an undead of that type, which determines certain traits. The creature disappears when it drops to 0 hit points or when the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Shadowspirit",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (tears inside a gem worth at least 300 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth a shadowy spirit. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Shadow Spirit stat block. When you cast the spell, choose an emotion: Fury, Despair, or Fear. The creature resembles a misshapen biped marked by the chosen emotion. The creature is an ally to you and your companions. In combat, the creature shares your initiative count, but it takes its turn immediately after yours.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Shadowspawn",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (tears inside a gem worth at least 300 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You call forth a shadowy spirit. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Shadow Spirit stat block. When you cast the spell, choose an emotion: Fury, Despair, or Fear. The creature resembles a misshapen biped marked by the chosen emotion. The creature is an ally to you and your companions.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, use the higher level wherever the spell's level appears in the stat block.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Dream of the Blue Veil",
+    "level": 7,
+    "school": "conjuration",
+    "casting_time": "10 minutes",
+    "range": "20 feet",
+    "components": "V, S, M (a magic item or willing creature from the destination world)",
+    "duration": "6 hours",
+    "description": "You and up to eight willing creatures within range fall unconscious for the spell's duration and experience visions of another world on the Material Plane. If the spell reaches its full duration, the visions conclude with each of you touching the destination and waking. You and each companion then appear on that world.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Tasha's Cauldron of Everything",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Energy Bolt",
+    "level": 3,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You hurl a bolt of raw ley energy at a target within range. Make a ranged spell attack. On a hit, the target takes 4d8 force damage. If you are near a ley line, the damage increases to 6d8.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d8 for each slot level above 3rd.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Leech",
+    "level": 5,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You draw the life force from a creature you can see within range, siphoning it through the leylines. The target must make a Constitution saving throw. On a failure, it takes 6d8 necrotic damage and you regain hit points equal to half the damage dealt. On a success, it takes half damage and you regain no hit points. Each subsequent round you can use your action to deal 4d8 necrotic damage to the same target.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the initial damage increases by 1d8 for each slot level above 5th.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Sense",
+    "level": 3,
+    "school": "divination",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a tuning fork)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You attune your senses to the flow of magic through the earth. For the duration, you can sense the presence and direction of any ley line within 1 mile of you. You know the strength of the ley line (weak, strong, or titanic) and whether it is currently being tapped by any creature.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Disruption",
+    "level": 2,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You disrupt the flow of magical energy around a creature or object you can see. Until the spell ends, whenever the target attempts to cast a spell or activate a magic item, it must succeed on a Constitution saving throw or the spell or effect fails and is wasted. If the target is near a ley line, the saving throw is made with disadvantage.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Whip",
+    "level": 2,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "30 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You create a whip of scintillating ley energy that lashes out at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 3d6 force damage and must succeed on a Strength saving throw or be pulled up to 15 feet toward you. If you are near a ley line, the damage increases to 4d6.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Storm",
+    "level": 5,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "150 feet",
+    "components": "V, S, M (a lodestone)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You call down a storm of raw ley energy in a 40-foot-radius, 100-foot-high cylinder centered on a point within range. Each creature in the area must make a Dexterity saving throw, taking 6d10 force damage on a failed save or half as much on a successful one. The storm heavily obscures the area and disrupts magic; any concentration check made in the area has disadvantage.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage increases by 1d10 for each slot level above 5th.",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ley Surge",
+    "level": 6,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self (30-foot radius)",
+    "components": "V, S, M (a rod of crystal)",
+    "duration": "Instantaneous",
+    "description": "You release a surge of accumulated ley energy in a pulse that radiates from you outward. Each creature of your choice within 30 feet must make a Constitution saving throw. On a failure, it takes 8d8 force damage and is pushed 20 feet away from you. On a success, it takes half damage and is not pushed. Unattended objects and structures take double damage.",
+    "higher_levels": "When you cast this spell using a spell slot of 7th level or higher, the damage increases by 1d8 for each slot level above 6th.",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Lesser Ley Pulse",
+    "level": 5,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You send a pulse of ley energy at a creature you can see. The target must make a Dexterity saving throw. On a failure, it takes 5d10 force damage and is stunned until the end of its next turn. On a success, it takes half damage and is not stunned.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Greater Ley Pulse",
+    "level": 7,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You unleash a devastating pulse of concentrated ley energy against a creature you can see. The target must make a Constitution saving throw. On a failure, it takes 10d10 force damage and is stunned for 1 minute (save ends). On a success, it takes half damage and is not stunned.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Amplify Ley Field",
+    "level": 5,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self (10-foot-radius sphere)",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a field of amplified ley energy that pulsates around you. For the duration, any spell you cast that deals damage deals an additional 2d6 force damage. Additionally, any ally within the field adds 1d4 to their spell attack rolls.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the additional damage increases by 1d6 for each slot level above 5th.",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Greater Ley Protection",
+    "level": 7,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a diamond worth 500 gp)",
+    "duration": "8 hours",
+    "description": "You weave ley energy into a protective barrier around yourself. For the duration, you have resistance to all damage. When you take damage from a spell, the caster takes 4d6 force damage.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Land Bond",
+    "level": 1,
+    "school": "divination",
+    "casting_time": "1 minute",
+    "range": "Self",
+    "components": "V, S, M (a handful of earth)",
+    "duration": "24 hours",
+    "description": "You establish a mystical bond with the land around you. For the duration, you gain advantage on Wisdom (Survival) checks made in the bonded area, you cannot become lost by nonmagical means, and you know the direction of any significant source of fresh water or food within 1 mile.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Ranger"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ray of Life Suppression",
+    "level": 5,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A sickly gray ray shoots from your finger toward a creature within range. Make a ranged spell attack. On a hit, the target takes 6d8 necrotic damage, and any healing it receives is halved for the duration. If the target is a creature with regeneration, its regeneration does not function while the spell is active.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage increases by 1d8 for each slot level above 5th.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Energy Absorption",
+    "level": 5,
+    "school": "abjuration",
+    "casting_time": "1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You absorb some of the energy from an incoming attack, reducing the damage you take by 5d10. If this reduces the damage to 0, you can immediately fire a bolt of the same energy type at a target within 60 feet as part of the same reaction, dealing half the absorbed damage.",
+    "higher_levels": "When you cast this spell using a spell slot of 6th level or higher, the damage reduction increases by 1d10 for each slot level above 5th.",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Disruptive Aura",
+    "level": 4,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self (15-foot radius)",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a shimmering aura that disrupts magic around you. Any creature within the aura that attempts to cast a spell must make a Constitution saving throw. On a failure, the spell fails and the spell slot is wasted. On a success, the spell is cast normally. Friendly creatures are immune to this effect.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Volley Shield",
+    "level": 4,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self (30-foot radius)",
+    "components": "V, S, M (a small shield)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create a shimmering dome of energy that protects a 30-foot-radius sphere centered on you. Ranged weapon attacks and spell attacks that target creatures inside the dome have disadvantage. The dome provides three-quarters cover (+5 AC) against attacks that pass through it.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Ley Lines",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Afflict Line",
+    "level": 9,
+    "school": "necromancy",
+    "casting_time": "1 hour",
+    "range": "1 mile",
+    "components": "V, S, M (a statuette carved in the likeness of the victim worth 1,250 gp)",
+    "duration": "Permanent until dispelled",
+    "description": "You invoke the darkest curses upon your victim and his or her descendants. Your target must make a successful Wisdom saving throw or be cursed until dispelled. The victim has disadvantage on ability checks and saving throws made with the ability score you choose. In addition, the target's firstborn offspring is also subject to the curse.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Bloom",
+    "level": 8,
+    "school": "conjuration",
+    "casting_time": "1 hour",
+    "range": "1 mile",
+    "components": "V, S, M (a silver acorn worth 500 gp, consumed)",
+    "duration": "1 year",
+    "description": "You plant a silver acorn in solid ground and spend an hour chanting a litany of praises to the natural world, after which the land within 1 mile becomes extremely fertile. Any seeds planted grow at twice the natural rate. Food harvested regrows within a week.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Celebration",
+    "level": 7,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a burst of joyful energy centered on a point you can see. Each creature in a 30-foot-radius sphere must make a Wisdom saving throw. On a failure, the creature is incapacitated and uses its movement to dance. On each of its turns, it takes 2d6 psychic damage from overwhelming joy.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Clearing the Field",
+    "level": 2,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self (30-foot radius)",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You sweep the area around you with a wave of pure magical energy. Each creature of your choice within 30 feet must make a Constitution saving throw. On a failed save, a creature takes 3d6 force damage and is pushed 10 feet away. Tiny nonmagical objects in the area are swept aside.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Cosmic Alignment",
+    "level": 9,
+    "school": "divination",
+    "casting_time": "1 minute",
+    "range": "Self",
+    "components": "V, S, M (a star chart worth 1,000 gp)",
+    "duration": "Instantaneous",
+    "description": "You align your consciousness with the cosmic forces of the multiverse. For the next minute, you have truesight out to 120 feet, you can cast any divination spell of 5th level or lower without expending a spell slot, and you know the exact location of every creature within 1 mile.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Desolation",
+    "level": 8,
+    "school": "necromancy",
+    "casting_time": "1 hour",
+    "range": "1 mile",
+    "components": "V, S, M (an obsidian acorn worth 500 gp, consumed)",
+    "duration": "1 year",
+    "description": "You plant an obsidian acorn in solid ground and spend an hour chanting curses to the natural world. The land within 1 mile becomes infertile. Nothing will grow there, and plant life in the area withers and dies within a month.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Encroaching Shadows",
+    "level": 6,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "Shadows from the Shadow Realm creep into the area, spreading from a point you choose. The area becomes heavily obscured by supernatural darkness. Creatures in the area at the start of your turn take 4d6 necrotic damage and have their speed halved.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Extract Foyson",
+    "level": 1,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You touch a dead creature or a plant, extracting the last vestiges of life force. You gain 1d10 temporary hit points. If used on a creature that died within the last hour, you also learn the general cause of death.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the temporary hit points increase by 1d10 for each slot level above 1st.",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Guest of Honor",
+    "level": 1,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You weave magic around a humanoid you can see within range, making it treat you as an honored guest. The target must make a Wisdom saving throw. On a failure, it regards you as a welcome visitor and will not attack you, though it remains free to act otherwise. If you or your companions attack it, the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Heartache",
+    "level": 2,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You fill a creature you can see with overwhelming melancholy. The target must make a Wisdom saving throw. On a failure, it has disadvantage on attack rolls and ability checks. On each of its turns, it can use its action to try to shake off the heartache by repeating the saving throw.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadows Brought to Light",
+    "level": 2,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a candle)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You cause the shadows in a 30-foot-radius sphere to reveal hidden things. Invisible creatures and objects are outlined in dim light. Secret doors and hidden traps are revealed as faint shadow-lines. Creatures with the shapechanger subtype must make a Wisdom save or have their true form outlined in shadow.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadowy Retribution",
+    "level": 4,
+    "school": "necromancy",
+    "casting_time": "10 minutes",
+    "range": "Self",
+    "components": "V, S, M (a silver goblet filled with the caster's blood)",
+    "duration": "12 hours",
+    "description": "You fill a silver cup with your own blood (taking 1d4 piercing damage) while chanting curses. You consume the blood and swear vengeance. If you are reduced to 0 hit points, a shadow emerges from your blood and attacks the creature that reduced you to 0 hit points until it or the shadow is destroyed.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Song of the Forest",
+    "level": 3,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "Self (60-foot radius)",
+    "components": "V",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You begin a haunting melody that calls to the forest itself. For the duration, natural foliage in the area parts to allow you and your allies to pass freely, and closes behind you to impede pursuit. Creatures of your choice in the area have advantage on Stealth checks. Beasts and fey are friendly toward you for the duration.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Druid"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Tongue Tied",
+    "level": 3,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You prevent a creature you can see from speaking coherently. The target must make a Charisma saving throw. On a failure, it cannot speak or cast spells with verbal components for the duration. At the end of each of its turns, the target can repeat the saving throw, ending the effect on a success.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Vine Trestle",
+    "level": 2,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of vine)",
+    "duration": "24 hours",
+    "description": "You call forth a sturdy trellis of living vines that bridges a gap up to 40 feet wide and 20 feet tall. The trestle can support up to 500 pounds, and it counts as difficult terrain for creatures hostile to you. The vines are AC 15 and have 50 hit points.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Ranger"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Black Swan Storm",
+    "level": 2,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a black feather)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A storm of black feathers and shadow sweeps through a 20-foot-radius sphere centered on a point within range. Every creature in the area must make a Dexterity saving throw, taking 3d6 slashing damage on a failed save, or half on a success. The area is heavily obscured for the duration.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Harsh Light of Summer's Glare",
+    "level": 8,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S",
+    "duration": "1 round",
+    "description": "Your visage radiates the wrath of the shadow fey, bearing down oppressively upon your targets in a burst of brilliant light. Only creatures that can see you are affected. Creatures with darkvision that fail a Constitution save are blinded and stunned until the end of your next turn. Creatures without darkvision that fail are blinded.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Deep Magic: Elven High Magic",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Bitter Wind",
+    "level": 3,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a frozen tear)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A howling wind filled with biting cold and shadow sweeps across a 30-foot cone. Each creature in the area must make a Constitution saving throw. On a failure, it takes 4d6 cold damage and is pushed 15 feet away from you. On a success, it takes half damage and is not pushed. The area is lightly obscured until the spell ends.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd.",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Black Ribbons",
+    "level": 1,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "Black ribbons of shadow energy whip out from your hand toward a creature you can see within range. Make a ranged spell attack. On a hit, the target takes 2d6 necrotic damage and is restrained by shadowy ribbons until the spell ends. The target can use its action to make a Strength check against your spell save DC to break free.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Blade of Blood and Bone",
+    "level": 1,
+    "school": "necromancy",
+    "casting_time": "1 bonus action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a blade of hardened bone and sinew that extends from your hand. This counts as a simple melee weapon with which you are proficient. On a hit, the blade deals 2d6 slashing damage. While the blade is active, you can't hold anything else in that hand.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st.",
+    "classes": [
+      "Paladin",
+      "Sorcerer",
+      "Warlock"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Charnel Banquet",
+    "level": 7,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a rotten feast)",
+    "duration": "Instantaneous",
+    "description": "You conjure a vile banquet of rotting food and shadowy delicacies in a 20-foot-radius sphere. Creatures in the area must make a Constitution saving throw. On a failure, they take 8d8 necrotic damage and are poisoned for 1 minute. On a success, they take half damage and are not poisoned. Undead creatures in the area regain 4d8 hit points instead.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Child of Light and Darkness",
+    "level": 8,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a black-and-white gem worth 1,000 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You conjure a pair of twin spirits, one of light and one of darkness. They occupy the same space and attack together. The spirits have AC 18, 80 HP each, and their attack deals 4d8 damage (radiant for the light spirit, necrotic for the dark). You can command them with a bonus action.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Conjure Ferryman",
+    "level": 2,
+    "school": "conjuration",
+    "casting_time": "1 minute",
+    "range": "60 feet",
+    "components": "V, S, M (a silver coin)",
+    "duration": "1 hour",
+    "description": "You summon a spectral ferryman and his boat on a body of water within range. The ferryman can carry you and up to 6 Medium creatures across any body of water up to 1 mile wide. The ferryman cannot be attacked and his boat cannot be capsized by nonmagical means.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Dark Path",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You create a path of shadow that stretches before you as you walk. While on the path, you are under the effects of the pass without trace spell. For the duration, any creature following your path has its movement speed reduced by 10 feet.",
+    "higher_levels": "",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Darkbolt",
+    "level": 2,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You hurl a bolt of crackling darkness at a target within range. Make a ranged spell attack. On a hit, the target takes 4d6 necrotic damage and must make a Constitution saving throw. On a failure, it is blinded until the start of your next turn.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Doom of Poor Fortune",
+    "level": 1,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a cracked coin)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You mark a creature with bad luck. The target must make a Charisma saving throw. On a failure, whenever the target makes an attack roll, ability check, or saving throw, it must roll a d4 and subtract the number rolled from the total. It also has disadvantage on checks made to use or activate magic items.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Doom of Stacked Stones",
+    "level": 6,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a stack of small stones)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You mark a creature with a crumbling curse. The target must make a Constitution saving throw. On a failure, it begins to physically crumble, taking 6d6 necrotic damage each round at the start of your turn. The target can repeat the save at the end of each of its turns, ending the effect on a success.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Doom of Summer Years",
+    "level": 7,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a withered flower)",
+    "duration": "Instantaneous",
+    "description": "You accelerate the aging of a creature you can see, forcing it to experience the ravages of time. The target must make a Constitution saving throw. On a failure, it takes 10d10 necrotic damage and ages 10 years. If this damage reduces the target to 0 hit points, it crumbles to dust. On a success, it takes half damage and does not age.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Elf Shot",
+    "level": 1,
+    "school": "evocation",
+    "casting_time": "1 bonus action",
+    "range": "120 feet",
+    "components": "V, M (a bow or crossbow)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You imbue a ranged weapon you hold with fey magic. For the duration, when you hit a creature with a ranged weapon attack, the attack deals an extra 1d8 piercing damage. Additionally, the weapon's ammunition is briefly wreathed in faerie fire, and attacks against the target have advantage until the start of your next turn.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d8 for each slot level above 1st.",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Emerald Goblet",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S, M (an empty cup)",
+    "duration": "Instantaneous",
+    "description": "You touch an empty cup or similar vessel and fill it with a sparkling emerald liquid. Any creature that drinks the liquid regains 2d4 + 2 hit points. The liquid loses its potency after 1 hour. You can create up to three such doses when you cast this spell.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d4 per dose for each slot level above 1st.",
+    "classes": [
+      "Bard",
+      "Cleric",
+      "Druid",
+      "Paladin"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Feast of Flesh",
+    "level": 5,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of raw meat)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You cause a creature's flesh to writhe and twist, growing additional mouths and eyes. The target must make a Constitution saving throw. On a failure, it takes 6d8 necrotic damage at the start of each of its turns as its own flesh consumes it from within. On a success, it takes initial 6d8 damage but no ongoing effect.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Gloaming",
+    "level": 1,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a small piece of twilight)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create an area of twilight dimness in a 20-foot-radius sphere. The area is dimly lit and imposes disadvantage on Perception checks relying on sight. Creatures with darkvision can see through the gloaming normally. If any area of this spell overlaps with an area of light created by a spell of 2nd level or higher, this spell is dispelled.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Grim Harvest",
+    "level": 6,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "Self (40-foot radius)",
+    "components": "V, S, M (a scythe blade)",
+    "duration": "Instantaneous",
+    "description": "You reap the life force from all around you. Each creature of your choice in a 40-foot radius must make a Constitution saving throw. On a failure, it takes 8d8 necrotic damage, and you regain hit points equal to the total damage dealt. On a success, it takes half damage and you regain none.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Grim Shadows",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "Sharp, spear-like shadows fill a 15-foot square of ground that you can see within range. For the duration, these shadows obscure creatures within the area. A creature that enters the area for the first time on a turn or starts its turn there takes 3d6 piercing damage from the shadowy spears.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d6 for each slot level above 3rd.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Knife of Fate",
+    "level": 4,
+    "school": "divination",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a dagger inscribed with runes)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a shimmering blade of fate that hovers near a creature you can see. When the target makes an attack roll, ability check, or saving throw, you can use your reaction to add or subtract 1d10 from the roll. You can do this a number of times equal to your spellcasting ability modifier.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Lunar Transfer",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 minute",
+    "range": "200 feet",
+    "components": "V, S, M (an opal worth 500 gp, consumed)",
+    "duration": "Instantaneous",
+    "description": "This spell summons a glittering moonbeam that transports one sleeping creature or object of your choice that you can see within range to a destination you select. If you target an unwilling creature, it gains a Wisdom saving throw to resist. Unattended objects are transported automatically.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Moonlight Sending",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (offerings worth 400 gp, consumed)",
+    "duration": "1 hour",
+    "description": "You send a message across the moonlight to a creature you know. The message can be up to 100 words and the creature can reply immediately with the same spell or by using a similar ability. The message travels instantly regardless of distance, even across planes.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Cleric",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Night Terrors",
+    "level": 4,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You fill a creature's mind with terrifying nightmares. The target must make a Wisdom saving throw. On a failure, it takes 6d8 psychic damage and is frightened of you for the duration. While frightened, it cannot take reactions and must take the Dash action to move away from you on its turn.",
+    "higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the damage increases by 1d8 for each slot level above 4th.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ominous Winds",
+    "level": 2,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "Ghostly winds howl around a creature you can see. The target must make a Strength saving throw. On a failure, it takes 3d8 thunder damage and is deafened for the duration. Additionally, any creature within 5 feet of the target when the spell is cast must make a Constitution save or be deafened for 1 round.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for each slot level above 2nd.",
+    "classes": [
+      "Bard",
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Orros Mark of Fate",
+    "level": 3,
+    "school": "necromancy",
+    "casting_time": "1 reaction, taken when you fail a saving throw",
+    "range": "Self",
+    "components": "V, S, M (a black gem)",
+    "duration": "Instantaneous",
+    "description": "When you fail a saving throw, you can cast this spell to reroll the save with advantage. If the reroll succeeds, you succeed but take 2d10 psychic damage as the mark exacts its price. The mark can be used against you later; the next time you fail a saving throw, you automatically take 2d10 psychic damage.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Polychromatic Bubble",
+    "level": 4,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of soapstone)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create a shimmering, multicolored bubble around a creature you can see. The bubble provides total cover against attacks made from outside it, and creatures outside cannot target the creature inside with spells. The creature inside can move normally, moving the bubble with it. The bubble has 50 hit points and is immune to all damage types except force.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Pratfall",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You cause a small bit of bad luck to befall a creature. The target must make a Dexterity saving throw or fall prone and take 1d4 bludgeoning damage as comedic misfortune strikes. If the target was airborne, it falls immediately.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Radiant Beacon",
+    "level": 4,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a small lantern)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You become a beacon of brilliant light. For the duration, you shed bright light in a 60-foot radius and dim light for an additional 60 feet. Undead and creatures of shadow within the bright light at the start of your turn take 4d6 radiant damage. Any magical darkness within range is suppressed.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Paladin",
+      "Sorcerer"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Adaptation",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S",
+    "duration": "8 hours",
+    "description": "You touch a willing creature, adapting it to shadowy environments. For the duration, the target has darkvision out to 60 feet. If it already has darkvision, the range of its darkvision increases by 30 feet. Additionally, the target has advantage on Stealth checks made in dim light or darkness.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Slither",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S, M (a snake scale)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You touch a willing creature, causing its body to become more serpentine. The creature can squeeze through spaces as small as 6 inches wide without squeezing, gains a climb speed equal to its walking speed, and cannot be grappled.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Spider Song",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, M (a leg from a song spider or a tiny lute strung with spider silk)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You sing a piping tune and conjure shadows into enormous, ever-growing webs. The area within a 30-foot-radius sphere becomes difficult terrain. When a creature enters the area for the first time on a turn or starts its turn there, it must make a Dexterity save or be restrained by webs. The webs can be burned (taking 5 fire damage per 5-foot square).",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Druid",
+      "Sorcerer"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Stone River",
+    "level": 4,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a pebble)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You transform the ground in a 40-foot-long, 10-foot-wide line into a flowing river of stone. The area is difficult terrain. Creatures in the area when you cast the spell must make a Dexterity saving throw or be knocked prone and take 4d6 bludgeoning damage. Creatures that end their turn in the area take 2d6 bludgeoning damage.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Storm Door",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a miniature door)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create a shimmering door of storm energy at a point you can see. Any creature that passes through the door is teleported to a second door you create within range, which must be on a solid surface. The door can be used by any creature, including enemies. You can close either door as a bonus action, ending the spell.",
+    "higher_levels": "When you cast this spell with a 5th-level slot, the door can open onto a shadow road.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ugly Duckling",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You touch a creature, transforming it into a more graceful or beautiful form, or back again. The target's appearance shifts in subtle ways, granting it advantage on Charisma (Persuasion) checks for 1 hour. Alternatively, you can reverse the effect, causing the target to appear plain or unremarkable, granting advantage on Dexterity (Stealth) checks for 1 hour.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Whispering Gardens",
+    "level": 2,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a flower petal)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create an illusory garden that whispers secrets to those within it. The garden fills a 30-foot-radius sphere. Creatures of your choice within the garden have advantage on Perception checks. Additionally, you can cause the garden to whisper distracting lies to a creature, forcing it to make a Wisdom save or have disadvantage on the next attack roll it makes.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Druid",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Conjure Giant",
+    "level": 6,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a giant spirit that appears in an unoccupied space you can see. The spirit uses the Giant stat block appropriate to the terrain type you choose (hill, stone, frost, or fire). The creature is friendly to you and your companions. It disappears when dropped to 0 HP or the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Conjure Forest Defender",
+    "level": 6,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a branch from a sacred tree)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a forest guardian that appears in an unoccupied space within range. The spirit uses the stats of a treant or shambling mound (your choice). The guardian obeys your commands and fights to protect the forest. It disappears when dropped to 0 HP or the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Ranger"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Fire Dance",
+    "level": 4,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You become wreathed in flames, and your movements take on a flowing, fiery grace. For the duration, your walking speed increases by 20 feet, you gain resistance to fire damage, and any creature that hits you with a melee attack takes 2d10 fire damage. Additionally, your melee weapon attacks deal an extra 1d8 fire damage.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Cloak of Chernobog",
+    "level": 7,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a black cloak worth 1,000 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You wrap yourself in the shadows of the dark god Chernobog. For the duration, you are invisible in dim light or darkness, have immunity to necrotic damage, and can move through other creatures and objects as if they were difficult terrain. The first time each turn you deal damage, you deal an additional 4d8 necrotic damage.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Spawn of Chernobog",
+    "level": 6,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "90 feet",
+    "components": "V, S, M (a black candle worth 500 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a spawn of the shadow god Chernobog. The spawn appears in an unoccupied space you can see within range. It uses the Spawn of Chernobog stat block (see Tome of Beasts). The creature obeys your commands and is hostile to all creatures of light and good. It disappears when reduced to 0 HP or when the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Find Diabolical Familiar",
+    "level": 2,
+    "school": "conjuration",
+    "casting_time": "1 hour",
+    "range": "10 feet",
+    "components": "V, S, M (incense worth 50 gp)",
+    "duration": "Instantaneous",
+    "description": "You summon a diabolical familiar, a tiny fiend that serves you. Choose one of the following forms: imp, quasit, or spinagon (see Tome of Beasts). The familiar obeys your commands and has the statistics of the chosen form. You can communicate telepathically with your familiar while it is within 100 feet of you.",
+    "higher_levels": "",
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Hat Trick",
+    "level": 1,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a magician's hat)",
+    "duration": "1 hour",
+    "description": "You perform a bit of magical misdirection. For the duration, you can reach into your hat as a bonus action and pull out a harmless but amusing object, such as a bouquet of flowers, a dove, or a stream of colored ribbons. Additionally, you can use an action to pull a Tiny object of your choice from the hat that you have seen before, weighing up to 10 lbs.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Horn of Parzelon",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a tiny brass horn)",
+    "duration": "Instantaneous",
+    "description": "You blow an audible note from a tiny horn, and a bolt of brass-colored energy streaks toward a target. Make a ranged spell attack. On a hit, the target takes 3d8 thunder damage and must make a Strength saving throw or be pushed 10 feet away and knocked prone.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Lion of Parzelon",
+    "level": 5,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a brass lion figurine)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a brass lion construct from the forges of Parzelon. The lion uses the Lion stat block with AC 17, immunity to fire and poison, and resistance to nonmagical bludgeoning, piercing, and slashing damage. It obeys your commands and can breathe fire (30-foot cone, 4d8 fire, recharge 5-6).",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "SPY MY SHADOW",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You whisper a fey rhyme to your shadow, bringing it to life as a tenebrous spy that can slip under doors, between shutters, and through the narrowest of cracks. You can stretch your shadow up to ten times your height and move it as you desire. It remains two-dimensional and cannot interact with physical objects. You can spy through your shadow's eyes and ears as if they were your own.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "STEP LIKE ME",
+    "level": 1,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (blood, hair, or a personal item of target)",
+    "duration": "24 hours",
+    "description": "Choose a creature within one size category of yourself that you can see within range. The target must succeed on a Constitution save or you steal its footsteps. For the duration, you leave the tracks of the target, while it leaves tracks as if it were you. Those using tremorsense mistake you for a creature of the target's kind.",
+    "higher_levels": "",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "SNAP THE LEASH",
+    "level": 2,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You sever the bond between a creature and its master or handler. The target must make a Wisdom saving throw. On a failure, any charm, domination, or summoning effect controlling the target ends. Additionally, the creature is immune to being charmed or dominated by the same source for 24 hours.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "STORM OF WINGS",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a feather)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A storm of ethereal wings fills a 30-foot-radius sphere centered on a point within range. The area is heavily obscured. Creatures in the area have their flying speed halved and must make a Dexterity saving throw at the start of each of their turns or take 2d6 slashing damage from the beating wings.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Agonizing Mark",
+    "level": 1,
+    "school": "necromancy",
+    "casting_time": "1 bonus action",
+    "range": "90 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You place a painful magical mark on a creature you can see. The next time you hit the marked creature with an attack, the mark discharges, dealing an extra 2d6 necrotic damage, and the spell ends. If the creature moves more than 60 feet from you, the mark also discharges for 1d6 necrotic damage.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the initial damage increases by 1d6 for each slot level above 1st.",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Bestial Fury",
+    "level": 2,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You fill a creature with bestial rage. The target must make a Wisdom saving throw. On a failure, it must use its action each turn to make a melee attack against the nearest creature, making one attack per turn. It can repeat the saving throw at the end of each of its turns.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+    "classes": [
+      "Bard",
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Cynophobia",
+    "level": 3,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You fill a creature with an irrational fear of dogs and wolves. The target must make a Wisdom saving throw. On a failure, it is frightened of any canine creature it can see. While frightened, it cannot willingly move toward any canine creature and has disadvantage on attacks against them.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Going in Circles",
+    "level": 3,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of string tied in a loop)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You confuse a creature's sense of direction. The target must make an Intelligence saving throw. On a failure, whenever it attempts to move, it moves in a random direction instead. At the start of each of its turns, it can repeat the saving throw. Creatures that cannot be confused are immune.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Killing Fields",
+    "level": 5,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "150 feet",
+    "components": "V, S, M (a handful of bone fragments)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You transform a 40-foot-radius area within range into a field of death. The area becomes difficult terrain for living creatures. When a living creature enters the area for the first time on a turn or starts its turn there, it takes 4d8 necrotic damage. Corpses in the area animate as skeletons or zombies under your command.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Tales of the Margreve",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Portal",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of obsidian)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You create a portal of shadow that connects two points you can see within range. The portals are vertical, 6 feet tall, and appear on solid surfaces. Any creature entering one portal exits through the other. The portal is one-way unless you choose otherwise. The portal hums with shadow energy, lightly obscuring the area around it.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Tread the Niflheim Road",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 minute",
+    "range": "Self",
+    "components": "V, S, M (a piece of frost-covered stone)",
+    "duration": "8 hours",
+    "description": "You open a path through the frozen wastes of Niflheim, creating a shimmering road of frost. You and up to 8 willing creatures can travel along this road, covering 50 miles in 1 hour. The road is visible only to those traveling on it, and it cannot be blocked by nonmagical obstacles.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ritual of Memories Lost",
+    "level": 4,
+    "school": "enchantment",
+    "casting_time": "1 hour",
+    "range": "Touch",
+    "components": "V, S, M (a silver basin worth 100 gp)",
+    "duration": "Instantaneous",
+    "description": "You touch a willing creature and perform a ritual that erases a specific memory of your choice. The memory is gone completely, replaced by a vague sense of something forgotten. A remove curse or greater restoration spell can restore the memory. You can also use this ritual to restore a lost memory.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Cleric",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ritual of True Sight",
+    "level": 5,
+    "school": "divination",
+    "casting_time": "1 hour",
+    "range": "Touch",
+    "components": "V, S, M (an eye agate worth 500 gp)",
+    "duration": "24 hours",
+    "description": "You touch a willing creature and perform a ritual that grants it the ability to see things as they truly are. For the duration, the target gains truesight out to 30 feet, can see in magical darkness, and automatically detects illusions and shapechangers within range.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Phantasm",
+    "level": 6,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S, M (a piece of shadowstuff)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You weave shadowstuff into a powerful phantasm that manifests as a creature, object, or phenomenon you have seen. The phantasm has the appearance and basic properties of the real thing, but it cannot deal damage directly. Creatures that succeed on an Intelligence (Investigation) check vs. your spell save DC see through the illusion.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Ambush",
+    "level": 1,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a piece of gauze)",
+    "duration": "Concentration, up to 10 minutes",
+    "description": "You weave shadows around yourself and up to four willing creatures within 30 feet, granting advantage on Stealth checks for the duration. If a creature covered by this spell attacks or casts a spell, the effect ends for that creature.",
+    "higher_levels": "",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Courts of the Shadow Fey",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Cloak of Shadow",
+    "level": 1,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a torn piece of black cloth)",
+    "duration": "1 hour",
+    "description": "You wrap yourself in shadows that cling to your form. For the duration, you have advantage on Stealth checks made in dim light or darkness. Additionally, nonmagical light cannot illuminate the space you occupy, and you have resistance to radiant damage.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Hands",
+    "level": 1,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "30 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "Shadowy hands reach up from the ground to grasp a creature you can see within range. The target must make a Dexterity saving throw. On a failure, it takes 2d6 necrotic damage and its speed is reduced to 0 until the start of your next turn. The hands continue to claw at the target each round, dealing 1d6 necrotic damage automatically.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the initial damage increases by 1d6 for each slot level above 1st.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Monsters",
+    "level": 4,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of obsidian)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create shadowy duplicates of one or more creatures that you have seen. You create up to four duplicates, each appearing in an unoccupied space within range. Each duplicate has AC 12, 1 HP, and deals 1d12 psychic damage with its attacks. They mimic the appearance and basic abilities of the creatures they resemble.",
+    "higher_levels": "When you cast this spell using a spell slot of 5th level or higher, you create one additional duplicate for each slot level above 4th.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Puppets",
+    "level": 2,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a marionette string)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You manipulate a creature's shadow, forcing its body to mimic the shadow's movements. The target must make a Charisma saving throw. On a failure, its movements are controlled by your will. On its turn, you can decide its movement and use its action to take one of the following: Dash, Disengage, or Hide.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Trove",
+    "level": 2,
+    "school": "conjuration",
+    "casting_time": "1 minute",
+    "range": "Touch",
+    "components": "V, S, M (a small chest)",
+    "duration": "24 hours",
+    "description": "You touch a small container and transform it into a shadowy extradimensional space. The container can hold up to 100 pounds of nonliving matter, and only you can retrieve items from it. For the duration, the container appears as a faint shadow and can be hidden easily. When the spell ends, any items inside spill out.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Black Hand",
+    "level": 4,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a withered hand)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "A ghostly black hand appears above a target creature. The hand descends and attempts to crush the life from the target. Make a melee spell attack. On a hit, the target takes 6d8 necrotic damage and is grappled by the hand (escape DC = your spell save DC). While grappled, the target takes 4d8 necrotic damage at the start of each of its turns.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Call Shadow Mastiff",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a whistle carved from bone)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a shadow mastiff from the Shadow Realm. The mastiff appears in an unoccupied space within range and uses the Shadow Mastiff stat block (or the stats of a dire wolf with the shadow template). It obeys your commands and can track any creature whose shadow you have touched. It vanishes when reduced to 0 HP or the spell ends.",
+    "higher_levels": "",
+    "classes": [
+      "Ranger",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Dark Dementing",
+    "level": 5,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You fill a creature's mind with shadowy madness. The target must make an Intelligence saving throw. On a failure, it becomes confused (as the confusion spell) and takes 4d8 psychic damage at the start of each of its turns. At the end of each of its turns, it can repeat the saving throw.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Negative Image",
+    "level": 2,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create a reversed image of yourself that appears in an adjacent space. When a creature attacks you, roll a d20. On 11 or higher, the attack hits the image instead. The image has AC 10 + your proficiency bonus and is destroyed when hit. You can create a new image on your turn as a bonus action.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shield of Star and Shadow",
+    "level": 3,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a piece of starry sky caught in a crystal)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You create a shimmering shield of moonlight and shadow around yourself. For the duration, you have half cover (+2 AC, +2 Dexterity saving throws) against ranged attacks. Additionally, when a creature within 30 feet targets you with an attack, you can use your reaction to impose disadvantage on that attack.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Armor",
+    "level": 1,
+    "school": "abjuration",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S",
+    "duration": "8 hours",
+    "description": "You weave shadowstuff into a protective suit of armor. For the duration, your AC becomes 15 + your Dexterity modifier (max 2). You count as wearing light armor for proficiency purposes. The armor is silent and does not impose disadvantage on Stealth checks.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the base AC increases by 1 for each slot level above 1st.",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Cloying Darkness",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a pinch of soot)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create an area of sticky, clinging darkness in a 20-foot-radius sphere centered on a point within range. The area is heavily obscured. Creatures that enter the area for the first time on a turn or start their turn there have their speed halved until they leave the area. Darkvision cannot penetrate this magical darkness.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Shadows of the Dusk Queen",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Drayfn's Blunted Blade",
+    "level": 2,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a dulled blade)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You hurl a shimmering blade of psychic force that blunts a target's weapons. Make a ranged spell attack. On a hit, the target takes 2d8 psychic damage. Additionally, for the duration, the target's weapon attacks deal minimum damage (no damage dice rolled). If the target has natural weapons, those also deal minimum damage.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for each slot level above 2nd.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Drayfn's Curse of Incompetence",
+    "level": 4,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "30 feet",
+    "components": "V, S",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You curse a creature you can see with crushing incompetence. The target must make a Wisdom saving throw. On a failure, the target has disadvantage on all ability checks and attack rolls for the duration. Additionally, when the target rolls a 1 on any d20, it drops whatever it is holding.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Krail's Rot",
+    "level": 5,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a piece of decayed flesh)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You inflict a wasting rot on a creature you can see. The target must make a Constitution saving throw. On a failure, it takes 6d8 necrotic damage and becomes poisoned for the duration. While poisoned this way, it takes 3d8 necrotic damage at the start of each of its turns. The target can repeat the save at the end of each turn.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Krail's Rupture",
+    "level": 2,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "You cause a creature's wounds to burst open. Make a ranged spell attack. On a hit, the target takes 3d8 necrotic damage. If the target is already missing hit points or has an existing wound (from damage taken in the past minute), the damage increases by 2d8.",
+    "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the base damage increases by 1d8 for each slot level above 2nd.",
+    "classes": [
+      "Cleric",
+      "Druid",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Avert the Eye",
+    "level": 1,
+    "school": "abjuration",
+    "casting_time": "1 reaction, taken when you are about to see something that would force you to make a saving throw",
+    "range": "Self",
+    "components": "V",
+    "duration": "Instantaneous",
+    "description": "You avert your eyes just in time to avoid a gaze attack or similar effect. You gain advantage on a saving throw against an effect that relies on the target seeing the source (such as a medusa's petrifying gaze or a basilisk's stare).",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Kobold Press",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Legion",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a tiny banner)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a spectral legion of soldiers that march across the battlefield. They fill a 30-foot-radius sphere and count as difficult terrain. Creatures in the area at the start of your turn take 2d8 psychic damage from the terrifying sight. The soldiers cannot be harmed and are immune to all damage.",
+    "higher_levels": "",
+    "classes": [
+      "Cleric",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Kobold Press",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Portho's Portal",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a small archway)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You create two shimmering portals on flat surfaces you can see within range. Any creature that enters one portal emerges from the other. The portals are 2-way. Each portal is 5 feet in diameter. Creatures can pass through the portal as part of their movement. The portals have AC 15 and 20 HP each.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Book of Ebon Tides",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Shadow Realm Gateway",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 minute",
+    "range": "Self",
+    "components": "V, S, M (a mirror worth 100 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You create a gateway to the Shadow Realm on a reflective surface you touch. The gateway is a vertical oval 6 feet tall. You and any creatures you designate can pass through to a corresponding location in the Shadow Realm. The gateway is invisible to others. While the gateway is open, shadow energy seeps through, dimming light within 30 feet.",
+    "higher_levels": "",
+    "classes": [
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": true,
+    "source": "Creature Codex (Kobold Press)",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Summon Spree Demon",
+    "level": 4,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a bloodstained gnomish trinket worth 100 gp)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You summon a spree demon that appears in an unoccupied space you can see within range. The spree demon uses the Spree Demon stat block from Creature Codex. The creature disappears when it drops to 0 hit points or when the spell ends. The spree demon is hostile to all creatures but attacks your enemies preferentially. It has a particular hatred of gnomes.",
+    "higher_levels": "",
+    "classes": [
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Creature Codex (Kobold Press)",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Dreamstride",
+    "level": 3,
+    "school": "illusion",
+    "casting_time": "1 action",
+    "range": "Self",
+    "components": "V, S, M (a dreamcatcher)",
+    "duration": "Instantaneous",
+    "description": "You step into the dreamscape and emerge in a different location. Choose a point within 1 mile that you have seen before. You instantly teleport to that point, appearing in a dreamlike state. You have advantage on the first Charisma (Persuasion) check you make within the next minute.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Warlock",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Oneiromancy",
+    "level": 4,
+    "school": "divination",
+    "casting_time": "1 minute",
+    "range": "Touch",
+    "components": "V, S, M (a dream journal)",
+    "duration": "Instantaneous",
+    "description": "You touch a willing creature and interpret its dreams. You learn one piece of information from the creature's subconscious: a forgotten memory, a hidden desire, or the answer to a simple question. The information is not always literal and may require interpretation. You can also send a message up to 25 words into the target's dreams that night.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Cleric",
+      "Wizard"
+    ],
+    "ritual": true,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Mucus Spray",
+    "level": 1,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "15-foot cone",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "A spray of thick, sticky mucus erupts from your hand. Each creature in a 15-foot cone must make a Dexterity saving throw. On a failure, a creature takes 2d6 acid damage and is blinded until the end of its next turn as the mucus covers its face. On a success, it takes half damage and is not blinded.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st.",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Kobold Press Quarterly",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Oozy Transparency",
+    "level": 1,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S, M (a piece of clear gelatin)",
+    "duration": "Concentration, up to 1 hour",
+    "description": "You touch a creature or object, rendering it partially translucent. A touched creature has advantage on Stealth checks for the duration. A touched object becomes nearly invisible, requiring a successful Perception check (DC 16) to notice. If cast on a surface, anything behind it is partially obscured.",
+    "higher_levels": "",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Kobold Press Quarterly",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Pyroclastic Burst",
+    "level": 5,
+    "school": "evocation",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S, M (a piece of volcanic rock)",
+    "duration": "Instantaneous",
+    "description": "You cause the ground to erupt in a fountain of superheated ash and rock at a point you can see. Each creature in a 20-foot-radius sphere must make a Dexterity saving throw. On a failure, a creature takes 8d6 fire damage and 4d6 bludgeoning damage. On a success, it takes half damage. The area becomes difficult terrain.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "Warlock Magazine",
+    "_source_manual": "Kobold Press"
+  },
+  {
+    "name": "Host of Diminutive Humans",
+    "level": 3,
+    "school": "conjuration",
+    "casting_time": "1 action",
+    "range": "60 feet",
+    "components": "V, S, M (a tiny bell)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "You summon a host of tiny humanoid figures (1-foot tall) that swarm over the battlefield. They fill a 20-foot-radius sphere, which becomes difficult terrain. Creatures in the area take 3d4 bludgeoning damage from the swarm at the start of your turn. The tiny humans can also be commanded to perform simple tasks like opening doors or carrying small objects.",
+    "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the damage increases by 1d4 for each slot level above 3rd.",
+    "classes": [
+      "Bard",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": true,
+    "source": "Kobold Press",
+    "_source_manual": "Kobold Press"
   }
 ]
