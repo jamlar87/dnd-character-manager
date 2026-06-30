@@ -219,19 +219,28 @@ FEATURE_DESCRIPTIONS = {
 
 FEATURE_ACTION_TYPES = {
     # (action_type, description)
-    "action surge":                    ("bonus_action", "Take one additional action this turn"),
-    "bardic inspiration":              ("bonus_action", "Inspire an ally within 60 ft"),
-    "cunning action":                  ("bonus_action", "Dash, Disengage, or Hide"),
-    "divine smite":                    ("special", "Expend spell slot after hitting for +radiant dmg"),
-    "fast hands":                      ("bonus_action", "Sleight of Hand, Use an Object, or thieves' tools"),
-    "flurry of blows":                 ("bonus_action", "2 unarmed strikes after Attack action"),
-    "lay on hands":                    ("action", "Touch to heal from your pool"),
-    "patient defense":                 ("bonus_action", "Dodge as bonus action (1 ki)"),
-    "rage":                            ("bonus_action", "Enter a rage"),
-    "second wind":                     ("bonus_action", "Regain 1d10 + level HP"),
-    "step of the wind":                ("bonus_action", "Dash/Disengage + double jump (1 ki)"),
-    "wild shape":                      ("action", "Assume beast form"),
-    "channel divinity":                ("action", "Channel divine energy"),
+    # action_type values: "Action", "Bonus Action", "Reaction", or "Special"
+    "action surge":                    ("Action", "Take one additional action this turn"),
+    "bardic inspiration":              ("Bonus Action", "Inspire an ally within 60 ft"),
+    "cunning action":                  ("Bonus Action", "Dash, Disengage, or Hide"),
+    "divine smite":                    ("Special", "Expend spell slot after hitting for +radiant dmg"),
+    "fast hands":                      ("Bonus Action", "Sleight of Hand, Use an Object, or thieves' tools"),
+    "flurry of blows":                 ("Bonus Action", "2 unarmed strikes after Attack action"),
+    "lay on hands":                    ("Action", "Touch to heal from your pool"),
+    "patient defense":                 ("Bonus Action", "Dodge as bonus action (1 ki)"),
+    "rage":                            ("Bonus Action", "Enter a rage"),
+    "second wind":                     ("Bonus Action", "Regain 1d10 + level HP"),
+    "step of the wind":                ("Bonus Action", "Dash/Disengage + double jump (1 ki)"),
+    "wild shape":                      ("Action", "Assume beast form"),
+    "channel divinity":                ("Action", "Channel divine energy"),
+    # Additional limited-use features
+    "hexblade's curse":                ("Bonus Action", "Curse target: crit on 19-20, +prof dmg, heal on kill"),
+    "hunter's mark":                   ("Bonus Action", "Mark target for extra 1d6 damage"),
+    "breath weapon":                   ("Action", "Exhale destructive energy in a cone or line"),
+    "accursed specter":                ("Action", "Raise a specter from a slain humanoid"),
+    "war priest":                      ("Bonus Action", "Make one weapon attack as a bonus action"),
+    "frenzy":                          ("Bonus Action", "Make one melee weapon attack as a bonus action while raging"),
+    "zealous presence":                ("Bonus Action", "Grant allies advantage on attack rolls and saves for 1 round"),
 }
 
 # ── Metamagic Options (Sorcerer PHB p.102) ────────────────────────────

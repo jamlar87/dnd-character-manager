@@ -916,7 +916,7 @@ async def character_sheet(char_id: int, request: Request):
         if isinstance(_feat, dict) and not _feat.get("action_type"):
             _key = _feat.get("name", "").lower()
             import re as _re
-            _clean_key = _re.sub(r'\s*\(\d+\s+uses?(?:\s+per\s+rest)?\s*\)\s*$', '', _key, flags=_re.IGNORECASE).strip()
+            _clean_key = _re.sub(r'\s*\([^)]*\)\s*$', '', _key).strip()
             _action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(_key)
             if _action_info:
                 _feat["action_type"] = _action_info[0]
@@ -8097,9 +8097,9 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                                 entry["pool_kind"] = lu["pool_kind"]
                         break
         # Check if this feature is a combat action
-        # Strip use-count suffix for matching (e.g. "Action Surge (2 uses)" -> "action surge")
+        # Strip parenthetical suffix for matching (e.g. "Bardic Inspiration (d6)" -> "bardic inspiration")
         import re
-        _clean_key = re.sub(r'\s*\(\d+\s+uses?(?:\s+per\s+rest)?\s*\)\s*$', '', key, flags=re.IGNORECASE).strip()
+        _clean_key = re.sub(r'\s*\([^)]*\)\s*$', '', key).strip()
         action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(key)
         if action_info:
             entry["action_type"] = action_info[0]
