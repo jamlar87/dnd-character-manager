@@ -1172,6 +1172,114 @@
         {% endif %}
       </div>
 
+      <!-- ⚡ Bonus Actions -->
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.5rem">⚡ Bonus Actions</h3>
+
+        {#── Feature-based Bonus Actions ──#}
+        {% set ba_features = character.feature_data|selectattr("action_type","eq","Bonus Action")|list if character.feature_data else [] %}
+        {% if ba_features %}
+        <div style="margin-bottom:0.5rem">
+          {% for fa in ba_features %}
+          {% set uses = fa.get("uses",0) %}
+          {% set uses_max = fa.get("uses_max",0) %}
+          {% set pool = fa.get('pool_kind') %}
+          {% set depleted = uses_max > 0 and uses == 0 and not pool %}
+          <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
+               data-feat-name="{{ fa.name }}"
+               {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
+               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
+            <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              <span style="font-size:0.8rem;font-weight:600">{{ fa.name }}</span>
+              {% if fa.get("action_desc") %}
+              <span style="font-size:0.65rem;color:var(--text-muted);overflow-wrap:break-word;word-break:break-word;flex:1;min-width:0;line-height:1.2">{{ fa.action_desc }}</span>
+              {% endif %}
+            </span>
+            {% if uses_max > 0 and pool in ('hp', 'points', 'dice') %}
+            <span style="font-size:0.65rem;color:var(--text-muted);white-space:nowrap">{{ uses }}/{{ uses_max }} {{ {'hp':'HP','points':'pts','dice':'dice'}[pool] }}</span>
+            {% elif uses_max > 0 %}
+            <span style="font-size:0.65rem;color:var(--text-muted);white-space:nowrap;font-family:monospace">{{ uses }}/{{ uses_max }}</span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {#── Spell-based Bonus Actions (prepared BA spells) ──#}
+        {% set ba_spells = [] %}
+        {% if spells %}
+          {% for sp in spells %}
+            {% if sp.prepared == 1 and sp.srd and sp.srd.casting_time and 'bonus' in sp.srd.casting_time.lower() %}
+              {% set _ = ba_spells.append(sp) %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% if ba_spells %}
+        <div style="margin-bottom:0.5rem">
+          {% for sp in ba_spells %}
+          <div class="prepared-spell-chip" style="margin-bottom:0.2rem">
+            <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+                 style="display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              <strong style="font-size:0.8rem">{{ sp.spell_name }}</strong>
+              {% if sp.srd and sp.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.5rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.concentration %}
+              <span class="badge badge-muted" style="font-size:0.5rem;background:var(--warn);color:#fff">Conc.</span>
+              {% endif %}
+              {% if sp.dice %}
+              <span class="badge" style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.12);color:var(--success);font-family:monospace;padding:0.05rem 0.2rem;border-radius:3px">{{ sp.dice }}</span>
+              {% endif %}
+              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:auto">{{ sp.srd.range }}</span>
+              <span style="font-size:0.65rem;color:var(--text-muted);transition:transform 0.2s">▶</span>
+            </div>
+            <div class="prep-body" style="display:none;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.75rem">
+              {% if sp.srd.desc %}
+              {% for line in sp.srd.desc %}<p style="margin:0.2rem 0;line-height:1.4">{{ line }}</p>{% endfor %}
+              {% endif %}
+              <div style="margin-top:0.3rem;font-size:0.65rem;color:var(--text-muted);display:flex;gap:0.5rem;flex-wrap:wrap">
+                <span>Range: {{ sp.srd.range }}</span>
+                <span>Duration: {{ sp.srd.duration }}</span>
+                <span>Components: {{ sp.srd.components|join(', ') }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {#── Item-based Bonus Actions ──#}
+        {% set ba_items = [] %}
+        {% if character.inventory %}
+          {% for item in character.inventory %}{% if item.bonus_action %}{% set _ = ba_items.append(item) %}{% endif %}{% endfor %}
+        {% endif %}
+        {% if character.equipped %}
+          {% for item in character.equipped %}{% if item.bonus_action %}{% set _ = ba_items.append(item) %}{% endif %}{% endfor %}
+        {% endif %}
+        {% if ba_items %}
+        <div>
+          {% for item in ba_items %}
+          <div class="item-card" style="padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;gap:0.3rem">
+            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap;flex-shrink:0">BA</span>
+            <span style="font-size:0.8rem;font-weight:600;flex-shrink:0">{{ item.name if item.name is defined else item }}</span>
+            {% if item.description %}
+            <span style="font-size:0.65rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">{{ item.description[:80] }}{% if item.description|length > 80 %}…{% endif %}</span>
+            {% endif %}
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-name-display').textContent.trim())" title="Info" style="flex-shrink:0">ℹ️</button>
+            <span class="item-name-display" style="display:none">{{ item.name if item.name is defined else item }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if not ba_features and not ba_spells and not ba_items %}
+        <p style="color:var(--text-muted);font-size:0.8rem;margin:0">No bonus actions available.</p>
+        {% endif %}
+      </div>
+
       <!-- Reactions Rules Reference -->
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin:0;cursor:pointer;display:flex;align-items:center;gap:0.3rem"
