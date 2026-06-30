@@ -918,6 +918,9 @@ async def character_sheet(char_id: int, request: Request):
             import re as _re
             _clean_key = _re.sub(r'\s*\([^)]*\)\s*$', '', _key).strip()
             _action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(_key)
+            # Fallback: composite Channel Divinity names (e.g. "channel divinity: abjure enemy | l3: channel divinity: vow of enmity")
+            if not _action_info and "channel divinity" in _clean_key:
+                _action_info = FEATURE_ACTION_TYPES.get("channel divinity")
             if _action_info:
                 _feat["action_type"] = _action_info[0]
                 _feat["action_desc"] = _action_info[1]
@@ -8101,6 +8104,9 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         import re
         _clean_key = re.sub(r'\s*\([^)]*\)\s*$', '', key).strip()
         action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(key)
+        # Fallback: composite Channel Divinity names
+        if not action_info and "channel divinity" in _clean_key:
+            action_info = FEATURE_ACTION_TYPES.get("channel divinity")
         if action_info:
             entry["action_type"] = action_info[0]
             entry["action_desc"] = action_info[1]

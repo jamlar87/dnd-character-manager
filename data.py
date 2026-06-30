@@ -241,6 +241,12 @@ FEATURE_ACTION_TYPES = {
     "war priest":                      ("Bonus Action", "Make one weapon attack as a bonus action"),
     "frenzy":                          ("Bonus Action", "Make one melee weapon attack as a bonus action while raging"),
     "zealous presence":                ("Bonus Action", "Grant allies advantage on attack rolls and saves for 1 round"),
+    # Features already stored as typed — add map entries for enrichment consistency
+    "benign transposition":            ("Action", "Swap places with a willing creature within 30 ft"),
+    "githzerai psionics":              ("Action", "Cast Mage Hand, Shield, or racial spell"),
+    "hands of the healer":             ("Action", "Heal a creature by touch"),
+    "tides of chaos":                  ("Reaction", "Gain advantage on an attack, check, or save"),
+    "indomitable":                     ("Special", "Reroll a failed saving throw"),
 }
 
 # ── Metamagic Options (Sorcerer PHB p.102) ────────────────────────────
