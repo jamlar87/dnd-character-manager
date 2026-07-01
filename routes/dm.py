@@ -1,7 +1,7 @@
 """DM Tools routes — monsters, NPCs, encounters, campaigns, traps."""
 
 from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 import sqlite3, json, math, random, re, urllib.parse
 from pathlib import Path
 from datetime import datetime
@@ -1758,6 +1758,32 @@ RULES SUMMARY:"""
         return JSONResponse({"summary": None, "results": results, "note": "AI unavailable — raw results shown"})
 
     return JSONResponse({"summary": summary.strip(), "results": results, "query": query})
+
+
+# ── AI Summary PDF ─────────────────────────────────────────────────────────
+@router.post("/api/ai/summary/pdf", response_class=Response)
+async def ai_summary_pdf(request: Request):
+    """Generate a printable PDF of an AI manual search summary."""
+    data = await request.json()
+    query = data.get("query", "Manual Search")
+    summary = data.get("summary", "")
+    sources = data.get("sources", [])
+
+    if not summary:
+        return JSONResponse({"error": "No summary provided"}, status_code=400)
+
+    from pdf_generator import generate_ai_summary_pdf
+    pdf_bytes = generate_ai_summary_pdf(query, summary, sources)
+
+    filename = query.replace(" ", "_")[:40] + "_ai_summary.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'inline; filename="{filename}"',
+            "Cache-Control": "no-cache",
+        }
+    )
 
 
 # ── DM Tools: Encounter Management

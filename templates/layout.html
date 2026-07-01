@@ -114,7 +114,10 @@ async function searchManuals(summarize = false) {
 
     if (summarize && data.summary) {
       let html = '<div style="padding:0.75rem;font-size:0.8rem;line-height:1.6;color:var(--text)">';
-      html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem">🤖 AI Summary · ' + data.results.length + ' sources across manuals</div>';
+      html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">';
+      html += '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI Summary · ' + data.results.length + ' sources across manuals</span>';
+      html += '<button onclick="downloadAiSummaryPdf(' + JSON.stringify({query, summary: data.summary, sources: data.results}) .replace(/"/g,"&quot;") + ')" style="margin-left:auto;padding:0.2rem 0.5rem;font-size:0.7rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;cursor:pointer;white-space:nowrap" title="Download AI Summary as PDF" onmouseover="this.style.filter=\\'brightness(1.2)\\'" onmouseout="this.style.filter=\\'\\'">📄 PDF</button>';
+      html += '</div>';
       html += '<div style="white-space:pre-wrap">' + escapeHtml(data.summary) + '</div>';
       html += '<hr style="border-color:var(--border);margin:0.5rem 0">';
       html += '<div style="font-size:0.7rem;color:var(--text-muted)">Sources:</div>';
@@ -148,6 +151,22 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+async function downloadAiSummaryPdf(data) {
+  try {
+    const r = await fetch('/api/ai/summary/pdf', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) { alert('PDF generation failed'); return; }
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch(e) {
+    alert('PDF error: ' + e.message);
+  }
 }
 
 function highlightMatch(text, query) {
