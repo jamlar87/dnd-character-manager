@@ -700,9 +700,130 @@ def _fuzzy_variants(word: str) -> list[str]:
     return list(variants)
 
 
+def _search_json_data(query: str, words: list[str], max_results: int = 20) -> list[dict]:
+    """Search structured JSON data in manual_data/ for query words.
+
+    Returns same format as _search_manuals: [{book, snippet, line, page, score}].
+    Searches feats.json, spells.json, magic_items.json, equipment.json,
+    races.json, backgrounds.json, subclasses.json, monsters.json.
+    """
+    import re
+
+    results = []
+
+    # Map JSON file → display label
+    json_sources = [
+        ("feats.json", "Manual Feats"),
+        ("spells.json", "Manual Spells"),
+        ("magic_items.json", "Magic Items"),
+        ("equipment.json", "Equipment"),
+        ("races.json", "Races"),
+        ("backgrounds.json", "Backgrounds"),
+        ("subclasses.json", "Subclasses"),
+        ("monsters.json", "Monsters"),
+    ]
+
+    for filename, label in json_sources:
+        path = DATA_DIR / "manual_data" / filename
+        if not path.exists():
+            continue
+        try:
+            with open(path) as f:
+                data = json.load(f)
+        except Exception:
+            continue
+        if not isinstance(data, list):
+            continue
+
+        for item in data:
+            name = str(item.get("name", "") or "")
+            desc = str(item.get("description", "") or item.get("desc", "") or "")
+            source = str(item.get("source", "") or "")
+            text = f"{name} {desc}"
+            text_norm = text.lower()
+            text_norm = text_norm.replace("\u2018", "'").replace("\u2019", "'")
+            name_lower = name.lower()
+
+            # All query words must appear somewhere
+            if not all(w in text_norm for w in words):
+                continue
+
+            # Score: name hits worth more, text hits worth less
+            score = 0.0
+            if query.lower() in text_norm:
+                score += 5.0
+            for w in words:
+                if w in name_lower:
+                    score += 3.0
+                elif w in text_norm:
+                    score += 1.0
+
+            # Book label: use source field if available, else filename stem
+            src_label = filename.replace(".json", "")
+            if source:
+                # Extract short book code if source looks like "Chapter X: ..."
+                m = re.match(r"^(.+?)\s", source)
+                if m:
+                    src_label = m.group(1)[:8]
+
+            snippet = desc[:400] if desc else name
+            results.append({
+                "book": src_label,
+                "book_name": label,
+                "snippet": f"[{name}] {snippet}",
+                "line": 0,
+                "page": 0,
+                "score": score,
+            })
+
+    results.sort(key=lambda r: r["score"], reverse=True)
+    return results[:max_results]
+
+
+def _search_data_py_feats(query: str, words: list[str], max_results: int = 20) -> list[dict]:
+    """Search the FEATS dict from data.py — covers non-SRD feats like
+    Gunner that were added manually and aren't in manual_data/feats.json."""
+    results = []
+    from data import FEATS, FEAT_BY_NAME
+
+    text_norm = query.lower().replace("\u2018", "'").replace("\u2019", "'")
+
+    # Search by name (FEAT_BY_NAME key is lowercase)
+    for feat_key, feat_info in FEAT_BY_NAME.items():
+        name = feat_key.title()
+        desc = feat_info.get("description") or feat_info.get("desc") or ""
+        text = f"{name} {desc}".lower()
+        text = text.replace("\u2018", "'").replace("\u2019", "'")
+
+        if not all(w in text for w in words):
+            continue
+
+        score = 0.0
+        if text_norm in text:
+            score += 5.0
+        for w in words:
+            if w in feat_key:
+                score += 3.0
+            elif w in text:
+                score += 1.0
+
+        results.append({
+            "book": "ManualFeats",
+            "book_name": "Manual Feats (data.py)",
+            "snippet": f"[{name}] {desc[:400]}",
+            "line": 0,
+            "page": 0,
+            "score": score,
+        })
+
+    results.sort(key=lambda r: r["score"], reverse=True)
+    return results[:max_results]
+
+
 def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
-    """Search all cached manual text files with multi-word AND, relevance
-    scoring, source priority, paragraph context, and OCR-tolerant fuzzy matching.
+    """Search all cached manual text files AND structured JSON data
+    (manual_data/*.json) with multi-word AND, relevance scoring, source
+    priority, paragraph context, and OCR-tolerant fuzzy matching.
 
     Returns [{book, snippet, line, page, score}].
     Uses a single batch rg call per word across all files instead of
@@ -711,12 +832,20 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
     import subprocess, re, collections
 
     cached = _ensure_manual_cache()
-    if not cached:
-        return []
-
     words = [w.strip().lower() for w in query.split() if w.strip()]
     if not words:
         return []
+
+    # ── Step 0: Search structured JSON data (manual_data/) ────────────────
+    json_results = _search_json_data(query, words, max_results)
+    # Also search data.py FEATS dict (covers non-SRD feats like Gunner)
+    json_results += _search_data_py_feats(query, words, max_results)
+    # Re-sort merged JSON results
+    json_results.sort(key=lambda r: r["score"], reverse=True)
+    json_results = json_results[:max_results]
+
+    if not cached:
+        return json_results[:max_results]
 
     SOURCE_WEIGHT = {
         "PHB": 1.00, "DMG": 0.95, "MM": 0.90, "XGE": 0.85,
@@ -905,6 +1034,16 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
                     "snippet": snippet, "line": match_lines[0],
                     "page": max(1, match_lines[0] // 45), "score": score,
                 })
+
+    # ── Merge JSON data results ────────────────────────────────────────
+    if json_results:
+        # Filter out duplicates by snippet key
+        existing_snippets = {r["snippet"][:80].strip().lower() for r in all_scored}
+        for jr in json_results:
+            key = jr["snippet"][:80].strip().lower()
+            if key not in existing_snippets:
+                existing_snippets.add(key)
+                all_scored.append(jr)
 
     # ── Final sort, dedup, cap ─────────────────────────────────────────
 
