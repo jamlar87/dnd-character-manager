@@ -79,10 +79,12 @@
     footer { padding: 1rem; font-size: 0.7rem; }
   }
   {% block style %}{% endblock %}
+  .ai-pdf-btn:hover { filter: brightness(1.2); }
 </style>
 <script>
 // ── Manual search (available on every page) ──
 // Defined in <head> so available immediately — before heavy page scripts
+let _lastAiSummaryData = null;
 async function searchManuals(summarize = false) {
   const input = document.getElementById('manualSearchInput');
   const resultsDiv = document.getElementById('manualSearchResults');
@@ -113,10 +115,12 @@ async function searchManuals(summarize = false) {
     const data = await r.json();
 
     if (summarize && data.summary) {
+      // Store for PDF button
+      _lastAiSummaryData = {query, summary: data.summary, sources: data.results};
       let html = '<div style="padding:0.75rem;font-size:0.8rem;line-height:1.6;color:var(--text)">';
       html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">';
       html += '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI Summary · ' + data.results.length + ' sources across manuals</span>';
-      html += '<button onclick="downloadAiSummaryPdf(' + JSON.stringify({query, summary: data.summary, sources: data.results}) .replace(/"/g,"&quot;") + ')" style="margin-left:auto;padding:0.2rem 0.5rem;font-size:0.7rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;cursor:pointer;white-space:nowrap" title="Download AI Summary as PDF" onmouseover="this.style.filter=\\'brightness(1.2)\\'" onmouseout="this.style.filter=\\'\\'">📄 PDF</button>';
+      html += '<button onclick="downloadAiSummaryPdf(_lastAiSummaryData)" style="margin-left:auto;padding:0.2rem 0.5rem;font-size:0.7rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;cursor:pointer;white-space:nowrap" title="Download AI Summary as PDF" class="ai-pdf-btn">📄 PDF</button>';
       html += '</div>';
       html += '<div style="white-space:pre-wrap">' + escapeHtml(data.summary) + '</div>';
       html += '<hr style="border-color:var(--border);margin:0.5rem 0">';
