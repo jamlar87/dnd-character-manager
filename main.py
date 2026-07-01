@@ -431,6 +431,48 @@ def load_manual_data():
         sub_text = f", {len(subrace_names)} subraces" if subrace_names else ""
         print(f"  + Race: {name} ({len(traits)} traits{sub_text})")
 
+    # ── Second pass: load trait descriptions for races already in RACES ──
+    # Some races (e.g. Thri-kreen) exist in the export JSON but their manual
+    # trait descriptions were skipped because `name in RACES` prevented entry.
+    for race in manual_races:
+        name = race.get("name", "")
+        if not name or name not in RACES:
+            continue
+        # Add trait descriptions (never overwrite existing)
+        for t in race.get("traits", []):
+            tname = t.get("name", "")
+            tdesc = t.get("description", "")
+            if tname and tdesc:
+                # Always store under race-prefixed key to avoid cross-race name conflicts.
+                # _build_racial_traits checks prefixed key first, falls back to bare name.
+                key = f"{name}::{tname}"
+                if key not in RACIAL_TRAIT_DESCS:
+                    RACIAL_TRAIT_DESCS[key] = tdesc
+                # Also store bare key as fallback (only if not already set by another race)
+                if tname not in RACIAL_TRAIT_DESCS:
+                    RACIAL_TRAIT_DESCS[tname] = tdesc
+        # Add trait effects
+        effects = race.get("_effects", {})
+        for tname, eff in effects.items():
+            if tname not in RACIAL_TRAIT_EFFECTS:
+                mapped = {
+                    "armor_profs": eff.get("armor_profs", []),
+                    "weapon_profs": eff.get("weapon_profs", []),
+                    "tool_profs": eff.get("tool_profs", []),
+                    "skill_profs": eff.get("skill_profs", []),
+                    "damage_resist": eff.get("damage_resist", []),
+                    "condition_immune": eff.get("condition_immune", []),
+                    "speed": eff.get("speed"),
+                    "darkvision": eff.get("darkvision"),
+                    "hp_per_level": eff.get("hp_per_level", 0),
+                    "natural_armor": eff.get("natural_armor"),
+                }
+                RACIAL_TRAIT_EFFECTS[tname] = mapped
+            else:
+                na = eff.get("natural_armor")
+                if na:
+                    RACIAL_TRAIT_EFFECTS[tname]["natural_armor"] = na
+
     # ── Post-race migration: Promote races to subraces of manual-data parents ──
     # (Goblin, Bearfolk only exist in RACES after the loop above.
     #  Module-level migration can't reach them — they weren't in RACES yet.)
@@ -1631,6 +1673,8 @@ async def log_requests(request: Request, call_next):
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     _log.error("Unhandled %s on %s %s: %s", type(exc).__name__, request.method, request.url.path, exc, exc_info=True)
+    if request.url.path.startswith("/api/"):
+        return JSONResponse({"error": f"Internal server error: {exc}"}, status_code=500)
     return HTMLResponse("Internal Server Error", status_code=500)
 
 # ── DB ──────────────────────────────────────────────────────────────────────
@@ -2867,10 +2911,9 @@ def _build_racial_traits(char: dict) -> list:
     race_data = RACES.get(race_name)
     if race_data:
         for t in race_data.get("traits", []):
-            # Generic traits are stored per-race to avoid cross-race pollution
-            if t.lower() in _GENERIC_TRAITS:
-                desc = RACIAL_TRAIT_DESCS.get(f"{race_name}::{t}", "")
-            else:
+            # Always try race-prefixed key first to avoid cross-race trait name conflicts
+            desc = RACIAL_TRAIT_DESCS.get(f"{race_name}::{t}", "")
+            if not desc:
                 desc = RACIAL_TRAIT_DESCS.get(t, "")
             if desc:
                 # Look up page-accurate source
@@ -2883,10 +2926,9 @@ def _build_racial_traits(char: dict) -> list:
     if subrace:
         sub_traits = SUBRACE_TRAITS.get(subrace, [])
         for t in sub_traits:
-            # Generic subrace traits also per-race
-            if t.lower() in _GENERIC_TRAITS:
-                desc = RACIAL_TRAIT_DESCS.get(f"{subrace}::{t}", "")
-            else:
+            # Always try subrace-prefixed key first to avoid cross-race conflicts
+            desc = RACIAL_TRAIT_DESCS.get(f"{subrace}::{t}", "")
+            if not desc:
                 desc = RACIAL_TRAIT_DESCS.get(t, "")
             if desc:
                 # Look up page-accurate source

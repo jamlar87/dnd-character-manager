@@ -5016,5 +5016,45 @@
     "subraces": [],
     "description": "Dragonblood are humanoids with draconic ancestry, bearing patches of scales and reptilian eyes. Found across Exandria, they trace their origins to the fallen city-state of Draconia. Dragonblood use the same racial traits as PHB Dragonborn, reflavored with Tal'Dorei lore. See PHB p.32-34 for the full Draconic Ancestry table.",
     "_source_manual": "TCSR"
+  },
+  {
+    "name": "Thri-kreen",
+    "source": "Spelljammer: Adventures in Space - Astral Adventurer's Guide",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": ["Common"],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Chameleon Carapace",
+        "description": "As an action, you can change the color of your carapace to match the color and texture of your surroundings, giving you advantage on Dexterity (Stealth) checks made to hide in those surroundings."
+      },
+      {
+        "name": "Standing Leap",
+        "description": "Your long jump is up to 25 feet and your high jump is up to 15 feet, with or without a running start."
+      },
+      {
+        "name": "Natural Armor",
+        "description": "While you aren't wearing armor, your carapace gives you a base Armor Class of 13 + your Dexterity modifier."
+      },
+      {
+        "name": "Bite",
+        "description": "Your mandibles are natural weapons. You are proficient with them and they deal 1d4 piercing damage on a hit."
+      },
+      {
+        "name": "Claws",
+        "description": "Your claws are natural weapons. They deal 1d4 slashing damage on a hit."
+      }
+    ],
+    "subraces": [],
+    "description": "Thri-kreen are insectile humanoids with four arms, encased in protective chitin. They can alter the coloration of this carapace to blend in with their surroundings. Although thri-kreen don't sleep, they do require periods of inactivity to revitalize themselves."
   }
 ]

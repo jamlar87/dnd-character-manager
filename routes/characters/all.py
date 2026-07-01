@@ -205,6 +205,8 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         """Split comma-separated proficiency string into list, filtering empties."""
         if not raw:
             return []
+        if isinstance(raw, list):
+            return [p.strip() for p in raw if p.strip()]
         return [p.strip() for p in raw.split(",") if p.strip()]
 
     weapon_profs = _parse_prof_list(class_data.get("weapons", ""))
@@ -340,11 +342,13 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
     spell_choices = data.get("spells", [])
     if spell_choices:
         for sp in spell_choices:
+            sp_name = sp if isinstance(sp, str) else sp.get("name", "")
+            sp_level = 0 if isinstance(sp, str) else sp.get("level", 0)
             db.execute(
                 "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
-                (char_id, sp.get("name", ""), sp.get("level", 0), 0, 0, 0))
+                (char_id, sp_name, sp_level, 0, 0, 0))
         db.commit()
-    
+
     # Prepared casters: auto-populate entire class spell list
     if class_name in PREPARED_CASTERS:
         slots = get_spell_slots(class_name, level)
@@ -387,6 +391,7 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
 @router.post("/api/character/create", response_class=JSONResponse)
 async def api_create_character(request: Request):
     """Create a new character. Thin async wrapper around _build_character."""
+    import traceback
     user = require_user(request)
     try:
         raw = await request.json()
@@ -403,6 +408,13 @@ async def api_create_character(request: Request):
         return JSONResponse({"id": char_id, "name": name})
     except ValueError as e:
         return JSONResponse({"error": str(e)}, status_code=400)
+    except Exception as e:
+        tb = traceback.format_exc()
+        import sys
+        print(f"ERROR creating character: {tb}", file=sys.stderr)
+        with open("/tmp/char_create_error.log", "w") as _f:
+            _f.write(tb)
+        return JSONResponse({"error": f"Internal error: {e}"}, status_code=500)
 
 
 # ── NPC ↦ Character conversion helpers ──────────────────────────────────
