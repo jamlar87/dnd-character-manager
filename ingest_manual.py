@@ -1984,14 +1984,14 @@ def _load_base_names() -> dict[str, set]:
 
 
 def _normalize_name(name: str) -> str:
-    """Normalize for dedup: lowercase, strip parentheticals, normalize dashes,
-    strip trailing 's' (singular/plural), remove punctuation."""
+    """Normalize for dedup: lowercase, normalize dashes,
+    strip trailing 's' (singular/plural), remove punctuation.
+    Parentheticals are NOT stripped — handled by dedup logic at a higher level
+    so "Criminal" and "Criminal (Myriad Operative)" stay distinct."""
     n = name.lower().strip()
     # Strip leading "the " for dedup: "The Great Old One" ≈ "Great Old One"
     if n.startswith('the '):
         n = n[4:]
-    # Strip parenthetical content: "Fireball (5th-level)" → "fireball"
-    n = re.sub(r'\s*\([^)]*\)', '', n).strip()
     # Normalize dashes to spaces: "Half-Elf" → "half elf"
     n = n.replace('-', ' ').replace('–', ' ').replace('—', ' ')
     # Collapse multiple spaces
@@ -2027,8 +2027,19 @@ def dedup_extraction(data: dict, base_names: dict[str, set]) -> dict:
                 continue
             # Fuzzy match (singular/plural)
             if name_norm and name_norm in known_normalized:
-                total_removed += 1
-                continue
+                # False-positive guard: if current name is plain (no parenthetical)
+                # and every matching known entry HAS a parenthetical, keep it.
+                # e.g. "Criminal" (WGE) is distinct from "Criminal (Myriad Operative)" (EGW)
+                if '(' not in name:
+                    matching_known = [kn for kn in known if _normalize_name(kn) == name_norm]
+                    if matching_known and all('(' in kn for kn in matching_known):
+                        pass  # false positive — keep as a distinct plain-name entry
+                    else:
+                        total_removed += 1
+                        continue
+                else:
+                    total_removed += 1
+                    continue
             new_items.append(item)
             if name_lower:
                 known.add(name_lower)
@@ -2561,8 +2572,9 @@ def merge_all_extractions():
         "subclasses": [], "traps": [],
     }
 
-    seen = {cat: set() for cat in merged}
-    raw_names = {cat: set() for cat in merged}  # track actual names for source reporting
+    seen = {cat: set() for cat in merged}         # _normalize_name (keeps parens)
+    seen_core = {cat: set() for cat in merged}     # stripped of parens (for Fireball ≈ Fireball (5th-level))
+    raw_names = {cat: set() for cat in merged}     # track actual names for source reporting
     sources = {cat: {} for cat in merged}
 
     for ext_file in sorted(CACHE_DIR.glob("*_extracted.json")):
@@ -2574,13 +2586,34 @@ def merge_all_extractions():
         for cat in merged:
             for item in data.get(cat, []):
                 name = item.get("name", "")
-                name_norm = _normalize_name(name)
-                if name_norm and name_norm not in seen[cat]:
-                    seen[cat].add(name_norm)
-                    raw_names[cat].add(name.lower())
-                    item["_source_manual"] = slug  # Record which PDF this came from
-                    merged[cat].append(item)
-                    sources[cat][name_norm] = slug
+                name_norm = _normalize_name(name)       # keeps parentheticals
+                name_core = re.sub(r'\s*\([^)]*\)', '', name.lower()).strip()  # strips them
+                if not name_norm:
+                    continue
+
+                # Exact normalized match (keeps parens) → real duplicate
+                if name_norm in seen[cat]:
+                    # False-positive guard: plain name (no paren) matching only
+                    # variant entries like "Criminal" vs "Criminal (Myriad Operative)"
+                    if '(' not in name:
+                        # Check if a plain-core version already exists
+                        if name_core in seen_core[cat]:
+                            continue  # real duplicate: plain name already exists
+                        # else: only variants exist → keep plain name
+                    else:
+                        continue  # current has parens → real duplicate
+
+                # Tertiary check: decorated name matching a plain core entry
+                # e.g. "Fireball (5th-level)" from a module matching PHB's "Fireball"
+                if '(' in name and name_core in seen_core[cat]:
+                    continue
+
+                seen[cat].add(name_norm)
+                seen_core[cat].add(name_core)
+                raw_names[cat].add(name.lower())
+                item["_source_manual"] = slug  # Record which PDF this came from
+                merged[cat].append(item)
+                sources[cat][name_norm] = slug
 
     # ── Preserve existing data for categories with no new extractions ──
     # If a category has no entries from PDF extractions but a file already

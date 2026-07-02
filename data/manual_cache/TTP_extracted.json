@@ -1,0 +1,901 @@
+{
+  "races": [
+    {
+      "name": "Tortle",
+      "source": "Tortle Package p.4",
+      "asi": {
+        "strength": 2,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Aquan",
+        "Common"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Claws",
+          "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
+          "uses": 0,
+          "recharge": ""
+        },
+        {
+          "name": "Hold Breath",
+          "description": "You can hold your breath for up to 1 hour at a time. Tortles aren't natural swimmers, but they can remain underwater for some time before needing to come up for air.",
+          "uses": 0,
+          "recharge": ""
+        },
+        {
+          "name": "Natural Armor",
+          "description": "Due to your shell and the shape of your body, you are ill-suited to wearing armor. Your shell provides ample protection, however; it gives you a base AC of 17 (your Dexterity modifier doesn’t affect this number). You gain no benefit from wearing armor, but if you are using a shield, you can apply the shield’s bonus as normal.",
+          "uses": 0,
+          "recharge": ""
+        },
+        {
+          "name": "Shell Defense",
+          "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can’t increase, you have disadvantage on Dexterity saving throws, you can’t take reactions, and the only action you can take is a bonus action to emerge from your shell.",
+          "uses": 0,
+          "recharge": ""
+        },
+        {
+          "name": "Survival Instinct",
+          "description": "You gain proficiency in the Survival skill. Tortles have finely honed survival instincts.",
+          "uses": 0,
+          "recharge": ""
+        }
+      ],
+      "subraces": [],
+      "description": "Tortles are humanoid turtles that stand 5 to 6 feet tall and average 450 pounds, with shells accounting for roughly one-third of their weight. They are social creatures that form meaningful friendships and marvel at the works of other civilized races.",
+      "_effects": {
+        "Claws": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Your claws are natural weapons. You can make unarmed strikes with them, dealing 1d4 + Strength modifier slashing damage instead of the normal bludgeoning damage."
+        },
+        "Hold Breath": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "You can hold your breath for up to 1 hour at a time."
+        },
+        "Natural Armor": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": {
+            "base_ac": 17,
+            "max_dex": null,
+            "allow_shield": true
+          },
+          "notes": "You gain no benefit from wearing armor, but you can use a shield normally."
+        },
+        "Shell Defense": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "As an action, you can withdraw into your shell. While in your shell: you gain +4 bonus to AC, advantage on Strength and Constitution saving throws, you are prone, speed becomes 0 and cannot increase, disadvantage on Dexterity saving throws, cannot take reactions, and the only action you can take is a bonus action to emerge."
+        },
+        "Survival Instinct": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Survival"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        }
+      }
+    }
+  ],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Holy Symbol of Umberlee",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A holy symbol of Umberlee (25 gp) that has a minor magical quirk: when carried or worn by someone who is not a worshiper of Umberlee, the holy symbol fills its owner with a sense of dread.",
+      "source": "Page 18"
+    },
+    {
+      "name": "Driftglobe",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A driftglobe.",
+      "source": "Page 18"
+    },
+    {
+      "name": "Coral Crown",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A coral crown (250 gp).",
+      "source": "Page 18"
+    },
+    {
+      "name": "Obsidian Figurine of a Coiled Serpent God",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A 6-inch-tall obsidian figurine of a coiled serpent god (25 gp).",
+      "source": "Page 18"
+    },
+    {
+      "name": "Tarnished Silver Holy Symbol of Umberlee",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A tarnished silver holy symbol of Umberlee (25 gp).",
+      "source": "Page 19"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Traveler's Clothes",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Priestly Vestments",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Common Wine (40 gallons)",
+      "type": "Trade Good",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Salt (80 pounds)",
+      "type": "Trade Good",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 80,
+      "source": "TTP"
+    },
+    {
+      "name": "Wedding Gown and Veil",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Steel Helm with Electrum Fish",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Zakharan Perfume (50 vials)",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "5 gp each",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Quaal's Feather Token (anchor)",
+      "type": "Wondrous item",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Griffon Saddle",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "60 gp",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Wooden Sled (disassembled, 300 lb.)",
+      "type": "Vehicle",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "20 gp",
+      "weight": 300,
+      "source": "TTP"
+    },
+    {
+      "name": "Heavy Crossbow",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d10 piercing",
+      "properties": [
+        "heavy",
+        "loading",
+        "two-handed"
+      ],
+      "cost": "50 gp",
+      "weight": 18,
+      "source": "TTP"
+    },
+    {
+      "name": "Hempen Rope (50-foot coil)",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "1 gp",
+      "weight": 10,
+      "source": "TTP"
+    },
+    {
+      "name": "Dark Purple Ink (10 gallons)",
+      "type": "Trade Good",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Comb made out of whalebone",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "5 sp",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Stuffed parrot with a carnelian gemstone",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 0,
+      "source": "TTP"
+    },
+    {
+      "name": "Staff fashioned from a single branch of pale white wood",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 4,
+      "source": "TTP"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Two-Headed Plesiosaurus",
+      "size": "Large",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "100",
+      "speed": "20 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 2,
+        "wisdom": 12,
+        "charisma": 5
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Two Heads",
+          "description": "The two-headed plesiosaurus has advantage on Wisdom (Perception) checks and on saving throws against being blinded, charmed, deafened, frightened, stunned, or knocked unconscious."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (3d6+4) piercing damage. The two-headed plesiosaurus can use its action to make two bite attacks, one with each head."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 19"
+    },
+    {
+      "name": "Florrb",
+      "size": "Small",
+      "type": "elemental",
+      "alignment": "neutral evil",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "27 (6d6+6)",
+      "speed": "30 ft., fly 30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 12,
+        "constitution": 12,
+        "intelligence": 9,
+        "wisdom": 11,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Aquan",
+        "Terran"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Death Burst",
+          "description": "When the mephit dies, it explodes in a burst of sticky mud. Each creature within 5 feet of it must succeed on a DC 11 Dexterity saving throw or be restrained for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "False Appearance",
+          "description": "While the mephit remains motionless, it is indistinguishable from an ordinary mound of mud."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Fists",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one creature. Hit: 4 (1d6+1) bludgeoning damage."
+        },
+        {
+          "name": "Mud Breath",
+          "description": "Ranged Weapon Attack: +3 to hit, range 20 ft., one creature. Hit: 4 (1d6+1) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Tortle Package p.20"
+    },
+    {
+      "name": "Decapus",
+      "size": "Large",
+      "type": "monstrosity",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "natural",
+      "hit_points": "75 (10d10 + 20)",
+      "speed": "15 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 4,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Perception": 2,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "—"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The decapus makes two attacks: one with its bite and one with its tentacles."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature grappled by the decapus. Hit: 7 (2d4 + 2) piercing damage."
+        },
+        {
+          "name": "Tentacles",
+          "description": "Melee Weapon Attack: +4 to hit, reach 10 ft., one target. Hit: 24 (9d4 + 2) bludgeoning damage, or 14 (5d4 + 2) bludgeoning damage if the decapus is grappling a creature other than the target or if the decapus is on the ground or floor. The target is also grappled (escape DC 14) unless the decapus is already grappling a creature. Until this grapple ends, the target is restrained."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 21 (right)"
+    },
+    {
+      "name": "Geonid",
+      "size": "Small",
+      "type": "elemental",
+      "alignment": "neutral",
+      "armor_class": 17,
+      "ac_type": "natural",
+      "hit_points": "26 (4d6 + 12)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 9,
+        "wisdom": 14,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., tremorsense 30 ft., passive Perception 14",
+      "languages": [
+        "Terran"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Boulder Guise",
+          "description": "While fully withdrawn into its shell, the geonid can’t see and is indistinguishable from a small boulder."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) bludgeoning damage."
+        },
+        {
+          "name": "Stone Tell",
+          "description": "The geonid touches a stone object or surface and knows what types of creatures have been within 10 feet of that stone in the past 24 hours. The geonid can also determine the number of creatures of each type, but not their identities."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 22 (left)"
+    },
+    {
+      "name": "Topi",
+      "size": "Small",
+      "type": "undead",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "natural",
+      "hit_points": "13 (3d6 + 3)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 7,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 5
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "understands the languages it knew in life but can’t speak"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Turn Resistance",
+          "description": "The topi has advantage on saving throws against any effect that turns undead."
+        },
+        {
+          "name": "Undead Fortitude",
+          "description": "If damage reduces the topi to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the topi drops to 1 hit point instead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Venomous Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) slashing damage plus 2 (1d4) poison damage, and the target must succeed on a DC 11 Constitution saving throw or be poisoned until the end of the target's next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 22 (right)"
+    },
+    {
+      "name": "Tortle",
+      "size": "Medium",
+      "type": "humanoid (tortle)",
+      "alignment": "lawful good",
+      "armor_class": 17,
+      "ac_type": "natural",
+      "hit_points": "22 (4d8 + 4)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Aquan",
+        "Common"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Hold Breath",
+          "description": "The tortle can hold its breath for 1 hour."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) slashing damage."
+        },
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage when used with two hands."
+        },
+        {
+          "name": "Light Crossbow",
+          "description": "Ranged Weapon Attack: +2 to hit, range 80/320 ft., one target. Hit: 4 (1d8) piercing damage."
+        },
+        {
+          "name": "Shell Defense",
+          "description": "The tortle withdraws into its shell. Until it emerges, it gains a +4 bonus to AC and has advantage on Strength and Constitution saving throws. While in its shell, the tortle is prone, its speed is 0 and can't increase, it has disadvantage on Dexterity saving throws, it can't take reactions, and the only action it can take is a bonus action to emerge."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Tortle Package p.23"
+    },
+    {
+      "name": "Tortle Druid",
+      "size": "Medium",
+      "type": "humanoid (tortle)",
+      "alignment": "lawful neutral",
+      "armor_class": 17,
+      "ac_type": "natural",
+      "hit_points": "33 (6d8 + 6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 15,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Animal Handling": 4,
+        "Nature": 2,
+        "Survival": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Aquan",
+        "Common"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Hold Breath",
+          "description": "The tortle can hold its breath for 1 hour."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The tortle is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). It has the following druid spells prepared:\n\nCantrips (at will): druidcraft, guidance, produce flame\n\n1st level (4 slots): animal friendship, cure wounds, speak with animals, thunderwave\n\n2nd level (3 slots): darkvision, hold person"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) slashing damage."
+        },
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage when used with two hands."
+        },
+        {
+          "name": "Shell Defense",
+          "description": "The tortle withdraws into its shell. Until it emerges, it gains a +4 bonus to AC and has advantage on Strength and Constitution saving throws. While in its shell, the tortle is prone, its speed is 0 and can't increase, it has disadvantage on Dexterity saving throws, it can't take reactions, and the only action it can take is a bonus action to emerge."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Tortle Package p.23"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Eeyal",
+      "race": "Tortle",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Natural Armor",
+          "description": "Due to your shell and the shape of your body, you are ill-suited to wearing armor. Your shell provides ample protection, however; it gives you a base AC of 17 (your Dexterity modifier doesn’t affect this number). You gain no benefit from wearing armor, but if you are using a shield, you can apply the shield’s bonus as normal."
+        },
+        {
+          "name": "Claws",
+          "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
+        },
+        {
+          "name": "Hold Breath",
+          "description": "You can hold your breath for up to 1 hour at a time. Tortles aren't natural swimmers, but they can remain underwater for some time before needing to come up for air."
+        },
+        {
+          "name": "Shell Defense",
+          "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can’t increase, you have disadvantage on Dexterity saving throws, you can’t take reactions, and the only action you can take is a bonus action to emerge from your shell."
+        },
+        {
+          "name": "Survival Instinct",
+          "description": "You gain proficiency in the Survival skill. Tortles have finely honed survival instincts."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6+2) bludgeoning damage, or 6 (1d8+2) bludgeoning damage if used with two hands."
+        }
+      ],
+      "equipment": [
+        "smith's tools",
+        "tinker's tools",
+        "climber's kit",
+        "healer's kit",
+        "dungeoneer's pack",
+        "leather harness",
+        "quarterstaff",
+        "goggles"
+      ],
+      "spellcasting": null,
+      "description": "Eeyal is a tortle guide who wears goggles she crafted to protect her eyes against volcanic ash. She is a skilled artisan, carries a set of smith's tools and tinker's tools, and owns a climber's kit, a healer's kit, and a dungeoneer's pack. She is 5 feet, 8 inches tall and weighs 420 pounds, and is 17 years old.",
+      "role": "Guide",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tortle Package p.4"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Glyph of Warding Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "The first time the statuette is removed from the pedestal by a creature that is not wearing a holy symbol of Umberlee.",
+      "detection": {
+        "dc": 15,
+        "skill": "Intelligence (Investigation)",
+        "detail": "A character who studies the statuette and succeeds on a DC 15 Intelligence (Investigation) check spots the nearly invisible glyph, which is inscribed on the trident."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified; presumably dispel magic or similar."
+      },
+      "effect": "The glyph erupts with magical energy in a 20-foot-radius sphere centered on it. Each creature in the area must make a DC 15 Dexterity saving throw, taking 22 (5d8) thunder damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (5d8)",
+      "damage_type": "thunder",
+      "area": "20-foot-radius sphere centered on the statuette",
+      "description": "A glyph of warding spell inscribed on the trident of a wooden statuette of Umberlee, triggered when removed by someone not wearing her holy symbol.",
+      "source": "The Tortle Package p.13"
+    },
+    {
+      "name": "Crusher Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature enters the 20-foot-square area south of the double door in area 18.",
+      "detection": {
+        "dc": 0,
+        "skill": "Perception",
+        "detail": "Characters who brush away the dust also find bloodstains and deep scratches on the floor. A character standing north or south of the trapped area can discern, by looking at the scratches on the floor, that the walls are movable blocks of stone, but there’s no way to identify the trap’s trigger or the method of bypassing it without experimentation or the use of divination magic."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Only a creature wearing a holy symbol of Umberlee can move through the area without triggering the trap."
+      },
+      "effect": "Giant spring-loaded gears hidden in the walls cause blocks of stone on either side of the hall to slam together. A creature between the colliding blocks of stone must make a DC 13 Dexterity saving throw. On a success, the creature leaps out of the way in whichever direction it prefers, north or south. On a failed save, the creature takes 44 (8d10) bludgeoning damage. A creature reduced to 0 hit points by this damage is crushed to a pulp. After they slam shut, the blocks take 1 minute to retract into the walls, whereupon the trap resets.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "44 (8d10)",
+      "damage_type": "bludgeoning",
+      "area": "20-foot-square area south of the double door in area 18",
+      "description": "A mechanical trap with a magical sensor that causes stone blocks to slam together when a creature enters the area.",
+      "source": "The Tortle Package p.16"
+    },
+    {
+      "name": "Teleportation/Lightning Orb",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Whenever a creature touches the orb in area 17.",
+      "detection": {
+        "dc": 0,
+        "skill": "Arcana",
+        "detail": "The orb radiates an aura of conjuration magic under the scrutiny of a detect magic spell or similar effect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The orb can’t be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical."
+      },
+      "effect": "Whenever a creature touches the orb, roll a d6. On a roll of 2 or higher, the orb teleports the creature to area 24. On a roll of 1, the orb malfunctions and emits lightning in a 100-foot-long line as wide as the hall. Each creature in the area of effect must make a DC 15 Dexterity saving throw, taking 14 (4d6) lightning damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "14 (4d6)",
+      "damage_type": "lightning",
+      "area": "100-foot-long line as wide as the hall",
+      "description": "A crystal orb that teleports creatures or emits lightning when touched.",
+      "source": "The Tortle Package p.15-16"
+    },
+    {
+      "name": "Mud Pit Portal",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "An open flame is burning within 10 feet of a mud pit, and a creature fully submerges itself in the pit.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A detect magic spell reveals a faint aura of abjuration magic around each pool."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Removing the open flame from within 10 feet of the pit deactivates the portal."
+      },
+      "effect": "The creature is transported to a similar mud pit on the Elemental Plane of Earth.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Each mud pit is 5 feet deep, 50 feet wide, and roughly circular.",
+      "description": "Three pools of mud heated by geothermal vents that serve as portals to the Elemental Plane of Earth when an open flame is nearby.",
+      "source": "The Tortle Package p.20"
+    }
+  ],
+  "_chapters_completed": [
+    "D&D 5E  The Tortle Package"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "TTP",
+  "_book_title": "D&D 5E  The Tortle Package",
+  "_completed": true,
+  "_timestamp": 1782963790.721441
+}

@@ -796,7 +796,7 @@
     "damage_type": "bludgeoning",
     "area": "10-foot-deep pit",
     "description": "A pit trap hidden under a bedroll in the bandit camp.",
-    "source": "Chapter 4 | Adventures in Wildemount p.239",
+    "source": "C4 I Adventures in Wildemount p.239",
     "_source_manual": "EGW"
   },
   {
@@ -998,5 +998,105 @@
     "description": "A poisoned needle hidden in the lock of a wooden chest.",
     "source": "Chapter 5 | Adventures in Wildemount p.259",
     "_source_manual": "EGW"
+  },
+  {
+    "name": "Glyph of Warding Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "The first time the statuette is removed from the pedestal by a creature that is not wearing a holy symbol of Umberlee.",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "A character who studies the statuette and succeeds on a DC 15 Intelligence (Investigation) check spots the nearly invisible glyph, which is inscribed on the trident."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified; presumably dispel magic or similar."
+    },
+    "effect": "The glyph erupts with magical energy in a 20-foot-radius sphere centered on it. Each creature in the area must make a DC 15 Dexterity saving throw, taking 22 (5d8) thunder damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (5d8)",
+    "damage_type": "thunder",
+    "area": "20-foot-radius sphere centered on the statuette",
+    "description": "A glyph of warding spell inscribed on the trident of a wooden statuette of Umberlee, triggered when removed by someone not wearing her holy symbol.",
+    "source": "The Tortle Package p.13",
+    "_source_manual": "TTP"
+  },
+  {
+    "name": "Crusher Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature enters the 20-foot-square area south of the double door in area 18.",
+    "detection": {
+      "dc": 0,
+      "skill": "Perception",
+      "detail": "Characters who brush away the dust also find bloodstains and deep scratches on the floor. A character standing north or south of the trapped area can discern, by looking at the scratches on the floor, that the walls are movable blocks of stone, but there’s no way to identify the trap’s trigger or the method of bypassing it without experimentation or the use of divination magic."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Only a creature wearing a holy symbol of Umberlee can move through the area without triggering the trap."
+    },
+    "effect": "Giant spring-loaded gears hidden in the walls cause blocks of stone on either side of the hall to slam together. A creature between the colliding blocks of stone must make a DC 13 Dexterity saving throw. On a success, the creature leaps out of the way in whichever direction it prefers, north or south. On a failed save, the creature takes 44 (8d10) bludgeoning damage. A creature reduced to 0 hit points by this damage is crushed to a pulp. After they slam shut, the blocks take 1 minute to retract into the walls, whereupon the trap resets.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "44 (8d10)",
+    "damage_type": "bludgeoning",
+    "area": "20-foot-square area south of the double door in area 18",
+    "description": "A mechanical trap with a magical sensor that causes stone blocks to slam together when a creature enters the area.",
+    "source": "The Tortle Package p.16",
+    "_source_manual": "TTP"
+  },
+  {
+    "name": "Teleportation/Lightning Orb",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Whenever a creature touches the orb in area 17.",
+    "detection": {
+      "dc": 0,
+      "skill": "Arcana",
+      "detail": "The orb radiates an aura of conjuration magic under the scrutiny of a detect magic spell or similar effect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The orb can’t be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical."
+    },
+    "effect": "Whenever a creature touches the orb, roll a d6. On a roll of 2 or higher, the orb teleports the creature to area 24. On a roll of 1, the orb malfunctions and emits lightning in a 100-foot-long line as wide as the hall. Each creature in the area of effect must make a DC 15 Dexterity saving throw, taking 14 (4d6) lightning damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "14 (4d6)",
+    "damage_type": "lightning",
+    "area": "100-foot-long line as wide as the hall",
+    "description": "A crystal orb that teleports creatures or emits lightning when touched.",
+    "source": "The Tortle Package p.15-16",
+    "_source_manual": "TTP"
+  },
+  {
+    "name": "Mud Pit Portal",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "An open flame is burning within 10 feet of a mud pit, and a creature fully submerges itself in the pit.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A detect magic spell reveals a faint aura of abjuration magic around each pool."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Removing the open flame from within 10 feet of the pit deactivates the portal."
+    },
+    "effect": "The creature is transported to a similar mud pit on the Elemental Plane of Earth.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Each mud pit is 5 feet deep, 50 feet wide, and roughly circular.",
+    "description": "Three pools of mud heated by geothermal vents that serve as portals to the Elemental Plane of Earth when an open flame is nearby.",
+    "source": "The Tortle Package p.20",
+    "_source_manual": "TTP"
   }
 ]
