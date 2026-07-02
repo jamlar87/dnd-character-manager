@@ -105,7 +105,7 @@ async def _call_openrouter(prompt: str) -> str | None:
 async def _call_ollama(prompt: str) -> str | None:
     """Local Ollama model (AI_MODEL). No API key needed."""
     try:
-        async with httpx.AsyncClient(timeout=30) as client:
+        async with httpx.AsyncClient(timeout=120) as client:
             resp = await client.post(
                 "http://192.168.1.31:11434/api/generate",
                 json={"model": AI_MODEL, "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
@@ -113,18 +113,18 @@ async def _call_ollama(prompt: str) -> str | None:
             result = resp.json()
             return result.get("response", "")
     except Exception as e:
-        print(f"[Ollama] error: {e}")
+        print(f"[Ollama] error [{type(e).__name__}]: {e}")
         return None
 
 async def _call_ai(prompt: str, label: str = "gen") -> str | None:
-    """Call AI model chain: Gemini → Ollama → OpenRouter. Returns first success."""
-    text = await _call_gemini(prompt)
-    if text:
-        print(f"[AI {label}] tier=gemini")
-        return text
+    """Call AI model chain: Ollama → Gemini → OpenRouter. Returns first success."""
     text = await _call_ollama(prompt)
     if text:
         print(f"[AI {label}] tier=ollama model={AI_MODEL}")
+        return text
+    text = await _call_gemini(prompt)
+    if text:
+        print(f"[AI {label}] tier=gemini")
         return text
     text = await _call_openrouter(prompt)
     if text:

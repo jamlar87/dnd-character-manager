@@ -12,6 +12,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+# ── Load .env (local config, not committed) ──────────────────────
+_env_path = Path(__file__).parent / ".env"
+if _env_path.exists():
+    for _line in _env_path.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
+# ─────────────────────────────────────────────────────────────────
+
 import bcrypt
 import httpx
 from fastapi import FastAPI, Request, Form, HTTPException, Response
@@ -4846,3 +4856,4 @@ async def open_manual(slug: str, page: int = 0):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8300, reload=os.environ.get("DND_RELOAD", "1") == "1")
+
