@@ -52,6 +52,11 @@ from summon_templates import SUMMON_TEMPLATES
 
 router = APIRouter()
 
+# ── AI Model Config ─────────────────────────────
+# Change this to swap the local AI model used by all generation functions
+AI_MODEL = "qwen3-64k"
+# ────────────────────────────────────────────────
+
 
 async def _call_gemini(prompt: str) -> str | None:
     """Tier 1: Google Gemini. Requires GOOGLE_API_KEY."""
@@ -97,12 +102,12 @@ async def _call_openrouter(prompt: str) -> str | None:
         return None
 
 async def _call_ollama(prompt: str) -> str | None:
-    """Local qwen3-64k via Ollama. No API key needed."""
+    """Local Ollama model (AI_MODEL). No API key needed."""
     try:
         async with httpx.AsyncClient(timeout=30) as client:
             resp = await client.post(
                 "http://192.168.1.31:11434/api/generate",
-                json={"model": "qwen3-64k", "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
+                json={"model": AI_MODEL, "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
             )
             result = resp.json()
             return result.get("response", "")
