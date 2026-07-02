@@ -53,29 +53,30 @@ from summon_templates import SUMMON_TEMPLATES
 router = APIRouter()
 
 # ── AI Model Config ─────────────────────────────
-# Change this to swap the local AI model used by all generation functions
+# Change AI_MODEL to swap the local fallback model used when Gemini is unavailable
 AI_MODEL = "qwen3-64k"
 # ────────────────────────────────────────────────
 
 
 async def _call_gemini(prompt: str) -> str | None:
-    """Tier 1: Google Gemini. Requires GOOGLE_API_KEY."""
+    """Tier 1: Google Gemini (free). Requires GOOGLE_API_KEY."""
     key = os.environ.get("GOOGLE_API_KEY", "")
     if not key:
         return None
     try:
-        async with httpx.AsyncClient(timeout=15) as client:
+        async with httpx.AsyncClient(timeout=20) as client:
             resp = await client.post(
                 f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}",
                 json={"contents": [{"parts": [{"text": prompt}]}]},
             )
             result = resp.json()
             return result["candidates"][0]["content"]["parts"][0]["text"]
-    except Exception:
+    except Exception as e:
+        print(f"[Gemini] error: {e}")
         return None
 
 async def _call_openrouter(prompt: str) -> str | None:
-    """Tier 2: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
+    """Tier 3: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
         return None
@@ -90,7 +91,7 @@ async def _call_openrouter(prompt: str) -> str | None:
                     "X-OpenRouter-Title": "D&D Character Manager",
                 },
                 json={
-                    "model": "openrouter/free",  # auto-load-balances free models, can't charge
+                    "model": "openrouter/free",
                     "messages": [{"role": "user", "content": prompt}],
                     "max_tokens": 300,
                 },
@@ -111,8 +112,26 @@ async def _call_ollama(prompt: str) -> str | None:
             )
             result = resp.json()
             return result.get("response", "")
-    except Exception:
+    except Exception as e:
+        print(f"[Ollama] error: {e}")
         return None
+
+async def _call_ai(prompt: str, label: str = "gen") -> str | None:
+    """Call AI model chain: Gemini → Ollama → OpenRouter. Returns first success."""
+    text = await _call_gemini(prompt)
+    if text:
+        print(f"[AI {label}] tier=gemini")
+        return text
+    text = await _call_ollama(prompt)
+    if text:
+        print(f"[AI {label}] tier=ollama model={AI_MODEL}")
+        return text
+    text = await _call_openrouter(prompt)
+    if text:
+        print(f"[AI {label}] tier=openrouter")
+        return text
+    print(f"[AI {label}] all tiers failed")
+    return None
 
 async def _fetch_stable_horde_image(prompt: str, max_wait: int = 120) -> str | None:
     """Generate image via Stable Horde (free, no API key, crowdsourced).
@@ -255,9 +274,7 @@ Use ability scores to inform personality and backstory. A high-INT character mig
 Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Firstname Lastname", "background": "one from PHB list above", "alignment": "one from PHB list above", "personality": "2-3 personality traits", "backstory": "2-3 sentence backstory connecting race, class, and background"}}"""
 
-    # Local model only
-    text = await _call_ollama(prompt)
-    print(f"[AI] tier=ollama race={race} class={class_name}")
+    text = await _call_ai(prompt, label="generate")
 
     ai = _extract_json(text) if text else None
     if ai:
@@ -403,9 +420,7 @@ Available items:
 Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Background Name (2-4 words, creative and unique)", "description": "2-3 sentence description of this character's background and how it shaped them", "items": ["Flavored Name (SRD: Reference)", "Item 2", "Item 3"], "gp": 15}}"""
 
-    # Local model only
-    text = await _call_ollama(prompt)
-    print(f"[AI bg] tier=ollama race={race} class={class_name}")
+    text = await _call_ai(prompt, label="bg")
 
     ai = _extract_json(text) if text else None
     if ai and ai.get("name") and ai.get("description"):
@@ -600,15 +615,13 @@ Fighting Style: {fighting_style.replace('_',' ').title() if fighting_style else 
 
     prompt = "\n".join(prompt_parts)
 
-    # Local model only
-    text = await _call_ollama(prompt)
+    text = await _call_ai(prompt, label="history")
 
     if not text:
         # Fallback
         text = _fallback_history(char, race_desc, class_desc, subclass_desc)
 
-    print(f"[AI] history tier=ollama char_id={char_id} len={len(text)}")
-    return JSONResponse({"backstory": text.strip(), "tier": "ollama"})
+    return JSONResponse({"backstory": text.strip()})
 
 
 def _fallback_history(char: dict, race_desc: str, class_desc: str, subclass_desc: str) -> str:
@@ -715,7 +728,7 @@ Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=la
 Class-appropriate attire: {attire}
 
 Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor visible on upper body, weapon or focus if it fits in frame, pose, expression, lighting, background setting. Remember: BUST ONLY — head to mid-chest, 3:4 ratio, no legs, no full body. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
-        text = await _call_ollama(prompt)
+        text = await _call_ai(prompt, label="portrait-enrich")
         if text:
             print(f"[AI portrait] AI enrichment succeeded for {race} {class_name}")
     except Exception as e:

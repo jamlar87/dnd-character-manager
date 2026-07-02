@@ -11,6 +11,7 @@ from routes.characters.all import (
     # Helpers used by routes/dm.py
     _load_monster_cache,
     _call_ollama,
+    _call_ai,
     _extract_json,
     _xp_for_cr,
     _assign_encounter_counts,

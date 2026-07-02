@@ -2810,7 +2810,7 @@ async def generate_relationship(char_id: int, request: Request):
         '"attacks": [{"name": "weapon", "bonus": "+X", "damage": "XdY+Z", "type": "piercing"}], '
         '"cr": "1/8 to 10"}}'
     )
-    ai_text = await _call_ollama(ai_prompt)
+    ai_text = await _call_ai(prompt=ai_prompt, label="npc-sheet")
     npc_data = {}
     name = prompt[:50]
     description = ""
@@ -8337,6 +8337,7 @@ def _add_invocation_levels(feature_data: list[dict], class_name: str, char_level
 from routes.characters.ai_routes import router as _ai_router
 from routes.characters.ai_routes import (
     _call_ollama,
+    _call_ai,
     _fetch_stable_horde_image, _extract_json, _validate_and_fix,
     _fallback_generate, _random_items, _fallback_background,
     _fallback_history, _try_ai_enrich_prompt, _try_generate_image,
