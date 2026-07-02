@@ -217,6 +217,26 @@ def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str
     return f"{slug}{page_str}"
 
 
+def _normalize_recharge(recharge: str) -> str:
+    """Normalize racial trait recharge strings to canonical forms.
+    Canonical values: 'short', 'long', 'combat', 'special', 'dawn'.
+    """
+    r = recharge.lower().strip()
+    if "short" in r and "long" in r:
+        return "short"
+    if "short" in r:
+        return "short"
+    if "long" in r:
+        return "long"
+    if "combat" in r:
+        return "combat"
+    if "special" in r:
+        return "special"
+    if "dawn" in r:
+        return "dawn"
+    return r
+
+
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
     global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, FEAT_BY_NAME
