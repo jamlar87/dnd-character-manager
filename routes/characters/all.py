@@ -14,7 +14,7 @@ from main import (
     _equipped_names, _load_json_cache, _parse_enhancement, _is_admin,
     _item_rarity_for_level, _user_filter,
 )
-from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE
+from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE, SUBCLASS_FEATURE_REPLACEMENTS
 from main import BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS
 from main import (
     FLEXIBLE_ASI_RACES, SUBASIS, SRD_FEATURES, SRD_MAGIC_ITEMS,
@@ -76,7 +76,8 @@ async def create_character_page(request: Request):
         favored_enemy_options=FAVORED_ENEMY_OPTIONS, favored_enemy_levels=FAVORED_ENEMY_LEVELS,
         favored_terrain_options=FAVORED_TERRAIN_OPTIONS, favored_terrain_levels=FAVORED_TERRAIN_LEVELS,
         infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
-        source_map_json=json.dumps(_get_source_slug_map()))
+        source_map_json=json.dumps(_get_source_slug_map()),
+        subclass_feature_replacements=SUBCLASS_FEATURE_REPLACEMENTS)
 
 def _build_character(data: dict, user_id: int) -> tuple[int, str]:
     """Synchronous character builder. Takes creation dict + user_id, returns (char_id, name).
@@ -3406,7 +3407,8 @@ async def level_up_info(char_id: int, request: Request):
     favored_enemy_info = None
     fe_levels_list = FAVORED_ENEMY_LEVELS.get(cls, [])
     new_fe_levels = [l for l in fe_levels_list if class_level < l <= new_class_level]
-    if new_fe_levels:
+    _fe_replaced = SUBCLASS_FEATURE_REPLACEMENTS.get(subclass, [])
+    if new_fe_levels and 'favored_enemy' not in _fe_replaced:
         existing = json.loads(char.get("favored_enemies", "[]"))
         picks_count = len([l for l in fe_levels_list if l <= new_class_level])
         gained = picks_count - len(existing)
@@ -3423,7 +3425,7 @@ async def level_up_info(char_id: int, request: Request):
     favored_terrain_info = None
     ft_levels_list = FAVORED_TERRAIN_LEVELS.get(cls, [])
     new_ft_levels = [l for l in ft_levels_list if class_level < l <= new_class_level]
-    if new_ft_levels:
+    if new_ft_levels and 'favored_terrain' not in _fe_replaced:
         existing = json.loads(char.get("favored_terrains", "[]"))
         picks_count = len([l for l in ft_levels_list if l <= new_class_level])
         gained = picks_count - len(existing)

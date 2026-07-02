@@ -293,6 +293,7 @@ const FAVORED_TERRAIN_LEVELS = {{ favored_terrain_levels | tojson }};
 const INFUSION_OPTIONS = {{ infusion_options | tojson }};
 const INFUSION_LEVELS = {{ infusion_levels | tojson }};
 const INFUSION_PICKS = {{ infusion_picks | tojson }};
+const SUBCLASS_FEATURE_REPLACEMENTS = {{ subclass_feature_replacements | tojson }};
 
 const SKILL_DESCS = {
   "Acrobatics": "Balance, flips, and staying on your feet. Escape grapples, walk tightropes, and land safely from falls. (Dex)",
@@ -1462,7 +1463,10 @@ function confirmInfusionPicker() {
 
 // ── Favored Enemy Picker (Ranger L1) ─────────────────────────────
 function hasL1FavoredEnemy() {
-  return state.class_name === 'Ranger';
+  return state.class_name === 'Ranger' && !subclassReplaces('favored_enemy');
+}
+function subclassReplaces(feature) {
+  return state.subclass && SUBCLASS_FEATURE_REPLACEMENTS[state.subclass]?.includes(feature);
 }
 function showFavoredEnemyPicker() {
   var opts = Object.entries(FAVORED_ENEMY_OPTIONS);
@@ -1510,7 +1514,7 @@ function confirmFavoredEnemyPicker() {
 
 // ── Favored Terrain Picker (Ranger L1) ────────────────────────────
 function hasL1FavoredTerrain() {
-  return state.class_name === 'Ranger';
+  return state.class_name === 'Ranger' && !subclassReplaces('favored_terrain');
 }
 function showFavoredTerrainPicker() {
   var opts = Object.entries(FAVORED_TERRAIN_OPTIONS);

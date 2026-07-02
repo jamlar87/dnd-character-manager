@@ -857,6 +857,13 @@ if _os.path.exists(_races_path):
         RACES = _json.load(_f)
 
 _classes_path = _os.path.join(_data_dir, "data", "exports", "classes_export.json")
+# Subclasses that replace base class features.
+# Maps subclass name → ["favored_enemy", "favored_terrain", "spellcasting", ...]
+# Used by the creation wizard and LU wizard to skip pickers for replaced features.
+SUBCLASS_FEATURE_REPLACEMENTS = {
+    "Peerless Scout": ["favored_enemy", "favored_terrain"],
+}
+
 if _os.path.exists(_classes_path):
     with open(_classes_path) as _f:
         CLASSES = _json.load(_f)
