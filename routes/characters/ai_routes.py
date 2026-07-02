@@ -54,7 +54,7 @@ router = APIRouter()
 
 # ── AI Model Config ─────────────────────────────
 # Change AI_MODEL to swap the local fallback model used when Gemini is unavailable
-AI_MODEL = "qwen3-64k"
+AI_MODEL = "gemma4:8k"
 # ────────────────────────────────────────────────
 
 
