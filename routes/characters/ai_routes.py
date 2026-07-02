@@ -97,12 +97,12 @@ async def _call_openrouter(prompt: str) -> str | None:
         return None
 
 async def _call_ollama(prompt: str) -> str | None:
-    """Tier 3: Local Ollama hermes3:8b. No API key needed."""
+    """Local qwen3-64k via Ollama. No API key needed."""
     try:
-        async with httpx.AsyncClient(timeout=20) as client:
+        async with httpx.AsyncClient(timeout=30) as client:
             resp = await client.post(
                 "http://192.168.1.31:11434/api/generate",
-                json={"model": "hermes3:8b-llama3.1-q8_0", "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
+                json={"model": "qwen3-64k", "prompt": prompt, "stream": False, "temperature": 1.1, "seed": __import__("time").time_ns() % 1000000},
             )
             result = resp.json()
             return result.get("response", "")
@@ -250,16 +250,9 @@ Use ability scores to inform personality and backstory. A high-INT character mig
 Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Firstname Lastname", "background": "one from PHB list above", "alignment": "one from PHB list above", "personality": "2-3 personality traits", "backstory": "2-3 sentence backstory connecting race, class, and background"}}"""
 
-    # Tiered model chain
-    TIER_NAMES = ["gemini", "openrouter", "ollama"]
-    text = None
-    used_tier = None
-    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
-        text = await caller(prompt)
-        if text:
-            used_tier = TIER_NAMES[tier]
-            break
-    print(f"[AI] tier={used_tier or 'fallback'} race={race} class={class_name}")
+    # Local model only
+    text = await _call_ollama(prompt)
+    print(f"[AI] tier=ollama race={race} class={class_name}")
 
     ai = _extract_json(text) if text else None
     if ai:
@@ -405,15 +398,9 @@ Available items:
 Return ONLY valid JSON (no markdown, no explanation):
 {{"name": "Background Name (2-4 words, creative and unique)", "description": "2-3 sentence description of this character's background and how it shaped them", "items": ["Flavored Name (SRD: Reference)", "Item 2", "Item 3"], "gp": 15}}"""
 
-    TIER_NAMES = ["gemini", "openrouter", "ollama"]
-    text = None
-    used_tier = None
-    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
-        text = await caller(prompt)
-        if text:
-            used_tier = TIER_NAMES[tier]
-            break
-    print(f"[AI bg] tier={used_tier or 'fallback'} race={race} class={class_name}")
+    # Local model only
+    text = await _call_ollama(prompt)
+    print(f"[AI bg] tier=ollama race={race} class={class_name}")
 
     ai = _extract_json(text) if text else None
     if ai and ai.get("name") and ai.get("description"):
@@ -608,22 +595,15 @@ Fighting Style: {fighting_style.replace('_',' ').title() if fighting_style else 
 
     prompt = "\n".join(prompt_parts)
 
-    # Tiered model chain
-    TIER_NAMES = ["gemini","openrouter","ollama"]
-    text = None
-    used_tier = None
-    for tier, caller in enumerate([_call_gemini, _call_openrouter, _call_ollama]):
-        text = await caller(prompt)
-        if text:
-            used_tier = TIER_NAMES[tier]
-            break
+    # Local model only
+    text = await _call_ollama(prompt)
 
     if not text:
         # Fallback
         text = _fallback_history(char, race_desc, class_desc, subclass_desc)
 
-    print(f"[AI] history tier={used_tier or 'fallback'} char_id={char_id} len={len(text)}")
-    return JSONResponse({"backstory": text.strip(), "tier": used_tier or "fallback"})
+    print(f"[AI] history tier=ollama char_id={char_id} len={len(text)}")
+    return JSONResponse({"backstory": text.strip(), "tier": "ollama"})
 
 
 def _fallback_history(char: dict, race_desc: str, class_desc: str, subclass_desc: str) -> str:
@@ -730,14 +710,7 @@ Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=la
 Class-appropriate attire: {attire}
 
 Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor visible on upper body, weapon or focus if it fits in frame, pose, expression, lighting, background setting. Remember: BUST ONLY — head to mid-chest, 3:4 ratio, no legs, no full body. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
-        text = None
-        for caller in [_call_gemini, _call_openrouter, _call_ollama]:
-            try:
-                text = await caller(prompt)
-                if text:
-                    break
-            except Exception:
-                continue
+        text = await _call_ollama(prompt)
         if text:
             print(f"[AI portrait] AI enrichment succeeded for {race} {class_name}")
     except Exception as e:

@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 
 from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned
-from routes.characters import _load_monster_cache, _call_gemini, _call_openrouter, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character
+from routes.characters import _load_monster_cache, _call_ollama, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
@@ -1481,8 +1481,8 @@ Return ONLY valid JSON:
   "tactics": "2-3 sentences: terrain use, opening combo, how monsters adapt when hurt",
   "dynamic": "1 sentence about what changes mid-fight (reinforcements, enrage, terrain shift, morale)"}}"""
     
-    print(f"[AI Encounter] Phase 1: {monster_str} — calling AI for flavor")
-    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    print(f"[AI Encounter] Phase 1: {monster_str} — calling qwen3-64k")
+    text = await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
     if ai:
         print(f"[AI Encounter] Phase 2: name={bool(ai.get('name'))} desc={bool(ai.get('description'))} tactics={bool(ai.get('tactics'))}")
@@ -1577,7 +1577,7 @@ Role: {role_hint}
 {personality_hint}
 Return: {{\"name\": \"NPC Name\", \"personality\": \"2 traits\", \"backstory\": \"1-2 sentences\", \"alignment\": \"one from PHB list\", \"faction\": \"group name or empty\"}}"""
 
-    text = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    text = await _call_ollama(ai_prompt)
     ai = _extract_json(text) if text else None
     if ai:
         if ai.get("alignment") not in ALIGNMENTS:
@@ -1666,7 +1666,7 @@ Return a single JSON object with these keys:
 Use the DMG guidelines for DCs and damage. Make the trap feel unique and cinematic.
 Keep within the danger level bounds — don't overpower a setback trap or underpower a deadly one."""
 
-    text = await _call_gemini(prompt) or await _call_openrouter(prompt) or await _call_ollama(prompt)
+    text = await _call_ollama(prompt)
     ai = _extract_json(text) if text else None
 
     if not ai:
@@ -1752,7 +1752,7 @@ RESEARCH EXCERPTS:
 
 RULES SUMMARY:"""
 
-    summary = await _call_gemini(ai_prompt) or await _call_openrouter(ai_prompt) or await _call_ollama(ai_prompt)
+    summary = await _call_ollama(ai_prompt)
     if not summary:
         # Fallback: return raw results without AI
         return JSONResponse({"summary": None, "results": results, "note": "AI unavailable — raw results shown"})
