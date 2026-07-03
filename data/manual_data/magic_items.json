@@ -3463,5 +3463,419 @@
     "description": "Shield, +3",
     "source": "(Dungeon Master's Guide, p.201)",
     "_source_manual": "DMG"
+  },
+  {
+    "name": "Absorbing Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "This tattoo incorporates designs that absorb energy. You have resistance to a type of damage determined by the design. As a reaction when taking damage of that type, expend a charge to gain immunity and regain HP equal to half the damage. 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.120)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Alchemical Compendium",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "A spellbook granting +1 to spell save DC and attack bonus. Contains: arcane lock, detect magic, glyph of warding, knock, Leomund's tiny hut, symbol. 3 charges to cast those spells without preparing them.",
+    "source": "(Tasha's Cauldron of Everything, p.120)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "All-Purpose Tool",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": "by an artificer",
+    "description": "Transforms into any artisan's tool. Bonus to spell attack and save DC: +1 (uncommon), +2 (rare), +3 (very rare). Can produce light, mage hand, or prestidigitation as an action.",
+    "source": "(Tasha's Cauldron of Everything, p.120)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Amulet of the Devout",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": "by a cleric or paladin",
+    "description": "Holy symbol amulet granting +1/2/3 to spell attack and save DC. Once per day, use Channel Divinity without expending a use.",
+    "source": "(Tasha's Cauldron of Everything, p.120)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Arcane Grimoire",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": "by a wizard",
+    "description": "Spellbook granting +1/2/3 to spell attack and save DC. Once per day, regain a spell slot of 3rd/4th/5th level or lower.",
+    "source": "(Tasha's Cauldron of Everything, p.121)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Astral Shard",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a sorcerer",
+    "description": "Teleport as a bonus action to a space within 30 ft, storing your previous location. Next creature to touch the shard is teleported there. 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.121)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Astromancy Archive",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Spellbook granting +1 to spell save DC and attack bonus. After a long rest, attune to a constellation for a d4 bonus to ability checks, saves, or attacks.",
+    "source": "(Tasha's Cauldron of Everything, p.121)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Atlas of Endless Horizons",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Spellbook granting +1 to spell save DC and attack rolls. Contains conjuration/teleportation spells. Conjuration summon/teleport spells have +30 ft range.",
+    "source": "(Tasha's Cauldron of Everything, p.121)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Baba Yaga's Mortar and Pestle",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "Mortar hovers and moves at 60 ft speed. Pestle is a +3 throwing weapon (60/180 range, 3d10 bludgeoning, returns). Can fly at 60 ft carrying up to 4 Medium creatures for 8 hours.",
+    "source": "(Tasha's Cauldron of Everything, p.122)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Barrier Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "varies",
+    "requires_attunement": true,
+    "description": "Grants AC when not wearing armor: uncommon (12 + Dex), very rare (15 + Dex).",
+    "source": "(Tasha's Cauldron of Everything, p.123)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Bell Branch",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a druid or warlock",
+    "description": "Silver branch spellcasting focus. 3 charges. Expend 1 to force creatures within 30 ft to make a DC 15 Wis save or be charmed until your next turn.",
+    "source": "(Tasha's Cauldron of Everything, p.123)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Blood Fury Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "legendary",
+    "requires_attunement": true,
+    "description": "When you hit with a weapon attack, can make it a critical hit (once per dawn). When you take damage, can turn invisible and teleport 60 ft as a reaction.",
+    "source": "(Tasha's Cauldron of Everything, p.123)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Bloodwell Vial",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": "by a sorcerer",
+    "description": "Vial granting +1/2/3 to spell attack and save DC. Spellcasting focus for sorcerer. Once per day, regain 1 sorcery point as a bonus action.",
+    "source": "(Tasha's Cauldron of Everything, p.123)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Cauldron of Rebirth",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": "by a druid or warlock",
+    "description": "Ornate iron cauldron. Lower a dead creature into water-filled cauldron to cast raise dead. Usable once per 7 days.",
+    "source": "(Tasha's Cauldron of Everything, p.123)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Coiling Grasp Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "When you hit with a melee weapon attack, expend a charge to deal extra 1d6 force damage and grapple (escape DC 13). 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.124)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Crook of Rao",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "10 charges (regains 1d6+4 daily). Cast dispel evil and good, protection from evil and good, or sanctuary. Expend 1 charge to grant a d10 to a creature's save. Allies within 30 ft have advantage vs fiends/undead.",
+    "source": "(Tasha's Cauldron of Everything, p.124)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Crystalline Chronicle",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": "by a wizard",
+    "description": "Crystalline spellbook granting +2 to spell save DC and attack rolls. 3 charges. Expend 1 to force a creature that failed a save to reroll it.",
+    "source": "(Tasha's Cauldron of Everything, p.125)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Demonomicon of Iggwilv",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "Spellbook granting +2 to spell save DC and attack rolls. Can summon a demon once per day. Can cast gate once per day. Non-wizards take 8d6 psychic damage on attunement.",
+    "source": "(Tasha's Cauldron of Everything, p.126)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Devotee's Censer",
+    "type": "Weapon (flail)",
+    "rarity": "rare",
+    "requires_attunement": "by a cleric or paladin",
+    "description": "+1 flail dealing an extra 1d8 radiant damage. Can create a 10-ft radius smoke cloud. Targets hit within 5 ft must make DC 15 Con save or be blinded.",
+    "source": "(Tasha's Cauldron of Everything, p.127)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Duplicitous Manuscript",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Illusion spellbook granting +1 to spell save DC and attack rolls. Casting an illusion creates a silent duplicate. Attackers must make DC 15 Int save or target the duplicate.",
+    "source": "(Tasha's Cauldron of Everything, p.127)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Eldritch Claw Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Spectral claw extends unarmed strike reach by 15 ft, deals force damage. Expend a charge for +1d6 force damage. 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.127)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Elemental Essence Shard",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a sorcerer",
+    "description": "Contains elemental essence (air/earth/fire/water). Bonus action for elemental effect. 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.128)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Far Realm Shard",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a sorcerer",
+    "description": "Psychic energy burst. Creatures within 30 ft make DC 15 Wis save or take 2d10 psychic and be frightened. 3 charges.",
+    "source": "(Tasha's Cauldron of Everything, p.128)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Feywild Shard",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": "by a sorcerer",
+    "description": "Create a portal. Creatures entering make DC 13 Wis save or be charmed for 1 minute (save ends at end of each turn). Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.128)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Fulminating Treatise",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Spellbook granting +1 to spell save DC and attack rolls. Swap thunder/lightning damage types. Reaction to reduce lightning/thunder damage by 4d6. 3 charges, expend for +2d6 lightning/thunder.",
+    "source": "(Tasha's Cauldron of Everything, p.129)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Ghost Step Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Become incorporeal for 1 minute: resistance to all damage, move through creatures/objects. 1d10 force if ending turn inside object. Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.129)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Guardian Emblem",
+    "type": "Wondrous item (holy symbol)",
+    "rarity": "uncommon",
+    "requires_attunement": "by a cleric or paladin",
+    "description": "Holy symbol spellcasting focus. Reaction to grant a creature within 30 ft resistance to damage. Uses equal to proficiency bonus (long rest recharge).",
+    "source": "(Tasha's Cauldron of Everything, p.129)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Heart Weaver's Primer",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Enchantment spellbook granting +1 to spell save DC and attack rolls. Single-target enchantment can target two creatures instead. Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.129)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Illuminator's Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "common",
+    "requires_attunement": true,
+    "description": "Sheds light (10/20 ft). Can project light and cast dancing lights at will.",
+    "source": "(Tasha's Cauldron of Everything, p.130)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Libram of Souls and Flesh",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Necromancy spellbook granting +1 to spell save DC and attack rolls. Casting necromancy lets one undead regain 2x spell level HP. 3 charges, expend for +2d6 necrotic.",
+    "source": "(Tasha's Cauldron of Everything, p.130)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Lifewell Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Resistance to necrotic damage. When reduced to 0 HP, drop to 1 HP instead. Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.130)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Luba's Tarokka of Souls",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "Deck granting +3 to spell attack and save DC. 9 charges. Cast: animate dead(3), circle of death(4), cloudkill(3), danse macabre(3), finger of death(5), speak with dead(1). Captures souls of creatures dying within 30 ft.",
+    "source": "(Tasha's Cauldron of Everything, p.130)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Lyre of Building",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a bard",
+    "description": "Bard spellcasting focus granting +1 to spell save DC and attack rolls. Creates a 30-ft cube shield granting half cover. 3 charges to reduce damage by 5/charge.",
+    "source": "(Tasha's Cauldron of Everything, p.132)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Masquerade Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "common",
+    "requires_attunement": true,
+    "description": "Alters appearance as disguise self for 1 hour. Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.132)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Mighty Servant of Leuk-o",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "10-ft construct vehicle (speed 60). AC 20, 200 HP, immune to poison/psychic. Slam (+12, 4d12+6 bludgeoning), Force Bolt (+10, 3d10 force), Eye Beam (rech 5-6, 10d10 force DC 20). Berserks on attack roll 1. Explodes for 12d12 force on death.",
+    "source": "(Tasha's Cauldron of Everything, p.133)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Moon Sickle",
+    "type": "Weapon (sickle)",
+    "rarity": "varies",
+    "requires_attunement": "by a druid or ranger",
+    "description": "Sickle spellcasting focus. +1/2/3 to spell attack and save DC. On a nat 20 attack roll, extra 2d10 radiant damage.",
+    "source": "(Tasha's Cauldron of Everything, p.134)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Nature's Mantle",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": "by a druid or ranger",
+    "description": "Cloak spellcasting focus. Advantage on Stealth in nature. Cast pass without trace from it once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.134)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Outer Essence Shard",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a sorcerer",
+    "description": "Creates a 10-ft aura granting psychic resistance and advantage vs charm/frighten for 1 minute. Effect varies by alignment (chaos/law/good/evil). 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.134)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Planecaller's Codex",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Conjuration spellbook granting +1 to spell save DC and attack rolls. Summoned creatures gain temp HP = wizard level. Expend charge to summon two creatures. 3 charges.",
+    "source": "(Tasha's Cauldron of Everything, p.135)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Protective Verses",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a wizard",
+    "description": "Abjuration spellbook granting +1 to spell save DC and attack rolls. Casting abjuration grants temp HP to one creature = spell level. 3 charges for resistance to damage.",
+    "source": "(Tasha's Cauldron of Everything, p.135)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Reveler's Concertina",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a bard",
+    "description": "Bard spellcasting focus granting +1 to spell save DC and attack rolls. Play a tune: creatures within 30 ft make DC 15 Cha save or move and attack. 3 charges.",
+    "source": "(Tasha's Cauldron of Everything, p.135)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Rhythm-Maker's Drum",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": "by a bard",
+    "description": "Bard spellcasting focus. +1/2/3 to spell attack and save DC. Play to cast faerie fire. Once per dawn.",
+    "source": "(Tasha's Cauldron of Everything, p.135)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Shadowfell Brand Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Advantage on Stealth for 1 hour. Hit a creature and expend a charge to give it disadvantage on its next save. 3 charges.",
+    "source": "(Tasha's Cauldron of Everything, p.135)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Shadowfell Shard",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": "by a sorcerer",
+    "description": "Become invisible as a bonus action. Attackers must make DC 15 Wis save or target a different creature. 3 charges (daily dawn).",
+    "source": "(Tasha's Cauldron of Everything, p.136)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Spellwrought Tattoo",
+    "type": "Wondrous item (tattoo)",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Contains a single spell (cantrip-5th level). Rarity: cantrip-1st (common), 2nd-3rd (uncommon), 4th-5th (rare). Applied to skin to cast the spell, then fades.",
+    "source": "(Tasha's Cauldron of Everything, p.136)",
+    "_source_manual": "TCE"
+  },
+  {
+    "name": "Teeth of Dahlver-Nar",
+    "type": "Wondrous item",
+    "rarity": "artifact",
+    "requires_attunement": true,
+    "description": "Teeth on a leather cord from legendary heroes/monsters. Each grants +1 to Str/Dex/Con (max 3). Summon a creature associated with a tooth for 1 hour. Traps soul on death.",
+    "source": "(Tasha's Cauldron of Everything, p.136)",
+    "_source_manual": "TCE"
   }
 ]
