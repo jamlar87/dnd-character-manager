@@ -6007,7 +6007,7 @@
   },
   {
     "name": "Lizardfolk",
-    "source": "Chapter 2: Character Races",
+    "source": "(Player's Handbook)",
     "asi": {
       "strength": 0,
       "dexterity": 0,
@@ -6158,7 +6158,8 @@
         "natural_armor": null,
         "notes": "Bonus action: special bite attack. If hits, deals normal bite damage and gain temporary HP equal to Constitution modifier (minimum 1). Cannot use again until after a short or long rest."
       }
-    }
+    },
+    "_source_manual": "PHB"
   },
   {
     "name": "Triton",
@@ -6571,7 +6572,7 @@
   },
   {
     "name": "Grung",
-    "source": "Chapter 3",
+    "source": "(Waterdeep: Dragon Heist)",
     "asi": {
       "strength": 0,
       "dexterity": 0,
@@ -6671,7 +6672,8 @@
         "natural_armor": null,
         "notes": "Must immerse in water for at least 1 hour per day or suffer one level of exhaustion at the end of that day. Exhaustion can only be recovered via magic or by immersing in water for at least 1 hour."
       }
-    }
+    },
+    "_source_manual": "WDH"
   },
   {
     "name": "Tlincalli",
