@@ -5371,5 +5371,194 @@
     "description": "Type: Great Spear. Thousands of spears were forged in Imladris to arm the hosts of Gil-galad, their long staves of ash capped by long spikes. This particular spear was carried by an Elf-warrior of the Last Alliance against Sauron.",
     "source": "(Rivendell Region Guide, p.121)",
     "_source_manual": "RVR"
+  },
+  {
+    "name": "Ash of the Ebon Birch",
+    "type": "Potion",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This salve is created by burning bits of bark from a rare tree unique to the groves of the Circle of the Weald and then mixed with oil and blood to create a cerise pigment used to paint the body with profane protections. Sigils can be painted for specific effects: Antlers (see invisibility, DC 13), Beak (immune to being charmed and cannot be scryed upon for 1 hour), Claw (cannot be surprised for 1 hour), Hoof (remains prevented from rising as undead for 24 hours). When smeared on the body: Arms (+2 Strength for 1 hour), Chest (advantage on one type of saving throw for 10 minutes), Eyes (truesight to 30 feet for 10 minutes), Legs (+10 speed for 1 hour), Stomach (+2 Constitution for 1 hour).",
+    "source": "(Warlock 22: Druids, p.19)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Brambleseed",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A handful of tiny seeds that resemble pinecones. When a command word is spoken (no action required), they sprout into hardened clumps of bramble, acting as caltrops. Creatures injured by these caltrops must succeed a DC 13 Strength check or become restrained until the end of their next turn.",
+    "source": "(Warlock 22: Druids, p.20)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Cinch of the Wolfmother",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "This belt is made of the treated and tanned intestines of a dire wolf, enchanted to imbue those who wear it with the ferocity and determination of the wolf. While worn, you can use an action to cast the speak with animals spell at will, gain the druidcraft cantrip, and have advantage on Wisdom (Perception) checks that rely on hearing or smell. Cursed: Attuning to it curses you until the remove curse spell is applied. If reduced to 0 hp while worn and you fail two death saving throws, you die immediately as a dire wolf emerges from your entrails. You assume control of the dire wolf, which gains additional hit points equal to half of your character's maximum hit points prior to death.",
+    "source": "(Warlock 22: Druids, p.19)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Hallowed Effigy",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Small totems crafted from animal bones and the skull of a tiny woodland creature, all bound in thin leather strips. You can use an action to secure the effigy on any natural organic substrate (such as dirt, mud, grass). While planted, it pulses with energy in a 15-foot-radius sphere; at the beginning of each of your turns, you and any friendly creatures regain 1d6 hit points, and hostile creatures must make a DC 15 Constitution saving throw, taking 1d6 necrotic damage on a failed save. The totem has 9 charges, using 1 charge each round it activates, and regains 1d6+3 charges daily at dawn. If it runs out of charges, it must be purified by a druid of at least 5th level.",
+    "source": "(Warlock 22: Druids, p.21)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Lupine Crown",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This grisly helm is fashioned from the leather-reinforced skull and antlers of a deer with a fox skull and hide stretched over it, secured by a strap made from a magically preserved length of animal entrails. While wearing this helm, you gain a +1 bonus to AC, and you gain a +5 on Dexterity (Stealth) and Wisdom (Survival) checks.",
+    "source": "(Warlock 22: Druids, p.21)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Mantle of the Forest Lord",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Created by village elders for druidic scouts to better traverse and survey the perimeters of their lands, this cloak resembles thick oak bark but bends and flows like silk. While you wear this cloak, you can use an action to cast the tree stride spell on yourself at will, except trees need not be living in order to pass through them.",
+    "source": "(Warlock 22: Druids, p.22)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Oculi of the Ancestor",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "An intricately depicted replica of an eyeball, right down to the blood vessels and other fine details, carved from sacred hardwoods by soothsayers using a specialized ceremonial blade. When the orb is placed within the eye socket of a skull, it reveals the last thing that was experienced by the person before they died. This lasts for up to 1 minute and is limited to purely visible and audible elements. The flashback is delivered telepathically to you.",
+    "source": "(Warlock 22: Druids, p.22)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Primordial Pods",
+    "type": "Wondrous item",
+    "rarity": "legendary",
+    "requires_attunement": true,
+    "description": "These seemingly innocuous pellets are a mixture of leaves, spores, sacrificial ash, and rare powders made from the ground bones of ancient beasts. Sowing pods beneath the flesh gives them purchase to blossom as fungus covers the body in hardened growths. To activate, you must embed them within your flesh, dealing 1d4 damage. After 24 hours, bark-like fungus spreads across your skin granting +1 AC. After 1 month: +1 AC and blindsight 20 ft but hit point maximum reduced by 2d4+2. After 2 months: +2 AC and blindsight 40 ft but HP max reduced by 4d4+4. After 3 months: +2 AC, resistance to nonmagical damage not from adamantine, blindsight 60 ft but HP max reduced by 8d4+8. After 4 months, if you ever drop to 0 hp, you cannot be brought back. This disease is curable by lesser restoration in the first month, or greater restoration thereafter, but will reinfect after 1 week of dormancy unless pods are removed.",
+    "source": "(Warlock 22: Druids, p.22)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Tenebrous Flail of Screams",
+    "type": "Weapon (flail)",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "The handle of this flail is made of mammoth bone wrapped in black leather made from bat wings. Its pommel is adorned with raven's claws, and the head of the flail dangles from a flexible, preserved braid of entrails. The head is made of petrified wood inlaid with owlbear and raven beaks. When swung, it lets out an otherworldly screech. You gain a +1 bonus to attack and damage rolls made with this magic weapon, and the target takes an extra 1d6 psychic damage. When you roll a 20 on an attack roll made with this weapon, the target must succeed a DC 15 Wisdom save or be incapacitated until the end of its next turn.",
+    "source": "(Warlock 22: Druids, p.23)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Wendigo Tallow Candle",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "Lighting one of these translucent, milky-white candles lets off an immensely foul smell, the flame bending toward the nearest lone traveler while the caustic black smoke drifts off in the direction of the nearest evil-aligned creature. After one of these candles is snuffed out after being lit for at least 10 minutes or burns through, it will begin to snow in the area for at least an hour, regardless of the current climate or the time of year.",
+    "source": "(Warlock 22: Druids, p.23)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Wraithstones",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "These stones are carved from petrified roots to reflect the shape and visage of an animal. Within one of these stones is the soul and spirit of a sacrificed beast. They are used to grant immortal life to animal companions, banish troublesome predators, and more. The creature's essence stays within until the stone is broken, upon which point the soul is released and the creature cannot be resurrected or reincarnated by any means. While carrying this item, a spectral representation of the animal shows up beside you, resembling the creature's likeness while in its prime. The specter follows you at all times and can be seen by all. It can be dismissed and brought back as a bonus action.",
+    "source": "(Warlock 22: Druids, p.23)",
+    "_source_manual": "W4"
+  },
+  {
+    "name": "Bands of Infernal Favor",
+    "type": "Wondrous item",
+    "rarity": "Fabled",
+    "requires_attunement": true,
+    "description": "This armband is made of two blood-red metal bands crossing over one another three times, with hollow crystals set between the gaps. While both you and your familiar, animal companion, or steed are conscious, you cannot be surprised while within 30 feet of each other. Requires attunement by a paladin, ranger, sorcerer, warlock, or wizard. During attunement and at dawn each day, the bands drain one Hit Die to empower abilities. At 5th level: advantage on attacks when both within 5 feet; companion gains extra HP per level. At 9th level: +2 initiative when companion is within 30 ft; companion can make death saves instead of dying. At 13th level: transform companion into a CR 5 or lower fiend. At 17th level: companion gains fiend type, immunity to fire and poison. The Price of Attunement: disadvantage on Wisdom (Insight) checks and Wisdom/Charisma saves vs fiends; Deception checks vs fiends always fail; fiends within 10 miles can view through you or your companion.",
+    "source": "(Warlock 32, p.23)",
+    "_source_manual": "W5"
+  },
+  {
+    "name": "Crown of the Eagle Emperor",
+    "type": "Wondrous item",
+    "rarity": "Fabled",
+    "requires_attunement": true,
+    "description": "A golden circlet crafted in realistic detail as if feathers lie atop one another. While wearing the crown, you have advantage on Wisdom (Perception) checks that require sight. Properties require attunement. At 5th level: golden eagle wings grant flying speed of 60 ft for 1 use per dawn. At 9th level: +10 to initiative and cannot be surprised. At 13th level: polymorph into eagle-humanoid hybrid or eagle (or back). Hybrid form has talons (2d6+Str slashing) and beak (1d6+Str piercing) natural weapons, resistance to nonmagical nonsilvered weapons, and flying 60 ft with hover. At 17th level: immunity to nonmagical weapons; use 5th and 13th level abilities twice per day; Piercing Cry (Recharge 6) \u2014 30-ft cone, DC 18 Con save or 8d6 thunder damage and deafened.",
+    "source": "(Warlock 32, p.25)",
+    "_source_manual": "W5"
+  },
+  {
+    "name": "Gorget of the Explorer",
+    "type": "Wondrous item",
+    "rarity": "Fabled",
+    "requires_attunement": true,
+    "description": "A dark-leather gorget finely worked with a beautiful compass rose decorated with vines and various flowers. You recall any regions you've traveled and cannot get lost in those places unless the area has changed excessively or is hidden by magic. Spending 1 minute, you can always determine which direction is north. Properties require attunement (World Walker). At 5th level: advantage on Wisdom (Survival) checks; determine direction and distance to the closest ley line. At 9th level: unaffected by difficult terrain; create difficult terrain in your wake for up to 600 ft. At 13th level: attune to a ley line point and teleport yourself and up to eight willing creatures to it. At 17th level: once per day, choose an elemental type (acid, cold, fire, lightning, poison, thunder) and gain immunity to that damage type until dawn.",
+    "source": "(Warlock 32, p.27)",
+    "_source_manual": "W5"
+  },
+  {
+    "name": "Sarastra's Baubles",
+    "type": "Wondrous item",
+    "rarity": "Fabled",
+    "requires_attunement": true,
+    "description": "A set of four glass globes, fragile in appearance, hanging from a small brass fixture with bits of gems, beads, and glass decorating the fine strings. The brass plate has an oblong hole allowing the baubles to be hung from a staff or belt loop. You have advantage on Charisma-based ability checks. Properties require attunement (Will of the Mistress). At 5th level: cast calm emotions, charm monster, confusion, and fear once per day each (DC 15). At 9th level: banish a creature within 60 ft to a demiplane inside a bauble (DC 17 Cha save); bauble has AC 12, 10 HP, reforms in 1d4 days if broken. At 13th level: incite fear in a banished creature to heal yourself (3d12 psychic damage to creature, regain equal HP). At 17th level: released creature can be forced to do your bidding for 1 hour (charmed, DC 17 Cha to refuse harmful orders).",
+    "source": "(Warlock 32, p.29)",
+    "_source_manual": "W5"
+  },
+  {
+    "name": "Bracelet of the Fire Tender",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This piney bracelet is made of twelve small, roasted pinecones lashed together with lengths of dried sinew. It smells of pine and woodsmoke and is uncomfortable to wear over bare skin. While wearing this bracelet, you do not have disadvantage on Wisdom (Perception) checks that rely on sight when looking in areas lightly obscured by nonmagical smoke or fog.",
+    "source": "(Margreve Player's Guide, p.52)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Charm of Restoration",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "This fist-sized ball of tightly-wound green fronds contains the bark of a magical piney plant with curative properties. A natural loop is formed from one of the fronds, allowing the charm to be hung from a pack, belt, or weapon pommel. As long as you carry this charm, whenever you are targeted by a spell or magical effect that restores your hit points, you regain an extra 1 hit point.",
+    "source": "(Margreve Player's Guide, p.52)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Circlet of Holly",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "While wearing this circlet, you gain the following benefits: Language of the Fey \u2014 you speak and understand Sylvan; Friend of the Fey \u2014 you have advantage on ability checks to interact socially with fey creatures; Poison Sense \u2014 you know if any food or drink you are holding contains poison.",
+    "source": "(Margreve Player's Guide, p.52)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Moon Through the Trees",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "This piney charm is comprised of six polished river stones bound into the shape of a star with glue made from the connective tissues of animals. The reflective surfaces of the stones shimmer with a magical iridescence. While you are within 20 feet of a living tree, you can use a bonus action to become invisible for 1 minute. While invisible, you can use a bonus action to become visible. If you do become visible, each creature of your choice within 30 feet of you must succeed on a DC 15 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat the saving throw at the end of each of its turns, ending the effect on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to this charm's blinding feature for the next 24 hours.",
+    "source": "(Margreve Player's Guide, p.52)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Rowan Staff",
+    "type": "Staff",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Favored by those with ties to nature and death, this staff can be wielded as a magic quarterstaff that grants a +1 bonus to attack and damage rolls made with it. While holding it, you have advantage on saving throws against spells. The staff has 10 charges for the following properties. It regains 1d4+1 expended charges daily at midnight, though it regains all its charges if bathed in moonlight at midnight. If you expend the last charge, roll a d20; on a 1, the staff becomes a nonmagical quarterstaff. Spell: expend 1 or more charges to cast animate dead (Medium or smaller humanoid or beast, each charge animates a separate target, under your control for 24 hours). Deanimate: strike an undead creature; the target must make a DC 17 Constitution save or revert to an inanimate pile of bones or corpse (undead with Incorporeal Movement are destroyed instead), expending charges equal to twice the CR (minimum 1). Requires attunement by a cleric, druid, sorcerer, warlock, or wizard.",
+    "source": "(Margreve Player's Guide, p.53)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Sickle of Thorns",
+    "type": "Weapon (sickle)",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "You gain a +1 bonus to attack and damage rolls made with this weapon. As an action, you can swing the sickle to cut nonmagical vegetation up to 60 feet away from you. Each cut is a separate action, allowing you to lead a party through a jungle or briar thicket at a normal pace. It cannot cut trunks of saplings larger than 1 inch in diameter or unliving wood (such as a door or wall). When you hit a plant creature with a melee attack using this weapon, that target takes an extra 1d6 slashing damage. The weapon can make very precise cuts, such as to cut fruit or flowers high up in a tree without damaging the tree.",
+    "source": "(Margreve Player's Guide, p.53)",
+    "_source_manual": "MPG"
   }
 ]
