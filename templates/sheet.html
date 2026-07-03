@@ -1989,6 +1989,9 @@
             <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
                  style="display:flex;align-items:center;flex-wrap:wrap;gap:0.35rem;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color 0.15s;margin-bottom:0.15rem">
               <strong style="flex:1 1 auto;min-width:10ch;font-size:0.85rem;overflow-wrap:break-word;word-break:break-word">{{ sp.spell_name }}</strong>
+              {% if sp.source == "Expanded Spell List" %}
+              <span class="badge" style="font-size:0.5rem;background:rgba(147,51,234,0.2);color:#a78bfa;border:1px solid rgba(147,51,234,0.3);padding:0.1rem 0.3rem">Patron</span>
+              {% endif %}
               {% if sp.srd and sp.srd.source %}
               <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ sp.srd.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer" title="Click to open {{ sp.srd.source }}">📚 {{ sp.srd.source }}</span>
               {% endif %}

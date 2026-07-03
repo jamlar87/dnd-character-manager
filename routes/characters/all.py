@@ -385,6 +385,28 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
                 db.execute("UPDATE character_spells SET prepared = 1 WHERE id = ?", (sp[0],))
         db.commit()
     
+    # Auto-insert Warlock expanded spell list spells (always known, don't count against limit)
+    if class_name == "Warlock" and subclass and subclass in WARLOCK_EXPANDED_SPELLS_BY_LEVEL:
+        expanded = WARLOCK_EXPANDED_SPELLS_BY_LEVEL[subclass]
+        existing = {r[0].lower() for r in db.execute(
+            "SELECT spell_name FROM character_spells WHERE character_id = ?", (char_id,)
+        ).fetchall()}
+        for patron_lvl, spell_names in expanded.items():
+            if level >= patron_lvl:
+                for sname in spell_names:
+                    if sname.lower() not in existing:
+                        # Look up SRD spell level
+                        slvl = 0
+                        for spell in SRD_SPELLS:
+                            if spell.get("name", "").lower() == sname.lower():
+                                slvl = spell.get("level", 0)
+                                break
+                        db.execute(
+                            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used, source) VALUES (?,?,?,?,?,?,?)",
+                            (char_id, sname, slvl, 1, 0, 0, "Expanded Spell List"))
+                        existing.add(sname.lower())
+        db.commit()
+    
     db.close()
     return (char_id, name)
 
@@ -4010,6 +4032,32 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
             if sp[1].lower() in ds_lower:
                 db.execute("UPDATE character_spells SET prepared = 1 WHERE id = ?", (sp[0],))
     
+    # Auto-insert Warlock expanded spells — new patron tiers unlocked on level-up
+    if sub and sub in WARLOCK_EXPANDED_SPELLS_BY_LEVEL:
+        # Determine new Warlock level after this level-up
+        current_warlock_lvl = cl.get("Warlock", 0) if "Warlock" in cl else (
+            int(char.get("level", 0)) if char.get("class_name") == "Warlock" else 0
+        )
+        new_warlock_lvl = current_warlock_lvl + (1 if class_to_level == "Warlock" else 0)
+        expanded = WARLOCK_EXPANDED_SPELLS_BY_LEVEL[sub]
+        existing = {r[0].lower() for r in db.execute(
+            "SELECT spell_name FROM character_spells WHERE character_id = ?", (char_id,)
+        ).fetchall()}
+        for patron_lvl, spell_names in expanded.items():
+            if new_warlock_lvl >= patron_lvl:
+                for sname in spell_names:
+                    if sname.lower() not in existing:
+                        slvl = 0
+                        for spell in SRD_SPELLS:
+                            if spell.get("name", "").lower() == sname.lower():
+                                slvl = spell.get("level", 0)
+                                break
+                        db.execute(
+                            "INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used, source) VALUES (?,?,?,?,?,?,?)",
+                            (char_id, sname, slvl, 1, 0, 0, "Expanded Spell List"))
+                        existing.add(sname.lower())
+                        changes.append(f"Patron spell: {sname}")
+    
     # Hit dice — per class (e.g. "3d10 + 2d8")
     hd_parts = []
     for cls_n, cls_lvl in new_cl.items():
@@ -5329,6 +5377,59 @@ DOMAIN_SPELLS: dict[str, list[str]] = {
                     "Contagion","Dominate Person"],
 }
 
+# ── Warlock expanded spell lists — always known (PHB p.108-109, XGtE p.56-57, TCE) ──
+# Warlocks are known casters, not prepared. These spells are auto-inserted with
+# source='Expanded Spell List' and don't count against spells known max.
+# Format: subclass_name → {patron_spell_level: [spell_names]}
+WARLOCK_EXPANDED_SPELLS_BY_LEVEL: dict[str, dict[int, list[str]]] = {
+    # PHB p.109
+    "The Fiend": {
+        1: ["Burning Hands", "Command"],
+        3: ["Blindness/Deafness", "Scorching Ray"],
+        5: ["Fireball", "Stinking Cloud"],
+        7: ["Fire Shield", "Wall of Fire"],
+        9: ["Flame Strike", "Hallow"],
+    },
+    # PHB p.108
+    "The Archfey": {
+        1: ["Faerie Fire", "Sleep"],
+        3: ["Calm Emotions", "Phantasmal Force"],
+        5: ["Blink", "Plant Growth"],
+        7: ["Dominate Beast", "Greater Invisibility"],
+        9: ["Dominate Person", "Seeming"],
+    },
+    # PHB p.109-110
+    "The Great Old One": {
+        1: ["Dissonant Whispers", "Tasha's Hideous Laughter"],
+        3: ["Detect Thoughts", "Phantasmal Force"],
+        5: ["Clairvoyance", "Sending"],
+        7: ["Dominate Beast", "Evard's Black Tentacles"],
+        9: ["Dominate Person", "Telekinesis"],
+    },
+    # XGtE p.56-57
+    "The Celestial": {
+        1: ["Cure Wounds", "Guiding Bolt"],
+        3: ["Flaming Sphere", "Lesser Restoration"],
+        5: ["Daylight", "Revivify"],
+        7: ["Guardian of Faith", "Wall of Fire"],
+        9: ["Flame Strike", "Greater Restoration"],
+    },
+    # XGtE p.55-56
+    "The Hexblade": {
+        1: ["Shield", "Wrathful Smite"],
+        3: ["Blur", "Branding Smite"],
+        5: ["Blink", "Elemental Weapon"],
+        7: ["Phantasmal Killer", "Staggering Smite"],
+        9: ["Banishing Smite", "Cone of Cold"],
+    },
+}
+
+# Flat list of all expanded spell names per subclass (for prepared/known checks)
+WARLOCK_EXPANDED_SPELLS: dict[str, list[str]] = {
+    sub: [s for spells in levels.values() for s in spells]
+    for sub, levels in WARLOCK_EXPANDED_SPELLS_BY_LEVEL.items()
+}
+
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
 # ── Subclass feature descriptions (PHB 2014, not in SRD) ──────
 SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
@@ -6440,7 +6541,7 @@ SUBCLASS_FEATURE_DESCRIPTIONS: dict[str, str] = {
     "exit strategy":
         "A Agent subclass feature. Grants a thematic ability tied to the Agent's specialty — check your sourcebook for full mechanical details.",
     "expanded spell list":
-        "A The Fathomless subclass feature. Grants a thematic ability tied to the The Fathomless's specialty — check your sourcebook for full mechanical details.",
+        "A Warlock subclass feature (PHB p.108-109, XGtE). Your patron grants you bonus spells that are always known and don't count against your spells known limit. You gain access to these spells at warlock levels 1, 3, 5, 7, and 9.",
     "expansive bond":
         "A Peace Domain subclass feature. Grants a thematic ability tied to the Peace Domain's specialty — check your sourcebook for full mechanical details.",
     "experienced explorer":
