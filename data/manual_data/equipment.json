@@ -1,16 +1,5 @@
 [
   {
-    "name": "Potions of Healing",
-    "type": "Potion",
-    "subtype": "healing",
-    "damage": "",
-    "properties": [],
-    "cost": "—",
-    "weight": 0,
-    "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
-  },
-  {
     "name": "Oil Flask",
     "type": "Adventuring Gear",
     "subtype": "",
@@ -19,7 +8,8 @@
     "cost": "1 sp",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A flask of oil that can be poured on the ground (creating a slippery area) or lit on fire. Worth 1 sp."
   },
   {
     "name": "Potion of Healing",
@@ -30,7 +20,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A magical potion that restores 2d4+2 hit points when drunk. The most common healing potion found throughout Faer\u00fbn."
   },
   {
     "name": "Quiver of 20 Arrows",
@@ -41,7 +32,8 @@
     "cost": "2 gp",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A leather quiver containing 20 standard arrows. Arrows are used with shortbows and longbows."
   },
   {
     "name": "Quiver of 20 Crossbow Bolts",
@@ -52,7 +44,8 @@
     "cost": "2 gp",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A leather quiver containing 20 standard crossbow bolts. Bolts are used with hand crossbows, heavy crossbows, and light crossbows."
   },
   {
     "name": "emerald rings",
@@ -63,7 +56,8 @@
     "cost": "1,500 gp each",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A set of rings set with emeralds. Valuable trade goods worth 1,500 gp each."
   },
   {
     "name": "string of pearls",
@@ -74,7 +68,8 @@
     "cost": "750 gp",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A string of pearls used as currency or trade goods. Worth 750 gp."
   },
   {
     "name": "Jade Dagger",
@@ -89,7 +84,8 @@
     "cost": "250 gp",
     "weight": 1,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A finely crafted dagger made of jade. Worth 250 gp due to its material value."
   },
   {
     "name": "Ruidium Spear",
@@ -102,7 +98,8 @@
     "cost": "unknown",
     "weight": 0,
     "source": "(Call of the Netherdeep)",
-    "_source_manual": "CotN"
+    "_source_manual": "CotN",
+    "description": "A spear corrupted by ruidium, the crimson mineral from Call of the Netherdeep. It deals additional psychic damage and risks ruidium corruption."
   },
   {
     "name": "Solvia Groves Diamond Plum Wine",
@@ -113,7 +110,8 @@
     "cost": "60 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "A fine wine from the Solvia Groves in Wildemount. Diamond plum wine is known for its exquisite taste and high price."
   },
   {
     "name": "Oveso Family Dark Red",
@@ -124,7 +122,8 @@
     "cost": "35 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Oveso Family Dark Red. Standard adventuring gear worth 35 gp."
   },
   {
     "name": "Rustlecall's Evening Dream Plum Wine",
@@ -135,7 +134,8 @@
     "cost": "40 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Rustlecall's Evening Dream Plum Wine. Standard adventuring gear worth 40 gp."
   },
   {
     "name": "Solvia Groves Sunset White Wine",
@@ -146,7 +146,8 @@
     "cost": "30 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Solvia Groves Sunset White Wine. Standard adventuring gear worth 30 gp."
   },
   {
     "name": "Cuthras Silver Vineyard Premium Red Wine",
@@ -157,7 +158,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Cuthras Silver Vineyard Premium Red Wine. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Theki Root",
@@ -168,7 +170,8 @@
     "cost": "3 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Theki Root. Standard adventuring gear worth 3 gp."
   },
   {
     "name": "Muroosa Balm",
@@ -179,7 +182,8 @@
     "cost": "1 gp per dose for sunburn, 100 gp for a full application against fire",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Muroosa Balm. Standard adventuring gear worth 1 gp per dose for sunburn, 100 gp for a full application against fire."
   },
   {
     "name": "Olisuba Leaf",
@@ -190,7 +194,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Olisuba Leaf. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Willowshade Oil",
@@ -201,7 +206,8 @@
     "cost": "30 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Willowshade Oil. Standard adventuring gear worth 30 gp."
   },
   {
     "name": "Skyship",
@@ -212,7 +218,8 @@
     "cost": "100,000 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Skyship. A vehicle worth 100,000 gp. Used for overland or water travel."
   },
   {
     "name": "Stassman's Thistle Branch Dark Blood Red Wine",
@@ -223,7 +230,8 @@
     "cost": "85 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Stassman's Thistle Branch Dark Blood Red Wine. Standard adventuring gear worth 85 gp."
   },
   {
     "name": "Wagner & Waltz Emerald Embrace Green Wine",
@@ -234,7 +242,8 @@
     "cost": "65 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Wagner & Waltz Emerald Embrace Green Wine. Standard adventuring gear worth 65 gp."
   },
   {
     "name": "Stassman's Truscan Sunrise White Wine",
@@ -245,7 +254,8 @@
     "cost": "45 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Stassman's Truscan Sunrise White Wine. Standard adventuring gear worth 45 gp."
   },
   {
     "name": "Lionett Vineyard Purple Cinder Red Wine",
@@ -256,7 +266,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Lionett Vineyard Purple Cinder Red Wine. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Errenath Family Private Wish Red Wine",
@@ -267,7 +278,8 @@
     "cost": "75 gp",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Errenath Family Private Wish Red Wine. Standard adventuring gear worth 75 gp."
   },
   {
     "name": "Pride Silk (1 square yard)",
@@ -278,7 +290,8 @@
     "cost": "100 gp",
     "weight": 1,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Pride Silk (1 square yard). Clothing worth 100 gp."
   },
   {
     "name": "Pride Silk Outfit",
@@ -291,7 +304,8 @@
     "cost": "500 gp",
     "weight": 4,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Pride Silk Outfit. Clothing worth 500 gp."
   },
   {
     "name": "Crossbow",
@@ -299,21 +313,11 @@
     "subtype": "ranged",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
-  },
-  {
-    "name": "Hunter's coat",
-    "type": "Wondrous item",
-    "subtype": "",
-    "damage": "",
-    "properties": [],
-    "cost": "—",
-    "weight": 0,
-    "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "Crossbow. A weapon worth \u2014."
   },
   {
     "name": "+1 scimitar",
@@ -321,10 +325,11 @@
     "subtype": "martial melee",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
-    "_source_manual": "EGW"
+    "_source_manual": "EGW",
+    "description": "+1 scimitar. A weapon worth \u2014."
   },
   {
     "name": "Dynamite",
@@ -335,7 +340,8 @@
     "cost": "100 gp",
     "weight": 0,
     "source": "(Tal'Dorei Campaign Setting Reborn)",
-    "_source_manual": "TCSR"
+    "_source_manual": "TCSR",
+    "description": "Dynamite. An explosive device worth 100 gp dealing 6d6 fire."
   },
   {
     "name": "Gluebomb",
@@ -346,7 +352,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Tal'Dorei Campaign Setting Reborn)",
-    "_source_manual": "TCSR"
+    "_source_manual": "TCSR",
+    "description": "Gluebomb. An explosive device worth 50 gp."
   },
   {
     "name": "Stinkbomb",
@@ -357,7 +364,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tal'Dorei Campaign Setting Reborn)",
-    "_source_manual": "TCSR"
+    "_source_manual": "TCSR",
+    "description": "Stinkbomb. An explosive device worth 25 gp."
   },
   {
     "name": "Traveler's Clothes",
@@ -365,10 +373,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Traveler's Clothes. Standard adventuring gear worth \u2014."
   },
   {
     "name": "Priestly Vestments",
@@ -376,10 +385,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Priestly Vestments. Standard adventuring gear worth \u2014."
   },
   {
     "name": "Common Wine (40 gallons)",
@@ -387,10 +397,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Common Wine (40 gallons). Trade Good worth \u2014."
   },
   {
     "name": "Salt (80 pounds)",
@@ -398,10 +409,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 80,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Salt (80 pounds). Trade Good worth \u2014."
   },
   {
     "name": "Wedding Gown and Veil",
@@ -412,7 +424,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Wedding Gown and Veil. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Steel Helm with Electrum Fish",
@@ -423,7 +436,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Steel Helm with Electrum Fish. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Zakharan Perfume (50 vials)",
@@ -434,7 +448,8 @@
     "cost": "5 gp each",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Zakharan Perfume (50 vials). Standard adventuring gear worth 5 gp each."
   },
   {
     "name": "Quaal's Feather Token (anchor)",
@@ -442,10 +457,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Quaal's Feather Token (anchor). A wondrous item worth \u2014."
   },
   {
     "name": "Griffon Saddle",
@@ -456,7 +472,8 @@
     "cost": "60 gp",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Griffon Saddle. Standard adventuring gear worth 60 gp."
   },
   {
     "name": "Wooden Sled (disassembled, 300 lb.)",
@@ -467,7 +484,8 @@
     "cost": "20 gp",
     "weight": 300,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Wooden Sled (disassembled, 300 lb.). A vehicle worth 20 gp. Used for overland or water travel."
   },
   {
     "name": "Heavy Crossbow",
@@ -482,7 +500,8 @@
     "cost": "50 gp",
     "weight": 18,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Heavy Crossbow. A weapon worth 50 gp dealing 1d10 piercing. Properties: heavy, loading, two-handed."
   },
   {
     "name": "Hempen Rope (50-foot coil)",
@@ -493,7 +512,8 @@
     "cost": "1 gp",
     "weight": 10,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Hempen Rope (50-foot coil). Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Dark Purple Ink (10 gallons)",
@@ -501,10 +521,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Dark Purple Ink (10 gallons). Trade Good worth \u2014."
   },
   {
     "name": "Comb made out of whalebone",
@@ -515,7 +536,8 @@
     "cost": "5 sp",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Comb made out of whalebone. Standard adventuring gear worth 5 sp."
   },
   {
     "name": "Stuffed parrot with a carnelian gemstone",
@@ -526,7 +548,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Stuffed parrot with a carnelian gemstone. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Staff fashioned from a single branch of pale white wood",
@@ -537,7 +560,8 @@
     "cost": "25 gp",
     "weight": 4,
     "source": "(The Tortle Package)",
-    "_source_manual": "TTP"
+    "_source_manual": "TTP",
+    "description": "Staff fashioned from a single branch of pale white wood. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Double-bladed Scimitar",
@@ -551,7 +575,8 @@
     "cost": "100 gp",
     "weight": 6,
     "source": "(Wayfinder's Guide to Eberron)",
-    "_source_manual": "WGE"
+    "_source_manual": "WGE",
+    "description": "Double-bladed Scimitar. A weapon worth 100 gp dealing 2d4 slashing. Properties: Special, two-handed."
   },
   {
     "name": "Double-bladed weapon",
@@ -562,10 +587,11 @@
       "Special",
       "two-handed"
     ],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 6,
     "source": "(Wayfinder's Guide to Eberron)",
-    "_source_manual": "WGE"
+    "_source_manual": "WGE",
+    "description": "Double-bladed weapon. A weapon worth \u2014. Properties: Special, two-handed."
   },
   {
     "name": "Airship",
@@ -576,7 +602,8 @@
     "cost": "20,000 gp",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Airship. A vehicle worth 20,000 gp. Used for overland or water travel."
   },
   {
     "name": "Basic poison",
@@ -587,7 +614,8 @@
     "cost": "1/2 ounce",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Basic poison. Standard adventuring gear worth 1/2 ounce."
   },
   {
     "name": "Vinegar",
@@ -598,7 +626,8 @@
     "cost": "2 gallons",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Vinegar. Standard adventuring gear worth 2 gallons."
   },
   {
     "name": "Beer",
@@ -609,7 +638,8 @@
     "cost": "4 gallons",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Beer. Standard adventuring gear worth 4 gallons."
   },
   {
     "name": "Water, fresh",
@@ -620,7 +650,8 @@
     "cost": "8 gallons",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Water, fresh. Standard adventuring gear worth 8 gallons."
   },
   {
     "name": "Honey",
@@ -631,7 +662,8 @@
     "cost": "1 gallon",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Honey. Standard adventuring gear worth 1 gallon."
   },
   {
     "name": "Water, salt",
@@ -642,7 +674,8 @@
     "cost": "12 gallons",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Water, salt. Standard adventuring gear worth 12 gallons."
   },
   {
     "name": "Mayonnaise",
@@ -653,7 +686,8 @@
     "cost": "2 gallons",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Mayonnaise. Standard adventuring gear worth 2 gallons."
   },
   {
     "name": "Wine",
@@ -664,7 +698,8 @@
     "cost": "1 gallon",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Wine. Standard adventuring gear worth 1 gallon."
   },
   {
     "name": "Ballista",
@@ -675,7 +710,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Ballista. Siege equipment worth  dealing 16 (3d10) piercing."
   },
   {
     "name": "Cannon",
@@ -686,7 +722,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Cannon. Siege equipment worth  dealing 44 (8d10) bludgeoning."
   },
   {
     "name": "Cauldron, Suspended",
@@ -697,7 +734,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Cauldron, Suspended. Siege equipment worth  dealing 10 (3d6) fire."
   },
   {
     "name": "Mangonel",
@@ -708,7 +746,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Mangonel. Siege equipment worth  dealing 27 (5d10) bludgeoning."
   },
   {
     "name": "Ram",
@@ -719,7 +758,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Ram. Siege equipment worth  dealing 16 (3d10) bludgeoning."
   },
   {
     "name": "Siege Tower",
@@ -730,7 +770,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Siege Tower. Siege equipment worth ."
   },
   {
     "name": "Trebuchet",
@@ -741,7 +782,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Trebuchet. Siege equipment worth  dealing 44 (8d10) bludgeoning."
   },
   {
     "name": "Bomb",
@@ -754,7 +796,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Bomb. An explosive device worth  dealing 3d6 fire."
   },
   {
     "name": "Gunpowder",
@@ -767,7 +810,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Gunpowder. An explosive device worth  dealing varies."
   },
   {
     "name": "Gunpowder, keg",
@@ -778,7 +822,8 @@
     "cost": "250 gp",
     "weight": 20,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Gunpowder, keg. An explosive device worth 250 gp."
   },
   {
     "name": "Gunpowder, powder horn",
@@ -789,7 +834,8 @@
     "cost": "35 gp",
     "weight": 2,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Gunpowder, powder horn. An explosive device worth 35 gp."
   },
   {
     "name": "Grenade, fragmentation",
@@ -800,7 +846,8 @@
     "cost": "",
     "weight": 1,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Grenade, fragmentation. An explosive device worth ."
   },
   {
     "name": "Grenade, smoke",
@@ -811,7 +858,8 @@
     "cost": "",
     "weight": 2,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Grenade, smoke. An explosive device worth ."
   },
   {
     "name": "Grenade launcher",
@@ -822,7 +870,8 @@
     "cost": "",
     "weight": 7,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Grenade launcher. A weapon worth ."
   },
   {
     "name": "Pistol",
@@ -836,7 +885,8 @@
     "cost": "250 gp",
     "weight": 3,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Pistol. A weapon worth 250 gp dealing 1d10 piercing. Properties: Ammunition (range 30/90), loading."
   },
   {
     "name": "Musket",
@@ -851,7 +901,8 @@
     "cost": "500 gp",
     "weight": 10,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Musket. A weapon worth 500 gp dealing 1d12 piercing. Properties: Ammunition (range 40/120), loading, two-handed."
   },
   {
     "name": "Bullets (10)",
@@ -862,7 +913,8 @@
     "cost": "3 gp",
     "weight": 2,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Bullets (10). Standard ammunition worth 3 gp. Used with ranged weapons."
   },
   {
     "name": "Pistol, automatic",
@@ -876,7 +928,8 @@
     "cost": "",
     "weight": 3,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Pistol, automatic. A weapon worth  dealing 2d6 piercing. Properties: Ammunition (range 50/150), reload (15 shots)."
   },
   {
     "name": "Revolver",
@@ -890,7 +943,8 @@
     "cost": "",
     "weight": 3,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Revolver. A weapon worth  dealing 2d8 piercing. Properties: Ammunition (range 40/120), reload (6 shots)."
   },
   {
     "name": "Rifle, hunting",
@@ -905,7 +959,8 @@
     "cost": "",
     "weight": 8,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Rifle, hunting. A weapon worth  dealing 2d10 piercing. Properties: Ammunition (range 80/240), reload (5 shots), two-handed."
   },
   {
     "name": "Rifle, automatic",
@@ -921,7 +976,8 @@
     "cost": "",
     "weight": 8,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Rifle, automatic. A weapon worth  dealing 2d8 piercing. Properties: Ammunition (range 80/240), burst fire, reload (30 shots), two-handed."
   },
   {
     "name": "Shotgun",
@@ -936,7 +992,8 @@
     "cost": "",
     "weight": 7,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Shotgun. A weapon worth  dealing 2d8 piercing. Properties: Ammunition (range 30/90), reload (2 shots), two-handed."
   },
   {
     "name": "Laser pistol",
@@ -950,7 +1007,8 @@
     "cost": "",
     "weight": 2,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Laser pistol. A weapon worth  dealing 3d6 radiant. Properties: Ammunition (range 40/120), reload (50 shots)."
   },
   {
     "name": "Antimatter rifle",
@@ -965,7 +1023,8 @@
     "cost": "",
     "weight": 10,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Antimatter rifle. A weapon worth  dealing 6d8 necrotic. Properties: Ammunition (range 120/360), reload (2 shots), two-handed."
   },
   {
     "name": "Laser rifle",
@@ -980,7 +1039,8 @@
     "cost": "",
     "weight": 7,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Laser rifle. A weapon worth  dealing 3d8 radiant. Properties: Ammunition (range 100/300), reload (30 shots), two-handed."
   },
   {
     "name": "Energy cell",
@@ -991,7 +1051,8 @@
     "cost": "",
     "weight": 0.3125,
     "source": "(Dungeon Master's Guide)",
-    "_source_manual": "DMG"
+    "_source_manual": "DMG",
+    "description": "Energy cell. Standard ammunition worth . Used with ranged weapons."
   },
   {
     "name": "Cup of coffee",
@@ -1002,7 +1063,8 @@
     "cost": "10 cp",
     "weight": 0,
     "source": "(Guildmasters' Guide to Ravnica)",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "description": "Cup of coffee. Standard adventuring gear worth 10 cp."
   },
   {
     "name": "Newspaper",
@@ -1013,7 +1075,8 @@
     "cost": "15 cp",
     "weight": 0,
     "source": "(Guildmasters' Guide to Ravnica)",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "description": "Newspaper. Standard adventuring gear worth 15 cp."
   },
   {
     "name": "Pendulum clock",
@@ -1024,7 +1087,8 @@
     "cost": "100-250 gp",
     "weight": 0,
     "source": "(Guildmasters' Guide to Ravnica)",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "description": "Pendulum clock. Standard adventuring gear worth 100-250 gp."
   },
   {
     "name": "Spectacles",
@@ -1035,7 +1099,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Guildmasters' Guide to Ravnica)",
-    "_source_manual": "GGR"
+    "_source_manual": "GGR",
+    "description": "Spectacles. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Light Crossbow",
@@ -1050,7 +1115,8 @@
     "cost": "25 gp",
     "weight": 5,
     "source": "(Lost Mine of Phandelver)",
-    "_source_manual": "LMoP"
+    "_source_manual": "LMoP",
+    "description": "Light Crossbow. A weapon worth 25 gp dealing 1d8 piercing. Properties: ammunition (range 80/320), loading, two-handed."
   },
   {
     "name": "Pry Bar",
@@ -1061,7 +1127,8 @@
     "cost": "2 gp",
     "weight": 5,
     "source": "(Lost Mine of Phandelver)",
-    "_source_manual": "LMoP"
+    "_source_manual": "LMoP",
+    "description": "Pry Bar. Standard adventuring gear worth 2 gp."
   },
   {
     "name": "Malachite Gem",
@@ -1072,7 +1139,8 @@
     "cost": "15 gp each",
     "weight": 0,
     "source": "(Lost Mine of Phandelver)",
-    "_source_manual": "LMoP"
+    "_source_manual": "LMoP",
+    "description": "Malachite Gem. Gemstone worth 15 gp each."
   },
   {
     "name": "Astral Skiff",
@@ -1083,7 +1151,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Mordenkainen's Tome of Foes)",
-    "_source_manual": "MTF"
+    "_source_manual": "MTF",
+    "description": "Astral Skiff. A vehicle worth . Used for overland or water travel."
   },
   {
     "name": "Astral Brig",
@@ -1094,7 +1163,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Mordenkainen's Tome of Foes)",
-    "_source_manual": "MTF"
+    "_source_manual": "MTF",
+    "description": "Astral Brig. A vehicle worth . Used for overland or water travel."
   },
   {
     "name": "Planar Raider",
@@ -1105,7 +1175,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Mordenkainen's Tome of Foes)",
-    "_source_manual": "MTF"
+    "_source_manual": "MTF",
+    "description": "Planar Raider. A vehicle worth . Used for overland or water travel."
   },
   {
     "name": "Padded",
@@ -1164,7 +1235,8 @@
     "cost": "750 gp",
     "weight": 40,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Half plate. Armor worth 750 gp."
   },
   {
     "name": "Splint",
@@ -1175,7 +1247,8 @@
     "cost": "200 gp",
     "weight": 60,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Splint. Armor worth 200 gp."
   },
   {
     "name": "Plate",
@@ -1186,7 +1259,8 @@
     "cost": "1,500 gp",
     "weight": 65,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Plate. Armor worth 1,500 gp."
   },
   {
     "name": "Unarmed strike",
@@ -1197,7 +1271,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Unarmed strike. A weapon worth  dealing 1 bludgeoning."
   },
   {
     "name": "Ammunition (range 25/100), loading",
@@ -1208,7 +1283,8 @@
     "cost": "",
     "weight": "",
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ammunition (range 25/100), loading. Equipment worth ."
   },
   {
     "name": "Ammunition (range 30/120), light, loading",
@@ -1219,7 +1295,8 @@
     "cost": "",
     "weight": "",
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ammunition (range 30/120), light, loading. Equipment worth ."
   },
   {
     "name": "Ammunition (range 100/400), heavy, loading, two-handed",
@@ -1232,7 +1309,8 @@
     "cost": "",
     "weight": "",
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ammunition (range 100/400), heavy, loading, two-handed. Equipment worth ."
   },
   {
     "name": "Spikes, iron (10)",
@@ -1243,7 +1321,8 @@
     "cost": "1 gp",
     "weight": 5,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Spikes, iron (10). Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Arcane Focus",
@@ -1253,7 +1332,7 @@
     "properties": [],
     "cost": "",
     "weight": 0,
-    "description": "An arcane focus is a special item—an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item—designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus, as described in chapter 10.",
+    "description": "An arcane focus is a special item\u2014an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item\u2014designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus, as described in chapter 10.",
     "source": "(Player's Handbook)",
     "_source_manual": "PHB"
   },
@@ -1290,7 +1369,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Tent. Standard adventuring gear worth ."
   },
   {
     "name": "Rope",
@@ -1301,7 +1381,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Rope. Standard adventuring gear worth ."
   },
   {
     "name": "Bottle",
@@ -1312,7 +1393,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Bottle. Container worth ."
   },
   {
     "name": "Dragonchess set",
@@ -1323,7 +1405,8 @@
     "cost": "1 gp",
     "weight": 0.5,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Dragonchess set. A tool worth 1 gp used with appropriate skill checks."
   },
   {
     "name": "Three-Dragon Ante set",
@@ -1334,7 +1417,8 @@
     "cost": "1 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Three-Dragon Ante set. A tool worth 1 gp used with appropriate skill checks."
   },
   {
     "name": "Donkey or mule",
@@ -1345,7 +1429,8 @@
     "cost": "8 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Donkey or mule. Mount worth 8 gp."
   },
   {
     "name": "Barding",
@@ -1356,7 +1441,8 @@
     "cost": "x4",
     "weight": 2,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Barding. Tack and Harness worth x4."
   },
   {
     "name": "Feed (per day)",
@@ -1367,7 +1453,8 @@
     "cost": "5 cp",
     "weight": 10,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Feed (per day). Tack and Harness worth 5 cp."
   },
   {
     "name": "Ale",
@@ -1378,7 +1465,8 @@
     "cost": "2 sp (gallon) / 4 cp (mug)",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ale. Food and drink worth 2 sp (gallon) / 4 cp (mug)."
   },
   {
     "name": "Banquet (per person)",
@@ -1389,7 +1477,8 @@
     "cost": "10 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Banquet (per person). Food and drink worth 10 gp."
   },
   {
     "name": "Bread, loaf",
@@ -1400,7 +1489,8 @@
     "cost": "2 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Bread, loaf. Food and drink worth 2 cp."
   },
   {
     "name": "Cheese, hunk",
@@ -1411,7 +1501,8 @@
     "cost": "1 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Cheese, hunk. Food and drink worth 1 sp."
   },
   {
     "name": "Inn stay (per day) - Squalid",
@@ -1422,7 +1513,8 @@
     "cost": "7 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Squalid. Lodging worth 7 cp per night."
   },
   {
     "name": "Inn stay (per day) - Poor",
@@ -1433,7 +1525,8 @@
     "cost": "1 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Poor. Lodging worth 1 sp per night."
   },
   {
     "name": "Inn stay (per day) - Modest",
@@ -1444,7 +1537,8 @@
     "cost": "5 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Modest. Lodging worth 5 sp per night."
   },
   {
     "name": "Inn stay (per day) - Comfortable",
@@ -1455,7 +1549,8 @@
     "cost": "8 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Comfortable. Lodging worth 8 sp per night."
   },
   {
     "name": "Inn stay (per day) - Wealthy",
@@ -1466,7 +1561,8 @@
     "cost": "2 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Wealthy. Lodging worth 2 gp per night."
   },
   {
     "name": "Inn stay (per day) - Aristocratic",
@@ -1477,7 +1573,8 @@
     "cost": "4 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Inn stay (per day) - Aristocratic. Lodging worth 4 gp per night."
   },
   {
     "name": "Meals (per day) - Squalid",
@@ -1488,7 +1585,8 @@
     "cost": "3 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Squalid. Food and drink worth 3 cp."
   },
   {
     "name": "Meals (per day) - Poor",
@@ -1499,7 +1597,8 @@
     "cost": "6 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Poor. Food and drink worth 6 cp."
   },
   {
     "name": "Meals (per day) - Modest",
@@ -1510,7 +1609,8 @@
     "cost": "3 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Modest. Food and drink worth 3 sp."
   },
   {
     "name": "Meals (per day) - Comfortable",
@@ -1521,7 +1621,8 @@
     "cost": "5 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Comfortable. Food and drink worth 5 sp."
   },
   {
     "name": "Meals (per day) - Wealthy",
@@ -1532,7 +1633,8 @@
     "cost": "8 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Wealthy. Food and drink worth 8 sp."
   },
   {
     "name": "Meals (per day) - Aristocratic",
@@ -1543,7 +1645,8 @@
     "cost": "2 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meals (per day) - Aristocratic. Food and drink worth 2 gp."
   },
   {
     "name": "Meat, chunk",
@@ -1554,7 +1657,8 @@
     "cost": "3 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Meat, chunk. Food and drink worth 3 sp."
   },
   {
     "name": "Wine - Common (pitcher)",
@@ -1565,7 +1669,8 @@
     "cost": "2 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Wine - Common (pitcher). Food and drink worth 2 sp."
   },
   {
     "name": "Wine - Fine (bottle)",
@@ -1576,7 +1681,8 @@
     "cost": "10 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Wine - Fine (bottle). Food and drink worth 10 gp."
   },
   {
     "name": "Wine, Common (pitcher)",
@@ -1587,7 +1693,8 @@
     "cost": "2 sp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Wine, Common (pitcher). Food and drink worth 2 sp."
   },
   {
     "name": "Wine, Fine (bottle)",
@@ -1598,7 +1705,8 @@
     "cost": "10 gp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Wine, Fine (bottle). Food and drink worth 10 gp."
   },
   {
     "name": "Coach cab - Between towns",
@@ -1609,7 +1717,8 @@
     "cost": "2 cp per mile",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Coach cab - Between towns. A service worth 2 cp per mile."
   },
   {
     "name": "Coach cab - Within a city",
@@ -1620,7 +1729,8 @@
     "cost": "1 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Coach cab - Within a city. A service worth 1 cp."
   },
   {
     "name": "Hireling - Skilled",
@@ -1631,7 +1741,8 @@
     "cost": "2 gp per day",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Hireling - Skilled. A service worth 2 gp per day."
   },
   {
     "name": "Hireling - Untrained",
@@ -1642,7 +1753,8 @@
     "cost": "2 sp per day",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Hireling - Untrained. A service worth 2 sp per day."
   },
   {
     "name": "Messenger",
@@ -1653,7 +1765,8 @@
     "cost": "2 cp per mile",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Messenger. A service worth 2 cp per mile."
   },
   {
     "name": "Road or gate toll",
@@ -1664,7 +1777,8 @@
     "cost": "1 cp",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Road or gate toll. A service worth 1 cp."
   },
   {
     "name": "Ship's passage",
@@ -1675,7 +1789,8 @@
     "cost": "1 sp per mile",
     "weight": 0,
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ship's passage. A service worth 1 sp per mile."
   },
   {
     "name": "Ammunition (range 100/400), heavy, loading",
@@ -1688,7 +1803,8 @@
     "cost": "",
     "weight": "",
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ammunition (range 100/400), heavy, loading. Equipment worth ."
   },
   {
     "name": "Ammunition (range 150/600), heavy, two-handed",
@@ -1701,7 +1817,8 @@
     "cost": "",
     "weight": "",
     "source": "(Player's Handbook)",
-    "_source_manual": "PHB"
+    "_source_manual": "PHB",
+    "description": "Ammunition (range 150/600), heavy, two-handed. Equipment worth ."
   },
   {
     "name": "Silver Ewer",
@@ -1712,7 +1829,8 @@
     "cost": "",
     "weight": 0,
     "source": "(The Rise of Tiamat)",
-    "_source_manual": "RoT"
+    "_source_manual": "RoT",
+    "description": "Silver Ewer. A wondrous item worth ."
   },
   {
     "name": "Goblet (magical)",
@@ -1723,21 +1841,8 @@
     "cost": "",
     "weight": 0,
     "source": "(The Rise of Tiamat)",
-    "_source_manual": "RoT"
-  },
-  {
-    "name": "Dragontooth Dagger",
-    "type": "Weapon",
-    "subtype": "simple melee",
-    "damage": "1d4 piercing",
-    "properties": [
-      "light",
-      "finesse"
-    ],
-    "cost": "",
-    "weight": 1,
-    "source": "(The Rise of Tiamat)",
-    "_source_manual": "RoT"
+    "_source_manual": "RoT",
+    "description": "Goblet (magical). A wondrous item worth ."
   },
   {
     "name": "Spiked Armor",
@@ -1750,7 +1855,8 @@
     "cost": "75 gp",
     "weight": 45,
     "source": "(Sword Coast Adventurer's Guide)",
-    "_source_manual": "SCAG"
+    "_source_manual": "SCAG",
+    "description": "Spiked Armor. Armor worth 75 gp."
   },
   {
     "name": "Birdpipes",
@@ -1893,7 +1999,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Canoe. A vehicle worth 50 gp. Used for overland or water travel."
   },
   {
     "name": "Insect Repellent (gourd or vial of salve)",
@@ -1904,7 +2011,8 @@
     "cost": "1 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Insect Repellent (gourd or vial of salve). Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Rain Catcher",
@@ -1915,7 +2023,8 @@
     "cost": "1 gp",
     "weight": 5,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Rain Catcher. Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Tej (1-gallon cask)",
@@ -1926,7 +2035,8 @@
     "cost": "2 sp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Tej (1-gallon cask). Food and drink worth 2 sp."
   },
   {
     "name": "Yklwa",
@@ -1939,7 +2049,8 @@
     "cost": "1 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Yklwa. A weapon worth 1 gp dealing 1d8 piercing. Properties: thrown (range 10/30 ft.)."
   },
   {
     "name": "Dwarven half-plate armor",
@@ -1950,7 +2061,8 @@
     "cost": "750 gp",
     "weight": 40,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Dwarven half-plate armor. Armor worth 750 gp."
   },
   {
     "name": "gold-embroidered scabbard",
@@ -1961,7 +2073,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "gold-embroidered scabbard. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "dragon-shaped medal and chain fashioned from gold",
@@ -1972,7 +2085,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dragon-shaped medal and chain fashioned from gold. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "copper mug with jade inlay",
@@ -1983,7 +2097,8 @@
     "cost": "100 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "copper mug with jade inlay. Standard adventuring gear worth 100 gp."
   },
   {
     "name": "dwarf-made breastplates",
@@ -1994,7 +2109,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dwarf-made breastplates. Armor worth ."
   },
   {
     "name": "dwarf-made helmets",
@@ -2005,7 +2121,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dwarf-made helmets. Armor worth ."
   },
   {
     "name": "dwarf-made shields",
@@ -2016,7 +2133,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dwarf-made shields. Armor worth ."
   },
   {
     "name": "dwarf-made warhammers",
@@ -2029,7 +2147,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dwarf-made warhammers. A weapon worth  dealing 1d8 bludgeoning. Properties: versatile (1d10)."
   },
   {
     "name": "dwarf-made battleaxes",
@@ -2042,7 +2161,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "dwarf-made battleaxes. A weapon worth  dealing 1d8 slashing. Properties: versatile (1d10)."
   },
   {
     "name": "Electrum platter inscribed with images of Chultan feasting rituals",
@@ -2053,7 +2173,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Electrum platter inscribed with images of Chultan feasting rituals. Art object worth 25 gp."
   },
   {
     "name": "Omuan death mask made of painted gold",
@@ -2064,7 +2185,8 @@
     "cost": "250 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Omuan death mask made of painted gold. Art object worth 250 gp."
   },
   {
     "name": "Scale armor",
@@ -2075,7 +2197,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Scale armor. Armor worth ."
   },
   {
     "name": "Quiver with 20 arrows",
@@ -2086,7 +2209,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Quiver with 20 arrows. Standard ammunition worth . Used with ranged weapons."
   },
   {
     "name": "Holy symbol of Dendar the Night Serpent",
@@ -2097,7 +2221,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Holy symbol of Dendar the Night Serpent. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Black leather quiver embroidered with a quartz-studded star map",
@@ -2108,7 +2233,8 @@
     "cost": "75 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Black leather quiver embroidered with a quartz-studded star map. Standard adventuring gear worth 75 gp."
   },
   {
     "name": "Ceremonial dagger in a gold scabbard embossed with a scene of stampeding jungle animals",
@@ -2123,7 +2249,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Ceremonial dagger in a gold scabbard embossed with a scene of stampeding jungle animals. A weapon worth 25 gp dealing 1d4 piercing. Properties: finesse, light, thrown (range 20/60)."
   },
   {
     "name": "Gold Tankard",
@@ -2134,20 +2261,8 @@
     "cost": "250 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
-  },
-  {
-    "name": "+1 yklwa",
-    "type": "Weapon",
-    "subtype": "simple melee",
-    "damage": "1d8 piercing",
-    "properties": [
-      "thrown (range 10/30)"
-    ],
-    "cost": "unknown",
-    "weight": 0,
-    "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Gold Tankard. Standard adventuring gear worth 250 gp."
   },
   {
     "name": "Golden Sarcophagus",
@@ -2158,7 +2273,8 @@
     "cost": "7,500 gp",
     "weight": 75,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Golden Sarcophagus. Standard adventuring gear worth 7,500 gp."
   },
   {
     "name": "Stone statuette of a froghemoth",
@@ -2169,7 +2285,8 @@
     "cost": "",
     "weight": 5,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Stone statuette of a froghemoth. Standard adventuring gear worth ."
   },
   {
     "name": "Copper bowl containing rat bones",
@@ -2180,7 +2297,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Copper bowl containing rat bones. Standard adventuring gear worth ."
   },
   {
     "name": "Green wax candle with a salvageable wick",
@@ -2191,7 +2309,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Green wax candle with a salvageable wick. Standard adventuring gear worth ."
   },
   {
     "name": "Twenty brittle arrows in a rotting leather quiver",
@@ -2204,7 +2323,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Twenty brittle arrows in a rotting leather quiver. Standard ammunition worth . Used with ranged weapons."
   },
   {
     "name": "Jewelry Box (cockroach-shaped)",
@@ -2215,7 +2335,8 @@
     "cost": "1,500 gp",
     "weight": 5,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Jewelry Box (cockroach-shaped). Standard adventuring gear worth 1,500 gp."
   },
   {
     "name": "Hornet Mask (painted gold)",
@@ -2226,18 +2347,8 @@
     "cost": "250 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
-  },
-  {
-    "name": "Iron Scepter with Adamantine Head",
-    "type": "Adventuring Gear",
-    "subtype": "treasure",
-    "damage": "",
-    "properties": [],
-    "cost": "unknown",
-    "weight": 5,
-    "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Hornet Mask (painted gold). Standard adventuring gear worth 250 gp."
   },
   {
     "name": "Carnelian gemstones",
@@ -2248,7 +2359,8 @@
     "cost": "50 gp each",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Carnelian gemstones. Treasure worth 50 gp each."
   },
   {
     "name": "Dancing monkey fruit",
@@ -2259,7 +2371,8 @@
     "cost": "5 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Dancing monkey fruit. Standard adventuring gear worth 5 gp."
   },
   {
     "name": "Menga leaves (1 ounce)",
@@ -2270,7 +2383,8 @@
     "cost": "2 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Menga leaves (1 ounce). Standard adventuring gear worth 2 gp."
   },
   {
     "name": "Ryath root",
@@ -2281,7 +2395,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Ryath root. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Sinda berries (10)",
@@ -2292,7 +2407,8 @@
     "cost": "5 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Sinda berries (10). Standard adventuring gear worth 5 gp."
   },
   {
     "name": "Wild root",
@@ -2303,7 +2419,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Wild root. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Wukka nut",
@@ -2314,7 +2431,8 @@
     "cost": "1 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Wukka nut. Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Yahcha",
@@ -2325,7 +2443,8 @@
     "cost": "1 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Yahcha. Standard adventuring gear worth 1 gp."
   },
   {
     "name": "Zabou",
@@ -2336,7 +2455,8 @@
     "cost": "10 gp",
     "weight": 0,
     "source": "(Tomb of Annihilation)",
-    "_source_manual": "ToA"
+    "_source_manual": "ToA",
+    "description": "Zabou. Standard adventuring gear worth 10 gp."
   },
   {
     "name": "Flensing Claws",
@@ -2350,7 +2470,8 @@
     "cost": "unknown",
     "weight": 0,
     "source": "(Volo's Guide to Monsters)",
-    "_source_manual": "VGM"
+    "_source_manual": "VGM",
+    "description": "Flensing Claws. A weapon worth unknown dealing varies by size (Small: 1d8 slashing; Medium: 1d10 slashing; Large: 1d12 slashing; Huge: 2d8 slashing). Properties: special (requires attunement by specific creature), cannot be removed without surgical amputation."
   },
   {
     "name": "Survival Mantle",
@@ -2365,51 +2486,8 @@
     "cost": "unknown",
     "weight": 0,
     "source": "(Volo's Guide to Monsters)",
-    "_source_manual": "VGM"
-  },
-  {
-    "name": "Adjustable Stilts",
-    "type": "Adventuring Gear",
-    "subtype": "",
-    "damage": "",
-    "properties": [],
-    "cost": "0 gp",
-    "weight": 8,
-    "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
-  },
-  {
-    "name": "Backpack Parachute",
-    "type": "Adventuring Gear",
-    "subtype": "",
-    "damage": "",
-    "properties": [],
-    "cost": "0 gp",
-    "weight": 0,
-    "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
-  },
-  {
-    "name": "Barking Box",
-    "type": "Adventuring Gear",
-    "subtype": "",
-    "damage": "",
-    "properties": [],
-    "cost": "0 gp",
-    "weight": 0,
-    "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
-  },
-  {
-    "name": "Matchless Pipe",
-    "type": "Adventuring Gear",
-    "subtype": "",
-    "damage": "",
-    "properties": [],
-    "cost": "0 gp",
-    "weight": 0,
-    "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "VGM",
+    "description": "Survival Mantle. Armor worth unknown."
   },
   {
     "name": "smokepowder keg",
@@ -2420,7 +2498,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "smokepowder keg. An explosive device worth ."
   },
   {
     "name": "Golden sacrificial dagger",
@@ -2434,7 +2513,8 @@
     "cost": "unknown",
     "weight": 1,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Golden sacrificial dagger. A weapon worth unknown dealing 1d4 piercing. Properties: light, finesse."
   },
   {
     "name": "Golden mask",
@@ -2445,7 +2525,8 @@
     "cost": "unknown",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Golden mask. Standard adventuring gear worth unknown."
   },
   {
     "name": "Crimson robes",
@@ -2456,7 +2537,8 @@
     "cost": "unknown",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Crimson robes. Standard adventuring gear worth unknown."
   },
   {
     "name": "Blank spellbook",
@@ -2467,7 +2549,8 @@
     "cost": "50 gp",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Blank spellbook. Standard adventuring gear worth 50 gp."
   },
   {
     "name": "Book of Dwarvish phrases",
@@ -2478,7 +2561,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Book of Dwarvish phrases. Standard adventuring gear worth ."
   },
   {
     "name": "Silver statuette of a rearing hippogriff",
@@ -2489,7 +2573,8 @@
     "cost": "25 gp",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Silver statuette of a rearing hippogriff. Standard adventuring gear worth 25 gp."
   },
   {
     "name": "Essence of ether",
@@ -2500,7 +2585,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Waterdeep: Dragon Heist)",
-    "_source_manual": "WDH"
+    "_source_manual": "WDH",
+    "description": "Essence of ether. A magical potion worth ."
   },
   {
     "name": "Gaming Set",
@@ -2511,7 +2597,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Xanathar's Guide to Everything)",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "description": "Gaming Set. A tool worth  used with appropriate skill checks."
   },
   {
     "name": "Land Vehicles",
@@ -2522,7 +2609,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Xanathar's Guide to Everything)",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "description": "Land Vehicles. A vehicle worth . Used for overland or water travel."
   },
   {
     "name": "Water Vehicles",
@@ -2533,7 +2621,8 @@
     "cost": "",
     "weight": 0,
     "source": "(Xanathar's Guide to Everything)",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "description": "Water Vehicles. A vehicle worth . Used for overland or water travel."
   },
   {
     "name": "Poisoner's Tools",
@@ -2544,6 +2633,7 @@
     "cost": "",
     "weight": 0,
     "source": "(Xanathar's Guide to Everything)",
-    "_source_manual": "XGE"
+    "_source_manual": "XGE",
+    "description": "Poisoner's Tools. A tool worth  used with appropriate skill checks."
   }
 ]
