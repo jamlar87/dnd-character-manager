@@ -1717,6 +1717,19 @@
         </div>
         {% if caster_type == "pact" and character.spell_slot_data.note %}
         <p style="font-size:0.85rem;color:var(--accent);margin:0.25rem 0 0.5rem 0">{{ character.spell_slot_data.note }}</p>
+        <!-- Pact Magic explainer -->
+        <div id="pact-rules-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
+             onclick="toggleSection('pact-rules-body','pact-rules-arrow')">
+          <span id="pact-rules-arrow" style="font-size:0.65rem">▸</span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Pact Magic works <span style="font-size:0.6rem;opacity:0.6">(PHB p.107)</span></span>
+        </div>
+        <div id="pact-rules-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+          <p style="margin:0 0 0.35rem 0"><strong>Pact Magic</strong> works differently from other spellcasting. You have a small number of spell slots that you regain on a <strong>short or long rest</strong>, not just a long rest.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Always upcast.</strong> All your Pact Magic slots are the same level. Any spell you cast with them is automatically cast at that level — no need to choose a slot level.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Mystic Arcanum.</strong> At 11th level, you gain a single 6th-level slot (1/long rest). At 13th, 15th, and 17th levels you gain 7th, 8th, and 9th level slots (also 1/long rest). These are separate from your Pact Magic slots.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Multiclassing.</strong> Pact Magic slots are tracked separately. Pact Magic slot level is determined by Warlock level alone. For regular spell slots from other classes, use the multiclass spellcasting table (PHB p.165) — exclude your Warlock levels.</p>
+          <p style="margin:0"><strong>Eldritch Invocations.</strong> Many invocations enhance Pact Magic — additional spells known (at-will or once/rest), or modifications to eldritch blast.</p>
+        </div>
         {% endif %}
         {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") and prepared_max > 0 %}
         <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
