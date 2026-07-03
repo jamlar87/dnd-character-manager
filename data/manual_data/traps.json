@@ -21,7 +21,7 @@
     "damage_type": "lightning",
     "area": "The lock itself",
     "description": "A locked wooden box with a dragon-shaped lock that shocks those who insert the wrong key or try to pick it.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.27)",
     "_source_manual": "CotN"
   },
   {
@@ -46,7 +46,7 @@
     "damage_type": "necrotic",
     "area": "A thick patch of bone-white sea grass blocking the exit to the cavern",
     "description": "A carnivorous variety of sea grass that restrains and damages creatures that fail a Dexterity save.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.31)",
     "_source_manual": "CotN"
   },
   {
@@ -71,7 +71,7 @@
     "damage_type": "bludgeoning",
     "area": "One side of the chamber covered in crumbled and muddy remains of a landslide",
     "description": "A landslide of rocky debris that damages characters who fail a Dexterity save.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.31)",
     "_source_manual": "CotN"
   },
   {
@@ -171,7 +171,7 @@
     "damage_type": "psychic",
     "area": "The stained-glass mosaic",
     "description": "A 10-foot-wide section of wall at the north end of the basilica resembles a tall, stained-glass window. Its imagery changes constantly, but nine symbols remain static. If four of the symbols are pressed in the correct order, a door opens. Pressing an incorrect symbol deals psychic damage.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.69)",
     "_source_manual": "CotN"
   },
   {
@@ -196,7 +196,7 @@
     "damage_type": "psychic",
     "area": "The hall (area R10)",
     "description": "When a creature falls prone in this hall, the chains on the floor slither toward it, and the figures carved in the walls drone in low voices. The creature must succeed on a DC 15 Dexterity saving throw or be grappled by the chains, taking psychic damage each turn.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.69)",
     "_source_manual": "CotN"
   },
   {
@@ -246,7 +246,7 @@
     "damage_type": "psychic",
     "area": "Each creature within 5 feet of the vault",
     "description": "A magical trap on the casino's coin vault that triggers if opened without the master key.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.106)",
     "_source_manual": "CotN"
   },
   {
@@ -271,7 +271,7 @@
     "damage_type": "thunder",
     "area": "15-foot cube immediately outside the vault",
     "description": "A magical trap that releases a concussive blast of energy when the vault door is forced open.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.106)",
     "_source_manual": "CotN"
   },
   {
@@ -321,7 +321,7 @@
     "damage_type": "radiant",
     "area": "The armory and within 15 feet of the trapdoor",
     "description": "A magical trap that triggers a burst of radiant damage when a creature enters the armory without praying to Corellon.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.137)",
     "_source_manual": "CotN"
   },
   {
@@ -346,7 +346,7 @@
     "damage_type": "psychic",
     "area": "10-foot radius around the secret door",
     "description": "A secret door made of ruidium-veined stone that deals psychic damage to creatures that damage it.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.156)",
     "_source_manual": "CotN"
   },
   {
@@ -371,7 +371,7 @@
     "damage_type": "fire",
     "area": "The entire cavern (area N10)",
     "description": "The bubbling columns of water rising from the vents are hot, but not hot enough to damage creatures that enter them. If the bloodfin is killed, the vents spew boiling-hot water.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.156)",
     "_source_manual": "CotN"
   },
   {
@@ -396,7 +396,7 @@
     "damage_type": "piercing",
     "area": "Area N11 (Frothing Hollow)",
     "description": "A current threatens to pull creatures into this chamber, the walls of which are lined with ruidium spines. The Apotheon's ragged breathing is audible. Thermal vents in the floor give off swirling bubbles, dim light, and warmth.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.156)",
     "_source_manual": "CotN"
   },
   {
@@ -421,7 +421,7 @@
     "damage_type": "fire",
     "area": "The water in the chamber up to a height of 30 feet",
     "description": "Natural vents spew red light and jets of bubbling water. Removing the ruidium items triggers a flood of boiling-hot water.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.157)",
     "_source_manual": "CotN"
   },
   {
@@ -446,7 +446,7 @@
     "damage_type": "piercing and psychic",
     "area": "The cavern (area N13)",
     "description": "When the serpentmaws are killed, ruidium tendrils emerge from statues, grappling and flinging creatures against spikes.",
-    "source": "(Call of the Netherdeep)",
+    "source": "(Call of the Netherdeep, p.158)",
     "_source_manual": "CotN"
   },
   {
@@ -1032,7 +1032,7 @@
     "detection": {
       "dc": 0,
       "skill": "Perception",
-      "detail": "Characters who brush away the dust also find bloodstains and deep scratches on the floor. A character standing north or south of the trapped area can discern, by looking at the scratches on the floor, that the walls are movable blocks of stone, but there’s no way to identify the trap’s trigger or the method of bypassing it without experimentation or the use of divination magic."
+      "detail": "Characters who brush away the dust also find bloodstains and deep scratches on the floor. A character standing north or south of the trapped area can discern, by looking at the scratches on the floor, that the walls are movable blocks of stone, but there\u2019s no way to identify the trap\u2019s trigger or the method of bypassing it without experimentation or the use of divination magic."
     },
     "disarm": {
       "dc": 0,
@@ -1062,7 +1062,7 @@
     "disarm": {
       "dc": 0,
       "method": "",
-      "detail": "The orb can’t be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical."
+      "detail": "The orb can\u2019t be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical."
     },
     "effect": "Whenever a creature touches the orb, roll a d6. On a roll of 2 or higher, the orb teleports the creature to area 24. On a roll of 1, the orb malfunctions and emits lightning in a 100-foot-long line as wide as the hall. Each creature in the area of effect must make a DC 15 Dexterity saving throw, taking 14 (4d6) lightning damage on a failed save, or half as much damage on a successful one.",
     "save_dc": 15,
