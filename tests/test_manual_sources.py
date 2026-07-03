@@ -74,6 +74,7 @@ FILES = [
     "races.json", "spells.json", "magic_items.json", "equipment.json",
     "monsters.json", "npcs.json", "feats.json", "backgrounds.json",
     "subclasses.json",
+    "traps.json",
 ]
 
 

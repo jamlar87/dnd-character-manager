@@ -233,7 +233,8 @@ def _validate_manual_sources() -> None:
     
     data_dir = DATA_DIR / "manual_data"
     files = ["races.json", "spells.json", "magic_items.json", "equipment.json",
-             "monsters.json", "npcs.json", "feats.json", "backgrounds.json", "subclasses.json"]
+             "monsters.json", "npcs.json", "feats.json", "backgrounds.json", "subclasses.json",
+             "traps.json"]
     
     # PDF page ranges (compact)
     max_pages = {
