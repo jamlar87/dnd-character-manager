@@ -103,7 +103,9 @@ def _load_monster_cache() -> list[dict]:
             _normalize_manual_monster(m)
         MANUAL_MONSTERS = manual
     # Append summon-template-derived monsters (vehicles, siege, class summons, Tasha)
-    return base + MANUAL_MONSTERS + _template_monster_entries()
+    combined = base + MANUAL_MONSTERS + _template_monster_entries()
+    combined.sort(key=lambda m: (m.get("name") or "").lower())
+    return combined
 
 
 def _template_monster_entries() -> list[dict]:
