@@ -116,7 +116,7 @@ async def dm_tools(request: Request):
 
     db.close()
     # Merge custom traps with manual traps
-    all_traps = list(MANUAL_TRAPS)
+    all_traps = sorted(list(MANUAL_TRAPS), key=lambda t: t.get("name", "").lower())
     try:
         db2 = get_db()
         custom_traps = [dict(r) for r in db2.execute(
