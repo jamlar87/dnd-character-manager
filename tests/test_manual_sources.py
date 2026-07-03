@@ -59,11 +59,11 @@ PDF_PAGE_RANGES = {
     "GoS": 256, "AIPG": 256, "BLRG": 160, "LMRG": 160,
     "EREA": 200, "RVR": 160, "WLA": 200, "MWC": 200,
     "KW": 100, "DPM1": 100, "AW": 50, "W": 9,
-    "W1": 9, "W3": 30, "W4": 30, "W6": 30,
-    "MOM": 15, "WSC": 50, "WS": 9, "W8": 7,
-    "W9": 7, "LMG": 256, "RAT": 50, "RGEO": 100,
+    "W1": 9, "W3": 34, "W4": 30, "W6": 30,
+    "MOM": 15, "WSC": 50, "WS": 10, "W8": 7,
+    "W9": 13, "LMG": 256, "RAT": 50, "RGEO": 100,
     "ETR": 50, "DDP": 50, "SSK": 50, "SME": 22,
-    "DPM": 100, "WLL": 180,
+    "DPM": 100,
 }
 
 CLEAN_FORMAT = re.compile(r'^\([A-Za-z][^)]+\)$')
