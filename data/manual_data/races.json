@@ -1799,22 +1799,42 @@
     "name": "Dragonblood",
     "source": "Tal'Dorei Campaign Setting: Reborn",
     "asi": {
-      "strength": 0,
+      "strength": 2,
       "dexterity": 0,
       "constitution": 0,
       "intelligence": 0,
       "wisdom": 0,
-      "charisma": 0
+      "charisma": 1
     },
     "speed": 30,
     "darkvision": 0,
     "languages": [
-      "Common"
+      "Common",
+      "Draconic"
     ],
     "size": "Medium",
-    "traits": [],
+    "traits": [
+      {
+        "name": "Draconic Ancestry",
+        "description": "Your draconic ancestry grants you a Breath Weapon and Damage Resistance matching your draconic lineage. Choose one ancestry from the Draconic Ancestry table — your choice determines your breath weapon's damage type, shape, and saving throw, as well as your damage resistance.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Breath Weapon",
+        "description": "You can use your action to exhale destructive energy from your draconic lineage. The damage type, shape (a 15-ft cone or 5x30-ft line), and saving throw depend on your Draconic Ancestry. Each creature in the area must make a saving throw, taking 2d6 damage on a failed save, or half as much on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th, and 5d6 at 16th. Once you use your breath weapon, you must finish a short or long rest before you can use it again.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Damage Resistance",
+        "description": "You have resistance to the damage type associated with your Draconic Ancestry.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
     "subraces": [],
-    "description": "A humanoid with patches of scales and reptilian eyes, bearing the traits of a dragonblood parent.",
+    "description": "Descended from dragons or infused with draconic essence through ancient bloodlines, dragonblood folk carry the physical marks of their heritage — patches of scales, reptilian eyes, and an innate connection to elemental power. They share the same draconic traits as dragonborn: a breath weapon, elemental resistance, and the ability to speak Draconic. Dragonblood characters choose a Draconic Ancestry (Black, Blue, Brass, Bronze, Copper, Gold, Green, Red, Silver, or White) which determines their breath weapon and damage resistance.",
     "_source_manual": "TCSR"
   },
   {

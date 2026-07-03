@@ -667,7 +667,7 @@ function selectRace(name) {
   
   // Dragonborn ancestry picker
   const ancestryDiv = document.getElementById('ancestry-section');
-  if (name === 'Dragonborn') {
+  if (name === 'Dragonborn' || name === 'Dragonblood') {
     ancestryDiv.style.display = 'block';
     buildAncestryDropdown();
   } else {
@@ -1023,8 +1023,8 @@ function buildReview() {
     ${state.equipment && state.equipment.length ? `<p style="font-size:0.85rem;color:var(--text-muted)">Equipment: ${state.equipment.join(', ')}</p>` : ''}
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
     ${FLEXIBLE_ASI.has(state.race) && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI pick: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')} +2</p>` : ''}
-    ${state.race === 'Dragonborn' && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
-    ${state.race === 'Dragonborn' && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
+    ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
+    ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
     ${state.subclass_bonus && state.subclass_bonus.length ? `<p style="font-size:0.85rem;color:var(--accent)">Bonus: ${state.subclass_bonus.join(', ')}</p>` : ''}
   `;
 }
@@ -1565,7 +1565,7 @@ async function createCharacter() {
     buildReview();
 
     // Validate Dragonborn ancestry
-    if (state.race === 'Dragonborn' && !state.dragonborn_ancestry) {
+    if ((state.race === 'Dragonborn' || state.race === 'Dragonblood') && !state.dragonborn_ancestry) {
       alert('Please select a Draconic Ancestry (Step 0 → Race). This determines your damage resistance and breath weapon.');
       showStep(0);
       return;
