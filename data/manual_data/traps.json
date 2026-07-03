@@ -1098,5 +1098,1405 @@
     "description": "Three pools of mud heated by geothermal vents that serve as portals to the Elemental Plane of Earth when an open flame is nearby.",
     "source": "(The Tortle Package, p.20)",
     "_source_manual": "TTP"
+  },
+  {
+    "name": "Collapsing Roof",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Trip wire is pulled or support beams are knocked over",
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the trip wire 3 inches off the ground between two support beams. Anyone inspecting the beams can tell they're merely wedged in place."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disables the trip wire harmlessly. A character without thieves' tools can attempt with disadvantage using any edged weapon or tool. On a failed check, the trap triggers."
+    },
+    "effect": "The unstable ceiling collapses. Any creature in the area beneath must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half as much on a successful one. The floor becomes difficult terrain.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "bludgeoning",
+    "area": "Area beneath the unstable ceiling",
+    "description": "A trip wire stretched between two support beams keeps an unstable section of ceiling in place. When triggered, the ceiling collapses.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Falling Net",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Trip wire is pulled",
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the trip wire and the net hidden by cobwebs or foliage."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Breaking the trip wire harmlessly. Without thieves' tools, attempt with disadvantage using any edged weapon. On a failed check, the trap triggers."
+    },
+    "effect": "The net drops, covering a 10-foot-square area. Creatures in the area are trapped under the net and restrained, and those that fail a DC 10 Strength saving throw are also knocked prone. A creature can use its action to make a DC 10 Strength check to free itself or another. The net has AC 10 and 20 hit points; dealing 5 slashing damage destroys a 5-foot section.",
+    "save_dc": 10,
+    "save_ability": "Strength",
+    "damage": "",
+    "damage_type": "",
+    "area": "10-foot-square area beneath the net",
+    "description": "A trip wire releases a net suspended from the ceiling, trapping creatures beneath it.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Fire-Breathing Statue",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "More than 20 pounds of weight placed on a hidden pressure plate",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the pressure plate and faint scorch marks on the floor and walls. Detect magic reveals an aura of evocation magic around the statue."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Strength or dispel magic",
+      "detail": "Wedging an iron spike or other object under the pressure plate prevents activation. A successful dispel magic (DC 13) cast on the statue destroys the trap."
+    },
+    "effect": "The statue releases a 30-foot cone of fire. Each creature in the cone must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half as much on a successful one.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "fire",
+    "area": "30-foot cone from the statue",
+    "description": "A statue (such as a dragon or wizard) releases a magical gout of flame when a hidden pressure plate is depressed.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Simple Pit",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Stepping on the cloth cover",
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the pit covered by a large cloth anchored on the edge and camouflaged with dirt and debris."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The pit can be uncovered and avoided once detected."
+    },
+    "effect": "Anyone stepping on the cloth falls through and takes falling damage based on the pit's depth (usually 10 feet, 1d6 bludgeoning per 10 feet).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6) per 10 feet",
+    "damage_type": "bludgeoning",
+    "area": "The pit opening",
+    "description": "A hole dug in the ground, covered by a large cloth anchored on the pit's edge and camouflaged with dirt and debris.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Hidden Pit",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Stepping on the pit's cover",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Discerns an absence of foot traffic over the section of floor that forms the pit's cover. A successful DC 15 Intelligence (Investigation) check confirms the trapped section is actually the cover of a pit."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength or Dexterity (thieves' tools)",
+      "detail": "An iron spike or similar object can be wedged between the pit's cover and the surrounding floor to prevent it from opening. The cover can also be magically held shut with arcane lock or similar magic."
+    },
+    "effect": "When a creature steps on the cover, it swings open like a trapdoor, causing the intruder to fall into the pit below. The pit is usually 10 or 20 feet deep but can be deeper.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6) per 10 feet",
+    "damage_type": "bludgeoning",
+    "area": "The pit opening (typically 10-20 feet deep)",
+    "description": "A pit with a cover constructed from material identical to the surrounding floor.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Locking Pit",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "Stepping on the pit's cover",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Same as a hidden pit \u2014 absence of foot traffic over the cover."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Strength",
+      "detail": "A successful DC 20 Strength check is necessary to pry the cover open. The cover can also be smashed open. A character in the pit can attempt to disable the spring mechanism from the inside with a DC 15 Dexterity check using thieves' tools."
+    },
+    "effect": "Identical to a hidden pit trap, except the spring-loaded cover snaps shut after a creature falls in, trapping the victim inside.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6) per 10 feet",
+    "damage_type": "bludgeoning",
+    "area": "The pit opening (typically 10-20 feet deep)",
+    "description": "A hidden pit trap with a spring-loaded cover that snaps shut after a creature falls in, trapping the victim inside.",
+    "source": "(Dungeon Master's Guide, p.122)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Spiked Pit",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "Stepping on the pit's cover",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "A successful DC 15 Wisdom (Perception) check spots the trap, with a DC 15 Intelligence (Investigation) check to confirm."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Provided the mechanism can be reached, a successful DC 15 Dexterity check using thieves' tools disarms the trap. In some cases, a mechanism behind a secret door nearby opens the pit safely."
+    },
+    "effect": "A creature falling into the pit takes 11 (2d10) piercing damage from the spikes at the bottom, in addition to any falling damage. If poison is smeared on the spikes, the creature must also make a DC 13 Constitution saving throw, taking 22 (4d10) poison damage on a failed save, or half as much on a successful one.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "11 (2d10) piercing + 22 (4d10) poison",
+    "damage_type": "piercing and poison",
+    "area": "The pit opening",
+    "description": "A pit trap with sharpened wooden or iron spikes at the bottom, possibly coated with poison.",
+    "source": "(Dungeon Master's Guide, p.123)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Poison Darts",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "More than 20 pounds of weight placed on a hidden pressure plate",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting tiny holes in the walls obscured by dust, cobwebs, or hidden amid bas-reliefs. A DC 15 Intelligence (Investigation) check deduces the pressure plate from variations in mortar and stone."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Wedging an iron spike under the pressure plate prevents activation. Stuffing the holes with cloth or wax prevents the darts from launching."
+    },
+    "effect": "Four darts shoot from spring-loaded tubes in the walls. Each dart makes a ranged attack with a +8 bonus against a random target within 10 feet of the pressure plate. A target hit takes 2 (1d4) piercing damage and must succeed on a DC 15 Constitution saving throw, taking 11 (2d10) poison damage on a failed save, or half as much on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "2 (1d4) piercing + 11 (2d10) poison",
+    "damage_type": "piercing and poison",
+    "area": "10 feet of the pressure plate",
+    "description": "Poison-tipped darts shoot from spring-loaded tubes hidden in the walls when a pressure plate is stepped on.",
+    "source": "(Dungeon Master's Guide, p.123)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Poison Needle",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Opening a chest or lock without the proper key",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Deducing the trap's presence from alterations made to the lock to accommodate the needle."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 15 Dexterity check using thieves' tools removes the needle from the lock. Unsuccessfully attempting to pick the lock triggers the trap."
+    },
+    "effect": "The needle extends 3 inches from the lock. A creature within range takes 1 piercing damage and 11 (2d10) poison damage, and must succeed on a DC 15 Constitution saving throw or be poisoned for 1 hour.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "1 piercing + 11 (2d10) poison",
+    "damage_type": "piercing and poison",
+    "area": "The lock itself",
+    "description": "A poisoned needle hidden within a treasure chest's lock springs out when opened without the proper key.",
+    "source": "(Dungeon Master's Guide, p.123)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Rolling Sphere",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "More than 20 pounds of pressure on a hidden pressure plate",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the trapdoor in the ceiling and the pressure plate on the floor. A DC 15 Intelligence (Investigation) check reveals variations in mortar betraying the pressure plate and trapdoor."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength",
+      "detail": "Wedging an iron spike or other object under the pressure plate prevents activation. As an action, a creature within 5 feet of the sphere can attempt a DC 20 Strength check to slow it, reducing speed by 15 feet. If speed drops to 0, it stops."
+    },
+    "effect": "A 10-foot-diameter rolling sphere of solid stone drops from the ceiling. The sphere rolls initiative with a +8 bonus, moving 60 feet per turn in a straight line. It can move through creatures' spaces (difficult terrain). A creature whose space the sphere enters must succeed on a DC 15 Dexterity saving throw or take 55 (10d10) bludgeoning damage and be knocked prone. The sphere stops when it hits a wall.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "55 (10d10)",
+    "damage_type": "bludgeoning",
+    "area": "60-foot line from the trapdoor",
+    "description": "A massive stone sphere rolls from a trapdoor in the ceiling, crushing creatures in its path.",
+    "source": "(Dungeon Master's Guide, p.123)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Sphere of Annihilation",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Entering the stone face's mouth or touching the sphere",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Reveals that the mouth contains a sphere of annihilation that can't be controlled or moved. The mouth is 2 feet in diameter, filled with impenetrable magical darkness from which no sound issues."
+    },
+    "disarm": {
+      "dc": 18,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 18) removes the enchantment. The sphere of annihilation itself cannot be dispelled and remains."
+    },
+    "effect": "Any matter that enters the mouth is instantly obliterated, identical to a normal sphere of annihilation. Some versions include a sympathy enchantment causing specified creatures to feel an overwhelming urge to approach and crawl inside.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "Instant obliteration",
+    "damage_type": "",
+    "area": "The stone face's mouth (2-foot diameter)",
+    "description": "A stone face carved into a wall with a mouth containing a sphere of annihilation. Magical darkness fills the mouth, and any matter that enters is instantly obliterated.",
+    "source": "(Dungeon Master's Guide, p.123)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Concealed Pit Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature crosses the hidden trapdoor in the mud-and-debris-covered floor",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the concealed trapdoor is at disadvantage due to mud and debris covering the area."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A narrow ledge remains around the pit after it opens, allowing passage."
+    },
+    "effect": "The floor opens into a 20-foot-deep pit. A creature falling in takes 7 (2d6) bludgeoning damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "7 (2d6)",
+    "damage_type": "bludgeoning",
+    "area": "20-foot-deep pit trap",
+    "description": "A 20-foot-deep pit trap in Dungrunglung, concealed by mud and debris. Spotting it is at disadvantage.",
+    "source": "(Tomb of Annihilation, p.45)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Blade Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature enters the 10-foot-square corridor",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The blades are concealed in wall niches and are not visible until triggered."
+    },
+    "disarm": {
+      "dc": 10,
+      "method": "Strength",
+      "detail": "Can be jammed with 4 successful DC 10 Strength checks."
+    },
+    "effect": "Scything blades sweep from concealed wall niches in a 10-foot-square corridor. Each creature in the area must make a DC 13 Dexterity saving throw, taking 18 (4d8) slashing damage on a failure, or half as much on a success.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "18 (4d8)",
+    "damage_type": "slashing",
+    "area": "10-foot-square corridor",
+    "description": "Scything blades sweep from concealed wall niches in a 10-foot-square corridor in Dungrunglung.",
+    "source": "(Tomb of Annihilation, p.45)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Rolling Stone Trap",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "A tripwire across a tunnel mouth is disturbed",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the tripwire across the tunnel mouth."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful check disconnects the tripwire without triggering the trap."
+    },
+    "effect": "A spring-loaded claw snaps across the tunnel, releasing a rolling boulder. Any creature in the tunnel must make a DC 15 Dexterity saving throw or take 22 (4d10) bludgeoning damage.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "bludgeoning",
+    "area": "The tunnel mouth and corridor beyond",
+    "description": "A tripwire in Wyrmheart Mine triggers a spring-loaded claw that releases a rolling boulder down the tunnel.",
+    "source": "(Tomb of Annihilation, p.87)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Spring Trap (Yellyark)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "The holding vine of the bent-down tree is cut",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the bent tree held by a vine and recognizing the goblin village sits atop it."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Carefully releasing the tension on the vine without cutting it."
+    },
+    "effect": "The bent-down tree launches upward, hurling everything on it. Creatures in the goblin village take 28 (8d6) bludgeoning damage on impact.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "28 (8d6)",
+    "damage_type": "bludgeoning",
+    "area": "The entire goblin village of Yellyark",
+    "description": "The goblin village of Yellyark sits atop a bent-down tree acting as a gigantic spring trap. Cutting the holding vine launches the village.",
+    "source": "(Tomb of Annihilation, p.90)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Unkh's Shrine Trap (Flail Snail Statue)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Inserting the wrong key into the lock or failing a lockpick check",
+    "detection": {
+      "dc": 17,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the flail snail statue reveals arcane glyphs and the keyhole's mechanism."
+    },
+    "disarm": {
+      "dc": 18,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Carefully picking the lock without triggering the magical trap."
+    },
+    "effect": "The flail snail statue emits devastating rays of light. All creatures in the shrine must make a DC 18 Dexterity saving throw, taking 33 (6d10) radiant damage on a failure, or half as much on a success.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "33 (6d10)",
+    "damage_type": "radiant",
+    "area": "The entire Shrine of Unkh",
+    "description": "In the Shrine of Unkh in Omu, inserting the wrong key causes the flail snail statue to emit devastating rays of light.",
+    "source": "(Tomb of Annihilation, p.103)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Poison Darts (I'jin's Shrine)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Stepping on the wrong animal-themed tiles",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the tiny holes in the wall where darts emerge and noticing the animal tile pattern."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Investigation)",
+      "detail": "Deducing the tile pattern: never stepping on the same animal type twice avoids triggering the trap."
+    },
+    "effect": "Four poison darts fire from wall holes. Each dart: +5 to hit, 2 piercing damage plus 7 (2d6) poison damage (DC 15 Constitution halves the poison). Avoidable by never stepping on the same animal design twice in a row.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "2 piercing + 7 (2d6) poison per dart",
+    "damage_type": "piercing and poison",
+    "area": "The room with animal-themed floor tiles",
+    "description": "In the Shrine of I'jin in Omu, stepping on wrong animal-themed tiles triggers four poisoned darts from wall holes.",
+    "source": "(Tomb of Annihilation, p.104)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Puzzle Cube Trap (Obo'laka's Shrine)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Attempting to take the puzzle cube without properly positioning the torches",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the magic torches and the brackets in the Gallery of Carvings reveals the puzzle mechanism."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The torches must be placed in the correct brackets in the Gallery of Carvings (area 19B) to disarm the trap and safely claim the puzzle cube."
+    },
+    "effect": "Magic torches power a trap that activates when the puzzle cube is disturbed without following the proper ritual. The exact effect depends on how the torches are positioned.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Obo'laka's Shrine, area 19E",
+    "description": "In Obo'laka's shrine in Omu, magic torches power a trap guarding one of the nine puzzle cubes. The torches must be placed in brackets in the correct order.",
+    "source": "(Tomb of Annihilation, p.109)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Poison Needle (Fane of the Night Serpent)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "Opening the locked south door without disarming the needle",
+    "detection": {
+      "dc": 20,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the tiny needle hidden in the lock mechanism."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 12 Dexterity check disables the needle without triggering it."
+    },
+    "effect": "A hidden poison needle springs from the lock. The target takes 5 (1d10) piercing damage and must succeed on a DC 15 Constitution saving throw or be poisoned and become permanently blinded. Lesser restoration cures the blindness.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "5 (1d10) piercing + possible permanent blindness",
+    "damage_type": "piercing",
+    "area": "The locked south door",
+    "description": "A hidden poison needle in the lock of the south door in the Fane of the Night Serpent causes permanent blindness on a failed save.",
+    "source": "(Tomb of Annihilation, p.122)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Pit Trap (False Entrance)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "A lever at the False Entrance puzzle door area is pulled",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the floor reveals it is a false surface designed to split open."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Jamming the floor mechanism prevents it from opening."
+    },
+    "effect": "The floor splits into a 20-foot-deep pit lined with poisoned spikes. A falling creature takes 11 (2d10) bludgeoning damage plus spike damage and must succeed on a DC 15 Constitution saving throw or be poisoned for 24 hours.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "11 (2d10) bludgeoning + poison",
+    "damage_type": "bludgeoning and poison",
+    "area": "The floor at the False Entrance puzzle door",
+    "description": "A lever-operated pit trap at the False Entrance to the Tomb of the Nine Gods, lined with poisoned spikes.",
+    "source": "(Tomb of Annihilation, p.132)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Trapped Corridor (Caustic Gas)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "The puzzle door seals the tunnel with creatures inside",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the bas-relief bearded devil face reveals small openings in the skull mouths for gas release."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful dispel magic (DC 16) or plugging the skull mouths prevents the gas from releasing."
+    },
+    "effect": "A bas-relief bearded devil face on the wall releases caustic gas from its skull mouths. Creatures in the corridor must succeed on a DC 15 Constitution saving throw or take 5 poison damage plus 5 acid damage each round for 10 rounds.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "5 poison + 5 acid per round for 10 rounds",
+    "damage_type": "poison and acid",
+    "area": "The mossy corridor beyond the False Entrance",
+    "description": "A magical trap in the Tomb of the Nine Gods that releases caustic gas from a bearded devil bas-relief when the corridor is sealed.",
+    "source": "(Tomb of Annihilation, p.133)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Poison Darts (Area 5A)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "20+ pounds of pressure on one of the marked pressure plates",
+    "detection": {
+      "dc": 18,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the tiny holes in the wall tubes and the slightly raised pressure plates on the floor."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disabling the pressure plate mechanism prevents the darts from firing."
+    },
+    "effect": "Poison-tipped darts fire from wall tubes. Each crossbow-like dart: +8 to hit, 2 piercing damage plus 14 (4d6) poison damage (DC 15 Constitution halves the poison). Each marked X on the map corresponds to a pressure plate.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "2 piercing + 14 (4d6) poison per dart",
+    "damage_type": "piercing and poison",
+    "area": "Multiple pressure-plate-triggered dart traps in the corridor",
+    "description": "Poison-tipped darts fire from wall tubes in the Tomb of the Nine Gods, triggered by pressure plates marked on the dungeon map.",
+    "source": "(Tomb of Annihilation, p.133)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Trapped Chest (Demon Skull)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Failing a DC 22 lockpick check by 5 or more",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Examining the demon skull keyhole reveals a faint teleportation enchantment."
+    },
+    "disarm": {
+      "dc": 22,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Successfully picking the DC 22 lock without failing by 5 or more."
+    },
+    "effect": "The character is teleported inside the locked chest, which dangles 30 feet above water. The character is restrained and begins suffocating inside the chest until freed from outside.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "Suffocation",
+    "damage_type": "",
+    "area": "A dangling treasure chest with a demon skull keyhole",
+    "description": "A dangling treasure chest in the Tomb of the Nine Gods teleports those who badly fail a lockpick attempt inside itself, where they begin suffocating.",
+    "source": "(Tomb of Annihilation, p.136)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wine Flood Trap (False Tomb)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Opening the gilded coffin in sunlight",
+    "detection": {
+      "dc": 16,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the coffin reveals its connection to the ceiling gargoyles and the stone block sealing mechanism."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "Strength",
+      "detail": "Wedging the stone block mechanism before opening the coffin prevents it from sealing the entrance. Destroying or covering the gargoyle heads prevents wine flow."
+    },
+    "effect": "A stone block seals the entrance, then four gargoyle heads flood the room with wine at 1 foot per round. Three wine weirds attack. The room is fully flooded after 12 rounds. The trap resets at dawn.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "Drowning",
+    "damage_type": "",
+    "area": "The False Tomb (Area 20)",
+    "description": "Opening the gilded coffin in the False Tomb of the Tomb of the Nine Gods seals the room and floods it with wine, summoning wine weirds.",
+    "source": "(Tomb of Annihilation, p.141)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Revolving Room Trap",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "A tomb guardian pulls a lever, causing the cylindrical room to revolve",
+    "detection": {
+      "dc": 16,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the cylindrical room reveals rotating joints and concealed hazard vents."
+    },
+    "disarm": {
+      "dc": 18,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Jamming the lever mechanism prevents the room from revolving."
+    },
+    "effect": "The cylindrical room revolves rapidly. Creatures inside take 11 (2d10) bludgeoning damage each turn (DC 15 Dexterity halves). Each round, roll on a d20 table for an additional effect: sleep gas, blinding dust, flame jets, or force damage. The room contains beholder-vault keys.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10) bludgeoning per turn + random effects",
+    "damage_type": "bludgeoning",
+    "area": "The cylindrical revolving room (Area 38C)",
+    "description": "A cylindrical room in the Tomb of the Nine Gods that revolves when a lever is pulled, dealing bludgeoning damage and random hazardous effects.",
+    "source": "(Tomb of Annihilation, p.152)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Lava Trap (Fire Cell)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Touching or removing the candle in the Elemental Cells puzzle",
+    "detection": {
+      "dc": 17,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Recognizing the magical runes in the ceiling and the antimagic field suppressing magical protections."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Extinguishing the candle teleports all occupants to another elemental cell. The trap cannot be disarmed normally."
+    },
+    "effect": "Lava rains from holes in the ceiling. Creatures must make a DC 20 Dexterity saving throw each turn or take 22 (4d10) fire damage. An antimagic field prevents magical fire resistance. The trap continues until the candle is extinguished.",
+    "save_dc": 20,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "fire",
+    "area": "The Fire Cell (Area 47A)",
+    "description": "In the Tomb of the Nine Gods' Elemental Cells, touching the candle causes lava to rain from the ceiling. Antimagic field prevents magical protection.",
+    "source": "(Tomb of Annihilation, p.158)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Flood Trap (Water Cell)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Entering the Water Cell of the Elemental Cells puzzle",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the water level slowly rising and the oysters and snails that provide escape."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Eating an oyster or snail teleports the creature to another elemental cell. Being the last to leave the cell also teleports the creature."
+    },
+    "effect": "Water fills the cell at 1 foot per round, fully flooding it in 10 rounds. An antimagic field prevents water breathing magic. Creatures can escape by eating an oyster or snail (teleports to another cell) or being the last to leave.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "Drowning",
+    "damage_type": "",
+    "area": "The Water Cell (Area 47B)",
+    "description": "In the Tomb of the Nine Gods' Elemental Cells, water fills the room at 1 ft/round. Antimagic field prevents magical water breathing.",
+    "source": "(Tomb of Annihilation, p.159)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Sand Trap (Earth Cell)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "Entering the Earth Cell of the Elemental Cells puzzle",
+    "detection": {
+      "dc": 16,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the floor reveals the split mechanism and the giant stone grinders below."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A button somewhere in the room stops the rollers. Antimagic field prevents magical solutions."
+    },
+    "effect": "Sand falls at 6 inches per round, making difficult terrain. At 12 inches depth, the floor splits open into a pit with two giant stone grinders dealing 132 (24d10) force damage to anything caught in them. An antimagic field is active.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "132 (24d10)",
+    "damage_type": "force",
+    "area": "The Earth Cell (Area 47D)",
+    "description": "In the Tomb of the Nine Gods' Elemental Cells, sand fills the room until the floor opens into a pit with giant stone grinders.",
+    "source": "(Tomb of Annihilation, p.160)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Spider Fan Trap (Hag's Nursery)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Reading a nursery rhyme book aloud or opening a secret compartment",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Examining the book reveals it is enchanted with a reverse gravity spell connected to the ceiling."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The trap does not reset and triggers only once. It lasts 1 minute."
+    },
+    "effect": "A reverse gravity effect activates. Creatures fall upward through a false plaster ceiling into a rotating iron spider fan, taking 44 (8d10) slashing damage each round. The effect lasts 1 minute and does not reset.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "44 (8d10) slashing per round",
+    "damage_type": "slashing",
+    "area": "The Hag's Nursery (Area 76)",
+    "description": "A magical trap in the Tomb of the Nine Gods that flips gravity upward into a rotating iron spider fan when a nursery rhyme book is read aloud.",
+    "source": "(Tomb of Annihilation, p.184)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Snare (Goblin Trail)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature walks into the hidden snare on the trail",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the hidden snare on the goblin trail (or passive Perception 12)."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cutting the cord (1 slashing damage) frees a restrained creature."
+    },
+    "effect": "The creature is hoisted upside down 10 feet into the air and restrained until 1+ slashing damage cuts the cord. The creature takes 1d6 bludgeoning damage from the fall if not caught.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d6 bludgeoning (fall)",
+    "damage_type": "bludgeoning",
+    "area": "A 10-foot section of the Goblin Trail",
+    "description": "A hidden snare on the Triboar Trail that hoists creatures upside down into the air.",
+    "source": "(Lost Mine of Phandelver, p.7)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Pit (Goblin Trail)",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature moves across the covered pit",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the covered pit on the goblin trail (or passive Perception 15)."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The pit walls are climbable without a check."
+    },
+    "effect": "The creature falls 10 feet into the pit, taking 1d6 bludgeoning damage. The walls are easy to climb.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "A 10-foot-deep pit on the Goblin Trail",
+    "description": "A covered pit along the Triboar Trail, 10 feet deep with climbable walls.",
+    "source": "(Lost Mine of Phandelver, p.7)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Collapsible Ledge (Cragmaw Hideout)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "More than 100 pounds of weight on the escarpment ledge",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the escarpment ledge is unstable and crumbles under heavy weight."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Avoiding the ledge or distributing weight across a larger surface."
+    },
+    "effect": "The escarpment ledge collapses. Creatures on it must succeed on a DC 10 Dexterity saving throw or take 2d6 bludgeoning damage and fall prone.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "2d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "The escarpment ledge in Cragmaw Hideout area 4",
+    "description": "An unstable escarpment ledge in Cragmaw Hideout that collapses under more than 100 pounds of weight.",
+    "source": "(Lost Mine of Phandelver, p.10)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Bridge Collapse (Cragmaw Hideout)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The bridge is reduced to 0 HP (AC 5, 10 HP)",
+    "detection": {
+      "dc": 10,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the bridge reveals it is old and rotten, barely holding together."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Reinforcing the bridge before crossing or crossing one at a time."
+    },
+    "effect": "The bridge collapses. Creatures on it fall 20 feet, taking 2d6 bludgeoning damage.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "2d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "The overpass bridge in Cragmaw Hideout area 5",
+    "description": "A rotten bridge over a 20-foot chasm in Cragmaw Hideout that collapses when damaged.",
+    "source": "(Lost Mine of Phandelver, p.10)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Flood Trap (Cragmaw Hideout)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Goblins yank collapsible walls to release a water surge",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the collapsible walls and hearing rushing water beyond them."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Strength",
+      "detail": "Wedging the collapsible walls shut prevents them from opening."
+    },
+    "effect": "A surge of water sweeps through the chamber. Creatures must succeed on a DC 10 Dexterity saving throw or be swept away and knocked prone, taking 1d6 bludgeoning damage. A DC 15 Strength check allows a creature to hold on.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "Cragmaw Hideout areas 7 to 1",
+    "description": "Goblins can release a water surge in Cragmaw Hideout by yanking collapsible walls, sweeping creatures toward area 1.",
+    "source": "(Lost Mine of Phandelver, p.10)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Pit Trap (Redbrand Hideout)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "100+ pounds of pressure on the false floor (loose stone tiles over breakaway timbers)",
+    "detection": {
+      "dc": 15,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the loose stone tiles that don't match the rest of the floor (or passive Perception 15)."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A narrow ledge around the edges allows passage with a DC 10 Dexterity (Acrobatics) check."
+    },
+    "effect": "The floor collapses. Creatures fall 20 feet into the pit, taking 2d6 bludgeoning damage and landing prone. A successful DC 15 Dexterity saving throw allows a creature to catch the edge.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "2d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "The trapped hall in Redbrand Hideout area 3",
+    "description": "A pit trap in the Redbrand Hideout's trapped hall, with breakaway timbers over a 20-foot pit.",
+    "source": "(Lost Mine of Phandelver, p.21)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Collapsing Bridge (Redbrand Hideout)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature weighing 50+ lbs moves across the south bridge",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Spotting the faulty construction and sabotage in the bridge supports."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Strength",
+      "detail": "Reinforcing the bridge supports before crossing."
+    },
+    "effect": "The bridge drops into a 20-foot crevasse. Creatures on it take 2d6 bludgeoning damage from the fall.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "2d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "The south bridge over the crevasse in Redbrand Hideout area 8",
+    "description": "A sabotaged bridge in the Redbrand Hideout that collapses under 50+ pounds of weight.",
+    "source": "(Lost Mine of Phandelver, p.23)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Tripwire Cave-In (Cragmaw Castle)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature walks through the rubble without avoiding the copper tripwire",
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the copper tripwire in the rubble (or passive Perception 20)."
+    },
+    "disarm": {
+      "dc": 10,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 10 Dexterity check disconnects the tripwire without triggering the cave-in."
+    },
+    "effect": "Wooden beams and stones collapse from the ceiling. Creatures in the area must succeed on a DC 10 Dexterity saving throw or take 3d6 bludgeoning damage (half on success). The noise alerts monsters in areas 3, 7, 8, and 9.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "3d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "Cragmaw Castle area 2 (Trapped Hall)",
+    "description": "A tripwire-activated cave-in at Cragmaw Castle that collapses wooden beams and stones on intruders.",
+    "source": "(Lost Mine of Phandelver, p.36)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Poison Gas (Wave Echo Cave)",
+    "type": "environmental",
+    "danger": "dangerous",
+    "trigger": "A creature attempts to cross the fungi-covered cavern",
+    "detection": {
+      "dc": 12,
+      "skill": "Intelligence (Nature)",
+      "detail": "Identifying the fungi as a toxic variety that releases poisonous spores when disturbed."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The gas disperses after 1 minute. Creatures can wait for it to clear or find an alternate path."
+    },
+    "effect": "Fungi carpets release poisonous gas. Creatures must succeed on a DC 11 Constitution saving throw or take 3d6 poison damage and become poisoned for 10 minutes. The save repeats each turn spent in the cavern. Gas disperses after 1 minute.",
+    "save_dc": 11,
+    "save_ability": "Constitution",
+    "damage": "3d6 poison + poisoned condition",
+    "damage_type": "poison",
+    "area": "Wave Echo Cave area 8 (Fungi Cavern)",
+    "description": "A cavern in Wave Echo Cave carpeted with toxic fungi that release poisonous gas when disturbed.",
+    "source": "(Lost Mine of Phandelver, p.45)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Ceiling Collapse (Temple of Dumathoin)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Removing either emerald eye from the statue",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the statue reveals the emerald eyes are integrated into the structural support, and removing them will destabilize the ceiling."
+    },
+    "disarm": {
+      "dc": 10,
+      "method": "Strength",
+      "detail": "Prying the emerald eyes loose carefully with a successful DC 10 Strength check. Alternatively, supporting the pillars before removing the eyes."
+    },
+    "effect": "The pillars crack and the ceiling collapses. Creatures in the temple must make a DC 15 Dexterity saving throw, taking 4d10 bludgeoning damage on a failure, or half as much on a success.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "4d10 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "Wave Echo Cave area 19 (Temple of Dumathoin)",
+    "description": "A magical structural trap in Wave Echo Cave where removing the emerald eyes from a statue causes the ceiling to collapse.",
+    "source": "(Lost Mine of Phandelver, p.49)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Bear Traps (Alley)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Stepping in a muddy puddle concealing a spring-loaded bear trap",
+    "detection": {
+      "dc": 13,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the hidden bear traps in the muddy puddles in the alley (passive Perception 13)."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Strength",
+      "detail": "A successful DC 12 Strength check pries the jaws of the bear trap open."
+    },
+    "effect": "The bear trap snaps shut. The creature takes 1d6 slashing damage and is restrained. A DC 12 Strength check frees the creature.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d6 slashing",
+    "damage_type": "slashing",
+    "area": "Muddy puddles in the alley",
+    "description": "Five spring-loaded bear traps hidden in muddy puddles in a Waterdeep alley.",
+    "source": "(Waterdeep: Dragon Heist, p.63)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Glyph of Warding (Explosive Runes)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Anyone other than Grinda Garloth lifts the lid of her sea chest",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the sea chest reveals magical glyphs on the interior of the lid."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 15) removes the glyph."
+    },
+    "effect": "An explosive runes glyph of warding triggers, dealing force damage to all creatures within 20 feet of the chest. Damage and DC as per the glyph of warding spell.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "5d8 force (or as glyph)",
+    "damage_type": "force",
+    "area": "20-foot radius around Grinda's sea chest",
+    "description": "A glyph of warding (explosive runes) placed on Grinda Garloth's sea chest, triggered if anyone other than Grinda opens it.",
+    "source": "(Waterdeep: Dragon Heist, p.66)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Glyph of Warding (Fire, Mausoleum)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on the first step down to the mausoleum underground level",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Brushing away the dust covering the glyph on the step."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 15) removes the glyph."
+    },
+    "effect": "The glyph erupts in fire. Creatures in a 20-foot radius must make a DC 15 Dexterity saving throw, taking 5d8 fire damage on a failure, or half as much on a success.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "5d8 fire",
+    "damage_type": "fire",
+    "area": "20-foot radius from the first step to the mausoleum",
+    "description": "A fire glyph of warding on the first step down to the mausoleum underground level, hidden under dust.",
+    "source": "(Waterdeep: Dragon Heist, p.72)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Glyph of Warding (Tasha's Hideous Laughter)",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Rooftop chase complication \u2014 stepping on the glyph",
+    "detection": {
+      "dc": 14,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Spotting the magical glyph on the roof tiles."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 14) removes the glyph."
+    },
+    "effect": "The target must succeed on a DC 13 Wisdom saving throw or fall prone under the effect of Tasha's hideous laughter for 1 minute, becoming incapacitated and unable to stand.",
+    "save_dc": 13,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "A roof in Waterdeep",
+    "description": "A glyph of warding (Tasha's hideous laughter) placed on a roof in Waterdeep to discourage burglars.",
+    "source": "(Waterdeep: Dragon Heist, p.73)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Collapsing Floor (Windmill)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The first Small or larger creature crosses the upper chamber floor",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the floor is weakened and may collapse under weight."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Avoiding the upper chamber entirely or reinforcing the floor before crossing."
+    },
+    "effect": "The floor collapses. Creatures fall 20 feet. Additionally, falling debris deals 4d8 bludgeoning damage (DC 11 Dexterity for half).",
+    "save_dc": 11,
+    "save_ability": "Dexterity",
+    "damage": "4d8 bludgeoning (debris) + 2d6 bludgeoning (fall)",
+    "damage_type": "bludgeoning",
+    "area": "Upper chamber floor (W4b) of the windmill",
+    "description": "A weakened upper chamber floor in a windmill that collapses under the first Small+ creature crossing it.",
+    "source": "(Waterdeep: Dragon Heist, p.88)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Gorm Gulthyn Statue Trap (Fire Eyes)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Touching the false adamantine trapdoor under the statue",
+    "detection": {
+      "dc": 17,
+      "skill": "Intelligence (Religion)",
+      "detail": "Identifying the statue as Gorm Gulthyn and recognizing the trapdoor as a trap rather than a real exit."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A DC 17 Religion check to identify the god reveals the nature of the trap and how to avoid triggering it."
+    },
+    "effect": "Fire rays erupt from the statue's eyes. Creatures in the area must make a DC 18 Dexterity saving throw, taking 4d10 fire damage on a failure, or half as much on a success.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "4d10 fire",
+    "damage_type": "fire",
+    "area": "Area V8 near the statue of Gorm Gulthyn",
+    "description": "A false adamantine trapdoor under the statue of Gorm Gulthyn in Waterdeep triggers fire rays from the statue's eyes when touched.",
+    "source": "(Waterdeep: Dragon Heist, p.97)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Tripwire Collapsing Maze",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature trips the wire in Ahmaergo's crate maze (Area X10)",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Spotting the tripwire strung across the maze path."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 12 check disconnects the tripwire without triggering the collapse."
+    },
+    "effect": "The crate maze walls collapse onto creatures in the area. Creatures must succeed on a DC 12 Dexterity saving throw or take 3d6 bludgeoning damage.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "3d6 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "Xanathar's Lair, Ahmaergo's crate maze (Area X10)",
+    "description": "A tripwire in Ahmaergo's crate maze in Xanathar's Lair triggers collapsing walls that crush creatures.",
+    "source": "(Waterdeep: Dragon Heist, p.106)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Green Ray Trap",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Pushing the wizard-eye button on the wall carving",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Examining the wall carving reveals a teleportation enchantment in the wizard-eye button."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 16) disables the teleportation effect."
+    },
+    "effect": "A green ray discharges from the button. The target must make a DC 16 Dexterity saving throw or appear to be disintegrated (actually teleported to a holding cell, area X34).",
+    "save_dc": 16,
+    "save_ability": "Dexterity",
+    "damage": "Teleportation (apparent disintegration)",
+    "damage_type": "",
+    "area": "Xanathar's Lair Area X33",
+    "description": "A wall carving in Xanathar's Lair discharges a green ray that teleports creatures to a holding cell, appearing as disintegration.",
+    "source": "(Waterdeep: Dragon Heist, p.114)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Poison Gas Chest (Cassalanter Villa)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Opening the treasure box without using the golden key",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the box reveals a poison spray mechanism connected to the lock. The golden key is the only safe way to open it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The trap cannot be disarmed. The box opens safely only with the golden key."
+    },
+    "effect": "The box sprays poison gas in a 15-foot radius. Creatures must succeed on a DC 13 Constitution saving throw or take 4d10 poison damage.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "4d10 poison",
+    "damage_type": "poison",
+    "area": "15-foot radius around the treasure box",
+    "description": "A treasure box in Cassalanter Villa (Area C21) that sprays poison gas when opened without the golden key. Cannot be disarmed.",
+    "source": "(Waterdeep: Dragon Heist, p.124)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Cold Trap (False Vault)",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Entering the false vault (Area C27) without speaking the password 'Gold is my shield'",
+    "detection": {
+      "dc": 16,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the ceiling reveals a magical glyph. DC 16 Intelligence (Arcana) identifies it as a cold-based glyph of warding."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 16) targeting the ceiling glyph disables the trap."
+    },
+    "effect": "Magical cold fills the room. Creatures must succeed on a DC 16 Constitution saving throw or take 8d8 cold damage.",
+    "save_dc": 16,
+    "save_ability": "Constitution",
+    "damage": "8d8 cold",
+    "damage_type": "cold",
+    "area": "The false vault (Area C27) in Cassalanter Villa",
+    "description": "A magical cold trap in the false vault of Cassalanter Villa. Must speak 'Gold is my shield' to avoid triggering the ceiling glyph.",
+    "source": "(Waterdeep: Dragon Heist, p.126)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Collapsing Floor (Balcony, Temple of Asmodeus)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A Medium or larger creature steps onto the weakened balcony",
+    "detection": {
+      "dc": 12,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the balcony floor is crumbling and weakened."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Reinforcing the balcony floor before crossing."
+    },
+    "effect": "The balcony floor crumbles. Creatures on it must succeed on a DC 15 Dexterity saving throw or fall 20 feet to the floor below.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "2d6 bludgeoning (fall)",
+    "damage_type": "bludgeoning",
+    "area": "The balcony (Area A2) in the Temple of Asmodeus",
+    "description": "A weakened balcony in the Temple of Asmodeus (Cassalanter Villa) that crumbles under Medium+ creatures.",
+    "source": "(Waterdeep: Dragon Heist, p.129)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Animated Staffs (Kolat Towers)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Entering Area K12 without Manshoon's escort",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Recognizing the staffs as magically animated guardians attuned to Manshoon."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Having Manshoon's escort allows safe passage. The staffs can be destroyed in combat."
+    },
+    "effect": "Six staffs animate and attack anyone entering without Manshoon's escort. They have the statistics of flying swords (dealing bludgeoning damage). If not dealt with, they summon help from Area K14.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "As flying sword",
+    "damage_type": "bludgeoning",
+    "area": "Kolat Towers Area K12",
+    "description": "Six animated staffs in Kolat Towers that attack anyone entering without Manshoon's escort.",
+    "source": "(Waterdeep: Dragon Heist, p.153)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Glyph of Warding (Blindness, Kolat Towers)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Opening the holding cell door (Area K13) by anyone other than Manshoon",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the door reveals a magical glyph of warding."
+    },
+    "disarm": {
+      "dc": 18,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 18) removes the glyph."
+    },
+    "effect": "The glyph triggers blindness/deafness on the creature that opened the door. DC 18 Constitution saving throw or be blinded and deafened for the spell's duration.",
+    "save_dc": 18,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The holding cell door in Kolat Towers Area K13",
+    "description": "A glyph of warding on a holding cell door in Kolat Towers triggers blindness/deafness when opened by anyone but Manshoon.",
+    "source": "(Waterdeep: Dragon Heist, p.153)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Floor Clamps (Kolat Towers)",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "Pulling the lever in the Construct Workshop (Area K16)",
+    "detection": {
+      "dc": 15,
+      "skill": "Intelligence (Investigation)",
+      "detail": "Examining the lever reveals it is connected to a mechanism in the floor and ceiling."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disconnecting the lever from the clamp mechanism before pulling it."
+    },
+    "effect": "Floor clamps lock creatures in place and the floor magically rams upward into the ceiling. Creatures must succeed on a DC 20 Dexterity saving throw or take 4d10 bludgeoning damage.",
+    "save_dc": 20,
+    "save_ability": "Dexterity",
+    "damage": "4d10 bludgeoning",
+    "damage_type": "bludgeoning",
+    "area": "Kolat Towers Construct Workshop (Area K16)",
+    "description": "A lever-operated trap in Kolat Towers that clamps creatures to the floor and rams it into the ceiling.",
+    "source": "(Waterdeep: Dragon Heist, p.154)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Golem Trap (Poison Gas, Kolat Towers)",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The flesh golem steps off its pressure plate (Area K17)",
+    "detection": {
+      "dc": 14,
+      "skill": "Wisdom (Perception)",
+      "detail": "Noticing the pressure plate beneath the flesh golem and the gas vents in the walls."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Preventing the golem from leaving its pressure plate, or dealing with the golem quickly."
+    },
+    "effect": "Poison gas erupts from wall holes. Creatures must succeed on a DC 12 Constitution saving throw or take 3d6 poison damage. The save repeats each round while the gas lingers.",
+    "save_dc": 12,
+    "save_ability": "Constitution",
+    "damage": "3d6 poison (repeating)",
+    "damage_type": "poison",
+    "area": "Kolat Towers Area K17",
+    "description": "A flesh golem standing on a pressure plate in Kolat Towers releases poison gas when it steps off.",
+    "source": "(Waterdeep: Dragon Heist, p.154)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Arcane Rune (Kolat Towers)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "First damage dealt to the rune sustaining Kolat Towers' force field (Area K18)",
+    "detection": {
+      "dc": 18,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Identifying the rune as the power source for Kolat Towers' force field."
+    },
+    "disarm": {
+      "dc": 19,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 19) destroys the rune. It can also be destroyed (AC 10, 22 HP)."
+    },
+    "effect": "The first time the rune takes damage, it summons a red slaad to defend it. The rune sustains the force field protecting Kolat Towers.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "Summons red slaad",
+    "damage_type": "",
+    "area": "Kolat Towers Area K18",
+    "description": "A magical rune in Kolat Towers that sustains the force field and summons a red slaad when damaged.",
+    "source": "(Waterdeep: Dragon Heist, p.157)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Spirit Trap (Blackstaff)",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "A Blackstaff dies while wielding the Blackstaff legendary staff",
+    "detection": {
+      "dc": 20,
+      "skill": "Intelligence (Arcana)",
+      "detail": "Identifying the Blackstaff's enchantment reveals it traps the spirits of its wielders."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Destroying the Blackstaff releases the trapped spirits."
+    },
+    "effect": "The spirit of the Blackstaff who dies while wielding the staff is trapped inside. The spirit cannot be raised from the dead while trapped. Destroying the staff releases them.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The Blackstaff legendary staff",
+    "description": "The Blackstaff legendary staff traps the spirit of each Blackstaff who dies while wielding it. Spirits can't be raised while trapped.",
+    "source": "(Waterdeep: Dragon Heist, p.191)",
+    "_source_manual": "WDH"
   }
 ]
