@@ -3877,5 +3877,734 @@
     "description": "Teeth on a leather cord from legendary heroes/monsters. Each grants +1 to Str/Dex/Con (max 3). Summon a creature associated with a tooth for 1 hour. Traps soul on death.",
     "source": "(Tasha's Cauldron of Everything, p.136)",
     "_source_manual": "TCE"
+  },
+  {
+    "name": "Bearskin Cloak",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "Yes, by a barbarian, druid, or ranger",
+    "description": "While wearing this cloak, as an action, you can assume the form of a brown bear, gaining its attacks (including multiattack), AC, and speed (including climb speed). You retain your own ability scores, hit points, and saving throws.",
+    "source": "(Book of Ebon Tides, p.195)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Boots of Dancing",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "These boots make your every movement smoother, stealthier, and more elegant. You can leap up to 10 feet vertically without effort, and land safely from falls up to 30 feet. When combined with a ring of dancing, you gain advantage on all Charisma ability checks.",
+    "source": "(Book of Ebon Tides, p.195)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Boots of Shadow Walking",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Your movement is enhanced on shadow roads and across long distances. Your travel pace is double the normal rate, though your speed in combat is not affected.",
+    "source": "(Book of Ebon Tides, p.195)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Cloak of Splendor",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes",
+    "description": "This cloak is made of fine ermine often embellished with gold or embroidered symbols. While wearing it, you can grip its edges to cast sunbeam once per day, and can generate 10 magical lights that shed sunlight in a 20-foot radius. The lights can be moved as a bonus action.",
+    "source": "(Book of Ebon Tides, p.195)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Cloak of the Raven",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "While wearing this cloak, you have advantage on Wisdom (Perception) checks. In dim light or sunlight, you can grip the edges to fly at 30 feet. You can also cast daylight as a readied action while in dim light or sunlight, usable once per dawn.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Earrings of Eclipse",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Two smoky quartz cubes on silver posts. While wearing them, you can take the Hide action while motionless in dim light or darkness even when creatures can see you. In darkness, you have advantage on the Stealth check. Moving, attacking, or casting a spell ends the hidden state.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Emerald Goblet",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "A silver-rimmed goblet with a single enormous emerald cup. Any liquid poured into it appears as a green potion. Drinking from it protects against shadow corruption for a day, gives advantage on Wisdom (Survival) checks to gather food in the Shadow Realm, and grants darkvision 30 feet (or extends existing darkvision by 30 feet).",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Gloves of the Walking Shade",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes",
+    "description": "Each glove is comprised of three black-ivory rings connected to an onyx wrist cuff by platinum chains. While wearing them, you gain resistance to necrotic damage, can spend a Hit Die during a short rest to remove one level of exhaustion, and can become a living shadow (move through 1-inch spaces, Hide as a bonus action in dim light or darkness). The shadow form is usable once per nightfall.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Glowstone Helmet",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Gnomish-manufactured helmet. While wearing it, you can cast a specific cantrip (usually dancing lights, light, mending, or produce flame) as an action. When combined with a frostglow weapon or find the path spell, it allows you to sense the direction and distance to the nearest ley line, shadow road, radiant well, or similar arcane landmarks.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sealskin Cloak",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes",
+    "description": "While wearing this cloak, as an action, you can assume the form of a seal, gaining its bite attack (1d8 piercing), AC 12, and 40 ft swim speed. You retain your own ability scores, hit points, and saving throws.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Styx Boots",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "Heavy leather boots that let you walk over any body of water as if it were normal terrain. You can slide or skate over calm waters, snow, ice, sand, or magma at double your normal walking speed (triple downhill). When combined with armor of the Black River, you can use planar waterways as shadow roads, arriving at any other plane once per week.",
+    "source": "(Book of Ebon Tides, p.196)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Trickster's Boots",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "Brightly colored boots (red, orange, or purple). While wearing them, you can leave tracks of any other creature you choose, including animal, monster, or dragon tracks, or tracks resembling any footgear you have seen. Attempts to follow these tracks are made normally.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Whispering Cloak",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Made of black, brown, and white bat pelts sewn together. While wearing it, you have blindsight out to 60 feet. With the hood up, you transform into pure shadow for up to 1 hour, gaining +2 AC, advantage on Stealth checks, and the ability to move through spaces as narrow as 1 inch. You cannot make attacks with nonmagical weapons or pick up objects while in shadow form. The effect resets at dusk.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wolfskin Cloak",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes",
+    "description": "While wearing this cloak, as an action, you can assume the form of a dire wolf, gaining its bite attack, speed, AC, and Keen Hearing and Smell trait. You retain your own ability scores, hit points, and saving throws.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Armor of the Black River",
+    "type": "Armor (Heavy)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "While wearing this armor, you gain a +1 bonus to AC and are immune to shadow corruption and void taint. You can use an action to assume a ghostly form for 10 minutes with a flying speed of 200 feet (movement only), usable once per dawn. When combined with Styx boots, you can use planar waterways as shadow roads once per week.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Armor of the White Rose",
+    "type": "Armor (Heavy)",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes",
+    "description": "You are immune to necrotic and cold damage but vulnerable to fire and radiant damage while wearing this armor. When you hit with a melee attack, the target takes an extra 3d6 necrotic damage and you regain 3d6 hit points. If you gain hit points above your maximum, you gain a level of exhaustion and the power ends until the next dawn.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ebony Beetle Armor",
+    "type": "Armor (Medium or Heavy)",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "Glossy black armor made from enchanted carrion beetle chitin by the darakhul. It doesn't impose disadvantage on Stealth checks or have a Strength requirement even if the normal version would. While wearing it, you are immune to slashing damage. It weighs half as much as comparable metal armor.",
+    "source": "(Book of Ebon Tides, p.197)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ghost Armor",
+    "type": "Armor (Light or Medium)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "While wearing this armor, you can speak its command word as a bonus action to move incorporeally for 1 round. You can move through creatures and objects as if they were difficult terrain, taking 5 (1d10) force damage if you end your turn inside an object. Usable for a number of rounds per day equal to your level.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Midnight Armor",
+    "type": "Armor (Light or Hide)",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes",
+    "description": "Spun of pure shadow and typically of shadow goblin or derro construction. While wearing it, you gain a +1 bonus to AC, resistance to radiant damage, and advantage on Dexterity (Stealth) checks.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Moonbeam Chain Mail",
+    "type": "Armor (Chain Mail)",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes, by a druid",
+    "description": "Woven moonlight armor made by the bearfolk, weighing only 5 pounds and always glowing gently. You gain a +1 bonus to AC (+2 under moonlight), an additional use of Wild Shape, and are considered proficient with it even lacking medium armor proficiency.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Moonstone Banded Armor",
+    "type": "Armor (Heavy)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Woven moonlight armor made by shadow goblins, weighing half as much as comparable armor and glowing gently. While wearing it, you have advantage on saving throws against spells and effects involving radiant, cold, or necrotic damage.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Rattling Armor",
+    "type": "Armor (Splint)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Made of humanoid bones and enchanted with glamours of terror. While wearing it, you have resistance to necrotic damage and can cast the fear spell as an action, usable once per dawn.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Road Warden Shield",
+    "type": "Armor (Shield)",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "While holding this shield, you can speak its command word to seal a portion of a shadow road, turning it into a looping path. Creatures walking the path always return to their starting point after 120 feet of movement. The effect ends if a creature steps off the path or the command word is spoken again.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Serpent Hide",
+    "type": "Armor (Hide)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "While wearing this armor, you can speak its command word to take on the form of a giant constrictor snake. You retain this form as long as you like, but once you return to your normal form, you cannot use it again until after a long rest.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shield of Blinding",
+    "type": "Armor (Shield)",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "While holding this shield, you can speak its command word and choose one creature you can see. The target must make a Constitution saving throw or be blinded for 1 minute, repeating the save at the end of each of its turns.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shield of Crows",
+    "type": "Armor (Shield)",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "While holding this shield, you can speak its command word to summon a swarm of ravens that scouts terrain, warns of enemies, and keeps watch for up to 12 hours. They do not engage in combat. While holding the shield, you can speak with crows and other corvids.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shield of Dawn's Herald",
+    "type": "Armor (Shield)",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes",
+    "description": "This shield has 3 charges (regains 1d3 at dawn). You can expend 1 charge to create a beam of light 10 feet wide and 120 feet long, revealing true forms of shapeshifters, piercing illusions, and dealing 1d6 radiant damage per round to undead in the beam. The beam lasts up to 1 minute with concentration.",
+    "source": "(Book of Ebon Tides, p.198)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shield of Otters",
+    "type": "Armor (Shield)",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "While holding this shield, you can speak its command word to summon a pair of otters (use giant weasel statistics) that scout aquatic and riparian terrain for up to 12 hours. They do not engage in combat. While holding the shield, you can speak with otters and other aquatic mammals.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shield of Swans",
+    "type": "Armor (Shield)",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "This shield has 3 charges (regains 1d3 at dawn). When you speak its command word and expend a charge, you gain a fly speed of 60 feet for 1d4 rounds. While holding it, you can speak with swans and other aquatic birds.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Umbral Armor",
+    "type": "Armor (Light, Medium, or Heavy)",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "Dull gray armor with gold or silver flecks and luminous purple filigree. While wearing it, you emit shadows that obscure your passage: all attempts to track you have disadvantage, and all ranged attacks against you have disadvantage. However, bright light negates both effects and gives attackers a +2 bonus on attack rolls against you.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ale Seed",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "An illusion seed that turns into a small cask of wholesome ale (roughly 4 gallons) with 4 tankards when thrown. Often used by shadow goblins or porters to avoid carrying heavy casks.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Bonfire Seed",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "An illusion seed that turns into a roaring bonfire 5 feet across with timbers and hot coals. If thrown at a creature, make a ranged attack; on a hit, the bonfire deals 2d6 fire damage to any creature standing in it at the start of its turn. The bonfire burns out in 1d4 hours.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Bridge Seed",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "An illusion seed that turns into a wooden bridge with stone piers covering a stream, moat, chasm, or river up to 40 feet across. The bridge can be undermined by flooding or burned normally. It remains standing for decades, slowly decaying.",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Forest Seed",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "An illusion seed that creates a forest based on an Intelligence (Nature) or Wisdom (Survival) check. Results range from a small 50-foot copse with a single bird (DC 10 or less) up to a vast woodland over 50 miles across with a friendly treant (DC 20+). Fire can unravel forests less than 1 month old.",
+    "source": "(Book of Ebon Tides, p.200)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dragon Seed",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "requires_attunement": "No",
+    "description": "An illusion seed that creates a dragon (type determined randomly, from lantern dragonette to adult red dragon). The dragon considers you a friend for at least 24 hours, defending itself and possibly you. After each 24-hour period, you must make a Charisma saving throw (DC depends on dragon type) or the dragon vanishes.",
+    "source": "(Book of Ebon Tides, p.200)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Knightly Seed",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "An illusion seed that must be cracked and thrown. Make a Strength (Athletics) or Dexterity (Acrobatics) check; results range from a knight with warhorse (DC 10 or less) up to an infernal knight on a nightmare (DC 20+). The creature serves as a knight and steed for a week and a day.",
+    "source": "(Book of Ebon Tides, p.201)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Messenger Owl Seed",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "An illusion seed that turns into a normal owl with Intelligence 14 that speaks Common and Umbral. It carries a spoken message and any object up to 1 pound for up to 30 miles to a specific person, title, or place. It waits up to 4 hours for a return message.",
+    "source": "(Book of Ebon Tides, p.201)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Orchard Seed",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "An illusion seed that creates a well-tended orchard based on an Intelligence (Nature) or Wisdom (Survival) check. Results range from a pair of nut trees (DC 10 or less) up to an enormous orchard of 3d12 fruit trees that provides a day's nourishment, acts as a long rest, and heals 10 hp (DC 20+). Fire can unravel orchards less than 1 month old.",
+    "source": "(Book of Ebon Tides, p.201)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Rain and Thunder Seed",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "Must be used outdoors. When thrown, you gain control of weather within a 5-mile radius for up to 1d8 hours, adjusting precipitation, temperature, and wind. The weather must always become less pleasant (colder, rainier, windier) than before. Lightning does not strike near you. Can be countered by control weather or counterspell.",
+    "source": "(Book of Ebon Tides, p.201)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Road Seed",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Must be used outdoors. When thrown, it creates a well-built road through any terrain up to 5 miles long, including up to one bridge crossing for a stream or chasm up to 50 feet across. Combined with a tavern seed, the road is twice as long. Can be countered by earthquake or shadow walk.",
+    "source": "(Book of Ebon Tides, p.202)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Stallion Seed",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "An illusion seed that turns into a magical courser with Intelligence 14, speaking Common and Umbral. It carries you for up to 30 miles to a particular place or along a particular road. If engaged in combat, it acts as a normal warhorse and flees at the first opportunity.",
+    "source": "(Book of Ebon Tides, p.202)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Tavern Seed",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Must be used outdoors. When thrown, it creates a small, snug tavern of stone and wood (roughly 40 ft by 20 ft) with a public floor, staff bedchambers, storage, and one rental room. It comes with a staff of three (cook, bartender, servant). Combined with a road seed, warm stables are included.",
+    "source": "(Book of Ebon Tides, p.202)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Boundless Joy",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a time of pure happiness and joy. You have advantage on Charisma ability checks for 1 hour and immediately gain the effects of a short rest. The effects cancel those of a philter of deep despair.",
+    "source": "(Book of Ebon Tides, p.202)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Deep Despair",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a time of heart-rending sorrow. You have advantage on Wisdom saving throws for 1 hour but cannot take bonus actions of any kind during that time. The effects cancel those of a philter of boundless joy.",
+    "source": "(Book of Ebon Tides, p.202)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Enchanted Fortune",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a time of staggering good fortune. You have advantage on the next three ability checks, attack rolls, or saving throws you make (including death saving throws).",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Innocence",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "When imbibed, you return to a childlike state. You have resistance to psychic damage for 1 hour and have advantage on Constitution ability checks during that time.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Loving Kindness",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a time of love and acceptance. You cannot be affected by spells from the school of enchantment for 1 hour.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Lust",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "When imbibed, you must succeed on a DC 13 Wisdom saving throw or be overcome by a fit of lust for 1 minute, seeking out a desired person or object. On a successful save, only the memories are passed to you. You can repeat the saving throw at the end of each of your turns.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Mercy",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a time of mercy and forgiveness. You are immune to being frightened for 1 hour and have advantage on Wisdom ability checks. The effects cancel those of a philter of righteous anger.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Righteous Anger",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "When imbibed, you must succeed on a DC 13 Wisdom saving throw or be overcome by rage for 1 minute: advantage on melee attacks, +3 (1d6) extra damage, but you attack the nearest creature (friend or foe). On a successful save, only the memories are passed. The effects cancel those of a philter of mercy.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Philter of Waking Dreams",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "When imbibed, you remember a particular scene of importance (duel, kiss, theft, betrayal, etc.). You take no action for 1 round and thereafter cannot forget these events. With a successful DC 13 Wisdom (Insight) check, you may note additional details about the relationships, status, and location within the dream.",
+    "source": "(Book of Ebon Tides, p.203)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Book of Ebon Tides",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes, by a wizard",
+    "description": "A twilight-hued tome written on shadow weave pages, bound in birch-board covers wrapped in shadow goblin hide. It has 15 charges (regains 2d6+3 at twilight). The Ebon Tides property allows reshaping terrain in the Shadow Realm after study. Shadow Lore doubles proficiency on related knowledge checks. Spells include darkness, mirror image, phantasmal killer, seeming, shadow gateway, and others. Retributive Shadows destroys the book to release a wave of shadow magic.",
+    "source": "(Book of Ebon Tides, p.204)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Collapsible Mountain",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "requires_attunement": "Yes",
+    "description": "A 4-inch statuette of a snow-topped, forested mountain. Speaking its command word creates a pine-covered mountain 2,500 feet tall either under you or under another creature you can see 120 feet away. The mountain provides food and fresh water for 15 humanoids or five steeds daily. Speaking the command word again collapses it harmlessly. Priests of Hecate say no one can retain it for more than a year.",
+    "source": "(Book of Ebon Tides, p.205)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Crown of Infinite Midnight",
+    "type": "Wondrous Item",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes",
+    "description": "A dazzling helm set with sapphires, black opals, and obsidians. Gems are consumed to cast spells: darkness (obsidian), vampiric touch (black opal), wall of ice (sapphire). Sapphires grant blindsight 120 ft dealing 1d6 necrotic damage. Black opals grant necrotic resistance. Obsidians let you ignite a weapon with black flames dealing +1d6 fire damage. Taking necrotic damage from a failed save may trigger a destructive backlash.",
+    "source": "(Book of Ebon Tides, p.205)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Hecate's Lantern",
+    "type": "Wondrous Item",
+    "rarity": "Legendary",
+    "requires_attunement": "Yes, by a cleric or wizard",
+    "description": "A gold and mithral lantern with amber and crystal panes, containing an ever-burning candle. It has 12 charges (regains 1d12+1 at dawn). Use includes: create mire (5 charges, 40-ft radius), force shift on shapeshifters (3 charges), and spells including moonbeam (2 charges) and child of light and darkness (8 charges). If the last charge is expended and a 1 is rolled, the lantern vanishes to a high priestess of Hecate.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Instant Door",
+    "type": "Wondrous Item",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "An ornate bright copper key. While holding it, you can make a turning motion to create a door in any wall within 5 feet, going through up to 5 feet of thickness. The exit remains until you remove it. Turning the key in the opposite direction turns any nonmagical door into matching wall material.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Labyrinth Rope",
+    "type": "Wondrous Item",
+    "rarity": "Common",
+    "requires_attunement": "No",
+    "description": "When you speak the command word, this rope slithers toward the nearest exit of any maze, dungeon, or labyrinth for 1 hour at a speed of 20 feet per round. When it reaches the exit, it coils up and waits for you to retrieve it.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Moonseeker's Lantern of Safe Returns",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "A pyramid-shaped lantern of black iron woven with silver, with clear crystal sides. When activated, it floats at shoulder height shedding bright light in a 30-foot radius (dim light +30 ft). You and companions within 30 feet cannot be surprised. In the Shadow Realm, it emits a pinpoint of light toward Corremel, City of Lanterns.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Portal Scroll",
+    "type": "Scroll",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "Written on black leather in letters of glowing white. When read, all creatures within 10 feet of you are transported to the Shadow Realm, usually near the scroll maker's residence.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Unerring Dowsing Rod",
+    "type": "Wondrous Item",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "A gnarled willow root, worn smooth from centuries absorbing the living darkness of the Shadow Realm. When held by its forked branches, it gently tugs toward the closest source of fresh water. On the Material Plane it finds bodies of water; in the Shadow Realm it may also direct toward homes with freshwater barrels or creatures carrying containers of fresh water.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wine of the Starry Void",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "A wine found in the Court of a Million Stars and among void cultists. Drinking it lets you roll 10d20 and apply each resulting die in any order to ability checks, attack rolls, saving throws, or death saving throws. All ten results must be applied before normal rolls can resume.",
+    "source": "(Book of Ebon Tides, p.207)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wine of the Summer Court",
+    "type": "Potion",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "A slightly pink white wine made with rose petals. It tastes of peach, grapefruit, and your first kiss. When you drink it, you have advantage on Charisma ability checks for 1 hour and can reroll one failed ability check, attack roll, or saving throw during that time.",
+    "source": "(Book of Ebon Tides, p.207)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wine of the Winter Court",
+    "type": "Potion",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "A dark red, nearly black wine with a syrupy flow, tasting of sour apple, bitter ash, and jealousy. When you drink it, you have disadvantage on Charisma ability checks for 1 hour, but are immune to being charmed and add your proficiency bonus to Wisdom saving throws (or double it if already added).",
+    "source": "(Book of Ebon Tides, p.207)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ring of Dancing",
+    "type": "Ring",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "When you dance or perform for an audience, your movements are especially thrilling. You have advantage on Charisma (Persuasion) checks with any fey, giant, or humanoid who has watched your performance within 24 hours. When worn with boots of dancing, you instead have advantage on all Charisma ability checks.",
+    "source": "(Book of Ebon Tides, p.207)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ring of Daylight",
+    "type": "Ring",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "This ring has 3 charges (regains 1d3 at dawn). Speaking the command word makes it shed bright light in a 60-foot radius (dim light +60 ft) for 1 hour. The light dispels darkness from spells of 3rd level or lower. Melee or ranged attacks made while wearing it deal radiant damage instead of their normal type.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ring of the Ghouls",
+    "type": "Ring",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "This ring has 3 charges (regains 1d3 at dawn). When you make a successful melee attack, you can use your reaction to expend 1 charge. The target must succeed on a DC 13 Constitution saving throw or be paralyzed until the end of its next turn.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ring of Winter's Kiss",
+    "type": "Ring",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "When you suffer cold damage while wearing this ring, you take damage normally. However, on your next turn, you can target any creature within 30 feet with an attack roll (+7 bonus). On a hit, the target takes the same cold damage you took.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Staff of Radiance",
+    "type": "Staff",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes, by a druid, sorcerer, warlock, or wizard",
+    "description": "A yarrow wood staff bleached white with golden points of warmth. You have resistance to radiant damage while holding it. It has 10 charges (regains 1d6+4 at dawn) and can cast burning radiance (4), daylight (2), searing sun (3), or sunburst (5), plus the douse light or light cantrips at will.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Staff of the Void",
+    "type": "Staff",
+    "rarity": "Very Rare",
+    "requires_attunement": "Yes, by a cleric, sorcerer, warlock, or wizard",
+    "description": "An ironwood staff, cracked and gnarled with purple wriggling movement within. You have resistance to psychic damage while holding it. It has 10 charges (regains 1d6+4 at midnight) and can cast life drain (5), living shadows (4), maddening whispers (2), or void strike (3), plus the word of misfortune cantrip at will.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wand of Shadows",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes, by a spellcaster",
+    "description": "This wand has 5 charges (regains 1d6+1 at midnight). While holding it, you have advantage on Dexterity (Stealth) checks against sight-reliant creatures. You can expend charges to cast darkbolt (save DC 15): 1 charge for 2nd-level, +1 charge per additional spell level.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Wand of Tides",
+    "type": "Wand",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes, by a spellcaster",
+    "description": "This wand has 5 charges (regains 1d4+1 at midnight). While holding it, you cannot be paralyzed. You can expend charges to warp space with tangible shadows: creatures moving toward you treat it as difficult terrain and attack rolls against you have disadvantage for 3 rounds or until you end it.",
+    "source": "(Book of Ebon Tides, p.208)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Blade of Grass",
+    "type": "Weapon (Sword or Axe)",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes, by a druid or cleric",
+    "description": "This magic weapon has 7 charges (regains all after a short or long rest). As a bonus action, you can expend 1 charge to conjure thick shrubs, grasses, roots, and saplings in a 10-foot radius, creating difficult terrain and cover against ranged attacks. The growth is permanent unless you speak the command word again.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Fey Blade",
+    "type": "Weapon (Sword or Axe)",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "This weapon is lightweight and portable, easily fitting into a dagger sheath even if a two-handed weapon or polearm. You can draw it or replace it as a bonus action.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Frostglow Weapon",
+    "type": "Weapon (Rapier or Dagger)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "A mithral weapon prized by gnomes and quicksteps. Using a bonus action to speak the command word forces all creatures within 30 feet to make a DC 15 Constitution saving throw or be paralyzed for 1 round (speed reduced to zero on success). The effect ends at the beginning of your next turn. Usable once per dawn.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Hecate's Dagger",
+    "type": "Weapon (Dagger)",
+    "rarity": "Legendary",
+    "requires_attunement": "Yes, by a cleric or wizard",
+    "description": "An adamantine dagger with a blue leather hilt wrapped with gold wire and a star opal pommel etched with moon phases and a triangle symbol. You gain a +3 bonus to attack and damage rolls. While wielding it, your counterspell rolls are made with advantage. Once per day, you can cast geas on a cleric/paladin/devout follower of Hecate, and you can cast either ebon tide or dimension door.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Lunar Lance",
+    "type": "Weapon (Any Polearm)",
+    "rarity": "Uncommon",
+    "requires_attunement": "No",
+    "description": "Made by shadow goblins for keeping larger foes at a distance. These weapons weigh nothing but are as sharp as any dagger. This weapon adds 10 feet to your reach when attacking with it.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Mooncatcher's Net",
+    "type": "Weapon (Net)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Woven by priests of Hecate or moonshadow catcher goblins. You have a +1 bonus on attack rolls. Creatures need a DC 16 Strength check to free themselves. The net has AC 14, 25 hit points, and regains 1 hp every 5 minutes (destroyed at 0 hp). You can drag it through dark water to harvest 1d4 random memory fragments for creating memory philters.",
+    "source": "(Book of Ebon Tides, p.209)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Moonsteel Weapon",
+    "type": "Weapon (Rapier or Dagger)",
+    "rarity": "Rare",
+    "requires_attunement": "No",
+    "description": "The blade shines with pale white light from within. It deals an extra 1d6 radiant damage to any creature it hits. If the creature is not in its true form, it becomes frightened until the start of your next turn and must succeed on a DC 13 Charisma saving throw or immediately return to its true form.",
+    "source": "(Book of Ebon Tides, p.210)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Quickstep Weapon",
+    "type": "Weapon (Rapier or Dagger)",
+    "rarity": "Uncommon",
+    "requires_attunement": "Yes",
+    "description": "When you wield this weapon and a creature you can see targets you with an attack, you can use your reaction to move to an unoccupied space within 5 feet without provoking opportunity attacks. If this puts you out of reach, the attack is at disadvantage.",
+    "source": "(Book of Ebon Tides, p.210)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Scepter Weapon",
+    "type": "Weapon (Club, Hammer, Mace, or Staff)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Speaking the command word as a bonus action activates a harsh purple light. You have advantage on Charisma (Intimidate) checks against beasts, dragons, fey, giants, humanoids, and monstrosities. Any foe or object struck glows, shedding dim light in a 10-foot radius \u2014 attack rolls against it have advantage and it cannot benefit from invisibility.",
+    "source": "(Book of Ebon Tides, p.210)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Witchlight Scimitar",
+    "type": "Weapon (Scimitar)",
+    "rarity": "Rare",
+    "requires_attunement": "Yes",
+    "description": "Speaking the command word as a bonus action causes golden radiance to spring from the blade, shedding bright light in a 30-foot radius (dim light +30 ft). While ablaze, it deals an extra 2d6 radiant damage. The glow lasts until you speak the command word again or drop/sheathe the scimitar.",
+    "source": "(Book of Ebon Tides, p.210)",
+    "_source_manual": "EBT"
   }
 ]
