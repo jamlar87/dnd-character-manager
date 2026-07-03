@@ -1731,6 +1731,53 @@
           <p style="margin:0"><strong>Eldritch Invocations.</strong> Many invocations enhance Pact Magic — additional spells known (at-will or once/rest), or modifications to eldritch blast.</p>
         </div>
         {% endif %}
+        <!-- Full caster explainer -->
+        {% if caster_type == "full" %}
+        <div id="full-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
+             onclick="toggleSection('full-caster-body','full-caster-arrow')">
+          <span id="full-caster-arrow" style="font-size:0.65rem">▸</span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Full Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB Ch.10)</span></span>
+        </div>
+        <div id="full-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+          <p style="margin:0 0 0.35rem 0"><strong>Full progression.</strong> Your spell slots advance every level — you gain access to higher-level spell slots as you level up, reaching up to 9th-level spells at level 17.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Cantrip scaling.</strong> Cantrip damage scales with <em>character</em> level, not class level: 5th (2x), 11th (3x), 17th (4x). <span style="font-size:0.6rem;opacity:0.6">PHB p.201</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Spell slots recharge</strong> on a long rest. You can convert between slots using class features like Sorcery Points or Arcane Recovery.</p>
+          <p style="margin:0"><strong>Higher-level slots.</strong> Casting a spell with a higher-level slot can increase its damage, targets, or duration — check the spell's "At Higher Levels" section.</p>
+        </div>
+        {% endif %}
+        <!-- Half caster explainer -->
+        {% if caster_type == "half" %}
+        <div id="half-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
+             onclick="toggleSection('half-caster-body','half-caster-arrow')">
+          <span id="half-caster-arrow" style="font-size:0.65rem">▸</span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Half Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB p.164)</span></span>
+        </div>
+        <div id="half-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+          <p style="margin:0 0 0.35rem 0"><strong>Half progression.</strong> Your spell slots advance at half the rate of a full caster — you get 1st-level slots at level 2, 2nd-level at level 5, and max out at 5th-level slots at level 17.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Paladins &amp; Rangers</strong> are <em>prepared</em> casters — you choose which spells to prepare each day from the full class list. Your preparation cap = level + spellcasting modifier. <span style="font-size:0.6rem;opacity:0.6">PHB p.84</span></p>
+          <p style="margin:0 0 0.35rem 0"><strong>Artificers</strong> are also prepared casters, but they use Intelligence and have their own spell list. <span style="font-size:0.6rem;opacity:0.6">TCoE</span></p>
+          <p style="margin:0"><strong>Multiclassing.</strong> Half caster levels count as <strong>half</strong> toward the multiclass spellcaster table (rounded down). Paladin 4 = 2 caster levels. <span style="font-size:0.6rem;opacity:0.6">PHB p.164</span></p>
+        </div>
+        {% endif %}
+        <!-- Multiclass caster explainer -->
+        {% if caster_type == "multiclass" %}
+        <div id="multi-caster-toggle" style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none;margin-bottom:0.3rem"
+             onclick="toggleSection('multi-caster-body','multi-caster-arrow')">
+          <span id="multi-caster-arrow" style="font-size:0.65rem">▸</span>
+          <span style="font-size:0.75rem;color:var(--text-muted)">How Multiclass Casting works <span style="font-size:0.6rem;opacity:0.6">(PHB p.164-165)</span></span>
+        </div>
+        <div id="multi-caster-body" style="display:none;margin-top:0.25rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+          <p style="margin:0 0 0.35rem 0"><strong>Combined table.</strong> Your total spell slots are determined by adding up your caster levels from each class:</p>
+          <ul style="margin:0 0 0.35rem 0;padding-left:1.2rem">
+            <li><strong>Full caster</strong> (Bard, Cleric, Druid, Sorcerer, Wizard): 1 level per class level</li>
+            <li><strong>Half caster</strong> (Paladin, Ranger, Artificer): ½ level per class level (rounded down)</li>
+            <li><strong>Pact Magic</strong> (Warlock): <strong>not included</strong> — tracked separately</li>
+          </ul>
+          <p style="margin:0 0 0.35rem 0"><strong>Spells known/prepared</strong> are per-class: you learn and prepare spells for each class independently using that class's rules.</p>
+          <p style="margin:0 0 0.35rem 0"><strong>Spellcasting ability</strong> is per-class: Wizard uses Intelligence, Cleric uses Wisdom. Your spell save DC and attack bonus are calculated separately for each class's spells.</p>
+          <p style="margin:0"><strong>Pact Magic</strong> from Warlock levels is <em>not</em> affected by the multiclass table. You track Pact Magic slots separately from your regular spell slots.</p>
+        </div>
+        {% endif %}
         {% if character.class_name in ("Cleric","Druid","Paladin","Wizard") and prepared_max > 0 %}
         <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem">
           Prepared Caster — preparation cap: {{ prepared_max }} (level {{ character.level }} + {{ sc_mod|string }} modifier)
