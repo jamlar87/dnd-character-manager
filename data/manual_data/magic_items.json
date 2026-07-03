@@ -4606,5 +4606,770 @@
     "description": "Speaking the command word as a bonus action causes golden radiance to spring from the blade, shedding bright light in a 30-foot radius (dim light +30 ft). While ablaze, it deals an extra 2d6 radiant damage. The glow lasts until you speak the command word again or drop/sheathe the scimitar.",
     "source": "(Book of Ebon Tides, p.210)",
     "_source_manual": "EBT"
+  },
+  {
+    "name": "Lembas",
+    "type": "Wondrous item",
+    "rarity": "Very Rare",
+    "requires_attunement": false,
+    "description": "A rare and wonderful food, the making of which is known only to the Elves. It is only gifted to those who are not Elves in times of great need. Wrapped in leaves, one cake of Lembas removes 1 level of Exhaustion and restores 1d6 hit points per level of the creature consuming it.",
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.139)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Waters of Nimrodel",
+    "type": "Wondrous item",
+    "rarity": "Very Rare",
+    "requires_attunement": false,
+    "description": "A flask containing the water of this river can heal the sick and restore the weary. One draught removes 1d2 levels of Exhaustion and restores 1d4 hit points per level of the creature consuming it.",
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.139)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Miruvor",
+    "type": "Wondrous item",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "An exceptionally rare and precious cordial from Rivendell. Small quantities may be gifted by Elrond or other powerful Elves of Imladris in times of great need. It cannot be bought. A small mouthful removes 1d4 levels of Exhaustion and returns 1 Hit Die.",
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.139)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Agarial",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Short sword. Craftsmanship: Dwarven (Nogrod). Qualities: Masterpiece, Fierce, Superior Fell. A blade thought lost at the end of the First Age, forged by Telchar himself. It is akin to the blade used by Beren to steal the Great Jewel from the Iron Crown of Morgoth. Though an instrument of death, it is a thing of surpassing beauty, a work of skill without peer.",
+    "source": "(Lonely Mountain Region Guide, p.31)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Black Axe of Beleriand",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Axe. Craftsmanship: Dwarven (Nogrod). Qualities: Grievous, Superior Keen, Venomed. A dangerous blade whose tragic history is one of great deeds and terrible sorrow. It was wielded by many chieftains of the Edain in the First Age.",
+    "source": "(Lonely Mountain Region Guide, p.32)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Shield of Anar (Rhingalad)",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Shield. Craftsmanship: Dwarven (Khazad-d\u00fbm). Qualities: Cunning Make, Superior Reinforced, Blessing: Inspire. A sturdy shield forged from iron and embossed with gleaming ithildin runes. It burns with a cold light which hardens resolve and lifts the hearts of others. Called Rhingalad by the Elves, it disappeared during the fall of Eregion when its bearer Anar the True gave his life.",
+    "source": "(Lonely Mountain Region Guide, p.32)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "War-mask of Belegost",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Helm. Craftsmanship: Dwarven (Belegost). Qualities: Runes of Resilience, Gleam of Terror, Fireproof. A headpiece worn by a legendary Dwarf-lord, incorporating a full faceplate intricately engraved to look hideous and grotesque, revealing only a glint of its wearer's eyes. The helm has scorch marks that neither craft nor magic can remove.",
+    "source": "(Lonely Mountain Region Guide, p.32)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Angrenithil",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Long Sword. Craftsmanship: Dwarven (Khazad-d\u00fbm). Banes: Orc-kind. Qualities: Grievous, Foe-slaying, Superior Fell. Forged in the final century before the fall of Eregion, made of shining steel and Mithril. The blade's runes glow in the dark by moon or starlight. Forged in friendship between a great Dwarven and Elven smith, bound with mutual hatred of Orcs. The Goblins of the Misty Mountains name it 'moon shanker.'",
+    "source": "(Lonely Mountain Region Guide, p.32)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Drake-bane",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Spear. Craftsmanship: Dwarven (Erebor). Qualities: Grievous, Superior Keen. Forged during the Dwarves' struggle with Dragons in the Grey Mountains, they found it prudent to not always draw close to their scaled foes. One of a number of spears forged with similarly optimistic names.",
+    "source": "(Lonely Mountain Region Guide, p.32)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Durin's Ring",
+    "type": "Wondrous item",
+    "rarity": "Artifact",
+    "requires_attunement": true,
+    "description": "The first of the Seven Rings of Power given to the Dwarf lords. It was said to have been given to Durin III not by Sauron but by the Elves themselves. The ring was said to breed gold from gold, but it also inflamed the bearer's heart to greed. Lost to the Necromancer. (Greater Blessing of Investigation, Curse of Weakness)",
+    "source": "(Lonely Mountain Region Guide, p.112)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Armour of N\u00e1in",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Ring-mail. Craftsmanship: Dwarven. Qualities: 1. Cunning Make 2. Rune-scored Armour. The force of the blow that Azog struck N\u00e1in was strong enough to break his neck, but it could not pierce his armour. Testimony to the craftsmanship of the smiths of the Iron Hills.",
+    "source": "(Lonely Mountain Region Guide, p.112)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Red Axe of D\u00e1in",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Axe. Craftsmanship: Dwarven. Qualities: 1. Fell 2. Grievous 3. Gleam of Terror. D\u00e1in slew Azog with a blow from his red axe, cutting his head off at the Battle of Azanulbizar.",
+    "source": "(Lonely Mountain Region Guide, p.112)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Darken",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "When the item is revealed (a sword unsheathed, a glove removed, etc.) all shadows deepen and light sources grow weak. The bearer makes any ability checks relying on sight with Disadvantage. No source of light can dispel this darkness.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Enfeebled",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "The Curse brings terrible weakness. The Loremaster chooses a saving throw (Strength, Dexterity, Constitution, or Charisma). The bearer makes those saving throws with Disadvantage.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Hunted",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "One type of enemy (Orcs, Evil Men, the Enemy) perceives the item when they come near. For The Eye of Mordor rules, this lowers the Veil score by 4 points. Journey Events and Revelation episodes may revolve around these stalkers.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ill-luck",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "Bad luck dogs the bearer. Any roll of 1 on the d20 (even for ability checks or saving throws) means an automatic failure.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ill-omen",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "The bearer's arrival is preceded by fell omens, filling allies with dread. Whenever the bearer is present for an Audience, the Company makes both the Introduction roll and Final Audience Check with Disadvantage.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Malice",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "The object does not love its bearer and will cause harm. If a skill roll concerns the item (Blessing-augmented check, attack roll, or foe's attack against armour), the companion has Disadvantage on the roll (for armour, the attacker gains Advantage).",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Owned",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "The item is owned or was created by another creature. The Loremaster decides on a specific enemy as owner. When in the presence of its owner, the item becomes useless and its features are completely ineffective.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Shadow Taint",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "The item bears a greater shadow-stain than most cursed items. As long as the hero carries the item, his Shadow score increases by half his Proficiency Bonus (rounded up). For a Legendary Weapon or Armour, the Shadow increase equals the number of Qualities on the item. This increase cannot be removed or healed until the Curse is lifted.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Weakness",
+    "type": "Cursed Item (Curse)",
+    "rarity": "Varies",
+    "requires_attunement": true,
+    "description": "So long as the bearer bears this Curse, they display the worst Flaw connected to their own Shadow Weakness. The Loremaster can invoke it to impose Disadvantage, require a saving throw to remain in control, or determine the effects of a Bout of Madness. The Flaw is temporary and does not count toward a companion's full complement of four Flaws.",
+    "source": "(Rivendell Region Guide, p.100)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Great Golden Two-Handed Cup",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 100 gold pieces. Carved with bird and flowers, their eyes and petals jewels. Sentimental to the Dwarves of Erebor.",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Emerald Necklace of Girion",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 100 gold pieces. Five hundred emeralds as green as grass, gifted to the Dwarves of Erebor by Girion, Lord of Dale. Sentimental to the Bardings.",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Belt of Pearls and Crystals",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 60 gold pieces. Made to accompany the Mithril Coat.",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Belt Crusted with Scarlet Stones",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 40 gold pieces. A belt crusted with scarlet stones.",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Helm of Figured Leather",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 60 gold pieces. Strengthened with steel and studded about the brow with white gems.",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Diamond Studs of Old Took",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A pair of diamond studs that fasten themselves and never come undone until ordered. (Blessing of Traditions)",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Arkenstone (Heart of the Mountain)",
+    "type": "Wondrous item",
+    "rarity": "Artifact",
+    "requires_attunement": false,
+    "description": "The greatest prize ever found by the Dwarves. Named the Heart of the Mountain, the Arkenstone of Thrain. A globe with a thousand facets. It shines like silver in firelight, like water in the sun, like snow under the stars and like rain upon the Moon. (Greater Blessing of Persuasion).",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Silver-scored Clarinet",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "This seemingly simple instrument makes music as clear and beautiful as any other, enchanting all who hear it. (Blessing of Performance)",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Searching Stick",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A gnarled old walking stave that, when poked about into dark and dusty corners, has a habit of turning up just what is required. (Blessing of Investigation)",
+    "source": "(Rivendell Region Guide, p.106)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Orcrist",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Long Sword. Craftsmanship: Elven. Banes: Orcs. Qualities: Luminescence, Raging, Superior Grievous. A sword with a jewelled hilt, crafted by the High Elves of Gondolin for use in the Goblin-wars. Its name means Goblin-cleaver, but the Goblins know it better by the name Biter.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Sting",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Short Sword. Craftsmanship: Elven. Banes: Orcs. Qualities: Luminescence, Superior Keen, Superior Grievous. To a Man or an Elf this blade might be a dagger, but to a Hobbit it is a short sword. Forged in Gondolin by Elven-smiths, this blade glows blue in the presence of Orcs.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Mithril Coat",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Coat of Mail. Craftsmanship: Dwarven. Qualities: Ancient Cunning Make, Mithril Armour. This small mail shirt was once wrought for a young Elf-prince. It is made of Mithril and can turn even the most grievous of blows.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Silver Ring-mail of Girion",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Ring-mail. Craftsmanship: Dwarven. Qualities: Ancient Cunning Make, Ancient Close-fitting. Once gifted to the son of Girion, Lord of Dale, this mail coat was wrought of silver but was as strong as triple steel.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Shield of the Dead",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Shield. Craftsmanship: Dwarven. Qualities: Superior Reinforced, Rune-scored Shield. This shield, ornately decorated by a Dwarven craftsman of ancient Erebor, was made for a warrior now-long dead.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Axe Under the Mountain",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Axe. Craftsmanship: Dwarven. Qualities: Superior Fell, Gleam of Terror. This silver-hafted axe was once wielded by the King Under the Mountain and was believed lost when Smaug drove the Dwarves from Erebor.",
+    "source": "(Rivendell Region Guide, p.107)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ruby on Golden Chain",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 50 gold pieces. A ruby that, by firelight, seems to glimmer with an inner flame even after the fire has been extinguished. Set onto a golden chain whose fine links can only be Elven-make.",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Adamant Ring",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 30 gold pieces. An adamant ring that catches the weakest of lights, even deep underground. Its size suggests it was made for the fingers of a Dwarf.",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Coronet of Erebor",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 40 gold pieces. A coronet studded with sparkling white gems, made long ago for the Dwarven nobles of Erebor.",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Green Gem Brooch",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 20 gold pieces. A green gem the colour of first shoots of spring, set into a golden brooch in the shape of a leaf. Possibly of Westernesse craft.",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Iridescent Pearl Circlet",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 120 gold pieces. An iridescent pearl set within a simple silver circlet, recovered from the sea of the Cape of Forochel. Said to allow one to see into the past or future.",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Amethyst Silver Ring",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 40 gold pieces. A pink-hued amethyst set into an intricately carved silver ring. The script carved in Quenya says 'I leave my heart to you.'",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Silver Circlet of Eloquence",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A silver circlet whose wearer finds their tongue similarly silvered. (Blessing to Traditions)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "War-horn of the Northern Kingdom",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A war-horn made by the people of the Northern Kingdom whose booming voice strikes fear in all foes. (Blessing to Intimidation)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Golden Torc of Merriment",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A golden torc inscribed with images of feasting and merry-making that lends grace to the voice of its wearer. (Blessing to Performance)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Elven-carved Staff of the Tracker",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "An Elven-carved wooden staff which causes deer tracks and others to reveal themselves to the bearer. (Blessing to Survival)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Fur-lined Cloak of Comfort",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A cloak lined with both enchantment and fur, which makes the wearer's words all the more comforting. (Blessing to Persuasion)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Silvered Steel Ring of Insight",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A ring made from silvered steel that reflects the innermost thoughts of any in its presence. (Blessing to Insight)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Dwarven Iron Ring of Smithing",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A simple Dwarven ring of iron that makes the hammer blows of the wearer strike the anvil with effortless precision. (Blessing to Smith's Tools)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Rod of Belegost Leechcraft",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A short rod that was once the symbol of leechcraft in Belegost, instilling peace and calm to a patient. (Blessing to Medicine)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Golden Circlet of Dwarven Runes",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A golden circlet carved with Dwarven runes that causes the wearer to find precisely what they seek. (Blessing to Investigation)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Magic Ring of Sharpened Wits",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A magical ring capable of sharpening the wits of any who wear it. (Blessing to Riddle)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Elven Cloak of Hiding",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A cloak of Elven make, the weave of which magically allows the wearer to blend seamlessly into surroundings. (Blessing to Stealth)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Walking Stick of Elven Rhymes",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A walking stick tightly wound with Elven rhymes which, when read aloud, make the miles pass faster. (Blessing to Survival)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Coil of Elven Rope",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A coil of fine Elven rope that can be furled out endlessly and once tied will never come untied unless the owner commands it. (Blessing to Athletics)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Seeing-stone of History",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A seeing-stone which, when held up to the dawn, shows what has gone before in this place. (Blessing to History)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Broken Mirror Shard of Lore",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A broken shard from a mirror in an Elven manor through which ghosts of the past may still be seen. (Blessing to Lore)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Path-cutting Knife",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A simple knife that seems to cut a path through thickets and bushes with utmost ease. (Blessing to Survival)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ivory Horn of Submission",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "An ivory horn engraved with images of defeated foes paying tribute. When lifted to the lips it makes not a sound, but men are compelled to bow down before its bearer. (Blessing to Intimidation)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Golden Ring of Clarity",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A beautiful golden ring that glistens with the light of the sun even at night, bestowing clarity of vision to its wearer. (Blessing to Perception)",
+    "source": "(Rivendell Region Guide, p.103)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Raven Axe of Arnor",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Long-hafted Axe. Craftsmanship: N\u00famen\u00f3rean. Banes: Evil Men, Undead. Qualities: Raging, Superior Fell, Keen. An axe of N\u00famen\u00f3rean craftsmanship, its broad head engraved with images of ravens and carrion birds. Crafted during Arnor's successor kingdoms' struggle against the Witch-king of Angmar, wound with spells to drive restless spirits back to their graves.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Coat of Shining Stars",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Heavy Mail. Craftsmanship: Dwarven. Qualities: Cunning Make, Runes of Protection (Bludgeoning), Mithril Armour. In sunlight this coat of Mithril chain seems dull and ancient. Only underground by torchlight does it reveal its quality: mail links that glisten as if sewn from the stars themselves.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Red Axe of Ruin",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Axe. Craftsmanship: Dwarven. Qualities: Gleam of Terror, Grievous, Runes of Victory. This axe was forever stained red with the blood of Orcs at the Battle of Azanulbizar. Whoever wields it can cut a bloody swathe through rank after rank of Goblin.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Crown of Spiderhollow",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Helm. Craftsmanship: Elven. Banes: Spiders. Qualities: Ancient Close-fitting, Runes of Clarity. At first glance a delicate headpiece woven from spider webs and ivy, closer inspection reveals it is carved from wood so delicately that it only appears so.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Bow of Celebr\u00edan",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Short Bow. Craftsmanship: Elven. Banes: Orc-kind. Qualities: Sure Shot, Keen, Biting Dart. Named in honour of Elrond's departed wife, this delicate bow was used on the tragic hunt for the Orcs that once captured her.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Rune-shield of Ossiriand",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Shield. Craftsmanship: Dwarven. Qualities: Reinforced, Rune-scored Shield. According to Dwarf legend, its wielder could hold back the seven rivers of Ossiriand themselves. Aside from its ornate brass boss in the shape of a roaring mountain lion, it appears plain until certain moons when Dwarven runes glisten on its surface.",
+    "source": "(Rivendell Region Guide, p.105)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Belegost Pearl Brooch",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 40 gold pieces. A great pearl set in an elaborate golden brooch carved with images of the sea. Made in the lost Dwarven city of Belegost.",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ruby of Westernesse",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 60 gold pieces. A ruby hanging from a simple silver chain made by the Men of Westernesse. On the coldest nights, the ruby is always warm.",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Golden Amethyst Necklace",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 40 gold pieces. A great golden necklace of Dwarven-make set with dozens of tiny amethysts. Once worn by the finest beauty of Beleriand.",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Eregion Diamond Tiara",
+    "type": "Treasure",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Worth 100 gold pieces. A delicate silver tiara decorated with a single diamond at the peak, of such workmanship it could only have been made in Eregion.",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ring of Westernesse (Two Blessings)",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A ring crafted by the Men of Westernesse. When worn on the left hand, it allows finding what was thought lost; on the right hand, it allows hiding what must not be found. (Blessing to Investigation and Stealth)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Circlet of Clear Sight",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "An otherwise unremarkable circlet that makes the wearer's sight crystal clear. (Blessing to Perception)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Leading Walking Stick",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A walking stick that seems to lead the way along untrodden paths. (Blessing to Survival)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "White Deer Slippers",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A pair of soft leather slippers made from the hide of a white deer that mask the footsteps of the wearer. (Blessing to Stealth)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Gilded Gold Ring of Tongues",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A beautifully carved ring of gold that gilds the wearer's honeyed words. (Blessing to Traditions)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Ancient Sword Sheath of Intimidation",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A sword sheath with images of an ancient victory procession from the First Age. When a sword is drawn, all who see it are compelled to bow down to the bearer. (Greater Blessing to Intimidation)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Silver Clasped Collar",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "A silver clasped collar that makes everything the wearer says seem agreeable. (Blessing to Persuasion)",
+    "source": "(Rivendell Region Guide, p.108)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Blade of Arahel",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Long Sword. Craftsmanship: N\u00famen\u00f3rean. Banes: Evil Men, Undead. Qualities: Keen, Raging. A finely made but unadorned long sword, said to have belonged to Arahel, one of the first chieftains of the D\u00fanedain.",
+    "source": "(Rivendell Region Guide, p.109)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Moruin (Black Bow)",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Bow. Craftsmanship: Elven. Qualities: Grievous, Biting Dart. The wood of this bow was hewed in ancient days from a Mallorn tree blackened by the fires of war. Something of those dark days remains in the wood.",
+    "source": "(Rivendell Region Guide, p.109)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Helm of Belegost",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Helm. Craftsmanship: Dwarven. Qualities: Close-fitting, Ancient Cunning Make. This slight, silvered-steel helm was once worn by a warrior of Belegost; what became of him has been lost to time, but the helm remains pristine.",
+    "source": "(Rivendell Region Guide, p.109)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Hollin-ward",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Shield. Craftsmanship: Elven. Banes: Orc-kind. Qualities: Reinforced, Warding Spell. In ancient times the Elves of Eregion and Dwarves of Khazad-d\u00fbm were fast allies. This shield dates from that time; of Elven craftsmanship, it also bears the runic marks of the Dwarves.",
+    "source": "(Rivendell Region Guide, p.109)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Hauberk of the Last Alliance",
+    "type": "Armor",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Scale Hauberk. Craftsmanship: Elven. Qualities: Elven-craft, Ancient Cunning Make. When the smiths of Eregion fled to Imladris, they prepared for war against the Dark Lord. These pieces were among the finest \u2014 light and supple, but strong enough to turn Orcish blades.",
+    "source": "(Rivendell Region Guide, p.109)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Lesser Ring",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": true,
+    "description": "One of the many magic rings that the smiths of Eregion made as essays in their craft. While not comparable to the major works, this magic ring is powerful and dangerous. Choose one attribute; when making an ability check using that attribute, you may spend a Hit Die to gain Advantage. However, if you use this benefit and fail the check anyway, you gain 1 point of Shadow.",
+    "source": "(Rivendell Region Guide, p.121)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Books and Maps of Forbidden Lore",
+    "type": "Wondrous item",
+    "rarity": "Rare",
+    "requires_attunement": false,
+    "description": "Elrond has entrusted access to precious texts and ancient maps concerning the Shadow and its effects on the land. You automatically recognise the threat of the Shadow when entering a Blighted place. You may make a DC 10 Intelligence (Shadow-lore) check; on success, you identify the source, allowing Advantage on required saving throws.",
+    "source": "(Rivendell Region Guide, p.121)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Spear of the Last Alliance",
+    "type": "Weapon",
+    "rarity": "Legendary",
+    "requires_attunement": false,
+    "description": "Type: Great Spear. Thousands of spears were forged in Imladris to arm the hosts of Gil-galad, their long staves of ash capped by long spikes. This particular spear was carried by an Elf-warrior of the Last Alliance against Sauron.",
+    "source": "(Rivendell Region Guide, p.121)",
+    "_source_manual": "RVR"
   }
 ]
