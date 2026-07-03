@@ -2655,13 +2655,13 @@ def merge_all_extractions():
         if backfilled:
             print(f'  Backfilled classes for {backfilled} spell(s) from SRD')
 
+    # ── Source normalization (inline during merge) ──────────────────────
+    _normalize_merged_sources(merged)
+    
     # Save merged files
     for cat, items in merged.items():
         path = OUTPUT_DIR / f"{cat}.json"
         _save_json(path, items)
-
-    # ── Source normalization (inline during merge) ──────────────────────
-    _normalize_merged_sources(merged)
 
     # ── Build pdf_map for downstream tooling ────────────────────────────
     pdf_map = _build_pdf_map()
@@ -2792,34 +2792,22 @@ def main():
 # ── Source normalization helpers ───────────────────────────────────────
 
 def _normalize_merged_sources(merged: dict) -> None:
-    """Normalize source strings in merged data: expand abbreviations, fix formatting.
-    Called during merge_all_extractions() so cleaned data is saved directly."""
+    """Normalize source strings to (Manual, pg#) format during merge."""
     import re
 
-    abbrev_map = {
-        "PHB": "Player's Handbook", "DMG": "Dungeon Master's Guide",
-        "MM": "Monster Manual", "XGE": "Xanathar's Guide to Everything",
-        "VGM": "Volo's Guide to Monsters", "MTF": "Mordenkainen's Tome of Foes",
-        "SCAG": "Sword Coast Adventurer's Guide", "EEPC": "Elemental Evil Player's Companion",
-        "GGR": "Guildmasters' Guide to Ravnica", "WGE": "Wayfinder's Guide to Eberron",
-        "TTP": "The Tortle Package", "AW": "Ancestral Weapons",
-        "HotDQ": "Hoard of the Dragon Queen", "RoT": "The Rise of Tiamat",
-        "LMoP": "Lost Mine of Phandelver", "ToA": "Tomb of Annihilation",
-        "WDH": "Waterdeep: Dragon Heist", "WSC": "The Wild Sheep Chase",
-        "TCE": "Tasha's Cauldron of Everything",
-    }
-    # Full book title map: _source_manual slug → human-readable display name
-    # Covers all third-party, Kobold Press, and TOR books used in the library
+    # Complete slug → display name map (must mirror _get_source_slug_map in main.py)
     book_title_map = {
         "AIPG": "Adventures in Middle-earth Player's Guide",
         "AW": "Ancestral Weapons", "BLRG": "Bree-land Region Guide",
         "CC": "Creature Codex", "CSF": "Courts of the Shadow Fey",
-        "DD": "Dues for the Dead", "DDP": "Defiance in Phlan",
-        "DMG": "Dungeon Master's Guide", "DPM": "Deep Magic: Elven High Magic",
-        "DPM1": "Deep Magic: Ley Lines", "EBT": "Book of Ebon Tides",
-        "EEPC": "Elemental Evil Player's Companion", "EIA": "Encounters in Avernus",
-        "EREA": "Erebor Adventures", "ERIA": "Eriador Adventures",
-        "ETR": "Expanding the Ranger", "GGR": "Guildmasters' Guide to Ravnica",
+        "CotN": "Call of the Netherdeep", "DD": "Dues for the Dead",
+        "DDP": "Defiance in Phlan", "DMG": "Dungeon Master's Guide",
+        "DPM": "Deep Magic: Elven High Magic", "DPM1": "Deep Magic: Ley Lines",
+        "DTCOE": "Tasha's Cauldron of Everything", "EBT": "Book of Ebon Tides",
+        "EEPC": "Elemental Evil Player's Companion", "EGW": "Explorer's Guide to Wildemount",
+        "EIA": "Encounters in Avernus", "EREA": "Erebor Adventures",
+        "ERIA": "Eriador Adventures", "ETR": "Expanding the Ranger",
+        "GGR": "Guildmasters' Guide to Ravnica", "GoS": "Ghosts of Saltmarsh",
         "HotDQ": "Hoard of the Dragon Queen", "KW": "Kobold Quarterly 20",
         "LMG": "Adventures in Middle-earth Loremaster's Guide",
         "LMRG": "Lonely Mountain Region Guide", "LMoP": "Lost Mine of Phandelver",
@@ -2831,64 +2819,67 @@ def _normalize_merged_sources(merged: dict) -> None:
         "RoT": "The Rise of Tiamat", "SCAG": "Sword Coast Adventurer's Guide",
         "SDQ": "Shadows of the Dusk Queen", "SME": "Saltmarsh Encounters",
         "SOM": "Shadows over the Moonsea", "SSK": "Secrets of Sokol Keep",
+        "TCE": "Tasha's Cauldron of Everything", "TCSR": "Tal'Dorei Campaign Setting Reborn",
         "TFS": "Tales from the Shadows", "TLT": "The Tortured Land",
         "TMFRV": "Tales of the Margreve", "TTP": "The Tortle Package",
         "ToA": "Tomb of Annihilation", "VGM": "Volo's Guide to Monsters",
         "W": "Wrath of the Bramble King", "W1": "Pride of the Mushroom Queen",
-        "W2": "Warlock 7", "W3": "Warlock 17",
-        "W4": "Warlock 22: Druids", "W5": "Warlock 32",
-        "W6": "Warlock 34", "W7": "Warlock Bestiary",
-        "W8": "Warlock Lair: The Returners' Tower",
-        "W9": "Warlock Lair: The Dark Aerie",
+        "W2": "Warlock 7", "W3": "Warlock 17", "W4": "Warlock 22: Druids",
+        "W5": "Warlock 32", "W6": "Warlock 34", "W7": "Warlock Bestiary",
+        "W8": "Warlock Lair: The Returners' Tower", "W9": "Warlock Lair: The Dark Aerie",
         "WDH": "Waterdeep: Dragon Heist", "WGE": "Wayfinder's Guide to Eberron",
         "WLA": "Wilderland Adventures", "WLL": "Warlock Lairs: Into the Wilds",
         "WRKF": "Wrath of the River King", "WS": "Shadows Envy",
         "WSC": "The Wild Sheep Chase", "XGE": "Xanathar's Guide to Everything",
+        "BGDIA": "Baldur's Gate: Descent into Avernus",
     }
-
+    title_lookup = {k.upper(): v for k, v in book_title_map.items()}
+    
+    # Garbage patterns — sources that should be dropped
+    garbage_prefixes = [
+        "unknown", "introductory text", "homebrew", "fragment",
+        "james larsen", "text provided", "page not determinable",
+        "sourcebook (page", "adventure p.?", "unknown page",
+    ]
+    
+    page_re = re.compile(r'(?:p\.?\s*|page\s+)(\d+)', re.IGNORECASE)
+    
     fixed = 0
     for cat, items in merged.items():
         for item in items:
-            src = item.get("source", "")
-            slug = item.get("_source_manual", "")
-            if not src:
-                # If no source, try to use the _source_manual slug
-                if slug and slug in book_title_map:
-                    item["source"] = book_title_map[slug]
-                    fixed += 1
-                continue
-
-            # Check if source is a bare adventure/scenario title (no book name)
-            # that should be prefixed with the parent book title
-            is_bare_adventure = (
-                slug and slug in book_title_map
-                and not any(abbr in src for abbr in abbrev_map)
-                and not re.search(r'(?:Player\'s|Dungeon|Monster|Guide|Manual|Adventure|Tome)', src, re.IGNORECASE)
-            )
-            if is_bare_adventure:
-                book_title = book_title_map[slug]
-                # Only prepend if the source doesn't already contain the book title
-                if book_title.lower() not in src.lower():
-                    item["source"] = f"{book_title} — {src}"
-                    fixed += 1
-                    src = item["source"]
-
-            # Expand abbreviations
-            for abbrev, full in sorted(abbrev_map.items(), key=lambda x: -len(x[0])):
-                pattern = re.compile(r'\b' + re.escape(abbrev) + r'\b')
-                if pattern.search(src):
-                    src = pattern.sub(full, src)
-                    fixed += 1
-
-            # Normalize format
-            src = re.sub(r'Chapter\s+(\d+)\s*\|\s*', r'Chapter \1: ', src)
-            src = re.sub(r'Chapter\s+(\d+)\s+I\s+', r'Chapter \1: ', src)
-            src = re.sub(r'\s+', ' ', src).strip()
-
-            item["source"] = src
-
+            src = (item.get("source") or "").strip()
+            slug = (item.get("_source_manual") or "").strip()
+            
+            display = title_lookup.get(slug.upper()) if slug else None
+            
+            # Extract page number if present
+            page = None
+            if src:
+                m = page_re.search(src)
+                if m:
+                    page = m.group(1)
+            
+            # Check if source is garbage
+            is_garbage = False
+            if src:
+                sl = src.lower()
+                is_garbage = any(sl.startswith(g) or g in sl for g in garbage_prefixes)
+            
+            if display and page:
+                item["source"] = f"({display}, p.{page})"
+                fixed += 1
+            elif display and not is_garbage and src and src.startswith("("):
+                pass  # Already formatted, keep as-is
+            elif display:
+                item["source"] = f"({display})"
+                fixed += 1
+            elif is_garbage or not src:
+                item["source"] = ""
+                fixed += 1
+            # else: no slug, no page, keep as-is but flag
+    
     if fixed:
-        print(f"  Normalized {fixed} source string(s)")
+        print(f"  Normalized {fixed} source string(s) to (Manual, pg#) format")
 
 
 def _apply_post_merge_fixups(output_dir: Path) -> None:

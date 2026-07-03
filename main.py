@@ -217,6 +217,85 @@ def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str
     return f"{slug}{page_str}"
 
 
+# ── Startup source validation ────────────────────────────────────────────────
+
+_SOURCE_VALID_CLEAN = re.compile(r'^\([A-Za-z][^)]+\)$')
+_SOURCE_VALID_PAGE = re.compile(r'^\(([^,]+),\s*p\.(\d+)\)$')
+_SOURCE_VALID_NO_PAGE = re.compile(r'^\(([^)]+)\)$')
+
+
+def _validate_manual_sources() -> None:
+    """Check all manual data files for clean source format at startup.
+    Logs warnings for bad formats, out-of-range pages, or slug mismatches.
+    This does not fix — it only warns so the operator can investigate."""
+    from pathlib import Path
+    import json
+    
+    data_dir = DATA_DIR / "manual_data"
+    files = ["races.json", "spells.json", "magic_items.json", "equipment.json",
+             "monsters.json", "npcs.json", "feats.json", "backgrounds.json", "subclasses.json"]
+    
+    # PDF page ranges (compact)
+    max_pages = {
+        "MM": 354, "DMG": 320, "PHB": 322, "XGE": 195, "MTF": 258, "VGM": 226,
+        "GGR": 258, "EGW": 307, "COTN": 226, "TCSR": 283, "TOA": 260, "LMoP": 64,
+        "WDH": 228, "HOTDQ": 97, "ROT": 98, "TTP": 28, "SCAG": 160, "TCE": 256,
+        "CC": 426, "EBT": 257, "CSF": 151, "TMFRV": 206, "MPG": 64, "TFS": 196,
+        "SME": 22, "SOM": 100, "WRKF": 70, "WLL": 180, "W2": 30, "W5": 32,
+        "W7": 38, "EIA": 37, "TLT": 32, "SDQ": 26, "DD": 25, "RRG": 144,
+        "ERIA": 144, "AIPG": 256, "BLRG": 160, "LMRG": 160, "EREA": 200,
+        "RVR": 160, "WLA": 200, "MWC": 200, "KW": 100, "DPM1": 100, "AW": 50,
+        "W": 9, "W1": 9, "W3": 30, "W4": 30, "W6": 30, "MOM": 15, "WSC": 50,
+        "WS": 9, "W8": 7, "W9": 7, "LMG": 256, "RAT": 50, "RGEO": 100,
+        "ETR": 50, "DDP": 50, "SSK": 50, "DPM": 100, "BGDIA": 256, "GOS": 256,
+    }
+    
+    # Slug → display (use existing slug map from the app)
+    slug_map = _get_source_slug_map()
+    
+    warnings = []
+    for fn in files:
+        path = data_dir / fn
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        items = list(data.values()) if isinstance(data, dict) else data
+        for entry in items:
+            name = entry.get("name", "?")
+            src = entry.get("source", "")
+            slug = (entry.get("_source_manual") or "").strip()
+            if not src:
+                continue
+            if not _SOURCE_VALID_CLEAN.match(src):
+                warnings.append(f"  ⚠ {fn}: {name} — bad format: '{src[:80]}'")
+                continue
+            m = _SOURCE_VALID_PAGE.match(src)
+            if m:
+                page = int(m.group(2))
+                display = m.group(1)
+                max_p = max_pages.get(slug.upper())
+                if max_p and page > max_p:
+                    warnings.append(f"  ⚠ {fn}: {name} — page {page} > {slug} max {max_p}")
+                if page <= 0:
+                    warnings.append(f"  ⚠ {fn}: {name} — page {page} (≤0)")
+                # Check slug→display match
+                slug_info = slug_map.get(slug.upper()) or slug_map.get(slug)
+                if slug_info:
+                    expected = slug_info.get("display", "")
+                    if expected and display != expected:
+                        warnings.append(f"  ⚠ {fn}: {name} — display '{display}' ≠ expected '{expected}'")
+    
+    if warnings:
+        print(f"[source_validation] {len(warnings)} warning(s):")
+        for w in warnings:
+            print(w)
+    else:
+        print("[source_validation] All sources clean ✅")
+
+
 def _normalize_recharge(recharge: str) -> str:
     """Normalize racial trait recharge strings to canonical forms.
     Canonical values: 'short', 'long', 'combat', 'special', 'dawn'.
@@ -246,6 +325,10 @@ def load_manual_data():
         return  # No manual data yet
 
     print(f"[manual_data] Loading from {meta.get('source_manuals', [])}")
+
+    # ── Startup source validation ────────────────────────────────────────
+    _validate_manual_sources()
+    # ──────────────────────────────────────────────────────────────────────
 
     # ── Races ── merge into RACES dict
     # Build set of known subrace names so we don't add them as top-level races
