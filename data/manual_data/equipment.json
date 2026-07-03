@@ -5,7 +5,7 @@
     "subtype": "healing",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "CotN",
     "_source_manual": "CotN"
@@ -299,7 +299,7 @@
     "subtype": "ranged",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "EGW",
     "_source_manual": "EGW"
@@ -310,7 +310,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "EGW",
     "_source_manual": "EGW"
@@ -321,7 +321,7 @@
     "subtype": "martial melee",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "EGW",
     "_source_manual": "EGW"
@@ -365,7 +365,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -376,7 +376,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -387,7 +387,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -398,7 +398,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 80,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -442,7 +442,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -501,7 +501,7 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 0,
     "source": "TTP",
     "_source_manual": "TTP"
@@ -562,9 +562,1988 @@
       "Special",
       "two-handed"
     ],
-    "cost": "—",
+    "cost": "\u2014",
     "weight": 6,
     "source": "WGE",
     "_source_manual": "WGE"
+  },
+  {
+    "name": "Airship",
+    "type": "Vehicle",
+    "subtype": "airborne",
+    "damage": "",
+    "properties": [],
+    "cost": "20,000 gp",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Basic poison",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1/2 ounce",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Vinegar",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gallons",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Beer",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "4 gallons",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Water, fresh",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "8 gallons",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Honey",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gallon",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Water, salt",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "12 gallons",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Mayonnaise",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gallons",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Wine",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gallon",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Ballista",
+    "type": "Siege Equipment",
+    "subtype": "Large object",
+    "damage": "16 (3d10) piercing",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Cannon",
+    "type": "Siege Equipment",
+    "subtype": "Large object",
+    "damage": "44 (8d10) bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Cauldron, Suspended",
+    "type": "Siege Equipment",
+    "subtype": "Large object",
+    "damage": "10 (3d6) fire",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Mangonel",
+    "type": "Siege Equipment",
+    "subtype": "Large object",
+    "damage": "27 (5d10) bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Ram",
+    "type": "Siege Equipment",
+    "subtype": "Large object",
+    "damage": "16 (3d10) bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Siege Tower",
+    "type": "Siege Equipment",
+    "subtype": "Gargantuan object",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Trebuchet",
+    "type": "Siege Equipment",
+    "subtype": "Huge object",
+    "damage": "44 (8d10) bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Bomb",
+    "type": "Explosive",
+    "subtype": "",
+    "damage": "3d6 fire",
+    "properties": [
+      "As an action, a character can light this bomb and throw it at a point up to 60 feet away. Each creature within 5 feet of that point must succeed on a DC 12 Dexterity saving throw or take 3d6 fire damage."
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Gunpowder",
+    "type": "Explosive",
+    "subtype": "",
+    "damage": "varies",
+    "properties": [
+      "Gunpowder is chiefly used to propel a bullet out of the barrel of a pistol or rifle, or it is formed into a bomb. Gunpowder is sold in small wooden kegs and in water-resistant powder horns. Setting fire to a container full of gunpowder can cause it to explode, dealing fire damage to creatures within 10 feet of it (3d6 for a powder horn, 7d6 for a keg). A successful DC 12 Dexterity saving throw halves the damage. Setting fire to an ounce of gunpowder causes it to flare for 1 round, shedding bright light in a 30-foot radius and dim light for an additional 30 feet."
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Gunpowder, keg",
+    "type": "Explosive",
+    "subtype": "Renaissance Item",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 20,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Gunpowder, powder horn",
+    "type": "Explosive",
+    "subtype": "Renaissance Item",
+    "damage": "",
+    "properties": [],
+    "cost": "35 gp",
+    "weight": 2,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Grenade, fragmentation",
+    "type": "Explosive",
+    "subtype": "Modern Item",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 1,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Grenade, smoke",
+    "type": "Explosive",
+    "subtype": "Modern Item",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 2,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Grenade launcher",
+    "type": "Weapon",
+    "subtype": "Modern Item",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 7,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Pistol",
+    "type": "Weapon",
+    "subtype": "Renaissance martial ranged",
+    "damage": "1d10 piercing",
+    "properties": [
+      "Ammunition (range 30/90)",
+      "loading"
+    ],
+    "cost": "250 gp",
+    "weight": 3,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Musket",
+    "type": "Weapon",
+    "subtype": "Renaissance martial ranged",
+    "damage": "1d12 piercing",
+    "properties": [
+      "Ammunition (range 40/120)",
+      "loading",
+      "two-handed"
+    ],
+    "cost": "500 gp",
+    "weight": 10,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Bullets (10)",
+    "type": "Ammunition",
+    "subtype": "Renaissance",
+    "damage": "",
+    "properties": [],
+    "cost": "3 gp",
+    "weight": 2,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Pistol, automatic",
+    "type": "Weapon",
+    "subtype": "Modern martial ranged",
+    "damage": "2d6 piercing",
+    "properties": [
+      "Ammunition (range 50/150)",
+      "reload (15 shots)"
+    ],
+    "cost": "",
+    "weight": 3,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Revolver",
+    "type": "Weapon",
+    "subtype": "Modern martial ranged",
+    "damage": "2d8 piercing",
+    "properties": [
+      "Ammunition (range 40/120)",
+      "reload (6 shots)"
+    ],
+    "cost": "",
+    "weight": 3,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Rifle, hunting",
+    "type": "Weapon",
+    "subtype": "Modern martial ranged",
+    "damage": "2d10 piercing",
+    "properties": [
+      "Ammunition (range 80/240)",
+      "reload (5 shots)",
+      "two-handed"
+    ],
+    "cost": "",
+    "weight": 8,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Rifle, automatic",
+    "type": "Weapon",
+    "subtype": "Modern martial ranged",
+    "damage": "2d8 piercing",
+    "properties": [
+      "Ammunition (range 80/240)",
+      "burst fire",
+      "reload (30 shots)",
+      "two-handed"
+    ],
+    "cost": "",
+    "weight": 8,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Shotgun",
+    "type": "Weapon",
+    "subtype": "Modern martial ranged",
+    "damage": "2d8 piercing",
+    "properties": [
+      "Ammunition (range 30/90)",
+      "reload (2 shots)",
+      "two-handed"
+    ],
+    "cost": "",
+    "weight": 7,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Laser pistol",
+    "type": "Weapon",
+    "subtype": "Futuristic martial ranged",
+    "damage": "3d6 radiant",
+    "properties": [
+      "Ammunition (range 40/120)",
+      "reload (50 shots)"
+    ],
+    "cost": "",
+    "weight": 2,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Antimatter rifle",
+    "type": "Weapon",
+    "subtype": "Futuristic martial ranged",
+    "damage": "6d8 necrotic",
+    "properties": [
+      "Ammunition (range 120/360)",
+      "reload (2 shots)",
+      "two-handed"
+    ],
+    "cost": "",
+    "weight": 10,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Laser rifle",
+    "type": "Weapon",
+    "subtype": "Futuristic martial ranged",
+    "damage": "3d8 radiant",
+    "properties": [
+      "Ammunition (range 100/300)",
+      "reload (30 shots)",
+      "two-handed"
+    ],
+    "cost": "",
+    "weight": 7,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Energy cell",
+    "type": "Ammunition",
+    "subtype": "Futuristic",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0.3125,
+    "source": "Dungeon Master's Guide",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Cup of coffee",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 cp",
+    "weight": 0,
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Newspaper",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "15 cp",
+    "weight": 0,
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Pendulum clock",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100-250 gp",
+    "weight": 0,
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Spectacles",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Guildmasters' Guide to Ravnica",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Light Crossbow",
+    "type": "Weapon",
+    "subtype": "simple ranged",
+    "damage": "1d8 piercing",
+    "properties": [
+      "ammunition (range 80/320)",
+      "loading",
+      "two-handed"
+    ],
+    "cost": "25 gp",
+    "weight": 5,
+    "source": "Lost Mine of Phandelver",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Pry Bar",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 5,
+    "source": "Lost Mine of Phandelver",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Malachite Gem",
+    "type": "Gemstone",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "15 gp each",
+    "weight": 0,
+    "source": "Lost Mine of Phandelver",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Astral Skiff",
+    "type": "Vehicle",
+    "subtype": "Ship",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Mordenkainen's Tome of Foes",
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Astral Brig",
+    "type": "Vehicle",
+    "subtype": "Ship",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Mordenkainen's Tome of Foes",
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Planar Raider",
+    "type": "Vehicle",
+    "subtype": "Ship",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Mordenkainen's Tome of Foes",
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Padded",
+    "type": "Armor",
+    "subtype": "light armor",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "Padded armor consists of quilted layers of cloth and batting.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Leather",
+    "type": "Armor",
+    "subtype": "light armor",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "The breastplate and shoulder protectors of this armor are made of leather that has been stiffened by being boiled in oil. The rest of the armor is made of softer and more flexible materials.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Studded Leather",
+    "type": "Armor",
+    "subtype": "light armor",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Hide",
+    "type": "Armor",
+    "subtype": "medium armor",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "This crude armor consists of thick furs and pelts. It is commonly worn by barbarian tribes, evil humanoids, and other folk who lack access to the tools and materials needed to create better armor.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Half plate",
+    "type": "Armor",
+    "subtype": "Medium Armor",
+    "damage": "",
+    "properties": [],
+    "cost": "750 gp",
+    "weight": 40,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Splint",
+    "type": "Armor",
+    "subtype": "Heavy Armor",
+    "damage": "",
+    "properties": [],
+    "cost": "200 gp",
+    "weight": 60,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Plate",
+    "type": "Armor",
+    "subtype": "Heavy Armor",
+    "damage": "",
+    "properties": [],
+    "cost": "1,500 gp",
+    "weight": 65,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Unarmed strike",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1 bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ammunition (range 25/100), loading",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": "",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ammunition (range 30/120), light, loading",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": "",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ammunition (range 100/400), heavy, loading, two-handed",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [
+      "heavy"
+    ],
+    "cost": "",
+    "weight": "",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Spikes, iron (10)",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 5,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Arcane Focus",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "An arcane focus is a special item\u2014an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item\u2014designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus, as described in chapter 10.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Druidic Focus",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus, as described in chapter 10.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Holy Symbol",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic. Appendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus, as described in chapter 10. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield.",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Tent",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Rope",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Bottle",
+    "type": "Container",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Dragonchess set",
+    "type": "Tool",
+    "subtype": "Gaming set",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0.5,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Three-Dragon Ante set",
+    "type": "Tool",
+    "subtype": "Gaming set",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Donkey or mule",
+    "type": "Mount",
+    "subtype": "animal",
+    "damage": "",
+    "properties": [],
+    "cost": "8 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Barding",
+    "type": "Tack and Harness",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "x4",
+    "weight": 2,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Feed (per day)",
+    "type": "Tack and Harness",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 cp",
+    "weight": 10,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ale",
+    "type": "Food and Drink",
+    "subtype": "Beverage",
+    "damage": "",
+    "properties": [],
+    "cost": "2 sp (gallon) / 4 cp (mug)",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Banquet (per person)",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Bread, loaf",
+    "type": "Food and Drink",
+    "subtype": "Food",
+    "damage": "",
+    "properties": [],
+    "cost": "2 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Cheese, hunk",
+    "type": "Food and Drink",
+    "subtype": "Food",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Squalid",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "7 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Poor",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Modest",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "5 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Comfortable",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "8 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Wealthy",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Inn stay (per day) - Aristocratic",
+    "type": "Lodging",
+    "subtype": "Inn",
+    "damage": "",
+    "properties": [],
+    "cost": "4 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Squalid",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "3 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Poor",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "6 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Modest",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "3 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Comfortable",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "5 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Wealthy",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "8 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meals (per day) - Aristocratic",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Meat, chunk",
+    "type": "Food and Drink",
+    "subtype": "Food",
+    "damage": "",
+    "properties": [],
+    "cost": "3 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Wine - Common (pitcher)",
+    "type": "Food, Drink, and Lodging",
+    "subtype": "Drink",
+    "damage": "",
+    "properties": [],
+    "cost": "2 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Wine - Fine (bottle)",
+    "type": "Food, Drink, and Lodging",
+    "subtype": "Drink",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Wine, Common (pitcher)",
+    "type": "Food and Drink",
+    "subtype": "Beverage",
+    "damage": "",
+    "properties": [],
+    "cost": "2 sp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Wine, Fine (bottle)",
+    "type": "Food and Drink",
+    "subtype": "Beverage",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Coach cab - Between towns",
+    "type": "Service",
+    "subtype": "Transportation",
+    "damage": "",
+    "properties": [],
+    "cost": "2 cp per mile",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Coach cab - Within a city",
+    "type": "Service",
+    "subtype": "Transportation",
+    "damage": "",
+    "properties": [],
+    "cost": "1 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Hireling - Skilled",
+    "type": "Service",
+    "subtype": "Hireling",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp per day",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Hireling - Untrained",
+    "type": "Service",
+    "subtype": "Hireling",
+    "damage": "",
+    "properties": [],
+    "cost": "2 sp per day",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Messenger",
+    "type": "Service",
+    "subtype": "Messenger",
+    "damage": "",
+    "properties": [],
+    "cost": "2 cp per mile",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Road or gate toll",
+    "type": "Service",
+    "subtype": "Toll",
+    "damage": "",
+    "properties": [],
+    "cost": "1 cp",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ship's passage",
+    "type": "Service",
+    "subtype": "Transportation",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp per mile",
+    "weight": 0,
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ammunition (range 100/400), heavy, loading",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [
+      "heavy"
+    ],
+    "cost": "",
+    "weight": "",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ammunition (range 150/600), heavy, two-handed",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [
+      "heavy"
+    ],
+    "cost": "",
+    "weight": "",
+    "source": "Player's Handbook",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Silver Ewer",
+    "type": "Wondrous item",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "The Rise of Tiamat",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Goblet (magical)",
+    "type": "Wondrous item",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "The Rise of Tiamat",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Dragontooth Dagger",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d4 piercing",
+    "properties": [
+      "light",
+      "finesse"
+    ],
+    "cost": "",
+    "weight": 1,
+    "source": "The Rise of Tiamat",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Spiked Armor",
+    "type": "Armor",
+    "subtype": "medium",
+    "damage": "",
+    "properties": [
+      "Stealth: Disadvantage"
+    ],
+    "cost": "75 gp",
+    "weight": 45,
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Birdpipes",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "Pan pipes or satyr pipes, also known as the shalm, these are sacred to Lliira and popular with wood elf and wild elf bards.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Glaur",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "Short, curved horns like a cornucopia. Played with valves, glaur sound like trumpets, while those without valves, known as gloon, have a more mournful sound.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Hand Drum",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A double-headed skin drum fitted with handles along its side.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Longhorn",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A Faerilnian flute of sophisticated make, found only in areas with skilled artisans, as in great cities or elven enclaves.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Songhorn",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A recorder, a simple type of flute, usually carved from wood.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Tantan",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A tambourine, a popular instrument with halflings and humans south of the Dalelands.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Thelarr",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "Also known as a whistlecane, a simple and easy-to-make wind instrument cut from a reed. They are so simple, in fact, that skilled bards frequently make and give them away to children-to the parents' delight or regret.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Tocken",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A hanging set of carved oval bells, usually played with a pair of light wooden hammers (or open handed). They are most common in underground cultures, where the resonant tones can carry.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Wargong",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A metal gong, traditionally made from a shield, particularly the shield of an enemy. Both goblins and dwarves make and play wargongs, their sound echoing through tunnels in the Underdark.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Yarting",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A southern instrument from Arnn and Calimshan that is a Faerilnian analog to the guitar. Numerous variations have spread across the continent.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Zulkoon",
+    "type": "Adventuring Gear",
+    "subtype": "Musical Instrument",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A complex pump organ that originated with the zulkirs of Thay, who use it in the casting of their spells. It is considered to have a dramatic, but sinister, sound.",
+    "source": "Sword Coast Adventurer's Guide",
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Canoe",
+    "type": "Vehicle",
+    "subtype": "water",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Insect Repellent (gourd or vial of salve)",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Rain Catcher",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 5,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Tej (1-gallon cask)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 sp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Yklwa",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d8 piercing",
+    "properties": [
+      "thrown (range 10/30 ft.)"
+    ],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarven half-plate armor",
+    "type": "Armor",
+    "subtype": "medium",
+    "damage": "",
+    "properties": [],
+    "cost": "750 gp",
+    "weight": 40,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "gold-embroidered scabbard",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dragon-shaped medal and chain fashioned from gold",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "copper mug with jade inlay",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dwarf-made breastplates",
+    "type": "Armor",
+    "subtype": "medium",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dwarf-made helmets",
+    "type": "Armor",
+    "subtype": "light",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dwarf-made shields",
+    "type": "Armor",
+    "subtype": "shield",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dwarf-made warhammers",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 bludgeoning",
+    "properties": [
+      "versatile (1d10)"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "dwarf-made battleaxes",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 slashing",
+    "properties": [
+      "versatile (1d10)"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Electrum platter inscribed with images of Chultan feasting rituals",
+    "type": "Art object",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Omuan death mask made of painted gold",
+    "type": "Art object",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Scale armor",
+    "type": "Armor",
+    "subtype": "medium",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Quiver with 20 arrows",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Holy symbol of Dendar the Night Serpent",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Black leather quiver embroidered with a quartz-studded star map",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "75 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ceremonial dagger in a gold scabbard embossed with a scene of stampeding jungle animals",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d4 piercing",
+    "properties": [
+      "finesse",
+      "light",
+      "thrown (range 20/60)"
+    ],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Gold Tankard",
+    "type": "Adventuring Gear",
+    "subtype": "treasure",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "+1 yklwa",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d8 piercing",
+    "properties": [
+      "thrown (range 10/30)"
+    ],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Golden Sarcophagus",
+    "type": "Adventuring Gear",
+    "subtype": "Container",
+    "damage": "",
+    "properties": [],
+    "cost": "7,500 gp",
+    "weight": 75,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Stone statuette of a froghemoth",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 5,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Copper bowl containing rat bones",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Green wax candle with a salvageable wick",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Twenty brittle arrows in a rotting leather quiver",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "1 piercing",
+    "properties": [
+      "ammunition"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Jewelry Box (cockroach-shaped)",
+    "type": "Adventuring Gear",
+    "subtype": "container",
+    "damage": "",
+    "properties": [],
+    "cost": "1,500 gp",
+    "weight": 5,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Hornet Mask (painted gold)",
+    "type": "Adventuring Gear",
+    "subtype": "treasure",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Iron Scepter with Adamantine Head",
+    "type": "Adventuring Gear",
+    "subtype": "treasure",
+    "damage": "",
+    "properties": [],
+    "cost": "unknown",
+    "weight": 5,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Carnelian gemstones",
+    "type": "Treasure",
+    "subtype": "gemstone",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp each",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dancing monkey fruit",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "5 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Menga leaves (1 ounce)",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ryath root",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Sinda berries (10)",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "5 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wild root",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wukka nut",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Yahcha",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Zabou",
+    "type": "Adventuring Gear",
+    "subtype": "Flora and Fauna",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "Tomb of Annihilation",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Flensing Claws",
+    "type": "Weapon",
+    "subtype": "melee weapon (augmentation)",
+    "damage": "varies by size (Small: 1d8 slashing; Medium: 1d10 slashing; Large: 1d12 slashing; Huge: 2d8 slashing)",
+    "properties": [
+      "special (requires attunement by specific creature)",
+      "cannot be removed without surgical amputation"
+    ],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "Volo's Guide to Monsters",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Survival Mantle",
+    "type": "Armor",
+    "subtype": "heavy armor (half plate)",
+    "damage": "",
+    "properties": [
+      "equivalent to nonmagical half plate armor",
+      "takes as long to don or doff as half plate",
+      "cannot be worn with other armor"
+    ],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "Volo's Guide to Monsters",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Adjustable Stilts",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "0 gp",
+    "weight": 8,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Backpack Parachute",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "0 gp",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Barking Box",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "0 gp",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Matchless Pipe",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "0 gp",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "smokepowder keg",
+    "type": "Explosive",
+    "subtype": "keg",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Golden sacrificial dagger",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d4 piercing",
+    "properties": [
+      "light",
+      "finesse"
+    ],
+    "cost": "unknown",
+    "weight": 1,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Golden mask",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Crimson robes",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "unknown",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Blank spellbook",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Book of Dwarvish phrases",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Silver statuette of a rearing hippogriff",
+    "type": "Adventuring gear",
+    "subtype": "Art object",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Essence of ether",
+    "type": "Potion",
+    "subtype": "Poison",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Waterdeep: Dragon Heist",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Gaming Set",
+    "type": "Tool",
+    "subtype": "Gaming Set",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Xanathar's Guide to Everything",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Land Vehicles",
+    "type": "Vehicle",
+    "subtype": "Land",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Xanathar's Guide to Everything",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Water Vehicles",
+    "type": "Vehicle",
+    "subtype": "Water",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Xanathar's Guide to Everything",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Poisoner's Tools",
+    "type": "Tool",
+    "subtype": "Artisan's Tools",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "Xanathar's Guide to Everything",
+    "_source_manual": "XGE"
   }
 ]
