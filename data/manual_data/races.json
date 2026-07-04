@@ -28,6 +28,14 @@
         "description": "The firbolg can communicate in a limited way with Beasts and Plants. These creatures understand the meaning of the firbolg's words, though the firbolg has no ability to understand their languages. In addition, the firbolg has advantage on Charisma checks it makes to influence a Beast or Plant.",
         "uses": 0,
         "recharge": ""
+      },
+      {
+        "name": "Firbolg Magic",
+        "description": "You can cast detect magic and disguise self with this trait. Once you cast either spell, you cannot cast it again until you finish a short or long rest. Wisdom is your spellcasting ability for these spells."
+      },
+      {
+        "name": "Hidden Step",
+        "description": "As a bonus action, you can magically turn invisible until the start of your next turn or until you attack, make a damage roll, or force someone to make a saving throw. Once you use this trait, you cannot use it again until you complete a short or long rest."
       }
     ],
     "subraces": [],
@@ -60,6 +68,34 @@
         "hp_per_level": 0,
         "natural_armor": null,
         "notes": "Can communicate in a limited way with Beasts and Plants; they understand the firbolg's words but the firbolg cannot understand their languages. Advantage on Charisma checks to influence a Beast or Plant."
+      },
+      "Firbolg Magic": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can cast detect magic and disguise self once each per short/long rest. Wisdom is spellcasting ability."
+      },
+      "Hidden Step": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Bonus action: become invisible until start of next turn or until you attack/make a damage roll/force a save. Once per short/long rest."
       }
     },
     "_source_manual": "CotN"
@@ -542,6 +578,10 @@
         "description": "You know the light cantrip. Charisma is your spellcasting ability for it."
       },
       {
+        "name": "Celestial Legacy",
+        "description": "Your celestial nature grants you supernatural abilities. You know the light cantrip, and can use your action to touch a creature and restore hit points equal to your level. Your subrace determines additional abilities you gain at 3rd level."
+      },
+      {
         "name": "Languages",
         "description": "You can speak, read, and write Common and Celestial."
       },
@@ -750,6 +790,20 @@
         "hp_per_level": 0,
         "natural_armor": null,
         "notes": "Choose one subrace: protector aasimar, scourge aasimar, or fallen aasimar."
+      },
+      "Celestial Legacy": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows light cantrip. Can heal touch equal to level once per long rest. Subrace determines 3rd-level abilities."
       }
     },
     "_source_manual": "EGW"
@@ -1424,6 +1478,10 @@
       {
         "name": "Primal Intuition",
         "description": "You have proficiency in two skills of your choice from the following list: Animal Handling, Insight, Intimidation, Medicine, Perception, and Survival."
+      },
+      {
+        "name": "Menacing",
+        "description": "You have proficiency in the Intimidation skill."
       }
     ],
     "subraces": [],
@@ -1477,6 +1535,22 @@
         "hp_per_level": 0,
         "natural_armor": null,
         "notes": "You gain proficiency in two skills of your choice from the listed options."
+      },
+      "Menacing": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Intimidation"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You have proficiency in the Intimidation skill."
       }
     },
     "_source_manual": "EGW"
@@ -2575,7 +2649,7 @@
       },
       {
         "name": "Darkvision",
-        "description": "You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+        "description": "You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
       },
       {
         "name": "Keen Senses",
@@ -2583,7 +2657,7 @@
       },
       {
         "name": "Shifting",
-        "description": "As a bonus action, you can assume a more bestial appearance. This transformation lasts for 1 minute, until you die, or until you revert to your normal appearance as a bonus action. When you shift, you gain temporary hit points equal to your level + your Constitution modifier (minimum of 1 temporary hit point). You also gain additional benefits that depend on your shifter subrace, described below. Once you shift, you can’t do so again until you finish a short or long rest."
+        "description": "As a bonus action, you can assume a more bestial appearance. This transformation lasts for 1 minute, until you die, or until you revert to your normal appearance as a bonus action. When you shift, you gain temporary hit points equal to your level + your Constitution modifier (minimum of 1 temporary hit point). You also gain additional benefits that depend on your shifter subrace, described below. Once you shift, you can't do so again until you finish a short or long rest."
       },
       {
         "name": "Languages",
@@ -2599,7 +2673,7 @@
       },
       {
         "name": "Mark the Scent",
-        "description": "As a bonus action, you can mark one creature you can see within 10 feet of you. Until the end of your next long rest, your proficiency bonus is doubled for any ability check you make to find the marked creature, and you always know the location of that creature if it is within 60 feet of you. You can’t use this trait again until you finish a short or long rest."
+        "description": "As a bonus action, you can mark one creature you can see within 10 feet of you. Until the end of your next long rest, your proficiency bonus is doubled for any ability check you make to find the marked creature, and you always know the location of that creature if it is within 60 feet of you. You can't use this trait again until you finish a short or long rest."
       },
       {
         "name": "Shifting Feature",
@@ -2818,15 +2892,15 @@
     "traits": [
       {
         "name": "Warforged Resilience",
-        "description": "You were created to have remarkable fortitude, represented by the following benefits.\n\n¢ You have advantage on saving throws against being poisoned, and you have resistance to poison damage.\n¢ You are immune to disease.\n¢ You don’t need to eat, drink, or breathe.\n¢ You don’t need to sleep and don’t suffer the effects of exhaustion due to lack of rest, and magic can’t put you to sleep."
+        "description": "You were created to have remarkable fortitude, represented by the following benefits.\n\n¢ You have advantage on saving throws against being poisoned, and you have resistance to poison damage.\n¢ You are immune to disease.\n¢ You don't need to eat, drink, or breathe.\n¢ You don't need to sleep and don't suffer the effects of exhaustion due to lack of rest, and magic can't put you to sleep."
       },
       {
-        "name": "Sentry’s Rest",
-        "description": "When you take a long rest, you must spend at least six hours in an inactive, motionless state, rather than sleeping. In this state, you appear inert, but it doesn’t render you unconscious, and you can see and hear as normal."
+        "name": "Sentry's Rest",
+        "description": "When you take a long rest, you must spend at least six hours in an inactive, motionless state, rather than sleeping. In this state, you appear inert, but it doesn't render you unconscious, and you can see and hear as normal."
       },
       {
         "name": "Integrated Protection",
-        "description": "Your body has built-in defensive layers, which determine your armor class. You gain no benefit from wearing armor, but if you are using a shield, you apply its bonus as normal.\n\nYou can alter your body to enter different defensive modes; each time you finish a long rest, choose one mode to adopt from the Integrated Protection table, provided you meet the mode’s prerequisite.\n\nMode Prerequisite Effect\nDarkwood Core (unarmored) None 11 + your Dexterity modifier (add proficiency bonus if proficient with light armor)\nComposite Plating (armor) Medium armor proficiency 13 + your Dexterity modifier (maximum of 2) + your proficiency bonus.\nHeavy Plating (armor) Heavy armor proficiency 16 + your proficiency bonus; disadvantage on Dexterity (Stealth) checks."
+        "description": "Your body has built-in defensive layers, which determine your armor class. You gain no benefit from wearing armor, but if you are using a shield, you apply its bonus as normal.\n\nYou can alter your body to enter different defensive modes; each time you finish a long rest, choose one mode to adopt from the Integrated Protection table, provided you meet the mode's prerequisite.\n\nMode Prerequisite Effect\nDarkwood Core (unarmored) None 11 + your Dexterity modifier (add proficiency bonus if proficient with light armor)\nComposite Plating (armor) Medium armor proficiency 13 + your Dexterity modifier (maximum of 2) + your proficiency bonus.\nHeavy Plating (armor) Heavy armor proficiency 16 + your proficiency bonus; disadvantage on Dexterity (Stealth) checks."
       }
     ],
     "subraces": [
@@ -5611,11 +5685,11 @@
         "description": "Your base walking speed is 30 feet, and you have a swim speed of 30 feet."
       },
       {
-        "name": "Windwright’s Intuition",
+        "name": "Windwright's Intuition",
         "description": "When you make a Dexterity (Acrobatics) check or any ability check involving operating or maintaining a water or air vehicle, you can roll one Intuition die, a d4, and add the number rolled to the ability check."
       },
       {
-        "name": "Storm’s Blessing",
+        "name": "Storm's Blessing",
         "description": "You have resistance to lightning damage."
       },
       {
@@ -5628,7 +5702,7 @@
       }
     ],
     "subraces": [],
-    "description": "The Mark of Detection manifests exclusively on half-elves. These traits replace the half-elf Ability Score Increase, Skill Versatility, and Languages traits given in the Player’s Handbook.",
+    "description": "The Mark of Detection manifests exclusively on half-elves. These traits replace the half-elf Ability Score Increase, Skill Versatility, and Languages traits given in the Player's Handbook.",
     "_effects": {
       "Ability Score Increase": {
         "armor_profs": [],
@@ -5658,7 +5732,7 @@
         "natural_armor": null,
         "notes": "Swim speed of 30 feet."
       },
-      "Windwright’s Intuition": {
+      "Windwright's Intuition": {
         "armor_profs": [],
         "weapon_profs": [],
         "tool_profs": [],
@@ -5672,7 +5746,7 @@
         "natural_armor": null,
         "notes": "Can roll a d4 and add it to Dexterity (Acrobatics) checks or ability checks involving operating/maintaining water or air vehicles."
       },
-      "Storm’s Blessing": {
+      "Storm's Blessing": {
         "armor_profs": [],
         "weapon_profs": [],
         "tool_profs": [],
@@ -6864,5 +6938,1632 @@
       }
     },
     "_source_manual": "CC"
+  },
+  {
+    "name": "Alseid",
+    "source": "(Margreve Player's Guide, p.9)",
+    "asi": {
+      "dexterity": 2,
+      "wisdom": 1
+    },
+    "speed": 40,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Alseid Weapon Training",
+        "description": "You have proficiency with spears and shortbows."
+      },
+      {
+        "name": "Light Hooves",
+        "description": "You have proficiency in the Stealth skill."
+      },
+      {
+        "name": "Quadruped",
+        "description": "The mundane details of the structures of humanoids can present considerable obstacles for you. You have to squeeze when moving through trapdoors, manholes, and similar structures even when a Medium humanoid wouldn't have to squeeze. In addition, ladders, stairs, and similar structures are difficult terrain for you."
+      },
+      {
+        "name": "Woodfriend",
+        "description": "When in a forest, you leave no tracks and can automatically discern true north."
+      }
+    ],
+    "subraces": [],
+    "description": "Alseid are tall, antlered humanoids standing over 6 feet tall and weighing around 300 pounds, with a deep connection to the Old World magic of the Margreve forest.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Alseid Weapon Training": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Light Hooves": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Quadruped": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Woodfriend": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Bearfolk",
+    "source": "(Book of Ebon Tides, p.24)",
+    "asi": {
+      "strength": 2
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Bite",
+        "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage."
+      },
+      {
+        "name": "Natural Armor",
+        "description": "Your hide is thick and tough, granting you a natural AC of 13 + your Dexterity modifier."
+      },
+      {
+        "name": "Powerful Build",
+        "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+      },
+      {
+        "name": "Ursine Talent",
+        "description": "You have proficiency in the Athletics and Perception skills."
+      }
+    ],
+    "subraces": [],
+    "description": "Bearfolk can reach a height of over 7 feet, possessing thick, muscular builds.",
+    "_effects": {
+      "Bite": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Natural Armor": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Powerful Build": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Ursine Talent": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Beorning",
+    "source": "(Adventures in Middle-earth Player's Guide, p.35)",
+    "asi": {
+      "strength": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Vale of Anduin Tongue"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Angry",
+        "description": "You have proficiency in the Intimidation skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Beorning Cultural Virtue of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "Most Beornings are fairly stocky and often stand 6 feet tall or more. They are a hardy folk who sustain themselves by breeding cattle and horses and keeping hives of great bees.",
+    "_effects": {
+      "Angry": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Darakhul",
+    "source": "(Book of Ebon Tides, p.25)",
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Darakhul",
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Hunger for Flesh",
+        "description": "You must consume 1 pound of raw meat each day or suffer the effects of starvation. If you go 24 hours without such a meal, you gain one level of exhaustion. While you have any levels of exhaustion from this trait, you can't regain hit points or remove levels of exhaustion until you spend at least 1 hour consuming 10 pounds of raw meat."
+      },
+      {
+        "name": "Imperfect Undeath",
+        "description": "You transitioned into undeath, but your transition was imperfect. Though you are a humanoid, you are susceptible to effects that target undead. You can regain hit points from spells like cure wounds, but you can also be affected by game effects that specifically target undead, such as a cleric's Turn Undead feature. Game effects that raise a creature from the dead work on you as normal, but they return you to life as a darakhul. A true resurrection or wish spell can restore you to life as a fully living member of your original race."
+      },
+      {
+        "name": "Powerful Jaw",
+        "description": "Your heavy jaw is powerful enough to crush bones to powder. Your bite is a natural melee weapon, which you can use to make unarmed strikes. When you hit with it, your bite deals piercing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+      },
+      {
+        "name": "Undead Resilience",
+        "description": "You are infused with the dark energy of undeath, which frees you from some frailties that plague most creatures. You have resistance to necrotic damage and poison damage, you are immune to disease, and you have advantage on saving throws against being charmed or poisoned. When you finish a short rest, you can reduce your exhaustion level by 1, provided you have ingested at least 1 pound of raw meat in the last 24 hours (see Hunger for Flesh feature)."
+      },
+      {
+        "name": "Undead Vitality",
+        "description": "You don't need to breathe, and you don't sleep the way most creatures do. Instead, you enter a dormant state that resembles death, remaining semiconscious, for 6 hours a day. While dormant, you have disadvantage on Wisdom (Perception) checks. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      }
+    ],
+    "subraces": [],
+    "description": "Darakhul are undead creatures transformed from various mortal races, retaining some traits of their former lives while gaining necrotic powers.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Hunger for Flesh": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Imperfect Undeath": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Powerful Jaw": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Sunlight Sensitivity": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Undead Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Undead Vitality": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dúnedain",
+    "source": "(Adventures in Middle-earth Player's Guide, p.37)",
+    "asi": {
+      "constitution": 1,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Sindarin",
+      "Westron"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Lore of Númenor",
+        "description": "You have proficiency in the History skill."
+      },
+      {
+        "name": "Raised in the Wild",
+        "description": "You have proficiency in the Survival skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Dúnedain Cultural Virtue of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "Most Dúnedain stand well over 6 feet tall. They never wear or carry anything whose worth cannot be measured in a practical way, and their gear is chosen for capability to endure long journeys and strenuous fights.",
+    "_effects": {
+      "Lore of Númenor": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Raised in the Wild": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Erina",
+    "source": "(Book of Ebon Tides, p.36)",
+    "asi": {
+      "wisdom": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Erina",
+      "Umbral",
+      "Common",
+      "Elvish",
+      "Sylvan"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Digger",
+        "description": "You have a burrow speed of 20 feet, but you can use it to only move through earth and sand, not mud, ice, or rock."
+      },
+      {
+        "name": "Quills",
+        "description": "Your spines are longer and more potent than other erinas. Whenever you make a successful melee attack against a target within 5 feet of you, that target takes an additional 3 (1d6) piercing damage. (Replaces the base erina's Spines trait.)"
+      },
+      {
+        "name": "Sharp Instincts",
+        "description": "You can't be surprised, except when incapacitated by something other than nonmagical sleep. (Replaces the base erina's Keen Senses trait.)"
+      },
+      {
+        "name": "Spirit Tongue",
+        "description": "You have an innate knack for speaking to the spirit world. You know the message cantrip. When you reach 3rd level, you can cast the charm person spell with this trait (targeting only undead creatures), and starting at 5th level, you can cast the enthrall spell with it. Once you cast a non-cantrip spell with this trait, you can't do so again until you finish a long rest. Wisdom is your spellcasting ability for these spells."
+      }
+    ],
+    "subraces": [],
+    "description": "The erina are a race of bipedal folk that resemble hedgehogs. Spiritfarer erinas are a subrace of erina, whose ancestors were forever changed by the Shadow Realm, setting them apart from most other erina.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Digger": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Quills": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Sharp Instincts": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Spirit Tongue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Piney",
+    "source": "(Margreve Player's Guide, p.13)",
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Piney"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Margreve Within",
+        "description": "As a piney adventuring beyond the Margreve, you have lost the more extreme, occasionally monstrous, qualities of your forest-dwelling kin. Nonetheless, the magic of the elder forest marks you. You can meet your daily alimentary needs by consuming a suitable amount of food or by standing in direct sunlight for 30 minutes. In addition, your organs are partially made from plant matter. You have advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Margreve Without",
+        "description": "Regardless of the time and distance between you and the Margreve, the forest's influence on you manifests in the form of strange alterations to your body. Although you are humanoid, your connection to the Margreve marks you with plant-like characteristics. Create a growth of your own in consultation with your GM or pick one from the following list: Your skin is rough with harmless cracks resembling tree bark; Heavily-perfumed flowers grow wherever your body hair is dense; Your eyes are twice as large as a human's, and their color is a changing swirl of green and brown; Your finger and toe nails are wood; Your major joints (shoulder, hip, knee) creak like tree branches when you move."
+      },
+      {
+        "name": "Roots",
+        "description": "You have a deep and pragmatic connection with the natural world. You are proficient in the Nature and Survival skills."
+      },
+      {
+        "name": "Darkvision",
+        "description": "A life lived under the canopy of the forest has provided you with the ability to see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      }
+    ],
+    "subraces": [],
+    "description": "Pineys are humanoid beings with plant-like characteristics, such as bark-like skin, wooden nails, or flowers growing from their bodies, and they vary widely in height and build from barely 5 feet to well over 6 feet tall.",
+    "_effects": {
+      "Margreve Within": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Margreve Without": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Roots": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Quickstep",
+    "source": "(Book of Ebon Tides, p.33)",
+    "asi": {
+      "dexterity": 2,
+      "charisma": 1
+    },
+    "speed": 50,
+    "darkvision": 60,
+    "languages": [
+      "Elvish",
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+      },
+      {
+        "name": "Nimble",
+        "description": "You have proficiency in the Acrobatics and Sleight of Hand skills."
+      },
+      {
+        "name": "Startling Speed",
+        "description": "Your movements are so swift that you are almost invisible when in motion. If you move at least 10 feet on your turn, attack rolls against you have disadvantage until the start of your next turn. This feature does not function if you are incapacitated or restrained. You can use this ability a number of rounds per day equal to your level."
+      }
+    ],
+    "subraces": [],
+    "description": "Quicksteps are small fey with a natural affinity for speed, often found in the fey courts, where they excel at sabotage and dueling. They have a fondness for finery and feel at home amid the riches of court life.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Fey Ancestry": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Nimble": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Startling Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ratatosk",
+    "source": "(Book of Ebon Tides, p.34)",
+    "asi": {
+      "strength": -2,
+      "dexterity": 2
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Celestial",
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Grounded Celestial",
+        "description": "You are descended from celestials, but you are strongly attuned to the mortal world. Though you are a humanoid, you are still susceptible to effects that target celestials."
+      },
+      {
+        "name": "Sharp Tusks",
+        "description": "Your sharp tusks are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal 1 piercing damage plus 1d4 psychic damage."
+      },
+      {
+        "name": "Telepathic",
+        "description": "You can speak telepathically to any creature you can see, provided the creature is within a number of feet of you equal to 10 times your level. You don't need to share a language with the creature for it to understand your telepathic utterances, but the creature must be able to understand at least one language."
+      }
+    ],
+    "subraces": [],
+    "description": "Resembling squirrels with sleek fur and small tusks, ratatosks are insatiable tricksters who form close matriarchal familial units called drays within larger communities called scurries.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Grounded Celestial": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Sharp Tusks": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Telepathic": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Stygian Shade",
+    "source": "(Book of Ebon Tides, p.37)",
+    "asi": {
+      "constitution": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Death Mask",
+        "description": "As an action, you can strip away your veneer of life and expose your true spectral face. All non-undead creatures within 30 feet that can see you must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the frightened condition on itself on a success. If a target's saving throw is successful or the effect ends for it, the target is immune to your Death Mask for the next 24 hours. You can use this ability a number of times per day equal to your Constitution modifier. (This trait replaces the base shade's Life Drain trait.)"
+      },
+      {
+        "name": "Ghostly Flesh",
+        "description": "Starting at 3rd level, you can use your action to dissolve your physical body into the ephemeral stuff of spirits. You become translucent and devoid of color, and the air around you grows cold. Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet with the ability to hover, and you have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks that aren't made with silvered weapons. In addition, you have advantage on ability checks and saving throws made to escape a grapple or against being restrained, and you can move through creatures and solid objects as if they were difficult terrain. If you end your turn inside an object, you take 1d10 force damage. Once you use this trait, you can't use it again until you finish a long rest."
+      },
+      {
+        "name": "Imperfect Undeath",
+        "description": "You are a humanoid, but your partial transition into undeath makes you susceptible to effects that target undead. Though you can regain hit points from spells like cure wounds, you can also be affected by effects that specifically target undead, such as a cleric's Turn Undead feature. Effects that raise a creature from the dead work on you as normal, but they return you to life as a shade. A true resurrection or wish spell can restore you to life as a fully living member of your original race."
+      },
+      {
+        "name": "Mysterious Origin",
+        "description": "Stygian shades are born with almost no memory of their former lives but have an innate desire to remember who they are. When you create your stygian shade, decide which one of these questions you know the answer to. The rest are questions you seek to answer: What is your name? Where are you from? Who were the people you loved most? How did you die? What unfinished business has caused you to rise as a shade? (This replaces the base shade's Living Origin trait.)"
+      },
+      {
+        "name": "Spectral Resilience",
+        "description": "You have advantage on saving throws against poison and disease, and you have resistance to necrotic damage."
+      }
+    ],
+    "subraces": [],
+    "description": "Stygian shades are shades from the Shadow Realm who lack most of their memories and are driven to find what was lost. They appear as ghosts, often congregating in the city of Soriglass.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Death Mask": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Ghostly Flesh": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Imperfect Undeath": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Mysterious Origin": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Spectral Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sublime Ravenfolk",
+    "source": "(Book of Ebon Tides, p.38)",
+    "asi": {
+      "dexterity": 2,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Ravenfolk",
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Constant Tune",
+        "description": "You have advantage on saving throws against being charmed or frightened. (This trait replaces the base ravenfolk's Sudden Attack trait.)"
+      },
+      {
+        "name": "Cosmic Musician",
+        "description": "You have proficiency in the Performance skill and gain proficiency with one musical instrument of your choice. (This trait replaces the base ravenfolk's Trickster trait.)"
+      },
+      {
+        "name": "Sublime Chord",
+        "description": "As an action, you can mimic the mysterious sublime song to charm creatures within range. All creatures within 30 feet that can hear you must succeed on a DC 13 Charisma saving throw or become charmed by you for 10 minutes. The charmed creatures regard you as a casual friend. A creature makes this saving throw with advantage if you or your companions are fighting it. Once you use this ability, you cannot do so again until you complete a long rest. (This replaces the base ravenfolk's Mimicry trait.)"
+      }
+    ],
+    "subraces": [],
+    "description": "Sublime ravenfolk are a subrace of ravenfolk, drawn by a mysterious psychic song to the Shadow Realm, and are slighter and shorter than humans, ranging from 4 feet to just shy of 6 feet tall.",
+    "_effects": {
+      "Constant Tune": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Cosmic Musician": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Sublime Chord": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Unbound Satarre",
+    "source": "(Book of Ebon Tides, p.39)",
+    "asi": {
+      "constitution": 2,
+      "wisdom": 1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Umbral",
+      "Abyssal",
+      "Infernal",
+      "Void Speech"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Darkvision",
+        "description": "Thanks to your dark planar parentage, you have superior vision in darkness. You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Keeper of Secrets",
+        "description": "You have proficiency in the Arcana skill, and you have advantage on Intelligence (Arcana) checks related to the planes and planar travel. In addition, you have proficiency in one of the following skills of your choice: History, Insight, or Religion."
+      },
+      {
+        "name": "Portal Sense",
+        "description": "While in a confined space, you instinctively know the direction and distance to the closest nonmagical entrance or exit to the area you are currently in. You also have advantage on any Intelligence (Investigation) or Wisdom (Perception) ability checks made to find secret or invisible doors and magical portals. (This trait replaces the base satarre's A Friend of Death trait.)"
+      },
+      {
+        "name": "Unraveling Touch",
+        "description": "You can use your action to attempt to tear at the reality that keeps a being together. Choose a creature that you can see within 30 feet. The creature must make a Constitution saving throw. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature that fails the saving throw must use its action each turn to repeat the saving throw as it attempts to keep itself in one piece. On a successful save, the effect ends on the target. Once you use this feature, you cannot do so again until you complete a long rest. (This trait replaces the base satarre's Carrier of Rot trait.)"
+      }
+    ],
+    "subraces": [],
+    "description": "Unbound satarre are a subrace of satarre, planar travelers with an instinctual sensitivity to places of transition, compelled to find gateways and widen their influence through mundane or magical means.",
+    "_effects": {
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Keeper of Secrets": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Portal Sense": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Unraveling Touch": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Thri-kreen",
+    "source": "(Monster Manual, p.288)",
+    "asi": {},
+    "speed": 40,
+    "darkvision": 60,
+    "languages": [
+      "Thri-kreen"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Chameleon Carapace",
+        "description": "The thri-kreen can change the color of its carapace to match the color and texture of its surroundings. As a result, it has advantage on Dexterity (Stealth) checks made to hide."
+      },
+      {
+        "name": "Standing Leap",
+        "description": ""
+      },
+      {
+        "name": "Natural Armor",
+        "description": ""
+      },
+      {
+        "name": "Bite",
+        "description": ""
+      },
+      {
+        "name": "Claws",
+        "description": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Thri-kreen are medium humanoid insectoids with a chitinous carapace, capable of changing color to blend with their surroundings, and possess powerful leaping abilities.",
+    "_effects": {
+      "Chameleon Carapace": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Standing Leap": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Natural Armor": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Bite": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Claws": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Dark Folk",
+    "source": "(Creature Codex, p.72)",
+    "asi": {},
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Dark Devotion",
+        "description": "The dark folk have advantage on saving throws against being charmed or frightened."
+      },
+      {
+        "name": "Gaze of Shadows",
+        "description": "The dark folk can trace the magical signature of any creature or object they can see that has cast or been affected by a spell within the last minute."
+      },
+      {
+        "name": "Darksight",
+        "description": "Dark folk can see in dim light as though it were bright light, and in magical darkness as though it were dim light."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": ""
+      },
+      {
+        "name": "Pack Tactics",
+        "description": ""
+      }
+    ],
+    "subraces": [],
+    "description": "This pale-skinned humanoid is swathed in dark robes. Beneath its hood, its face is a grotesque mask. Smooth, featureless flesh is where one eye would be; the existing eye is a black pit that swallows both light and hope.",
+    "_effects": {
+      "Dark Devotion": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Gaze of Shadows": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darksight": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Sunlight Sensitivity": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Pack Tactics": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Kapi",
+    "source": "(Creature Codex, p.336)",
+    "asi": {
+      "strength": 2,
+      "dexterity": 4,
+      "wisdom": 1,
+      "charisma": -1
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Simian"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Nimble Feet",
+        "description": "The kapi can take the Disengage action as a bonus action."
+      },
+      {
+        "name": "Prehensile Tail",
+        "description": "The kapi can use its tail to pick up and manipulate small objects."
+      }
+    ],
+    "subraces": [],
+    "description": "Kapi are medium humanoid simians from tropical jungles, where they make their homes in treetop villages. They are curious, playful tricksters with prehensile tails.",
+    "_effects": {
+      "Nimble Feet": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Prehensile Tail": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Vanara",
+    "source": "(Creature Codex, p.338)",
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Simian"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Distract",
+        "description": "The vanara can use a bonus action to distract a creature within 5 feet, giving allies advantage on their next attack roll against that target."
+      },
+      {
+        "name": "Quadrupedal Dash",
+        "description": "The vanara can use a bonus action to move on its hands and feet, increasing its speed by 10 feet for the turn."
+      },
+      {
+        "name": "Standing Leap",
+        "description": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Vanaras are a contemplative race that dwells in forests or along coastlines, living in tribes or clans. They are medium humanoids with simian features, often dressing only in short pants or waist wraps and a turban.",
+    "_effects": {
+      "Distract": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Quadrupedal Dash": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Standing Leap": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Molefolk",
+    "source": "(Book of Ebon Tides, p.175)",
+    "asi": {
+      "strength": 1,
+      "dexterity": 2,
+      "constitution": 2,
+      "intelligence": 1,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "speed": 20,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Umbral"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Burrow",
+        "description": "The molefolk has a burrowing speed of 20 feet through dirt and loose earth."
+      },
+      {
+        "name": "Keen Smell",
+        "description": ""
+      },
+      {
+        "name": "Claws",
+        "description": ""
+      },
+      {
+        "name": "Dirt Dive",
+        "description": ""
+      }
+    ],
+    "subraces": [],
+    "description": "This small, black-furred humanoid has oversized clawed hands, clamped together in a nervous gesture. His tiny eyes stare at you from behind a pair of thick spectacles positioned on his long pink nose.",
+    "_effects": {
+      "Burrow": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Keen Smell": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Claws": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Dirt Dive": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "EBT"
   }
 ]
