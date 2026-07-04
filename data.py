@@ -785,6 +785,8 @@ RACIAL_TRAIT_EFFECTS = {
     "Gnome Cunning":      {},
     "Hellish Resistance": {"damage_resist": ["Fire"]},
     "High Elf Cantrip":   {},
+    "Artificer's Lore":   {},
+    "Tinker":             {},
     "Infernal Legacy":    {},
     "Keen Senses":        {"skill_profs": ["Perception"]},
     "Lucky":              {},
@@ -847,6 +849,8 @@ RACIAL_TRAIT_DESCS = {
     "Necrotic Shroud":    "At 3rd level, you can use a bonus action to manifest a terrifying aspect for 1 minute. While transformed, creatures within 10 ft that can see you must succeed on a Charisma saving throw (DC 8 + proficiency bonus + Charisma modifier) or become frightened of you until the end of your next turn. Once per turn when you deal damage, you can add your level to the necrotic damage. Usable once per long rest.",
     "Gnome Cunning":      "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.",
     "High Elf Cantrip":   "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.",
+    "Artificer's Lore":   "Whenever you make an Intelligence (History) check related to magic items, alchemical objects, or technological devices, you can add twice your proficiency bonus, instead of any proficiency bonus you normally apply.",
+    "Tinker":             "You have proficiency with tinker's tools. Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time. Options include a Clockwork Toy, Fire Starter, or Music Box.",
 }
 
 
