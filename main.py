@@ -359,9 +359,90 @@ def load_manual_data():
     }
     
     manual_races = _load_manual_json("races.json")
+    
+    # ── Helper: inject subrace data from a manual race entry ───────────────
+    def _inject_subrace_data(parent_name, race, manual_subraces):
+        """Populate SUBASIS, SUBRACE_TRAITS, RACIAL_TRAIT_DESCS, etc.
+        for each subrace dict inside a manual race entry."""
+        _stat_names = {"str": "strength", "dex": "dexterity", "con": "constitution",
+                       "int": "intelligence", "wis": "wisdom", "cha": "charisma"}
+        for sr in manual_subraces:
+            sr_name = sr.get("name", "")
+            if not sr_name:
+                continue
+            # ASI
+            sr_asi = {}
+            for k, v in sr.get("asi", {}).items():
+                if v:
+                    key = _stat_names.get(k, k)
+                    sr_asi[key] = v
+            if sr_asi and sr_name not in SUBASIS:
+                SUBASIS[sr_name] = sr_asi
+            # Trait names
+            sr_trait_names = [st.get("name", "") for st in sr.get("traits", [])]
+            if sr_trait_names and sr_name not in SUBRACE_TRAITS:
+                SUBRACE_TRAITS[sr_name] = sr_trait_names
+            # Trait descriptions
+            for st in sr.get("traits", []):
+                stname = st.get("name", "")
+                stdesc = st.get("description", "")
+                if stname and stdesc:
+                    key = f"{sr_name}::{stname}" if stname.lower() in _GENERIC_TRAITS else stname
+                    if key not in RACIAL_TRAIT_DESCS:
+                        RACIAL_TRAIT_DESCS[key] = stdesc
+            # Effects
+            sr_effects = sr.get("_effects", {})
+            for stname, eff in sr_effects.items():
+                if stname not in RACIAL_TRAIT_EFFECTS:
+                    RACIAL_TRAIT_EFFECTS[stname] = {
+                        "armor_profs": eff.get("armor_profs", []),
+                        "weapon_profs": eff.get("weapon_profs", []),
+                        "tool_profs": eff.get("tool_profs", []),
+                        "skill_profs": eff.get("skill_profs", []),
+                        "damage_resist": eff.get("damage_resist", []),
+                        "condition_immune": eff.get("condition_immune", []),
+                        "speed": eff.get("speed"),
+                        "darkvision": eff.get("darkvision"),
+                        "hp_per_level": eff.get("hp_per_level", 0),
+                        "natural_armor": eff.get("natural_armor"),
+                    }
+            # Source
+            parent_src = RACES[parent_name].get("source", "")
+            _sr_srcs = RACES[parent_name].setdefault("_subrace_sources", {})
+            if sr_name not in _sr_srcs:
+                _sr_srcs[sr_name] = SUBRACE_SOURCES.get(sr_name, parent_src)
+            # Description
+            sr_desc = sr.get("description", "")
+            if sr_desc:
+                _sr_descs = RACES[parent_name].setdefault("subrace_descs", {})
+                if sr_name not in _sr_descs:
+                    _sr_descs[sr_name] = sr_desc
+            # Limited-use traits
+            for t in sr.get("traits", []):
+                tname = t.get("name", "")
+                tuses = t.get("uses", 0)
+                trecharge = t.get("recharge", "")
+                if tname and tuses > 0 and trecharge:
+                    key = tname.lower()
+                    if key not in LIMITED_USE:
+                        LIMITED_USE[key] = {"min": tuses, "max": tuses,
+                            "recharge": _normalize_recharge(trecharge),
+                            "class": "", "per": "fixed"}
+
     for race in manual_races:
         name = race.get("name", "")
-        if not name or name in RACES:
+        if not name:
+            continue
+        # ── Inject subrace data from manual entries even when race already exists ──
+        # Some core races (e.g. Shifter) exist in RACES with empty subraces, but the
+        # manual entry has the full subrace data. Process those here before the skip.
+        if name in RACES:
+            manual_subraces = race.get("subraces", [])
+            existing_subs = RACES[name].get("subraces") or []
+            if manual_subraces and len(manual_subraces) > len(existing_subs):
+                RACES[name]["subraces"] = [sr["name"] for sr in manual_subraces]
+                _inject_subrace_data(name, race, manual_subraces)
+            # Skip top-level race creation for existing core races
             continue
         # Apply canonical renames
         if name in _race_renames:
@@ -376,27 +457,34 @@ def load_manual_data():
         # Skip known aliases (e.g. "Ghostwise Halflings" → Ghostwise Halfling)
         if name.lower() in _subrace_aliases:
             continue
-        # ── Eberron Dragonmarks: convert "Mark of…" races into subraces ──
-        _mark_parents = {
-            "Mark of Detection": "Half-Elf",
-            "Mark of Finding (Human)": "Human",
-            "Mark of Handling (Human)": "Human",
-            "Mark of Healing (Halfling)": "Halfling",
-            "Mark of Passage (Human)": "Human",
-            "Mark of Scribing (Gnome)": "Gnome",
-            "Mark of Sentinel": "Human",
-            "Mark of Shadow": "Elf",
-            "Mark of Storm (Half-Elf)": "Half-Elf",
-            "Mark of Warding (Dwarf)": "Dwarf",
+        # ── Convert manual top-level races into subraces of core parents ──
+        # These are standalone entries that should be subraces of existing races.
+        _subrace_parents = {
+            # Eberron Dragonmarks
+            "Mark of Detection": ("Half-Elf", None),
+            "Mark of Finding (Human)": ("Human", None),
+            "Mark of Handling (Human)": ("Human", None),
+            "Mark of Healing (Halfling)": ("Halfling", None),
+            "Mark of Passage (Human)": ("Human", None),
+            "Mark of Scribing (Gnome)": ("Gnome", None),
+            "Mark of Sentinel": ("Human", None),
+            "Mark of Shadow": ("Elf", None),
+            "Mark of Storm (Half-Elf)": ("Half-Elf", None),
+            "Mark of Warding (Dwarf)": ("Dwarf", None),
+            # EGW / other source subraces
+            "Genasi (Fire)": ("Genasi", "Fire Genasi"),
+            "Lotusden Halfling": ("Halfling", None),
+            "Pallid Elf": ("Elf", None),
+            "Wildhunt Shifter": ("Shifter", None),
         }
-        if name in _mark_parents:
-            parent_name = _mark_parents[name]
+        if name in _subrace_parents:
+            parent_name, explicit_sr = _subrace_parents[name]
             if parent_name not in RACES:
                 # Parent race not found — fall through to top-level creation
                 pass
             else:
-                # Build a clean subrace name (strip parenthetical)
-                sr_name = re.sub(r"\s*\(.*?\)\s*$", "", name).strip()
+                # Build a clean subrace name (strip parenthetical) or use explicit
+                sr_name = explicit_sr if explicit_sr else re.sub(r"\s*\(.*?\)\s*$", "", name).strip()
                 # Add to parent's subrace list
                 if sr_name not in RACES[parent_name].get("subraces", []):
                     RACES[parent_name].setdefault("subraces", []).append(sr_name)
