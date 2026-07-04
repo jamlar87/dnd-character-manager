@@ -436,7 +436,50 @@ def load_manual_data():
         # ── Inject subrace data from manual entries even when race already exists ──
         # Some core races (e.g. Shifter) exist in RACES with empty subraces, but the
         # manual entry has the full subrace data. Process those here before the skip.
+        # Also inject race-level trait descriptions and effects for manual races (e.g.
+        # Ratfolk) that exist in the export but need their trait data populated.
         if name in RACES:
+            # Inject race trait descriptions (never overwrite generic traits)
+            for t in race.get("traits", []):
+                tname = t.get("name", "")
+                tdesc = t.get("description", "")
+                if tname and tdesc:
+                    key = f"{name}::{tname}" if tname.lower() in _GENERIC_TRAITS else tname
+                    if key not in RACIAL_TRAIT_DESCS:
+                        RACIAL_TRAIT_DESCS[key] = tdesc
+            # Inject race trait effects
+            effects = race.get("_effects", {})
+            for tname, eff in effects.items():
+                if tname not in RACIAL_TRAIT_EFFECTS:
+                    mapped = {
+                        "armor_profs": eff.get("armor_profs", []),
+                        "weapon_profs": eff.get("weapon_profs", []),
+                        "tool_profs": eff.get("tool_profs", []),
+                        "skill_profs": eff.get("skill_profs", []),
+                        "damage_resist": eff.get("damage_resist", []),
+                        "condition_immune": eff.get("condition_immune", []),
+                        "speed": eff.get("speed"),
+                        "darkvision": eff.get("darkvision"),
+                        "hp_per_level": eff.get("hp_per_level", 0),
+                        "natural_armor": eff.get("natural_armor"),
+                    }
+                    RACIAL_TRAIT_EFFECTS[tname] = mapped
+                else:
+                    na = eff.get("natural_armor")
+                    if na:
+                        RACIAL_TRAIT_EFFECTS[tname]["natural_armor"] = na
+            # Register limited-use race traits
+            for t in race.get("traits", []):
+                tname = t.get("name", "")
+                tuses = t.get("uses", 0)
+                trecharge = t.get("recharge", "")
+                if tname and tuses > 0 and trecharge:
+                    key = tname.lower()
+                    if key not in LIMITED_USE:
+                        LIMITED_USE[key] = {"min": tuses, "max": tuses,
+                            "recharge": _normalize_recharge(trecharge),
+                            "class": "", "per": "fixed"}
+            # Inject subrace data (e.g. Shifter subraces from manual data)
             manual_subraces = race.get("subraces", [])
             existing_subs = RACES[name].get("subraces") or []
             if manual_subraces and len(manual_subraces) > len(existing_subs):

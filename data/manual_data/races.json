@@ -6779,5 +6779,90 @@
       }
     },
     "_source_manual": "WGE"
+  },
+  {
+    "name": "Ratfolk",
+    "source": "(Creature Codex)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Nimbleness",
+        "description": "The ratfolk can move through the space of any Medium or larger creature.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Pack Tactics",
+        "description": "The ratfolk has advantage on attack rolls against a creature if at least one of the ratfolk's allies is within 5 feet of the creature and the ally isn't incapacitated.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Swim Speed",
+        "description": "The ratfolk has a swimming speed of 10 feet.",
+        "uses": 0,
+        "recharge": ""
+      }
+    ],
+    "subraces": [],
+    "description": "Ratfolk are small humanoids with a knack for stealth and pack tactics, often found in mercenary or warlock roles. They have darkvision and a natural nimbleness that allows them to move through larger creatures' spaces.",
+    "_effects": {
+      "Nimbleness": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can move through the space of any Medium or larger creature."
+      },
+      "Pack Tactics": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on attack rolls against a creature if at least one ally is within 5 feet and not incapacitated."
+      },
+      "Swim Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Swimming speed of 10 feet."
+      }
+    },
+    "_source_manual": "CC"
   }
 ]
