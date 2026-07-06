@@ -1157,9 +1157,20 @@
                style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
+              {% if fa.get("sub_options") %}
+              <span style="font-size:0.85rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
+              <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
+                {% for so in fa.sub_options %}
+                  {% if "channel divinity" in (so.name or "").lower() %}
+                  <span style="font-size:0.7rem;color:var(--text-muted);line-height:1.2">{{ so.description[:80] }}{% if so.description|length > 80 %}...{% endif %}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% else %}
               <span style="font-size:0.85rem;font-weight:600">{{ fa.name }}</span>
               {% if fa.get("action_desc") %}
               <span style="font-size:0.7rem;color:var(--text-muted);overflow-wrap:break-word;word-break:break-word;flex:1;min-width:0;line-height:1.3">{{ fa.action_desc }}</span>
+              {% endif %}
               {% endif %}
             </span>
             {% if pool in ('hp', 'points', 'dice') %}
@@ -1176,7 +1187,7 @@
             <span class="feat-pool-max" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;white-space:nowrap">max {{ uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
             {% elif uses_max > 0 %}
             <span class="feat-uses-dots" style="font-size:0.75rem;font-family:monospace;margin-left:0.5rem;white-space:nowrap">
-              {% for i in range(uses_max) %}
+              {% for i in range(uses_max) if i < 15 %}
               <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %}"></span>
               {% endfor %}
               <span style="margin-left:0.25rem;color:var(--text-muted)">{{ uses }}/{{ uses_max }}</span>
@@ -1208,9 +1219,20 @@
                style="display:flex;align-items:center;justify-content:space-between;padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              {% if fa.get("sub_options") %}
+              <span style="font-size:0.8rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
+              <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
+                {% for so in fa.sub_options %}
+                  {% if "channel divinity" in (so.name or "").lower() %}
+                  <span style="font-size:0.65rem;color:var(--text-muted);line-height:1.2">{{ so.description[:80] }}{% if so.description|length > 80 %}...{% endif %}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% else %}
               <span style="font-size:0.8rem;font-weight:600">{{ fa.name }}</span>
               {% if fa.get("action_desc") %}
               <span style="font-size:0.65rem;color:var(--text-muted);overflow-wrap:break-word;word-break:break-word;flex:1;min-width:0;line-height:1.2">{{ fa.action_desc }}</span>
+              {% endif %}
               {% endif %}
             </span>
             {% if uses_max > 0 and pool in ('hp', 'points', 'dice') %}
@@ -1661,9 +1683,11 @@
                 </span>
                 <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
                 {% else %}
+                  <span id="feat-uses-box-{{ idx }}" style="display:inline-flex;align-items:center;gap:0.25rem">
                   {% for i in range(feat.uses_max) %}
                   <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
                   {% endfor %}
+                  </span>
                   <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
                 {% endif %}
                 <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
@@ -6825,7 +6849,7 @@ function searchItems(query) {
     if (!results) return;
     if (q.length < 1) { results.style.display = 'none'; return; }
     try {
-      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}&limit=50`);
+      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
       const d = await r.json();
       let items = d.results || [];
       if (_coreOnly) items = items.filter(it => isCoreItemSource(it.source || ''));

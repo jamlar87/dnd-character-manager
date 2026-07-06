@@ -2204,7 +2204,7 @@ async function loadAllItems() {
   const results = document.getElementById('itemPickerResults');
   results.innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading...</div>';
   try {
-    const r = await fetch('/api/items/search?limit=200');
+    const r = await fetch('/api/items/search');
     const d = await r.json();
     renderPickerResults(d.results || []);
   } catch(e) {
@@ -2219,7 +2219,7 @@ function searchItemPicker(query) {
   _pickerTimer = setTimeout(async () => {
     const results = document.getElementById('itemPickerResults');
     try {
-      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}&limit=50`);
+      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
       const d = await r.json();
       renderPickerResults(d.results || []);
     } catch(e) {}

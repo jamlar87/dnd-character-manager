@@ -946,25 +946,61 @@ async def character_sheet(char_id: int, request: Request):
             _fname_lower = _feat.get("name", "").lower()
             if _fname_lower in LIMITED_USE:
                 _lu = LIMITED_USE[_fname_lower]
-                _feat["uses_max"] = _lu.get("max", 1)
-                _feat["uses"] = _lu.get("max", 1)
+                # Use get_uses_for_level for proper scaling (instead of raw max=99)
+                import json as _json
+                _cls_levels_raw = char.get("class_levels", "{}") or "{}"
+                try:
+                    _cls_levels = _json.loads(_cls_levels_raw) if isinstance(_cls_levels_raw, str) else (_cls_levels_raw or {})
+                except (_json.JSONDecodeError, TypeError):
+                    _cls_levels = {}
+                _lu_class = _lu.get("class", "")
+                _source_level = 0
+                if _lu_class and _cls_levels:
+                    _source_level = _cls_levels.get(_lu_class, 0)
+                if not _source_level:
+                    _source_level = char.get("level", 0)
+                if _source_level > 0:
+                    _uses = get_uses_for_level(_fname_lower, _lu_class or "", _source_level)
+                    if _uses > 0:
+                        _feat["uses_max"] = _uses
+                        _feat["uses"] = _uses
+                # Fallback: use max from LIMITED_USE if get_uses_for_level returned 0
+                if not _feat.get("uses_max"):
+                    _feat["uses_max"] = _lu.get("max", 1)
+                    _feat["uses"] = _lu.get("max", 1)
                 if _lu.get("recharge"):
                     _feat["recharge"] = _lu["recharge"]
+                # Special case: Divine Sense adds CHA mod
+                if _fname_lower == "divine sense":
+                    _cha = char.get("charisma", 10)
+                    _cha_mod = (_cha - 10) // 2
+                    _feat["uses_max"] = max(1, _feat["uses_max"] + _cha_mod)
+                    _feat["uses"] = max(1, _feat.get("uses", 0) + _cha_mod)
         # Enrich racial traits missing uses_max (set from uses if present)
         if isinstance(_feat, dict) and _feat.get("uses") and not _feat.get("uses_max"):
             _feat["uses_max"] = _feat["uses"]
-        # Enrich action_type from FEATURE_ACTION_TYPES for all features
-        if isinstance(_feat, dict) and not _feat.get("action_type"):
-            _key = _feat.get("name", "").lower()
-            import re as _re
-            _clean_key = _re.sub(r'\s*\([^)]*\)\s*$', '', _key).strip()
-            _action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(_key)
-            # Fallback: composite Channel Divinity names (e.g. "channel divinity: abjure enemy | l3: channel divinity: vow of enmity")
-            if not _action_info and "channel divinity" in _clean_key:
-                _action_info = FEATURE_ACTION_TYPES.get("channel divinity")
-            if _action_info:
-                _feat["action_type"] = _action_info[0]
-                _feat["action_desc"] = _action_info[1]
+        # Enrich action_type from FEATURE_ACTION_TYPES for features missing it
+        if isinstance(_feat, dict):
+            if not _feat.get("action_type"):
+                _key = _feat.get("name", "").lower()
+                import re as _re
+                _clean_key = _re.sub(r'\s*\([^)]*\)\s*$', '', _key).strip()
+                _action_info = FEATURE_ACTION_TYPES.get(_clean_key) or FEATURE_ACTION_TYPES.get(_key)
+                # Fallback: composite Channel Divinity names (e.g. "channel divinity: abjure enemy | l3: channel divinity: vow of enmity")
+                if not _action_info and "channel divinity" in _clean_key:
+                    _action_info = FEATURE_ACTION_TYPES.get("channel divinity")
+                if _action_info:
+                    _feat["action_type"] = _action_info[0]
+                    _feat["action_desc"] = _action_info[1]
+            else:
+                # Normalize legacy action_type formats to canonical title-case
+                _at = _feat["action_type"].strip()
+                if _at.lower() in ("bonus action", "bonus_action"):
+                    _feat["action_type"] = "Bonus Action"
+                elif _at.lower() in ("action", "use an action"):
+                    _feat["action_type"] = "Action"
+                elif _at.lower() in ("reaction",):
+                    _feat["action_type"] = "Reaction"
     # Inject missing racial limited-use features (they may not be in feature_data)
     _existing_names = {f.get("name", "").lower() for f in char["feature_data"] if isinstance(f, dict)}
     _race = char.get("race", "")

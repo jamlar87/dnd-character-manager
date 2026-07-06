@@ -4207,7 +4207,7 @@ async def dm_delete_trap(trap_id: int, request: Request):
 # ── Item search & description endpoints ──────────────────────────────────────
 
 @app.get("/api/items/search", response_class=JSONResponse)
-async def search_items(q: str = "", limit: int = 200):
+async def search_items(q: str = "", limit: int = 0):
     """Search equipment + magic items by name (fuzzy substring match).
     When q is empty, returns all items alphabetically (up to limit)."""
     query = q.strip().lower()
@@ -4224,7 +4224,7 @@ async def search_items(q: str = "", limit: int = 200):
                 "cost": item.get("cost", ""),
                 "weight": item.get("weight"),
             })
-            if len(results) >= limit:
+            if limit and len(results) >= limit:
                 break
     else:
         for key, item in ITEM_INDEX.items():
@@ -4237,11 +4237,11 @@ async def search_items(q: str = "", limit: int = 200):
                     "cost": item.get("cost", ""),
                     "weight": item.get("weight"),
                 })
-                if len(results) >= limit:
+                if limit and len(results) >= limit:
                     break
         results.sort(key=lambda r: (0 if r["name"].lower().startswith(query) else 1, r["name"]))
 
-    return JSONResponse({"results": results[:limit], "total": len(ITEM_INDEX)})
+    return JSONResponse({"results": (results[:limit] if limit else results), "total": len(ITEM_INDEX)})
 
 
 @app.get("/api/items/describe", response_class=JSONResponse)
