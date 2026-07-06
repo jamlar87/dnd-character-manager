@@ -1921,11 +1921,11 @@ async def character_pdf(char_id: int, request: Request):
     # Build structured data for PDF generator
     import sys, os
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from pdf_generator import build_char_data, generate_character_sheet
+    from pdf_generator import build_char_data, fill_official_sheet
     char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))
     db.close()
     
-    pdf_bytes = generate_character_sheet(char_data)
+    pdf_bytes = fill_official_sheet(char_data)
     return Response(
         content=bytes(pdf_bytes),
         media_type="application/pdf",
