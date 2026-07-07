@@ -1332,6 +1332,18 @@
           Reactions
           <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted)">(PHB p.190, 193, 195)</span>
         </h3>
+        {% if reaction_features %}
+        <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.25rem">
+          {% for rf in reaction_features %}
+          <div class="feat-reaction"
+               style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;cursor:pointer;font-size:0.8rem"
+               onclick="showReactionDetail({{ rf.name|tojson }}, {{ rf.description[:300]|tojson }})">
+            <span style="font-weight:600;flex:1">{{ rf.name }}</span>
+            <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
         <div id="reactions-body" style="display:none;margin-top:0.5rem;font-size:0.8rem;line-height:1.6;color:var(--text-muted)">
           <p style="margin:0 0 0.5rem 0"><strong>What is a Reaction?</strong> A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's. You can take <strong>one reaction per round</strong>, and you regain it at the start of your turn (PHB p.190).</p>
 
@@ -1359,22 +1371,6 @@
           </ul>
 
           <p style="margin:0"><strong>Common Reactions</strong> — Opportunity Attack · <em>Shield</em> (+5 AC) · <em>Absorb Elements</em> · <em>Counterspell</em> · Uncanny Dodge (Rogue 5) · Deflect Missiles (Monk 3) · Protection Fighting Style · Cutting Words (Bard 3) · <em>Feather Fall</em> · <em>Hellish Rebuke</em> · War Caster (feat: spell as OA) · Sentinel (feat: stop movement on OA)</p>
-
-          {% if reaction_features %}
-          <div style="margin-top:0.5rem">
-            <strong style="font-size:0.8rem">Feature Reactions</strong>
-            <div style="margin-top:0.35rem;display:flex;flex-direction:column;gap:0.25rem">
-            {% for rf in reaction_features %}
-              <div class="feat-reaction"
-                   style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;cursor:pointer;font-size:0.8rem"
-                   onclick="showReactionDetail({{ rf.name|tojson }}, {{ rf.description[:300]|tojson }})">
-                <span style="font-weight:600;flex:1">{{ rf.name }}</span>
-                <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
-              </div>
-            {% endfor %}
-            </div>
-          </div>
-          {% endif %}
         </div>
       </div>
 
