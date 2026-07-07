@@ -6890,11 +6890,25 @@ function searchItems(query) {
         return;
       }
       results.innerHTML = items.map(item =>
-        `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" onmousedown="if(event.button===0)selectItem(this.dataset.name)" style="padding:0.4rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);overflow-wrap:break-word;word-break:break-word">${item.name} <span style="color:var(--text-muted);font-size:0.7rem;white-space:nowrap">${item.type}</span></div>`
+        `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" style="padding:0.3rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem" onmousedown="if(event.button===0)selectItem(this.parentElement.dataset.name)">
+            <span style="font-size:0.8rem;color:var(--text);flex:1;min-width:0">${item.name} <span style="color:var(--text-muted);font-size:0.7rem;white-space:nowrap">${item.type}</span></span>
+            <span style="font-size:0.55rem;color:var(--text-muted);flex-shrink:0" onclick="event.stopPropagation();event.preventDefault();toggleItemDesc(this)">▾ desc</span>
+          </div>
+          <div class="item-result-desc" style="display:none;padding:0.3rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.25rem">${item.description || 'No description available.'}</div>
+        </div>`
       ).join('');
       results.style.display = 'block';
     } catch(e) { console.error('searchItems fetch error:', e); }
   }, 200);
+}
+
+function toggleItemDesc(el) {
+  const descDiv = el.parentElement.nextElementSibling;
+  if (!descDiv) return;
+  const isHidden = descDiv.style.display === 'none' || !descDiv.style.display;
+  descDiv.style.display = isHidden ? 'block' : 'none';
+  el.textContent = isHidden ? '▴ desc' : '▾ desc';
 }
 
 function handleSearchKey(e) {

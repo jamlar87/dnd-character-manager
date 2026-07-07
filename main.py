@@ -4243,6 +4243,9 @@ async def search_items(q: str = "", limit: int = 0):
         # Return all items alphabetically
         for key in sorted(ITEM_INDEX.keys()):
             item = ITEM_INDEX[key]
+            desc = item.get("description") or ""
+            if isinstance(desc, list):
+                desc = " ".join(desc)
             results.append({
                 "name": item["name"],
                 "type": item["type"],
@@ -4250,12 +4253,16 @@ async def search_items(q: str = "", limit: int = 0):
                 "source": item.get("source", ""),
                 "cost": item.get("cost", ""),
                 "weight": item.get("weight"),
+                "description": desc[:150],
             })
             if limit and len(results) >= limit:
                 break
     else:
         for key, item in ITEM_INDEX.items():
             if query in key:
+                desc = item.get("description") or ""
+                if isinstance(desc, list):
+                    desc = " ".join(desc)
                 results.append({
                     "name": item["name"],
                     "type": item["type"],
@@ -4263,6 +4270,7 @@ async def search_items(q: str = "", limit: int = 0):
                     "source": item.get("source", ""),
                     "cost": item.get("cost", ""),
                     "weight": item.get("weight"),
+                    "description": desc[:150],
                 })
                 if limit and len(results) >= limit:
                     break
