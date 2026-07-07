@@ -1913,8 +1913,9 @@
     "healing": false
   },
   "toll the dead": {
-    "display": "1d8",
+    "display": "{scaled} ({scaled_w} if target missing HP)",
     "base_dice": "1d8",
+    "base_dice_wounded": "1d12",
     "cantrip_scaling": true,
     "all_dice": [
       "1d8",

@@ -7833,7 +7833,21 @@ def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
         count = count * 2
     scaled = f"{count}d{die}"
     if "{scaled}" in display:
-        return display.replace("{scaled}", scaled)
+        result = display.replace("{scaled}", scaled)
+        # Wounded variant (e.g. Toll the Dead: d8->d12)
+        if "{scaled_w}" in result:
+            base_w = dice_info.get("base_dice_wounded", "")
+            mw = re.match(r"(\d+)d(\d+)", base_w) if base_w else None
+            if mw:
+                count_w = int(mw.group(1))
+                die_w = mw.group(2)
+                if character_level >= 17: count_w *= 4
+                elif character_level >= 11: count_w *= 3
+                elif character_level >= 5: count_w *= 2
+                result = result.replace("{scaled_w}", f"{count_w}d{die_w}")
+            else:
+                result = result.replace("{scaled_w}", scaled)
+        return result
     return scaled
 
 def enrich_spells(spells: list[dict], character_level: int | None = None) -> None:
