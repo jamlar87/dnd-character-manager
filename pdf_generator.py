@@ -97,7 +97,7 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
         "save_proficiencies", "damage_resistances", "damage_immunities",
         "damage_vulnerabilities", "condition_immunities", "class_levels",
         "attuned_items", "background_data", "spell_slots_used",
-        "personality_data",
+        "personality_data", "summons",
     ]
     for field in json_fields:
         val = d.get(field)
@@ -201,6 +201,8 @@ def build_char_data(row, db_cursor=None, racial_traits=None):
     d["has_long_features"] = len(d.get("full_feature_text", "")) > 140
     d["equipment_appendix"] = _build_equipment_appendix_text(d)
     d["has_equipment_appendix"] = len(d.get("equipment_appendix", "")) > 0
+    d["summons_appendix"] = _build_summons_appendix_text(d)
+    d["has_summons_appendix"] = len(d.get("summons_appendix", "")) > 0
 
     return d
 
@@ -516,6 +518,114 @@ def _build_equipment_appendix_text(d):
         lines.append(header)
         if desc:
             lines.append(desc)
+        lines.append("")
+    return "\n".join(lines)
+
+
+def _build_summons_appendix_text(d):
+    """Build full summon details for the appendix."""
+    summons = d.get("summons", []) or []
+    if isinstance(summons, str):
+        import json
+        summons = json.loads(summons) if summons else []
+    if not summons:
+        return ""
+
+    # Load summon templates for feature descriptions
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from summon_templates import SUMMON_TEMPLATES
+    except Exception:
+        SUMMON_TEMPLATES = {}
+
+    lines = []
+    for summon in summons:
+        name = summon.get("name", "Unnamed")
+        lines.append(name.upper())
+
+        # Size / type line
+        size = summon.get("size", "")
+        speed = summon.get("speed", "")
+        s_type = summon.get("type", summon.get("category", ""))
+        meta = []
+        if size:
+            meta.append(size)
+        if speed:
+            meta.append(speed)
+        if meta:
+            lines.append(" | ".join(meta))
+
+        # Core stats
+        ac = summon.get("ac", "—")
+        hp = summon.get("hp_max", "—")
+        hp_note = summon.get("hp_note", "")
+        ac_str = f"Armor Class: {ac}"
+        hp_str = f"Hit Points: {hp}"
+        if hp_note:
+            hp_str += f"  ({hp_note})"
+        lines.append(ac_str)
+        lines.append(hp_str)
+
+        # Ability scores
+        stats = summon.get("stats", {})
+        if stats and isinstance(stats, dict):
+            stat_line = f"STR {stats.get('str',0):>2d}  DEX {stats.get('dex',0):>2d}  CON {stats.get('con',0):>2d}  INT {stats.get('int',0):>2d}  WIS {stats.get('wis',0):>2d}  CHA {stats.get('cha',0):>2d}"
+            lines.append(stat_line)
+
+        # Skills + Senses
+        skills = summon.get("skills", "")
+        senses = summon.get("senses", "")
+        if skills:
+            lines.append(f"Skills: {skills}")
+        if senses:
+            lines.append(f"Senses: {senses}")
+
+        # Look up template for feature descriptions
+        source = summon.get("source", "")
+        form = summon.get("form", "")
+        template = None
+        if source in SUMMON_TEMPLATES:
+            template = SUMMON_TEMPLATES[source]
+        elif form and form in SUMMON_TEMPLATES:
+            template = SUMMON_TEMPLATES[form]
+
+        # Features
+        features = summon.get("features", [])
+        if features and isinstance(features, list):
+            lines.append("")
+            for feat in features:
+                feat_name = feat if isinstance(feat, str) else feat.get("name", "")
+                if not feat_name:
+                    continue
+                lines.append(f"{feat_name}.")
+                # Get description from template or from summon data
+                desc = ""
+                if template:
+                    fdescs = template.get("feature_descs", {})
+                    desc = fdescs.get(feat_name, "")
+                if not desc:
+                    desc = feat.get("description", "") if isinstance(feat, dict) else ""
+                if desc:
+                    lines.append(desc)
+                lines.append("")
+
+        # Attacks
+        attacks = summon.get("attacks", [])
+        if attacks and isinstance(attacks, list):
+            lines.append("Attacks:")
+            for atk in attacks:
+                atk_name = atk.get("name", "")
+                atk_bonus = atk.get("bonus", atk.get("atk_bonus", ""))
+                atk_dmg = atk.get("damage", "")
+                atk_line = f"  {atk_name}"
+                if atk_bonus:
+                    atk_line += f"  +{atk_bonus}" if str(atk_bonus).isdigit() else f"  {atk_bonus}"
+                if atk_dmg:
+                    atk_line += f"  {atk_dmg}"
+                lines.append(atk_line)
+            lines.append("")
+
+        # Spacer between summons
         lines.append("")
     return "\n".join(lines)
 
@@ -1735,6 +1845,7 @@ def fill_official_sheet(char_data, output_path=None):
         d.get("full_feature_text", "").strip()
         or d.get("spell_appendix", "").strip()
         or d.get("equipment_appendix", "").strip()
+        or d.get("summons_appendix", "").strip()
     )
     if appendices_needed:
         from reportlab.pdfgen import canvas as rl_canvas
@@ -1752,6 +1863,10 @@ def fill_official_sheet(char_data, output_path=None):
             ac.showPage()
         if d.get("full_feature_text", "").strip():
             _draw_appendix_page(ac, d, "CLASS FEATURE APPENDIX", "full_feature_text",
+                                subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
+        if d.get("has_summons_appendix") and d.get("summons_appendix", "").strip():
+            ac.showPage()
+            _draw_appendix_page(ac, d, "SUMMONS APPENDIX", "summons_appendix",
                                 subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
         ac.save()
 
