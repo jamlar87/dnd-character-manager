@@ -1933,12 +1933,12 @@ def fill_official_sheet(char_data, output_path=None):
                 if i < len(slot_fields):
                     fields[slot_fields[i]] = sname
 
-        # Tag the spellcasting ability field with appendix note
+        # Tag the spellcasting class field with appendix note
         has_spell_appendix = bool(d.get("spell_appendix", "").strip())
         if has_spell_appendix:
-            sa_val = fields.get("SpellcastingAbility 2", "")
-            if sa_val:
-                fields["SpellcastingAbility 2"] = ">>> See Appendix, " + sa_val
+            sc_val = fields.get("Spellcasting Class 2", "")
+            if sc_val:
+                fields["Spellcasting Class 2"] = sc_val + " (See Appendix)"
 
     # ── APPLY FIELDS TO ALL PAGES ──────────────────────────────────
     # Map stripped names to actual field names (handle trailing spaces)
