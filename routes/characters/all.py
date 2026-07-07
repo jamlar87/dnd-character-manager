@@ -844,6 +844,8 @@ async def character_sheet(char_id: int, request: Request):
     _add_source_to_features(char["feature_data"])
     # Enrich features with dice badge data from FEATS/RACES lookup
     _add_dice_to_features(char["feature_data"])
+    # Auto-detect reaction features and set action_type accordingly
+    _add_reaction_type_to_features(char["feature_data"])
     # Inject Eldritch Invocation level cards for Warlocks (SRD only has L2)
     _add_invocation_levels(char["feature_data"], char.get("class_name", ""), char.get("level", 0))
     # Enrich ASI features with feat descriptions when a feat was taken
@@ -8518,6 +8520,27 @@ def _add_source_to_features(feature_data: list[dict]) -> None:
                     break
         if _src:
             feat["source"] = _src
+
+
+def _add_reaction_type_to_features(feature_data: list[dict]) -> None:
+    """Auto-detect reaction features and set action_type='Reaction' on them.
+    Scans feature descriptions for reaction keywords so unlimited-use
+    reactions (Uncanny Dodge, Deflect Missiles, Slow Fall, etc.) appear
+    in the Actions in Combat section alongside limited-use features."""
+    import re
+    _pattern = re.compile(
+        r'(use|using|as|with|spend|expend)\s+(your\s+)?(a\s+)?reaction',
+        re.IGNORECASE
+    )
+    for feat in feature_data:
+        if feat.get("action_type"):
+            continue  # already has a type
+        desc = feat.get("description", "") or ""
+        name = feat.get("name", "") or ""
+        # Only flag if the description explicitly says it uses a reaction
+        # (avoid false positives from passing mentions)
+        if _pattern.search(desc):
+            feat["action_type"] = "Reaction"
 
 
 def _add_dice_to_features(feature_data: list[dict]) -> None:

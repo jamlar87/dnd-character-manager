@@ -1129,10 +1129,13 @@
 
       <!-- Actions in Combat -->
       {% set feature_actions = [] %}
+      {% set reaction_features = [] %}
       {% if character.feature_data %}
         {% for feat in character.feature_data %}
           {% if feat.get("uses_max", 0) > 0 %}
             {% set _ = feature_actions.append(feat) %}
+          {% elif feat.get("action_type") == "Reaction" %}
+            {% set _ = reaction_features.append(feat) %}
           {% endif %}
         {% endfor %}
       {% endif %}
@@ -1199,6 +1202,22 @@
           {% endfor %}
         </div>
         {% endif %}
+
+      {% if reaction_features %}
+      <!-- Reaction Features -->
+      <div style="margin-top:0.75rem">
+        <h4 style="margin:0 0 0.35rem 0;font-size:0.85rem;color:var(--text-muted)">🛡 Reactions</h4>
+        {% for rf in reaction_features %}
+        <div class="feat-action-btn feat-reaction"
+             style="display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--danger);border-radius:6px;cursor:pointer;transition:all 0.15s"
+             onclick="showReactionDetail({{ rf.name|tojson }}, {{ rf.description[:200]|tojson }})">
+          <span style="font-size:0.85rem;font-weight:600;flex:1">{{ rf.name }}</span>
+          <span class="badge" style="background:var(--danger);color:#fff;font-size:0.6rem;white-space:nowrap">Reaction</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
       </div>
 
       <!-- ⚡ Bonus Actions -->
@@ -4578,6 +4597,15 @@ function showActionDetail(action) {
   const desc = ACTION_DESCRIPTIONS[action] || 'No description available.';
   title.textContent = action;
   body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${desc}</p>`;
+  popup.style.display = 'flex';
+}
+
+function showReactionDetail(featureName, description) {
+  const popup = document.getElementById('detail-popup');
+  const title = document.getElementById('popup-title');
+  const body = document.getElementById('popup-body');
+  title.textContent = featureName;
+  body.innerHTML = `<p style="margin:0;font-size:0.9rem;line-height:1.5;color:var(--text)">${description}</p>`;
   popup.style.display = 'flex';
 }
 
