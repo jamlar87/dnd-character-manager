@@ -409,7 +409,7 @@
   <div style="flex:1;min-width:0">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
       <div>
-        <h1 style="margin:0;font-size:1.4rem" class="editable" data-field="name">{{ character.name }}</h1>
+        <h1 style="margin:0;font-size:1.4rem;word-break:break-word;overflow-wrap:break-word" class="editable" data-field="name">{{ character.name }}</h1>
         <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
         {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
         {% if character.fighting_style %}<span class="badge" style="background:rgba(255,165,0,0.15);border:1px solid #ffa500;color:#ffa500;font-size:0.65rem;cursor:help" title="{{ character.fighting_style }}">{{ character.fighting_style|replace('_',' ')|title }}</span>{% endif %}
