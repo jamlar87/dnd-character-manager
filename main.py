@@ -182,6 +182,7 @@ def _should_replace_description(existing: str, new: str) -> bool:
 
 MANUAL_DATA = HERE / "data" / "manual_data"
 
+@functools.cache
 def _load_manual_json(filename: str) -> list[dict]:
     try:
         with open(MANUAL_DATA / filename) as f:
