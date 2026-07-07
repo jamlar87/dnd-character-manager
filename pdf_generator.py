@@ -2056,55 +2056,29 @@ def fill_official_sheet(char_data, output_path=None):
     # ── APPLY FIELDS TO ALL PAGES ──────────────────────────────────
     # Map stripped names to actual field names (handle trailing spaces)
     field_dict = {_resolve_fn(k): v for k, v in fields.items() if v}
-
-    # Calculate font size for each text field so text fits its bounding box
-    from pypdf.generic import TextStringObject, NameObject
-    for page in writer.pages:
-        for ann_ref in page.get("/Annots") or []:
-            try:
-                obj = ann_ref.get_object()
-                ft = obj.get("/FT")
-                if not (ft and str(ft) == "/Tx"):
-                    continue
-                t = str(obj.get("/T", "")).strip()
-                val = fields.get(t)
-                if not val:
-                    continue
-                rect = obj.get("/Rect")
-                if not rect:
-                    continue
-                bw = float(rect[2]) - float(rect[0])  # box width
-                bh = float(rect[3]) - float(rect[1])  # box height
-                if bw < 1 or bh < 1:
-                    continue
-                # Estimate: avg char width ≈ 55% of font size in points
-                # chars per line ≈ box_width / (font_size * 0.55)
-                # lines ≈ text_length / chars_per_line
-                # required height ≈ lines * (font_size * 1.2)
-                # Solve for font_size such that required_height ≤ box_height
-                text_len = len(str(val))
-                # Try font sizes from 9 down to 4
-                chosen_size = 9
-                for fs in range(9, 3, -1):
-                    cpl = bw / (fs * 0.55)  # chars per line
-                    if cpl < 1: continue
-                    lines_needed = max(1, text_len / cpl)
-                    h_needed = lines_needed * (fs * 1.2)
-                    if h_needed <= bh:
-                        chosen_size = fs
-                        break
-                # Set widget-level DA with calculated font size
-                new_da = f"/Helv {chosen_size} Tf 0 g"
-                obj[NameObject("/DA")] = TextStringObject(new_da)
-            except Exception:
-                pass
-
     for page in writer.pages:
         writer.update_page_form_field_values(
             page,
             field_dict,
-            auto_regenerate=True,
+            auto_regenerate=False,
         )
+
+    # Auto-size text in form fields: set font size to 0 (auto)
+    # so text shrinks to fit the field's bounding box
+    from pypdf.generic import TextStringObject, NameObject
+    for page in writer.pages:
+        for ann in page.get("/Annots") or []:
+            try:
+                obj = ann.get_object()
+                ft = obj.get("/FT")
+                if ft and str(ft) == "/Tx":  # text field
+                    da = obj.get("/DA")
+                    if da:
+                        import re
+                        new_da = re.sub(r'(/\w+(?:\+\w+)?)\s+[\d.]+(\s+Tf)', r'\1 0\2', str(da))
+                        obj[NameObject("/DA")] = TextStringObject(new_da)
+            except Exception:
+                pass
 
     # Flatten: remove AcroForm so fields aren't editable
     metadata = reader.metadata
