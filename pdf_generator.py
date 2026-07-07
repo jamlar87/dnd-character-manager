@@ -332,7 +332,7 @@ def _build_condensed_features(d):
             if name_part.lower() not in seen:
                 lines.append(f"• {name_part}")
                 seen.add(name_part.lower())
-    return "\n".join(lines[:50])
+    return "\n".join(lines)
 
 
 def _build_full_feature_text(d):
@@ -1921,10 +1921,10 @@ def fill_official_sheet(char_data, output_path=None):
     fields["PP"] = str(d.get("pp", 0))
 
     # ── PAGE 1 NARRATIVE BOXES ─────────────────────────────────────
-    fields["PersonalityTraits"] = str(d.get("personality_traits", ""))[:500]
-    fields["Ideals"] = str(d.get("ideals", ""))[:500]
-    fields["Bonds"] = str(d.get("bonds", ""))[:500]
-    fields["Flaws"] = str(d.get("flaws", ""))[:500]
+    fields["PersonalityTraits"] = str(d.get("personality_traits", ""))
+    fields["Ideals"] = str(d.get("ideals", ""))
+    fields["Bonds"] = str(d.get("bonds", ""))
+    fields["Flaws"] = str(d.get("flaws", ""))
 
     # Proficiencies & Languages
     prof_lines = []
@@ -1935,8 +1935,8 @@ def fill_official_sheet(char_data, output_path=None):
             import json
             vals = json.loads(vals) if vals else []
         if vals:
-            prof_lines.append(f"{label}: {', '.join(v for v in vals if isinstance(v, str))[:400]}")
-    fields["ProficienciesLang"] = "\n".join(prof_lines)[:800]
+            prof_lines.append(f"{label}: {', '.join(v for v in vals if isinstance(v, str))}")
+    fields["ProficienciesLang"] = "\n".join(prof_lines)
 
     # Equipment (condensed)
     inv = d.get("inventory", []) or []
@@ -1944,9 +1944,8 @@ def fill_official_sheet(char_data, output_path=None):
         import json
         inv = json.loads(inv) if inv else []
     equip_lines = [f"{i.get('name', '?')} x{i.get('quantity', 1)}" for i in inv[:30] if isinstance(i, dict)]
-    equip_str = ", ".join(equip_lines)[:600]
+    equip_str = ", ".join(equip_lines)
     if d.get("has_equipment_appendix"):
-        equip_str = equip_str[:560]
         if equip_str:
             equip_str += "\n... See Appendix"
     fields["Equipment"] = equip_str
@@ -1957,10 +1956,10 @@ def fill_official_sheet(char_data, output_path=None):
     # short descriptions OR "See Appendix". With the ref, names + ref is enough.
     feat_text = d.get("condensed_features", "") or ""
     if has_feat_appendix and feat_text:
-        feat_text = str(feat_text)[:940]
+        feat_text = str(feat_text)
         if feat_text:
             feat_text += "\n... See Appendix"
-    fields["Features and Traits"] = str(feat_text)[:1000]
+    fields["Features and Traits"] = str(feat_text)
 
     # ── PAGE 2 FIELDS ──────────────────────────────────────────────
     fields["CharacterName 2"] = d.get("name", "")
@@ -1971,7 +1970,7 @@ def fill_official_sheet(char_data, output_path=None):
     fields["Skin"] = str(d.get("skin", ""))
     fields["Hair"] = str(d.get("hair", ""))
     fields["FactionName"] = str(d.get("faction", ""))
-    fields["Allies"] = str(d.get("allies", ""))[:500]
+    fields["Allies"] = str(d.get("allies", ""))
 
     # Backstory
     backstory = str(d.get("backstory", "") or "")
@@ -1985,19 +1984,18 @@ def fill_official_sheet(char_data, output_path=None):
             backstory += "\n\n" + backstory_extras
         else:
             backstory = backstory_extras
-    fields["Backstory"] = backstory[:800]
+    fields["Backstory"] = backstory
 
     # Feats & Traits page 2
     feat_long = str(d.get("full_feature_text", "") or "")
     if feat_long.strip():
-        feat_long = feat_long[:940]
         if feat_long:
             feat_long += "\n... See Appendix"
-    fields["Feat+Traits"] = feat_long[:1000]
+    fields["Feat+Traits"] = feat_long
 
     # Treasure
     treasure = str(d.get("treasure", "") or "")
-    fields["Treasure"] = treasure[:600]
+    fields["Treasure"] = treasure
 
     # ── PAGE 3: SPELL SHEET ────────────────────────────────────────
     spells = d.get("spells", []) or []
