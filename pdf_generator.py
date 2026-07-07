@@ -2118,13 +2118,14 @@ def fill_official_sheet(char_data, output_path=None):
     with open(path, "wb") as f:
         writer.write(f)
 
-    # ── APPENDIX PAGES (full-feature / spell / equipment overflow) ──
+    # ── APPENDIX PAGES (full-feature / spell / equipment / allies overflow) ──
     # Generate appendix content with ReportLab, then merge
     appendices_needed = (
         d.get("full_feature_text", "").strip()
         or d.get("spell_appendix", "").strip()
         or d.get("equipment_appendix", "").strip()
         or d.get("summons_appendix", "").strip()
+        or d.get("allies_appendix", "").strip()
     )
     if appendices_needed:
         from reportlab.pdfgen import canvas as rl_canvas
@@ -2147,6 +2148,9 @@ def fill_official_sheet(char_data, output_path=None):
             ac.showPage()
             _draw_appendix_page(ac, d, "SUMMONS APPENDIX", "summons_appendix",
                                 subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
+        if d.get("allies_appendix", "").strip():
+            ac.showPage()
+            _draw_appendix_page(ac, d, "ALLIES & ORGANIZATIONS", "allies_appendix")
         ac.save()
 
         if os.path.getsize(appendices_path) > 1000:  # non-empty

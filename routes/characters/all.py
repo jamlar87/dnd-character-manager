@@ -1953,6 +1953,20 @@ async def character_pdf(char_id: int, request: Request):
     except Exception:
         pass
 
+    # Check if allies text needs an appendix page (with or without relationships)
+    try:
+        allies_text = str(char_data.get("allies", "") or "")
+        if len(allies_text) > 800:
+            trunc_at = 700
+            for brk in range(trunc_at, 500, -1):
+                if allies_text[brk:brk+1] == "\n":
+                    trunc_at = brk
+                    break
+            char_data["allies_appendix"] = allies_text[trunc_at:]
+            char_data["allies"] = allies_text[:trunc_at] + "\n... See Appendix"
+    except Exception:
+        pass
+
     db.close()
 
     # Rebuild attacks_data from current inventory + equipped items
