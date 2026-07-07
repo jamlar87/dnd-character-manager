@@ -1678,7 +1678,9 @@ def fill_official_sheet(char_data, output_path=None):
         score = d.get(attr, 10)
         mod = (score - 10) // 2
         fields[abbr] = str(score)
-        fields[f"{abbr}mod"] = _mod_str(mod)
+        # Template uses CHamod (lowercase 'a') not CHAmod
+        mod_field = "CHamod" if abbr == "CHA" else f"{abbr}mod"
+        fields[mod_field] = _mod_str(mod)
 
     # Saves
     save_profs = set()
