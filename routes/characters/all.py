@@ -1962,7 +1962,8 @@ async def character_pdf(char_id: int, request: Request):
                 if allies_text[brk:brk+2] == "\n\n":
                     trunc_at = brk
                     break
-            char_data["allies_appendix"] = allies_text[trunc_at:]
+            # Appendix gets the full text (some duplication with field is fine)
+            char_data["allies_appendix"] = allies_text
             char_data["allies"] = allies_text[:trunc_at] + "\n... See Appendix"
     except Exception:
         pass
