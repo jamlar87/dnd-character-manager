@@ -1919,11 +1919,7 @@ def fill_official_sheet(char_data, output_path=None):
 
         for lvl in range(1, 10):
             total = slots_by_level.get(str(lvl), 0) or 0
-            remaining = total - (slots_used.get(str(lvl), 0) or 0)
-            if remaining < 0:
-                remaining = 0
             fields[_SLOT_TOTAL_FIELDS[lvl]] = str(total)
-            fields[_SLOT_REMAINING_FIELDS[lvl]] = str(remaining)
 
         # Fill spell names into fields
         for lvl in range(0, 10):
