@@ -384,11 +384,29 @@ def _build_full_feature_text(d):
                 for p in parts:
                     lines.append(p)
         
-        # Any sub-options (e.g. Fighting Style choices)
+        # Any sub-options (e.g. Channel Divinity choices, Fighting Style)
         sub_opts = fd.get("sub_options", "")
         if sub_opts:
-            lines.append("")
-            lines.append(f"Option: {sub_opts}")
+            if isinstance(sub_opts, list):
+                for opt in sub_opts:
+                    if isinstance(opt, dict):
+                        oname = opt.get("name", "")
+                        odesc = opt.get("description", "")
+                        # Skip sub-option that matches the parent feature core name
+                        if oname and name:
+                            parent_core = name.split(" |")[0].strip()
+                            # Show only actual named sub-options (with ":" separator)
+                            # Skip base-level duplicates like (1/rest), (2/rest)
+                            if ":" not in oname.strip():
+                                continue
+                        if oname:
+                            lines.append(oname.upper())
+                        if odesc:
+                            lines.append(odesc)
+                    else:
+                        lines.append(str(opt))
+            elif isinstance(sub_opts, str):
+                lines.append(sub_opts)
         
         lines.append("")
     return "\n".join(lines)
