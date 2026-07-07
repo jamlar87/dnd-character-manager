@@ -2235,11 +2235,25 @@ function renderPickerResults(items) {
     return;
   }
   results.innerHTML = items.map(item =>
-    `<div onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')" style="padding:0.35rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--text);display:flex;justify-content:space-between;align-items:center">
-      <span>${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
-      <span style="color:var(--text-muted);font-size:0.7rem;flex-shrink:0;margin-left:0.5rem">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
+    `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
+        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
+          <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
+          <span style="font-size:0.6rem;color:var(--accent);cursor:pointer;padding:0.05rem 0.25rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
+        </div>
+      </div>
+      <div class="picker-item-desc" style="display:none;padding:0.25rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.2rem">${item.description || 'No description available.'}</div>
     </div>`
   ).join('');
+}
+
+function togglePickerDesc(el) {
+  const descDiv = el.parentElement.parentElement.nextElementSibling;
+  if (!descDiv || !descDiv.classList.contains('picker-item-desc')) return;
+  const isHidden = descDiv.style.display === 'none' || !descDiv.style.display;
+  descDiv.style.display = isHidden ? 'block' : 'none';
+  el.textContent = isHidden ? '▴ info' : '▾ info';
 }
 
 function selectPickerItem(name) {
