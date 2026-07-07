@@ -340,12 +340,57 @@ def _build_full_feature_text(d):
     feature_data = d.get("feature_data", []) or []
     for fd in feature_data:
         name = fd.get("name", "")
+        if not name:
+            continue
+        
+        feat_title = name.upper()
+        
+        # If ASI has a chosen feat, show that instead of generic description
+        asi_feat_name = fd.get("asi_feat_name", "")
+        asi_feat_desc = fd.get("asi_feat_desc", "")
+        
+        if asi_feat_name:
+            # Use the feat name as title, not "Ability Score Improvement"
+            feat_title = f"{name} — {asi_feat_name}".upper()
+        
+        lines.append(feat_title)
+        
         desc = fd.get("description", "")
-        if name:
-            lines.append(name.upper())
-            if desc:
-                lines.append(desc)
+        
+        if asi_feat_name and asi_feat_desc:
+            # Show the feat description instead of the generic ASI text
+            lines.append(asi_feat_desc)
+        elif desc:
+            lines.append(desc)
+        
+        # Append actual chosen values for Magic Initiate etc.
+        mi = fd.get("magic_initiate", {})
+        if mi and isinstance(mi, dict):
+            parts = []
+            cls = mi.get("class", "")
+            if cls:
+                parts.append(f"Class: {cls}")
+            cantrips = mi.get("cantrips", [])
+            if cantrips:
+                parts.append(f"Cantrips: {', '.join(cantrips)}")
+            spell = mi.get("spell", "")
+            if spell:
+                parts.append(f"1st-level spell: {spell}")
+            sa = mi.get("spellcasting_ability", "")
+            if sa:
+                parts.append(f"Spellcasting ability: {sa}")
+            if parts:
+                lines.append("")
+                for p in parts:
+                    lines.append(p)
+        
+        # Any sub-options (e.g. Fighting Style choices)
+        sub_opts = fd.get("sub_options", "")
+        if sub_opts:
             lines.append("")
+            lines.append(f"Option: {sub_opts}")
+        
+        lines.append("")
     return "\n".join(lines)
 
 
