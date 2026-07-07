@@ -1949,7 +1949,7 @@ async def character_pdf(char_id: int, request: Request):
                     rel_lines.append(f"{rname} ({rtype}): {rdesc}")
                 else:
                     rel_lines.append(f"{rname} ({rtype})")
-            char_data["allies"] = "\n".join(rel_lines)
+            char_data["allies"] = "\n\n".join(rel_lines)
     except Exception:
         pass
 
@@ -1959,7 +1959,7 @@ async def character_pdf(char_id: int, request: Request):
         if len(allies_text) > 800:
             trunc_at = 700
             for brk in range(trunc_at, 500, -1):
-                if allies_text[brk:brk+1] == "\n":
+                if allies_text[brk:brk+2] == "\n\n":
                     trunc_at = brk
                     break
             char_data["allies_appendix"] = allies_text[trunc_at:]
