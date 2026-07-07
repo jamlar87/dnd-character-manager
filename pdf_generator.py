@@ -1359,6 +1359,50 @@ def _mod_str(val):
     return str(val)
 
 
+def _draw_appendix_page(c, d, title, data_key, subtitle=None):
+    """Draw a single appendix page/section using the ReportLab canvas."""
+    text = d.get(data_key, "")
+    if not text or not text.strip():
+        return
+    from reportlab.lib.utils import simpleSplit
+    MARGIN = 18
+    PAGE_W, PAGE_H = 612, 792
+    FONT = "Times-Roman"
+    FONT_BOLD = "Times-Bold"
+
+    y = 30
+    # Section header
+    c.setFont(FONT_BOLD, 12)
+    c.drawString(MARGIN, PAGE_H - y - 16, f"{title} — {d.get('name', '')}")
+    if subtitle:
+        c.setFont(FONT, 7)
+        c.drawString(MARGIN, PAGE_H - y - 28, subtitle)
+    y += 44
+
+    paragraphs = text.split("\n\n")
+    for para in paragraphs:
+        if not para.strip():
+            continue
+        lines = simpleSplit(para, FONT, 6, PAGE_W - 2 * MARGIN)
+        needed_h = len(lines) * 10 + 20
+        if y + needed_h > PAGE_H - MARGIN:
+            c.showPage()
+            y = MARGIN
+        if "\n" not in para and para.isupper():
+            c.setFont(FONT_BOLD, 7)
+            c.drawString(MARGIN, PAGE_H - y - 12, para)
+            y += 16
+        else:
+            for line in lines:
+                if y + 10 > PAGE_H - MARGIN:
+                    c.showPage()
+                    y = MARGIN
+                c.setFont(FONT, 6)
+                c.drawString(MARGIN, PAGE_H - y - 10, line)
+                y += 10
+            y += 6
+
+
 def fill_official_sheet(char_data, output_path=None):
     """Fill the official WotC fillable character sheet PDF with character data.
 
@@ -1684,6 +1728,41 @@ def fill_official_sheet(char_data, output_path=None):
 
     with open(path, "wb") as f:
         writer.write(f)
+
+    # ── APPENDIX PAGES (full-feature / spell / equipment overflow) ──
+    # Generate appendix content with ReportLab, then merge
+    appendices_needed = (
+        d.get("full_feature_text", "").strip()
+        or d.get("spell_appendix", "").strip()
+        or d.get("equipment_appendix", "").strip()
+    )
+    if appendices_needed:
+        from reportlab.pdfgen import canvas as rl_canvas
+        from reportlab.lib.pagesizes import letter as rl_letter
+        appendices_path = tempfile.mktemp(suffix="_appendices.pdf")
+        ac = rl_canvas.Canvas(appendices_path, pagesize=rl_letter)
+        ac.setTitle(f"D&D Character Sheet Appendices — {d.get('name', 'Character')}")
+        ac.setAuthor("Character Manager")
+
+        _draw_appendix_page(ac, d, "SPELL APPENDIX", "spell_appendix")
+        _draw_appendix_page(ac, d, "EQUIPMENT APPENDIX", "equipment_appendix")
+        _draw_appendix_page(ac, d, "CLASS FEATURE APPENDIX", "full_feature_text",
+                            subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
+        ac.save()
+
+        if os.path.getsize(appendices_path) > 1000:  # non-empty
+            from pypdf import PdfWriter as MergeWriter, PdfReader as MergeReader
+            merger = MergeWriter()
+            merger.append(path)
+            merger.append(appendices_path)
+            with open(path, "wb") as f:
+                merger.write(f)
+            merger.close()
+
+        try:
+            os.unlink(appendices_path)
+        except OSError:
+            pass
 
     if use_temp:
         with open(path, "rb") as f:
