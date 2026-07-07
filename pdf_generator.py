@@ -767,11 +767,22 @@ def _build_summons_appendix_text(d):
         # Look up template for feature descriptions
         source = summon.get("source", "")
         form = summon.get("form", "")
+        sname = summon.get("name", "")
         template = None
         if source in SUMMON_TEMPLATES:
             template = SUMMON_TEMPLATES[source]
         elif form and form in SUMMON_TEMPLATES:
             template = SUMMON_TEMPLATES[form]
+        # Try vehicle_{name} pattern (e.g. vehicle_airship)
+        if not template:
+            vehicle_key = f"vehicle_{sname.lower().replace(' ', '_')}"
+            if vehicle_key in SUMMON_TEMPLATES:
+                template = SUMMON_TEMPLATES[vehicle_key]
+        # Try familiar_{name} pattern (e.g. familiar_hawk)
+        if not template:
+            familiar_key = f"familiar_{sname.lower()}"
+            if familiar_key in SUMMON_TEMPLATES:
+                template = SUMMON_TEMPLATES[familiar_key]
 
         # Features
         features = summon.get("features", [])
@@ -789,6 +800,15 @@ def _build_summons_appendix_text(d):
                     desc = fdescs.get(feat_name, "")
                 if not desc:
                     desc = feat.get("description", "") if isinstance(feat, dict) else ""
+                # Known common trait descriptions not in templates
+                if not desc:
+                    _KNOWN_TRAIT_DESCS = {
+                        "Keen Sight": "The creature has advantage on Wisdom (Perception) checks that rely on sight.",
+                        "Keen Hearing": "The creature has advantage on Wisdom (Perception) checks that rely on hearing.",
+                        "Keen Smell": "The creature has advantage on Wisdom (Perception) checks that rely on smell.",
+                        "Amphibious": "The creature can breathe air and water.",
+                    }
+                    desc = _KNOWN_TRAIT_DESCS.get(feat_name, "")
                 if desc:
                     lines.append(desc)
                 lines.append("")
