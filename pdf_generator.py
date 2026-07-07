@@ -1875,7 +1875,8 @@ def fill_official_sheet(char_data, output_path=None):
         if i < len(attacks):
             atk = attacks[i]
             fields[weapon_slots[i]] = atk.get("name", "")
-            fields[atk_slots[i]] = _mod_str(atk.get("bonus", 0))
+            atk_bonus = atk.get("attack_bonus") if atk.get("attack_bonus") is not None else atk.get("bonus", 0)
+            fields[atk_slots[i]] = _mod_str(atk_bonus)
             fields[dmg_slots[i]] = atk.get("damage", "")
     # Overflow attacks into AttacksSpellcasting text area
     extra_attacks = []
@@ -1883,9 +1884,9 @@ def fill_official_sheet(char_data, output_path=None):
         if i < 3:
             # Already handled above
             dmg = atk.get("damage", "")
-            atk_bonus = atk.get("bonus", 0)
             continue
-        extra_attacks.append(f"{atk.get('name', '?')} +{atk.get('bonus', 0)} {atk.get('damage', '')}")
+        atk_bonus = atk.get("attack_bonus") if atk.get("attack_bonus") is not None else atk.get("bonus", 0)
+        extra_attacks.append(f"{atk.get('name', '?')} +{atk_bonus} {atk.get('damage', '')}")
     attack_text = "\n".join(extra_attacks) if extra_attacks else ""
 
     # Spellcasting info (always shown on AttacksSpellcasting area)
