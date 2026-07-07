@@ -6893,7 +6893,7 @@ function searchItems(query) {
         `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" style="padding:0.3rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem" onmousedown="if(event.button===0)selectItem(this.parentElement.dataset.name)">
             <span style="font-size:0.8rem;color:var(--text);flex:1;min-width:0">${item.name} <span style="color:var(--text-muted);font-size:0.7rem;white-space:nowrap">${item.type}</span></span>
-            <span style="font-size:0.65rem;color:var(--accent);flex-shrink:0;cursor:pointer;padding:0.1rem 0.3rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();toggleItemDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
+            <span style="font-size:0.75rem;color:var(--accent);flex-shrink:0;cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();toggleItemDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
           </div>
           <div class="item-result-desc" style="display:none;padding:0.3rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.25rem">${item.description || 'No description available.'}</div>
         </div>`

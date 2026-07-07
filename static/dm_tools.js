@@ -2240,7 +2240,7 @@ function renderPickerResults(items) {
         <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
-          <span style="font-size:0.6rem;color:var(--accent);cursor:pointer;padding:0.05rem 0.25rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
+          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
         </div>
       </div>
       <div class="picker-item-desc" style="display:none;padding:0.25rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.2rem">${item.description || 'No description available.'}</div>
