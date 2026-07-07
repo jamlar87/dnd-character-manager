@@ -1335,11 +1335,16 @@
         {% if reaction_features %}
         <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.25rem">
           {% for rf in reaction_features %}
-          <div class="feat-reaction"
-               style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;cursor:pointer;font-size:0.8rem"
-               onclick="showReactionDetail({{ rf.name|tojson }}, {{ rf.description[:300]|tojson }})">
-            <span style="font-weight:600;flex:1">{{ rf.name }}</span>
-            <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
+          <div class="feat-reaction" style="background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;font-size:0.8rem;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;cursor:pointer"
+                 onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='none'?'block':'none';this.querySelector('.rx-arrow').textContent=this.querySelector('.rx-arrow').textContent==='▶'?'▼':'▶'">
+              <span class="rx-arrow" style="font-size:0.6rem;color:var(--text-muted);transition:transform 0.15s;width:1em">▶</span>
+              <span style="font-weight:600;flex:1">{{ rf.name }}</span>
+              <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
+            </div>
+            <div class="rx-desc" style="display:none;padding:0 0.5rem 0.5rem 1.5rem;font-size:0.75rem;line-height:1.4;color:var(--text-muted)">
+              {{ rf.description[:500] }}
+            </div>
           </div>
           {% endfor %}
         </div>
