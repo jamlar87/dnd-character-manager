@@ -880,28 +880,40 @@ def _bubble(c, x, y_tl, r=5, filled=False):
         c.circle(x, cy, r, fill=1, stroke=0)
 
 
-def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None):
-    """Fixed bounding box. Text clips — never overflows."""
+def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None, min_size=4):
+    """Fixed bounding box with auto-sizing. Shrinks font until all text fits, then draws."""
     y_bottom = yb(y_tl) - h
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
     if label_text:
-        c.setFont(TITLE_FONT, 5)  # was FONT_BOLD 4, +25% + Cinzel
+        c.setFont(TITLE_FONT, 5)
         c.setFillColor((0.2, 0.2, 0.2))
         c.drawString(x + 2, yb(y_tl) - 7, str(label_text).upper())
         c.setFillColor((0, 0, 0))
     if not text:
         return
-    line_h = size + 2
     offset_top = 10 if label_text else 4
+    # Try font sizes from size down to min_size, pick the biggest that fits all text
+    chosen_size = size
+    for try_size in range(size, min_size - 1, -1):
+        line_h = try_size + 2
+        max_lines = int((h - offset_top) / line_h)
+        if max_lines < 1:
+            continue
+        lines = simpleSplit(str(text), FONT, try_size, w - 6)
+        if len(lines) <= max_lines:
+            chosen_size = try_size
+            break
+    # Draw at chosen size
+    line_h = chosen_size + 2
     max_lines = int((h - offset_top) / line_h)
     if max_lines < 1:
         return
-    lines = simpleSplit(str(text), FONT, size, w - 6)
+    lines = simpleSplit(str(text), FONT, chosen_size, w - 6)
     display = lines[:max_lines]
     if len(lines) > max_lines and max_lines > 1:
         display[-1] = display[-1][:int(w / 8)] + "… (cont.)"
-    c.setFont(FONT, size)
+    c.setFont(FONT, chosen_size)
     c.setFillColor((0, 0, 0))
     for i, line in enumerate(display):
         ly = yb(y_tl) - offset_top - (i + 1) * line_h
@@ -2052,6 +2064,23 @@ def fill_official_sheet(char_data, output_path=None):
             field_dict,
             auto_regenerate=False,
         )
+
+    # Auto-size text in form fields: set font size to 0 (auto)
+    # so text shrinks to fit the field's bounding box
+    from pypdf.generic import TextStringObject, NameObject
+    for page in writer.pages:
+        for ann in page.get("/Annots") or []:
+            try:
+                obj = ann.get_object()
+                ft = obj.get("/FT")
+                if ft and str(ft) == "/Tx":  # text field
+                    da = obj.get("/DA")
+                    if da:
+                        import re
+                        new_da = re.sub(r'(/\w+(?:\+\w+)?)\s+[\d.]+(\s+Tf)', r'\1 0\2', str(da))
+                        obj[NameObject("/DA")] = TextStringObject(new_da)
+            except Exception:
+                pass
 
     # Flatten: remove AcroForm so fields aren't editable
     metadata = reader.metadata
