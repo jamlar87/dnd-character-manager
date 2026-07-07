@@ -1929,6 +1929,30 @@ async def character_pdf(char_id: int, request: Request):
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from pdf_generator import build_char_data, fill_official_sheet
     char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))
+
+    # Populate Allies & Organizations from character relationships
+    try:
+        rels = db.execute(
+            "SELECT name, relationship_type, description FROM character_relationships WHERE character_id = ? AND user_id = ? ORDER BY created_at DESC",
+            (char_id, user)
+        ).fetchall()
+        if rels:
+            rel_lines = []
+            existing = str(char_data.get("allies", "") or "").strip()
+            if existing:
+                rel_lines.append(existing)
+            for r in rels:
+                rname = r["name"]
+                rdesc = (r["description"] or "").strip()
+                rtype = (r["relationship_type"] or "ally").replace("_", " ").title()
+                if rdesc:
+                    rel_lines.append(f"{rname} ({rtype}): {rdesc}")
+                else:
+                    rel_lines.append(f"{rname} ({rtype})")
+            char_data["allies"] = "\n".join(rel_lines)
+    except Exception:
+        pass
+
     db.close()
 
     # Rebuild attacks_data from current inventory + equipped items
