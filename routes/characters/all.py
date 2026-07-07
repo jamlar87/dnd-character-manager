@@ -1930,6 +1930,13 @@ async def character_pdf(char_id: int, request: Request):
     from pdf_generator import build_char_data, fill_official_sheet
     char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))
     db.close()
+
+    # Rebuild attacks_data from current inventory + equipped items
+    # (the stored attacks_data may be stale if items were added later)
+    from main import _build_inventory_attacks
+    fresh_attacks = _build_inventory_attacks(char_data)
+    if fresh_attacks:
+        char_data["attacks_data"] = fresh_attacks
     
     pdf_bytes = fill_official_sheet(char_data)
     return Response(
