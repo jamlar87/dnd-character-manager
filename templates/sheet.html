@@ -221,7 +221,7 @@
 .cond-badge:hover { filter: brightness(1.15); }
 .cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.55rem; opacity: 0.6; cursor: pointer; }
 .cond-badge.dismiss:hover { opacity: 1; }
-.cond-popout { position: absolute; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
+.cond-popout { position: fixed; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
 .cond-popout .cond-desc { color: var(--text-muted); margin: 0.3rem 0; line-height: 1.4; }
 .cond-popout .cond-dismiss { display: block; margin-top: 0.4rem; width: 100%; padding: 0.2rem; border: 1px solid var(--danger); border-radius: 4px; background: transparent; color: var(--danger); cursor: pointer; font-size: 0.65rem; }
 .cond-popout .cond-dismiss:hover { background: var(--danger); color: #fff; }
@@ -3402,10 +3402,10 @@ function toggleConditionDetail(event, name, desc) {
   const popout = document.createElement('div');
   popout.className = 'cond-popout cond-detail-popout';
   popout.innerHTML = '<strong style="color:'+(CONDITION_COLORS[name]||'var(--text)').split(';')[0]+'">'+name+'</strong><div class="cond-desc">'+desc+'</div><button class="cond-dismiss" onclick="dismissCondition(\''+name+'\');this.parentElement.remove()">Remove</button>';
-  badge.parentElement.appendChild(popout); // Add to the flex container
-  // Position below the badge
+  document.body.appendChild(popout); // Add to body so position:fixed works correctly
+  // Position below the badge (relative to viewport)
   const rect = badge.getBoundingClientRect();
-  popout.style.left = '0';
+  popout.style.left = (rect.left) + 'px';
   popout.style.top = (rect.bottom + 4) + 'px';
 }
 
