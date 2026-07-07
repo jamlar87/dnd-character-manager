@@ -1,7 +1,394 @@
 {% extends "layout.html" %}
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
-    <link rel="stylesheet" href="/static/sheet.css">
+    /* Override container for sheet layout */
+.container { max-width: 1400px; width: 100%; margin: 1rem auto; overflow-x: hidden; padding: 0 0.75rem; }
+@media (max-width: 768px) { .container { margin: 0.5rem auto; width: 100%; padding: 0 0.5rem; } }
+
+/* ── Top row: rest + center + HP ── */
+.sheet-top-row { display: flex; gap: 1rem; margin-bottom: 0.75rem; align-items: flex-start; }
+.top-hp { width: 260px; flex-shrink: 0; }
+.top-longrest { width: 170px; flex-shrink: 0; align-self: stretch; display:flex; flex-direction:row; gap:0.35rem; }
+.top-center { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.top-combat-grid { grid-template-columns: repeat(6, 1fr) !important; }
+.top-abilities-grid { grid-template-columns: repeat(6, 1fr) !important; }
+
+/* Combat + Abilities sub-row */
+.center-combat { }
+.center-abilities-senses { display: flex; flex-direction: column; gap: 0.5rem; }
+.center-abilities-senses .abilities-grid { flex: 1; min-width: 0; }
+
+/* Abilities grid (base — must precede mobile breakpoints) */
+.abilities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.ability-box { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.2rem; text-align: center; position: relative; }
+.ability-box .ab-name { font-size: 0.6rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.ability-box .ab-mod { font-size: 1.2rem; font-weight: 700; margin: 0.1rem 0; }
+.ability-box .ab-score { font-size: 0.65rem; color: var(--text-muted); }
+.ability-box.proficient { border-color: var(--accent); }
+.ability-box.proficient::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 0.45rem; color: var(--accent); }
+
+/* Combat quick-stats (base — must precede mobile breakpoints) */
+.combat-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.combat-quick-item { background: var(--bg); border-radius: 6px; padding: 0.35rem; text-align: center; }
+.combat-quick-item .cq-label { font-size: 0.55rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.04em; }
+.combat-quick-item .cq-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.1rem; }
+
+/* ── Mobile breakpoints (widest first, narrowest overrides) ── */
+@media (max-width: 768px) {
+  .sheet-top-row { flex-direction: column; }
+  .top-hp { width: 100%; }
+  .top-longrest { width: 100%; max-width: 100%; margin: 0 auto; flex-direction: row; }
+  .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+/* Phones: 3 columns, tighter spacing */
+@media (max-width: 600px) {
+  .top-center { overflow-x: hidden; }
+  .top-combat-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.25rem; }
+  .top-abilities-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.2rem; }
+  .abilities-grid { grid-template-columns: repeat(3, 1fr); gap: 0.2rem; }
+  .combat-quick { grid-template-columns: repeat(3, 1fr); gap: 0.25rem; }
+  .combat-quick-item { padding: 0.2rem 0.15rem; }
+  .combat-quick-item .cq-label { font-size: 0.48rem; letter-spacing: 0.02em; }
+  .combat-quick-item .cq-value { font-size: 0.8rem; }
+  .ability-box { padding: 0.25rem 0.1rem; }
+  .ability-box .ab-name { font-size: 0.5rem; letter-spacing: 0.02em; }
+  .ability-box .ab-mod { font-size: 0.95rem; }
+  .ability-box .ab-score { font-size: 0.55rem; }
+}
+
+/* ── Senses section box ── */
+.senses-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.senses-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0; white-space: nowrap; }
+.sense-row { display: flex; gap: 0.3rem; align-items: baseline; font-size: 0.8rem; white-space: nowrap; }
+.sense-label { color: var(--text-muted); }
+.sense-val { font-family: monospace; font-weight: 600; }
+@media (max-width: 600px) {
+  .senses-section { gap: 0.4rem; padding: 0.4rem 0.6rem; }
+  .sense-row { font-size: 0.75rem; }
+}
+@media (max-width: 600px) {
+  .feat-header { padding: 0.4rem 0.5rem; font-size: 0.8rem; gap: 0.3rem; }
+  .feat-body { padding: 0.4rem 0.5rem 0.5rem; font-size: 0.72rem; overflow-wrap: break-word; word-break: break-word; }
+  .passive-chip { padding: 0.3rem 0.4rem !important; }
+  .passive-chip-body { padding: 0.3rem 0.4rem; font-size: 0.7rem; overflow-wrap: break-word; word-break: break-word; }
+}
+
+/* Two-column layout */
+.sheet-layout { display: flex; gap: 0.75rem; min-height: calc(100vh - 140px); }
+@media (max-width: 768px) { .sheet-layout { flex-direction: column; overflow-x: hidden; } }
+
+/* ── Sidebar ── */
+.sheet-sidebar { width: 210px; flex-shrink: 0; }
+@media (max-width: 768px) { .sheet-sidebar { width: 100%; } }
+/* Tablet: 2-column sidebar sections */
+@media (min-width: 481px) and (max-width: 768px) {
+  .sheet-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .sheet-sidebar > * { min-width: 0; }
+}
+
+.sidebar-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.4rem; }
+.sidebar-section h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 0.5rem 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+
+/* HP bar in sidebar */
+.sidebar-hp { margin-top: 0.4rem; }
+.sidebar-hp .hp-nums { font-size: 1rem; font-weight: 700; }
+.sidebar-hp .hp-nums .sep { color: var(--text-muted); font-weight: 400; }
+
+/* Saves & skills row */
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.stat-row .stat-name { color: var(--text-muted); flex: 1; }
+.stat-row .stat-val { font-family: monospace; font-weight: 600; min-width: 2.2rem; text-align: right; }
+.stat-row .prof-dot { color: var(--accent); margin-right: 0.2rem; font-size: 0.5rem; }
+
+/* Defenses */
+.defense-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin: 0.1rem 0.2rem 0.1rem 0; }
+.defense-resist { background: rgba(0,200,83,0.15); border: 1px solid var(--success); color: var(--success); }
+.defense-immune { background: rgba(255,174,0,0.15); border: 1px solid #ffae00; color: #ffae00; }
+/* Drop zones */
+.drop-zone { transition: box-shadow 0.15s; }
+.drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
+.drop-zone-active .item-card { opacity: 0.85; }
+
+/* Item cards */
+.item-card {
+  display: inline-flex; align-items: center; gap: 0.2rem;
+  padding: 0.2rem 0.35rem; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  font-size: 0.8rem; cursor: default; transition: all 0.12s;
+  user-select: none; max-width: 100%;
+}
+.item-card:hover { border-color: var(--text-muted); }
+.item-card.dragging { opacity: 0.4; transform: scale(0.95); }
+.item-card.editing { border-color: var(--accent); }
+.item-card.equipped-card { background: rgba(0,200,83,0.08); border-color: rgba(0,200,83,0.2); }
+.item-card .drag-handle {
+  cursor: grab; color: var(--text-muted); font-size: 0.6rem;
+  letter-spacing: -0.1rem; padding: 0 0.1rem; line-height: 1;
+}
+.item-card .drag-handle:active { cursor: grabbing; }
+.item-card .item-card-name {
+  background: transparent; border: none; color: var(--text);
+  font-size: 0.8rem; padding: 0.1rem 0; min-width: 3ch;
+  outline: none; font-family: var(--font);
+  overflow-wrap: break-word; word-break: break-word;
+}
+.item-card .item-qty {
+  background: var(--accent); color: #000; border-radius: 8px;
+  padding: 0.05rem 0.35rem; font-size: 0.6rem; font-weight: 700;
+  min-width: 1.2rem; text-align: center;
+}
+.item-card .item-card-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 0.6rem; padding: 0.1rem 0.2rem;
+  border-radius: 3px; line-height: 1;
+}
+.item-card .item-card-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.item-card .item-card-del:hover { color: var(--danger); }
+.item-card .item-card-award { color: var(--success); }
+.item-card .item-card-award:hover { background: rgba(76,175,80,0.15); }
+.item-card .item-tag { font-size: 0.55rem; padding: 0 0.15rem; }
+.item-card .item-attune-badge {
+  font-size: 0.55rem; cursor: pointer; padding: 0 0.15rem;
+  color: var(--warn);
+}
+.item-card .item-attune-badge.attuned { color: var(--success); }
+
+.item-card .enh-badge {
+  font-size: 0.55rem; padding: 0 0.15rem;
+  color: var(--accent); font-weight: 700;
+  border-radius: 3px; background: var(--accent2);
+  user-select: none;
+}
+.edit-mode .item-card .enh-badge { cursor: pointer; }
+.edit-mode .item-card .enh-badge:hover { background: var(--accent); color: #fff; }
+
+/* Expandable item details */
+.item-card { flex-wrap: wrap; }
+.item-card .item-expand-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 0.5rem; padding: 0.1rem;
+  border-radius: 3px; line-height: 1; transition: transform 0.15s;
+}
+.item-card .item-expand-btn:hover { color: var(--text); }
+.item-card.expanded .item-expand-btn { transform: rotate(90deg); }
+.item-card .item-detail {
+  display: none; flex-basis: 100%; margin-top: 0.3rem; padding-top: 0.3rem;
+  border-top: 1px solid var(--border); font-size: 0.7rem; line-height: 1.45;
+  color: var(--text-muted); min-width: 180px;
+}
+.item-card.expanded .item-detail { display: block; }
+.item-card .item-detail .detail-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--text-muted); opacity: 0.6;
+}
+.qty-stepper {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  color: var(--text); border-radius: 4px; cursor: pointer;
+  font-size: 0.7rem; width: 1.4rem; height: 1.4rem; padding: 0;
+  line-height: 1; display: inline-flex; align-items: center; justify-content: center;
+}
+.qty-stepper:hover { background: var(--accent); color: #000; }
+
+/* Empty state text inside drop zones */
+.drop-zone .empty-text { color: var(--text-muted); font-size: 0.8rem; padding: 0.5rem 0; }
+
+/* Proficiency badges */
+.prof-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 10px; font-size: 0.7rem; font-weight: 500; margin: 0.1rem 0.2rem 0.1rem 0; background: rgba(100,149,237,0.1); border: 1px solid rgba(100,149,237,0.25); color: #90b4f0; }
+
+/* ── Main panel ── */
+.sheet-main { flex: 1; min-width: 0; width: 100%; }
+
+/* Tabs */
+.tab-bar { display: flex; gap: 0.25rem; margin-bottom: 0.75rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
+.tab-bar::after { content: ''; position: sticky; right: 0; min-width: 28px; height: 100%; background: linear-gradient(to right, transparent, var(--card-bg) 70%); flex-shrink: 0; pointer-events: none; margin-left: -28px; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { padding: 0.5rem 1rem; border: none; border-radius: 6px 6px 0 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
+.tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.tab-btn.active { color: var(--accent); background: var(--card-bg); border-bottom: 2px solid var(--accent); margin-bottom: -2px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* HP controls */
+.hp-controls { display: flex; gap: 0.3rem; align-items: center; flex-wrap: wrap; margin-top: 0.35rem; }
+.hp-btn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.1s; }
+.hp-btn:active { transform: scale(0.95); }
+.hp-btn.heal { background: var(--success); color: #fff; }
+.hp-btn.dmg { background: var(--danger); color: #fff; }
+
+/* Condition badges */
+.cond-badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.15rem 0.4rem; border-radius: 12px; font-size: 0.62rem; font-weight: 600; cursor: pointer; user-select: none; border: 1px solid; transition: all 0.15s; }
+.cond-badge:hover { filter: brightness(1.15); }
+.cond-badge.dismiss { margin-left: 0.1rem; font-size: 0.55rem; opacity: 0.6; cursor: pointer; }
+.cond-badge.dismiss:hover { opacity: 1; }
+.cond-popout { position: absolute; z-index: 1001; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem; min-width: 180px; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 0.7rem; }
+.cond-popout .cond-desc { color: var(--text-muted); margin: 0.3rem 0; line-height: 1.4; }
+.cond-popout .cond-dismiss { display: block; margin-top: 0.4rem; width: 100%; padding: 0.2rem; border: 1px solid var(--danger); border-radius: 4px; background: transparent; color: var(--danger); cursor: pointer; font-size: 0.65rem; }
+.cond-popout .cond-dismiss:hover { background: var(--danger); color: #fff; }
+
+/* Death saves */
+.ds-box { display: flex; gap: 0.4rem; }
+.ds-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; transition: all 0.15s; }
+.ds-dot.filled-success { background: var(--success); border-color: var(--success); }
+.ds-dot.filled-fail { background: var(--danger); border-color: var(--danger); }
+
+/* Feature cards */
+.feat-card { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.4rem; overflow: hidden; transition: opacity 0.3s; }
+.feat-card.depleted { opacity: 0.45; }
+.feat-card.depleted .feat-header { color: var(--text-muted); }
+.feat-header { padding: 0.6rem 0.8rem; display: flex; justify-content: space-between; align-items: flex-start; font-size: 0.9rem; font-weight: 600; user-select: none; transition: background 0.1s; cursor: pointer; overflow-wrap: break-word; word-break: break-word; gap: 0.5rem; }
+.feat-header:hover { background: rgba(255,255,255,0.03); }
+.feat-header .collapse-arrow { font-size: 0.7rem; color: var(--text-muted); transition: transform 0.2s; margin-left: 0.35rem; }
+.feat-header .collapse-arrow.open { transform: rotate(90deg); }
+.feat-body { padding: 0.5rem 0.8rem 0.8rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; display: none; }
+.feat-body.open { display: block; }
+.passive-chip-body { padding: 0.4rem 0.6rem; font-size: 0.75rem; color: var(--text); line-height: 1.4; background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; display: none; }
+.passive-chip-body.open { display: block; }
+.passive-chip { cursor: pointer; }
+.passive-chip .collapse-arrow { font-size: 0.65rem; color: var(--text-muted); transition: transform 0.2s; }
+.passive-chip .collapse-arrow.open { transform: rotate(90deg); }
+.spell-body { display: none; }
+.spell-body.open { display: block; }
+
+/* Spell level collapsible sections */
+.spell-level-section { margin-bottom: 0.3rem; }
+.spell-level-header { display: flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; user-select: none; transition: border-color 0.15s; }
+.spell-level-header:hover { border-color: var(--accent); }
+.spell-level-header .sl-arrow { font-size: 0.6rem; color: var(--text-muted); transition: transform 0.15s; width: 0.8rem; text-align: center; }
+.spell-level-header.open .sl-arrow { transform: rotate(90deg); }
+.spell-level-header .sl-label { font-weight: 600; font-size: 0.8rem; flex: 1; }
+.spell-level-header .sl-count { font-size: 0.65rem; color: var(--text-muted); }
+.spell-level-body { display: none; padding: 0.2rem 0 0.2rem 0.3rem; }
+.spell-level-body.open { display: block; }
+.prepared-spell-chip.open .prep-body { display: block !important; }
+.prepared-spell-chip.open .prep-header { border-radius: 4px 4px 0 0; }
+.prepared-spell-chip.open .prep-arrow { transform: rotate(90deg); }
+.lc-arrow.rotated { transform: rotate(90deg); }
+.feat-level { font-size: 0.7rem; color: var(--accent); margin-right: 0.5rem; background: rgba(99,102,241,0.1); padding: 0.1rem 0.4rem; border-radius: 3px; }
+
+/* Feature use checkbox dots */
+.feat-use-dot { width: 14px; height: 14px; border-radius: 3px; border: 2px solid var(--border); background: var(--bg); cursor: pointer; transition: all 0.12s; display: inline-block; }
+.feat-use-dot:hover { border-color: var(--accent); }
+.feat-use-dot.filled { background: var(--accent); border-color: var(--accent); }
+.feat-use-dot.filled:hover { background: var(--danger); border-color: var(--danger); opacity: 0.7; }
+
+/* Highlight pulse animation (for scroll-to-target) */
+@keyframes highlightPulse {
+  0%   { border-color: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  50%  { border-color: var(--accent); box-shadow: 0 0 16px var(--accent); }
+  100% { border-color: var(--border); box-shadow: none; }
+}
+.highlight-pulse { animation: highlightPulse 1.2s ease-out; }
+
+/* Attacks */
+.atk-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 0.4rem; }
+/* Override .item-card inline-flex so attack/charge cards take full width */
+.atk-card.item-card { display: block; width: 100%; box-sizing: border-box; }
+.atk-card .atk-name { font-weight: 600; font-size: 0.9rem; }
+.atk-card .atk-detail { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+.atk-card .atk-props { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.atk-prop { font-size: 0.65rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px; padding: 0.1rem 0.35rem; color: var(--text-muted); }
+
+/* Action list */
+.action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.3rem; }
+.action-chip { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.5rem; font-size: 0.75rem; text-align: center; color: var(--text-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+.action-chip:hover { border-color: var(--accent); color: var(--text); }
+/* Expertise / picker chips */
+.chip { display: inline-flex; align-items: center; padding: 0.35rem 0.7rem; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.82rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+.chip:hover { border-color: var(--accent); background: var(--accent2); }
+.chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+.chip.selected::before { content: '✓ '; font-size: 0.7rem; }
+
+/* Spell slots */
+.slot-level { margin-bottom: 0.5rem; }
+.slot-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.15rem; text-transform: uppercase; }
+.slot-tracker { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+.slot-box { width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; background: #666; transition: all 0.1s; }
+.slot-box.used { background: var(--accent); border-color: var(--accent); }
+
+/* Misc */
+.spell-row { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+.inspiration-btn { width: 32px; height: 32px; border-radius: 50%; border: 2px solid; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: transparent; }
+.inspiration-btn.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
+.inspiration-btn.off { background: transparent; border-color: var(--border); color: var(--text-muted); }
+
+/* Editable fields — locked by default, unlocked in edit mode */
+.editable { cursor: default; border-bottom: 1px dashed transparent; transition: border-color 0.15s; }
+.edit-mode .editable { cursor: pointer; }
+.edit-mode .editable:hover { border-bottom-color: var(--text-muted); }
+.editable-input { background: transparent; border: none; border-bottom: 1px solid var(--accent); color: var(--text); font: inherit; padding: 0; margin: 0; outline: none; min-width: 2ch; }
+.editable-input.number { width: 3.5ch; text-align: center; }
+
+/* Ability score popover editor */
+.ability-editor-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.ability-editor-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem 1.8rem; max-width: 340px; width: 90%; box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center; }
+.ability-editor-card h3 { margin: 0 0 0.25rem 0; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.ability-editor-card .ae-mod-preview { font-size: 2.2rem; font-weight: 800; margin: 0.25rem 0 0.75rem 0; transition: color 0.2s; }
+.ability-editor-card .ae-mod-preview.positive { color: var(--success); }
+.ability-editor-card .ae-mod-preview.negative { color: var(--danger); }
+.ability-editor-card .ae-mod-preview.zero { color: var(--text-muted); }
+.ability-editor-stepper { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.ability-editor-stepper button { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.12s; display: flex; align-items: center; justify-content: center; }
+.ability-editor-stepper button:hover { border-color: var(--accent); color: var(--accent); background: rgba(99,102,241,0.08); }
+.ability-editor-stepper button:active { transform: scale(0.95); }
+.ability-editor-stepper .ae-score-display { font-size: 2.8rem; font-weight: 800; min-width: 3.5ch; text-align: center; color: var(--text); line-height: 1; }
+.ability-editor-card .ae-score-input { width: 4ch; font-size: 2.8rem; font-weight: 800; text-align: center; background: var(--bg); border: 2px solid var(--accent); border-radius: 8px; color: var(--text); padding: 0.15rem 0; font-family: var(--font); outline: none; }
+.ability-editor-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.75rem; }
+.ability-editor-actions button { padding: 0.5rem 1.2rem; border-radius: 8px; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.12s; }
+.ability-editor-actions .ae-save { background: var(--accent); color: #fff; }
+.ability-editor-actions .ae-save:hover { opacity: 0.9; }
+.ability-editor-actions .ae-cancel { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.ability-editor-actions .ae-cancel:hover { color: var(--text); }
+/* Proficiency dots — only clickable in edit mode */
+.save-row, .stat-row[onclick*="toggleSkill"], .stat-row[onclick*="showProfPicker"] { cursor: default; }
+.edit-mode .save-row, .edit-mode .stat-row[onclick*="toggleSkill"], .edit-mode .stat-row[onclick*="showProfPicker"] { cursor: pointer; }
+.save-dot, .skill-dot { opacity: 0.3; transition: opacity 0.15s; user-select: none; }
+.edit-mode .save-dot, .edit-mode .skill-dot { cursor: pointer; }
+.edit-mode .save-dot:hover, .edit-mode .skill-dot:hover { opacity: 0.7; }
+.save-dot.active, .skill-dot.active { opacity: 1; color: var(--accent); }
+/* Edit toggle button */
+#edit-toggle { padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); background: none; color: var(--text); transition: all 0.15s; }
+#edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.edit-mode #edit-toggle { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* Edit-only elements — hidden outside edit mode */
+.edit-only { display: none !important; }
+.edit-mode .edit-only { display: inline-flex !important; }
+.edit-mode .edit-only-block { display: block !important; }
+/* Inventory — add/delete/equip always active, name editing in edit mode, qty always editable */
+.inv-item input { pointer-events: none; border-color: transparent !important; }
+.inv-item input.inv-qty { pointer-events: auto; border-color: var(--border) !important; }
+.edit-mode .inv-item input { pointer-events: auto; border-color: var(--border) !important; }
+/* Weapon & Armor badges */
+.wpn-badge { display: inline-block; background: rgba(233,69,96,0.12); color: var(--accent); font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.4rem; font-weight: 600; vertical-align: middle; }
+.arm-badge { display: inline-block; background: rgba(59,130,246,0.12); color: #60a5fa; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: 0.3rem; font-weight: 600; vertical-align: middle; }
+/* Clickable info badges */
+.badge-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; }
+.badge-link:hover { filter: brightness(1.3); }
+/* Detail popup */
+#detail-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; }
+#detail-popup .popup-card { max-width: 480px; width: 90%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; max-height: 80vh; overflow-y: auto; }
+#detail-popup h3 { margin: 0 0 0.75rem 0; color: var(--accent); }
+#detail-popup p { font-size: 0.9rem; line-height: 1.5; color: var(--text); margin: 0; }
+#detail-popup .popup-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 0 0.25rem; }
+#detail-popup .popup-close:hover { color: var(--text); }
+/* DM Preview — hide edit controls */
+.dm-preview #edit-toggle { display: none !important; }
+.dm-preview #level-up-btn { display: none !important; }
+.dm-preview #delevel-btn { display: none !important; }
+.dm-preview #sidebar-portrait { cursor: default !important; }
+.dm-preview .portrait-placeholder { cursor: default !important; }
+.src-badge { font-size: 0.55rem; color: var(--text-muted); opacity: 0.7; white-space: nowrap; cursor: pointer; }
+.src-badge:hover { opacity: 1; color: var(--accent); text-decoration: underline; }
+/* Modal overlay for popouts (summon add, etc.) */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; }
+.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
+.modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; max-width: 800px; width: 100%; padding: 1.5rem; max-height: 90vh; overflow-y: auto; }
+.modal-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+.modal-close:hover { color: var(--accent); }
+@media (max-width: 600px) {
+  .modal-overlay.open { padding: 0.5rem; align-items: flex-start; }
+  .modal-content { max-height: 85vh; padding: 1rem; border-radius: 8px; }
+}
 {% endblock %}
 {% block content %}
 {% if dm_preview %}<script>document.body.classList.add('dm-preview');</script>{% endif %}
