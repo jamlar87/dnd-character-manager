@@ -3396,17 +3396,28 @@ function toggleConditions() {
 }
 
 function toggleConditionDetail(event, name, desc) {
+  event.stopPropagation();
   // Remove any existing popouts
   document.querySelectorAll('.cond-detail-popout').forEach(el => el.remove());
   const badge = event.currentTarget;
   const popout = document.createElement('div');
   popout.className = 'cond-popout cond-detail-popout';
   popout.innerHTML = '<strong style="color:'+(CONDITION_COLORS[name]||'var(--text)').split(';')[0]+'">'+name+'</strong><div class="cond-desc">'+desc+'</div><button class="cond-dismiss" onclick="dismissCondition(\''+name+'\');this.parentElement.remove()">Remove</button>';
-  document.body.appendChild(popout); // Add to body so position:fixed works correctly
-  // Position below the badge (relative to viewport)
+  document.body.appendChild(popout);
   const rect = badge.getBoundingClientRect();
   popout.style.left = (rect.left) + 'px';
   popout.style.top = (rect.bottom + 4) + 'px';
+  // Dismiss on click outside the popout
+  document.addEventListener('click', function _dismissOut(e) {
+    if (!popout.isConnected) {
+      document.removeEventListener('click', _dismissOut);
+      return;
+    }
+    if (!popout.contains(e.target)) {
+      popout.remove();
+      document.removeEventListener('click', _dismissOut);
+    }
+  });
 }
 
 // ── Personality Section toggle ──
