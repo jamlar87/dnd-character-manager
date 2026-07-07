@@ -8315,9 +8315,12 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         key = name.lower()
         # Try subclass-specific description first (disambiguates shared names like "Bonus Proficiencies")
         desc = ""
+        is_subclass_feature = False
         if subclass:
             sc_key = f"{subclass}::{key}"
             desc = FEATURE_DESCRIPTIONS.get(sc_key, "")
+            if desc:
+                is_subclass_feature = True
         if not desc:
             desc = FEATURE_DESCRIPTIONS.get(key, "")
         # Fallback: check RACIAL_TRAIT_DESCS for racial features
@@ -8332,6 +8335,13 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         _src = next((f.get("source", "") for f in SRD_FEATURES if f.get("name", "").lower() == key), "")
         if _src and _src != "SRD 5.1" and _src != "PHB 2014":
             entry["source"] = _src
+        elif is_subclass_feature:
+            # Subclass-specific features should use the subclass's source book
+            # (e.g. Swashbuckler→Xanathar's, not Rogue→PHB)
+            _ss_map = CLASSES.get(class_name, {}).get("_subclass_sources", {})
+            _sc_src = _ss_map.get(subclass, "")
+            if _sc_src:
+                entry["source"] = _sc_src
         elif class_name:
             _cls_src = CLASSES.get(class_name, {}).get("source", "")
             if _cls_src:
