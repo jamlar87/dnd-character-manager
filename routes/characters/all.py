@@ -1934,7 +1934,7 @@ async def character_pdf(char_id: int, request: Request):
     try:
         rels = db.execute(
             "SELECT name, relationship_type, description FROM character_relationships WHERE character_id = ? AND user_id = ? ORDER BY created_at DESC",
-            (char_id, user)
+            (char_id, user["id"])
         ).fetchall()
         if rels:
             rel_lines = []
