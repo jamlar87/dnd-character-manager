@@ -1944,6 +1944,9 @@ async def character_pdf(char_id: int, request: Request):
             for r in rels:
                 rname = r["name"]
                 rdesc = (r["description"] or "").strip()
+                # Flatten internal paragraph breaks so a single entry
+                # doesn't have extra spacing within its own description
+                rdesc = rdesc.replace("\n\n", "\n")
                 rtype = (r["relationship_type"] or "ally").replace("_", " ").title()
                 if rdesc:
                     rel_lines.append(f"{rname} ({rtype}): {rdesc}")
