@@ -880,8 +880,8 @@ def _bubble(c, x, y_tl, r=5, filled=False):
         c.circle(x, cy, r, fill=1, stroke=0)
 
 
-def _text_box(c, x, y_tl, w, h, text, size=4, label_text=None, min_size=4):
-    """Fixed bounding box. Always renders at 4pt to fit as much text as possible."""
+def _text_box(c, x, y_tl, w, h, text, size=6, label_text=None, min_size=4):
+    """Fixed bounding box with auto-sizing. Shrinks font until all text fits, then draws."""
     y_bottom = yb(y_tl) - h
     c.setStrokeColor((0, 0, 0))
     c.rect(x, y_bottom, w, h)
@@ -893,7 +893,18 @@ def _text_box(c, x, y_tl, w, h, text, size=4, label_text=None, min_size=4):
     if not text:
         return
     offset_top = 10 if label_text else 4
-    chosen_size = 4
+    # Try font sizes from size down to min_size, pick the biggest that fits all text
+    chosen_size = size
+    for try_size in range(size, min_size - 1, -1):
+        line_h = try_size + 2
+        max_lines = int((h - offset_top) / line_h)
+        if max_lines < 1:
+            continue
+        lines = simpleSplit(str(text), FONT, try_size, w - 6)
+        if len(lines) <= max_lines:
+            chosen_size = try_size
+            break
+    # Draw at chosen size
     line_h = chosen_size + 2
     max_lines = int((h - offset_top) / line_h)
     if max_lines < 1:
@@ -2066,9 +2077,23 @@ def fill_official_sheet(char_data, output_path=None):
                 bh = float(rect[3]) - float(rect[1])  # box height
                 if bw < 1 or bh < 1:
                     continue
-                # Always use 4pt to fit as much text as possible
-                chosen_size = 4
-                # Set widget-level DA with fixed font size
+                # Estimate: avg char width ≈ 55% of font size in points
+                # chars per line ≈ box_width / (font_size * 0.55)
+                # lines ≈ text_length / chars_per_line
+                # required height ≈ lines * (font_size * 1.2)
+                # Solve for font_size such that required_height ≤ box_height
+                text_len = len(str(val))
+                # Try font sizes from 9 down to 4
+                chosen_size = 9
+                for fs in range(9, 3, -1):
+                    cpl = bw / (fs * 0.55)  # chars per line
+                    if cpl < 1: continue
+                    lines_needed = max(1, text_len / cpl)
+                    h_needed = lines_needed * (fs * 1.2)
+                    if h_needed <= bh:
+                        chosen_size = fs
+                        break
+                # Set widget-level DA with calculated font size
                 new_da = f"/Helv {chosen_size} Tf 0 g"
                 obj[NameObject("/DA")] = TextStringObject(new_da)
             except Exception:
