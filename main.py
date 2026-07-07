@@ -4254,6 +4254,7 @@ async def search_items(q: str = "", limit: int = 0):
                 "cost": item.get("cost", ""),
                 "weight": item.get("weight"),
                 "description": desc[:150],
+                "concentration": "concentration" in desc.lower(),
             })
             if limit and len(results) >= limit:
                 break
@@ -4271,6 +4272,7 @@ async def search_items(q: str = "", limit: int = 0):
                     "cost": item.get("cost", ""),
                     "weight": item.get("weight"),
                     "description": desc[:150],
+                    "concentration": "concentration" in desc.lower(),
                 })
                 if limit and len(results) >= limit:
                     break
