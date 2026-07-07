@@ -797,6 +797,8 @@ async def character_sheet(char_id: int, request: Request):
         # Flag items that grant a bonus action ability
         _desc_ba = (inv_item.get("description") or "").lower()
         inv_item["bonus_action"] = "bonus action" in _desc_ba
+        # Flag items that require concentration
+        inv_item["concentration"] = "concentration" in _desc_ba
     # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
     char["equipped"] = _normalize_equipped(char["equipped"])
     # Enrich equipped items too
@@ -816,6 +818,8 @@ async def character_sheet(char_id: int, request: Request):
         # Flag items that grant a bonus action ability
         _desc_ba_eq = (eq_item.get("description") or "").lower()
         eq_item["bonus_action"] = "bonus action" in _desc_ba_eq
+        # Flag items that require concentration
+        eq_item["concentration"] = "concentration" in _desc_ba_eq
     # Load attuned_items
     try:
         char["attuned_items"] = json.loads(char.get("attuned_items") or "[]")

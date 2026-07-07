@@ -2341,6 +2341,7 @@
                    onfocus="this.closest('.item-card').classList.add('editing')"
                    onblur="this.closest('.item-card').classList.remove('editing')">
             {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
+            {% if item.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
             <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
@@ -2380,6 +2381,7 @@
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
+            {% if eq.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
             <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
             <span class="wpn-badge item-tag" style="display:none">⚔️</span>
             <span class="arm-badge item-tag" style="display:none">🛡️</span>
