@@ -74,6 +74,23 @@ def _get_spell_cache():
         pass
     # Supplementary spells not in any data source (Fizban's, etc.)
     _SUPPLEMENTARY_SPELLS = {
+        "absorb elements": {
+            "name": "Absorb Elements", "level": 1, "school": "Abjuration",
+            "casting_time": "1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage",
+            "range": "Self",
+            "components": "S",
+            "duration": "1 round", "concentration": False,
+            "description": "The spell captures some of the incoming energy, lessening its effect on you and storing it for your next melee attack. You have resistance to the triggering damage type until the start of your next turn. Also, the first time you hit with a melee attack on your next turn, the target takes an extra 1d6 damage of the triggering type, and the spell ends. At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each slot level above 1st.",
+            "_source": "Xanathar's Guide to Everything",
+        },
+        "cloying darkness": {
+            "name": "Cloying Darkness", "level": 1, "school": "Necromancy",
+            "casting_time": "1 action", "range": "30 feet",
+            "components": "V, S",
+            "duration": "1 round", "concentration": False,
+            "description": "You reach out with a hand of decaying shadows. Make a ranged spell attack. If it hits, the target takes 2d8 necrotic damage and must make a Constitution saving throw. If it fails, its visual organs are enveloped in shadow until the start of your next turn, causing it to treat all lighting as if it's one step lower in intensity (it treats bright light as dim, dim light as darkness, and darkness as magical darkness). At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st.",
+            "_source": "Kobold Press OGL",
+        },
         "summon draconic spirit": {
             "name": "Summon Draconic Spirit", "level": 5, "school": "Conjuration",
             "casting_time": "1 action", "range": "60 feet",
@@ -84,7 +101,12 @@ def _get_spell_cache():
         },
     }
     for name, data in _SUPPLEMENTARY_SPELLS.items():
-        if name not in _SPELL_CACHE:
+        existing = _SPELL_CACHE.get(name, {})
+        existing_desc = existing.get("desc", existing.get("description", ""))
+        if isinstance(existing_desc, list):
+            existing_desc = " ".join(existing_desc)
+        # Overwrite if missing, or if existing description is a stub (< 50 chars)
+        if name not in _SPELL_CACHE or len(existing_desc.strip()) < 50:
             _SPELL_CACHE[name] = data
     return _SPELL_CACHE
 
