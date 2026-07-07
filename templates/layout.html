@@ -231,7 +231,7 @@ document.addEventListener('click', function(e) {
     <a href="/dashboard">My Characters</a>
     <a href="/dm-tools">DM Tools</a>
     <a href="/create">+ New</a>
-    <span style="color:var(--text-muted);font-size:0.85rem">{{ user.email }}</span>
+    <span style="color:var(--text-muted);font-size:0.85rem;overflow-wrap:break-word;word-break:break-word;max-width:200px;min-width:0">{{ user.email }}</span>
     <a href="/logout" class="btn btn-outline btn-sm">Logout</a>
     {% else %}
     <a href="/login">Login</a>
