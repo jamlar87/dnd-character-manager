@@ -57,6 +57,35 @@ def _get_spell_cache():
             _SPELL_CACHE[s["name"].lower()] = s
     except Exception:
         _SPELL_CACHE = {}
+    # Also load from app's manual_data/spells.json (catches TCoE/SCAG spells not in SRD)
+    try:
+        manual_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "data", "manual_data", "spells.json"
+        )
+        if os.path.exists(manual_path):
+            with open(manual_path) as f:
+                manual_spells = json.load(f)
+            for s in manual_spells:
+                name = s.get("name", "").lower()
+                if name and name not in _SPELL_CACHE:
+                    _SPELL_CACHE[name] = s
+    except Exception:
+        pass
+    # Supplementary spells not in any data source (Fizban's, etc.)
+    _SUPPLEMENTARY_SPELLS = {
+        "summon draconic spirit": {
+            "name": "Summon Draconic Spirit", "level": 5, "school": "Conjuration",
+            "casting_time": "1 action", "range": "60 feet",
+            "components": "V, S, M (an object with an image of a dragon worth at least 500 gp)",
+            "duration": "Concentration, up to 1 hour", "concentration": True,
+            "description": "You call forth a draconic spirit. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Draconic Spirit stat block. When you cast this spell, choose a family of dragon: chromatic, gem, or metallic. The creature resembles a dragon of the chosen family, which determines certain traits in its stat block. The creature disappears when it drops to 0 hit points or when the spell ends. The creature is an ally to you and your companions. In combat, the creature shares your initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its move to avoid danger. At Higher Levels. When you cast this spell using a spell slot of 6th level or higher, use the higher level wherever the spell's level appears in the stat block.",
+            "_source": "Fizban's Treasury of Dragons",
+        },
+    }
+    for name, data in _SUPPLEMENTARY_SPELLS.items():
+        if name not in _SPELL_CACHE:
+            _SPELL_CACHE[name] = data
     return _SPELL_CACHE
 
 
@@ -453,19 +482,23 @@ def _build_spell_appendix_text(d):
 
         lines.append(sp_name.upper())
         # Level + school line
-        school = sd.get("school", {}).get("name", "")
+        school_raw = sd.get("school", {})
+        school = school_raw.get("name", school_raw) if isinstance(school_raw, dict) else school_raw
         ritual = " (ritual)" if sd.get("ritual") else ""
         level_str = {0: "Cantrip", 1: "1st-level", 2: "2nd-level", 3: "3rd-level"}.get(
             sp_level, f"{sp_level}th-level")
-        lines.append(f"{level_str} {school.lower()}{ritual}")
+        lines.append(f"{level_str} {school}{ritual}")
 
         lines.append(f"Casting Time: {sd.get('casting_time', '—')}")
         lines.append(f"Range: {sd.get('range', '—')}")
-        comps = sd.get("components", [])
-        comp_str = ", ".join(comps) if comps else "—"
-        materials = sd.get("material")
-        if materials:
-            comp_str += f" ({materials})"
+        raw_comp = sd.get("components", [])
+        if isinstance(raw_comp, list):
+            comp_str = ", ".join(raw_comp) if raw_comp else "—"
+            materials = sd.get("material")
+            if materials:
+                comp_str += f" ({materials})"
+        else:
+            comp_str = raw_comp if raw_comp else "—"
         lines.append(f"Components: {comp_str}")
         dur = sd.get("duration", "—")
         if sd.get("concentration"):
@@ -476,17 +509,26 @@ def _build_spell_appendix_text(d):
                 dur = f"Concentration, up to {dur}"
         lines.append(f"Duration: {dur}")
 
-        # Description
-        desc = sd.get("desc", [])
+        # Description — handle both list (SRD) and string (manual) formats
+        desc = sd.get("desc", sd.get("description", ""))
         if desc:
             lines.append("")
-            lines.append(" ".join(desc))
-
-        # Higher level
-        higher = sd.get("higher_level", [])
-        if higher:
-            lines.append("")
-            lines.append("At Higher Levels: " + " ".join(higher))
+            if isinstance(desc, list):
+                full_desc = " ".join(desc)
+            else:
+                full_desc = desc
+            # Check if "At Higher Levels" is embedded in the description
+            if "at higher levels" in full_desc.lower():
+                idx = full_desc.lower().index("at higher levels")
+                main = full_desc[:idx].strip()
+                higher_text = full_desc[idx:].strip()
+                if main:
+                    lines.append(main)
+                if higher_text:
+                    lines.append("")
+                    lines.append(higher_text)
+            else:
+                lines.append(full_desc)
 
         lines.append("")
     return "\n".join(lines)
