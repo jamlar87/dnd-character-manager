@@ -24,6 +24,8 @@
     <div>
       <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
       <span class="badge badge-accent" style="margin-left:0.5rem;flex-shrink:0">Lv{{ c.level }}</span>
+      {% if c.shared %}<span class="badge" style="background:var(--accent);color:#fff;font-size:0.6rem;margin-left:0.3rem">🌐 Public</span>{% endif %}
+      {% if c.owner_email and c.user_id != current_user_id %}<span class="badge badge-muted" style="font-size:0.6rem;margin-left:0.3rem">{{ c.owner_email }}</span>{% endif %}
       <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.25rem;overflow-wrap:break-word;word-break:break-word;line-height:1.4">
         {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
         {% if c.background %} · {{ c.background }}{% endif %}
@@ -37,7 +39,10 @@
           <div class="hp-bar-fill{% if c.hp_current < c.hp_max * 0.25 %} danger{% elif c.hp_current < c.hp_max * 0.5 %} warn{% endif %}" style="width:{{ (c.hp_current / c.hp_max * 100) if c.hp_max > 0 else 0 }}%"></div>
         </div>
       </div>
+      {% if c.user_id == current_user_id %}
+      <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();toggleShare({{ c.id }}, {{ 'true' if c.shared else 'false' }})" title="{{ 'Unshare' if c.shared else 'Share publicly' }}" style="font-size:0.65rem">{{ '🔓 Public' if c.shared else '🔒 Share' }}</button>
       <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteChar({{ c.id }})" title="Delete">✕</button>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -45,13 +50,22 @@
 {% endif %}
 
 <script>
+async function toggleShare(id, currentlyShared) {
+  const newState = !currentlyShared;
+  const r = await fetch('/api/character/' + id + '/toggle-share', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ shared: newState })
+  });
+  if (r.ok) location.reload();
+  else alert('Failed to update sharing');
+}
 async function deleteChar(id) {
   if (!confirm('Permanently delete this character?')) return;
   const r = await fetch('/api/character/' + id + '/delete', { method: 'POST' });
   if (r.ok) {
     const card = document.getElementById('char-card-' + id);
     if (card) card.remove();
-    // If no cards remain, reload to show the empty state
     if (!document.querySelector('.char-card-inner')) location.reload();
   } else {
     alert('Delete failed');

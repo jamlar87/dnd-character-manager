@@ -4059,7 +4059,11 @@ async def dashboard(request: Request):
     db = get_db()
     where, params = _user_where(user)
     chars = [dict(r) for r in db.execute(
-        f"SELECT * FROM characters {where} ORDER BY created_at DESC", params
+        f"SELECT c.*, u.email as owner_email FROM characters c "
+        f"LEFT JOIN users u ON c.user_id = u.id "
+        f"WHERE ({where}) OR (c.shared = 1 AND c.user_id != ?) "
+        f"ORDER BY c.shared ASC, c.created_at DESC",
+        (*params, user["id"])
     ).fetchall()]
     db.close()
     for c in chars:
@@ -4068,7 +4072,7 @@ async def dashboard(request: Request):
                 c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError):
                 c[f] = []
-    return _render("dashboard.html", request=request, characters=chars)
+    return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"])
 
 
 # ── Character routes moved to routes/characters.py — registered in startup

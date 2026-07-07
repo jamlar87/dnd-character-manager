@@ -427,12 +427,15 @@
         {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
         {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
       </div>
-      <button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>
+      {% if is_owner %}<button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>{% endif %}
       <button onclick="window.open('/api/character/{{ character.id }}/pdf', '_blank')" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''" title="Generate printable character sheet PDF">📄 Make PDF</button>
-      {% if character.level < 20 %}
+      {% if is_owner %}
+      <button id="share-toggle-btn" onclick="toggleCharacterShare()" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:{% if character.shared %}var(--accent){% else %}var(--accent2){% endif %};color:{% if character.shared %}#fff{% else %}var(--accent){% endif %};border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">{% if character.shared %}🌐 Public{% else %}🔒 Share{% endif %}</button>
+      {% endif %}
+      {% if is_owner and character.level < 20 %}
       <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
       {% endif %}
-      {% if character.level > 1 %}
+      {% if is_owner and character.level > 1 %}
       <button id="delevel-btn" onclick="openDeLevel()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">🔻 De-Level</button>
       {% endif %}
     </div>
@@ -4756,6 +4759,24 @@ function toggleEditMode() {
 // Restore edit mode preference (skip in DM preview)
 if (!document.body.classList.contains('dm-preview') && localStorage.getItem('edit-mode-' + CHAR_ID) === '1') {
   document.body.classList.add('edit-mode');
+
+async function toggleCharacterShare() {
+  const btn = document.getElementById('share-toggle-btn');
+  const currentlyShared = btn.textContent.includes('Public');
+  const newState = !currentlyShared;
+  const r = await fetch(`/api/character/${CHAR_ID}/toggle-share`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ shared: newState })
+  });
+  if (r.ok) {
+    btn.textContent = newState ? '🌐 Public' : '🔒 Share';
+    btn.style.background = newState ? 'var(--accent)' : 'var(--accent2)';
+    btn.style.color = newState ? '#fff' : 'var(--accent)';
+  } else {
+    alert('Failed to update sharing');
+  }
+}
   const toggleBtn = document.getElementById('edit-toggle');
   if (toggleBtn) toggleBtn.textContent = '🔓 Done';
 }

@@ -760,7 +760,7 @@ async def character_sheet(char_id: int, request: Request):
         row = db.execute("SELECT * FROM characters WHERE id = ?",
                          (char_id,)).fetchone()
     else:
-        row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?",
+        row = db.execute("SELECT * FROM characters WHERE id = ? AND (user_id = ? OR shared = 1)",
                          (char_id, user["id"])).fetchone()
     if not row:
         db.close()
@@ -1430,7 +1430,9 @@ async def character_sheet(char_id: int, request: Request):
                    invocations_by_level=invocations_by_level,
                    invocation_options=INVOCATION_OPTIONS,
                    pact_boon_options=PACT_BOON_OPTIONS,
-                   summon_templates=SUMMON_TEMPLATES)
+                   summon_templates=SUMMON_TEMPLATES,
+                   current_user_id=user["id"],
+                   is_owner=char.get("user_id") == user["id"])
 
 # ── Routes: Live Session API ───────────────────────────────────────────────
 
@@ -4551,6 +4553,21 @@ async def delete_character(char_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+@router.post("/api/character/{char_id}/toggle-share", response_class=JSONResponse)
+async def character_toggle_share(char_id: int, request: Request):
+    """Toggle public sharing on a character (owner only)."""
+    user = require_user(request)
+    data = await request.json()
+    shared = 1 if data.get("shared", False) else 0
+    db = get_db()
+    db.execute("UPDATE characters SET shared=? WHERE id=? AND user_id=?",
+               (shared, char_id, user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"ok": True, "shared": bool(shared)})
+
 
 # ── Name Generators ─────────────────────────────────────────────────────────
 
