@@ -367,10 +367,6 @@
 /* Detail popup */
 #detail-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; }
 #detail-popup .popup-card { max-width: 480px; width: 90%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; max-height: 80vh; overflow-y: auto; }
-@media (max-width: 600px) {
-  #detail-popup { align-items: flex-start; padding-top: 1rem; }
-  #detail-popup .popup-card { max-height: 85vh; padding: 1rem; border-radius: 8px; }
-}
 #detail-popup h3 { margin: 0 0 0.75rem 0; color: var(--accent); }
 #detail-popup p { font-size: 0.9rem; line-height: 1.5; color: var(--text); margin: 0; }
 #detail-popup .popup-close { float: right; background: none; border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer; padding: 0 0.25rem; }
@@ -3320,7 +3316,7 @@ const EXHAUSTION_LEVELS = [
 ];
 
 function openConditionPicker() {
-  let html = '<div class="cond-popout" id="cond-picker" style="position:fixed;top:15%;left:50%;transform:translateX(-50%);z-index:2000;width:380px;max-height:70vh;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.8rem;box-shadow:0 4px 12px rgba(0,0,0,0.4)">';
+  let html = '<div class="cond-popout" id="cond-picker" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2000;width:380px;max-width:92vw;max-height:75vh;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.8rem;box-shadow:0 4px 12px rgba(0,0,0,0.4)">';
   html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem"><strong style="font-size:0.8rem">Add Condition</strong><span onclick="closeConditionPicker()" style="cursor:pointer;font-size:0.8rem">✕</span></div>';
   for (const c of STANDARD_CONDITIONS) {
     if (c.name === 'Exhaustion') {
