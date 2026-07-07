@@ -163,13 +163,23 @@ def _get_item_description(item_name):
     if _ITEM_INDEX is None:
         try:
             sys.path.insert(0, "/home/james/dnd-character-manager")
-            from main import ITEM_INDEX
+            from main import ITEM_INDEX, _resolve_item_key
             _ITEM_INDEX = ITEM_INDEX
+            _GET_ITEM_RESOLVER = _resolve_item_key
         except Exception:
             _ITEM_INDEX = {}
-    name_lower = (item_name or "").lower()
-    entry = _ITEM_INDEX.get(name_lower, {})
-    return entry.get("description", "") or entry.get("type", "") or ""
+            _GET_ITEM_RESOLVER = lambda n: None
+    else:
+        try:
+            sys.path.insert(0, "/home/james/dnd-character-manager")
+            from main import _resolve_item_key as _GET_ITEM_RESOLVER
+        except Exception:
+            _GET_ITEM_RESOLVER = lambda n: None
+    # Use the same fuzzy resolution as the rest of the app
+    entry = _GET_ITEM_RESOLVER(item_name)
+    if entry:
+        return entry.get("description", "") or entry.get("type", "") or ""
+    return ""
 
 
 # ═══════════════════════════════════════════════════════════════
