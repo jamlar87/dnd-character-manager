@@ -2351,6 +2351,16 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     """)
+    # ── Indexes for performance ──
+    for idx_sql in [
+        "CREATE INDEX IF NOT EXISTS idx_char_spells_char ON character_spells(character_id)",
+        "CREATE INDEX IF NOT EXISTS idx_characters_user ON characters(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id)",
+    ]:
+        try:
+            db.execute(idx_sql)
+        except sqlite3.OperationalError as e:
+            print(f"[index] Warning: {e}")
     db.commit()
     db.close()
 
