@@ -1472,7 +1472,8 @@ def fill_official_sheet(char_data, output_path=None):
     }
 
     for skill_name, abbr in skill_ability_map.items():
-        ab_score = d.get(abbr.lower(), 10)
+        attr = ab_map[abbr]  # "DEX" → "dexterity"
+        ab_score = d.get(attr, 10)
         ab_mod = (ab_score - 10) // 2
         prof_val = skill_profs.get(skill_name.lower(), 0)
         if isinstance(prof_val, str):
