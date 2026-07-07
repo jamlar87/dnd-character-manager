@@ -1829,10 +1829,22 @@ def fill_official_sheet(char_data, output_path=None):
         import json
         inv = json.loads(inv) if inv else []
     equip_lines = [f"{i.get('name', '?')} x{i.get('quantity', 1)}" for i in inv[:30] if isinstance(i, dict)]
-    fields["Equipment"] = ", ".join(equip_lines)[:300]
+    equip_str = ", ".join(equip_lines)[:300]
+    if d.get("has_equipment_appendix"):
+        equip_str = equip_str[:250]
+        if equip_str:
+            equip_str += "... See Appendix"
+    fields["Equipment"] = equip_str
 
     # Features & Traits (condensed)
-    feat_text = d.get("condensed_features", "") or d.get("page1_features", "") or ""
+    has_feat_appendix = bool(d.get("full_feature_text", "").strip())
+    # Use page1_features (name + short desc) if available, else condensed (names only)
+    feat_text = d.get("page1_features", "") or d.get("condensed_features", "") or ""
+    if has_feat_appendix:
+        # Always append appendix reference if there's overflow content
+        feat_text = str(feat_text)[:450]
+        if feat_text:
+            feat_text += "\n… See Appendix"
     fields["Features and Traits"] = str(feat_text)[:500]
 
     # ── PAGE 2 FIELDS ──────────────────────────────────────────────
@@ -1862,6 +1874,10 @@ def fill_official_sheet(char_data, output_path=None):
 
     # Feats & Traits page 2
     feat_long = str(d.get("full_feature_text", "") or "")
+    if feat_long.strip():
+        feat_long = feat_long[:450]
+        if feat_long:
+            feat_long += "\n… See Appendix"
     fields["Feat+Traits"] = feat_long[:500]
 
     # Treasure
@@ -1920,6 +1936,24 @@ def fill_official_sheet(char_data, output_path=None):
             for i, sname in enumerate(names):
                 if i < len(slot_fields):
                     fields[slot_fields[i]] = sname
+
+        # If spell appendix exists, tag last spell field to note it
+        has_spell_appendix = bool(d.get("spell_appendix", "").strip())
+        if has_spell_appendix:
+            # Find the highest-level spell field that was filled
+            tagged = False
+            for lvl in range(9, -1, -1):
+                if tagged:
+                    break
+                names = by_level.get(lvl, [])
+                slot_fields = _SPELL_FIELDS_BY_LEVEL.get(lvl, [])
+                for i in range(min(len(names), len(slot_fields)) - 1, -1, -1):
+                    if not tagged:
+                        existing = fields.get(slot_fields[i], "")
+                        if existing:
+                            fields[slot_fields[i]] = existing + " (See Appendix)"
+                            tagged = True
+                            break
 
     # ── APPLY FIELDS TO ALL PAGES ──────────────────────────────────
     # Map stripped names to actual field names (handle trailing spaces)
