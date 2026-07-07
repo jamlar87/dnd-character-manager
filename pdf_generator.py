@@ -1744,10 +1744,15 @@ def fill_official_sheet(char_data, output_path=None):
         ac.setTitle(f"D&D Character Sheet Appendices — {d.get('name', 'Character')}")
         ac.setAuthor("Character Manager")
 
-        _draw_appendix_page(ac, d, "SPELL APPENDIX", "spell_appendix")
-        _draw_appendix_page(ac, d, "EQUIPMENT APPENDIX", "equipment_appendix")
-        _draw_appendix_page(ac, d, "CLASS FEATURE APPENDIX", "full_feature_text",
-                            subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
+        if d.get("spell_appendix", "").strip():
+            _draw_appendix_page(ac, d, "SPELL APPENDIX", "spell_appendix")
+            ac.showPage()
+        if d.get("equipment_appendix", "").strip():
+            _draw_appendix_page(ac, d, "EQUIPMENT APPENDIX", "equipment_appendix")
+            ac.showPage()
+        if d.get("full_feature_text", "").strip():
+            _draw_appendix_page(ac, d, "CLASS FEATURE APPENDIX", "full_feature_text",
+                                subtitle=f"{d.get('class_name','')} {d.get('level','')} | {d.get('race','')} | {d.get('background','')}")
         ac.save()
 
         if os.path.getsize(appendices_path) > 1000:  # non-empty
