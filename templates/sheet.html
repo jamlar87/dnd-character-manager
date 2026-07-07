@@ -2316,21 +2316,12 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
           <h3 style="margin:0">🎒 Inventory</h3>
           <div style="display:flex;align-items:center;gap:0.5rem">
-            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();var q=document.getElementById('item-search-input');if(q&&q.value.trim())searchItems(q.value);">
+            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();">
               <span style="display:inline-block;width:12px;height:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center;line-height:10px;font-size:9px;background:var(--bg)">☐</span>
               Core only
             </label>
-            <button class="btn btn-outline btn-sm" onclick="toggleItemSearch()">+ Add</button>
+            <button class="btn btn-outline btn-sm" onclick="openItemPicker()">+ Add</button>
           </div>
-        </div>
-        <!-- Item Search Bar -->
-        <div id="item-search-bar" style="display:none;position:relative;margin-bottom:0.5rem">
-          <input type="text" id="item-search-input" placeholder="Search 600+ items..." 
-            style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none"
-            oninput="searchItems(this.value)" onkeydown="handleSearchKey(event)"
-            onblur="_searchBlurTimer=setTimeout(()=>{const r=document.getElementById('item-search-results');if(r)r.style.display='none';_searchBlurTimer=null;},200)"
-            onfocus="if(_searchBlurTimer){clearTimeout(_searchBlurTimer);_searchBlurTimer=null;}">
-          <div id="item-search-results" style="display:none;position:absolute;top:100%;left:0;right:0;max-height:220px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:0 0 6px 6px;z-index:50;box-shadow:0 4px 12px rgba(0,0,0,0.4)"></div>
         </div>
         <div id="inv-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
           {% if character.inventory %}
@@ -2646,6 +2637,21 @@
 <!-- /sheet-main -->
 </div>
 <!-- /sheet-layout -->
+</div>
+
+<!-- Item Picker Popup -->
+<div id="item-picker-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" onclick="if(event.target===this)closeItemPicker()">
+  <div class="card" style="max-width:420px;width:90%;max-height:80vh;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+      <h3 style="margin:0;font-size:1rem">🔍 Find Item</h3>
+      <button onclick="closeItemPicker()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
+    </div>
+    <input type="text" id="item-picker-search" placeholder="Search 600+ items..." oninput="searchPickerItems(this.value)"
+      style="width:100%;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:0.5rem;flex-shrink:0">
+    <div id="item-picker-results" style="overflow-y:auto;flex:1;min-height:0;max-height:50vh;border:1px solid var(--border);border-radius:6px;background:var(--bg)">
+      <div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading items...</div>
+    </div>
+  </div>
 </div>
 
 <!-- Detail Popup -->
@@ -6849,58 +6855,72 @@ function addInventoryItem() {
   card.querySelector('.item-card-name').focus();
 }
 
-// ── Item Search (inline bar on inventory tab) ──
-let _searchBlurTimer = null;
-function toggleItemSearch() {
-  const bar = document.getElementById('item-search-bar');
-  if (!bar) return;
-  const results = document.getElementById('item-search-results');
-  const isOpen = bar.style.display !== 'none';
-  // Clear any pending blur timeout to avoid stale state
-  if (_searchBlurTimer) { clearTimeout(_searchBlurTimer); _searchBlurTimer = null; }
-  if (isOpen) {
-    // Closing: hide bar and results
-    bar.style.display = 'none';
-    if (results) results.style.display = 'none';
-  } else {
-    // Opening: show bar, reset input, hide stale results
-    bar.style.display = 'block';
-    document.getElementById('item-search-input').value = '';
-    if (results) { results.style.display = 'none'; results.innerHTML = ''; }
-    document.getElementById('item-search-input').focus();
-  }
+// ── Item Picker (modal popup, same as DM tools) ──
+let _pickerTimer = null;
+
+function openItemPicker() {
+  const popup = document.getElementById('item-picker-popup');
+  if (!popup) return;
+  popup.style.display = 'flex';
+  document.getElementById('item-picker-results').innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading...</div>';
+  // Load all items initially
+  fetch('/api/items/search')
+    .then(r => r.json())
+    .then(d => renderPickerResults(d.results || []))
+    .catch(() => {});
+  document.getElementById('item-picker-search').value = '';
+  setTimeout(() => document.getElementById('item-picker-search').focus(), 100);
 }
 
-let _searchTimer = null;
-function searchItems(query) {
-  clearTimeout(_searchTimer);
-  _searchTimer = setTimeout(async () => {
-    const q = query.trim();
-    const results = document.getElementById('item-search-results');
-    if (!results) return;
-    if (q.length < 1) { results.style.display = 'none'; return; }
+function closeItemPicker() {
+  document.getElementById('item-picker-popup').style.display = 'none';
+}
+
+function searchPickerItems(query) {
+  clearTimeout(_pickerTimer);
+  const q = query.trim();
+  if (!q) { fetch('/api/items/search').then(r=>r.json()).then(d=>renderPickerResults(d.results||[])).catch(()=>{}); return; }
+  _pickerTimer = setTimeout(async () => {
     try {
       const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
       const d = await r.json();
-      let items = d.results || [];
-      if (_coreOnly) items = items.filter(it => isCoreItemSource(it.source || ''));
-      if (!items.length) {
-        results.innerHTML = '<div style="padding:0.5rem;color:var(--text-muted);font-size:0.8rem">No items found</div>';
-        results.style.display = 'block';
-        return;
-      }
-      results.innerHTML = items.map(item =>
-        `<div class="search-result" data-name="${item.name.replace(/"/g, '&quot;')}" style="padding:0.3rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem" onmousedown="if(event.button===0)selectItem(this.parentElement.dataset.name)">
-            <span style="font-size:0.8rem;color:var(--text);flex:1;min-width:0">${item.name} <span style="color:var(--text-muted);font-size:0.7rem;white-space:nowrap">${item.type}</span></span>
-            <span style="font-size:0.75rem;color:var(--accent);flex-shrink:0;cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();toggleItemDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
-          </div>
-          <div class="item-result-desc" style="display:none;padding:0.3rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.25rem">${item.description || 'No description available.'}</div>
-        </div>`
-      ).join('');
-      results.style.display = 'block';
-    } catch(e) { console.error('searchItems fetch error:', e); }
+      renderPickerResults(d.results || []);
+    } catch(e) {}
   }, 200);
+}
+
+function renderPickerResults(items) {
+  const results = document.getElementById('item-picker-results');
+  if (_coreOnly) items = items.filter(it => isCoreItemSource(it.source || ''));
+  if (!items.length) {
+    results.innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">No items found</div>';
+    return;
+  }
+  results.innerHTML = items.map(item =>
+    `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
+        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
+          <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
+          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerRowDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
+        </div>
+      </div>
+      <div class="picker-row-desc" style="display:none;padding:0.25rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.2rem">${item.description || 'No description available.'}</div>
+    </div>`
+  ).join('');
+}
+
+function togglePickerRowDesc(el) {
+  const descDiv = el.parentElement.parentElement.nextElementSibling;
+  if (!descDiv || !descDiv.classList.contains('picker-row-desc')) return;
+  const isHidden = descDiv.style.display === 'none' || !descDiv.style.display;
+  descDiv.style.display = isHidden ? 'block' : 'none';
+  el.textContent = isHidden ? '▴ info' : '▾ info';
+}
+
+function selectPickerItem(name) {
+  selectItem(name);
+  closeItemPicker();
 }
 
 function toggleItemDesc(el) {
@@ -6909,17 +6929,6 @@ function toggleItemDesc(el) {
   const isHidden = descDiv.style.display === 'none' || !descDiv.style.display;
   descDiv.style.display = isHidden ? 'block' : 'none';
   el.textContent = isHidden ? '▴ info' : '▾ info';
-}
-
-function handleSearchKey(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('item-search-results').style.display = 'none';
-    document.getElementById('item-search-input').blur();
-  }
-  if (e.key === 'Enter') {
-    const first = document.querySelector('#item-search-results .search-result');
-    if (first && first.dataset.name) selectItem(first.dataset.name);
-  }
 }
 
 let _selectingItem = false;
