@@ -21,6 +21,8 @@
   .nav-links { display: flex; gap: 1rem; align-items: center; }
   .nav-links a, .nav-links button { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; padding: 0.4rem 0.8rem; border-radius: 4px; white-space: nowrap; touch-action: manipulation; }
   .nav-links a:hover, .nav-links button:hover { background: var(--accent2); }
+  .nav-email { color: var(--text-muted); font-size: 0.85rem; }
+  @media (max-width: 1000px) { .nav-email { display: none; } }
   .nav-search { display: flex; align-items: center; gap: 0.3rem; flex: 1; max-width: 480px; margin: 0 1rem; position: relative; }
   .nav-search input { flex: 1; min-width: 120px; padding: 0.35rem 0.5rem; font-size: 0.8rem; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 4px; }
   .nav-search input::placeholder { color: var(--text-muted); font-size: 0.75rem; }
@@ -39,6 +41,7 @@
     .nav-links.open { display: flex; }
     .nav-links a, .nav-links button { display: block; padding: 0.7rem 1.5rem; border-radius: 0; width: 100%; text-align: left; font-size: 0.95rem; }
     .nav-links span { display: block; padding: 0.5rem 1.5rem; }
+    .nav-links.open .nav-email { display: block; }
     .container { padding: 0 0.75rem; margin: 1rem auto; }
   }
   .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; }
@@ -231,7 +234,7 @@ document.addEventListener('click', function(e) {
     <a href="/dashboard">My Characters</a>
     <a href="/dm-tools">DM Tools</a>
     <a href="/create">+ New</a>
-    <span style="color:var(--text-muted);font-size:0.85rem;overflow-wrap:break-word;word-break:break-word;max-width:200px;min-width:0">{{ user.email }}</span>
+    <span class="nav-email">{{ user.email }}</span>
     <a href="/logout" class="btn btn-outline btn-sm">Logout</a>
     {% else %}
     <a href="/login">Login</a>
