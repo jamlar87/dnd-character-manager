@@ -1850,18 +1850,20 @@ def fill_official_sheet(char_data, output_path=None):
     equip_lines = [f"{i.get('name', '?')} x{i.get('quantity', 1)}" for i in inv[:30] if isinstance(i, dict)]
     equip_str = ", ".join(equip_lines)[:300]
     if d.get("has_equipment_appendix"):
-        equip_str = equip_str[:250]
+        equip_str = equip_str[:280]
         if equip_str:
-            equip_str = ">>> See Appendix\n" + equip_str
+            equip_str += "\n... See Appendix"
     fields["Equipment"] = equip_str
 
     # Features & Traits (condensed)
     has_feat_appendix = bool(d.get("full_feature_text", "").strip())
-    # Use page1_features (name + short desc) if available, else condensed (names only)
-    feat_text = d.get("page1_features", "") or d.get("condensed_features", "") or ""
+    # Use condensed_features (names only) with appendix ref — user wanted
+    # short descriptions OR "See Appendix". With the ref, names + ref is enough.
+    feat_text = d.get("condensed_features", "") or ""
     if has_feat_appendix and feat_text:
-        feat_text = ">>> See Appendix for full details\n\n" + str(feat_text)
-        feat_text = feat_text[:500]
+        feat_text = str(feat_text)[:470]
+        if feat_text:
+            feat_text += "\n... See Appendix"
     fields["Features and Traits"] = str(feat_text)[:500]
 
     # ── PAGE 2 FIELDS ──────────────────────────────────────────────
@@ -1892,7 +1894,9 @@ def fill_official_sheet(char_data, output_path=None):
     # Feats & Traits page 2
     feat_long = str(d.get("full_feature_text", "") or "")
     if feat_long.strip():
-        feat_long = ">>> See Appendix for full details\n\n" + feat_long[:480]
+        feat_long = feat_long[:470]
+        if feat_long:
+            feat_long += "\n... See Appendix"
     fields["Feat+Traits"] = feat_long[:500]
 
     # Treasure
