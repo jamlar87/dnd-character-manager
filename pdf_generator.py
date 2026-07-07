@@ -565,7 +565,10 @@ def _build_spell_appendix_text(d):
         dur = sd.get("duration", "—")
         if sd.get("concentration"):
             dur_clean = dur.lower()
-            if dur_clean.startswith("up to "):
+            if dur_clean.startswith("concentration"):
+                # Already has concentration prefix (manual data format)
+                pass
+            elif dur_clean.startswith("up to "):
                 dur = f"Concentration, {dur}"
             else:
                 dur = f"Concentration, up to {dur}"
@@ -573,6 +576,7 @@ def _build_spell_appendix_text(d):
 
         # Description — handle both list (SRD) and string (manual) formats
         desc = sd.get("desc", sd.get("description", ""))
+        full_desc = ""
         if desc:
             lines.append("")
             if isinstance(desc, list):
@@ -591,6 +595,19 @@ def _build_spell_appendix_text(d):
                     lines.append(higher_text)
             else:
                 lines.append(full_desc)
+
+        # Separate higher_level field (SRD format)
+        higher = sd.get("higher_level", [])
+        if higher:
+            if isinstance(higher, list):
+                higher_text = " ".join(higher)
+            else:
+                higher_text = str(higher)
+            if higher_text.strip():
+                # Only add if not already appended via embedded detection
+                if "at higher levels" not in (full_desc.lower() if desc else ""):
+                    lines.append("")
+                    lines.append(f"At Higher Levels: {higher_text}")
 
         lines.append("")
     return "\n".join(lines)
