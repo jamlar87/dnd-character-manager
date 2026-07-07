@@ -4058,13 +4058,23 @@ async def dashboard(request: Request):
     user = require_user(request)
     db = get_db()
     where, params = _user_where(user)
-    chars = [dict(r) for r in db.execute(
-        f"SELECT c.*, u.email as owner_email FROM characters c "
-        f"LEFT JOIN users u ON c.user_id = u.id "
-        f"WHERE ({where}) OR (c.shared = 1 AND c.user_id != ?) "
-        f"ORDER BY c.shared ASC, c.created_at DESC",
-        (*params, user["id"])
-    ).fetchall()]
+    if where:
+        # Strip leading "WHERE " since we inline it
+        where_clause = where[6:].strip() if where.startswith("WHERE ") else where
+        chars = [dict(r) for r in db.execute(
+            f"SELECT c.*, u.email as owner_email FROM characters c "
+            f"LEFT JOIN users u ON c.user_id = u.id "
+            f"WHERE ({where_clause}) OR (c.shared = 1 AND c.user_id != ?) "
+            f"ORDER BY c.shared ASC, c.created_at DESC",
+            (*params, user["id"])
+        ).fetchall()]
+    else:
+        # Admin: see all characters
+        chars = [dict(r) for r in db.execute(
+            f"SELECT c.*, u.email as owner_email FROM characters c "
+            f"LEFT JOIN users u ON c.user_id = u.id "
+            f"ORDER BY c.shared ASC, c.created_at DESC"
+        ).fetchall()]
     db.close()
     for c in chars:
         for f in ("skills","features","inventory","equipped","languages"):
