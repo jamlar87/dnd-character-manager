@@ -8,6 +8,7 @@ import random
 import re
 import sqlite3
 import sys
+import functools
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -1383,6 +1384,7 @@ except Exception as _e:
 
 SRD_EQUIPMENT: list[dict] = _load_json_cache("equipment.json")
 
+@functools.cache
 def _resolve_item_key(item_name: str):
     """Look up an item in ITEM_INDEX, handling SRD reference format.
     'Flavor Name (SRD: Reference)' → extracts Reference for the lookup."""
@@ -4833,6 +4835,7 @@ def get_caster_type(class_name: str) -> str:
 
 
 
+@functools.cache
 def get_spell_slots(class_name: str, level: int) -> dict:
     """Return spell slots from SRD API cache. Falls back to empty if class not found."""
     key = class_name.lower()

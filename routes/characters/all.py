@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Request, Form, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
-import sqlite3, json, math, random, re, urllib.parse, os, httpx
+import sqlite3, json, math, random, re, urllib.parse, os, httpx, functools
 from pathlib import Path
 from datetime import datetime
 
@@ -4834,6 +4834,7 @@ def _deduplicate_multiclass_features(features: list[dict], class_levels: dict[st
     return result
 
 
+@functools.cache
 def get_class_features(class_name: str, level: int, subclass: str = "") -> list[str]:
     """Return class features gained by this level from SRD API cache.
     Deduplicates features that differ only by use count, and replaces
