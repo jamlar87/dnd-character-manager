@@ -910,6 +910,24 @@ def load_manual_data():
     if manual_spells:
         print(f"  + Spells: {len(manual_spells)}")
 
+    # Also apply spell_classes_map to SRD spells (not just manual ones)
+    _scm_path2 = DATA_DIR / "spell_classes_map.json"
+    if _scm_path2.exists():
+        with open(_scm_path2) as _f:
+            _scm_data = json.load(_f)
+        _scm_patched = 0
+        for _i, _s in enumerate(SRD_SPELLS):
+            _n = _s.get("name", "").replace('\u2019', "'").replace('\u2018', "'").lower()
+            if _n in _scm_data:
+                _mapped = _scm_data[_n]
+                _existing_classes = [c.get("name", "") for c in (_s.get("classes") or [])]
+                _missing = [c for c in _mapped if c not in _existing_classes]
+                if _missing:
+                    _s["classes"] = (_s.get("classes") or []) + [{"name": c, "index": c.lower().replace(" ", "-")} for c in _missing]
+                    _scm_patched += 1
+        if _scm_patched:
+            print(f"  Spell classes enriched (SRD): {_scm_patched}")
+
     # Dedup SRD_SPELLS: smart-quote duplicates (e.g. Aganazzar\u2019s vs Aganazzar's)
     _seen_names: dict[str, int] = {}  # normalized_name -> index of best entry
     _to_remove: list[int] = []
