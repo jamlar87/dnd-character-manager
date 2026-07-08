@@ -4193,7 +4193,12 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
 
 @router.get("/api/character/{char_id}/de-level-info", response_class=JSONResponse)
 async def de_level_info(char_id: int, request: Request):
-    """Return what the character would look like at a lower level."""
+    """Return what the character would look like at a lower level.
+    
+    For multiclass characters, accepts an optional ``class_name`` query param.
+    If omitted and the character is multiclassed, returns ``needs_class_selection``
+    with the list of available classes.
+    """
     user = require_user(request)
     db = get_db()
     row = db.execute("SELECT * FROM characters WHERE id = ? AND user_id = ?", (char_id, user["id"])).fetchone()
@@ -4203,19 +4208,38 @@ async def de_level_info(char_id: int, request: Request):
     char = dict(row)
     db.close()
     
-    cls = char.get("class_name", "Fighter")
+    cl = parse_class_levels(char)
+    is_multiclass = len(cl) > 1
     current_level = char.get("level", 1)
+    
+    # Determine which class to de-level
+    requested_class = request.query_params.get("class_name", "")
+    
+    if is_multiclass and not requested_class:
+        # Return class options so the frontend can ask the user
+        options = [{"name": c, "level": l} for c, l in sorted(cl.items(), key=lambda x: -x[1])]
+        return JSONResponse({
+            "needs_class_selection": True,
+            "multiclass_options": options,
+            "current_level": current_level,
+            "class_levels": cl,
+        })
+    
+    cls = requested_class if requested_class else char.get("class_name", "Fighter")
     target_level = int(request.query_params.get("target_level", request.query_params.get("target", current_level - 1)))
     target_level = max(1, min(target_level, current_level - 1))
     
+    if current_level <= 1:
+        return JSONResponse({"error": "Already at level 1"}, status_code=400)
+    
     # Compute class-specific levels for multiclass correctness
-    cl = parse_class_levels(char)
     class_level = cl.get(cls, current_level)  # level in this class before
     levels_lost = current_level - target_level
     new_class_level = max(0, class_level - levels_lost)
     
-    if current_level <= 1:
-        return JSONResponse({"error": "Already at level 1"}, status_code=400)
+    # Check we aren't trying to de-level below 1 in the chosen class
+    if new_class_level <= 0 and sum(l for c, l in cl.items() if c != cls) < 1:
+        return JSONResponse({"error": f"Cannot de-level {cls} below level 1 — it's the only class."}, status_code=400)
     
     hd = CLASSES.get(cls, {}).get("hd", 8)
     con_mod = (char.get("constitution", 10) - 10) // 2
@@ -4240,7 +4264,10 @@ async def de_level_info(char_id: int, request: Request):
     sc = SUBCLASS_LEVELS.get(cls)
     current_subclass = char.get("subclass", "")
     if sc and current_subclass and sc["level"] > new_class_level:
-        subclass_note = f"{sc['label']}: {current_subclass} (chosen at L{sc['level']} — will be cleared since target class level < L{sc['level']})"
+        # Only warn if the subclass belongs to this class
+        valid_subs = CLASSES.get(cls, {}).get("subclasses", []) + sc.get("options", [])
+        if not valid_subs or current_subclass in valid_subs:
+            subclass_note = f"{sc['label']}: {current_subclass} (chosen at L{sc['level']} — will be cleared since target class level < L{sc['level']})"
     
     # Proficiency
     old_pb = PROFICIENCY_BONUS.get(current_level, 2)
@@ -4261,7 +4288,6 @@ async def de_level_info(char_id: int, request: Request):
         }
     
     # HP estimate: subtract average per level rolled back
-    levels_lost = current_level - target_level
     estimated_hp = max(1, char.get("hp_max", 10) - levels_lost * avg_hp)
 
     # Suggested ability reversion: assume +2 to primary ability per lost ASI
@@ -4287,6 +4313,7 @@ async def de_level_info(char_id: int, request: Request):
         "subclass_note": subclass_note,
         "proficiency_bonus": {"old": old_pb, "new": new_pb, "changed": old_pb != new_pb},
         "spells": spell_info,
+        "class_levels": cl,
     })
 
 
@@ -4301,7 +4328,7 @@ async def apply_de_level(char_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
-    cls = char.get("class_name", "Fighter")
+    cls = data.get("class_to_level", char.get("class_name", "Fighter"))
     old_level = char.get("level", 1)
     target_level = int(data.get("target_level", old_level - 1))
     target_level = max(1, min(target_level, old_level - 1))
@@ -4314,10 +4341,9 @@ async def apply_de_level(char_id: int, request: Request):
     is_multiclass = len(cl) > 1
     # Build the post-delevel class_levels dict
     new_cl = dict(cl)
-    cls_to_reduce = data.get("class_to_level", cls)
-    new_cl[cls_to_reduce] = max(0, new_cl.get(cls_to_reduce, 0) - levels_lost)
-    if new_cl[cls_to_reduce] <= 0:
-        del new_cl[cls_to_reduce]
+    new_cl[cls] = max(0, new_cl.get(cls, 0) - levels_lost)
+    if new_cl[cls] <= 0:
+        del new_cl[cls]
     
     updates = {"level": target_level}
     changes = []
@@ -4337,7 +4363,7 @@ async def apply_de_level(char_id: int, request: Request):
     ability_updates = data.get("abilities", {})
     if not ability_updates:
         # Auto-revert ASIs: assume +2 to primary ability per lost ASI level
-        lost_asi = [lvl for lvl in range(target_level + 1, old_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
+        lost_asi = [lvl for lvl in range(new_class_level + 1, old_class_level + 1) if lvl in ASI_LEVELS.get(cls, [])]
         if lost_asi:
             primary_ab = ABILITY_PRIORITY.get(cls, ["dexterity"])[0].capitalize()
             ability_updates = {a: char.get(a.lower(), 10) for a in ABILITY_NAMES}
@@ -4355,8 +4381,15 @@ async def apply_de_level(char_id: int, request: Request):
     if sc and char.get("subclass") and sc["level"] > new_class_level:
         # Only clear subclass if it was gained during the levels being lost
         if sc["level"] <= old_class_level:
-            updates["subclass"] = ""
-            changes.append(f"Subclass cleared ({char.get('subclass')})")
+            # Verify the subclass actually belongs to this class — prevents clearing
+            # e.g. "Swashbuckler" (Rogue) when de-leveling Fighter
+            current_sub = char.get("subclass", "")
+            valid_subs = CLASSES.get(cls, {}).get("subclasses", []) + sc.get("options", [])
+            if valid_subs and current_sub not in valid_subs:
+                changes.append(f"Subclass '{current_sub}' kept (belongs to different class than {cls})")
+            else:
+                updates["subclass"] = ""
+                changes.append(f"Subclass cleared ({current_sub})")
     
     # Expertise: revert picks from levels being lost
     current_exp = json.loads(char.get("expertise_skills", "[]"))

@@ -8488,6 +8488,7 @@ let dlData = null;
 let dlChoices = {target_level: null, abilities: null, hp_max: null};
 let dlStep = 0;
 let dlSteps = [];
+let dlClassToLevel = null;
 
 async function openDeLevel() {
   const levelEl = document.querySelector('.badge-accent .editable[data-field="level"]');
@@ -8495,9 +8496,19 @@ async function openDeLevel() {
 
   dlStep = 0;
   dlChoices = {target_level: null, abilities: null, hp_max: null};
+  dlClassToLevel = null;
 
-  dlData = {current_level: currentLevel};
-  dlSteps = [{label: 'Target', render: renderDlTarget}];
+  // Detect multiclass from CLASS_LEVELS
+  const clKeys = Object.keys(CLASS_LEVELS || {});
+  const isMulti = clKeys.length > 1;
+
+  dlData = {current_level: currentLevel, is_multiclass: isMulti};
+
+  dlSteps = [];
+  if (isMulti) {
+    dlSteps.push({label: 'Class', render: renderDlClassPick});
+  }
+  dlSteps.push({label: 'Target', render: renderDlTarget});
 
   document.getElementById('dl-title').textContent = '🔻 Level Down';
 
@@ -8541,6 +8552,28 @@ function renderDeLevelStep() {
   }
 }
 
+function renderDlClassPick(el) {
+  const cl = CLASS_LEVELS || {};
+  const lvlDisplay = Object.entries(cl).map(([c, l]) => `${c} ${l}`).join(' / ');
+
+  let html = `<div style="font-size:0.9rem;line-height:1.6">
+    <h3 style="margin-bottom:0.5rem">Choose Class to De-Level</h3>
+    <p style="color:var(--text-muted);margin-bottom:1rem">Current: <strong>${lvlDisplay}</strong></p>
+    <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem">`;
+  for (const [clsName, clsLvl] of Object.entries(cl)) {
+    const checked = dlClassToLevel === clsName;
+    html += `<label style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer">
+      <input type="radio" name="dl-class" value="${clsName}" ${checked ? 'checked' : ''} onchange="dlClassToLevel=this.value">
+      <strong>${clsName}</strong>
+      <span style="font-size:0.75rem;color:var(--text-muted)">Lv ${clsLvl}</span>
+    </label>`;
+  }
+  html += `</div>
+    <p style="color:var(--text-muted);font-size:0.8rem">Select which class to remove levels from. The target level you choose next is the character's new total level.</p>
+  </div>`;
+  el.innerHTML = html;
+}
+
 function renderDlTarget(el) {
   const currentLevel = dlData.current_level;
   let html = `<div>
@@ -8561,11 +8594,19 @@ async function loadDlDataAndAdvance() {
   const target = parseInt(dlChoices.target_level);
   if (!target) { alert('Please select a target level'); return; }
 
+  // If multiclass, require class selection
+  if (dlData.is_multiclass && !dlClassToLevel) {
+    alert('Please select a class to de-level');
+    return;
+  }
+
   const btn = document.querySelector('#dl-content .btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
 
   try {
-    const resp = await fetch(`/api/character/${CHAR_ID}/de-level-info?target_level=${target}`);
+    let url = `/api/character/${CHAR_ID}/de-level-info?target_level=${target}`;
+    if (dlClassToLevel) url += `&class_name=${encodeURIComponent(dlClassToLevel)}`;
+    const resp = await fetch(url);
     dlData = await resp.json();
     if (dlData.error) { alert(dlData.error); if (btn) { btn.disabled = false; btn.textContent = '🔍 Load Preview'; } return; }
   } catch(e) {
@@ -8601,7 +8642,8 @@ async function loadDlDataAndAdvance() {
 function renderDlPreview(el) {
   const d = dlData;
   let html = `<div style="font-size:0.9rem;line-height:1.6">
-    <p><strong>New Level:</strong> <span style="color:var(--danger)">${d.target_level}</span> (losing ${d.levels_lost} level${d.levels_lost > 1 ? 's' : ''})</p>
+    <p><strong>Class:</strong> ${d.class_name} (losing ${d.levels_lost} level${d.levels_lost > 1 ? 's' : ''})</p>
+    <p><strong>New Level:</strong> <span style="color:var(--danger)">${d.target_level}</span></p>
     <p><strong>HP Estimate:</strong> ${d.hp_estimate} (${d.hp_per_level_avg} avg/level × ${d.levels_lost} levels lost)</p>`;
 
   if (d.features_lost && d.features_lost.length) {
@@ -8662,6 +8704,7 @@ function renderDlConfirm(el) {
   const d = dlData;
   let html = `<div style="font-size:0.9rem;line-height:1.6">
     <h3 style="margin-bottom:0.75rem">Confirm De-Level</h3>
+    <p><strong>Class:</strong> ${d.class_name}</p>
     <p><strong>Level:</strong> ${d.current_level} → <span style="color:var(--danger)">${d.target_level}</span> (lose ${d.levels_lost} level${d.levels_lost > 1 ? 's' : ''})</p>
     <p><strong>HP:</strong> → ${dlChoices.hp_max}</p>`;
 
@@ -8694,10 +8737,12 @@ async function applyDeLevel() {
   btn.textContent = 'Applying...';
 
   try {
+    const payload = {...dlChoices};
+    if (dlClassToLevel) payload.class_to_level = dlClassToLevel;
     const resp = await fetch(`/api/character/${CHAR_ID}/de-level`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dlChoices),
+      body: JSON.stringify(payload),
     });
     const result = await resp.json();
     if (result.ok) {
