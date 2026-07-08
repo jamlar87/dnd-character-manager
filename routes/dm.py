@@ -185,6 +185,7 @@ async def dm_tools(request: Request):
         # Rename groups for consistency with how users refer to them
         group_rename = {
             "5e TLOTR Setting": "Adventures in Middle Earth",
+            "CritRoll": "Critical Roll",
         }
         group = group_rename.get(group, group)
         # Per-file group override (PDFs that belong in a different section)
