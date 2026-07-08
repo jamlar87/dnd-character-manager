@@ -4951,29 +4951,46 @@ async def startup():
 MANUALS_BASE = (DATA_DIR.parent / "manuals").resolve()
 
 @app.get("/api/reference/manuals", response_class=JSONResponse)
-async def list_manuals(request: Request):
+def list_manuals():
     """List available reference manuals — PDFs on disk + all ingested manuals. No auth."""
     import glob
     result = {"count": 0, "manuals": [], "ingested": [], "path": str(MANUALS_BASE)}
 
-    # 1. PDFs in the manuals directory
+    # 1. PDFs in the manuals directory (recursive, grouped by folder)
     if MANUALS_BASE.exists():
-        pdfs = sorted(glob.glob(str(MANUALS_BASE / "*.pdf")) + glob.glob(str(MANUALS_BASE / "*/*.pdf")))
+        pdfs = sorted(glob.glob(str(MANUALS_BASE / "**/*.pdf"), recursive=True))
         result["manuals"] = [Path(p).name for p in pdfs]
         result["count"] = len(pdfs)
 
-    # 2. Full ingested manual metadata from _meta.json
-    meta = _load_manual_json("_meta.json")
-    if isinstance(meta, dict):
-        pdf_map = meta.get("pdf_map", {})
-        result["ingested"] = [
-            {"slug": slug, "title": info.get("title", ""), "filename": info.get("filename", ""),
-             "path": info.get("path", "")}
-            for slug, info in sorted(pdf_map.items(), key=lambda x: x[1].get("title", "").lower())
-        ]
-        result["ingested_count"] = len(result["ingested"])
+    # 2. Ingested manuals (meta.json slug_map)
+    meta = _load_manual_json("_meta.json") or {}
+    pdf_map = meta.get("pdf_map", {}) if isinstance(meta, dict) else {}
+    slug_map = _get_source_slug_map()
+    result["ingested"] = [
+        {"slug": s, "title": slug_map.get(s, {}).get("display", info.get("title", s))}
+        for s, info in pdf_map.items()
+    ]
 
     return JSONResponse(result)
+
+
+@app.get("/api/reference/manual-file/{path:path}")
+async def serve_manual_file(path: str):
+    """Serve a PDF from the DnD-Manuals directory by relative path.
+    Path is relative to MANUALS_BASE (e.g. 'Manuals/D&D 5E - Monster Manual.pdf').
+    """
+    # Security: block directory traversal
+    if ".." in path or path.startswith("/"):
+        raise HTTPException(status_code=403, detail="Invalid path")
+    full_path = (MANUALS_BASE / path).resolve()
+    if not full_path.exists() or full_path.suffix.lower() != ".pdf":
+        raise HTTPException(status_code=404, detail="PDF not found")
+    return FileResponse(
+        full_path,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"inline; filename=\"{full_path.name}\""},
+    )
+
 
 @app.post("/api/reference/query", response_class=JSONResponse)
 async def query_reference(request: Request):

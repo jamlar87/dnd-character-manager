@@ -9,7 +9,7 @@ from datetime import datetime
 from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned
 from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
-from main import _load_manual_json, _get_named_item_types, _get_source_slug_map
+from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
 from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
@@ -164,15 +164,47 @@ async def dm_tools(request: Request):
     """).fetchall()]
     db3.close()
 
+    # Scan DnD-Manuals for the 📚 Manuals tab — grouped by folder
+    import glob
+    dn_dir = MANUALS_BASE
+    pdfs = sorted(glob.glob(str(dn_dir / "**/*.pdf"), recursive=True)) if dn_dir.exists() else []
+    slug_map = _get_source_slug_map()
+    # Build reverse slug→path mapping
+    slug_to_filename = {}
+    for slug, info in slug_map.items():
+        fn = Path(info.get("path", "")).name.lower()
+        if fn:
+            slug_to_filename[fn] = slug
+    # Group PDFs by folder
+    groups = {}  # folder_name_or_Root → [{name, slug_or_path, filepath, is_pdf}]
+    for pdf_path in pdfs:
+        p = Path(pdf_path)
+        rel = p.relative_to(dn_dir)
+        parts = rel.parts
+        group = parts[0] if len(parts) > 1 else "Core Manuals"
+        fname_lower = p.name.lower()
+        # Check if this file has a slug
+        slug = slug_to_filename.get(fname_lower)
+        entry = {
+            "name": p.stem,
+            "filename": p.name,
+            "slug": slug or "",
+            "path": str(rel),
+            "size": p.stat().st_size if p.exists() else 0,
+        }
+        groups.setdefault(group, []).append(entry)
+    manuals_groups = [{"group": g, "manuals": groups[g]} for g in sorted(groups.keys())]
+
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,
                    cr_ranges=cr_ranges, npcs=npcs,
                    encounters=encounters, campaigns=campaigns,
                    traps=all_traps,
                    named_item_types=_get_named_item_types(),
-                   source_map_json=json.dumps(_get_source_slug_map()),
+                   source_map_json=json.dumps(slug_map),
                    summon_templates=SUMMON_TEMPLATES,
-                   characters_json=json.dumps(characters))
+                   characters_json=json.dumps(characters),
+                   manuals_groups=manuals_groups)
 
 
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)
