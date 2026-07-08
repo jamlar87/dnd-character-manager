@@ -19,7 +19,7 @@
 </div>
 {% else %}
 {% for c in characters %}
-{% set is_fav = c.id|string in favorites %}
+{% set is_fav = c.id in favorites %}
 <div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div style="display:flex;align-items:center;gap:0.5rem">
