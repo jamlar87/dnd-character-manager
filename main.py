@@ -4089,13 +4089,46 @@ async def dashboard(request: Request):
             f"ORDER BY c.shared ASC, c.created_at DESC"
         ).fetchall()]
     db.close()
+    # Load favorites and sort: favorites first
+    try:
+        favs = json.loads(user.get("favorites", "[]"))
+    except (json.JSONDecodeError, TypeError):
+        favs = []
+    fav_set = set(int(f) for f in favs if str(f).isdigit())
+    # Sort: favorites first, then by creation date descending
+    fav_chars = [c for c in chars if c["id"] in fav_set]
+    other_chars = [c for c in chars if c["id"] not in fav_set]
+    fav_chars.sort(key=lambda c: c.get("created_at", "") or "", reverse=True)
+    other_chars.sort(key=lambda c: c.get("created_at", "") or "", reverse=True)
+    chars = fav_chars + other_chars
     for c in chars:
         for f in ("skills","features","inventory","equipped","languages"):
             try:
                 c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError):
                 c[f] = []
-    return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"])
+    return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs)
+
+
+# ── Toggle favorite ────────────────────────────────────────────────────
+@app.post("/api/characters/{char_id}/favorite")
+async def toggle_favorite(char_id: int, request: Request):
+    user = require_user(request)
+    db = get_db()
+    try:
+        favs = json.loads(user.get("favorites", "[]"))
+    except (json.JSONDecodeError, TypeError):
+        favs = []
+    fav_set = set(str(f) for f in favs)
+    sid = str(char_id)
+    if sid in fav_set:
+        favs = [f for f in favs if str(f) != sid]
+    else:
+        favs.append(char_id)
+    db.execute("UPDATE users SET favorites=? WHERE id=?", (json.dumps(favs), user["id"]))
+    db.commit()
+    db.close()
+    return JSONResponse({"favorited": sid not in fav_set, "favorites": favs})
 
 
 # ── Character routes moved to routes/characters.py — registered in startup

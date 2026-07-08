@@ -19,9 +19,15 @@
 </div>
 {% else %}
 {% for c in characters %}
+{% set is_fav = c.id|string in favorites %}
 <div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-    <div>
+    <div style="display:flex;align-items:center;gap:0.5rem">
+      <span class="fav-star" data-char-id="{{ c.id }}"
+            style="cursor:pointer;font-size:1.2rem;flex-shrink:0;{% if is_fav %}color:#ffd700{% else %}color:var(--text-muted);opacity:0.3{% endif %}"
+            onclick="event.stopPropagation();toggleFav({{ c.id }}, this)"
+            title="{{ 'Remove from favorites' if is_fav else 'Add to favorites' }}">★</span>
+      <div>
       <strong style="font-size:1.15rem;overflow-wrap:break-word;word-break:break-word">{{ c.name }}</strong>
       <span class="badge badge-accent" style="margin-left:0.5rem;flex-shrink:0">Lv{{ c.level }}</span>
       {% if c.shared %}<span class="badge" style="background:var(--accent);color:#fff;font-size:0.6rem;margin-left:0.3rem">🌐 Public</span>{% endif %}
@@ -30,6 +36,7 @@
         {{ c.race }}{% if c.subrace %} ({{ c.subrace }}){% endif %} · {{ c.class_name }}{% if c.subclass %} — {{ c.subclass }}{% endif %}
         {% if c.background %} · {{ c.background }}{% endif %}
       </div>
+    </div>
     </div>
     <div class="char-card-actions" style="display:flex;align-items:center;gap:0.5rem">
       <div style="text-align:right">
@@ -69,6 +76,12 @@ async function deleteChar(id) {
     if (!document.querySelector('.char-card-inner')) location.reload();
   } else {
     alert('Delete failed');
+  }
+}
+async function toggleFav(id, el) {
+  const r = await fetch('/api/characters/' + id + '/favorite', { method: 'POST' });
+  if (r.ok) {
+    location.reload();
   }
 }
 </script>
