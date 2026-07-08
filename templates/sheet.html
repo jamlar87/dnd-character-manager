@@ -2090,7 +2090,7 @@
             <span class="sl-label">{{ level_label }}</span>
             <span class="sl-count">{{ level_spells|length }} spell{{ 's' if level_spells|length != 1 }}</span>
           </div>
-          <div class="spell-level-body{% if lvl <= 1 %} open{% endif %}">
+          <div class="spell-level-body{% if lvl <= 1 or (character.spell_slot_data and character.spell_slot_data.by_level and character.spell_slot_data.by_level.get(lvl|string, 0) > 0) %} open{% endif %}">
           {% for sp in level_spells %}
           <div class="spell-row" id="spell-row-{{ sp.id }}" style="display:block;padding:0;border:none">
             <div class="spell-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')"
