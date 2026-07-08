@@ -182,6 +182,17 @@ async def dm_tools(request: Request):
         rel = p.relative_to(dn_dir)
         parts = rel.parts
         group = parts[0] if len(parts) > 1 else "Core Manuals"
+        # Rename groups for consistency with how users refer to them
+        group_rename = {
+            "5e TLOTR Setting": "Adventures in Middle Earth",
+        }
+        group = group_rename.get(group, group)
+        # Per-file group override (PDFs that belong in a different section)
+        file_group_override = {
+            "Wrath_River_King_5E_Final_240.pdf": "Adventures in Middle Earth",
+        }
+        if p.name in file_group_override:
+            group = file_group_override[p.name]
         fname_lower = p.name.lower()
         # Check if this file has a slug
         slug = slug_to_filename.get(fname_lower)
