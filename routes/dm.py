@@ -210,7 +210,7 @@ async def dm_tools(request: Request):
             "size": p.stat().st_size if p.exists() else 0,
         }
         groups.setdefault(group, []).append(entry)
-    manuals_groups = [{"group": g, "manuals": groups[g]} for g in sorted(groups.keys())]
+    manuals_groups = [{"group": g, "manuals": groups[g]} for g in sorted(groups.keys(), key=lambda x: (0 if x == "Core Manuals" else 1, x))]
 
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,

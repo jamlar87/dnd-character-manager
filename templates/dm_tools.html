@@ -1015,9 +1015,16 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
     </p>
   </div>
   {% for group in manuals_groups %}
-  <div class="card" style="margin-bottom:1rem">
-    <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">{{ group.group }}</h3>
-    <div style="display:flex;flex-direction:column;gap:0.3rem">
+  <div class="card" style="margin-bottom:0.5rem">
+    <div class="collapse-header" onclick="toggleCollapse(this)" style="margin:0;padding:0.5rem 0.75rem;border:none;display:flex;align-items:center;gap:0.5rem;justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:0.4rem">
+        <span class="collapse-arrow">▶</span>
+        <span style="font-size:0.9rem;font-weight:600">{{ group.group }}</span>
+      </span>
+      <span style="font-size:0.75rem;color:var(--text-muted)">{{ group.manuals|length }}</span>
+    </div>
+    <div class="collapse-body" style="padding:0 0.75rem 0.75rem 0.75rem">
+      <div style="display:flex;flex-direction:column;gap:0.25rem">
       {% for m in group.manuals %}
       <div style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;">
         <span style="font-size:0.7rem;color:var(--text-muted);flex-shrink:0">📄</span>
