@@ -182,6 +182,12 @@ async def dm_tools(request: Request):
         rel = p.relative_to(dn_dir)
         parts = rel.parts
         group = parts[0] if len(parts) > 1 else "Core Manuals"
+        # If the first component is the DnD-Manuals symlink, use the next
+        # component as the real group (e.g. "CritRoll", "Campaigns")
+        if group == "DnD-Manuals" and len(parts) > 2:
+            group = parts[1]
+        elif group == "DnD-Manuals":
+            group = "Core Manuals"
         # Rename groups for consistency with how users refer to them
         group_rename = {
             "5e TLOTR Setting": "Adventures in Middle Earth",
