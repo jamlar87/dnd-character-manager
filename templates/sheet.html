@@ -67,11 +67,9 @@
   .senses-section { gap: 0.4rem; padding: 0.4rem 0.6rem; }
   .sense-row { font-size: 0.75rem; }
 }
-@media (max-width: 600px) {
-  .feat-header { padding: 0.4rem 0.5rem; font-size: 0.8rem; gap: 0.3rem; }
-  .feat-body { padding: 0.4rem 0.5rem 0.5rem; font-size: 0.72rem; overflow-wrap: break-word; word-break: break-word; }
-  .passive-chip { padding: 0.3rem 0.4rem !important; }
-  .passive-chip-body { padding: 0.3rem 0.4rem; font-size: 0.7rem; overflow-wrap: break-word; word-break: break-word; }
+@media (max-width: 480px) {
+  .feat-uses-dots .use-dot { width: 14px; height: 14px; border-radius: 3px; }
+  .feat-action-btn { min-height: 44px; }
 }
 
 /* Two-column layout */
@@ -1159,7 +1157,7 @@
                data-feat-name="{{ fa.name }}"
                {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
                onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
-               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %};touch-action:manipulation;min-height:44px">
             <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
               <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
               {% if fa.get("sub_options") %}
@@ -1193,7 +1191,7 @@
             {% elif uses_max > 0 %}
             <span class="feat-uses-dots" style="font-size:0.75rem;font-family:monospace;margin-left:0.5rem;white-space:nowrap">
               {% for i in range(uses_max) if i < 15 %}
-              <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %}"></span>
+              <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %};touch-action:manipulation"></span>
               {% endfor %}
               <span style="margin-left:0.25rem;color:var(--text-muted)">{{ uses }}/{{ uses_max }}</span>
             </span>
