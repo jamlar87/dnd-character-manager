@@ -838,8 +838,22 @@ async def character_sheet(char_id: int, request: Request):
             char["feature_data"],
             class_name=char.get("class_name", ""),
             level=char.get("level", 1),
+            mods={s: (char.get(s, 10) - 10) // 2 for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
             subclass=char.get("subclass", ""),
         )
+    else:
+        # Recompute limited-use data for already-enriched dict features
+        # (uses_max, uses, recharge) so multiclass features like Action Surge
+        # get their tracking even when stored as pre-enriched dicts.
+        _cls_raw = char.get("class_levels", "{}") or "{}"
+        try: _cls_data = json.loads(_cls_raw) if isinstance(_cls_raw, str) else (_cls_raw or {})
+        except: _cls_data = {}
+        _recalc_limited_uses(char.get("feature_data", []),
+                             class_name=char.get("class_name", ""),
+                             level=char.get("level", 1),
+                             mods={s: (char.get(s, 10) - 10) // 2 for s in ("strength","dexterity","constitution","intelligence","wisdom","charisma")},
+                             class_levels=_cls_data if len(_cls_data) > 1 else None,
+                             subclass=char.get("subclass", ""))
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
     # Enrich features with dice badge data from FEATS/RACES lookup
@@ -8336,6 +8350,79 @@ def compute_item_effects(equipped: list[str], attuned: list[str],
 
 # Initialize item properties at module load
 _build_item_properties()
+
+
+def _recalc_limited_uses(feature_data: list, class_name: str = "", level: int = 0,
+                         mods: dict = None, class_levels: dict = None,
+                         subclass: str = "") -> None:
+    """Recompute uses_max/uses/recharge on already-enriched dict features.
+    Needed for multiclass characters where stored feature_data was enriched
+    before the class_levels fix — features like Action Surge end up with
+    the wrong source class and no limited-use tracking."""
+    from main import LIMITED_USE, FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS
+    if not feature_data:
+        return
+    import re
+    for feat in feature_data:
+        if not isinstance(feat, dict):
+            continue
+        name = feat.get("name", "")
+        key = name.lower()
+        _strip_key = re.sub(r'\s*\([^)]*\)\s*$', '', key).strip()
+
+        # Infer source class + level (same logic as enrich_features)
+        source_class = None
+        source_level = 0
+        if class_levels and len(class_levels) > 1:
+            for cls_name in class_levels:
+                if cls_name.lower() in _strip_key or _strip_key in cls_name.lower():
+                    source_class = cls_name
+                    source_level = class_levels[cls_name]
+                    break
+            if not source_class:
+                for lkey, lu in LIMITED_USE.items():
+                    if lkey == _strip_key or lkey in _strip_key or _strip_key.startswith(lkey) or lkey.startswith(_strip_key):
+                        lu_class = lu.get("class", "")
+                        if lu_class and lu_class in class_levels:
+                            source_class = lu_class
+                            source_level = class_levels[lu_class]
+                            break
+        if not source_class:
+            source_class = class_name
+            source_level = class_levels.get(class_name, level) if class_levels else level
+
+        # Compute limited-use values
+        if source_class and source_level > 0:
+            _NON_LIMITED = {"wild magic surge", "bend luck", "controlled chaos",
+                "spell bombardment", "totem spirit", "aspect of the beast",
+                "totemic attunement", "thunderbolt strike", "stormborn",
+                "dragon wings", "awakened mind", "the third eye", "greater portent",
+                "minor conjuration", "hypnotic gaze", "alter memories",
+                "improved minor illusion", "illusory reality",
+                "minor alchemy", "transmuter's stone",
+                "mage hand legerdemain", "magical ambush", "versatile trickster"}
+            if _strip_key not in _NON_LIMITED:
+                _FEAT_ALIASES = {"font of magic": "sorcery points"}
+                for lkey, lu in LIMITED_USE.items():
+                    _match_key = _FEAT_ALIASES.get(_strip_key, _strip_key)
+                    if lkey in _match_key or _match_key.startswith(lkey) or lkey.startswith(_match_key):
+                        uses_max = get_uses_for_level(lkey, source_class, source_level)
+                        if uses_max > 0:
+                            if lkey == "divine sense":
+                                cha_mod = (mods or {}).get("charisma", 0)
+                                uses_max = max(1, uses_max + cha_mod)
+                            if lkey == "cleansing touch":
+                                cha_mod = (mods or {}).get("charisma", 0)
+                                uses_max = max(1, uses_max + cha_mod - 1)
+                            if lu.get("per") == "wis":
+                                wis_mod = (mods or {}).get("wisdom", 0)
+                                uses_max = max(1, wis_mod)
+                            feat["uses_max"] = uses_max
+                            feat["uses"] = uses_max
+                            feat["recharge"] = lu["recharge"]
+                            if lu.get("pool_kind"):
+                                feat["pool_kind"] = lu["pool_kind"]
+                        break
 
 
 def enrich_features(feature_list: list[str], class_name: str = "", level: int = 0, mods: dict = None, class_levels: dict = None, subclass: str = "") -> list[dict]:
