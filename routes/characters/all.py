@@ -8348,6 +8348,9 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         else:
             level_part, name = feat_str, feat_str
         key = name.lower()
+        # Strip parenthetical suffix like "(1 use)" or "(d6)" for matching
+        import re
+        _strip_key = re.sub(r'\s*\([^)]*\)\s*$', '', key).strip()
         # Try subclass-specific description first (disambiguates shared names like "Bonus Proficiencies")
         desc = ""
         is_subclass_feature = False
@@ -8409,10 +8412,19 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
         if class_levels and len(class_levels) > 1:
             # Multiclass: infer source from feature context or use primary
             for cls_name in class_levels:
-                if cls_name.lower() in key or key in cls_name.lower():
+                if cls_name.lower() in _strip_key or _strip_key in cls_name.lower():
                     source_class = cls_name
                     source_level = class_levels[cls_name]
                     break
+            if not source_class:
+                # Fallback: check LIMITED_USE for the feature's registered class
+                for lkey, lu in LIMITED_USE.items():
+                    if lkey == _strip_key or lkey in _strip_key or _strip_key.startswith(lkey) or lkey.startswith(_strip_key):
+                        lu_class = lu.get("class", "")
+                        if lu_class and lu_class in class_levels:
+                            source_class = lu_class
+                            source_level = class_levels[lu_class]
+                            break
             if not source_class:
                 source_class = class_name
                 source_level = class_levels.get(class_name, level)
@@ -8449,11 +8461,11 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
                 # Arcane Trickster Rogue
                 "mage hand legerdemain", "magical ambush", "versatile trickster",
             }
-            if key not in _NON_LIMITED_FEATURES:
+            if _strip_key not in _NON_LIMITED_FEATURES:
                 # Feature name aliases (raw name → LIMITED_USE key)
                 _FEAT_ALIASES = {"font of magic": "sorcery points"}
                 for lkey, lu in LIMITED_USE.items():
-                    _match_key = _FEAT_ALIASES.get(key, key)
+                    _match_key = _FEAT_ALIASES.get(_strip_key, _strip_key)
                     if lkey in _match_key or _match_key.startswith(lkey) or lkey.startswith(_match_key):
                         uses_max = get_uses_for_level(lkey, source_class, source_level)
                         if uses_max > 0:

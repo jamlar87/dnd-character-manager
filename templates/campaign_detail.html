@@ -1,0 +1,275 @@
+{% extends "layout.html" %}
+{% block title %}📜 {{ camp.name }}{% endblock %}
+{% block style %}
+.camp-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.camp-section h3 { margin: 0 0 0.75rem 0; font-size: 1rem; }
+.char-row, .npc-row, .quest-row, .loc-row {
+  padding: 0.5rem 0.7rem; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; margin-bottom: 0.3rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.3rem;
+}
+.stat-tag { font-size: 0.75rem; color: var(--text-muted); }
+@media (max-width: 480px) {
+  .camp-actions button { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
+  .char-row, .npc-row { flex-direction: column; align-items: stretch; }
+}
+{% endblock %}
+{% block content %}
+<div class="container" style="max-width:900px;margin:0 auto;padding:1rem">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem">
+    <div>
+      <h2 style="margin:0">📜 {{ camp.name }}</h2>
+      <p style="color:var(--text-muted);font-size:0.85rem">
+        Party: L{{ live_level }} · {{ live_size }} players · {{ chars|length }} characters
+      </p>
+    </div>
+    <div class="camp-actions" style="display:flex;gap:0.3rem;flex-wrap:wrap">
+      <a href="/dm-tools" class="btn btn-outline btn-sm">← Back</a>
+      <button class="btn btn-primary btn-sm" onclick="editCampaignMeta({{ camp.id }})">✏️ Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteFromPage({{ camp.id }})">🗑️ Delete</button>
+    </div>
+  </div>
+
+  {% if camp.description %}
+  <div class="camp-section"><p style="margin:0;font-size:0.9rem">{{ camp.description }}</p></div>
+  {% endif %}
+
+  <!-- Party Characters -->
+  <div class="camp-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
+      <h3 style="margin:0">👥 Party Characters ({{ chars|length }})</h3>
+      <div style="display:flex;gap:0.3rem">
+        <select id="charPicker" style="padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.8rem">
+          <option value="">— Add character —</option>
+          {% for ch in all_chars %}
+          {% if ch.id not in linked_char_ids %}
+          <option value="{{ ch.id }}">{{ ch.name }} (L{{ ch.level }} {{ ch.race }} {{ ch.class_name }})</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="addCharToCampaign({{ camp.id }})">+ Add</button>
+      </div>
+    </div>
+    {% if chars %}
+    {% for ch in chars %}
+    <div class="char-row">
+      <div>
+        <strong><a href="/character/{{ ch.id }}" target="_blank" style="color:var(--text)">{{ ch.name }}</a></strong>
+        <span class="stat-tag">L{{ ch.level }} {{ ch.race }}{{ ' (' + ch.subrace + ')' if ch.subrace }} {{ ch.class_name }}{{ ' — ' + ch.subclass if ch.subclass }}</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+        <span class="stat-tag">❤️ {{ ch.hp_current }}/{{ ch.hp_max }}</span>
+        <span class="stat-tag">🛡️ AC {{ ch.ac }}</span>
+        <span class="stat-tag">⚡ {{ ch.speed or 30 }}ft</span>
+        <button class="btn btn-outline btn-sm" onclick="previewCharSheet({{ ch.id }}, '{{ ch.name|e }}')" title="View sheet">📋</button>
+        <button class="btn btn-danger btn-sm" onclick="removeCharFromCampaign({{ camp.id }}, {{ ch.id }})">✕</button>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color:var(--text-muted);font-size:0.85rem">No characters in this campaign yet.</p>
+    {% endif %}
+  </div>
+
+  <!-- NPCs -->
+  <div class="camp-section">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
+      <h3 style="margin:0">🧑 NPCs ({{ npcs|length }})</h3>
+      <button class="btn btn-primary btn-sm" onclick="showNpcPicker({{ camp.id }})">+ Add NPC</button>
+    </div>
+    {% if npcs %}
+    {% for n in npcs %}
+    <div class="npc-row">
+      <div>
+        <strong>{{ n.name }}</strong>
+        <span class="badge badge-muted" style="font-size:0.65rem">{{ 'Enemy' if n.is_enemy else 'NPC' }}</span>
+        <span class="stat-tag">{{ n.race }}{{ ' · L' + n.level|string + ' ' + n.class_name if n.class_name }}{{ ' (' + n.subclass + ')' if n.subclass }}</span>
+      </div>
+      <div style="display:flex;gap:0.3rem;align-items:center;flex-wrap:wrap">
+        <span class="stat-tag">❤️ {{ n.hp_current or 0 }}/{{ n.hp_max or 0 }}</span>
+        <span class="stat-tag">🛡️ AC {{ n.ac or 10 }}</span>
+        <button class="btn btn-danger btn-sm" onclick="removeNpcFromCampaign({{ camp.id }}, {{ n.id }})">✕</button>
+      </div>
+      <div style="width:100%;margin-top:0.3rem">
+        <textarea id="npcNotes-{{ camp.id }}-{{ n.id }}" rows="2" style="width:100%;padding:0.3rem 0.5rem;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.75rem;resize:vertical" placeholder="DM notes…">{{ n.notes or '' }}</textarea>
+        <button class="btn btn-outline btn-sm" style="margin-top:0.2rem;font-size:0.7rem" onclick="saveNpcNotes({{ camp.id }}, {{ n.id }}, 'npcNotes-{{ camp.id }}-{{ n.id }}')">💾 Save</button>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="color:var(--text-muted);font-size:0.85rem">No NPCs linked yet.</p>
+    {% endif %}
+  </div>
+
+  <!-- Quests & Locations -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+    <div class="camp-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
+        <h3 style="margin:0">📋 Quests ({{ quests|length }})</h3>
+        <button class="btn btn-outline btn-sm" onclick="addQuest({{ camp.id }})">+ Add</button>
+      </div>
+      {% if quests %}
+      {% for q in quests %}
+      <div class="quest-row">
+        <span>{{ q.name }}{% if q.status %} <span class="badge badge-{{ 'accent' if q.status == 'completed' else 'muted' }}">{{ q.status }}</span>{% endif %}</span>
+        <button class="btn btn-danger btn-sm" onclick="removeQuest({{ camp.id }}, {{ loop.index0 }})">✕</button>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p style="color:var(--text-muted);font-size:0.85rem">No quests yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="camp-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem">
+        <h3 style="margin:0">📍 Locations ({{ locations|length }})</h3>
+        <button class="btn btn-outline btn-sm" onclick="addLocation({{ camp.id }})">+ Add</button>
+      </div>
+      {% if locations %}
+      {% for l in locations %}
+      <div class="loc-row">
+        <span>{{ l.name }}{% if l.type %} <span class="badge badge-muted">{{ l.type }}</span>{% endif %}</span>
+        <button class="btn btn-danger btn-sm" onclick="removeLocation({{ camp.id }}, {{ loop.index0 }})">✕</button>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p style="color:var(--text-muted);font-size:0.85rem">No locations yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="camp-section">
+    <h3>📝 Campaign Notes</h3>
+    <textarea id="campNotes" rows="4" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-bottom:0.5rem;resize:vertical">{{ camp.notes or '' }}</textarea>
+    <button class="btn btn-outline" onclick="saveCampNotes({{ camp.id }})">💾 Save Notes</button>
+  </div>
+
+  <!-- Session Notes -->
+  {% if camp.session_notes %}
+  <div class="camp-section">
+    <h3>📄 Session Notes</h3>
+    <div style="background:var(--bg);border-radius:4px;padding:0.75rem;font-size:0.85rem;white-space:pre-wrap">{{ camp.session_notes }}</div>
+  </div>
+  {% endif %}
+
+  <!-- Character sheet preview modal -->
+  <div class="modal-overlay" id="charSheetModal" style="z-index:1100" onclick="if(event.target===this)closeModal('charSheetModal')">
+    <div class="modal-content" style="max-width:1100px;width:95vw;height:90vh;padding:0;overflow:hidden;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 1rem;border-bottom:1px solid var(--border);flex-shrink:0">
+        <span style="font-weight:600" id="charSheetTitle">Character Sheet</span>
+        <button class="modal-close" onclick="closeModal('charSheetModal')" style="position:static">✕</button>
+      </div>
+      <iframe id="charSheetFrame" src="" style="flex:1;width:100%;border:none"></iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const CAMP_ID = {{ camp.id }};
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('open');
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('open');
+}
+function previewCharSheet(id, name) {
+  document.getElementById('charSheetTitle').textContent = name;
+  document.getElementById('charSheetFrame').src = '/character/' + id;
+  openModal('charSheetModal');
+}
+
+function editCampaignMeta(id) {
+  const name = prompt('Campaign name:', {{ camp.name|tojson }});
+  if (!name) return;
+  const pl = prompt('Party level:', '{{ camp.party_level }}') || '1';
+  const ps = prompt('Party size:', '{{ camp.party_size }}') || '4';
+  fetch('/api/dm/campaign/' + id + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, party_level: parseInt(pl), party_size: parseInt(ps)})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function deleteFromPage(id) {
+  if (!confirm('Delete this campaign?')) return;
+  fetch('/api/dm/campaign/' + id + '/delete', {method: 'POST'}).then(r => r.json()).then(() => {
+    window.location.href = '/dm-tools';
+  });
+}
+function addCharToCampaign(campId) {
+  const sel = document.getElementById('charPicker');
+  const charId = parseInt(sel.value);
+  if (!charId) return;
+  fetch('/api/dm/campaign/' + campId + '/add-character', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({character_id: charId})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function removeCharFromCampaign(campId, charId) {
+  if (!confirm('Remove this character from the campaign?')) return;
+  fetch('/api/dm/campaign/' + campId + '/remove-character', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({character_id: charId})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function showNpcPicker(campId) { /* stub — redirect to DM Tools NPC tab */ window.location.href = '/dm-tools'; }
+function removeNpcFromCampaign(campId, npcId) {
+  if (!confirm('Remove this NPC from the campaign?')) return;
+  fetch('/api/dm/campaign/' + campId + '/remove-npc', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function saveNpcNotes(campId, npcId, elementId) {
+  const notes = document.getElementById(elementId).value;
+  fetch('/api/dm/campaign/' + campId + '/update-npc-notes', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({npc_id: npcId, notes})
+  }).then(r => r.json()).then(() => { /* silent */ });
+}
+function addQuest(id) {
+  const qName = prompt('Quest name:');
+  if (!qName) return;
+  const status = prompt('Status (active/completed):', 'active') || 'active';
+  fetch('/api/dm/campaign/' + id + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({addQuest: JSON.stringify({name: qName, status})})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function removeQuest(campId, idx) {
+  if (!confirm('Remove quest?')) return;
+  fetch('/api/dm/campaign/' + campId + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({removeQuest: idx})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function addLocation(id) {
+  const lName = prompt('Location name:');
+  if (!lName) return;
+  const type = prompt('Type (city/dungeon/forest/etc):', '') || '';
+  fetch('/api/dm/campaign/' + id + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({addLocation: JSON.stringify({name: lName, type})})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function removeLocation(campId, idx) {
+  if (!confirm('Remove location?')) return;
+  fetch('/api/dm/campaign/' + campId + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({removeLocation: idx})
+  }).then(r => r.json()).then(() => location.reload());
+}
+function saveCampNotes(id) {
+  const notes = document.getElementById('campNotes').value;
+  fetch('/api/dm/campaign/' + id + '/update', {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({notes})
+  }).then(r => r.json()).then(() => alert('Saved!'));
+}
+</script>
+{% endblock %}

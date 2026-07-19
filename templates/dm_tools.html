@@ -59,6 +59,11 @@
 .campaign-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
 .campaign-card h3 { margin: 0 0 0.5rem 0; }
 .campaign-card .camp-stat { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.campaign-card .camp-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; }
+.campaign-card .camp-actions button { touch-action: manipulation; }
+@media (max-width: 480px) {
+  .campaign-card .camp-actions button { min-height: 40px; min-width: 60px; font-size: 0.85rem; }
+}
 .camp-quest { padding: 0.5rem; background: var(--bg); border-radius: 4px; margin-bottom: 0.3rem; display: flex; justify-content: space-between; align-items: center; }
 
 /* Search bar */
@@ -576,8 +581,8 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         </div>
       </div>
       <textarea id="campNotes-{{ camp.id }}" rows="3" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);margin-top:0.5rem;font-size:0.8rem;resize:vertical" placeholder="Campaign notes…">{{ camp.notes or '' }}</textarea>
-      <div style="display:flex;gap:0.3rem;margin-top:0.5rem">
-        <button class="btn btn-outline btn-sm" onclick="openCampaign({{ camp.id }})">Open</button>
+      <div class="camp-actions">
+        <a href="/campaign/{{ camp.id }}" class="btn btn-outline btn-sm">Open</a>
         <button class="btn btn-outline btn-sm" onclick="saveCampNotes({{ camp.id }}, 'campNotes-{{ camp.id }}')">💾 Save</button>
         <button class="btn btn-danger btn-sm" onclick="deleteCampaign({{ camp.id }})">✕</button>
       </div>
@@ -1155,5 +1160,5 @@ const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
     </script>
-<script src="/static/dm_tools.js?v=22"></script>
+<script src="/static/dm_tools.js?v=23"></script>
 {% endblock %}

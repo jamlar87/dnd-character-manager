@@ -2714,3 +2714,62 @@ async def dm_characters_for_combat(request: Request):
     db.close()
     return JSONResponse({"characters": rows})
 
+
+@router.get("/campaign/{camp_id}", response_class=HTMLResponse)
+async def campaign_detail(camp_id: int, request: Request):
+    """Server-rendered campaign detail page."""
+    user = require_user(request)
+    db = get_db()
+
+    camp = db.execute(
+        "SELECT * FROM dm_campaigns WHERE id=? AND user_id=?",
+        (camp_id, user["id"])
+    ).fetchone()
+    if not camp:
+        db.close()
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    camp = dict(camp)
+
+    for f in ("quests", "locations", "characters", "npcs"):
+        try: camp[f] = json.loads(camp.get(f) or "[]")
+        except (json.JSONDecodeError, TypeError): camp[f] = []
+
+    enriched = []
+    for entry in camp.get("characters", []):
+        cid = entry.get("id") if isinstance(entry, dict) else entry
+        row = db.execute("""
+            SELECT id, name, race, subrace, class_name, subclass, level,
+                   hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
+                   intelligence, wisdom, charisma, proficiency_bonus, speed
+            FROM characters WHERE id=?
+        """, (cid,)).fetchone()
+        if row:
+            enriched.append(dict(row))
+    chars = enriched
+
+    npcs = []
+    for entry in camp.get("npcs", []):
+        nid = entry.get("id") if isinstance(entry, dict) else entry
+        row = db.execute("SELECT * FROM dm_npcs WHERE id=?", (nid,)).fetchone()
+        if row:
+            npcs.append(dict(row))
+
+    all_chars = [dict(r) for r in db.execute(
+        "SELECT id, name, race, class_name, level FROM characters ORDER BY name"
+    ).fetchall()]
+    linked_char_ids = {c.get("id") for c in chars}
+
+    live_size = len(chars) or camp.get("party_size", 4)
+    live_level = (
+        round(sum(c.get("level", 1) for c in chars) / len(chars))
+        if chars else camp.get("party_level", 1)
+    )
+
+    db.close()
+    return _render("campaign_detail.html", request=request,
+                   camp=camp, chars=chars, npcs=npcs,
+                   quests=camp.get("quests", []),
+                   locations=camp.get("locations", []),
+                   all_chars=all_chars, linked_char_ids=linked_char_ids,
+                   live_size=live_size, live_level=live_level)
+
