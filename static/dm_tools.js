@@ -131,10 +131,14 @@ function activateTab(tabName) {
 
 // Restore last active tab on page load
 (function() {
-  const saved = localStorage.getItem('dmToolsTab');
-  const validTabs = ['campaigns','encounters','combat','monsters','npcs','items','traps','manuals'];
-  const tab = validTabs.includes(saved) ? saved : 'campaigns';
-  activateTab(tab);
+  try {
+    const saved = localStorage.getItem('dmToolsTab');
+    const validTabs = ['campaigns','encounters','combat','monsters','npcs','items','traps','manuals'];
+    const tab = validTabs.includes(saved) ? saved : 'campaigns';
+    activateTab(tab);
+  } catch(e) {
+    activateTab('campaigns');
+  }
 })();
 
 document.querySelectorAll('.dm-tab').forEach(tab => {
