@@ -1474,9 +1474,8 @@ async def update_character(char_id: int, request: Request, body: UpdateCharacter
         "hit_dice_used","strength","dexterity","constitution","intelligence","wisdom","charisma",
         "level","proficiency_bonus","speed","hit_dice","inspiration","exhaustion","passive_perception",
         # Identity
-        "name","race","subrace","class_name","subclass","background","alignment",
-        "personality","backstory",
-        # JSON arrays (serialized as JSON strings)
+                "name","race","subrace","class_name","subclass","background","alignment",
+                "personality", "backstory", "journal",
         "skills","save_proficiencies","tool_proficiencies","weapon_proficiencies","armor_proficiencies",
         "languages","features","inventory","spell_slots_used","equipped","feature_data","attacks_data",
         "damage_resistances","damage_immunities","damage_vulnerabilities","condition_immunities",
@@ -8727,7 +8726,7 @@ from routes.characters.ai_routes import router as _ai_router
 from routes.characters.ai_routes import (
     _call_ollama,
     _call_ai,
-    _fetch_stable_horde_image, _extract_json, _validate_and_fix,
+    _fetch_openrouter_image, _extract_json, _validate_and_fix,
     _fallback_generate, _random_items, _fallback_background,
     _fallback_history, _try_ai_enrich_prompt, _try_generate_image,
     _fallback_portrait_prompt, _calculate_ac, _calculate_attacks,

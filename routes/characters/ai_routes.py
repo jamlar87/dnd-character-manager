@@ -4,7 +4,7 @@
 
 from fastapi import APIRouter, Request, Form, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
-import sqlite3, json, math, random, re, urllib.parse, os, httpx
+import sqlite3, json, math, random, re, urllib.parse, os, httpx, asyncio
 from pathlib import Path
 from datetime import datetime
 
@@ -76,7 +76,7 @@ async def _call_gemini(prompt: str) -> str | None:
         return None
 
 async def _call_openrouter(prompt: str) -> str | None:
-    """Tier 3: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
+    """Tier 1: OpenRouter free router (never charges). Requires OPENROUTER_API_KEY."""
     key = os.environ.get("OPENROUTER_API_KEY", "")
     if not key:
         return None
@@ -97,7 +97,9 @@ async def _call_openrouter(prompt: str) -> str | None:
                 },
             )
             result = resp.json()
-            return result["choices"][0]["message"]["content"]
+            msg = result["choices"][0]["message"]
+            # Some free models (e.g. laguna-m.1) put output in 'reasoning' instead of 'content'
+            return msg.get("content") or msg.get("reasoning") or ""
     except Exception as e:
         print(f"[OR] error: {e}")
         return None
@@ -117,79 +119,85 @@ async def _call_ollama(prompt: str) -> str | None:
         return None
 
 async def _call_ai(prompt: str, label: str = "gen") -> str | None:
-    """Call AI model chain: Ollama → Gemini → OpenRouter. Returns first success."""
-    text = await _call_ollama(prompt)
+    """Call AI model chain: OpenRouter → Gemini → Ollama. Returns first success."""
+    text = await _call_openrouter(prompt)
     if text:
-        print(f"[AI {label}] tier=ollama model={AI_MODEL}")
+        print(f"[AI {label}] tier=openrouter")
         return text
     text = await _call_gemini(prompt)
     if text:
         print(f"[AI {label}] tier=gemini")
         return text
-    text = await _call_openrouter(prompt)
+    text = await _call_ollama(prompt)
     if text:
-        print(f"[AI {label}] tier=openrouter")
+        print(f"[AI {label}] tier=ollama model={AI_MODEL}")
         return text
     print(f"[AI {label}] all tiers failed")
     return None
 
-async def _fetch_stable_horde_image(prompt: str, max_wait: int = 120) -> str | None:
-    """Generate image via Stable Horde (free, no API key, crowdsourced).
-    Returns base64 data URL or None.
-    Uses urllib in a thread to avoid httpx IPv6 issues."""
-    import base64, asyncio, json, urllib.request, urllib.error
-    payload = json.dumps({
-        "prompt": prompt[:1000],
-        "params": {
-            "width": 384, "height": 512,
-            "steps": 15, "n": 1,
-            "sampler_name": "k_euler_a",
-        }
-    }).encode()
+async def _fetch_openrouter_image(prompt: str, max_wait: int = 120) -> str | None:
+    """Generate image via OpenRouter (free image models). Returns base64 data URL or None."""
+    import base64
+    key = os.environ.get("OPENROUTER_API_KEY", "")
+    if not key:
+        print("[IMG] No OPENROUTER_API_KEY set")
+        return None
 
-    def _sync_request(url, data=None, headers=None, timeout=30):
-        req = urllib.request.Request(url, data=data, headers=headers or {})
-        return urllib.request.urlopen(req, timeout=timeout)
+    model = "google/gemini-2.5-flash-image"
 
     try:
-        # Submit job
-        headers = {"apikey": "0000000000", "Content-Type": "application/json"}
-        resp = await asyncio.to_thread(_sync_request,
-            "https://stablehorde.net/api/v2/generate/async", payload, headers, 30)
-        if resp.status != 202:
-            print(f"[IMG] Stable Horde submit failed: {resp.status}")
-            return None
-        req_id = json.loads(resp.read()).get("id", "")
-        if not req_id:
-            return None
-        print(f"[IMG] Stable Horde job {req_id} submitted")
+        async with httpx.AsyncClient(timeout=60) as client:
+            resp = await client.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://characters.jamlarnet.stream",
+                    "X-OpenRouter-Title": "D&D Character Manager",
+                },
+                json={
+                    "model": model,
+                    "messages": [{"role": "user", "content": (
+                        f"Generate a character portrait image based on this prompt. "
+                        f"Return ONLY the image, no explanation text.\n\n{prompt[:1000]}"
+                    )}],
+                    "max_tokens": 1000,
+                },
+            )
+            if resp.status_code != 200:
+                err_body = resp.text[:300]
+                if "limit exceeded" in err_body.lower() or "402" in err_body:
+                    print(f"[IMG] OpenRouter daily limit reached — upgrade at https://openrouter.ai/settings/credits")
+                else:
+                    print(f"[IMG] OpenRouter image gen failed: {resp.status_code} {err_body}")
+                return None
 
-        # Poll for result
-        for i in range(max_wait // 2):
-            await asyncio.sleep(2)
-            try:
-                sr = await asyncio.to_thread(_sync_request,
-                    f"https://stablehorde.net/api/v2/generate/status/{req_id}",
-                    None, {}, 15)
-                status = json.loads(sr.read())
-                if status.get("done"):
-                    gen = status.get("generations", [{}])[0]
-                    img_url = gen.get("img", "")
-                    if img_url:
-                        ir = await asyncio.to_thread(_sync_request, img_url, None, {}, 30)
-                        ct = ir.headers.get("Content-Type", "image/webp")
-                        b64 = base64.b64encode(ir.read()).decode()
-                        print(f"[IMG] Stable Horde done after {(i+1)*2}s")
-                        return f"data:{ct};base64,{b64}"
-                    break
-                if i % 5 == 0:
-                    print(f"[IMG] waiting... {i*2}s")
-            except Exception:
-                pass
-        print(f"[IMG] Stable Horde timed out after {max_wait}s")
+            data = resp.json()
+            msg = data.get("choices", [{}])[0].get("message", {})
+            images = msg.get("images", [])
+            if images:
+                url = images[0].get("image_url", {}).get("url", "")
+                if url and url.startswith("data:"):
+                    print(f"[IMG] OpenRouter image generated via {model}")
+                    return url
+
+            # Fallback: check content for markdown image URLs
+            content = msg.get("content") or msg.get("reasoning") or ""
+            md_urls = re.findall(r"https?://[^\s<>\"']+\.(?:png|jpg|jpeg|webp)", content)
+            if md_urls:
+                async with httpx.AsyncClient(timeout=30) as dl:
+                    ir = await dl.get(md_urls[0])
+                    ct = ir.headers.get("Content-Type", "image/png")
+                    b64 = base64.b64encode(ir.content).decode()
+                    print(f"[IMG] OpenRouter image from URL ({len(ir.content)} bytes)")
+                    return f"data:{ct};base64,{b64}"
+
+            print(f"[IMG] No image in response: {str(data)[:300]}")
+            return None
+
     except Exception as e:
-        print(f"[IMG] Stable Horde error: {e}")
-    return None
+        print(f"[IMG] OpenRouter image error: {e}")
+        return None
 
 def _extract_json(text: str) -> dict | None:
     """Extract JSON from LLM response, stripping markdown wrappers."""
@@ -682,6 +690,8 @@ async def ai_portrait(request: Request):
     else:
         image_prompt = _fallback_portrait_prompt(race, class_name, subclass)
         # Kick off background tasks: AI enrichment + image generation (don't block response)
+        asyncio.create_task(_try_ai_enrich_prompt(race, subrace, class_name, subclass,
+                                                    abilities, background, alignment, skills))
         asyncio.create_task(_try_generate_image(image_prompt, character_id, user["id"] if character_id else None,
                                                   race, class_name))
         print(f"[AI portrait] fallback race={race} class={class_name}")
@@ -737,9 +747,9 @@ Write a DETAILED image prompt (150-200 words) describing this character for an A
 
 async def _try_generate_image(prompt: str, character_id, user_id,
                                race: str, class_name: str):
-    """Background task: try to generate image via Stable Horde. Updates DB on success."""
+    """Background task: try to generate image via OpenRouter. Updates DB on success."""
     try:
-        image_data = await _fetch_stable_horde_image(prompt, max_wait=90)
+        image_data = await _fetch_openrouter_image(prompt, max_wait=90)
         if image_data and character_id and user_id:
             db = get_db()
             db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",

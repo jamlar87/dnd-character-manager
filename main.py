@@ -2347,6 +2347,7 @@ def init_db():
         ("metamagic_history", "TEXT DEFAULT '[]'"),
         ("summons", "TEXT DEFAULT '[]'"),
         ("conditions", "TEXT DEFAULT '[]'"),
+        ("journal", "TEXT DEFAULT ''"),
         ("combat_notes", "TEXT DEFAULT ''"),
     ]:
         try:

@@ -1871,7 +1871,12 @@ async function generatePortrait() {
       loading.style.display = 'none';
       img.style.display = 'block';
     } else {
-      loading.innerHTML = '<p style="font-size:0.8rem">⚠️ Image generation unavailable. Try again.</p>';
+      loading.innerHTML = '<div style="font-size:0.75rem;color:var(--text-muted);text-align:center;line-height:1.4">'
+        + '<span>⏳ Generation queued...</span><br>'
+        + '<span style="font-size:0.65rem">Free tier ~50/day. '
+        + 'Click Retry or create character to check.</span>'
+        + '<br><button onclick="generatePortrait()" style="margin-top:6px;padding:2px 10px;font-size:0.7rem;cursor:pointer;background:var(--accent);color:#fff;border:none;border-radius:4px">🔄 Retry</button>'
+        + '</div>';
     }
   } catch(e) {
     loading.innerHTML = '<p style="font-size:0.8rem">⚠️ Portrait failed: ' + (e.message || e) + '</p>';
