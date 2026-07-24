@@ -249,5 +249,22 @@ document.addEventListener('click', function(e) {
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
 {% block scripts %}{% endblock %}
+<script>
+// Prevent screen from sleeping while Character Manager is open
+let wakeLock = null;
+async function requestWakeLock() {
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => {});
+  } catch (err) {
+    // API not supported or denied — fine, screen will sleep normally
+  }
+}
+// Re-acquire if user switches tabs and comes back (Android releases on tab hide)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') requestWakeLock();
+});
+requestWakeLock();
+</script>
 </body>
 </html>

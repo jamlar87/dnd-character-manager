@@ -345,6 +345,25 @@
 .edit-mode .save-dot:hover, .edit-mode .skill-dot:hover { opacity: 0.7; }
 .save-dot.active, .skill-dot.active { opacity: 1; color: var(--accent); }
 /* Edit toggle button */
+<!-- Edit toggle button -->
+<style>
+.adv-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border-radius: 3px;
+  background: var(--danger); color: #fff;
+  font-size: 0.6rem; font-weight: 800;
+  margin-left: 2px; cursor: help;
+  line-height: 1; flex-shrink: 0;
+}
+.adv-badge.smol { width: 12px; height: 12px; font-size: 0.45rem; }
+.adv-chip {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  padding: 0.15rem 0.45rem; border-radius: 4px;
+  background: var(--danger); color: #fff;
+  font-size: 0.65rem; font-weight: 700; cursor: help;
+  margin-top: 0.15rem;
+}
+</style>
 #edit-toggle { padding: 0.3rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border); background: none; color: var(--text); transition: all 0.15s; }
 #edit-toggle:hover { border-color: var(--accent); color: var(--accent); }
 .edit-mode #edit-toggle { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -394,6 +413,7 @@
 {% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
 {% set char_skills = character.skills or [] %}
 {% set char_expertise = character.expertise_skills or [] %}
+{% set adv = advantage_map if advantage_map is not none else {"saves":[],"ability_checks":[],"skills":[],"notes":[]} %}
 
 <!-- Header with portrait + name -->
 <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
@@ -582,7 +602,7 @@
         {% set score = character[stat] %}
         {% set mod = (score - 10) // 2 %}
         <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
-          <div class="ab-name">{{ label }}</div>
+          <div class="ab-name">{{ label }}{% if stat in adv.get("ability_checks",[]) %}<span class="adv-badge" title="Advantage on {{ label }} checks{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</div>
           <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
           <div class="ab-score editable" data-ability="{{ stat }}" data-label="{{ label }}">{{ score }}</div>
         </div>
@@ -661,20 +681,17 @@
       {% set prof_save = stat in saves_class %}
       {% set save_val = mod + (prof if prof_save else 0) %}
       <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
-        <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}</span>
+        <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}{% if stat in adv.get("saves",[]) %}<span class="adv-badge smol" title="Advantage on {{ label }} saves{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
       </div>
       {% endfor %}
       <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
         <span style="color:var(--accent)">●</span> = Proficient
       </div>
-      <!-- Conditional save notes -->
-      {% if character.race and ('dwarf' in character.race.lower() or 'stout' in character.race.lower()) %}
-      <div style="font-size:0.7rem;color:var(--success);margin-top:0.25rem">🛡️ Advantage vs Poison</div>
-      {% endif %}
-      {% if character.class_name == 'Barbarian' and character.level >= 2 %}
-      <div style="font-size:0.7rem;color:var(--success);margin-top:0.15rem">⚡ Advantage on Dex saves you can see</div>
-      {% endif %}
+      <!-- Conditional save notes → dynamic from advantage_map -->
+      {% for note in adv.get("notes",[]) %}
+      <div style="font-size:0.7rem;color:var(--danger);margin-top:0.15rem">🅰️ {{ note }}</div>
+      {% endfor %}
       </div>
       <div id="saves-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
         A saving throw represents an attempt to resist a spell, trap, poison, or similar threat. Roll d20 + ability modifier + proficiency (if proficient).<br><br>
@@ -695,7 +712,7 @@
       {% set has_exp = skill_name in char_expertise %}
       {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
       <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
-        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}</span>
+        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}{% if skill_name in adv.get("skills",[]) %}<span class="adv-badge smol" title="Advantage on {{ skill_name }} checks{% for n in adv.notes %}{% if 'Advantage' in n and skill_name in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
         <span class="stat-val" style="color:{% if has_exp %}var(--accent);font-weight:700{% elif has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
           {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
         </span>

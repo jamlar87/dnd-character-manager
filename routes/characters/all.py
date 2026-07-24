@@ -748,6 +748,99 @@ from routes.characters.campaign import router as _campaign_router
 router.include_router(_campaign_router)
 
 
+# ── Advantage Map: compute which stats/saves/skills have advantage ──
+
+def compute_advantage_map(char: dict) -> dict:
+    """Compute advantage_map from character race, class, subclass, features, and items.
+    Returns {saves:[], ability_checks:[], skills:[], attack_rolls:bool, notes:[]}
+    """
+    adv = {"saves": [], "ability_checks": [], "skills": [], "attack_rolls": False, "notes": []}
+    race = (char.get("race") or "").lower()
+    subrace = (char.get("subrace") or "").lower()
+    cls = (char.get("class_name") or "").lower()
+    subclass = (char.get("subclass") or "").lower()
+    level = char.get("level", 0)
+    class_levels = char.get("class_levels", {})
+    if isinstance(class_levels, str):
+        try: class_levels = json.loads(class_levels)
+        except: class_levels = {}
+
+    def _class_level(cls_name: str) -> int:
+        """Get level for a specific class (supports multiclass)."""
+        try:
+            return int(class_levels.get(cls_name, 0)) if isinstance(class_levels, dict) else level
+        except (TypeError, ValueError):
+            return level
+
+    rc = _class_level
+
+    # ── Race-based advantages ──
+    if 'gnome' in race or 'gnome' in subrace:
+        adv["saves"].extend(["intelligence", "wisdom", "charisma"])
+        note = "Gnome Cunning — Advantage on Int/Wis/Cha saves vs magic"
+        if note not in adv["notes"]:
+            adv["notes"].append(note)
+
+    if ('dwarf' in race or 'stout' in subrace or
+        ('halfling' in race and 'stout' in subrace)):
+        adv["saves"].append("constitution")
+        adv["notes"].append("Dwarven Resilience — Advantage on Con saves vs poison")
+
+    if 'halfling' in race:
+        adv["saves"].append("frightened")
+        adv["notes"].append("Halfling Brave — Advantage on saves vs frightened")
+
+    if 'elf' in race or 'half-elf' in race:
+        adv["saves"].append("charmed")
+        adv["notes"].append("Fey Ancestry — Advantage on saves vs charmed")
+
+    # ── Class-based advantages ──
+    if cls == "barbarian":
+        barb_lvl = rc("Barbarian") or rc("barbarian") or level
+        if barb_lvl >= 1:
+            adv["ability_checks"].append("strength")
+            adv["strength_checks"] = True
+        if barb_lvl >= 2:
+            adv["saves"].append("dexterity")
+            adv["notes"].append("Danger Sense — Advantage on Dex saves vs visible effects")
+        if barb_lvl >= 2:
+            adv["attack_rolls"] = True
+            adv["notes"].append("Reckless Attack — Melee STR attacks have advantage (attackers also have advantage on you)")
+
+    if cls == "monk":
+        monk_lvl = rc("Monk") or rc("monk") or level
+        if monk_lvl >= 7:
+            adv["notes"].append("Stillness of Mind — Action to end one charmed or frightened effect on yourself")
+
+    # ── Subclass-based advantages ──
+    if 'swashbuckler' in subclass:
+        adv["notes"].append("Swashbuckler — Fancy Footwork prevents opportunity attacks when you make a melee attack")
+
+    # ── Item-based advantages ──
+    equipped = char.get("equipped", [])
+    if isinstance(equipped, str):
+        try: equipped = json.loads(equipped)
+        except: equipped = []
+    for item in equipped:
+        iname = (item.get("name") or item if isinstance(item, str) else "").lower()
+        if 'cloak of elvenkind' in iname:
+            adv["skills"].append("stealth")
+            adv["notes"].append("Cloak of Elvenkind — Advantage on Stealth checks")
+        if 'cloak of protection' in iname:
+            adv["notes"].append("Cloak of Protection — +1 to AC and saving throws")
+        if 'ring of protection' in iname:
+            adv["notes"].append("Ring of Protection — +1 to AC and saving throws")
+
+    # Deduplicate
+    adv["saves"] = list(dict.fromkeys(adv["saves"]))
+    adv["ability_checks"] = list(dict.fromkeys(adv["ability_checks"]))
+    adv["skills"] = list(dict.fromkeys(adv["skills"]))
+    adv["notes"] = list(dict.fromkeys(adv["notes"]))
+    adv["strength_checks"] = adv.get("strength_checks", False)
+    char["advantage_map"] = adv
+    return adv
+
+
 # ── Routes: Character Sheet ────────────────────────────────────────────────
 
 @router.get("/character/{char_id}", response_class=HTMLResponse)
@@ -1213,6 +1306,10 @@ async def character_sheet(char_id: int, request: Request):
     user_saves = char.get("save_proficiencies", [])
     saves_class = list(set(class_saves) | set(user_saves))
 
+    # Compute advantage map
+    compute_advantage_map(char)
+    advantage_map = char.get("advantage_map", {})
+
     # Build attacks from inventory weapons + existing attacks_data
     all_attacks = _build_inventory_attacks(char)
     # Build charged item cards (wands, staves, rods, etc.)
@@ -1451,6 +1548,7 @@ async def character_sheet(char_id: int, request: Request):
                    invocation_options=INVOCATION_OPTIONS,
                    pact_boon_options=PACT_BOON_OPTIONS,
                    summon_templates=SUMMON_TEMPLATES,
+                   advantage_map=advantage_map,
                    current_user_id=user["id"],
                    is_owner=char.get("user_id") == user["id"])
 
