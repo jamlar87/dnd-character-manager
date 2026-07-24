@@ -571,7 +571,7 @@
           <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
-          <div class="cq-label">Initiative</div>
+          <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
           <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
         </div>
         <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
