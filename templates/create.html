@@ -430,7 +430,7 @@ const RACE_NAMES = {
 };
 
 // Merge server-side expanded race names (includes all 42 ingested races)
-Object.assign(RACE_NAMES, JSON.parse('{{ race_names | tojson | safe }}'));
+Object.assign(RACE_NAMES, {{ race_names | tojson | safe }});
 
 const STARTING_EQUIPMENT = {
   "Barbarian":["Greataxe","2 Handaxes","Explorer's Pack","4 Javelins"],
