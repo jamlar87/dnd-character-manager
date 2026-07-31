@@ -2470,10 +2470,8 @@ def _migrate_npc_source_columns():
     db.close()
 
 def _get_user(email: str) -> dict | None:
-    db = get_db()
-    row = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
-    db.close()
-    return dict(row) if row else None
+    from services.users import get_user
+    return get_user(DB_PATH, email)
 
 def _create_session(user_id: int) -> str:
     from services.sessions import create_session
@@ -2496,7 +2494,8 @@ def require_user(request: Request) -> dict:
     return user
 
 def _is_admin(user: dict) -> bool:
-    return bool(user.get("is_admin"))
+    from services.users import is_admin
+    return is_admin(user)
 
 def _user_filter(user: dict, column: str = "user_id") -> tuple[str, tuple]:
     """Return (sql_clause, params) that filters by user_id, or empty if admin."""
