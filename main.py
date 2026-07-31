@@ -2467,7 +2467,14 @@ def _migrate_npc_source_columns():
             pass
 
     # Existing installations keep their users; no default credentials are created.
+    db.commit()
     db.close()
+    from services.schema import validate_schema
+    check_db = get_db()
+    try:
+        validate_schema(check_db, raise_on_error=True)
+    finally:
+        check_db.close()
 
 def _get_user(email: str) -> dict | None:
     from services.users import get_user
