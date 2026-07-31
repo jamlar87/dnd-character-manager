@@ -1,0 +1,20 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt pytest
+      - name: Compile Python
+        run: python -m compileall -q main.py data.py routes pdf_generator.py
+      - name: Run tests
+        run: pytest -q
