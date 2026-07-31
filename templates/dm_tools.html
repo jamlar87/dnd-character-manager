@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}DM Tools{% endblock %}
 {% block style %}
+<style>
 .container { max-width: 1400px; }
 .dm-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: relative; }
 .dm-tabs::after { content: ''; position: sticky; right: 0; min-width: 28px; height: 100%; background: linear-gradient(to right, transparent, var(--card-bg) 70%); flex-shrink: 0; pointer-events: none; margin-left: -28px; }
@@ -378,6 +379,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 .drop-zone-active { box-shadow: 0 0 0 2px var(--accent); }
 .src-badge { cursor: pointer; }
 .src-badge:hover { opacity: 1 !important; color: var(--accent) !important; text-decoration: underline; }
+</style>
 {% endblock %}
 
 {% block content %}
