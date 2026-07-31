@@ -48,15 +48,26 @@ def _get_spell_cache():
     global _SPELL_CACHE
     if _SPELL_CACHE is not None:
         return _SPELL_CACHE
+    _SPELL_CACHE = {}
+    # Primary source: main.SRD_SPELLS — already merges SRD cache + manual
+    # data/spells.json + class/school backfill at app startup. Using it
+    # avoids the hardcoded campaign-expert path and duplicate loading.
     try:
-        sys.path.insert(0, "/home/james/dnd-campaign-expert")
-        from engine.spells import _load_spell_cache
-        raw = _load_spell_cache()
-        _SPELL_CACHE = {}
-        for s in raw:
-            _SPELL_CACHE[s["name"].lower()] = s
+        from main import SRD_SPELLS
+        for s in SRD_SPELLS:
+            _SPELL_CACHE[s.get("name", "").lower()] = s
     except Exception:
-        _SPELL_CACHE = {}
+        pass
+    if not _SPELL_CACHE:
+        # Fallback when main is not importable (standalone use): load
+        # from the campaign-expert engine, then manual spells.
+        try:
+            from engine.spells import _load_spell_cache
+            raw = _load_spell_cache()
+            for s in raw:
+                _SPELL_CACHE[s["name"].lower()] = s
+        except Exception:
+            _SPELL_CACHE = {}
     # Also load from app's manual_data/spells.json (catches TCoE/SCAG spells not in SRD)
     try:
         manual_path = os.path.join(
