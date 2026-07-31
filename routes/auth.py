@@ -71,6 +71,23 @@ async def reset_password_page(request: Request):
     return _render("reset_password.html", request=request)
 
 
+@router.post("/change-password", response_class=HTMLResponse)
+async def change_password(request: Request, current_password: str = Form(...), password: str = Form(...)):
+    user = get_current_user(request)
+    if not user:
+        raise HTTPException(status_code=303, headers={"Location": "/login"})
+    if len(password) < 6:
+        return _render("reset_password.html", request=request, error="Password must be at least 6 characters")
+    if not _verify(current_password, user["password_hash"]):
+        return _render("reset_password.html", request=request, error="Current password is incorrect")
+    db = get_db()
+    db.execute("UPDATE users SET password_hash = ? WHERE id = ?", (_hash(password), user["id"]))
+    db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
+    db.commit()
+    db.close()
+    return _render("reset_password.html", request=request, success="Password changed. Please log in again.")
+
+
 @router.post("/reset-password")
 async def reset_password(request: Request, email: str = Form(...), password: str = Form(...)):
     # Password reset by email is intentionally disabled until a verified,
