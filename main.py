@@ -10,6 +10,7 @@ import sqlite3
 import sys
 import functools
 import secrets
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -4973,16 +4974,23 @@ def get_spell_slots(class_name: str, level: int) -> dict:
 
 # ── Startup ─────────────────────────────────────────────────────────────────
 
-@app.on_event("startup")
-async def startup():
+@asynccontextmanager
+async def lifespan(_app):
     init_db()
     # Register route modules (deferred to avoid circular imports)
     from routes.auth import router as auth_router
-    app.include_router(auth_router)
+    if not any(r.path == "/login" for r in _app.routes):
+        _app.include_router(auth_router)
     from routes.dm import router as dm_router
-    app.include_router(dm_router)
+    if not any(r.path == "/dm-tools" for r in _app.routes):
+        _app.include_router(dm_router)
     from routes.characters import router as char_router
-    app.include_router(char_router)
+    if not any(r.path == "/create" for r in _app.routes):
+        _app.include_router(char_router)
+    yield
+
+
+app.router.lifespan_context = lifespan
 
 # ── Reference Manual Lookup ─────────────────────────────────────────────────
 # Ingested manuals from data/manual_data/ + cached extracts from data/manual_cache/
