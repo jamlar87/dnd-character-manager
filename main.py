@@ -2269,6 +2269,8 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
     """)
+    db.execute("CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL DEFAULT (datetime('now')))")
+    db.execute("INSERT OR IGNORE INTO schema_migrations (version) VALUES (1)")
     # Migration: session expiry for databases created before this field existed.
     session_cols = {r[1] for r in db.execute("PRAGMA table_info(sessions)")}
     if "expires_at" not in session_cols:
