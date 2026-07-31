@@ -71,6 +71,13 @@ async def reset_password_page(request: Request):
     return _render("reset_password.html", request=request)
 
 
+@router.get("/change-password", response_class=HTMLResponse)
+async def change_password_page(request: Request):
+    if not get_current_user(request):
+        raise HTTPException(status_code=303, headers={"Location": "/login"})
+    return _render("change_password.html", request=request)
+
+
 @router.post("/change-password", response_class=HTMLResponse)
 async def change_password(request: Request, current_password: str = Form(...), password: str = Form(...)):
     user = get_current_user(request)
