@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
+<link rel="stylesheet" href="/static/sheet.css?v=1">
+<style>
     /* Override container for sheet layout */
 .container { max-width: 1400px; width: 100%; margin: 1rem auto; overflow-x: hidden; padding: 0 0.75rem; }
 @media (max-width: 768px) { .container { margin: 0.5rem auto; width: 100%; padding: 0 0.5rem; } }
@@ -403,6 +405,7 @@
   .modal-overlay.open { padding: 0.5rem; align-items: flex-start; }
   .modal-content { max-height: 85vh; padding: 1rem; border-radius: 8px; }
 }
+</style>
 {% endblock %}
 {% block content %}
 {% if dm_preview %}<script>document.body.classList.add('dm-preview');</script>{% endif %}
