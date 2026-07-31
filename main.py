@@ -326,6 +326,8 @@ def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
     global SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, FEAT_BY_NAME
 
+    _loader_start = _time.time()
+
     meta = _load_manual_json("_meta.json")
     if not meta or isinstance(meta, list):
         return  # No manual data yet
@@ -1259,6 +1261,7 @@ def load_manual_data():
         print(f"  + Traps: {len(manual_traps)}")
 
     print(f"  Manual data loaded: {meta.get('totals', {})}")
+    print(f"  [timing] load_manual_data: {(_time.time() - _loader_start) * 1000:.0f}ms")
 
     # ── Register homebrew class limited-use features not in SRD ──
     _HOMEBREW_LIMITED_USE = {
