@@ -1093,3 +1093,8 @@ CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
     "warlock": {1: 2, 4: 3, 10: 4},
     "cleric": {1: 3, 4: 4, 10: 5},
 }
+
+
+# ── Ability score modifier (moved from all.py 2026-07-31) ──
+def modifier(score: int) -> int:
+    return (score - 10) // 2
