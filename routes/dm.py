@@ -160,8 +160,8 @@ async def dm_tools(request: Request):
         SELECT id, name, race, subrace, class_name, level, subclass,
                hp_max, hp_current, ac, strength, dexterity, constitution,
                intelligence, wisdom, charisma, speed, proficiency_bonus
-        FROM characters ORDER BY name
-    """).fetchall()]
+        FROM characters WHERE user_id = ? ORDER BY name
+    """, (user["id"],)).fetchall()]
     db3.close()
 
     # Scan DnD-Manuals for the 📚 Manuals tab — grouped by folder
@@ -2533,7 +2533,7 @@ async def dm_campaign_delete(camp_id: int, request: Request):
     if not row:
         db.close()
         return JSONResponse({"error": "Campaign not found"}, status_code=404)
-    db.execute("DELETE FROM dm_campaigns WHERE id=?", (camp_id,))
+    db.execute("DELETE FROM dm_campaigns WHERE id=? AND user_id=?", (camp_id, user["id"]))
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
@@ -2769,7 +2769,8 @@ async def campaign_detail(camp_id: int, request: Request):
             npcs.append(dict(row))
 
     all_chars = [dict(r) for r in db.execute(
-        "SELECT id, name, race, class_name, level FROM characters ORDER BY name"
+        "SELECT id, name, race, class_name, level FROM characters WHERE user_id = ? ORDER BY name",
+        (user["id"],)
     ).fetchall()]
     linked_char_ids = {c.get("id") for c in chars}
 
