@@ -96,6 +96,7 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - 2026-07-31: Security and migration slices implemented; full verification pending.
 - 2026-07-31: Added comprehensive test scaffolding for ownership and progression; remaining behavior-specific coverage is ongoing.
 - 2026-07-31: Compatibility-preserving service extraction and template/PDF/ops work remain planned follow-up slices.
+- 2026-07-31: Progression matrix landed (31 tests, tests/test_progression_matrix.py). Found + fixed: creation never wrote class_levels (stayed '{}'); retroactive CON HP on multi-level jumps under-counted prior levels (used old_total instead of ASI level − 1).
 
 ## Honest scope note
 
@@ -108,8 +109,8 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - [x] Baseline audit and plan
 - [x] Security hardening slice
 - [x] Database indexes/schema slice
-- [ ] Ownership test matrix
-- [ ] Progression regression matrix
+- [x] Ownership test matrix
+- [x] Progression regression matrix
 - [ ] Database/auth service extraction
 - [ ] Data-loader extraction
 - [ ] Route extraction
