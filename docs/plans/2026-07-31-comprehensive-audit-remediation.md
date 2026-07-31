@@ -97,6 +97,7 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - 2026-07-31: Added comprehensive test scaffolding for ownership and progression; remaining behavior-specific coverage is ongoing.
 - 2026-07-31: Compatibility-preserving service extraction and template/PDF/ops work remain planned follow-up slices.
 - 2026-07-31: Progression matrix landed (31 tests, tests/test_progression_matrix.py). Found + fixed: creation never wrote class_levels (stayed '{}'); retroactive CON HP on multi-level jumps under-counted prior levels (used old_total instead of ASI level − 1).
+- 2026-07-31: PDF suite landed (12 tests, tests/test_pdf_generation.py). pdf_generator._get_spell_cache() centralized on main.SRD_SPELLS (removed hardcoded campaign-expert path); Cloying Darkness + Summon Draconic Spirit moved from private dict into data/manual_data/spells.json; pypdf pinned in requirements.txt.
 
 ## Honest scope note
 
@@ -115,7 +116,7 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - [ ] Data-loader extraction
 - [ ] Route extraction
 - [ ] Template split and CSS extraction
-- [ ] PDF centralization and tests
+- [x] PDF centralization and tests
 - [ ] CI/operations hardening
 - [ ] Final full verification
 
