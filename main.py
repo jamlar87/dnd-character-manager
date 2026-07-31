@@ -1979,14 +1979,14 @@ def _item_rarity_for_level(level: int) -> list[str]:
     if level <= 16:  return ["rare", "uncommon"]
     return ["very rare", "rare", "uncommon"]
 
-# bcrypt 4.x native — avoid passlib (broken on Python 3.13)
-BCRYPT_MAX = 72  # bcrypt's byte limit; truncate to be safe
-
+# Compatibility wrappers; implementation lives in services.auth.
 def _hash(password: str) -> str:
-    return bcrypt.hashpw(password.encode()[:BCRYPT_MAX], bcrypt.gensalt()).decode()
+    from services.auth import hash_password
+    return hash_password(password)
 
 def _verify(password: str, hash_: str) -> bool:
-    return bcrypt.checkpw(password.encode()[:BCRYPT_MAX], hash_.encode())
+    from services.auth import verify_password
+    return verify_password(password, hash_)
 
 _jinja = Environment(loader=FileSystemLoader(str(TEMPLATES)))
 
