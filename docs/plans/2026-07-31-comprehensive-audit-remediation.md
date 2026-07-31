@@ -112,9 +112,9 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - [x] Database indexes/schema slice
 - [x] Ownership test matrix
 - [x] Progression regression matrix
-- [ ] Database/auth service extraction
-- [ ] Data-loader extraction
-- [ ] Route extraction
+- [x] Database/auth service extraction (services/ has db, users, sessions, schema, auth)
+- [x] Data-loader extraction (services/data_loader.py + tests)
+- [x] Route extraction (all.py 9,033 → 2,598 lines; 46 routes split across relationships.py, pdf.py, spells.py, leveling.py, sheet.py, creation.py; core helpers in services/leveling.py)
 - [ ] Template split and CSS extraction
 - [x] PDF centralization and tests
 - [ ] CI/operations hardening
