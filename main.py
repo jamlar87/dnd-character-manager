@@ -188,13 +188,10 @@ def _should_replace_description(existing: str, new: str) -> bool:
 
 MANUAL_DATA = HERE / "data" / "manual_data"
 
-@functools.cache
 def _load_manual_json(filename: str) -> list[dict]:
-    try:
-        with open(MANUAL_DATA / filename) as f:
-            return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
+    from services.data_loader import load_json
+    result = load_json(str(MANUAL_DATA), filename)
+    return result if isinstance(result, list) else result
 
 
 def _normalize_manual_source(source: str, source_manual: str, meta: dict) -> str:
