@@ -2476,27 +2476,12 @@ def _get_user(email: str) -> dict | None:
     return dict(row) if row else None
 
 def _create_session(user_id: int) -> str:
-    token = secrets.token_hex(32)
-    db = get_db()
-    db.execute(
-        "INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, datetime('now', ?))",
-        (user_id, token, f"+{SESSION_TTL_DAYS} days"),
-    )
-    db.commit()
-    db.close()
-    return token
+    from services.sessions import create_session
+    return create_session(DB_PATH, user_id, SESSION_TTL_DAYS)
 
 def _get_user_by_token(token: str) -> dict | None:
-    db = get_db()
-    row = db.execute("""
-        SELECT u.* FROM users u
-        JOIN sessions s ON s.user_id = u.id
-        WHERE s.token = ? AND datetime(s.expires_at) > datetime('now')
-    """, (token,)).fetchone()
-    db.execute("DELETE FROM sessions WHERE expires_at <= datetime('now')")
-    db.commit()
-    db.close()
-    return dict(row) if row else None
+    from services.sessions import get_user_by_token
+    return get_user_by_token(DB_PATH, token)
 
 def get_current_user(request: Request) -> dict | None:
     token = request.cookies.get("dnd_token")

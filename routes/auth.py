@@ -57,10 +57,9 @@ async def register(request: Request, email: str = Form(...), password: str = For
 async def logout(request: Request):
     user = get_current_user(request)
     if user:
-        db = get_db()
-        db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
-        db.commit()
-        db.close()
+        from services.sessions import invalidate_user_sessions
+        from main import DB_PATH
+        invalidate_user_sessions(DB_PATH, user["id"])
     resp = RedirectResponse("/", 303)
     resp.delete_cookie("dnd_token")
     return resp
@@ -89,9 +88,11 @@ async def change_password(request: Request, current_password: str = Form(...), p
         return _render("reset_password.html", request=request, error="Current password is incorrect")
     db = get_db()
     db.execute("UPDATE users SET password_hash = ? WHERE id = ?", (_hash(password), user["id"]))
-    db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
     db.commit()
     db.close()
+    from services.sessions import invalidate_user_sessions
+    from main import DB_PATH
+    invalidate_user_sessions(DB_PATH, user["id"])
     return _render("reset_password.html", request=request, success="Password changed. Please log in again.")
 
 
