@@ -306,8 +306,8 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         weapon_proficiencies, armor_proficiencies, save_proficiencies, inventory, equipped,
         damage_resistances, damage_immunities, damage_vulnerabilities, condition_immunities,
         feature_data, attacks_data, spell_slot_data, passive_perception, dragonborn_ancestry, portrait_url, portrait_prompt, expertise_skills, fighting_style,
-        metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, favored_enemies, favored_terrains, infusions)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        metamagic, metamagic_history, invocations, pact_boon, maneuvers, magical_secrets, totem_spirits, hunters_prey, favored_enemies, favored_terrains, infusions, class_levels)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user_id, name, race_name, subrace, class_name, subclass, level,
         data.get("background",""), json.dumps(data.get("background_data","")), data.get("alignment",""), data.get("personality",""), data.get("backstory",""),
@@ -334,7 +334,8 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         data.get("hunters_prey", ""),
         json.dumps(data.get("favored_enemies", [])),
         json.dumps(data.get("favored_terrains", [])),
-        json.dumps(data.get("infusions", []))
+        json.dumps(data.get("infusions", [])),
+        json.dumps({class_name: level})
     ))
     char_id = cur.lastrowid
     db.commit()
@@ -4030,6 +4031,8 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
         feat_asi_choices[lvl_str] = feat_asi_flat
 
     total_hp_gain = 0
+    retro_hp = 0
+    last_con_mod = (char.get("constitution", 10) - 10) // 2
     hd = CLASSES.get(class_to_level, {}).get("hd", 8)
     
     for offset in range(levels_gained):
@@ -4061,6 +4064,11 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
         
         # Now compute HP with current CON (includes this level's ASI if any)
         con_mod = (cumulative.get("Constitution", 10) - 10) // 2
+        # Retroactive CON HP (PHB p.177): when CON mod rises at this level,
+        # every PRIOR level gains the delta (not just levels before the jump).
+        if con_mod > last_con_mod:
+            retro_hp += (lvl_num - 1) * (con_mod - last_con_mod)
+        last_con_mod = con_mod
         choice = hp_choices.get(lvl_str, "average")
         if choice == "custom" and hp_custom is not None:
             hp_gain = int(hp_custom) + con_mod
@@ -4076,17 +4084,11 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     updates["hp_current"] = updates["hp_max"]  # Full heal on level up
     changes.append(f"HP +{total_hp_gain}")
     
-    # Retroactive CON HP (PHB p.177): when CON mod increases, all prior levels gain the delta
-    old_con = char.get("constitution", 10)
-    new_con = cumulative.get("Constitution", 10)
-    old_con_mod = (old_con - 10) // 2
-    new_con_mod = (new_con - 10) // 2
-    con_delta = new_con_mod - old_con_mod
-    if con_delta > 0:
-        retro_hp = old_total * con_delta
+    # Apply retroactive CON HP accumulated above
+    if retro_hp > 0:
         updates["hp_max"] += retro_hp
         updates["hp_current"] += retro_hp
-        changes.append(f"CON +{new_con - old_con}: +{retro_hp} HP (retroactive)")
+        changes.append(f"CON mod +{(cumulative.get('Constitution', 10) - 10) // 2 - (char.get('constitution', 10) - 10) // 2}: +{retro_hp} HP (retroactive)")
     
     # Tough feat: +2 HP per character level (PHB p.170)
     tough_level = None
