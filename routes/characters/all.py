@@ -26,6 +26,15 @@ from main import get_racial_trait_effects, check_armor_proficiency_from_set, get
 from main import load_manual_data
 from main import SRD_LEVELS, SRD_SPELLS, _get_named_item_types, _get_source_slug_map
 from main import _manual_races_raw, _manual_races_raw as _MANUAL_RACES_RAW
+# Leveling/spell-slot helper core (extracted to services/leveling.py — re-exported
+# here so existing callers of these names keep working).
+from services.leveling import (
+    MAGIC_INITIATE_CLASSES,
+    _ordinal,
+    get_spell_slots,
+    get_srd_spells_for_class,
+    _scaled_dice_display,
+)
 from data import (
     SPELLS_KNOWN_CASTERS, RACIAL_TRAIT_EFFECTS, FEATURE_ACTION_TYPES,
     ABILITY_NAMES, ALL_SKILLS, LANGUAGES, SKILL_ABILITIES, FEATS, FEAT_BY_NAME,
@@ -2226,84 +2235,9 @@ async def reload_charge(char_id: int, request: Request):
     return JSONResponse({"charged_items": charged, "item_name": item_name})
 
 
-@router.get("/api/character/{char_id}/pdf")
-async def character_pdf(char_id: int, request: Request):
-    """Generate a printable D&D character sheet PDF."""
-    user = require_user(request)
-    db = get_db()
-    row = _require_owned(db, user, "characters", char_id)
-    if not row:
-        db.close()
-        raise HTTPException(status_code=404, detail="Character not found")
-    
-    char = dict(row)
-    # Build structured data for PDF generator
-    import sys, os
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    from pdf_generator import build_char_data, fill_official_sheet
-    char_data = build_char_data(row, db, racial_traits=_build_racial_traits(char))
-
-    # Populate Allies & Organizations from character relationships
-    try:
-        rels = db.execute(
-            "SELECT name, relationship_type, description FROM character_relationships WHERE character_id = ? AND user_id = ? ORDER BY created_at DESC",
-            (char_id, user["id"])
-        ).fetchall()
-        if rels:
-            rel_lines = []
-            existing = str(char_data.get("allies", "") or "").strip()
-            if existing:
-                rel_lines.append(existing)
-            for r in rels:
-                rname = r["name"]
-                rdesc = (r["description"] or "").strip()
-                # Flatten internal paragraph breaks so a single entry
-                # doesn't have extra spacing within its own description
-                rdesc = rdesc.replace("\n\n", "\n")
-                rtype = (r["relationship_type"] or "ally").replace("_", " ").title()
-                if rdesc:
-                    rel_lines.append(f"{rname} ({rtype}): {rdesc}")
-                else:
-                    rel_lines.append(f"{rname} ({rtype})")
-            char_data["allies"] = "\n\n".join(rel_lines)
-    except Exception:
-        pass
-
-    # Check if allies text needs an appendix page (with or without relationships)
-    try:
-        allies_text = str(char_data.get("allies", "") or "")
-        if len(allies_text) > 800:
-            trunc_at = 700
-            for brk in range(trunc_at, 500, -1):
-                if allies_text[brk:brk+2] == "\n\n":
-                    trunc_at = brk
-                    break
-            # Appendix gets the full text (some duplication with field is fine)
-            char_data["allies_appendix"] = allies_text
-            char_data["allies"] = allies_text[:trunc_at] + "\n... See Appendix"
-    except Exception:
-        pass
-
-    db.close()
-
-    # Rebuild attacks_data from current inventory + equipped items
-    # (the stored attacks_data may be stale if items were added later)
-    from main import _build_inventory_attacks
-    fresh_attacks = _build_inventory_attacks(char_data)
-    if fresh_attacks:
-        char_data["attacks_data"] = fresh_attacks
-    
-    pdf_bytes = fill_official_sheet(char_data)
-    return Response(
-        content=bytes(pdf_bytes),
-        media_type="application/pdf",
-        headers={
-            "Content-Disposition": f'inline; filename="{char_data.get("name", "character").replace(" ", "_")}_sheet.pdf"',
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
-            "Expires": "0",
-        }
-    )
+# ── PDF generation (extracted to pdf.py) ───────────────────────────────────
+from routes.characters.pdf import router as _pdf_router
+router.include_router(_pdf_router)
 
 @router.post("/api/character/{char_id}/add-spell", response_class=JSONResponse)
 async def add_spell(char_id: int, request: Request, body: AddSpell):
@@ -2319,8 +2253,6 @@ async def add_spell(char_id: int, request: Request, body: AddSpell):
 
 
 # ── Magic Initiate feat configuration ──────────────────────────────────────
-MAGIC_INITIATE_CLASSES = ["Bard", "Cleric", "Druid", "Sorcerer", "Warlock", "Wizard"]
-
 @router.get("/api/character/{char_id}/magic-initiate", response_class=JSONResponse)
 async def get_magic_initiate(char_id: int, request: Request):
     """Return Magic Initiate configuration: class, spells, usage state."""
@@ -4943,38 +4875,6 @@ PROFICIENCY_BONUS = {1:2,2:2,3:2,4:2,5:3,6:3,7:3,8:3,9:4,10:4,11:4,12:4,13:5,14:
 
 # ── SRD-Backed Functions (replace hand-coded PHB tables) ─────────────────────
 
-def get_spell_slots(class_name: str, level: int) -> dict:
-    """Return spell slots from SRD API cache. Falls back to empty if class not found."""
-    key = class_name.lower()
-    levels = SRD_LEVELS.get(key, [])
-    entry = None
-    for l in levels:
-        if l.get("level") == level:
-            entry = l
-            break
-    if not entry:
-        return {"slots": 0, "slot_level": None, "by_level": {}}
-
-    sc = entry.get("spellcasting", {})
-    # Warlock uses Pact Magic — different slot structure
-    if key == "warlock":
-        slot_count = 0
-        slot_level = 0
-        # Find max non-zero slot
-        for i in range(1, 10):
-            slots = sc.get(f"spell_slots_level_{i}", 0)
-            if slots > 0:
-                slot_count = slots
-                slot_level = i
-        note = f"{slot_count} Pact Magic slots, all {_ordinal(slot_level)} level" if slot_count else "No Pact Magic yet"
-        return {"slots": slot_count, "slot_level": slot_level, "note": note, "by_level": {}}
-
-    # Standard spell slots
-    by_level = {}
-    for i in range(1, 10):
-        by_level[i] = sc.get(f"spell_slots_level_{i}", 0)
-    return {"slots": sum(by_level.values()), "slot_level": None, "by_level": by_level}
-
 def get_character_spell_slots(char_dict: dict) -> dict:
     """Return spell slots for a character, handling multiclass via PHB p.165.
     Single class: delegates to get_spell_slots. Multiclass: uses multiclass table.
@@ -5227,39 +5127,6 @@ def _replace_subclass_name(name: str, class_name: str, subclass: str, level: int
             if level in sc_feats:
                 return sc_feats[level][0]  # Replace with first real feature
     return name
-
-
-def get_srd_spells_for_class(class_name: str, max_level: int) -> dict:
-    """Get SRD spells (cantrips + leveled) for a class, filtered by max spell level available."""
-    if not SRD_SPELLS:
-        return {"cantrips": [], "spells": {}}
-    cls_lower = class_name.lower()
-    # Determine max spell level this class can cast at the given level
-    spell_slots = get_spell_slots(class_name, max_level)
-    if class_name == "Warlock":
-        max_spell_level = spell_slots.get("slot_level", 0)
-    else:
-        by_level = spell_slots.get("by_level", {})
-        max_spell_level = max((lvl for lvl, slots in by_level.items() if slots > 0), default=0)
-
-    cantrips = []
-    leveled = {i: [] for i in range(1, 10)}
-    for spell in SRD_SPELLS:
-        spell_classes = [c.get("name", "").lower() for c in spell.get("classes", [])]
-        if cls_lower not in spell_classes:
-            continue
-        spell_level = spell.get("level", 0)
-        spell_name = spell.get("name", "")
-        if spell_level == 0:
-            cantrips.append(spell_name)
-        elif spell_level <= max_spell_level:
-            leveled[spell_level].append(spell_name)
-
-    # Limit to top spells (first 6 per level to keep output manageable)
-    for lvl in leveled:
-        leveled[lvl] = leveled[lvl][:6]
-
-    return {"cantrips": cantrips[:8], "spells": leveled}
 
 
 # ── Caster type detection & prepared spell computation ────────────────────
@@ -8069,55 +7936,7 @@ def get_cantrips_known_max(class_name: str, level: int) -> int:
         if e.get("level") == level:
             return e.get("spellcasting", {}).get("cantrips_known", 0)
     return 0
-
 # ── Spell enrichment (SRD descriptions) ───────────────────────────────────
-
-def _scaled_dice_display(dice_info: dict, character_level: int | None) -> str:
-    """Return the dice display string, scaling cantrips to character level.
-
-    If ``display`` contains ``{scaled}``, the scaled dice string is substituted
-    there (supports complex patterns like '+{scaled} / {scaled}+MOD fire').
-    Otherwise the entire display is replaced by the scaled dice string.
-
-    ``display_at_1`` (optional) is used when character_level < 5 —
-    some cantrips (Green-Flame Blade, Booming Blade) have no bonus dice
-    before tier 1."""
-    display = dice_info.get("display", "")
-    if character_level and character_level < 5 and dice_info.get("display_at_1"):
-        return dice_info["display_at_1"]
-    if not (character_level and dice_info.get("cantrip_scaling")):
-        return display
-    # Cantrip scaling: 1x at 1-4, 2x at 5-10, 3x at 11-16, 4x at 17+
-    base = dice_info["base_dice"]
-    m = re.match(r"(\d+)d(\d+)", base)
-    if not m:
-        return display
-    count = int(m.group(1))
-    die = m.group(2)
-    if character_level >= 17:
-        count = count * 4
-    elif character_level >= 11:
-        count = count * 3
-    elif character_level >= 5:
-        count = count * 2
-    scaled = f"{count}d{die}"
-    if "{scaled}" in display:
-        result = display.replace("{scaled}", scaled)
-        # Wounded variant (e.g. Toll the Dead: d8->d12)
-        if "{scaled_w}" in result:
-            base_w = dice_info.get("base_dice_wounded", "")
-            mw = re.match(r"(\d+)d(\d+)", base_w) if base_w else None
-            if mw:
-                count_w = int(mw.group(1))
-                die_w = mw.group(2)
-                if character_level >= 17: count_w *= 4
-                elif character_level >= 11: count_w *= 3
-                elif character_level >= 5: count_w *= 2
-                result = result.replace("{scaled_w}", f"{count_w}d{die_w}")
-            else:
-                result = result.replace("{scaled_w}", scaled)
-        return result
-    return scaled
 
 def enrich_spells(spells: list[dict], character_level: int | None = None) -> None:
     """Add full SRD spell data to each spell dict in-place.
@@ -8203,11 +8022,6 @@ def get_asi_levels(level: int, class_name: str = "") -> list[int]:
     asis = {4,8,12,16,19}
     if class_name == "Fighter": asis.update({6,14})  # Fighter gets extra ASIs (PHB p.71)
     return sorted([a for a in asis if a <= level])
-
-def _ordinal(n: int) -> str:
-    """Return ordinal string: 1st, 2nd, 3rd, etc."""
-    if 11 <= n % 100 <= 13: return f"{n}th"
-    return f"{n}{['th','st','nd','rd','th','th','th','th','th','th'][n % 10]}"
 
 def get_feats_for_level(class_name: str, level: int) -> list[str]:
     """Recommended feats based on how many ASIs the character has taken."""
