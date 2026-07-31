@@ -925,3 +925,171 @@ def enrich_features(feature_list: list[str], class_name: str = "", level: int = 
             entry["action_desc"] = action_info[1]
         enriched.append(entry)
     return enriched
+
+
+# ── Level-up data constants (moved from all.py 2026-07-31) ──
+
+FIGHTING_STYLES: dict[str, dict] = {
+    "archery":                {"name": "Archery", "desc": "+2 bonus to attack rolls with ranged weapons", "attack_bonus_ranged": 2},
+    "defense":                {"name": "Defense", "desc": "+1 AC while wearing armor", "ac_bonus": 1},
+    "dueling":                {"name": "Dueling", "desc": "+2 damage with one-handed melee weapon (no other weapon in hand)", "damage_bonus_one_handed": 2},
+    "great_weapon_fighting":  {"name": "Great Weapon Fighting", "desc": "Reroll 1s and 2s on damage dice with two-handed/versatile melee weapons"},
+    "protection":             {"name": "Protection", "desc": "Reaction: impose disadvantage on attack against adjacent ally (requires shield)"},
+    "two_weapon_fighting":    {"name": "Two-Weapon Fighting", "desc": "Add ability modifier to off-hand attack damage"},
+}
+
+
+FIGHTING_STYLE_LEVELS: dict[str, int] = {
+    "Fighter": 1,
+    "Paladin": 2,
+    "Ranger": 2,
+}
+
+
+FIGHTING_STYLE_OPTIONS: dict[str, list[str]] = {
+    "Fighter": ["archery", "defense", "dueling", "great_weapon_fighting", "protection", "two_weapon_fighting"],
+    "Paladin": ["defense", "dueling", "great_weapon_fighting", "protection"],
+    "Ranger": ["archery", "defense", "dueling", "two_weapon_fighting"],
+}
+
+
+MANEUVER_PICKS: dict[int,int] = {3:3,7:2,10:2,15:2}  # level → total known
+
+
+MAGICAL_SECRETS_LEVELS: dict[str, list[int]] = {"Bard": [10, 14, 18], "College of Lore": [6]}
+
+
+MAGICAL_SECRETS_PICKS: dict[int,int] = {6:2,10:2,14:2,18:2}
+
+
+TOTEM_SPIRIT_LEVELS: dict[str, list[int]] = {"Path of the Totem Warrior": [3, 6, 14]}
+
+
+TOTEM_SPIRIT_TIER_LABELS: dict[int, str] = {3:"Totem Spirit", 6:"Aspect of the Beast", 14:"Totemic Attunement"}
+
+
+HUNTERS_PREY_LEVELS: dict[str, int] = {"Hunter": 3}
+
+
+FAVORED_ENEMY_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 14]}
+
+
+FAVORED_TERRAIN_LEVELS: dict[str, list[int]] = {"Ranger": [1, 6, 10]}
+
+
+INFUSION_LEVELS: dict[str, int] = {"Artificer": 2}
+
+
+INFUSION_PICKS: dict[int,int] = {2:4}  # level → known infusions
+
+
+DOMAIN_SPELLS: dict[str, list[str]] = {
+    # Cleric domains — PHB p.59-62
+    "Knowledge Domain": ["Command","Identify","Augury","Suggestion","Nondetection","Speak with Dead",
+                         "Arcane Eye","Confusion","Legend Lore","Scrying"],
+    "Life Domain": ["Bless","Cure Wounds","Lesser Restoration","Spiritual Weapon",
+                    "Beacon of Hope","Revivify","Death Ward","Guardian of Faith",
+                    "Mass Cure Wounds","Raise Dead"],
+    "Light Domain": ["Burning Hands","Faerie Fire","Flaming Sphere","Scorching Ray",
+                     "Daylight","Fireball","Guardian of Faith","Wall of Fire",
+                     "Flame Strike","Scrying"],
+    "Nature Domain": ["Animal Friendship","Speak with Animals","Barkskin","Spike Growth",
+                      "Plant Growth","Wind Wall","Dominate Beast","Grasping Vine",
+                      "Insect Plague","Tree Stride"],
+    "Tempest Domain": ["Fog Cloud","Thunderwave","Gust of Wind","Shatter","Call Lightning",
+                       "Sleet Storm","Control Water","Ice Storm","Destructive Wave","Insect Plague"],
+    "Trickery Domain": ["Charm Person","Disguise Self","Mirror Image","Pass without Trace",
+                        "Blink","Dispel Magic","Dimension Door","Polymorph",
+                        "Dominate Person","Modify Memory"],
+    "War Domain": ["Divine Favor","Shield of Faith","Magic Weapon","Spiritual Weapon",
+                   "Crusader's Mantle","Spirit Guardians","Freedom of Movement","Stoneskin",
+                   "Flame Strike","Hold Monster"],
+    # Paladin oaths — PHB p.86-88
+    "Oath of Devotion": ["Protection from Evil and Good","Sanctuary","Lesser Restoration",
+                         "Zone of Truth","Beacon of Hope","Dispel Magic","Freedom of Movement",
+                         "Guardian of Faith","Commune","Flame Strike"],
+    "Oath of the Ancients": ["Ensnaring Strike","Speak with Animals","Moonbeam","Misty Step",
+                             "Plant Growth","Protection from Energy","Ice Storm","Stoneskin",
+                             "Commune with Nature","Tree Stride"],
+    "Oath of Vengeance": ["Bane","Hunter's Mark","Hold Person","Misty Step","Haste",
+                          "Protection from Energy","Banishment","Dimension Door",
+                          "Hold Monster","Scrying"],
+    # DMG subclasses
+    "Death Domain": ["False Life","Ray of Sickness","Blindness/Deafness","Ray of Enfeeblement",
+                     "Animate Dead","Vampiric Touch","Blight","Death Ward",
+                     "Antilife Shell","Cloudkill"],
+    "Oathbreaker": ["Hellish Rebuke","Inflict Wounds","Crown of Madness","Darkness",
+                    "Animate Dead","Bestow Curse","Blight","Confusion",
+                    "Contagion","Dominate Person"],
+}
+
+
+WARLOCK_EXPANDED_SPELLS_BY_LEVEL: dict[str, dict[int, list[str]]] = {
+    # PHB p.109
+    "The Fiend": {
+        1: ["Burning Hands", "Command"],
+        3: ["Blindness/Deafness", "Scorching Ray"],
+        5: ["Fireball", "Stinking Cloud"],
+        7: ["Fire Shield", "Wall of Fire"],
+        9: ["Flame Strike", "Hallow"],
+    },
+    # PHB p.108
+    "The Archfey": {
+        1: ["Faerie Fire", "Sleep"],
+        3: ["Calm Emotions", "Phantasmal Force"],
+        5: ["Blink", "Plant Growth"],
+        7: ["Dominate Beast", "Greater Invisibility"],
+        9: ["Dominate Person", "Seeming"],
+    },
+    # PHB p.109-110
+    "The Great Old One": {
+        1: ["Dissonant Whispers", "Tasha's Hideous Laughter"],
+        3: ["Detect Thoughts", "Phantasmal Force"],
+        5: ["Clairvoyance", "Sending"],
+        7: ["Dominate Beast", "Evard's Black Tentacles"],
+        9: ["Dominate Person", "Telekinesis"],
+    },
+    # XGtE p.56-57
+    "The Celestial": {
+        1: ["Cure Wounds", "Guiding Bolt"],
+        3: ["Flaming Sphere", "Lesser Restoration"],
+        5: ["Daylight", "Revivify"],
+        7: ["Guardian of Faith", "Wall of Fire"],
+        9: ["Flame Strike", "Greater Restoration"],
+    },
+    # XGtE p.55-56
+    "The Hexblade": {
+        1: ["Shield", "Wrathful Smite"],
+        3: ["Blur", "Branding Smite"],
+        5: ["Blink", "Elemental Weapon"],
+        7: ["Phantasmal Killer", "Staggering Smite"],
+        9: ["Banishing Smite", "Cone of Cold"],
+    },
+}
+
+
+# ── Choice-system constants (moved from all.py 2026-07-31; shadow data.py versions) ──
+
+METAMAGIC_LEVELS: dict[str, list[int]] = {"Sorcerer": [3, 10, 17]}
+
+
+METAMAGIC_PICKS: dict[int, int] = {3: 2, 10: 1, 17: 1}  # level → number of choices
+
+
+INVOCATION_LEVELS: dict[str, list[int]] = {"Warlock": [2, 5, 7, 9, 12, 15, 18]}
+
+
+INVOCATION_PICKS: dict[int,int] = {2:2,5:1,7:1,9:1,12:1,15:1,18:1}
+
+
+PACT_BOON_LEVELS: dict[str, int] = {"Warlock": 3}
+
+
+MANEUVER_LEVELS: dict[str, list[int]] = {"Battle Master": [3, 7, 10, 15]}
+
+
+CANTRIPS_PROGRESSION: dict[str, dict[int, int]] = {
+    "full": {1: 2, 4: 3, 10: 4},
+    "warlock": {1: 2, 4: 3, 10: 4},
+    "cleric": {1: 3, 4: 4, 10: 5},
+}
