@@ -9,6 +9,7 @@ import re
 import sqlite3
 import sys
 import functools
+import secrets
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -61,6 +62,10 @@ DB_PATH = DATA_DIR / "characters.db"
 TEMPLATES = HERE / "templates"
 STATIC = HERE / "static"
 SECRET_KEY = os.environ.get("SECRET_KEY", "dnd-dev-secret-change-me")
+APP_ENV = os.environ.get("APP_ENV", "development").lower()
+SESSION_TTL_DAYS = int(os.environ.get("SESSION_TTL_DAYS", "30"))
+if APP_ENV in {"production", "prod"} and SECRET_KEY == "dnd-dev-secret-change-me":
+    raise RuntimeError("SECRET_KEY must be set to a unique value in production")
 SRD_CACHE = DATA_DIR / "srd_cache"
 
 # ── SRD Class Data (from dnd5eapi.co 2014, cached locally) ──────────────────
@@ -80,7 +85,7 @@ SRD_LEVELS, SRD_META = _load_srd_class_data()
 
 # ── Campaign Expert imports (reuse existing engine data) ────────────────────
 
-_CE_PATH = Path("/home/james/dnd-campaign-expert")
+_CE_PATH = Path(os.environ.get("DND_CAMPAIGN_EXPERT_PATH", str(HERE.parent / "dnd-campaign-expert")))
 if str(_CE_PATH) not in sys.path:
     sys.path.insert(0, str(_CE_PATH))
 
@@ -2017,17 +2022,35 @@ async def log_requests(request: Request, call_next):
         response = await call_next(request)
         elapsed = _time.time() - start
         _log.info("%s %s %s %.0fms", request.method, request.url.path, response.status_code, elapsed * 1000)
+        response.headers.setdefault("X-Request-ID", req_id)
         return response
     except Exception as e:
         elapsed = _time.time() - start
         _log.error("%s %s 500 %.0fms | %s: %s", request.method, request.url.path, elapsed * 1000, type(e).__name__, e, exc_info=True)
-        return HTMLResponse("Internal Server Error", status_code=500)
+        return HTMLResponse("Internal Server Error", status_code=500, headers={"X-Request-ID": req_id})
+
+
+@app.middleware("http")
+async def security_middleware(request: Request, call_next):
+    """Apply security headers and reject unsafe cross-origin browser writes."""
+    if request.method not in {"GET", "HEAD", "OPTIONS"}:
+        origin = request.headers.get("origin")
+        if origin:
+            expected = f"{request.url.scheme}://{request.headers.get('host', '')}"
+            if origin.rstrip("/") != expected.rstrip("/"):
+                return JSONResponse({"error": "Cross-origin request rejected"}, status_code=403)
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "same-origin")
+    response.headers.setdefault("Content-Security-Policy", "frame-ancestors 'none'")
+    return response
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     _log.error("Unhandled %s on %s %s: %s", type(exc).__name__, request.method, request.url.path, exc, exc_info=True)
     if request.url.path.startswith("/api/"):
-        return JSONResponse({"error": f"Internal server error: {exc}"}, status_code=500)
+        return JSONResponse({"error": "Internal server error"}, status_code=500)
     return HTMLResponse("Internal Server Error", status_code=500)
 
 # ── DB ──────────────────────────────────────────────────────────────────────
@@ -2213,6 +2236,7 @@ def init_db():
             user_id INTEGER NOT NULL,
             token TEXT UNIQUE NOT NULL,
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            expires_at TEXT NOT NULL DEFAULT (datetime('now', '+30 days')),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
         CREATE TABLE IF NOT EXISTS dm_custom_traps (
@@ -2239,6 +2263,11 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );
     """)
+    # Migration: session expiry for databases created before this field existed.
+    session_cols = {r[1] for r in db.execute("PRAGMA table_info(sessions)")}
+    if "expires_at" not in session_cols:
+        db.execute("ALTER TABLE sessions ADD COLUMN expires_at TEXT")
+        db.execute("UPDATE sessions SET expires_at = datetime(created_at, ?) WHERE expires_at IS NULL", (f"+{SESSION_TTL_DAYS} days",))
     # Migration: add personality/backstory columns if missing
     try:
         db.execute("ALTER TABLE characters ADD COLUMN personality TEXT DEFAULT ''")
@@ -2378,6 +2407,13 @@ def init_db():
         "CREATE INDEX IF NOT EXISTS idx_char_spells_char ON character_spells(character_id)",
         "CREATE INDEX IF NOT EXISTS idx_characters_user ON characters(user_id)",
         "CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_campaigns_user ON dm_campaigns(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_encounters_user ON dm_encounters(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_npcs_user ON dm_npcs(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_traps_user ON dm_custom_traps(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_relationships_character ON character_relationships(character_id)",
+        "CREATE INDEX IF NOT EXISTS idx_relationships_user ON character_relationships(user_id)",
+        "CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires_at)",
     ]:
         try:
             db.execute(idx_sql)
@@ -2420,21 +2456,14 @@ def _migrate_npc_source_columns():
     except sqlite3.OperationalError:
         pass
 
-    # Migration: shared flag on dm_encounters
-    try:
-        db.execute("ALTER TABLE dm_encounters ADD COLUMN shared INTEGER DEFAULT 0")
-    except sqlite3.OperationalError:
-        pass
+    # Migration: shared flags
+    for table, column in [("characters", "shared"), ("dm_encounters", "shared")]:
+        try:
+            db.execute(f"ALTER TABLE {table} ADD COLUMN {column} INTEGER DEFAULT 0")
+        except sqlite3.OperationalError:
+            pass
 
-    # Seed ADMIN account if not exists
-    admin_row = db.execute("SELECT id FROM users WHERE email = 'admin'").fetchone()
-    if not admin_row:
-        db.execute(
-            "INSERT INTO users (email, password_hash, is_admin) VALUES (?, ?, 1)",
-            ("admin", _hash("admin"))
-        )
-        db.commit()
-        print("[init] ADMIN account created (admin / admin)")
+    # Existing installations keep their users; no default credentials are created.
     db.close()
 
 def _get_user(email: str) -> dict | None:
@@ -2444,10 +2473,12 @@ def _get_user(email: str) -> dict | None:
     return dict(row) if row else None
 
 def _create_session(user_id: int) -> str:
-    import secrets
     token = secrets.token_hex(32)
     db = get_db()
-    db.execute("INSERT INTO sessions (user_id, token) VALUES (?, ?)", (user_id, token))
+    db.execute(
+        "INSERT INTO sessions (user_id, token, expires_at) VALUES (?, ?, datetime('now', ?))",
+        (user_id, token, f"+{SESSION_TTL_DAYS} days"),
+    )
     db.commit()
     db.close()
     return token
@@ -2457,8 +2488,10 @@ def _get_user_by_token(token: str) -> dict | None:
     row = db.execute("""
         SELECT u.* FROM users u
         JOIN sessions s ON s.user_id = u.id
-        WHERE s.token = ?
+        WHERE s.token = ? AND datetime(s.expires_at) > datetime('now')
     """, (token,)).fetchone()
+    db.execute("DELETE FROM sessions WHERE expires_at <= datetime('now')")
+    db.commit()
     db.close()
     return dict(row) if row else None
 

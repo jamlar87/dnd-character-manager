@@ -3,6 +3,7 @@
 from fastapi import APIRouter, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 import sqlite3
+import os
 
 from main import get_db, _hash, _verify, _get_user, _create_session, _render, get_current_user
 
@@ -21,7 +22,7 @@ async def login(request: Request, email: str = Form(...), password: str = Form(.
         return _render("login.html", request=request, error="Invalid email or password")
     token = _create_session(user["id"])
     resp = RedirectResponse("/dashboard", 303)
-    resp.set_cookie("dnd_token", token, httponly=True, max_age=60 * 60 * 24 * 30, samesite="lax")
+    resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")
     return resp
 
 
@@ -44,7 +45,7 @@ async def register(request: Request, email: str = Form(...), password: str = For
         user = _get_user(email.lower().strip())
         token = _create_session(user["id"])
         resp = RedirectResponse("/dashboard", 303)
-        resp.set_cookie("dnd_token", token, httponly=True, max_age=60 * 60 * 24 * 30, samesite="lax")
+        resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")
         return resp
     except sqlite3.IntegrityError:
         return _render("register.html", request=request, error="Email already registered")
@@ -72,21 +73,11 @@ async def reset_password_page(request: Request):
 
 @router.post("/reset-password")
 async def reset_password(request: Request, email: str = Form(...), password: str = Form(...)):
-    if len(password) < 6:
-        return _render("reset_password.html", request=request,
-                       email=email, error="Password must be at least 6 characters")
-    user = _get_user(email.lower().strip())
-    if not user:
-        return _render("reset_password.html", request=request,
-                       email=email, error="No account found with that email")
-    db = get_db()
-    db.execute("UPDATE users SET password_hash = ? WHERE id = ?",
-               (_hash(password), user["id"]))
-    db.commit()
-    db.close()
-    db = get_db()
-    db.execute("DELETE FROM sessions WHERE user_id = ?", (user["id"],))
-    db.commit()
-    db.close()
-    return _render("reset_password.html", request=request,
-                   success="Password reset! You can now log in.")
+    # Password reset by email is intentionally disabled until a verified,
+    # single-use, expiring token delivery flow is configured.
+    return _render(
+        "reset_password.html",
+        request=request,
+        email=email,
+        error="Password reset is unavailable. Contact an administrator.",
+    )
