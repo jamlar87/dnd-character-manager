@@ -117,8 +117,8 @@ The four deleted root audit scripts are unrelated to runtime behavior and should
 - [x] Route extraction (all.py 9,033 → 2,598 lines; 46 routes split across relationships.py, pdf.py, spells.py, leveling.py, sheet.py, creation.py; core helpers in services/leveling.py)
 - [x] Template split and CSS extraction (sheet.html 9,247 → 2,430 lines; 10 partials + static/sheet.css)
 - [x] PDF centralization and tests
-- [ ] CI/operations hardening
-- [ ] Final full verification
+- [x] CI/operations hardening (startup timings, docs/OPS.md backup/restore, CI import smoke; campaign-expert path + JSON cache were already present)
+- [x] Final full verification (compileall clean, 204 tests pass, live smoke: sheet render + level-up/de-level-info wizard/warlock + PDF all 200, service restarted on latest code)
 
 ---
 
