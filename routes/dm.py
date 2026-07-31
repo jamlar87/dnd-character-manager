@@ -620,6 +620,9 @@ async def dm_npc_delete(npc_id: int, request: Request):
     user = require_user(request)
     db = get_db()
     db.execute("DELETE FROM dm_npcs WHERE id = ? AND user_id = ?", (npc_id, user["id"]))
+    if db.total_changes == 0:
+        db.close()
+        raise HTTPException(status_code=404, detail="NPC not found")
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
@@ -2335,6 +2338,9 @@ async def dm_encounter_update(enc_id: int, request: Request):
         sets = ", ".join(f"{k}=?" for k in updates)
         vals = list(updates.values()) + [enc_id, user["id"]]
         db.execute(f"UPDATE dm_encounters SET {sets} WHERE id=? AND user_id=?", vals)
+        if db.total_changes == 0:
+            db.close()
+            raise HTTPException(status_code=404, detail="Encounter not found")
         db.commit()
         db.close()
     return JSONResponse({"ok": True})
@@ -2348,6 +2354,9 @@ async def dm_encounter_delete(enc_id: int, request: Request):
     db.execute("DELETE FROM dm_encounter_npcs WHERE encounter_id IN (SELECT id FROM dm_encounters WHERE id=? AND user_id=?)",
                (enc_id, user["id"]))
     db.execute("DELETE FROM dm_encounters WHERE id=? AND user_id=?", (enc_id, user["id"]))
+    if db.total_changes == 0:
+        db.close()
+        raise HTTPException(status_code=404, detail="Encounter not found")
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
@@ -2506,6 +2515,9 @@ async def dm_campaign_update(camp_id: int, request: Request):
         sets = ", ".join(f"{k}=?" for k in updates)
         vals = list(updates.values()) + [camp_id, user["id"]]
         db.execute(f"UPDATE dm_campaigns SET {sets} WHERE id=? AND user_id=?", vals)
+        if db.total_changes == 0:
+            db.close()
+            return JSONResponse({"error": "Campaign not found"}, status_code=404)
         db.commit()
         db.close()
     return JSONResponse({"ok": True})
@@ -2695,7 +2707,8 @@ async def dm_user_characters(request: Request):
     user = require_user(request)
     db = get_db()
     rows = [dict(r) for r in db.execute(
-        "SELECT id, name, race, class_name, level, subclass FROM characters ORDER BY name"
+        "SELECT id, name, race, class_name, level, subclass FROM characters WHERE user_id = ? ORDER BY name",
+        (user["id"],)
     ).fetchall()]
     db.close()
     return JSONResponse({"characters": rows})
@@ -2704,13 +2717,14 @@ async def dm_user_characters(request: Request):
 @router.get("/api/dm/characters-for-combat", response_class=JSONResponse)
 async def dm_characters_for_combat(request: Request):
     """List all characters with full combat stats for Quick Add."""
+    user = require_user(request)
     db = get_db()
     rows = [dict(r) for r in db.execute("""
         SELECT id, name, race, subrace, class_name, level, subclass,
                hp_max, hp_current, ac, strength, dexterity, constitution,
                intelligence, wisdom, charisma, speed, proficiency_bonus
-        FROM characters ORDER BY name
-    """).fetchall()]
+        FROM characters WHERE user_id = ? ORDER BY name
+    """, (user["id"],)).fetchall()]
     db.close()
     return JSONResponse({"characters": rows})
 
