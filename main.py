@@ -2062,11 +2062,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ── DB ──────────────────────────────────────────────────────────────────────
 
 def get_db() -> sqlite3.Connection:
-    db = sqlite3.connect(str(DB_PATH))
-    db.row_factory = sqlite3.Row
-    db.execute("PRAGMA journal_mode=WAL")
-    db.execute("PRAGMA foreign_keys=ON")
-    return db
+    from services.db import connect
+    return connect(DB_PATH)
 
 def init_db():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
