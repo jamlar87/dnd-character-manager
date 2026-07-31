@@ -1,0 +1,413 @@
+  <!-- ══════ MAIN PANEL ══════ -->
+  <div class="sheet-main">
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="actions" onclick="switchTab('actions')">⚔️ Actions</button>
+      <button class="tab-btn" data-tab="features" onclick="switchTab('features')">✨ Features</button>
+      <button class="tab-btn" data-tab="spells" onclick="switchTab('spells')">🔮 Spells</button>
+      <button class="tab-btn" data-tab="inventory" onclick="switchTab('inventory')">🎒 Inventory</button>
+      <button class="tab-btn" data-tab="history" onclick="switchTab('history')">📜 History</button>
+    </div>
+
+    <!-- ⚔️ ACTIONS TAB -->
+    <div class="tab-content active" id="tab-actions">
+      {% set attacks = attacks or [] %}
+      <!-- Weapon Attacks (collapsible) -->
+      <div id="attacks-weapons-card" class="card" style="margin-bottom:0.5rem;{% if not attacks %}display:none{% endif %}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
+             onclick="toggleSection('weapons-body','weapons-arrow')">
+          <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
+            <span id="weapons-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
+            Weapon Attacks
+            <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400">({{ attacks|length }})</span>
+          </h3>
+          <span style="font-size:0.75rem;color:var(--text-muted)">Attacks per Action: 1</span>
+        </div>
+        <div id="weapons-body">
+        <div id="attacks-weapons-list">
+        {% for atk in attacks %}
+        {% set has_mag = atk.max_charges is defined and atk.max_charges %}
+        <div class="atk-card item-card weapon-atk-card{% if has_mag %} has-magazine{% endif %}"
+            data-item-name="{{ atk.name }}"
+            {% if has_mag %}data-max-charges="{{ atk.max_charges }}" data-charge-recharge="{{ atk.charge_recharge or '' }}"{% endif %}>
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="display:flex;align-items:center;gap:0.3rem">
+              <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+              <span class="atk-name">{{ atk.name }}{% if atk.qty is defined and atk.qty > 1 %} <span class="item-qty" style="font-size:0.6rem;vertical-align:middle">{{ atk.qty }}</span>{% endif %}{% if atk.enhancement %} <span class="enh-badge" style="font-size:0.9rem;padding:0 0.15rem;color:var(--accent);font-weight:700;border-radius:3px;background:var(--accent2)">+{{ atk.enhancement }}</span>{% endif %}</span>
+            </span>
+            <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ atk.attack_bonus }} to hit</span>
+          </div>
+          <div class="atk-detail">
+            {% if atk.range %}<span>Range: {{ atk.range }}</span>{% endif %}
+            {% if atk.damage %}<span> · {{ atk.damage }}</span>{% endif %}
+          </div>
+          {% if atk.properties %}
+          <div class="atk-props">
+            {% for prop in atk.properties %}<span class="atk-prop">{{ prop }}</span>{% endfor %}
+          </div>
+          {% endif %}
+          {% if has_mag %}
+          <div class="magazine-bar" style="display:flex;align-items:center;gap:0.5rem;margin-top:0.4rem">
+            <span class="magazine-count" style="font-family:monospace;font-size:0.8rem;color:var(--text-muted)">{{ atk.current_charges }}/{{ atk.max_charges }}</span>
+            <button class="mag-spend-btn" onclick="event.stopPropagation();spendCharge('{{ atk.name|replace("'","\\'") }}')"
+              style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.7rem"
+              {% if atk.current_charges <= 0 %}disabled style="opacity:0.4"{% endif %}>🔫 Fire</button>
+            <button class="mag-reload-btn" onclick="event.stopPropagation();reloadCharge('{{ atk.name|replace("'","\\'") }}')"
+              style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">🔄 Reload</button>
+          </div>
+          {% endif %}
+          {% if atk.description %}<div class="item-detail" data-loaded="true" style="margin-top:0.3rem;padding:0.5rem;background:var(--bg);border-radius:4px;font-size:0.75rem;color:var(--text-muted);line-height:1.4">{{ atk.description }}</div>{% endif %}
+          {% if atk.source %}<div style="margin-top:0.2rem;text-align:right"><span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ atk.source }}" title="Click to open {{ atk.source }}" style="cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:4px;background:var(--accent2);color:var(--accent)">📚 {{ atk.source }}</span></div>{% endif %}
+        </div>
+        {% endfor %}
+        </div><!-- /attacks-weapons-list -->
+        </div><!-- /weapons-body -->
+      </div><!-- /attacks-weapons-card -->
+
+      <!-- Charged Items (collapsible) -->
+      {% set charged = charged_items or [] %}
+      <div id="attacks-charged-card" class="card" style="margin-bottom:0.5rem;{% if not charged %}display:none{% endif %}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;cursor:pointer;user-select:none"
+             onclick="toggleSection('charged-body','charged-arrow')">
+          <h3 style="margin:0;display:flex;align-items:center;gap:0.3rem">
+            <span id="charged-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▾</span>
+            ⚡ Charged Items
+            <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400">({{ charged|length }})</span>
+          </h3>
+          <span style="font-size:0.75rem;color:var(--text-muted)">Click to spend a charge</span>
+        </div>
+        <div id="charged-body">
+        <div id="attacks-charged-list">
+        {% for ci in charged %}
+        {% set is_reload = ci.recharge and ci.recharge is string and ci.recharge.startswith('reload') %}
+        {% set multi_charge = ci.max_charges > 1 %}
+        <div class="atk-card item-card charge-card{% if ci.current_charges <= 0 %} depleted{% endif %}"
+            data-item-name="{{ ci.name }}"
+            data-recharge="{{ ci.recharge or '' }}"
+            data-max-charges="{{ ci.max_charges }}"
+            data-current-charges="{{ ci.current_charges }}"
+            {% if not multi_charge and ci.current_charges > 0 %}
+            onclick="spendCharge(this.dataset.itemName, 1)"
+            {% elif not multi_charge and is_reload %}
+            onclick="reloadCharge(this.dataset.itemName)"
+            {% endif %}
+            style="cursor:{% if ci.current_charges > 0 and not multi_charge %}pointer{% elif is_reload %}pointer{% else %}default{% endif %};{% if ci.current_charges <= 0 and not is_reload %}opacity:0.45{% endif %}">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="display:flex;align-items:center;gap:0.3rem">
+              <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+              <span class="atk-name">{{ ci.name }}</span>
+              <span class="badge" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.3rem">{{ ci.type }}</span>
+            </span>
+            <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)" class="charge-count-display" data-max="{{ ci.max_charges }}">
+              {{ ci.current_charges }}/{{ ci.max_charges }} charges
+            </span>
+          </div>
+          {% if multi_charge and ci.current_charges > 0 %}
+          <div class="charge-stepper" style="display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem;justify-content:flex-end" onclick="event.stopPropagation()">
+            <button class="charge-amount-btn" onclick="chargeStep(this, -1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">−</button>
+            <span class="charge-amount-display" style="font-family:monospace;font-size:0.8rem;min-width:1.2rem;text-align:center">1</span>
+            <button class="charge-amount-btn" onclick="chargeStep(this, 1)" style="padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;font-size:0.75rem;line-height:1">+</button>
+            <button class="charge-spend-btn" onclick="spendCharge(this.closest('.charge-card').dataset.itemName, parseInt(this.closest('.charge-stepper').querySelector('.charge-amount-display').textContent))" style="padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">⚡ Spend</button>
+          </div>
+          {% endif %}
+          {% if ci.current_charges <= 0 and is_reload %}
+          <div style="margin-top:0.3rem;text-align:right">
+            <button class="reload-btn" onclick="event.stopPropagation();reloadCharge('{{ ci.name|replace("'","\\'") }}')"
+              style="padding:0.2rem 0.6rem;border-radius:4px;border:1px solid var(--accent);background:var(--accent2);color:var(--accent);cursor:pointer;font-size:0.7rem;font-weight:600">
+              🔄 Reload
+            </button>
+          </div>
+          {% endif %}
+          <div class="item-detail" data-loaded="true" style="padding:0.4rem 0;font-size:0.75rem;color:var(--text-muted);line-height:1.4">
+            {% if ci.description %}{{ ci.description }}{% endif %}
+            {% if ci.recharge %}<div style="margin-top:0.3rem;font-size:0.7rem;color:var(--accent)">↻ {{ ci.recharge }}</div>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+        </div><!-- /attacks-charged-list -->
+        </div><!-- /charged-body -->
+      </div><!-- /attacks-charged-card -->
+
+      <!-- Unarmed Strike -->
+      <div class="atk-card">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <span class="atk-name">Unarmed Strike</span>
+          <span style="font-family:monospace;font-size:0.85rem;color:var(--text-muted)">+{{ prof + ((character.strength - 10) // 2) }} to hit</span>
+        </div>
+        <div class="atk-detail">Range: 5 ft · 1 + STR Bludgeoning</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem">
+          Damage: {{ 1 + ((character.strength - 10) // 2) }} Bludgeoning · Can also Grapple (DC {{ 8 + prof + ((character.strength - 10) // 2) }}) or Shove
+        </div>
+      </div>
+
+      <!-- Actions in Combat -->
+      {% set feature_actions = [] %}
+      {% set reaction_features = [] %}
+      {% if character.feature_data %}
+        {% for feat in character.feature_data %}
+          {% if feat.get("uses_max", 0) > 0 %}
+            {% set _ = feature_actions.append(feat) %}
+          {% elif feat.get("action_type") == "Reaction" %}
+            {% set _ = reaction_features.append(feat) %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.5rem">Actions in Combat</h3>
+        <div class="action-grid">
+          {% for a in ["Attack","Dash","Disengage","Dodge","Grapple","Help","Hide","Improvise","Ready","Search","Shove","Study","Utilize"] %}
+          <div class="action-chip" onclick="showActionDetail('{{ a }}')">{{ a }}</div>
+          {% endfor %}
+        </div>
+        {% if feature_actions %}
+        <!-- Feature Actions -->
+        <div style="margin-top:0.75rem">
+          {% for fa in feature_actions %}
+          {% set atype = fa.get("action_type","Action") %}
+          {% set uses = fa.get("uses",0) %}
+          {% set uses_max = fa.get("uses_max",0) %}
+          {% set pool = fa.get('pool_kind') %}
+          {% set depleted = uses_max > 0 and uses == 0 and not pool %}
+          <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
+               data-feat-name="{{ fa.name }}"
+               {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
+               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.6rem;margin-bottom:0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %};touch-action:manipulation;min-height:44px">
+            <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
+              <span class="badge badge-muted" style="font-size:0.6rem;background:{% if atype=='Reaction' %}var(--danger){% elif atype=='Bonus Action' %}var(--warn){% else %}var(--accent2){% endif %};color:{% if atype=='Reaction' or atype=='Bonus Action' %}#fff{% else %}var(--accent){% endif %};padding:0.1rem 0.35rem;white-space:nowrap">{{ atype }}</span>
+              {% if fa.get("sub_options") %}
+              <span style="font-size:0.85rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
+              <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
+                {% for so in fa.sub_options %}
+                  {% if "channel divinity" in (so.name or "").lower() %}
+                  <span style="font-size:0.7rem;color:var(--text-muted);line-height:1.2">{{ so.description[:80] }}{% if so.description|length > 80 %}...{% endif %}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% else %}
+              <span style="font-size:0.85rem;font-weight:600">{{ fa.name }}</span>
+              {% if fa.get("action_desc") %}
+              <span style="font-size:0.7rem;color:var(--text-muted);overflow-wrap:break-word;word-break:break-word;flex:1;min-width:0;line-height:1.3">{{ fa.action_desc }}</span>
+              {% endif %}
+              {% endif %}
+            </span>
+            {% if pool in ('hp', 'points', 'dice') %}
+            <span class="feat-uses-pool" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.7rem;margin-left:0.5rem;white-space:nowrap">
+              <span class="feat-pool-val" style="font-weight:700;min-width:2.5em;text-align:right" id="action-pool-val-{{ loop.index0 }}">{{ uses }}</span>
+              <span style="color:var(--text-muted);font-size:0.6rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+              <input type="number" id="action-pool-spend-{{ loop.index0 }}" min="1" max="{{ uses }}" value="1"
+                style="width:3em;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.65rem;text-align:center"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();event.stopPropagation();spendPoolAction('{{ fa.name }}', this)}"
+                onclick="event.stopPropagation()">
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();spendPoolAction('{{ fa.name }}', this.parentElement.querySelector('input'))" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Spend from pool">-</button>
+              <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();restorePoolAction('{{ fa.name }}')" style="font-size:0.6rem;padding:0.08rem 0.3rem" title="Restore full pool">↺</button>
+            </span>
+            <span class="feat-pool-max" style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem;white-space:nowrap">max {{ uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+            {% elif uses_max > 0 %}
+            <span class="feat-uses-dots" style="font-size:0.75rem;font-family:monospace;margin-left:0.5rem;white-space:nowrap">
+              {% for i in range(uses_max) if i < 15 %}
+              <span class="use-dot{% if i < uses %} active{% endif %}" style="display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 1px;border:1px solid var(--border);{% if i < uses %}background:var(--accent){% endif %};touch-action:manipulation"></span>
+              {% endfor %}
+              <span style="margin-left:0.25rem;color:var(--text-muted)">{{ uses }}/{{ uses_max }}</span>
+            </span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- ⚡ Bonus Actions -->
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.5rem">⚡ Bonus Actions</h3>
+
+        {#── Feature-based Bonus Actions ──#}
+        {% set ba_features = character.feature_data|selectattr("action_type","eq","Bonus Action")|list if character.feature_data else [] %}
+        {% if ba_features %}
+        <div style="margin-bottom:0.5rem">
+          {% for fa in ba_features %}
+          {% set uses = fa.get("uses",0) %}
+          {% set uses_max = fa.get("uses_max",0) %}
+          {% set pool = fa.get('pool_kind') %}
+          {% set depleted = uses_max > 0 and uses == 0 and not pool %}
+          <div class="feat-action-btn{% if depleted %} depleted{% endif %}"
+               data-feat-name="{{ fa.name }}"
+               {% if pool %}data-pool-kind="{{ pool }}"{% endif %}
+               onclick="{% if pool %}{% elif not depleted %}useFeature('{{ fa.name }}', this){% endif %}"
+               style="display:flex;align-items:center;justify-content:space-between;padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:{% if pool or not depleted %}pointer{% else %}default{% endif %};transition:all 0.15s;{% if depleted %}opacity:0.45{% endif %}">
+            <span style="display:flex;align-items:center;gap:0.4rem;flex:1;min-width:0">
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              {% if fa.get("sub_options") %}
+              <span style="font-size:0.8rem;font-weight:600">{{ fa.name.split(" | ")[0] }}</span>
+              <div style="display:flex;flex-direction:column;gap:0.15rem;flex:1">
+                {% for so in fa.sub_options %}
+                  {% if "channel divinity" in (so.name or "").lower() %}
+                  <span style="font-size:0.65rem;color:var(--text-muted);line-height:1.2">{{ so.description[:80] }}{% if so.description|length > 80 %}...{% endif %}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% else %}
+              <span style="font-size:0.8rem;font-weight:600">{{ fa.name }}</span>
+              {% if fa.get("action_desc") %}
+              <span style="font-size:0.65rem;color:var(--text-muted);overflow-wrap:break-word;word-break:break-word;flex:1;min-width:0;line-height:1.2">{{ fa.action_desc }}</span>
+              {% endif %}
+              {% endif %}
+            </span>
+            {% if uses_max > 0 and pool in ('hp', 'points', 'dice') %}
+            <span style="font-size:0.65rem;color:var(--text-muted);white-space:nowrap">{{ uses }}/{{ uses_max }} {{ {'hp':'HP','points':'pts','dice':'dice'}[pool] }}</span>
+            {% elif uses_max > 0 %}
+            <span style="font-size:0.65rem;color:var(--text-muted);white-space:nowrap;font-family:monospace">{{ uses }}/{{ uses_max }}</span>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {#── Spell-based Bonus Actions (prepared BA spells) ──#}
+        {% set ba_spells = [] %}
+        {% if spells %}
+          {% for sp in spells %}
+            {% if sp.prepared == 1 and sp.srd and sp.srd.casting_time and 'bonus' in sp.srd.casting_time.lower() %}
+              {% set _ = ba_spells.append(sp) %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% if ba_spells %}
+        <div style="margin-bottom:0.5rem">
+          {% for sp in ba_spells %}
+          <div class="prepared-spell-chip" style="margin-bottom:0.2rem">
+            <div class="prep-header" onclick="this.parentElement.classList.toggle('open')"
+                 style="display:flex;align-items:center;flex-wrap:wrap;gap:0.25rem;padding:0.25rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-radius:4px;font-size:0.8rem;cursor:pointer">
+              <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap">BA</span>
+              <strong style="font-size:0.8rem">{{ sp.spell_name }}</strong>
+              {% if sp.srd and sp.srd.school %}
+              <span class="badge badge-muted" style="font-size:0.5rem;color:var(--text-muted);border:1px solid var(--border)">{{ sp.srd.school }}</span>
+              {% endif %}
+              {% if sp.srd and sp.srd.concentration %}
+              <span class="badge badge-muted" style="font-size:0.5rem;background:var(--warn);color:#fff">Conc.</span>
+              {% endif %}
+              {% if sp.dice %}
+              <span class="badge" style="font-size:0.5rem;font-weight:600;background:rgba(34,197,94,0.12);color:var(--success);font-family:monospace;padding:0.05rem 0.2rem;border-radius:3px">{{ sp.dice }}</span>
+              {% endif %}
+              <span style="font-size:0.6rem;color:var(--text-muted);margin-left:auto">{{ sp.srd.range }}</span>
+              <span style="font-size:0.65rem;color:var(--text-muted);transition:transform 0.2s">▶</span>
+            </div>
+            <div class="prep-body" style="display:none;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--accent2);border-top:none;border-radius:0 0 4px 4px;font-size:0.75rem">
+              {% if sp.srd.desc %}
+              {% for line in sp.srd.desc %}<p style="margin:0.2rem 0;line-height:1.4">{{ line }}</p>{% endfor %}
+              {% endif %}
+              <div style="margin-top:0.3rem;font-size:0.65rem;color:var(--text-muted);display:flex;gap:0.5rem;flex-wrap:wrap">
+                <span>Range: {{ sp.srd.range }}</span>
+                <span>Duration: {{ sp.srd.duration }}</span>
+                <span>Components: {{ sp.srd.components|join(', ') }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {#── Item-based Bonus Actions ──#}
+        {% set ba_items = [] %}
+        {% if character.inventory %}
+          {% for item in character.inventory %}{% if item.bonus_action %}{% set _ = ba_items.append(item) %}{% endif %}{% endfor %}
+        {% endif %}
+        {% if character.equipped %}
+          {% for item in character.equipped %}{% if item.bonus_action %}{% set _ = ba_items.append(item) %}{% endif %}{% endfor %}
+        {% endif %}
+        {% if ba_items %}
+        <div>
+          {% for item in ba_items %}
+          <div class="item-card" style="padding:0.3rem 0.5rem;margin-bottom:0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;gap:0.3rem">
+            <span class="badge badge-muted" style="font-size:0.55rem;background:var(--warn);color:#fff;padding:0.1rem 0.3rem;white-space:nowrap;flex-shrink:0">BA</span>
+            <span style="font-size:0.8rem;font-weight:600;flex-shrink:0">{{ item.name if item.name is defined else item }}</span>
+            {% if item.description %}
+            <span style="font-size:0.65rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">{{ item.description[:80] }}{% if item.description|length > 80 %}…{% endif %}</span>
+            {% endif %}
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-name-display').textContent.trim())" title="Info" style="flex-shrink:0">ℹ️</button>
+            <span class="item-name-display" style="display:none">{{ item.name if item.name is defined else item }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if not ba_features and not ba_spells and not ba_items %}
+        <p style="color:var(--text-muted);font-size:0.8rem;margin:0">No bonus actions available.</p>
+        {% endif %}
+      </div>
+
+      <!-- Reactions Rules Reference -->
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin:0;cursor:pointer;display:flex;align-items:center;gap:0.3rem"
+            onclick="var b=document.getElementById('reactions-body');var a=this.querySelector('.toggle-arrow');if(b.style.display==='none'){b.style.display='block';a.style.transform='rotate(90deg)'}else{b.style.display='none';a.style.transform=''}">
+          <span class="toggle-arrow" style="display:inline-block;transition:transform 0.2s;font-size:0.7rem">▶</span>
+          Reactions
+          <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted)">(PHB p.190, 193, 195)</span>
+        </h3>
+        {% if reaction_features %}
+        <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.25rem">
+          {% for rf in reaction_features %}
+          <div class="feat-reaction" style="background:rgba(255,23,68,0.08);border:1px solid rgba(255,23,68,0.25);border-radius:6px;font-size:0.8rem;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.5rem;cursor:pointer"
+                 onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='none'?'block':'none';this.querySelector('.rx-arrow').textContent=this.querySelector('.rx-arrow').textContent==='▶'?'▼':'▶'">
+              <span class="rx-arrow" style="font-size:0.6rem;color:var(--text-muted);transition:transform 0.15s;width:1em">▶</span>
+              <span style="font-weight:600;flex:1">{{ rf.name }}</span>
+              <span style="font-size:0.7rem;color:var(--text-muted)">{{ rf.get('level','') }}</span>
+            </div>
+            <div class="rx-desc" style="display:none;padding:0 0.5rem 0.5rem 1.5rem;font-size:0.75rem;line-height:1.4;color:var(--text-muted)">
+              {{ rf.description[:500] }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div id="reactions-body" style="display:none;margin-top:0.5rem;font-size:0.8rem;line-height:1.6;color:var(--text-muted)">
+          <p style="margin:0 0 0.5rem 0"><strong>What is a Reaction?</strong> A reaction is an instant response to a trigger of some kind, which can occur on your turn or on someone else's. You can take <strong>one reaction per round</strong>, and you regain it at the start of your turn (PHB p.190).</p>
+
+          <p style="margin:0 0 0.5rem 0"><strong>⚔️ Opportunity Attack</strong> (PHB p.195)<br>
+          When a hostile creature you can see moves out of your reach, you can use your reaction to make one melee attack against it. The attack interrupts the creature's movement, occurring right before it leaves your reach. A creature doesn't provoke an opportunity attack when:</p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li>It takes the Disengage action before moving</li>
+            <li>It teleports or is moved without using its movement, action, or reaction</li>
+            <li>You can't see it (invisible, heavily obscured)</li>
+            <li>It's out of your reach to begin with</li>
+          </ul>
+
+          <p style="margin:0 0 0.5rem 0"><strong>🎯 Ready Action</strong> (PHB p.193)<br>
+          On your turn, you can use your action to ready an action to be used as a reaction before the start of your next turn. You decide what perceivable circumstance will trigger your reaction, and you choose the action you will take in response. When the trigger occurs, you can either take your reaction right after the trigger finishes, or ignore the trigger.</p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li><strong>Readied spells require concentration</strong> — even if the spell normally doesn't. If your concentration is broken, the spell dissipates without taking effect, but the spell slot is still expended (PHB p.193)</li>
+            <li>If you ready a spell of 1st level or higher, you cast it on your turn (expending the slot) and hold its energy to release as a reaction</li>
+          </ul>
+
+          <p style="margin:0 0 0.5rem 0"><strong>⚠️ Important Rules</strong></p>
+          <ul style="margin:0 0 0.5rem 0;padding-left:1.2rem">
+            <li>If you're surprised at the start of combat, you <strong>cannot use reactions</strong> until after your first turn ends</li>
+            <li>If a reaction interrupts another creature's turn, that creature can continue its turn right after the reaction resolves</li>
+            <li>You can use a reaction on your own turn (e.g., casting <em>shield</em> against an opportunity attack you provoked)</li>
+          </ul>
+
+          <p style="margin:0"><strong>Common Reactions</strong> — Opportunity Attack · <em>Shield</em> (+5 AC) · <em>Absorb Elements</em> · <em>Counterspell</em> · Uncanny Dodge (Rogue 5) · Deflect Missiles (Monk 3) · Protection Fighting Style · Cutting Words (Bard 3) · <em>Feather Fall</em> · <em>Hellish Rebuke</em> · War Caster (feat: spell as OA) · Sentinel (feat: stop movement on OA)</p>
+        </div>
+      </div>
+
+      <!-- Combat Notes (collapsible) -->
+      <div class="card" style="margin-top:0.5rem">
+        <div style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none"
+             onclick="toggleSection('combat-notes-body','combat-notes-arrow')">
+          <h3 style="margin:0;font-size:0.85rem;display:flex;align-items:center;gap:0.3rem">
+            <span id="combat-notes-arrow" style="font-size:0.7rem">▾</span>
+            ⚔️ Combat Notes
+          </h3>
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();clearCombatNotes(this)" title="Clear notes"
+            style="font-size:0.65rem;padding:0.15rem 0.5rem">🗑 Clear</button>
+        </div>
+        <div id="combat-notes-body" style="margin-top:0.5rem">
+          <textarea id="combat-notes" placeholder="Conditions, concentration, ongoing effects, round counters…"
+            style="width:100%;min-height:100px;resize:vertical;padding:0.5rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:6px;font-size:0.8rem;line-height:1.4;font-family:inherit;box-sizing:border-box"
+            oninput="autoSaveCombatNotes()">{{ character.combat_notes or '' }}</textarea>
+        </div>
+      </div>
+    </div>
+

@@ -1,0 +1,143 @@
+<!-- Item Picker Popup -->
+<div id="item-picker-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:250;align-items:center;justify-content:center" onclick="if(event.target===this)closeItemPicker()">
+  <div class="card" style="max-width:420px;width:90%;max-height:80vh;display:flex;flex-direction:column">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+      <h3 style="margin:0;font-size:1rem">🔍 Find Item</h3>
+      <button onclick="closeItemPicker()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">&times;</button>
+    </div>
+    <input type="text" id="item-picker-search" placeholder="Search 600+ items..." oninput="searchPickerItems(this.value)"
+      style="width:100%;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:0.5rem;flex-shrink:0">
+    <div id="item-picker-results" style="overflow-y:auto;flex:1;min-height:0;max-height:50vh;border:1px solid var(--border);border-radius:6px;background:var(--bg)">
+      <div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading items...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Popup -->
+<div id="detail-popup" onclick="if(event.target===this)this.style.display='none'">
+  <div class="popup-card">
+    <button class="popup-close" onclick="document.getElementById('detail-popup').style.display='none'">✕</button>
+    <h3 id="popup-title"></h3>
+    <div id="popup-body"></div>
+  </div>
+</div>
+
+<!-- Portrait Edit Modal -->
+<div id="portrait-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div class="card" style="max-width:480px;width:90%;max-height:90vh;display:flex;flex-direction:column">
+    <h3 style="margin-bottom:0.5rem;flex-shrink:0">Character Portrait</h3>
+    <div style="flex:1;overflow-y:auto;min-height:0">
+    {% if character.portrait_url %}
+    <img src="{{ character.portrait_url }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
+    {% else %}
+    <div id="modal-portrait-placeholder" style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem">No portrait yet</div>
+    <img id="modal-portrait-img" src="" alt="New Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">
+    {% endif %}
+    <div id="modal-portrait-loading" style="display:none;padding:1.5rem;text-align:center;color:var(--text-muted)">🎨 Generating...</div>
+
+    <!-- AI Prompt display (hidden until fetched) -->
+    <div id="prompt-display" style="display:none;margin-bottom:0.75rem">
+      <label style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.25rem;display:block">AI Image Prompt:</label>
+      <textarea id="prompt-text" readonly style="width:100%;height:60px;padding:0.4rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.72rem;font-family:var(--font);resize:vertical"></textarea>
+      <button class="btn btn-outline btn-sm" onclick="copyPrompt()" style="margin-top:0.25rem;font-size:0.7rem">📋 Copy</button>
+      <span id="prompt-copied" style="display:none;color:var(--success);font-size:0.7rem;margin-left:0.5rem">Copied!</span>
+    </div>
+
+    <!-- Upload section (hidden until Upload clicked) -->
+    <div id="upload-section" style="display:none;margin-bottom:0.75rem;padding:0.75rem;background:var(--bg);border:1px dashed var(--border);border-radius:6px">
+      <label style="font-size:0.75rem;color:var(--text-muted);display:block;margin-bottom:0.5rem">Upload your own image:</label>
+      <input type="file" id="upload-file" accept="image/*" onchange="previewUpload()" style="width:100%;margin-bottom:0.5rem;color:var(--text);font-size:0.8rem">
+      <img id="upload-preview" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:4px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">
+      <button class="btn btn-primary btn-sm" onclick="saveUploadedPortrait()" style="font-size:0.75rem">💾 Save as Portrait</button>
+      <span id="upload-status" style="font-size:0.7rem;color:var(--text-muted);margin-left:0.5rem"></span>
+    </div>
+
+    <div class="form-group">
+      <label style="font-size:0.8rem;color:var(--text-muted)">Custom details (optional):</label>
+      <input type="text" id="modal-portrait-custom" placeholder="e.g. 'scarred face, stormy sky, dual-wielding'" style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+    </div>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem">Can be regenerated at any time</div>
+    </div>
+    <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-wrap:wrap;flex-shrink:0">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('portrait-modal').style.display='none'">Cancel</button>
+      <button class="btn btn-outline btn-sm" onclick="fetchPortraitPrompt()">📋 Get Prompt</button>
+      <button class="btn btn-outline btn-sm" onclick="toggleUpload()">📤 Upload</button>
+      <button class="btn btn-primary btn-sm" onclick="regenerateSheetPortrait()">🔄 Regenerate</button>
+    </div>
+  </div>
+</div>
+
+<!-- Level-Up Modal -->
+<div id="levelup-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center" onclick="if(event.target===this)closeLevelUp()">
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.2rem" id="lu-title">⬆ Level Up — L1 → L2</h2>
+    <button onclick="closeLevelUp()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <!-- Step dots -->
+  <div id="lu-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
+  <!-- Content -->
+  <div id="lu-content" style="min-height:150px;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
+  <!-- Navigation -->
+  <div id="lu-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
+    <button id="lu-back" class="btn btn-outline btn-sm" style="display:none" onclick="levelUpStep(-1)">← Back</button>
+    <div style="flex:1"></div>
+    <button id="lu-next" class="btn btn-primary btn-sm" onclick="levelUpStep(1)">Next →</button>
+    <button id="lu-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyLevelUp()">✅ Confirm Level Up</button>
+  </div>
+</div>
+</div>
+
+<!-- De-Level Modal -->
+<div id="delevel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:501;align-items:center;justify-content:center" onclick="if(event.target===this)closeDeLevel()">
+<div class="card" style="max-width:520px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.2rem" id="dl-title">🔻 Level Down</h2>
+    <button onclick="closeDeLevel()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <!-- Step dots -->
+  <div id="dl-steps" style="display:flex;gap:0.3rem;margin-bottom:1rem;flex-wrap:wrap"></div>
+  <!-- Content -->
+  <div id="dl-content" style="min-height:150px;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
+  <!-- Navigation -->
+  <div id="dl-nav" style="display:flex;justify-content:space-between;margin-top:1rem;gap:0.5rem">
+    <button id="dl-back" class="btn btn-outline btn-sm" style="display:none" onclick="deLevelStep(-1)">← Back</button>
+    <div style="flex:1"></div>
+    <button id="dl-next" class="btn btn-primary btn-sm" onclick="deLevelStep(1)">Next →</button>
+    <button id="dl-confirm" class="btn btn-primary btn-sm" style="display:none" onclick="applyDeLevel()">✅ Confirm De-Level</button>
+  </div>
+</div>
+</div>
+
+<!-- ASI / Feat Edit Modal (edit mode) -->
+<div id="asi-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeAsiEdit()">
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h2 style="margin:0;font-size:1.1rem">✏️ Edit ASI / Feat Choice</h2>
+    <button onclick="closeAsiEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem" id="asi-edit-level"></p>
+  <div id="asi-edit-body"></div>
+  <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+    <button class="btn btn-outline btn-sm" onclick="closeAsiEdit()">Cancel</button>
+    <button class="btn btn-primary btn-sm" onclick="saveAsiEdit()">💾 Save & Reload</button>
+  </div>
+</div>
+</div>
+
+<!-- ── Expertise Edit Modal ── -->
+<div id="exp-edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)closeExpertiseEdit()">
+<div class="card" style="max-width:480px;width:90%;max-height:85vh;overflow-y:auto" onclick="event.stopPropagation()">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+    <h2 style="margin:0;font-size:1.1rem">⭐ Edit Expertise</h2>
+    <button onclick="closeExpertiseEdit()" style="background:none;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer">✕</button>
+  </div>
+  <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.75rem">Select <strong id="exp-edit-count">0</strong> skills to double your proficiency bonus.</p>
+  <div id="exp-edit-body" style="display:flex;flex-direction:column;gap:0.4rem;max-height:50vh;overflow-y:auto"></div>
+  <p id="exp-edit-selected" style="font-size:0.75rem;color:var(--text-muted);text-align:right;margin-top:0.5rem">0 / 0 selected</p>
+  <div style="display:flex;gap:0.5rem;margin-top:0.75rem;justify-content:flex-end">
+    <button class="btn btn-outline btn-sm" onclick="closeExpertiseEdit()">Cancel</button>
+    <button class="btn btn-primary btn-sm" onclick="saveExpertiseEdit()">💾 Save & Reload</button>
+  </div>
+</div>
+</div>

@@ -1,0 +1,200 @@
+<!-- Top row: HP + combat + abilities (portrait moved to header) -->
+<div class="sheet-top-row">
+
+  <!-- HP Section -->
+  <div class="top-hp">
+    <div class="sidebar-section" style="margin:0;padding:0.5rem 0.7rem">
+      <h4>Hit Points</h4>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.3rem">
+        <span class="hp-nums"><span id="hp-cur">{{ character.hp_current }}</span><span class="sep"> / {{ character.hp_max }}</span></span>
+        {% if character.temp_hp %}<span style="color:var(--accent);font-size:0.75rem">+{{ character.temp_hp }} tmp</span>{% endif %}
+      </div>
+      <div class="hp-bar" style="margin-bottom:0.4rem">
+        <div class="hp-bar-fill{% if character.hp_current < character.hp_max * 0.25 %} danger{% elif character.hp_current < character.hp_max * 0.5 %} warn{% endif %}" id="hp-bar-side" style="width:{{ (character.hp_current / character.hp_max * 100) if character.hp_max > 0 else 0 }}%"></div>
+      </div>
+      <!-- HP adjust controls -->
+      <div class="hp-controls">
+        <input type="number" id="hp-delta" value="1" min="1"
+          style="width:5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:0.3rem 0.2rem;font-size:0.95rem;-moz-appearance:textfield;appearance:textfield"
+          onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+        <style>.hp-controls input[type=number]::-webkit-inner-spin-button,.hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
+        <button class="hp-btn heal" onclick="applyHP()" title="Add HP">+</button>
+        <button class="hp-btn dmg" onclick="applyHP(-1)" title="Subtract HP">−</button>
+        <button class="hp-btn" onclick="resetHP()" title="Reset to full HP"
+          style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.7rem;padding:0 0.5rem;width:auto">↺ Full</button>
+      </div>
+      <!-- Conditions -->
+      <div style="margin-top:0.35rem;padding-top:0.35rem;border-top:1px solid var(--border);position:relative">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.2rem;cursor:pointer;user-select:none" onclick="toggleConditions()">
+          <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)"><span id="cond-chevron">▾</span> Conditions</span>
+          <button onclick="event.stopPropagation();openConditionPicker()" title="Add condition"
+            style="font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer;line-height:1.5">+ Add</button>
+        </div>
+        <div id="condition-badges" style="display:flex;flex-wrap:wrap;gap:0.25rem">
+          {% for c in (character.conditions or []) %}
+          <span class="cond-badge" style="background:var(--danger);color:#fff;border-color:var(--danger)"
+            data-name="{{ c.name }}">{{ c.name }}<span class="dismiss" onclick="event.stopPropagation();dismissCondition('{{ c.name }}')">✕</span></span>
+          {% endfor %}
+          {% if not character.conditions %}
+          <span style="font-size:0.6rem;color:var(--text-muted);opacity:0.5">None</span>
+          {% endif %}
+        </div>
+      </div>
+      <!-- Hit Dice (collapsible) -->
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);user-select:none" onclick="toggleHitDice()">
+        <span id="hd-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Hit Dice</span>
+      </div>
+      <div id="hd-body" style="display:none;margin-top:0.35rem">
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:0.78rem;color:var(--text-muted)">Remaining: <strong id="hd-remaining" style="color:var(--text)">{{ (character.hit_dice|int) - (character.hit_dice_used|int) }}</strong> / <span id="hd-total">{{ character.hit_dice }}</span></span>
+            <span style="font-size:0.68rem;color:var(--text-muted)">Used: {{ character.hit_dice_used or 0 }}</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--text-muted)">
+            Roll: <strong id="hd-die">{{ character.hit_dice.split('d')[1] if 'd' in (character.hit_dice or '') else '8' }}</strong> · Con mod: <strong id="hd-con-mod">{{ ((character.constitution or 10) - 10) // 2 }}</strong>
+          </div>
+          <div style="display:flex;gap:0.25rem;align-items:center;flex-wrap:wrap">
+            <button class="hp-btn heal" onclick="spendHitDice()" title="Spend one Hit Die during a Short Rest" id="hd-spend-btn"
+              style="font-size:0.7rem;width:auto;padding:0.2rem 0.5rem">Spend 1 HD</button>
+            <button class="hp-btn heal" onclick="rollMax()" title="Spend one HD and take max result (feat/spell)"
+              style="font-size:0.6rem;width:auto;padding:0.2rem 0.4rem;background:var(--accent2);color:var(--text);border:1px solid var(--border)">Max</button>
+          </div>
+          <div id="hd-result" style="display:none;font-size:0.78rem;padding:0.25rem 0.4rem;border-radius:6px;background:var(--bg);border:1px solid var(--border)"></div>
+        </div>
+      </div>
+      <!-- Death Saves (collapsible) -->
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;margin-top:0.3rem;padding-top:0.3rem;border-top:1px solid var(--border);user-select:none" onclick="toggleDeathSaves()">
+        <span id="ds-toggle" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <span style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)">Death Saving Throws</span>
+      </div>
+      <div id="ds-body" style="display:none;margin-top:0.35rem">
+        <div style="display:flex;gap:1rem;margin-bottom:0.35rem">
+          <div>
+            <div style="font-size:0.68rem;color:var(--success);margin-bottom:0.15rem">Successes</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_success %} filled-success{% endif %}" onclick="toggleDS('success',{{ i+1 }})"></div>
+            {% endfor %}</div>
+          </div>
+          <div>
+            <div style="font-size:0.68rem;color:var(--danger);margin-bottom:0.15rem">Failures</div>
+            <div class="ds-box">{% for i in range(3) %}
+              <div class="ds-dot{% if i < character.death_saves_fail %} filled-fail{% endif %}" onclick="toggleDS('fail',{{ i+1 }})"></div>
+            {% endfor %}</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="resetDS()">Reset</button>
+        <div style="font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+          <strong>Death Saving Throws</strong> (PHB p.197) — at 0&nbsp;HP, roll d20 at start of each turn:<br>
+          •&nbsp;<strong style="color:var(--success)">10+</strong> = 1 success · <strong style="color:var(--danger)">Nat 1</strong> = 2 failures · <strong style="color:var(--success)">Nat 20</strong> = regain 1&nbsp;HP<br>
+          •&nbsp;3&nbsp;successes = stable (0&nbsp;HP, unconscious) · 3&nbsp;failures = dead<br>
+          •&nbsp;Damage at 0&nbsp;HP = auto-fail (crit = 2 fails)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combat stats + Abilities stacked in center -->
+  <div class="top-center">
+
+    <!-- Combat quick-stats row -->
+    <div class="center-combat">
+      <div class="combat-quick top-combat-grid">
+        <div class="combat-quick-item" onclick="showCombatPopup('ac')" style="cursor:pointer" title="Click for description">
+          <div class="cq-label">AC</div>
+          <div class="cq-value editable" data-field="ac" data-num="1">{{ character.ac or 10 }}{% if item_effects.ac_bonus %} <span style="font-size:0.55rem;color:var(--success)">(+{{ item_effects.ac_bonus }})</span>{% endif %}{% if character.armor_warnings or character.shield_warning %} <span style="color:var(--danger);font-size:0.7rem;cursor:help" title="Armor proficiency missing — see Defenses for details">⚠️</span>{% endif %}</div>
+        </div>
+        <div class="combat-quick-item" onclick="showCombatPopup('initiative')" style="cursor:pointer" title="Click for description">
+          <div class="cq-label">Initiative{% if adv.initiative %}<span class="adv-badge smol" title="Advantage on initiative rolls">A</span>{% endif %}</div>
+          <div class="cq-value">{% set im = (character.dexterity - 10) // 2 %}{% if im >= 0 %}+{% endif %}{{ im }}</div>
+        </div>
+        <div class="combat-quick-item" onclick="showCombatPopup('speed')" style="cursor:pointer" title="Click for description">
+          <div class="cq-label">Speed</div>
+          <div class="cq-value editable" data-field="speed" data-num="1">{{ character.speed or 30 }}ft</div>
+        </div>
+        <div class="combat-quick-item" onclick="showCombatPopup('prof')" style="cursor:pointer" title="Click for description">
+          <div class="cq-label">Prof Bonus</div>
+          <div class="cq-value">+{{ prof }}</div>
+        </div>
+        <div class="combat-quick-item">
+          <div class="cq-label" onclick="event.stopPropagation();showCombatPopup('inspiration')" style="cursor:pointer" title="Click for description">Inspiration</div>
+          <div style="display:flex;justify-content:center;margin-top:0.1rem;cursor:pointer" onclick="event.stopPropagation();document.getElementById('insp-btn').click()">
+            <span style="font-size:1rem">{% if character.inspiration %}⭐{% else %}☆{% endif %}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ability scores + Senses stacked below combat -->
+    <div class="center-abilities-senses">
+      <div class="abilities-grid top-abilities-grid">
+        {% set stats = [
+          ("STR","strength"),("DEX","dexterity"),("CON","constitution"),
+          ("INT","intelligence"),("WIS","wisdom"),("CHA","charisma")
+        ] %}
+        {% for label, stat in stats %}
+        {% set score = character[stat] %}
+        {% set mod = (score - 10) // 2 %}
+        <div class="ability-box{% if stat in saves_class %} proficient{% endif %}" onclick="showAbilityPopup('{{ stat }}', '{{ label }}')" style="cursor:pointer" title="Click for description">
+          <div class="ab-name">{{ label }}{% if stat in adv.get("ability_checks",[]) %}<span class="adv-badge" title="Advantage on {{ label }} checks{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</div>
+          <div class="ab-mod">{% if mod >= 0 %}+{% endif %}{{ mod }}</div>
+          <div class="ab-score editable" data-ability="{{ stat }}" data-label="{{ label }}">{{ score }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="senses-section">
+        <h4 style="cursor:pointer" onclick="toggleSensesBlurb()" title="Click for rules">Senses <span id="senses-blurb-toggle" style="font-size:0.6rem;opacity:0.5">▸</span></h4>
+        {% set wis_mod = (character.wisdom - 10) // 2 %}
+        {% set int_mod = (character.intelligence - 10) // 2 %}
+        <div class="sense-row">
+          <span class="sense-label">Passive Perception</span>
+          <span class="sense-val editable" data-field="passive_perception" data-num="1">{{ 10 + wis_mod + (prof if 'Perception' in char_skills else 0) + (prof if 'Perception' in char_expertise else 0) }}</span>
+        </div>
+        <div class="sense-row">
+          <span class="sense-label">Passive Investigation</span>
+          <span class="sense-val">{{ 10 + int_mod + (prof if 'Investigation' in char_skills else 0) + (prof if 'Investigation' in char_expertise else 0) }}</span>
+        </div>
+        <div class="sense-row">
+          <span class="sense-label">Passive Insight</span>
+          <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) + (prof if 'Insight' in char_expertise else 0) }}</span>
+        </div>
+        {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
+        <div class="sense-row">
+          <span class="sense-label">Darkvision</span>
+          <span class="sense-val">60 ft</span>
+        </div>
+        {% endif %}
+      </div>
+      <div id="senses-blurb" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;margin-top:0.35rem;font-size:0.68rem;color:var(--text-muted);line-height:1.5">
+        <strong style="color:var(--text)">Passive Checks</strong><br>
+        A passive check is a special ability check without a roll — the average result for a task done repeatedly (like searching for secret doors), or when the DM wants to secretly determine success without dice (noticing a hidden monster).<br><br>
+        <strong style="color:var(--text)">Darkvision</strong><br>
+        See in darkness within radius as if dim light, and dim light as if bright light. Cannot discern color in darkness — only shades of gray.<br><br>
+        <strong style="color:var(--text)">Blindsight</strong><br>
+        Perceive surroundings without sight, within a specific radius. Creatures without eyes (oozes, grimlocks) or with echolocation (bats, dragons) typically have this sense.<br><br>
+        <strong style="color:var(--text)">Tremorsense</strong><br>
+        Detect and pinpoint vibrations within a radius, so long as both creature and source touch the same ground or substance. Cannot detect flying or incorporeal creatures.<br><br>
+        <strong style="color:var(--text)">Truesight</strong><br>
+        See in normal and magical darkness, see invisible creatures and objects, auto-detect visual illusions (and succeed on saves against them), perceive shapechangers' original forms, and see into the Ethereal Plane — all within a specific range.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Rest buttons column -->
+  <div class="top-longrest">
+    <button onclick="longRestConfirm()" title="Take a long rest — full heal, recover Hit Dice, reset Death Saves"
+      style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
+      onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.1rem">🛌</span>
+      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Long Rest</span>
+    </button>
+    <button onclick="shortRestConfirm()" title="Take a short rest — spend Hit Dice to heal, reset short-rest features"
+      style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);cursor:pointer;padding:0.3rem 0.5rem;transition:all 0.15s"
+      onmouseover="this.style.borderColor='var(--success)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span style="font-size:1.1rem">☕</span>
+      <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted)">Short Rest</span>
+    </button>
+  </div>
+</div>
+

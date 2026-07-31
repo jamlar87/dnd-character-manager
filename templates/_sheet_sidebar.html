@@ -1,0 +1,333 @@
+<!-- ══════ LEFT SIDEBAR ══════ -->
+  <div class="sheet-sidebar">
+
+    <div class="sidebar-section">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('saves-body','saves-arrow')">
+        <span id="saves-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <h4 style="margin:0">Saving Throws</h4>
+        <span onclick="event.stopPropagation();toggleSavesBlurb()" title="Saving throw rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+      </div>
+      <div id="saves-body" style="display:none">
+      {% for label, stat in stats %}
+      {% set mod = (character[stat] - 10) // 2 %}
+      {% set prof_save = stat in saves_class %}
+      {% set save_val = mod + (prof if prof_save else 0) %}
+      <div class="stat-row save-row" onclick="toggleSaveProf('{{ stat }}')" style="cursor:pointer">
+        <span class="stat-name">{% if prof_save %}<span class="prof-dot save-dot active" data-stat="{{ stat }}">●</span>{% else %}<span class="prof-dot save-dot" data-stat="{{ stat }}">●</span>{% endif %}{{ label }}{% if stat in adv.get("saves",[]) %}<span class="adv-badge smol" title="Advantage on {{ label }} saves{% for n in adv.notes %}{% if 'Advantage' in n and label[:3].lower() in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
+        <span class="stat-val" style="color:{% if prof_save %}var(--accent){% else %}var(--text-muted){% endif %}">{% if save_val >= 0 %}+{% endif %}{{ save_val }}</span>
+      </div>
+      {% endfor %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient
+      </div>
+      <!-- Conditional save notes → dynamic from advantage_map -->
+      {% for note in adv.get("notes",[]) %}
+      <div style="font-size:0.7rem;color:var(--danger);margin-top:0.15rem">🅰️ {{ note }}</div>
+      {% endfor %}
+      </div>
+      <div id="saves-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.4rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        A saving throw represents an attempt to resist a spell, trap, poison, or similar threat. Roll d20 + ability modifier + proficiency (if proficient).<br><br>
+        Each class grants proficiency in two saves. The DC is set by the effect (e.g. a spell's DC = 8 + caster's proficiency + ability mod). Usually a success means no harm or reduced harm.
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="sidebar-section">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('skills-body','skills-arrow')">
+        <span id="skills-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <h4 style="margin:0">Skills</h4>
+      </div>
+      <div id="skills-body" style="display:none">
+      {% for skill_name, skill_ab in skill_abilities.items()|sort %}
+      {% set ab_mod = (character[skill_ab] - 10) // 2 %}
+      {% set has_prof = skill_name in char_skills %}
+      {% set has_exp = skill_name in char_expertise %}
+      {% set sk_val = ab_mod + (prof if has_prof else 0) + (prof if has_exp else 0) %}
+      <div class="stat-row" onclick="toggleSkillProf('{{ skill_name }}')" style="cursor:pointer">
+        <span class="stat-name"><span class="prof-dot skill-dot{% if has_prof %} active{% endif %}" data-skill="{{ skill_name }}">{% if has_exp %}★{% else %}●{% endif %}</span>{{ skill_name }}{% if skill_name in adv.get("skills",[]) %}<span class="adv-badge smol" title="Advantage on {{ skill_name }} checks{% for n in adv.notes %}{% if 'Advantage' in n and skill_name in n.lower() %}: {{ n }}{% endif %}{% endfor %}">A</span>{% endif %}</span>
+        <span class="stat-val" style="color:{% if has_exp %}var(--accent);font-weight:700{% elif has_prof %}var(--accent){% else %}var(--text-muted){% endif %}">
+          {% if sk_val >= 0 %}+{% endif %}{{ sk_val }}
+        </span>
+      </div>
+      {% endfor %}
+      <div style="font-size:0.6rem;color:var(--text-muted);margin-top:0.25rem;text-align:right">
+        <span style="color:var(--accent)">●</span> = Proficient &nbsp; <span style="color:var(--accent);font-weight:700">★</span> = Expertise
+      </div>
+      </div>
+    </div>
+
+    <!-- Defenses -->
+    <div class="sidebar-section">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('defenses-body','defenses-arrow')">
+        <span id="defenses-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <h4 style="margin:0">Defenses</h4>
+        <span onclick="event.stopPropagation();toggleDefensesBlurb()" title="Defense rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+      </div>
+      <div id="defenses-body" style="display:none">
+      <div style="font-size:0.8rem" id="defenses-section">
+        {% if character.armor_warnings or character.shield_warning %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">⚠️ Armor Proficiency</div>
+        {% for w in character.armor_warnings %}
+        <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
+          <strong>{{ w.item }}</strong> ({{ w.category }} armor) — not proficient<br>
+          <span style="color:var(--danger);font-size:0.7rem">{{ w.penalty }}</span><br>
+          <span style="font-size:0.6rem;color:var(--text-muted)">{{ w.source }}</span>
+        </div>
+        {% endfor %}
+        {% if character.shield_warning %}
+        <div style="background:rgba(220,38,38,0.12);border:1px solid var(--danger);border-radius:6px;padding:0.5rem;margin-bottom:0.4rem;font-size:0.75rem;color:var(--text)">
+          <strong>Shield</strong> — not proficient<br>
+          <span style="color:var(--danger);font-size:0.7rem">{{ character.shield_warning.penalty }}</span><br>
+          <span style="font-size:0.6rem;color:var(--text-muted)">{{ character.shield_warning.source }}</span>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% set ns = namespace(has_fd_resist=false, has_fd_immune=false) %}
+        {% for fd in feature_defenses %}
+          {% if fd.resist %}{% set ns.has_fd_resist = true %}{% endif %}
+          {% if fd.immune %}{% set ns.has_fd_immune = true %}{% endif %}
+        {% endfor %}
+        <!-- Resistances -->
+        {% set has_resist = character.damage_resistances or ns.has_fd_resist or item_effects.resist or racial_effects.damage_resist %}
+        {% if has_resist %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Resistances</div>
+        {% for r in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }}</span>{% endfor %}
+        {% for r in racial_effects.damage_resist %}{% if r not in character.damage_resistances %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(racial)</span></span>{% endif %}{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.resist %}{% for r in fd.resist %}<span class="defense-badge defense-resist" title="{{ fd.name }}: {{ fd.note }}">🔥 {{ r }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for r in item_effects.resist %}<span class="defense-badge defense-resist">🛡️ {{ r }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
+        {% endif %}
+        <!-- Immunities -->
+        {% set has_immune = character.damage_immunities or ns.has_fd_immune or item_effects.immune %}
+        {% if has_immune %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Immunities</div>
+        {% for i in character.damage_immunities %}<span class="defense-badge defense-immune">✨ {{ i }}</span>{% endfor %}
+        {% for fd in feature_defenses %}{% if fd.immune %}{% for i in fd.immune %}<span class="defense-badge defense-immune" title="{{ fd.name }}: {{ fd.note }}">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">({{ fd.note }})</span></span>{% endfor %}{% endif %}{% endfor %}
+        {% for i in item_effects.immune %}<span class="defense-badge defense-immune">✨ {{ i }} <span style="font-size:0.55rem;opacity:0.7">(item)</span></span>{% endfor %}
+        {% endif %}
+        <!-- Vulnerabilities -->
+        {% if character.damage_vulnerabilities %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Vulnerabilities</div>
+        {% for v in character.damage_vulnerabilities %}<span class="defense-badge defense-vuln">⚠️ {{ v }}</span>{% endfor %}
+        {% endif %}
+        <!-- Condition Immunities -->
+        {% if merged_condition_immune %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Condition Imm.</div>
+        {% for c in merged_condition_immune %}<span class="defense-badge defense-immune">✨ {{ c }}{% if c in racial_effects.condition_immune and c not in character.condition_immunities %} <span style="font-size:0.55rem;opacity:0.7">(racial)</span>{% endif %}</span>{% endfor %}
+        {% endif %}
+        <!-- Save Proficiencies -->
+        {% if character.save_proficiencies %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Save Prof.</div>
+        {% for s in character.save_proficiencies %}<span class="defense-badge" style="background:rgba(100,149,237,0.12);border:1px solid #6495ed;color:#6495ed;font-size:0.65rem;">💪 {{ s[:3]|upper }} save</span>{% endfor %}
+        {% endif %}
+        {% set has_defenses = has_resist or has_immune or character.damage_vulnerabilities or merged_condition_immune or character.save_proficiencies or item_effects.notes %}
+        {% if not has_defenses %}
+        <span style="color:var(--text-muted);font-size:0.8rem">No special defenses</span>
+        {% endif %}
+        <span class="defense-display" data-field="damage_resistances" style="display:none">{{ character.damage_resistances|join(', ') if character.damage_resistances else '' }}</span>
+        <span class="defense-display" data-field="damage_immunities" style="display:none">{{ character.damage_immunities|join(', ') if character.damage_immunities else '' }}</span>
+        <span class="defense-display" data-field="damage_vulnerabilities" style="display:none">{{ character.damage_vulnerabilities|join(', ') if character.damage_vulnerabilities else '' }}</span>
+        <span class="defense-display" data-field="condition_immunities" style="display:none">{{ character.condition_immunities|join(', ') if character.condition_immunities else '' }}</span>
+      </div>
+      <!-- Edit defenses -->
+      <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer" 
+             onclick="showDefensePicker('Damage Resistances', ALL_DAMAGE_TYPES, 'damage_resistances', '🛡️', 'Halves damage of this type (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
+          <span class="stat-name" style="font-size:0.7rem">Resistances ✎</span>
+        </div>
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
+             onclick="showDefensePicker('Damage Immunities', ALL_DAMAGE_TYPES, 'damage_immunities', '✨', 'Negates all damage of this type (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
+          <span class="stat-name" style="font-size:0.7rem">Immunities ✎</span>
+        </div>
+        <div class="stat-row" style="margin-bottom:0.15rem;cursor:pointer"
+             onclick="showDefensePicker('Damage Vulnerabilities', ALL_DAMAGE_TYPES, 'damage_vulnerabilities', '⚠️', 'Doubles damage of this type — rare, typically from curses or monster traits (PHB p.197)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
+          <span class="stat-name" style="font-size:0.7rem">Vulnerabilities ✎</span>
+        </div>
+        <div class="stat-row" style="cursor:pointer"
+             onclick="showDefensePicker('Condition Immunities', ALL_CONDITIONS, 'condition_immunities', '🛡️', 'Immune to this condition\'s effects — magic can\'t put an elf to sleep, poison can\'t paralyze a creature immune to the poisoned condition (PHB p.290-292)')"
+             onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" 
+             onmouseleave="this.style.background='none'">
+          <span class="stat-name" style="font-size:0.7rem">Condition Imm. ✎</span>
+        </div>
+      </div>
+      </div>
+      <div id="defenses-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.5rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        <strong>Damage Resistance</strong> — halves damage of that type (PHB p.197). If you have resistance to a type, you take half damage from that source (rounded down). Multiple resistances don't stack — you still take half damage.<br><br>
+        <strong>Damage Immunity</strong> — negates all damage of that type entirely. No damage from that source.<br><br>
+        <strong>Damage Vulnerability</strong> — doubles damage of that type. Very rare, usually from curses or special monster traits (PHB p.197).<br><br>
+        <strong>Condition Immunity</strong> — immune to that condition's effects. Magic can't put an elf to sleep, poison can't paralyze a creature immune to poisoned (PHB p.290-292).<br><br>
+        <strong>Damage types:</strong> acid, bludgeoning, cold, fire, force, lightning, necrotic, piercing, poison, psychic, radiant, slashing, thunder.
+      </div>
+    </div>
+
+    <!-- Proficiencies -->
+    <div class="sidebar-section">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('profs-body','profs-arrow')">
+        <span id="profs-arrow" style="font-size:0.6rem;opacity:0.5">▸</span>
+        <h4 style="margin:0">Proficiencies</h4>
+        <span onclick="event.stopPropagation();toggleProfsBlurb()" title="Proficiency rules" style="cursor:pointer;font-size:0.6rem;color:var(--text-muted);margin-left:auto">ℹ️</span>
+      </div>
+      <div id="profs-body" style="display:none">
+      <div style="font-size:0.8rem" id="prof-section">
+        <!-- Armor -->
+        {% if merged_armor_profs %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Armor</div>
+        <span id="prof-badges-armor_proficiencies">{% for a in merged_armor_profs %}<span class="prof-badge">{{ a }}{% if a in racial_effects.armor_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="armor_proficiencies" style="display:none">{{ character.armor_proficiencies|join(', ') if character.armor_proficiencies else '' }}</span>
+        {% endif %}
+        <!-- Weapons -->
+        {% if merged_weapon_profs %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Weapons</div>
+        <span id="prof-badges-weapon_proficiencies">{% for w in merged_weapon_profs %}<span class="prof-badge">{{ w }}{% if w in racial_effects.weapon_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="weapon_proficiencies" style="display:none">{{ character.weapon_proficiencies|join(', ') if character.weapon_proficiencies else '' }}</span>
+        {% endif %}
+        <!-- Tools -->
+        {% if merged_tool_profs %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Tools</div>
+        <span id="prof-badges-tool_proficiencies">{% for t in merged_tool_profs %}<span class="prof-badge">{{ t }}{% if t in racial_effects.tool_profs %} <span style="opacity:0.5" title="Racial trait">⚡</span>{% endif %}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="tool_proficiencies" style="display:none">{{ character.tool_proficiencies|join(', ') if character.tool_proficiencies else '' }}</span>
+        {% endif %}
+        <!-- Languages -->
+        {% if character.languages %}
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-bottom:0.15rem;margin-top:0.3rem;font-weight:600;text-transform:uppercase;letter-spacing:0.04em">Languages</div>
+        <span id="prof-badges-languages">{% for l in character.languages %}<span class="prof-badge">{{ l }}</span>{% endfor %}</span>
+        <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') }}</span>
+        {% endif %}
+        {% set has_profs = merged_armor_profs or merged_weapon_profs or merged_tool_profs or character.languages %}
+        {% if not has_profs %}
+        <span style="color:var(--text-muted);font-size:0.8rem">No proficiencies</span>
+        {% endif %}
+        <span class="prof-display" data-field="armor_proficiencies" style="display:none">{{ character.armor_proficiencies|join(', ') if character.armor_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="weapon_proficiencies" style="display:none">{{ character.weapon_proficiencies|join(', ') if character.weapon_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="tool_proficiencies" style="display:none">{{ character.tool_proficiencies|join(', ') if character.tool_proficiencies else '' }}</span>
+        <span class="prof-display" data-field="languages" style="display:none">{{ character.languages|join(', ') if character.languages else '' }}</span>
+        <!-- Edit pickers (edit mode only) -->
+        <div class="edit-only-block" style="margin-top:0.5rem;font-size:0.75rem">
+          <div class="stat-row" onclick="showProfPicker('armor', 'Armor Proficiencies', ALL_ARMOR_PROFS, 'armor_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Armor ✎</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('weapon', 'Weapon Proficiencies', ALL_WEAPON_PROFS, 'weapon_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Weapons ✎</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('tool', 'Tool Proficiencies', ALL_TOOL_PROFS, 'tool_proficiencies')" style="cursor:pointer;margin-bottom:0.15rem" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Tools ✎</span>
+          </div>
+          <div class="stat-row" onclick="showProfPicker('language', 'Languages', ALL_LANGUAGES, 'languages')" style="cursor:pointer" onmouseenter="if(document.body.classList.contains('edit-mode'))this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='none'">
+            <span class="stat-name" style="font-size:0.7rem">Languages ✎</span>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div id="profs-blurb" style="display:none;font-size:0.65rem;color:var(--text-muted);line-height:1.5;margin-top:0.5rem;padding-top:0.35rem;border-top:1px solid var(--border)">
+        <strong>Proficiency Bonus</strong> (<strong>+{{ character.proficiency_bonus }}</strong>) — adds to attack rolls with proficient weapons, ability checks with proficient tools/skills, saving throws with proficient saves, and spell save DC (PHB p.173-174).<br><br>
+        <strong>Armor</strong> — wearing armor without proficiency imposes disadvantage on Strength/Dexterity checks, saving throws, and prevents casting spells (PHB p.144).<br><br>
+        <strong>Weapons</strong> — without proficiency, you don't add your proficiency bonus to attack rolls (PHB p.146).<br><br>
+        <strong>Tools</strong> — add proficiency bonus to ability checks made with a tool you're proficient in (PHB p.154).<br><br>
+        <strong>Languages</strong> — you can speak, read, and sign languages you know (PHB p.123-124).
+      </div>
+    </div>
+
+    <!-- Summons -->
+    <div class="sidebar-section" style="margin-top:0.25rem">
+      <div style="cursor:pointer;display:flex;align-items:center;gap:0.3rem;user-select:none" onclick="toggleSection('summons-body','summons-arrow')">
+        <span id="summons-arrow" style="font-size:0.6rem;opacity:0.5">▾</span>
+        <h4 style="margin:0;flex:1">Summons</h4>
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openSummonModal()" style="font-size:0.6rem;padding:0.1rem 0.35rem">+ Add</button>
+      </div>
+      <div id="summons-body">
+      <div id="summons-list" style="display:flex;flex-direction:column;gap:0.25rem;margin-top:0.3rem">
+        {% for s in character.summons %}
+        {% set hp_pct = (s.hp_current / s.hp_max * 100)|int if s.hp_max else 0 %}
+        <div class="summon-chip" data-summon-id="{{ loop.index0 }}" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.4rem;cursor:pointer" onclick="toggleSummonBody(this)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:0.3rem">
+            <span style="font-size:0.72rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.main_name or s.name }}{% if s.main_name and s.name %} <span style="color:var(--text-muted);font-weight:400;font-size:0.65rem">({{ s.name }})</span>{% endif %}{% if not s.main_name and s.form %} <span style="color:var(--text-muted);font-weight:400">({{ s.form }})</span>{% endif %}</span>
+            <span style="font-size:0.6rem;color:var(--text-muted);white-space:nowrap">AC {{ s.ac }}</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.3rem;margin-top:0.15rem">
+            <div style="flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden">
+              <div class="summon-bar-fill" style="height:100%;width:{{ hp_pct }}%;border-radius:2px;background:{% if hp_pct > 50 %}var(--success){% elif hp_pct > 25 %}var(--warn){% else %}var(--danger){% endif %};transition:width 0.3s"></div>
+            </div>
+            <span class="summon-hp-text" style="font-size:0.6rem;font-family:monospace;color:var(--text-muted);white-space:nowrap">{{ s.hp_current }}/{{ s.hp_max }}</span>
+          </div>
+          <div class="summon-body" style="display:none;margin-top:0.35rem;padding-top:0.3rem;border-top:1px solid var(--border);font-size:0.65rem;line-height:1.5;color:var(--text-muted)">
+            <div class="edit-only-block" style="display:flex;gap:0.5rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+              <div style="flex:1">
+                <label style="font-size:0.6rem;color:var(--text-muted)">Main Name</label>
+                <input class="summon-edit-main-name" value="{{ s.main_name or '' }}" placeholder="{{ s.name }}"
+                  onchange="saveSummonName({{ loop.index0 }})"
+                  style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
+              </div>
+              <div style="flex:1">
+                <label style="font-size:0.6rem;color:var(--text-muted)">Name (creature)</label>
+                <input class="summon-edit-name" value="{{ s.name }}"
+                  onchange="saveSummonName({{ loop.index0 }})"
+                  style="width:100%;padding:0.2rem 0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem">
+              </div>
+            </div>
+            <div class="summon-hp-controls" style="display:flex;align-items:center;gap:0.25rem;margin-bottom:0.35rem;padding-bottom:0.3rem;border-bottom:1px solid var(--border)" onclick="event.stopPropagation()">
+              <input type="number" id="summon-hp-delta-{{ loop.index0 }}" value="1" min="1"
+                style="width:3.5ch;text-align:center;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:3px;padding:0.15rem 0.1rem;font-size:0.6rem;-moz-appearance:textfield;appearance:textfield"
+                onfocus="this.style.outline='1px solid var(--accent)'" onblur="this.style.outline='none'">
+              <style>.summon-hp-controls input[type=number]::-webkit-inner-spin-button,.summon-hp-controls input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}</style>
+              <button class="hp-btn heal" onclick="applySummonHP({{ loop.index0 }})" title="Heal" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">+</button>
+              <button class="hp-btn dmg" onclick="applySummonHP({{ loop.index0 }}, -1)" title="Damage" style="font-size:0.6rem;padding:0;width:22px;height:22px;line-height:22px">−</button>
+              <button class="hp-btn" onclick="resetSummonHP({{ loop.index0 }})" title="Reset to full HP" style="background:var(--accent2);color:var(--text);border:1px solid var(--border);font-size:0.55rem;padding:0 0.3rem;width:auto">↺ Full</button>
+              <button class="btn btn-outline btn-sm" style="font-size:0.55rem;padding:0.1rem 0.3rem;margin-left:auto" onclick="dismissSummon({{ loop.index0 }})">✕ Dismiss</button>
+            </div>
+            <div><strong>Size:</strong> {{ s.size }}</div>
+            <div><strong>Speed:</strong> {{ s.speed }}</div>
+            {% if s.skills %}<div><strong>Skills:</strong> {{ s.skills }}</div>{% endif %}
+            {% if s.senses %}<div><strong>Senses:</strong> {{ s.senses }}</div>{% endif %}
+            {% if s.languages %}<div><strong>Languages:</strong> {{ s.languages }}</div>{% endif %}
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.15rem;margin:0.3rem 0;font-family:monospace;text-align:center">
+              {% for ab in ['str','dex','con','int','wis','cha'] %}<div><span style="color:var(--accent)">{{ ab|upper }}</span><br>{{ s.stats[ab] }}</div>{% endfor %}
+            </div>
+            {% if s.resistances %}<div style="margin:0.2rem 0"><strong>Damage Resistances:</strong> {{ s.resistances }}</div>{% endif %}
+            {% if s.immunities %}<div style="margin:0.2rem 0"><strong>Damage Immunities:</strong> {{ s.immunities }}</div>{% endif %}
+            {% if s.condition_immunities %}<div style="margin:0.2rem 0"><strong>Condition Immunities:</strong> {{ s.condition_immunities }}</div>{% endif %}
+            {% if s.features %}
+            <div style="margin:0.3rem 0">
+              {% for fname in s.features %}
+              <div style="margin-bottom:0.25rem">
+                <strong>{{ fname }}.</strong>
+                {% if s.feature_descs and s.feature_descs[fname] %}
+                {{ s.feature_descs[fname] }}
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if s.attacks %}
+            <div style="margin:0.3rem 0">
+              <strong style="display:block;margin-bottom:0.15rem">Actions</strong>
+              {% for a in s.attacks %}
+              <div style="margin-bottom:0.3rem">
+                <strong>{{ a.name }}.</strong>
+                {% if a.desc %}
+                <em>{{ a.desc }}</em>
+                {% else %}
+                <em>{% if a.bonus != None %}+{{ a.bonus }} to hit{% endif %}{% if a.damage %}, {{ a.damage }}{% endif %}</em>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if s.hp_note %}<div style="margin:0.2rem 0;font-style:italic">{{ s.hp_note }}</div>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+        {% if not character.summons %}
+        <span style="font-size:0.65rem;color:var(--text-muted);text-align:center;padding:0.3rem">No active summons</span>
+        {% endif %}
+      </div>
+      </div> <!-- /summons-body -->
+    </div>
+
+    <!-- Hidden inspiration toggle -->
+    <button id="insp-btn" class="inspiration-btn {{ 'on' if character.inspiration else 'off' }}" onclick="toggleInspiration()" style="display:none">★</button>
+  </div>

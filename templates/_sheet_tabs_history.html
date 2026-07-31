@@ -1,0 +1,136 @@
+<!-- 📜 HISTORY & RELATIONSHIPS TAB -->
+<div class="tab-content" id="tab-history">
+  <div class="card" style="margin-bottom:1rem">
+    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">Character History <span id="history-lock-btn" onclick="toggleHistoryLock()" style="cursor:pointer;font-size:0.9rem;user-select:none" title="Click to lock/unlock editing">🔓</span></h3>
+    <textarea id="history-backstory" onchange="saveBackstory()" style="width:100%;min-height:160px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.backstory or '' }}</textarea>
+    <div id="history-tools" style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem;flex-wrap:wrap">
+      <input id="history-keywords" type="text" placeholder="Keywords or flavor text (optional) — e.g. 'orphaned by dragon, raised by monks'" style="flex:1;min-width:200px;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.8rem;font-family:var(--font)">
+      <button class="btn btn-outline btn-sm" onclick="generateHistory()" id="history-gen-btn" style="font-size:0.8rem;white-space:nowrap">✨ AI Generate</button>
+      <span id="history-loading" style="display:none;font-size:0.8rem;color:var(--text-muted)">Generating...</span>
+    </div>
+  </div>
+
+  <!-- Journal Card -->
+  <div class="card" style="margin-bottom:1rem">
+    <h3 style="margin:0 0 0.5rem 0;font-size:1rem">📖 Journal</h3>
+    <textarea id="journal-text" onchange="saveJournal()" style="width:100%;min-height:120px;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;font-family:var(--font);resize:vertical;line-height:1.5">{{ character.journal or '' }}</textarea>
+    <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.3rem">Campaign notes, session logs, and personal reflections — saved automatically.</div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem">
+      <h3 style="margin:0;font-size:1rem">Relationships</h3>
+      <button class="btn btn-outline btn-sm" onclick="openAddRelationship()" style="font-size:0.8rem">+ Add NPC</button>
+    </div>
+    <div id="relationships-list" style="display:flex;flex-direction:column;gap:0.5rem">
+      <div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1rem">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Add Relationship Modal -->
+  <div id="rel-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:600;align-items:center;justify-content:center" onclick="if(event.target===this)closeRelModal()">
+    <div class="card" style="max-width:500px;width:90%;max-height:85vh;display:flex;flex-direction:column" onclick="event.stopPropagation()">
+      <h3 id="rel-modal-title" style="margin-bottom:1rem;flex-shrink:0">Add Relationship</h3>
+      <div style="flex:1;overflow-y:auto;min-height:0">
+      <div class="form-group">
+        <label>Relationship Type</label>
+        <select id="rel-type" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+          <option value="ally">🤝 Ally / Friend</option>
+          <option value="mentor">👨‍🏫 Mentor / Teacher</option>
+          <option value="family">👪 Family</option>
+          <option value="rival">⚔️ Rival</option>
+          <option value="antagonist">💀 Antagonist / Enemy</option>
+          <option value="other">📋 Other</option>
+        </select>
+      </div>
+      <div class="form-group" id="rel-manual-fields">
+        <label>NPC Name</label>
+        <input type="text" id="rel-name" placeholder="e.g. Master Theron" style="width:100%;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text)">
+        <label style="margin-top:0.75rem">Description</label>
+        <textarea id="rel-desc" placeholder="Who they are to your character..." style="width:100%;min-height:80px;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);resize:vertical"></textarea>
+      </div>
+      <div style="margin-bottom:1rem">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.85rem">
+          <input type="checkbox" id="rel-use-ai" onchange="toggleRelAIMode()">
+          🤖 AI-generate from description
+        </label>
+      </div>
+      <div class="form-group" id="rel-ai-fields" style="display:none">
+        <label>Describe who you want (be vivid):</label>
+        <textarea id="rel-prompt" placeholder="e.g. An aging sword master with a missing eye who trained me in the mountains. He's stern but secretly proud of me." style="width:100%;min-height:80px;padding:0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);resize:vertical"></textarea>
+        <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.5rem">
+          <label style="font-size:0.8rem;white-space:nowrap">Level:</label>
+          <input type="number" id="rel-npc-level" value="{{ character.level }}" min="1" max="20" style="width:60px;padding:0.3rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;text-align:center">
+          <button class="btn btn-primary btn-sm" onclick="generateRelationship()" style="font-size:0.8rem">🪄 Generate NPC</button>
+          <span id="rel-gen-status" style="font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem"></span>
+        </div>
+      </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end;flex-shrink:0">
+        <button class="btn btn-outline btn-sm" onclick="closeRelModal()">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="rel-save-btn" onclick="saveRelationship()">Save</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Personality Section -->
+<div class="card" style="margin-bottom:1rem;margin-top:0.5rem">
+  <div onclick="togglePersonalitySection()" style="cursor:pointer;display:flex;align-items:center;gap:0.4rem;user-select:none;margin-bottom:0">
+    <span id="personality-arrow" style="font-size:0.7rem;transition:transform 0.2s;display:inline-block">▸</span>
+    <h3 style="margin:0;font-size:1rem">Personality & Appearance</h3>
+  </div>
+  <div id="personality-body" style="display:none;margin-top:0.75rem">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.75rem">
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Age</label>
+      <input type="text" class="personality-input" data-field="age" value="{{ character.personality_data.get('age','') }}" onchange="savePersonalityField('age',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Height</label>
+      <input type="text" class="personality-input" data-field="height" value="{{ character.personality_data.get('height','') }}" onchange="savePersonalityField('height',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Weight</label>
+      <input type="text" class="personality-input" data-field="weight" value="{{ character.personality_data.get('weight','') }}" onchange="savePersonalityField('weight',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Eyes</label>
+      <input type="text" class="personality-input" data-field="eyes" value="{{ character.personality_data.get('eyes','') }}" onchange="savePersonalityField('eyes',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Skin</label>
+      <input type="text" class="personality-input" data-field="skin" value="{{ character.personality_data.get('skin','') }}" onchange="savePersonalityField('skin',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Hair</label>
+      <input type="text" class="personality-input" data-field="hair" value="{{ character.personality_data.get('hair','') }}" onchange="savePersonalityField('hair',this.value)" style="width:100%;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem">
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Personality Traits</label>
+      <textarea class="personality-input" data-field="traits" onchange="savePersonalityField('traits',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('traits','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Ideals</label>
+      <textarea class="personality-input" data-field="ideals" onchange="savePersonalityField('ideals',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('ideals','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Bonds</label>
+      <textarea class="personality-input" data-field="bonds" onchange="savePersonalityField('bonds',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('bonds','') }}</textarea>
+    </div>
+    <div>
+      <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Flaws</label>
+      <textarea class="personality-input" data-field="flaws" onchange="savePersonalityField('flaws',this.value)" style="width:100%;min-height:70px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('flaws','') }}</textarea>
+    </div>
+  </div>
+  <div style="margin-top:0.75rem">
+    <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:0.15rem">Allies & Organizations</label>
+    <textarea class="personality-input" data-field="allies" onchange="savePersonalityField('allies',this.value)" style="width:100%;min-height:80px;padding:0.4rem 0.5rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.85rem;font-family:var(--font);resize:vertical">{{ character.personality_data.get('allies','') }}</textarea>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- /sheet-main -->
+</div>

@@ -1,0 +1,49 @@
+<!-- Header with portrait + name -->
+<div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
+  <div style="width:80px;flex-shrink:0">
+    {% if character.portrait_url %}
+    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
+    {% else %}
+    <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" onclick="openPortraitModal()" title="Add portrait">🎨</div>
+    {% endif %}
+  </div>
+  <div style="flex:1;min-width:0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem">
+      <div>
+        <h1 style="margin:0;font-size:1.4rem;word-break:break-word;overflow-wrap:break-word" class="editable" data-field="name">{{ character.name }}</h1>
+        <span class="badge badge-accent">Lv<span class="editable" data-field="level" data-num="1">{{ character.level }}</span> <span class="editable badge-link" data-field="race" onclick="showDetail()">{{ character.race }}</span>{% if character.subrace %} (<span class="editable badge-link" data-field="subrace" onclick="showDetail()">{{ character.subrace }}</span>){% endif %} <span class="badge-link" onclick="showDetail()">{% if class_levels and class_levels|length > 1 %}{% for cls, lvl in class_levels.items() %}{% if not loop.first %} / {% endif %}{{ cls }} {{ lvl }}{% endfor %}{% else %}{{ character.class_name }}{% endif %}</span></span>
+        {% if character.subclass %}<span class="badge badge-muted editable badge-link" data-field="subclass" onclick="showDetail()">{{ character.subclass }}</span>{% endif %}
+        {% if character.fighting_style %}<span class="badge" style="background:rgba(255,165,0,0.15);border:1px solid #ffa500;color:#ffa500;font-size:0.65rem;cursor:help" title="{{ character.fighting_style }}">{{ character.fighting_style|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.metamagic %}<span class="badge" style="background:rgba(138,43,226,0.12);border:1px solid #8a2be2;color:#c084fc;font-size:0.65rem;cursor:help" title="{{ character.metamagic|join(', ') }}">Metamagic</span>{% endif %}
+        {% if character.invocations %}<span class="badge" style="background:rgba(139,0,139,0.12);border:1px solid #8b008b;color:#da70d6;font-size:0.65rem;cursor:help" title="{{ character.invocations|join(', ') }}">Invocations</span>{% endif %}
+        {% if character.pact_boon %}<span class="badge" style="background:rgba(75,0,130,0.12);border:1px solid #4b0082;color:#9370db;font-size:0.65rem;cursor:help" title="{{ character.pact_boon }}">Pact: {{ character.pact_boon|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.maneuvers %}<span class="badge" style="background:rgba(178,34,34,0.12);border:1px solid #b22222;color:#f08080;font-size:0.65rem;cursor:help" title="{{ character.maneuvers|join(', ') }}">Maneuvers</span>{% endif %}
+        {% if character.magical_secrets %}<span class="badge" style="background:rgba(220,20,60,0.12);border:1px solid #dc143c;color:#ff69b4;font-size:0.65rem;cursor:help" title="{{ character.magical_secrets|join(', ') }}">Magical Secrets</span>{% endif %}
+        {% if character.totem_spirits %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="{{ character.totem_spirits.values()|join(', ') }}">Totem</span>{% endif %}
+        {% if character.hunters_prey %}<span class="badge" style="background:rgba(0,100,0,0.12);border:1px solid #006400;color:#2e8b57;font-size:0.65rem;cursor:help" title="{{ character.hunters_prey }}">Hunter: {{ character.hunters_prey|replace('_',' ')|title }}</span>{% endif %}
+        {% if character.favored_enemies %}{% set fe_list = character.favored_enemies %}{% if fe_list|length > 0 %}<span class="badge" style="background:rgba(139,69,19,0.12);border:1px solid #8b4513;color:#cd853f;font-size:0.65rem;cursor:help" title="Favored Enemy: {{ fe_list|join(', ') }}">🎯 {{ fe_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}
+        {% if character.favored_terrains %}{% set ft_list = character.favored_terrains %}{% if ft_list|length > 0 %}<span class="badge" style="background:rgba(34,139,34,0.12);border:1px solid #228b22;color:#3cb371;font-size:0.65rem;cursor:help" title="Favored Terrain: {{ ft_list|join(', ') }}">🌲 {{ ft_list|join(', ')|replace('_',' ')|title }}</span>{% endif %}{% endif %}
+        {% if character.infusions %}<span class="badge" style="background:rgba(184,134,11,0.12);border:1px solid #b8860b;color:#daa520;font-size:0.65rem;cursor:help" title="{{ character.infusions|join(', ') }}">Infusions</span>{% endif %}
+        {% if character.background %}<span class="badge badge-muted editable badge-link" data-field="background" style="margin-left:0.25rem" onclick="showDetail()">{{ character.background }}</span>{% endif %}
+        {% if character.alignment %}<span class="badge badge-muted editable" data-field="alignment" style="margin-left:0.25rem">{{ character.alignment }}</span>{% endif %}
+      </div>
+      {% if is_owner %}<button id="edit-toggle" onclick="toggleEditMode()">🔒 Edit</button>{% endif %}
+      <button onclick="window.open('/api/character/{{ character.id }}/pdf?_=' + Date.now(), '_blank')" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''" title="Generate printable character sheet PDF">📄 Make PDF</button>
+      {% if is_owner %}
+      <button id="share-toggle-btn" onclick="toggleCharacterShare()" style="margin-left:0.25rem;padding:0.35rem 0.8rem;background:{% if character.shared %}var(--accent){% else %}var(--accent2){% endif %};color:{% if character.shared %}#fff{% else %}var(--accent){% endif %};border:1px solid var(--accent);border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">{% if character.shared %}🌐 Public{% else %}🔒 Share{% endif %}</button>
+      {% endif %}
+      {% if is_owner and character.level < 20 %}
+      <button id="level-up-btn" onclick="openLevelUp()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--accent);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">⬆ Level Up</button>
+      {% endif %}
+      {% if is_owner and character.level > 1 %}
+      <button id="delevel-btn" onclick="openDeLevel()" style="margin-left:0.5rem;padding:0.35rem 0.8rem;background:var(--danger);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:all 0.15s" onmouseover="this.style.filter='brightness(1.2)'" onmouseout="this.style.filter=''">🔻 De-Level</button>
+      {% endif %}
+    </div>
+    {% if character.personality %}
+    <div style="margin-top:0.5rem;font-size:0.85rem">
+      {% if character.personality %}<p style="color:var(--accent);margin:0" class="editable" data-field="personality">{{ character.personality }}</p>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+

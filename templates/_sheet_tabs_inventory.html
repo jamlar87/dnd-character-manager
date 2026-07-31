@@ -1,0 +1,203 @@
+    <!-- 🎒 INVENTORY TAB -->
+    <div class="tab-content" id="tab-inventory">
+      <!-- EQUIPMENT CARD (drop zone for unequip + team claims) -->
+      <div class="card drop-zone" id="inv-card"
+           ondragover="handleDragOver(event, 'inventory')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'inventory')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">🎒 Inventory</h3>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <label style="display:flex;align-items:center;gap:0.25rem;font-size:0.65rem;color:var(--text-muted);cursor:pointer;user-select:none;white-space:nowrap" onclick="event.stopPropagation();_coreOnly=!_coreOnly;localStorage.setItem('coreOnly',_coreOnly);this.style.color=_coreOnly?'var(--accent)':'var(--text-muted)';this.querySelector('span').textContent=_coreOnly?'☑':'☐';syncCoreToSpellToggle();">
+              <span style="display:inline-block;width:12px;height:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center;line-height:10px;font-size:9px;background:var(--bg)">☐</span>
+              Core only
+            </label>
+            <button class="btn btn-outline btn-sm" onclick="openItemPicker()">+ Add</button>
+          </div>
+        </div>
+        <div id="inv-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
+          {% if character.inventory %}
+          {% for item in character.inventory %}
+          {% set item_name = item.name if item.name is defined else item %}
+          {% set item_qty = item.qty if item.qty is defined else 1 %}
+          {% set item_enh = item.enhancement|default(0) %}
+          <div class="item-card" draggable="true"
+               data-item-name="{{ item_name }}"
+               data-enhancement="{{ item_enh }}"
+               ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
+               ondragend="handleDragEnd(event)">
+            <span class="drag-handle" title="Drag to move">⋮⋮</span>
+            <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+            <input type="text" value="{{ item_name }}" class="item-card-name"
+                   onchange="autoSaveInventory();tagWeapons()"
+                   onfocus="this.closest('.item-card').classList.add('editing')"
+                   onblur="this.closest('.item-card').classList.remove('editing')">
+            {% if item_qty > 1 %}<span class="item-qty" onclick="event.stopPropagation();toggleItemExpand(this.closest('.item-card').querySelector('.item-expand-btn'))" title="Click to expand" style="cursor:pointer">{{ item_qty }}</span>{% endif %}
+            {% if item.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
+            <button class="item-card-btn" onclick="event.stopPropagation();showItemInfo(this.closest('.item-card').querySelector('.item-card-name').value)" title="Info">ℹ️</button>
+            <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+            <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            {% if item.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ item.dice }}</span>{% endif %}
+            {% set item_enh2 = item.enhancement|default(0) %}
+            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ item_enh2 }}</span>
+            {% if campaign_info %}<button class="item-card-btn" onclick="shareToTeam(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Share to team">↗</button>{% endif %}
+            <button class="item-card-btn" onclick="quickEquip(this.closest('.item-card').querySelector('.item-card-name').value, {{ item_qty }})" title="Equip">⬆️</button>
+            <button class="item-card-btn item-card-del" onclick="deleteInventoryItem(this.closest('.item-card').querySelector('.item-card-name').value)" title="Delete">✕</button>
+            {% if item.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ item.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ item.source }}">📚</span>{% endif %}
+            <div class="item-detail" data-item-name="{{ item_name }}"></div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+        <div id="inv-empty" style="display:{{ 'none' if character.inventory else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drop items here or click +Add</div>
+      </div>
+
+      <!-- EQUIPPED CARD (drop zone for equipping) -->
+      <div class="card drop-zone" id="equipped-card" style="margin-top:0.75rem"
+           ondragover="handleDragOver(event, 'equipped')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'equipped')">
+        <h3 style="margin:0 0 0.5rem 0">⬆️ Equipped</h3>
+        <div id="equipped-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
+          {% if character.equipped %}
+          {% for eq in character.equipped %}
+          {% set eq_name = eq.name if eq is mapping else eq %}
+          {% set eq_qty = eq.qty|default(1) if eq is mapping else 1 %}
+          {% set eq_enh = eq.enhancement|default(0) if eq is mapping else 0 %}
+          <div class="item-card equipped-card" draggable="true"
+               data-item-name="{{ eq_name }}"
+               data-enhancement="{{ eq_enh }}"
+               ondragstart="handleDragStart(event, this.dataset.itemName, 'equipped', {{ eq_qty }})"
+               ondragend="handleDragEnd(event)">
+            <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
+            <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+            <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
+            {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}
+            {% if eq.concentration %}<span class="conc-badge" style="font-size:0.5rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.2rem;border-radius:3px;flex-shrink:0;line-height:1.4">⟲</span>{% endif %}
+            <span class="enh-badge" onclick="event.stopPropagation();cycleEnhancement(this)">+{{ eq_enh }}</span>
+            <span class="wpn-badge item-tag" style="display:none">⚔️</span>
+            <span class="arm-badge item-tag" style="display:none">🛡️</span>
+            {% if eq.dice %}<span class="item-dice-badge" style="font-size:0.55rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.25rem;border-radius:3px;flex-shrink:0">{{ eq.dice }}</span>{% endif %}
+            {% if eq_name in item_attunement_dict %}
+              {% if eq_name in character.attuned_items %}
+              <span class="item-attune-badge attuned" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Attuned — click to break">◆</span>
+              {% else %}
+              <span class="item-attune-badge" onclick="toggleAttune(this.closest('.item-card').querySelector('.item-card-name').textContent)" title="Needs attunement — click to attune">◇</span>
+              {% endif %}
+            {% endif %}
+            <button class="item-card-btn" onclick="quickUnequip(this.closest('.item-card').querySelector('.item-card-name').textContent, {{ eq_qty }})" title="Unequip">⬇️</button>
+            {% if eq.source %}<span class="src-badge" onclick="event.stopPropagation();openSourceRef(this.dataset.src)" data-src="{{ eq.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;flex-shrink:0" title="Click to open {{ eq.source }}">📚</span>{% endif %}
+            <div class="item-detail" data-item-name="{{ eq_name }}"></div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+        <div id="equipped-empty" style="display:{{ 'none' if character.equipped else 'block' }};color:var(--text-muted);font-size:0.8rem;padding:0.5rem 0">Drag items here to equip</div>
+      </div>
+
+      <!-- ATTUNEMENT (below Equipped) -->
+      <div class="card" id="attunement-card" style="margin-top:0.75rem">
+        <div style="display:flex;align-items:center;gap:0.5rem">
+          <h3 style="margin:0;flex:none;white-space:nowrap">🔮 Attunement <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;cursor:help" title="Max 3 attuned items (PHB p.138). Items that require attunement only grant their benefits while attuned. You can break attunement over a short rest.">ⓘ</span></h3>
+          <div id="attunement-slots" style="display:flex;gap:0.3rem;align-items:center;flex:none">
+            {% for i in range(3) %}
+            <span class="attune-slot{% if i < item_effects.attunement_slots_used %} filled{% endif %}" style="width:22px;height:22px;border-radius:4px;border:2px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;{% if i < item_effects.attunement_slots_used %}background:var(--accent);border-color:var(--accent);{% endif %}">{{ '◆' if i < item_effects.attunement_slots_used else '◇' }}</span>
+            {% endfor %}
+            <span style="font-size:0.8rem;color:var(--text-muted);font-weight:600">{{ item_effects.attunement_slots_used }}/3</span>
+          </div>
+        </div>
+        {% if item_effects.notes %}
+        <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.4rem">
+          {% for note in item_effects.notes %}
+          <div>• {{ note }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- GP TRACKER CARD -->
+      <div class="card" id="gp-card" style="margin-top:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
+          <h3 style="margin:0;flex:none;white-space:nowrap">🪙 Gold</h3>
+          <span id="gp-display" onclick="openGpPopup()" style="font-size:1.2rem;font-weight:700;color:#ffd700;cursor:pointer;border-bottom:1px dashed #ffd700;flex:none;white-space:nowrap">{{ character.gp|default(0) }}</span>
+          <div style="display:flex;gap:0.3rem;align-items:center;flex:none">
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(-10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−10</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(-1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">−1</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(1)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+1</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGp(10)" style="font-size:0.65rem;padding:0.15rem 0.45rem">+10</button>
+            <button class="btn btn-outline btn-sm" onclick="openGpPopup()" style="font-size:0.65rem;padding:0.15rem 0.45rem">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GP Popup -->
+      <div id="gp-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center" onclick="if(event.target===this)closeGpPopup()">
+        <div class="card" style="max-width:320px;width:90%">
+          <h3 style="margin:0 0 0.75rem 0">🪙 Gold Pieces</h3>
+          <div style="font-size:1.8rem;font-weight:700;color:#ffd700;text-align:center;margin-bottom:0.75rem" id="gp-popup-total">0</div>
+          <div style="display:flex;gap:0.4rem;margin-bottom:0.75rem">
+            <input type="number" id="gp-amount" placeholder="Amount" min="1" style="flex:1;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
+           </div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem">
+            <button class="btn btn-primary btn-sm" onclick="adjustGpPopup('add')" style="flex:1">+ Add</button>
+            <button class="btn btn-outline btn-sm" onclick="adjustGpPopup('sub')" style="flex:1">− Subtract</button>
+          </div>
+          {% if campaign_info %}
+          <button class="btn btn-outline btn-sm" onclick="giftGpToTeam()" style="width:100%;margin-bottom:0.5rem">🎁 Gift to Party Pool</button>
+          {% endif %}
+          <button class="btn btn-outline btn-sm" onclick="closeGpPopup()" style="width:100%">Close</button>
+        </div>
+      </div>
+
+      {% if campaign_info %}
+      <!-- TEAM ITEMS CARD (drop zone for sharing) -->
+      <div class="card drop-zone" id="team-card" style="margin-top:0.75rem"
+           ondragover="handleDragOver(event, 'team')"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event, 'team')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h3 style="margin:0">📦 Team <span style="font-size:0.65rem;color:var(--text-muted);font-weight:400">{{ campaign_info.name }}</span></h3>
+          <button class="btn btn-outline btn-sm" onclick="loadTeamItems()">🔄</button>
+        </div>
+        <div id="team-items-list" style="display:flex;flex-wrap:wrap;gap:0.35rem;min-height:2.5rem;align-items:flex-start">
+          <span style="color:var(--text-muted);font-size:0.8rem">Loading...</span>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- NOTES CARD -->
+      <div class="card" style="margin-top:0.75rem" id="notes-card">
+        <h3 style="margin-bottom:0.5rem">Notes</h3>
+        <textarea id="notes" style="width:100%;min-height:100px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:0.5rem;border-radius:6px;font-family:var(--font);font-size:0.9rem" onblur="saveNotes()">{{ character.notes or '' }}</textarea>
+        <button class="btn btn-outline btn-sm" onclick="saveNotes()" style="margin-top:0.25rem">Save Notes</button>
+      </div>
+    </div>
+
+    <!-- Add Spell Modal — searchable dropdown -->
+    <div id="add-spell-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center">
+      <div class="card" style="max-width:480px;width:92%;max-height:85vh;display:flex;flex-direction:column">
+        <h3 style="margin:0 0 0.5rem 0;flex-shrink:0">Add Spell</h3>
+        <div id="spell-source-info" style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.5rem;flex-shrink:0">Loading available spells...</div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem">
+          <label id="core-toggle-label" style="display:flex;align-items:center;gap:0.3rem;font-size:0.68rem;color:var(--text-muted);cursor:pointer;user-select:none" onclick="toggleCoreOnly()">
+            <span id="core-toggle-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
+            Core content only
+          </label>
+        </div>
+        <div style="position:relative;margin-bottom:0.5rem;flex:1;overflow-y:auto;min-height:0">
+          <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
+            style="width:100%;padding:0.5rem 0.75rem;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:0.9rem;outline:none"
+            oninput="filterSpellResults()" onkeydown="handleSpellKey(event)">
+          <div id="spell-results" style="margin-top:0.25rem"></div>
+        </div>
+        <div id="spell-detail" style="display:none;font-size:0.78rem;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;line-height:1.4;max-height:120px;overflow-y:auto;flex-shrink:0"></div>
+        <div class="form-group" style="flex-shrink:0"><label><input type="checkbox" id="spell-prepared" checked> <span id="spell-prepared-label">Prepared</span></label></div>
+        <div class="form-group" style="flex-shrink:0" id="spell-slots-group"><label>Max Slots (0 = at-will)</label><input type="number" id="spell-slots" value="0" min="0" max="9" style="width:70px"></div>
+        <input type="hidden" id="spell-name" value="">
+        <input type="hidden" id="spell-level" value="0">
+        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.5rem;flex-shrink:0">
+          <button class="btn btn-outline btn-sm" onclick="closeAddSpell()">Cancel</button>
+          <button class="btn btn-primary btn-sm" onclick="addSpell()">Add</button>
+        </div>
+      </div>
+    </div>

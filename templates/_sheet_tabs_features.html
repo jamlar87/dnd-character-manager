@@ -1,0 +1,352 @@
+    <!-- ✨ FEATURES TAB -->
+    <div class="tab-content" id="tab-features">
+      <!-- Species Traits -->
+      {% if racial_traits %}
+      <div class="card" style="margin-bottom:0.75rem">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">
+          Traits
+          <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted);margin-left:0.3rem">({{ character.race }}{% if character.subrace %} — {{ character.subrace }}{% endif %})</span>
+        </h3>
+        {% if character.race == 'Dragonborn' or character.race == 'Dragonblood' %}
+        <div class="edit-only-block" style="margin-bottom:0.5rem;font-size:0.75rem">
+          <label style="color:var(--text-muted);font-size:0.7rem;display:block;margin-bottom:0.15rem">Draconic Ancestry</label>
+          <select id="dragonborn-ancestry" onchange="saveAncestry(this.value)"
+                  style="font-size:0.7rem;padding:0.2rem 0.4rem;background:var(--bg);color:var(--text);border:1px solid var(--border-color);border-radius:4px">
+            <option value="" {% if not character.dragonborn_ancestry %}selected{% endif %}>— Choose ancestry —</option>
+            {% for color, data in draconic_ancestries.items() %}
+            <option value="{{ color }}" {% if character.dragonborn_ancestry == color %}selected{% endif %}>{{ color }} ({{ data.resist }}, {{ data.shape }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% endif %}
+        <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
+          {% for rt in racial_traits %}
+          <div>
+            <div class="passive-chip" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
+              <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span class="collapse-arrow" style="flex-shrink:0">▶</span>
+                <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ rt.name }}</span>
+                {% if rt.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ rt.dice }}</span>
+                {% endif %}
+              </span>
+            </div>
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
+              {{ rt.desc }}
+              <div style="margin-top:0.2rem;font-size:0.6rem;display:flex;align-items:center;gap:0.3rem">
+                {% if rt.source and rt.source != character.race and rt.source != character.subrace %}
+                <span class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ rt.source }}" title="Click to open {{ rt.source }}" style="font-size:0.55rem;color:var(--accent);opacity:0.7;cursor:pointer;padding:0.05rem 0.2rem;border:1px solid var(--border);border-radius:3px;white-space:nowrap">📚 {{ rt.source }}</span>
+                {% elif rt.source %}
+                <span style="font-size:0.55rem;color:var(--text-muted);opacity:0.6">{{ rt.source }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if character.feature_data %}
+      {# ── Split into passive (no uses) vs tracked (has uses) while preserving indices ── #}
+      {% set ns = namespace(feat_idx=0, passives=[], tracked=[], expertise_idx=0, asi_idx=0) %}
+      {% for feat in character.feature_data %}
+        {% if feat.uses_max is defined and feat.uses_max > 0 %}
+          {% set _ = ns.tracked.append((ns.feat_idx, feat)) %}
+        {% else %}
+          {% set _ = ns.passives.append((ns.feat_idx, feat)) %}
+        {% endif %}
+        {% set ns.feat_idx = ns.feat_idx + 1 %}
+      {% endfor %}
+
+      {# ── Passive features: full-width, descriptions always visible ── #}
+      {% if ns.passives %}
+      <div class="card" style="margin-bottom:0.75rem">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Passive Features</h3>
+        <div class="passive-grid" style="display:flex;flex-direction:column;gap:0.3rem">
+          {% for idx, feat in ns.passives %}
+          <div>
+            <div class="passive-chip" data-feat-index="{{ idx }}" onclick="togglePassiveBody(this)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:0.35rem 0.5rem;display:flex;align-items:center;gap:0.35rem;transition:border-color 0.15s">
+              <span style="display:flex;align-items:center;gap:0.3rem;flex:1;min-width:0">
+                <span class="collapse-arrow" style="flex-shrink:0">▶</span>
+                <span class="feat-level" style="font-size:0.65rem;color:var(--accent);font-weight:700;min-width:1.4em">{{ feat.level }}</span>
+                <span style="font-size:0.78rem;font-weight:600;overflow-wrap:break-word;word-break:break-word;line-height:1.3">{{ feat.name }}</span>
+                {% if feat.get("action_type") == "Bonus Action" %}
+                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem;flex-shrink:0">⚡ BA</span>
+                {% endif %}
+                {% if feat.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0">{{ feat.dice }}</span>
+                {% endif %}
+                {% if 'Fighting Style' in feat.name and character.fighting_style %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;white-space:nowrap;flex-shrink:0">{{ character.fighting_style|replace('_',' ')|title }}</span>
+                {% endif %}
+                {% if feat.source %}
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                {% endif %}
+                {% if feat.recharge == "short" %}
+                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--accent);padding:0.05rem 0.25rem">SR</span>
+                {% elif feat.recharge == "long" %}
+                <span class="badge badge-muted" style="font-size:0.55rem;background:var(--accent2);color:var(--success);padding:0.05rem 0.25rem">LR</span>
+                {% endif %}
+              </span>
+              {% if feat.name == 'Expertise' and character.expertise_skills %}
+              {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
+              <span style="font-size:0.7rem;color:var(--success);font-weight:500;flex-shrink:0">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+              {% set ns.expertise_idx = ns.expertise_idx + 1 %}
+              {% endif %}
+              {% if 'Ability Score Improvement' in feat.name %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set ns.asi_match = None %}
+              {% if character.asi_history %}
+              {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set ns.asi_match = ae %}{% endif %}{% endfor %}
+              {% endif %}
+              {% if ns.asi_match %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">
+              {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
+              {% elif ns.asi_match.choices %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+              {% else %}{% set flat_parts = [] %}{% for ab in ['strength','dexterity','constitution','intelligence','wisdom','charisma'] %}{% set amt = ns.asi_match.get(ab, 0)|int %}{% if amt > 0 %}{% set _ = flat_parts.append('+' ~ amt|string ~ ' ' ~ ab[:3]|title) %}{% endif %}{% endfor %}{{ flat_parts|join(', ') }}
+              {% endif %}</span>
+              {% endif %}
+              {% endif %}
+              {% if feat.name == 'Metamagic' and character.metamagic_history %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set ns.meta_match = None %}
+              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set ns.meta_match = mh %}{% endif %}{% endfor %}
+              {% if ns.meta_match and ns.meta_match.choices %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0;line-height:1.4">
+              {% for m in ns.meta_match.choices %}{% if not loop.first %}<br>{% endif %}{{ m|replace('_',' ')|title }}{% endfor %}
+              </span>
+              {% endif %}
+              {% endif %}
+              {% if feat.name == 'Eldritch Invocations' and invocations_by_level %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set my_invs = invocations_by_level.get(lvl_num, []) %}
+              {% if my_invs %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in my_invs %}{% if not loop.first %}<br>{% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% endif %}
+              {% if feat.name == 'Pact Boon' and character.pact_boon %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.pact_boon|replace('_',' ')|title }}</span>
+              {% endif %}
+              {% if feat.name == 'Combat Superiority' and character.maneuvers %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for m in character.maneuvers %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == 'Magical Secrets' and character.magical_secrets %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for s in character.magical_secrets %}{% if not loop.first %}, {% endif %}{{ s }}{% endfor %}</span>
+              {% endif %}
+              {% if (feat.name == 'Spirit Seeker' or feat.name == 'Totem Spirit') and character.totem_spirits %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for lvl, choice in character.totem_spirits.items() %}{% if not loop.first %}, {% endif %}{{ choice|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == "Hunter's Prey" and character.hunters_prey %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{{ character.hunters_prey|replace('_',' ')|title }}</span>
+              {% endif %}
+              {% if feat.name == 'Infuse Item' and character.infusions %}
+              <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+              {% endif %}
+              {% if feat.name == 'Sneak Attack' and class_levels and class_levels.get('Rogue') %}{% set rogue_lvl = class_levels.get('Rogue')|int %}{% set sneak_dice = ((rogue_lvl + 1) // 2)|string ~ 'd6' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sneak_dice }}</span>
+              {% endif %}
+              {% if feat.name == 'Rage' and class_levels and class_levels.get('Barbarian') %}{% set barb_lvl = class_levels.get('Barbarian')|int %}{% if barb_lvl >= 16 %}{% set rage_dmg = '+4' %}{% elif barb_lvl >= 9 %}{% set rage_dmg = '+3' %}{% else %}{% set rage_dmg = '+2' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ rage_dmg }}</span>
+              {% endif %}
+              {% if feat.name == 'Divine Strike' and class_levels and class_levels.get('Cleric') %}{% if class_levels.get('Cleric')|int >= 14 %}{% set ds_dice = '2d8' %}{% else %}{% set ds_dice = '1d8' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ ds_dice }}</span>
+              {% endif %}
+              {% if feat.name == 'Second Wind' and class_levels and class_levels.get('Fighter') %}{% set ftr_lvl = class_levels.get('Fighter')|int %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">1d10+{{ ftr_lvl }}</span>
+              {% endif %}
+              {% if feat.name == 'Improved Critical' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">19-20</span>
+              {% endif %}
+              {% if feat.name == 'Superior Critical' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">18-20</span>
+              {% endif %}
+              {% if feat.name == 'Divine Smite' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+1d8 vs undead</span>
+              {% endif %}
+              {% if feat.name == 'Breath Weapon' %}{% set con_mod = (character.constitution - 10) // 2 %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bw_dice }}, DC {{ breath_dc }}</span>
+              {% endif %}
+              {% if feat.name == 'Brutal Critical' and class_levels and class_levels.get('Barbarian') %}{% set b_lvl = class_levels.get('Barbarian')|int %}{% if b_lvl >= 17 %}{% set bc_dice = '3 dice' %}{% elif b_lvl >= 13 %}{% set bc_dice = '2 dice' %}{% else %}{% set bc_dice = '1 die' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bc_dice }}</span>
+              {% endif %}
+              {% if feat.name == 'Improved Divine Smite' %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">1d8</span>
+              {% endif %}
+              {% if feat.name == 'Martial Arts' and class_levels and class_levels.get('Monk') %}{% set m_lvl = class_levels.get('Monk')|int %}{% if m_lvl >= 17 %}{% set ma_die = '1d10' %}{% elif m_lvl >= 11 %}{% set ma_die = '1d8' %}{% elif m_lvl >= 5 %}{% set ma_die = '1d6' %}{% else %}{% set ma_die = '1d4' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ ma_die }}</span>
+              {% endif %}
+              {% if feat.name == 'Unarmored Movement' and class_levels and class_levels.get('Monk') %}{% set um_lvl = class_levels.get('Monk')|int %}{% if um_lvl >= 18 %}{% set um_bonus = '+30 ft' %}{% elif um_lvl >= 14 %}{% set um_bonus = '+25 ft' %}{% elif um_lvl >= 10 %}{% set um_bonus = '+20 ft' %}{% elif um_lvl >= 6 %}{% set um_bonus = '+15 ft' %}{% else %}{% set um_bonus = '+10 ft' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ um_bonus }}</span>
+              {% endif %}
+              {% if feat.name == 'Song of Rest' and class_levels and class_levels.get('Bard') %}{% set s_lvl = class_levels.get('Bard')|int %}{% if s_lvl >= 17 %}{% set sr_die = '1d12' %}{% elif s_lvl >= 13 %}{% set sr_die = '1d10' %}{% elif s_lvl >= 9 %}{% set sr_die = '1d8' %}{% else %}{% set sr_die = '1d6' %}{% endif %}
+              <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sr_die }}</span>
+              {% endif %}
+              <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>
+            </div>
+            <div class="passive-chip-body" style="padding:0.4rem 0.6rem;font-size:0.75rem;color:var(--text);line-height:1.4;background:var(--bg);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px">
+              {% if feat.magic_initiate and feat.magic_initiate.class %}
+              <div style="margin-bottom:0.3rem"><strong>{{ feat.magic_initiate.class }}</strong> — {{ feat.magic_initiate.spellcasting_ability|title }}-based</div>
+              <div><strong>Cantrips:</strong> {{ feat.magic_initiate.cantrips|join(', ') }}</div>
+              <div style="margin-bottom:0.4rem"><strong>1st-level:</strong> {{ feat.magic_initiate.spell }} <span style="font-size:0.7rem;color:var(--text-muted)">(1/day)</span></div>
+              <button class="btn btn-sm" onclick="toggleMagicInitiateUse({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;background:{{ 'var(--danger)' if feat.magic_initiate.used else 'var(--success)' }};color:#fff;border:none;border-radius:4px;cursor:pointer">{{ 'Used ✓' if feat.magic_initiate.used else 'Available' }}</button>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupMagicInitiate({{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-left:0.3rem">⚙️</button>
+              {% elif feat.feat_config and feat.asi_feat_name in ('Elemental Adept','Ley Initiate') %}
+              <div>{{ feat.asi_feat_desc or feat.description }}</div>
+              <div style="margin-top:0.3rem"><strong>Choice:</strong> {{ feat.feat_config.type or feat.feat_config.ability }}</div>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
+              {% elif feat.feat_config and feat.asi_feat_name == 'Martial Adept' and feat.feat_config.maneuver_names %}
+              <div>{{ feat.asi_feat_desc or feat.description }}</div>
+              <div style="margin-top:0.3rem"><strong>Maneuvers:</strong> {{ feat.feat_config.maneuver_names|join(', ') }}</div>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }})" style="font-size:0.65rem;padding:0.1rem 0.4rem;margin-top:0.3rem">⚙️</button>
+              {% elif feat.asi_feat_name in ('Elemental Adept','Ley Initiate','Magic Initiate','Martial Adept') %}
+              <div>{{ feat.asi_feat_desc or feat.description }}</div>
+              <button class="btn btn-sm btn-outline" onclick="event.stopPropagation();{% if feat.asi_feat_name == 'Magic Initiate' %}setupMagicInitiate{% else %}setupFeatConfig('{{ feat.asi_feat_name }}',{{ feat.level|replace('L','') }}){% endif %}({{ feat.level|replace('L','') }})" style="font-size:0.7rem;padding:0.15rem 0.5rem;margin-top:0.3rem">Set up {{ feat.asi_feat_name }}</button>
+              {% elif feat.name == 'Metamagic' and character.metamagic_history %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set ns.meta_match = None %}
+              {% for mh in character.metamagic_history %}{% if mh.level == lvl_num %}{% set ns.meta_match = mh %}{% endif %}{% endfor %}
+              {% if ns.meta_match and ns.meta_match.choices %}
+              {% for m in ns.meta_match.choices %}
+              <div style="margin-bottom:0.2rem"><strong>{{ m|replace('_',' ')|title }}</strong>{% if metamagic_options and metamagic_options.get(m) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ metamagic_options[m].desc }}</span>{% endif %}</div>
+              {% endfor %}
+              {% endif %}
+              {% elif feat.name == 'Eldritch Invocations' and invocations_by_level %}
+              {% set lvl_num = feat.level|replace('L','')|int %}
+              {% set my_invs = invocations_by_level.get(lvl_num, []) %}
+              {% if my_invs %}
+              {% for inv_key in my_invs %}
+              <div style="margin-bottom:0.2rem"><strong>{{ inv_key|replace('_',' ')|title }}</strong>{% if invocation_options and invocation_options.get(inv_key) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ invocation_options[inv_key].desc }}</span>{% endif %}</div>
+              {% endfor %}
+              {% endif %}
+              {% elif feat.name == 'Pact Boon' and character.pact_boon %}
+              <div style="margin-bottom:0.2rem"><strong>{{ character.pact_boon|replace('_',' ')|title }}</strong>{% if pact_boon_options and pact_boon_options.get(character.pact_boon) %}<br><span style="font-size:0.7rem;color:var(--text-muted)">{{ pact_boon_options[character.pact_boon].desc }}</span>{% endif %}</div>
+              {% elif feat.asi_feat_name %}
+              <strong>{{ feat.asi_feat_name }}</strong><br>{{ feat.asi_feat_desc or 'Feat description not available in SRD data.' }}
+              {% else %}
+              {{ feat.description or 'No description available.' }}
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {# ── Tracked features (uses): full-width, descriptions always visible ── #}
+      {% if ns.tracked %}
+      <div class="card">
+        <h3 style="margin:0 0 0.5rem 0;font-size:0.9rem;color:var(--text-muted)">Limited-Use Features</h3>
+        {% set _ns = namespace(last_level='') %}
+        {% for idx, feat in ns.tracked %}
+        {% if feat.level != _ns.last_level %}
+        {% set _ns.last_level = feat.level %}
+        <h4 style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.3rem;padding:0 0.25rem;margin-top:{% if not loop.first %}0.4rem{% else %}0{% endif %}">{{ feat.level }}</h4>
+        {% endif %}
+          <div class="feat-card" data-feat-index="{{ idx }}">
+            <div class="feat-header" onclick="toggleFeatBody(this.parentElement)">
+              <span style="flex:1;min-width:0"><span class="collapse-arrow">▶</span> <span class="feat-level">{{ feat.level }}</span>{{ feat.name }}
+                {% if feat.get("action_type") == "Bonus Action" %}
+                <span class="badge" style="font-size:0.5rem;background:rgba(255,165,0,0.2);color:orange;border:1px solid rgba(255,165,0,0.3);padding:0.1rem 0.25rem">⚡ BA</span>
+                {% endif %}
+                {% if feat.dice %}
+                <span style="font-size:0.6rem;font-weight:600;background:var(--accent2);color:var(--accent);font-family:monospace;padding:0.1rem 0.3rem;border-radius:3px;flex-shrink:0;margin-left:0.3rem">{{ feat.dice }}</span>
+                {% endif %}
+                {% if feat.name == "Hexblade's Curse" %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:600;margin-left:0.3rem;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+{{ character.proficiency_bonus }} dmg, crit 19–20</span>
+                {% endif %}
+                {% if 'Fighting Style' in feat.name %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% if character.fighting_style %}{{ character.fighting_style|replace('_',' ')|title }}{% else %}<span style="color:var(--text-muted)">—</span>{% endif %}</span>
+                {% endif %}
+                {% if feat.name == 'Expertise' and character.expertise_skills %}
+                {% set start = ns.expertise_idx * 2 %}{% set end = start + 2 %}{% set my_skills = character.expertise_skills[start:end] %}
+                <span style="font-size:0.65rem;color:var(--success);font-weight:500;margin-left:0.3rem">{% for sk in my_skills %}{% if not loop.first %}, {% endif %}{{ sk }}{% endfor %}</span>
+                {% set ns.expertise_idx = ns.expertise_idx + 1 %}
+                {% endif %}
+                {% if 'Ability Score Improvement' in feat.name %}
+                {% set lvl_num = feat.level|replace('L','')|int %}
+                {% set ns.asi_match = None %}
+                {% if character.asi_history %}
+                {% for ae in character.asi_history %}{% if ae.level == lvl_num %}{% set ns.asi_match = ae %}{% endif %}{% endfor %}
+                {% endif %}
+                {% if ns.asi_match %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">
+                {% if ns.asi_match.type == 'feat' %}{{ ns.asi_match.feat|replace('_',' ')|title }}
+                {% elif ns.asi_match.choices %}{% for ab, amt in ns.asi_match.choices.items() %}{% if not loop.first %}, {% endif %}+{{ amt }} {{ ab[:3]|title }}{% endfor %}
+                {% else %}{% set flat_parts = [] %}{% for ab in ['strength','dexterity','constitution','intelligence','wisdom','charisma'] %}{% set amt = ns.asi_match.get(ab, 0)|int %}{% if amt > 0 %}{% set _ = flat_parts.append('+' ~ amt|string ~ ' ' ~ ab[:3]|title) %}{% endif %}{% endfor %}{{ flat_parts|join(', ') }}
+                {% endif %}</span>
+                {% endif %}
+                {% endif %}
+                {% if feat.name == 'Combat Superiority' and character.maneuvers %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for m in character.maneuvers %}{% if not loop.first %}, {% endif %}{{ m|replace('_',' ')|title }}{% endfor %}</span>
+                {% endif %}
+                {% if feat.name == 'Infuse Item' and character.infusions %}
+                <span style="font-size:0.65rem;color:var(--accent);font-weight:500;margin-left:0.3rem">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
+                {% endif %}
+                {% if feat.source %}
+                <span class="source-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ feat.source }}" style="font-size:0.5rem;color:var(--text-muted);opacity:0.6;cursor:pointer;max-width:8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle" title="Source: {{ feat.source }}">📚 {{ feat.source }}</span>
+                {% endif %}
+                {% if feat.recharge == "short" %}
+                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--accent);margin-left:0.3rem">SR</span>
+                {% elif feat.recharge == "long" %}
+                <span class="badge badge-muted" style="font-size:0.6rem;background:var(--accent2);color:var(--success);margin-left:0.3rem">LR</span>
+                {% endif %}
+              </span>
+              <span style="display:flex;align-items:center;gap:0.5rem">
+                {% set pool = feat.get('pool_kind') %}
+                {% if pool in ('hp', 'points', 'dice') %}
+                <span class="feat-pool-box" style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem" id="feat-pool-box-{{ idx }}">
+                  <span class="feat-pool-hp" style="font-weight:700;min-width:2.5em;text-align:right" id="feat-pool-hp-{{ idx }}">{{ feat.uses }}</span>
+                  <span style="color:var(--text-muted);font-size:0.7rem">{{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+                  <input type="number" id="feat-pool-spend-{{ idx }}" min="1" max="{{ feat.uses }}" value="1"
+                    style="width:3.5em;padding:0.15rem 0.25rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:0.7rem;text-align:center"
+                    onkeydown="if(event.key==='Enter'){event.preventDefault();spendPool({{ idx }})}">
+                  <button class="btn btn-outline btn-sm" onclick="spendPool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Spend from pool">-</button>
+                  <button class="btn btn-outline btn-sm" onclick="restorePool({{ idx }})" style="font-size:0.65rem;padding:0.1rem 0.4rem" title="Restore full pool">↺</button>
+                </span>
+                <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">max {{ feat.uses_max }} {{ 'HP' if pool == 'hp' else 'pts' if pool == 'points' else 'dice' }}</span>
+                {% else %}
+                  <span id="feat-uses-box-{{ idx }}" style="display:inline-flex;align-items:center;gap:0.25rem">
+                  {% for i in range(feat.uses_max) %}
+                  <span class="feat-use-dot{% if i < feat.uses %} filled{% endif %}" data-feat-idx="{{ idx }}" data-dot-idx="{{ i }}" onclick="event.stopPropagation();toggleFeatureUse({{ idx }}, {{ i }})" title="{% if i < feat.uses %}Available — click to expend{% else %}Used — click to restore{% endif %}"></span>
+                  {% endfor %}
+                  </span>
+                  <span class="feat-uses-text" style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;min-width:2em;text-align:right" id="feat-uses-text-{{ idx }}">{{ feat.uses }}/{{ feat.uses_max }}</span>
+                {% endif %}
+                <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.7rem;padding:0.15rem 0.4rem">✏️</button>
+              </span>
+            </div>
+            <div class="feat-body">
+              {% if feat.asi_feat_name %}
+              <strong>{{ feat.asi_feat_name }}</strong><br>{{ feat.asi_feat_desc or 'Feat description not available in SRD data.' }}
+              {% else %}
+              {{ feat.description or 'No description available.' }}
+              {% endif %}
+              {% if feat.sub_options %}
+              <div style="margin-top:0.6rem;border-top:1px solid var(--border);padding-top:0.4rem">
+                {% for sub in feat.sub_options %}
+                {% if 'channel divinity:' in sub.name.lower() %}
+                <div class="cd-sub-option" style="margin-bottom:0.4rem">
+                  <div class="feat-sub-header"
+                       style="font-size:0.75rem;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:0.3rem;padding:0.15rem 0">
+                    {{ sub.name }}
+                  </div>
+                  <div class="feat-sub-body" style="font-size:0.72rem;color:var(--text-muted);line-height:1.4;padding-left:1rem">
+                    {{ sub.description or 'No description available.' }}
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+      {% endif %}
+
+      {% else %}
+      <div class="card"><p style="color:var(--text-muted);font-size:0.85rem">No features data. Features auto-populate for new characters.</p></div>
+      {% endif %}
+    </div>
+
