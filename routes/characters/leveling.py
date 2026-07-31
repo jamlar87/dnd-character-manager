@@ -29,7 +29,7 @@ from data import (
 from services.leveling import (
     enrich_features, get_caster_type, get_spell_slots,
     get_character_spell_slots, get_class_features, get_expertise_count,
-    get_multiclass_proficiencies, get_spells_known_max,
+    get_multiclass_proficiencies, get_spells_known_max, get_cantrips_known_max,
     get_srd_spells_for_class, meets_multiclass_prereq, parse_class_levels,
     total_level,
     # Progression core helpers
@@ -499,7 +499,7 @@ async def level_up_info(char_id: int, request: Request):
             req = v.get("prereq","")
             ok = not req or pact_boon in req
             if ok:
-                options.append({"key":k,"name":v["name"],"desc":v["desc"],"level":v["level"],"prereq":req})
+                options.append({"key":k,"name":v["name"],"desc":v["desc"],"level":v.get("level"),"prereq":req})
         invocation_info = {
             "levels": new_inv_levels,
             "picks_gained": total_picks_after - total_picks_before,

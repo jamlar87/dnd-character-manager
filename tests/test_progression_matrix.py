@@ -93,6 +93,58 @@ def _assert_ok(resp):
 
 # ── Creation state ─────────────────────────────────────────────────────────
 
+class TestLevelUpInfo:
+    """GET /api/character/{id}/level-up-info must return 200 for every
+    caster archetype. Regression: the route used get_cantrips_known_max
+    without importing it after the route-extraction refactor — the
+    NameError 500 was only reachable via the live route (no test hit it)."""
+
+    def test_wizard_full_caster_info(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers)
+        resp = client.get(f"/api/character/{cid}/level-up-info", headers=auth_headers)
+        assert resp.status_code == 200, f"wizard level-up-info failed: {resp.status_code} {resp.text[:300]}"
+        body = resp.json()
+        assert "spell_info" in body or "cantrips_change" in body or "asi_info" in body
+
+    def test_bard_known_caster_info(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers, class_name="Bard")
+        resp = client.get(f"/api/character/{cid}/level-up-info", headers=auth_headers)
+        assert resp.status_code == 200, f"bard level-up-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_fighter_no_caster_info(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers, class_name="Fighter")
+        resp = client.get(f"/api/character/{cid}/level-up-info", headers=auth_headers)
+        assert resp.status_code == 200, f"fighter level-up-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_cleric_cantrip_branch(self, client, auth_headers, seeded_db):
+        # Cleric is explicitly in the cantrips branch even though it is a prepared caster
+        cid = _create(client, auth_headers, class_name="Cleric")
+        resp = client.get(f"/api/character/{cid}/level-up-info", headers=auth_headers)
+        assert resp.status_code == 200, f"cleric level-up-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_pact_caster_info(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers, class_name="Warlock")
+        resp = client.get(f"/api/character/{cid}/level-up-info", headers=auth_headers)
+        assert resp.status_code == 200, f"warlock level-up-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_de_level_info_wizard(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers)
+        _assert_ok(_level_up(client, auth_headers, cid, 3))
+        resp = client.get(f"/api/character/{cid}/de-level-info", headers=auth_headers)
+        assert resp.status_code == 200, f"wizard de-level-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_de_level_info_warlock(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers, class_name="Warlock")
+        _assert_ok(_level_up(client, auth_headers, cid, 3))
+        resp = client.get(f"/api/character/{cid}/de-level-info", headers=auth_headers)
+        assert resp.status_code == 200, f"warlock de-level-info failed: {resp.status_code} {resp.text[:300]}"
+
+    def test_de_level_info_multiclass(self, client, auth_headers, seeded_db):
+        cid = _create(client, auth_headers)
+        _assert_ok(_level_up(client, auth_headers, cid, 5, class_name="Wizard"))
+        resp = client.get(f"/api/character/{cid}/de-level-info", headers=auth_headers)
+        assert resp.status_code == 200, f"multiclass de-level-info failed: {resp.status_code} {resp.text[:300]}"
+
 class TestCreationState:
     def test_wizard_level_one_state(self, client, auth_headers, seeded_db):
         """Wizard 1: HD 6, CON 15 (+2 mod), prof +2, one class, 2 first-level slots."""
