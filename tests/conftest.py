@@ -87,10 +87,18 @@ def seeded_db(test_db):
 @pytest.fixture
 def auth_headers(seeded_db):
     """Headers with auth cookie for a normal user."""
-    return {"Cookie": f"dnd_token={seeded_db['user_token']}"}
+    csrf_token = "test-csrf-token"
+    return {
+        "Cookie": f"dnd_token={seeded_db['user_token']}; csrf_token={csrf_token}",
+        "X-CSRF-Token": csrf_token,
+    }
 
 
 @pytest.fixture
 def admin_headers(seeded_db):
     """Headers with auth cookie for an admin user."""
-    return {"Cookie": f"dnd_token={seeded_db['admin_token']}"}
+    csrf_token = "test-csrf-token"
+    return {
+        "Cookie": f"dnd_token={seeded_db['admin_token']}; csrf_token={csrf_token}",
+        "X-CSRF-Token": csrf_token,
+    }

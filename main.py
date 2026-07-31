@@ -2032,14 +2032,20 @@ async def log_requests(request: Request, call_next):
 
 @app.middleware("http")
 async def security_middleware(request: Request, call_next):
-    """Apply security headers and reject unsafe cross-origin browser writes."""
-    if request.method not in {"GET", "HEAD", "OPTIONS"}:
+    """Apply security headers and protect cookie-authenticated writes."""
+    csrf_cookie = request.cookies.get("csrf_token")
+    if request.method not in {"GET", "HEAD", "OPTIONS"} and request.cookies.get("dnd_token"):
+        supplied = request.headers.get("x-csrf-token", "")
+        if not csrf_cookie or not supplied or not secrets.compare_digest(csrf_cookie, supplied):
+            return JSONResponse({"error": "CSRF token required"}, status_code=403)
         origin = request.headers.get("origin")
         if origin:
             expected = f"{request.url.scheme}://{request.headers.get('host', '')}"
             if origin.rstrip("/") != expected.rstrip("/"):
                 return JSONResponse({"error": "Cross-origin request rejected"}, status_code=403)
     response = await call_next(request)
+    if not csrf_cookie:
+        response.set_cookie("csrf_token", secrets.token_urlsafe(32), httponly=False, secure=APP_ENV in {"production", "prod"}, samesite="lax", path="/")
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("X-Frame-Options", "DENY")
     response.headers.setdefault("Referrer-Policy", "same-origin")

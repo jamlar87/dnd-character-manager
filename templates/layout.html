@@ -85,6 +85,27 @@
   .ai-pdf-btn:hover { filter: brightness(1.2); }
 </style>
 <script>
+// Add the double-submit CSRF token to same-origin fetch writes.
+(function () {
+  const nativeFetch = window.fetch.bind(window);
+  function csrfCookie() {
+    const item = document.cookie.split('; ').find(row => row.startsWith('csrf_token='));
+    return item ? decodeURIComponent(item.split('=')[1]) : '';
+  }
+  window.fetch = function (input, init) {
+    init = init || {};
+    const method = (init.method || (input && input.method) || 'GET').toUpperCase();
+    const url = new URL(typeof input === 'string' ? input : input.url, window.location.href);
+    if (url.origin === window.location.origin && !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+      const headers = new Headers(init.headers || (typeof input !== 'string' ? input.headers : undefined));
+      const token = csrfCookie();
+      if (token) headers.set('X-CSRF-Token', token);
+      init.headers = headers;
+    }
+    return nativeFetch(input, init);
+  };
+})();
+
 // ── Manual search (available on every page) ──
 // Defined in <head> so available immediately — before heavy page scripts
 let _lastAiSummaryData = null;
