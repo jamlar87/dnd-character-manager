@@ -246,6 +246,46 @@ def _normalize_recharge(recharge: str) -> str:
     return r
 
 
+def _normalize_manual_spell(spell: dict) -> dict:
+    """Shape a manual spell entry to match SRD format in the merged registry.
+
+    Manual spells.json entries store description under ``description`` (string),
+    higher-level text under ``higher_levels`` (string), components as a
+    comma-joined string, and have no ``index``. SRD entries use ``desc`` /
+    ``higher_level`` lists, a components list + ``material``, and a slug index.
+    The DM Tools spells tab depends on these fields, so normalize before merge.
+    """
+    # index slug — SRD convention: lowercase, apostrophes dropped, spaces → '-'
+    if not spell.get("index"):
+        name = spell.get("name", "")
+        idx = name.replace("\u2019", "").replace("\u2018", "").replace("'", "")
+        idx = idx.lower().replace(" ", "-").replace("/", "-")
+        spell["index"] = idx
+
+    # description → desc (list of paragraphs, SRD style)
+    if "desc" not in spell and spell.get("description"):
+        desc = spell.get("description")
+        if isinstance(desc, str):
+            spell["desc"] = [p for p in desc.split("\n\n") if p.strip()] or [desc]
+        elif isinstance(desc, list):
+            spell["desc"] = desc
+
+    # higher_levels → higher_level (list, SRD style)
+    if "higher_level" not in spell and spell.get("higher_levels"):
+        hl = spell["higher_levels"]
+        spell["higher_level"] = [hl] if isinstance(hl, str) else (hl or [])
+
+    # components string "V, S, M (material)" → components list + material
+    comps = spell.get("components")
+    if isinstance(comps, str):
+        m = re.search(r"\((.*)\)", comps)
+        spell["material"] = m.group(1) if m else ""
+        letters = [c.strip() for c in re.sub(r"\(.*\)", "", comps).split(",") if c.strip()]
+        spell["components"] = letters or []
+
+    return spell
+
+
 def load_manual_data():
     """Merge extracted manual data into runtime structures. Called at startup."""
     from main import SRD_SPELLS, SRD_MAGIC_ITEMS, RACES, FEATS, FEAT_BY_NAME, BACKGROUNDS, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, ITEM_INDEX, SUBRACE_TRAITS, SUBASIS, BACKGROUND_SOURCES, SUBRACE_SOURCES, MANUAL_TRAPS, RICH_RACE_DESCS, RICH_SUBRACE_DESCS, _GENERIC_TRAITS, _background_page_map, _spell_page_map, PAGE_MAP_DIR, DATA_DIR
@@ -810,6 +850,7 @@ def load_manual_data():
         if _n not in _spell_index:
             _spell_index[_n] = _i
     for spell in manual_spells:
+        _normalize_manual_spell(spell)
         norm_name = spell.get("name", "").replace('\u2019', "'").replace('\u2018', "'")
         key = norm_name.lower()
         if key not in existing_spell_names:
@@ -820,7 +861,7 @@ def load_manual_data():
             # Normalize school: string → {name: ...} dict
             school = spell.get("school")
             if isinstance(school, str):
-                spell["school"] = {"name": school}
+                spell["school"] = {"name": school.title()}
             SRD_SPELLS.append(spell)
             existing_spell_names.add(key)
             _spell_index[key] = len(SRD_SPELLS) - 1
@@ -835,7 +876,7 @@ def load_manual_data():
                     spell["classes"] = [{"name": c, "index": c.lower().replace(" ", "-")} for c in raw_classes]
                 school = spell.get("school")
                 if isinstance(school, str):
-                    spell["school"] = {"name": school}
+                    spell["school"] = {"name": school.title()}
     if manual_spells:
         print(f"  + Spells: {len(manual_spells)}")
 
