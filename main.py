@@ -4385,6 +4385,26 @@ async def describe_item(name: str = ""):
     return JSONResponse(enriched)
 
 
+# ── Canonical feature/spell-slot helpers ────────────────────────────────────
+# Implementations live in services/leveling.py. Lazy import inside the body —
+# importing at module level creates a circular import (services/leveling
+# imports from main). The wrappers keep `from main import ...` callers working.
+
+def enrich_features(*args, **kwargs):
+    from services.leveling import enrich_features as _impl
+    return _impl(*args, **kwargs)
+
+
+def get_caster_type(*args, **kwargs):
+    from services.leveling import get_caster_type as _impl
+    return _impl(*args, **kwargs)
+
+
+def get_spell_slots(*args, **kwargs):
+    from services.leveling import get_spell_slots as _impl
+    return _impl(*args, **kwargs)
+
+
 # ── Startup ─────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
@@ -4738,12 +4758,6 @@ async def open_manual(slug: str, page: int = 0):
             "Content-Disposition": f"inline; filename=\"{slug.upper()}.pdf\"",
         },
     )
-
-
-# ── Canonical implementations ───────────────────────────────────────────────
-# enrich_features / get_caster_type / get_spell_slots live in services/leveling.py.
-# Re-export here so `from main import ...` callers (dm.py) get the working copies.
-from services.leveling import enrich_features, get_caster_type, get_spell_slots
 
 
 # ── Run ─────────────────────────────────────────────────────────────────────
