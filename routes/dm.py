@@ -12,6 +12,7 @@ from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FL
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
 from main import SRD_SPELLS
+from main import SRD_MAGIC_ITEMS, ITEM_INDEX
 from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
 
@@ -225,7 +226,9 @@ async def dm_tools(request: Request):
                    manuals_groups=manuals_groups,
                    spells=SRD_SPELLS,
                    spell_schools=sorted({s.get("school", {}).get("name", "").title() for s in SRD_SPELLS if s.get("school")} - {""}),
-                   spell_classes=sorted({c.get("name", "").title() for s in SRD_SPELLS for c in (s.get("classes") or []) if isinstance(c, dict) and c.get("name")}))
+                   spell_classes=sorted({c.get("name", "").title() for s in SRD_SPELLS for c in (s.get("classes") or []) if isinstance(c, dict) and c.get("name")}),
+                   item_picker_types=sorted({i.get("type", "") for i in SRD_MAGIC_ITEMS} | {i.get("type", "") for i in ITEM_INDEX.values()} - {""}),
+                   item_picker_rarities=sorted({i.get("rarity", "").title() for i in ITEM_INDEX.values() if i.get("rarity")} - {""}))
 
 
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)

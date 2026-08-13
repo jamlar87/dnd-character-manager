@@ -1829,51 +1829,86 @@ async def dm_delete_trap(trap_id: int, request: Request):
 # ── Item search & description endpoints ──────────────────────────────────────
 
 @app.get("/api/items/search", response_class=JSONResponse)
-async def search_items(q: str = "", limit: int = 0):
-    """Search equipment + magic items by name (fuzzy substring match).
-    When q is empty, returns all items alphabetically (up to limit)."""
+async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = ""):
+    """Search equipment + magic items by name, type, rarity, and description.
+
+    Ranking: exact name > name prefix > name substring > field match
+    (type/rarity/source/description). Empty q returns all items filtered by
+    the optional type/rarity filters, alphabetically.
+    """
     query = q.strip().lower()
+    type_q = type.strip().lower()
+    rarity_q = rarity.strip().lower()
+
+    def _brief(item: dict, score: int = 0) -> dict:
+        desc = item.get("description") or item.get("desc") or ""
+        if isinstance(desc, list):
+            desc = " ".join(desc)
+        return {
+            "name": item["name"],
+            "type": item["type"],
+            "rarity": item.get("rarity", ""),
+            "source": item.get("source", ""),
+            "cost": item.get("cost", ""),
+            "weight": item.get("weight"),
+            "dice": item.get("dice", ""),
+            "base_weapon": item.get("base_weapon", ""),
+            "description": desc[:300],
+            "concentration": "concentration" in desc.lower(),
+            "_score": score,
+        }
+
     results = []
     if not query:
-        # Return all items alphabetically
+        # All items (filtered by type/rarity if given), alphabetical
         for key in sorted(ITEM_INDEX.keys()):
             item = ITEM_INDEX[key]
-            desc = item.get("description") or ""
-            if isinstance(desc, list):
-                desc = " ".join(desc)
-            results.append({
-                "name": item["name"],
-                "type": item["type"],
-                "rarity": item.get("rarity", ""),
-                "source": item.get("source", ""),
-                "cost": item.get("cost", ""),
-                "weight": item.get("weight"),
-                "description": desc[:150],
-                "concentration": "concentration" in desc.lower(),
-            })
+            if type_q and type_q not in item["type"].lower():
+                continue
+            if rarity_q and rarity_q not in (item.get("rarity") or "").lower():
+                continue
+            results.append(_brief(item))
             if limit and len(results) >= limit:
                 break
-    else:
-        for key, item in ITEM_INDEX.items():
-            if query in key:
-                desc = item.get("description") or ""
-                if isinstance(desc, list):
-                    desc = " ".join(desc)
-                results.append({
-                    "name": item["name"],
-                    "type": item["type"],
-                    "rarity": item.get("rarity", ""),
-                    "source": item.get("source", ""),
-                    "cost": item.get("cost", ""),
-                    "weight": item.get("weight"),
-                    "description": desc[:150],
-                    "concentration": "concentration" in desc.lower(),
-                })
-                if limit and len(results) >= limit:
-                    break
-        results.sort(key=lambda r: (0 if r["name"].lower().startswith(query) else 1, r["name"]))
+        return JSONResponse({"results": results, "total": len(ITEM_INDEX)})
 
-    return JSONResponse({"results": (results[:limit] if limit else results), "total": len(ITEM_INDEX)})
+    # Ranked search
+    scored = []
+    for key, item in ITEM_INDEX.items():
+        name = item["name"].lower()
+        item_type = item["type"].lower()
+        item_rarity = (item.get("rarity") or "").lower()
+        item_src = (item.get("source") or "").lower()
+        desc = item.get("description") or item.get("desc") or ""
+        if isinstance(desc, list):
+            desc = " ".join(desc).lower()
+        else:
+            desc = desc.lower()
+
+        if type_q and type_q not in item_type:
+            continue
+        if rarity_q and rarity_q not in item_rarity:
+            continue
+
+        if name == query:
+            score = 0  # exact name
+        elif name.startswith(query):
+            score = 1  # name prefix
+        elif query in name:
+            score = 2  # name substring
+        elif query in item_type or query in item_rarity or query in item_src:
+            score = 3  # type/rarity/source match
+        elif query in desc:
+            score = 4  # description match
+        else:
+            continue
+        scored.append((score, name, item))
+
+    scored.sort(key=lambda x: (x[0], x[1]))
+    results = [_brief(item, score) for score, _, item in scored]
+    if limit:
+        results = results[:limit]
+    return JSONResponse({"results": results, "total": len(results)})
 
 
 @app.get("/api/items/describe", response_class=JSONResponse)

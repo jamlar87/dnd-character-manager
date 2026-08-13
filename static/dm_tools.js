@@ -2294,14 +2294,11 @@ async function deleteTeamItem(itemId) {
 
 // ── Item Picker Popup ──
 let _pickerTimer = null;
-let _pickerSelectedName = null;
 
 function openItemPicker() {
   const popup = document.getElementById('itemPickerPopup');
   if (!popup) return;
   document.getElementById('itemPickerSearch').value = '';
-  document.getElementById('itemPickerForm').style.display = 'none';
-  _pickerSelectedName = null;
   popup.style.display = 'flex';
   loadAllItems();
 }
@@ -2314,7 +2311,13 @@ async function loadAllItems() {
   const results = document.getElementById('itemPickerResults');
   results.innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading...</div>';
   try {
-    const r = await fetch('/api/items/search');
+    const type = document.getElementById('itemPickerType') ? document.getElementById('itemPickerType').value : '';
+    const rarity = document.getElementById('itemPickerRarity') ? document.getElementById('itemPickerRarity').value : '';
+    const params = new URLSearchParams();
+    if (type) params.set('type', type);
+    if (rarity) params.set('rarity', rarity);
+    const qs = params.toString();
+    const r = await fetch(`/api/items/search${qs ? '?' + qs : ''}`);
     const d = await r.json();
     renderPickerResults(d.results || []);
   } catch(e) {
@@ -2325,15 +2328,20 @@ async function loadAllItems() {
 function searchItemPicker(query) {
   clearTimeout(_pickerTimer);
   const q = query.trim();
-  if (!q) { loadAllItems(); return; }
   _pickerTimer = setTimeout(async () => {
     const results = document.getElementById('itemPickerResults');
+    const type = document.getElementById('itemPickerType') ? document.getElementById('itemPickerType').value : '';
+    const rarity = document.getElementById('itemPickerRarity') ? document.getElementById('itemPickerRarity').value : '';
     try {
-      const r = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
+      const params = new URLSearchParams();
+      if (q) params.set('q', q);
+      if (type) params.set('type', type);
+      if (rarity) params.set('rarity', rarity);
+      const r = await fetch(`/api/items/search?${params.toString()}`);
       const d = await r.json();
       renderPickerResults(d.results || []);
     } catch(e) {}
-  }, 250);
+  }, q ? 250 : 0);
 }
 
 function renderPickerResults(items) {
@@ -2345,48 +2353,83 @@ function renderPickerResults(items) {
     return;
   }
   results.innerHTML = items.map(item =>
-    `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word">
+    `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word" onclick="showItemDetail('${item.name.replace(/'/g, "\\'")}')">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
-        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)" onclick="selectPickerItem('${item.name.replace(/'/g, "\\'")}')">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
+        <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>
-          ${item.concentration ? '<span style="font-size:0.55rem;font-weight:600;color:#f59e0b;background:rgba(245,158,11,0.12);padding:0.05rem 0.25rem;border-radius:3px">⟲</span>' : ''}
-          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();togglePickerDesc(this)" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">▾ info</span>
+          ${item.dice ? `<span style="font-size:0.65rem;font-weight:600;color:var(--accent)">${item.dice}</span>` : ''}
+          <span style="font-size:0.75rem;color:var(--accent);cursor:pointer;padding:0.15rem 0.4rem;border-radius:3px;user-select:none" onclick="event.stopPropagation();event.preventDefault();showItemDetail('${item.name.replace(/'/g, "\\'")}')" onmousedown="event.stopPropagation()" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='transparent'">📖</span>
         </div>
       </div>
-      <div class="picker-item-desc" style="display:none;padding:0.25rem 0 0.2rem 0;font-size:0.7rem;color:var(--text-muted);line-height:1.4;border-top:1px solid var(--border);margin-top:0.2rem">${item.description || 'No description available.'}</div>
     </div>`
   ).join('');
 }
 
-function togglePickerDesc(el) {
-  const descDiv = el.parentElement.parentElement.nextElementSibling;
-  if (!descDiv || !descDiv.classList.contains('picker-item-desc')) return;
-  const isHidden = descDiv.style.display === 'none' || !descDiv.style.display;
-  descDiv.style.display = isHidden ? 'block' : 'none';
-  el.textContent = isHidden ? '▴ info' : '▾ info';
+// ── Item detail modal (full lookup + add to team pool) ──
+let _itemDetailName = null;
+
+async function showItemDetail(name) {
+  openModal('itemModal');
+  document.getElementById('itemDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+  try {
+    const r = await fetch('/api/items/describe?name=' + encodeURIComponent(name));
+    const it = await r.json();
+    _itemDetailName = it.name || name;
+
+    const rarityColor = {'common':'var(--text-muted)','uncommon':'#2fbf71','rare':'#4da3ff','very rare':'#b57bff','legendary':'#ffb74d','artifact':'#ff8a65'}[String(it.rarity||'').toLowerCase()] || 'var(--text-muted)';
+
+    let html = `<h2 style="margin:0">${it.name}</h2>
+      <p style="color:var(--text-muted);margin:0.3rem 0">${it.type || 'Item'}${it.rarity ? ` · <span style="color:${rarityColor};font-weight:600">${it.rarity}</span>` : ''}${it.requires_attunement ? ' · <span style="color:var(--warn)">Requires Attunement</span>' : ''}</p>
+      ${it.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${it.source}</p>` : ''}
+      <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
+        ${it.cost ? `<span><strong>Cost</strong> ${it.cost}</span>` : ''}
+        ${it.weight ? `<span><strong>Weight</strong> ${it.weight} lb.</span>` : ''}
+        ${it.dice ? `<span><strong>Damage</strong> ${it.dice}</span>` : ''}
+        ${it.base_weapon ? `<span><strong>Base</strong> ${it.base_weapon}</span>` : ''}
+      </div>`;
+
+    const descText = it.description || '';
+    html += `<div style="margin-top:0.8rem;font-size:0.9rem;line-height:1.55;white-space:pre-wrap">${descText}</div>`;
+
+    if (it.curse) {
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🕳️ Cursed</h3></div>`;
+      html += `<div class="collapse-body" style="color:var(--danger);font-size:0.85rem">${it.curse}</div>`;
+    }
+
+    // Add-to-pool section (requires campaign selected)
+    html += `<div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--border)">
+      <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+        <strong style="font-size:0.9rem">📦 Add to Team Items Pool</strong>
+        <input type="number" id="itemModalQty" value="1" min="1" style="width:60px;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);text-align:center;font-size:0.85rem" title="Quantity">
+        <input type="number" id="itemModalGp" value="0" min="0" placeholder="GP" style="width:70px;padding:0.35rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);text-align:center;font-size:0.85rem" title="GP value">
+        <button class="btn btn-primary btn-sm" onclick="addItemFromDetail()">➕ Add to Pool</button>
+      </div>
+      <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.35rem">${_itemsCampId ? `Campaign #${_itemsCampId} selected` : '⚠ Select a campaign in the Items tab first'}</div>
+    </div>`;
+
+    document.getElementById('itemDetail').innerHTML = html;
+  } catch(e) {
+    document.getElementById('itemDetail').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--danger)">Item not found.</div>';
+  }
 }
 
-function selectPickerItem(name) {
-  _pickerSelectedName = name;
-  document.getElementById('itemPickerSelected').textContent = name;
-  document.getElementById('itemPickerForm').style.display = 'block';
-  document.getElementById('itemPickerQty').value = '1';
-  document.getElementById('itemPickerGp').value = '0';
-}
-
-async function confirmItemPicker() {
-  if (!_pickerSelectedName) return;
-  const qty = parseInt(document.getElementById('itemPickerQty').value) || 1;
-  const gp = parseInt(document.getElementById('itemPickerGp').value) || 0;
+async function addItemFromDetail() {
+  if (!_itemDetailName) return;
+  if (!_itemsCampId) {
+    alert('Select a campaign in the Items tab first');
+    return;
+  }
+  const qty = parseInt(document.getElementById('itemModalQty').value) || 1;
+  const gp = parseInt(document.getElementById('itemModalGp').value) || 0;
   const resp = await fetch(`/api/campaign/${_itemsCampId}/team-items`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: _pickerSelectedName, qty, gp_value: gp })
+    body: JSON.stringify({ name: _itemDetailName, qty, gp_value: gp })
   });
   const data = await resp.json();
   if (data.ok) {
-    closeItemPicker();
+    closeModal('itemModal');
     loadItemsPanel();
   } else {
     alert(data.error || 'Failed to add item');
