@@ -26,7 +26,17 @@
 
 ## Backup / restore
 
-Backup (stop-free; SQLite WAL-safe):
+Automated daily backup (cron, 02:00 America/New_York; keeps newest 14):
+
+```bash
+.venv/bin/python3 scripts/backup_db.py --keep 14
+```
+
+Uses the SQLite backup API — consistent snapshot, safe with WAL and live
+writes. Output: `data/backups/characters-YYYYMMDD-HHMMSS.db` (gitignored).
+Log: `data/backups/backup.log`.
+
+Manual one-off (stop-free; SQLite WAL-safe):
 
 ```bash
 DB=data/characters.db
