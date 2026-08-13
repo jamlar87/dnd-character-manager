@@ -1861,6 +1861,14 @@ async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str 
     results = []
     if not query:
         # All items (filtered by type/rarity if given), alphabetical
+        filtered_total = 0
+        for key in sorted(ITEM_INDEX.keys()):
+            item = ITEM_INDEX[key]
+            if type_q and type_q not in item["type"].lower():
+                continue
+            if rarity_q and rarity_q not in (item.get("rarity") or "").lower():
+                continue
+            filtered_total += 1
         for key in sorted(ITEM_INDEX.keys()):
             item = ITEM_INDEX[key]
             if type_q and type_q not in item["type"].lower():
@@ -1870,7 +1878,7 @@ async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str 
             results.append(_brief(item))
             if limit and len(results) >= limit:
                 break
-        return JSONResponse({"results": results, "total": len(ITEM_INDEX)})
+        return JSONResponse({"results": results, "total": filtered_total})
 
     # Ranked search
     scored = []

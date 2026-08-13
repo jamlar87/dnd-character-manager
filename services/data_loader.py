@@ -246,6 +246,34 @@ def _normalize_recharge(recharge: str) -> str:
     return r
 
 
+def _normalize_item_rarity(raw_rarity: str) -> str:
+    """Normalize ingested magic-item rarity strings to standard 5e values.
+
+    Maps exotic labels (fabled/unique), scaling descriptors (+1/+2/+3), and
+    mundane-flavored text onto the canonical set: common, uncommon, rare,
+    very rare, legendary, artifact, varies, unknown.
+    """
+    rarity_lower = (raw_rarity or "unknown").strip().lower()
+    RARITY_NORM = {
+        "fabled": "legendary", "unique": "artifact",
+        "none (non-magical)": "common", "faint conjuration": "common",
+        "faint abjuration": "common", "moderate": "uncommon",
+        "minor magical property": "common",
+    }
+    if rarity_lower in RARITY_NORM:
+        return RARITY_NORM[rarity_lower]
+    if "varies" in rarity_lower or "see" in rarity_lower:
+        return "varies"
+    if "fabled" in rarity_lower:
+        return "legendary"
+    if rarity_lower.startswith("uncommon") and ("+" in rarity_lower or "," in rarity_lower):
+        return "varies"  # +1/+2/+3 scaling items like "uncommon (+1), rare (+2), or very rare (+3)"
+    if rarity_lower.startswith(("rare", "very rare", "legendary", "artifact", "common", "uncommon")) and ("+" in rarity_lower or "," in rarity_lower):
+        return "varies"
+    std_rarities = {"common", "uncommon", "rare", "very rare", "legendary", "artifact", "unknown", "varies"}
+    return rarity_lower if rarity_lower in std_rarities else "unknown"
+
+
 def _normalize_manual_spell(spell: dict) -> dict:
     """Shape a manual spell entry to match SRD format in the merged registry.
 
@@ -942,25 +970,7 @@ def load_manual_data():
             if item.get("_source_manual"):
                 source = _normalize_manual_source(source, item["_source_manual"], meta)
             # Normalize rarity (handle non-standard strings from ingested data)
-            raw_rarity = (item.get("rarity") or "unknown").strip()
-            rarity_lower = raw_rarity.lower()
-            RARITY_NORM = {
-                "fabled": "legendary", "unique": "artifact",
-                "none (non-magical)": "common", "faint conjuration": "common",
-                "faint abjuration": "common", "moderate": "uncommon",
-                "minor magical property": "common",
-            }
-            if rarity_lower in RARITY_NORM:
-                norm_rarity = RARITY_NORM[rarity_lower]
-            elif "varies" in rarity_lower or "see" in rarity_lower:
-                norm_rarity = "varies"
-            elif "fabled" in rarity_lower:
-                norm_rarity = "legendary"
-            elif rarity_lower.startswith("uncommon") and ("+" in rarity_lower or "," in rarity_lower):
-                norm_rarity = "varies"  # +1/+2/+3 scaling items like "uncommon (+1), rare (+2), or very rare (+3)"
-            else:
-                std_rarities = {"common", "uncommon", "rare", "very rare", "legendary", "artifact", "unknown", "varies"}
-                norm_rarity = rarity_lower if rarity_lower in std_rarities else "unknown"
+            norm_rarity = _normalize_item_rarity(item.get("rarity") or "unknown")
 
             # Heuristic: classify remaining "unknown" items by type
             if norm_rarity == "unknown":
@@ -1027,7 +1037,7 @@ def load_manual_data():
                 source = (item.get("source") or "").strip()
                 if item.get("_source_manual"):
                     source = _normalize_manual_source(source, item["_source_manual"], meta)
-                rarity = item.get("rarity", "varies")
+                rarity = _normalize_item_rarity(item.get("rarity") or "varies")
                 entry_dict = {
                     "name": name,
                     "type": "Magic Item",
