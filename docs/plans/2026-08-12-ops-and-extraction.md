@@ -68,10 +68,17 @@ moved definitions from main.py.
 
 ### Remaining (documented, not attempted)
 
-`_render` (~690 lines), `load_manual_data` merge (~1,100 lines, mutates
-module globals via `global` — needs registry refactor first), `init_db`
-(~370 lines). Reported as remaining work in the final summary; not
-silently claimed complete.
+None — all items completed:
+
+- `_render` was already minimal (8 lines; the ~690-line context builder had
+  moved to `routes/characters/sheet.py` during the template split).
+- `init_db` + `_migrate_npc_source_columns` (410 lines) → `services/db_schema.py`.
+- `load_manual_data` merge (1,056 lines) + 9 loader helpers + private
+  constants → `services/data_loader.py`. AST-verified zero bare rebinds of
+  registry names, so lazy `from main import ...` at call time propagates
+  in-place mutations to the same objects; `global` statement dropped.
+
+**Final: main.py 5,325 → 2,279 lines (-57%).** Coverage 43% → 44.5%.
 
 ---
 
