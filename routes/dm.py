@@ -11,6 +11,7 @@ from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extr
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
+from main import SRD_SPELLS
 from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
 
@@ -221,7 +222,10 @@ async def dm_tools(request: Request):
                    source_map_json=json.dumps(slug_map),
                    summon_templates=SUMMON_TEMPLATES,
                    characters_json=json.dumps(characters),
-                   manuals_groups=manuals_groups)
+                   manuals_groups=manuals_groups,
+                   spells=SRD_SPELLS,
+                   spell_schools=sorted({s.get("school", {}).get("name", "").title() for s in SRD_SPELLS if s.get("school")} - {""}),
+                   spell_classes=sorted({c.get("name", "").title() for s in SRD_SPELLS for c in (s.get("classes") or []) if isinstance(c, dict) and c.get("name")}))
 
 
 @router.get("/api/dm/monster/{index}", response_class=JSONResponse)
@@ -233,6 +237,87 @@ async def dm_monster_detail(index: str, request: Request):
         if m.get("index", "").lower() == index.lower():
             return JSONResponse(_enrich_monster(m))
     raise HTTPException(status_code=404, detail="Monster not found")
+
+
+@router.get("/api/dm/spell/{index}", response_class=JSONResponse)
+async def dm_spell_detail(index: str, request: Request):
+    """Full spell detail from the merged SRD + manual spell registry."""
+    user = require_user(request)
+    for s in SRD_SPELLS:
+        if s.get("index", "").lower() == index.lower():
+            return JSONResponse(_enrich_spell(s))
+    raise HTTPException(status_code=404, detail="Spell not found")
+
+
+def _enrich_spell(s: dict) -> dict:
+    """Enrich spell data for the detail modal: readable school/classes/level label."""
+    import copy
+    s = copy.deepcopy(s)
+
+    # Normalize school to a readable name
+    school = s.get("school") or {}
+    if isinstance(school, dict):
+        s["school_name"] = school.get("name") or school.get("index", "").title() or "Unknown"
+    elif isinstance(school, str):
+        s["school_name"] = school.title()
+    else:
+        s["school_name"] = "Unknown"
+
+    # Normalize classes to readable names
+    cls = s.get("classes") or []
+    s["class_names"] = []
+    for c in cls:
+        if isinstance(c, dict):
+            s["class_names"].append(c.get("name") or c.get("index", "").title())
+        elif isinstance(c, str):
+            s["class_names"].append(c.title())
+    s["class_names"] = sorted(set(s["class_names"]))
+
+    # Normalize subclasses
+    sub = s.get("subclasses") or []
+    s["subclass_names"] = []
+    for c in sub:
+        if isinstance(c, dict):
+            s["subclass_names"].append(c.get("name") or c.get("index", "").title())
+        elif isinstance(c, str):
+            s["subclass_names"].append(c.title())
+    s["subclass_names"] = sorted(set(s["subclass_names"]))
+
+    # Level label (Cantrip vs Nth level)
+    lvl = s.get("level", 0)
+    s["level_label"] = "Cantrip" if lvl == 0 else f"{lvl}"
+
+    # Components — strip material parens for the badge, keep raw
+    s["components_raw"] = s.get("components", [])
+
+    # Damage summary for the header strip
+    dmg = s.get("damage") or {}
+    if isinstance(dmg, dict):
+        dt = dmg.get("damage_type")
+        s["damage_summary"] = dt.get("name", "") if isinstance(dt, dict) else (dt if isinstance(dt, str) else "")
+    else:
+        s["damage_summary"] = ""
+
+    # DC info
+    dc = s.get("dc") or {}
+    if isinstance(dc, dict):
+        dct = dc.get("dc_type")
+        s["dc_summary"] = dct.get("name", "") if isinstance(dct, dict) else (dct if isinstance(dct, str) else "")
+    else:
+        s["dc_summary"] = ""
+
+    # Area of effect
+    aoe = s.get("area_of_effect") or {}
+    if isinstance(aoe, dict):
+        at = aoe.get("type", "")
+        s["aoe_summary"] = f"{aoe.get('size', '')} ft. {at}" if aoe.get("size") else at
+    else:
+        s["aoe_summary"] = ""
+
+    # Attack type
+    s["attack_summary"] = (s.get("attack_type") or "").replace("_", " ").title()
+
+    return s
 
 
 def _enrich_monster(m: dict) -> dict:

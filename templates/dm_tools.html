@@ -402,6 +402,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <button class="dm-tab" data-tab="encounters">⚡ Encounters</button>
   <button class="dm-tab" data-tab="combat">⚔️ Combat</button>
   <button class="dm-tab" data-tab="monsters">🐉 Monsters</button>
+  <button class="dm-tab" data-tab="spells">✨ Spells</button>
   <button class="dm-tab" data-tab="npcs">👤 NPCs</button>
   <button class="dm-tab" data-tab="items">🎒 Items</button>
   <button class="dm-tab" data-tab="traps">⚠️ Traps</button>
@@ -442,6 +443,51 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         <span class="m-stat">AC {{ m.armor_class[0].value if m.armor_class else '?' }}</span>
         <span class="m-stat">HP {{ m.hit_points }}</span>
         <span class="m-stat">XP {{ m.xp }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ───── SPELLS PANEL ───── #}
+<div class="dm-panel" id="panel-spells">
+  <div class="search-bar">
+    <input type="text" id="spellSearch" placeholder="Search spells..." style="flex:1;min-width:200px" oninput="filterSpells()">
+    <select id="spellLevelFilter" onchange="filterSpells()">
+      <option value="">All Levels</option>
+      <option value="0">Cantrip</option>
+      {% for lv in range(1, 10) %}<option value="{{ lv }}">Level {{ lv }}</option>{% endfor %}
+    </select>
+    <select id="spellSchoolFilter" onchange="filterSpells()">
+      <option value="">All Schools</option>
+      {% for sc in spell_schools %}<option value="{{ sc|lower }}">{{ sc }}</option>{% endfor %}
+    </select>
+    <select id="spellClassFilter" onchange="filterSpells()">
+      <option value="">All Classes</option>
+      {% for cl in spell_classes %}<option value="{{ cl|lower }}">{{ cl }}</option>{% endfor %}
+    </select>
+    <span style="color:var(--text-muted);font-size:0.85rem" id="spellCount">{{ spells|length }} spells</span>
+  </div>
+
+  <div class="monster-grid" id="spellGrid">
+    {% for s in spells %}
+    <div class="monster-card" data-name="{{ s.name|lower }}" data-level="{{ s.level }}"
+         data-school="{{ s.school.name|default(s.school|string, true)|lower }}" data-source="{{ s.source|default('') }}"
+         data-classes="{{ s.classes|map(attribute='name')|join(',')|lower }}"
+         onclick="showSpell('{{ s.index }}')">
+      <div class="m-name">{{ s.name }}</div>
+      <div class="m-type">
+        {% if s.level == 0 %}Cantrip{% else %}Level {{ s.level }}{% endif %} · {{ s.school.name if s.school and s.school.name else (s.school|string|title if s.school else 'Unknown') }}
+        {% if s.ritual %}<span style="color:var(--accent)"> · Ritual</span>{% endif %}
+        {% if s.concentration %}<span style="color:var(--warn)"> · Concentration</span>{% endif %}
+      </div>
+      {% if s.source %}
+      <div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer" class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="{{ s.source }}">📚 {{ s.source }}</div>
+      {% endif %}
+      <div class="m-stats">
+        <span class="m-stat">⏱ {{ s.casting_time }}</span>
+        <span class="m-stat">📏 {{ s.range }}</span>
+        <span class="m-stat">⏳ {{ s.duration }}</span>
       </div>
     </div>
     {% endfor %}
@@ -603,6 +649,14 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('monsterModal')">✕</button>
     <div id="monsterDetail"></div>
+  </div>
+</div>
+
+{# ───── SPELL DETAIL MODAL ───── #}
+<div class="modal-overlay" id="spellModal" style="z-index:1100">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('spellModal')">✕</button>
+    <div id="spellDetail"></div>
   </div>
 </div>
 
@@ -1163,5 +1217,5 @@ const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};
 const SUMMON_TEMPLATES = {{ summon_templates|tojson }};
 const COMBAT_CHARACTERS = {{ characters_json|safe }};
     </script>
-<script src="/static/dm_tools.js?v=24"></script>
+<script src="/static/dm_tools.js?v=25"></script>
 {% endblock %}

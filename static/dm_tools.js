@@ -133,7 +133,7 @@ function activateTab(tabName) {
 (function() {
   try {
     const saved = localStorage.getItem('dmToolsTab');
-    const validTabs = ['campaigns','encounters','combat','monsters','npcs','items','traps','manuals'];
+    const validTabs = ['campaigns','encounters','combat','monsters','spells','npcs','items','traps','manuals'];
     const tab = validTabs.includes(saved) ? saved : 'campaigns';
     activateTab(tab);
   } catch(e) {
@@ -206,6 +206,7 @@ function toggleCoreDM() {
   const active = document.querySelector('.dm-panel.active');
   if (active) {
     if (active.id === 'panel-monsters') filterMonsters();
+    else if (active.id === 'panel-spells') filterSpells();
     else if (active.id === 'panel-traps') filterTraps();
     else if (active.id === 'panel-items' && _itemsCampId) loadAllItems();
     else if (active.id === 'panel-combat') filterCombatCreatures();
@@ -380,6 +381,111 @@ async function showMonster(index) {
     document.getElementById('monsterDetail').innerHTML = html;
   } catch(e) {
     document.getElementById('monsterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load monster details.</p>';
+  }
+}
+
+// ── Spell filtering ──
+function filterSpells() {
+  const q = document.getElementById('spellSearch').value.toLowerCase();
+  const level = document.getElementById('spellLevelFilter').value;
+  const school = document.getElementById('spellSchoolFilter').value.toLowerCase();
+  const cls = document.getElementById('spellClassFilter').value.toLowerCase();
+
+  let count = 0;
+  document.querySelectorAll('#spellGrid .monster-card').forEach(card => {
+    const name = card.dataset.name;
+    const cLevel = card.dataset.level;
+    const cSchool = card.dataset.school;
+    const classes = (card.dataset.classes || '').split(',');
+    const match = (!q || name.includes(q))
+      && (!level || cLevel === level)
+      && (!school || cSchool === school)
+      && (!cls || classes.includes(cls))
+      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source));
+    card.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  document.getElementById('spellCount').textContent = count + ' spells';
+}
+
+// ── Spell detail ──
+async function showSpell(index) {
+  openModal('spellModal');
+  document.getElementById('spellDetail').innerHTML = '<div style="text-align:center;padding:2rem">Loading...</div>';
+  try {
+    const r = await fetch('/api/dm/spell/' + encodeURIComponent(index));
+    if (!r.ok) throw new Error('Not found');
+    const s = await r.json();
+
+    const comps = (s.components_raw || []).join('');
+    const badges = [];
+    if (s.ritual) badges.push('<span class="action-badge" style="background:var(--accent2);color:var(--text)">Ritual</span>');
+    if (s.concentration) badges.push('<span class="action-badge" style="background:var(--warn);color:var(--text)">Concentration</span>');
+    if (s.attack_summary) badges.push(`<span class="action-badge">↠ ${s.attack_summary}</span>`);
+
+    let html = `<h2 style="margin:0">${s.name}</h2>
+      <p style="color:var(--text-muted);margin:0.3rem 0">${s.level_label === 'Cantrip' ? 'Cantrip' : 'Level ' + s.level_label} · ${s.school_name}${s.attack_summary ? ' · ' + s.attack_summary : ''}</p>
+      ${s.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${s.source}</p>` : ''}
+      <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
+        <span><strong>Casting</strong> ${s.casting_time}</span>
+        <span><strong>Range</strong> ${s.range}</span>
+        <span><strong>Components</strong> ${comps || '—'}${s.material ? ` <em style="color:var(--text-muted)">(${s.material})</em>` : ''}</span>
+        <span><strong>Duration</strong> ${s.duration}</span>
+      </div>
+      <div style="display:flex;gap:0.4rem;margin:0.4rem 0;flex-wrap:wrap">${badges.join(' ')}</div>`;
+
+    // Damage / DC / AoE strip
+    const extras = [];
+    if (s.damage_summary) extras.push(`<span><strong>Damage</strong> ${s.damage_summary}</span>`);
+    if (s.dc_summary) extras.push(`<span><strong>Save</strong> ${s.dc_summary}</span>`);
+    if (s.aoe_summary) extras.push(`<span><strong>Area</strong> ${s.aoe_summary}</span>`);
+    if (s.attack_summary && !s.damage_summary) extras.push(`<span><strong>Attack</strong> ${s.attack_summary}</span>`);
+    if (extras.length) {
+      html += `<div style="display:flex;gap:1rem;margin:0.3rem 0;font-size:0.9rem;flex-wrap:wrap;color:var(--text-muted)">${extras.join('')}</div>`;
+    }
+
+    // Description
+    if (s.desc && s.desc.length) {
+      html += `<div style="margin-top:0.8rem;font-size:0.9rem;line-height:1.55">`;
+      s.desc.forEach(p => { html += `<p style="margin:0.5rem 0">${p}</p>`; });
+      html += `</div>`;
+    }
+
+    // Higher levels
+    if (s.higher_level && s.higher_level.length) {
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">⬆️ At Higher Levels</h3></div>`;
+      html += `<div class="collapse-body">`;
+      s.higher_level.forEach(p => { html += `<p style="margin:0.4rem 0;font-size:0.9rem">${p}</p>`; });
+      html += `</div>`;
+    }
+
+    // Damage scaling table
+    if (s.damage && s.damage.damage_at_character_level) {
+      const scale = s.damage.damage_at_character_level;
+      const rows = Object.entries(scale).map(([lvl, dice]) => `<tr><td style="padding:0.2rem 0.6rem 0.2rem 0">${lvl === '0' ? 'Cantrip' : 'Level ' + lvl}</td><td style="padding:0.2rem 0.6rem"><strong>${dice}</strong></td></tr>`).join('');
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🎲 Damage Scaling</h3></div>`;
+      html += `<div class="collapse-body"><table class="dm-table" style="width:auto"><tbody>${rows}</tbody></table></div>`;
+    }
+
+    // Slot scaling (for spells with damage_at_slot_level)
+    if (s.damage && s.damage.damage_at_slot_level) {
+      const scale = s.damage.damage_at_slot_level;
+      const rows = Object.entries(scale).map(([lvl, dice]) => `<tr><td style="padding:0.2rem 0.6rem 0.2rem 0">Slot ${lvl}</td><td style="padding:0.2rem 0.6rem"><strong>${dice}</strong></td></tr>`).join('');
+      html += `<div class="collapse-header" onclick="toggleCollapse(this)"><span class="collapse-arrow open">▶</span><h3 style="margin:0;border:none;padding:0">🎲 Slot Scaling</h3></div>`;
+      html += `<div class="collapse-body"><table class="dm-table" style="width:auto"><tbody>${rows}</tbody></table></div>`;
+    }
+
+    // Classes / subclasses
+    const avail = [];
+    if (s.class_names && s.class_names.length) avail.push(`<span><strong>Classes:</strong> ${s.class_names.join(', ')}</span>`);
+    if (s.subclass_names && s.subclass_names.length) avail.push(`<span><strong>Subclasses:</strong> ${s.subclass_names.join(', ')}</span>`);
+    if (avail.length) {
+      html += `<div style="margin-top:0.8rem;font-size:0.85rem;color:var(--text-muted)">${avail.join('<br>')}</div>`;
+    }
+
+    document.getElementById('spellDetail').innerHTML = html;
+  } catch(e) {
+    document.getElementById('spellDetail').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--danger)">Spell not found.</div>';
   }
 }
 
