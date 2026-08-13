@@ -26,15 +26,18 @@
 
 ## Backup / restore
 
-Automated daily backup (cron, 02:00 America/New_York; keeps newest 14):
+Automated daily backup via systemd timer (02:00, persistent across reboots;
+keeps newest 14):
 
 ```bash
-.venv/bin/python3 scripts/backup_db.py --keep 14
+.venv/bin/python3 scripts/backup_db.py --keep 14          # manual one-off
+systemctl status dnd-backup.timer                          # check schedule
 ```
 
-Uses the SQLite backup API — consistent snapshot, safe with WAL and live
-writes. Output: `data/backups/characters-YYYYMMDD-HHMMSS.db` (gitignored).
-Log: `data/backups/backup.log`.
+Units: `/etc/systemd/system/dnd-backup.{service,timer}`. Uses the SQLite
+backup API — consistent snapshot, safe with WAL and live writes. Output:
+`data/backups/characters-YYYYMMDD-HHMMSS.db` (gitignored). Log:
+`data/backups/backup.log`.
 
 Manual one-off (stop-free; SQLite WAL-safe):
 
