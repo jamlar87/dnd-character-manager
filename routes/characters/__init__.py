@@ -16,6 +16,7 @@ from routes.characters.all import (
     _xp_for_cr,
     _assign_encounter_counts,
     _search_manuals,
+    _monster_cr_sort_key,
     # Helper functions used by tests/test_core_functions.py
     parse_class_levels, total_level, primary_class,
     get_caster_type, get_prepared_max,

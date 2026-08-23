@@ -97,5 +97,4 @@ class UpdateCharacter(BaseModel):
     gp: Optional[int] = None
     cp: Optional[int] = None
 
-    class Config:
-        extra = "allow"  # Accept all allowed fields from the existing handler
+    model_config = ConfigDict(extra="allow")  # Accept all allowed fields from the existing handler

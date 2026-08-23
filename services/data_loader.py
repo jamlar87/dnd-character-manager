@@ -1229,7 +1229,6 @@ def load_manual_data():
         print(f"  + Subclasses: {len(manual_subclasses)}")
 
     # ── Traps ── load from manual data
-    global MANUAL_TRAPS
     manual_traps = _load_manual_json("traps.json")
     if manual_traps:
         MANUAL_TRAPS.clear(); MANUAL_TRAPS.extend(manual_traps)

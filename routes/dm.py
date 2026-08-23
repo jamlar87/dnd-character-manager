@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 
 from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned
-from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character
+from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
@@ -15,6 +15,10 @@ from main import SRD_SPELLS
 from main import SRD_MAGIC_ITEMS, ITEM_INDEX
 from data import SUBCLASS_LEVELS
 from summon_templates import SUMMON_TEMPLATES
+from main import ALIGNMENTS
+from routes.characters.sheet import allocate_ability_scores, calc_hp, get_equipment_for_level, get_spells_for_level
+from routes.characters.ai_routes import _calculate_ac, _pick_skills
+from services.leveling import PROFICIENCY_BONUS, get_class_features
 
 router = APIRouter()
 

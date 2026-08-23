@@ -509,7 +509,7 @@ def _require_owned(db, user: dict, table: str, item_id: int, id_col: str = "id")
     return dict(row) if row else None
 
 # ── DB schema init/migrations (extracted to services/db_schema.py) ────────
-from services.db_schema import init_db, _migrate_npc_source_columns
+from services.db_schema import init_db
 
 # ── Render helper ───────────────────────────────────────────────────────────
 

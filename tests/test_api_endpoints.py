@@ -82,6 +82,22 @@ class TestDMMonsters:
         types = {m.get("type") for m in monsters}
         assert "humanoid" in types
 
+    def test_monsters_by_cr(self, client, auth_headers):
+        resp = client.get("/api/dm/monsters/by-cr", headers=auth_headers)
+        assert resp.status_code == 200
+        data = resp.json()
+        for tier in ("trivial", "low", "medium", "high", "deadly", "legendary"):
+            assert tier in data, f"by-cr missing tier {tier}"
+        # Each tier must be CR-sorted ascending
+        def cr(m):
+            try:
+                return float(m.get("challenge_rating", 0))
+            except (TypeError, ValueError):
+                return 99.0
+        for tier, monsters in data.items():
+            crs = [cr(m) for m in monsters]
+            assert crs == sorted(crs), f"tier {tier} not CR-sorted"
+
 
 class TestDMEncounters:
     def test_list_encounters(self, client, auth_headers):
@@ -99,6 +115,22 @@ class TestDMEncounters:
         assert resp.status_code == 200
         data = resp.json()
         assert data.get("encounter_id") or data.get("id")
+
+
+class TestDMAiBuildNPC:
+    def test_build_npc(self, client, auth_headers):
+        resp = client.post(
+            "/api/dm/ai/build-npc",
+            json={"race": "Human", "class_name": "Fighter", "level": 3},
+            headers=auth_headers
+        )
+        assert resp.status_code == 200
+        data = resp.json()
+        build = data.get("build", {})
+        assert build.get("level") == 3
+        assert build.get("class") == "Fighter"
+        for key in ("ability_scores", "armor_class", "hit_points", "proficiency_bonus", "equipment", "features"):
+            assert key in build, f"build missing {key}"
 
 
 class TestSheetRendering:
