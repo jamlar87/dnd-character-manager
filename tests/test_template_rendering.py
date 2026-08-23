@@ -8,6 +8,60 @@ import pytest
 import json
 
 
+class TestDashboardRenders:
+    """Dashboard renders with filters + import/export UI."""
+
+    def test_dashboard_with_characters(self, client, auth_headers, seeded_db):
+        import sqlite3
+        db_path = seeded_db["db_path"]
+        con = sqlite3.connect(str(db_path))
+        con.execute(
+            "INSERT INTO characters (user_id, name, race, class_name, level, strength, dexterity, "
+            "constitution, intelligence, wisdom, charisma, hp_max, hp_current, ac) "
+            "VALUES (1, 'Dash Hero', 'Dwarf', 'Cleric', 4, 15, 10, 15, 10, 14, 10, 30, 22, 18)"
+        )
+        con.commit()
+        con.close()
+
+        resp = client.get("/dashboard", headers=auth_headers)
+        assert resp.status_code == 200
+        # Filter UI present
+        assert 'id="charSearch"' in resp.text
+        assert 'id="classFilter"' in resp.text
+        assert 'id="levelFilter"' in resp.text
+        # Class option from character present
+        assert 'value="Cleric"' in resp.text
+        # Import button present
+        assert "Import" in resp.text
+        assert 'accept=".json,application/json"' in resp.text
+        # filterChars defined
+        assert "function filterChars" in resp.text
+
+    def test_dashboard_empty(self, client, auth_headers):
+        resp = client.get("/dashboard", headers=auth_headers)
+        assert resp.status_code == 200
+        # No characters: no filter bar, import still available
+        assert 'id="charSearch"' not in resp.text
+        assert "Create Your First Character" in resp.text
+
+
+class TestThemeToggle:
+    """Theme toggle renders on all pages."""
+
+    def test_theme_toggle_in_layout(self, client, auth_headers):
+        resp = client.get("/dashboard", headers=auth_headers)
+        assert resp.status_code == 200
+        assert 'id="themeToggle"' in resp.text
+        assert 'onclick="toggleTheme()"' in resp.text
+        assert 'data-theme="light"' in resp.text
+        assert "toggleTheme" in resp.text
+
+    def test_theme_toggle_on_login_page(self, client):
+        resp = client.get("/login")
+        assert resp.status_code == 200
+        assert 'id="themeToggle"' in resp.text
+
+
 class TestSheetRenders:
     """Character sheet must return 200 for valid character ids."""
 

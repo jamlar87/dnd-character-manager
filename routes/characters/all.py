@@ -163,6 +163,10 @@ router.include_router(_creation_router)
 from routes.characters.pdf import router as _pdf_router
 router.include_router(_pdf_router)
 
+# ── Export/Import JSON (transfer.py) ────────────────────────────────────────
+from routes.characters.transfer import router as _transfer_router
+router.include_router(_transfer_router)
+
 # ── Spell/combat management (extracted to spells.py) ────────────────────
 from routes.characters.spells import router as _spells_router
 router.include_router(_spells_router)

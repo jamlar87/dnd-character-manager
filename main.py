@@ -1669,7 +1669,8 @@ async def dashboard(request: Request):
                 c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError):
                 c[f] = []
-    return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs)
+    return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs,
+                   all_classes=sorted({c.get("class_name") for c in chars if c.get("class_name")}))
 
 
 # ── Toggle favorite ────────────────────────────────────────────────────

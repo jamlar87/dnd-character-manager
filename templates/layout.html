@@ -12,6 +12,12 @@
     --success: #00c853; --danger: #ff1744; --warn: #ff9100;
     --font: 'Segoe UI', system-ui, sans-serif;
   }
+  /* Light theme — toggled via [data-theme="light"] on <html> */
+  html[data-theme="light"] {
+    --bg: #f4f5f7; --card-bg: #ffffff; --text: #22262b; --text-muted: #6b7280;
+    --accent: #c0265a; --accent2: #dbe4f0; --border: #d4d8de;
+    --success: #15803d; --danger: #dc2626; --warn: #b45309;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   img, table, video, canvas, svg { max-width: 100%; height: auto; }
   body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-wrap: break-word; word-break: break-word; }
@@ -105,6 +111,28 @@
       init.headers = headers;
     }
     return nativeFetch(input, init);
+  };
+})();
+
+// ── Theme toggle (light/dark) — persisted to localStorage ──
+(function () {
+  const KEY = 'dnd_theme';
+  function apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = theme === 'light' ? '☀️' : '🌙';
+  }
+  function current() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+  try {
+    const saved = localStorage.getItem(KEY);
+    if (saved === 'light' || saved === 'dark') apply(saved);
+  } catch (e) { /* localStorage unavailable — default dark */ }
+  window.toggleTheme = function () {
+    const next = current() === 'light' ? 'dark' : 'light';
+    apply(next);
+    try { localStorage.setItem(KEY, next); } catch (e) {}
   };
 })();
 
@@ -252,6 +280,7 @@ document.addEventListener('click', function(e) {
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
+  <button id="themeToggle" class="btn btn-outline btn-sm" onclick="toggleTheme()" title="Toggle light/dark theme" style="touch-action:manipulation;margin-left:0.5rem" aria-label="Toggle theme">🌙</button>
   <div class="nav-links">
     {% if user %}
     <a href="/dashboard">My Characters</a>

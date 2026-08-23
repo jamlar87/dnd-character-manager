@@ -9,10 +9,34 @@
 </style>
 {% endblock %}
 {% block content %}
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem">
   <h1>My Characters</h1>
-  <a href="/create" class="btn btn-primary">+ Create Character</a>
+  <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+    <label class="btn btn-outline" style="cursor:pointer;margin:0" title="Import a character from an exported JSON file">
+      ⬆️ Import
+      <input type="file" accept=".json,application/json" style="display:none" onchange="importCharacterFile(this.files[0]);this.value=''">
+    </label>
+    <a href="/create" class="btn btn-primary">+ Create Character</a>
+  </div>
 </div>
+
+{% if characters %}
+<div class="card" style="padding:0.75rem 1rem;margin-bottom:1rem">
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+    <input type="text" id="charSearch" placeholder="🔍 Search name, race, class..." oninput="filterChars()"
+      style="flex:1;min-width:160px;padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none">
+    <select id="classFilter" onchange="filterChars()" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
+      <option value="">All Classes</option>
+      {% for cls in all_classes %}<option value="{{ cls }}">{{ cls }}</option>{% endfor %}
+    </select>
+    <select id="levelFilter" onchange="filterChars()" style="padding:0.45rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem">
+      <option value="">All Levels</option>
+      {% for lv in range(1, 21) %}<option value="{{ lv }}">Lv {{ lv }}</option>{% endfor %}
+    </select>
+    <span id="charCount" style="color:var(--text-muted);font-size:0.85rem;white-space:nowrap"></span>
+  </div>
+</div>
+{% endif %}
 
 {% if not characters %}
 <div class="card" style="text-align:center;padding:3rem">
@@ -22,7 +46,8 @@
 {% else %}
 {% for c in characters %}
 {% set is_fav = c.id in favorites %}
-<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'">
+<div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'"
+  data-name="{{ c.name|lower }}" data-class="{{ c.class_name|lower }}" data-level="{{ c.level }}">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div style="display:flex;align-items:center;gap:0.5rem">
       <span class="fav-star" data-char-id="{{ c.id }}"
@@ -59,6 +84,47 @@
 {% endif %}
 
 <script>
+function filterChars() {
+  const q = (document.getElementById('charSearch').value || '').toLowerCase().trim();
+  const cls = (document.getElementById('classFilter').value || '').toLowerCase();
+  const lvl = document.getElementById('levelFilter').value || '';
+  let count = 0;
+  document.querySelectorAll('.char-card-inner').forEach(card => {
+    const name = (card.dataset.name || '').toLowerCase();
+    const cClass = (card.dataset.class || '').toLowerCase();
+    const cLevel = card.dataset.level || '';
+    const match = (!q || name.includes(q) || cClass.includes(q))
+      && (!cls || cClass === cls)
+      && (!lvl || cLevel === lvl);
+    card.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  const el = document.getElementById('charCount');
+  if (el) el.textContent = count + ' shown';
+}
+document.addEventListener('DOMContentLoaded', filterChars);
+
+async function importCharacterFile(file) {
+  if (!file) return;
+  const text = await file.text();
+  let data;
+  try { data = JSON.parse(text); } catch (e) { alert('Not valid JSON'); return; }
+  if (!data.character) { alert('Not a character export file'); return; }
+  if (!confirm('Import "' + (data.character.name || 'character') + '" as a new character?')) return;
+  const r = await fetch('/api/character/import', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  const res = await r.json().catch(() => ({}));
+  if (r.ok && res.id) {
+    alert('Imported "' + res.name + '"');
+    location.href = '/character/' + res.id;
+  } else {
+    alert('Import failed: ' + (res.error || r.status));
+  }
+}
+
 async function toggleShare(id, currentlyShared) {
   const newState = !currentlyShared;
   const r = await fetch('/api/character/' + id + '/toggle-share', {
