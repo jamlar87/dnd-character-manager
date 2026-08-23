@@ -66,7 +66,7 @@ async def _call_gemini(prompt: str) -> str | None:
     try:
         async with httpx.AsyncClient(timeout=20) as client:
             resp = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}",
+                f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key={key}",
                 json={"contents": [{"parts": [{"text": prompt}]}]},
             )
             result = resp.json()
@@ -98,8 +98,24 @@ async def _call_openrouter(prompt: str) -> str | None:
             )
             result = resp.json()
             msg = result["choices"][0]["message"]
-            # Some free models (e.g. laguna-m.1) put output in 'reasoning' instead of 'content'
-            return msg.get("content") or msg.get("reasoning") or ""
+            content = msg.get("content") or ""
+            reasoning = msg.get("reasoning") or ""
+            # Some free models (e.g. laguna-m.1) put output in 'reasoning'
+            # instead of 'content' — but most put chain-of-thought there.
+            # Only fall back to reasoning if it actually looks like the answer
+            # (contains a JSON object), never CoT rambling.
+            if content.strip():
+                # Free-tier routing is nondeterministic: some models echo the
+                # prompt back as CoT ("Okay, the user wants..."). If we asked
+                # for JSON and got no object, treat as failure so the chain
+                # falls through to the next tier.
+                if "{" in prompt and "{" not in content:
+                    print("[OR] content has no JSON despite JSON prompt — rejecting")
+                    return ""
+                return content
+            if reasoning.strip() and "{" in reasoning:
+                return reasoning
+            return ""
     except Exception as e:
         print(f"[OR] error: {e}")
         return None

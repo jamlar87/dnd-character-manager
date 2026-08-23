@@ -8,7 +8,7 @@ Usage:
     .venv/bin/python3 scripts/backup_db.py            # one backup + rotate
     .venv/bin/python3 scripts/backup_db.py --keep 14  # override retention
 
-Backups land in data/backups/characters-YYYYMMDD-HHMMSS.db.
+Backups land in data/backups/characters-YYYYMMDD-HHMMSS-ffffff.db.
 """
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ def backup_db(db_path: Path, backup_dir: Path, keep: int) -> Path:
 
     backup_dir.mkdir(parents=True, exist_ok=True)
 
-    ts = __import__("datetime").datetime.now().strftime("%Y%m%d-%H%M%S")
+    ts = __import__("datetime").datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     dest = backup_dir / f"characters-{ts}.db"
 
     # SQLite backup API — consistent snapshot, safe with WAL + live writes
