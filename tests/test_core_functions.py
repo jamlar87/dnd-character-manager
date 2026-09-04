@@ -168,9 +168,9 @@ class TestNaturalWeaponAttacks:
         attacks = _build_character_attacks(char)
         claws = [a for a in attacks if a.get("name") == "Claws"]
         assert len(claws) == 1
-        # prof(3) + STR(0) = +3; claws deal 1d4 slashing
+        # prof(3) + STR(0) = +3; MToM Tortle claws deal 1d6 slashing
         assert claws[0]["attack_bonus"] == 3
-        assert claws[0]["damage"] == "1d4 slashing"
+        assert claws[0]["damage"] == "1d6 slashing"
         assert claws[0]["range"] == "5 ft"
         assert claws[0].get("natural") is True
 

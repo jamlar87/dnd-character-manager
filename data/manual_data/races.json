@@ -1642,7 +1642,7 @@
   },
   {
     "name": "Tortle",
-    "source": "(Explorer's Guide to Wildemount, p.181)",
+    "source": "(Monsters of the Multiverse, p.34)",
     "asi": {
       "strength": 2,
       "dexterity": 0,
@@ -1661,31 +1661,31 @@
     "traits": [
       {
         "name": "Claws",
-        "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
+        "description": "You have claws that you can use to make unarmed strikes. When you hit with them, the strike deals 1d6 + your Strength modifier slashing damage, instead of the bludgeoning damage normal for an unarmed strike.",
         "uses": 0,
         "recharge": ""
       },
       {
         "name": "Hold Breath",
-        "description": "You can hold your breath for up to 1 hour at a time. Tortles aren't natural swimmers, but they can remain underwater for some time before needing to come up for air.",
+        "description": "You can hold your breath for up to 1 hour.",
         "uses": 0,
         "recharge": ""
       },
       {
         "name": "Natural Armor",
-        "description": "Due to your shell and the shape of your body, you are ill-suited to wearing armor. Your shell provides ample protection, however; it gives you a base AC of 17 (your Dexterity modifier doesn't affect this number). You gain no benefit from wearing armor, but if you are using a shield, you can apply the shield's bonus as normal.",
+        "description": "Your shell provides you a base AC of 17 (your Dexterity modifier doesn't affect this number). You can't wear light, medium, or heavy armor, but if you are using a shield, you can apply the shield's bonus as normal.",
         "uses": 0,
         "recharge": ""
       },
       {
         "name": "Shell Defense",
-        "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can't increase, you have disadvantage on Dexterity saving throws, you can't take reactions, and the only action you can take is a bonus action to emerge from your shell.",
+        "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to your AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can't increase, you have disadvantage on Dexterity saving throws, you can't take reactions, and the only action you can take is a bonus action to emerge from your shell.",
         "uses": 0,
         "recharge": ""
       },
       {
-        "name": "Survival Instinct",
-        "description": "You gain proficiency in the Survival skill. Tortles have finely honed survival instincts.",
+        "name": "Nature's Intuition",
+        "description": "Thanks to your mystical connection to nature, you gain proficiency with one of the following skills of your choice: Animal Handling, Medicine, Nature, Perception, Stealth, or Survival.",
         "uses": 0,
         "recharge": ""
       }
@@ -1705,7 +1705,7 @@
         "darkvision": null,
         "hp_per_level": 0,
         "natural_armor": null,
-        "notes": "Your claws are natural weapons. You can make unarmed strikes with them, dealing 1d4 + Strength modifier slashing damage instead of normal bludgeoning damage."
+        "notes": "Your claws are natural weapons. You can make unarmed strikes with them, dealing 1d6 + Strength modifier slashing damage instead of normal bludgeoning damage."
       },
       "Hold Breath": {
         "armor_profs": [],
@@ -1737,7 +1737,7 @@
           "max_dex": null,
           "allow_shield": true
         },
-        "notes": "You gain no benefit from wearing armor, but can use a shield normally."
+        "notes": "You can't wear light, medium, or heavy armor; shield bonus applies normally."
       },
       "Shell Defense": {
         "armor_profs": [],
@@ -1753,7 +1753,7 @@
         "natural_armor": null,
         "notes": "As an action, withdraw into shell: +4 AC, advantage on Strength and Constitution saves, prone, speed 0, disadvantage on Dexterity saves, no reactions, only action is bonus action to emerge."
       },
-      "Survival Instinct": {
+      "Nature's Intuition": {
         "armor_profs": [],
         "weapon_profs": [],
         "tool_profs": [],
@@ -1770,7 +1770,7 @@
         "notes": ""
       }
     },
-    "_source_manual": "EGW"
+    "_source_manual": "MToM"
   },
   {
     "name": "Hollow One",

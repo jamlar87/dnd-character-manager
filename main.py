@@ -944,11 +944,12 @@ RICH_RACE_DESCS: dict[str, str] = {
         "approach problems with the calm of someone who will outlive the crisis. When the urge comes, they "
         "return home, share their stories, mate, and die—their children inheriting the wisdom of lives "
         "well-lived.\n\n"
-        "Mechanically, tortles gain +2 Strength and +1 Wisdom. Natural Armor gives them a flat AC 17 "
+        "Mechanically, tortles gain +2 Strength and +1 Wisdom (Monsters of the Multiverse allows any +2/+1 split). Natural Armor gives them a flat AC 17 "
         "(no DEX bonus, shields still work)—making them the tankiest unarmored race. Shell Defense lets "
         "them withdraw into their shell as an action for +4 AC at the cost of being prone and immobile. "
-        "Hold Breath lets them stay underwater for up to an hour. Survival Instinct grants proficiency "
-        "in Survival and Nature. They speak Common and Aquan."
+        "Hold Breath lets them stay underwater for up to an hour. Their Claws are natural weapons that "
+        "deal 1d6 + Strength slashing damage on an unarmed strike. Nature's Intuition grants proficiency "
+        "in one skill of their choice. They speak Common and one other language."
     ),
     "Triton": (
         "Tritons are proud aquatic humanoids from the elemental depths of the Plane of Water. They stand "
@@ -1157,7 +1158,8 @@ for trait_name, trait_desc in RACIAL_TRAIT_DESCS.items():
 # Damage dice subscripts for natural weapon traits
 _TRAIT_DICE = {
     "Cat's Claws": "1d4 + Str",       # Tabaxi
-    "Claws": "1d4 + Str",             # Tortle
+    "Claws": "1d4 + Str",             # Molefolk, Thri-kreen
+    "Tortle::Claws": "1d6 + Str",     # Tortle — Monsters of the Multiverse p.34
     "Bite": "1d6 + Str",              # Lizardfolk, Bearfolk, Shadowborn Bearfolk
     "Sharp Tusks": "1 + 1d4 psy",     # Ratatosk
 }

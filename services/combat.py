@@ -108,7 +108,7 @@ def _build_racial_traits(char: dict) -> list:
                 src = _trait_page_map.get(t, "")
                 if not src:
                     src = race_name
-                dice = _TRAIT_DICE.get(t, "")
+                dice = _TRAIT_DICE.get(f"{race_name}::{t}") or _TRAIT_DICE.get(t, "")
                 result.append({"name": t, "desc": desc, "source": src, "dice": dice})
 
     if subrace:
@@ -137,7 +137,8 @@ def _build_racial_traits(char: dict) -> list:
 # means the trait's damage does NOT add the ability modifier (e.g. Sharp
 # Tusks deals a flat 1 + 1d4), but the attack roll still adds STR.
 _NATURAL_WEAPON_ATTACKS = {
-    "Claws":       {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Tortle, Molefolk, Thri-kreen
+    "Claws":       {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Molefolk, Thri-kreen (legacy)
+    "Tortle::Claws": {"damage": "1d6", "type": "slashing", "source_note": "natural weapon (unarmed strike)"},   # Tortle — Monsters of the Multiverse p.34
     "Cat's Claws": {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Tabaxi
     "Talons":      {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Aarakocra
     "Bite":        {"damage": "1d6", "type": "piercing",  "source_note": "natural weapon (unarmed strike)"},   # Lizardfolk, Bearfolk, Thri-kreen
@@ -182,7 +183,8 @@ def _build_natural_weapon_attacks(character: dict) -> list:
     for tname in names:
         if not tname or tname in seen:
             continue
-        spec = _NATURAL_WEAPON_ATTACKS.get(tname)
+        # Race-scoped spec first (e.g. "Tortle::Claws" 1d6 vs generic "Claws" 1d4)
+        spec = _NATURAL_WEAPON_ATTACKS.get(f"{race_name}::{tname}") or _NATURAL_WEAPON_ATTACKS.get(tname)
         if not spec:
             continue
         seen.add(tname)
@@ -198,7 +200,9 @@ def _build_natural_weapon_attacks(character: dict) -> list:
             dmg_str = f"{spec['damage']} {spec['type']}"
 
         # Try to pull a description so the expand card shows the trait text
-        desc = RACIAL_TRAIT_DESCS.get(tname, "") or RACIAL_TRAIT_DESCS.get(f"{race_name}::{tname}", "")
+        # (race-scoped first — "Tortle::Claws" differs from other races' Claws)
+        desc = (RACIAL_TRAIT_DESCS.get(f"{race_name}::{tname}", "")
+                or RACIAL_TRAIT_DESCS.get(tname, ""))
         attacks.append({
             "name": tname,
             "attack_bonus": attack_bonus,
