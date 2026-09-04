@@ -150,6 +150,66 @@ class TestRacialTraitEffects:
         assert "Rapier" in result.get("weapon_profs", [])
 
 
+class TestNaturalWeaponAttacks:
+    """Natural weapons from race traits (Tortle Claws etc.) must appear as
+    attack cards in the character's attack list."""
+
+    def _char(self, race, **over):
+        char = {"race": race, "subrace": None, "strength": 10,
+                "dexterity": 10, "constitution": 10, "intelligence": 10,
+                "wisdom": 10, "charisma": 10, "proficiency_bonus": 3,
+                "inventory": [], "equipped": []}
+        char.update(over)
+        return char
+
+    def test_tortle_claws_in_attacks(self):
+        from services.combat import _build_character_attacks
+        char = self._char("Tortle", strength=10)
+        attacks = _build_character_attacks(char)
+        claws = [a for a in attacks if a.get("name") == "Claws"]
+        assert len(claws) == 1
+        # prof(3) + STR(0) = +3; claws deal 1d4 slashing
+        assert claws[0]["attack_bonus"] == 3
+        assert claws[0]["damage"] == "1d4 slashing"
+        assert claws[0]["range"] == "5 ft"
+        assert claws[0].get("natural") is True
+
+    def test_human_has_no_natural_attacks(self):
+        from services.combat import _build_character_attacks
+        char = self._char("Human")
+        attacks = _build_character_attacks(char)
+        assert all(not a.get("natural") for a in attacks)
+
+    def test_tabaxi_cats_claws_str_14(self):
+        from services.combat import _build_character_attacks
+        char = self._char("Tabaxi", strength=14)
+        attacks = _build_character_attacks(char)
+        cats = [a for a in attacks if a.get("name") == "Cat's Claws"]
+        assert len(cats) == 1
+        # prof(3) + STR(2) = +5
+        assert cats[0]["attack_bonus"] == 5
+        assert cats[0]["damage"] == "1d4 + 2 slashing"
+
+    def test_lizardfolk_bite(self):
+        from services.combat import _build_character_attacks
+        char = self._char("Lizardfolk", strength=14)
+        attacks = _build_character_attacks(char)
+        bite = [a for a in attacks if a.get("name") == "Bite"]
+        assert len(bite) == 1
+        assert bite[0]["damage"] == "1d6 + 2 piercing"
+
+    def test_combined_with_inventory_weapons(self):
+        """Natural weapons append after inventory weapons, no dedupe break."""
+        from services.combat import _build_character_attacks
+        char = self._char("Tortle")
+        char["inventory"] = [{"name": "Dagger", "qty": 1}]
+        attacks = _build_character_attacks(char)
+        names = [a.get("name") for a in attacks]
+        assert "Dagger" in names
+        assert "Claws" in names
+        assert names.index("Dagger") < names.index("Claws")
+
+
 class TestRandomName:
     def test_returns_dict(self):
         result = random_name("Human")

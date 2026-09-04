@@ -64,7 +64,8 @@ from services.items import (
 from services.combat import (
     get_racial_trait_effects, _build_racial_traits, _subrace_traits,
     _find_weapon, _parse_enhancement, _build_attack_for_weapon,
-    _build_inventory_attacks, _build_charged_item_attacks, _normalize_equipped,
+    _build_inventory_attacks, _build_natural_weapon_attacks,
+    _build_character_attacks, _build_charged_item_attacks, _normalize_equipped,
     _build_named_item_types, _get_named_item_types, _equipped_names,
     _normalize_armor_profs, get_character_armor_profs, _resolve_armor_item,
     check_armor_proficiency_from_set,

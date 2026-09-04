@@ -18,7 +18,8 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from main import (
     get_db, require_user, _render, _user_filter, _is_admin, _require_owned,
     _normalize_equipped, _equipped_names, _build_racial_traits,
-    _build_inventory_attacks, _build_charged_item_attacks, _build_item_description,
+    _build_character_attacks,
+    _build_charged_item_attacks, _build_item_description,
     _resolve_item_key, _resolve_armor_item, _resolve_source, _parse_enhancement,
     _item_rarity_for_level, _entry, _load_manual_json, _get_named_item_types,
     _get_source_slug_map, _manual_races_raw as _MANUAL_RACES_RAW,
@@ -825,8 +826,8 @@ async def character_sheet(char_id: int, request: Request):
     compute_advantage_map(char)
     advantage_map = char.get("advantage_map", {})
 
-    # Build attacks from inventory weapons + existing attacks_data
-    all_attacks = _build_inventory_attacks(char)
+    # Build attacks from inventory weapons + natural weapons (race traits)
+    all_attacks = _build_character_attacks(char)
     # Build charged item cards (wands, staves, rods, etc.)
     charged_items = _build_charged_item_attacks(char)
 
@@ -1249,7 +1250,7 @@ async def get_attacks(char_id: int, request: Request):
         if isinstance(char.get(field), str):
             try: char[field] = json.loads(char[field])
             except: pass
-    attacks = _build_inventory_attacks(char)
+    attacks = _build_character_attacks(char)
     return JSONResponse({"attacks": attacks})
 
 @router.get("/api/character/{char_id}/summons", response_class=JSONResponse)

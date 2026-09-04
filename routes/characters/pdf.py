@@ -7,7 +7,7 @@ from main only — never from all.py (avoids circulars).
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import Response
 
-from main import get_db, require_user, _require_owned, _build_racial_traits, _build_inventory_attacks
+from main import get_db, require_user, _require_owned, _build_racial_traits, _build_character_attacks
 
 router = APIRouter()
 
@@ -72,9 +72,9 @@ async def character_pdf(char_id: int, request: Request):
 
     db.close()
 
-    # Rebuild attacks_data from current inventory + equipped items
+    # Rebuild attacks_data from current inventory/equipped + natural weapons
     # (the stored attacks_data may be stale if items were added later)
-    fresh_attacks = _build_inventory_attacks(char_data)
+    fresh_attacks = _build_character_attacks(char_data)
     if fresh_attacks:
         char_data["attacks_data"] = fresh_attacks
 

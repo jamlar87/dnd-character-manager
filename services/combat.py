@@ -129,6 +129,91 @@ def _build_racial_traits(char: dict) -> list:
     return result
 
 
+# ── Natural weapons granted by race traits (usable as unarmed strikes) ──
+# Keyed by the trait name as it appears in RACES[].traits. Damage dice and
+# type follow the trait source text. Entries become attack cards in the
+# Weapon Attacks section so e.g. a Tortle's Claws are listed as a real attack.
+# To-hit always uses proficiency + STR (unarmed-strike rule). "no_damage_mod"
+# means the trait's damage does NOT add the ability modifier (e.g. Sharp
+# Tusks deals a flat 1 + 1d4), but the attack roll still adds STR.
+_NATURAL_WEAPON_ATTACKS = {
+    "Claws":       {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Tortle, Molefolk, Thri-kreen
+    "Cat's Claws": {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Tabaxi
+    "Talons":      {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Aarakocra
+    "Bite":        {"damage": "1d6", "type": "piercing",  "source_note": "natural weapon (unarmed strike)"},   # Lizardfolk, Bearfolk, Thri-kreen
+    "Horns":       {"damage": "1d6", "type": "piercing",  "source_note": "natural weapon (unarmed strike)"},   # Minotaur
+    "Sharp Tusks": {"damage": "1 + 1d4", "type": "piercing + psychic", "no_damage_mod": True,
+                    "source_note": "natural weapon (unarmed strike)"},                                          # Ratatosk — flat damage
+}
+
+
+def _build_natural_weapon_attacks(character: dict) -> list:
+    """Build attack entries for natural-weapon race traits (Claws, Bite, ...).
+
+    Natural weapons don't come from inventory, so the normal inventory scan
+    misses them. This lists any natural-weapon trait the character's race /
+    subrace grants, using proficiency + STR for the attack bonus (per the
+    trait text, damage adds STR unless the trait says otherwise).
+    """
+    race_name = character.get("race", "")
+    subrace = character.get("subrace", "")
+    if not race_name:
+        return []
+
+    abilities = {a: character.get(a, 10) for a in
+                 ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]}
+    prof_bonus = character.get("proficiency_bonus", 2)
+
+    # Collect natural-weapon trait names for this race + subrace
+    race_data = RACES.get(race_name, {})
+    trait_names = list(race_data.get("traits", []))
+    if subrace:
+        from main import SUBRACE_TRAITS
+        trait_names.extend(SUBRACE_TRAITS.get(subrace, []))
+    # Normalize dict-style trait entries to their names
+    names = [t if isinstance(t, str) else (t.get("name", "") if isinstance(t, dict) else "")
+             for t in trait_names]
+
+    # Source for the source badge
+    source = race_data.get("source", "") or race_name
+
+    attacks = []
+    seen = set()
+    for tname in names:
+        if not tname or tname in seen:
+            continue
+        spec = _NATURAL_WEAPON_ATTACKS.get(tname)
+        if not spec:
+            continue
+        seen.add(tname)
+
+        str_mod = (abilities.get("strength", 10) - 10) // 2
+        attack_bonus = prof_bonus + str_mod
+
+        if spec.get("no_damage_mod"):
+            dmg_str = f"{spec['damage']} {spec['type']}"
+        elif str_mod != 0:
+            dmg_str = f"{spec['damage']} + {str_mod} {spec['type']}"
+        else:
+            dmg_str = f"{spec['damage']} {spec['type']}"
+
+        # Try to pull a description so the expand card shows the trait text
+        desc = RACIAL_TRAIT_DESCS.get(tname, "") or RACIAL_TRAIT_DESCS.get(f"{race_name}::{tname}", "")
+        attacks.append({
+            "name": tname,
+            "attack_bonus": attack_bonus,
+            "damage": dmg_str,
+            "range": "5 ft",
+            "properties": ["natural weapon"],
+            "qty": 1,
+            "enhancement": 0,
+            "natural": True,
+            "description": desc or f"{spec['source_note']} ({race_name}).",
+            "source": source,
+        })
+    return attacks
+
+
 def _subrace_traits(manual_entry: dict) -> list[str]:
     """Extract subrace-specific trait names, filtering out generic ones."""
     from main import _GENERIC_TRAITS
@@ -250,7 +335,8 @@ def _build_attack_for_weapon(item_name: str, weapon_data: dict, abilities: dict,
 
 def _build_inventory_attacks(character: dict) -> list:
     """Scan inventory and equipped items for weapons and build attack entries.
-    Includes magazine/charge tracking for firearms and charged weapons."""
+    Includes magazine/charge tracking for firearms and charged weapons.
+    Does NOT include natural weapons from race traits — see _build_character_attacks."""
     abilities = {a: character.get(a, 10) for a in ["strength","dexterity","constitution","intelligence","wisdom","charisma"]}
     prof_bonus = character.get("proficiency_bonus", 2)
 
@@ -295,6 +381,16 @@ def _build_inventory_attacks(character: dict) -> list:
 
     _scan(character.get("inventory", []))
     _scan(character.get("equipped", []))
+    return attacks
+
+
+def _build_character_attacks(character: dict) -> list:
+    """Full attack list for the Actions tab: inventory/equipped weapons PLUS
+    natural weapons granted by race traits (Tortle Claws, Tabaxi Cat's Claws,
+    Lizardfolk Bite, ...). Natural weapons belong with weapon attacks because
+    they are attacks the character can actually make in combat."""
+    attacks = _build_inventory_attacks(character)
+    attacks.extend(_build_natural_weapon_attacks(character))
     return attacks
 
 
@@ -525,4 +621,4 @@ def check_armor_proficiency_from_set(profs: set[str], armor_category: str) -> di
 
 
 
-__all__ = ["get_racial_trait_effects", "_build_racial_traits", "_subrace_traits", "_find_weapon", "_parse_enhancement", "_build_attack_for_weapon", "_build_inventory_attacks", "_build_charged_item_attacks", "_normalize_equipped", "_build_named_item_types", "_get_named_item_types", "_equipped_names", "_normalize_armor_profs", "get_character_armor_profs", "_resolve_armor_item", "check_armor_proficiency_from_set"]
+__all__ = ["get_racial_trait_effects", "_build_racial_traits", "_subrace_traits", "_find_weapon", "_parse_enhancement", "_build_attack_for_weapon", "_build_inventory_attacks", "_build_natural_weapon_attacks", "_build_character_attacks", "_build_charged_item_attacks", "_normalize_equipped", "_build_named_item_types", "_get_named_item_types", "_equipped_names", "_normalize_armor_profs", "get_character_armor_profs", "_resolve_armor_item", "check_armor_proficiency_from_set"]
