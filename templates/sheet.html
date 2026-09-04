@@ -838,6 +838,17 @@
       </div>
       {% endif %}
 
+      <!-- 💀 Death Strike callout (Assassin L17 — surprise hits force CON save or double damage) -->
+      {% if character.subclass and 'assassin' in (character.subclass|lower) and class_levels and class_levels.get('Rogue') and class_levels.get('Rogue')|int >= 17 %}
+      {% set ds_dc = 8 + ((character.dexterity - 10) // 2) + prof %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.4rem">💀 Death Strike <span style="font-size:0.7rem;color:var(--warn);font-weight:600;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">L17</span></h3>
+        <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.4">
+          When you attack and hit a creature that is <strong style="color:var(--text)">surprised</strong>, it must make a <strong style="color:var(--text)">Constitution saving throw</strong> (DC {{ ds_dc }}). On a failed save, <strong style="color:var(--text)">double the damage</strong> of your attack against the creature.
+        </div>
+      </div>
+      {% endif %}
+
       <!-- ⚡ Bonus Actions -->
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin-bottom:0.5rem">⚡ Bonus Actions</h3>

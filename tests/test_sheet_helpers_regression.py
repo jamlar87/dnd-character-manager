@@ -44,3 +44,21 @@ class TestComputeItemEffectsDarkvision:
     def test_no_darkvision_default(self):
         result = compute_item_effects(["Ring of Protection"], [])
         assert result["darkvision"] == 0
+
+
+class TestLaterLevelActionTyping:
+    """High-level Rogue features need correct action types so they render as
+    tracked Special/limited-use buttons instead of passive chips (Death Strike
+    handled as a template callout card gated on Rogue level >= 17)."""
+
+    def test_stroke_of_luck_special_short_rest(self):
+        from services.leveling import enrich_features
+        mods = {k: 0 for k in ("strength", "dexterity", "constitution",
+                                "intelligence", "wisdom", "charisma")}
+        res = enrich_features(["L20: Stroke of Luck"], class_name="Rogue", level=20,
+                              mods=mods, class_levels={"Rogue": 20})
+        assert len(res) == 1
+        assert res[0]["action_type"] == "Special"
+        assert res[0]["uses_max"] == 1
+        assert res[0]["uses"] == 1
+        assert res[0]["recharge"] == "short"

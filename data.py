@@ -248,6 +248,8 @@ FEATURE_ACTION_TYPES = {
     "hands of the healer":             ("Action", "Heal a creature by touch"),
     "tides of chaos":                  ("Reaction", "Gain advantage on an attack, check, or save"),
     "indomitable":                     ("Special", "Reroll a failed saving throw"),
+    # Rogue (PHB p.97) — Stroke of Luck, 1/short rest, no action cost
+    "stroke of luck":                  ("Special", "Turn a missed attack into a hit or a failed ability check into a 20 (1/short rest)"),
 }
 
 # ── Metamagic Options (Sorcerer PHB p.102) ────────────────────────────
