@@ -169,8 +169,30 @@ class TestRiderCalloutCards:
             # placeholder tokens used must be resolvable ones
             import re as _re
             toks = set(_re.findall(r"\{(\w+)\}", entry.get("body", "") + entry.get("tag", "")))
-            known = {"init", "ds_dice", "bc_tag", "pb_die", "dice"}
+            known = {"init", "ds_dice", "bc_tag", "pb_dice", "dice"}
             assert toks <= known, (key, toks)
+
+    def test_registry_no_overlap_with_tracked_button_features(self):
+        """A RIDER_CARDS entry must not be a feature that already renders as a
+        tracked button or Bonus Action/Reaction entry — that double-surfaces it
+        (Slayer's Prey bug: FAT Bonus Action + rider card)."""
+        from data import RIDER_CARDS, FEATURE_ACTION_TYPES, LIMITED_USE
+        import re as _re
+        _clean = lambda k: _re.sub(r'\s*\([^)]*\)\s*$', '', k).strip()
+        for key in RIDER_CARDS:
+            fat = FEATURE_ACTION_TYPES.get(key) or FEATURE_ACTION_TYPES.get(_clean(key))
+            if fat and fat[0] in ("Bonus Action", "Reaction"):
+                raise AssertionError(f"{key}: FAT {fat[0]} already renders as a button")
+            assert key not in LIMITED_USE, f"{key}: LIMITED_USE already renders as tracked button"
+
+    def test_psychic_blades_scales_by_bard_level(self):
+        from routes.characters.sheet import _build_rider_cards
+        fd = [{"name": "Psychic Blades", "level": "L3", "base_name": "Psychic Blades"}]
+        for bard_lvl, want in [(3, "2d6"), (6, "3d6"), (12, "5d6"), (20, "8d6")]:
+            cards = _build_rider_cards(fd, {}, {"Bard": bard_lvl})
+            assert want in cards[0]["tag"], (bard_lvl, cards[0]["tag"])
+            assert "{" not in cards[0]["body"]
+            assert "psychic" in cards[0]["body"].lower()
 
     def test_builder_emits_card_only_for_features_present(self):
         from routes.characters.sheet import _build_rider_cards

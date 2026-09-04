@@ -433,7 +433,7 @@ FEATURE_ACTION_TYPES = {
 # attacks, or casts (no action cost of their own) — the Sneak Attack family.
 # Rendered on the Actions tab as callout cards when the character has the
 # feature. Keys are the collapsed base_name (lowercase). Body text may use
-# {tokens} filled at render: {ds_dice} {bc_tag} {pb_die} {init} {dice}.
+# {tokens} filled at render: {ds_dice} {bc_tag} {pb_dice} {init} {dice}.
 RIDER_CARDS = {
     "colossus slayer": {
         "name": "Colossus Slayer",
@@ -441,11 +441,17 @@ RIDER_CARDS = {
         "tag": "1/turn",
         "body": "Once per turn, when you hit a creature with a weapon attack and it is below its hit point maximum, deal an extra <strong>1d8</strong> damage.",
     },
+    "horde breaker": {
+        "name": "Horde Breaker",
+        "icon": "🎯",
+        "tag": "1/turn",
+        "body": "Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a <strong>different creature within 5 ft</strong> of the first target (and in range).",
+    },
     "dread ambusher": {
         "name": "Dread Ambusher",
         "icon": "🎯",
         "tag": "1st turn",
-        "body": "You add your <strong>Wisdom modifier</strong> ({init}) to initiative. On your first turn of each combat: <strong>+10 ft</strong> speed, and one attack from the Attack action deals an extra <strong>1d8</strong> damage.",
+        "body": "Add your <strong>Wisdom modifier</strong> ({init}) to initiative. On your first turn of each combat you have <strong>+10 ft</strong> speed, and if you take the Attack action you make <strong>one additional weapon attack</strong> — if that attack hits, it deals an extra <strong>1d8</strong>.",
     },
     "divine strike": {
         "name": "Divine Strike",
@@ -475,7 +481,7 @@ RIDER_CARDS = {
         "name": "Divine Smite",
         "icon": "⚔️",
         "tag": "on hit",
-        "body": "When you hit a creature with a melee weapon attack, you may expend one spell slot to deal <strong>2d8 radiant damage</strong> (+1d8 per slot level above 1st, max 5d8).",
+        "body": "When you hit a creature with a melee weapon attack, you may expend one spell slot to deal <strong>2d8 radiant damage</strong> (+1d8 per slot level above 1st, max 5d8; +1d8 vs undead/fiends).",
     },
     "empowered evocation": {
         "name": "Empowered Evocation",
@@ -487,13 +493,25 @@ RIDER_CARDS = {
         "name": "Elemental Affinity",
         "icon": "🔥",
         "tag": "always",
-        "body": "When you cast a spell dealing your draconic ancestry's damage type, add your <strong>Charisma modifier</strong> to one damage roll.",
+        "body": "When you cast a spell dealing your draconic ancestry's damage type, add your <strong>Charisma modifier</strong> to one damage roll. You may also spend <strong>1 sorcery point</strong> to gain resistance to that type for 1 hour.",
+    },
+    "eldritch strike": {
+        "name": "Eldritch Strike",
+        "icon": "🔮",
+        "tag": "per hit",
+        "body": "When you hit a creature with a weapon attack, it has <strong>disadvantage on the next saving throw</strong> it makes against a spell you cast before the end of your next turn.",
+    },
+    "distant strike": {
+        "name": "Distant Strike",
+        "icon": "🌀",
+        "tag": "Attack action",
+        "body": "When you take the Attack action, teleport up to <strong>10 ft</strong> before each attack. If you attack at least <strong>two different creatures</strong>, you can make one additional attack against a third.",
     },
     "psychic blades": {
         "name": "Psychic Blades",
         "icon": "🧠",
-        "tag": "per hit",
-        "body": "When you hit with a weapon attack, you may expend one <strong>Bardic Inspiration die</strong> ({pb_die}) to add it to the damage as psychic.",
+        "tag": "{pb_dice}",
+        "body": "Once per round on your turn, when you hit with a weapon attack, you may expend one use of <strong>Bardic Inspiration</strong> to deal an extra <strong>{pb_dice} psychic damage</strong> to that target.",
     },
     "improved critical": {
         "name": "Improved Critical",
@@ -518,12 +536,6 @@ RIDER_CARDS = {
         "icon": "⚔️",
         "tag": "bladesong",
         "body": "While your Bladesong is active, add your <strong>Intelligence modifier</strong> (min +1) to the damage of your melee weapon attacks.",
-    },
-    "slayer's prey": {
-        "name": "Slayer's Prey",
-        "icon": "🎯",
-        "tag": "vs prey",
-        "body": "As a bonus action, designate one creature as your prey. The first time each turn you hit it with a weapon attack, it takes an extra <strong>1d6 damage</strong>.",
     },
 }
 

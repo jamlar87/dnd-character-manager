@@ -2276,7 +2276,7 @@ def _build_rider_cards(feature_data: list[dict], char: dict, class_levels: dict)
 
     Uses the RIDER_CARDS registry keyed by collapsed base_name; a card is
     emitted for every registry entry the character actually has. Level-scaled
-    tokens ({ds_dice}, {bc_tag}, {pb_die}, {init}) are filled from class_levels
+    tokens ({ds_dice}, {bc_tag}, {pb_dice}, {init}) are filled from class_levels
     and ability scores."""
     _mod = lambda _s: (_s - 10) // 2 if isinstance(_s, int) else 0
     _cl = {k: int(v) for k, v in (class_levels or {}).items() if str(v).isdigit()}
@@ -2292,9 +2292,9 @@ def _build_rider_cards(feature_data: list[dict], char: dict, class_levels: dict)
         "ds_dice": "2d8" if _cl.get("Cleric", 0) >= 14 else "1d8",
         "bc_tag": "3 dice" if _cl.get("Barbarian", 0) >= 17 else
                  ("2 dice" if _cl.get("Barbarian", 0) >= 13 else "1 die"),
-        "pb_die": ("1d12" if _cl.get("Bard", 0) >= 15 else
-                   "1d10" if _cl.get("Bard", 0) >= 10 else
-                   "1d8" if _cl.get("Bard", 0) >= 5 else "1d6"),
+        "pb_dice": ("8d6" if _cl.get("Bard", 0) >= 15 else
+                    "5d6" if _cl.get("Bard", 0) >= 10 else
+                    "3d6" if _cl.get("Bard", 0) >= 5 else "2d6"),
     }
     _cards = []
     for _key, _entry in RIDER_CARDS.items():
