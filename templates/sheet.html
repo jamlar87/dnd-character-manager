@@ -1186,43 +1186,43 @@
               {% if feat.name == 'Infuse Item' and character.infusions %}
               <span style="font-size:0.7rem;color:var(--accent);font-weight:500;flex-shrink:0">{% for i in character.infusions %}{% if not loop.first %}, {% endif %}{{ i|replace('_',' ')|title }}{% endfor %}</span>
               {% endif %}
-              {% if feat.name == 'Sneak Attack' and class_levels and class_levels.get('Rogue') %}{% set rogue_lvl = class_levels.get('Rogue')|int %}{% set sneak_dice = ((rogue_lvl + 1) // 2)|string ~ 'd6' %}
+              {% if feat.base_name == 'Sneak Attack' and class_levels and class_levels.get('Rogue') %}{% set rogue_lvl = class_levels.get('Rogue')|int %}{% set sneak_dice = ((rogue_lvl + 1) // 2)|string ~ 'd6' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sneak_dice }}</span>
               {% endif %}
-              {% if feat.name == 'Rage' and class_levels and class_levels.get('Barbarian') %}{% set barb_lvl = class_levels.get('Barbarian')|int %}{% if barb_lvl >= 16 %}{% set rage_dmg = '+4' %}{% elif barb_lvl >= 9 %}{% set rage_dmg = '+3' %}{% else %}{% set rage_dmg = '+2' %}{% endif %}
+              {% if feat.base_name == 'Rage' and class_levels and class_levels.get('Barbarian') %}{% set barb_lvl = class_levels.get('Barbarian')|int %}{% if barb_lvl >= 16 %}{% set rage_dmg = '+4' %}{% elif barb_lvl >= 9 %}{% set rage_dmg = '+3' %}{% else %}{% set rage_dmg = '+2' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ rage_dmg }}</span>
               {% endif %}
-              {% if feat.name == 'Divine Strike' and class_levels and class_levels.get('Cleric') %}{% if class_levels.get('Cleric')|int >= 14 %}{% set ds_dice = '2d8' %}{% else %}{% set ds_dice = '1d8' %}{% endif %}
+              {% if feat.base_name == 'Divine Strike' and class_levels and class_levels.get('Cleric') %}{% if class_levels.get('Cleric')|int >= 14 %}{% set ds_dice = '2d8' %}{% else %}{% set ds_dice = '1d8' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ ds_dice }}</span>
               {% endif %}
-              {% if feat.name == 'Second Wind' and class_levels and class_levels.get('Fighter') %}{% set ftr_lvl = class_levels.get('Fighter')|int %}
+              {% if feat.base_name == 'Second Wind' and class_levels and class_levels.get('Fighter') %}{% set ftr_lvl = class_levels.get('Fighter')|int %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">1d10+{{ ftr_lvl }}</span>
               {% endif %}
-              {% if feat.name == 'Improved Critical' %}
+              {% if feat.base_name == 'Improved Critical' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">19-20</span>
               {% endif %}
-              {% if feat.name == 'Superior Critical' %}
+              {% if feat.base_name == 'Superior Critical' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">18-20</span>
               {% endif %}
-              {% if feat.name == 'Divine Smite' %}
+              {% if feat.base_name == 'Divine Smite' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">+1d8 vs undead</span>
               {% endif %}
-              {% if feat.name == 'Breath Weapon' %}{% set con_mod = (character.constitution - 10) // 2 %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
+              {% if feat.base_name == 'Breath Weapon' %}{% set con_mod = (character.constitution - 10) // 2 %}{% set breath_dc = 8 + con_mod + character.proficiency_bonus %}{% set cl = character.level %}{% if cl >= 16 %}{% set bw_dice = '5d6' %}{% elif cl >= 11 %}{% set bw_dice = '4d6' %}{% elif cl >= 6 %}{% set bw_dice = '3d6' %}{% else %}{% set bw_dice = '2d6' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bw_dice }}, DC {{ breath_dc }}</span>
               {% endif %}
-              {% if feat.name == 'Brutal Critical' and class_levels and class_levels.get('Barbarian') %}{% set b_lvl = class_levels.get('Barbarian')|int %}{% if b_lvl >= 17 %}{% set bc_dice = '3 dice' %}{% elif b_lvl >= 13 %}{% set bc_dice = '2 dice' %}{% else %}{% set bc_dice = '1 die' %}{% endif %}
+              {% if feat.base_name == 'Brutal Critical' and class_levels and class_levels.get('Barbarian') %}{% set b_lvl = class_levels.get('Barbarian')|int %}{% if b_lvl >= 17 %}{% set bc_dice = '3 dice' %}{% elif b_lvl >= 13 %}{% set bc_dice = '2 dice' %}{% else %}{% set bc_dice = '1 die' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ bc_dice }}</span>
               {% endif %}
-              {% if feat.name == 'Improved Divine Smite' %}
+              {% if feat.base_name == 'Improved Divine Smite' %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">1d8</span>
               {% endif %}
-              {% if feat.name == 'Martial Arts' and class_levels and class_levels.get('Monk') %}{% set m_lvl = class_levels.get('Monk')|int %}{% if m_lvl >= 17 %}{% set ma_die = '1d10' %}{% elif m_lvl >= 11 %}{% set ma_die = '1d8' %}{% elif m_lvl >= 5 %}{% set ma_die = '1d6' %}{% else %}{% set ma_die = '1d4' %}{% endif %}
+              {% if feat.base_name == 'Martial Arts' and class_levels and class_levels.get('Monk') %}{% set m_lvl = class_levels.get('Monk')|int %}{% if m_lvl >= 17 %}{% set ma_die = '1d10' %}{% elif m_lvl >= 11 %}{% set ma_die = '1d8' %}{% elif m_lvl >= 5 %}{% set ma_die = '1d6' %}{% else %}{% set ma_die = '1d4' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ ma_die }}</span>
               {% endif %}
-              {% if feat.name == 'Unarmored Movement' and class_levels and class_levels.get('Monk') %}{% set um_lvl = class_levels.get('Monk')|int %}{% if um_lvl >= 18 %}{% set um_bonus = '+30 ft' %}{% elif um_lvl >= 14 %}{% set um_bonus = '+25 ft' %}{% elif um_lvl >= 10 %}{% set um_bonus = '+20 ft' %}{% elif um_lvl >= 6 %}{% set um_bonus = '+15 ft' %}{% else %}{% set um_bonus = '+10 ft' %}{% endif %}
+              {% if feat.base_name == 'Unarmored Movement' and class_levels and class_levels.get('Monk') %}{% set um_lvl = class_levels.get('Monk')|int %}{% if um_lvl >= 18 %}{% set um_bonus = '+30 ft' %}{% elif um_lvl >= 14 %}{% set um_bonus = '+25 ft' %}{% elif um_lvl >= 10 %}{% set um_bonus = '+20 ft' %}{% elif um_lvl >= 6 %}{% set um_bonus = '+15 ft' %}{% else %}{% set um_bonus = '+10 ft' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ um_bonus }}</span>
               {% endif %}
-              {% if feat.name == 'Song of Rest' and class_levels and class_levels.get('Bard') %}{% set s_lvl = class_levels.get('Bard')|int %}{% if s_lvl >= 17 %}{% set sr_die = '1d12' %}{% elif s_lvl >= 13 %}{% set sr_die = '1d10' %}{% elif s_lvl >= 9 %}{% set sr_die = '1d8' %}{% else %}{% set sr_die = '1d6' %}{% endif %}
+              {% if feat.base_name == 'Song of Rest' and class_levels and class_levels.get('Bard') %}{% set s_lvl = class_levels.get('Bard')|int %}{% if s_lvl >= 17 %}{% set sr_die = '1d12' %}{% elif s_lvl >= 13 %}{% set sr_die = '1d10' %}{% elif s_lvl >= 9 %}{% set sr_die = '1d8' %}{% else %}{% set sr_die = '1d6' %}{% endif %}
               <span style="font-size:0.7rem;color:var(--warn);font-weight:600;flex-shrink:0;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sr_die }}</span>
               {% endif %}
               <button class="btn btn-outline btn-sm edit-only" onclick="event.stopPropagation();editFeature({{ idx }})" style="font-size:0.6rem;padding:0.1rem 0.3rem;flex-shrink:0">✏️</button>

@@ -494,6 +494,27 @@ async def character_sheet(char_id: int, request: Request):
                              subclass=char.get("subclass", ""))
     _add_cd_sub_options(char["feature_data"])
     _add_source_to_features(char["feature_data"])
+    # Normalize feature names (base_name) and collapse duplicate level-variant
+    # entries (e.g. "Brutal Critical (1 die)" @L9 + "(2 dice)" @L13) so template
+    # dice badges match and stale variants don't double-render.
+    char["feature_data"] = collapse_variant_features(char["feature_data"])
+    # Level-scaled dice for limited-use (tracked) features the passive-loop
+    # badges never reach (Rage damage bonus, Bardic Inspiration die).
+    _cl = {}
+    try:
+        _cl = json.loads(char.get("class_levels", "{}") or "{}") if isinstance(char.get("class_levels"), str) else (char.get("class_levels") or {})
+    except Exception:
+        pass
+    for _feat in char["feature_data"]:
+        if not isinstance(_feat, dict) or _feat.get("dice"):
+            continue
+        _bn = (_feat.get("base_name") or "").lower()
+        if _bn == "rage" and _cl.get("Barbarian"):
+            _bl = int(_cl["Barbarian"])
+            _feat["dice"] = "+4 dmg" if _bl >= 16 else ("+3 dmg" if _bl >= 9 else "+2 dmg")
+        elif _bn == "bardic inspiration" and _cl.get("Bard"):
+            _s = int(_cl["Bard"])
+            _feat["dice"] = "d12" if _s >= 15 else ("d10" if _s >= 10 else ("d8" if _s >= 5 else "d6"))
     # Enrich features with dice badge data from FEATS/RACES lookup
     _add_dice_to_features(char["feature_data"])
     # Auto-detect reaction features and set action_type accordingly
@@ -2209,6 +2230,42 @@ def _add_reaction_type_to_features(feature_data: list[dict]) -> None:
             feat["action_type"] = "Reaction"
 
 
+def collapse_variant_features(feature_data: list[dict]) -> list[dict]:
+    """Drop duplicate level-variant entries (e.g. leveling stored both
+    "Brutal Critical (1 die)" @L9 and "(2 dice)" @L13): keep the highest-level
+    variant of any feature whose name differs only by a parenthetical suffix.
+    Repeatable picks (Expertise, ASIs, invocations, etc.) have no suffix so
+    they are untouched by this rule. Also sets feat["base_name"] to the
+    suffix-stripped name so template dice badges and level checks match even
+    when a suffixed variant of a known feature was stored."""
+    for _feat in feature_data:
+        if isinstance(_feat, dict) and _feat.get("name"):
+            _feat["base_name"] = _feat["name"].split(" (")[0]
+    _variant_groups: dict[str, list[dict]] = {}
+    for _feat in feature_data:
+        if isinstance(_feat, dict) and _feat.get("base_name"):
+            _variant_groups.setdefault(_feat["base_name"], []).append(_feat)
+    _level_num = lambda _f: int(str(_f.get("level", "L0")).replace("L", "") or 0)
+    _drop_ids: set[int] = set()
+    for _base, _members in _variant_groups.items():
+        if len(_members) < 2:
+            continue
+        _suffixed = [m for m in _members if " (" in (m.get("name") or "")]
+        _plain = [m for m in _members if " (" not in (m.get("name") or "")]
+        if not _suffixed or len(_plain) >= 1:
+            # no variant group, or a plain base entry exists (distinct feature) — skip
+            continue
+        _best = max(_members, key=lambda m: (_level_num(m), len(m.get("name") or "")))
+        for _m in _members:
+            if _m is _best:
+                continue
+            if _level_num(_m) < _level_num(_best):
+                _drop_ids.add(id(_m))
+    if _drop_ids:
+        return [f for f in feature_data if id(f) not in _drop_ids]
+    return feature_data
+
+
 def _add_dice_to_features(feature_data: list[dict]) -> None:
     """Mutate feature_data in-place: add 'dice' field from FEATS lookup.
     Only adds if feat doesn't already have a dice field (preserves hardcoded values)."""
@@ -2221,7 +2278,6 @@ def _add_dice_to_features(feature_data: list[dict]) -> None:
         _feat = FEATS.get(key)
         if _feat and _feat.get("dice"):
             feat["dice"] = _feat["dice"]
-
 
 def _add_invocation_levels(feature_data: list[dict], class_name: str, char_level: int) -> None:
     """Inject Eldritch Invocation level cards for Warlocks.

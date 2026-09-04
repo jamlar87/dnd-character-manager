@@ -62,3 +62,44 @@ class TestLaterLevelActionTyping:
         assert res[0]["uses_max"] == 1
         assert res[0]["uses"] == 1
         assert res[0]["recharge"] == "short"
+
+
+class TestFeatureVariantCollapse:
+    """Leveling stores suffixed variants of the same feature (e.g. "Brutal
+    Critical (1 die)" @L9 then "(2 dice)" @L13). The sheet must keep only the
+    highest-level variant and expose a stable base_name so template dice
+    badges (which match base names like 'Brutal Critical') render."""
+
+    def test_brutal_critical_variants_collapse_to_highest(self):
+        from routes.characters.sheet import collapse_variant_features
+        fd = [
+            {"name": "Brutal Critical (1 die)", "level": "L9"},
+            {"name": "Brutal Critical (2 dice)", "level": "L13"},
+        ]
+        out = collapse_variant_features(fd)
+        assert len(out) == 1
+        assert out[0]["name"] == "Brutal Critical (2 dice)"
+        assert out[0]["base_name"] == "Brutal Critical"
+
+    def test_repeatable_features_are_not_collapsed(self):
+        from routes.characters.sheet import collapse_variant_features
+        # Expertise and ASIs legitimately repeat without suffix variants
+        fd = [
+            {"name": "Expertise", "level": "L1"},
+            {"name": "Expertise", "level": "L6"},
+            {"name": "Ability Score Improvement", "level": "L4"},
+            {"name": "Ability Score Improvement", "level": "L8"},
+        ]
+        out = collapse_variant_features(fd)
+        assert len(out) == 4
+        assert out[0]["base_name"] == "Expertise"
+
+    def test_plain_plus_variant_entry_is_untouched(self):
+        from routes.characters.sheet import collapse_variant_features
+        # A plain base entry alongside a variant means distinct features
+        fd = [
+            {"name": "Extra Attack", "level": "L5"},
+            {"name": "Extra Attack (3)", "level": "L11"},
+        ]
+        out = collapse_variant_features(fd)
+        assert len(out) == 2
