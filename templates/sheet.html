@@ -828,6 +828,16 @@
       </div>
       {% endif %}
 
+      <!-- 🎯 Assassinate callout (Rogue/Assassin — surprise crits + advantage) -->
+      {% if character.subclass and 'assassin' in (character.subclass|lower) %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.4rem">🎯 Assassinate <span style="font-size:0.7rem;color:var(--warn);font-weight:600;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">L3</span></h3>
+        <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.4">
+          <strong style="color:var(--text)">Advantage</strong> on attack rolls against any creature that hasn't taken a turn in combat yet. In addition, any hit you score against a creature that is <strong style="color:var(--text)">surprised</strong> is a <strong style="color:var(--text)">critical hit</strong>.
+        </div>
+      </div>
+      {% endif %}
+
       <!-- ⚡ Bonus Actions -->
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin-bottom:0.5rem">⚡ Bonus Actions</h3>
