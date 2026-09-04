@@ -127,6 +127,22 @@ class TestFeatureActionTypeCoverage:
         missing = sorted(lu - fat)
         assert missing == []
 
+    def test_runtime_limited_use_keys_resolve_via_clean_strip(self):
+        """data_loader injects many more LIMITED_USE keys (race/subclass/NPC
+        traits). Every one must resolve to a FEATURE_ACTION_TYPES entry —
+        either exact, or after stripping the trailing parenthetical suffix
+        (the render lookup does the same _clean_key strip)."""
+        import re
+        from services.data_loader import load_manual_data
+        load_manual_data()
+        from data import LIMITED_USE, FEATURE_ACTION_TYPES
+        _clean = lambda k: re.sub(r'\s*\([^)]*\)\s*$', '', k).strip()
+        missing = sorted(
+            k for k in LIMITED_USE
+            if k not in FEATURE_ACTION_TYPES and _clean(k) not in FEATURE_ACTION_TYPES
+        )
+        assert missing == []
+
     def test_spot_check_action_types(self):
         from data import FEATURE_ACTION_TYPES
         expected = {
