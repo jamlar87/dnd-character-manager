@@ -70,6 +70,30 @@ _INVOCATION_NAMES: set[str] = {
     "Whispers of the Grave", "Witch Sight",
 }
 
+_BA_GRANT_RE = None  # lazy compile (module import is hot)
+
+def _grants_bonus_action(desc_lower: str) -> bool:
+    """True only when an item description grants a bonus-action ability.
+
+    Naive 'bonus action' substring matching misfires on weapon text that merely
+    mentions the term (e.g. Loading: 'fire only one piece of ammunition per
+    action, bonus action, or reaction'), which made firearms appear in the
+    Bonus Actions section. Require an actual grant phrase instead.
+    """
+    if not desc_lower:
+        return False
+    global _BA_GRANT_RE
+    if _BA_GRANT_RE is None:
+        import re
+        # "as a bonus action", "as your bonus action", "using a bonus action",
+        # "use a bonus action to X", "... on a bonus action"
+        _BA_GRANT_RE = re.compile(
+            r'(?:as|using|use|uses|used|with|on|by|spend|expend)\s+'
+            r'(?:your\s+)?(?:a\s+)?bonus action',
+            re.IGNORECASE,
+        )
+    return bool(_BA_GRANT_RE.search(desc_lower))
+
 def compute_advantage_map(char: dict) -> dict:
     """Compute advantage_map from character race, class, subclass, features, and items.
     Returns {saves:[], ability_checks:[], skills:[], attack_rolls:bool, notes:[]}
@@ -204,6 +228,7 @@ def compute_advantage_map(char: dict) -> dict:
     if 'assassin' in subclass:
         adv["attack_rolls"] = True
         _note("Assassinate — Advantage on attack rolls against creatures that haven't taken a turn in combat")
+        _note("Assassinate — Any hit on a surprised creature is a critical hit")
 
     # Rogue — Steady Aim (Tasha's optional class feature)
     if cls == "rogue":
@@ -403,9 +428,13 @@ async def character_sheet(char_id: int, request: Request):
             idx_entry = _resolve_item_key(inv_item.get("name", ""))
             if idx_entry and idx_entry.get("dice"):
                 inv_item["dice"] = idx_entry["dice"]
-        # Flag items that grant a bonus action ability
+        # Flag items that grant a bonus action ability.
+        # Match only actual action-grant phrasings ("as a bonus action",
+        # "using your bonus action", "...bonus action to..."), NOT mere
+        # mentions like a Loading rule's "per action, bonus action, or
+        # reaction" (that text made firearms appear as bonus-action items).
         _desc_ba = (inv_item.get("description") or "").lower()
-        inv_item["bonus_action"] = "bonus action" in _desc_ba
+        inv_item["bonus_action"] = _grants_bonus_action(_desc_ba)
         # Flag items that require concentration
         inv_item["concentration"] = "concentration" in _desc_ba
     # Normalize equipped to [{name, qty}] format (backward compat with old string-list format)
@@ -426,7 +455,7 @@ async def character_sheet(char_id: int, request: Request):
                 eq_item["dice"] = idx_entry["dice"]
         # Flag items that grant a bonus action ability
         _desc_ba_eq = (eq_item.get("description") or "").lower()
-        eq_item["bonus_action"] = "bonus action" in _desc_ba_eq
+        eq_item["bonus_action"] = _grants_bonus_action(_desc_ba_eq)
         # Flag items that require concentration
         eq_item["concentration"] = "concentration" in _desc_ba_eq
     # Load attuned_items
@@ -949,6 +978,26 @@ async def character_sheet(char_id: int, request: Request):
         if c not in merged_condition_immune:
             merged_condition_immune.append(c)
 
+    # Darkvision: racial + item-granted (Goggles of Night etc.). Item effect
+    # says +60 when you already have darkvision; otherwise grants 60.
+    race_dv = racial_effects.get("darkvision") or 0
+    item_dv = item_effects.get("darkvision") or 0
+    if item_dv:
+        darkvision_ft = race_dv + item_dv if race_dv else item_dv
+    else:
+        darkvision_ft = race_dv
+    # Fallback for races whose core data lists darkvision but trait-effects
+    # map doesn't capture it (e.g. some manual races) — trust the race data.
+    if not darkvision_ft:
+        _rd = RACES.get(char.get("race", ""), {})
+        darkvision_ft = _rd.get("darkvision") or 0
+    darkvision_source = []
+    if race_dv:
+        darkvision_source.append(f"{char.get('race', '')} (racial)")
+    if item_dv:
+        darkvision_source.append("Equipped item")
+    darkvision_source = ", ".join(darkvision_source)
+
     # Merge racial proficiencies for display (DB-stored + racial)
     merged_armor_profs = list(char.get("armor_proficiencies", []))
     for v in racial_effects["armor_profs"]:
@@ -1045,6 +1094,7 @@ async def character_sheet(char_id: int, request: Request):
                    merged_weapon_profs=merged_weapon_profs,
                    merged_tool_profs=merged_tool_profs,
                    racial_effects=racial_effects,
+                   darkvision_ft=darkvision_ft, darkvision_source=darkvision_source,
                    item_attunement_json=item_attunement_json,
                    item_attunement_dict=item_attunement_dict,
                    campaign_info=campaign_info,
@@ -1860,6 +1910,7 @@ def _build_item_properties():
         "cloak of elvenkind": {"adv_skill": "Stealth (hiding)"},
         "gloves of thievery": {"adv_skill": "Sleight of Hand, Thieves' Tools"},
         "eyes of the eagle": {"adv_skill": "Perception (sight)"},
+        "goggles of night": {"darkvision": 60, "note": "Darkvision 60 ft (if you already have darkvision, its range increases by 60 ft)."},
         "stone of good luck": {"save_bonus": 1, "adv_skill": "Ability checks +1"},
         "luck blade": {"save_bonus": "1 (reroll 1/day)", "note": "Also has wishes. Requires attunement."},
 
@@ -1915,6 +1966,7 @@ def compute_item_effects(equipped: list[str], attuned: list[str],
         "int_bonus": 0, "wis_bonus": 0, "cha_bonus": 0,
         "adv_skills": [], "notes": [],
         "attunement_slots_used": 0,
+        "darkvision": 0,
     }
     attuned_set = set(a.lower() for a in attuned)
 
@@ -1980,6 +2032,11 @@ def compute_item_effects(equipped: list[str], attuned: list[str],
         # Skill advantage
         if props.get("adv_skill"):
             result["adv_skills"].append(f"{item_name}: {props['adv_skill']}")
+
+        # Darkvision (item grants/extends darkvision)
+        dv = props.get("darkvision", 0)
+        if dv:
+            result["darkvision"] = max(result["darkvision"], int(dv))
 
         # Notes
         if props.get("note"):

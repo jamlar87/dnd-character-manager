@@ -221,10 +221,10 @@
           <span class="sense-label">Passive Insight</span>
           <span class="sense-val">{{ 10 + wis_mod + (prof if 'Insight' in char_skills else 0) + (prof if 'Insight' in char_expertise else 0) }}</span>
         </div>
-        {% if character.race and ('dwarf' in character.race.lower() or 'elf' in character.race.lower() or 'gnome' in character.race.lower() or 'half-elf' in character.race.lower() or 'half-orc' in character.race.lower() or 'tiefling' in character.race.lower() or 'orc' in character.race.lower()) %}
+        {% if darkvision_ft %}
         <div class="sense-row">
           <span class="sense-label">Darkvision</span>
-          <span class="sense-val">60 ft</span>
+          <span class="sense-val">{{ darkvision_ft }} ft{% if darkvision_source %} <span style="font-size:0.55rem;color:var(--text-muted)">({{ darkvision_source }})</span>{% endif %}</span>
         </div>
         {% endif %}
       </div>
@@ -817,6 +817,16 @@
         {% endif %}
 
       </div>
+
+      <!-- ⚔️ Sneak Attack callout (Rogue — once per turn extra damage) -->
+      {% if class_levels and class_levels.get('Rogue') %}{% set rogue_lvl = class_levels.get('Rogue')|int %}{% set sneak_dice = ((rogue_lvl + 1) // 2)|string ~ 'd6' %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.4rem">⚔️ Sneak Attack <span style="font-size:0.7rem;color:var(--warn);font-weight:600;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ sneak_dice }}</span></h3>
+        <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.4">
+          Once per turn, add <strong style="color:var(--text)">{{ sneak_dice }}</strong> extra damage when you hit with an attack using a finesse or ranged weapon <em>and</em> you have advantage on the attack roll, or another enemy of the target is within 5 ft of it (and you don't have disadvantage).
+        </div>
+      </div>
+      {% endif %}
 
       <!-- ⚡ Bonus Actions -->
       <div class="card" style="margin-top:0.5rem">
