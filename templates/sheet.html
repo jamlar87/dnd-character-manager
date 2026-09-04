@@ -849,6 +849,18 @@
       </div>
       {% endif %}
 
+      <!-- ⚡ Always-on riders (registry-driven callout cards — Sneak Attack family) -->
+      {% if rider_cards %}
+      {% for rc in rider_cards %}
+      <div class="card" style="margin-top:0.5rem">
+        <h3 style="margin-bottom:0.4rem">{{ rc.icon }} {{ rc.name }} {% if rc.tag %}<span style="font-size:0.7rem;color:var(--warn);font-weight:600;background:var(--accent2);padding:0.1rem 0.35rem;border-radius:4px">{{ rc.tag }}</span>{% endif %}{% if rc.level %}<span style="font-size:0.65rem;color:var(--text-muted);margin-left:0.3rem">{{ rc.level }}</span>{% endif %}</h3>
+        <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.4">
+          {{ rc.body|safe }}
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+
       <!-- ⚡ Bonus Actions -->
       <div class="card" style="margin-top:0.5rem">
         <h3 style="margin-bottom:0.5rem">⚡ Bonus Actions</h3>

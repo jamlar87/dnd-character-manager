@@ -428,6 +428,105 @@ FEATURE_ACTION_TYPES = {
     "spellcasting":                    ("Action", "Cast spells (monster/NPC trait)"),
 }
 
+# ── Always-on combat rider callout cards ─────────────────────────────
+# Features that add extra damage / effects every time the character hits,
+# attacks, or casts (no action cost of their own) — the Sneak Attack family.
+# Rendered on the Actions tab as callout cards when the character has the
+# feature. Keys are the collapsed base_name (lowercase). Body text may use
+# {tokens} filled at render: {ds_dice} {bc_tag} {pb_die} {init} {dice}.
+RIDER_CARDS = {
+    "colossus slayer": {
+        "name": "Colossus Slayer",
+        "icon": "🎯",
+        "tag": "1/turn",
+        "body": "Once per turn, when you hit a creature with a weapon attack and it is below its hit point maximum, deal an extra <strong>1d8</strong> damage.",
+    },
+    "dread ambusher": {
+        "name": "Dread Ambusher",
+        "icon": "🎯",
+        "tag": "1st turn",
+        "body": "You add your <strong>Wisdom modifier</strong> ({init}) to initiative. On your first turn of each combat: <strong>+10 ft</strong> speed, and one attack from the Attack action deals an extra <strong>1d8</strong> damage.",
+    },
+    "divine strike": {
+        "name": "Divine Strike",
+        "icon": "✨",
+        "tag": "{ds_dice}",
+        "body": "Once per turn when you hit with a weapon attack, deal an extra <strong>{ds_dice}</strong> damage of your domain's type (2d8 at Cleric 14).",
+    },
+    "potent spellcasting": {
+        "name": "Potent Spellcasting",
+        "icon": "✨",
+        "tag": "always",
+        "body": "Add your <strong>Wisdom modifier</strong> to the damage you deal with any cleric cantrip.",
+    },
+    "divine fury": {
+        "name": "Divine Fury",
+        "icon": "⚡",
+        "tag": "rage",
+        "body": "While raging, the first creature you hit each turn with a weapon attack takes extra <strong>1d6 + half your Barbarian level</strong> damage (radiant or necrotic).",
+    },
+    "improved divine smite": {
+        "name": "Improved Divine Smite",
+        "icon": "✨",
+        "tag": "every hit",
+        "body": "Whenever you hit a creature with a melee weapon, it takes an extra <strong>1d8 radiant damage</strong>. (Paladin 11.)",
+    },
+    "divine smite": {
+        "name": "Divine Smite",
+        "icon": "⚔️",
+        "tag": "on hit",
+        "body": "When you hit a creature with a melee weapon attack, you may expend one spell slot to deal <strong>2d8 radiant damage</strong> (+1d8 per slot level above 1st, max 5d8).",
+    },
+    "empowered evocation": {
+        "name": "Empowered Evocation",
+        "icon": "🔥",
+        "tag": "always",
+        "body": "Add your <strong>Intelligence modifier</strong> to one damage roll of any wizard evocation spell you cast.",
+    },
+    "elemental affinity": {
+        "name": "Elemental Affinity",
+        "icon": "🔥",
+        "tag": "always",
+        "body": "When you cast a spell dealing your draconic ancestry's damage type, add your <strong>Charisma modifier</strong> to one damage roll.",
+    },
+    "psychic blades": {
+        "name": "Psychic Blades",
+        "icon": "🧠",
+        "tag": "per hit",
+        "body": "When you hit with a weapon attack, you may expend one <strong>Bardic Inspiration die</strong> ({pb_die}) to add it to the damage as psychic.",
+    },
+    "improved critical": {
+        "name": "Improved Critical",
+        "icon": "🎯",
+        "tag": "19-20",
+        "body": "Your weapon attacks score a critical hit on a roll of <strong>19 or 20</strong>.",
+    },
+    "superior critical": {
+        "name": "Superior Critical",
+        "icon": "🎯",
+        "tag": "18-20",
+        "body": "Your weapon attacks score a critical hit on a roll of <strong>18-20</strong>.",
+    },
+    "brutal critical": {
+        "name": "Brutal Critical",
+        "icon": "💥",
+        "tag": "{bc_tag}",
+        "body": "When you score a critical hit with a melee attack, roll <strong>one extra weapon damage die</strong> per Brutal Critical die you have ({bc_tag}).",
+    },
+    "song of victory": {
+        "name": "Song of Victory",
+        "icon": "⚔️",
+        "tag": "bladesong",
+        "body": "While your Bladesong is active, add your <strong>Intelligence modifier</strong> (min +1) to the damage of your melee weapon attacks.",
+    },
+    "slayer's prey": {
+        "name": "Slayer's Prey",
+        "icon": "🎯",
+        "tag": "vs prey",
+        "body": "As a bonus action, designate one creature as your prey. The first time each turn you hit it with a weapon attack, it takes an extra <strong>1d6 damage</strong>.",
+    },
+}
+
 # ── Metamagic Options (Sorcerer PHB p.102) ────────────────────────────
 
 METAMAGIC_OPTIONS = {

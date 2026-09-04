@@ -41,7 +41,7 @@ from data import (
     INFUSION_OPTIONS, SUBCLASS_LEVELS, STARTING_EQUIPMENT,
     RECOMMENDED_FEATS, MULTICLASS_PREREQS, MULTICLASS_PROFICIENCIES,
     ASI_LEVELS, FULL_CASTERS, HALF_CASTERS, PACT_CASTERS,
-    SPELLS_KNOWN_CASTERS,
+    SPELLS_KNOWN_CASTERS, RIDER_CARDS,
 )
 from services.leveling import (
     ABILITY_PRIORITY, EXPERTISE_LEVELS, FEATURE_ACTION_TYPES,
@@ -840,6 +840,9 @@ async def character_sheet(char_id: int, request: Request):
     char["shield_warning"] = None
     class_levels_data = parse_class_levels(char)
     profs = get_character_armor_profs(char, class_levels_data if len(class_levels_data) > 1 else None)
+
+    # Assemble always-on combat rider callout cards (registry-driven, base_name keyed)
+    rider_cards = _build_rider_cards(char.get("feature_data", []), char, class_levels_data)
     if armor_ac is not None:
         # Determine which armor category was matched
         for eq_name in equipped_names:
@@ -1129,6 +1132,7 @@ async def character_sheet(char_id: int, request: Request):
                    expertise_options=expertise_options,
                    expertise_count=expertise_count,
                    source_map_json=json.dumps(_get_source_slug_map()),
+                   rider_cards=rider_cards,
                    invocation_levels=INVOCATION_LEVELS,
                    invocation_picks=INVOCATION_PICKS,
                    invocations_by_level=invocations_by_level,
@@ -2264,6 +2268,54 @@ def collapse_variant_features(feature_data: list[dict]) -> list[dict]:
     if _drop_ids:
         return [f for f in feature_data if id(f) not in _drop_ids]
     return feature_data
+
+
+def _build_rider_cards(feature_data: list[dict], char: dict, class_levels: dict) -> list[dict]:
+    """Assemble always-on combat rider callout cards (the Sneak Attack family:
+    features adding damage/effects on hit/attack/cast with no action cost).
+
+    Uses the RIDER_CARDS registry keyed by collapsed base_name; a card is
+    emitted for every registry entry the character actually has. Level-scaled
+    tokens ({ds_dice}, {bc_tag}, {pb_die}, {init}) are filled from class_levels
+    and ability scores."""
+    _mod = lambda _s: (_s - 10) // 2 if isinstance(_s, int) else 0
+    _cl = {k: int(v) for k, v in (class_levels or {}).items() if str(v).isdigit()}
+    _base_names = {}
+    for _feat in feature_data:
+        if not isinstance(_feat, dict):
+            continue
+        _bn = (_feat.get("base_name") or _feat.get("name") or "").strip()
+        if _bn:
+            _base_names.setdefault(_bn.lower(), _feat)
+    _tokens = {
+        "init": f"{_mod(char.get('wisdom', 10)):+d}",
+        "ds_dice": "2d8" if _cl.get("Cleric", 0) >= 14 else "1d8",
+        "bc_tag": "3 dice" if _cl.get("Barbarian", 0) >= 17 else
+                 ("2 dice" if _cl.get("Barbarian", 0) >= 13 else "1 die"),
+        "pb_die": ("1d12" if _cl.get("Bard", 0) >= 15 else
+                   "1d10" if _cl.get("Bard", 0) >= 10 else
+                   "1d8" if _cl.get("Bard", 0) >= 5 else "1d6"),
+    }
+    _cards = []
+    for _key, _entry in RIDER_CARDS.items():
+        _feat = _base_names.get(_key)
+        if not _feat:
+            continue
+        _body = _entry.get("body", "")
+        _tag = _entry.get("tag", "")
+        for _tok, _val in _tokens.items():
+            _body = _body.replace("{" + _tok + "}", _val)
+            _tag = _tag.replace("{" + _tok + "}", _val)
+        _cards.append({
+            "name": _feat.get("name") or _entry.get("name", _key.title()),
+            "base_name": _feat.get("base_name"),
+            "icon": _entry.get("icon", "⚔️"),
+            "tag": _tag,
+            "body": _body,
+            "level": _feat.get("level", ""),
+        })
+    # Keep registry order but stable for identical feature sets
+    return _cards
 
 
 def _add_dice_to_features(feature_data: list[dict]) -> None:

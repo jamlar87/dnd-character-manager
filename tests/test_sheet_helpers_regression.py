@@ -155,3 +155,48 @@ class TestFeatureActionTypeCoverage:
         }
         for key, want in expected.items():
             assert FEATURE_ACTION_TYPES[key][0] == want, key
+
+
+class TestRiderCalloutCards:
+    """Registry-driven always-on rider cards (the Sneak Attack family) render
+    for characters that have the feature and never for those without."""
+
+    def test_registry_keys_are_lowercase_base_names(self):
+        from data import RIDER_CARDS
+        for key, entry in RIDER_CARDS.items():
+            assert key == key.strip().lower(), key
+            assert entry.get("name") and entry.get("body"), key
+            # placeholder tokens used must be resolvable ones
+            import re as _re
+            toks = set(_re.findall(r"\{(\w+)\}", entry.get("body", "") + entry.get("tag", "")))
+            known = {"init", "ds_dice", "bc_tag", "pb_die", "dice"}
+            assert toks <= known, (key, toks)
+
+    def test_builder_emits_card_only_for_features_present(self):
+        from routes.characters.sheet import _build_rider_cards
+        fd = [
+            {"name": "Divine Fury", "level": "L3", "base_name": "Divine Fury"},
+            {"name": "Rage", "level": "L1", "base_name": "Rage"},
+        ]
+        char = {"wisdom": 14}
+        cards = _build_rider_cards(fd, char, {"Barbarian": 14})
+        names = [c["name"] for c in cards]
+        assert "Divine Fury" in names
+        assert "Rage" not in names            # not in registry
+        assert "Brutal Critical" not in names  # not in feature_data
+
+    def test_builder_level_scaling_tokens(self):
+        from routes.characters.sheet import _build_rider_cards
+        fd = [
+            {"name": "Divine Strike", "level": "L8", "base_name": "Divine Strike"},
+            {"name": "Brutal Critical", "level": "L9", "base_name": "Brutal Critical"},
+        ]
+        char = {}
+        cards = _build_rider_cards(fd, char, {"Cleric": 8, "Barbarian": 13})
+        by = {c["name"]: c for c in cards}
+        assert "1d8" in by["Divine Strike"]["tag"]     # cleric 8 -> 1d8
+        assert "2 dice" in by["Brutal Critical"]["tag"]  # barb 13 -> 2 dice
+        assert "{" not in by["Divine Strike"]["body"]
+        cards14 = _build_rider_cards(fd, char, {"Cleric": 14})
+        assert "2d8" in cards14[0]["tag"]
+
