@@ -103,3 +103,39 @@ class TestFeatureVariantCollapse:
         ]
         out = collapse_variant_features(fd)
         assert len(out) == 2
+
+
+class TestFeatureActionTypeCoverage:
+    """Every static LIMITED_USE feature (data.py) must have a
+    FEATURE_ACTION_TYPES entry so its tracked button shows the correct type
+    badge (Action/Bonus Action/Reaction/Special) plus a tooltip — features
+    without one default to a generic "Action" badge with no desc. (Runtime
+    trait injections from data_loader for racial/NPC/homebrew features are out
+    of scope; they fall back to the generic default like any unmatched key.)"""
+
+    @staticmethod
+    def _parse_source_literal(name: str) -> set[str]:
+        import re
+        src = open("data.py", encoding="utf-8").read()
+        block = re.search(rf"{name} = \{{(.*?)\n\}}", src, re.S)
+        assert block, f"{name} block not found in data.py"
+        return set(re.findall(r'^\s*"([^"]+)":', block.group(1), re.M))
+
+    def test_all_limited_use_keys_have_action_types(self):
+        lu = self._parse_source_literal("LIMITED_USE")
+        fat = self._parse_source_literal("FEATURE_ACTION_TYPES")
+        missing = sorted(lu - fat)
+        assert missing == []
+
+    def test_spot_check_action_types(self):
+        from data import FEATURE_ACTION_TYPES
+        expected = {
+            "bend luck": "Reaction",       # reaction + 2 sorcery points
+            "arcane recovery": "Special",  # during a short rest, no action
+            "ki": "Special",               # resource pool, not an action
+            "divine sense": "Action",      # use an action to detect
+            "dragon wings": "Bonus Action",
+            "misty escape": "Reaction",
+        }
+        for key, want in expected.items():
+            assert FEATURE_ACTION_TYPES[key][0] == want, key
