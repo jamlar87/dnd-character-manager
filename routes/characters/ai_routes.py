@@ -50,6 +50,18 @@ from data import (
 from routes.schemas import CreateCharacter, AddSpell, EditASI, ApplyLevelUp, UpdateCharacter
 from summon_templates import SUMMON_TEMPLATES
 
+# ── PHB grounding tables ────────────────────────────────────────────────
+# Aliases so the AI prompts can name them the way the rules text does.
+PHB_BACKGROUNDS = BACKGROUNDS  # PHB p.125-141
+PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
+
+# Level / spell-slot helpers. services.leveling imports only main + data, so a
+# module-scope import here is cycle-free.
+from services.leveling import (
+    PROFICIENCY_BONUS, modifier, get_class_features, get_feats_for_level,
+    enrich_features, get_spell_slots,
+)
+
 router = APIRouter()
 
 # ── AI Model Config ─────────────────────────────
@@ -237,8 +249,10 @@ def _validate_and_fix(ai: dict, race: str = "", class_name: str = "", name: str 
     # Validate alignment against PHB list (p.122) — prefer user choice
     if ai.get("alignment") not in PHB_ALIGNMENTS:
         ai["alignment"] = alignment if alignment in PHB_ALIGNMENTS else random.choice(PHB_ALIGNMENTS)
-    # Ensure name exists
+    # Ensure name exists. creation.py imports THIS module at import time, so
+    # random_name must be imported lazily (module scope = circular import).
     if not ai.get("name"):
+        from routes.characters.creation import random_name
         ai["name"] = name or random_name(race)["name"]
     # Ensure personality + backstory exist
     if not ai.get("personality"):
@@ -310,6 +324,7 @@ Return ONLY valid JSON (no markdown, no explanation):
 def _fallback_generate(race: str, class_name: str, subclass: str, name: str, abilities: dict = None, skills: list = None, alignment: str = "") -> dict:
     """Deterministic fallback when AI is unavailable. Uses abilities for flavor."""
     if not name:
+        from routes.characters.creation import random_name  # lazy: see _validate_and_fix
         name = random_name(race)["name"]
     if alignment and alignment in PHB_ALIGNMENTS:
         al = alignment
@@ -871,6 +886,14 @@ async def ai_build(request: Request):
     subclass = data.get("subclass", "")
     level = min(max(int(data.get("level", 1)), 1), 20)
 
+    # Lazy import: routes.characters.sheet pulls in campaign/helpers, and
+    # creation.py imports THIS module at import time — a module-scope import of
+    # sheet here re-enters ai_routes mid-initialisation (partially initialized
+    # module ImportError, which crash-loops the service).
+    from routes.characters.sheet import (
+        allocate_ability_scores, calc_hp, get_spells_for_level,
+        get_equipment_for_level, pick_magic_items,
+    )
     class_data = CLASSES.get(class_name, CLASSES["Fighter"])
     abilities = allocate_ability_scores(class_name, race, subrace)
     mods = {ability: modifier(score) for ability, score in abilities.items()}
