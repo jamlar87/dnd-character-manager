@@ -312,3 +312,51 @@ def test_search_manuals_scope_is_subset_of_unscoped(client, dm_headers):
     scoped_books = {r["book"] for r in scoped["results"]}
     unscoped_books = {r["book"] for r in unscoped["results"]}
     assert scoped_books <= unscoped_books
+
+
+# ── Endpoint: GET /api/reference/manual-titles (picker list) ────────────────
+# The picker must offer real manuals with clean labels: no chapter/appendix
+# aliases, no map/screen PDFs, no duplicate files, no mangled filename titles.
+
+def test_manual_titles_only_real_manuals_with_clean_labels(client):
+    manuals = client.get("/api/reference/manual-titles").json()["manuals"]
+    assert len(manuals) > 40
+
+    titles = [m["title"] for m in manuals]
+    lowered = [t.lower() for t in titles]
+    for needle in ("chapter", "appendix", " index", "map", "screen", "final", " v2"):
+        assert not any(needle in t for t in lowered), f"junk title containing {needle!r}"
+
+    # Deduped, and no leftover filename noise
+    assert len(titles) == len(set(titles))
+    assert all("_" not in t for t in titles)
+    assert all(t.strip() == t and t for t in titles)
+
+
+def test_manual_titles_labels_known_books(client):
+    manuals = {m["slug"]: m for m in client.get("/api/reference/manual-titles").json()["manuals"]}
+    assert manuals["FGFD"]["title"] == "Field Guide to Floral Dragons"
+    assert manuals["PHB"]["title"] == "Player's Handbook"
+    assert manuals["MM"]["title"] == "Monster Manual"
+    # Regression: slug "W" is Warlock-007.pdf but used to display another book's
+    # title ("Wrath of the Bramble King"), which WWOTBK legitimately holds.
+    assert manuals["W"]["title"] == "Warlock 7"
+    assert manuals["WWOTBK"]["title"] == "Wrath of the Bramble King"
+    # TCE and DTCOE are the same PDF file -> one entry
+    assert ("TCE" in manuals) is not ("DTCOE" in manuals)
+
+
+def test_manual_titles_match_covers_data_slug_aliases(client):
+    manuals = {m["slug"]: m for m in client.get("/api/reference/manual-titles").json()["manuals"]}
+    # Loremaster's Guide: the file is slug LMG2, the data references slug LMG.
+    lmg2 = manuals["LMG2"]
+    assert "LMG" in lmg2["match"] and "LMG2" in lmg2["match"]
+    assert all(isinstance(m["match"], list) and m["match"] for m in manuals.values())
+    assert all(m["slug"] in m["match"] for m in manuals.values())
+
+
+def test_manual_titles_is_a_subset_of_the_source_map(client):
+    full = client.get("/api/reference/source-map").json()
+    manuals = client.get("/api/reference/manual-titles").json()["manuals"]
+    assert len(manuals) < len(full)  # source-map carries the chapter aliases
+    assert all(m["slug"] in full for m in manuals)

@@ -159,7 +159,7 @@ async function searchManuals(summarize = false) {
   try {
     const r = await fetch(endpoint, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({query, source: (window.SourceFilter ? SourceFilter.slugs('nav-manuals') : [])})
+      body: JSON.stringify({query, source: (window.SourceFilter ? SourceFilter.expand(SourceFilter.slugs('nav-manuals')) : [])})
     });
     const ct = r.headers.get('content-type') || '';
     if (!ct.includes('application/json')) {
@@ -302,7 +302,7 @@ document.addEventListener('click', function(e) {
 </div>
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
-<script src="/static/source-filter.js?v=2"></script>
+<script src="/static/source-filter.js?v=4"></script>
 <script>
 // Manual filter on the global search bar (every page).
 document.addEventListener('DOMContentLoaded', function () {

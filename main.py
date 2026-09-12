@@ -2298,6 +2298,184 @@ async def source_map():
     return JSONResponse(_get_source_slug_map())
 
 
+@app.get("/api/reference/manual-titles", response_class=JSONResponse)
+async def manual_titles():
+    """Real manuals only, with clean titles — the "filter by manual" picker list.
+
+    Unlike /api/reference/source-map (which must resolve every source alias),
+    this drops chapter/appendix aliases, map/screen PDFs and duplicate files.
+    """
+    return JSONResponse({"manuals": _manual_titles()})
+
+# ── Manual titles for pickers (the "filter by manual" dropdown) ─────────────
+# _get_source_slug_map() is deliberately alias-heavy: it must resolve EVERY
+# source string the data can contain (chapter/appendix aliases included), which
+# made it a bad source for a user-facing book list — it exposed 84 chapter
+# aliases plus map/screen PDFs, and some PDFs carried a drifted label (slug "W"
+# is Warlock-007.pdf but was displaying another book's title).
+#
+# The picker instead lists the real PDFs behind pdf_map with a clean title:
+# basename → curated title, generic prettifier as fallback, non-content PDFs
+# (maps, screens, character sheets) dropped, and files that resolve to the same
+# path collapsed into one entry.
+
+_TITLE_OVERRIDES = {
+    # Core / WotC
+    "d&d 5e - player's handbook.pdf": "Player's Handbook",
+    "d&d 5e - dungeon master's guide.pdf": "Dungeon Master's Guide",
+    "d&d 5e - monster manual.pdf": "Monster Manual",
+    "d&d 5e - xanathar's guide to everything.pdf": "Xanathar's Guide to Everything",
+    "d&d 5e - volo's guide to monsters.pdf": "Volo's Guide to Monsters",
+    "d&d 5e - mordenkainen's tome of foes.pdf": "Mordenkainen's Tome of Foes",
+    "d&d 5e - sword coast adventurer's guide.pdf": "Sword Coast Adventurer's Guide",
+    "d&d 5e - elemental evil player's companion.pdf": "Elemental Evil Player's Companion",
+    "d&d 5e - guildmasters' guide to ravnica.pdf": "Guildmasters' Guide to Ravnica",
+    "d&d 5e - wayfinders guide to eberron.pdf": "Wayfinder's Guide to Eberron",
+    "d&d 5e - tasha's cauldron of everything.pdf": "Tasha's Cauldron of Everything",
+    "d&d 5e - the tortle package.pdf": "The Tortle Package",
+    "d&d 5e - tomb of annihilation.pdf": "Tomb of Annihilation",
+    "d&d 5e - waterdeep - dragon heist.pdf": "Waterdeep: Dragon Heist",
+    "d&d 5e - tyranny of dragons - hoard of the dragon queen.pdf": "Hoard of the Dragon Queen",
+    "d&d 5e - tyranny of dragons - the rise of tiamat.pdf": "The Rise of Tiamat",
+    "d&d 5e - lost mine of phandelver.pdf": "Lost Mine of Phandelver",
+    "the_wild_sheep_chase_v2.pdf": "The Wild Sheep Chase",
+    "ancestral_weapons_final_v1.2.pdf": "Ancestral Weapons",
+    "field_guide_to_floral_dragons.pdf": "Field Guide to Floral Dragons",
+    # Kobold Press
+    "creature_codex_(5e)_v2.1.pdf": "Creature Codex",
+    "book_of_ebon_tides.pdf": "Book of Ebon Tides",
+    "courts_shadow_fey_5e.pdf": "Courts of the Shadow Fey",
+    "deep_magic_5e_elven_high_magic.pdf": "Deep Magic: Elven High Magic",
+    "deep_magic_5e_ley_lines.pdf": "Deep Magic: Ley Lines",
+    "expanding_the_ranger.pdf": "Expanding the Ranger",
+    "marauders_of_the_margreve.pdf": "Marauders of the Margreve",
+    "tales_margreve_players_guide_5e_dnd.pdf": "Margreve Player's Guide",
+    "tales_margreve_5e_final_reoptimized_v2.pdf": "Tales of the Margreve",
+    "tales_from_the_shadows.pdf": "Tales from the Shadows",
+    "shadows_of_the_dusk_queen_5e_final.pdf": "Shadows of the Dusk Queen",
+    "wrath_river_king_5e_final_240.pdf": "Wrath of the River King",
+    "ratatosk.pdf": "Ratatosk",
+    "kq20_winter2012.pdf": "Kobold Quarterly 20 (Winter 2012)",
+    "1346683-the_tortured_land_-_taster.pdf": "The Tortured Land",
+    "177004-saltmarsh_encounters.pdf": "Saltmarsh Encounters",
+    "378310-encounters_in_avernus.pdf": "Encounters in Avernus",
+    "ddex11_defiance_in_phlan.pdf": "DDEX1-1: Defiance in Phlan",
+    "ddex12_secrets_of_sokol_keep.pdf": "DDEX1-2: Secrets of Sokol Keep",
+    "ddex13_shadows_over_the_moonsea.pdf": "DDEX1-3: Shadows over the Moonsea",
+    "ddex14_duesforthedead.pdf": "DDEX1-4: Dues for the Dead",
+    # Warlock zines (titles come from the issue, not the noisy filename)
+    "warlock-007.pdf": "Warlock 7",
+    "warlock-017-final-v2.pdf": "Warlock 17",
+    "warlock-022-druids-zkpxhg.pdf": "Warlock 22: Druids",
+    "warlock-032-final-1uxx3u.pdf": "Warlock 32",
+    "warlock-034-onlvlm.pdf": "Warlock 34",
+    "warlock-bestiary.pdf": "Warlock Bestiary",
+    "warlock_lairs_1_into_the_wilds_final.pdf": "Warlock Lairs: Into the Wilds",
+    "wl23-wrath-of-the-bramble-king.pdf": "Wrath of the Bramble King",
+    "wl24-pride-of-the-mushroom-queen.pdf": "Pride of the Mushroom Queen",
+    "wl25_shadows-envy.pdf": "Shadows Envy",
+    "warlock-lair-9-the-returners-tower.pdf": "Warlock Lair 9: The Returners' Tower",
+    "warlock-lair-the-dark-aerie-082219.pdf": "Warlock Lair: The Dark Aerie",
+    # Adventures in Middle-earth / TLOTR
+    "adventuresinmiddle_earthloremastersguide.pdf": "Adventures in Middle-earth Loremaster's Guide",
+    "adventuresinmiddle_earthplayersguide.pdf": "Adventures in Middle-earth Player's Guide",
+    "eavesofmirkwood_optionalclass_rules_v2.pdf": "Eaves of Mirkwood: Optional Class Rules",
+    "bree_landregionguide.pdf": "Bree-land Region Guide",
+    "ereboradventures.pdf": "Erebor Adventures",
+    "eriadoradventures.pdf": "Eriador Adventures",
+    "lonelymountain_regionguide.pdf": "Lonely Mountain Region Guide",
+    "mirkwoodcampaign.pdf": "Mirkwood Campaign",
+    "rhovanionregionguide.pdf": "Rhovanion Region Guide",
+    "rivendellregionguide.pdf": "Rivendell Region Guide",
+    "theroadgoeseveron.pdf": "The Road Goes Ever On",
+    "wilderlandadventures.pdf": "Wilderland Adventures",
+    # Critical Role
+    "critical-role-presents-call-of-the-netherdeep-dd-adventure-book-wizards-rpg-team_compress.pdf": "Call of the Netherdeep",
+    "explorers-guide-to-wildemountpdf_compress.pdf": "Explorer's Guide to Wildemount",
+    "taldorei-campaign-setting-reborn_compress.pdf": "Tal'Dorei Campaign Setting Reborn",
+}
+
+# Never offered as a "manual" — map packs, screens and character sheets are not
+# books you filter content by (same intent as discover_manuals()'s skip list).
+_NON_MANUAL_RE = re.compile(
+    r"(?i)(\bmaps?\b|_maps?\b|screen|character.?sheet|endpaper|\bcover\b|large_maps|battle_maps|guide_maps)"
+)
+
+# Junk tokens stripped by the generic prettifier (all-caps/noisy filename tails)
+_TITLE_JUNK_RE = re.compile(
+    r"(?i)\b(final|reoptimized|optimized|compress|web|ocr|v\d+(?:\.\d+)?|"
+    r"zkpxhg|1uxx3u|onlvlm|\d{6}|\d{4}\b)\b"
+)
+
+
+def _clean_pdf_title(basename: str) -> str:
+    """Best-effort human title from a PDF filename (fallback for new manuals)."""
+    stem = re.sub(r"\.pdf$", "", basename, flags=re.I)
+    stem = re.sub(r"^D&D 5E\s*[-\u2013\u2014]\s*", "", stem, flags=re.I)
+    stem = re.sub(r"^(?:\d{5,7}|WL\d+|DDEX\d+)[-_ ]*", "", stem, flags=re.I)
+    stem = stem.replace("_", " ").replace("-", " ")
+    stem = _TITLE_JUNK_RE.sub(" ", stem)
+    stem = re.sub(r"\s*\(\s*\d?e\s*\)", "", stem, flags=re.I)
+    stem = re.sub(r"\b(5e|dnd)\b", "", stem, flags=re.I)
+    stem = re.sub(r"\s+", " ", stem).strip(" .-_")
+    # Title-case only all-lower tokens so real capitals (DDEX, D&D) survive
+    stem = " ".join(w.capitalize() if w.islower() and len(w) > 2 else w for w in stem.split())
+    return stem or basename
+
+
+def _manual_titles() -> list[dict]:
+    """[{slug, title, match}] for the real manuals behind pdf_map — picker list.
+
+    Deduped by resolved PDF path (two slugs pointing at one file collapse) and
+    stripped of map/screen PDFs, sorted by title.
+
+    `match` lists every slug that resolves to this title in the source map, so a
+    picker entry can match the slug the DATA actually uses. Example: the
+    Loremaster's Guide file is slug LMG2, but its source strings resolve to LMG
+    (the slug that carries the display name), so the entry matches both.
+    """
+    meta = _load_manual_json("_meta.json")
+    pdf_map = (meta or {}).get("pdf_map", {}) if isinstance(meta, dict) else {}
+    tested = set((meta or {}).get("source_manuals", []) or [])  # books with extracted data
+
+    seen_paths: dict[str, dict] = {}
+    for slug, info in pdf_map.items():
+        path = (info or {}).get("path", "")
+        if not path:
+            continue
+        basename = path.rsplit("/", 1)[-1]
+        if _NON_MANUAL_RE.search(basename):
+            continue
+        title = _TITLE_OVERRIDES.get(basename.lower())
+        if not title:
+            # A curated slug display beats a mangled filename, but only when the
+            # slug actually has data behind it (that is where labels are verified).
+            display = (_get_source_slug_map().get(slug) or {}).get("display")
+            title = display if (display and slug in tested) else _clean_pdf_title(basename)
+        key = path.lstrip("DnD-Manuals/").lower()
+        prev = seen_paths.get(key)
+        if prev is None:
+            seen_paths[key] = {"slug": slug, "title": title}
+        elif slug in tested and prev["slug"] not in tested:
+            seen_paths[key] = {"slug": slug, "title": title}  # prefer the slug with data
+    # Alias slugs that share the entry's title (data may reference either).
+    slug_map = _get_source_slug_map()
+    by_display: dict[str, list[str]] = {}
+    for slug, info in slug_map.items():
+        disp = (info or {}).get("display") or ""
+        if disp:
+            by_display.setdefault(disp.strip().lower(), []).append(slug)
+
+    out = []
+    for entry in seen_paths.values():
+        aliases = set(by_display.get(entry["title"].strip().lower(), []))
+        aliases.add(entry["slug"])
+        entry["match"] = sorted(aliases)
+        out.append(entry)
+    return sorted(out, key=lambda e: e["title"].lower())
+
+
+
 @app.get("/api/reference/open/{slug}")
 async def open_manual(slug: str, page: int = 0):
     """Serve a reference manual PDF, optionally jumping to a page.

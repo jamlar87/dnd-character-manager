@@ -2356,7 +2356,7 @@ function searchItemPicker(query) {
       if (rarity) params.set('rarity', rarity);
       if (window.SourceFilter) {
         const src = SourceFilter.slugs('dm-items');
-        if (src.length) params.set('source', src.join(','));
+        if (src.length) params.set('source', SourceFilter.expand(src).join(','));
       }
       const r = await fetch(`/api/items/search?${params.toString()}`);
       const d = await r.json();

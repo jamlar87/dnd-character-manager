@@ -20,6 +20,7 @@
 
   var MAP = null;          // {slug: {title, display, path}}
   var REVERSE = null;      // {displayLower: slug}
+  var BOOKS = [];          // [{slug, title, match}] — picker list (real manuals only)
   var SELS = {};           // widget key -> [slug]
   var WIDGETS = {};        // widget key -> widget state
   var STYLE_ID = 'sf-styles';
@@ -29,18 +30,29 @@
   // ── source-string → slug (mirrors routes/characters/helpers.slug_for_source) ──
   function load() {
     if (MAP) return Promise.resolve(MAP);
-    return fetch('/api/reference/source-map')
-      .then(function (r) { return r.json(); })
-      .then(function (m) {
-        MAP = m || {};
-        REVERSE = {};
-        Object.keys(MAP).forEach(function (slug) {
-          var disp = String((MAP[slug] && MAP[slug].display) || '').trim().toLowerCase();
-          if (disp && !(disp in REVERSE)) REVERSE[disp] = slug;
-        });
-        return MAP;
-      })
-      .catch(function () { MAP = {}; REVERSE = {}; return MAP; });
+    // Two sources: the full slug->display map (source-string resolution, which
+    // must cover chapter/appendix aliases) and the curated real-manual list
+    // (what the picker shows).
+    return Promise.all([
+      fetch('/api/reference/source-map').then(function (r) { return r.json(); }).catch(function () { return {}; }),
+      fetch('/api/reference/manual-titles').then(function (r) { return r.json(); }).catch(function () { return {}; })
+    ]).then(function (res) {
+      MAP = res[0] || {};
+      REVERSE = {};
+      Object.keys(MAP).forEach(function (slug) {
+        var disp = String((MAP[slug] && MAP[slug].display) || '').trim().toLowerCase();
+        if (disp && !(disp in REVERSE)) REVERSE[disp] = slug;
+      });
+      var manuals = (res[1] && res[1].manuals) || [];
+      if (!manuals.length) {
+        manuals = Object.keys(MAP).map(function (slug) {
+          return { slug: slug, title: String((MAP[slug] && (MAP[slug].display || MAP[slug].title)) || slug), match: [slug] };
+        }).sort(function (a, b) { return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1; });
+      }
+      BOOKS = manuals;
+      setAliases(manuals);
+      return MAP;
+    }).catch(function () { MAP = {}; REVERSE = {}; BOOKS = []; return MAP; });
   }
 
   function slugForSource(src) {
@@ -65,10 +77,37 @@
     return '';
   }
 
+  /* Option slug -> the slugs that actually appear in source strings. A picker
+   * entry can cover several slugs (e.g. LMG2 file, LMG source strings). */
+  var ALIASES = {};
+
+  function setAliases(list) {
+    (list || []).forEach(function (entry) {
+      var all = (entry.match && entry.match.length) ? entry.match.slice() : [entry.slug];
+      if (all.indexOf(entry.slug) === -1) all.push(entry.slug);
+      ALIASES[entry.slug] = all;
+    });
+  }
+
+  /* Every slug implied by the selected options (used for ?source= params). */
+  function expand(slugs) {
+    var out = [];
+    (slugs || []).forEach(function (s) {
+      (ALIASES[s] || [s]).forEach(function (a) { if (out.indexOf(a) === -1) out.push(a); });
+    });
+    return out;
+  }
+
   function matches(src, slugs) {
     if (!slugs || !slugs.length) return true;
     var s = slugForSource(src);
-    return !!s && slugs.indexOf(s) !== -1;
+    if (!s) return false;
+    if (slugs.indexOf(s) !== -1) return true;
+    for (var i = 0; i < slugs.length; i++) {
+      var aliases = ALIASES[slugs[i]];
+      if (aliases && aliases.indexOf(s) !== -1) return true;
+    }
+    return false;
   }
 
   // ── styles (injected once) ────────────────────────────────────────────────
@@ -80,15 +119,17 @@
       'border:1px solid var(--border,#333);border-radius:6px;color:var(--text,#eee);font-size:.85rem;cursor:pointer;white-space:nowrap}',
       '.sf-btn:hover{border-color:var(--accent,#c8963e)}',
       '.sf-btn.sf-active{border-color:var(--accent,#c8963e);color:var(--accent,#c8963e)}',
-      '.sf-panel{position:absolute;z-index:1200;top:calc(100% + .35rem);left:0;width:min(20rem,90vw);max-height:22rem;overflow:auto;',
+      '.sf-panel{position:absolute;z-index:1200;top:calc(100% + .35rem);left:0;width:min(26rem,92vw);max-height:22rem;overflow:auto;',
       'background:var(--card-bg,#1c1c22);border:1px solid var(--border,#333);border-radius:8px;padding:.5rem;box-shadow:0 8px 24px rgba(0,0,0,.45)}',
       '.sf-panel input.sf-search{width:100%;box-sizing:border-box;padding:.4rem .5rem;margin-bottom:.4rem;background:var(--bg,#121216);',
       'border:1px solid var(--border,#333);border-radius:5px;color:var(--text,#eee);font-size:.85rem}',
-      '.sf-row{display:flex;align-items:center;gap:.5rem;padding:.3rem .35rem;border-radius:5px;cursor:pointer;font-size:.85rem}',
+      '.sf-row{display:flex;align-items:flex-start;gap:.5rem;padding:.3rem .35rem;border-radius:5px;cursor:pointer;font-size:.85rem}',
       '.sf-row:hover{background:var(--bg,#121216)}',
-      '.sf-row input{accent-color:var(--accent,#c8963e);cursor:pointer}',
-      '.sf-row .sf-disp{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-      '.sf-row .sf-code{font-size:.7rem;color:var(--text-muted,#999);opacity:.8}',
+      '.sf-row input{accent-color:var(--accent,#c8963e);cursor:pointer;margin-top:.15rem;flex:0 0 auto}',
+      // Full titles wrap instead of truncating — a clipped book name is useless
+      // in a picker whose whole job is picking a book.
+      '.sf-row .sf-disp{flex:1 1 auto;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.25}',
+      '.sf-row .sf-code{flex:0 0 auto;font-size:.68rem;color:var(--text-muted,#999);opacity:.75;margin-top:.12rem}',
       '.sf-sep{border-top:1px solid var(--border,#333);margin:.35rem 0}',
       '.sf-empty{padding:.5rem;color:var(--text-muted,#999);font-size:.8rem}',
     ].join('');
@@ -193,15 +234,8 @@
 
   function fillList(w) {
     var sel = SELS[w.key] || [];
-    var slugs = Object.keys(MAP || {});
-    var books = slugs.map(function (slug) {
-      var disp = String((MAP[slug] && (MAP[slug].display || MAP[slug].title)) || slug);
-      return { slug: slug, disp: disp };
-    }).sort(function (a, b) { return a.disp.toLowerCase() < b.disp.toLowerCase() ? -1 : 1; });
+    var books = BOOKS.slice();  // real manuals only, already sorted by title
 
-    // Books that actually appear in this surface come first? Keep it simple:
-    // alphabetical, but the ones with cached text/searchable content first is
-    // not knowable here — alphabetical is predictable.
     w.listEl.innerHTML = '';
     if (!books.length) {
       var e = document.createElement('div');
@@ -213,7 +247,7 @@
     books.forEach(function (b) {
       var row = document.createElement('label');
       row.className = 'sf-row';
-      row.setAttribute('data-search', (b.disp + ' ' + b.slug).toLowerCase());
+      row.setAttribute('data-search', ((b.title || b.slug) + ' ' + b.slug).toLowerCase());
       var cb = document.createElement('input');
       cb.type = 'checkbox';
       cb.className = 'sf-book';
@@ -227,7 +261,7 @@
       });
       var disp = document.createElement('span');
       disp.className = 'sf-disp';
-      disp.textContent = b.disp;
+      disp.textContent = b.title || b.slug;
       var code = document.createElement('span');
       code.className = 'sf-code';
       code.textContent = b.slug;
@@ -358,6 +392,7 @@
     autoInit: autoInit,
     load: load,
     slugs: function (key) { return (SELS[key] || []).slice(); },
+    expand: expand,
     setSlugs: function (key, arr) { saveSel(key, arr || []); },
     matches: matches,
     slugForSource: slugForSource,
