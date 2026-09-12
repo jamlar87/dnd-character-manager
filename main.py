@@ -2001,17 +2001,46 @@ app.router.lifespan_context = lifespan
 
 MANUALS_BASE = (DATA_DIR.parent / "manuals").resolve()
 
+
+def _scan_manual_pdfs() -> list:
+    """PDFs under MANUALS_BASE — one entry per book.
+
+    The manual tree reaches the same file through several routes (the top-level
+    convenience symlink, the DnD-Manuals library symlink, and a nested Manuals/
+    copy for a few core books), which listed 14 books 2-3 times in the 📚 Manuals
+    tab. One row per book: shallowest path wins (so core books stay in "Core
+    Manuals"), then anything whose real path or filename already appeared is
+    skipped.
+    """
+    import glob
+    if not MANUALS_BASE.exists():
+        return []
+    paths = sorted(glob.glob(str(MANUALS_BASE / "**/*.pdf"), recursive=True))
+    seen_real, seen_stem, out = set(), set(), []
+    for raw in sorted(paths, key=lambda s: (len(Path(s).relative_to(MANUALS_BASE).parts), s)):
+        p = Path(raw)
+        try:
+            real = str(p.resolve())
+        except OSError:
+            real = str(p)
+        stem = p.stem.lower()
+        if real in seen_real or stem in seen_stem:
+            continue
+        seen_real.add(real)
+        seen_stem.add(stem)
+        out.append(p)
+    return out
+
+
 @app.get("/api/reference/manuals", response_class=JSONResponse)
 def list_manuals():
     """List available reference manuals — PDFs on disk + all ingested manuals. No auth."""
-    import glob
     result = {"count": 0, "manuals": [], "ingested": [], "path": str(MANUALS_BASE)}
 
-    # 1. PDFs in the manuals directory (recursive, grouped by folder)
-    if MANUALS_BASE.exists():
-        pdfs = sorted(glob.glob(str(MANUALS_BASE / "**/*.pdf"), recursive=True))
-        result["manuals"] = [Path(p).name for p in pdfs]
-        result["count"] = len(pdfs)
+    # 1. PDFs in the manuals directory (recursive, deduped — see _scan_manual_pdfs)
+    pdfs = _scan_manual_pdfs()
+    result["manuals"] = [p.name for p in pdfs]
+    result["count"] = len(pdfs)
 
     # 2. Ingested manuals (meta.json slug_map)
     meta = _load_manual_json("_meta.json") or {}

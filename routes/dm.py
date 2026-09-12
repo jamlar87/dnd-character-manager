@@ -10,7 +10,7 @@ from main import get_db, require_user, _render, get_current_user, _user_where, _
 from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
 from routes.characters import parse_source_filter, source_matches
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
-from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
+from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE, _scan_manual_pdfs
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
 from main import SRD_SPELLS
 from main import SRD_MAGIC_ITEMS, ITEM_INDEX
@@ -171,10 +171,11 @@ async def dm_tools(request: Request):
     """, (user["id"],)).fetchall()]
     db3.close()
 
-    # Scan DnD-Manuals for the 📚 Manuals tab — grouped by folder
-    import glob
+    # Scan DnD-Manuals for the 📚 Manuals tab — grouped by folder.
+    # _scan_manual_pdfs() dedupes: the tree reaches one book through the
+    # top-level symlink, the DnD-Manuals symlink and a nested Manuals/ copy.
     dn_dir = MANUALS_BASE
-    pdfs = sorted(glob.glob(str(dn_dir / "**/*.pdf"), recursive=True)) if dn_dir.exists() else []
+    pdfs = [str(p) for p in _scan_manual_pdfs()]
     slug_map = _get_source_slug_map()
     # Build reverse slug→path mapping
     slug_to_filename = {}
