@@ -1,0 +1,2392 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Floral Dragon Grooming Rake",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "The firm prongs of this rake are designed to remove dead leaves, wilted flowers, and dirt from a floral dragon. When you spend 10 minutes using this rake to groom a willing floral dragon, you have advantage on Wisdom (Animal Handling) checks made to interact with the floral dragon for the next 24 hours. Additionally, the dragon makes all Dexterity and Constitution saving throws with advantage for the next 24 hours.",
+      "source": "Floral Dragons p.21"
+    },
+    {
+      "name": "Cherry Blossom Token",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Made from a pressed flower from the cherry blossom dragon, this token can bring good fortune. While carrying this token, you have advantage on Performance checks made to tell stories. Additionally, when you fail an attack roll, ability check, or saving throw, you can reroll the d20 and must use the new result. Once you have used this property, you can't use it again until next dusk.",
+      "source": "p.29"
+    },
+    {
+      "name": "Clematis-tainted Weapon",
+      "type": "Weapon (any sword, arrow, dart)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This weapon is coated in the powerful toxin of a clematis dragon. When you hit with this weapon, the target must make a DC 16 Constitution saving throw, taking 1d8 poison damage on a failed save or half as much damage on a successful one. A creature that fails its save is also paralyzed until the end of its next turn unless it is immune to the poisoned condition. Once a creature has been paralyzed by this weapon, it is immune to the weapon's paralyzing effects for the next 24 hours.",
+      "source": "Floral Dragons p.51"
+    },
+    {
+      "name": "Dandelion Hourglass",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "Fluffy seeds from dandelion dragons drift between the two bulbs of this hourglass. While attuned to this item, you have advantage on initiative rolls. Additionally, when a creature you can see within 120 feet of you rolls initiative, you can use your reaction to force it to make a DC 15 Intelligence saving throw. A creature can choose to fail the save. On a failure, the target must reroll its initiative and must use the new result. Once you have used this property, you can't use it again until the next dawn.",
+      "source": "Floral Dragons p.61"
+    },
+    {
+      "name": "Great Harvest Apple",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This enormous apple is produced by an apple tree dragon. The apple is large enough to provide up to ten creatures with sustenance for one day. The apple can be sliced and shared, hollowed out and used for cooking, or baked into other dishes. A creature that spends at least 10 minutes consuming part of the apple gains the following benefits:\n  It regains 2d8 hit points.\n  It gains temporary hit points equal to the number of creatures that also consumed part of the apple during the same meal.\n  It gains resistance to acid damage for the next 24 hours.\nA creature can only benefit from a great harvest apple's effects once every 24 hours.",
+      "source": "Floral Dragons p.71"
+    },
+    {
+      "name": "Hydrangea Dragon Antidote",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This viscous liquid shifts between blue and pink in its vial. It is brewed from the blooms of a living hydrangea dragon.\nA creature that has been poisoned that drinks this vial of liquid is no longer poisoned. It also regains 2d12 hit points and reduces its levels of exhaustion by 3.",
+      "source": "Fizban's Treasury of Dragons p.97"
+    },
+    {
+      "name": "Hydrangea Dragon Poison",
+      "type": "Poison (Contact or Ingested)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This colorless poison is harvested from the blooms of a living hydrangea dragon. A creature subjected to this poison must make a DC 15 Constitution saving throw. On a failed save, it takes 4d12 poison damage, suffers 4 levels of exhaustion, and is poisoned until it is treated with hydrangea dragon antidote*. On a successful save, the creature suffers 2 levels of exhaustion and isn't poisoned.",
+      "source": "Fizban's Treasury of Dragons p.97"
+    },
+    {
+      "name": "Ornithogalum Dragon Elixir",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This shimmering, translucent green liquid is distilled from a living ornithogalum dragon's flowers. When you drink this potion, your exhaustion level is reduced by one. Additionally, you can spend Hit Dice as though you had taken a short rest.",
+      "source": "FLORAL DRAGONS p.136"
+    },
+    {
+      "name": "Peony Dragon Essence",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This fragrant essence is made from the tall peonies in a peony dragon's lair and is popular among spellcasters. Each vial of peony dragon essence contains 1d4 + 2 doses. When you cast an abjuration spell, you can add the essence to the spell as a material component to improve one casting of the spell with one of the following benefits:\n  For 1 minute, the spell does not require concentration.\n  You gain a +1 bonus to the spell attack roll or spell save DC of the spell.\n  You can choose one additional target for the spell.\n  The spell's duration is doubled.",
+      "source": "Fizban's Treasury of Dragons p.144"
+    },
+    {
+      "name": "Succulent Water of Life",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This thin liquid is light green but becomes dark red when shaken. When you drink this potion, you regain 1d10 hit points, and for 1 minute, you regain 1d10 hit points at the start of each of your turns, provided you have at least 1 hit point.",
+      "source": "FLORAL DRAGONS p.152"
+    },
+    {
+      "name": "Potion of Regeneration (Succulent Dragon Blood)",
+      "type": "Potion",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "ght green but becomes dark red when shaken. When you drink this potion, you regain 1d10 hit points, and for 1 minute, you regain 1d10 hit points at the start of each of your turns, provided you have at least 1 hit point.",
+      "source": "Floral Dragons p.153"
+    },
+    {
+      "name": "Armor of the Vampire Lily Dragon",
+      "type": "Armor (medium or heavy)",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This armor has been reinforced with the spines of a vampire lily dragon. You have a +1 bonus to AC while wearing this armor. Additionally, a creature that grapples you or hits you with a melee attack while within 5 feet of you must succeed on a DC 15 Dexterity saving throw or take 2d6 poison damage and become poisoned until the end of its next turn.",
+      "source": "p.161"
+    },
+    {
+      "name": "Wisteria Dragon Perfume",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This light purple translucent perfume is sealed in a glass orb. As an action, you can throw the orb up to 60 feet away from you, shattering it on impact and releasing a powerful scent of wisteria flowers that spreads out in a 20-foot-radius sphere centered on the point orb shattered. The sphere of invisible perfume spreads around corners and lasts for 1d4 rounds. Each creature that starts its turn inside the sphere or enters it on its turn must succeed on a DC 19 Constitution saving throw or fall unconscious for 1 minute. Floral dragons, except for wisteria dragons, have disadvantage on this saving throw. The effect ends for an affected creature if it takes any damage.",
+      "source": "FLORAL DRAGONS p.177"
+    },
+    {
+      "name": "Ornithogalum Dragon Honey",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This thick liquid tastes sweet with a hint of herbal notes. One hour after consuming this honey, you must make a DC 19 Constitution saving throw. On a failure, you suffer a level of exhaustion.",
+      "source": "FRIENDS & FOES p.194"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Aconite Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "170 (20d10 + 60)",
+      "speed": "30 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 15,
+        "constitution": 17,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "dex": 6,
+        "con": 7
+      },
+      "skills": {
+        "Perception": 6,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Ambusher",
+          "description": "In the first round of a combat, the dragon has advantage on attack rolls against any creature it has surprised."
+        },
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Spider Climb",
+          "description": "The dragon can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Bioluminescent Floral Presence and make a bite attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 feet, one target. Hit: 16 (2d10 + 5) piercing damage plus 4 (1d8) poison damage and the target must succeed on a DC 15 Constitution saving throw or take 4 (1d8) poison damage at the start of each of its turns until it or another creature uses an action to wipe the poison away."
+        },
+        {
+          "name": "Bioluminescent Floral Presence",
+          "description": "The dragon's lure glows with an enticing light. Each creature that can see the lure must make a DC 15 Wisdom saving throw. A creature that is unaware that the lure is part of the dragon makes this saving throw at disadvantage. On a failure, the target is charmed by the dragon until it takes damage. A charmed target must move on its turn toward the dragon by the most direct route. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Bioluminescent Floral Presence for the next 24 hours."
+        },
+        {
+          "name": "Spit",
+          "description": "The dragon spits its toxic drool in a 30-foot cone originating from itself. Each creature in that area must make a DC 15 Constitution saving throw. On a failed save, a target takes 7 (2d6) poison damage and is paralyzed until the start of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Bite Attack",
+          "description": "The dragon makes a bite attack."
+        },
+        {
+          "name": "Detect",
+          "description": "The dragon makes a Wisdom (Perception) check."
+        },
+        {
+          "name": "Prey (Costs 2 Actions)",
+          "description": "The dragon snacks on a nearby clematis dragon or similar creature, regaining 9 (2d6 + 2) hit points."
+        }
+      ],
+      "source": "Floral Dragons p.14"
+    },
+    {
+      "name": "Amaranth Dragon",
+      "size": "Medium",
+      "type": "dragon",
+      "alignment": "any neutral alignment",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "65 (10d8+20)",
+      "speed": "30 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 15,
+        "constitution": 15,
+        "intelligence": 7,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 4
+      },
+      "skills": {
+        "Perception": 3,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "understands any one language but can't speak"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Keen Senses",
+          "description": "The dragon has advantage on Wisdom (Perception) checks."
+        },
+        {
+          "name": "Floral Appearance",
+          "description": "While the dragon remains motionless, it is indistinguishable from an ordinary growth of amaranth. It has advantage on Dexterity (Stealth) checks made to hide in areas covered in similar plants."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes two melee attacks."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.23"
+    },
+    {
+      "name": "Cherry Blossom Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "neutral good",
+      "armor_class": 18,
+      "ac_type": "natural armor",
+      "hit_points": "256 (19d12 + 133)",
+      "speed": "40 ft., fly 60 ft. (hover)",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 14,
+        "constitution": 24,
+        "intelligence": 18,
+        "wisdom": 17,
+        "charisma": 24
+      },
+      "saving_throws": {
+        "dex": 7,
+        "con": 12,
+        "wis": 8,
+        "cha": 12
+      },
+      "skills": {
+        "History": 14,
+        "Insight": 8,
+        "Nature": 9,
+        "Perception": 8,
+        "Performance": 12,
+        "Persuasion": 12
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 18",
+      "languages": [
+        "Common",
+        "Draconic",
+        "plus any two languages",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "16",
+      "xp": 15000,
+      "features": [
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The dragon is a 9th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 20). It requires no material components to cast its spells. The dragon knows the following spells:\nCantrips (at will): druidcraft, minor illusion, prestidigitation\n1st level (4 slots): comprehend languages, sanctuary, sleep\n2nd level (3 slots): lesser restoration, moonbeam, see invisibility\n3rd level (3 slots): counterspell, dispel magic, tongues\n4th level (3 slots): arcane eye, phantasmal killer\n5th level (1 slot): dream"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Influential Floral Presence. It then casts a spell or makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +11 to hit, reach 10 ft., one target. Hit: 17 (2d10 + 6) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) slashing damage."
+        },
+        {
+          "name": "Influential Floral Presence",
+          "description": "The dragon reaches into the minds of a group of creatures to learn their deepest fears or greatest desires, then creates illusions using what it has learned. Each creature in a 30-foot-radius sphere centered on a point of the dragon’s choice within 200 feet of the dragon must make a DC 20 Wisdom saving throw. On a failed save, a creature becomes either charmed or frightened (the dragon chooses which for the whole group) as it experiences illusions created by the dragon. A creature can repeat its saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature’s saving throw is successful or the effect ends for it, the target is immune to this dragon’s Influential Floral Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Good Fortune (2/Day)",
+          "description": "When the dragon sees a creature within 60 feet of it fail a saving throw, attack roll, or ability check, it can bestow a stroke of luck. The target can reroll the d20 with advantage and can choose which result to use.",
+          "uses": 2,
+          "recharge": "long rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.31"
+    },
+    {
+      "name": "Azalea Dragon",
+      "size": "Medium",
+      "type": "dragon",
+      "alignment": "any neutral alignment",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "52 (8d8 + 16)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 4,
+        "wis": 3,
+        "cha": 1
+      },
+      "skills": {
+        "Perception": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "damage_vulnerabilities": [
+        "cold"
+      ],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Draconic"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The dragon has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The dragon has advantage on an attack roll against a creature if at least one of the dragon's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (1d10 + 2) piercing damage and if the target is a creature, it must succeed on a DC 13 Constitution saving throw or become poisoned until the end of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.39"
+    },
+    {
+      "name": "Floral Dragon",
+      "size": "Medium",
+      "type": "dragon",
+      "alignment": "any neutral alignment",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "52 (8d8 + 16)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 4,
+        "wis": 3,
+        "cha": 1
+      },
+      "skills": {
+        "Perception": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "damage_vulnerabilities": [
+        "cold"
+      ],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Draconic"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The dragon has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The dragon has advantage on an attack roll against a creature if at least one of the dragon's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (1d10 + 2) piercing damage and if the target is a creature, it must succeed on a DC 13 Constitution saving throw or become poisoned until the end of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.39"
+    },
+    {
+      "name": "Rhododendron Dragon",
+      "size": "Medium",
+      "type": "dragon",
+      "alignment": "any lawful alignment",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "39 (6d8 + 12)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 13,
+        "constitution": 15,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "con": 4,
+        "wis": 2
+      },
+      "skills": {
+        "Perception": 4,
+        "Intimidation": 1
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Draconic plus any one language"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The dragon has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage and if the target is a creature, it must succeed on a DC 13 Strength saving throw or be pushed 10 feet away from the dragon and knocked prone."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Protector",
+          "description": "When a creature the dragon can see attacks a target other than the dragon that is within 5 feet of the dragon, the dragon can impose disadvantage on the attack roll."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.47"
+    },
+    {
+      "name": "Clematis Dragon",
+      "size": "Small",
+      "type": "dragon",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "27 (5d6 + 10)",
+      "speed": "30 ft., climb 30 ft., swim 20 ft.",
+      "ability_scores": {
+        "strength": 5,
+        "dexterity": 12,
+        "constitution": 15,
+        "intelligence": 3,
+        "wisdom": 8,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Intimidation": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "blindsight 5 ft., darkvision 60 ft., passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The dragon can breathe air and water."
+        },
+        {
+          "name": "Poison Petals",
+          "description": "A creature that touches the dragon or hits it with a melee attack while within 5 feet of it takes 2 (1d4) piercing damage and must make a DC 13 Constitution saving throw, taking 9 (2d8) poison damage on a failed save, or half as much damage on a successful one. A creature that fails its save is also paralyzed until the end of its next turn, unless it is immune to the poisoned condition."
+        },
+        {
+          "name": "Standing Leap",
+          "description": "The dragon's long jump is up to 30 feet and its high jump is up to 15 feet, with or without a running start."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.55"
+    },
+    {
+      "name": "Dandelion Dragon",
+      "size": "Tiny",
+      "type": "dragon",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "31 (9d4 + 9)",
+      "speed": "15 ft., fly 30 ft.",
+      "ability_scores": {
+        "strength": 3,
+        "dexterity": 15,
+        "constitution": 13,
+        "intelligence": 6,
+        "wisdom": 11,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "understands Common and Draconic but can't speak"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Interplanar Jaunt",
+          "description": "As a bonus action, the dragon can magically shift from the Material Plane to another plane of existence of its choice, or vice versa."
+        },
+        {
+          "name": "Temporal Sensitivity",
+          "description": "The dragon has advantage on initiative rolls and can choose to reroll its initiative at the start of each round. If it rerolls, it must use the new result."
+        },
+        {
+          "name": "Time Acceleration (1/Day)",
+          "description": "The dragon takes an additional action on its turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes two bite attacks."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage, and the target suffers an itchy rash for the next 1d4 hours. While afflicted in this way, the target has disadvantage on Dexterity checks and saving throws. A successful DC 11 Wisdom check with an herbalism kit ends the effect."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.63"
+    },
+    {
+      "name": "Apple Tree Dragon",
+      "size": "Gargantuan",
+      "type": "dragon",
+      "alignment": "typically lawful good",
+      "armor_class": 22,
+      "ac_type": "natural armor",
+      "hit_points": "546 (28d20 + 252)",
+      "speed": "50 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 30,
+        "dexterity": 15,
+        "constitution": 28,
+        "intelligence": 30,
+        "wisdom": 28,
+        "charisma": 26
+      },
+      "saving_throws": {
+        "str": 18,
+        "dex": 10,
+        "wis": 17,
+        "cha": 16
+      },
+      "skills": {
+        "History": 18,
+        "Insight": 17,
+        "Nature": 18,
+        "Perception": 17,
+        "Persuasion": 16,
+        "Survival": 17
+      },
+      "damage_resistances": [
+        "fire",
+        "lightning",
+        "radiant",
+        "thunder"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., tremorsense 120 ft., passive Perception 27",
+      "languages": [
+        "Common",
+        "Draconic plus up to four other languages"
+      ],
+      "challenge_rating": "27",
+      "xp": 105000,
+      "features": [
+        {
+          "name": "Charge",
+          "description": "If the dragon moves at least 30 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 18 (4d8) damage. If the target is a creature, it must succeed on a DC 26 Strength saving throw or be knocked prone."
+        },
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The dragon's weapon attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Protective Floral Presence. It then makes three attacks: one with its ram and two with its tail."
+        },
+        {
+          "name": "Ram",
+          "description": "Melee Weapon Attack: +18 to hit, reach 10 ft., one target. Hit: 41 (7d8 + 10) bludgeoning damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +18 to hit, reach 20 ft., one target. Hit: 43 (6d10 + 10) bludgeoning damage."
+        },
+        {
+          "name": "Protective Floral Presence (2/Day)",
+          "description": "The dragon extends a protective force over any number of creatures of its choice it is aware of within 300 feet, not including itself. Targets gain resistance to the dragon's choice of either fire, cold, lightning, necrotic, poison, psychic, or thunder damage. Additionally, whenever a target regains hit points from spells or potions, it regains the highest number possible for each die rolled. These effects last for 1 minute or until the dragon is incapacitated.",
+          "uses": 2,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Healing Light (3/Day)",
+          "description": "Light filtering through the dragon's leaves takes on magical healing power. Each creature within a 20-foot radius of the dragon, including itself, regains 27 (6d8) hit points and is cured of the frightened and poisoned conditions. The dragon can't use this action in darkness.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Sunlight Breath (Recharge 5–6)",
+          "description": "The dragon exhales brilliant sunlight in a 90-foot cone. Each creature in that area must make a DC 24 Constitution saving throw. On a failed save, a creature takes 66 (12d10) radiant damage and is blinded for 1 minute. On a successful save, it takes half as much damage and isn't blinded.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.72"
+    },
+    {
+      "name": "Manchineel Dragon",
+      "size": "Gargantuan",
+      "type": "dragon",
+      "alignment": "chaotic evil",
+      "armor_class": 20,
+      "ac_type": "natural armor",
+      "hit_points": "351 (18d20 + 162)",
+      "speed": "40 ft., burrow 40 ft., climb 40 ft",
+      "ability_scores": {
+        "strength": 30,
+        "dexterity": 10,
+        "constitution": 29,
+        "intelligence": 18,
+        "wisdom": 16,
+        "charisma": 23
+      },
+      "saving_throws": {
+        "dex": 7,
+        "con": 16,
+        "wis": 10,
+        "cha": 13
+      },
+      "skills": {
+        "Intimidation": 13,
+        "Perception": 17
+      },
+      "damage_resistances": [
+        "fire",
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "acid",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "challenge_rating": "25",
+      "xp": 75000,
+      "features": [
+        {
+          "name": "Deadly Chemicals",
+          "description": "When the dragon takes fire damage, the flames ignite the toxins coating its scales creating a 40-foot-radius sphere of poisonous smoke centered on the dragon that remains until the end of the dragon’s next turn. Each creature in that area must make a DC 25 Constitution saving throw. On a failure, that creature is poisoned and blinded for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Toxic Sap",
+          "description": "A creature that touches the dragon or hits it with a melee attack while within 5 feet of it takes 10 (3d6) acid damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Vengeful Floral Presence. It then makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +18 to hit, reach 15 ft., one target. Hit: 32 (4d10 + 10) piercing damage plus 14 (4d6) acid damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +18 to hit, reach 10 ft., one target. Hit: 24(4d6 + 10) slashing damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +18 to hit, reach 20 ft., one target. Hit: 28 (4d8 + 10) bludgeoning damage."
+        },
+        {
+          "name": "Vengeful Floral Presence",
+          "description": "The dragon enters a battle frenzy, driven by the ages-old fury inside it. Each creature of the dragon’s choice within 120 feet of the dragon must succeed on a DC 21 Wisdom saving throw. On a failed save, a creature is vulnerable to all damage from the dragon’s attacks and makes melee attacks against the dragon with advantage. These effects last for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effects on itself on a success. If a creature’s saving throw is successful or the effect ends for it, the creature is immune to the dragon’s Vengeful Floral Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Lock Horns",
+          "description": "The dragon chooses one creature within 15 feet of it that it can see. The target must make a contested Strength (Athletics) check against the dragon’s Strength (Athletics) check. If the dragon wins the contest, the target is pushed back up to 15 feet away from it to an unoccupied space. If the dragon wins the contest by 10 or more, the creature is sent flying and lands prone in the unoccupied space. If the target wins the contest, it can push the dragon up to 15 feet away from it to an unoccupied space."
+        },
+        {
+          "name": "Tail",
+          "description": "The dragon makes a tail attack."
+        },
+        {
+          "name": "Rampage (Costs 2 Actions)",
+          "description": "The dragon moves up to its speed in a straight line without provoking opportunity attacks. Each creature in its path must succeed on a DC 26 Dexterity saving throw or take 19 (3d12) bludgeoning damage and be stunned until the start of the dragon’s next turn."
+        }
+      ],
+      "source": "FLORAL DRAGONS p.82"
+    },
+    {
+      "name": "Heliconia Dragon",
+      "size": "Small",
+      "type": "dragon",
+      "alignment": "typically neutral good",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "45 (10d6 + 10)",
+      "speed": "30 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 9,
+        "wisdom": 14,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Performance": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed"
+      ],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Draconic"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Flyby",
+          "description": "The dragon doesn’t provoke opportunity attacks when it flies out of an enemy’s reach."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes three attacks: two with its beak and one with its talons."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        },
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 2) slashing damage."
+        },
+        {
+          "name": "Charming Song (2/Day)",
+          "description": "Each creature within 60 feet of the dragon that can hear it must succeed on a DC 13 Wisdom saving throw or become charmed by the dragon for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+          "uses": 2,
+          "recharge": "day"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "FLORAL DRAGONS p.91"
+    },
+    {
+      "name": "Hydrangea Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "any chaotic alignment",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "123 (13d12 + 39)",
+      "speed": "40 ft., climb 40 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 8,
+        "wisdom": 16,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "str": 6,
+        "dex": 5
+      },
+      "skills": {
+        "Insight": 6,
+        "Perception": 6
+      },
+      "damage_resistances": [
+        "acid",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "damage_vulnerabilities": [
+        "poison"
+      ],
+      "senses": "tremorsense 30 ft., passive Perception 16",
+      "languages": [
+        "Draconic"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Charge",
+          "description": "If the dragon moves at least 10 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 7 (2d6) piercing damage. If the target is a creature, it must succeed on a DC 14 Strength saving throw or be pushed up to 10 feet away and knocked prone."
+        },
+        {
+          "name": "Environmental Senses",
+          "description": "The dragon has advantage on Perception checks and can sense the presence and precise location of pollutants, poisons, and poisonous creatures within 1 mile of it."
+        },
+        {
+          "name": "Nimble Climber",
+          "description": "The dragon does not provoke opportunity attacks when it moves out of a hostile creature's reach using its climb speed."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes two attacks, one to gore and one with its tail."
+        },
+        {
+          "name": "Gore",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 21 (4d8 + 3) piercing damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 22 (3d12 + 3) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.99"
+    },
+    {
+      "name": "Jade Vine Dragon",
+      "size": "Tiny",
+      "type": "dragon",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "21 (6d4 + 6)",
+      "speed": "15 ft., climb 20 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 3,
+        "dexterity": 19,
+        "constitution": 13,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., darkvision 60 ft., passive Perception 12",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Echolocation",
+          "description": "The dragon can't use its blindsight while deafened."
+        },
+        {
+          "name": "Nimble Escape",
+          "description": "The dragon can use a bonus action on each of its turns to take the Dash, Disengage, or Hide action."
+        },
+        {
+          "name": "Floral Appearance",
+          "description": "While the dragon remains motionless, it is indistinguishable from ordinary jade vine plants. It has advantage on Dexterity (Stealth) checks made to hide in areas covered in similar plants."
+        },
+        {
+          "name": "Keen Senses",
+          "description": "The dragon has advantage on Wisdom (Perception) checks that rely on hearing."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d4 + 4) piercing damage."
+        },
+        {
+          "name": "Luminescence (Recharge 6)",
+          "description": "The dragon emits a bright glow. Each creature within 60 feet of it that can see the dragon must make a DC 13 Constitution saving throw. On a failure, a creature takes 2 (1d4) radiant damage and is blinded until the start of the start of the dragon's next turn. On a success, a creature takes half as much radiant damage and is not blinded. The dragon can then move up to half its speed."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.107"
+    },
+    {
+      "name": "Lamium Dragon",
+      "size": "Gargantuan",
+      "type": "dragon",
+      "alignment": "any alignment",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "264 (16d20 + 96)",
+      "speed": "20 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 28,
+        "dexterity": 8,
+        "constitution": 22,
+        "intelligence": 18,
+        "wisdom": 23,
+        "charisma": 19
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 11,
+        "int": 9,
+        "wis": 11
+      },
+      "skills": {
+        "History": 9,
+        "Insight": 11,
+        "Perception": 16
+      },
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "blinded",
+        "deafened"
+      ],
+      "senses": "blindsight 120 ft. (blind beyond this radius), passive Perception 26",
+      "languages": [
+        "Draconic",
+        "plus any three languages"
+      ],
+      "challenge_rating": "15",
+      "xp": 13000,
+      "features": [
+        {
+          "name": "Hold Breath",
+          "description": "The dragon can hold its breath for 1 hour."
+        },
+        {
+          "name": "Sunlight Dependency",
+          "description": "The dragon gains a level of exhaustion every 5 days it isn't exposed to sunlight. A level of exhaustion gained this way is removed if the dragon is exposed to direct sunlight for 5 hours."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Aquatic Floral Presence or Greater Heart Sight. It then makes two attacks: one with its bite and one with its tail."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +14 to hit, reach 15 ft., one target. Hit: 20 (2d10 + 9) piercing damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +14 to hit, reach 20 ft., one target. Hit: 22 (2d12 + 9) bludgeoning damage."
+        },
+        {
+          "name": "Aquatic Floral Presence",
+          "description": "Each creature of the dragon's choice that is within 120 feet of it is cured of the poisoned condition and gains 11 (2d10) temporary hit points that last for 1 minute. As long as these temporary hit points remain, the target can't be poisoned and can breathe water. Once the effect ends for it, the creature is immune to the dragon's Floral Presence for the next 24 hours."
+        },
+        {
+          "name": "Greater Heart Sight",
+          "description": "The dragon focuses on a creature in range of its blindsight and magically learns the creature's current emotional state. If the target fails a DC 16 Charisma saving throw, the dragon also learns the creature's alignment. Celestials, fiends, and undead automatically fail this saving throw."
+        },
+        {
+          "name": "Emotion Wave (Recharge 5–6)",
+          "description": "The dragon uses one of the following emotion waves. Negative Wave. The dragon releases a blast of violent psychic energy in a 60-foot cone. Each creature in that area must make a DC 19 Wisdom saving throw, taking 52 (15d6) psychic damage on a failed save, or half as much damage on a successful one. A creature that fails its saving throw by 5 or more is frightened of the dragon until the end of its next turn. Positive Wave. The dragon releases a burst of blissful psychic energy in a 60-foot cone. Each creature in the cone must succeed on a DC 19 Wisdom saving throw or become incapacitated for 10 minutes. This effect ends early for a creature if a target takes damage. An affected creature can repeat its saving throw at the end of each of its turns, ending the effect for itself on a success.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.115"
+    },
+    {
+      "name": "Larkspur Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "any chaotic alignment",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "90 (12d10 + 24)",
+      "speed": "40 ft., fly 20 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 15,
+        "intelligence": 7,
+        "wisdom": 10,
+        "charisma": 9
+      },
+      "saving_throws": {
+        "str": 6,
+        "dex": 6
+      },
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Draconic",
+        "understands Common can't speak it"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Fleet of Foot",
+          "description": "The dragon can use a bonus action on each of its turns to take the Dash action."
+        },
+        {
+          "name": "Poisonous Petals",
+          "description": "A creature that touches the dragon or hits it with a melee attack while within 5 feet of it takes 7 (2d6) poison damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes two attacks: one with its beak and one with its talons."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 7 (1d8 + 3) piercing damage plus 5 (1d10) poison damage."
+        },
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 10 (2d6 + 3) slashing damage plus 5 (1d10) poison damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.123"
+    },
+    {
+      "name": "Magnolia Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "typically neutral good",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "135 (18d10 + 36)",
+      "speed": "30 ft., fly 15 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 8,
+        "constitution": 15,
+        "intelligence": 9,
+        "wisdom": 14,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "strength": 7,
+        "constitution": 5
+      },
+      "skills": {
+        "Insight": 5,
+        "Perception": 5
+      },
+      "damage_resistances": [
+        "fire",
+        "force",
+        "cold",
+        "thunder",
+        "bludgeoning and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "understands Common and Draconic but can't speak"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 15 (2d10 +4) piercing damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage."
+        },
+        {
+          "name": "Tail Strike",
+          "description": "The dragon uses its tail to attempt to knock another creature off balance, targeting one Large or smaller creature within 10 feet of it that it can see. The target must make a DC 15 Strength saving throw. On a failed save, it takes 13 (2d8 + 4) bludgeoning damage and is knocked prone. On a success, the creature takes half as much damage and isn't knocked prone."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Petal Guard (3/Day)",
+          "description": "When an attack roll is made against a creature within 10 feet of the dragon, the dragon can spread its wings as a protective shield, granting the creature a +5 bonus to AC until the start of the dragon's next turn."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "FLORAL DRAGONS p.130"
+    },
+    {
+      "name": "Ornithogalum Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "typically chaotic neutral",
+      "armor_class": 18,
+      "ac_type": "natural armor",
+      "hit_points": "225 (18d12 + 108)",
+      "speed": "30 ft., fly 120 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 13,
+        "constitution": 22,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "str": 10,
+        "wis": 5
+      },
+      "skills": {
+        "Perception": 5
+      },
+      "damage_resistances": [
+        "acid",
+        "bludgeoning",
+        "force",
+        "poison",
+        "piercing and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "understands Draconic but can't speak"
+      ],
+      "challenge_rating": "15",
+      "xp": 13000,
+      "features": [
+        {
+          "name": "Aerial Agility",
+          "description": "While flying, the dragon makes Strength and Dexterity saving throws with advantage."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The dragon has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Toxic Aura",
+          "description": "Any creature that starts its turn within 20 feet of the dragon must succeed on a DC 19 Constitution saving throw or be poisoned for 1 minute. An affected creature can repeat its saving throw at the end of each of its turns, ending the effect on a success."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Noxious Floral Presence. It then makes four attacks: two with its claws and two with its tail. It can replace two claw attacks with its stomp."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) bludgeoning damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +12 to hit, reach 15 ft., one target. Hit: 15 (2d8 + 6) bludgeoning damage."
+        },
+        {
+          "name": "Stomp",
+          "description": "The dragon slams its forefeet into the ground. The ground in a 15-foot radius circle centered on the dragon becomes difficult terrain, and each creature within this area must succeed on a DC 19 Dexterity saving throw or fall prone."
+        },
+        {
+          "name": "Noxious Floral Presence (Recharge 5–6)",
+          "description": "Each creature within 120 feet of the dragon must succeed on a DC 19 Constitution saving throw or suffer a level of exhaustion. If a target's saving throw is successful or the effect ends for it, the target is immune to this dragon's Noxious Floral Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.139"
+    },
+    {
+      "name": "Peony Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "any alignment",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "135 (18d10 + 36)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 6,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "str": 6,
+        "con": 5
+      },
+      "skills": {
+        "Perception": 7,
+        "Stealth": 8
+      },
+      "damage_resistances": [
+        "poison"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "passive Perception 17",
+      "languages": [
+        "understands Draconic but can't speak"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Ambusher",
+          "description": "In the first round of combat, the dragon has advantage on attack rolls against any creature it has surprised."
+        },
+        {
+          "name": "Surprise Attack",
+          "description": "If the dragon surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 10 (3d6) damage from the attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Roaring Floral Presence. It then makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 14 (2d10 + 3) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 12 (2d8 + 3) bludgeoning damage. The target must succeed on a DC 14 Strength saving throw or be knocked prone. If the target is prone, the dragon can make one bite attack against it as a bonus action."
+        },
+        {
+          "name": "Roaring Floral Presence",
+          "description": "The dragon emits a mighty roar. Each creature within 60 feet of it that can hear it must make a DC 14 Constitution saving throw. On a failed save, a creature takes 7 (2d6) thunder damage and is deafened for 1 minute. On a success, a creature takes half as much damage and isn't deafened. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Floral Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Detect",
+          "description": "The dragon makes a Wisdom (Perception) check."
+        },
+        {
+          "name": "Tail Attack",
+          "description": "The dragon makes one tail attack."
+        }
+      ],
+      "source": "FLORAL DRAGONS p.146"
+    },
+    {
+      "name": "Succulent Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "lawful neutral",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "115 (10d10 + 102)",
+      "speed": "40 ft., climb 40 ft., fly 80 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 14,
+        "constitution": 22,
+        "intelligence": 11,
+        "wisdom": 17,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "dex": 6,
+        "con": 12,
+        "wis": 7,
+        "cha": 7
+      },
+      "skills": {
+        "Nature": 4,
+        "Perception": 11,
+        "Survival": 7
+      },
+      "damage_resistances": [
+        "fire",
+        "lightning",
+        "bludgeoning, piercing, and slashing damage from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., darkvision 120 ft., passive Perception 21",
+      "languages": [
+        "Draconic",
+        "plus any one language"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Needle Hairs",
+          "description": "A creature that touches the dragon or hits it with a melee attack while within 5 feet of it takes 6 (1d12) piercing damage. This damage ignores resistance to piercing damage."
+        },
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Regeneration",
+          "description": "The dragon regains 10 hit points at the start of its turn. If the dragon takes acid damage, this trait doesn't function at the start of the dragon's next turn. The dragon dies only if it starts its turn with 0 hit points and doesn't regenerate."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The succulent dragon can use its Bewildering Floral Presence. It then makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 17 (2d10 + 6) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) slashing damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 11 (1d10 + 6) bludgeoning damage, plus 6 (1d12) piercing damage. This damage ignores resistance to piercing damage."
+        },
+        {
+          "name": "Bewildering Floral Presence",
+          "description": "Each creature of the dragon's choice within 120 feet of it must succeed on a DC 17 Wisdom saving throw or become incapacitated for 1 minute or until it takes damage. An incapacitated creature can repeat this saving throw at the end of each of its turns, ending the effect on itself on a success. If the creature succeeds on its save or the effect ends for it, it is immune to the dragon's floral presence for the next 24 hours."
+        },
+        {
+          "name": "Heat Breath (Recharge 5–6)",
+          "description": "The dragon exhales superheated air in a 30-foot cone. Each creature in that area must make a DC 18 Constitution saving throw, taking 45 (10d8) fire damage on a failed save, or half as much damage on a successful one. Additionally, each object made of metal in the area becomes red hot, dealing 9 (2d8) fire damage to any creature in contact with it. If a creature is holding or wearing the object and takes damage from it, the creature must succeed on a DC 15 Constitution saving throw or drop the object if it can. If it doesn't drop the object, it has disadvantage on attack rolls and ability checks until the start of the dragon's next turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.154"
+    },
+    {
+      "name": "Vampire Lily Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "typically chaotic evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "252 (24d10 + 120)",
+      "speed": "45 ft., burrow 15 ft., swim 45 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 14,
+        "constitution": 21,
+        "intelligence": 18,
+        "wisdom": 18,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "Str": 11,
+        "Con": 10,
+        "Int": 9
+      },
+      "skills": {
+        "Deception": 8,
+        "Insight": 9,
+        "Perception": 9,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "cold",
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned",
+        "unconscious"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 19",
+      "languages": [
+        "Common",
+        "Draconic plus any two languages"
+      ],
+      "challenge_rating": "14",
+      "xp": 11500,
+      "features": [
+        {
+          "name": "Aggressive",
+          "description": "As a bonus action, the dragon can move up to its speed toward a hostile creature that it can see."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "The dragon has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Poison Spines",
+          "description": "A creature that touches the dragon or hits it with a melee attack while within 5 feet of it must succeed on a DC 18 Dexterity saving throw or take 16 (3d10) poison damage and become poisoned until the end of its next turn."
+        },
+        {
+          "name": "Unsleeping",
+          "description": "The dragon can’t be surprised, does not need to sleep, and magic can’t put it to sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon makes three attacks: two with its bite and one with its tail."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 16 (3d6 + 6) piercing damage plus 10 (3d6) poison damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +11 to hit, reach 10 ft., one creature. Hit: 15 (2d8 + 6) bludgeoning damage plus 10 (3d6) poison damage, and the target is grappled (escape DC 19). Until this grapple ends, the creature is restrained, and the dragon can’t grapple another target."
+        },
+        {
+          "name": "Stench Breath (Recharge 5–6)",
+          "description": "The dragon exhales foul gas in a 60-foot cone. Each creature in that area must succeed on a DC 18 Constitution saving throw. On a failed save, a creature is knocked unconscious for 1 minute. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself with a successful save. The effect ends if the creature takes damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.163"
+    },
+    {
+      "name": "Water Lily Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "typically good aligned",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "73 (7d12 + 28)",
+      "speed": "5 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 14,
+        "constitution": 22,
+        "intelligence": 11,
+        "wisdom": 17,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "dex": 2,
+        "con": 6,
+        "wis": 3
+      },
+      "skills": {},
+      "damage_resistances": [
+        "fire",
+        "cold"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "prone"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "understands Draconic and one other language but can't speak them"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Aquatic Advantage",
+          "description": "The dragon has advantage on attack rolls when it is in the water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 11 (1d10 + 6) piercing damage."
+        },
+        {
+          "name": "Flipper",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 9 (1d6 + 6) bludgeoning damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Wave of Defense (2/Day)",
+          "description": "When an attack is made against a creature on the dragon's back, the dragon can use its reaction to smack its front flippers against the water's surface, imposing disadvantage on the roll. Whether the attack hits or misses, the attacker must then succeed on a DC 14 Strength saving throw or be pushed 15 feet away from the dragon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Floral Dragons p.171"
+    },
+    {
+      "name": "Wisteria Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "any non-good alignment",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "256 (19d12 + 133)",
+      "speed": "40 ft., fly 80 ft.",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 13,
+        "constitution": 25,
+        "intelligence": 17,
+        "wisdom": 14,
+        "charisma": 25
+      },
+      "saving_throws": {
+        "dex": 7,
+        "con": 13,
+        "wis": 8,
+        "cha": 13
+      },
+      "skills": {
+        "Arcana": 9,
+        "Deception": 13,
+        "History": 9,
+        "Insight": 8,
+        "Perception": 14
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., darkvision 120 ft., passive Perception 24",
+      "languages": [
+        "Draconic",
+        "Sylvan",
+        "plus any two languages"
+      ],
+      "challenge_rating": "17",
+      "xp": 18000,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "The dragon has advantage on saving throws against being charmed, and magic can’t put the dragon to sleep."
+        },
+        {
+          "name": "Regeneration",
+          "description": "The dragon regains 10 hit points at the start of its turn. If the dragon takes cold or necrotic damage, this trait doesn’t function at the start of the dragon’s next turn. The dragon dies only if it starts its turn with 0 hit points and doesn’t regenerate."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The dragon is a 9th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 21). It can cast the following Bard spells, requiring no material components:\nCantrips (at will): dancing lights, mage hand, prestidigitation\n1st level (4 slots): bane, identify, sleep\n2nd level (3 slots): locate object, see invisibility, suggestion\n3rd level (3 slots): dispel magic, plant growth, speak with plants\n4th level (3 slots): confusion, freedom of movement\n5th level (1 slot): geas"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Soporific Floral Presence. It then casts a spell or makes three attacks: one with its bite and two with its stomp."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +13 to hit, reach 10 ft., one target. Hit: 18 (2d10 + 7) piercing damage."
+        },
+        {
+          "name": "Stomp",
+          "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 14 (2d6 + 7) bludgeoning damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +13 to hit, reach 15 ft., one target. Hit: 16 (2d8 + 7) bludgeoning damage."
+        },
+        {
+          "name": "Grasping Vines (Recharge 5–6)",
+          "description": "Vines entangle each creature of the dragon’s choice within 90 feet of it. Each target must make a DC 21 Dexterity saving throw, taking 18 (4d8) piercing damage on a failed save, or half as much on a success. On a failure, a target is grappled and restrained (escape DC 19). While restrained, a target takes 18 (4d8) piercing damage at the start of each of its turns.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Soporific Floral Presence",
+          "description": "Each creature of the dragon’s choice within 120 feet of it must succeed on a DC 19 Constitution saving throw or fall unconscious for 1 minute. This effect ends for a creature if the creature takes damage or someone uses an action to wake it. If a target’s saving throw is successful or the effect ends for it, the target is immune to this dragon’s Floral Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Detect",
+          "description": "The dragon makes a Wisdom (Perception) check."
+        },
+        {
+          "name": "Tail Attack",
+          "description": "The dragon makes a tail attack."
+        },
+        {
+          "name": "Wing Attack (Costs 2 Actions)",
+          "description": "The dragon beats its wings. Each creature within 10 feet of the dragon must succeed on a DC 21 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed."
+        }
+      ],
+      "source": "FLORAL DRAGONS p.178-179"
+    },
+    {
+      "name": "Florivore",
+      "size": "Tiny",
+      "type": "monstrosity",
+      "alignment": "unaligned",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "27 (5d4 + 15)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 16,
+        "constitution": 16,
+        "intelligence": 4,
+        "wisdom": 10,
+        "charisma": 5
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "acid",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., blindsight 10 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The florivore can breathe air and water."
+        },
+        {
+          "name": "Damage Transfer",
+          "description": "While attached to a creature, the florivore takes only half the damage dealt to it (rounded down), and that creature takes the other half."
+        },
+        {
+          "name": "Floral Pest",
+          "description": "The florivore's attacks against floral dragons and plants ignore damage resistances."
+        },
+        {
+          "name": "Sap Sucker",
+          "description": "Each time the florivore hits a floral dragon or plant with its bite attack, the florivore regains 2 (1d4) hit points."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 5 (1d4 + 3) piercing damage."
+        },
+        {
+          "name": "Dig In",
+          "description": "Using its sharp claws, the florivore digs into the foliage or skin of a creature within 5 feet of it. The target must make a DC 15 Constitution saving throw. Floral dragons and plants have disadvantage on this saving throw. On a failure, the target takes 3 (1d6) piercing damage and the florivore becomes attached to the target. While attached, the florivore can make bite attacks only against the target and has advantage on the attack roll. The florivore can detach itself by spending 5 feet of its movement. A creature, including the target, can use its action to detach the florivore by succeeding on a DC 15 Strength check."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Friends & Foes p.188"
+    },
+    {
+      "name": "Vespon Queen",
+      "size": "Small",
+      "type": "monstrosity",
+      "alignment": "unaligned",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "49 (9d6 + 18)",
+      "speed": "30 ft., fly 30 ft.",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 3,
+        "wisdom": 8,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Pheromone Network",
+          "description": "The queen can communicate simple images, ideas, and instructions to all swarms of vespons within 150 feet of her. A swarm can reply to these communications, relaying simple information to the queen."
+        },
+        {
+          "name": "Royal Command",
+          "description": "The queen can use a bonus action to command a swarm of vespons within 150 feet of her to make an attack. The swarm must use its reaction to make this attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 +2) piercing damage."
+        },
+        {
+          "name": "Buzz",
+          "description": "The queen beats its wings violently and creates a buzzing sound. Each creature within 10 feet of the queen that can hear it must succeed on a DC 12 Constitution saving throw or take 3 (1d6) thunder damage and be deafened until the start of the queen's next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "FRIENDS & FOES p.196"
+    },
+    {
+      "name": "Swarm of Vespons",
+      "size": "Medium",
+      "type": "swarm of Tiny monstrosities",
+      "alignment": "any good alignment",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "45 (7d8 + 14)",
+      "speed": "30 ft., fly 30 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 15,
+        "constitution": 15,
+        "intelligence": 3,
+        "wisdom": 8,
+        "charisma": 4
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 4
+      },
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Swarm",
+          "description": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny insect. The swarm can't regain hit points or gain temporary hit points."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer. Additionally, on a hit the target must succeed on a DC 12 Dexterity saving throw or have disadvantage on the first attack roll it makes before the end of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "FRIENDS & FOES p.197"
+    },
+    {
+      "name": "Corrupted Azalea Dragon",
+      "size": "Medium",
+      "type": "dragon",
+      "alignment": "neutral evil",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "39 (6d8 + 12)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 4,
+        "wis": 3,
+        "cha": -2
+      },
+      "skills": {
+        "Perception": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 15",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Fungally Controlled",
+          "description": "The corrupted dragon is part of the pluerossa fungus network. It is aware of everything other corrupted floral dragons and the mushroom dragon perceive at all times, and it carries out the desires of the pleurrosa fungus."
+        },
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The corrupted dragon has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The corrupted dragon has advantage on saving throws against spells and other magical effects"
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The corrupted dragon has advantage on an attack roll against a creature if at least one of the dragon’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (1d10 + 2) piercing damage and if the target is a creature, it must succeed on a DC 12 Constitution saving throw or become poisoned until the end of its next turn and gain a level of corruption. Floral dragons have disadvantage on this saving throw."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Friends & Foes p.210"
+    },
+    {
+      "name": "Corrupted Dandelion Dragon",
+      "size": "Tiny",
+      "type": "dragon",
+      "alignment": "neutral evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "31 (9d4 + 9)",
+      "speed": "15 ft., fly 15 ft.",
+      "ability_scores": {
+        "strength": 3,
+        "dexterity": 15,
+        "constitution": 13,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Fungally Controlled",
+          "description": "The corrupted dragon is part of the pluerossa fungus network. It is aware of everything other corrupted floral dragons and the mushroom dragon perceive at all times, and it carries out the desires of the pleurrosa fungus."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The corrupted dragon has advantage on saving throws against spells and other magical effects"
+        },
+        {
+          "name": "Temporal Sensitivity",
+          "description": "The corrupted dragon has advantage on initiative rolls and can choose to reroll its initiative at the start of each round. If it rerolls, it must use the new result."
+        },
+        {
+          "name": "Time Acceleration (1/Day)",
+          "description": "The corrupted dragon takes an additional action on its turn.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage, and the target must succeed on a DC 11 Constitution saving throw or gain one level of corruption. Floral dragons have disadvantage on this saving throw."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Friends & Foes p.212"
+    },
+    {
+      "name": "Corrupted Larkspur Dragon",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "20 (12d10 + 24)",
+      "speed": "40 ft., fly 10 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 15,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {
+        "str": 6,
+        "dex": 6
+      },
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 14",
+      "languages": [],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Fleet of Foot",
+          "description": "The corrupted dragon can use a bonus action on each of its turns to take the Dash action."
+        },
+        {
+          "name": "Fungally Controlled",
+          "description": "The corrupted dragon is part of the pluerossa fungus network. It is aware of everything other corrupted floral dragons and the mushroom dragon perceive at all times, and it carries out the desires of the pleurrosa fungus."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The corrupted dragon has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Poisonous Petals",
+          "description": "A creature that touches the corrupted dragon or hits it with a melee attack while within 5 feet of it takes 7 (2d6) poison damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The corrupted dragon makes two attacks: one with its beak and one with its talons."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 7 (1d8 + 3) piercing damage plus 5 (1d10) poison damage and the target must succeed on a DC 11 Constitution saving throw or gain one level of corruption. Floral dragons have disadvantage on this saving throw."
+        },
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 10 (2d6 + 3) slashing damage and the target must succeed on a DC 13 Constitution saving throw or gain one level of corruption. Floral dragons have disadvantage on this saving throw."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Friends & Foes p.214"
+    },
+    {
+      "name": "Corrupted Wisteria Dragon",
+      "size": "Huge",
+      "type": "dragon",
+      "alignment": "any non-good alignment",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "256 (19d12 + 133)",
+      "speed": "40 ft., burrow 30 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 13,
+        "constitution": 25,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {
+        "dex": 7,
+        "con": 13,
+        "wis": 7,
+        "cha": 3
+      },
+      "skills": {
+        "Arcana": 2,
+        "Deception": 3,
+        "History": 2,
+        "Insight": 7,
+        "Perception": 7
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 17",
+      "languages": [],
+      "challenge_rating": "17",
+      "xp": 18000,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "The dragon has advantage on saving throws against being charmed, and magic can't put the dragon to sleep."
+        },
+        {
+          "name": "Fungally Controlled",
+          "description": "The corrupted dragon is part of the pluerossa fungus network. It is aware of everything other corrupted floral dragons and the mushroom dragon perceive at all times, and it carries out the desires of the pleurrosa fungus."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The dragon has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Regeneration",
+          "description": "The dragon regains 10 hit points at the start of its turn. If the dragon takes cold damage, this trait doesn't function at the start of the dragon's next turn. The dragon dies only if it starts its turn with 0 hit points and doesn't regenerate."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Fungal Presence. It then makes three attacks: one with its bite and two with its stomp."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +13 to hit, reach 10 ft., one target. Hit: 18 (2d10 + 7) piercing damage and the target must succeed on a DC 21 Constitution saving throw or gain one level of corruption. Floral dragons have disadvantage on the save."
+        },
+        {
+          "name": "Stomp",
+          "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 14 (2d6 + 7) bludgeoning damage."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +13 to hit, reach 15 ft., one target. Hit: 16 (2d8 + 7) bludgeoning damage."
+        },
+        {
+          "name": "Grasping Vines (Recharge 5–6)",
+          "description": "Vines entangle each creature of the dragon's choice within 90 feet of it. Each target must make a DC 21 Dexterity saving throw, taking 18 (4d8) piercing damage on a failed save, or half as much on a success. On a failure, a target is grappled and restrained (escape DC 19). While restrained, a target takes 18 (4d8) piercing damage at the start of each of its turns."
+        },
+        {
+          "name": "Fungal Presence",
+          "description": "The dragon exhales spores in a 60-foot cone originating from itself. Each creature in that area must make a DC 19 Dexterity saving throw. On a failed save, a creature takes 16 (3d10) poison and 16 (3d10) necrotic damage and gains a level of corruption. On a successful save, a creature takes half as much damage. If a target's saving throw is successful, the target is immune to this dragon's Fungal Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "FRIENDS & FOES p.216-217"
+    },
+    {
+      "name": "Mushroom Dragon",
+      "size": "Gargantuan",
+      "type": "dragon",
+      "alignment": "neutral evil",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "350 (20d20 + 140)",
+      "speed": "60 ft., burrow 60 ft., fly 20 ft.",
+      "ability_scores": {
+        "strength": 27,
+        "dexterity": 14,
+        "constitution": 25,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 4
+      },
+      "saving_throws": {
+        "dex": 9,
+        "con": 14,
+        "int": 3,
+        "cha": 4
+      },
+      "skills": {
+        "Perception": 8
+      },
+      "damage_resistances": [
+        "necrotic",
+        "damage from spells",
+        "bludgeoning, piercing, and slashing damage from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 30 ft. (blind beyond this radius), passive Perception 18",
+      "languages": [],
+      "challenge_rating": "21",
+      "xp": 33000,
+      "features": [
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The dragon has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The dragon's weapon attacks are magical."
+        },
+        {
+          "name": "Mycelial Sight",
+          "description": "While the dragon is within 100 feet of the pleurossa network, its blindsight extends as far as the network reaches and it is immune to the blinded condition."
+        },
+        {
+          "name": "Toxic Spores",
+          "description": "A creature that starts its turn within 20 feet of the dragon must succeed on a DC 22 Constitution saving throw or gain one level of corruption. Creatures that don't need to breathe are immune to this effect."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The dragon can use its Overwhelming Spores. It then makes three attacks: one with its bite, one with its corrupting claws, and one with its tail."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 34 (4d12 +8) piercing damage."
+        },
+        {
+          "name": "Corrupting Claws",
+          "description": "Melee Weapon Attack: +15 to hit, reach 15 ft., one target. Hit: 26 (4d8 + 8) slashing damage, and the target must succeed on a DC 22 Constitution saving throw or gain one level of corruption. Floral dragons have disadvantage on the save."
+        },
+        {
+          "name": "Tail",
+          "description": "Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 22 (4d6 + 8) bludgeoning damage. If the target is a creature, it must succeed on a DC 23 Strength saving throw or be knocked prone."
+        },
+        {
+          "name": "Overwhelming Spores",
+          "description": "The dragon releases a cloud of spores. Each creature of the dragon's choice that is within 120 feet of the dragon must succeed on a DC 16 Wisdom saving throw or become charmed for 1 minute. On its turn, a charmed creature must move up to its speed toward the dragon by the most direct route possible. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Overwhelming Spores for the next 24 hours."
+        },
+        {
+          "name": "Corrupting Fungal Presence (Recharge 5–6)",
+          "description": "The dragon exhales putrid spores in a 120-foot cone. Each creature in that area must make a DC 22 Dexterity saving throw. On a failed save, a creature takes 32 (5d12) poison damage and 32 (5d12) necrotic damage and gains a level of corruption. On a successful save, the creature takes half as much damage and does not gain any corruption."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Spore Sacrifice",
+          "description": "When the dragon would take damage, it can use its reaction to halve the damage and force a creature of its choice within 300 feet of the dragon and has 3 or more levels of corruption to take the other half."
+        }
+      ],
+      "legendary_actions": [
+        {
+          "name": "Detect",
+          "description": "The dragon makes a Wisdom (Perception) check."
+        },
+        {
+          "name": "Move",
+          "description": "The dragon moves up to half its speed."
+        },
+        {
+          "name": "Tail Attack",
+          "description": "The dragon makes a tail attack."
+        }
+      ],
+      "source": "FRIENDS & FOES p.218-219"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Introduction",
+    "Foreword",
+    "Friends & Foes",
+    "Index of Magic Items",
+    "Creatures by CR",
+    "How to Use This Book",
+    "Floral Dragons",
+    "Index of Creatures"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 8,
+  "_book_slug": "FGFD",
+  "_book_title": "Field Guide to Floral Dragons",
+  "_completed": true,
+  "_timestamp": 1789234610.7305262
+}

@@ -702,6 +702,28 @@ def _fuzzy_variants(word: str) -> list[str]:
     return list(variants)
 
 
+_DISPLAY_TO_SLUG: dict[str, str] = {}
+
+
+def _display_to_slug() -> dict[str, str]:
+    """{lower display name → slug} from the ingested-manual slug map (cached).
+
+    Sources are normalized to "(Book Display, p.#)" by the merge, but search
+    result rows want the slug so JSON hits line up with the PDF-text hit rows
+    ("FGFD", not "(Field").
+    """
+    global _DISPLAY_TO_SLUG
+    if not _DISPLAY_TO_SLUG:
+        try:
+            for slug, info in (_get_source_slug_map() or {}).items():
+                disp = (info.get("display") or "").strip().lower()
+                if disp:
+                    _DISPLAY_TO_SLUG.setdefault(disp, slug)
+        except Exception:
+            pass
+    return _DISPLAY_TO_SLUG
+
+
 def _search_json_data(query: str, words: list[str], max_results: int = 20) -> list[dict]:
     """Search structured JSON data in manual_data/ for query words.
 
@@ -760,13 +782,20 @@ def _search_json_data(query: str, words: list[str], max_results: int = 20) -> li
                 elif w in text_norm:
                     score += 1.0
 
-            # Book label: use source field if available, else filename stem
+            # Book label: normalized sources are "(Book Display, p.#)" — resolve
+            # the display name back to its slug so JSON hits match the PDF-hit
+            # rows. Free-form/chapter sources keep the legacy short label.
             src_label = filename.replace(".json", "")
             if source:
-                # Extract short book code if source looks like "Chapter X: ..."
-                m = re.match(r"^(.+?)\s", source)
+                m = re.match(r"^\(([^,)]+?)(?:,\s*p\.?\s*\d+)?\)\s*$", source.strip())
                 if m:
-                    src_label = m.group(1)[:8]
+                    display = m.group(1).strip()
+                    src_label = _display_to_slug().get(display.lower(), display)
+                else:
+                    # Extract short book code if source looks like "Chapter X: ..."
+                    m = re.match(r"^(.+?)\s", source)
+                    if m:
+                        src_label = m.group(1)[:8]
 
             snippet = desc[:400] if desc else name
             results.append({

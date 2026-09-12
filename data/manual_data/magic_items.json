@@ -6640,5 +6640,131 @@
     "description": "This philter contains the memory of picking bluebells as a young girl, the laughter of a child, and the boundless strength of youth. When consumed, the target regains 3d8 + 6 hit points and removes one level of exhaustion. To create this philter, a humanoid must sacrifice a favored childhood memory.",
     "source": "(Courts of the Shadow Fey, p.45)",
     "_source_manual": "CSF"
+  },
+  {
+    "name": "Floral Dragon Grooming Rake",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "The firm prongs of this rake are designed to remove dead leaves, wilted flowers, and dirt from a floral dragon. When you spend 10 minutes using this rake to groom a willing floral dragon, you have advantage on Wisdom (Animal Handling) checks made to interact with the floral dragon for the next 24 hours. Additionally, the dragon makes all Dexterity and Constitution saving throws with advantage for the next 24 hours.",
+    "source": "(Field Guide to Floral Dragons, p.21)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Cherry Blossom Token",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "Made from a pressed flower from the cherry blossom dragon, this token can bring good fortune. While carrying this token, you have advantage on Performance checks made to tell stories. Additionally, when you fail an attack roll, ability check, or saving throw, you can reroll the d20 and must use the new result. Once you have used this property, you can't use it again until next dusk.",
+    "source": "(Field Guide to Floral Dragons, p.29)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Clematis-tainted Weapon",
+    "type": "Weapon (any sword, arrow, dart)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This weapon is coated in the powerful toxin of a clematis dragon. When you hit with this weapon, the target must make a DC 16 Constitution saving throw, taking 1d8 poison damage on a failed save or half as much damage on a successful one. A creature that fails its save is also paralyzed until the end of its next turn unless it is immune to the poisoned condition. Once a creature has been paralyzed by this weapon, it is immune to the weapon's paralyzing effects for the next 24 hours.",
+    "source": "(Field Guide to Floral Dragons, p.51)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Dandelion Hourglass",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Fluffy seeds from dandelion dragons drift between the two bulbs of this hourglass. While attuned to this item, you have advantage on initiative rolls. Additionally, when a creature you can see within 120 feet of you rolls initiative, you can use your reaction to force it to make a DC 15 Intelligence saving throw. A creature can choose to fail the save. On a failure, the target must reroll its initiative and must use the new result. Once you have used this property, you can't use it again until the next dawn.",
+    "source": "(Field Guide to Floral Dragons, p.61)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Great Harvest Apple",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This enormous apple is produced by an apple tree dragon. The apple is large enough to provide up to ten creatures with sustenance for one day. The apple can be sliced and shared, hollowed out and used for cooking, or baked into other dishes. A creature that spends at least 10 minutes consuming part of the apple gains the following benefits:\n  It regains 2d8 hit points.\n  It gains temporary hit points equal to the number of creatures that also consumed part of the apple during the same meal.\n  It gains resistance to acid damage for the next 24 hours.\nA creature can only benefit from a great harvest apple's effects once every 24 hours.",
+    "source": "(Field Guide to Floral Dragons, p.71)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Hydrangea Dragon Antidote",
+    "type": "Potion",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This viscous liquid shifts between blue and pink in its vial. It is brewed from the blooms of a living hydrangea dragon.\nA creature that has been poisoned that drinks this vial of liquid is no longer poisoned. It also regains 2d12 hit points and reduces its levels of exhaustion by 3.",
+    "source": "(Field Guide to Floral Dragons, p.97)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Hydrangea Dragon Poison",
+    "type": "Poison (Contact or Ingested)",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This colorless poison is harvested from the blooms of a living hydrangea dragon. A creature subjected to this poison must make a DC 15 Constitution saving throw. On a failed save, it takes 4d12 poison damage, suffers 4 levels of exhaustion, and is poisoned until it is treated with hydrangea dragon antidote*. On a successful save, the creature suffers 2 levels of exhaustion and isn't poisoned.",
+    "source": "(Field Guide to Floral Dragons, p.97)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Ornithogalum Dragon Elixir",
+    "type": "Potion",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This shimmering, translucent green liquid is distilled from a living ornithogalum dragon's flowers. When you drink this potion, your exhaustion level is reduced by one. Additionally, you can spend Hit Dice as though you had taken a short rest.",
+    "source": "(Field Guide to Floral Dragons, p.136)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Peony Dragon Essence",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "This fragrant essence is made from the tall peonies in a peony dragon's lair and is popular among spellcasters. Each vial of peony dragon essence contains 1d4 + 2 doses. When you cast an abjuration spell, you can add the essence to the spell as a material component to improve one casting of the spell with one of the following benefits:\n  For 1 minute, the spell does not require concentration.\n  You gain a +1 bonus to the spell attack roll or spell save DC of the spell.\n  You can choose one additional target for the spell.\n  The spell's duration is doubled.",
+    "source": "(Field Guide to Floral Dragons, p.144)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Succulent Water of Life",
+    "type": "Potion",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This thin liquid is light green but becomes dark red when shaken. When you drink this potion, you regain 1d10 hit points, and for 1 minute, you regain 1d10 hit points at the start of each of your turns, provided you have at least 1 hit point.",
+    "source": "(Field Guide to Floral Dragons, p.152)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Potion of Regeneration (Succulent Dragon Blood)",
+    "type": "Potion",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "ght green but becomes dark red when shaken. When you drink this potion, you regain 1d10 hit points, and for 1 minute, you regain 1d10 hit points at the start of each of your turns, provided you have at least 1 hit point.",
+    "source": "(Field Guide to Floral Dragons, p.153)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Armor of the Vampire Lily Dragon",
+    "type": "Armor (medium or heavy)",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "This armor has been reinforced with the spines of a vampire lily dragon. You have a +1 bonus to AC while wearing this armor. Additionally, a creature that grapples you or hits you with a melee attack while within 5 feet of you must succeed on a DC 15 Dexterity saving throw or take 2d6 poison damage and become poisoned until the end of its next turn.",
+    "source": "(Field Guide to Floral Dragons, p.161)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Wisteria Dragon Perfume",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This light purple translucent perfume is sealed in a glass orb. As an action, you can throw the orb up to 60 feet away from you, shattering it on impact and releasing a powerful scent of wisteria flowers that spreads out in a 20-foot-radius sphere centered on the point orb shattered. The sphere of invisible perfume spreads around corners and lasts for 1d4 rounds. Each creature that starts its turn inside the sphere or enters it on its turn must succeed on a DC 19 Constitution saving throw or fall unconscious for 1 minute. Floral dragons, except for wisteria dragons, have disadvantage on this saving throw. The effect ends for an affected creature if it takes any damage.",
+    "source": "(Field Guide to Floral Dragons, p.177)",
+    "_source_manual": "FGFD"
+  },
+  {
+    "name": "Ornithogalum Dragon Honey",
+    "type": "Potion",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "This thick liquid tastes sweet with a hint of herbal notes. One hour after consuming this honey, you must make a DC 19 Constitution saving throw. On a failure, you suffer a level of exhaustion.",
+    "source": "(Field Guide to Floral Dragons, p.194)",
+    "_source_manual": "FGFD"
   }
 ]

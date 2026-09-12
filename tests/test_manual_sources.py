@@ -16,6 +16,7 @@ SLUG_DISPLAYS = {
     "EEPC": "Elemental Evil Player's Companion", "EGW": "Explorer's Guide to Wildemount",
     "EIA": "Encounters in Avernus", "EREA": "Erebor Adventures",
     "ERIA": "Eriador Adventures", "ETR": "Expanding the Ranger",
+    "FGFD": "Field Guide to Floral Dragons",
     "GGR": "Guildmasters' Guide to Ravnica", "GoS": "Ghosts of Saltmarsh",
     "HotDQ": "Hoard of the Dragon Queen", "KW": "Kobold Quarterly 20",
     "LMG": "Adventures in Middle-earth Loremaster's Guide",
@@ -63,7 +64,7 @@ PDF_PAGE_RANGES = {
     "MOM": 15, "WSC": 50, "WS": 10, "W8": 7,
     "W9": 13, "LMG": 256, "RAT": 50, "RGEO": 100,
     "ETR": 50, "DDP": 50, "SSK": 50, "SME": 22,
-    "DPM": 100,
+    "DPM": 100, "FGFD": 224,
 }
 
 CLEAN_FORMAT = re.compile(r'^\([A-Za-z][^)]+\)$')
@@ -76,6 +77,23 @@ FILES = [
     "subclasses.json",
     "traps.json",
 ]
+
+
+def test_json_search_labels_hits_with_book_slug():
+    """_search_json_data must resolve "(Book, p.#)" sources back to the slug.
+
+    Regression: the JSON search path used to take the first whitespace token of
+    the source string, so every normalized "(Field Guide to Floral Dragons, p.14)"
+    hit was labeled "(Field" in DM research results / AI prompt context.
+    """
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from routes.characters.helpers import _search_json_data
+
+    results = _search_json_data("aconite dragon", ["aconite", "dragon"], max_results=10)
+    hits = [r for r in results if "Aconite Dragon" in r["snippet"]]
+    assert hits, "no Aconite Dragon hit found in manual_data search"
+    assert hits[0]["book"] == "FGFD", f"book label not resolved to slug: {hits[0]}"
 
 
 def _entries(path: Path):

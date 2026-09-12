@@ -90,6 +90,9 @@ VALID_SKILLS = ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Decepti
 # Still cached for search, just skip LLM extraction
 SKIP_EXTRACTION: set[str] = set()  # All manuals processed — nothing skipped
 
+# --force lets merge_all_extractions() overwrite files it would otherwise shrink
+_MERGE_FORCE: bool = False
+
 # Telegram notification (loaded from ~/.hermes/.env if not already exported)
 def _load_telegram_env():
     """Load TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID from env or ~/.hermes/.env."""
@@ -506,22 +509,26 @@ def discover_manuals() -> list[dict]:
         print(f"ERROR: Manuals dir not found: {MANUALS_DIR}")
         return []
 
-    seen = set()
-    seen_slugs = {}  # slug → count, for uniqueness
-    manuals = []
     # Non-content patterns to skip
     # Patterns that apply to the PDF's own filename only (not parent directory)
     _skip_filename_only = [
-        r'(?i)screen\\b',           # GM/loremaster screens
+        r'(?i)screen\b',           # GM/loremaster screens
         r'(?i)character.?sheet',   # blank or pre-filled character sheets
         r'(?i)jpg.?map.?pack',     # JPG-based map bundles
     ]
     # Patterns that apply to filename OR parent directory
     _skip_filename_or_parent = [
-        r'(?i)\\bmap[s]?\\b',      # map packs, battle maps, region maps
+        r'(?i)\bmap[s]?\b',      # map packs, battle maps, region maps
         r'(?i)endpaper',           # decorative endpapers
-        r'(?i)\\bcover\\b',         # standalone cover art
+        r'(?i)\bcover\b',         # standalone cover art
     ]
+
+    # Pass 1: collapse duplicates by title, keeping the SHALLOWEST path.
+    # Every PDF is reachable twice — a bare symlink in manuals/ plus the
+    # DnD-Manuals/ directory it points at. pdf_map consumers resolve `path`
+    # against MANUALS_DIR, so a nested entry ("DnD-Manuals/x.pdf") doubles the
+    # directory and silently defeats cache re-extraction.
+    best: dict[str, Path] = {}
     for f in sorted(MANUALS_DIR.rglob("*.pdf", recurse_symlinks=True)):
         title = f.stem.replace("_", " ").replace("-", " ").replace("  ", " ").strip()
         parent = str(f.parent.name)
@@ -531,9 +538,15 @@ def discover_manuals() -> list[dict]:
         if any(re.search(pat, title) or re.search(pat, parent) for pat in _skip_filename_or_parent):
             continue
         key = title.lower()
-        if key in seen:
-            continue
-        seen.add(key)
+        cur = best.get(key)
+        if cur is None or len(f.relative_to(MANUALS_DIR).parts) < len(cur.relative_to(MANUALS_DIR).parts):
+            best[key] = f
+
+    # Pass 2: slugs + metadata (stable order by title)
+    seen_slugs: dict[str, int] = {}
+    manuals = []
+    for key, f in sorted(best.items()):
+        title = f.stem.replace("_", " ").replace("-", " ").replace("  ", " ").strip()
 
         # Derive short slug/label, guarantee uniqueness
         slug = _derive_slug(title)
@@ -631,6 +644,9 @@ def _derive_slug(title: str) -> str:
         ("call of the netherdeep", "CotN"),
         ("wildemount", "EGW"),
         ("taldorei", "TCSR"),
+        # ── Hit Point Press ──
+        ("floral dragons", "FGFD"),
+        ("field guide", "FGFD"),
     ]:
         if kw in title_lower:
             return slug
@@ -2657,7 +2673,31 @@ def merge_all_extractions():
 
     # ── Source normalization (inline during merge) ──────────────────────
     _normalize_merged_sources(merged)
-    
+
+    # ── Safety: never silently SHRINK a merged data file ────────────────
+    # This rebuild only sees the extractions still present in
+    # data/manual_cache/. Old ones get pruned over time, so a rebuild from a
+    # partial cache DELETES every book that is no longer cached (observed:
+    # monsters 1540 → 118, spells 324 → 20, magic_items 738 → 172). Refuse
+    # unless --force; to fold ONE new book in, use
+    # scripts/append_extraction.py <SLUG> instead.
+    shrunk: dict[str, tuple[int, int]] = {}
+    for cat, items in merged.items():
+        path = OUTPUT_DIR / f"{cat}.json"
+        if not path.exists():
+            continue
+        existing = _load_json(path)
+        if isinstance(existing, list) and len(existing) > len(items):
+            shrunk[cat] = (len(existing), len(items))
+    if shrunk and not _MERGE_FORCE:
+        print("\nREFUSING TO MERGE — rebuild would SHRINK existing data files:")
+        for cat, (old, new) in sorted(shrunk.items()):
+            print(f"  {cat}.json: {old} → {new} entries")
+        print("  Cause: extractions pruned from data/manual_cache/ (or old-format caches).")
+        print("  Add ONE new book safely: python3 scripts/append_extraction.py <SLUG>")
+        print("  Overwrite anyway:        python3 ingest_manual.py --merge --force")
+        return
+
     # Save merged files
     for cat, items in merged.items():
         path = OUTPUT_DIR / f"{cat}.json"
@@ -2746,10 +2786,12 @@ def list_manuals():
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
+    global _MERGE_FORCE
     if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
         print(__doc__.strip())
         return
 
+    _MERGE_FORCE = "--force" in sys.argv
     cmd = sys.argv[1]
 
     if cmd == "--list":
@@ -2807,6 +2849,7 @@ def _normalize_merged_sources(merged: dict) -> None:
         "EEPC": "Elemental Evil Player's Companion", "EGW": "Explorer's Guide to Wildemount",
         "EIA": "Encounters in Avernus", "EREA": "Erebor Adventures",
         "ERIA": "Eriador Adventures", "ETR": "Expanding the Ranger",
+        "FGFD": "Field Guide to Floral Dragons",
         "GGR": "Guildmasters' Guide to Ravnica", "GoS": "Ghosts of Saltmarsh",
         "HotDQ": "Hoard of the Dragon Queen", "KW": "Kobold Quarterly 20",
         "LMG": "Adventures in Middle-earth Loremaster's Guide",

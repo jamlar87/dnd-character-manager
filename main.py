@@ -2099,6 +2099,7 @@ def _get_source_slug_map() -> dict[str, dict]:
             "EREA": "Erebor Adventures",
             "ERIA": "Eriador Adventures",
             "ETR": "Expanding the Ranger",
+            "FGFD": "Field Guide to Floral Dragons",
             "GGR": "Guildmasters' Guide to Ravnica",
             "HotDQ": "Hoard of the Dragon Queen",
             "KW": "Kobold Quarterly 20",
