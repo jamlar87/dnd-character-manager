@@ -71,6 +71,16 @@ def _core(name: str) -> str:
     return re.sub(r"\s*\([^)]*\)", "", (name or "").lower()).strip()
 
 
+def _count_merged() -> dict[str, int]:
+    """Entry counts of the merged files actually on disk."""
+    counts: dict[str, int] = {}
+    for cat in CATEGORIES:
+        data = _load_json(OUTPUT_DIR / f"{cat}.json")
+        if isinstance(data, list):
+            counts[cat] = len(data)
+    return counts
+
+
 def _normalize_source(raw: str, display: str) -> str:
     """Force a raw extraction source into the app's "(Display, p.N)" form.
 
@@ -181,11 +191,12 @@ def append_extraction(slug: str, dry_run: bool = False) -> int:
         meta = {}
 
     added_by_cat = {c: n for c, n in per_cat_added.items() if n}
-    totals = meta.get("totals")
-    if isinstance(totals, dict):
-        for cat, n in added_by_cat.items():
-            totals[cat] = int(totals.get(cat, 0)) + n
-    meta["totals"] = totals if isinstance(totals, dict) else added_by_cat
+    # Recompute totals from the files on disk. The stored value is the merge's
+    # own bookkeeping from an older (usually pruned) cache — incrementing it
+    # only keeps a wrong number wrong. `totals` feeds one boot log line
+    # (services/data_loader.py) and scripts/check_wiring.py, so on-disk truth
+    # is the useful value.
+    meta["totals"] = _count_merged()
 
     src = meta.get("source_manuals")
     if not isinstance(src, list):
@@ -221,6 +232,16 @@ def main() -> int:
         print(__doc__.strip())
         return 1
     slug = args[0]
+    if "--recompute-totals" in sys.argv:
+        meta = _load_json(OUTPUT_DIR / "_meta.json")
+        if not isinstance(meta, dict):
+            meta = {}
+        before = meta.get("totals")
+        meta["totals"] = _count_merged()
+        if not dry_run:
+            _save_json(OUTPUT_DIR / "_meta.json", meta)
+        print(f"totals: {before} ->\n  {meta['totals']}")
+        return 0
     if "--fix-sources" in sys.argv:
         ext = _load_json(CACHE_DIR / f"{slug}_extracted.json") or {}
         display = DISPLAY_OVERRIDES.get(slug) or ext.get("_book_title", slug)
