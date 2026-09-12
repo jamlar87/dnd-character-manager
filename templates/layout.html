@@ -159,7 +159,7 @@ async function searchManuals(summarize = false) {
   try {
     const r = await fetch(endpoint, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({query})
+      body: JSON.stringify({query, source: (window.SourceFilter ? SourceFilter.slugs('nav-manuals') : [])})
     });
     const ct = r.headers.get('content-type') || '';
     if (!ct.includes('application/json')) {
@@ -277,6 +277,7 @@ document.addEventListener('click', function(e) {
            onkeydown="if(event.key==='Enter'){window.searchManuals();return false}">
     <button type="button" class="btn btn-primary btn-sm" onclick="this.style.background='var(--success)';setTimeout(()=>this.style.background='',300);window.searchManuals();return false" title="Search" style="touch-action:manipulation">🔍</button>
     <button type="button" class="btn btn-outline btn-sm" onclick="this.style.background='var(--success)';setTimeout(()=>this.style.background='',300);window.searchManuals(true);return false" title="AI Summarize" style="touch-action:manipulation">🤖</button>
+    <span id="navManualFilter"></span>
     <div id="manualSearchResults" class="search-results-dropdown"></div>
   </div>
   <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open');this.textContent=this.textContent==='☰'?'✕':'☰'" aria-label="Menu">☰</button>
@@ -301,6 +302,23 @@ document.addEventListener('click', function(e) {
 </div>
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
+<script src="/static/source-filter.js?v=2"></script>
+<script>
+// Manual filter on the global search bar (every page).
+document.addEventListener('DOMContentLoaded', function () {
+  if (!window.SourceFilter) return;
+  var host = document.getElementById('navManualFilter');
+  if (!host) return;
+  SourceFilter.init(host, {
+    key: 'nav-manuals',
+    compact: true,
+    onChange: function () {
+      var inp = document.getElementById('manualSearchInput');
+      if (inp && inp.value.trim().length >= 2) window.searchManuals(false);
+    }
+  });
+});
+</script>
 {% block scripts %}{% endblock %}
 <script>
 // Prevent screen from sleeping while Character Manager is open

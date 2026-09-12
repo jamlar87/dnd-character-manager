@@ -724,7 +724,64 @@ def _display_to_slug() -> dict[str, str]:
     return _DISPLAY_TO_SLUG
 
 
-def _search_json_data(query: str, words: list[str], max_results: int = 20) -> list[dict]:
+# ── Book-scope filtering (search bars: "filter by specific manual") ─────────
+
+def slug_for_source(source: str) -> str:
+    """Resolve a source display string to its book slug ("" when unknown).
+
+    "(Field Guide to Floral Dragons, p.14)" -> "FGFD"
+    "Monster Manual"                        -> "MM"
+    "PHB 2014 p.170"                        -> "PHB"
+    "SRD 5.1"                               -> "SRD"
+    """
+    s = (source or "").strip()
+    if not s:
+        return ""
+    if s.upper().startswith("SRD"):
+        return "SRD"
+    inner = s[1:-1].strip() if s.startswith("(") and s.endswith(")") else s
+    # Drop the page suffix: ", p.14" / " p.170" / ", p.216-217"
+    inner = re.sub(r",?\s*p\.?\s*\d+(\s*[-\u2013]\s*\d+)?\s*$", "", inner, flags=re.I).strip()
+    hit = _display_to_slug().get(inner.lower())
+    if hit:
+        return hit
+    # Short-code form ("FGFD p.14", "PHB 2014", "TTP")
+    m = re.match(r"^([A-Za-z][A-Za-z0-9'&]{1,7})\b", inner)
+    if m:
+        code = m.group(1).upper()
+        slug_map = _get_source_slug_map() or {}
+        if code in slug_map or any(code == str(k).upper() for k in slug_map):
+            return code
+    return ""
+
+
+def parse_source_filter(raw) -> set[str]:
+    """Parse a `source=` value into a slug set — empty set means "no filtering".
+
+    Accepts "FGFD", "FGFD,TTP", a list/tuple (repeated query params), or None.
+    """
+    if not raw:
+        return set()
+    parts = raw if isinstance(raw, (list, tuple, set)) else str(raw).split(",")
+    out: set[str] = set()
+    for p in parts:
+        p = str(p).strip()
+        if not p or p.lower() in ("all", "*"):
+            continue
+        out.add(p.upper())
+    return out
+
+
+def source_matches(source: str, slugs: set[str]) -> bool:
+    """True when `source` belongs to any slug in `slugs`; empty slugs = match all."""
+    if not slugs:
+        return True
+    slug = slug_for_source(source)
+    return bool(slug) and slug in slugs
+
+
+def _search_json_data(query: str, words: list[str], max_results: int = 20,
+                      sources: set[str] | None = None) -> list[dict]:
     """Search structured JSON data in manual_data/ for query words.
 
     Returns same format as _search_manuals: [{book, snippet, line, page, score}].
@@ -763,6 +820,8 @@ def _search_json_data(query: str, words: list[str], max_results: int = 20) -> li
             name = str(item.get("name", "") or "")
             desc = str(item.get("description", "") or item.get("desc", "") or "")
             source = str(item.get("source", "") or "")
+            if sources and slug_for_source(source) not in sources:
+                continue
             text = f"{name} {desc}"
             text_norm = text.lower()
             text_norm = text_norm.replace("\u2018", "'").replace("\u2019", "'")
@@ -811,9 +870,12 @@ def _search_json_data(query: str, words: list[str], max_results: int = 20) -> li
     return results[:max_results]
 
 
-def _search_data_py_feats(query: str, words: list[str], max_results: int = 20) -> list[dict]:
+def _search_data_py_feats(query: str, words: list[str], max_results: int = 20,
+                          sources: set[str] | None = None) -> list[dict]:
     """Search the FEATS dict from data.py — covers non-SRD feats like
     Gunner that were added manually and aren't in manual_data/feats.json."""
+    if sources:
+        return []  # data.py feats carry no book source — nothing to match on
     results = []
     from data import FEATS, FEAT_BY_NAME
 
@@ -851,7 +913,8 @@ def _search_data_py_feats(query: str, words: list[str], max_results: int = 20) -
     return results[:max_results]
 
 
-def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
+def _search_manuals(query: str, max_results: int = 20,
+                    sources: set[str] | None = None) -> list[dict]:
     """Search all cached manual text files AND structured JSON data
     (manual_data/*.json) with multi-word AND, relevance scoring, source
     priority, paragraph context, and OCR-tolerant fuzzy matching.
@@ -863,14 +926,17 @@ def _search_manuals(query: str, max_results: int = 20) -> list[dict]:
     import subprocess, re, collections
 
     cached = _ensure_manual_cache()
+    if sources:
+        # Book scope: keep only the chosen books' text caches (the label IS the slug).
+        cached = {l: p for l, p in cached.items() if l.upper() in sources}
     words = [w.strip().lower() for w in query.split() if w.strip()]
     if not words:
         return []
 
     # ── Step 0: Search structured JSON data (manual_data/) ────────────────
-    json_results = _search_json_data(query, words, max_results)
+    json_results = _search_json_data(query, words, max_results, sources)
     # Also search data.py FEATS dict (covers non-SRD feats like Gunner)
-    json_results += _search_data_py_feats(query, words, max_results)
+    json_results += _search_data_py_feats(query, words, max_results, sources)
     # Re-sort merged JSON results
     json_results.sort(key=lambda r: r["score"], reverse=True)
     json_results = json_results[:max_results]

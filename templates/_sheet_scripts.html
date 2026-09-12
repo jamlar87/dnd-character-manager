@@ -1323,6 +1323,10 @@ function filterSpellResults() {
   if (_coreOnly) {
     spells = spells.filter(s => isCoreSource(s.book));
   }
+  if (window.SourceFilter) {
+    const src = SourceFilter.slugs('sheet-spells');
+    if (src.length) spells = spells.filter(s => SourceFilter.matches(s.book || s.source || '', src));
+  }
   if (q) {
     spells = spells.filter(s =>
       s.name.toLowerCase().includes(q) ||
@@ -4141,6 +4145,12 @@ function closeItemPicker() {
   document.getElementById('item-picker-popup').style.display = 'none';
 }
 
+// Re-runs the item picker with its current query (used when the manual filter changes)
+function refreshSheetItemPicker() {
+  const inp = document.getElementById('item-picker-search');
+  searchPickerItems(inp ? inp.value : '');
+}
+
 function searchPickerItems(query) {
   clearTimeout(_pickerTimer);
   const q = query.trim();
@@ -4157,6 +4167,10 @@ function searchPickerItems(query) {
 function renderPickerResults(items) {
   const results = document.getElementById('item-picker-results');
   if (_coreOnly) items = items.filter(it => isCoreItemSource(it.source || ''));
+  if (window.SourceFilter) {
+    const src = SourceFilter.slugs('sheet-items');
+    if (src.length) items = items.filter(it => SourceFilter.matches(it.source || '', src));
+  }
   if (!items.length) {
     results.innerHTML = '<div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">No items found</div>';
     return;
@@ -4996,6 +5010,7 @@ function renderLuSpells(el) {
       <span id="lu-core-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">${_coreOnly ? '☑' : '☐'}</span>
       Core content only
     </label>`;
+    html += `<span data-src-filter="sheet-spells-lu" data-src-onchange="filterLuSpells" style="display:block;margin-bottom:0.4rem"></span>`;
     
     // Selected chips
     html += `<div id="lu-selected-spells" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem">`;
@@ -5056,6 +5071,10 @@ function filterLuSpells() {
   let spells = _luSpellList;
   if (_coreOnly) {
     spells = spells.filter(s => isCoreSource(s.book));
+  }
+  if (window.SourceFilter) {
+    const src = SourceFilter.slugs('sheet-spells-lu');
+    if (src.length) spells = spells.filter(s => SourceFilter.matches(s.book || s.source || '', src));
   }
   if (q) {
     spells = spells.filter(s =>

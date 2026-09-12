@@ -181,6 +181,7 @@
     <input id="sp-pick-search" type="text" placeholder="Search spells..." 
       style="width:100%;padding:0.4rem 0.6rem;background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-size:0.85rem;outline:none;margin-bottom:0.5rem"
       oninput="filterCreateSpells()">
+    <span data-src-filter="create-spells" data-src-onchange="filterCreateSpells" style="display:block;margin-bottom:0.5rem"></span>
     <div id="sp-pick-selected" style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.5rem;min-height:1.5rem"></div>
     <div id="sp-pick-results" style="max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:6px">
       <div style="padding:0.5rem;color:var(--text-muted);text-align:center">Loading...</div>
@@ -1074,6 +1075,10 @@ function filterCreateSpells() {
   if (!div) return;
   
   let spells = _createSpellList;
+  if (window.SourceFilter) {
+    const src = SourceFilter.slugs('create-spells');
+    if (src.length) spells = spells.filter(s => SourceFilter.matches(s.book || s.source || '', src));
+  }
   if (q) {
     spells = spells.filter(s => s.name.toLowerCase().includes(q) || (s.school||'').toLowerCase().includes(q));
   }

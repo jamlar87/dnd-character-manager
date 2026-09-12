@@ -221,6 +221,11 @@ if (_coreOnlyDM) {
 }
 
 // ── Monster filtering ──
+// ── Book-source scope (window.SourceFilter, static/source-filter.js) ──
+function _srcOk(src, key) {
+  return !window.SourceFilter || SourceFilter.matches(src || '', SourceFilter.slugs(key));
+}
+
 function filterMonsters() {
   const q = document.getElementById('monsterSearch').value.toLowerCase();
   const type = document.getElementById('monsterTypeFilter').value.toLowerCase();
@@ -234,7 +239,8 @@ function filterMonsters() {
     const mtype = card.dataset.type;
     const cr = parseFloat(card.dataset.cr);
     const match = (!q || name.includes(q)) && (!type || mtype === type) && cr >= crMin && cr <= crMax
-      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source));
+      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source))
+      && _srcOk(card.dataset.source, 'dm-monsters');
     card.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -401,7 +407,8 @@ function filterSpells() {
       && (!level || cLevel === level)
       && (!school || cSchool === school)
       && (!cls || classes.includes(cls))
-      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source));
+      && (!_coreOnlyDM || isCoreSourceDM(card.dataset.source))
+      && _srcOk(card.dataset.source, 'dm-spells');
     card.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -747,6 +754,7 @@ async function openEncounter(id) {
             <option value="npc">NPCs</option>
             <option value="monster">Monsters</option>
           </select>
+          <span id="paletteSrcFilter"></span>
           <span style="font-size:0.75rem;color:var(--text-muted);align-self:center" id="creatureCount">${allCreatures.length}</span>
         </div>
         <div class="monster-palette" id="creaturePalette" style="max-height:400px;overflow-y:auto">`;
@@ -870,6 +878,12 @@ async function openEncounter(id) {
         <button class="btn btn-danger btn-sm" onclick="deleteEncounter(${id});closeModal('encounterModal')">✕ Delete Encounter</button>
       </div>`;
     document.getElementById('encounterDetail').innerHTML = html;
+    // Encounter-builder creature palette gets the same manual filter
+    if (window.SourceFilter) {
+      const mount = document.getElementById('paletteSrcFilter');
+      if (mount) SourceFilter.init(mount, {key: 'dm-palette', onChange: filterCreaturePalette});
+      filterCreaturePalette();
+    }
   } catch(e) {
     document.getElementById('encounterDetail').innerHTML = '<p style="color:var(--danger)">Failed to load encounter.</p>';
   }
@@ -941,7 +955,8 @@ function filterCreaturePalette() {
     const name = row.dataset.name || '';
     const rowKind = row.dataset.kind || '';
     const match = (!q || name.includes(q)) && (kind === 'all' || rowKind === kind)
-      && (!_coreOnlyDM || rowKind === 'npc' || isCoreSourceDM(row.dataset.source || ''));
+      && (!_coreOnlyDM || rowKind === 'npc' || isCoreSourceDM(row.dataset.source || ''))
+      && _srcOk(row.dataset.source || '', 'dm-palette');
     row.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -1373,7 +1388,8 @@ function deleteNpc(id) {
 function filterNpcs() {
   const q = document.getElementById('npcSearch').value.toLowerCase();
   document.querySelectorAll('.npc-row').forEach(row => {
-    row.style.display = row.dataset.name.includes(q) ? '' : 'none';
+    const match = row.dataset.name.includes(q) && _srcOk(row.dataset.source, 'dm-npcs');
+    row.style.display = match ? '' : 'none';
   });
 }
 
@@ -1543,7 +1559,8 @@ function filterTraps() {
     const match = (!query || name.includes(query))
       && (!typeFilter || type === typeFilter)
       && (!dangerFilter || danger === dangerFilter)
-      && (!_coreOnlyDM || isCoreSourceDM(card.getAttribute('data-source') || ''));
+      && (!_coreOnlyDM || isCoreSourceDM(card.getAttribute('data-source') || ''))
+      && _srcOk(card.getAttribute('data-source') || '', 'dm-traps');
     card.style.display = match ? '' : 'none';
     if (match) count++;
   });
@@ -2337,6 +2354,10 @@ function searchItemPicker(query) {
       if (q) params.set('q', q);
       if (type) params.set('type', type);
       if (rarity) params.set('rarity', rarity);
+      if (window.SourceFilter) {
+        const src = SourceFilter.slugs('dm-items');
+        if (src.length) params.set('source', src.join(','));
+      }
       const r = await fetch(`/api/items/search?${params.toString()}`);
       const d = await r.json();
       renderPickerResults(d.results || []);
@@ -4396,6 +4417,13 @@ function filterCombatCreatures() {
       return cr >= lo && cr <= hi;
     });
   }
+  if (window.SourceFilter) {
+    const src = SourceFilter.slugs('dm-combat');
+    if (src.length) {
+      filtered = filtered.filter(c => c._kind !== 'monster'
+        || SourceFilter.matches((c._raw && c._raw.source) || c.source || '', src));
+    }
+  }
   if (_coreOnlyDM) filtered = filtered.filter(c => c._kind === 'npc' || isCoreSourceDM((c._raw && c._raw.source) || ''));
 
   if (filtered.length === 0) {
@@ -4783,6 +4811,25 @@ function stopCombatPolling() {
 
 // ── Page load: auto-restore last combat encounter + campaign ──
 document.addEventListener('DOMContentLoaded', async function() {
+  // ── Manual (book) filter on every search bar ──
+  if (window.SourceFilter) {
+    const mounts = [
+      ['monsterSrcFilter', 'dm-monsters', filterMonsters],
+      ['spellSrcFilter', 'dm-spells', filterSpells],
+      ['npcSrcFilter', 'dm-npcs', filterNpcs],
+      ['trapSrcFilter', 'dm-traps', filterTraps],
+      ['itemPickerSrcFilter', 'dm-items', function () {
+        const inp = document.getElementById('itemPickerSearch');
+        searchItemPicker(inp ? inp.value : '');
+      }],
+      ['combatSrcFilter', 'dm-combat', filterCombatCreatures],
+    ];
+    mounts.forEach(function (m) {
+      const el = document.getElementById(m[0]);
+      if (el) SourceFilter.init(el, {key: m[1], onChange: m[2]});
+    });
+  }
+
   // Populate combat + items dropdowns regardless of active tab (each has its own guard)
   initCombatPanel();
   loadItemsPanel();

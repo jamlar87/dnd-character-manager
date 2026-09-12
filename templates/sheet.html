@@ -2165,6 +2165,7 @@
             <span id="core-toggle-box" style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-radius:3px;text-align:center;line-height:12px;font-size:10px;background:var(--bg)">☐</span>
             Core content only
           </label>
+          <span data-src-filter="sheet-spells" data-src-onchange="filterSpellResults" style="margin-left:auto"></span>
         </div>
         <div style="position:relative;margin-bottom:0.5rem;flex:1;overflow-y:auto;min-height:0">
           <input type="text" id="spell-search" placeholder="Search spells..." autocomplete="off"
@@ -2331,6 +2332,7 @@
     </div>
     <input type="text" id="item-picker-search" placeholder="Search 600+ items..." oninput="searchPickerItems(this.value)"
       style="width:100%;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:0.9rem;outline:none;margin-bottom:0.5rem;flex-shrink:0">
+    <span data-src-filter="sheet-items" data-src-onchange="refreshSheetItemPicker" style="display:block;margin-bottom:0.5rem;flex-shrink:0"></span>
     <div id="item-picker-results" style="overflow-y:auto;flex:1;min-height:0;max-height:50vh;border:1px solid var(--border);border-radius:6px;background:var(--bg)">
       <div style="padding:1rem;color:var(--text-muted);text-align:center;font-size:0.85rem">Loading items...</div>
     </div>

@@ -133,6 +133,7 @@ from routes.characters.helpers import (
     _xp_for_cr, _encounter_mult, _assign_encounter_counts,
     _format_monster_action, _ensure_manual_cache,
     _extract_pdf, _fuzzy_variants, _search_manuals,
+    parse_source_filter, slug_for_source, source_matches,
 )
 
 

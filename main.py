@@ -1833,16 +1833,22 @@ async def dm_delete_trap(trap_id: int, request: Request):
 # ── Item search & description endpoints ──────────────────────────────────────
 
 @app.get("/api/items/search", response_class=JSONResponse)
-async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = ""):
+async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str = "",
+                       source: str = ""):
     """Search equipment + magic items by name, type, rarity, and description.
 
     Ranking: exact name > name prefix > name substring > field match
     (type/rarity/source/description). Empty q returns all items filtered by
     the optional type/rarity filters, alphabetically.
+
+    `source` scopes results to books: "FGFD" or "FGFD,TTP" ("" = every book).
     """
     query = q.strip().lower()
     type_q = type.strip().lower()
     rarity_q = rarity.strip().lower()
+    # Lazy import — routes.characters.helpers imports main at module scope.
+    from routes.characters.helpers import parse_source_filter, source_matches
+    src_slugs = parse_source_filter(source)
 
     def _brief(item: dict, score: int = 0) -> dict:
         desc = item.get("description") or item.get("desc") or ""
@@ -1872,12 +1878,16 @@ async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str 
                 continue
             if rarity_q and rarity_q not in (item.get("rarity") or "").lower():
                 continue
+            if src_slugs and not source_matches(item.get("source", ""), src_slugs):
+                continue
             filtered_total += 1
         for key in sorted(ITEM_INDEX.keys()):
             item = ITEM_INDEX[key]
             if type_q and type_q not in item["type"].lower():
                 continue
             if rarity_q and rarity_q not in (item.get("rarity") or "").lower():
+                continue
+            if src_slugs and not source_matches(item.get("source", ""), src_slugs):
                 continue
             results.append(_brief(item))
             if limit and len(results) >= limit:
@@ -1900,6 +1910,8 @@ async def search_items(q: str = "", limit: int = 0, type: str = "", rarity: str 
         if type_q and type_q not in item_type:
             continue
         if rarity_q and rarity_q not in item_rarity:
+            continue
+        if src_slugs and not source_matches(item.get("source", ""), src_slugs):
             continue
 
         if name == query:

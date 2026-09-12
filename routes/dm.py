@@ -8,6 +8,7 @@ from datetime import datetime
 
 from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned
 from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
+from routes.characters import parse_source_filter, source_matches
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
 from main import _load_manual_json, _get_named_item_types, _get_source_slug_map, MANUALS_BASE
 from main import enrich_features, get_caster_type, get_spell_slots, MANUAL_TRAPS, get_racial_trait_effects
@@ -417,18 +418,24 @@ def _enrich_monster(m: dict) -> dict:
 
 
 @router.get("/api/dm/monsters", response_class=JSONResponse)
-async def dm_monster_list(request: Request):
-    """List monsters with optional filters."""
+async def dm_monster_list(request: Request, source: str = ""):
+    """List monsters, optionally scoped to books (`source=SLUG[,SLUG]`)."""
     user = require_user(request)
     all_monsters = _load_monster_cache()
+    src_slugs = parse_source_filter(source)
+    if src_slugs:
+        all_monsters = [m for m in all_monsters if source_matches(m.get("source", ""), src_slugs)]
     return JSONResponse({"count": len(all_monsters), "monsters": all_monsters})
 
 
 @router.get("/api/dm/monsters/search", response_class=JSONResponse)
-async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = ""):
-    """Search/filter monsters by name, type, and CR range."""
+async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_min: float = 0, cr_max: float = 30, cr: str = "", source: str = ""):
+    """Search/filter monsters by name, type, CR range and book source."""
     user = require_user(request)
     all_monsters = _load_monster_cache()
+    src_slugs = parse_source_filter(source)
+    if src_slugs:
+        all_monsters = [m for m in all_monsters if source_matches(m.get("source", ""), src_slugs)]
     results = []
 
     # Parse CR from string param as alternative
@@ -471,10 +478,13 @@ async def dm_monster_search(request: Request, q: str = "", type: str = "", cr_mi
 
 
 @router.get("/api/dm/monsters/by-cr", response_class=JSONResponse)
-async def dm_monsters_by_cr(request: Request):
-    """Grouped monsters by CR tier for encounter building."""
+async def dm_monsters_by_cr(request: Request, source: str = ""):
+    """Grouped monsters by CR tier for encounter building (`source=` scopes books)."""
     user = require_user(request)
     all_monsters = _load_monster_cache()
+    src_slugs = parse_source_filter(source)
+    if src_slugs:
+        all_monsters = [m for m in all_monsters if source_matches(m.get("source", ""), src_slugs)]
     tiers = {
         "trivial": [m for m in all_monsters if _monster_cr_sort_key(m) <= 0.25],
         "low": [m for m in all_monsters if 0.5 <= _monster_cr_sort_key(m) <= 2],
@@ -1855,8 +1865,10 @@ async def dm_search_manuals(request: Request):
     if not query or len(query) < 2:
         return JSONResponse({"results": [], "error": "Query too short"})
 
-    results = _search_manuals(query, max_results=25)
-    return JSONResponse({"results": results, "query": query, "total": len(results)})
+    results = _search_manuals(query, max_results=25,
+                              sources=parse_source_filter(data.get("source")))
+    return JSONResponse({"results": results, "query": query, "total": len(results),
+                         "sources": sorted(parse_source_filter(data.get("source")))})
 
 
 @router.post("/api/dm/search-manuals/summarize", response_class=JSONResponse)
@@ -1867,7 +1879,8 @@ async def dm_search_manuals_summarize(request: Request):
     if not query or len(query) < 2:
         return JSONResponse({"summary": "", "error": "Query too short"})
 
-    results = _search_manuals(query, max_results=30)
+    results = _search_manuals(query, max_results=30,
+                              sources=parse_source_filter(data.get("source")))
 
     if not results:
         return JSONResponse({"summary": "No matches found across any reference manuals.", "results": []})
