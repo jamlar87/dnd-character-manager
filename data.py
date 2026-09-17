@@ -716,10 +716,19 @@ MULTICLASS_PREREQS = {
 }
 
 # ── Expertise Class Levels (PHB) ──────────────────────────────────────
-
+# class/subclass → {"levels": [levels that grant picks], "options": ...}
+# 2 picks are granted per expertise level. options may be:
+#   "skills_and_thieves_tools" | "skills" | [explicit list]
+# Consumers: services.leveling.get_expertise_count / get_expertise_options,
+# routes/characters/leveling.py (level-up wizard), sheet.py (edit modal),
+# templates/create.html JS (EXPERTISE_LEVELS[class].levels / .options).
 EXPERTISE_LEVELS = {
-    "Bard":     {1: 2, 3: 1, 10: 1},           # L1 x2, L3 +1, L10 +1 (PHB p.52, 54)
-    "Rogue":    {1: 2, 6: 2,  11: 1},          # L1 x2, L6 +2, L11 +1 (PHB p.95, 96)
+    # PHB p.96 — Rogue: 2 skills at L1, 2 more at L6
+    "Rogue":            {"levels": [1, 6],  "options": "skills_and_thieves_tools"},
+    # PHB p.54 — Bard: 2 skills at L3, 2 more at L10
+    "Bard":             {"levels": [3, 10], "options": "skills"},
+    # PHB p.59 — Cleric (Knowledge Domain): Blessings of Knowledge, 2 of 4 at L1
+    "Knowledge Domain": {"levels": [1],     "options": ["Arcana", "History", "Nature", "Religion"]},
 }
 
 # ── Subclass Selection Levels (PHB 2014 + TCE + AiME) ─────────────────

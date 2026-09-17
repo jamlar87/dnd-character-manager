@@ -258,12 +258,8 @@ PHB_ALIGNMENTS = ALIGNMENTS    # PHB p.122
 # ── From data.py: ABILITY_NAMES, ASI_LEVELS
 
 # Subclass selection levels + options per class (PHB 2014)
-# Expertise progression — class/subclass → {levels: [...], options: "skills" | "skills_and_thieves_tools" | [...]}
-EXPERTISE_LEVELS: dict = {
-    "Rogue":         {"levels": [1, 6], "options": "skills_and_thieves_tools"},
-    "Bard":          {"levels": [3, 10], "options": "skills"},
-    "Knowledge Domain": {"levels": [1], "options": ["Arcana", "History", "Nature", "Religion"]},
-}
+# (EXPERTISE_LEVELS lives in data.py and is imported above — the old
+#  local shadow here drifted into a second, contradicting definition.)
 
 
 # ── Fighting Styles ────────────────────────────────────────────────────
