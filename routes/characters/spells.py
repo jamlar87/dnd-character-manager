@@ -30,6 +30,9 @@ async def add_spell(char_id: int, request: Request, body: AddSpell):
     """Add a spell to a character's spell list."""
     user = require_user(request)
     db = get_db()
+    if not _require_owned(db, user, "characters", char_id):
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
     db.execute("INSERT INTO character_spells (character_id, spell_name, spell_level, prepared, slots_max, slots_used) VALUES (?,?,?,?,?,?)",
                (char_id, body.name, body.level, int(body.prepared), body.slots_max or 0, 0))
     db.commit()
@@ -716,6 +719,9 @@ async def toggle_prepared(char_id: int, request: Request):
     spell_id = data.get("id")
     prepared = 1 if data.get("prepared", False) else 0
     db = get_db()
+    if not _require_owned(db, user, "characters", char_id):
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
     row = db.execute(
         "SELECT id FROM character_spells WHERE id=? AND character_id=?",
         (spell_id, char_id)
@@ -739,6 +745,9 @@ async def unlearn_spell(char_id: int, request: Request):
     if not spell_id:
         return JSONResponse({"error": "Missing spell id"}, status_code=400)
     db = get_db()
+    if not _require_owned(db, user, "characters", char_id):
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
     row = db.execute(
         "SELECT id, spell_name FROM character_spells WHERE id=? AND character_id=?",
         (spell_id, char_id)
@@ -775,8 +784,11 @@ async def toggle_attune(char_id: int, request: Request):
         return JSONResponse({"error": "Missing item name"}, status_code=400)
 
     db = get_db()
+    if not _require_owned(db, user, "characters", char_id):
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
     row = db.execute(
-        "SELECT attuned_items, equipped, user_id FROM characters WHERE id = ?",
+        "SELECT attuned_items, equipped FROM characters WHERE id = ?",
         (char_id,)
     ).fetchone()
     if not row:
@@ -794,6 +806,9 @@ async def toggle_attune(char_id: int, request: Request):
         return JSONResponse({"error": "Item is not equipped"}, status_code=400)
 
     # Check if item requires attunement
+    # ITEM_PROPERTIES is owned by routes.characters.sheet (built at its import time);
+    # importing it at module scope here would re-enter the routes package mid-init.
+    from routes.characters.sheet import ITEM_PROPERTIES
     props = ITEM_PROPERTIES.get(item_lower, {})
     if not props.get("requires_attunement"):
         db.close()

@@ -29,6 +29,7 @@ from data import (
 from services.leveling import (
     enrich_features, get_caster_type, get_spell_slots,
     get_character_spell_slots, get_class_features, get_expertise_count,
+    get_expertise_options,
     get_multiclass_proficiencies, get_spells_known_max, get_cantrips_known_max,
     get_srd_spells_for_class, meets_multiclass_prereq, parse_class_levels,
     total_level,
@@ -745,6 +746,8 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
     # Which class gains the level?
     class_to_level = data.get("class_to_level", char.get("class_name", "Fighter"))
     is_multiclass = class_to_level not in cl
+    # Level IN that class before this level-up (multiclass-safe; old_total is the sum)
+    class_level = cl.get(class_to_level, 0)
     
     if is_multiclass:
         abilities = {a.lower(): char.get(a.lower(), 10) for a in ABILITY_NAMES}

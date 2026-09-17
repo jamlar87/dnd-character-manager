@@ -1861,6 +1861,7 @@ Keep within the danger level bounds — don't overpower a setback trap or underp
 @router.post("/api/dm/search-manuals", response_class=JSONResponse)
 async def dm_search_manuals(request: Request):
     """Full-text search across all D&D reference manuals (cached PDF text)."""
+    require_user(request)
     data = await request.json()
     query = (data.get("query", "") or "").strip()
     if not query or len(query) < 2:
@@ -1875,6 +1876,7 @@ async def dm_search_manuals(request: Request):
 @router.post("/api/dm/search-manuals/summarize", response_class=JSONResponse)
 async def dm_search_manuals_summarize(request: Request):
     """AI-powered research summary: search manuals, then distill with LLM."""
+    require_user(request)
     data = await request.json()
     query = (data.get("query", "") or "").strip()
     if not query or len(query) < 2:
@@ -1921,6 +1923,7 @@ RULES SUMMARY:"""
 @router.post("/api/ai/summary/pdf", response_class=Response)
 async def ai_summary_pdf(request: Request):
     """Generate a printable PDF of an AI manual search summary."""
+    require_user(request)
     data = await request.json()
     query = data.get("query", "Manual Search")
     summary = data.get("summary", "")
