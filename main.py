@@ -497,9 +497,36 @@ def _user_where(user: dict, column: str = "user_id") -> tuple[str, tuple]:
         return ("", ())
     return (f"WHERE {column} = ?", (user["id"],))
 
+def _user_dms_character(db, user: dict, char_id: int) -> bool:
+    """True when `user` DM-owns a campaign that lists this character.
+
+    Campaign membership lives in two places (legacy join table + the
+    dm_campaigns.characters JSON blob), so both are checked — same lookup the
+    character-campaign route performs.
+    """
+    row = db.execute(
+        """SELECT 1 FROM dm_campaign_characters cc
+           JOIN dm_campaigns c ON c.id = cc.campaign_id
+           WHERE cc.character_id = ? AND c.user_id = ? LIMIT 1""",
+        (char_id, user["id"]),
+    ).fetchone()
+    if row:
+        return True
+    for camp in db.execute("SELECT characters FROM dm_campaigns WHERE user_id = ?",
+                           (user["id"],)):
+        try:
+            chars = json.loads(camp["characters"] or "[]")
+        except (ValueError, TypeError):
+            continue
+        for ch in chars or []:
+            if (isinstance(ch, dict) and ch.get("id") == char_id) or ch == char_id:
+                return True
+    return False
+
+
 def _require_owned(db, user: dict, table: str, item_id: int, id_col: str = "id") -> dict | None:
     """Fetch a row by id, checking ownership unless user is admin. Returns dict or None.
-    
+
     Raises HTTPException(404) implicitly if not found, but callers typically
     check for None to return their own 404. Admin bypasses user_id check.
     """

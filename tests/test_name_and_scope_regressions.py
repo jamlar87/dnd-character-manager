@@ -31,8 +31,9 @@ def _connect(seeded_db):
 
 
 def make_char(seeded_db, name, user_id=1, **cols):
-    """Insert a character row and return its id. `race` defaults (NOT NULL)."""
+    """Insert a character row and return its id. NOT NULL cols get defaults."""
     cols.setdefault("race", "Human")
+    cols.setdefault("class_name", "Fighter")
     keys = list(cols)
     con = _connect(seeded_db)
     con.execute(
@@ -258,3 +259,111 @@ class TestManualSearchRequiresAuth:
     def test_authenticated_post_is_served(self, client, auth_headers, path, payload):
         r = client.post(path, json=payload, headers=auth_headers)
         assert r.status_code == 200, r.text
+
+
+# ── ?dm_preview=1 must be DM-scoped, not "any logged-in user" ──────────────
+
+def make_campaign(seeded_db, user_id, name, char_ids=()):
+    """Create a campaign owned by user_id listing char_ids (dm_campaigns.characters JSON)."""
+    con = _connect(seeded_db)
+    con.execute(
+        "INSERT INTO dm_campaigns (user_id, name, characters) VALUES (?,?,?)",
+        (user_id, name, json.dumps([{"id": cid, "name": f"Char {cid}"} for cid in char_ids])),
+    )
+    camp_id = con.execute("SELECT last_insert_rowid()").fetchone()[0]
+    con.commit()
+    con.close()
+    return camp_id
+
+
+def link_campaign_character(seeded_db, camp_id, char_id):
+    con = _connect(seeded_db)
+    con.execute("INSERT INTO dm_campaign_characters (campaign_id, character_id, status) VALUES (?,?,?)",
+                (camp_id, char_id, "active"))
+    con.commit()
+    con.close()
+
+
+class TestDmPreviewScope:
+    """dm_preview used to bypass the ownership check entirely."""
+
+    def test_owner_may_preview_own_character(self, client, auth_headers, seeded_db):
+        cid = make_char(seeded_db, "Own Preview")
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=auth_headers,
+                       follow_redirects=False)
+        assert r.status_code == 200
+
+    def test_unrelated_user_is_blocked(self, client, seeded_db):
+        cid = make_char(seeded_db, "Secret Hero")
+        _uid, token = add_user(seeded_db, "peeker@test.com")
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=headers_for(token),
+                       follow_redirects=False)
+        assert r.status_code == 404
+        assert "Secret Hero" not in r.text
+
+    def test_unrelated_user_is_blocked_without_dm_preview_too(self, client, seeded_db):
+        cid = make_char(seeded_db, "Plain Secret")
+        _uid, token = add_user(seeded_db, "peeker2@test.com")
+        r = client.get(f"/character/{cid}", headers=headers_for(token), follow_redirects=False)
+        assert r.status_code == 404
+
+    def test_admin_may_preview(self, client, admin_headers, seeded_db):
+        cid = make_char(seeded_db, "Admin Viewed")
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=admin_headers,
+                       follow_redirects=False)
+        assert r.status_code == 200
+
+    def test_shared_character_stays_viewable(self, client, seeded_db):
+        cid = make_char(seeded_db, "Shared Hero", shared=1)
+        _uid, token = add_user(seeded_db, "viewer@test.com")
+        r = client.get(f"/character/{cid}", headers=headers_for(token), follow_redirects=False)
+        assert r.status_code == 200
+        assert "Shared Hero" in r.text
+
+    def test_campaign_dm_may_preview_via_json_blob(self, client, seeded_db):
+        dm_uid, dm_token = add_user(seeded_db, "the-dm@test.com")
+        cid = make_char(seeded_db, "Campaign Hero")
+        make_campaign(seeded_db, dm_uid, "DM Campaign", [cid])
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=headers_for(dm_token),
+                       follow_redirects=False)
+        assert r.status_code == 200
+
+    def test_campaign_dm_may_preview_via_join_table(self, client, seeded_db):
+        dm_uid, dm_token = add_user(seeded_db, "join-dm@test.com")
+        cid = make_char(seeded_db, "Joined Hero")
+        camp = make_campaign(seeded_db, dm_uid, "Join Campaign")
+        link_campaign_character(seeded_db, camp, cid)
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=headers_for(dm_token),
+                       follow_redirects=False)
+        assert r.status_code == 200
+
+    def test_dm_of_a_different_campaign_is_blocked(self, client, seeded_db):
+        dm_uid, dm_token = add_user(seeded_db, "other-dm@test.com")
+        cid = make_char(seeded_db, "Not Their Hero")
+        make_campaign(seeded_db, dm_uid, "Unrelated Campaign")  # exists, but does not list cid
+        r = client.get(f"/character/{cid}?dm_preview=1", headers=headers_for(dm_token),
+                       follow_redirects=False)
+        assert r.status_code == 404
+
+
+class TestCharacterCampaignScope:
+    def test_unrelated_user_gets_404(self, client, seeded_db):
+        cid = make_char(seeded_db, "Campaign Secret")
+        _uid, token = add_user(seeded_db, "camp-peeker@test.com")
+        r = client.get(f"/api/character/{cid}/campaign", headers=headers_for(token))
+        assert r.status_code == 404
+
+    def test_owner_sees_own_campaign(self, client, auth_headers, seeded_db):
+        cid = make_char(seeded_db, "Owner Camp Char")
+        make_campaign(seeded_db, 1, "Owner Campaign", [cid])
+        r = client.get(f"/api/character/{cid}/campaign", headers=auth_headers)
+        assert r.status_code == 200
+        assert r.json()["campaign"]["name"] == "Owner Campaign"
+
+    def test_campaign_dm_sees_campaign(self, client, seeded_db):
+        dm_uid, dm_token = add_user(seeded_db, "camp-dm@test.com")
+        cid = make_char(seeded_db, "DM Camp Char")
+        make_campaign(seeded_db, dm_uid, "DM View Campaign", [cid])
+        r = client.get(f"/api/character/{cid}/campaign", headers=headers_for(dm_token))
+        assert r.status_code == 200
+        assert r.json()["campaign"]["name"] == "DM View Campaign"

@@ -14,6 +14,7 @@ from main import (
     _resolve_source, _build_item_description, _build_charged_item_attacks,
     _build_inventory_attacks, _build_racial_traits, _normalize_equipped,
     _equipped_names, _load_json_cache, _parse_enhancement, _is_admin,
+    _user_dms_character,
     _item_rarity_for_level, _user_filter,
 )
 from main import RACES, CLASSES, RACE_NAMES, SUBCLASS_FEATURES, LIMITED_USE
@@ -320,6 +321,10 @@ async def character_campaign(char_id: int, request: Request):
     """Get the campaign this character belongs to (if any)."""
     user = require_user(request)
     db = get_db()
+    if not _require_owned(db, user, "characters", char_id) \
+            and not _user_dms_character(db, user, char_id):
+        db.close()
+        return JSONResponse({"error": "Character not found"}, status_code=404)
     # Check legacy table first, then JSON field
     row = db.execute("""
         SELECT c.id, c.name, c.user_id as dm_user_id

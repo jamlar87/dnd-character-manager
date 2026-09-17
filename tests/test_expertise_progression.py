@@ -33,6 +33,7 @@ def _connect(seeded_db):
 
 def make_char(seeded_db, name, user_id=1, **cols):
     cols.setdefault("race", "Human")
+    cols.setdefault("class_name", "Fighter")
     keys = list(cols)
     con = _connect(seeded_db)
     con.execute(

@@ -18,6 +18,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 
 from main import (
     get_db, require_user, _render, _user_filter, _is_admin, _require_owned,
+    _user_dms_character,
     _normalize_equipped, _equipped_names, _build_racial_traits,
     _build_character_attacks,
     _build_charged_item_attacks, _build_item_description,
@@ -390,8 +391,8 @@ async def character_sheet(char_id: int, request: Request):
     user = require_user(request)
     dm_preview = request.query_params.get("dm_preview", "0") == "1"
     db = get_db()
-    if dm_preview or _is_admin(user):
-        # DM preview or admin: allow viewing any character
+    if _is_admin(user) or (dm_preview and _user_dms_character(db, user, char_id)):
+        # Admin, or the DM of a campaign that lists this character
         row = db.execute("SELECT * FROM characters WHERE id = ?",
                          (char_id,)).fetchone()
     else:
