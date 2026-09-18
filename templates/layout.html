@@ -155,8 +155,12 @@ async function searchManuals(summarize = false) {
   resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 Searching manuals...</div>';
 
   const endpoint = summarize ? '/api/dm/search-manuals/summarize' : '/api/dm/search-manuals';
+  if (window.EntitySearch) EntitySearch.markManual(query);
 
   try {
+    // Internal entities come back from the fast in-memory index in parallel with
+    // the (slower) server-side manual text search — one combined render below.
+    const entityPromise = window.EntitySearch ? EntitySearch.fetchFor(query) : Promise.resolve(null);
     const r = await fetch(endpoint, {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({query, source: (window.SourceFilter ? SourceFilter.expand(SourceFilter.slugs('nav-manuals')) : [])})
@@ -167,11 +171,15 @@ async function searchManuals(summarize = false) {
       return;
     }
     const data = await r.json();
+    const entityData = await entityPromise;
+    const internal = (window.EntitySearch && entityData)
+      ? EntitySearch.internalHtml(entityData, query) : '';
+    if (window.EntitySearch) EntitySearch.finishManual(query);
 
     if (summarize && data.summary) {
       // Store for PDF button
       _lastAiSummaryData = {query, summary: data.summary, sources: data.results};
-      let html = '<div style="padding:0.75rem;font-size:0.8rem;line-height:1.6;color:var(--text)">';
+      let html = internal + '<div style="padding:0.75rem;font-size:0.8rem;line-height:1.6;color:var(--text)">';
       html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">';
       html += '<span style="font-size:0.7rem;color:var(--text-muted)">🤖 AI Summary · ' + data.results.length + ' sources across manuals</span>';
       html += '<button onclick="downloadAiSummaryPdf(_lastAiSummaryData)" style="margin-left:auto;padding:0.2rem 0.5rem;font-size:0.7rem;background:var(--accent2);color:var(--accent);border:1px solid var(--accent);border-radius:4px;cursor:pointer;white-space:nowrap" title="Download AI Summary as PDF" class="ai-pdf-btn">📄 PDF</button>';
@@ -190,7 +198,7 @@ async function searchManuals(summarize = false) {
       html += '</div>';
       resultsDiv.innerHTML = html;
     } else if (data.results && data.results.length) {
-      let html = '<div style="padding:0.5rem;font-size:0.8rem">';
+      let html = internal + '<div style="padding:0.5rem;font-size:0.8rem">';
       html += '<div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem">' + data.total + ' matches across manuals for "' + escapeHtml(query) + '"</div>';
       for (const r of data.results) {
         if (r.page) {
@@ -209,7 +217,8 @@ async function searchManuals(summarize = false) {
       html += '</div>';
       resultsDiv.innerHTML = html;
     } else {
-      resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 No matches found for "' + escapeHtml(query) + '" in any manual.</div>';
+      resultsDiv.innerHTML = internal ||
+        '<div style="padding:1rem;text-align:center;color:var(--text-muted)">🔍 No matches found for "' + escapeHtml(query) + '" in any manual.</div>';
     }
   } catch(e) {
     resultsDiv.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--danger)">Search failed: ' + e.message + '</div>';
@@ -303,6 +312,7 @@ document.addEventListener('click', function(e) {
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
 <script src="/static/source-filter.js?v=4"></script>
+<script src="/static/entity-search.js?v=2"></script>
 <script>
 // Manual filter on the global search bar (every page).
 document.addEventListener('DOMContentLoaded', function () {

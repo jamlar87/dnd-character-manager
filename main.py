@@ -2018,6 +2018,14 @@ async def lifespan(_app):
     from routes.characters import router as char_router
     if not any(r.path == "/create" for r in _app.routes):
         _app.include_router(char_router)
+    # Prewarm the nav search's internal entity index (~7k rows, ~0.5s) so the
+    # first keystroke isn't paying for it. Non-fatal if it fails.
+    try:
+        from services.entity_search import index_stats
+        _st = index_stats()
+        _log.info("entity index ready: %s rows %s", _st["total"], _st["counts"])
+    except Exception as _exc:  # pragma: no cover - defensive
+        _log.warning("entity index prewarm failed: %s", _exc)
     yield
 
 
@@ -2362,6 +2370,50 @@ async def manual_titles():
     this drops chapter/appendix aliases, map/screen PDFs and duplicate files.
     """
     return JSONResponse({"manuals": _manual_titles()})
+
+
+# ── Internal entity search (nav search bar's "Internal data" section) ───────
+# Every entity the app knows about — SRD core + ingested manual JSON — as typed,
+# linkable rows, so the nav search lists items/creatures/NPCs/feats/races/
+# traits/spells alongside manual page hits. Index lives in services/entity_search.py.
+
+@app.get("/api/reference/entities", response_class=JSONResponse)
+async def reference_entities(request: Request, q: str = "", source: str = "",
+                             limit: int = 40, per_kind: int = 3):
+    """Ranked internal-entity hits for `q`, optionally scoped to books."""
+    require_user(request)
+    from routes.characters.helpers import parse_source_filter  # lazy: helpers imports main
+    from services.entity_search import KIND_META, search_entities
+
+    sources = parse_source_filter(source)
+    limit = max(1, min(int(limit or 40), 100))
+    per_kind = max(1, min(int(per_kind or 3), 20))
+    results = search_entities(q, limit=limit, per_kind=per_kind, sources=sources)
+    counts: dict[str, int] = {}
+    for row in results:
+        counts[row["kind"]] = counts.get(row["kind"], 0) + 1
+    return JSONResponse({
+        "query": q,
+        "count": len(results),
+        "counts": counts,
+        "kinds": KIND_META,
+        "sources": sorted(sources) if sources else [],
+        "results": results,
+    })
+
+
+@app.get("/api/reference/entity", response_class=JSONResponse)
+async def reference_entity(request: Request, kind: str = "", name: str = ""):
+    """Detail payload for one internal entity — powers the nav search modal."""
+    require_user(request)
+    from services.entity_search import KIND_META, entity_detail
+
+    if kind not in KIND_META:
+        return JSONResponse({"error": f"Unknown entity kind '{kind}'"}, status_code=400)
+    detail = entity_detail(kind, name)
+    if not detail:
+        return JSONResponse({"error": f"No {kind} named '{name}'"}, status_code=404)
+    return JSONResponse(detail)
 
 # ── Manual titles for pickers (the "filter by manual" dropdown) ─────────────
 # _get_source_slug_map() is deliberately alias-heavy: it must resolve EVERY
