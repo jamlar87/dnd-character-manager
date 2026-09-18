@@ -2379,26 +2379,50 @@ async def manual_titles():
 
 @app.get("/api/reference/entities", response_class=JSONResponse)
 async def reference_entities(request: Request, q: str = "", source: str = "",
-                             limit: int = 40, per_kind: int = 3):
-    """Ranked internal-entity hits for `q`, optionally scoped to books."""
+                             kind: str = "", limit: int = 0, per_kind: int = 3,
+                             offset: int = 0):
+    """Internal-entity hits for `q`, optionally scoped to books.
+
+    Without `kind`: capped preview (per_kind per kind) plus the TRUE per-kind
+    totals, so the nav panel can label categories "3 of 145" and offer to expand.
+    With `kind=K`: that kind only, uncapped total, one alphabetical page at a time
+    (`limit`, default 50) — this is what clicking a category fetches.
+    """
     require_user(request)
     from routes.characters.helpers import parse_source_filter  # lazy: helpers imports main
-    from services.entity_search import KIND_META, search_entities
+    from services.entity_search import KIND_META, search_kind, search_with_totals
 
     sources = parse_source_filter(source)
+    q = q or ""
+
+    if kind:
+        if kind not in KIND_META:
+            return JSONResponse({"error": f"Unknown entity kind '{kind}'"}, status_code=400)
+        page = search_kind(q, kind, offset=max(0, int(offset or 0)),
+                           limit=max(1, min(int(limit or 50), 200)), sources=sources)
+        return JSONResponse({
+            "query": q,
+            "count": len(page["results"]),
+            "kinds": KIND_META,
+            "sources": sorted(sources) if sources else [],
+            **page,
+        })
+
     limit = max(1, min(int(limit or 40), 100))
     per_kind = max(1, min(int(per_kind or 3), 20))
-    results = search_entities(q, limit=limit, per_kind=per_kind, sources=sources)
+    data = search_with_totals(q, limit=limit, per_kind=per_kind, sources=sources)
     counts: dict[str, int] = {}
-    for row in results:
+    for row in data["results"]:
         counts[row["kind"]] = counts.get(row["kind"], 0) + 1
     return JSONResponse({
         "query": q,
-        "count": len(results),
+        "count": len(data["results"]),
         "counts": counts,
+        "total_counts": data["total_counts"],
+        "total": data["total"],
         "kinds": KIND_META,
         "sources": sorted(sources) if sources else [],
-        "results": results,
+        "results": data["results"],
     })
 
 

@@ -16,6 +16,8 @@ from services.entity_search import (
     entity_detail,
     index_stats,
     search_entities,
+    search_kind,
+    search_with_totals,
 )
 
 ALL_KINDS = {"item", "creature", "npc", "feat", "race", "trait",
@@ -239,6 +241,45 @@ class TestEntitiesEndpoint:
         body = client.get(self.URL, params={"q": "a"}, headers=auth_headers).json()
         assert body["results"] == []
 
+    def test_preview_includes_per_kind_totals(self, client, auth_headers):
+        body = client.get(self.URL, params={"q": "dragon"}, headers=auth_headers).json()
+        assert body["total_counts"]["creature"] > 3, body.get("total_counts")
+        assert body["total"] >= body["count"]
+
+
+class TestKindExpansionEndpoint:
+    URL = "/api/reference/entities"
+
+    def test_kind_mode_returns_a_full_page(self, client, auth_headers):
+        body = client.get(self.URL, params={"q": "dragon", "kind": "creature", "limit": 50},
+                          headers=auth_headers).json()
+        assert body["kind"] == "creature"
+        assert body["total"] > 50
+        assert body["has_more"] is True
+        assert len(body["results"]) == 50
+        assert all(r["kind"] == "creature" for r in body["results"])
+
+    def test_kind_mode_pages_forward(self, client, auth_headers):
+        p1 = client.get(self.URL, params={"q": "dragon", "kind": "creature", "limit": 20},
+                        headers=auth_headers).json()
+        p2 = client.get(self.URL, params={"q": "dragon", "kind": "creature", "limit": 20, "offset": 20},
+                        headers=auth_headers).json()
+        assert p1["results"][0]["name"] != p2["results"][0]["name"]
+        assert p2["offset"] == 20
+
+    def test_kind_mode_limit_is_clamped(self, client, auth_headers):
+        body = client.get(self.URL, params={"q": "sword", "kind": "creature", "limit": 5000},
+                          headers=auth_headers).json()
+        assert len(body["results"]) <= 200
+
+    def test_unknown_kind_is_400(self, client, auth_headers):
+        r = client.get(self.URL, params={"q": "goblin", "kind": "banana"}, headers=auth_headers)
+        assert r.status_code == 400
+
+    def test_anonymous_is_redirected(self, client):
+        r = client.get(self.URL, params={"q": "goblin", "kind": "creature"}, follow_redirects=False)
+        assert r.status_code == 303
+
 
 class TestEntityDetailEndpoint:
     URL = "/api/reference/entity"
@@ -299,9 +340,121 @@ class TestNavSearchWiring:
         assert "addEventListener('input'" in js
         assert "data-kind" in js
 
+    def test_script_supports_category_expansion(self):
+        js = (Path(__file__).resolve().parent.parent / "static" / "entity-search.js").read_text()
+        for token in ("es-group-head", "data-kind-toggle", "total_counts", "has_more", "es-more"):
+            assert token in js, f"category expansion missing: {token}"
+
+    def test_expansion_never_detaches_the_clicked_node(self):
+        """Regression: rerenderGroup used head.outerHTML, so the click's target was
+        detached by the time it bubbled to layout's outside-click handler — which then
+        treated it as an outside click and closed the whole dropdown."""
+        root = Path(__file__).resolve().parent.parent
+        js = (root / "static" / "entity-search.js").read_text()
+        assert ".outerHTML" not in js, "mutate nodes in place; never replace the event target"
+        assert "e.stopPropagation()" in js
+        layout = (root / "templates" / "layout.html").read_text()
+        assert "e.target.isConnected" in layout, "outside-click guard needs the isConnected check"
+
+    def test_category_toggle_updates_the_head_in_place(self):
+        js = (Path(__file__).resolve().parent.parent / "static" / "entity-search.js").read_text()
+        body = js.split("function rerenderGroup(kind)", 1)[1].split("async function", 1)[0]
+        assert "head.innerHTML = groupHeadInner(" in body
+        assert "aria-expanded" in body
+
+    def test_detail_modal_handles_a_non_json_login_redirect(self):
+        """A logged-out session redirects to the login page: the modal must say so
+        instead of leaking a JSON parse error."""
+        js = (Path(__file__).resolve().parent.parent / "static" / "entity-search.js").read_text()
+        open_body = js.split("async function open(kind, name)", 1)[1].split("\n  // ──", 1)[0]
+        assert "Please log in to view this entry." in open_body
+        assert "application/json" in open_body
+
     def test_panel_css_is_injected_at_wire_time(self):
         """Regression: injectStyle() used to run only inside modalEl(), so a panel
         rendered without ever opening a modal had NO styles (name/subtitle glued)."""
         js = (Path(__file__).resolve().parent.parent / "static" / "entity-search.js").read_text()
         wire_body = js.split("function wire()", 1)[1].split("function ", 1)[0]
         assert "injectStyle();" in wire_body, "panel styles must be injected on wire()"
+
+
+# ── per-kind totals + category expansion ───────────────────────────────────
+
+class TestPreviewTotals:
+    def test_preview_reports_true_totals_per_kind(self):
+        data = search_with_totals("dragon")
+        assert data["results"], data
+        assert data["total_counts"]["creature"] > 3, "totals must be pre-cap"
+        shown = [r for r in data["results"] if r["kind"] == "creature"]
+        assert len(shown) == 3, "the preview itself stays capped"
+        assert data["total_counts"]["creature"] > len(shown)
+
+    def test_totals_agree_with_the_kind_search(self):
+        data = search_with_totals("dragon", limit=60)
+        for kind, total in data["total_counts"].items():
+            assert search_kind("dragon", kind, limit=1)["total"] == total, kind
+
+    def test_small_kind_total_is_exact(self):
+        data = search_with_totals("grinner")
+        assert data["total_counts"].get("background") == 1
+        assert len([r for r in data["results"] if r["kind"] == "background"]) == 1
+
+    def test_total_is_the_sum_of_the_kinds(self):
+        data = search_with_totals("undead", limit=200)
+        assert data["total"] == sum(data["total_counts"].values())
+
+    def test_search_entities_still_returns_a_plain_list(self):
+        assert isinstance(search_entities("goblin"), list)
+
+    def test_short_query_reports_nothing(self):
+        data = search_with_totals("a")
+        assert data["results"] == [] and data["total_counts"] == {} and data["total"] == 0
+
+
+class TestSearchKind:
+    def test_returns_only_that_kind(self):
+        out = search_kind("dragon", "creature", limit=30)
+        assert out["results"] and all(r["kind"] == "creature" for r in out["results"])
+
+    def test_page_size_and_has_more(self):
+        out = search_kind("dragon", "creature", limit=50)
+        assert len(out["results"]) == 50
+        assert out["total"] > 50
+        assert out["has_more"] is True
+        assert out["offset"] == 0 and out["limit"] == 50
+
+    def test_pages_are_disjoint(self):
+        p1 = search_kind("dragon", "creature", offset=0, limit=20)
+        p2 = search_kind("dragon", "creature", offset=20, limit=20)
+        names1 = {r["name"] for r in p1["results"]}
+        names2 = {r["name"] for r in p2["results"]}
+        assert names1 and names2 and not (names1 & names2)
+
+    def test_last_page_reports_no_more(self):
+        total = search_kind("dragon", "creature", limit=1)["total"]
+        out = search_kind("dragon", "creature", offset=total - 2, limit=50)
+        assert len(out["results"]) == 2
+        assert out["has_more"] is False
+
+    def test_offset_past_the_end_is_empty(self):
+        out = search_kind("dragon", "creature", offset=99999, limit=50)
+        assert out["results"] == [] and out["has_more"] is False
+
+    def test_order_is_alphabetical(self):
+        names = [r["name"].lower() for r in search_kind("dragon", "creature", limit=50)["results"]]
+        assert names == sorted(names), "expanded list is a browse view — A→Z"
+
+    def test_kind_with_no_matches(self):
+        out = search_kind("grinner", "trap")
+        assert out["total"] == 0 and out["results"] == [] and out["has_more"] is False
+
+    def test_source_filter_is_respected(self):
+        out = search_kind("dragon", "creature", limit=50, sources={"FGFD"})
+        assert out["results"]
+        assert all(r["slug"] == "FGFD" for r in out["results"])
+
+    def test_short_query_returns_nothing(self):
+        assert search_kind("a", "creature")["total"] == 0
+
+    def test_unknown_kind_returns_nothing(self):
+        assert search_kind("goblin", "banana")["total"] == 0

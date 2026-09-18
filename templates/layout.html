@@ -261,7 +261,9 @@ function highlightMatch(text, query) {
 document.addEventListener('click', function(e) {
   const resultsDiv = document.getElementById('manualSearchResults');
   const input = document.getElementById('manualSearchInput');
-  if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== input
+  // isConnected guard: a click whose target was re-rendered out of the DOM mid-bubble
+  // (e.g. entity-search expanding a category) must not be treated as an outside click.
+  if (resultsDiv && e.target.isConnected && !resultsDiv.contains(e.target) && e.target !== input
       && !e.target.closest('.nav-search')) {
     resultsDiv.style.display = 'none';
   }
@@ -312,7 +314,7 @@ document.addEventListener('click', function(e) {
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
 <script src="/static/source-filter.js?v=4"></script>
-<script src="/static/entity-search.js?v=2"></script>
+<script src="/static/entity-search.js?v=4"></script>
 <script>
 // Manual filter on the global search bar (every page).
 document.addEventListener('DOMContentLoaded', function () {

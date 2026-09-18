@@ -404,9 +404,21 @@ def _score(row: dict, query: str, words: list[str]) -> float:
     return score
 
 
-def search_entities(query: str, *, limit: int = 40, per_kind: int = 3,
-                    sources: set[str] | None = None) -> list[dict]:
-    """Ranked internal-entity hits for `query`.
+def _row_payload(row: dict, score: float) -> dict:
+    return {
+        "kind": row["kind"],
+        "name": row["name"],
+        "subtitle": row["subtitle"],
+        "snippet": row["snippet"],
+        "source": row["source"],
+        "slug": row["slug"],
+        "page": row["page"],
+        "score": round(score, 2),
+    }
+
+
+def _match(query: str, sources: set[str] | None):
+    """Shared matching pass: (normalised query, words, [(score, row), ...]).
 
     `sources` is a set of book slugs (empty/None = every book). Entities that
     carry a source must match the filter; entities without a source are dropped
@@ -414,20 +426,33 @@ def search_entities(query: str, *, limit: int = 40, per_kind: int = 3,
     """
     query = (query or "").strip().lower()
     if len(query) < 2:
-        return []
+        return "", [], []
     words = [w for w in query.split() if w]
     if not words:
-        return []
-
+        return "", [], []
     hits: list[tuple[float, dict]] = []
     for row in _get_index():
-        if sources:
-            if not row["slug"] or row["slug"] not in sources:
-                continue
+        if sources and (not row["slug"] or row["slug"] not in sources):
+            continue
         text = row["text"]
         if not all(w in text for w in words):
             continue
         hits.append((_score(row, query, words), row))
+    return query, words, hits
+
+
+def search_with_totals(query: str, *, limit: int = 40, per_kind: int = 3,
+                       sources: set[str] | None = None) -> dict:
+    """Preview search: capped rows PLUS the true (uncapped) per-kind totals.
+
+    Returns ``{"results": [...], "total_counts": {kind: n}, "total": n, "count": n}``.
+    The totals are what the nav panel's category headers show ("3 of 145") and the
+    count the category expansion will list.
+    """
+    _, _, hits = _match(query, sources)
+    total_counts: dict[str, int] = {}
+    for _, row in hits:
+        total_counts[row["kind"]] = total_counts.get(row["kind"], 0) + 1
 
     hits.sort(key=lambda pair: (-pair[0], KIND_PRIORITY.get(pair[1]["kind"], 99)))
 
@@ -438,19 +463,50 @@ def search_entities(query: str, *, limit: int = 40, per_kind: int = 3,
         if used.get(kind, 0) >= per_kind:
             continue
         used[kind] = used.get(kind, 0) + 1
-        out.append({
-            "kind": kind,
-            "name": row["name"],
-            "subtitle": row["subtitle"],
-            "snippet": row["snippet"],
-            "source": row["source"],
-            "slug": row["slug"],
-            "page": row["page"],
-            "score": round(score, 2),
-        })
+        out.append(_row_payload(row, score))
         if len(out) >= limit:
             break
-    return out
+
+    return {
+        "results": out,
+        "total_counts": total_counts,
+        "total": sum(total_counts.values()),
+        "count": len(out),
+    }
+
+
+def search_entities(query: str, *, limit: int = 40, per_kind: int = 3,
+                    sources: set[str] | None = None) -> list[dict]:
+    """Ranked internal-entity hits for `query` (capped preview rows)."""
+    return search_with_totals(query, limit=limit, per_kind=per_kind,
+                              sources=sources)["results"]
+
+
+def search_kind(query: str, kind: str, *, offset: int = 0, limit: int = 50,
+                sources: set[str] | None = None) -> dict:
+    """Every hit of ONE kind for `query` — powers the category expansion.
+
+    Uncapped total, one page at a time, **alphabetical by name**: this is a browse
+    view (relevance already picked the preview rows) and A→Z stays predictable when
+    a query matches north of a hundred rows.
+    """
+    offset = max(0, int(offset or 0))
+    limit = max(1, int(limit or 50))
+    _, _, hits = _match(query, sources)
+    rows = [row for _, row in hits if row["kind"] == kind]
+    rows.sort(key=lambda r: (r["name_lower"], r["subtitle"]))
+
+    page = rows[offset:offset + limit]
+    return {
+        "kind": kind,
+        "total": len(rows),
+        "offset": offset,
+        "limit": limit,
+        "has_more": offset + len(page) < len(rows),
+        "results": [_row_payload(row, _score(row, (query or "").strip().lower(),
+                                             [w for w in (query or "").strip().lower().split() if w]))
+                    for row in page],
+    }
 
 
 # ── detail (for the result modal) ───────────────────────────────────────────
