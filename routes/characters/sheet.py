@@ -1732,8 +1732,35 @@ async def delete_character(char_id: int, request: Request):
     return JSONResponse({"ok": True})
 
 
+def _portrait_thumbnail(blob: bytes, size: int) -> tuple[bytes, str] | None:
+    """Downscale a portrait to at most `size` px (WebP), or None to keep the original.
+
+    Cards and sidebars show a ~56-80px portrait while the stored image is
+    2-3.4 MB; without this the dashboard would pull megabytes per character.
+    Returning None (rather than raising) on any failure keeps the full-size
+    image working even if Pillow is unavailable or the bytes are odd.
+    """
+    try:
+        size = max(16, min(int(size), 1024))
+    except (TypeError, ValueError):
+        return None
+    try:
+        import io as _io
+        from PIL import Image
+        img = Image.open(_io.BytesIO(blob))
+        img.load()
+        img = img.convert("RGBA")
+        img.thumbnail((size, size), Image.LANCZOS)
+        buf = _io.BytesIO()
+        img.save(buf, format="WEBP", quality=82, method=4)
+        out = buf.getvalue()
+        return (out, "image/webp") if out and len(out) < len(blob) else None
+    except Exception:
+        return None
+
+
 @router.get("/api/character/{char_id}/portrait-image")
-async def character_portrait_image(char_id: int, request: Request):
+async def character_portrait_image(char_id: int, request: Request, size: int | None = None):
     """Serve a character portrait as a real, cacheable image response.
 
     Portraits are stored in `characters.portrait_url` as multi-MB base64 data
@@ -1741,6 +1768,9 @@ async def character_portrait_image(char_id: int, request: Request):
     sheet view shipped ~7 MB (measured live: Orla Harbak 7.5 MB). The template
     now points `data:` portraits at this endpoint instead; the stored value is
     untouched, so nothing needs migrating.
+
+    `?size=N` returns a WebP thumbnail at most N px on the long edge (clamped to
+    16..1024) for list/sidebar use; omit it for the full-size image.
     """
     user = require_user(request)
     db = get_db()
@@ -1763,6 +1793,10 @@ async def character_portrait_image(char_id: int, request: Request):
             blob = base64.b64decode(b64)
         except Exception:
             raise HTTPException(status_code=404, detail="No portrait stored")
+        if size is not None:
+            thumb = _portrait_thumbnail(blob, size)
+            if thumb:
+                blob, media = thumb
         return Response(content=blob, media_type=media,
                         headers={"Cache-Control": "private, max-age=86400"})
     if src:
