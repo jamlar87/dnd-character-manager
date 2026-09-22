@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse
 
 from main import (
     get_db, require_user, _require_owned, _equipped_names, _normalize_equipped,
-    PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES,
+    PREPARED_CASTERS, SPELL_DICE, SRD_SPELLS, SUBCLASS_FEATURES, _json_list,
 )
 from data import SPELLS_KNOWN_CASTERS
 from routes.schemas import AddSpell
@@ -53,7 +53,7 @@ async def get_magic_initiate(char_id: int, request: Request):
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
     db.close()
-    asi_hist = json.loads(char.get("asi_history", "[]"))
+    asi_hist = _json_list(char.get("asi_history"))
     for entry in asi_hist:
         if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
             return JSONResponse(entry.get("magic_initiate", {}))
@@ -81,7 +81,7 @@ async def save_magic_initiate(char_id: int, request: Request):
         return JSONResponse({"error": f"Invalid class: {chosen_class}"}, status_code=400)
     
     # Update asi_history with magic_initiate config
-    asi_hist = json.loads(char.get("asi_history", "[]"))
+    asi_hist = _json_list(char.get("asi_history"))
     spellcasting_ability = {
         "Bard": "charisma", "Sorcerer": "charisma", "Warlock": "charisma",
         "Cleric": "wisdom", "Druid": "wisdom",
@@ -155,12 +155,20 @@ async def toggle_magic_initiate_use(char_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
-    asi_hist = json.loads(char.get("asi_history", "[]"))
+    asi_hist = _json_list(char.get("asi_history"))
+    mi = None
     for entry in asi_hist:
         if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
             mi = entry.setdefault("magic_initiate", {})
             mi["used"] = not mi.get("used", False)
             break
+    if mi is None:
+        # No Magic Initiate feat on this character — the loop above never bound
+        # `mi`, which used to crash with UnboundLocalError (500). Mirror the
+        # sibling setup route: 400, and write nothing.
+        db.close()
+        return JSONResponse({"error": "Character does not have Magic Initiate feat"},
+                            status_code=400)
     db.execute("UPDATE characters SET asi_history = ? WHERE id = ?", (json.dumps(asi_hist), char_id))
     db.commit()
     db.close()
@@ -177,7 +185,7 @@ async def reset_magic_initiate_use(char_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
-    asi_hist = json.loads(char.get("asi_history", "[]"))
+    asi_hist = _json_list(char.get("asi_history"))
     for entry in asi_hist:
         if entry.get("type") == "feat" and entry.get("feat") == "magic_initiate":
             mi = entry.setdefault("magic_initiate", {})
@@ -228,7 +236,7 @@ async def save_feat_config(char_id: int, request: Request):
         db.close()
         raise HTTPException(status_code=404, detail="Character not found")
     char = dict(row)
-    asi_hist = json.loads(char.get("asi_history", "[]"))
+    asi_hist = _json_list(char.get("asi_history"))
     
     found = False
     for entry in asi_hist:

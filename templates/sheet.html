@@ -11,12 +11,15 @@
 {% set char_skills = character.skills or [] %}
 {% set char_expertise = character.expertise_skills or [] %}
 {% set adv = advantage_map if advantage_map is not none else {"saves":[],"ability_checks":[],"skills":[],"notes":[]} %}
+{# Portraits are stored as multi-MB base64 data URLs; inline them and one sheet
+   view ships several MB. Point data: portraits at the cacheable image route. #}
+{% set portrait_src = ('/api/character/' ~ character.id ~ '/portrait-image') if character.portrait_url and character.portrait_url.startswith('data:') else (character.portrait_url or '') %}
 
 <!-- Header with portrait + name -->
 <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
   <div style="width:80px;flex-shrink:0">
     {% if character.portrait_url %}
-    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
+    <img src="{{ portrait_src }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
     {% else %}
     <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" onclick="openPortraitModal()" title="Add portrait">🎨</div>
     {% endif %}
@@ -2354,7 +2357,7 @@
     <h3 style="margin-bottom:0.5rem;flex-shrink:0">Character Portrait</h3>
     <div style="flex:1;overflow-y:auto;min-height:0">
     {% if character.portrait_url %}
-    <img src="{{ character.portrait_url }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
+    <img src="{{ portrait_src }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
     {% else %}
     <div id="modal-portrait-placeholder" style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem">No portrait yet</div>
     <img id="modal-portrait-img" src="" alt="New Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">

@@ -2,7 +2,7 @@
 <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:0.75rem">
   <div style="width:80px;flex-shrink:0">
     {% if character.portrait_url %}
-    <img src="{{ character.portrait_url }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
+    <img src="{{ portrait_src }}" alt="Character Portrait" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer" id="sidebar-portrait" onclick="openPortraitModal()" title="Change portrait">
     {% else %}
     <div style="width:80px;height:80px;border-radius:8px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;cursor:pointer;text-align:center" onclick="openPortraitModal()" title="Add portrait">🎨</div>
     {% endif %}

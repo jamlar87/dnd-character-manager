@@ -798,6 +798,12 @@ async def apply_level_up(char_id: int, request: Request, body: ApplyLevelUp):
             if isinstance(choice, dict):
                 for ability, increase in choice.items():
                     ab_tc = ability.capitalize()  # Normalize "dexterity" → "Dexterity"
+                    if ab_tc not in ABILITY_NAMES:
+                        raise HTTPException(400, f"Unknown ability in ASI choice: {ability!r}")
+                    if isinstance(increase, bool) or not isinstance(increase, int):
+                        # A malformed client payload used to reach the `+` below and
+                        # raise TypeError (500). Reject it as a bad request instead.
+                        raise HTTPException(400, f"ASI increase for {ability} must be an integer")
                     new_val = cumulative.get(ab_tc, 10) + increase
                     if new_val > 20:
                         raise HTTPException(400, f"{ab_tc} would exceed 20 ({cumulative.get(ab_tc, 10)} + {increase} = {new_val})")

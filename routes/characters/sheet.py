@@ -11,13 +11,14 @@ import json
 import random
 import re
 import time
+import base64
 from datetime import datetime
 
 from fastapi import APIRouter, Request, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
 
 from main import (
-    get_db, require_user, _render, _user_filter, _is_admin, _require_owned,
+    get_db, require_user, _render, _is_admin, _require_owned,
     _user_dms_character,
     _normalize_equipped, _equipped_names, _build_racial_traits,
     _build_character_attacks,
@@ -1622,11 +1623,75 @@ async def reload_charge(char_id: int, request: Request):
 async def delete_character(char_id: int, request: Request):
     user = require_user(request)
     db = get_db()
-    filter_clause, filter_params = _user_filter(user)
-    db.execute(f"DELETE FROM characters WHERE id = ? {filter_clause}", (char_id, *filter_params))
+    row = _require_owned(db, user, "characters", char_id)
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    # Child rows first — the delete used to touch only `characters`, leaving
+    # orphaned character_spells (live DB had 10 rows for a long-gone character),
+    # relationships and campaign-membership rows behind.
+    db.execute("DELETE FROM character_spells WHERE character_id = ?", (char_id,))
+    db.execute("DELETE FROM character_relationships WHERE character_id = ?", (char_id,))
+    db.execute("DELETE FROM dm_campaign_characters WHERE character_id = ?", (char_id,))
+    db.execute("DELETE FROM characters WHERE id = ?", (char_id,))
+
+    # DM campaign rosters live in the dm_campaigns.characters JSON blob — drop
+    # the id there too, or the roster keeps listing a character that is gone.
+    for camp in db.execute("SELECT id, characters FROM dm_campaigns").fetchall():
+        try:
+            roster = json.loads(camp["characters"] or "[]")
+        except (ValueError, TypeError):
+            continue
+        if not roster:
+            continue
+        kept = [c for c in roster
+                if not ((isinstance(c, dict) and c.get("id") == char_id) or c == char_id)]
+        if len(kept) != len(roster):
+            db.execute("UPDATE dm_campaigns SET characters = ? WHERE id = ?",
+                       (json.dumps(kept), camp["id"]))
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+@router.get("/api/character/{char_id}/portrait-image")
+async def character_portrait_image(char_id: int, request: Request):
+    """Serve a character portrait as a real, cacheable image response.
+
+    Portraits are stored in `characters.portrait_url` as multi-MB base64 data
+    URLs and used to be inlined straight into the sheet HTML — twice — so one
+    sheet view shipped ~7 MB (measured live: Orla Harbak 7.5 MB). The template
+    now points `data:` portraits at this endpoint instead; the stored value is
+    untouched, so nothing needs migrating.
+    """
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT user_id, portrait_url, shared FROM characters WHERE id = ?",
+                     (char_id,)).fetchone()
+    if not row:
+        db.close()
+        raise HTTPException(status_code=404, detail="Character not found")
+    allowed = (_is_admin(user) or row["user_id"] == user["id"] or bool(row["shared"])
+               or _user_dms_character(db, user, char_id))
+    db.close()
+    if not allowed:
+        raise HTTPException(status_code=404, detail="Character not found")
+
+    src = (row["portrait_url"] or "").strip()
+    if src.startswith("data:"):
+        try:
+            header, b64 = src.split(",", 1)
+            media = header[5:].split(";")[0] or "image/png"
+            blob = base64.b64decode(b64)
+        except Exception:
+            raise HTTPException(status_code=404, detail="No portrait stored")
+        return Response(content=blob, media_type=media,
+                        headers={"Cache-Control": "private, max-age=86400"})
+    if src:
+        # External URL — send the browser straight there rather than proxying.
+        return RedirectResponse(src, status_code=307)
+    raise HTTPException(status_code=404, detail="No portrait stored")
 
 
 @router.post("/api/character/{char_id}/toggle-share", response_class=JSONResponse)
