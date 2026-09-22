@@ -32,6 +32,13 @@ def make_char(seeded_db, name, user_id=1, **cols):
     return cid
 
 
+def card_html(html, cid):
+    """The <div id="char-card-N"> ... block only (next card or end of list)."""
+    start = html.index(f'id="char-card-{cid}"')
+    nxt = html.find('id="char-card-', start + 10)
+    return html[start:nxt if nxt != -1 else len(html)]
+
+
 def png_data_url(w=400, h=300, color=(120, 60, 200)):
     from PIL import Image
     buf = io.BytesIO()
@@ -44,35 +51,35 @@ class TestDashboardCardPortrait:
         url = png_data_url()
         cid = make_char(seeded_db, "Portrait Probe", portrait_url=url)
         html = client.get("/dashboard", headers=auth_headers).text
-        assert f'/api/character/{cid}/portrait-image?size=128' in html
+        # 56px card tile -> 112px request (2x for crispness)
+        assert f'/api/character/{cid}/portrait-image?size=112' in html
         # the portrait blob itself must never be inlined (layout's SVG favicon is fine)
         assert "data:image/png;base64" not in html, "base64 portrait inlined into the dashboard"
         assert url.split(",", 1)[1][:80] not in html
-        assert re.search(rf'<img[^>]+src="/api/character/{cid}/portrait-image\?size=128"[^>]*>', html)
-        assert 'class="char-card-portrait"' in html
+        assert re.search(rf'<img[^>]+src="/api/character/{cid}/portrait-image\?size=112"[^>]*>', html)
+        assert 'class="char-portrait"' in html
         assert 'loading="lazy"' in html
 
     def test_character_without_portrait_gets_an_initial_placeholder(self, client, seeded_db, auth_headers):
         cid = make_char(seeded_db, "Zed Noart", portrait_url=None)
         html = client.get("/dashboard", headers=auth_headers).text
-        card = html[html.index(f'id="char-card-{cid}"'):]
-        card = card[:card.index("</div>\n</div>")] if "</div>\n</div>" in card else card[:3000]
-        assert "char-card-portrait-empty" in card
+        card = card_html(html, cid)
+        assert "char-portrait-empty" in card
         assert ">Z<" in card or ">\n      Z" in card
         assert f'/api/character/{cid}/portrait-image' not in card
 
     def test_empty_string_portrait_is_treated_as_absent(self, client, seeded_db, auth_headers):
         cid = make_char(seeded_db, "Blank Portrait", portrait_url="")
         html = client.get("/dashboard", headers=auth_headers).text
-        card = html[html.index(f'id="char-card-{cid}"'):][:2000]
-        assert "char-card-portrait-empty" in card
+        card = card_html(html, cid)
+        assert "char-portrait-empty" in card
         assert f'/api/character/{cid}/portrait-image' not in card
 
     def test_external_url_is_used_directly(self, client, seeded_db, auth_headers):
         cid = make_char(seeded_db, "Remote Portrait",
                         portrait_url="https://example.com/portrait.png")
         html = client.get("/dashboard", headers=auth_headers).text
-        card = html[html.index(f'id="char-card-{cid}"'):][:2000]
+        card = card_html(html, cid)
         assert 'src="https://example.com/portrait.png"' in card
 
 

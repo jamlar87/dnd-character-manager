@@ -2,24 +2,14 @@
 {% block title %}My Characters{% endblock %}
 {% block style %}
 <style>
-.char-card-portrait {
-  width: 56px; height: 56px; flex-shrink: 0; object-fit: cover;
-  border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
-  display: block;
-}
-.char-card-portrait-empty {
-  display: flex; align-items: center; justify-content: center;
-  border-style: dashed; color: var(--text-muted);
-  font-size: 1.15rem; font-weight: 600; user-select: none;
-}
 @media (max-width: 480px) {
   .char-card-inner { flex-direction: column; align-items: flex-start !important; }
   .char-card-actions { width: 100%; justify-content: space-between; }
-  .char-card-portrait { width: 48px; height: 48px; }
 }
 </style>
 {% endblock %}
 {% block content %}
+{% from "_char_portrait.html" import char_portrait %}
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem">
   <h1>My Characters</h1>
   <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
@@ -57,21 +47,12 @@
 {% else %}
 {% for c in characters %}
 {% set is_fav = c.id in favorites %}
-{# Portraits are stored as multi-MB base64 data URLs — never inline them here
-   (the dashboard lists every character). data: portraits go through the
-   cacheable image route, downscaled to a card-sized WebP thumbnail. #}
-{% set has_portrait = c.portrait_url and c.portrait_url|string|trim %}
-{% set portrait_src = ('/api/character/' ~ c.id ~ '/portrait-image?size=128') if has_portrait and c.portrait_url.startswith('data:') else (c.portrait_url if has_portrait else '') %}
 <div id="char-card-{{ c.id }}" class="card char-card-inner" style="cursor:pointer" onclick="location.href='/character/{{ c.id }}'"
   data-name="{{ c.name|lower }}" data-class="{{ c.class_name|lower }}" data-level="{{ c.level }}">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
     <div style="display:flex;align-items:center;gap:0.5rem;min-width:0">
-      {% if has_portrait %}
-      <img src="{{ portrait_src }}" alt="{{ c.name }} portrait" loading="lazy" decoding="async"
-           width="56" height="56" class="char-card-portrait">
-      {% else %}
-      <div class="char-card-portrait char-card-portrait-empty" aria-hidden="true">{{ (c.name or '?')[:1]|upper }}</div>
-      {% endif %}
+      {# portrait, or a dashed tile with the initial; see _char_portrait.html #}
+      {{ char_portrait(c.id, c.name, c.has_portrait, 56, c.portrait_url) }}
       <span class="fav-star" data-char-id="{{ c.id }}"
             style="cursor:pointer;font-size:1.2rem;flex-shrink:0;{% if is_fav %}color:#ffd700{% else %}color:var(--text-muted);opacity:0.3{% endif %}"
             onclick="event.stopPropagation();toggleFav({{ c.id }}, this)"

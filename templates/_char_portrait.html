@@ -1,0 +1,29 @@
+{#
+  Shared character portrait tile.
+
+  Portraits live in `characters.portrait_url` as multi-MB base64 data URLs, so
+  every render site goes through the cacheable image route (see
+  routes/characters/sheet.py::character_portrait_image) and asks for a
+  thumbnail sized for the slot. Characters without a portrait get a dashed tile
+  with their initial so rows keep their alignment.
+
+  Pass `has_portrait` (a boolean — prefer a SQL `portrait_url IS NOT NULL AND
+  portrait_url != ''` expression so the base64 blob never enters the template).
+
+  Usage:
+    {% from "_char_portrait.html" import char_portrait %}
+    {{ char_portrait(ch.id, ch.name, ch.has_portrait, 56) }}
+#}
+{% macro char_portrait(char_id, name, has_portrait, size=40, src_override='') -%}
+{%- set px = size|int -%}
+{%- if src_override -%}
+<img src="{{ src_override }}" alt="{{ name }} portrait" loading="lazy" decoding="async"
+     class="char-portrait" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px">
+{%- elif has_portrait -%}
+<img src="/api/character/{{ char_id }}/portrait-image?size={{ px * 2 }}" alt="{{ name }} portrait"
+     loading="lazy" decoding="async" class="char-portrait"
+     style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px">
+{%- else -%}
+<span class="char-portrait char-portrait-empty" style="--cp-size:{{ px }}px;--cp-size-mobile:{{ (px * 0.86)|round|int }}px;font-size:{{ (px * 0.42)|round|int }}px" aria-hidden="true">{{ (name or '?')[:1]|upper }}</span>
+{%- endif -%}
+{%- endmacro %}

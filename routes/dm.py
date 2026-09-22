@@ -24,6 +24,49 @@ from services.leveling import PROFICIENCY_BONUS, get_class_features
 router = APIRouter()
 
 
+def _campaign_characters_live(db, entries):
+    """Live character rows for a campaign roster, including a portrait flag.
+
+    The stored `dm_campaigns.characters` blob is a snapshot (id/name/class/level/
+    race/status) — no HP, no portrait flag — so campaign cards and the campaign
+    detail page need a join. `has_portrait` is a boolean, never the blob: the
+    portrait itself is fetched from /api/character/{id}/portrait-image.
+    """
+    out = []
+    for entry in entries or []:
+        cid = entry.get("id") if isinstance(entry, dict) else entry
+        if not cid:
+            continue
+        row = db.execute("""
+            SELECT id, name, race, subrace, class_name, subclass, level,
+                   hp_current, hp_max, ac,
+                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+            FROM characters WHERE id=?
+        """, (cid,)).fetchone()
+        if row:
+            d = dict(row)
+            d["status"] = entry.get("status", "active") if isinstance(entry, dict) else "active"
+            out.append(d)
+        elif isinstance(entry, dict) and entry.get("id"):
+            # Roster entry with no live row (delete strips rosters, so this means
+            # a stale id). Keep it visible but fill every key the template reads:
+            # a missing 'level' makes the card's `sum(attribute='level')` raise
+            # UndefinedError and 500s the whole DM Tools page.
+            d = dict(entry)
+            d.setdefault("name", f"Character #{cid}")
+            d.setdefault("level", 1)
+            d.setdefault("race", "")
+            d.setdefault("class_name", "")
+            d.setdefault("subclass", None)
+            d.setdefault("subrace", None)
+            d["hp_current"] = None
+            d["hp_max"] = None
+            d["ac"] = None
+            d["has_portrait"] = False
+            out.append(d)
+    return out
+
+
 @router.get("/dm-tools", response_class=HTMLResponse)
 async def dm_tools(request: Request):
     """DM Tools main page — encounter builder, NPC manager, monster lookup."""
@@ -115,6 +158,9 @@ async def dm_tools(request: Request):
         for f in ("quests", "locations", "characters"):
             try: c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError): c[f] = []
+        # Roster snapshots carry no HP and no portrait flag — the card badges
+        # need live values (name / hp / level) and a portrait boolean.
+        c["characters"] = _campaign_characters_live(db, c["characters"])
 
     # Monster types for filtering
     monster_types = sorted(monsters_by_env.keys())
@@ -166,7 +212,8 @@ async def dm_tools(request: Request):
     characters = [dict(r) for r in db3.execute("""
         SELECT id, name, race, subrace, class_name, level, subclass,
                hp_max, hp_current, ac, strength, dexterity, constitution,
-               intelligence, wisdom, charisma, speed, proficiency_bonus
+               intelligence, wisdom, charisma, speed, proficiency_bonus,
+               (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
         FROM characters WHERE user_id = ? ORDER BY name
     """, (user["id"],)).fetchall()]
     db3.close()
@@ -2524,7 +2571,8 @@ async def dm_campaigns_list(request: Request):
                 SELECT id, name, race, subrace, class_name, subclass, level,
                        hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
                        intelligence, wisdom, charisma, proficiency_bonus, speed,
-                       inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used
+                       inspiration, exhaustion, passive_perception, hit_dice, hit_dice_used,
+                       (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
                 FROM characters WHERE id=?
             """, (cid,)).fetchone()
             if row:
@@ -2863,7 +2911,8 @@ async def campaign_detail(camp_id: int, request: Request):
         row = db.execute("""
             SELECT id, name, race, subrace, class_name, subclass, level,
                    hp_current, hp_max, temp_hp, ac, strength, dexterity, constitution,
-                   intelligence, wisdom, charisma, proficiency_bonus, speed
+                   intelligence, wisdom, charisma, proficiency_bonus, speed,
+                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
             FROM characters WHERE id=?
         """, (cid,)).fetchone()
         if row:

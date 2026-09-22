@@ -815,6 +815,7 @@ async function openEncounter(id) {
         html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" onclick="toggleParticipantStats(${idx})">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+              ${charPortraitTile(p.is_player ? p.char_id : null, p.npc_name || p.name || '?', {size: 24})}
               <span class="badge ${p.is_enemy ? 'badge-accent' : 'badge-muted'}" style="font-size:0.65rem">${p.is_enemy ? 'ENEMY' : 'ALLY'}</span>
               <strong class="p-name" style="font-size:0.85rem">${p.npc_name || '?'}</strong>
               <span style="font-size:0.75rem;color:var(--text-muted)">L${p.level} ${p.role || ''}</span>
@@ -1802,7 +1803,8 @@ async function openCampaign(id) {
           : '';
         html += `<div style="display:flex;flex-direction:column;padding:0.5rem 0.7rem;background:var(--bg);border:1px solid var(--border);border-radius:6px">
           <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.3rem">
-            <span>
+            <span style="display:flex;align-items:center;gap:0.45rem;min-width:0;flex-wrap:wrap">
+              ${charPortraitTile(ch.id, ch.name, {size: 32, hasPortrait: ch.has_portrait})}
               <strong style="cursor:pointer" onclick="previewCharSheet(${ch.id}, '${ch.name}')" title="View character sheet">${ch.name}</strong>
               <span style="color:var(--text-muted);font-size:0.85rem">L${ch.level} ${ch.race}${ch.subrace ? ' (' + ch.subrace + ')' : ''} ${ch.class_name}${ch.subclass ? ' — ' + ch.subclass : ''}</span>
               <span class="badge badge-muted" style="font-size:0.65rem">${ch.status || 'active'}</span>
@@ -2989,6 +2991,7 @@ async function loadCombatEncounter() {
         speed: ch.speed || 30,
         proficiency_bonus: ch.proficiency_bonus || 2,
         is_enemy: 0,
+        has_portrait: !!ch.has_portrait,
         dex_mod: Math.floor(dexMod)
       });
     });
@@ -3079,6 +3082,7 @@ async function loadCombatCampaign() {
           hp_current: ch.hp_current || 1,
           hp_max: ch.hp_max || 1,
           dex_mod: ch.modifiers?.dexterity || 0,
+          has_portrait: !!ch.has_portrait,
           initiative: 0,
           defeated: 0
         });
@@ -3119,7 +3123,7 @@ function renderPlayersPanel() {
       ondragend="playerDragEnd(event)"
       style="cursor:grab;border-style:dashed;flex-direction:column;align-items:stretch;gap:0.4rem">
       <div style="display:flex;align-items:center;gap:0.4rem">
-        <div class="init-turn-marker" style="background:var(--accent2);color:var(--text);flex-shrink:0">👤</div>
+        ${charPortraitTile(p.char_id, p.name, {size: 28, hasPortrait: p.has_portrait})}
         <div class="init-info" style="flex:1;min-width:0">
           <div class="init-name">${p.name} <span class="badge" style="background:var(--accent2);color:var(--text);font-size:0.6rem;flex-shrink:0">PC</span></div>
           <div class="init-meta">L${p.level} ${p.class_name} · AC ${p.ac}</div>
@@ -3434,9 +3438,12 @@ function renderInitiativeTrack() {
           onchange="editInitiative(this)" onfocus="this.select()"
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
-      <div class="init-info">
+      <div class="init-info" style="display:flex;align-items:center;gap:0.4rem">
+        ${charPortraitTile(p.is_player || p.char_id ? (p.char_id || p.en_id) : null, p.name, {size: 26})}
+        <div class="init-name-wrap" style="min-width:0;flex:1 1 auto">
         <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name.replace(/'/g, "\\'")}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
+        </div>
       </div>
       <button class="init-btn" onclick="event.stopPropagation();combatOpenCondPicker(${p.en_id})" title="Add condition" style="flex-shrink:0;font-size:0.55rem;line-height:1.2;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text-muted);cursor:pointer;min-width:16px;padding:0 0.25rem">+</button>
       <button class="init-btn" onclick="toggleDefeatedCombat(${p.en_id})" title="Toggle defeated" style="flex-shrink:0">${isDefeated ? '⬆' : '💀'}</button>
@@ -4469,6 +4476,7 @@ function filterCombatCreatures() {
     }
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
       data-idx="${_combatCreatureCache.indexOf(c)}">
+      ${c._kind === 'character' ? charPortraitTile(c.char_id, c.name, {size: 26, hasPortrait: c.has_portrait}) : ''}
       ${infoBtn}
       <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span>${sourceHtml}</span>
       <button class="btn btn-primary btn-sm" style="flex-shrink:0;font-size:0.7rem" onclick="addCombatCreature(${_combatCreatureCache.indexOf(c)})">+ Add</button>

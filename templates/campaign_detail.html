@@ -17,6 +17,7 @@
 </style>
 {% endblock %}
 {% block content %}
+{% from "_char_portrait.html" import char_portrait %}
 <div class="container" style="max-width:900px;margin:0 auto;padding:1rem">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem">
     <div>
@@ -55,9 +56,12 @@
     {% if chars %}
     {% for ch in chars %}
     <div class="char-row">
-      <div>
+      <div style="display:flex;align-items:center;gap:0.5rem;min-width:0">
+        {{ char_portrait(ch.id, ch.name, ch.has_portrait, 36) }}
+        <div>
         <strong><a href="/character/{{ ch.id }}" target="_blank" style="color:var(--text)">{{ ch.name }}</a></strong>
         <span class="stat-tag">L{{ ch.level }} {{ ch.race }}{{ ' (' + ch.subrace + ')' if ch.subrace }} {{ ch.class_name }}{{ ' — ' + ch.subclass if ch.subclass }}</span>
+        </div>
       </div>
       <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
         <span class="stat-tag">❤️ {{ ch.hp_current }}/{{ ch.hp_max }}</span>

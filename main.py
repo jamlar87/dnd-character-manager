@@ -1723,6 +1723,12 @@ async def dashboard(request: Request):
                 c[f] = json.loads(c[f])
             except (json.JSONDecodeError, TypeError):
                 c[f] = []
+        # Portraits are multi-MB base64 data URLs; the card only needs to know
+        # whether one exists (the tile points at /portrait-image). Keeping the
+        # blob out of the template context saves tens of MB per dashboard render.
+        _p = (c.get("portrait_url") or "").strip()
+        c["has_portrait"] = bool(_p)
+        c["portrait_url"] = "" if _p.startswith("data:") else _p
     return _render("dashboard.html", request=request, characters=chars, current_user_id=user["id"], favorites=favs,
                    all_classes=sorted({c.get("class_name") for c in chars if c.get("class_name")}))
 

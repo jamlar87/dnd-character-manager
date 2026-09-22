@@ -76,6 +76,27 @@
   .hp-bar-fill.danger { background: var(--danger); }
   .hp-bar-fill.warn { background: var(--warn); }
   footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; }
+  /* Shared character portrait tile — see templates/_char_portrait.html.
+     Size comes from the --cp-size custom property so a media query can shrink
+     every instance without fighting inline widths. */
+  .char-portrait {
+    width: var(--cp-size, 40px); height: var(--cp-size, 40px);
+    flex-shrink: 0; display: block; object-fit: cover;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--bg);
+    line-height: 1;
+  }
+  .char-portrait-empty {
+    display: flex; align-items: center; justify-content: center;
+    border-style: dashed; color: var(--text-muted);
+    font-weight: 600; user-select: none;
+  }
+  .char-portrait-chip {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    padding: 0.15rem 0.5rem 0.15rem 0.15rem;
+    background: var(--accent2); border-radius: 10px;
+    font-size: 0.75rem; font-weight: 600; cursor: pointer;
+  }
+  .char-portrait-chip:hover { filter: brightness(1.1); }
   @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
   @media (max-width: 480px) {
     html { font-size: 14px; }
@@ -86,6 +107,11 @@
     h3 { font-size: 1.05rem !important; }
     .nav { padding: 0.5rem 0.75rem; }
     footer { padding: 1rem; font-size: 0.7rem; }
+    /* every portrait tile shrinks a touch on phones */
+    .char-portrait {
+      width: var(--cp-size-mobile, var(--cp-size, 40px));
+      height: var(--cp-size-mobile, var(--cp-size, 40px));
+    }
   }
 </style>
 {% block style %}{% endblock %}
@@ -315,6 +341,7 @@ document.addEventListener('click', function(e) {
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
 <script src="/static/source-filter.js?v=4"></script>
 <script src="/static/entity-search.js?v=4"></script>
+<script src="/static/char-portrait.js?v=1"></script>
 <script>
 // Manual filter on the global search bar (every page).
 document.addEventListener('DOMContentLoaded', function () {
