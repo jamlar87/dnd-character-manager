@@ -907,9 +907,11 @@ async function openEncounter(id) {
         html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" onclick="toggleParticipantStats(${idx})">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
-              ${p.is_player
-                ? charPortraitTile(p.char_id, p.npc_name || p.name || '?', {size: 24, hasPortrait: p.has_portrait})
-                : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.npc_name || p.name || '?', {size: 24, kind: 'npc', hasPortrait: p.npc_has_portrait})}
+              ${p.npc_id === -1
+                ? charPortraitTile(null, p.npc_name || p.name || '?', {size: 24, src: '/api/ref-image/creature/' + encodeURIComponent(p.npc_name || p.name || '?') + '?size=48'})
+                : (p.is_player
+                  ? charPortraitTile(p.char_id, p.npc_name || p.name || '?', {size: 24, hasPortrait: p.has_portrait})
+                  : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.npc_name || p.name || '?', {size: 24, kind: 'npc', hasPortrait: p.npc_has_portrait}))}
               <span class="badge ${p.is_enemy ? 'badge-accent' : 'badge-muted'}" style="font-size:0.65rem">${p.is_enemy ? 'ENEMY' : 'ALLY'}</span>
               <strong class="p-name" style="font-size:0.85rem">${p.npc_name || '?'}</strong>
               <span style="font-size:0.75rem;color:var(--text-muted)">L${p.level} ${p.role || ''}</span>
@@ -3581,9 +3583,11 @@ function renderInitiativeTrack() {
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
       <div class="init-info" style="display:flex;align-items:center;gap:0.4rem">
-        ${p.is_player || p.char_id
-          ? charPortraitTile(p.char_id || p.en_id, p.name, {size: 26, hasPortrait: p.has_portrait})
-          : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.name, {size: 26, kind: 'npc', hasPortrait: p.npc_has_portrait})}
+        ${p.npc_id === -1
+          ? charPortraitTile(null, p.name || '?', {size: 26, src: '/api/ref-image/creature/' + encodeURIComponent(p.name || '?') + '?size=52'})
+          : (p.is_player || p.char_id
+            ? charPortraitTile(p.char_id || p.en_id, p.name, {size: 26, hasPortrait: p.has_portrait})
+            : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.name, {size: 26, kind: 'npc', hasPortrait: p.npc_has_portrait}))}
         <div class="init-name-wrap" style="min-width:0;flex:1 1 auto">
         <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name.replace(/'/g, "\\'")}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
@@ -4621,6 +4625,8 @@ function filterCombatCreatures() {
     html += `<div style="display:flex;align-items:center;gap:0.3rem;padding:0.3rem 0.5rem;background:var(--bg);border-radius:4px"
       data-idx="${_combatCreatureCache.indexOf(c)}">
       ${c._kind === 'character' ? charPortraitTile(c.char_id, c.name, {size: 26, hasPortrait: c.has_portrait}) : ''}
+      ${c._kind === 'npc' ? charPortraitTile(c.id, c.name, {size: 26, kind: 'npc', hasPortrait: c.has_portrait}) : ''}
+      ${c._kind === 'monster' ? charPortraitTile(null, c.name, {size: 26, src: '/api/ref-image/creature/' + encodeURIComponent(c.name) + '?size=52'}) : ''}
       ${infoBtn}
       <span style="font-size:0.78rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge} <strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span>${sourceHtml}</span>
       <button class="btn btn-primary btn-sm" style="flex-shrink:0;font-size:0.7rem" onclick="addCombatCreature(${_combatCreatureCache.indexOf(c)})">+ Add</button>
