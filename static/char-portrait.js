@@ -12,6 +12,7 @@
  *   hasPortrait undefined  → <img> with the same onerror fallback
  *   kind === 'npc'         → /api/dm/npc/{id}/portrait-image instead of the
  *                            character route
+ *   src                    → render this URL directly (shared reference art)
  */
 function charPortraitTile(charId, name, opts) {
   opts = opts || {};
@@ -23,6 +24,15 @@ function charPortraitTile(charId, name, opts) {
   const initial = label.trim().charAt(0).toUpperCase() || '?';
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
     .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  // Reference art (shared library: monsters/items/NPCs). The caller passes the
+  // full URL; a 404 (image not generated yet) falls back to the initial tile,
+  // which is exactly the lazy-fill UX.
+  const direct = opts.src || '';
+  if (direct) {
+    return `<img src="${esc(direct)}" alt="${esc(label)}" loading="lazy" decoding="async"
+      class="${cls}" style="${style}" data-cp-fallback="${esc(initial)}"
+      onerror="charPortraitFallback(this)">`;
+  }
   if (!charId || opts.hasPortrait === false) {
     return `<span class="${cls} char-portrait-empty" style="${style};font-size:${Math.round(size * 0.42)}px" aria-hidden="true">${esc(initial)}</span>`;
   }

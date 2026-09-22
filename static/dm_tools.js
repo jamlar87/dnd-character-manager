@@ -248,7 +248,9 @@ function renderMonsterCards() {
       : '';
     return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-type="' + type + '"'
       + ' data-cr="' + dmEsc(m.cr) + '" data-source="' + src + '" onclick="showMonster(\'' + dmEsc(m.i) + '\')">'
-      + '<div class="m-name">' + name + '</div>'
+      + '<div style="display:flex;align-items:center;gap:0.4rem">'
+      + charPortraitTile(null, m.n, {size: 36, src: '/api/ref-image/creature/' + encodeURIComponent(m.n) + '?size=72'})
+      + '<div class="m-name">' + name + '</div></div>'
       + '<div class="m-type">' + dmEsc(m.s) + ' ' + dmEsc(m.t) + (m.a ? ' · ' + dmEsc(m.a) : '') + '</div>'
       + badge
       + '<div class="m-stats">'
@@ -293,6 +295,7 @@ function renderManualNpcRows() {
       : '';
     return '<div class="npc-row" data-name="' + name.toLowerCase() + '" data-source="' + esc(n.src) + '">'
       + '<div class="npc-info">'
+      + charPortraitTile(null, n.n, {size: 40, src: '/api/ref-image/npc/' + encodeURIComponent(n.n) + '?size=80'})
       + '<span class="npc-badge" style="background:var(--accent2);color:var(--text)">📖 Manual</span>'
       + '<strong>' + name + '</strong>'
       + '<span style="color:var(--text-muted);font-size:0.85rem">' + esc(cls) + '</span>'
@@ -2280,6 +2283,7 @@ function renderItemsPanel(items, chars) {
         ondragend="itemsDragEnd(event)">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();dmToggleItemExpand(this)" title="Expand">▶</button>
         <span class="drag-handle" title="Drag to award">⋮⋮</span>
+        ${charPortraitTile(null, item.name, {size: 24, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=48'})}
         <span class="item-card-name" style="cursor:default">${item.name}</span>${srcBadge}${qtyBadge}${gpInfo}
         <span class="wpn-badge item-tag" style="display:none">⚔️</span>
         <span class="arm-badge item-tag" style="display:none">🛡️</span>
@@ -2512,6 +2516,7 @@ function renderPickerResults(items) {
   results.innerHTML = items.map(item =>
     `<div style="padding:0.25rem 0.6rem;cursor:pointer;border-bottom:1px solid var(--border);overflow-wrap:break-word;word-break:break-word" onclick="showItemDetail('${item.name.replace(/'/g, "\\'")}')">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem">
+        ${charPortraitTile(null, item.name, {size: 28, src: '/api/ref-image/item/' + encodeURIComponent(item.name) + '?size=56'})}
         <span style="flex:1;min-width:0;font-size:0.8rem;color:var(--text)">${item.name}${item.source ? ` <span class="src-badge" onclick="event.stopPropagation();openSourceRef('${item.source.replace(/'/g, "\\'")}')" style="font-size:0.6rem;color:var(--text-muted);opacity:0.7;cursor:pointer" title="Click to open ${item.source}">📚 ${item.source}</span>` : ''}</span>
         <div style="display:flex;align-items:center;gap:0.3rem;flex-shrink:0">
           <span style="font-size:0.7rem;color:var(--text-muted);white-space:nowrap">${item.type}${item.rarity ? ' · '+item.rarity : ''}</span>

@@ -339,9 +339,9 @@ document.addEventListener('click', function(e) {
 </div>
 
 <footer>&copy; 2026 D&D Character Manager. Not affiliated with Wizards of the Coast.</footer>
-<script src="/static/source-filter.js?v=4"></script>
-<script src="/static/entity-search.js?v=4"></script>
-<script src="/static/char-portrait.js?v=1"></script>
+<script src="/static/source-filter.js?v={{ static_asset_version('source-filter.js') }}"></script>
+<script src="/static/entity-search.js?v={{ static_asset_version('entity-search.js') }}"></script>
+<script src="/static/char-portrait.js?v={{ static_asset_version('char-portrait.js') }}"></script>
 <script>
 // Manual filter on the global search bar (every page).
 document.addEventListener('DOMContentLoaded', function () {

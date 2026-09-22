@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}{{ character.name }} — Sheet{% endblock %}
 {% block style %}
-<link rel="stylesheet" href="/static/sheet.css?v=1">
+<link rel="stylesheet" href="/static/sheet.css?v={{ static_asset_version('sheet.css') }}">
 <style>
 {% endblock %}
 {% block content %}

@@ -47,7 +47,9 @@ FIXTURE_PATTERNS = re.compile(
 )
 
 
-REF_KINDS = ("creature", "item", "npc")
+#: generation order matters for a long bulk run: the smallest, most
+#: visible library first
+REF_KINDS = ("npc", "item", "creature")
 
 
 def want(kinds, kind, default=False) -> bool:

@@ -1,3 +1,5 @@
+{% from "_char_portrait.html" import char_portrait %}
+{# inventory rows are server-rendered, so the shared macro is the renderer #}
     <!-- 🎒 INVENTORY TAB -->
     <div class="tab-content" id="tab-inventory">
       <!-- EQUIPMENT CARD (drop zone for unequip + team claims) -->
@@ -27,6 +29,7 @@
                ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to move">⋮⋮</span>
+            {{ char_portrait(0, item_name, 1, 28, src_override='/api/ref-image/item/' ~ (item_name|urlencode) ~ '?size=56') }}
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <input type="text" value="{{ item_name }}" class="item-card-name"
                    onchange="autoSaveInventory();tagWeapons()"

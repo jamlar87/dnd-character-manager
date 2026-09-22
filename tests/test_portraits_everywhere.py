@@ -159,6 +159,6 @@ class TestBrowserRenderedListsUseTheSharedTile:
         # every call must be used as a value — inside a template literal
         # (${ ... charPortraitTile(, incl. ternaries) or a plain assignment.
         # A call left as bare markup would render the source text on the page.
-        used = len(re.findall(r"(\$\{|=\s*|\?\s*|:\s*)charPortraitTile\(", js, re.S))
+        used = len(re.findall(r"(\$\{|=\s*|\?\s*|:\s*|\+\s*)charPortraitTile\(", js, re.S))
         assert used == js.count("charPortraitTile("), \
             "a tile call is not used as a value"

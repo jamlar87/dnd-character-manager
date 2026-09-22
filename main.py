@@ -567,6 +567,13 @@ def static_asset_version(filename: str) -> str:
     return _STATIC_ASSET_VERSIONS[filename]
 
 
+# Hand-pinned ?v= numbers go stale silently: the file changes, the URL does not, so
+# the browser AND Cloudflare keep serving the old script — that is how char-portrait.js
+# sat at ?v=1 across several edits and the new tile never reached a browser. Templates
+# call static_asset_version('file.js'), which hashes the content.
+_jinja.globals["static_asset_version"] = static_asset_version
+
+
 def _json_list(value, default=None):
     """Parse a JSON TEXT column that may be SQL NULL or junk without raising.
 
