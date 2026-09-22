@@ -9,6 +9,7 @@ import re
 import sqlite3
 import sys
 import functools
+import hashlib
 import secrets
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
@@ -542,6 +543,26 @@ def _require_owned(db, user: dict, table: str, item_id: int, id_col: str = "id")
     else:
         row = db.execute(f"SELECT * FROM {table} WHERE {id_col} = ? AND user_id = ?", (item_id, user["id"])).fetchone()
     return dict(row) if row else None
+
+
+_STATIC_ASSET_VERSIONS: dict[str, str] = {}
+
+
+def static_asset_version(filename: str) -> str:
+    """Content hash of a static asset, for ?v= cache busting.
+
+    Hand-bumped ?v=N numbers go stale the moment someone edits the file; a hash
+    of the bytes on disk can't. Memoized per process — assets only change on
+    deploy, which restarts the process. Lives here so the sheet routes and the
+    DM tools routes share one implementation.
+    """
+    if filename not in _STATIC_ASSET_VERSIONS:
+        try:
+            digest = hashlib.sha1((STATIC / filename).read_bytes()).hexdigest()[:10]
+        except Exception:  # pragma: no cover - defensive
+            digest = "1"
+        _STATIC_ASSET_VERSIONS[filename] = digest
+    return _STATIC_ASSET_VERSIONS[filename]
 
 
 def _json_list(value, default=None):

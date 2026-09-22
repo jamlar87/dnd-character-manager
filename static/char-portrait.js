@@ -1,14 +1,17 @@
-/* Shared character portrait tile for lists built in the browser.
+/* Shared portrait tile for lists built in the browser.
  *
  * Server-rendered pages use the Jinja macro in templates/_char_portrait.html;
- * this is the JS twin (DM tools' players panel, encounter participants, ...).
- * Portraits are multi-MB base64 data URLs, so the tile always points at the
- * cacheable image route with a thumbnail size — never at a data: URL.
+ * this is the JS twin (DM tools' players panel, encounter participants, NPC
+ * pickers, ...). Portraits are multi-MB base64 data URLs, so the tile always
+ * points at the cacheable image route with a thumbnail size — never at a data:
+ * URL.
  *
- * charPortraitTile(id, name, {size, hasPortrait, extraClass})
+ * charPortraitTile(id, name, {size, hasPortrait, extraClass, kind})
  *   hasPortrait === false  → initial tile, no request
  *   hasPortrait === true   → <img>, falls back to the initial on load failure
  *   hasPortrait undefined  → <img> with the same onerror fallback
+ *   kind === 'npc'         → /api/dm/npc/{id}/portrait-image instead of the
+ *                            character route
  */
 function charPortraitTile(charId, name, opts) {
   opts = opts || {};
@@ -23,8 +26,9 @@ function charPortraitTile(charId, name, opts) {
   if (!charId || opts.hasPortrait === false) {
     return `<span class="${cls} char-portrait-empty" style="${style};font-size:${Math.round(size * 0.42)}px" aria-hidden="true">${esc(initial)}</span>`;
   }
+  const base = opts.kind === 'npc' ? '/api/dm/npc/' : '/api/character/';
   // Two sizes requested: the tile slot is 2x for crispness.
-  return `<img src="/api/character/${charId}/portrait-image?size=${size * 2}" alt="${esc(label)} portrait"
+  return `<img src="${base}${charId}/portrait-image?size=${size * 2}" alt="${esc(label)} portrait"
     loading="lazy" decoding="async" class="${cls}" style="${style}"
     data-cp-fallback="${esc(initial)}" onerror="charPortraitFallback(this)">`;
 }
@@ -41,4 +45,47 @@ function charPortraitFallback(img) {
   span.setAttribute('aria-hidden', 'true');
   span.textContent = initial;
   img.parentNode.replaceChild(span, img);
+}
+
+/* Read an <input type=file> pick and downscale it in the browser.
+ *
+ * Portraits are stored as data URLs in the DB, so an unresized phone photo
+ * would add megabytes to every row that references it — the same thing that
+ * made the old portraits 1.9-3.4 MB. Downscaling here keeps the stored image
+ * to a couple hundred KB while staying sharp at tile sizes (tiles request
+ * ?size=<=1024px thumbnails anyway).
+ *
+ * Returns a Promise<string dataURL>; resolves with '' when there is no file.
+ */
+function downscaleImageFile(file, maxPx) {
+  return new Promise((resolve, reject) => {
+    if (!file) { resolve(''); return; }
+    const limit = maxPx || 1024;
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('could not read the file'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('that file is not a readable image'));
+      img.onload = () => {
+        try {
+          const scale = Math.min(1, limit / Math.max(img.width, img.height));
+          if (scale >= 1 && file.size < 400 * 1024) { resolve(reader.result); return; }
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(img.width * scale));
+          canvas.height = Math.max(1, Math.round(img.height * scale));
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          const out = canvas.toDataURL('image/webp', 0.85);
+          // Some browsers ignore the webp type and hand back a PNG; accept it
+          // only if it is actually smaller than the original.
+          if (out.startsWith('data:image/webp') || out.length < String(reader.result).length) {
+            resolve(out);
+          } else {
+            resolve(reader.result);
+          }
+        } catch (err) { resolve(reader.result); }
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }

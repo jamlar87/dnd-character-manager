@@ -27,6 +27,7 @@ from main import (
     _resolve_item_key, _resolve_armor_item, _resolve_source, _parse_enhancement,
     _item_rarity_for_level, _entry, _load_manual_json, _get_named_item_types,
     _get_source_slug_map, _manual_races_raw as _MANUAL_RACES_RAW,
+    static_asset_version,
     BACKGROUND_INFO, CLASSES, DRACONIC_ANCESTRIES, EXPERTISE_LEVELS, FEATS,
     FEATURE_ACTION_TYPES, FEATURE_DESCRIPTIONS, INVOCATION_LEVELS,
     INVOCATION_OPTIONS, INVOCATION_PICKS, ITEMS_BY_RARITY, ITEM_ARMOR,
@@ -451,23 +452,9 @@ def _sheet_reference_payload() -> dict:
     }
 
 
-_SHEET_ASSET_VERSIONS: dict[str, str] = {}
-
-
 def sheet_asset_version(filename: str) -> str:
-    """Content hash of a static asset, for ?v= cache busting.
-
-    Hand-bumped ?v=N numbers go stale the moment someone edits the file; a hash
-    of the bytes on disk can't. Memoized per process — assets only change on
-    deploy, which restarts the process.
-    """
-    if filename not in _SHEET_ASSET_VERSIONS:
-        try:
-            digest = hashlib.sha1((STATIC / filename).read_bytes()).hexdigest()[:10]
-        except Exception:  # pragma: no cover - defensive
-            digest = "1"
-        _SHEET_ASSET_VERSIONS[filename] = digest
-    return _SHEET_ASSET_VERSIONS[filename]
+    """Backwards-compatible alias — one implementation lives in main."""
+    return static_asset_version(filename)
 
 
 def ensure_sheet_reference_asset() -> str:
@@ -1733,30 +1720,9 @@ async def delete_character(char_id: int, request: Request):
 
 
 def _portrait_thumbnail(blob: bytes, size: int) -> tuple[bytes, str] | None:
-    """Downscale a portrait to at most `size` px (WebP), or None to keep the original.
-
-    Cards and sidebars show a ~56-80px portrait while the stored image is
-    2-3.4 MB; without this the dashboard would pull megabytes per character.
-    Returning None (rather than raising) on any failure keeps the full-size
-    image working even if Pillow is unavailable or the bytes are odd.
-    """
-    try:
-        size = max(16, min(int(size), 1024))
-    except (TypeError, ValueError):
-        return None
-    try:
-        import io as _io
-        from PIL import Image
-        img = Image.open(_io.BytesIO(blob))
-        img.load()
-        img = img.convert("RGBA")
-        img.thumbnail((size, size), Image.LANCZOS)
-        buf = _io.BytesIO()
-        img.save(buf, format="WEBP", quality=82, method=4)
-        out = buf.getvalue()
-        return (out, "image/webp") if out and len(out) < len(blob) else None
-    except Exception:
-        return None
+    """Thin wrapper — the implementation is shared with the NPC route."""
+    from services.images import thumbnail_bytes
+    return thumbnail_bytes(blob, size)
 
 
 @router.get("/api/character/{char_id}/portrait-image")
@@ -1798,7 +1764,7 @@ async def character_portrait_image(char_id: int, request: Request, size: int | N
             if thumb:
                 blob, media = thumb
         return Response(content=blob, media_type=media,
-                        headers={"Cache-Control": "private, max-age=86400"})
+                        headers={"Cache-Control": ("private, max-age=60" if size is not None else "private, max-age=86400")})
     if src:
         # External URL — send the browser straight there rather than proxying.
         return RedirectResponse(src, status_code=307)

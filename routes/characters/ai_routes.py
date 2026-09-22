@@ -782,6 +782,11 @@ async def _try_generate_image(prompt: str, character_id, user_id,
     try:
         image_data = await _fetch_openrouter_image(prompt, max_wait=90)
         if image_data and character_id and user_id:
+            from services.images import normalize_portrait
+            image_data, _err = normalize_portrait(image_data, max_px=1024)
+            if not image_data:
+                print("[AI portrait] generated image rejected by normalise_portrait")
+                return
             db = get_db()
             db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",
                        (image_data, character_id, user_id))
@@ -865,6 +870,13 @@ async def save_portrait_image(request: Request):
 
     if not character_id or not image_data:
         return JSONResponse({"error": "character_id and image_data required"}, status_code=400)
+
+    # Single sanitising entry point: reject junk/oversized payloads and shrink
+    # what we store (the sheet used to keep 1.9-3.4 MB originals).
+    from services.images import normalize_portrait
+    image_data, err = normalize_portrait(image_data, max_px=1024)
+    if err:
+        return JSONResponse({"error": err}, status_code=400)
 
     db = get_db()
     db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",

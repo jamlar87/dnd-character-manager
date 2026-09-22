@@ -28,7 +28,7 @@
     <h3 style="margin-bottom:0.5rem;flex-shrink:0">Character Portrait</h3>
     <div style="flex:1;overflow-y:auto;min-height:0">
     {% if character.portrait_url %}
-    <img src="{{ character.portrait_url }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
+    <img src="{{ portrait_src }}" alt="Current Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem" id="modal-portrait-img">
     {% else %}
     <div id="modal-portrait-placeholder" style="padding:2rem;text-align:center;color:var(--text-muted);font-size:0.85rem">No portrait yet</div>
     <img id="modal-portrait-img" src="" alt="New Portrait" style="max-width:100%;max-height:280px;border-radius:6px;border:1px solid var(--border);margin-bottom:0.5rem;display:none">

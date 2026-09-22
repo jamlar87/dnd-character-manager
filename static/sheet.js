@@ -1597,9 +1597,12 @@ function previewUpload() {
   const file = document.getElementById('upload-file').files[0];
   const preview = document.getElementById('upload-preview');
   if (!file) { preview.style.display = 'none'; return; }
-  const reader = new FileReader();
-  reader.onload = (e) => { preview.src = e.target.result; preview.style.display = 'block'; };
-  reader.readAsDataURL(file);
+  // Same downscale as the save path, so the preview matches what will be stored.
+  downscaleImageFile(file, 1024).then(url => {
+    if (!url) return;
+    preview.src = url;
+    preview.style.display = 'block';
+  }).catch(() => { preview.style.display = 'none'; });
 }
 
 async function saveUploadedPortrait() {
@@ -1608,30 +1611,31 @@ async function saveUploadedPortrait() {
   if (!file) { status.textContent = 'Select a file first'; return; }
 
   status.textContent = 'Uploading...';
-  const reader = new FileReader();
-  reader.onload = async (e) => {
-    try {
-      const r = await fetch('/api/character/portrait', {
-        method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ character_id: SHEETCFG.charId, image_data: e.target.result })
-      });
-      if (r.ok) {
-        status.textContent = 'Saved!';
-        // Update modal + sidebar
-        document.getElementById('modal-portrait-img').src = e.target.result;
-        document.getElementById('modal-portrait-img').style.display = 'block';
-        const ph = document.getElementById('modal-portrait-placeholder');
-        if (ph) ph.style.display = 'none';
-        const sb = document.getElementById('sidebar-portrait');
-        if (sb) sb.src = e.target.result;
-      } else {
-        status.textContent = 'Error: ' + r.status;
-      }
-    } catch(err) {
-      status.textContent = 'Failed: ' + err.message;
+  // Downscale before upload (shared with the NPC editor): a phone photo would
+  // otherwise be stored at full size — the reason the old portraits are 3 MB.
+  try {
+    const dataUrl = await downscaleImageFile(file, 1024);
+    const r = await fetch('/api/character/portrait', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ character_id: SHEETCFG.charId, image_data: dataUrl })
+    });
+    if (r.ok) {
+      status.textContent = 'Saved!';
+      // Route URL (fresh upload, so bust the tile cache) — never the data URL,
+      // which is what made the sheet embed megabytes.
+      const fresh = '/api/character/' + SHEETCFG.charId + '/portrait-image?size=320&t=' + Date.now();
+      document.getElementById('modal-portrait-img').src = fresh;
+      document.getElementById('modal-portrait-img').style.display = 'block';
+      const ph = document.getElementById('modal-portrait-placeholder');
+      if (ph) ph.style.display = 'none';
+      const sb = document.getElementById('sidebar-portrait');
+      if (sb) sb.src = fresh;
+    } else {
+      status.textContent = 'Error: ' + r.status;
     }
-  };
-  reader.readAsDataURL(file);
+  } catch(err) {
+    status.textContent = 'Failed: ' + err.message;
+  }
 }
 
 async function fetchPortraitPrompt() {

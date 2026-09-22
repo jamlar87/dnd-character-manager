@@ -86,7 +86,8 @@
     {% if npcs %}
     {% for n in npcs %}
     <div class="npc-row">
-      <div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        {{ char_portrait(n.id, n.name, n.has_portrait, 36, kind='npc') }}
         <strong>{{ n.name }}</strong>
         <span class="badge badge-muted" style="font-size:0.65rem">{{ 'Enemy' if n.is_enemy else 'NPC' }}</span>
         <span class="stat-tag">{{ n.race }}{{ ' · L' + n.level|string + ' ' + n.class_name if n.class_name }}{{ ' (' + n.subclass + ')' if n.subclass }}</span>

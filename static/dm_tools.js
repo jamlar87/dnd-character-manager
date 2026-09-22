@@ -226,6 +226,45 @@ function _srcOk(src, key) {
   return !window.SourceFilter || SourceFilter.matches(src || '', SourceFilter.slugs(key));
 }
 
+// ── Monster cards ────────────────────────────────────────────────────────────
+// The library is ~2,600 monsters. It used to be server-rendered on every DM
+// tools load (~3 MB of HTML); the cards now come from /static/dm-monsters.js,
+// which the browser and the edge cache. Markup + data-* attributes match what
+// the template used to emit, so filterMonsters() is unchanged.
+function dmEsc(s) {
+  return String(s === null || s === undefined ? '' : s).replace(/[&<>"']/g, function(c) {
+    return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c];
+  });
+}
+
+function renderMonsterCards() {
+  const grid = document.getElementById('monsterGrid');
+  if (!grid || grid.dataset.rendered || !Array.isArray(window.DM_MONSTERS)) return false;
+  const html = window.DM_MONSTERS.map(function(m) {
+    const name = dmEsc(m.n), type = dmEsc(m.t), src = dmEsc(m.src);
+    const badge = src
+      ? '<div style="font-size:0.6rem;color:var(--text-muted);opacity:0.6;margin-top:0.15rem;cursor:pointer"'
+        + ' class="src-badge" onclick="openSourceRef(this.dataset.src)" data-src="' + src + '">📚 ' + src + '</div>'
+      : '';
+    return '<div class="monster-card" data-name="' + name.toLowerCase() + '" data-type="' + type + '"'
+      + ' data-cr="' + dmEsc(m.cr) + '" data-source="' + src + '" onclick="showMonster(\'' + dmEsc(m.i) + '\')">'
+      + '<div class="m-name">' + name + '</div>'
+      + '<div class="m-type">' + dmEsc(m.s) + ' ' + dmEsc(m.t) + (m.a ? ' · ' + dmEsc(m.a) : '') + '</div>'
+      + badge
+      + '<div class="m-stats">'
+      + '<span class="m-stat">CR ' + dmEsc(m.cr) + '</span>'
+      + '<span class="m-stat">AC ' + dmEsc(m.ac) + '</span>'
+      + '<span class="m-stat">HP ' + dmEsc(m.hp) + '</span>'
+      + '<span class="m-stat">XP ' + dmEsc(m.xp) + '</span>'
+      + '</div></div>';
+  });
+  grid.innerHTML = html.join('');
+  grid.dataset.rendered = '1';
+  const count = document.getElementById('monsterCount');
+  if (count) count.textContent = html.length + ' monsters';
+  return true;
+}
+
 function filterMonsters() {
   const q = document.getElementById('monsterSearch').value.toLowerCase();
   const type = document.getElementById('monsterTypeFilter').value.toLowerCase();
@@ -234,7 +273,8 @@ function filterMonsters() {
   if (crRaw) { const parts = crRaw.split('-'); crMin = parseFloat(parts[0]); crMax = parseFloat(parts[1]); }
 
   let count = 0;
-  document.querySelectorAll('.monster-card').forEach(card => {
+  // Scoped to the monster grid: spell cards share the .monster-card class.
+  document.querySelectorAll('#monsterGrid .monster-card').forEach(card => {
     const name = card.dataset.name;
     const mtype = card.dataset.type;
     const cr = parseFloat(card.dataset.cr);
@@ -777,6 +817,7 @@ async function openEncounter(id) {
         : `${c.race}${c.class_name ? ' L' + c.level + ' ' + c.class_name : ''} · AC ${c.ac}`;
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}" data-source="${(c._raw && c._raw.source) || ''}"
         style="display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
+        ${c._kind === 'npc' ? charPortraitTile(c.id, c.name, {size: 24, kind: 'npc', hasPortrait: c.has_portrait}) : ''}
         ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : (c._kind === 'npc' ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : '')}
         <span style="font-size:0.8rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge}${sourceBadge}${tagBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
         <button class="btn btn-primary btn-sm" style="flex-shrink:0" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
@@ -815,7 +856,9 @@ async function openEncounter(id) {
         html += `<div class="participant-row${isDefeated ? ' defeated' : ''}" onclick="toggleParticipantStats(${idx})">
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
-              ${charPortraitTile(p.is_player ? p.char_id : null, p.npc_name || p.name || '?', {size: 24})}
+              ${p.is_player
+                ? charPortraitTile(p.char_id, p.npc_name || p.name || '?', {size: 24, hasPortrait: p.has_portrait})
+                : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.npc_name || p.name || '?', {size: 24, kind: 'npc', hasPortrait: p.npc_has_portrait})}
               <span class="badge ${p.is_enemy ? 'badge-accent' : 'badge-muted'}" style="font-size:0.65rem">${p.is_enemy ? 'ENEMY' : 'ALLY'}</span>
               <strong class="p-name" style="font-size:0.85rem">${p.npc_name || '?'}</strong>
               <span style="font-size:0.75rem;color:var(--text-muted)">L${p.level} ${p.role || ''}</span>
@@ -1322,6 +1365,18 @@ async function showNpcEditor(id) {
 
   let html = `<h2 style="margin:0 0 1rem 0">${id ? '✏️ Edit' : '➕ Create'} NPC</h2>
     <form id="npcForm" onsubmit="return saveNpc(event, ${id || 'null'})">
+      <div style="display:flex;gap:0.9rem;align-items:center;margin-bottom:0.9rem;flex-wrap:wrap">
+        <div id="npcPortraitPreview">${charPortraitTile(id || null, npc.name || '?', {size: 64, kind: 'npc', hasPortrait: npc.has_portrait})}</div>
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          <label class="btn btn-outline btn-sm" style="cursor:pointer;margin:0">
+            🖼️ ${npc.has_portrait ? 'Replace portrait' : 'Add portrait'}
+            <input type="file" id="npcPortraitFile" accept="image/*" style="display:none" onchange="npcPortraitPicked(this)">
+          </label>
+          <button type="button" class="btn btn-outline btn-sm" onclick="npcPortraitClear()">✕ Remove</button>
+          <span style="font-size:0.7rem;color:var(--text-muted)">Resized to 1024px on save</span>
+        </div>
+        <input type="hidden" name="portrait_url" id="npcPortraitValue" value="${npc.portrait_url || ''}">
+      </div>
       <div class="form-row">
         <div class="form-group"><label>Name</label><input name="name" value="${npc.name || ''}" required></div>
         <div style="display:flex;gap:1rem;align-items:center;padding-top:1.5rem">
@@ -1373,12 +1428,44 @@ async function saveNpc(event, id) {
   const data = Object.fromEntries(new FormData(form));
   data.is_enemy = form.querySelector('[name="is_enemy"]').checked ? true : false;
   data.level = parseInt(data.level) || 1;
+  // portrait_url arrives as '' when the NPC has a stored data-URL portrait, so
+  // only send it when the DM actually picked or removed an image — otherwise a
+  // plain rename would wipe the portrait.
+  if (form.dataset.portraitTouched !== '1') delete data.portrait_url;
 
   const url = id ? `/api/dm/npc/${id}/update` : '/api/dm/npc/create';
   const r = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
   const result = await r.json();
   if (result.ok) { closeModal('npcModal'); location.reload(); }
+  else if (result.error) { alert(result.error); }
   return false;
+}
+
+/* Portrait picker in the NPC editor: downscale in the browser, preview, and
+   mark the field as touched so saveNpc sends it (see saveNpc). */
+async function npcPortraitPicked(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const preview = document.getElementById('npcPortraitPreview');
+  try {
+    const dataUrl = await downscaleImageFile(file, 1024);
+    document.getElementById('npcPortraitValue').value = dataUrl;
+    document.getElementById('npcForm').dataset.portraitTouched = '1';
+    if (preview) preview.innerHTML = `<img src="${dataUrl}" alt="portrait preview" class="char-portrait" style="--cp-size:64px;--cp-size-mobile:56px">`;
+  } catch (err) {
+    alert(err.message || 'Could not read that image');
+  }
+  input.value = '';
+}
+
+function npcPortraitClear() {
+  document.getElementById('npcPortraitValue').value = '';
+  document.getElementById('npcForm').dataset.portraitTouched = '1';
+  const preview = document.getElementById('npcPortraitPreview');
+  if (preview) {
+    const name = document.querySelector('#npcForm [name="name"]');
+    preview.innerHTML = charPortraitTile(null, (name && name.value) || '?', {size: 64});
+  }
 }
 
 function deleteNpc(id) {
@@ -3345,6 +3432,7 @@ async function refreshCombatParticipants() {
       hp_max: p.hp_max || p.npc_hp_max || 10,
       defeated: p.defeated || 0, initiative: p.initiative || 0,
       is_player: false, char_id: p.char_id || null,
+      npc_has_portrait: !!p.npc_has_portrait,
       creature_data: p.creature_data || null
     }));
     _combatParticipants = [...players, ...npcs];
@@ -3439,7 +3527,9 @@ function renderInitiativeTrack() {
           style="width:2.5rem;padding:0.1rem 0.2rem;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--accent);font-size:0.75rem;text-align:center;font-family:monospace">
       </div>
       <div class="init-info" style="display:flex;align-items:center;gap:0.4rem">
-        ${charPortraitTile(p.is_player || p.char_id ? (p.char_id || p.en_id) : null, p.name, {size: 26})}
+        ${p.is_player || p.char_id
+          ? charPortraitTile(p.char_id || p.en_id, p.name, {size: 26, hasPortrait: p.has_portrait})
+          : charPortraitTile(p.npc_id > 0 ? p.npc_id : null, p.name, {size: 26, kind: 'npc', hasPortrait: p.npc_has_portrait})}
         <div class="init-name-wrap" style="min-width:0;flex:1 1 auto">
         <div class="init-name">${p.name} ${badge} <button class="init-btn" onclick="event.stopPropagation();${p.is_player || p.char_id ? `previewCharSheet(${p.char_id || p.en_id}, '${p.name.replace(/'/g, "\\'")}')` : `showCombatantDetails(${p.en_id})`}" title="View details" style="font-size:0.65rem;padding:0 0.2rem">📋</button></div>
         <div class="init-meta">${cls} · AC ${p.ac}</div>
@@ -4819,6 +4909,10 @@ function stopCombatPolling() {
 
 // ── Page load: auto-restore last combat encounter + campaign ──
 document.addEventListener('DOMContentLoaded', async function() {
+  // Monster cards are built here (see renderMonsterCards) — do it before the
+  // source filter mounts so its onChange sees a populated grid.
+  const renderedMonsters = renderMonsterCards();
+
   // ── Manual (book) filter on every search bar ──
   if (window.SourceFilter) {
     const mounts = [
@@ -4837,6 +4931,8 @@ document.addEventListener('DOMContentLoaded', async function() {
       if (el) SourceFilter.init(el, {key: m[1], onChange: m[2]});
     });
   }
+  // Count/apply the restored source filter now that the grid exists.
+  if (renderedMonsters) filterMonsters();
 
   // Populate combat + items dropdowns regardless of active tab (each has its own guard)
   initCombatPanel();

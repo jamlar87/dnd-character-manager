@@ -1,12 +1,12 @@
 """DM Tools routes — monsters, NPCs, encounters, campaigns, traps."""
 
 from fastapi import APIRouter, Request, Form, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, Response, RedirectResponse
 import sqlite3, json, math, random, re, urllib.parse
 from pathlib import Path
 from datetime import datetime
 
-from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned
+from main import get_db, require_user, _render, get_current_user, _user_where, _require_owned, _is_admin, static_asset_version, STATIC
 from routes.characters import _load_monster_cache, _call_ollama, _call_ai, _extract_json, _xp_for_cr, _assign_encounter_counts, _search_manuals, _build_character, _monster_cr_sort_key
 from routes.characters import parse_source_filter, source_matches
 from main import RACES, CLASSES, SUBCLASS_FEATURES, LIMITED_USE, BACKGROUNDS, FLEXIBLE_ASI_RACES, SUBASIS, RACE_NAMES
@@ -85,6 +85,9 @@ async def dm_tools(request: Request):
         "SELECT * FROM dm_npcs WHERE user_id = ? ORDER BY is_enemy DESC, name",
         (user["id"],)
     ).fetchall()]
+    for _n in npcs:
+        # Boolean per row; the template/JS never receives the base64 blob.
+        _n["has_portrait"] = bool((_n.get("portrait_url") or "").strip())
 
     # Merge manual NPCs from extracted data
     manual_npcs = _load_manual_json("npcs.json")
@@ -128,6 +131,7 @@ async def dm_tools(request: Request):
             "temp_hp": 0, "portrait_url": "", "faction": "",
             "_manual": True,
             "_narrative": is_narrative,
+            "has_portrait": False,
         })
 
     # Load encounters (own + shared)
@@ -269,6 +273,8 @@ async def dm_tools(request: Request):
 
     return _render("dm_tools.html", request=request,
                    monsters=all_monsters, monster_types=monster_types,
+                   dm_monsters_version=ensure_dm_monster_asset(all_monsters),
+                   dm_tools_js_version=static_asset_version("dm_tools.js"),
                    cr_ranges=cr_ranges, npcs=npcs,
                    encounters=encounters, campaigns=campaigns,
                    traps=all_traps,
@@ -559,13 +565,20 @@ async def dm_npc_create(request: Request):
     """Create a new NPC (or enemy)."""
     user = require_user(request)
     data = await request.json()
+    # A portrait picked while creating an NPC must survive the create call.
+    _portrait = (data.get("portrait_url") or "").strip()
+    if _portrait:
+        from services.images import normalize_portrait
+        _portrait, err = normalize_portrait(_portrait, max_px=1024)
+        if err:
+            return JSONResponse({"error": err}, status_code=400)
     db = get_db()
     cur = db.execute("""
         INSERT INTO dm_npcs (user_id, name, race, class_name, subclass, level, is_enemy, is_party_npc,
             strength, dexterity, constitution, intelligence, wisdom, charisma,
             hp_max, hp_current, ac, speed, proficiency_bonus, hit_dice,
-            skills, features, inventory, notes, alignment, role, faction, xp_reward)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            skills, features, inventory, notes, alignment, role, faction, xp_reward, portrait_url)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         user["id"],
         data.get("name", "New NPC"),
@@ -595,12 +608,12 @@ async def dm_npc_create(request: Request):
         data.get("role", "NPC"),
         data.get("faction", ""),
         int(data.get("xp_reward", 0)),
+        _portrait,
     ))
     db.commit()
     npc_id = cur.lastrowid
     db.close()
     return JSONResponse({"id": npc_id, "ok": True})
-
 
 @router.get("/api/dm/npcs", response_class=JSONResponse)
 async def dm_npcs_list(request: Request):
@@ -616,6 +629,10 @@ async def dm_npcs_list(request: Request):
         for f in ("skills", "features", "inventory"):
             try: r[f] = json.loads(r[f])
             except: r[f] = []
+        # Boolean only — the base64 blob must never travel in this payload.
+        _p = (r.get("portrait_url") or "").strip()
+        r["has_portrait"] = bool(_p)
+        r["portrait_url"] = "" if _p.startswith("data:") else _p
     # Merge manual NPCs from extracted data
     manual_npcs = _load_manual_json("npcs.json")
     for i, mn in enumerate(manual_npcs):
@@ -727,6 +744,12 @@ async def dm_npc_detail(npc_id: int, request: Request):
     for f in ("skills", "features", "inventory"):
         try: npc[f] = json.loads(npc[f])
         except: npc[f] = []
+    # The editor needs a boolean + (for external links) the URL — never the
+    # multi-MB base64 blob, which would ride along in every editor open.
+    _p = (npc.get("portrait_url") or "").strip()
+    npc["has_portrait"] = bool(_p)
+    npc["portrait_url"] = _p if _p.startswith(("http://", "https://", "/")) else ""
+    npc["portrait_is_data"] = _p.startswith("data:")
     return JSONResponse(npc)
 
 
@@ -755,6 +778,13 @@ async def dm_npc_update(npc_id: int, request: Request):
                 v = json.dumps(v)
             updates[k] = v
 
+    if "portrait_url" in updates:
+        from services.images import normalize_portrait
+        updates["portrait_url"], err = normalize_portrait(updates["portrait_url"], max_px=1024)
+        if err:
+            db.close()
+            return JSONResponse({"error": err}, status_code=400)
+
     if updates:
         sets = ", ".join(f"{k}=?" for k in updates)
         vals = list(updates.values()) + [npc_id, user["id"]]
@@ -776,6 +806,94 @@ async def dm_npc_delete(npc_id: int, request: Request):
     db.commit()
     db.close()
     return JSONResponse({"ok": True})
+
+
+# ── Monster cards as a cacheable asset ───────────────────────────────────────
+_DM_MONSTER_VERSION: str | None = None
+
+
+def _monster_card_payload(m: dict) -> dict:
+    """Just the fields the Monsters-tab card shows (the modal refetches detail)."""
+    ac = m.get("armor_class") or []
+    ac_val = None
+    if ac:
+        first = ac[0]
+        ac_val = first.get("value") if isinstance(first, dict) else first
+    return {
+        "i": m.get("index", ""),
+        "n": m.get("name", "") or "",
+        "t": (m.get("type", "") or "").lower(),
+        "s": m.get("size", "") or "",
+        "a": m.get("alignment", "") or "",
+        "cr": m.get("challenge_rating", 0),
+        "ac": ac_val if ac_val is not None else "?",
+        "hp": m.get("hit_points", 0),
+        "xp": m.get("xp", 0),
+        "src": m.get("source", "") or "",
+    }
+
+
+def ensure_dm_monster_asset(monsters) -> str:
+    """Write static/dm-monsters.js — the monster library for the Monsters tab.
+
+    The page server-rendered ~2,600 monster cards (~3 MB of HTML on a 3.3 MB
+    response). dm_tools.js now builds the cards from this cacheable asset; the
+    cards carry the same data-* attributes, so filterMonsters() is unchanged.
+    """
+    global _DM_MONSTER_VERSION
+    if _DM_MONSTER_VERSION is not None:
+        return _DM_MONSTER_VERSION
+    try:
+        payload = [_monster_card_payload(m) for m in monsters]
+        body = ("/* Generated by routes.dm.ensure_dm_monster_asset(); monster cards for "
+                "/static/dm_tools.js. */\n"
+                "window.DM_MONSTERS = "
+                + json.dumps(payload, separators=(",", ":"), default=str) + ";\n")
+        target = STATIC / "dm-monsters.js"
+        if not target.exists() or target.read_text() != body:
+            target.write_text(body)
+        _DM_MONSTER_VERSION = static_asset_version("dm-monsters.js")
+    except Exception as exc:  # pragma: no cover - defensive
+        print(f"[dm-monsters] generation failed: {exc}")
+        _DM_MONSTER_VERSION = "0"
+    return _DM_MONSTER_VERSION
+
+
+# ── NPC portraits ────────────────────────────────────────────────────────────
+@router.get("/api/dm/npc/{npc_id}/portrait-image")
+async def dm_npc_portrait_image(npc_id: int, request: Request, size: int | None = None):
+    """Serve an NPC portrait as a real, cacheable image response.
+
+    Mirrors /api/character/{id}/portrait-image: portraits are stored as base64
+    data URLs, so every render site points here (with `?size=` for thumbnails)
+    instead of inlining the blob. Scoped to the NPC's owner (or an admin) —
+    404 for anyone else, exactly like a missing NPC.
+    """
+    from services.images import decode_data_url, thumbnail_bytes
+    user = require_user(request)
+    db = get_db()
+    row = db.execute("SELECT user_id, portrait_url FROM dm_npcs WHERE id = ?",
+                     (npc_id,)).fetchone()
+    db.close()
+    if not row or not (_is_admin(user) or row["user_id"] == user["id"]):
+        raise HTTPException(status_code=404, detail="NPC not found")
+
+    src = (row["portrait_url"] or "").strip()
+    if src.startswith("data:"):
+        decoded = decode_data_url(src)
+        if not decoded:
+            raise HTTPException(status_code=404, detail="No portrait stored")
+        blob, media = decoded
+        if size is not None:
+            thumb = thumbnail_bytes(blob, size)
+            if thumb:
+                blob, media = thumb
+        return Response(content=blob, media_type=media,
+                        headers={"Cache-Control": ("private, max-age=60" if size is not None else "private, max-age=86400")})
+    if src:
+        # External URL — send the browser straight there rather than proxying.
+        return RedirectResponse(src, status_code=307)
+    raise HTTPException(status_code=404, detail="No portrait stored")
 
 
 # ── DM Tools: Build NPC to Character (Fully Build button) ──────────────────
@@ -881,7 +999,37 @@ def _npc_to_character_data(npc: dict) -> dict:
         "personality": "",
         "backstory": notes,
         "features": features,
+        # Carried through the gap-fill round trip so the built character can
+        # inherit the NPC's portrait (see _apply_portrait_to_built_character).
+        "portrait_url": (npc.get("portrait_url") or "").strip(),
     }
+
+
+def _apply_portrait_to_built_character(char_id: int, portrait_url) -> bool:
+    """Give a freshly built character the source NPC's portrait.
+
+    Only fills an empty portrait, so a character that already has one is never
+    overwritten. Stored verbatim (the editor already downscaled it).
+    """
+    src = (portrait_url or "").strip() if isinstance(portrait_url, str) else ""
+    if not src:
+        return False
+    from services.images import normalize_portrait
+    src, err = normalize_portrait(portrait_url, max_px=1024)
+    if err or not src:
+        return False
+    try:
+        db = get_db()
+        db.execute(
+            "UPDATE characters SET portrait_url = ? WHERE id = ? "
+            "AND (portrait_url IS NULL OR portrait_url = '')",
+            (src, char_id))
+        changed = db.total_changes > 0
+        db.commit()
+        db.close()
+        return changed
+    except Exception:  # pragma: no cover - defensive
+        return False
 
 
 @router.post("/api/dm/npc/{npc_id}/build-to-character", response_class=JSONResponse)
@@ -934,6 +1082,7 @@ async def dm_npc_build_to_character(npc_id: int, request: Request):
 
     try:
         char_id, name = _build_character(char_data, user["id"])
+        _apply_portrait_to_built_character(char_id, npc.get("portrait_url"))
         return JSONResponse({"ok": True, "character_id": char_id, "name": name,
                               "message": f"Built {name} as a full character"})
     except (ValueError, KeyError) as e:
@@ -969,6 +1118,7 @@ async def dm_npc_build_from_gaps(request: Request):
 
     try:
         char_id, name = _build_character(char_data, user["id"])
+        _apply_portrait_to_built_character(char_id, char_data.get("portrait_url"))
         return JSONResponse({"ok": True, "character_id": char_id, "name": name,
                               "message": f"Built {name} as a full character"})
     except (ValueError, KeyError) as e:
@@ -2130,7 +2280,8 @@ async def dm_encounter_detail(enc_id: int, request: Request):
     # Get NPC participants
     participants = [dict(r) for r in db.execute("""
         SELECT en.*, n.name as npc_name, n.race, n.class_name, n.level, n.is_enemy,
-               n.hp_max as npc_hp_max, n.ac as npc_ac, n.role, n.xp_reward
+               n.hp_max as npc_hp_max, n.ac as npc_ac, n.role, n.xp_reward,
+               CASE WHEN n.portrait_url IS NOT NULL AND n.portrait_url != '' THEN 1 ELSE 0 END as npc_has_portrait
         FROM dm_encounter_npcs en
         LEFT JOIN dm_npcs n ON n.id = en.npc_id
         WHERE en.encounter_id = ?
@@ -2922,7 +3073,14 @@ async def campaign_detail(camp_id: int, request: Request):
     npcs = []
     for entry in camp.get("npcs", []):
         nid = entry.get("id") if isinstance(entry, dict) else entry
-        row = db.execute("SELECT * FROM dm_npcs WHERE id=?", (nid,)).fetchone()
+        # Explicit columns + a portrait flag: SELECT * would drag the base64
+        # portrait blob into memory for every NPC on the page.
+        row = db.execute("""
+            SELECT id, name, race, class_name, subclass, level, hp_current, hp_max,
+                   ac, is_enemy, role, alignment, faction, xp_reward, notes, source,
+                   (portrait_url IS NOT NULL AND portrait_url != '') AS has_portrait
+            FROM dm_npcs WHERE id=?
+        """, (nid,)).fetchone()
         if row:
             npcs.append(dict(row))
 
