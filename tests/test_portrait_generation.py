@@ -74,12 +74,29 @@ class TestKeylessProvider:
         """Default provider is keyless; OpenRouter only when asked for by name."""
         import inspect
         import os
-        src = inspect.getsource(ai)
+        import re
+
+        from services import portraits
+
+        src = inspect.getsource(portraits)
         assert 'os.environ.get("PORTRAIT_PROVIDER", "pollinations")' in src
         assert "image.pollinations.ai" in src
         assert 'if PORTRAIT_PROVIDER == "openrouter"' in src
         if not os.environ.get("PORTRAIT_PROVIDER"):
-            assert ai.PORTRAIT_PROVIDER == "pollinations", "the paid path must be opt-in"
+            assert portraits.PORTRAIT_PROVIDER == "pollinations", "the paid path must be opt-in"
+
+    def test_route_aliases_the_service_instead_of_carrying_a_copy(self):
+        """One builder, one provider — the batch script and the web path share them."""
+        import inspect
+        import re
+
+        src = inspect.getsource(ai)
+        assert "_fallback_portrait_prompt = _portraits.portrait_prompt" in src
+        assert "_generate_portrait_image = _portraits.generate_portrait_image" in src
+        for name in ("_fallback_portrait_prompt", "_fetch_pollinations_image",
+                     "_generate_portrait_image", "_fetch_openrouter_image"):
+            assert not re.search(rf"^(?:async )?def {name}\(", src, re.M), \
+                f"{name} is defined twice — the service copy is the only one"
 
     def test_request_url_carries_no_credentials(self, monkeypatch):
         """Pollinations is keyless — no api_key, no Authorization header."""
