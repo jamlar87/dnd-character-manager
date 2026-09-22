@@ -104,7 +104,9 @@ def parse_args():
     p.add_argument("--delay", type=float, default=5.0,
                    help="seconds between requests (free tier is rate limited; default 5)")
     p.add_argument("--timeout", type=float, default=120.0, help="per-image timeout")
-    p.add_argument("--retries", type=int, default=2, help="extra attempts per image")
+    p.add_argument("--retries", type=int, default=4,
+                   help="extra attempts per image (default 4: the free tier "
+                        "rate limits hard and each retry waits 60s+)")
     p.add_argument("--force", action="store_true",
                    help="regenerate rows that already have a portrait")
     p.add_argument("--include-fixtures", action="store_true",
@@ -225,7 +227,15 @@ async def main() -> int:
                     print(f"   e.g. {r['name']}: "
                           f"{ref_portraits.prompt_for(k, r['name'], r.get('subtitle') or '', '')[:150]}…")
             return 0
-        done, failed = await run_reference(ref_kinds, args)
+        marker = Path("static/ref-portraits/.bulk-running")
+        marker.parent.mkdir(parents=True, exist_ok=True)
+        marker.write_text(f"pid {__import__('os').getpid()}\n")
+        print(f"bulk marker set: {marker} (the app's lazy kicks stand down)")
+        try:
+            done, failed = await run_reference(ref_kinds, args)
+        finally:
+            marker.unlink(missing_ok=True)
+            print("bulk marker cleared")
         print(f"\n{len(done)} generated, {len(failed)} failed")
         if args.report:
             Path(args.report).write_text(json.dumps(

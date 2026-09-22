@@ -103,12 +103,17 @@ async def fetch_openrouter_image(prompt: str, max_wait: int = 120) -> str | None
 
 
 async def fetch_pollinations_image(prompt: str, max_wait: int = 90,
-                                  width: int = 768, height: int = 1024):
+                                  width: int = 768, height: int = 1024,
+                                  referrer: str | None = None):
     """Keyless image generation. Returns (data_url, error)."""
     quoted = urllib.parse.quote(prompt[:900], safe="")
     seed = random.randint(1, 2_000_000_000)
+    # Documented as a hint to give an app better treatment than anonymous scrapes.
+    ref = referrer if referrer is not None else os.environ.get(
+        "POLLINATIONS_REFERRER", "https://characters.jamlarnet.stream")
     url = (f"https://image.pollinations.ai/prompt/{quoted}"
-           f"?width={int(width)}&height={int(height)}&nologo=true&model=flux&seed={seed}")
+           f"?width={int(width)}&height={int(height)}&nologo=true&model=flux&seed={seed}"
+           + (f"&referrer={urllib.parse.quote(ref, safe='')}" if ref else ""))
     try:
         async with httpx.AsyncClient(timeout=max_wait, follow_redirects=True) as client:
             resp = await client.get(url)

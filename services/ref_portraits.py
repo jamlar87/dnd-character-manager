@@ -21,7 +21,6 @@ tier with rate limits.
 from __future__ import annotations
 
 import asyncio
-import base64
 import hashlib
 import re
 import threading
@@ -132,11 +131,31 @@ async def generate(kind: str, name: str, subtitle: str = "", snippet: str = "",
                 else:
                     last = err or "no image returned"
                 if attempt < retries:
-                    await asyncio.sleep(15 * (attempt + 1))
+                    # Rate limits are the norm on the free tier: wait a minute,
+                    # then longer, rather than skipping the entity and hoping a
+                    # later re-run catches it.
+                    rate_limited = "rate limit" in (last or "").lower()
+                    await asyncio.sleep((60 if rate_limited else 15) * (attempt + 1))
         return None, last
     finally:
         with _LOCK:
             _INFLIGHT.discard(key)
+
+
+#: Written by scripts/generate_portraits.py while a bulk run is in progress. A
+#: browser page with thousands of tiles would otherwise kick thousands of lazy
+#: generations that duplicate the bulk run and get both rate limited to death.
+BULK_MARKER = ROOT / ".bulk-running"
+BULK_MARKER_MAX_AGE = 12 * 3600
+
+
+def bulk_running() -> bool:
+    """True while a recent bulk run owns the provider (stale markers ignored)."""
+    import time
+    try:
+        return BULK_MARKER.is_file() and (time.time() - BULK_MARKER.stat().st_mtime) < BULK_MARKER_MAX_AGE
+    except OSError:
+        return False
 
 
 def kick(kind: str, name: str, subtitle: str = "", snippet: str = "") -> bool:
@@ -147,6 +166,8 @@ def kick(kind: str, name: str, subtitle: str = "", snippet: str = "") -> bool:
     """
     if kind not in KINDS or have(kind, name):
         return False
+    if bulk_running():
+        return False                   # the bulk job is filling the library right now
     key = f"{kind}/{name}"
     with _LOCK:
         if key in _INFLIGHT:
