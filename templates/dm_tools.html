@@ -581,12 +581,16 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
         {% endif %}
       </div>
     </div>
-    {% else %}
-    <div class="empty-state">
+    {% endfor %}
+    {# Manual (read-only, extracted) NPCs are built by renderManualNpcRows() from
+       /static/dm-library.js — ~400 rows including long descriptions, which cost
+       ~780 KB of HTML on every load. Keep .npc-row + data-name/data-source:
+       filterNpcs() matches on them. #}
+    <div id="manualNpcList"></div>
+    <div class="empty-state" id="npcEmptyState"{% if npcs %} style="display:none"{% endif %}>
       <p>No NPCs yet</p>
       <button class="btn btn-primary" onclick="showCreateNpc()">Create Your First NPC</button>
     </div>
-    {% endfor %}
   </div>
 </div>
 
@@ -1218,7 +1222,7 @@ table.dm-table tr:hover { background: rgba(233,69,96,0.05); }
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/dm-monsters.js?v={{ dm_monsters_version }}"></script>
+<script src="/static/dm-library.js?v={{ dm_library_version }}"></script>
 <script>
     const SOURCE_SLUG_MAP = {{ source_map_json|safe }};
 const NAMED_ITEM_TYPES = {{ named_item_types|tojson }};

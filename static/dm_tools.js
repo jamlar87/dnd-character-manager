@@ -265,6 +265,53 @@ function renderMonsterCards() {
   return true;
 }
 
+// ── Manual (read-only) NPC rows ──────────────────────────────────────────────
+// ~400 extracted NPCs incl. long descriptions used to be server-rendered
+// (~780 KB of HTML per load); they now come from /static/dm-library.js. Same
+// .npc-row markup + data-* attributes so filterNpcs() is unchanged.
+function renderManualNpcRows() {
+  const host = document.getElementById('manualNpcList');
+  if (!host || host.dataset.rendered || !Array.isArray(window.DM_MANUAL_NPCS)) return false;
+  const esc = dmEsc;
+  host.innerHTML = window.DM_MANUAL_NPCS.map(function(n) {
+    const name = esc(n.n);
+    const nameJs = String(n.n).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const cls = [n.r, n.c ? 'L' + n.lvl + ' ' + n.c : '', n.sc ? '(' + n.sc + ')' : '']
+      .filter(Boolean).join(' ');
+    const hpLine = n.narr
+      ? '<span style="font-size:0.8rem;color:var(--text-muted)">Narrative NPC — no combat stats</span>'
+      : '<span style="font-size:0.8rem">HP ' + esc(n.hp) + '/' + esc(n.hpmax) + ' AC ' + esc(n.ac) + '</span>';
+    const srcBadge = n.src
+      ? '<span style="font-size:0.7rem;color:var(--text-muted);cursor:pointer" class="src-badge"'
+        + ' onclick="openSourceRef(this.dataset.src)" data-src="' + esc(n.src) + '">📚 ' + esc(n.src) + '</span>'
+      : '';
+    const notes = n.notes
+      ? '<details class="npc-desc-toggle" style="margin-top:0.3rem"><summary style="cursor:pointer;font-size:0.75rem;'
+        + 'color:var(--accent);user-select:none">📝 Description</summary><div style="font-size:0.8rem;'
+        + 'color:var(--text-muted);line-height:1.5;margin-top:0.25rem;padding-left:0.25rem;border-left:2px solid '
+        + 'var(--accent);max-width:60ch">' + esc(n.notes) + '</div></details>'
+      : '';
+    return '<div class="npc-row" data-name="' + name.toLowerCase() + '" data-source="' + esc(n.src) + '">'
+      + '<div class="npc-info">'
+      + '<span class="npc-badge" style="background:var(--accent2);color:var(--text)">📖 Manual</span>'
+      + '<strong>' + name + '</strong>'
+      + '<span style="color:var(--text-muted);font-size:0.85rem">' + esc(cls) + '</span>'
+      + (n.role ? '<span class="badge badge-muted">' + esc(n.role) + '</span>' : '')
+      + (n.al ? '<span style="font-size:0.75rem;color:var(--text-muted)">' + esc(n.al) + '</span>' : '')
+      + hpLine + srcBadge + notes
+      + '</div>'
+      + '<div class="npc-actions">'
+      + '<button class="btn btn-accent btn-sm" onclick="buildNpcToCharacter(' + n.id + ', \'' + nameJs + '\')"'
+      + ' title="Build full character sheet from this NPC">🛠️ Build</button>'
+      + '<span style="font-size:0.7rem;color:var(--text-muted)">read-only</span>'
+      + '</div></div>';
+  }).join('');
+  host.dataset.rendered = '1';
+  const empty = document.getElementById('npcEmptyState');
+  if (empty && window.DM_MANUAL_NPCS.length) empty.style.display = 'none';
+  return true;
+}
+
 function filterMonsters() {
   const q = document.getElementById('monsterSearch').value.toLowerCase();
   const type = document.getElementById('monsterTypeFilter').value.toLowerCase();
@@ -4912,6 +4959,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Monster cards are built here (see renderMonsterCards) — do it before the
   // source filter mounts so its onChange sees a populated grid.
   const renderedMonsters = renderMonsterCards();
+  const renderedNpcs = renderManualNpcRows();
 
   // ── Manual (book) filter on every search bar ──
   if (window.SourceFilter) {
@@ -4933,6 +4981,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
   // Count/apply the restored source filter now that the grid exists.
   if (renderedMonsters) filterMonsters();
+  if (renderedNpcs) filterNpcs();
 
   // Populate combat + items dropdowns regardless of active tab (each has its own guard)
   initCombatPanel();

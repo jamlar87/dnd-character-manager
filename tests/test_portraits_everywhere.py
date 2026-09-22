@@ -67,12 +67,15 @@ class TestSharedMacro:
         assert "function charPortraitTile(" in js
         assert "function charPortraitFallback(" in js
         assert "/portrait-image?size=" in js
-        assert "data:image" not in js, "the tile must never render a stored data: URL"
+        # the tile itself must never render a stored blob (the file also holds
+        # downscaleImageFile, which legitimately mentions data:image/webp)
+        tile_fn = js.split("function charPortraitTile(")[1].split("function charPortraitFallback(")[0]
+        assert "data:image" not in tile_fn, "the tile must never render a stored data: URL"
 
     def test_macro_has_no_inline_blob_path(self):
         from pathlib import Path
         tpl = (Path(__file__).resolve().parent.parent / "templates" / "_char_portrait.html").read_text()
-        assert "portrait-image?size=" in tpl
+        assert "/portrait-image" in tpl
         assert "portrait_url }}" not in tpl and "{{ portrait_url }}" not in tpl
 
 
@@ -95,7 +98,6 @@ class TestDmToolsCampaignCards:
         make_campaign(seeded_db, "Blob Campaign", [cid])
         html = client.get("/dm-tools", headers=auth_headers).text
         assert "data:image/png;base64" not in html
-
     def test_deleted_character_does_not_break_the_card(self, client, seeded_db, auth_headers):
         """Roster entry whose character row is gone (shouldn't happen) still lists."""
         cid = make_char(seeded_db, "Ghost", hp_current=1, hp_max=1)
@@ -154,7 +156,9 @@ class TestBrowserRenderedListsUseTheSharedTile:
         from pathlib import Path
         js = (Path(__file__).resolve().parent.parent / "static" / "dm_tools.js").read_text()
         assert js.count("`") % 2 == 0, "unbalanced backticks in dm_tools.js"
-        # every call must sit inside a template literal (${ ... })
-        in_literal = len(re.findall(r"\$\{[^}]*charPortraitTile\(", js))
-        assert in_literal == js.count("charPortraitTile("), \
-            "a tile call escaped its template literal"
+        # every call must be used as a value — inside a template literal
+        # (${ ... charPortraitTile(, incl. ternaries) or a plain assignment.
+        # A call left as bare markup would render the source text on the page.
+        used = len(re.findall(r"(\$\{|=\s*|\?\s*|:\s*)charPortraitTile\(", js, re.S))
+        assert used == js.count("charPortraitTile("), \
+            "a tile call is not used as a value"

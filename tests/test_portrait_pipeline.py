@@ -279,16 +279,20 @@ class TestNoPageInlinesABlob:
 class TestDmToolsMonsterAsset:
     def test_monsters_are_not_server_rendered(self, client, seeded_db, auth_headers):
         html = client.get("/dm-tools", headers=auth_headers).text
-        assert re.search(r"/static/dm-monsters\.js\?v=", html), "asset not referenced"
+        assert re.search(r"/static/dm-library\.js\?v=", html), "library asset not referenced"
         assert re.search(r"/static/dm_tools\.js\?v=", html), "hand-bumped ?v= came back"
-        # the only .monster-card markup left in the HTML body is the spells grid
-        assert html.count('class="monster-card"') < 500
+        # what remains of the shared .monster-card markup is the spells + traps
+        # grids; the monster library (>1,900 cards) must not be in the HTML
+        assert html.count('class="monster-card"') < 800
 
     def test_asset_matches_the_monster_api(self, client, seeded_db, auth_headers):
         client.get("/dm-tools", headers=auth_headers)      # generates the asset
-        asset = ROOT / "static" / "dm-monsters.js"
+        asset = ROOT / "static" / "dm-library.js"
         assert asset.exists()
-        payload = json.loads(asset.read_text().split("window.DM_MONSTERS = ", 1)[1].rstrip(";\n"))
+        raw = asset.read_text()
+        start = raw.index("window.DM_LIBRARY = ") + len("window.DM_LIBRARY = ")
+        end = raw.index(";\nwindow.DM_MONSTERS", start)
+        payload = json.loads(raw[start:end])["monsters"]
         assert len(payload) > 100, "monster cache looks empty in this environment"
         api = client.get("/api/dm/monsters", headers=auth_headers).json()["monsters"]
         by_name = {m["name"]: m for m in api}
@@ -297,6 +301,29 @@ class TestDmToolsMonsterAsset:
         assert float(sample["cr"]) == float(src["challenge_rating"])
         assert sample["hp"] == src["hit_points"]
         assert sample["t"] == (src.get("type") or "").lower()
+
+    def test_manual_npc_rows_are_not_server_rendered(self, client, seeded_db, auth_headers):
+        """~400 manual NPC rows (one with a 433 KB description) move to the asset."""
+        html = client.get("/dm-tools", headers=auth_headers).text
+        assert "id=\"manualNpcList\"" in html
+        assert "renderManualNpcRows" in (ROOT / "static" / "dm_tools.js").read_text()
+        # the manual rows themselves must be absent from the HTML
+        assert html.count('class="npc-row') == 0
+
+    def test_library_asset_carries_only_global_reference_data(self, client, seeded_db, auth_headers):
+        cid = make_char(seeded_db, "Secret Owner")
+        nid = make_npc(seeded_db, "Secret Npc")
+        con = sqlite3.connect(str(seeded_db["db_path"]))
+        con.execute("INSERT INTO dm_campaigns (user_id, name, quests, locations, characters, npcs) "
+                    "VALUES (1, 'Secret Camp', '[]', '[]', '[]', '[]')")
+        con.commit()
+        con.close()
+        client.get("/dm-tools", headers=auth_headers)
+        asset = (ROOT / "static" / "dm-library.js").read_text()
+        assert "window.DM_LIBRARY" in asset and "window.DM_MONSTERS" in asset
+        # user-owned rows must never reach a shared, cacheable asset
+        for secret in ("Secret Camp", "Secret Owner", "Secret Npc"):
+            assert secret not in asset
 
     def test_renderer_carries_the_filter_attributes(self):
         js = (ROOT / "static" / "dm_tools.js").read_text()
