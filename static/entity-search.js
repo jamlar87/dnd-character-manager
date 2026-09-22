@@ -98,9 +98,23 @@ window.EntitySearch = (function () {
 
   // ── render ───────────────────────────────────────────────────────────────
 
+  // Reference art thumb (monsters/items/NPCs share one library route). A not-yet
+  // generated image stays invisible rather than showing a broken glyph.
+  function artKind(kind) {
+    return kind === 'creature' || kind === 'item' || kind === 'npc' ? kind : '';
+  }
+  function rowArt(row) {
+    var k = artKind(row.kind);
+    if (!k) return '';
+    return '<img class="es-art" loading="lazy" decoding="async" alt="" ' +
+      'style="width:22px;height:22px;border-radius:4px;object-fit:cover;flex-shrink:0;border:1px solid var(--border);background:var(--bg)" ' +
+      'src="/api/ref-image/' + k + '/' + encodeURIComponent(row.name) + '?size=48" ' +
+      "onerror=\"this.style.visibility='hidden'\">";
+  }
   function rowHtml(row) {
     return '<div class="es-row" role="button" tabindex="0" data-kind="' + esc(row.kind) +
       '" data-name="' + esc(row.name) + '">' +
+      rowArt(row) +
       '<span class="es-name">' + esc(row.name) + '</span>' +
       (row.subtitle ? '<span class="es-sub">' + esc(row.subtitle) + '</span>' : '') +
       '</div>';

@@ -5,6 +5,7 @@
 <style>
 {% endblock %}
 {% block content %}
+{% from "_char_portrait.html" import char_portrait %}
 {% if dm_preview %}<script>document.body.classList.add('dm-preview');</script>{% endif %}
 {% set prof = character.proficiency_bonus or 2 %}
 {% set saves_class = saves_class or classes.get(character.class_name, {}).get("saves", []) %}
@@ -2012,6 +2013,7 @@
                ondragstart="handleDragStart(event, this.dataset.itemName, 'inventory', {{ item_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to move">⋮⋮</span>
+            {{ char_portrait(0, item_name, 1, 28, src_override='/api/ref-image/item/' ~ (item_name|urlencode) ~ '?size=56') }}
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <input type="text" value="{{ item_name }}" class="item-card-name"
                    onchange="autoSaveInventory();tagWeapons()"
@@ -2055,6 +2057,7 @@
                ondragstart="handleDragStart(event, this.dataset.itemName, 'equipped', {{ eq_qty }})"
                ondragend="handleDragEnd(event)">
             <span class="drag-handle" title="Drag to unequip">⋮⋮</span>
+            {{ char_portrait(0, eq_name, 1, 28, src_override='/api/ref-image/item/' ~ (eq_name|urlencode) ~ '?size=56') }}
             <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
             <span class="item-card-name" style="cursor:default">{{ eq_name }}</span>
             {% if eq_qty > 1 %}<span class="item-qty" style="cursor:default">{{ eq_qty }}</span>{% endif %}

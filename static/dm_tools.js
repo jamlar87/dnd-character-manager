@@ -348,7 +348,7 @@ async function showMonster(index) {
     const mod = s => Math.floor((s - 10) / 2);
     const sign = v => v >= 0 ? '+' + v : '' + v;
 
-    let html = `<h2 style="margin:0">${m.name}</h2>
+    let html = refArtImg('creature', m.name, 300) + `<h2 style="margin:0">${m.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${m.size} ${m.type} · ${m.alignment || 'Unaligned'}</p>
       ${m.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${m.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
@@ -868,6 +868,7 @@ async function openEncounter(id) {
       html += `<div class="creature-row" data-kind="${c._kind}" data-name="${c.name.toLowerCase()}" data-source="${(c._raw && c._raw.source) || ''}"
         style="display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.5rem;background:var(--bg);border-radius:4px;margin-bottom:0.25rem">
         ${c._kind === 'npc' ? charPortraitTile(c.id, c.name, {size: 24, kind: 'npc', hasPortrait: c.has_portrait}) : ''}
+        ${c._kind !== 'npc' ? charPortraitTile(null, c.name, {size: 24, src: '/api/ref-image/creature/' + encodeURIComponent(c.name) + '?size=48'}) : ''}
         ${c._kind === 'monster' && c._raw && c._raw.index ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showMonster('${c._raw.index}')" title="Monster details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : (c._kind === 'npc' ? `<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();showNpcInfo(${c.id}, '${c.name.replace(/'/g, "\\'")}')" title="NPC details" style="font-size:0.65rem;padding:0.15rem 0.35rem;flex-shrink:0">ℹ️</button>` : '')}
         <span style="font-size:0.8rem;flex:1 1 auto;min-width:0;overflow-wrap:break-word;word-break:break-word">${kindBadge}${sourceBadge}${tagBadge}<strong>${c.name}</strong> <span style="color:var(--text-muted)">${detailDisplay} · ${hpDisplay}</span></span>
         <button class="btn btn-primary btn-sm" style="flex-shrink:0" onclick="addCreatureToEncounter(${id}, ${ci})">+ Add</button>
@@ -1211,7 +1212,7 @@ function showNpcInfo(id, name) {
   const c = (window._creatureCache || []).find(c => c.id === id && c._kind === 'npc');
   if (!c) return;
   openModal('npcModal');
-  let html = `<h2 style="margin:0 0 0.5rem 0">📖 ${c.name || name}</h2>
+  let html = refArtImg('npc', c.name || name, 260) + `<h2 style="margin:0 0 0.5rem 0">📖 ${c.name || name}</h2>
     <p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:1rem">Reference NPC (read-only)</p>
     <div class="ps-grid">
       <div class="ps-stat"><div class="ps-lbl">Race</div><div class="ps-val">${c.race || '?'}</div></div>
@@ -2541,7 +2542,7 @@ async function showItemDetail(name) {
 
     const rarityColor = {'common':'var(--text-muted)','uncommon':'#2fbf71','rare':'#4da3ff','very rare':'#b57bff','legendary':'#ffb74d','artifact':'#ff8a65'}[String(it.rarity||'').toLowerCase()] || 'var(--text-muted)';
 
-    let html = `<h2 style="margin:0">${it.name}</h2>
+    let html = refArtImg('item', it.name || name, 240) + `<h2 style="margin:0">${it.name}</h2>
       <p style="color:var(--text-muted);margin:0.3rem 0">${it.type || 'Item'}${it.rarity ? ` · <span style="color:${rarityColor};font-weight:600">${it.rarity}</span>` : ''}${it.requires_attunement ? ' · <span style="color:var(--warn)">Requires Attunement</span>' : ''}</p>
       ${it.source ? `<p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.3rem 0;cursor:pointer" class="src-badge" onclick="openSourceRef(this.textContent.replace('📚 ',''))">📚 ${it.source}</p>` : ''}
       <div style="display:flex;gap:1rem;margin:0.5rem 0;font-size:0.9rem;flex-wrap:wrap">
@@ -2746,6 +2747,7 @@ function renderLootStaging(hoard, bracket) {
       const desc = (m.description || 'No description available.').replace(/'/g, "\\'");
       html += `<div class="item-card" style="border-color:#ce93d8">
         <button class="item-card-btn item-expand-btn" onclick="event.stopPropagation();toggleItemExpand(this)" title="Expand">▶</button>
+        ${charPortraitTile(null, m.name, {size: 24, src: '/api/ref-image/item/' + encodeURIComponent(m.name) + '?size=48'})}
         <span class="item-card-name">${m.name}</span>
         <span class="wpn-badge item-tag" style="display:none">⚔️</span>
         <span class="arm-badge item-tag" style="display:none">🛡️</span>

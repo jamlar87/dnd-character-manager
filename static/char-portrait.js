@@ -57,6 +57,21 @@ function charPortraitFallback(img) {
   img.parentNode.replaceChild(span, img);
 }
 
+/* Full-size reference art for a detail view (bestiary card, item popup, NPC
+ * stat card). Floats right so the existing copy keeps its layout. A tile-sized
+ * thumbnail is useless here — the point of a detail view is the picture — and a
+ * not-yet-generated image hides itself instead of showing a broken glyph,
+ * because the heading already names the thing.
+ */
+function refArtImg(kind, name, px) {
+  if (!name) return '';
+  const size = px || 256;
+  return `<img src="/api/ref-image/${kind}/${encodeURIComponent(name)}?size=${size * 2}"
+    alt="${String(name)}" loading="lazy" decoding="async"
+    style="float:right;width:${size}px;max-width:40%;height:auto;border-radius:8px;margin:0 0 0.6rem 0.9rem;border:1px solid var(--border)"
+    onerror="this.style.display='none'">`;
+}
+
 /* Read an <input type=file> pick and downscale it in the browser.
  *
  * Portraits are stored as data URLs in the DB, so an unresized phone photo
