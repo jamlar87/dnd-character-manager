@@ -360,6 +360,33 @@ def _spell_subtitle(level, school, classes) -> str:
     return " · ".join(b for b in bits if b)
 
 
+def iter_entities(kind: str | None = None):
+    """Yield every indexed reference entity, optionally only one kind.
+
+    Enumeration for batch work (reference art, exports); `search_*` is for the UI.
+
+    Outside the app the index can be built while main's manual-data loaders are
+    still mutating ITEM_INDEX ("dictionary changed size during iteration"), so
+    warm the app first and rebuild if it trips. Inside the app (built from
+    lifespan, after the loaders settle) this is a no-op.
+    """
+    import main as app                                   # noqa: F401  (warms loaders)
+    rows = None
+    for attempt in range(3):
+        try:
+            rows = _get_index()
+            break
+        except RuntimeError:
+            if attempt == 2:
+                raise
+            import time
+            time.sleep(1.0)
+            reset_index()
+    for row in rows:
+        if kind is None or row.get("kind") == kind:
+            yield row
+
+
 def _get_index() -> list[dict]:
     global _index
     if _index is None:

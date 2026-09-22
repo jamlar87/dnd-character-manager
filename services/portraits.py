@@ -102,12 +102,13 @@ async def fetch_openrouter_image(prompt: str, max_wait: int = 120) -> str | None
         return None
 
 
-async def fetch_pollinations_image(prompt: str, max_wait: int = 90):
+async def fetch_pollinations_image(prompt: str, max_wait: int = 90,
+                                  width: int = 768, height: int = 1024):
     """Keyless image generation. Returns (data_url, error)."""
     quoted = urllib.parse.quote(prompt[:900], safe="")
     seed = random.randint(1, 2_000_000_000)
     url = (f"https://image.pollinations.ai/prompt/{quoted}"
-           f"?width=768&height=1024&nologo=true&model=flux&seed={seed}")
+           f"?width={int(width)}&height={int(height)}&nologo=true&model=flux&seed={seed}")
     try:
         async with httpx.AsyncClient(timeout=max_wait, follow_redirects=True) as client:
             resp = await client.get(url)
@@ -123,14 +124,16 @@ async def fetch_pollinations_image(prompt: str, max_wait: int = 90):
     return "data:" + ctype + ";base64," + base64.b64encode(resp.content).decode(), None
 
 
-async def generate_portrait_image(prompt: str, max_wait: float = 90):
+async def generate_portrait_image(prompt: str, max_wait: float = 90,
+                                  width: int = 768, height: int = 1024):
     """Ask the configured provider for one image; returns (data_url, error)."""
     from services.images import normalize_portrait
     if PORTRAIT_PROVIDER == "openrouter":
         raw = await fetch_openrouter_image(prompt, max_wait=90)
         error = None if raw else "OpenRouter returned no image (check credit/limits)"
     else:
-        raw, error = await fetch_pollinations_image(prompt, max_wait=max_wait)
+        raw, error = await fetch_pollinations_image(prompt, max_wait=max_wait,
+                                                    width=width, height=height)
     if error or not raw:
         return None, error or "no image returned"
     raw, err = normalize_portrait(raw, max_px=1024)

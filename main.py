@@ -439,7 +439,9 @@ async def security_middleware(request: Request, call_next):
     # cf-cache-status: BYPASS on every sheet.js / sheet.css request — the whole
     # asset went to the origin each time. Assets are version-busted with ?v=
     # (content hash for the sheet assets), so a 4h TTL is safe.
-    if request.url.path.startswith("/static/"):
+    # Reference art is the same kind of thing as /static/: shared by every
+    # user, never changes for a given entity. A cookie here means CF BYPASS.
+    if request.url.path.startswith(("/static/", "/api/ref-image/")):
         response.headers.setdefault("Cache-Control", "public, max-age=14400")
     elif not csrf_cookie:
         response.set_cookie("csrf_token", secrets.token_urlsafe(32), httponly=False, secure=APP_ENV in {"production", "prod"}, samesite="lax", path="/")
@@ -2069,6 +2071,9 @@ async def lifespan(_app):
     from routes.characters import router as char_router
     if not any(r.path == "/create" for r in _app.routes):
         _app.include_router(char_router)
+    from routes.ref_images import router as ref_router
+    if not any(r.path == "/api/ref-image/{kind}/{name}" for r in _app.routes):
+        _app.include_router(ref_router)
     # Prewarm the nav search's internal entity index (~7k rows, ~0.5s) so the
     # first keystroke isn't paying for it. Non-fatal if it fails.
     try:
