@@ -694,6 +694,52 @@ def _fallback_history(char: dict, race_desc: str, class_desc: str, subclass_desc
 
 # ── Character Portrait Generation ────────────────────────────────────────
 
+# Portrait image generation.
+# Pollinations needs no key, no account and no card; it is the default. The
+# OpenRouter path stays available (PORTRAIT_PROVIDER=openrouter) for when that
+# key has budget — it had a $0.30 cap that was fully spent, which is why every
+# portrait silently failed before this.
+PORTRAIT_PROVIDER = os.environ.get("PORTRAIT_PROVIDER", "pollinations").strip().lower()
+
+
+async def _fetch_pollinations_image(prompt: str, max_wait: int = 90):
+    """Keyless image generation. Returns (data_url, error)."""
+    import base64
+    quoted = urllib.parse.quote(prompt[:900], safe="")
+    seed = random.randint(1, 2_000_000_000)
+    url = (f"https://image.pollinations.ai/prompt/{quoted}"
+           f"?width=768&height=1024&nologo=true&model=flux&seed={seed}")
+    try:
+        async with httpx.AsyncClient(timeout=max_wait, follow_redirects=True) as client:
+            resp = await client.get(url)
+    except Exception as exc:
+        return None, f"image service unreachable ({type(exc).__name__})"
+    if resp.status_code == 429:
+        return None, "image service is rate limiting — try again in a minute"
+    if resp.status_code != 200:
+        return None, f"image service returned HTTP {resp.status_code}"
+    ctype = (resp.headers.get("content-type") or "").split(";")[0].strip()
+    if not ctype.startswith("image/") or not resp.content:
+        return None, "image service returned no picture"
+    return "data:" + ctype + ";base64," + base64.b64encode(resp.content).decode(), None
+
+
+async def _generate_portrait_image(prompt: str):
+    """Ask the configured provider for one image; returns (data_url, error)."""
+    from services.images import normalize_portrait
+    if PORTRAIT_PROVIDER == "openrouter":
+        raw = await _fetch_openrouter_image(prompt, max_wait=90)
+        error = None if raw else "OpenRouter returned no image (check credit/limits)"
+    else:
+        raw, error = await _fetch_pollinations_image(prompt)
+    if error or not raw:
+        return None, error or "no image returned"
+    raw, err = normalize_portrait(raw, max_px=1024)
+    if err or not raw:
+        return None, err or "the generated image was unusable"
+    return raw, None
+
+
 @router.post("/api/ai/portrait", response_class=JSONResponse)
 async def ai_portrait(request: Request):
     """Generate a high-fantasy character portrait prompt, and attempt image generation.
@@ -723,19 +769,35 @@ async def ai_portrait(request: Request):
         # Kick off background tasks: AI enrichment + image generation (don't block response)
         asyncio.create_task(_try_ai_enrich_prompt(race, subrace, class_name, subclass,
                                                     abilities, background, alignment, skills))
-        asyncio.create_task(_try_generate_image(image_prompt, character_id, user["id"] if character_id else None,
-                                                  race, class_name))
         print(f"[AI portrait] fallback race={race} class={class_name}")
 
-    # Persist prompt to DB immediately if character_id provided
+    # Generate inline so the caller learns the real outcome. As a background
+    # task a failure could only be logged, and the wizard then claimed
+    # "Generation queued… Free tier ~50/day" while every request was rejected.
+    image_url, error = await _generate_portrait_image(image_prompt)
+    if image_url:
+        # Belt and braces: the write site normalises, not just the provider.
+        from services.images import normalize_portrait
+        image_url, _nerr = normalize_portrait(image_url, max_px=1024)
+        if _nerr or not image_url:
+            image_url, error = None, _nerr or "the generated image was unusable"
+
     if character_id:
         db = get_db()
-        db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
-                   ("", image_prompt, character_id, user["id"]))
+        if image_url:
+            db.execute("UPDATE characters SET portrait_url=?, portrait_prompt=? WHERE id=? AND user_id=?",
+                       (image_url, image_prompt, character_id, user["id"]))
+        else:
+            # Keep any existing portrait — a failed generation is not a delete.
+            db.execute("UPDATE characters SET portrait_prompt=? WHERE id=? AND user_id=?",
+                       (image_prompt, character_id, user["id"]))
         db.commit()
         db.close()
+        print(f"[AI portrait] char {character_id}: " +
+              ("image saved" if image_url else f"no image ({error})"))
 
-    return JSONResponse({"prompt": image_prompt, "image_url": ""})
+    return JSONResponse({"prompt": image_prompt, "image_url": image_url or "",
+                         "error": error or "", "provider": PORTRAIT_PROVIDER})
 
 
 async def _try_ai_enrich_prompt(race: str, subrace: str, class_name: str, subclass: str,
@@ -780,13 +842,10 @@ async def _try_generate_image(prompt: str, character_id, user_id,
                                race: str, class_name: str):
     """Background task: try to generate image via OpenRouter. Updates DB on success."""
     try:
-        image_data = await _fetch_openrouter_image(prompt, max_wait=90)
+        image_data, gen_err = await _generate_portrait_image(prompt)
+        if gen_err:
+            print(f"[AI portrait] background generation failed: {gen_err}")
         if image_data and character_id and user_id:
-            from services.images import normalize_portrait
-            image_data, _err = normalize_portrait(image_data, max_px=1024)
-            if not image_data:
-                print("[AI portrait] generated image rejected by normalise_portrait")
-                return
             db = get_db()
             db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",
                        (image_data, character_id, user_id))

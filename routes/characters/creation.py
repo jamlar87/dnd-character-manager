@@ -290,6 +290,16 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
         for item in bg_data_raw.get("items", []):
             inventory.append(_parse_item(item))
 
+    # The wizard posts the generated portrait back here — same contract as every
+    # other writer: validate + downscale before it reaches the row.
+    if data.get("portrait_url"):
+        from services.images import normalize_portrait
+        data["portrait_url"], _perr = normalize_portrait(data["portrait_url"], max_px=1024)
+        if _perr:
+            # This helper returns (char_id, name) — raise so the route answers
+            # 400 instead of trying to unpack a JSONResponse.
+            raise ValueError(_perr)
+
     db = get_db()
     cur = db.execute("""
         INSERT INTO characters (user_id, name, race, subrace, class_name, subclass,
