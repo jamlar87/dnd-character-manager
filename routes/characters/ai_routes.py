@@ -680,8 +680,9 @@ async def ai_portrait(request: Request):
     else:
         image_prompt = _fallback_portrait_prompt(race, class_name, subclass)
         # Kick off background tasks: AI enrichment + image generation (don't block response)
-        asyncio.create_task(_try_ai_enrich_prompt(race, subrace, class_name, subclass,
-                                                    abilities, background, alignment, skills))
+        # (The old enrichment task made one LLM call per Generate click and threw
+        # the result away — its own docstring said "updates nothing". The stored
+        # prompt is the deterministic one, so it only ever burned quota.)
         print(f"[AI portrait] fallback race={race} class={class_name}")
 
     # Generate inline so the caller learns the real outcome. As a background
@@ -711,65 +712,6 @@ async def ai_portrait(request: Request):
 
     return JSONResponse({"prompt": image_prompt, "image_url": image_url or "",
                          "error": error or "", "provider": PORTRAIT_PROVIDER})
-
-
-async def _try_ai_enrich_prompt(race: str, subrace: str, class_name: str, subclass: str,
-                                 abilities: dict, background: str, alignment: str, skills: list):
-    """Background task: try AI chain to produce richer prompt. Updates nothing — informational only."""
-    try:
-        CLASS_ATTIRE = {
-            "Barbarian": "bare-chested or animal furs, NO heavy armor, tribal style, muscular and primal",
-            "Bard": "flamboyant colorful performer's clothing, stylish but light, musical instrument visible",
-            "Cleric": "robes with holy symbols, chainmail possible, divine motifs",
-            "Druid": "natural materials, hides and furs, NO metal armor, nature motifs, wooden staff",
-            "Fighter": "heavy armor, chainmail or plate, practical and battle-worn",
-            "Monk": "simple monastic robes, bare hands and feet, unarmored, disciplined posture",
-            "Paladin": "gleaming plate armor with holy symbols and divine motifs",
-            "Ranger": "leather armor in forest tones, hooded cloak, practical and rugged",
-            "Rogue": "dark leather armor, hooded, shadowy, stealthy, daggers visible",
-            "Sorcerer": "flowing robes, NO armor, innate magical energy visible",
-            "Warlock": "dark occult robes, eldritch symbols, NO heavy armor, arcane pact motifs",
-            "Wizard": "scholarly robes, NO armor, spellbook or arcane focus, studious appearance",
-        }
-        attire = CLASS_ATTIRE.get(class_name, "appropriate adventuring attire")
-        prompt = f"""Describe a D&D 5e character portrait in High Fantasy art style. Oil painting, dramatic lighting.
-
-CRITICAL: This is a BUST portrait — head and upper chest only, no full body. 3:4 portrait aspect ratio, close-up composition, character fills the frame from the top of their head to mid-chest.
-
-Character: {race}{' (' + subrace + ')' if subrace else ''} {class_name}{' — ' + subclass if subclass else ''}
-Background: {background}
-Alignment: {alignment or 'Unknown'}
-Skills: {', '.join(skills) if skills else 'various'}
-Key abilities: {', '.join(f'{k}:{v}' for k,v in sorted(abilities.items(), key=lambda x:-x[1])[:3]) if abilities else 'balanced'}
-Class-appropriate attire: {attire}
-
-Write a DETAILED image prompt (150-200 words) describing this character for an AI image generator. Include: face, build, hair, distinctive features, clothing/armor visible on upper body, weapon or focus if it fits in frame, pose, expression, lighting, background setting. Remember: BUST ONLY — head to mid-chest, 3:4 ratio, no legs, no full body. High fantasy oil painting style. Do NOT include the character name — just describe what they look like."""
-        text = await _call_ai(prompt, label="portrait-enrich")
-        if text:
-            print(f"[AI portrait] AI enrichment succeeded for {race} {class_name}")
-    except Exception as e:
-        print(f"[AI portrait] AI enrichment failed: {e}")
-
-
-async def _try_generate_image(prompt: str, character_id, user_id,
-                               race: str, class_name: str):
-    """Background task: try to generate image via OpenRouter. Updates DB on success."""
-    try:
-        image_data, gen_err = await _generate_portrait_image(prompt)
-        if gen_err:
-            print(f"[AI portrait] background generation failed: {gen_err}")
-        if image_data and character_id and user_id:
-            db = get_db()
-            db.execute("UPDATE characters SET portrait_url=? WHERE id=? AND user_id=?",
-                       (image_data, character_id, user_id))
-            db.commit()
-            db.close()
-            print(f"[AI portrait] background image saved for char {character_id}")
-    except Exception as e:
-        print(f"[AI portrait] background image generation failed: {e}")
-
-
-
 @router.post("/api/character/portrait", response_class=JSONResponse)
 async def save_portrait_image(request: Request):
     """Save a client-generated portrait image (base64 data URL) to the DB."""

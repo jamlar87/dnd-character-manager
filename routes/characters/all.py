@@ -2591,7 +2591,6 @@ from routes.characters.ai_routes import (
     _call_ai,
     _fetch_openrouter_image, _extract_json, _validate_and_fix,
     _fallback_generate, _random_items, _fallback_background,
-    _fallback_history, _try_ai_enrich_prompt, _try_generate_image,
     _fallback_portrait_prompt, _calculate_ac, _calculate_attacks,
     _pick_skills,
 )
