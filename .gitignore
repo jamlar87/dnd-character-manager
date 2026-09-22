@@ -8,3 +8,6 @@ data/app.log
 data/backups/
 .env
 .coverage
+
+# generated at startup by ensure_sheet_reference_asset()
+static/sheet-ref.js

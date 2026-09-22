@@ -433,7 +433,14 @@ async def security_middleware(request: Request, call_next):
             if origin.rstrip("/") != expected.rstrip("/"):
                 return JSONResponse({"error": "Cross-origin request rejected"}, status_code=403)
     response = await call_next(request)
-    if not csrf_cookie:
+    # Static assets: skip the CSRF cookie and mark them cacheable. Cloudflare
+    # only caches responses WITHOUT Set-Cookie, so the cookie here was forcing
+    # cf-cache-status: BYPASS on every sheet.js / sheet.css request — the whole
+    # asset went to the origin each time. Assets are version-busted with ?v=
+    # (content hash for the sheet assets), so a 4h TTL is safe.
+    if request.url.path.startswith("/static/"):
+        response.headers.setdefault("Cache-Control", "public, max-age=14400")
+    elif not csrf_cookie:
         response.set_cookie("csrf_token", secrets.token_urlsafe(32), httponly=False, secure=APP_ENV in {"production", "prod"}, samesite="lax", path="/")
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("X-Frame-Options", "DENY")
@@ -2043,6 +2050,13 @@ async def lifespan(_app):
         _log.info("entity index ready: %s rows %s", _st["total"], _st["counts"])
     except Exception as _exc:  # pragma: no cover - defensive
         _log.warning("entity index prewarm failed: %s", _exc)
+    # Write the sheet's character-independent reference tables to
+    # static/sheet-ref.js (must run after the manual data is loaded above).
+    try:
+        from routes.characters.sheet import ensure_sheet_reference_asset
+        _log.info("sheet reference asset: v%s", ensure_sheet_reference_asset())
+    except Exception as _exc:  # pragma: no cover - defensive
+        _log.warning("sheet reference asset failed: %s", _exc)
     yield
 
 

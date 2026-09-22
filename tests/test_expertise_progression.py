@@ -147,7 +147,11 @@ class TestSheetExpertiseEditor:
             expertise_skills=json.dumps(["Stealth", "Perception"]),
         )
         html = client.get(f"/character/{cid}", headers=auth_headers).text
-        m = re.search(r"const EXPERTISE_COUNT\s*=\s*(\d+)", html)
+        # expertise_count is served in the SHEETCFG block that feeds
+        # /static/sheet.js (it was `const EXPERTISE_COUNT = n` before the script
+        # extraction) — accept either shape so this keeps guarding the value.
+        m = (re.search(r"expertiseCount:\s*(\d+)", html)
+             or re.search(r"const EXPERTISE_COUNT\s*=\s*(\d+)", html))
         assert m, "expertise_count never reached the sheet template"
         assert int(m.group(1)) == 2, "Rogue 5 should have 2 expertise picks"
         assert "Thieves" in html, "Rogue expertise options missing Thieves' Tools"
