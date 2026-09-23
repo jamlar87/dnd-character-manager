@@ -17,16 +17,32 @@ def _db_path():
     return main.DB_PATH
 
 
+def _drop_dead_session_cookie(request: Request, resp):
+    """Delete a `dnd_token` cookie whose session no longer exists.
+
+    A dead cookie is worse than no cookie: the security middleware sees a
+    `dnd_token`, so it demands `x-csrf-token` on every POST — and a native login
+    form cannot send that header. That combination locked people out of the
+    login page itself until they cleared cookies by hand. Drop it on sight.
+    """
+    if request.cookies.get("dnd_token") and not get_current_user(request):
+        resp.delete_cookie("dnd_token", path="/")
+    return resp
+
+
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return _render("login.html", request=request)
+    return _drop_dead_session_cookie(request, _render("login.html", request=request))
 
 
 @router.post("/login")
 async def login(request: Request, email: str = Form(...), password: str = Form(...)):
     user = _get_user(email.lower().strip())
     if not user or not _verify(password, user["password_hash"]):
-        return _render("login.html", request=request, error="Invalid email or password")
+        return _drop_dead_session_cookie(
+            request,
+            _render("login.html", request=request, error="Invalid email or password"),
+        )
     token = _create_session(user["id"])
     resp = RedirectResponse("/dashboard", 303)
     resp.set_cookie("dnd_token", token, httponly=True, secure=os.environ.get("APP_ENV", "development").lower() in {"production", "prod"}, max_age=60 * 60 * 24 * 30, samesite="lax", path="/")

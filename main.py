@@ -420,19 +420,32 @@ async def log_requests(request: Request, call_next):
         return HTMLResponse("Internal Server Error", status_code=500, headers={"X-Request-ID": req_id})
 
 
+# Native form posts that must never be blocked by the CSRF header requirement.
+# See security_middleware: a browser cannot set x-csrf-token on a form submit.
+CSRF_FORM_POST_PATHS = {"/login", "/register", "/reset-password"}
+
+
 @app.middleware("http")
 async def security_middleware(request: Request, call_next):
     """Apply security headers and protect cookie-authenticated writes."""
     csrf_cookie = request.cookies.get("csrf_token")
     if request.method not in {"GET", "HEAD", "OPTIONS"} and request.cookies.get("dnd_token"):
-        supplied = request.headers.get("x-csrf-token", "")
-        if not csrf_cookie or not supplied or not secrets.compare_digest(csrf_cookie, supplied):
-            return JSONResponse({"error": "CSRF token required"}, status_code=403)
+        # Same-origin is checked for every write, including the form posts below:
+        # that is the part of CSRF defence that actually applies to them.
         origin = request.headers.get("origin")
         if origin:
             expected = f"{request.url.scheme}://{request.headers.get('host', '')}"
             if origin.rstrip("/") != expected.rstrip("/"):
                 return JSONResponse({"error": "Cross-origin request rejected"}, status_code=403)
+        # Auth entry points are native <form> posts, and a browser cannot attach
+        # x-csrf-token to one. They must also stay reachable while a *stale*
+        # dnd_token cookie is still in the browser: a cookie whose session row is
+        # gone used to make the login form itself answer 403 forever, so the user
+        # could never log back in without clearing cookies by hand.
+        if request.url.path not in CSRF_FORM_POST_PATHS:
+            supplied = request.headers.get("x-csrf-token", "")
+            if not csrf_cookie or not supplied or not secrets.compare_digest(csrf_cookie, supplied):
+                return JSONResponse({"error": "CSRF token required"}, status_code=403)
     response = await call_next(request)
     # Static assets: skip the CSRF cookie and mark them cacheable. Cloudflare
     # only caches responses WITHOUT Set-Cookie, so the cookie here was forcing
