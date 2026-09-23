@@ -1425,6 +1425,7 @@ async function showNpcEditor(id) {
             🖼️ ${npc.has_portrait ? 'Replace portrait' : 'Add portrait'}
             <input type="file" id="npcPortraitFile" accept="image/*" style="display:none" onchange="npcPortraitPicked(this)">
           </label>
+          <button type="button" class="btn btn-outline btn-sm" id="npcPortraitGenBtn" onclick="npcPortraitGenerate()">🎨 Generate</button>
           <button type="button" class="btn btn-outline btn-sm" onclick="npcPortraitClear()">✕ Remove</button>
           <span style="font-size:0.7rem;color:var(--text-muted)">Resized to 1024px on save</span>
         </div>
@@ -1496,6 +1497,45 @@ async function saveNpc(event, id) {
 
 /* Portrait picker in the NPC editor: downscale in the browser, preview, and
    mark the field as touched so saveNpc sends it (see saveNpc). */
+async function npcPortraitGenerate() {
+  // Same keyless provider as the character wizard, prompt built server-side from
+  // the NPC's own name/notes/race/role (services.portraits.npc_prompt). Nothing
+  // is written here: the image lands in the form's hidden field and the NPC is
+  // saved — and normalised — by the normal save path.
+  const btn = document.getElementById('npcPortraitGenBtn');
+  const value = document.getElementById('npcPortraitValue');
+  const preview = document.getElementById('npcPortraitPreview');
+  const form = document.getElementById('npcForm');
+  if (!btn || !form || !value) return;
+  const field = name => {
+    const el = form.querySelector('[name="' + name + '"]');
+    return el ? String(el.value || '').trim() : '';
+  };
+  const name = field('name');
+  if (!name) { alert('Name the NPC first — the portrait prompt uses it.'); return; }
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = '🎨 Generating…';
+  try {
+    const r = await fetch('/api/ai/portrait', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({npc: {name: name, notes: field('notes') || field('description'),
+                                 race: field('race'), role: field('role')}})
+    });
+    const data = await r.json();
+    if (!data.image_url) {
+      btn.textContent = '⚠️ Failed'; btn.disabled = false;
+      alert('Portrait not generated: ' + (data.error || 'the image service did not return a picture'));
+      return;
+    }
+    value.value = data.image_url;
+    if (preview) preview.innerHTML = charPortraitTile(null, name, {size: 64, kind: 'npc', hasPortrait: true, src: data.image_url});
+    btn.textContent = label; btn.disabled = false;
+  } catch (e) {
+    btn.textContent = label; btn.disabled = false;
+    alert('Portrait failed: ' + (e.message || e));
+  }
+}
+
 async function npcPortraitPicked(input) {
   const file = input.files && input.files[0];
   if (!file) return;

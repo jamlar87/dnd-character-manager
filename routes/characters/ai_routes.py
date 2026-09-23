@@ -640,6 +640,7 @@ _fetch_openrouter_image = _portraits.fetch_openrouter_image
 _fetch_pollinations_image = _portraits.fetch_pollinations_image
 _generate_portrait_image = _portraits.generate_portrait_image
 _fallback_portrait_prompt = _portraits.portrait_prompt
+from services import ref_portraits as _ref_portraits  # noqa: E402 - marker only
 
 # Portrait image generation.
 # Pollinations needs no key, no account and no card; it is the default. The
@@ -669,16 +670,26 @@ async def ai_portrait(request: Request):
     background = data.get("background", "")
     alignment = data.get("alignment", "")
     skills = data.get("skills", [])
-    gender = data.get("gender", "")
+    gender = (data.get("gender") or "").strip().lower()
     custom_prompt = (data.get("custom_prompt") or "").strip()
     character_id = data.get("character_id")
+    # DM NPCs use the same endpoint: name + notes in, image out. Nothing is
+    # written here — the NPC form owns the row and saves portrait_url itself.
+    npc = data.get("npc") or {}
 
     # Build prompt — always use fast deterministic fallback (covers all 38 races)
-    if custom_prompt:
-        image_prompt = f"Bust portrait, upper body only, 3:4 aspect ratio, close-up composition. High fantasy oil painting, dramatic lighting. {custom_prompt}"
+    if npc:
+        image_prompt = _portraits.npc_prompt(
+            npc.get("name", ""), npc.get("notes", ""), npc.get("race", ""), npc.get("role", ""))
+        print(f"[AI portrait] npc {str(npc.get('name'))[:40]!r}")
+    elif custom_prompt:
+        clause = f", {gender} subject" if gender in {"male", "female"} else ""
+        image_prompt = ("Bust portrait, upper body only, 3:4 aspect ratio" + clause
+                        + f", close-up composition. High fantasy oil painting, dramatic lighting. {custom_prompt}")
         print(f"[AI portrait] custom_prompt race={race} class={class_name}")
     else:
-        image_prompt = _fallback_portrait_prompt(race, class_name, subclass)
+        image_prompt = _portraits.genderize(
+            _fallback_portrait_prompt(race, class_name, subclass), gender)
         # Kick off background tasks: AI enrichment + image generation (don't block response)
         # (The old enrichment task made one LLM call per Generate click and threw
         # the result away — its own docstring said "updates nothing". The stored
@@ -688,7 +699,10 @@ async def ai_portrait(request: Request):
     # Generate inline so the caller learns the real outcome. As a background
     # task a failure could only be logged, and the wizard then claimed
     # "Generation queued… Free tier ~50/day" while every request was rejected.
-    image_url, error = await _generate_portrait_image(image_prompt)
+    # Claim interactive priority: the reference-art backfill draws on the same
+    # free quota and stands down while this is in flight (services.ref_portraits).
+    with _ref_portraits.interactive():
+        image_url, error = await _generate_portrait_image(image_prompt)
     if image_url:
         # Belt and braces: the write site normalises, not just the provider.
         from services.images import normalize_portrait

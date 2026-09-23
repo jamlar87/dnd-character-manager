@@ -147,6 +147,23 @@ async def generate_portrait_image(prompt: str, max_wait: float = 90,
     return raw, None
 
 
+def genderize(prompt: str, gender: str) -> str:
+    """Name the subject's gender in the framing clause.
+
+    The wizard knows the gender of the name it generated and used to throw it
+    away (`gender` was read by the endpoint and never used), so a female
+    character could come back bearded. Blank or unrecognised leaves the prompt
+    alone — never guess at this.
+    """
+    g = (gender or "").strip().lower()
+    if g not in {"male", "female"}:
+        return prompt
+    marker = "Bust portrait, 3:4 aspect ratio."
+    if marker in prompt:
+        return prompt.replace(marker, f"Bust portrait, 3:4 aspect ratio, {g} subject.", 1)
+    return f"{prompt} The subject is {g}."
+
+
 def portrait_prompt(race: str, class_name: str, subclass: str = "") -> str:
     """Deterministic portrait prompts by class/race — all bust/upper-body framed."""
     prompts = {

@@ -1641,6 +1641,19 @@ if (_coreOnlyCreate) {
 
 // ── Auto-fill functions ─────────────────────────────────────────────
 
+// The name lists are gendered, so the wizard already knows this — it just never
+// told the portrait generator, which is why a female character could come back
+// bearded. Only names from those lists are trusted; anything else returns ''
+// (genderize() then leaves the prompt alone rather than guessing).
+function guessGender(name) {
+  const data = RACE_NAMES[state.race];
+  const first = String(name || '').trim().split(/\s+/)[0].toLowerCase();
+  if (!data || !first) return '';
+  if ((data.male || []).some(n => String(n).toLowerCase() === first)) return 'male';
+  if ((data.female || []).some(n => String(n).toLowerCase() === first)) return 'female';
+  return '';
+}
+
 function randomName() {
   const data = RACE_NAMES[state.race];
   const gender = Math.random() < 0.5 ? 'male' : 'female';
@@ -1866,6 +1879,7 @@ async function generatePortrait() {
         class_name: state.class_name, subclass: state.subclass,
         abilities: state.abilities, background: state.background,
         alignment: state.alignment, skills: state.skills,
+        gender: guessGender(state.name || (document.getElementById('char-name') || {}).value),
         custom_prompt: custom
       })
     });

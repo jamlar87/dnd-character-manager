@@ -215,3 +215,121 @@ class TestCreateWizardWriterIsUnified:
         assert r.status_code == 200, r.text[:200]
         stored, _ = portrait_of(seeded_db, r.json()["id"])
         assert stored.startswith("data:image/webp") and len(stored) < 800 * 1024
+
+
+class TestGenderAndNpcMode:
+    """Three gaps found while auditing the creation wizard.
+
+    gender was read by the endpoint and then never used (so a female character
+    could come back bearded); the DM's NPC editor had upload but no way to
+    generate; and the wizard's generation raced the reference-art backfill for
+    the same free quota.
+    """
+
+    def test_genderize_names_the_subject_in_the_framing_clause(self):
+        from services import portraits
+
+        base = "Bust portrait, 3:4 aspect ratio. A dwarf barbarian."
+        assert portraits.genderize(base, "female").startswith(
+            "Bust portrait, 3:4 aspect ratio, female subject.")
+        assert portraits.genderize(base, "") == base, "blank must not touch the prompt"
+        assert portraits.genderize(base, "Halfling") == base, "never guess at gender"
+        assert portraits.genderize("Frameless prompt.", "male").endswith("The subject is male.")
+
+    def test_route_puts_gender_into_the_prompt(self, client, seeded_db, auth_headers, fake_provider):
+        fake_provider["result"] = (png_data_url(), None)
+        r = client.post("/api/ai/portrait", headers=auth_headers,
+                        json={"race": "Dwarf", "class_name": "Barbarian", "gender": "female"})
+        assert r.status_code == 200, r.text[:200]
+        assert "female subject" in fake_provider["prompt"]
+        assert "female subject" in r.json()["prompt"]
+
+    def test_unknown_gender_leaves_the_prompt_alone(self, client, seeded_db, auth_headers, fake_provider):
+        fake_provider["result"] = (None, "stop")
+        client.post("/api/ai/portrait", headers=auth_headers,
+                    json={"race": "Dwarf", "class_name": "Barbarian", "gender": ""})
+        assert "subject." not in fake_provider["prompt"]
+
+    def test_npc_mode_builds_the_prompt_from_the_npc(self, client, seeded_db, auth_headers, fake_provider):
+        fake_provider["result"] = (None, "stop")
+        r = client.post("/api/ai/portrait", headers=auth_headers,
+                        json={"npc": {"name": "Dermot Wurder", "notes": "a nervous scribe",
+                                      "role": "scribe"}})
+        assert r.status_code == 200
+        prompt = fake_provider["prompt"]
+        assert "Dermot Wurder" in prompt and "nervous scribe" in prompt
+        assert "upper body only, close-up composition" in prompt, "should be npc_prompt, not the class table"
+
+    def test_generation_claims_interactive_priority(self, client, seeded_db, auth_headers, monkeypatch):
+        """The backfill must see a user's generation as in-flight, then released."""
+        from services import ref_portraits
+
+        seen = {}
+
+        async def _fake(prompt):
+            seen["during"] = ref_portraits.interactive_active()
+            return (None, "stop here")
+
+        monkeypatch.setattr(ai, "_generate_portrait_image", _fake)
+        assert not ref_portraits.interactive_active()
+        client.post("/api/ai/portrait", headers=auth_headers,
+                    json={"race": "Human", "class_name": "Fighter"})
+        assert seen.get("during") is True
+        assert not ref_portraits.interactive_active(), "the claim must always be released"
+
+    def test_backfill_yields_while_a_user_generation_runs(self):
+        import asyncio
+        import importlib.util
+        import pathlib
+        import time as _time
+
+        from services import ref_portraits
+
+        spec = importlib.util.spec_from_file_location(
+            "gen_portraits", pathlib.Path("scripts/generate_portraits.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
+        ref_portraits.mark_interactive()
+        started = _time.time()
+        try:
+            async def _run():
+                return await mod._yield_to_interactive()
+
+            async def _release():
+                await asyncio.sleep(0.4)
+                ref_portraits.clear_interactive()
+
+            async def _both():
+                return await asyncio.gather(_run(), _release())
+
+            yielded, _ = asyncio.run(_both())
+            assert yielded is True, "the batch should report that it stood down"
+            assert _time.time() - started >= 0.4, "and it should actually have waited"
+        finally:
+            ref_portraits.clear_interactive()
+
+    def test_backfill_does_not_wait_when_nobody_is_generating(self):
+        import asyncio
+        import importlib.util
+        import pathlib
+        import time as _time
+
+        from services import ref_portraits
+
+        spec = importlib.util.spec_from_file_location(
+            "gen_portraits2", pathlib.Path("scripts/generate_portraits.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        ref_portraits.clear_interactive()
+        started = _time.time()
+        assert asyncio.run(mod._yield_to_interactive()) is False
+        assert _time.time() - started < 0.2
+
+    def test_npc_editor_offers_generation(self):
+        import pathlib
+
+        src = pathlib.Path("static/dm_tools.js").read_text()
+        assert "npcPortraitGenerate()" in src, "the NPC editor needs a Generate button"
+        assert "npc: {name: name" in src, "and it must use the endpoint's npc mode"
+        assert "data.image_url" in src

@@ -70,6 +70,7 @@ async def run_reference(kinds, args):
         print(f"\n{kind}: {len(todo)} missing of {len(rows)} indexed "
               f"({len(rows) - len(todo)} already have art)")
         for n, row in enumerate(todo, 1):
+            await _yield_to_interactive()
             if budget and len(done) >= budget:
                 print(f"  --limit {budget} reached")
                 return done, failed
@@ -199,6 +200,23 @@ def store(con, table: str, row_id: int, value: str) -> None:
     con.commit()
 
 
+async def _yield_to_interactive() -> bool:
+    """Stand down while a user-triggered generation is in flight.
+
+    The web app and this batch draw on the same free quota, and a DM clicking
+    Generate must not lose that race to a backfill. The app marks its in-flight
+    generations (services.ref_portraits.interactive); this loop waits them out.
+    The marker ages out, so a crashed request cannot stall the batch forever.
+    """
+    from services import ref_portraits
+    if not ref_portraits.interactive_active():
+        return False
+    print("   … interactive generation in flight — yielding", flush=True)
+    while ref_portraits.interactive_active():
+        await asyncio.sleep(5)
+    return True
+
+
 async def main() -> int:
     args = parse_args()
     kinds = args.kind or []
@@ -283,6 +301,7 @@ async def main() -> int:
     queue = [("characters", r) for r in chars] + [("dm_npcs", r) for r in npcs]
 
     for n, (table, row) in enumerate(queue, 1):
+        await _yield_to_interactive()
         prompt = prompt_for(row, table == "dm_npcs")
         label = f"[{n}/{total}] {table[:-1]} {row['id']} {row['name'][:30]}"
         t0 = time.time()

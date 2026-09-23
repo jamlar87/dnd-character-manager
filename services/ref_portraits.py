@@ -24,6 +24,7 @@ import asyncio
 import hashlib
 import re
 import threading
+import time
 from pathlib import Path
 
 STATIC = Path(__file__).resolve().parent.parent / "static"
@@ -155,6 +156,59 @@ def bulk_running() -> bool:
     try:
         return BULK_MARKER.is_file() and (time.time() - BULK_MARKER.stat().st_mtime) < BULK_MARKER_MAX_AGE
     except OSError:
+        return False
+
+
+# ── interactive priority ─────────────────────────────────────────────────────
+# The web app's portrait generation and the batch backfill draw on one shared
+# free quota. A user clicking Generate must not lose that race to a backfill, so
+# the app marks its in-flight generations and the batch stands down. The marker
+# ages out (below), so a crashed request can never stall the batch forever.
+INTERACTIVE_MARKER = ROOT / ".user-generating"
+INTERACTIVE_MAX_AGE = 240
+_interactive_lock = threading.Lock()
+_interactive_depth = 0
+
+
+def mark_interactive() -> None:
+    global _interactive_depth
+    with _interactive_lock:
+        _interactive_depth += 1
+        try:
+            INTERACTIVE_MARKER.write_text(str(_interactive_depth))
+        except OSError:
+            pass
+
+
+def clear_interactive() -> None:
+    """Release one claim; the marker only goes away when the last one ends."""
+    global _interactive_depth
+    with _interactive_lock:
+        _interactive_depth = max(0, _interactive_depth - 1)
+        if _interactive_depth == 0:
+            try:
+                INTERACTIVE_MARKER.unlink()
+            except OSError:
+                pass
+
+
+def interactive_active(window: int = INTERACTIVE_MAX_AGE) -> bool:
+    try:
+        return (INTERACTIVE_MARKER.is_file()
+                and (time.time() - INTERACTIVE_MARKER.stat().st_mtime) < window)
+    except OSError:
+        return False
+
+
+class interactive:  # noqa: N801 - used as a context manager, reads as one
+    """with interactive(): ... — hold the batch off while generating."""
+
+    def __enter__(self):
+        mark_interactive()
+        return self
+
+    def __exit__(self, *exc):
+        clear_interactive()
         return False
 
 
