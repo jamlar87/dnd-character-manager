@@ -1033,16 +1033,18 @@ async def character_sheet(char_id: int, request: Request):
         char.get("inventory", [])
     )
 
-    # Build attunement lookup for JS — which equipped/inventory items need attunement
-    item_attunement_json = {}
-    for inv_item in char.get("inventory", []):
-        name = inv_item.get("name", "") if isinstance(inv_item, dict) else str(inv_item)
-        if name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[name.lower()]:
-            item_attunement_json[name] = True
-    for eq_name in _equipped_names(char.get("equipped", [])):
-        if eq_name.lower() in ITEM_ATTUNEMENT and ITEM_ATTUNEMENT[eq_name.lower()]:
-            item_attunement_json[eq_name] = True
-    item_attunement_json = json.dumps(item_attunement_json)
+    # Build attunement lookup for JS — which items need attunement.
+    # The FULL canonical set, not just this character's current items: the sheet's
+    # renderEquipped() draws the ◇/◆ badge from this map, so a map built only from
+    # the page-load inventory/equipped lists leaves an item that the user types in
+    # and equips in the same session without a badge (and so un-attunable from the
+    # UI) until a reload. Canonical names come from the SRD library because the
+    # lookup is by display name; ITEM_ATTUNEMENT is keyed lowercase.
+    item_attunement_json = json.dumps({
+        item["name"]: True
+        for item in SRD_MAGIC_ITEMS
+        if item.get("name") and ITEM_ATTUNEMENT.get(item["name"].lower())
+    })
 
     # Build a dict version for template use (checking attunement on equipped items)
     item_attunement_dict = {}

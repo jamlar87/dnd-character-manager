@@ -3849,6 +3849,7 @@ function renderEquipped() {
   if (equippedItems.length === 0) {
     list.innerHTML = '';
     if (emptyEl) emptyEl.style.display = 'block';
+    renderAttunementSlots();
     return;
   }
   if (emptyEl) emptyEl.style.display = 'none';
@@ -3890,6 +3891,9 @@ function renderEquipped() {
       <div class="item-detail" data-item-name="${item.replace(/"/g, '&quot;')}"></div>
     </div>`;
   }).join('');
+  // The badges above came from ATTUNED_ITEMS — redraw the slot row from the same
+  // list so the two halves of the card can never disagree after a list redraw.
+  renderAttunementSlots();
 }
 
 // Auto-load team items when opening inventory tab (merged with history tab hook below)
@@ -4002,7 +4006,47 @@ async function deleteInventoryItem(name) {
   await _flushInventory();
 }
 
-// ── Toggle attunement ──
+// ── Attunement ──
+// ATTUNED_ITEMS is the client mirror of characters.attuned_items. Every write has
+// to update it: renderEquipped() derives the ◆/◇ badge from this list, so a stale
+// mirror redraws an attuned item as unattuned the next time anything is equipped
+// (the slot row would still read 1/3 — the two halves of the card disagree).
+// The slot row is derived from the same list, never read back out of the DOM.
+function equippedNames() {
+  return equippedItems.map(eq => (typeof eq === 'object' ? eq.name : eq));
+}
+
+function attunedEquipped() {
+  const equipped = equippedNames();
+  return ATTUNED_ITEMS.filter(n => equipped.includes(n));
+}
+
+function renderAttunementSlots(used) {
+  const slots = document.querySelectorAll('#attunement-slots .attune-slot');
+  if (typeof used !== 'number') used = attunedEquipped().length;
+  slots.forEach((el, i) => {
+    if (i < used) {
+      el.classList.add('filled');
+      el.style.background = 'var(--accent)';
+      el.style.borderColor = 'var(--accent)';
+      el.textContent = '◆';
+    } else {
+      el.classList.remove('filled');
+      el.style.background = '';
+      el.style.borderColor = '';
+      el.textContent = '◇';
+    }
+  });
+  const countEl = document.querySelector('#attunement-slots span:last-child');
+  if (countEl) countEl.textContent = `${used}/3`;
+}
+
+function setAttuned(name, on) {
+  const i = ATTUNED_ITEMS.indexOf(name);
+  if (on && i === -1) ATTUNED_ITEMS.push(name);
+  if (!on && i !== -1) ATTUNED_ITEMS.splice(i, 1);
+}
+
 async function toggleAttune(itemName) {
   const trimmed = itemName.trim();
   // Extract char_id from URL (/character/{id})
@@ -4017,6 +4061,9 @@ async function toggleAttune(itemName) {
     });
     const d = await r.json();
     if (d.error) { alert(d.error); return; }
+    // Keep the mirror in step BEFORE touching the DOM — renderEquipped() and the
+    // slot row both read it.
+    setAttuned(trimmed, d.action === 'attuned');
     // Update badge and slots without full reload
     const card = document.querySelector(`.equipped-card[data-item-name="${CSS.escape(trimmed)}"]`);
     if (card) {
@@ -4033,24 +4080,7 @@ async function toggleAttune(itemName) {
         }
       }
     }
-    // Update attunement slots
-    const slots = document.querySelectorAll('#attunement-slots .attune-slot');
-    slots.forEach((el, i) => {
-      if (i < d.slots_used) {
-        el.classList.add('filled');
-        el.style.background = 'var(--accent)';
-        el.style.borderColor = 'var(--accent)';
-        el.textContent = '◆';
-      } else {
-        el.classList.remove('filled');
-        el.style.background = '';
-        el.style.borderColor = '';
-        el.textContent = '◇';
-      }
-    });
-    // Update count
-    const countEl = document.querySelector('#attunement-slots span:last-child');
-    if (countEl) countEl.textContent = `${d.slots_used}/3`;
+    renderAttunementSlots(typeof d.slots_used === 'number' ? d.slots_used : undefined);
   } catch(e) {
     alert('Failed to toggle attunement');
   }
