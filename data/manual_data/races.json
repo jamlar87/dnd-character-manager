@@ -1642,7 +1642,7 @@
   },
   {
     "name": "Tortle",
-    "source": "(Monsters of the Multiverse, p.34)",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.34)",
     "asi": {
       "strength": 2,
       "dexterity": 0,
@@ -8679,5 +8679,1159 @@
       }
     },
     "_source_manual": "EBT"
+  },
+  {
+    "name": "Fairy",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.14)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish",
+      "Goblin",
+      "Sylvan"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Fey."
+      },
+      {
+        "name": "Size",
+        "description": "You are Small."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Fairy Magic",
+        "description": "You know the druidcraft cantrip. Starting at 3rd level, you can cast the faerie fire spell with this trait. Starting at 5th level, you can also cast the enlarge/reduce spell with this trait. Once you cast faerie fire or enlarge/reduce with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race).",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Flight",
+        "description": "Because of your wings, you have a flying speed equal to your walking speed. You can't use this flying speed if you're wearing medium or heavy armor."
+      }
+    ],
+    "subraces": [],
+    "description": "Infused with the magic of the Feywild, most fairies look like Small elves with insectile wings, but each fairy has a special physical characteristic that sets the fairy apart.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Fey."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Small."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Fairy Magic": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows druidcraft cantrip. At 3rd level can cast faerie fire once per long rest. At 5th level can also cast enlarge/reduce once per long rest. Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting race)."
+      },
+      "Flight": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flying speed equal to walking speed. Cannot use flying speed while wearing medium or heavy armor."
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Air Genasi",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.16)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 35,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium or Small",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium or Small. You choose the size when you select this race."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 35 feet."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+      },
+      {
+        "name": "Unending Breath",
+        "description": "You can hold your breath indefinitely while you're not incapacitated."
+      },
+      {
+        "name": "Lightning Resistance",
+        "description": "You have resistance to lightning damage."
+      },
+      {
+        "name": "Mingle with the Wind",
+        "description": "You know the shocking grasp cantrip. Starting at 3rd level, you can cast the feather fall spell with this trait, without requiring a material component. Starting at 5th level, you can also cast the levitate spell with this trait, without requiring a material component. Once you cast feather fall or levitate with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race).",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Air genasi are descended from djinn, the genies of the Elemental Plane of Air. Their skin tones include many shades of blue, along with the full range of human skin tones, with bluish or ashen casts, and their hair might blow in a phantom wind or be made entirely of clouds or vapor.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium or Small (chosen when selecting the race)."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 35,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Unending Breath": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can hold breath indefinitely while not incapacitated."
+      },
+      "Lightning Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Lightning"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Mingle with the Wind": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows shocking grasp cantrip. At 3rd level can cast feather fall once per long rest without material components. At 5th level can also cast levitate once per long rest without material components. Can also cast these spells using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Earth Genasi",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.17)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium or Small",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium or Small. You choose the size when you select this race."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+      },
+      {
+        "name": "Earth Walk",
+        "description": "You can move across difficult terrain without expending extra movement if you are using your walking speed on the ground or a floor."
+      },
+      {
+        "name": "Merge with Stone",
+        "description": "You know the blade ward cantrip. You can cast it as normal, and you can also cast it as a bonus action a number of times equal to your proficiency bonus, regaining all expended uses when you finish a long rest. Starting at 5th level, you can cast the pass without trace spell with this trait, without requiring a material component. Once you cast that spell with this trait, you can't do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race).",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "An earth genasi’s skin can be the colors of stone and earth or a human skin tone with glittering sparkles like gem dust. Some earth genasi have lines marking their skin like cracks, either showing glimmering gemlike veins or a dim, yellowish glow.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium or Small (chosen when selecting the race)."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "In darkness, vision is only in shades of gray."
+      },
+      "Earth Walk": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can move across difficult terrain without expending extra movement when using walking speed on the ground or a floor."
+      },
+      "Merge with Stone": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows the blade ward cantrip; can cast it as a bonus action a number of times equal to proficiency bonus (regained on long rest). At 5th level, can cast pass without trace without material components once per long rest (also castable with 2nd-level+ spell slots). Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen when selecting the race)."
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Githyanki",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.18)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Astral Knowledge",
+        "description": "You can mystically access a reservoir of experiences of entities connected to the Astral Plane. Whenever you finish a long rest, you gain proficiency in one skill of your choice and with one weapon or tool of your choice, selected from the Player's Handbook, as you momentarily project your consciousness into the Astral Plane. These proficiencies last until the end of your next long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Githyanki Psionics",
+        "description": "You know the mage hand cantrip, and the hand is invisible when you cast the cantrip with this trait. Starting at 3rd level, you can cast the jump spell with this trait. Starting at 5th level, you can also cast the misty step spell with it. Once you cast jump or misty step with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race). None of these spells require spell components when you cast them with this trait.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Psychic Resilience",
+        "description": "You have resistance to psychic damage."
+      }
+    ],
+    "subraces": [],
+    "description": "A lanky people with skin tones of yellows, greens, and browns, githyanki complement their physical prowess with psionic might, instilled in them by mind flayers and cultivated over eons in the Astral Plane.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Astral Knowledge": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "After each long rest, gain proficiency in one skill of your choice and with one weapon or tool of your choice from the Player's Handbook. These proficiencies last until the end of your next long rest."
+      },
+      "Githyanki Psionics": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Know mage hand cantrip (hand invisible when cast with this trait). At 3rd level, can cast jump once per long rest. At 5th level, can cast misty step once per long rest. Can also cast jump or misty step using spell slots. Spellcasting ability is Intelligence, Wisdom, or Charisma (chosen at race selection). These spells require no components when cast with this trait."
+      },
+      "Psychic Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Psychic"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Githzerai",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.18)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Githzerai Psionics",
+        "description": "You know the mage hand cantrip, and the hand is invisible when you cast the cantrip with this trait. Starting at 3rd level, you can cast the shield spell with this trait. Starting at 5th level, you can also cast the detect thoughts spell with it. Once you cast shield or detect thoughts with this trait, you can't cast that spell with it again until you finish a long rest. You can also cast either of those spells using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race). None of these spells require spell components when you cast them with this trait."
+      },
+      {
+        "name": "Mental Discipline",
+        "description": "Your innate psychic defenses grant you advantage on saving throws you make to avoid or end the charmed and frightened conditions on yourself."
+      },
+      {
+        "name": "Psychic Resilience",
+        "description": "You have resistance to psychic damage."
+      }
+    ],
+    "subraces": [],
+    "description": "Githzerai are generally slender, with speckled skin in shades of yellow, green, or brown. Eons of cultivating their mental powers within the endless chaos of Limbo have imbued githzerai with the ability to shape psionic energy to protect themselves and probe minds.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Githzerai Psionics": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows mage hand cantrip (invisible hand when cast via this trait). At 3rd level can cast shield once per long rest. At 5th level can cast detect thoughts once per long rest. Can also cast these spells using spell slots. Spellcasting ability is Int, Wis, or Cha (chosen at race selection). Spells cast via this trait require no spell components."
+      },
+      "Mental Discipline": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [
+          "Charmed",
+          "Frightened"
+        ],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws to avoid or end the charmed and frightened conditions on yourself."
+      },
+      "Psychic Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Psychic"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Harengon",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.22)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Sylvan"
+    ],
+    "size": "Medium or Small",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium or Small. You choose the size when you select this race."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Hare-Trigger",
+        "description": "You can add your proficiency bonus to your initiative rolls."
+      },
+      {
+        "name": "Leporine Senses",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Lucky Footwork",
+        "description": "When you fail a Dexterity saving throw, you can use your reaction to roll a d4 and add it to the save, potentially turning the failure into a success. You can't use this reaction if you're prone or your speed is 0."
+      },
+      {
+        "name": "Rabbit Hop",
+        "description": "As a bonus action, you can jump a number of feet equal to five times your proficiency bonus, without provoking opportunity attacks. You can use this trait only if your speed is greater than 0. You can use it a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Harengons are bipedal rabbitfolk with long feet, fur in a variety of colors, keen senses, powerful legs, and a bit of fey luck.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium or Small (chosen when selecting the race)."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Hare-Trigger": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Add proficiency bonus to initiative rolls."
+      },
+      "Leporine Senses": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Perception"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Lucky Footwork": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When you fail a Dexterity saving throw, you can use your reaction to roll a d4 and add it to the save, potentially turning the failure into a success. You can't use this reaction if you're prone or your speed is 0."
+      },
+      "Rabbit Hop": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "As a bonus action, you can jump a number of feet equal to five times your proficiency bonus, without provoking opportunity attacks. You can use this trait only if your speed is greater than 0. You can use it a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Satyr",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.29)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 35,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Fey."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 35 feet."
+      },
+      {
+        "name": "Ram",
+        "description": "You can use your head and horns to make unarmed strikes. When you hit with them, the strike deals 1d6 + your Strength modifier bludgeoning damage, instead of the bludgeoning damage normal for an unarmed strike."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "You have advantage on saving throws against spells."
+      },
+      {
+        "name": "Mirthful Leaps",
+        "description": "Whenever you make a long jump or a high jump, you can roll a d8 and add the number rolled to the number of feet you cover, even when making a standing jump. This extra distance costs movement as normal."
+      },
+      {
+        "name": "Reveler",
+        "description": "As an embodiment of revelry, you have proficiency in the Performance and Persuasion skills, and you have proficiency with one musical instrument of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "Originating in the Feywild—a realm of pure emotion-satyrs thrive on the energy of merriment. They resemble elves but have goatlike legs, cloven hooves, and ram or goat horns.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Fey."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 35,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Ram": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Natural weapon: unarmed strike with head/horns deals 1d6 + Strength modifier bludgeoning damage."
+      },
+      "Magic Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws against spells."
+      },
+      "Mirthful Leaps": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When making a long or high jump, add 1d8 feet to distance covered, including standing jumps; extra distance costs movement as normal."
+      },
+      "Reveler": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "One musical instrument of your choice"
+        ],
+        "skill_profs": [
+          "Performance",
+          "Persuasion"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Yuan-ti",
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.36)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium or Small",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Size",
+        "description": "You are Medium or Small. You choose the size when you select this race."
+      },
+      {
+        "name": "Speed",
+        "description": "Your walking speed is 30 feet."
+      },
+      {
+        "name": "Darkvision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You discern colors in that darkness only as shades of gray."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "You have advantage on saving throws against spells."
+      },
+      {
+        "name": "Poison Resilience",
+        "description": "You have advantage on saving throws you make to avoid or end the poisoned condition on yourself. You also have resistance to poison damage."
+      },
+      {
+        "name": "Serpentine Spellcasting",
+        "description": "You know the poison spray cantrip. You can cast animal friendship an unlimited number of times with this trait, but you can target only snakes with it. Starting at 3rd level, you can also cast suggestion with this trait. Once you cast it, you can't do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race).",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Yuan-ti were originally humans who transformed themselves into serpent folk through ancient rituals. Most yuan-ti were corrupted into monsters by those rites, but some yuan-ti instead became a new people who mix characteristics of humans and snakes.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You are a Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You are Medium or Small. You choose the size when you select this race."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Magic Resistance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You have advantage on saving throws against spells."
+      },
+      "Poison Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Poison"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You have advantage on saving throws you make to avoid or end the poisoned condition on yourself."
+      },
+      "Serpentine Spellcasting": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You know the poison spray cantrip. You can cast animal friendship an unlimited number of times with this trait, but you can target only snakes with it. Starting at 3rd level, you can also cast suggestion with this trait. Once you cast it, you can't do so again until you finish a long rest. You can also cast it using any spell slots you have of 2nd level or higher. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells when you cast them with this trait (choose when you select this race)."
+      }
+    },
+    "_source_manual": "MPMM"
   }
 ]

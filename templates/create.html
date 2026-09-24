@@ -123,7 +123,7 @@
         </label>
       </div>
       <div id="mpmm-grids"></div>
-      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">Leave both blank and you keep the classic +2 STR / +1 WIS.</p>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem" id="mpmm-hint"></p>
     </div>
     {% endif %}
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealAbilities()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
@@ -953,11 +953,30 @@ function setMpmmPick(slot, a) {
   }
   updateAsiPreview();
 }
+function renderMpmmHint() {
+  // Tell the truth about a blank picker: a race whose record carries a spread keeps it, but a
+  // race ingested from MPMM has an all-zero record — there a blank picker means no bonus at all.
+  const hint = document.getElementById('mpmm-hint');
+  if (!hint) return;
+  const _recAsi = (RACES[state.race] || {}).asi || {};
+  const _hasDefault = Object.values(_recAsi).some(v => v > 0);
+  if (mpmmPicks().length) {
+    hint.style.color = 'var(--text-muted)';
+    hint.textContent = 'Applied to your scores below.';
+  } else if (_hasDefault) {
+    hint.style.color = 'var(--text-muted)';
+    hint.textContent = 'Leave both blank and you keep the classic +2 STR / +1 WIS.';
+  } else {
+    hint.style.color = 'var(--danger)';
+    hint.textContent = '⚠ Pick a spread — ' + state.race + ' has no fixed increase in Monsters of the Multiverse, so a blank picker means no bonus at all.';
+  }
+}
 function renderMpmmGrids() {
   const box = document.getElementById('mpmm-picks');
   if (!box) return;
   if (!MPMM_ASI.has(state.race)) { box.style.display = 'none'; return; }
   box.style.display = 'block';
+  renderMpmmHint();
   document.querySelectorAll('input[name="mpmm-mode"]').forEach(el => { el.checked = (el.value === state.mpmm_mode); });
   const host = document.getElementById('mpmm-grids');
   if (!state.mpmm_mode) { host.innerHTML = ''; return; }
@@ -975,6 +994,7 @@ function renderMpmmGrids() {
           </label>`).join('')}
       </div>
     </div>`).join('');
+  renderMpmmHint();
 }
 function setLineageAsi(a) {
   state.asi_picks = [a];

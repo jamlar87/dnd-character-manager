@@ -163,10 +163,17 @@ def main() -> int:
         log("nothing to do — every book with text is already extracted")
         return 0
 
-    # single instance only
-    if LOCK.exists() and (time.time() - LOCK.stat().st_mtime) < 3600:
-        log("another sweep is running (lock fresh) — exiting")
-        return 0
+    # single instance only — the lock holds a pid, and a long sweep must not be
+    # mistaken for a stale lock just because it has been running a while.
+    if LOCK.exists():
+        try:
+            pid = int(LOCK.read_text().strip() or 0)
+        except Exception:
+            pid = 0
+        if pid and Path(f"/proc/{pid}").exists():
+            log(f"another sweep is running (pid {pid}) — exiting")
+            return 0
+        log(f"clearing stale lock (pid {pid or '?'} is gone)")
     LOCK.write_text(str(os.getpid()))
 
     started = time.time()
@@ -189,6 +196,9 @@ def main() -> int:
                     have_ext = False
             if have_ext:
                 log("  extraction already on disk and complete — folding it")
+            elif ext.exists() and (time.time() - ext.stat().st_mtime) < 1200:
+                log("  extraction in progress elsewhere — leaving it for the next run")
+                continue
             else:
                 try:
                     res = ing.process_manual(m)

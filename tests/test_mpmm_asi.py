@@ -20,8 +20,38 @@ CREATE_HTML = (REPO / "templates" / "create.html").read_text()
 
 # ── the flag itself ──────────────────────────────────────────────────────────
 
-def test_tortle_is_the_mpmm_race():
-    assert main.MPMM_ASI_RACES == {"Tortle"}
+def test_every_mpmm_sourced_race_uses_the_mpmm_rule():
+    """The invariant, rather than a hand-kept list: whatever race the app cites to MPMM must
+    use MPMM's choice rule. Ingestion added eight races (Fairy, Genasi, Githyanki, Githzerai,
+    Harengon, Satyr, Yuan-ti) whose records are all-zero by design."""
+    sourced = {
+        n for n, r in main.RACES.items()
+        if isinstance(r, dict) and "MPMM" in (str(r.get("_source_slug") or ""),
+                                             str(r.get("_source_manual") or ""))
+    }
+    assert sourced, "no race is tagged MPMM — has the source slug stopped being set?"
+    missing = sourced - set(main.MPMM_ASI_RACES)
+    assert not missing, f"MPMM races missing from MPMM_ASI_RACES: {sorted(missing)}"
+    assert main.MPMM_ASI_RACES
+
+
+def test_an_ingested_mpmm_race_starts_with_no_increase():
+    """MPMM's races carry the choice, not a default — so a blank picker really means nothing.
+    The wizard warns about this (create.html sets #mpmm-hint in red for exactly this case)."""
+    for race in ("Fairy", "Harengon", "Yuan-ti"):
+        assert sum(main.RACES[race]["asi"].values()) == 0, f"{race} should have no fixed ASI"
+
+
+def test_a_zero_asi_mpmm_race_takes_the_pick_as_its_whole_spread():
+    assert _race_asi("Harengon", "", ["dexterity", "constitution"], "two") == \
+        {"dexterity": 2, "constitution": 1}
+    assert _race_asi("Fairy", "", ["dexterity", "constitution", "wisdom"], "three") == \
+        {"dexterity": 1, "constitution": 1, "wisdom": 1}
+
+
+def test_a_zero_asi_mpmm_race_with_no_pick_stays_at_zero():
+    """Honest behaviour: no pick, no increase — the UI is responsible for saying so."""
+    assert _race_asi("Harengon", "", [], "") == {}
 
 
 def test_tortle_record_keeps_the_default_spread():

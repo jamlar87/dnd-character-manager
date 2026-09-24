@@ -633,11 +633,17 @@ FLEXIBLE_ASI_RACES = {
 # Monsters of the Multiverse races: the book lets the player choose the spread —
 # "+2 to one ability score and +1 to a different one, or +1 to three different ones"
 # (MPMM p.5, "Ability Score Increases" in the Creating Your Character section — the rule is
-# chapter-wide, so Tortle's own entry on p.34 does not repeat it).
+# chapter-wide, so a race's own entry does not repeat it).
 # Unlike FLEXIBLE_ASI_RACES (zero-ASI races that ADD +2 to a pick), these races have a real
 # default spread in RACES — the classic +2 STR / +1 WIS — and a pick REPLACES it, because the
 # default is already a +2/+1. No pick sent = the default stands, which MPMM also permits.
-MPMM_ASI_RACES = {"Tortle"}
+# Races ingested from MPMM arrive with an all-zero record (the spread is the player's choice),
+# so for them a blank picker means no increase at all — the wizard says so on screen rather
+# than pretending there is a default to keep.
+MPMM_ASI_RACES = {
+    "Tortle", "Fairy", "Air Genasi", "Earth Genasi", "Githyanki",
+    "Githzerai", "Harengon", "Satyr", "Yuan-ti",
+}
 
 # ── Rich supplement race descriptions ──
 # Overrides short auto-extracted descriptions from manual data with full PHB lore.

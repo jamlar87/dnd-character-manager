@@ -107218,5 +107218,1930 @@
     ],
     "source": "(Field Guide to Floral Dragons, p.218)",
     "_source_manual": "FGFD"
+  },
+  {
+    "name": "Archdruid",
+    "size": "Medium",
+    "type": "humanoid (druid)",
+    "alignment": "any alignment",
+    "armor_class": 14,
+    "ac_type": "hide armor",
+    "hit_points": "154 (28d8 + 28)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 12,
+      "wisdom": 20,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 5,
+      "wis": 9
+    },
+    "skills": {
+      "Medicine": 9,
+      "Nature": 5,
+      "Perception": 9
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 19",
+    "languages": [
+      "Druidic",
+      "any two languages"
+    ],
+    "challenge_rating": "12",
+    "xp": 8400,
+    "features": [
+      {
+        "name": "Archdruid Favored Shapes",
+        "description": "When an archdruid uses their Change Shape action, you may choose the creature they turn into, abiding by the action's restrictions. Or you may roll on the Archdruid Favored Shapes table to determine the form the archdruid adopts. These creatures appear in the Monster Manual, unless otherwise noted.\n\nArchdruid Favored Shapes\nd8 Favored Shape\n1 Air elemental\n2 Earth elemental\n3 Fire elemental\n4 Giant crocodile\n5 Mammoth\n6 Flail snail (appears in this book)\n7 Triceratops\n8 Water elemental"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The archdruid makes three Staff or Wildfire attacks. It can replace one attack with a use of Spellcasting."
+      },
+      {
+        "name": "Staff",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage plus 21 (6d6) poison damage."
+      },
+      {
+        "name": "Wildfire",
+        "description": "Ranged Spell Attack: +9 to hit, range 120 ft., one target. Hit: 26 (6d6 + 5) fire damage, and the target is blinded until the start of the druid's next turn."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The archdruid casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 17):\nAt will: beast sense, entangle, speak with animals\n3/day each: animal messenger, dominate beast, faerie fire, tree stride\n1/day each: commune with nature (as an action), mass cure wounds"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.48)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Archer",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "any alignment",
+    "armor_class": 16,
+    "ac_type": "studded leather",
+    "hit_points": "75 (10d8 + 30)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 18,
+      "constitution": 16,
+      "intelligence": 11,
+      "wisdom": 13,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Acrobatics": 6,
+      "Perception": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 15",
+    "languages": [
+      "any one language (usually Common)"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Archer Fletching",
+        "description": "Some renowned archers and groups of archers are known for the special fletching of their arrows. You may roll on the Archer Fletching table to determine the distinctive fletching used by an individual archer or a group of them.\n\nArcher Fletching\nd12 Fletching\n1 Feathers from an owlbear's mane\n2 Cockatrice feathers\n3 Axe beak feathers\n4 Planetar feathers\n5 Couatl feathers\n6 Pegasus feathers\n7 Griffon feathers\n8 Vrock feathers\n9 Peryton feathers\n10 Dryad leaf vanes\n11 Drake scale vanes\n12 Stirge wing vanes"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The archer makes two Shortsword or Longbow attacks."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+      },
+      {
+        "name": "Longbow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft., one target. Hit: 8 (1d8 + 4) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.49)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Deep Rothe",
+    "size": "Medium",
+    "type": "beast (cattle)",
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "ac_type": "",
+    "hit_points": "13 (2d8 + 4)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 4
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Beast of Burden",
+        "description": "The rothe is considered to be one size larger for the purpose of determining its carrying capacity."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Gore",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage. If the rothe moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 7 (2d6) piercing damage."
+      },
+      {
+        "name": "Dancing Lights",
+        "description": "The rothe casts dancing lights, requiring no spell components and using Wisdom as the spellcasting ability."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.71)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Rothe",
+    "size": "Large",
+    "type": "beast",
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "ac_type": "",
+    "hit_points": "15 (2d10+4)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 4
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [],
+    "actions": [
+      {
+        "name": "Gore",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage. If the rothe moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 7 (2d6) piercing damage."
+      },
+      {
+        "name": "Dancing Lights",
+        "description": "The rothe casts dancing lights, requiring no spell components and using Wisdom as the spellcasting ability."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.71)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Ox",
+    "size": "Large",
+    "type": "beast (cattle)",
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "ac_type": "",
+    "hit_points": "15 (2d10+4)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 4
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Beast of Burden",
+        "description": "The ox is considered to be one size larger for the purpose of determining its carrying capacity."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Gore",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage. If the ox moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 7 (2d6) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.72)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Stench Kow",
+    "size": "Large",
+    "type": "fiend (cattle)",
+    "alignment": "unaligned",
+    "armor_class": 10,
+    "ac_type": "",
+    "hit_points": "15 (2d10+4)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 4
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "cold",
+      "fire",
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [],
+    "challenge_rating": "1/2",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Stench",
+        "description": "Any creature other than a stench kow that starts its turn within 5 feet of the stench kow must succeed on a DC 12 Constitution saving throw or be poisoned until the start of the creature's next turn. On a successful saving throw, the creature is immune to the Stench of all stench kows for 1 hour."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Gore",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage. If the stench kow moved at least 20 feet straight toward the target immediately before the hit, the target takes an extra 7 (2d6) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.72)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Clockwork Bronze Scout",
+    "size": "Medium",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "36 (8d8)",
+    "speed": "30 ft., burrow 30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 16,
+      "constitution": 11,
+      "intelligence": 3,
+      "wisdom": 14,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 6,
+      "Stealth": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 16",
+    "languages": [
+      "understands one language of its creator but can't speak"
+    ],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Earth Armor",
+        "description": "The clockwork doesn't provoke opportunity attacks when it burrows."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The clockwork has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Unusual Nature",
+        "description": "The clockwork doesn't require air, food, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) piercing damage plus 3 (1d6) lightning damage."
+      },
+      {
+        "name": "Lightning Flare (Recharges after a Short or Long Rest)",
+        "description": "Each creature in contact with the ground within 15 feet of the clockwork must make a DC 13 Dexterity saving throw, taking 14 (4d6) lightning damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.79)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Clockwork Iron Cobra",
+    "size": "Medium",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "91 (14d8 + 28)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 3,
+      "wisdom": 10,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {
+      "Stealth": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "understands one language of its creator but can't speak"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The clockwork has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Unusual Nature",
+        "description": "The clockwork doesn't require air, food, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Constitution saving throw or suffer one random effect (roll a d6): 1-2: Confusion. On its next turn, the target must use its action to make one weapon attack against a random creature it can see within 30 feet of it, using whatever weapon it has in hand and moving beforehand if necessary to get in range. If it's holding no weapon, it makes an unarmed strike. If no creature is visible within 30 feet, it takes the Dash action, moving toward the nearest creature. 3-4: Paralysis. The target is paralyzed until the end of its next turn. 5-6: Poison. The target takes 13 (3d8) poison damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.79)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Clockwork Oaken Bolter",
+    "size": "Medium",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "117 (18d8 + 36)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 18,
+      "constitution": 15,
+      "intelligence": 3,
+      "wisdom": 10,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "understands one language of its creator but can't speak"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The clockwork has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Unusual Nature",
+        "description": "The clockwork doesn't require air, food, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The clockwork makes two Lancing Bolt attacks or one Lancing Bolt attack and one Harpoon attack."
+      },
+      {
+        "name": "Lancing Bolt",
+        "description": "Melee or Ranged Weapon Attack: +7 to hit, reach 5 ft. or range 100/400 ft., one target. Hit: 15 (2d10 + 4) piercing damage."
+      },
+      {
+        "name": "Harpoon",
+        "description": "Ranged Weapon Attack: +7 to hit, range 50/200 ft., one target. Hit: 9 (1d10 + 4) piercing damage, and the target is grappled (escape DC 12). While grappled in this way, a creature's speed isn't reduced, but it can move only in directions that bring it closer to the clockwork. A creature takes 5 (1d10) slashing damage if it escapes from the grapple or if it tries and fails. The clockwork can grapple only one creature at a time with its harpoon."
+      },
+      {
+        "name": "Explosive Bolt (Recharge 5-6)",
+        "description": "The clockwork launches an explosive charge at a point within 120 feet. Each creature in a 20-foot-radius sphere centered on that point must make a DC 15 Dexterity saving throw, taking 17 (5d6) fire damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "bonus_actions": [
+      {
+        "name": "Reel In",
+        "description": "The clockwork pulls the creature grappled by its Harpoon up to 20 feet closer."
+      }
+    ],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.80)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Clockwork Stone Defender",
+    "size": "Medium",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "105 (14d8 + 42)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 10,
+      "constitution": 17,
+      "intelligence": 3,
+      "wisdom": 10,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "understands one language of its creator but can't speak"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The clockwork has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Unusual Nature",
+        "description": "The clockwork doesn't require air, food, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage, and if the target is Large or smaller, it is knocked prone."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Intercept Attack",
+        "description": "In response to another creature within 5 feet of it being hit by an attack roll, the clockwork gives that creature a +5 bonus to its AC against that attack, potentially causing a miss. To use this ability, the clockwork must be able to see the creature and the attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.80)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Devourer",
+    "size": "Large",
+    "type": "undead",
+    "alignment": "Typically Chaotic Evil",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "189 (18d10 + 90)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 20,
+      "dexterity": 12,
+      "constitution": 20,
+      "intelligence": 13,
+      "wisdom": 10,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "cold",
+      "fire",
+      "lightning"
+    ],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "darkvision 120 ft., passive Perception 10",
+    "languages": [
+      "Abyssal",
+      "telepathy 120 ft."
+    ],
+    "challenge_rating": "13",
+    "xp": 10000,
+    "features": [
+      {
+        "name": "Unusual Nature",
+        "description": "A devourer doesn’t require air, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The devourer makes two Claw attacks and can use either Imprison Soul or Soul Rend, if available."
+      },
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) slashing damage plus 21 (6d6) necrotic damage."
+      },
+      {
+        "name": "Imprison Soul",
+        "description": "The devourer chooses a living Humanoid with 0 hit points that it can see within 30 feet of it. That creature is teleported inside the devourer's ribcage and imprisoned there. While imprisoned in this way, the creature is restrained and has disadvantage on death saving throws. If the creature dies while imprisoned, the devourer regains 25 hit points and immediately recharges Soul Rend. Additionally, at the start of its next turn, the devourer regurgitates the slain creature as a bonus action, and the creature becomes an Undead. If the victim had 2 or fewer Hit Dice, it becomes a zombie. If it had 3 to 5 Hit Dice, it becomes a ghoul. Otherwise, it becomes a wight. (All three appear in the Monster Manual.) A devourer can imprison only one creature at a time."
+      },
+      {
+        "name": "Soul Rend (Recharge 6)",
+        "description": "The devourer creates a vortex of life-draining energy in a 20-foot radius centered on itself. Each creature in that area must make a DC 18 Constitution saving throw, taking 44 (8d10) necrotic damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.93)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Dolphin Delighter",
+    "size": "Medium",
+    "type": "fey",
+    "alignment": "typically chaotic good",
+    "armor_class": 14,
+    "ac_type": "natural armor",
+    "hit_points": "27 (5d8+5)",
+    "speed": "0 ft., swim 60 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 13,
+      "constitution": 13,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "wis": 3,
+      "cha": 5
+    },
+    "skills": {
+      "Perception": 3,
+      "Performance": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "blindsight 60 ft., passive Perception 13",
+    "languages": [
+      "Aquan",
+      "telepathy 120 ft."
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Hold Breath",
+        "description": "The dolphin can hold its breath for 20 minutes."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The dolphin makes two Dazzling Slam attacks."
+      },
+      {
+        "name": "Dazzling Slam",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage plus 7 (2d6) psychic damage, and the target is blinded until the start of the dolphin's next turn."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.97)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Duergar Kavalrachni",
+    "size": "Medium",
+    "type": "humanoid (dwarf)",
+    "alignment": "any alignment",
+    "armor_class": 16,
+    "ac_type": "scale mail, shield",
+    "hit_points": "26 (4d8 + 8)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 11,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 10,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 120 ft., passive Perception 10",
+    "languages": [
+      "Dwarvish",
+      "Undercommon"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Cavalry Training",
+        "description": "When the duergar hits a target with a melee attack while mounted, the mount can use its reaction to make one melee attack against the same target."
+      },
+      {
+        "name": "Duergar Resilience",
+        "description": "The duergar has advantage on saving throws against spells and the charmed, paralyzed, and poisoned conditions."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the duergar has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The duergar makes two War Pick attacks."
+      },
+      {
+        "name": "War Pick",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage plus 5 (2d4) poison damage."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
+      },
+      {
+        "name": "Shared Invisibility (Recharges after a Short or Long Rest)",
+        "description": "The duergar magically turns invisible for up to 1 hour or until it attacks, it forces a creature to make a saving throw, or its concentration is broken (as if concentrating on a spell). Any equipment the duergar wears or carries is invisible with it. While the invisible duergar is mounted, the mount is invisible as well. The invisibility ends early on the mount immediately after it attacks."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.107)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Sacred Statue",
+    "size": "Large",
+    "type": "Construct",
+    "alignment": "As the Eidolon's Alignment",
+    "armor_class": 19,
+    "ac_type": "natural armor",
+    "hit_points": "95 (10d10 + 40)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 8,
+      "constitution": 19,
+      "intelligence": 14,
+      "wisdom": 19,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "wis": 8
+    },
+    "skills": {},
+    "damage_resistances": [
+      "acid",
+      "fire",
+      "lightning",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [
+      "cold",
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [
+      "the languages the eidolon knew in life"
+    ],
+    "challenge_rating": "",
+    "xp": 0,
+    "features": [
+      {
+        "name": "False Appearance",
+        "description": "If the statue is motionless at the start of combat, it has advantage on its initiative roll. Moreover, if a creature hasn't observed the statue move or act, that creature must succeed on a DC 18 Intelligence (Investigation) check to discern that the statue isn't an object."
+      },
+      {
+        "name": "Ghostly Inhabitant",
+        "description": "The eidolon that enters the statue remains inside it until the statue drops to 0 hit points, the eidolon uses a bonus action to move out of the statue, or the eidolon is turned or forced out by an effect such as the dispel evil and good spell. When the eidolon leaves the statue, it appears in an unoccupied space within 5 feet of the statue."
+      },
+      {
+        "name": "Inert",
+        "description": "Without an eidolon inside, the statue is an object."
+      },
+      {
+        "name": "Unusual Nature",
+        "description": "The statue doesn't require air, food, drink, or sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The statue makes two Slam or Rock attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 43 (6d12 + 4) bludgeoning damage."
+      },
+      {
+        "name": "Rock",
+        "description": "Ranged Weapon Attack: +8 to hit, range 60 ft./240 ft., one target. Hit: 37 (6d10 + 4) bludgeoning damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.114)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Shadar-kai Gloom Weaver",
+    "size": "Medium",
+    "type": "humanoid (elf)",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 14,
+    "ac_type": "17 with mage armor",
+    "hit_points": "104 (16d8 + 32)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 18,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 12,
+      "charisma": 18
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 11",
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Burden of Time",
+        "description": "Beasts and Humanoids (except elves) have disadvantage on saving throws while within 10 feet of the shadar-kai."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "The shadar-kai has advantage on saving throws against being charmed, and magic can't put it to sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The shadar-kai makes three Shadow Spear attacks. It can replace one attack with a use of Spellcasting."
+      },
+      {
+        "name": "Shadow Spear",
+        "description": "Melee or Ranged Weapon Attack: +8 to hit, reach 5 ft. or range 30/120, one target. Hit: 7 (1d6 + 4) piercing damage plus 26 (4d12) necrotic damage. Hit or Miss: The spear magically returns to the shadar-kai's hand immediately after a ranged attack."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The shadar-kai casts one of the following spells, requiring no material components and using Charisma as the spellcasting ability (spell save DC 16):\nAt will: arcane eye, mage armor, minor illusion, prestidigitation, speak with dead\n1/day each: arcane gate, bane, confusion, darkness, fear, major image, true seeing"
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Misty Escape (Recharge 6)",
+        "description": "When the shadar-kai takes damage, it turns invisible and teleports, along with any equipment it is wearing or carrying, up to 60 feet to an unoccupied space it can see. It remains invisible until the start of its next turn or until it attacks or casts a spell."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.213)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Shadar-kai Shadow Dancer",
+    "size": "Medium",
+    "type": "humanoid (elf)",
+    "alignment": "Any Alignment",
+    "armor_class": 15,
+    "ac_type": "studded leather",
+    "hit_points": "71 (13d8 + 13)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 16,
+      "constitution": 13,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "dex": 6,
+      "cha": 4
+    },
+    "skills": {
+      "Stealth": 6
+    },
+    "damage_resistances": [
+      "necrotic"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 11",
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "challenge_rating": "7",
+    "xp": 2900,
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "The shadar-kai has advantage on saving throws against being charmed, and magic can't put it to sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The shadar-kai makes three Spiked Chain attacks. It can use Shadow Jump after one of these attacks."
+      },
+      {
+        "name": "Spiked Chain",
+        "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 10 (2d6 + 3) piercing damage. The target must succeed on a DC 14 Dexterity saving throw or suffer one of the following effects (choose one or roll a d6):\n1-2: Decay. The target takes 22 (4d10) necrotic damage.\n3-4: Grapple. The target is grappled (escape DC 14) if it is a Medium or smaller creature. Until the grapple ends, the target is restrained, and the shadar-kai can't grapple another target.\n5-6: Topple. The target is knocked prone."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.213)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Shadar-kai Soul Monger",
+    "size": "Medium",
+    "type": "humanoid (elf)",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 15,
+    "ac_type": "studded leather",
+    "hit_points": "136 (21d8 + 42)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 17,
+      "constitution": 14,
+      "intelligence": 19,
+      "wisdom": 15,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "dex": 7,
+      "wis": 7,
+      "cha": 5
+    },
+    "skills": {
+      "Perception": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "necrotic",
+      "psychic"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 17",
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "challenge_rating": "11",
+    "xp": 7200,
+    "features": [
+      {
+        "name": "Weight of Ages",
+        "description": "Any Beast or Humanoid (except an elf) that starts its turn within 5 feet of the shadar-kai has its speed reduced by 20 feet until the start of that creature's next turn."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "The shadar-kai has advantage on saving throws against being charmed, and magic can't put it to sleep."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The shadar-kai has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Soul Thirst",
+        "description": "When it reduces a creature to 0 hit points, the shadar-kai can gain temporary hit points equal to half the creature's hit point maximum. While the shadar-kai has temporary hit points from this trait, it has advantage on attack rolls."
+      },
+      {
+        "name": "Proficiency Bonus",
+        "description": "+4"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The shadar-kai makes two Shadow Dagger attacks."
+      },
+      {
+        "name": "Shadow Dagger",
+        "description": "Melee or Ranged Weapon Attack: +7 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 13 (4d4 + 3) piercing damage plus 19 (3d12) necrotic damage, and the target has disadvantage on saving throws until the end of the shadar-kai's next turn. Hit or Miss: The dagger magically returns to the shadar-kai's hand immediately after a ranged attack."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The shadar-kai casts one of the following spells, requiring no material components and using Intelligence as the spellcasting ability (spell save DC 16):\n1/day each: bestow curse, finger of death, gaseous form, seeming"
+      },
+      {
+        "name": "Wave of Weariness (Recharge 4-6)",
+        "description": "The shadar-kai emits weariness in a 60-foot cube. Each creature in that area must make a DC 16 Constitution saving throw. On a failed save, a creature takes 45 (10d8) psychic damage and suffers 1 level of exhaustion. On a successful save, it takes half as much damage and doesn't gain a level of exhaustion."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.214)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Shadow Mastiff Alpha",
+    "size": "Medium",
+    "type": "monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 12,
+    "ac_type": "",
+    "hit_points": "44 (8d8 + 8)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 14,
+      "constitution": 13,
+      "intelligence": 6,
+      "wisdom": 12,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 5,
+      "Stealth": 6
+    },
+    "damage_resistances": [
+      "bludgeoning",
+      "piercing",
+      "slashing from nonmagical attacks while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 15",
+    "languages": [],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Ethereal Awareness",
+        "description": "The shadow mastiff can see ethereal creatures and objects."
+      },
+      {
+        "name": "Sunlight Weakness",
+        "description": "While in bright light created by sunlight, the shadow mastiff has disadvantage on attack rolls, ability checks, and saving throws."
+      },
+      {
+        "name": "Proficiency Bonus",
+        "description": "+2"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
+      },
+      {
+        "name": "Terrifying Howl (Recharge 6)",
+        "description": "The shadow mastiff howls. Any Beast or Humanoid within 300 feet of it must succeed on a DC 11 Wisdom saving throw or be frightened of it for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a target's save is successful or the effect ends for it, the target is immune to any shadow mastiff's Terrifying Howl for the next 24 hours."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.215)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Angry Sorrowsworn",
+    "size": "Medium",
+    "type": "Monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 18,
+    "ac_type": "natural armor",
+    "hit_points": "255 (30d8 + 120)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 10,
+      "constitution": 19,
+      "intelligence": 8,
+      "wisdom": 13,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 11
+    },
+    "damage_resistances": [
+      "bludgeoning, piercing, and slashing while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 21",
+    "languages": [
+      "Common"
+    ],
+    "challenge_rating": "13",
+    "xp": 10000,
+    "features": [
+      {
+        "name": "Two Heads",
+        "description": "The sorrowsworn has advantage on saving throws against being blinded, charmed, deafened, frightened, stunned, or knocked unconscious."
+      },
+      {
+        "name": "Rising Anger",
+        "description": "If another creature deals damage to the sorrowsworn, the sorrowsworn's attack rolls have advantage until the end of its next turn, and the first time it hits with a Hook attack on its next turn, the attack's target takes an extra 19 (3d12) psychic damage. On its turn, the sorrowsworn has disadvantage on attack rolls if no other creature has dealt damage to it since the end of its last turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The sorrowsworn makes two Hook attacks."
+      },
+      {
+        "name": "Hook",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 16 (2d12 + 3) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.222)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Hungry Sorrowsworn",
+    "size": "Medium",
+    "type": "Monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "112 (15d8 + 45)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 10,
+      "constitution": 17,
+      "intelligence": 6,
+      "wisdom": 11,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "bludgeoning, piercing, and slashing while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "Common"
+    ],
+    "challenge_rating": "11",
+    "xp": 7200,
+    "features": [
+      {
+        "name": "Life Hunger",
+        "description": "If a creature within 60 feet of the sorrowsworn regains hit points, the sorrowsworn gains two benefits until the end of its next turn: it has advantage on attack rolls, and its Bite deals an extra 22 (4d10) necrotic damage on a hit."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The sorrowsworn makes one Bite attack and one Claw attack."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage plus 13 (3d8) necrotic damage."
+      },
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 18 (4d6 + 4) slashing damage. If the target is Medium or smaller, it is grappled (escape DC 16), and it is restrained until the grapple ends. While grappling a creature, the sorrowsworn can't make a Claw attack."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.223)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Lonely Sorrowsworn",
+    "size": "Medium",
+    "type": "Monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 17,
+    "ac_type": "natural armor",
+    "hit_points": "225 (30d8 + 90)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 17,
+      "intelligence": 6,
+      "wisdom": 11,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "bludgeoning, piercing, and slashing while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "Common"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Psychic Leech",
+        "description": "At the start of each of the sorrowsworn's turns, each creature within 5 feet of it must succeed on a DC 15 Wisdom saving throw or take 10 (3d6) psychic damage."
+      },
+      {
+        "name": "Thrives on Company",
+        "description": "The sorrowsworn has advantage on attack rolls while it is within 30 feet of at least two other creatures. It otherwise has disadvantage on attack rolls."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The sorrowsworn makes one Harpoon Arm attack, and it uses Sorrowful Embrace."
+      },
+      {
+        "name": "Harpoon Arm",
+        "description": "Melee Weapon Attack: +7 to hit, reach 60 ft., one target. Hit: 21 (4d8 + 3) piercing damage, and the target is grappled (escape DC 15) if it is a Large or smaller creature. The sorrowsworn has two harpoon arms and can grapple up to two creatures at once."
+      },
+      {
+        "name": "Sorrowful Embrace",
+        "description": "Each creature grappled by the sorrowsworn must make a DC 15 Wisdom saving throw, taking 18 (4d8) psychic damage on a failed save, or half as much damage on a successful one. In either case, the sorrowsworn pulls each of those creatures up to 30 feet straight toward it."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.223)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Lost Sorrowsworn",
+    "size": "Medium",
+    "type": "monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 15,
+    "ac_type": "natural armor",
+    "hit_points": "78 (12d8 + 24)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 12,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 7,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6
+    },
+    "damage_resistances": [
+      "bludgeoning",
+      "piercing",
+      "slashing while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 8",
+    "languages": [
+      "Common"
+    ],
+    "challenge_rating": "7",
+    "xp": 2900,
+    "features": [],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The sorrowsworn makes two Arm Spike attacks."
+      },
+      {
+        "name": "Arm Spike",
+        "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (2dl0 + 3) piercing damage."
+      },
+      {
+        "name": "Embrace (Recharge 4-6)",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 25 (4dl0 + 3) piercing damage, and the target is grappled (escape DC 14) if it is a Medium or smaller creature. Until the grapple ends, the target is frightened, and it takes 27 (6d8) psychic damage at the end of each of its turns. The sorrowsworn can grapple only one creature at a time."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Tightening Embrace",
+        "description": "If the sorrowsworn takes damage, the creature grappled by Embrace takes 18 (4d8) psychic damage."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.224)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Wretched Sorrowsworn",
+    "size": "Small",
+    "type": "monstrosity",
+    "alignment": "Typically Neutral Evil",
+    "armor_class": 15,
+    "ac_type": "natural armor",
+    "hit_points": "10 (4d6 - 4)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 7,
+      "dexterity": 12,
+      "constitution": 9,
+      "intelligence": 5,
+      "wisdom": 6,
+      "charisma": 5
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "bludgeoning",
+      "piercing",
+      "slashing while in dim light or darkness"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 8",
+    "languages": [],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Wretched Pack Tactics",
+        "description": "The sorrowsworn has advantage on an attack roll against a creature if at least one of the sorrowsworn's allies is within 5 feet of the creature and the ally isn't incapacitated. The sorrowsworn otherwise has disadvantage on attack rolls."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (IdlO + 1) piercing damage, and the sorrowsworn attaches to the target. While attached, the sorrowsworn can't attack, and at the start of each of the sorrowsworn's turns, the target takes 6 (IdlO + 1) necrotic damage. The attached sorrowsworn moves with the target whenever the target moves, requiring none of the sorrowsworn's movement. The sorrowsworn can detach itself by spending 5 feet of its movement on its turn. A creature, including the target, can use its action to detach the sorrowsworn."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.224)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Thorny Vegepygmy",
+    "size": "Medium",
+    "type": "plant",
+    "alignment": "typically neutral",
+    "armor_class": 14,
+    "ac_type": "natural armor",
+    "hit_points": "27 (5d8 + 5)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 12,
+      "constitution": 13,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 4,
+      "Stealth": 3
+    },
+    "damage_resistances": [
+      "lightning",
+      "piercing"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Plant Camouflage",
+        "description": "The thorny has advantage on Dexterity (Stealth) checks it makes in any terrain with ample obscuring vegetation."
+      },
+      {
+        "name": "Regeneration",
+        "description": "The thorny regains 5 hit points at the start of its turn. If it takes cold, fire, or necrotic damage, this trait doesn't function at the start of the thorny's next turn. The thorny dies only if it starts its turn with 0 hit points and doesn't regenerate."
+      },
+      {
+        "name": "Thorny Body",
+        "description": "At the start of its turn, the thorny deals 2 (1d4) piercing damage to any creature grappling it."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 10 (2d8 + 1) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.253)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Abjurer Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "104 (16d8 + 32)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 18,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 8,
+      "wis": 5
+    },
+    "skills": {
+      "Arcana": 8,
+      "History": 8
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The abjurer casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 16): At will: dancing lights, mage hand, message, prestidigitation 2/day each: dispel magic, lightning bolt, mage armor 1/day each: arcane lock, banishment, globe of invulnerability, invisibility, wall of force"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The abjurer makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +8 to hit, reach 5 ft. or range 120 ft., one target. Hit: 20 (3d10 + 4) force damage."
+      },
+      {
+        "name": "Force Blast",
+        "description": "Each creature in a 20-foot cube originating from the abjurer must make a DC 16 Constitution saving throw. On a failed save, a creature takes 36 (8d8) force damage and is pushed up to 10 feet away from the abjurer. On a successful save, a creature takes half as much damage and isn't pushed."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Arcane Ward (Recharge 4-6)",
+        "description": "When the abjurer or a creature it can see within 30 feet of it takes damage, the abjurer magically creates a protective barrier around itself or the other creature. The barrier reduces the damage to the protected creature by 26 (4d10 + 4), to a minimum of 0, and then vanishes."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.260)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Conjurer Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "58 (13d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "6",
+    "xp": 2300,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The conjurer casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 14): At will: dancing lights, mage hand, prestidigitation 2/day each: fireball, mage armor, unseen servant 1/day each: fly, stinking cloud, web"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The conjurer makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +6 to hit, reach 5 ft. or range 120 ft., one target. Hit: 19 (3d10 + 3) force damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.260)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Diviner Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "49 (11d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 18,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 7,
+      "History": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "8",
+    "xp": 3900,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The diviner casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 15): At will: light, mage hand, message, prestidigitation 2/day each: arcane eye, detect magic, detect thoughts, fly, lightning bolt, locate object, mage armor, Rary's telepathic bond 1/day: true seeing"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The diviner makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +7 to hit, reach 5 ft. or range 120 ft., one target. Hit: 20 (3d10 + 4) radiant damage."
+      },
+      {
+        "name": "Overwhelming Revelation (Recharge 5-6)",
+        "description": "The diviner magically creates a burst of illumination in a 10-foot-radius sphere centered on a point within 120 feet of it. Each creature in that area must make a DC 15 Wisdom saving throw. On a failed save, a creature takes 45 (10d8) psychic damage and is stunned until the end of the diviner's next turn. On a successful save, the creature takes half as much damage and isn't stunned."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Portent (3/Day)",
+        "description": "When the diviner or a creature it can see makes an attack roll, a saving throw, or an ability check, the diviner rolls a d20 and chooses whether to use that roll in place of the d20 rolled for the attack roll, saving throw, or ability check."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.261)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Enchanter Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "49 (11d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The enchanter casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 14): At will: friends, mage hand, message 2/day each: charm person, mage armor, hold person, invisibility, suggestion, tongues"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The enchanter makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +6 to hit, reach 5 ft. or range 120 ft., one target. Hit: 19 (3d10 + 3) psychic damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Instinctive Charm (Recharge 4-6)",
+        "description": "When a visible creature within 30 feet of the enchanter makes an attack roll against it, the enchanter forces the attacker to make a DC 14 Wisdom saving throw. On a failed save, the attacker redirects the attack roll to the creature closest to it, other than the enchanter or itself. If multiple eligible creatures are closest, the attacker chooses which one to target."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.261)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Evoker Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "121 (22d8 + 22)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 5
+    },
+    "skills": {
+      "Arcana": 7,
+      "History": 7
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The evoker casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 15): At will: light, mage hand, message, prestidigitation 2/day each: ice storm, lightning bolt, mage armor 1/day: wall of ice"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The evoker makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +7 to hit, reach 5 ft. or range 120 ft., one target. Hit: 25 (4d10 + 3) force damage."
+      },
+      {
+        "name": "Sculpted Explosion (Recharge 4-6)",
+        "description": "The evoker unleashes a magical explosion of a particular damage type: cold, fire, lightning, or thunder. The magic erupts in a 20-foot-radius sphere centered on a point within 150 feet of the evoker. Each creature in that area must make a DC 15 Dexterity saving throw. The evoker can select up to three creatures it can see in the area to ignore the spell, as the evoker sculpts the spell's energy around them. On a failed save, a creature takes 40 (9d8) damage of the chosen type and is knocked prone. On a successful save, a creature takes half as much damage and isn't knocked prone."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.262)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Illusionist Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "44 (8d8 + 8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 13,
+      "intelligence": 16,
+      "wisdom": 11,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "int": 5,
+      "wis": 2
+    },
+    "skills": {
+      "Arcana": 5,
+      "History": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The illusionist casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 13):\nAt will: dancing lights, mage hand, minor illusion\n2/day each: disguise self, invisibility, mage armor, major image, phantasmal force, phantom steed"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The illusionist makes two Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +5 to hit, reach 5 ft. or range 120 ft., one target. Hit: 14 (2d10 + 3) psychic damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.263)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Necromancer Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "110 (20d8 + 20)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 5
+    },
+    "skills": {
+      "Arcana": 7,
+      "History": 7
+    },
+    "damage_resistances": [
+      "necrotic"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The necromancer casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 15):\nAt will: dancing lights, mage hand, prestidigitation\n2/day each: bestow curse, dimension door, mage armor, web\n1/day: circle of death"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The necromancer makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +7 to hit, reach 5 ft. or range 120 ft., one target. Hit: 25 (4d10 + 3) necrotic damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Crim Harvest",
+        "description": "When the necromancer kills a creature with necrotic damage, the necromancer regains 9 (2d8) hit points."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.264)",
+    "_source_manual": "MPMM"
+  },
+  {
+    "name": "Transmuter Wizard",
+    "size": "Medium",
+    "type": "humanoid",
+    "alignment": "Any Alignment",
+    "armor_class": 12,
+    "ac_type": "15 with mage armor",
+    "hit_points": "49 (11d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "any four languages"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Transmuter's Stone",
+        "description": "The transmuter carries a magic stone it crafted. The stone grants it one of the following benefits while bearing the stone; the transmuter chooses the benefit at the end of each long rest:\nDarkvision. The transmuter has darkvision out to a range of 60 feet.\nResilience. The transmuter has proficiency in Constitution saving throws.\nResistance. The transmuter has resistance to acid, cold, fire, lightning, or thunder damage (transmuter's choice whenever choosing this benefit).\nSpeed. The transmuter's walking speed is increased by 10 feet."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The transmuter casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 14):\nAt will: light, message, prestidigitation\n2/day each: fireball, hold person, knock, mage armor, polymorph, slow\n1/day: telekinesis"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The transmuter makes three Arcane Burst attacks."
+      },
+      {
+        "name": "Arcane Burst",
+        "description": "Melee or Ranged Spell Attack: +6 to hit, reach 5 ft. or range 120 ft., one target. Hit: 19 (3d10 + 3) acid damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E Mordenkainen Presents Monsters of the Multiverse, p.265)",
+    "_source_manual": "MPMM"
   }
 ]
