@@ -13,7 +13,12 @@ reaching any badge even if it is reintroduced by a later ingest.
 import re
 
 # Book names that are not books. Matched only against the book part of a source.
-_PLACEHOLDER_BOOK = re.compile(r"^(unknown|n/?a|none|null|tbd|\?+|[-—]+)$", re.I)
+_PLACEHOLDER_BOOK = re.compile(
+    r"^(unknown|n/?a|none|null|tbd|\?+|[-—]+"
+    r"|generic(\s+(treasure|item|entry))?"      # "(Generic treasure)"
+    r"|treasure|varies|see\s+(text|below|entry|page)|not\s+applicable)$",
+    re.I,
+)
 
 # "(Book, p.12)" | "(Book, p 12)" | "(Book)" | bare "Book p.12" | "Book"
 _SOURCE_SHAPE = re.compile(r"^\(?([^,()]+?)(?:,\s*p\.?\s*\d+)?\)?$", re.I)

@@ -32,6 +32,9 @@ PLACEHOLDERS = [
     "(Unknown, p.55)",
     "(N/A)",
     "(TBD)",
+    "(Generic treasure)",      # a trinket from a treasure table, not a magic item
+    "(Varies)",
+    "(see text)",
 ]
 
 REAL_SOURCES = [
@@ -144,6 +147,14 @@ def test_page_maps_agree_with_the_records_they_override():
         assert subs[name]["_source_manual"] == slug
         assert re.search(rf"p\.\s*{mapped['page']}", subs[name]["source"]), (
             f"{name}: record says {subs[name]['source']!r}, map says {mapped['source_str']!r}")
+
+
+def test_treasure_record_names_its_book():
+    """'(Generic treasure)' named no book at all, so the badge was a dead click."""
+    items = {i["name"]: i for i in json.loads((MANUAL / "magic_items.json").read_text())}
+    rec = items["necklace of 22 crysoprase beads"]
+    assert rec["source"] == "(The Rise of Tiamat)"
+    assert rec["_source_manual"] == "RoT"
 
 
 def test_suppression_list_does_not_shadow_a_live_source():

@@ -1,10 +1,14 @@
 """Fix unresolved ("Unknown Source") attributions in the app's reference data.
 
 Root cause this repairs: an ingested record whose book could not be determined keeps the
-literal placeholder "(Unknown Source, p.N)" *and* has no `_source_manual` slug, so
+literal placeholder "(Unknown Source, p.N)" *and* no `_source_manual` slug, so
 services.data_loader._normalize_manual_source() — which rebuilds a source from the slug —
 has nothing to rebuild from. The placeholder then flows all the way to the DM-tools badge
 ("📚 (Unknown Source, p.222)") and to openSourceRef(), which is a dead click.
+
+A source is "unresolved" when services.sources.is_placeholder_source() says it names no
+book — that covers "(Unknown Source, p.N)", "(Unknown sourcebook)", "(N/A)" and
+non-books like "(Generic treasure)".
 
 Every rewrite below is evidence-backed: the name's presence in that book's extracted text
 (data/manual_cache/<ABBR>.txt), and for the strongest cases the recorded page matching the
@@ -23,10 +27,13 @@ from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
+from services.sources import is_placeholder_source  # noqa: E402
+
 MANUAL = REPO / "data" / "manual_data"
 BACKUP = REPO / "data" / "backups" / f"sources-{datetime.now():%Y%m%d-%H%M%S}"
 
-PAT = re.compile(r"unknown\s+source", re.I)
+PAT = re.compile(r"unknown\s+source", re.I)  # kept for reference; detection uses the helper
 
 # name -> (display book, page, slug, evidence)
 NPC_FIXES = {
@@ -79,6 +86,15 @@ FEAT_FIXES = {
                           "the loader independently serves 'EEPC p.7' (cross-check passes)"),
 }
 
+# A treasure trinket, not a magic item: its "source" named no book at all.
+ITEM_FIXES = {
+    "necklace of 22 crysoprase beads": ("The Rise of Tiamat", None, "RoT",
+                                        "the record's exact wording ('a necklace of 22 crysoprase "
+                                        "beads worth 20 gp each') appears only in RoT's treasure "
+                                        "text; the DMG has 'Chrysoprase' merely as one line in its "
+                                        "gem table. No page: the .txt cache carries no page marks"),
+}
+
 RACE_FIXES = {
     "Deep Gnome": ("Elemental Evil Player's Companion", 7, "EEPC", "EEPC deep gnome section"),
     "Fire Genasi": ("Elemental Evil Player's Companion", 10, "EEPC",
@@ -118,7 +134,8 @@ PAGE_MAP_FIXES = {
 SKIP: dict[str, str] = {}
 
 TARGETS = [("npcs.json", "npcs", NPC_FIXES), ("feats.json", "feats", FEAT_FIXES),
-           ("races.json", "races", RACE_FIXES), ("subclasses.json", "subclasses", SUBCLASS_FIXES)]
+           ("races.json", "races", RACE_FIXES), ("subclasses.json", "subclasses", SUBCLASS_FIXES),
+           ("magic_items.json", "magic_items", ITEM_FIXES)]
 
 
 def new_source(display, page):
@@ -139,7 +156,7 @@ def main():
         recs = doc if isinstance(doc, list) else doc.get(key) or doc.get("data") or []
         changed = 0
         for r in recs:
-            if not isinstance(r, dict) or not PAT.search(str(r.get("source", ""))):
+            if not isinstance(r, dict) or not is_placeholder_source(r.get("source", "")):
                 continue
             name = str(r.get("name", ""))
             if name in SKIP:
