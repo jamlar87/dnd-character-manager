@@ -1,0 +1,606 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Combined Mirror Shards",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "If all five mirror shards are held together so they are stacked front to back, front to back, they have the following powers:\n• Wielder can cast sacred flame three times per day as if by an 11th-level caster\n• Instead of the above, the wielder can opt to cast a single robust sacred flame spell once per day. This causes maximum (24) damage, and any target creature with vulnerability to radiant damage rolls its saving throw with disadvantage\nAnyone can use the five mirror shards in this way, even non-spellcasters.\nAlthough the shards' edges are certainly sharp, reasonably careful PCs should be in no danger of cutting themselves when using the shards in this way. A clever PC might even bind the five shards together with strong cord, wire, or rope in order to keep them together and make it easier to use them.",
+      "source": "Unknown p.88"
+    },
+    {
+      "name": "+1 leather armor",
+      "type": "Armor",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You have a +1 bonus to AC while wearing this armor.",
+      "source": "DMG p.152"
+    },
+    {
+      "name": "+1 ring of protection",
+      "type": "Ring",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to AC and saving throws while wearing this ring.",
+      "source": "DMG p.191"
+    },
+    {
+      "name": "ring of cold energy resistance",
+      "type": "Ring",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "You have resistance to cold damage while wearing this ring.",
+      "source": "DMG p.191"
+    },
+    {
+      "name": "The Shadow Grimoire",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This thick tome is covered in inky black nightmare hide leather and bound with iron overlaid with silver. Delicate silver runes are inlaid in a circular pattern across the cover. The pages within are written in silver ink on jet-black paper. The book is extremely well-crafted, durable and waterproof, and measures just over 12 inches tall, 9 inches wide and 1 inch thick.\nThe Dusk Queen received the Shadow Grimoire as a gift while she still dwelt in the fey realm of the Winter Court.\nWarded. The Shadow Grimoire is protected by a glyph of warding. The glyph is triggered by the Grimoire itself if it feels threatened. The glyph causes explosive runes to erupt in a 20-foot-radius sphere. Each creature in the area must make a DC 16 Dexterity saving throw. A creature takes 45 (10d8) cold damage on a failed save, or half as much damage on a successful one.\nBookish. The Shadow Grimoire can open and close itself and flip instantly to any page it desires, including the current scroll page (see below) as an action. A DC 30 Strength check is required to close it, pry it open, or tear out a page against its will.\nScroll Page. The Shadow Grimoire always contains one spell, from among all the spells transcribed within it, that the owner may cast directly from the book as if it were a scroll. Once the spell is cast, another spell (other than the one just cast) randomly becomes the next spell that can be cast directly from the book. The owner must spend an action to flip pages and find the new scroll-page spell. Once found, the scroll page can be marked for future reference. The owner does not need to provide a material component if it costs under 100 gp, and casting the spell does not remove it from the spellbook. The Grimoire does not have the ability to cast this spell itself.\nInnate Spellcasting. The Shadow Grimoire's innate spellcasting ability is Charisma. It can cast the following spells innately, requiring no material components:\n3/day: misty step (when in shadows, dim light, or darkness only)\nShadow Knowledge. The Shadow Grimoire's secrets cling to its owner's mind like the Shadowfell itself. As long as the owner is in possession of the Grimoire, he gains advantage on all skill checks pertaining to shadow or darkness magic or the geography, history, and denizens of the Plane of Shadow.\nSunlight Vulnerability. The Shadow Grimoire must remain cloaked in shadow or the darkness of night at all times. The spellbook is immediately damaged if exposed to direct sunlight (not merely a daylight spell) for even an instant. For every minute the Shadow Grimoire is exposed to sunlight, it takes 4 (1d8) radiant damage. If this damage exceeds the book's total hit points, the Shadow Grimoire bursts into gray flame and is forever destroyed.",
+      "source": "The Shadow Grimoire p.19"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Weeping Treant",
+      "size": "Huge",
+      "type": "plant",
+      "alignment": "neutral",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "105 (10d12 + 40)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 8,
+        "constitution": 18,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Druidic",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Siege Monster",
+          "description": "The treant deals double damage to objects and structures."
+        },
+        {
+          "name": "Treespeech",
+          "description": "A weeping treant can converse with plants, and most plants greet them with a friendly or helpful attitude."
+        },
+        {
+          "name": "Acidic Tears",
+          "description": "Thick tears of dark sap stream continuously down the treant's face and trunk. These tears are highly acidic—anyone who attacks the treant from a range of 5 feet or less must succeed on a DC 15 Dexterity saving throw or take 6 (1d12) acid damage from splashed tears. This acidic matter continues doing 6 (1d12) acid damage at the start of each of the creature's turns until it or an adjacent ally uses an action to wipe off the tears or three rounds elapse."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The treant makes three slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., single target. Hit: 15 (3d6 + 5) bludgeoning damage."
+        },
+        {
+          "name": "Rock",
+          "description": "Ranged Weapon Attack: +8 to hit, range 60/180 ft., one target. Hit: 21 (3d10 + 5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.44"
+    },
+    {
+      "name": "Black Stirge",
+      "size": "Tiny",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "2 (1d4)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 16,
+        "constitution": 11,
+        "intelligence": 2,
+        "wisdom": 8,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 9",
+      "languages": [],
+      "challenge_rating": "1/8",
+      "xp": 25,
+      "features": [
+        {
+          "name": "Shadow Blend",
+          "description": "In conditions of illumination other than full daylight, a black stirge disappears into the shadows, gaining the equivalent of heavy obscurement. Artificial illumination, even a light or continual flame spell, does not negate this ability; a daylight spell, however, does. A black stirge can suspend or resume this ability as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Strength Drain",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 5 (1d4 + 3) piercing damage, and the stirge attaches to the target. While attached, the stirge doesn't attack. Instead, the target's Strength score is reduced by 1d4. The target dies if this reduces its Strength to 0. Otherwise, the reduction lasts until the target finishes a short or long rest. The stirge can detach itself by spending 5 feet of its movement. It does so after it drains 4 points of Strength from the target or the target dies. A creature, including the target, can use its action to detach the stirge. This replaces the stirge's Blood Drain action."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Shadow Forest p.65"
+    },
+    {
+      "name": "Gothrolg",
+      "size": "Medium",
+      "type": "humanoid (goblinoid)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "+1 leather armor, +1 ring of protection",
+      "hit_points": "65 (10d8 + 20)",
+      "speed": "30 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 3,
+        "Stealth": 5,
+        "Survival": 3
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Goblin"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Brute",
+          "description": "A melee weapon deals one extra die of its damage when Gothrolg hits with it (included in the attack)."
+        },
+        {
+          "name": "Indominable Heart",
+          "description": "Gothrolg has advantage on saving throws against being charmed, frightened, paralyzed, poisoned, stunned, or put to sleep."
+        },
+        {
+          "name": "Surprise Attack",
+          "description": "If Gothrolg surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Gothrolg makes two melee attacks."
+        },
+        {
+          "name": "Morningstar",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage."
+        },
+        {
+          "name": "Javelin",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 30/120 ft., one target. Hit: 11 (2d6 + 4) piercing damage in melee or 7 (1d6 + 4) piercing damage at range."
+        },
+        {
+          "name": "Necrotic Breath (Recharge 5–6)",
+          "description": "Gothrolg exhales a burst of withering energy in a 15-foot cone. Each creature in that area must make a DC 15 Dexterity saving throw, taking 24 (7d6) necrotic damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.10"
+    },
+    {
+      "name": "Ilmareth, Elder Shadow Drake",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "114 (12d10 + 48)",
+      "speed": "20 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 13,
+        "constitution": 18,
+        "intelligence": 8,
+        "wisdom": 9,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "dex": 4,
+        "con": 7,
+        "cha": 4
+      },
+      "skills": {
+        "Perception": 5,
+        "Stealth": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "cold"
+      ],
+      "condition_immunities": [
+        "paralyzed",
+        "unconscious"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Umbral"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Shadow Blend",
+          "description": "In areas of dim light or darkness, an elder shadow drake is treated as invisible. Artificial illumination, such as a lantern or a light or continual flame spell, does not negate this ability; nothing less than true sunlight or a daylight spell does. The drake cannot use its Speed Surge or its Stygian Breath while invisible. An elder shadow drake can suspend or resume this ability at will, so long as the drake is in dim light or darkness."
+        },
+        {
+          "name": "Shadow Jump (3/Day)",
+          "description": "An elder shadow drake can travel between shadows as if by means of a dimension door spell. This magical transport must begin and end in an area of dim light or darkness, and the distance must be no more than 60 feet.",
+          "uses": 3,
+          "recharge": "day"
+        },
+        {
+          "name": "Speed Surge (3/Day)",
+          "description": "The elder shadow drake takes one additional move action on its turn. It can use only one speed surge per round.",
+          "uses": 3,
+          "recharge": "day"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The drake makes one bite attack and one tail slap attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 22 (3d10 + 6) piercing damage."
+        },
+        {
+          "name": "Tail Slap",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 19 (3d8 + 6) bludgeoning damage."
+        },
+        {
+          "name": "Stygian Breath (Recharge 5–6)",
+          "description": "The elder shadow drake exhales a ball of black liquid that travels up to 60 feet before exploding into a cloud of frigid black mist with a 20-foot radius. Each creature in that sphere takes 42 (12d6) cold damage, or half damage with a successful DC 15 Constitution saving throw. Within the area of effect, the mist snuffs out nonmagical light sources and dispels magical light of 1st level or lower.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.13"
+    },
+    {
+      "name": "Aazael, the Dread Knight",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "chaotic evil",
+      "armor_class": 20,
+      "ac_type": "+1 plate, +1 ring of protection",
+      "hit_points": "85 (9d8 + 45)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 11,
+        "constitution": 20,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning, piercing and slashing from nonmagical weapons"
+      ],
+      "damage_immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Abyssal",
+        "Common"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Aazael has +1 plate, a +1 ring of protection, and a +1 glaive."
+        },
+        {
+          "name": "Fear Aura",
+          "description": "Any creature hostile to Aazael that starts its turn within 20 feet of the dread knight must make a DC 15 Wisdom saving throw, unless Aazael is incapacitated. On a failed save, the creature is frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to Aazael's fear aura for the next 24 hours."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "Aazael has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Rejuvenation",
+          "description": "One day after Aazael is destroyed, his armor begins to rebuild the undead body trapped within. This process takes 1d10 days—if the body is destroyed before that time passes, the armor merely starts the process anew. After this time has elapsed, Aazael wakens fully healed (see sidebar for more information)."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Aazael is a 9th-level spellcaster. His spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). He has the following paladin spells prepared:\n1st level (4 slots): command, compelled duel\n2nd level (3 slots): aid, magic weapon\n3rd level (2 slots): dispel magic, elemental weapon"
+        },
+        {
+          "name": "Undead Nature",
+          "description": "Aazael doesn't require air, food, drink, or sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Aazael makes two melee attacks."
+        },
+        {
+          "name": "+1 Glaive",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 11 (1d10 + 6) slashing damage plus 7 (2d6) necrotic damage."
+        },
+        {
+          "name": "Summon Pet (1/Day)",
+          "description": "Aazael may summon Annominc, his fiendish black panther servant (see sidebar), which immediately appears adjacent to him. Annominc remains for 1 hour, until it or Aazael dies, or until Aazael dismisses it as an action."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.15"
+    },
+    {
+      "name": "The Dusk Queen",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "mage armor*, +1 ring of protection",
+      "hit_points": "77 (14d8 + 14)",
+      "speed": "40 ft., fly 60 ft.*",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 20,
+        "wisdom": 20,
+        "charisma": 21
+      },
+      "saving_throws": {
+        "dex": 5,
+        "con": 4,
+        "cha": 8
+      },
+      "skills": {
+        "Perception": 8,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "fire*",
+        "lightning*",
+        "bludgeoning, piercing, and slashing damage from nonmagical weapons that aren't cold iron"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "exhaustion"
+      ],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 18",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Giant",
+        "Sylvan"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "The Dusk Queen has scrolls of darkness (x2), dominate person, freedom of movement*, harm, mage armor*, protection from energy (×2)*, see invisibility, shield, slow, stoneskin, and true seeing*, a handy haversack, and a ring of feather falling (those marked with * indicate spells cast before combat begins)."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "The Dusk Queen has advantage on saving throws against being charmed, and magic can't put her to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The Dusk Queen's innate spellcasting ability is Charisma. She can cast the following spells innately, requiring no material components.\n3/day: misty step (when in shadows, dim light, or darkness)"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, the Dusk Queen has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Arcane Spellcasting",
+          "description": "The Dusk Queen is a 7th-level spellcaster. Her arcane spellcasting ability is Intelligence (spell save DC 16, +8 to hit with spell attacks). She knows the following wizard spells:\nCantrips (4 slots): chill touch, control flames, minor illusion, ray of frost\n1st level (4 slots): color spray, ray of sickness, protection from evil and good, witch bolt\n2nd level (3 slots): blindness/deafness, cloud of daggers, enlarge/reduce\n3rd level (3 slots): counterspell, dispel magic, major image\n4th level (1 slot): phantasmal killer"
+        },
+        {
+          "name": "Divine Spellcasting",
+          "description": "The Dusk Queen is a 7th-level divine spellcaster. Her divine spellcasting ability is Wisdom (spell save DC 16, +8 to hit with spell attacks). She knows the following cleric spells:\nCantrips (4 slots): guidance, mending, resistance\n1st level (4 slots): bane, guiding bolt, sanctuary\n2nd level (3 slots): enhance ability, hold person, silence\n3rd level (3 slots): dispel magic, meld into stone, protection from energy\n4th level (1 slot): stone shape"
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "The Dusk Queen has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage.."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.16"
+    },
+    {
+      "name": "Annominc",
+      "size": "Medium",
+      "type": "fiend (beast)",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "45 (10d8)",
+      "speed": "50 ft., climb 40 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 19,
+        "constitution": 10,
+        "intelligence": 8,
+        "wisdom": 14,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 8
+      },
+      "damage_resistances": [
+        "cold and fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Keen Smell",
+          "description": "The panther has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Pounce",
+          "description": "If the panther moves at least 20 feet straight toward a creature and then hits it with a claw attack on the same turn, that target must succeed on a DC 12 Strength saving throw or be knocked prone. If the target is prone, the panther can make one bite attack against it as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage plus 4 (1d8) necrotic damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) slashing damage plus 3 (1d6) necrotic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.16"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Symbol of Stunning (Black Altar)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Triggered by anyone not of evil alignment passing through the ring of standing stones.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The black rock altar radiates a permanent symbol of stunning."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Creatures passing through the ring of standing stones must make a DC 16 Wisdom saving throw or be stunned.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "Ring of standing stones (approximately 30 feet in diameter)",
+      "description": "A permanent symbol of stunning on the black rock altar triggers when non-evil creatures pass through the ring of standing stones.",
+      "source": "Unknown p.88"
+    },
+    {
+      "name": "Glyph of Warding (on Dusk Queen's Tower Door)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Opening the door or touching the glyph",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Not specified"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified"
+      },
+      "effect": "7d8 cold damage",
+      "save_dc": 18,
+      "save_ability": "Dexterity",
+      "damage": "7d8",
+      "damage_type": "cold",
+      "area": "The door and surrounding area",
+      "description": "The door is warded with arcane lock and protected by a glyph of warding (7d8 cold damage, DC 18 Dexterity saving throw for half).",
+      "source": "p.13"
+    }
+  ],
+  "_chapters_completed": [
+    "The Queen of Shadows",
+    "Adventure Background",
+    "The Shadow Forest",
+    "The Shadow Grimoire",
+    "Shadows of the Dusk Queen",
+    "Getting Started"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 6,
+  "_book_slug": "SDQ",
+  "_book_title": "Shadows of the Dusk Queen 5E FINAL",
+  "_completed": true,
+  "_timestamp": 1790289906.017725
+}

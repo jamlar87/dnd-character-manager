@@ -1,0 +1,645 @@
+{
+  "races": [
+    {
+      "name": "Winterfolk Halfling",
+      "source": "Tome of Heroes p.2-4",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Halfling"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Coldforged Tools",
+          "description": "Winterfolk metalworking is done at low temperatures and most communities have at least one member capable of creating masterful coldforged items. Tools crafted by the winterfolk serve double duty as weapons as well."
+        },
+        {
+          "name": "Tool Weapons",
+          "description": "Many of the tools forged by the winterfolk can be used as weapons by simply substituting the closest approximation. A trowel acts as a dagger, a spade acts as a battleaxe, and a pitchfork acts as a trident, for instance."
+        }
+      ],
+      "subraces": [],
+      "description": "Winterfolk halflings are a reclusive, rugged people who dwell in the northern Rothenian Plains, hiding in small communities of sod-roofed huts. They are superstitious, hardy, and value privacy and community above all.",
+      "_effects": {
+        "Coldforged Tools": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor trait about crafting coldforged items; no direct mechanical effects."
+        },
+        "Tool Weapons": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Allows tools to be used as equivalent weapons (trowel=dagger, spade=battleaxe, pitchfork=trident); no proficiency granted by this trait itself."
+        }
+      }
+    },
+    {
+      "name": "Riverfolk Halfling",
+      "source": "Sourcebook p.17-18",
+      "asi": {
+        "strength": 1,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Halfling"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Sure-Footed",
+          "description": "You're tough and strong despite your small size, no stranger to hard work, labor, and working muscle against the will of a river. Your Strength score is increased by 1. Additionally, you are adept at maintaining your balance on wet decks; you have advantage on Dexterity (Acrobatics) checks to keep your balance. Slippery surfaces are not considered difficult terrain for you."
+        },
+        {
+          "name": "River's Child",
+          "description": "You have advantage on Strength (Athletics) checks to swim. Additionally, you add twice your Wisdom bonus on your Wisdom (Animal Handling) checks with advantage if the animal is native to rivers or nests in riverbanks. You can sense ley lines that cross or run parallel to a river within 1 mile of you but gain no other benefit to tap into or unlock it."
+        }
+      ],
+      "subraces": [],
+      "description": "Riverfolk are city halflings, usually growing up on docks, fishing boats, and the patchwork barges. Most are more at home on a temperamental river than on solid ground, and riverfolk seldom fear drowning.",
+      "_effects": {
+        "Sure-Footed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength score increased by 1. Advantage on Dexterity (Acrobatics) checks to keep balance. Slippery surfaces are not difficult terrain."
+        },
+        "River's Child": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Strength (Athletics) checks to swim. Adds twice Wisdom bonus on Wisdom (Animal Handling) checks with advantage for river-native animals. Can sense ley lines within 1 mile of a river."
+        }
+      }
+    },
+    {
+      "name": "Courtfolk",
+      "source": "Midgard Worldbook p.22-23",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 1
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Fey-Touched Finery",
+          "description": "Courtfolk are as small in size and stature as any halfling. Their long proximity to elves and the Elflands shows in their complexion, usually pale and freckled with light-colored eyes and curly mops of hair. Courtfolk prefer neat, well-tailored clothing (most of which they make themselves) with touches of elven inspiration apparent without ever descending into gaudy imitation. Men typically wear baggy trousers and tight vests and women favor flowing skirts with bodices. Colors are pastel or forest tones and muted, befitting a servant, but never drab. Elven jewelry is common among halflings of any gender as are smoking pipes. Courtfolk women particularly favor pipes of unique design."
+        },
+        {
+          "name": "History of Servitude",
+          "description": "The provenance of the courtfolk—indeed, all halflings—is the subject of speculation, and one the halflings themselves are curiously unconcerned with solving. Some suspicious humans maintain halflings were once human servants, but frequent exposure to the Elflands and the magic there left them stunted and enthralled to the fey. An occasional mage postulates the halflings were wholly created as elven servitors, made up partly of Midgard's substance and given life by fey magic. The courtfolk themselves laugh off such claims. They maintain they are simply halflings, but unlike the reclusive winterfolk and sly riverfolk, they did not break faith with the covenant they forged, by choice, with the great elven lords and ladies of old. The courtfolk are what halflings should be, they claim, and their pitiable offshoot cousins are defined by their loss of purpose. Numerous families of courtfolk once served elven courts from Arbonesse to Valera and every holding in between. They were expert craftsmen, faithful seneschals, discreet handmaids, efficient butlers, reliable messengers, unexpected bodyguards, and talented gardeners such that their elven masters trusted few others with their breathtaking gardens and courtyards. While never ostentatious, halflings whose families served since the earliest days of the elves' arrival bore a certain prestige among their own, respect owed for the lengths of their good service. Most of these families disappeared in the Great Retreat with their lords and ladies, separated from friends and kin. Those remaining behind honored their oaths, lingering in the fading courts and subservient to elfmarked descendants of once-mighty rulers. Time wore on, and a seed of sorrow took root in the courtfolk, though hidden by deference and cheery service. The names of kin gone since the Last Horn are recorded among them from generation to generation and repeated in their private songs and stories."
+        },
+        {
+          "name": "Servants Without Masters",
+          "description": "Courtfolk enjoy long lives, lingering in a pleasant old age for up to 350 years, a century longer than most halflings do. Most have a parent or grandparent who remembers the old courts and passed down their stories, mannerisms, and a keen sense of loss. As such, adapting to newfound freedom in only one or two generations has proven difficult for those who remained after the Last Horn. As observed with some small bitterness, those halflings who abandoned their duties and wandered away, becoming winterfolk and riverfolk elsewhere, seem to have had less trouble. Only the secluded River Court and the Imperatrix's own Royal Court still maintain families of courtfolk servants in significant numbers. Outside of the"
+        }
+      ],
+      "subraces": [],
+      "description": "Courtfolk are a halfling subrace with obvious elven influence, mired as they have been in elven culture for generations. They are at home in elven courts and politics, with a soft and lilting flair to their names and an innate glamour.",
+      "_effects": {
+        "Fey-Touched Finery": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Purely descriptive/flavor trait. No mechanical effects."
+        },
+        "History of Servitude": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Purely descriptive/flavor trait. No mechanical effects."
+        },
+        "Servants Without Masters": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Descriptive trait noting a lifespan of up to 350 years. No direct combat or proficiency mechanics."
+        }
+      }
+    },
+    {
+      "name": "Courtfolk Halfling",
+      "source": "Into Darkness p.27",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 1
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Halfling"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Age",
+          "description": "Courtfolk are the longest-lived of the halfling subraces, perhaps owing to their close association with elves. Courtfolk are elderly by their second century but enjoy relatively pleasant and unhindered old age well past 300 years."
+        },
+        {
+          "name": "Boon Companion",
+          "description": "You are  quick to step in and help your friends, and you have a knack for knowing exactly how to best do it. When you work with an ally to complete a task or take the Help action in combat, your ally adds a d4 to their check or attack roll (this includes the second roll made with advantage)."
+        },
+        {
+          "name": "Wee Glamour",
+          "description": "You are—ever so slightly—imbued with a bit of elven magic. You move with grace, your laugh is always pleasant, and colors are more vibrant on you. Your Charisma score increases by 1, and you have advantage on saves against spells of the enchantment school."
+        }
+      ],
+      "subraces": [
+        {
+          "name": "Variant Courtfolk: Shadow Servitors",
+          "asi": {
+            "int": 1
+          },
+          "traits": [
+            {
+              "name": "Disquiet",
+              "description": "You still look like your old self, but your mind is changed by the knowledge you’ve accepted—and you’re not sure it’s for the better. Your Intelligence score increases by 1. Additionally, something in your eyes makes people uneasy around you. You have advantage on Charisma (Intimidate) and Charisma (Deception) checks against humanoids."
+            },
+            {
+              "name": "Silent Steps",
+              "description": "You’ve always been adept at evading notice, but now your own shadow seems to muffle the noise you make. You can cast the silence spell once per day centered on yourself, which you can end at any time by speaking. Additionally, you always have advantage on Dexterity (Stealth) checks made to be quiet.",
+              "uses": 1,
+              "recharge": "long rest"
+            }
+          ],
+          "description": "Those courtfolk who elect to serve shadow fey are usually broken spirits to start with, and over time, the cracks in their souls become filled with something darker."
+        }
+      ],
+      "description": "Courtfolk halflings are a subrace of halflings who have lived in elven courts for generations, developing a graceful and unobtrusive demeanor. They have a soft, lilting flair to their names and a deep connection to elven culture and magic.",
+      "_effects": {
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor trait only; no mechanical effects."
+        },
+        "Boon Companion": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When you work with an ally to complete a task or take the Help action in combat, your ally adds a d4 to their check or attack roll (including the second roll made with advantage)."
+        },
+        "Wee Glamour": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Charisma score increases by 1. Advantage on saving throws against spells of the enchantment school."
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Hearth and Home",
+      "level": 3,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (two warm pebbles)",
+      "duration": "8 hours",
+      "description": "While under the effects of this spell, your body radiates a pleasant heat to a range of 5 feet. For the duration, you do not gain levels of exhaustion from exposure to extreme cold weather or from the effects of extreme hunger or starvation.",
+      "higher_levels": "Casting hearth and home using a spell slot of 4th level or higher allows you to affect one additional creature per level of the spell slot used. For instance, if you use a 5th-level spell slot to cast this spell, you can affect three creatures you touch.",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WFV"
+    },
+    {
+      "name": "Lure Prey",
+      "level": 2,
+      "school": "enchantment",
+      "casting_time": "1 minute",
+      "range": "1 mile",
+      "components": "V, S, M (a wishbone)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "The location in which you cast this spell becomes too enticing for small game to resist. At the end of the casting time, the caster breaks the wishbone in two and places both pieces on the ground. Within 2d6 minutes, 1d6 beasts of challenge rating 0 arrive at the spell location. The animals lured by the spell are all of the same type and are of species native to the region and environs in which the spell is cast. Creatures drawn to the location remain there for the duration or until attacked. While usually cast to draw food creatures to a location, enterprising winterfolk just as often use lure prey to bring small creatures through locations they suspect are trapped or to use the summoned animals to distract or draw the attention of larger creatures.",
+      "higher_levels": "If lure prey is cast with a 4th-level spell slot, at the caster's choice, it summons 2d6 beasts of challenge rating 0 or 1d6 beasts of up to challenge rating 1. If it is cast with a 6th-level spell slot, it summons 4d6 beasts of challenge rating 0 or 1d6 beasts of up to challenge rating 2.",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Ranger"
+      ],
+      "ritual": true,
+      "concentration": true,
+      "source": "WFV"
+    },
+    {
+      "name": "Spirit of the Hills",
+      "level": 6,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Ancestral energies surround and fill you, transforming you into a paragon of the winterfolk. While under the effects of spirit of the hills, you have advantage on attack rolls and saving throws. You also have resistance to cold and fire damage as well as bludgeoning, piercing, and slashing damage from nonmagical weapons. If you fail a Constitution saving throw to maintain concentration on this spell, you can elect to take 1 point of exhaustion once the duration ends in order to maintain concentration on it. If you choose to stop concentrating on the spell, the ancestral spirits depart you in a rush, dealing 1d10 force damage per round remaining in the duration to all creatures within 15 feet of you. Creatures damaged by this use of the spell can make a Constitution saving throw to take half damage.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WFV"
+    },
+    {
+      "name": "Unerring Mark",
+      "level": 5,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (an arrowhead flecked with dried animal blood)",
+      "duration": "1 round per level",
+      "description": "You are suffused with the spirits of your ancestors, who guide your attacks. While under the effects of this spell, your ranged weapon attacks hit their target automatically with no attack roll. Targets with three-quarters cover or total cover are not affected by this spell. When calculating your ranged weapon damage, you subtract 1 from each damage die rolled to determine the total damage dealt. While under the effects of this spell, you cannot strike a critical hit against a creature with a ranged weapon attack.",
+      "higher_levels": "If you cast this spell using a 6th-level spell slot, the decrease to your weapon's damage is negated, and you deal damage as normal for the weapon used. If you cast unerring mark using an 8th-level spell slot, all creatures standing within 10 feet of you gain the benefit of the spell when they make ranged attacks.",
+      "classes": [
+        "Paladin",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WFV"
+    },
+    {
+      "name": "Whispering Gardens",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "10 minutes",
+      "range": "Self (120-foot radius)",
+      "components": "V, S, M (a garden at least 10-ft.-by-10-ft. large with cultivated, healthy vegetation to use as a focus)",
+      "duration": "1 hour",
+      "description": "You meditate within a garden and share your consciousness with the plants within it. For the next hour, all sounds, including speech, within the garden come to you as soft whispers through this link. These whispers are actual sounds and can be drowned out in loud environments, potentially requiring a Perception check (DC 15 for a noisy tavern equivalent or DC 20 for combat). In a quiet environment, it is possible for others to hear the whispers if they are within 5 feet of you and make a successful Perception check against your spell save DC. Only sounds inside the garden's boundaries (determined by gates, fencing, hedges, or where cultivated plants give way to wild growth) are transmitted. The boundaries of the spell are set at the time of casting. After that, you may leave the spell's area of effect and maintain your link with the garden. This spell transmits sounds with as much accuracy as possible while remaining a whisper. It does not convey individual voices or identify the source of the noise. This spell cannot be cast within range of sentient plants.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "WFV"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "River Token",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "These tokens seem sturdy with light handling but crumble easily if you attempt to crush them. You can crush a token into a river to calm the waters ahead to a gentle current for 1 hour. Hostile creatures within the river or lairing on the riverbanks nearby (within 500 feet) are soothed by the power in the token. They must make Wisdom saving throws (DC 15) to be able to take any hostile actions for 1 hour; attacking an affected creature ends this effect immediately. Once crumbled, the river token is consumed.",
+      "source": "p.20"
+    },
+    {
+      "name": "Smuggler's Coat",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "When you attune yourself to this coat, it conforms to you in a color and style befitting your race and local culture. It has no visible pockets, but they appear if you place your hands against the side of the coat and expect pockets. Once your hand is withdrawn, the pockets vanish and take anything placed in them to an extradimensional space. A smuggler's coat can hold up to 40 pounds of material in up to 10 different extradimensional pockets. Nothing can be placed inside the coat that won't fit in a pocket. You can withdraw a specific item at will; when reaching for it, the correct pocket appears. If you desire, you can concentrate on keeping all pockets visible on the coat; there are four pockets, two on each side, on the outer coat, four on the inside, and two pockets in each sleeve. The pockets remain visible while you maintain concentration on doing so. A smuggler's coat is resistant to most damage, but deliberately shredding it, incinerating it, or otherwise subjecting it to massive damage can obliterate the coat and everything in it, though an artifact inside a smuggler's coat will manifest elsewhere. Detecting the magic of a smuggler's coat will not reveal the magical auras of any items it is containing. Placing the coat with in another extradimensional space, such as a bag of holding, or vice versa will destroy both items and create a gate to the Astral Plane. The gate originates where the one item was placed inside the other. Any creature within 10 feet of the gate is sucked through it and deposited in a random location on the Astral Plane. The gate then closes. The gate is one-way only and can't be reopened.",
+      "source": "p.20"
+    },
+    {
+      "name": "Seneschal's Gloves",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "These white gloves have elegant tailoring and size themselves perfectly to fit your hands. A pair of seneschal's gloves must be attuned not only to a person but to a specific, habitable place with walls, a roof, and doors. To attune to a place, the gloves must be left in the location from one dawn to the next. The gloves cannot be attuned to a creature until they have attuned to a location although they can still be worn.\nWhile you wear the gloves, you may unlock any nonmagical lock within the attuned location by touch, and any mundane portal you open while wearing these gloves will open silently. \nAs an action, you may snap your fingers and every nonmagical portal within 30 feet of you will immediately close and lock itself (if possible) so long as it is unobstructed. (Obstructed portals remain open.) Once used, this ability cannot be used again until the next dawn.",
+      "source": "p.30"
+    },
+    {
+      "name": "Storyteller's Pipe",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This long-shanked wooden smoking pipe is etched with leaves along the bowl. It is serviceable as a typical pipe, but as an action, you can blow out smoke and shape it into wispy images and manipulate them as silent image with a range limited to the 10-foot cone in front of you and images no larger than a 5-foot cube. The smoky images last for 3 rounds before fading, but you can continue blowing smoke to create more until the pipe burns through the smoking material in it.\nAdditionally, if you use the storyteller's pipe's command word, you may blast a cloud of hazy, choking smoke in a 30-foot cone in front of you. Creatures within the haze have half-cover and must attempt DC 15 Constitution saving throws or be afflicted with debilitating coughing and wheezing, unable to speak or cast spells with verbal components and gaining one level of exhaustion, for 1 minute.",
+      "source": "p.30"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Climbing adze",
+      "type": "Weapon",
+      "subtype": "martial melee",
+      "damage": "1d6 slashing",
+      "properties": [
+        "Light"
+      ],
+      "cost": "6 gp",
+      "weight": 3,
+      "source": "WFV"
+    },
+    {
+      "name": "Stone rake",
+      "type": "Weapon",
+      "subtype": "martial melee",
+      "damage": "1d8 piercing",
+      "properties": [
+        "Versatile (1d10)",
+        "special"
+      ],
+      "cost": "10 gp",
+      "weight": 5,
+      "source": "WFV"
+    },
+    {
+      "name": "Whipsaw",
+      "type": "Weapon",
+      "subtype": "martial melee",
+      "damage": "1d8 slashing",
+      "properties": [
+        "Finesse",
+        "special"
+      ],
+      "cost": "15 gp",
+      "weight": 2,
+      "source": "WFV"
+    },
+    {
+      "name": "Hand trebuchet",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d8 bludgeoning",
+      "properties": [
+        "Ammunition (60/240)",
+        "special"
+      ],
+      "cost": "4 gp",
+      "weight": 3,
+      "source": "WFV"
+    },
+    {
+      "name": "Barge Pole",
+      "type": "Weapon",
+      "subtype": "simple melee",
+      "damage": "1d6 bludgeoning",
+      "properties": [
+        "Heavy",
+        "special",
+        "two-Handed"
+      ],
+      "cost": "1 sp",
+      "weight": 7,
+      "source": "WFV"
+    }
+  ],
+  "monsters": [],
+  "npcs": [],
+  "feats": [
+    {
+      "name": "Giant-Foe",
+      "prerequisite": "Halfling (winterfolk)",
+      "description": "You are a bitter enemy of the giants and their kin that have conquered the Silver Mountain Kingdom. You gain the following benefits:\n• Increase your Strength score by 1, to a maximum of 20.\n• You do not have disadvantage on attack rolls using weapons with the heavy tag.\n• When a giant scores a critical hit against you, it deals no additional damage.",
+      "source": ""
+    },
+    {
+      "name": "Part of the Pack",
+      "prerequisite": "Halfling (winterfolk)",
+      "description": "The wolves of Domovogrod are never seem to be far from your side and consider you to be a packmate. As an action, you can howl to summon a wolf to assist you. The wolf appears in 1d4 rounds and remains within 50 feet of you until 1 hour elapses or until it dies, whichever occurs first. You cannot control the wolf, though it will not attack you or your companions and will attack any creature you are engaging in melee combat. If you are level 4 or higher when you summon a wolf, there is a 50% chance you will summon a dire wolf instead. At the GM’s discretion, you may not be able to summon a wolf if you are indoors or in a region that wolves are not native to.\nOnce you have summoned a wolf with this feat, you must finish a long rest before you can summon another wolf.",
+      "source": "p.7"
+    },
+    {
+      "name": "Rimecaster",
+      "prerequisite": "Halfling (winterfolk)",
+      "description": "You have learned to adapt your elemental magic to reflect your northern heritage. You gain the following benefits:\n• When you use your action to cast a spell, you can use your bonus action to change the type of damage the spell deals to cold damage.\n• When you cast a spell that deals cold damage, you gain resistance to cold damage until the start of your next turn.",
+      "source": "p.7"
+    },
+    {
+      "name": "Tundra Walker",
+      "prerequisite": "Halfling (winterfolk)",
+      "description": "You are inured to the extreme cold temperatures of your frigid northern home. You gain the following benefits:\n• Increase your Constitution score by 1, to a maximum of 20.\n• You are adapted to cold environments, allowing you to automatically succeed on Constitution saving throws to avoid exhaustion while traveling through regions where the temperature is at or below 0 degrees Fahrenheit.\n• If the frostbite and hypothermia conditions (see Midgard Hero’s Handbook) are used, you automatically succeed on saving throws against nonmagical sources of them.\n• You can move on slippery ice as though it were normal terrain.\n• You do not contribute to the total weight when calculating the weight tolerance of thin ice you are moving across.",
+      "source": "p.7"
+    },
+    {
+      "name": "Connections",
+      "prerequisite": "Halfling (riverfolk), Charisma 10 or higher",
+      "description": "Riverfolk have many diverse kin scattered across river ports in the Crossroads. When you need something badly, you know if you just ask around enough, you'll find a cousin who knows someone who knows someone else who might be able to help you out:\n• Increase your Charisma score by 1, to a maximum of 20.\n• Whenever you are in an area with a halfling population, you can make a Charisma (Persuasion) check (DC 15 in areas with 1,000 or more halflings in residence, DC 20 if 100–999, and DC 25 if less) to get in touch with distant kin who can provide you with a service. As long as the particular service or item is available in the area, you can purchase it from your connection with a 5% reduction in cost for every 5 you exceeded the DC on your check. In regions with more courtfolk and winterfolk halflings, you may still make the check, but these connections are far weaker; you have disadvantage on your Charisma (Persuasion) check.\n• You can, at any time in a population center with halflings, make a Charisma (Persuasion) check against a DC 20 to see if you know anyone there. (Populations that are mostly courtfolk or winterfolk impose disadvantage on this roll.) If you succeed, you find someone you know who is friendly to you; they will not provide you aid of any significant gold value, but may share local information, directions, a free hot meal, or a place to sleep or hide for the night.",
+      "source": "Sourcebook p.17-18"
+    },
+    {
+      "name": "Ley Ferryman",
+      "prerequisite": "Halfling (riverfolk), Intelligence or Wisdom 13 or higher",
+      "description": "All riverfolk can sense ley lines when they intermix with rivers, but most of your kin use this knowledge to show caution and respect. You prefer to refine this sense to take advantage of the paths that ley lines open up to you:\n• Increase your Intelligence or Wisdom score by 1, to a maximum of 20.\n• You have advantage on Wisdom (Survival) checks to avoid becoming lost in any realm that contains ley lines.\n• You do not incur a penalty on your Intelligence (Arcana) checks on Shadow Road Lore.\n• While traveling a shadow road on a river, you reduce your travel time to a destination by 1d2 days + your Intelligence modifier (to a minimum travel time of 1 day).",
+      "source": "Sourcebook p.18"
+    },
+    {
+      "name": "Underfoot",
+      "prerequisite": "Small size or smaller, Strength 13 or higher",
+      "description": "You excel at tripping up taller races and sending them to the ground:\n• Increase your Strength score by 1, to a maximum of 20.\n• While wielding a quarterstaff or barge pole, you have advantage on Strength (Athletics) checks to trip a creature up to two sizes larger than you.\n• If using the fighter class Trip Attack Battle Master maneuver with a quarterstaff or barge pole, your target has disadvantage on their Strength saving throw to avoid being knocked prone.",
+      "source": "Sourcebook p.18"
+    },
+    {
+      "name": "Adaptable Magic",
+      "prerequisite": "The ability to cast at least one spell",
+      "description": "You possess great finesse with magic, either by virtue of generations of ancestral service in elven courts or potentially knowledge gleaned from service to the Shadow:\n• You learn one Metamagic option of your choice from among those available to the sorcerer class.\n• If you already have sorcery points, you gain one more. Otherwise, you have two sorcery points, which recharge after a long rest.",
+      "source": "p.30"
+    }
+  ],
+  "backgrounds": [
+    {
+      "name": "Silver Mountain Kingdom Scout",
+      "skill_proficiencies": [
+        "Nature",
+        "Survival"
+      ],
+      "tool_proficiencies": [],
+      "languages": [
+        "Giant"
+      ],
+      "equipment": [
+        "A hunting trap",
+        "a tent",
+        "a tinder box",
+        "a cold weather outfit",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Emergency Supply Cache",
+        "description": "While you are traveling in the Silver Mountains, you can find and use small supply caches left by other scouts. Caches are small by necessity with a value that doesn’t exceed 5 gp. A typical cache consists of enough rations for four people for one day, two full waterskins, two torches, plus a dagger, a quiver of 20 arrows, or a case of 20 crossbow bolts. You can find a cache by spending an hour searching. If you search for more than one cache in a seven-day period, the second takes two hours and a successful DC 10 Wisdom (Survival) check to find. The Wisdom (Survival) check DC increases by 5 for each cache sought after the second. For example, if you are searching for a fifth supply cache in a seven-day period, you must search for two hours and make a DC 25 Wisdom (Survival) check. If you use the caches left by other scouts but never leave supplies for others to use, you risk gaining a negative reputation amongst your fellow freedom fighters."
+      },
+      "description": "When the giants of the Northlands sacked the Silver Mountain Kingdom, you were one of the lucky few who escaped into the wider environs of Domovogrod. What you were before the invaders came is inconsequential. Now you spend your time planning and executing strikes against your conquerors. The harsh wilds of the north have melted any softness from your body and spirit, leaving only a hard determination as unforgiving as the mountains themselves.",
+      "source": "WFV"
+    },
+    {
+      "name": "Court Servant",
+      "skill_proficiencies": [
+        "Insight",
+        "Nature"
+      ],
+      "tool_proficiencies": [
+        "One artisan’s tools set of your choice"
+      ],
+      "languages": [
+        "Elven"
+      ],
+      "equipment": [
+        "One artisan’s tools set of your choice",
+        "a unique piece of elven jewelry",
+        "a set of fine clothes",
+        "a handcrafted pipe",
+        "a belt pouch containing 20 gp"
+      ],
+      "feature": {
+        "name": "Servant’s Invisibility",
+        "description": "The art of excellent service requires a balance struck between being always available and yet unobtrusive, and you’ve mastered it. If you do not perform a visible action, speak or be spoken to, or otherwise have attention drawn to you for at least 1 minute, creatures nearby have trouble remembering you are even in the room. Until you speak, perform a visible action, or have someone draw attention to you, creatures must attempt a Wisdom save (DC 8 + your Charisma modifier + your proficiency bonus) to notice you. Otherwise, they will conduct themselves as though you aren’t present until either attention is drawn to you or one of their actions would take them into or adjacent to the square you occupy."
+      },
+      "description": "Courtfolk are a long-lived race, and old habits have been hard to shake. The majority of courtfolk, even independent now, were once servants at some point in their lives. These halflings are experts in complex social dynamics and knowledgeable in elven history and customs.",
+      "source": "WFV"
+    }
+  ],
+  "subclasses": [
+    {
+      "name": "College of the Arts",
+      "class": "Bard",
+      "description": "Those who have been burned by a bard of \"the arts\" know exactly what sort of art is conveyed by the name: the art of the swindle, the con, and the huckster. Con artistry isn't a profession all riverfolk claim, but the ones who do are very good at it. Halflings are an underestimated lot, and their happy-go-lucky dispositions, size, and apparent harmlessness makes them easy to trust. These hucksters take advantage of these traits to humble the big folk. The more noble ones among them are inclined to target haughty, greedy people who make life difficult for the lower classes, taking them down a few pegs to teach a lesson. Other hucksters, however, are more concerned with making money, and the only line they won't cross is swindling their own kin—if even that. In seedy riverside taverns, on rollicking boat parties, or off in dens and bazaars of dubious repute, so often are bards of this college found. When one \"artist\" recognizes another, they are quick to swap tales and tricks and the names of previous marks and potential dupes they haven't gotten to yet. Unless of course the bards in question have made rivals of each other by lingering too long in a similar trade in the same place: then it can become a feud where one attempts to discredit the other before they both are found out.",
+      "features": [
+        {
+          "name": "Misdirection",
+          "level": 3,
+          "description": "When you join the college of the arts at 3rd level, you learn the secret of keeping a target's eyes everywhere but on what your hands are doing: • You gain proficiency in Dexterity (Sleight of Hand) if you do not have it already. • You have advantage on any Dexterity (Sleight of Hand) check to engage in an act of legerdemain or manual trickery, such as to conceal an item, make it \"disappear,\" or plant an item elsewhere. • As a bonus action, you can conceal or draw a light weapon that weighs no more than 1 pound."
+        },
+        {
+          "name": "Fast-Talk",
+          "level": 3,
+          "description": "Starting at 3rd level, you learn the secret that what you say matters less than how you say it. You can expend one use of Bardic Inspiration and spend your entire action talking to a target. Whether feigning acquaintance, asking questions, or simply jumping from one non-sequitur to another, your target must make a Wisdom saving throw against your spell save DC. On a failure, the target has the charmed condition and disadvantage on Perception checks for as long as you continue talking, up to 1 minute (after the first round, treat this as maintaining concentration). Attacking the target breaks the effect immediately as does leaving the target's line of sight or rendering the target unable to hear or understand you. Potentially hostile actions the target notices allow another saving throw with advantage. The effect ends at the start of the target's turn once you stop speaking or lose concentration."
+        },
+        {
+          "name": "Heckle",
+          "level": 6,
+          "description": "Beginning at 6th level, you can expend one use of Bardic Inspiration as a bonus action to heckle your target, a creature no more than 60 feet away from you, peppering them with insults, clever repartee, or actual rotten produce. Your target must make a Wisdom saving throw against your abuse. On a failure, the target subtracts an amount equal to your Bardic Inspiration die on their next attack roll, saving throw, or skill check, but the target gains advantage on their next attack roll against you. The effects only apply on the target's next roll."
+        },
+        {
+          "name": "Master of Lies",
+          "level": 14,
+          "description": "Starting at 14th level, your lies and falsehoods have become so convincing that you yourself believe them half the time: • Checks made against you to discern your deceits have disadvantage. • You have advantage on all Charisma (Deception) checks. • Magical divinations from spells or items that can detect falsehoods or elicit the truth struggle to pierce your deception. Against such methods, you have advantage on any such effect that grants you a saving throw, and against effects without a saving throw, there is a 50% you are determined to be truthful and a 25% chance the effect refuses to function at all."
+        }
+      ],
+      "source": "p.21"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "OPEN GAME LICENSE Version 1.0a",
+    "Table of Contents & Credits",
+    "Riverfolk: The Scattered People of the Trade",
+    "Winterfolk Halflings: The Hidden People of the Plains",
+    "Courtfolk: The Quiet People of the Covenant"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 5,
+  "_book_slug": "WFV",
+  "_book_title": "Warlock 017 FINAL v2",
+  "_completed": true,
+  "_timestamp": 1790292181.8933263
+}

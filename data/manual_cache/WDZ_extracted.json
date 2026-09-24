@@ -1,0 +1,287 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Zymurgic Aura",
+      "level": 7,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, M",
+      "duration": "Instantaneous",
+      "description": "A wave of putrefaction surges from you, targeting creatures of your choice within a 30-foot radius around you, speeding the rate of decay in those it touches. The target must make a Constitution saving throw. It takes 10d6 necrotic damage on a failed save or half as much on a successful save. Its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the creature takes a long rest.",
+      "higher_levels": "",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WDZ"
+    },
+    {
+      "name": "Charming Aesthetics",
+      "level": 3,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a preserved flower or tuft of animal fur)",
+      "duration": "1 day",
+      "description": "You affect a group of the same plants or animals within range, giving them a harmless and attractive appearance. If a creature studies one of the enchanted plants or animals, it must make a Wisdom saving throw. If it fails the saving throw, it is charmed by the plant or animal until the spell ends or until another creature other than one of its allies does anything harmful to it. While the creature is charmed and stays within sight of the enchanted plants or animals, it has disadvantage on Wisdom (Perception) checks as well as checks to",
+      "higher_levels": "",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WDZ"
+    },
+    {
+      "name": "Toxic Pollen",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (allergenic or poisonous pollen)",
+      "duration": "1 year",
+      "description": "Upon casting this spell, one type of plant within range gains the ability to puff a cloud of pollen based on conditions you supply during casting. If the conditions are met, an affected plant sprays a pollen cloud in a 10-foot-radius sphere centered on it. Creatures in the area must succeed on a Constitution saving throw or become poisoned for 1 minute. At the end of a poisoned creature's turn, it can make a Constitution saving throw. On a success, it is no longer poisoned. A plant can only release this pollen once within the duration.",
+      "higher_levels": "",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WDZ"
+    },
+    {
+      "name": "Rise of the Green",
+      "level": 8,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "180 feet",
+      "components": "V, S, M (a cutting from a treant)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "The spell gives life to existing plants in range. If there are no plants in range, the spell creates undergrowth and trees that persist for the duration. One of the trees becomes a treant friendly to you and your companions. Roll initiative for the treant, which has its own turn. It obeys any verbal commands that you issue to it. If you don't issue it any commands, it defends itself from hostile creatures but otherwise takes no actions. The animated undergrowth creates difficult terrain for your enemies. Additionally, at the beginning of each of your turns, all creatures that are on the ground in range must succeed on a Strength saving throw or become restrained until the spell ends. A restrained creature can use an action to make a Strength (Athletics) check against your spell save DC, ending the effect on itself on a success. If a creature is restrained by plants at the beginning of your turn, it takes 1d6 bludgeoning damage. Finally, the trees swing at each enemy in range, requiring each creature to make a Dexterity saving throw. A creature takes 6d6 bludgeoning damage on a failed save or half as much damage on a successful one. You can use a bonus action to recenter the spell on yourself. This does not grow additional trees in areas that previously had none.",
+      "higher_levels": "When you cast this spell using a 9th-level slot, an additional tree becomes a treant, the undergrowth deals an additional 1d6 bludgeoning damage, and the trees inflict an additional 2d6 bludgeoning damage.",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WDZ"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Ash of the Ebon Birch",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This salve is created by burning bits of bark from a rare tree unique to the groves of the Circle of the Weald and then mixed with oil and blood to create a cerise pigment used to paint the body with profane protections.\n\nSigils. The following sigils can be painted on your body for a specific effect:\n• Antlers—You gain the effect of the see invisibility spell (save DC 13).\n• Beak—You are immune to being charmed and cannot be scryed upon for 1 hour.\n• Claw—You cannot be surprised for 1 hour.\n• Hoof—Your remains are prevented from rising or being animated as undead for 24 hours.\n\nSmear. Swathes of your body can be smeared with the ash for a specific effect:\n• Arms—You gain a +2 bonus to Strength for 1 hour.\n• Chest—You gain advantage on one type of saving throw (your choice of Strength, Dexterity, Constitution, Intelligence, Wisdom, or Charisma) for 10 minutes.\n• Eyes—You gain truesight to 30 feet for 10 minutes.\n• Legs—You increase you speed by +10 feet for 1 hour.\n• Stomach—You gain a +2 bonus to Constitution for 1 hour.",
+      "source": "Baubles of the Darkened Druids p.17"
+    },
+    {
+      "name": "Brambleseed",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "You have a handful of tiny seeds that resemble pinecones. When a command word is spoken (no action required), they sprout into hardened clumps of bramble, acting as caltrops. Creatures injured by these caltrops must succeed a DC 13 Strength check or become restrained until the end of their next turn.",
+      "source": "Baubles of the Darkened Druids p.18"
+    },
+    {
+      "name": "Cinch of the Wolfmother",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "This belt is made of the treated and tanned intestines of a dire wolf, enchanted to imbue those who wear it with the ferocity and determination of the wolf.\nWhile you wear this belt, you can use an action to cast the speak with animals spell at will. You also gain the use of the druidcraft cantrip and have advantage on Wisdom (Perception) checks that rely on hearing or smell.\nCursed. This belt is cursed. Attuning to it curses you until you are targeted by the remove curse spell or similar magic. Removing the belt fails to end the curse on you.\nIf you are reduced to 0 hp while the belt is worn and fail two death saving throws, you die immediately as your body violently erupts in a shower of blood as a dire wolf emerges from your entrails. You assume control of the dire wolf, and it gains additional hit points equal to half of your character's maximum hit points prior to death.\nIf the wolf is targeted by a remove curse spell, then the dead character will be reborn when the wolf dies, just as the wolf was born. However, if the curse remains after the wolf dies, the character remains dead.",
+      "source": "Baubles of the Darkened Druids p.18"
+    },
+    {
+      "name": "Hallowed Effigy",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "These small totems, crafted from animal bones and the skull of a tiny woodland creature, all bound in thin leather strips, serve as a boon for those loyal to nature and as a stinging trap to those who threaten it.\nYou can use an action to secure the effigy on any natural organic substrate (such as dirt, mud, grass, and so on). While so planted, it pulses with energy in a 15-foot-radius sphere, and at the beginning of each of your turns, it activates to effect all within range: you and any creature friendly to you regain 1d6 hit points, and any creatures hostile to you must make a DC 15 Constitution saving throw, taking 1d6 necrotic damage on a failed save or half as much damage on a successful one.\nThis totem has 9 charges. Each round it activates, it uses 1 charge. While planted, it activates automatically each round unless you pick it up, it runs out of charges, or it is destroyed. It regains 1d6 + 3 charges daily at dawn. If it ever runs out of charges, it must be purified once again by a druid of at least 5th level to be reused.",
+      "source": "Baubles of the Darkened Druids p.19"
+    },
+    {
+      "name": "Lupine Crown",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This grisly helm is fashioned from the leather-reinforced skull and antlers of a deer with a fox skull and hide stretched over it. It is secured by a strap made from a magically preserved length of animal entrails.\nWhile wearing this helm, you gain a +1 bonus to AC, and you gain a +5 on Dexterity (Stealth) and Wisdom (Survival) checks.",
+      "source": "Baubles of the Darkened Druids p.19"
+    },
+    {
+      "name": "Mantle of the Forest Lord",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Created by village elders for druidic scouts to better traverse and survey the perimeters of their lands, this cloak resembles thick oak bark but bends and flows like silk. While you wear this cloak, you can use an action to cast the tree stride spell on yourself at will, except trees need not be living in order to pass through them.",
+      "source": "p.20"
+    },
+    {
+      "name": "Oculi of the Ancestor",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "An intricately depicted replica of an eyeball, right down to the blood vessels and other fine details, these items are carved from sacred hardwoods by soothsayers using a specialized ceremonial blade handcrafted specifically for this purpose. When the orb is placed within the eye socket of a skull, it will reveal the last thing that was experienced by the person before they died. This lasts for up to 1 minute and is limited to purely visible and audible elements and no other perceivable senses. The flashback is delivered telepathically to you.",
+      "source": "p.20"
+    },
+    {
+      "name": "Primordial Pods",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "These seemingly innocuous pellets are actually a mixture of leaves, spores, sacrificial ash, and rare powders made from the ground bones of ancient beasts, and they bring power to those willing to suffer. Sowing pods beneath the flesh gives them purchase to blossom as fungus covers the body in a layer of hardened growths. This disease is curable by a casting of lesser restoration in the first month. After that, greater restoration or more powerful magic is required. Once cured, unless the pods are removed or otherwise destroyed, they will reinfect the host after 1 week of dormancy. To activate the pods, you must embed them within your flesh, dealing 1d4 damage to yourself and creating a wound to house them. After 24 hours, the spores will begin to suffuse the surrounding tissue and a thickened, bark-like fungus will spread across your skin, granting a +1 bonus to AC. This process itches immensely and is extremely uncomfortable. As the fungus spreads, the changes become more dramatic. After 4 months, unless cured, if you ever drop to 0 hp, you can't be brought back—but your corpse provides the perfect nursery for another generation of spores. DURATION EFFECTS 1 month: You have a +1 bonus to AC and blindsight to 20 feet. However, your hit point maximum is reduced by 2d4 + 2. 2 months: You have a +2 bonus to AC and blindsight to 40 feet. However, your hit point maximum is reduced by 4d4 + 4. 3 months: You have a +2 bonus to AC, resistance to nonmagical damage not from an adamantine weapon, and blindsight to 60 feet. However, your hit point maximum is reduced by 8d4 + 8.",
+      "source": "p.20-21"
+    },
+    {
+      "name": "Wraithstone",
+      "type": "Wondrous item",
+      "rarity": "",
+      "requires_attunement": false,
+      "description": "stone, you can interact with the animal as if it were still alive, speaking to it if able, though it cannot physically interact with the material world. It can gesture to indicate directions and communicate very basic single-word ideas to its user telepathically. Wraithstones have a number of charges, depending on the size the creature stored within them. Note that the more charges, the bigger the beast, the more expensive the stone will be. See Wraithstone Charges table.\n\nCREATURE SIZE — WRAITHSTONE CHARGES\nTiny or Small — 6\nMedium or Large — 8\nHuge — 10\nGargantuan — 12\n\nAs a bonus action, you can activate a wraithstone to perform one of the following:\n• Bestial Vigor. You can deal an additional 1d6 damage on your next melee attack.\n• Natural Selection. You can gain advantage on Wisdom (Perception) checks and increase your speed by +5 feet for 1 minute.\n• Wisdom of the Wilds. You can gain advantage on your next Wisdom (Animal Handling) or Wisdom (Survival) skill check.\n\nEach time a wraithstone is activated, it depletes some of the soul of the animal preserved within and consumes 1 charge. After all of the stone's charges are used, the animal's spirit is completely drained, and the stone becomes a mere bauble.",
+      "source": "p.22"
+    },
+    {
+      "name": "Tenebrous Flail of Screams",
+      "type": "Weapon (flail)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "The handle of this flail is made of mammoth bone wrapped in black leather made from bat wings. Its pommel is adorned with raven's claws, and the head of the flail dangles from a flexible, preserved braid of entrails. The head is made of petrified wood inlaid with owlbear and raven beaks. When swung, the flail lets out an otherworldly screech. You gain a +1 bonus to attack and damage rolls made with this magic weapon, and the target takes an extra 1d6 psychic damage. When you roll a 20 on an attack roll made with this weapon, the target must succeed a DC 15 Wisdom save or be incapacitated until the end of its next turn.",
+      "source": "p.21"
+    },
+    {
+      "name": "Wendigo Tallow Candle",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Lighting one of these translucent, milky-white candles lets off an immensely foul smell, the flame bending toward the nearest lone traveler while the caustic black smoke drifts off in the direction of the nearest evil-aligned creature. After one of these candles is snuffed out after being lit for at least 10 minutes or burns through, it will begin to snow in the area for at least an hour, regardless of the current climate or the time of year.",
+      "source": "p.21"
+    },
+    {
+      "name": "Freerunner Rod",
+      "type": "Rod",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Tightly intertwined lengths of grass, bound by additional stiff, knotted blades of grass, form this rod. While you hold it, you leave behind no tracks or other traces of your passing while you move through grasslands. Additionally, you move through plants in the grassland without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazards. Finally, beasts native to grasslands must succeed on a DC 13 Charisma saving throw if they wish to attack you.\nThe rod has 10 charges. You can use a bonus action to expend one charge to increase your land speed by 10 feet or by 20 feet if you are in grasslands. You can use a reaction to expend two charges when you become paralyzed or restrained, negating that effect. The rod regains 1d4 expended charges daily at dawn. If it is reduced to 0 charges, roll a d20. On a 1, the rod collapses into a pile of grass seeds. Among the grass seeds are 1d10 berries, useable per the goodberry spell.\nIf you inflict fire damage to grasslands or kill a grasslands beast without eating at least half of its flesh (yourself or sharing it with others), the rod's magic ceases to work for you, and you can never attune to this rod again.",
+      "source": "Unknown p.27"
+    }
+  ],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [
+    {
+      "name": "Zymurgist",
+      "skill_proficiencies": [
+        "Nature",
+        "Medicine"
+      ],
+      "tool_proficiencies": [
+        "One type of artisan's tools (alchemist's supplies or brewer's supplies)"
+      ],
+      "languages": [],
+      "equipment": [
+        "A set of artisan's tools (either alchemist's supplies or brewer's supplies)",
+        "an apron",
+        "glass vials and jars filled with bubbling substances",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Local Sourcing",
+        "description": "You have a knack for sourcing food anywhere you go, even if the nature of that food might be distasteful to your fellow party members. You can make something palatable out of almost nothing and can preserve whatever you make for weeks and even months. This makes you a resourceful traveling companion, especially for longer journeys where finding sustenance may prove difficult."
+      },
+      "description": "You are a naturalist who has studied the fermentation process and its effects on organic materials. Yours is a community of druids, alchemists, witches, and various artisans and crafters—though many others regularly seek out your expertise. You appreciate that change is a part of life everywhere in the multiverse. Rather than resent that, you see the beauty and potential to apply these processes to your life, and to your magic.",
+      "source": "WDZ"
+    }
+  ],
+  "subclasses": [
+    {
+      "name": "Circle of Fermentation",
+      "class": "Druid",
+      "description": "A circle of druids, known as the Fermenters, make use of the \"strange air\" of the forest to brew and ferment, well, nearly anything really, from varieties of beer and wine to funky, sometimes foul teas, from aged meats and cheeses to pickled produce. But beyond just brewing, these druids leverage fermentation as a magical effect, harnessing the passage of time on organic materials to reap its benefits while wielding its dangers, like rot, to inflict harm upon their enemies.",
+      "features": [
+        {
+          "name": "Bonus Proficiency",
+          "level": 2,
+          "description": "When you choose this circle at 2nd level, you gain proficiency with artisan's tools (brewer's supplies). If you already have this proficiency, you gain proficiency with artisan's tools (alchemist's supplies)."
+        },
+        {
+          "name": "Effervescence",
+          "level": 2,
+          "description": "Inspired by the bubbling, fizzy side effect of many fermentative processes, you lift and strengthen your comrades' spirits. Starting at 2nd level, you can use a bonus action to expend one spell slot and touch one creature other than yourself to bestow a pleasant, giddy sensation that improves their stamina and focus. The creature can roll a 1d4 and apply the result to an ability check or saving throw. This Effervescence die lasts for 1 minute or until used, and a creature can have only one such die at a time. You gain an additional die to give away per level of the spell slot expended."
+        },
+        {
+          "name": "Mother's Gift",
+          "level": 2,
+          "description": "Starting at 2nd level, you can use a vial given to you by Mother. The vial is filled with a sample of the circle's starter, a slimy, sour-smelling, yeasty mixture. Consuming this starter gives you an additional slot for 1 day. Upon consumption, roll 1d4 to determine how many days the vial takes to refill. The result of this roll also determines the level of the spell slot obtained on consuming the next dose; the result must be of a level you can cast, so if you roll higher, use the highest level you can cast from 1st–4th level. Only you can gain this benefit in consuming this mixture."
+        },
+        {
+          "name": "Circle Spells",
+          "level": 3,
+          "description": "Your connection to wild fermentation in nature grants you access to certain spells. At 3rd, 5th, 7th, and 9th level, you gain access to circle spells related to alchemy and fermentation. Choose from the list below. Upon selecting a new circle spell, you always have it prepared and this spell doesn't count against your daily prepared spells.\n\nDruid Level | Circle Spells\n3rd | gust of wind, protection from poison\n5th | plant growth, speak with plants\n7th | blight, control water\n9th | contagion, mass cure wounds"
+        },
+        {
+          "name": "Briny Murk",
+          "level": 6,
+          "description": "When you reach 6th level, you can use your reaction to saturate the ground around you with a potent brew, creating a noxious, marshy area of difficult terrain in a 20-foot-radius sphere centered on you. Creatures not in contact with the ground are unaffected. You can dismiss the effect as an action.\n\nAdditionally, you can use a bonus action to expend one spell slot to further charge your briny murk for 1 minute per level of the spell slot expended. When so charged, each creature that is within the area at the start of its turn must succeed on a Constitution saving throw, or their movement is reduced to 0. Creatures that don't need to breathe or are immune to poison automatically succeed on this saving throw.\n\nAll members of your circle are immune to these effects."
+        },
+        {
+          "name": "Fermentative Engine",
+          "level": 10,
+          "description": "Starting at 10th level, you are immune to necrotic energy, and you can't be frightened."
+        },
+        {
+          "name": "Touch of Zymurgy",
+          "level": 14,
+          "description": "By 14th level, you have learned to better direct the \"strange air\" both within you and without. You can use your action to end one condition on yourself or on another creature that you touch.\n\nYou can use this feature a number of times equal to your Wisdom modifier (a minimum of once). You regain expended uses when you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Midgard Worldbook p.8-9"
+    },
+    {
+      "name": "Circle of the Weald",
+      "class": "Druid",
+      "description": "Druids of the Circle of the Weald are resourceful wanderers who sell magical baubles and follow the path of the Ancestor, drawing on nature's abundance to create useful items and protect the wilds.",
+      "features": [
+        {
+          "name": "Marrowbark Form",
+          "level": 2,
+          "description": "When you choose this circle at 2nd level and are transformed by Wild Shape, the beast form you choose also has the antlers of a stag (sized relative to the creature), and it is covered in tree bark and the bones of its own kind. The beast is granted a gore attack if it does not already have one as well as +1 bonus to its AC. While in this form, you may use your Wisdom bonus plus your proficiency bonus for attack rolls if it is better than that of the beast's form.\nGore. Melee Weapon Attack: +X to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage.\nAlternatively, you can choose to expend a use of Wild Shape in order to instead remain in your humanoid form with the following: you gain a +1 bonus to your AC and 1d6 temporary hit points, and you can use your Wisdom bonus for attack rolls in place of Strength or Dexterity. This duration is the same as if you transformed into a beast."
+        },
+        {
+          "name": "Circle Spells",
+          "level": 3,
+          "description": "Your connection to the deepest wood grants you access to certain spells. At 3rd, 5th, 7th, and 9th level, you gain access to circle spells related to the dying lands, viscera, and the spiritual journey of death. Choose spells from the list below.\nUpon selecting a new circle spell, you always have it prepared and this spell doesn't count against your daily prepared spells.\nCIRCLE OF THE WEALD\nDruid Level | Circle Spells\n3rd | inflict wounds, misty step\n5th | fear, major image\n7th | blight, confusion\n9th | antilife shell, commune with nature"
+        },
+        {
+          "name": "Dreamland Traversal",
+          "level": 6,
+          "description": "Your initiation with the circle has taught you how to leverage the Catharsis, and you employ it to gain insight when needed.\nAt 6th level, you may re-enter this state by spending 8 hours of uninterrupted rest within the carcass of an animal that you've hunted or trapped and sacrificed yourself. The animal must be at least the same size or larger than you, and you must have another willing participant to sew or otherwise close the animal up once you are inside of it. Once inside, you focus on asking the Ancestor for guidance regarding a specific course of action you plan to take. Once this process is complete, you awake with a number of bone fragments in your hand equal to your Wisdom modifier (a minimum of one), and you emerge from the carcass having gained an omen per the augury spell.\nWhen events transpire pertaining to the omen delivered by the Ancestor, you can evoke one of the bone fragments as a bonus action to gain advantage on an ability check, attack roll, or saving throw related to the omen's outcome. Once used, the bone fragment dissipates back into dreamstuff. If you have at least one unused bone fragment remaining at the end of a short or long rest, a new bone fragment will materialize (up to a total maximum of your original starting number).\nYou may perform Dreamland Traversal once every 6 days, when any previously unused bone fragments dissipate. If your rest"
+        }
+      ],
+      "source": "p.15"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "Warlock 22 Druids",
+    "OPEN GAME LICENSE Version 1.0a",
+    "Elven Druids of Midgard",
+    "Baubles of the Darkened Druids",
+    "White Forest: The Untamed Wood",
+    "Circle of the Weald: Blood on the Leaves",
+    "Circle of Fermentation: Life in the Winewood"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 7,
+  "_book_slug": "WDZ",
+  "_book_title": "Warlock 022 Druids zkpxhg",
+  "_completed": true,
+  "_timestamp": 1790292006.9843848
+}

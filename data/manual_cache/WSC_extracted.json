@@ -1,0 +1,260 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Wand of True Polymorph",
+      "type": "Wand",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "An incredibly rare wand that is the key to Shinebright's success. It can cast the True Polymorph spell. Noke keeps it on him at all times.",
+      "source": "Adventure p.3"
+    },
+    {
+      "name": "Scroll of Speak to Animals",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A scroll that allows the user to cast the Speak to Animals spell. Shinebright stole it from an old bookshelf in Noke's home.",
+      "source": "Adventure p.3"
+    },
+    {
+      "name": "Modified Wand of True Polymorph",
+      "type": "Wand",
+      "rarity": "unknown",
+      "requires_attunement": true,
+      "description": "Formed of a long, thin twig taken from an oak tree, this wand holds 1d4-1 charges of True Polymorph, with a minimum of 1. These can be cast by anybody with a spellcasting ability who has spent at least one hour attuning to the wand. The amount of charges resets at dawn each day.\nIn order to increase the amount of times the spell has been case, the wand appears to have been fitted with a bulbous, rune-inscribed iron band and has cracks running along its length.\nIf inspected with a DC 15 Intelligence (Arcana) check, reveal that the modifications have left the wand extremely unreliable. Each time a charge is used the user must pass a DC 17 Intelligence (Arcana) check.\nIf they succeed, the spell casts normally and the DC needed to use it permenantly increases by 1.\nIf they fail by five or less, the spell will transmute the target into a Gibbering Mouther (MM p157) - a hideous lump of seemingly random limbs, organs and facial features. The creature will attack the nearest target mindlessly, babbling in dozens of broken voices. This transformation cannot be undone by any spell lower than 9th level and cannot be cancelled by ending concentration. The target can make a saving throw against this effect in the same way they would against a regular casting of True Polymorph.\nIf they fail by more than five, in addition to the above consequences the wand explodes violently, dealing 1d12 force damage to all creatures within 10 ft for each charge remaining in the wand. This destroys the wand.",
+      "source": "Page 6"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Guz",
+      "size": "Medium",
+      "type": "humanoid (half-orc)",
+      "alignment": "chaotic neutral",
+      "armor_class": 14,
+      "ac_type": "leather armour",
+      "hit_points": "67 (9d8 +27)",
+      "speed": "30ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 17,
+        "intelligence": 8,
+        "wisdom": 11,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive perception 10",
+      "languages": [
+        "Common",
+        "Orc"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "Guz can choose to gain advantage on all melee weapon attacks during his turn, but in return all attack rolls against him also have advantage until the start of his next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Whirling Greatsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5ft., two seperate targets. Hit: 10 (2d6+3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.2"
+    },
+    {
+      "name": "Bed Dragon Wyrmling",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "chaotic neutral",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "75 (10d8 + 30)",
+      "speed": "30ft., climb 30ft., fly 30ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 14,
+        "constitution": 17,
+        "intelligence": 8,
+        "wisdom": 8,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive perception 12",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5ft., one targets. Hit: 15 (2d10+4) piercing damage."
+        },
+        {
+          "name": "Splinter Breath (Recharge 5-6)",
+          "description": "The Bed Dragon Wyrmling send out a shower of wooden splinters in a 15-foot cone. Each creature in that area must make a DC13 Deterity Save, taking 24 (7d6) piercing damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 5"
+    },
+    {
+      "name": "Ahmed Noke",
+      "size": "Medium",
+      "type": "Humanoid (Human)",
+      "alignment": "neutral evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "55 (10d8 + 10)",
+      "speed": "30ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "Intelligence": 5,
+        "Wisdom": 4
+      },
+      "skills": {
+        "Arcana": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive perception 11",
+      "languages": [
+        "Common",
+        "Elven",
+        "Draconic"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Noke is a 7th level spellcaster. His spellcasting ability is Intelligence (spell save DC 14, spell attacks +6 to hit). He has the following spells prepared:\nCantrips (at will): Ray ofFrost, Mending, Prestidigitation, Message.\nFirst level (four slots): Expeditious Retreat, Jump, Thunderwave.\nSecond level (three slots): Enlarge/Reduce, Levitate.\nThird level (three slots): Haste, Slow.\nFourth level (one slot): Polymorph."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or ranged weapon attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 5"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Shinebright",
+      "race": "High Elf",
+      "class_name": "Wizard",
+      "subclass": "Transmutation",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A willow-thin high elf with straw-coloured hair and an extremely long nose. A master of transmutation magic, he was turned into a sheep by his apprentice Ahmed Noke two years ago. He is powerful and wealthy, and promises great rewards to those who help him.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Adventure p.2-3"
+    },
+    {
+      "name": "Ahmed Noke",
+      "race": "Human",
+      "class_name": "Wizard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Noke once hero-worshipped Shinebright and served as his apprentice for many years. He turned on his former master, stole the Wand of True Polymorph, and set himself up as a master wizard. He is paranoid and rarely sleeps, and has invested in a troop of guards, many of whom he has transmuted into stronger, more bestial forms.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Adventure p.4"
+    },
+    {
+      "name": "Guz",
+      "race": "Half-Orc",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A hulking brute of a half-orc who views violence and intimidation as the only sensible methods for achieving his goals. He is incredibly loyal to Noke and owes him unswerving devotion. He isn't particularly intelligent and can be easily confused by quick-talking foes, though this usually just makes him angrier. He is fond of trying to use long, complicated words he has picked up from Noke.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Adventure p.3"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "The Wild Sheep Chase V2"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "WSC",
+  "_book_title": "The Wild Sheep Chase V2",
+  "_completed": true,
+  "_timestamp": 1790289989.6336033
+}

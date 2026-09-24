@@ -1,0 +1,249 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Cassyt",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "neutral good",
+      "armor_class": 10,
+      "ac_type": "",
+      "hit_points": "9 (2d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Medicine": 4,
+        "Religion": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Cassyt is a 1st-level spellcaster. Her spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). Cassyt has the following cleric spells prepared: Cantrips (at will): light, sacred flame, thaumaturgy; 1st level (3 slots): bless, cure wounds, sanctuary"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Dues for the Dead p.21"
+    },
+    {
+      "name": "Rorreth (Red Wizard)",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "neutral evil",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "22 (5d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 5,
+        "wis": 3
+      },
+      "skills": {
+        "Arcana": 5,
+        "History": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Dwarvish",
+        "Elvish"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The red wizard is a 4th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). The mage has the following wizard spells prepared:\nCantrips (at will): light, fireblast, shocking grasp\n1st level (4 slots): shield, mage armor, magic missile\n2nd level (3 slots): invisibility, misty step"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 3 (1d8 – 1) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Dues for the Dead p.22"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Cassyt",
+      "race": "Human",
+      "class_name": "Cleric",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Turn Undead",
+          "description": "As an action, Cassyt presents her holy symbol and speaks a prayer censuring the undead. Each undead that can see or hear her within 30 feet of her must make a Wisdom saving throw. If the creature fails its saving throw, it is turned for 1 minute or until it takes any damage.\n\nA turned creature must spend its turns trying to move as far away from her as it can, and it can't willingly move to a space within 30 feet of her. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A devotee of Kelemvor who assists in defeating the Red Wizard and is inducted into the Most Solemn Order of the Silent Shroud.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Dues for the Dead p.18-19"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Magic Mouth Alarm on Crypt Locks",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Opening or attempting to open one of the locks with anything other than the proper key",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The magic mouth is not hidden; it triggers visibly when the lock is tampered with."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No method given to disarm the magic mouth; using the proper key avoids it."
+      },
+      "effect": "A magic mouth spell intones, \"Think twice on what you are about to do, friend. Your trespass has been noted.\" There is no other alarm and the magic mouth spell doesn't alert the faithful of Kelemvor to the break-in.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Each locked iron grate in the First Families of Phlan crypts",
+      "description": "Every iron grate in the First Families crypts is double-locked and warded. Tampering with a lock triggers a magic mouth warning.",
+      "source": "Dues for the Dead p.10"
+    },
+    {
+      "name": "Bone Pit",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Walking the narrow path around the pit without falling",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The pit and narrow pathway are obvious."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm; characters must cross carefully."
+      },
+      "effect": "Falling into the jagged bones in the pit causes 3 (1d6) points of piercing damage. Falling into the pit and the subsequent struggle to get out makes enough noise to alert the ghouls who are hiding in area 5.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "3 (1d6)",
+      "damage_type": "piercing",
+      "area": "Circular pit nearly fills the chamber, leaving only a foot-wide pathway between the edge of the pit and the wall.",
+      "description": "A circular pit filled with humanoid bones; the encircling pathway is only about a foot wide.",
+      "source": "Dues for the Dead p.11"
+    },
+    {
+      "name": "Rickety Stairs",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Using the stairs to descend or ascend",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The stairs look ancient, and the wood rotted and weak."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm; characters can avoid damage to the stairs with successful Acrobatics checks."
+      },
+      "effect": "Each character who uses the steps must make a DC 10 Dexterity (Acrobatics) check at the midpoint of the stairs as they descend or ascend. An unsuccessful check causes 5 points of damage to the stairs. If the check succeeds, no damage is dealt to the stairs. The staircase collapses when it accumulates 10 points of damage, dropping everyone on it to the floor of the room. Any character who is on the stairs when they collapse suffers 7 (2d6) bludgeoning damage and falls prone.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "7 (2d6)",
+      "damage_type": "bludgeoning",
+      "area": "Wooden stairs wind around the walls of the shaft down into the darkness.",
+      "description": "Ancient, rotted wooden stairs that are on the verge of collapse.",
+      "source": "Dues for the Dead p.11"
+    },
+    {
+      "name": "Glyph of Warding (Sedrair's Crown)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "The wires are linked to the glyph, which is triggered if the weight on the wires increases or decreases by more than a few ounces.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "The crown is not floating above the skull but is suspended by thin wires ending in small hooks. Cobwebs camouflage the wires; they are noticed only by adventurers who succeed at a DC 15 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Dexterity (Sleight of Hand)",
+        "detail": "With a successful DC 20 Dexterity (Sleight of Hand) check, the crown can be removed by replacing it with weights. A successful DC 15 Intelligence (Investigation) check beforehand allows the adventurer to approximate the weight of the crown; granting advantage on the Dexterity check. Failure on the Dexterity check sets off the trap."
+      },
+      "effect": "The trap is a glyph of warding that causes 9 (2d8) lightning damage to everyone in the chamber; a successful DC 13 Dexterity saving throw halves the damage.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "9 (2d8)",
+      "damage_type": "lightning",
+      "area": "everyone in the chamber",
+      "description": "A glyph of warding protects Sedrair II's crown, which is suspended by wires above her mummified remains. Tampering with the crown's weight triggers a lightning blast.",
+      "source": "Dues for the Dead p.16"
+    }
+  ],
+  "_chapters_completed": [
+    "￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼Dues for the Dead"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "DD",
+  "_book_title": "DDEX14 DuesfortheDead",
+  "_completed": true,
+  "_timestamp": 1790290771.3130388
+}

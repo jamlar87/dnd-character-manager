@@ -1,0 +1,3298 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Circlet of Persuasion",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While wearing this circlet, you have advantage on Charisma (Persuasion) checks.",
+      "source": "p.11"
+    },
+    {
+      "name": "Briarthorn Bracers",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "These magically inscribed leather bracers afford the wearer a +1 bonus to AC. Undergrowth and forested conditions are not considered difficult terrain for the wearer.",
+      "source": ""
+    },
+    {
+      "name": "Hunter's Horn",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Blowing this horn summons 3 (1d4 + 1) eel hounds (effective only in the Summer Lands). Once you use the horn, it can't be used again until 1 day has passed.",
+      "source": ""
+    },
+    {
+      "name": "Enchanted Shadow Box",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A small wooden box containing an enchanted shadow that functions like the spell darkness, centered on the box, except the area affected is a 60-foot-radius sphere. This is a one-use item worth 500 gp.",
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "+1 Mithral Chain Shirt",
+      "type": "Armor",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Mentioned as available for sale by Ambertan.",
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "+1 Breastplate",
+      "type": "Armor",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Mentioned as available for sale by Ambertan.",
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "+1 Shortsword",
+      "type": "Weapon (shortsword)",
+      "rarity": "uncommon (temporary)",
+      "requires_attunement": false,
+      "description": "+1 Shortsword. Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 3) piercing damage. Like all the \"enchanted\" weapons here, the magic fades after 1–2 days.",
+      "source": "Unknown p.41"
+    },
+    {
+      "name": "+1 Magical Weapons (temporary)",
+      "type": "Weapon",
+      "rarity": "uncommon (temporary)",
+      "requires_attunement": false,
+      "description": "The gnomes' goods include all types of +1 magical weapons: daggers, swords, axes, etc. These are all temporary enchantments that fade in a few days.",
+      "source": "Unknown p.41"
+    },
+    {
+      "name": "The Queen's Token",
+      "type": "Wondrous item",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "Made of red and yellow gold in the shape of a birch leaf, this broach for a cloak is equivalent to a periapt of health for anyone who wins it.",
+      "source": "Warlock Lairs: Into the Summer Lands p.42"
+    },
+    {
+      "name": "Ironbound chest",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Ironbound chest containing 500 gp.",
+      "source": "Adventure p.46"
+    },
+    {
+      "name": "Moonstone",
+      "type": "Gemstone",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Three 100-gp moonstones.",
+      "source": "Adventure p.46"
+    },
+    {
+      "name": "+2 mithral chain shirt",
+      "type": "Armor",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "+2 mithral chain shirt.",
+      "source": "Adventure p.46"
+    },
+    {
+      "name": "+2 magical weapon",
+      "type": "Weapon",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "+2 magical weapon (tailored to the party).",
+      "source": "Adventure p.46"
+    },
+    {
+      "name": "Crown of Mithral (Regalia of the Crawling Fey)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A crown of mithral, part of the Regalia of the Crawling Fey. The crown is worth possibly more to a fey who understands its significance, but selling it also means selling the title of Lord/Lady of the Crawling Fey and giving up the spider-related abilities that come with it.",
+      "source": "Ettercap Grove p.47"
+    },
+    {
+      "name": "Regalia of the Crawling Fey",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This mithral crown acts as a cloak of arachnida and grants advantage to Charisma (Persuasion) checks with spiders, ettercaps, and similar creatures. Additionally, such creatures always initially have a favorable attitude when interacting with the wearer and address the wearer as \"your Majesty.\" The wearer can converse with such creatures, even if not normally able. The wearer loses 2 points of Intelligence when the regalia is worn. For those games using Status, the wearer gains the title \"Lord or Lady of the Crawling Fey\" and gains +3 Status among Fey Courts and +4 Status among Shadow Fey Courts.",
+      "source": "p.48"
+    },
+    {
+      "name": "Orb of the Rushing Flood",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "When worn, this encapsulates the wearer's hand in a sphere of pulsating blue light. Effect: This item acts as a ring of the ram.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Crown of the River King",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "When sat upon the brow, this circlet of sterling silver appears to sway and ripple, like sunlight on a stream. Effect: This crown acts as a cloak of displacement and grants the wearer the continuous effects of a water breathing spell. It grants advantage to Charisma (Persuasion) checks with sidhe and fey creatures in the Summer Lands. If worn along with the Orb of the Rushing Flood, its bearer is the River King and gains Innate Spellcasting abilities as described in his statistics. The character becomes an NPC under the DM's control if both are worn for more than 7 days. Sidhe within the Summer Lands pursue its bearer until it is surrendered.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Mithral Necklace with Star-Emerald Pendant",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A mithral necklace with an enchanted, pulsing star-emerald pendant that has 3 charges and regains 1d3 charges daily at dawn. Each charge expended allows the wearer to cast water walk.",
+      "source": "Unknown p.61"
+    },
+    {
+      "name": "+2 Mithral Armor",
+      "type": "Armor",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "A suit of +2 mithral armor (tailored to the group).",
+      "source": "Unknown p.61"
+    },
+    {
+      "name": "+2 Vicious Sword",
+      "type": "Weapon",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "A +2 vicious sword (tailored to the group) fashioned of magical, unmelting ice (treat as a silvered or cold iron weapon).",
+      "source": "Unknown p.61"
+    },
+    {
+      "name": "Iceriver",
+      "type": "Weapon (greatsword)",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "The sword is a +2 vicious greatsword made of unmelting ice (treat as a silvered or cold-iron weapon).",
+      "source": "Siege of the False Mill p.64"
+    },
+    {
+      "name": "Miller's Blessing (Fey Boon)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A small pouch of silvery flour and can be used once to teleport a creature up to 25 feet away to a place with line of effect and line of sight as a bonus action.",
+      "source": "Siege of the False Mill p.64"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Mulchmouth, Bugbear Leader",
+      "size": "Medium",
+      "type": "humanoid (goblinoid)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "studded leather armor, shield",
+      "hit_points": "65 (10d8 + 20)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 2,
+        "Stealth": 6,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Brute",
+          "description": "A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack)."
+        },
+        {
+          "name": "Heart of the Huntsman",
+          "description": "The bugbear has advantage on saving throws against being charmed, frightened, paralyzed, poisoned, stunned, or put to sleep."
+        },
+        {
+          "name": "Surprise Attack",
+          "description": "If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 5 (2d4) damage from the attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The bugbear makes two melee attacks."
+        },
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) bludgeoning damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 7 (1d8 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.8"
+    },
+    {
+      "name": "Bugbear Huntsmen",
+      "size": "Medium",
+      "type": "humanoid (goblinoid)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "hide armor, shield",
+      "hit_points": "27 (5d8 + 5)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 8,
+        "wisdom": 11,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 6,
+        "Survival": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Brute",
+          "description": "A melee weapon deals one extra die of its damage when the bugbear hits with it (included in the attack)."
+        },
+        {
+          "name": "Surprise Attack",
+          "description": "If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 5 (2d4) damage from the attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) bludgeoning damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 7 (1d8 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.8-9"
+    },
+    {
+      "name": "Forest Imps",
+      "size": "Tiny",
+      "type": "fey",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "11 (3d4 + 3)",
+      "speed": "20 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 17,
+        "constitution": 13,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 6,
+        "Perception": 3,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 90 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The forest imps’ spellcasting ability is Charisma (spell save DC 12). The forest imp can cast the following spells, requiring no material components:\nAt will: dancing lights, see invisibility\n3/day: invisibility (self only)\n1/day: entangle"
+        },
+        {
+          "name": "Beast Whisper",
+          "description": "The forest imp can communicate with beasts as if sharing a language."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The forest imp has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Natural Camouflage",
+          "description": "The forest imp has advantage on Dexterity (Stealth) checks made to hide in natural surroundings."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Glaive-Guisarme",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) slashing damage, and the target must make a DC 13 Dexterity (Acrobatics) check or be tripped and knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.9"
+    },
+    {
+      "name": "Redcoat the Talking Bear",
+      "size": "Large",
+      "type": "magical beast",
+      "alignment": "neutral",
+      "armor_class": 11,
+      "ac_type": "natural armor",
+      "hit_points": "34 (4d10 + 12)",
+      "speed": "40 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 13,
+        "wisdom": 13,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Keen Smell",
+          "description": "Redcoat has advantage on Wisdom (Perception) checks that rely on smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The bear makes two attacks: one with its bite and one with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.11"
+    },
+    {
+      "name": "Sir Oberest the Green (Sidhe Knight)",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "natural armor, briarthorn bracers",
+      "hit_points": "32 (7d6 + 7)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 19,
+        "constitution": 12,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 6,
+        "Animal Handling": 3,
+        "Intimidation": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Sir Oberest wears briarthorn bracers and carries two potions of greater healing."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Sir Oberest has advantage on saving throws against being charmed, and magic can’t put him to sleep."
+        },
+        {
+          "name": "Umbral Frailty",
+          "description": "A sidhe in dim illumination or worse rolls all saving throws, skill-checks, and attack rolls at disadvantage."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Sir Oberest’s primary spellcasting ability is Charisma (spell save DC 13). The sidhe can innately cast the following spells, requiring no material components:\nAt will: disguise self\n3/day each: entangle, hunter’s mark\n1/day: glibness (self only), haste (self only)"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +6 to hit, range 100/400 ft., one target. Hit: 9 (1d10 + 4) piercing damage."
+        },
+        {
+          "name": "Lance",
+          "description": "Melee Weapon Attack: +3 to hit, reach 10 ft., one target. Hit: 8 (1d12 + 1) piercing damage. After his first successful pass, Sir Oberest returns his lance to his squire and dismounts to engage his opponent."
+        },
+        {
+          "name": "Rapier",
+          "description": "Melee Weapon Attack: +6 to hit, range 5 ft., one target. Hit: 9 (1d8 + 4) piercing damage."
+        },
+        {
+          "name": "Fey Leap",
+          "description": "As an action, the sidhe may jump between spaces as if by dimension door. This magical transport must begin and end within 20 ft. of some illumination. A sidhe can “jump” up to 20 ft. per day in 10 ft. increments (i.e., two 10-ft. leaps or one 20-ft. leap per day). Using this ability with a mount brings the mount along as part of the movement."
+        },
+        {
+          "name": "Green Rebirth (1/Long rest)",
+          "description": "If reduced to 0 hit points, Sir Oberest’s head is severed. He immediately regains 19 hit points as he magically reattaches his severed head, which sprouts vines and green leaves and re-knits itself to his neck.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.14"
+    },
+    {
+      "name": "Illisfan (Sidhe Squire)",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "leather",
+      "hit_points": "32 (7d6 + 7)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 18,
+        "constitution": 12,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 6,
+        "Animal Handling": 3,
+        "Athletics": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Illisfan has a hunter’s horn."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Illisfan has advantage on saving throws against being charmed, and magic can’t put him to sleep."
+        },
+        {
+          "name": "Umbral Frailty",
+          "description": "A sidhe in dim illumination or worse rolls all saving throws, skill-checks, and attack rolls at disadvantage."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Illisfan’s primary spellcasting ability is Charisma (spell save DC 12). The sidhe can innately cast the following spells, requiring no material components:\nAt will: disguise self\n3/day: entangle, hunter’s mark\n1/day: haste"
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.14"
+    },
+    {
+      "name": "Fey-Touched Warhorse",
+      "size": "Large",
+      "type": "magical beast",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "19 (3d10 + 3)",
+      "speed": "60 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 3,
+        "intelligence": 9,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "understands Sylvan"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Keen Hearing",
+          "description": "A fey-touched warhorse has advantage on Wisdom (Perception) checks that rely on hearing."
+        },
+        {
+          "name": "Trampling Charge",
+          "description": "If the fey-touched warhorse moves at least 20 feet straight toward a creature and then hits it with a hooves attack on the same turn, that target must succeed on a DC 14 Strength saving throw or be knocked prone. If the target is prone, the horse can make another attack with its hooves against it as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Hooves",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": ""
+    },
+    {
+      "name": "Eel Hound Leader",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "77 (14d8 + 14)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 16,
+        "constitution": 13,
+        "intelligence": 6,
+        "wisdom": 13,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Sylvan"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The eel hound can breathe air and water."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The eel hound has advantage on an attack roll against a creature if at least one of the hound's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        },
+        {
+          "name": "Slick Spittle",
+          "description": "By spending 2 rounds dribbling spittle on an area, an eel hound can cover a 5-foot square with its slippery saliva. This area is treated as if under the effects of a grease spell, but it lasts for 1 hour."
+        },
+        {
+          "name": "Slithering Bite",
+          "description": "A creature an eel hound attacks can't make opportunity attacks against it until the start of the creature's next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage, and the target is grappled (escape DC 14)."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The River King p.19"
+    },
+    {
+      "name": "Lesser Eel Hound",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "18 (4d6 + 4)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 16,
+        "constitution": 13,
+        "intelligence": 6,
+        "wisdom": 13,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Sylvan"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The eel hound can breathe air and water."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The eel hound has advantage on an attack roll against a creature if at least one of the hound's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        },
+        {
+          "name": "Slick Spittle",
+          "description": "By spending 2 rounds dribbling spittle on an area, an eel hound can cover a 5-foot square with its slippery saliva. This area is treated as if under the effects of a grease spell, but it lasts for 1 hour."
+        },
+        {
+          "name": "Slithering Bite",
+          "description": "A creature an eel hound attacks can't make opportunity attacks against it until the start of the creature's next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The River King p.19"
+    },
+    {
+      "name": "Goblin Frog Rider",
+      "size": "Small",
+      "type": "humanoid (goblinoid)",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "leather armor, shield",
+      "hit_points": "7 (2d6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 8,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 9",
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Nimble Escape",
+          "description": "The goblin can take the Disengage or Hide action as a bonus action on each of its turns."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.23"
+    },
+    {
+      "name": "Giant Fey Frog",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "18 (4d8)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 13,
+        "constitution": 11,
+        "intelligence": 7,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 30 ft., passive Perception 12",
+      "languages": [
+        "Sylvan"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The frog can breathe air and water."
+        },
+        {
+          "name": "Standing Leap",
+          "description": "The frog's long jump is up to 20 feet and its high jump is up to 10 feet, with or without a running start."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) piercing damage, and the target is grappled (escape DC 11). Until this grapple ends, the target is restrained, and the frog can't bite another target."
+        },
+        {
+          "name": "Swallow",
+          "description": "The frog makes one bite attack against a Small or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is blinded and restrained, it has total cover against attacks and other effects outside the frog, and it takes 5 (2d4) acid damage at the start of each of the frog's turns. The frog can have only one target swallowed at a time. If the frog dies, a swallowed creature is no longer restrained by it and can escape from the corpse using 5 feet of movement, exiting prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.23"
+    },
+    {
+      "name": "Le Nain Rouge (Redcap)",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "105 (14d8 + 42)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 10,
+        "constitution": 17,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "con": 6
+      },
+      "skills": {
+        "Athletics": 8,
+        "Intimidation": 5
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing damage from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Clomping Boots",
+          "description": "A redcap has disadvantage on Dexterity (Stealth) checks."
+        },
+        {
+          "name": "Red Cap",
+          "description": "A redcap must soak its cap in the blood of a humanoid killed no more than an hour ago at least once every three days. If it goes more than 72 hours without doing so, the blood on its cap dries and the redcap gains one level of exhaustion every 24 hours. While the cap is dry, the redcap can't remove exhaustion by any means. All levels of exhaustion are removed immediately when the redcap soaks its cap in fresh blood. A redcap that dies as a result of this exhaustion crumbles to dust."
+        },
+        {
+          "name": "Solid Kick",
+          "description": "A redcap can kick a creature within 5 feet as a bonus action. The kicked creature must make a successful DC 15 Strength saving throw or fall prone."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The redcap makes two pike attacks and one bite attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) piercing damage and the creature is bleeding profusely. A bleeding creature must make a successful DC 15 Constitution saving throw at the start of its turn or take 10 (3d6) necrotic damage and continue bleeding. On a successful save the creature takes no necrotic damage and the effect ends. A creature takes only 10 (3d6) necrotic damage per turn from this effect no matter how many times it's been bitten, and a single successful saving throw ends all bleeding. Spending an action to make a successful DC 15 Wisdom (Medicine) check or any amount of magical healing also stops the bleeding. Constructs and undead are immune to the bleeding effect."
+        },
+        {
+          "name": "Pike",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 10 (1d10 + 5) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Frog Marsh p.24"
+    },
+    {
+      "name": "Balenna of Clan Starlight, Shadow Fey Huntress",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful evil",
+      "armor_class": 14,
+      "ac_type": "leather",
+      "hit_points": "104 (19d8 + 19)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "dex": 5,
+        "con": 3,
+        "cha": 5
+      },
+      "skills": {
+        "Arcana": 2,
+        "Perception": 3,
+        "Stealth": 5,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Balenna carries one potion of greater healing and a wand of paralysis."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Balenna has advantage on saving throws against being charmed, and magic can't put her to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Balenna's innate spellcasting ability is Charisma. She can cast the following spells innately, requiring no material components.\n3/day: misty step (in shadows, dim light, or darkness only)"
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Nain Rouge p.25"
+    },
+    {
+      "name": "Balenna",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "chain shirt",
+      "hit_points": "31 (7d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Arcana": 2,
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Sneak Attack (1/turn)",
+          "description": "Balenna does an extra 7 (2d6) damage when she hits a target with a weapon attack that had advantage, or when the target is within 5 feet of an ally of her that isn’t incapacitated and she doesn’t have disadvantage on the attack roll."
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Balenna has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "Balenna has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Balenna makes two ranged attacks."
+        },
+        {
+          "name": "Rapier",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 150/600 ft., one target. Hit: 7 (1d8 + 3) piercing damage plus 7 (2d6) poison damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.26"
+    },
+    {
+      "name": "Shadow Fey Brigand",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "chain shirt",
+      "hit_points": "31 (7d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 11,
+        "wisdom": 11,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Arcana": 2,
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "The shadow fey has advantage on saving throws against being charmed, and magic can’t put it to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The shadow fey’s innate spellcasting ability is Charisma. It can cast the following spells innately, requiring no material components.\n1/day: misty step (in shadows, dim light, or darkness only)"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, the shadow fey has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "The shadow fey has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.26"
+    },
+    {
+      "name": "Giant Forest Boar",
+      "size": "Large",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "natural armor",
+      "hit_points": "42 (5d10 + 15)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 2,
+        "wisdom": 7,
+        "charisma": 5
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 8",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Charge",
+          "description": "If the boar moves at least 20 feet straight toward a target and then hits it with a tusk attack on the same turn, the target takes an extra 7 (2d6) slashing damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
+        },
+        {
+          "name": "Relentless (Recharges after a Short or Long Rest)",
+          "description": "If the boar takes 10 damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Tusk",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.26"
+    },
+    {
+      "name": "Quickling",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "22 (5d6 + 5)",
+      "speed": "120 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 20,
+        "constitution": 13,
+        "intelligence": 15,
+        "wisdom": 15,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 7,
+        "Perception": 4,
+        "Stealth": 7,
+        "Survival": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Natural Invisibility",
+          "description": "A quickling is invisible when motionless. It loses this invisibility and remains visible for 1 round in any round which it takes an action."
+        },
+        {
+          "name": "Supernatural Speed",
+          "description": "A quickling moves with incredible speed. Save for when it remains motionless (at which point it is invisible), the quickling's shape blurs and shimmers with this speed, granting it light obscurement."
+        },
+        {
+          "name": "Slow Susceptibility",
+          "description": "A quickling under the effects of a slow spell or similar loses its supernatural speed and is treated as poisoned as long as the effect persists. This poisoned condition persists for 1 round after the slow effect ends."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (1d6 + 5) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Crow's Feather: Loyalty to the Shadow Fey p.27"
+    },
+    {
+      "name": "Swarm of Crows",
+      "size": "Medium",
+      "type": "swarm of Tiny beasts",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "24 (7d8 − 7)",
+      "speed": "10 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 14,
+        "constitution": 8,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 5
+      },
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "senses": "passive Perception 15",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Swarm",
+          "description": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny crow. The swarm can't regain hit points or gain temporary hit points."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beaks",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target in the swarm's space. Hit: 7 (2d6) piercing damage, or 3 (1d6) piercing damage if the swarm has half its hit points or fewer."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Crow's Feather: Loyalty to the Shadow Fey p.27"
+    },
+    {
+      "name": "Lady Sorreminx",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful evil",
+      "armor_class": 14,
+      "ac_type": "studded leather",
+      "hit_points": "123 (19d8 + 38)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 17,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 5,
+        "wis": 6,
+        "cha": 7
+      },
+      "skills": {
+        "Arcana": 4,
+        "Deception": 7,
+        "Perception": 6,
+        "Persuasion": 7,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "Lady Sorreminx has advantage on saving throws against being charmed, and magic can’t put her to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Lady Sorreminx’s innate spellcasting ability is Charisma (spell save DC 15). She can cast the following spells innately, requiring no material components:\n4/day: misty step (in shadows, dim light, or darkness only)"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Lady Sorreminx is an 11th-level spellcaster. Her spellcasting ability is Charisma (save DC 15, +7 to hit with spell attacks). She knows the following spells:\nCantrips (at will): blade ward, friends, message, vicious mockery\n1st level (4 slots): bane, charm person, faerie fire\n2nd level (3 slots): enthrall, hold person\n3rd level (3 slots): conjure fey, fear, hypnotic pattern\n4th level (3 slots): confusion, greater invisibility, phantasmal killer\n5th level (2 slots): animate objects, dominate person, hold monster\n6th level (1 slot): mass suggestion, true seeing"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Lady Sorreminx has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "Lady Sorreminx has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "page 30"
+    },
+    {
+      "name": "Lord Chelessfield, Sidhe-Lord of the Highland Marches",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 17,
+      "ac_type": "+1 breastplate",
+      "hit_points": "117 (18d8 + 36)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 19,
+        "constitution": 14,
+        "intelligence": 14,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Acrobatics": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Sir Chelessfield carries a +2 rapier and +1 hand crossbow. He wears a cloak of protection and a silver‑filigree +1 breastplate."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Lord Chelessfield has advantage on saving throws against being charmed, and magic can’t put him to sleep."
+        },
+        {
+          "name": "Umbral Frailty",
+          "description": "A sidhe in dim illumination or worse rolls all saving throws, skill-checks, and attack rolls at disadvantage."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Lord Chelessfield’s innate spellcasting ability is Charisma (spell save DC 12). He can cast the following spells innately, requiring no material components:\nAt will: disguise self\n3/day: entangle, hunter’s mark\n1/day: haste"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +7 to hit, reach 5 ft. or range 20/60 ft. Hit: 8 (1d6 + 4) piercing damage, or 9 (1d8 + 4) if used with both hands to make a melee attack."
+        },
+        {
+          "name": "+2 Rapier",
+          "description": "Melee Weapon Attack. +9 to hit, reach 5 ft., one target. Hit: 11 (1d8 + 6) piercing damage."
+        },
+        {
+          "name": "Hand Crossbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 30/120 ft., one target, Hit: 6 (1d4 + 4) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "page 30"
+    },
+    {
+      "name": "Garag-Nagan",
+      "size": "Large",
+      "type": "giant",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "patchwork armor",
+      "hit_points": "138 (12d12 + 60)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 9,
+        "constitution": 21,
+        "intelligence": 9,
+        "wisdom": 10,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "con": 8,
+        "wis": 3,
+        "cha": 4
+      },
+      "skills": {
+        "Athletics": 9,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Giant",
+        "Sylvan"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Garag-Nagan makes two club attacks."
+        },
+        {
+          "name": "Greatclub",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 25 (3d12 + 6) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Through the Gate"
+    },
+    {
+      "name": "Mudflick \"The Foul\"",
+      "size": "Small",
+      "type": "humanoid (fey, gnome)",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "ac_type": "padded leather",
+      "hit_points": "33 (6d6 +12)",
+      "speed": "25 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 10,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Perception": 2,
+        "Sleight of Hand": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Elven",
+        "Gnomish",
+        "Sylvan"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Mudflick's personal valuables consist of a mithral-tipped spear +1, bracers of defense, a potion of hill giant strength, 2 scrolls of cure wounds, a collection of exotic, mummified pixie-heads, and 28 gp in random coin."
+        },
+        {
+          "name": "Gnome Cunning",
+          "description": "Mudflick has advantage on all Intelligence, Wisdom and Charisma saving throws against magic."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Mudflick's innate spellcasting ability is Charisma. He can cast the following spells innately, requiring no material components:\nAt will: mage hand, speak with animals\n3/day: hideous laughter, magic missile, shield\n1/day: entangle, invisibility"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft. Hit: 6 (1d6 + 2) piercing damage, or 7 (1d8 + 2) if used with both hands in a melee attack."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.40"
+    },
+    {
+      "name": "Mudflick's Brothers",
+      "size": "Small",
+      "type": "humanoid (gnome)",
+      "alignment": "chaotic neutral",
+      "armor_class": 15,
+      "ac_type": "chain shirt",
+      "hit_points": "16 (3d6 + 6)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 8,
+        "wisdom": 8,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Perception": 2,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Sylvan",
+        "Gnomish"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Gnome Cunning",
+          "description": "Mudflick's four \"enforcers\" have advantage on all Intelligence, Wisdom and Charisma saving throws against magic."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Thicker than Water",
+          "description": "Any time one of the brothers is killed or incapacitated within sight of another, all remaining siblings converge in a berserk rage upon the responsible individual, making all attack rolls against that target with advantage for 3 (1d4 + 1) rounds."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.40"
+    },
+    {
+      "name": "Tatzel (The Forest Dragon)",
+      "size": "Large",
+      "type": "dragon",
+      "alignment": "lawful evil",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "128 (15d10 + 45)",
+      "speed": "40 ft., fly 80 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "str": 7,
+        "dex": 5,
+        "con": 6,
+        "wis": 4
+      },
+      "skills": {
+        "Perception": 4,
+        "Stealth": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhausted",
+        "paralyzed",
+        "sleep"
+      ],
+      "senses": "Blindsight 10 ft., darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Sylvan"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Fog Vision",
+          "description": "Tatzel sees normally through light or heavy obscurement caused by foliage or branches, fog, mist, clouds, or flying debris."
+        },
+        {
+          "name": "Amphibious",
+          "description": "Tatzel can breathe both air and water, and being underwater imposes no penalties on his movements or attacks."
+        },
+        {
+          "name": "Woodland Stride",
+          "description": "Tatzel can move through any sort of normal foliage at full speed without taking damage or suffering impairment. Areas of foliage that have been magically manipulated affect him normally."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Tatzel makes three attacks, one with his bite and two with his claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 10 (1d10 + 4) piercing damage plus 3 acid damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (2d4 + 4) slashing damage."
+        },
+        {
+          "name": "Acid Breath (Recharge 5–6)",
+          "description": "Tatzel exhales acid in a 30-foot line that is 5 feet wide. Each creature in that line must make a DC 14 Dexterity saving throw, taking 27 (6d8) acid damage on a failed save or half as much damage on a successful one."
+        },
+        {
+          "name": "Bone Storm (1/Day)",
+          "description": "While within his clearing, Tatzel can use his wings to create a 60-ft. (centered on him) swirling vortex of flying bones, branches, and other forest debris for 3 (1d6) rounds. Any Medium or smaller creature caught in the bone storm must succeed at a DC 13 Dexterity saving throw each round the maelstrom persists to avoid 5 (1d4 + 2) slashing damage and the blinded condition caused by flying bone-shards and debris."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Chapter 5: The Deeper Woods and The Fey Roads p.45"
+    },
+    {
+      "name": "Caustrix, Phosphor, and Gallogard, Dragonborn Protectors (3)",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "no alignment",
+      "armor_class": 16,
+      "ac_type": "chain mail",
+      "hit_points": "30 (4d10 + 8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 11,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "str": 5,
+        "con": 4
+      },
+      "skills": {
+        "Athletics": 5,
+        "Perception": 3
+      },
+      "damage_resistances": [
+        "acid"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "potion of healing"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Greatsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Chapter 5: The Deeper Woods and The Fey Roads p.45"
+    },
+    {
+      "name": "Lady Ariabelina Clatterspin",
+      "size": "Medium",
+      "type": "monstrosity",
+      "alignment": "neutral",
+      "armor_class": 18,
+      "ac_type": "natural armor",
+      "hit_points": "65 (10d10 + 10)",
+      "speed": "50 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 16,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 5,
+        "Stealth": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Shapeshifter",
+          "description": "Lady Clatterspin can take the form of a Small or Medium humanoid or a spider-humanoid hybrid. In humanoid form she cannot use her bite, web, or poison abilities but may cast spells, wield weapons and wear armor. Her speed in humanoid form is 30 ft."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "Lady Clatterspin can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        },
+        {
+          "name": "Web-Walker",
+          "description": "Lady Clatterspin ignores movement restrictions caused by webbing."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Lady Clatterspin’s spellcasting ability is Charisma (spell save DC 13). She can innately cast the following spells, requiring no material components:\n3/day: faerie fire, poison spray, spider climb\n2/day: jump, ray of sickness\n1/day: insect plague (spiders)"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (2d4) piercing damage, and the target must succeed on a DC 14 Constitution saving throw, taking 9 (2d8) poison damage on a failed save, or half as much damage on a successful one. If the poison damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
+        },
+        {
+          "name": "Web (Recharge 5–6)",
+          "description": "Ranged Weapon Attack: +5 to hit, range 30/60 ft., one creature. Hit: The target is restrained by webbing. As an action, the restrained target can make a DC 15 Strength check, bursting the webbing on a success. The webbing can also be attacked and destroyed (AC 10; hp 5; vulnerability to"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.46"
+    },
+    {
+      "name": "Death Butterfly Swarm",
+      "size": "Large",
+      "type": "swarm of tiny beasts",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "60 (11d10)",
+      "speed": "5 ft., fly 40 ft. (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 13,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 12,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Potent Poison",
+          "description": "The death butterfly swarm's poison affects corporeal undead who are otherwise immune to poison."
+        },
+        {
+          "name": "Swarm",
+          "description": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny insect. The swarm can't regain hit points or gain temporary hit points."
+        },
+        {
+          "name": "Weight of Wings",
+          "description": "A creature in a space occupied by the death butterfly swarm has its speed reduced by half and must succeed on a DC 13 Dexterity saving throw or become blinded. Both effects end when the creature doesn't share a space with the"
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.48"
+    },
+    {
+      "name": "Ashbark, the Firescarred Treant",
+      "size": "Huge",
+      "type": "plant",
+      "alignment": "neutral",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "73 (7d12 + 28)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 8,
+        "constitution": 18,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Common",
+        "Druidic",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "5",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "False Appearance",
+          "description": "While the treant remains motionless, it is indistinguishable from a normal tree."
+        },
+        {
+          "name": "Siege Monster",
+          "description": "The treant deals double damage to objects and structures."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The treant makes three slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., single target. Hit: 15 (3d6 + 5) bludgeoning damage."
+        },
+        {
+          "name": "Rock",
+          "description": "Ranged Weapon Attack: +8 to hit, range 60/180 ft., one target. Hit: 21 (3d10 + 5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.49"
+    },
+    {
+      "name": "Lord Peppick, the Butterfly Lord",
+      "size": "Huge",
+      "type": "swarm of tiny beasts",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "84 (13d12)",
+      "speed": "5 ft., fly 40 ft. (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 16,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 15,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "force",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "A glass orb that acts as a brooch of shielding."
+        },
+        {
+          "name": "Potent Poison",
+          "description": "Lord Peppick's poison affects corporeal undead who are otherwise immune to poison."
+        },
+        {
+          "name": "Swarm",
+          "description": "Lord Peppick can occupy another creature's space and vice versa, and he can move through any opening large enough for a Tiny insect."
+        },
+        {
+          "name": "Weight of Wings",
+          "description": "A creature in a space occupied by Lord Peppick has its speed reduced by half and must succeed on a DC 16 Dexterity saving throw or become blinded. Both effects end when the creature doesn't share a space with Lord Peppick at the end of the creature's turn. If a creature succeeds on the saving throw, it is immune to Lord Peppick's blindness effect (but not the speed reduction) for 24 hours."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Lord Peppick makes a Bite attack against every target in his spaces."
+        },
+        {
+          "name": "Bites",
+          "description": "Melee Weapon Attack: +6 to hit, reach 0 ft., every target in Lord Peppick's spaces. Hit: 24 (6d6 + 3) piercing damage, or 13 (3d6 + 3) piercing damage if he has half his hit points or fewer. The target also takes 17 (5d6) poison damage and becomes poisoned for 3 (1d4) rounds; a successful DC 15 Constitution saving throw reduces poison damage by half and prevents the poisoned condition."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.49"
+    },
+    {
+      "name": "Nixie",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "26 (4d6 + 12)",
+      "speed": "10 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 20,
+        "constitution": 17,
+        "intelligence": 16,
+        "wisdom": 17,
+        "charisma": 22
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 5,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks not made with cold-iron weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 15",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "3",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "A nixie's innate spellcasting ability is Charisma (spell save DC 16). It can innately cast the following spells, requiring no material components:\nAt will: animal friendship\n3/day: charm person\n1/day: water breathing"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The nixie has advantage on saving throws against spells and other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (1d6 + 5) slashing damage."
+        },
+        {
+          "name": "Light Crossbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft., one target. Hit: 10 (1d8 + 5) piercing damage."
+        },
+        {
+          "name": "Luring Song",
+          "description": "The nixie sings a magical melody. Every humanoid and giant within 300 feet of the nixie that can hear the song must succeed on a DC 16 Wisdom saving throw or be charmed until the song ends. The nixie must take a bonus action on its subsequent turns to continue singing. It can stop singing at any time. The song ends if the nixie is incapacitated.\n\nWhile charmed by the nixie, a target is incapacitated and ignores the songs of other nixies. If the charmed target is more than 5 feet away from the nixie, the target must move on its turn toward the nixie by the most direct route, trying to get within 5 feet. It doesn't avoid opportunity attacks, but before moving into damaging terrain, such as lava or a pit, and whenever it takes damage from a source other than the nixie, the target can repeat the saving throw. A charmed target can also repeat the saving throw at the end of each of its turns. If the saving throw is successful, the effect ends on it.\n\nA target that successfully saves is immune to this nixie's song for the next 24 hours."
+        },
+        {
+          "name": "Change Shape",
+          "description": "The nixie magically polymorphs into a Medium or smaller sized aquatic beast, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the nixie's choice)."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Chapter 6: Source of the River p.50"
+    },
+    {
+      "name": "Lesser Lorelei",
+      "size": "Medium",
+      "type": "fey (aquatic)",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "16 mage armor",
+      "hit_points": "30 (4d8 + 12)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 18,
+        "intelligence": 16,
+        "wisdom": 16,
+        "charisma": 23
+      },
+      "saving_throws": {
+        "dex": 5,
+        "cha": 8
+      },
+      "skills": {
+        "Deception": 8,
+        "Performance": 8,
+        "Persuasion": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Alluring Presence",
+          "description": "All humanoids within 30 feet of a lorelei who look directly at her must succeed on a DC 16 Charisma saving throw or be drawn to her in the most direct path, regardless of the danger. This compulsion fades once the person gets within 5 feet of the lorelei. A creature can avoid this effect for one full round by choosing to avert its eyes at the start of its turn, but it then has disadvantage on any attacks or other rolls directed against the lorelei until the start of its next turn. A lorelei can suppress or resume this ability as a bonus action. Anyone who successfully saves against this effect cannot be affected by it from the same lorelei for 24 hours."
+        },
+        {
+          "name": "Unearthly Grace",
+          "description": "A lorelei applies her Charisma modifier to all her saving throws in place of the normal ability modifier."
+        },
+        {
+          "name": "Water Spirit",
+          "description": "The lorelei is under the effect of freedom of movement whenever she is in contact with a body of water."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The lorelei is a 6th-level spellcaster. Her spellcasting ability is Charisma (spell save DC 16, +8 to hit with spell attacks). She requires no material components to cast her spells. The lorelei has the following sorcerer spells prepared:\nCantrips (at will): detect magic, guidance, light, mending, poison spray, prestidigitation\n1st level (4 slots): comprehend languages, fog cloud, mage armor, ray of sickness\n2nd level (3 slots): hold person, misty step, suggestion\n3rd level (3 slots): hypnotic pattern, gaseous form, water walk"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d4 + 3) piercing damage."
+        },
+        {
+          "name": "Charm",
+          "description": "The lorelei targets one humanoid she can see within 30 feet of her. If the target can see or hear the lorelei, it must succeed on a DC 16 Wisdom saving throw against this magic or be charmed by the lorelei. The charmed target regards the lorelei as its one true love, to be heeded and protected. Although the target isn't under the lorelei's control, it takes the lorelei's requests or actions in the most favorable way it can."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Where the Lorelei Sing p.52"
+    },
+    {
+      "name": "Gumphollow",
+      "size": "Medium",
+      "type": "humanoid (aquatic)",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "16 mage armor",
+      "hit_points": "52 (8d8 +16)",
+      "speed": "20 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "dex": 5,
+        "cha": 8
+      },
+      "skills": {
+        "Deception": 8,
+        "Performance": 8,
+        "Persuasion": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Gumphollow can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Gumphollow makes two attacks, one with his morningstar and one with his sticky tongue."
+        },
+        {
+          "name": "Morningstar",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 1) piercing damage."
+        },
+        {
+          "name": "Sticky Tongue",
+          "description": "Melee Weapon Attack. +3 to hit, reach 10 ft., one target. Hit: A creature hit by Gumphollow’s tongue cannot move more than 10 feet away and takes a –2 penalty to AC as long as the tongue is attached. The tongue can be removed by succeeding on an opposed Strength check as an action, or by dealing 2 slashing damage to the tongue (AC 11, damage does not deplete Gumphollow’s actual hit points). Gumphollow cannot move more than 10 feet away from the target, but he can release his tongue as a free action. Unlike a giant frog, Gumphollow cannot pull a target toward him with his tongue."
+        },
+        {
+          "name": "Terrifying Croak (Recharge 6)",
+          "description": "Gumphollow can emit a loud and horrifying croak. Any creature within 30 feet must make a DC 14 Wisdom saving throw or become frightened for 3 (1d4) rounds. Creatures that succeed at this saving throw cannot be affected again by Gumphollow’s croak for 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.54"
+    },
+    {
+      "name": "King's Soldiers",
+      "size": "Medium",
+      "type": "fey (sidhe)",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "leather armor",
+      "hit_points": "13 (3d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 13,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft. passive Perception 13",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [],
+      "actions": [
+        {
+          "name": "Fey Leap",
+          "description": "As an action a sidhe may “leap” between spaces as if by dimension door. This magical transport must begin and end within 20 ft. of some illumination. A sidhe can “jump” up to a total of 20 ft. per day in 10 ft. increments (i.e., 2 10-ft. leaps or 1 20-ft. leap per day). Using this ability with a Fey-touched mount brings the mount along as part of the movement."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 3)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.54"
+    },
+    {
+      "name": "Ulorian, the River King",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 18,
+      "ac_type": "natural armor",
+      "hit_points": "152 (16d8 + 80)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 17,
+        "constitution": 20,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 17
+      },
+      "saving_throws": {
+        "dex": 8,
+        "con": 10,
+        "wis": 6
+      },
+      "skills": {
+        "Intimidation": 8,
+        "Nature": 7,
+        "Perception": 6,
+        "Stealth": 8
+      },
+      "damage_resistances": [
+        "fire",
+        "cold",
+        "thunder",
+        "bludgeoning, piercing, and slashing damage from weapons that aren't cold iron"
+      ],
+      "damage_immunities": [
+        "lightning"
+      ],
+      "condition_immunities": [
+        "exhaustion"
+      ],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Elemental",
+        "Elvish",
+        "Giant"
+      ],
+      "challenge_rating": "16",
+      "xp": 15000,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The River King can breathe air and water."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The River King's innate spellcasting ability is Charisma (save DC 16, +8 to hit with spell attacks). The River King can innately cast the following spells, requiring no material components.\nAt will: create or destroy water, shocking grasp, water breathing\n3/day: freedom of movement, control water\n1/day: chain lightning"
+        },
+        {
+          "name": "Legendary Resistance (3/day)",
+          "description": "If the River King fails a saving throw, he can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The River King's weapon attacks are magical and do an extra 11 (3d6) lightning damage (included below)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The River King makes three attacks with his longsword and/or flood blast, in any combination."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 9 (1d8 + 5) slashing damage or 11 (1d10 + 5) slashing damage if used with two hands, plus 11 (3d6) lightning damage."
+        },
+        {
+          "name": "Flood Blast",
+          "description": "Ranged Spell Attack: +8 to hit, range 120 ft., one target. Hit: 18 (4d8) bludgeoning damage. A target creature must succeed on a DC 16 Strength saving throw or be knocked prone and pushed up to 60 feet at the River King's choosing."
+        },
+        {
+          "name": "Grasping Whirlpool (Recharge 5–6)",
+          "description": "The River King magically creates a swirling vortex of water centered on a point he can see within 60 feet. The vortex fills a cylinder with a 10-foot radius and 15 feet high. Creatures in the area must make a successful DC 16 Strength saving throw or take 11 (2d10) bludgeoning damage and be restrained and unable to breathe. On a successful save, the creature is pushed to the edge of the area. A restrained creature can escape from the whirlpool by using an action to make a successful DC 16 Strength check. A creature that's in the whirlpool at the end of its turn takes 11 (2d10) bludgeoning damage in addition to any effects from being unable to breathe. Creatures with a swim speed have advantage on the saving throw and the Strength check to escape. The whirlpool lasts for 1 minute or until the River King uses this ability again.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Blade Current",
+          "description": "When a creature within the River King's melee reach stands up from prone, the River King can make a longsword attack on that creature with advantage."
+        }
+      ],
+      "legendary_actions": [
+        {
+          "name": "Longsword",
+          "description": "The River King makes a longsword attack."
+        },
+        {
+          "name": "Flow",
+          "description": "The River King moves half his speed without provoking opportunity attacks."
+        },
+        {
+          "name": "Ripple (2 Actions)",
+          "description": "The River King magically ripples like sunlight on the surface of water. Until the start of his next turn, all attacks against him have disadvantage."
+        }
+      ],
+      "source": "Unknown p.60"
+    },
+    {
+      "name": "Jenny Greenteeth (Elder Marsh Hag)",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "136 (16d8 + 64)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 18,
+        "intelligence": 15,
+        "wisdom": 14,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Arcana": 5,
+        "Deception": 6,
+        "Perception": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Elven",
+        "Giant",
+        "Sylvan"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Jenny can breathe both air and water."
+        },
+        {
+          "name": "Immutable Form",
+          "description": "Jenny is immune to any power, other than her own, that would change her shape or alter her form."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Jenny Greenteeth's innate Spellcasting ability is Charisma (spell save DC 16, +8 to hit with spell attacks). She can innately cast the following spells, requiring no material components:\nAt will: chill touch, command, friends, invisibility, minor illusion, poison spray\n3/day: arms of Hadar, charm person, detect thoughts, ray of sickness, suggestion\n1/day: bestow curse, conjure woodland beings, counterspell"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "Jenny has advantage on saving throws against spells and other magical effects"
+        },
+        {
+          "name": "Mimicry",
+          "description": "Jenny can mimic animal sounds and humanoid voices. A creature that can hear these sounds can tell they are imitations on a successful DC 16 Wisdom (Insight) check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Jenny makes 2 claw attacks."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage and 7 (2d6) poison damage."
+        },
+        {
+          "name": "Bogwater (Recharge 5–6)",
+          "description": "Jenny can spew regurgitated swamp-water, algae and mud in a 10 ft. vomitous cone. Each creature in that area must succeed at a DC 15 Dexterity check to avoid being spattered with the leech-infested bile and acquiring the blinded condition for 1 round. Any affected target creature that does not spend 1 additional turn to remove the leeches must succeed on a DC 16 Constitution saving throw each turn to avoid acquiring 1 level of exhaustion."
+        },
+        {
+          "name": "Swamp Fever",
+          "description": "If both Jenny's claw attacks damage the same target creature, the target must succeed at a DC 16 Constitution saving throw to avoid acquiring the poisoned condition."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.61"
+    },
+    {
+      "name": "Lord Flax (Sidhe Noble)",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "91 (14d8 + 28)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 20,
+        "constitution": 14,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Animal Handling": 4,
+        "Deception": 7,
+        "Perception": 4,
+        "Stealth": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Umbral Frailty",
+          "description": "A sidhe in dim illumination or worse rolls all attack, skill-check and saving throws at disadvantage."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Flax's spellcasting ability is Charisma (spell save DC 15). He can innately cast the following spells, requiring no material components.\nAt will: blade ward, disguise self\n3/day: entangle, faerie fire, hunter's mark\n1/day: haste"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Lord Flax makes 2 melee attacks."
+        },
+        {
+          "name": "Greatsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 11 (2d8 + 2) slashing damage and 6 (1d10) poison damage. Flax's greatsword is coated with enough toxin for 5 successful attacks."
+        },
+        {
+          "name": "Pommel Strike",
+          "description": "On a successful greatsword attack, Lord Flax's current target must succeed on a DC 15 Dexterity (Acrobatics) check to avoid being knocked prone."
+        },
+        {
+          "name": "Whirling Multiattack",
+          "description": "When Flax succeeds at a greatsword attack that does not include a pommel strike, half the damage delivered to the target is also applied to all enemies within 5 feet of the target."
+        },
+        {
+          "name": "Fey Leap",
+          "description": "As an action, Flax may \"leap\" between spaces as if by dimension door. This magical transport must begin and end within 20 ft. of some illumination. He can \"jump\" up to a total of 20 ft. per day in 10 ft. increments (i.e., 2 10-ft. leaps or 1 20-ft. leap per day). Using this ability with a mount brings the mount along as part of the movement."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.62"
+    },
+    {
+      "name": "Ambertan the Warlock",
+      "size": "Medium",
+      "type": "humanoid (shadow fey)",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "72 (11d8 +22)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 20,
+        "constitution": 14,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 7,
+        "wis": 3,
+        "cha": 6
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Elven",
+        "Umbral"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Siege of the False Mill p.63"
+    },
+    {
+      "name": "Ambertan",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "72 (11d8+22)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 20,
+        "constitution": 14,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 7,
+        "wis": 3,
+        "cha": 6
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Elven",
+        "Umbral"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "Ambertan has advantage on saving throws against being charmed, and magic can't put him to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Ambertan's innate spellcasting ability is Charisma. He can cast the following spells innately, requiring no material components.\n1/day: misty step (when in shadows, dim light, or darkness only)"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Ambertan is a 6th-level spellcaster. his spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). He has two 4th-level slots which he regains after a short rest, and knows the following warlock spells:\nCantrips (at will): eldritch blast, poison spray, true strike\n1st level: armor of Agathys, arms of Hadar, protection from evil and good\n2nd level: cloud of daggers, crown of madness\n3rd level: fly\n4th level: blight"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Ambertan has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "Ambertan has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Siege of the False Mill p.64"
+    },
+    {
+      "name": "Lady Budena",
+      "size": "Medium",
+      "type": "humanoid (lorelei)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "19 mage armor",
+      "hit_points": "94 (11d8 + 44)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 22,
+        "constitution": 18,
+        "intelligence": 16,
+        "wisdom": 18,
+        "charisma": 24
+      },
+      "saving_throws": {
+        "dex": 9,
+        "wis": 7,
+        "cha": 10
+      },
+      "skills": {
+        "Arcana": 6,
+        "Deception": 10,
+        "Insight": 7,
+        "Perception": 7,
+        "Persuasion": 10
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 17",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Lady Budena carries a +2 silver dagger."
+        },
+        {
+          "name": "Alluring Presence",
+          "description": "All humanoids within 30 feet of Lady Budena who look directly at her must succeed on a DC 18 Charisma saving throw or be drawn to her in the most direct path, regardless of the danger. This compulsion fades once the person gets within 5 feet of her. A creature can avoid this effect for one full round by choosing to avert its eyes at the start of its turn, but it then has disadvantage on any attacks or other rolls directed against Lady Budena until the start of its next turn. Lady Budena can suppress or resume this ability as a bonus action. Anyone who successfully saves against this effect cannot be affected by it from Lady Budena for 24 hours."
+        },
+        {
+          "name": "Unearthly Grace",
+          "description": "Lady Budena applies her Charisma modifier to all her saving throws in place of the normal ability modifier."
+        },
+        {
+          "name": "Water Spirit",
+          "description": "Lady Budena is under the effect of freedom of movement whenever she is in contact with a body of water."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Lady Budena is a 9th-level spellcaster. Her spellcasting ability is Charisma (Spell save DC 18, +10 to hit with spell attacks). Lady Budena has the following sorcerer spells prepared:\nCantrips (at will): fire bolt, mage hand, poison spray, ray of frost, true strike\n1st level (4 slots): detect magic, ray of sickness, shield, witch bolt\n2nd level (3 slots): invisibility\n3rd level (3 slots): dispel magic, protection from energy\n4th level (3 slots): confusion, dominate beast, polymorph\n5th level (1 slot): insect plague"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 9 (1d4 + 6) piercing damage."
+        },
+        {
+          "name": "Charm",
+          "description": "Lady Budena targets one humanoid she can see within 30 feet of her. If the target can see or hear her, it must succeed on a DC 18 Wisdom saving throw against this magic or be charmed by Lady Budena. The charmed target regards her as its one, true love, to be heeded and protected. Although the target isn't under the Lady Budena's control, it takes her requests or actions in the most favorable way it can.\n\nEach time Lady Budena or her companions cause the target to take damage, directly or indirectly, it repeats the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hours or until Lady Budena is killed, is on a different plane of existence than the target, or takes a bonus action to end the effect."
+        },
+        {
+          "name": "Stunning Glance",
+          "description": "Lady Budena mentally disrupts a creature within 30 feet with a look. The target must succeed on a DC 18 Wisdom saving throw or be stunned for 2 rounds. Anyone who successfully saves against this effect cannot be affected by it from Lady Budena for 24 hours."
+        },
+        {
+          "name": "Firefly Storm",
+          "description": "The scintillating cloud of fireflies and fairy-lights that delicately mantle Lady Budena's presence are not for adornment alone. She can mentally command her \"cloud\" to instantly occupy any 20-ft. cube within 60 feet of her that she can see. Any creature caught inside the cloud's radius is affected by faerie fire and takes 5 (1d8) piercing damage. Targets must then succeed at a DC 14 Constitution saving throw to avoid the blinded condition (50%) or the poisoned condition (50%). Lady Budena can mentally move the cloud up to 30 ft. to another space she can see for a second attack. Afterwards, the cloud dissipates and Lady Budena must complete a short rest before using this ability again.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A: Courtiers of the River Court p.65"
+    },
+    {
+      "name": "Wickerbell",
+      "size": "Tiny",
+      "type": "fey",
+      "alignment": "neutral",
+      "armor_class": 15,
+      "ac_type": "18 mage armor",
+      "hit_points": "72 (13d4 + 39)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 20,
+        "constitution": 16,
+        "intelligence": 14,
+        "wisdom": 17,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 8,
+        "wis": 6,
+        "cha": 7
+      },
+      "skills": {
+        "Acrobatics": 8,
+        "Perception": 6,
+        "Stealth": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Elven",
+        "Gnome",
+        "Sylvan"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Wickerbell always has her +1 shortsword and a wand of wonder in her possession. Wickerbell is never without her escort of 1–2 giant honeybees and can nearly always be found mounted on the back of one of them."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Wickerbell's natural spellcasting ability is Charisma (spell save DC 15). She casts the following spells, requiring no material components:\nAt will: alter self, prestidigitation\n3/day: mage armor, shillelagh\n1/ day: haste (self only), invisibility (self only)"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Wickerbell is a 7th-level spellcaster. Her spellcasting ability is Wisdom (spell save DC 14, +6 to hit with spell attacks). Wickerbell has the following druid spells prepared, requiring no material components:\nCantrips (at will): poison spray, resistance, thorn whip\n1st level: cure wounds, entangle, faerie fire, speak with animals\n2nd level: heat metal, flame blade, hold person\n3rd level: conjure animals, dispel magic, speak with plants\n4th level: giant insect (bees only)"
+        },
+        {
+          "name": "Child of the Summer Lands",
+          "description": "Wickerbell has advantage on all saving throws versus sleep and charm and to any immobilizing spells or magical effects."
+        },
+        {
+          "name": "Inconspicuous",
+          "description": "Wikerbell has advantage on all Dexterity (Stealth) checks made to hide."
+        }
+      ],
+      "actions": [
+        {
+          "name": "+1 Shortsword",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 10 (1d6 + 6) piercing damage."
+        },
+        {
+          "name": "Fey Leap",
+          "description": "As an action, Wickerbell may jump between spaces as if by dimension door. This magical transport must begin and end within 20 ft. of some illumination. She can \"jump\" up to 20 ft. per day in 10-ft. increments (i.e., two 10-ft. leaps or one 20-ft. leap per day). Using this ability with a mount brings the mount along as part of the movement."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A: Courtiers of the River Court p.66"
+    },
+    {
+      "name": "Summer Lands Honeybee",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "neutral",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "28 (5d8 + 5)",
+      "speed": "10 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 7,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "understands Sylvan but does not speak"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 3) piercing damage, and the target must make a DC 12 Constitution saving throw, taking 10 (3d6) damage on a failed save or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A: Courtiers of the River Court p.66"
+    },
+    {
+      "name": "Fangs-in-Shade-and-Rushes",
+      "size": "Large",
+      "type": "giant (ogre)",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "breastplate",
+      "hit_points": "112 (12d10 + 46)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 12,
+        "constitution": 18,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "str": 9,
+        "dex": 4,
+        "con": 7
+      },
+      "skills": {
+        "Athletics": 9,
+        "Nature": 6,
+        "Perception": 6,
+        "Stealth": 7,
+        "Survival": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Fangs wears a cloak of elvenkind and a mithral breastplate (250 gp) and carries a +1 greatclub and a potion of speed."
+        },
+        {
+          "name": "Schooled in the Summer Lands",
+          "description": "Fangs doubles his proficiency bonus and makes all rolls at advantage for any Nature, Perception, Stealth or Survival related checks made while in the wilds of the Summer Lands."
+        }
+      ],
+      "actions": [
+        {
+          "name": "+1 Greatclub",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 21 (3d8 + 7) bludgeoning damage."
+        },
+        {
+          "name": "Javelins (6)",
+          "description": "Melee or Ranged Weapon Attack: +9 to hit, reach 5 ft., or range 30/120 ft., one target. Hit: 13 (2d6 + 6) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.67"
+    },
+    {
+      "name": "Knurlapp the Water Bearer",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "chaotic neutral",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "52 (8d8 + 16)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "str": 4,
+        "con": 4
+      },
+      "skills": {
+        "Athletics": 4,
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Cursed Silver Urn",
+          "description": "This silver tea urn is always full and produces any non-magical beverage on command of its wearer, from spring water to wine to piping hot tea. It weighs 300 lbs. and always counts as a heavy load. The urn can only be removed if someone honestly agrees to carry it instead of the current wearer. It produces magical effects and attacks and operates outside the Summer Lands only by the express will of the River King."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Gushing Geyser (Cursed Urn)",
+          "description": "Ranged Weapon Attack: +3 to hit, range 20/60 ft., one target. Hit: 9 (3d4 + 1) bludgeoning damage and 12 (3d6 + 1) fire damage (scalding tea). Target must succeed at a DC 14 Dexterity check to avoid being knocked prone. A 20-foot-long, 1-foot-wide stream at 50 gallons per round sprays forth from the urn."
+        },
+        {
+          "name": "Silver Chalice",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 2) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.67"
+    },
+    {
+      "name": "Sir Lijon Troutscales",
+      "size": "Medium",
+      "type": "fey (sidhe)",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "scale mail",
+      "hit_points": "66 (12d8 + 12)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 20,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 14,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "dex": 7,
+        "int": 3,
+        "cha": 6
+      },
+      "skills": {
+        "Arcana": 3,
+        "Athletics": 4,
+        "Deception": 6,
+        "Perception": 4,
+        "Persuasion": 6
+      },
+      "damage_resistances": [
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elven",
+        "Sylvan"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Sir Lijon wears magical scarlet and silver scale mail that provides damage resistance against nonmagical piercing damage, and he wields a dagger of venom. He also carries an ornamental mithral, silver, and moonstone dueling‑dirk worth 200 gp."
+        },
+        {
+          "name": "Umbral Frailty",
+          "description": "In dim illumination or worse, Sir Lijon rolls all saving throws, skill checks, and attack rolls at disadvantage."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Sir Lijon’s innate spellcasting ability is Charisma (spell save DC 14). He may cast the following spells, requiring no material components:\nAt will: disguise self\n3/day: entangle, hunter’s mark\n1/day: glibness (self only), haste (self only)"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Sir Lijon makes two melee attacks, one with his rapier and one with his dagger."
+        },
+        {
+          "name": "Rapier",
+          "description": "Melee Weapon Attack: +7 to hit, range 5 ft., one target. Hit: 10 (1d8 + 5) piercing damage."
+        },
+        {
+          "name": "Dagger of Venom",
+          "description": "Melee Weapon Attack: +7 to hit, range 5 ft., one target. Hit: 8 (1d4 + 5) piercing damage. Sir Lijon can use an action to cause poison to coat the blade. The poison remains for 1 minute or until Sir Lijon hits a creature with it. That creature must succeed on a DC 15 Constitution saving throw or take 11 (2d10) poison damage and become poisoned for 1 minute. The dagger can’t be used this way again until the next dawn."
+        },
+        {
+          "name": "Fey Leap",
+          "description": "As an action, Sir Lijon may jump between spaces as if by dimension door. This magical transport must begin and end within 20 ft. of some illumination. He can “jump” up to 20 ft. per day in 10-ft. increments (i.e., two 10-ft. leaps or one 20-ft. leap per day). Using this ability with a mount brings the mount along as part of the movement."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Wrath of the River King"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Voyland",
+      "race": "Unknown",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A vendor at the fey fair who haggles for items rather than coin. He wants items in exchange or help running off his sleazy rival, the gnome enchanter Mudflick.",
+      "role": "Vendor",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "Rhorlief",
+      "race": "Wolf-like humanoid",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A 9-foot-tall wolf-like humanoid with a scraggly goat-like beard, wearing a battered brown vest with a hood. He sells scrolls and knows fey lore, but drives extremely hard, sly bargains.",
+      "role": "Vendor",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "Orelliar",
+      "race": "Sidhe",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The Mage of Time, a sidhe mage in a purple robe who sells moments, instants, and fateful seconds at the fey fair.",
+      "role": "Vendor",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.38"
+    },
+    {
+      "name": "Ambertan",
+      "race": "Gnome",
+      "class_name": "Warlock",
+      "subclass": "Shadow Fey",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A Shadow Fey warlock with a spiral beard and curly shoes who possesses knowledge the party needs. He seeks to trick party members into accepting his badge of service to the Wicked Queen Nimurae. His full stats are on page 63.",
+      "role": "Vendor",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Unknown p.38"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Weighted Net Traps",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Anyone entering their squares",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A DC 15 Wisdom (Perception) check is necessary to spot the trap"
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity",
+        "detail": "A DC 15 Dexterity check successfully disarms it"
+      },
+      "effect": "Any creature caught in the square when the trap is triggered becomes restrained, and those that fail a DC 10 Strength saving throw are also knocked prone. A creature can use its action to make a DC 10 Strength check to free itself or another creature within its reach on a success. The net has AC 11 and 10 hit points.",
+      "save_dc": 10,
+      "save_ability": "Strength",
+      "damage": "",
+      "damage_type": "",
+      "area": "The square where the trap is triggered",
+      "description": "The tripwire for each trap is positioned three inches from the ground, stretched between two trees, and the net itself is hidden among the foliage.",
+      "source": "p.8"
+    },
+    {
+      "name": "Logs",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "A floating log is available to hang onto",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Visible floating log"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "The log is 1d6 squares long and supports the weight of one character per square of length. The character need not make a Strength (Athletics) check to stay above water. Logs move in the current as the GM chooses, 1d3 squares per round. A group of PCs working together can move a log 2 squares with a successful DC 19 Strength (Athletics) check. Failing with at least one natural 1 means the log jams in river rocks, and a DC 15 Strength check is required to remove the log against the force of the current. At the DM's option, a whirlpool may form near the log, dragging characters under (see Whirlpool, below).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "A floating log hazard in the Rushing River.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Rapids",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "PCs in difficult water",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Visible difficult water"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "PCs in difficult water have disadvantage on Strength (Athletics) checks for movement.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "Difficult water that impedes movement.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "River Snags",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "An underwater tree, sharp stones, or stumps grab a PC's foot",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Hidden underwater"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "This causes 1d6 slashing damage and the PC can't move for 1 round.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "1d6",
+      "damage_type": "slashing",
+      "area": "",
+      "description": "Underwater obstacles that grab a PC's foot.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Small Waterfall",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "The river drops by 10 feet onto rocks and churning water",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Visible waterfall"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Characters with proficiency in Dexterity (Acrobatics) avoid this damage; all others take 1d6 falling damage.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "1d6",
+      "damage_type": "falling",
+      "area": "",
+      "description": "A 10-foot drop onto rocks and churning water.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Surface Rocks",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "The character hits a large rock",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Visible large rock"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "The character suffers 2d10 bludgeoning damage and is stunned next round.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "2d10",
+      "damage_type": "bludgeoning",
+      "area": "",
+      "description": "Large rocks on the surface that cause damage and stun.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Whirlpool",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "An eddy drags the character down below the surface",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Visible eddy"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Escaping requires a successful DC 10 Strength (Athletics) check. Each round the PC fails a check, that PC remains underwater and must hold her breath or begin suffocating. It takes 1 round for an affected PC who has broken free from the eddy to swim back to the surface.",
+      "save_dc": 10,
+      "save_ability": "Strength",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "An eddy that drags characters underwater.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Waterfall",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "After 4 rounds, any PCs still in the river are hurled over the waterfall",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "A DC 10 Wisdom (Perception) check to hear the thundering crash of a waterfall not far away."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "The next round, the waters hurl him over the waterfall onto rocks below. This is a 40-foot drop for 4d6 bludgeoning damage. On the plus side, swimming out of the quiet pool past the waterfall requires only a DC 5 Strength (Athletics) check.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "4d6",
+      "damage_type": "bludgeoning",
+      "area": "",
+      "description": "A 40-foot waterfall drop onto rocks.",
+      "source": "Chapter 2: Through the Millpond p.16"
+    },
+    {
+      "name": "Cocoon-Chest Lock",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Attempting to open the locked cocoon-chest of black spider silk without picking the lock, or attempting to break the chest open by force.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The lock is visible on the cocoon-chest."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity check with thieves' tools",
+        "detail": "Pick the lock with a DC 15 Dexterity check using thieves' tools."
+      },
+      "effect": "If anyone attempts to break the chest open by force, a swarm of spiders is released.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "The rich treasures of the Lady of Spiders are kept guarded in a locked cocoon-chest of black spider silk. Breaking the chest open by force releases a swarm of spiders.",
+      "source": "Ettercap Grove p.47"
+    }
+  ],
+  "_chapters_completed": [
+    "Introduction",
+    "OPEN GAME LICENSE Version 1.0a",
+    "Chapter 3: Into the Summer Lands",
+    "Wrath of the River King",
+    "Chapter 4: The Birch Queens Fair",
+    "Credits & Legal",
+    "Chapter 6: Source of the River",
+    "Chapter 2: Through the Millpond",
+    "Appendix A: Courtiers of the River Court",
+    "Chapter 5: The Deeper Woods and The Fey Roads",
+    "Chapter 1: Riverbend"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 11,
+  "_book_slug": "WRKF",
+  "_book_title": "Wrath River King 5E Final 240",
+  "_completed": true,
+  "_timestamp": 1790292477.508983
+}

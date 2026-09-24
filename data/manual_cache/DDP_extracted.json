@@ -1,0 +1,253 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Black dragon scale shield",
+      "type": "Shield",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "The shield Gorrunk was using was actually the scale of a black dragon. While it acts simply as a regular shield, it is a trophy that can be carried with pride.",
+      "source": "Defiance in Phlan p.14"
+    },
+    {
+      "name": "Spell Scroll: Protection from Evil and Good",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This spell scroll contains a single protection from evil and good spell. A description of spell scrolls can be found in the basic rules or Dungeon Master's Guide.",
+      "source": "Defiance in Phlan p.20"
+    },
+    {
+      "name": "Spell Scroll: Comprehend Languages",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This spell scroll contains a single comprehend languages spell. A description of spell scrolls can be found in the basic rules or Dungeon Master's Guide.",
+      "source": "Defiance in Phlan p.20"
+    },
+    {
+      "name": "Enchanted Blue Dragon's Tooth",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A character that possesses this item for more than a day has vulnerability to lightning damage.",
+      "source": "Defiance in Phlan p.26"
+    }
+  ],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [
+    {
+      "name": "Yllivia",
+      "race": "Elf",
+      "class_name": "Scout",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "16 (3d8 + 3)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Nature": 4,
+        "Perception": 5,
+        "Stealth": 6,
+        "Survival": 5
+      },
+      "features": [
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The scout makes two melee attacks or two ranged attacks."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An elf member of the Order of the Gauntlet, a group dedicated to fighting the tyranny of the Black Fist knights.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Defiance in Phlan p.29"
+    },
+    {
+      "name": "Villonah",
+      "race": "Gnome",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "25 ft.",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A gnome member of the Order of the Gauntlet, imprisoned by the Black Fist guards. She stole a map from the Black Fists that is rumored to lead to the lair of a white dragon in the mountains to the north, hiding it on the sole of her right foot under a patch of fake skin.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Defiance in Phlan p.29"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Tripwire Alarm Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Any creature passing through the area containing the tripwire sets off the trap. The tripwire is set across the entrance to this room, roughly two feet above the ground.",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "The trap can be found with a successful DC 10 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 10,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "Disabled by a character with a set of thieves' tools with a successful DC 10 Dexterity check."
+      },
+      "effect": "If triggered, stones fall into the ceiling of the 10-foot by 40-foot section of Area 2A directly north of the tripwire. Any creature in the trapped area takes 5 (2d4) bludgeoning damage from falling rocks. The trap also sets off alarm bells in other parts of the lair. If the trap is successfully disarmed, pulling the alarm rope in other areas of the lair has no effect.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "5 (2d4)",
+      "damage_type": "bludgeoning",
+      "area": "10-foot by 40-foot section of Area 2A directly north of the tripwire",
+      "description": "A tripwire set across the entrance to a room, roughly two feet above the ground, that triggers falling stones and alarm bells when tripped.",
+      "source": "Defiance in Phlan p.13"
+    },
+    {
+      "name": "Xandria's Crypt Gas Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "The trap triggers soon after the sarcophagus lid is removed and its contents examined.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "The door closes and seals, and a hissing sound makes you aware that some kind of gas is entering the crypt. It does not smell pleasant.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The crypt",
+      "description": "A trap in Xandria's crypt that seals the door and releases a foul-smelling gas after the sarcophagus is disturbed.",
+      "source": "Defiance in Phlan p.18"
+    },
+    {
+      "name": "Poison Needle Trap (Throne)",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Opening the hinged panel in the bottom of the throne without disarming the trap",
+      "detection": {
+        "dc": 15,
+        "skill": "Wisdom (Perception)",
+        "detail": "Noticed with a successful DC 15 Wisdom (Perception) check"
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity check with thieves' tools",
+        "detail": "Disabled with a successful DC 15 Dexterity check, provided the character attempting this check has a set of thieves' tools"
+      },
+      "effect": "A needle sticks the creature opening the panel",
+      "save_dc": 12,
+      "save_ability": "Constitution",
+      "damage": "4 (1d8)",
+      "damage_type": "poison",
+      "area": "The creature opening the panel",
+      "description": "A poison needle trap on a hinged panel in the bottom of a throne.",
+      "source": "Defiance in Phlan p.18"
+    },
+    {
+      "name": "Poison Gas Trap (Crypt)",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Removing the sarcophagus lid and examining the contents",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection check specified; the gas is noticeable by smell"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Solving the gem puzzle",
+        "detail": "Inserting the correct gems into the wall carvings within two rounds dissipates the gas"
+      },
+      "effect": "The crypt door seals and poisonous gas fills the room",
+      "save_dc": 12,
+      "save_ability": "Constitution",
+      "damage": "3 (1d6)",
+      "damage_type": "poison",
+      "area": "The crypt",
+      "description": "A trap that seals the crypt and releases poisonous gas when the sarcophagus is disturbed.",
+      "source": "Defiance in Phlan p.18"
+    },
+    {
+      "name": "Collapsing Obelisk Ceiling",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Destroying an obelisk (AC 8, 5 hp) or pushing it over with a successful DC 5 Strength check causes the ceiling of the cavern around the obelisk to collapse.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection check specified; the obelisks are quite old and fragile and visibly so."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "The ceiling of the cavern around the obelisk collapses, dealing 7 (2d6) bludgeoning damage to each creature in a square adjacent to the obelisks and knocking that creature prone. A creature making a successful DC 10 Dexterity saving throw takes only half damage and is not knocked prone.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "7 (2d6)",
+      "damage_type": "bludgeoning",
+      "area": "Each square adjacent to the obelisks",
+      "description": "The obelisks in the cavern are quite old and fragile. Destroying or toppling one causes the surrounding ceiling to collapse.",
+      "source": "Defiance in Phlan p.29"
+    }
+  ],
+  "_chapters_completed": [
+    "￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼Defiance in Phlan"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "DDP",
+  "_book_title": "DDEX11 Defiance in Phlan",
+  "_completed": true,
+  "_timestamp": 1790290830.9124994
+}

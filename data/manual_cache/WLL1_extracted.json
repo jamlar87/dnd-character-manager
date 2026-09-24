@@ -1,0 +1,330 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Eyes of the Owl",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "These translucent onyx lenses fit over the eyes. While wearing them, your eyes appear much larger than usual. In addition, you have advantage on Wisdom (Perception) checks that rely on sight, and you don't have disadvantage on such checks when in a lightly-obscured area if the disadvantage is caused by dim light.",
+      "source": ""
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Dart (tranquilizing poison)",
+      "type": "Weapon",
+      "subtype": "ranged",
+      "damage": "1d4 piercing",
+      "properties": [
+        "finesse",
+        "thrown (range 20/60)"
+      ],
+      "cost": "",
+      "weight": 0.25,
+      "source": "WLL1"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Roc Zombie",
+      "size": "Gargantuan",
+      "type": "undead",
+      "alignment": "neutral evil",
+      "armor_class": 11,
+      "ac_type": "natural armor",
+      "hit_points": "200 (16d20 + 32)",
+      "speed": "20 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 6,
+        "constitution": 14,
+        "intelligence": 3,
+        "wisdom": 6,
+        "charisma": 5
+      },
+      "saving_throws": {
+        "wis": 1
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 8",
+      "languages": [],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Undead Fortitude",
+          "description": "If damage reduces the roc zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the roc zombie drops to 1 hit point instead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The roc zombie makes two attacks: one with its beak and one with its talons."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 24 (4d8 + 6) piercing damage."
+        },
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 20 (4d6 + 6) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Aerie of the Crow God p.10"
+    },
+    {
+      "name": "Gnoll Slaver",
+      "size": "Medium",
+      "type": "humanoid (gnoll)",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "chain shirt",
+      "hit_points": "71 (11d8 + 22)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 6,
+        "Intimidation": 5,
+        "Perception": 2,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Gnoll"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Rampage",
+          "description": "When the gnoll reduces a creature to 0 hp with a melee attack on its turn, the gnoll can take a bonus action to move up to half its speed and make a bite attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The gnoll makes three attacks: one with its bite and two with its whip or three with its longbow."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Whip",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10ft., one target. Hit: 6 (1d4 + 4) slashing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        },
+        {
+          "name": "Menace Captives (Recharge 5–6)",
+          "description": "The gnoll selects up to three creatures it has taken captive within 30 feet. Each creature must succeed on a DC 15 Wisdom saving throw or have disadvantage for 1 minute on any attack rolls or skill checks to take actions other than those the gnoll has ordered it to take."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": ""
+    },
+    {
+      "name": "Werehyena",
+      "size": "Medium",
+      "type": "humanoid (gnoll, shapechanger)",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "in gnoll form, 14 (natural armor) in hyena or hybrid form",
+      "hit_points": "58 (9d8 + 18)",
+      "speed": "30 ft. (50 ft. in hyena form)",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks not made with silver"
+      ],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Gnoll (can't speak in hyena form)"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The werehyena has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Shapechanger",
+          "description": "The werehyena can use its action to polymorph into a hyena-gnoll hybrid or into a hyena, or back into its true gnoll form. Its statistics, other than AC, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack (Gnoll or Hybrid Form Only)",
+          "description": "The werehyena makes two attacks: one with its bite and one with its claws or scimitar."
+        },
+        {
+          "name": "Bite (Hyena or Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) piercing damage. If the target is humanoid, it must succeed on a DC 12 Constitution saving throw or be cursed with werehyena lycanthropy."
+        },
+        {
+          "name": "Claws (Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) slashing damage."
+        },
+        {
+          "name": "Scimitar (Gnoll or Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": ""
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Welcome to the Camp Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A trip wire colored to match the ground runs from north to south through the space labeled '1' on the map. When a creature breaks the trip wire, bells jingle loud enough to signal all gnolls in the camp who are currently awake. Simultaneously, a section of rock cut away from and resting against the wall slams to the ground.",
+      "detection": {
+        "dc": 15,
+        "skill": "Investigation",
+        "detail": "A successful DC 15 Intelligence (Investigation) or DC 18 Wisdom (Perception) check discovers the trip wire or the section cut from the wall."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 15 Dexterity check using thieves' tools disables the trip wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "Each creature within 15 feet of the space labeled '1' on the map when the trap is triggered must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "bludgeoning",
+      "area": "15 feet of the space labeled '1' on the map",
+      "description": "This trap serves the Shredskin tribe in two fashions: it alerts the gnolls to trespassers, and it acts as their first line of defense.",
+      "source": ""
+    },
+    {
+      "name": "Jumping Fire Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A snake-like tendril of fire strikes at any creature that is not a gnoll or hyena moving within 5 feet of the pyre.",
+      "detection": {
+        "dc": 16,
+        "skill": "Arcana",
+        "detail": "A successful DC 16 Intelligence (Arcana) check realizes the danger posed by proximity to the pyre."
+      },
+      "disarm": {
+        "dc": 16,
+        "method": "dispel magic",
+        "detail": "A successful dispel magic (DC 16) cast on the pyre disables the trap for 24 hours. If Laughing Fire is killed, she can't rekindle the pyre, which effectively destroys it until Forresh locates a new host for his power."
+      },
+      "effect": "The tendril attacks with a +6 bonus and inflicts 4d10 fire damage on a successful hit.",
+      "save_dc": null,
+      "save_ability": null,
+      "damage": "4d10",
+      "damage_type": "fire",
+      "area": "within 5 feet of the pyre",
+      "description": "A shrine defense mechanism for the Shredskin tribe. A snake-like tendril of fire strikes at any creature that is not a gnoll or hyena moving within 5 feet of the pyre.",
+      "source": "Adventure p.6"
+    },
+    {
+      "name": "Floor Spikes",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "The trap activates when more than 20 pounds of weight is placed on a pressure plate (indicated with a 'T' on the map).",
+      "detection": {
+        "dc": 14,
+        "skill": "Investigation or Perception",
+        "detail": "A successful DC 14 Intelligence (Investigation) or Wisdom (Perception) check finds the pressure plate."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Wedging an iron spike or other object under the pressure plate",
+        "detail": "Wedging an iron spike or other object under the pressure plate prevents the trap from activating."
+      },
+      "effect": "Each creature within 10 feet of a pressure plate when the trap is triggered must succeed on a DC 15 Dexterity saving throw or take 11 (2d10) piercing damage. The trap automatically resets after it is triggered.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "piercing",
+      "area": "10 feet of a pressure plate",
+      "description": "A pressure plate trap that triggers floor spikes when more than 20 pounds of weight is placed on it.",
+      "source": "page 9"
+    },
+    {
+      "name": "Aspect of Alquam",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If a creature other than the aerie's current inhabitants moves within 5 feet of the wall adjoining Area 10, a shadowy wing and set of talons emerge from the portal to attack those nearby.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The wing and talons each make a melee attack with a +7 bonus against a random target within 10 feet of the portal (vision is irrelevant to this attack roll). A target that is hit takes 2d10 bludgeoning damage (wing) or slashing damage (talons).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "2d10",
+      "damage_type": "bludgeoning or slashing",
+      "area": "Within 10 feet of the portal",
+      "description": "A shadowy wing and set of talons emerge from the portal to attack those nearby when a creature other than the aerie's current inhabitants moves within 5 feet of the wall adjoining Area 10.",
+      "source": "Aerie of the Crow God p.10"
+    }
+  ],
+  "_chapters_completed": [
+    "The Dark Aerie"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "WLL1",
+  "_book_title": "Warlock Lair The Dark Aerie 082219",
+  "_completed": true,
+  "_timestamp": 1790290603.3685927
+}

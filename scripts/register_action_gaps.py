@@ -69,48 +69,66 @@ def spell_times() -> dict[str, str]:
 
 
 def descriptions() -> dict[str, str]:
-    """key -> the feature's own description, from the merged data."""
+    """key -> the feature's own description, from the merged data.
+
+    Walks the JSON recursively: the merged files are not all list-shaped (races.json is keyed by
+    race), and scanning only top-level lists silently ignored every trait in those files — which is
+    why "Silent Steps" was reported as having no description while sitting in races.json.
+    """
     found: dict[str, str] = {}
+
+    def walk(node) -> None:
+        if isinstance(node, dict):
+            name = str(node.get("name") or "").strip()
+            text = node.get("description")
+            if name and isinstance(text, str) and text.strip():
+                key = name.lower()
+                clean_text = re.sub(r"\s+", " ", text).strip()
+                if key not in found or len(clean_text) > len(found[key]):
+                    found[key] = clean_text
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+
     for path in sorted(MERGED.glob("*.json")):
         try:
-            data = json.loads(path.read_text())
+            walk(json.loads(path.read_text()))
         except Exception:
             continue
-        for entry in (data if isinstance(data, list) else []):
-            if not isinstance(entry, dict):
-                continue
-            groups = [entry.get("traits") or [], entry.get("features") or [],
-                      entry.get("actions") or [], entry.get("special_abilities") or [],
-                      entry.get("legendary_actions") or []]
-            for group in groups:
-                for item in (group if isinstance(group, list) else []):
-                    name = str((item or {}).get("name") or "").strip()
-                    if not name:
-                        continue
-                    key = name.lower()
-                    text = re.sub(r"\s+", " ", str((item or {}).get("description") or "")).strip()
-                    if text and (key not in found or len(text) > len(found[key])):
-                        found[key] = text
     return found
 
 
-def infer(text: str, cast: str = "") -> str:
+SPELL_MENTION = re.compile(r"\bcast(?:ing)?\s+(?:the\s+)?([a-z][a-z' -]{2,40}?)\s+(?:spell\b|at will|once|as)", re.I)
+
+
+def infer(text: str, cast: str = "", spells: dict[str, str] | None = None) -> str:
     """The action type, from the feature's own words.
 
     A spell's casting_time is explicit, so it outranks prose. The MPG spell "Mucus Spray" is
     "1 standard action", and that is how its subclass twin "Mucus Spray (Sp)" is typed too — the
-    feature text never says. Precedence: casting time, prose cues, then Special.
+    feature text never says. A trait that grants a spell inherits that spell's casting time as well:
+    "Silent Steps" lets you cast *silence*, which is an action.
+
+    In prose the **earliest cue wins**, because the activation sentence comes before any follow-up
+    commands. "Animating Performance" opens "As an action, you can animate…" and mentions the bonus
+    action used to command the animated item only afterwards; taking the bonus action there would
+    label the whole feature wrong.
     """
+    if not cast and spells:
+        match = SPELL_MENTION.search(text)
+        if match:
+            cast = spells.get(match.group(1).strip().lower(), "")
     for pattern, kind in ((CAST_BONUS, "Bonus Action"), (CAST_REACT, "Reaction"), (CAST_ACTION, "Action")):
         if pattern.search(cast):
             return kind
-    if BONUS.search(text):
-        return "Bonus Action"
-    if REACTION.search(text):
-        return "Reaction"
-    if ACTION.search(text):
-        return "Action"
-    return "Special"
+    earliest: tuple[int, str] | None = None
+    for pattern, kind in ((BONUS, "Bonus Action"), (REACTION, "Reaction"), (ACTION, "Action")):
+        match = pattern.search(text)
+        if match and (earliest is None or match.start() < earliest[0]):
+            earliest = (match.start(), kind)
+    return earliest[1] if earliest else "Special"
 
 
 def main() -> int:
@@ -144,7 +162,7 @@ def main() -> int:
         if not text and not cast:
             skipped.append(key)          # no description anywhere: needs a human, do not guess
             continue
-        kind = infer(text, cast)
+        kind = infer(text, cast, casts)
         tip = (text or f"Casting time: {cast}")[:110].rstrip()
         if len(text) > 110:
             tip = tip[: tip.rfind(" ")] + "…"

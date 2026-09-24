@@ -1,0 +1,322 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Grim, Guard Sergeant",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "neutral evil",
+      "armor_class": 17,
+      "ac_type": "splint",
+      "hit_points": "32 (5d8 + 10)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 11,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Pack Tactics",
+          "description": "The thug has advantage on an attack roll against a creature if at least one of the thug's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The thug makes two melee attacks."
+        },
+        {
+          "name": "Mace",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) bludgeoning damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Secrets of Sokol Keep p.25"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Guard Sergeant Hurn",
+      "race": "Human",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Brooding",
+          "description": "Hurn is old and just riding out the last few years he has left before he can retire. While not as corrupt as your average guardsman, Hurn would definitely not turn away a bribe. He is, for the most part, ineffective; the docks would be just as safe (or dangerous) without his presence."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Guard Sergeant Hurn is in command of a contingent of six Black Fist guards at the Keep. He is a brooding man who volunteered for duty at the Keep, a position that is widely considered to be punishment.",
+      "role": "Guard",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.10"
+    },
+    {
+      "name": "Guard Sergeant Grim",
+      "race": "Human",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Lazy",
+          "description": "Grim is a lazy man, but for some reason volunteered for duty at the Keep. Ensuring the beacon was lit was House Sokol's job, but the Black Fist were there to make sure that they were safe to get it done."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Guard Sergeant Grim is in command of a contingent of six Black Fist guards at the Keep. He is a lazy man who volunteered for duty at the Keep.",
+      "role": "Guard",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.10"
+    },
+    {
+      "name": "Karst",
+      "race": "Human",
+      "class_name": "Ferryman",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Ferry Service",
+          "description": "Karst is a bitter, elderly fellow who has worked as a ferryman for nearly forty years. The events in Phlan have taken their toll on his livelihood and he has not seen much in the way of long coin. Were it not for his old age he would have left long ago. He is willing to ferry the characters to the island for 1 gp and a flimsy excuse. If they have obtained permission from House Sokol or the Black Fist, he does it for free. Karst does not talk much, but if asked will provide the following nuggets of insight: He knows Darvag, Shandra, and Rorin, and spoke to them the day prior. They appear to be in good health. The Black Fist have a detachment of six guards on the island at any given time. Being chosen for the detail is usually a punishment."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Karst is a bitter, elderly ferryman who has worked in Phlan for nearly forty years. He is willing to ferry characters to Thorn Island for a fee.",
+      "role": "Ferryman",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.11"
+    },
+    {
+      "name": "Harae",
+      "race": "Human (spirit)",
+      "class_name": "Priestess of Tyr",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Incorporeal Spirit",
+          "description": "She is a particularly weak spirit, unable to do much beyond move small objects around. She is unable to manifest herself, and thus is invisible. This is the extent of Harae's ability to influence her environment."
+        },
+        {
+          "name": "Attitude Changes",
+          "description": "She is initially indifferent towards visitors. However, her attitude changes depending on the characters. Her attitude changes to friendly towards any character who: Is an open-worshipper of a lawful good deity. Attempt to engage the spirit in conversation and succeeds at a DC 10 Charisma (Persuasion) check. Explores the Keep without stealing anything and treat the groundskeepers with respect. Conversely, she becomes immediately unfriendly towards any character who: Openly worships an evil deity. Steals from the Keep or treats the groundskeepers cruelly."
+        },
+        {
+          "name": "Helpful Information",
+          "description": "If she recognizes that the characters are trying to figure out what happened to Igan and she is friendly towards a majority of the characters, she helps in area 4 and answers any questions posed by characters that she is friendly to. Creative characters who are aware of her presence may devise a form of \"yes or no\" communication. She knows precise details about what transpired here, where the Black Fist are, and the entrance to and inhabitants of the temple. However, she has long since forgotten about hazards that pose no danger to her, such as sinkholes."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Harae was a priestess of Tyr who died in the Dragon Run, a draconic invasion, almost 200 years ago. In life, she was a patient and just follower of Tyr but in the time since her death, she has lost much of her ability to relate with the living. She is a particularly weak spirit, unable to do much beyond move small objects around.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.12"
+    },
+    {
+      "name": "Darvag",
+      "race": "Human",
+      "class_name": "Groundskeeper",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A middle-aged groundskeeper in charge of upkeep of the structure and grounds.",
+      "role": "Servant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.12"
+    },
+    {
+      "name": "Shandra",
+      "race": "Human",
+      "class_name": "Servant",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Darvag's wife, primarily responsible for ensuring the interior of the keep was clean and meals prepared.",
+      "role": "Servant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.13"
+    },
+    {
+      "name": "Rorin",
+      "race": "Human",
+      "class_name": "Aide",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Son of Darvag and Shandra, acts as an aide to both of them as needed.",
+      "role": "Servant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.13"
+    },
+    {
+      "name": "Grim, Guard Sergeant",
+      "race": "Human",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Grim and his guards currently have two levels of exhaustion and will only defend themselves if attacked."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "splint armor"
+      ],
+      "spellcasting": null,
+      "description": "Grim murdered Igan out of sheer greed and anger. He is wracked with guilt and does most of the talking.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Secrets of Sokol Keep p.20"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Slab Trap",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Touching the indentation and saying anything other than the correct words",
+      "detection": {
+        "dc": 20,
+        "skill": "Arcana",
+        "detail": "A successful DC 20 Intelligence (Arcana) check recognizes the glyphs as a component to some sort of ritual that allows something in plain sight to remain unseen. However, the glyphs are worn enough that they no longer function."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Removing the slab without the use of magic would require more time and resources than the characters have available, such as cranes, pulleys and a few extra men."
+      },
+      "effect": "The characters touching the slab must make a DC 10 Constitution save or take 4 (1d4+2) lightning damage and be stunned for 1 round.",
+      "save_dc": 10,
+      "save_ability": "Constitution",
+      "damage": "4 (1d4+2)",
+      "damage_type": "lightning",
+      "area": "The stone slab approximately 10 feet on a side",
+      "description": "A stone slab bordered in worn glyphs with a hand-shaped indentation that triggers a lightning trap when the wrong words are spoken.",
+      "source": "Secrets of Sokol Keep p.16"
+    }
+  ],
+  "_chapters_completed": [
+    "Secrets of Sokol Keep"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "SSK",
+  "_book_title": "DDEX12 Secrets of Sokol Keep",
+  "_completed": true,
+  "_timestamp": 1790291567.7459934
+}

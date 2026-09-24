@@ -1,0 +1,730 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Turmish religious idols",
+      "type": "Wondrous item",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "matching set of Turmish religious idols set with semi-precious stones worth 100 gp each",
+      "source": "Shadows over the Moonsea p.26"
+    },
+    {
+      "name": "Dracolich statue",
+      "type": "Wondrous item",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "a man-sized statue of a dracolich, with glowing moonstones for eyes, that radiates both enchantment magic and evil",
+      "source": "Shadows over the Moonsea p.26"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Bandit (Pirate)",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any non-lawful alignment",
+      "armor_class": 12,
+      "ac_type": "leather armor",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "1/8",
+      "xp": 25,
+      "features": [],
+      "actions": [
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) slashing damage."
+        },
+        {
+          "name": "Light Crossbow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 80 ft./320 ft., one target. Hit: 5 (1d8 + 1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.29"
+    },
+    {
+      "name": "Captain Reeve Sar Testain",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "lawful evil",
+      "armor_class": 17,
+      "ac_type": "splint",
+      "hit_points": "58 (9d8 + 18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 5,
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.29"
+    },
+    {
+      "name": "Ixas, Wearer of Purple (Cult Fanatic)",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "chaotic neutral",
+      "armor_class": 13,
+      "ac_type": "leather armor",
+      "hit_points": "33 (6d8 + 6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 4,
+        "Persuasion": 4,
+        "Religion": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Dark Devotion",
+          "description": "The fanatic has advantage on saving throws against being charmed or frightened."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The fanatic is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The fanatic has the following cleric spells prepared:\nCantrips (at will): light, sacred flame, thaumaturgy\n1st level (4 slots): command, inflict wounds, shield of faith\n2nd level (3 slots): hold person, spiritual weapon"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The fanatic makes two melee attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one creature. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.30"
+    },
+    {
+      "name": "Three Crones",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "chaotic neutral",
+      "armor_class": 12,
+      "ac_type": "hide armor",
+      "hit_points": "9 (2d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 3,
+        "Religion": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Dark Devotion",
+          "description": "The three crones have advantage on saving throws against being charmed or frightened."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The three crones are 1st-level spellcasters. Their spellcasting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The three crones have the following cleric spells prepared:\nCantrips (at will): mending, sacred flame\n1st level (2 slots): command, inflict wounds"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one creature. Hit: 2 (1d4) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.31"
+    },
+    {
+      "name": "Ulburto (Scout)",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "leather armor",
+      "hit_points": "16 (3d8 + 3)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Nature": 4,
+        "Perception": 5,
+        "Stealth": 6,
+        "Survival": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 15",
+      "languages": [
+        "any one language (usually Common)"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The scout has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The scout makes two melee attacks or two ranged attacks."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack: +4 to hit, ranged 150/600 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.31"
+    },
+    {
+      "name": "Warsh",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "chaotic neutral",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "22 (5d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 5,
+        "wis": 3
+      },
+      "skills": {
+        "Arcana": 5,
+        "History": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Dwarvish",
+        "Elvish"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Warsh is a 4th-level spellcaster. His spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). He has the following wizard spells prepared:\nCantrips (at will): light, mage hand, shocking grasp\n1st level (4 slots): charm person, mage armor, magic missile\n2nd level (3 slots): hold person, misty step"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 3 (1d8 - 1) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Shadows over the Moonsea p.31"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Acolyte Elden Mymn",
+      "race": "Human",
+      "class_name": "Acolyte",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A young human male with a passive, patient demeanor. He is quiet and easily overlooked in the background. He is fervent in his beliefs, but as he is only just beginning his training, he thinks it better to defer to his elders.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.8"
+    },
+    {
+      "name": "Yip, the Madman",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A deeply tanned man with rough hands and dirt under his nails, likely a farmer or other outdoor laborer. He has several wounds that have been dressed. He is quiet and uninterested when the adventurers first arrive, but speaking with him is a trying process. He punctuates most of what he says with a barking, yip noise and other nervous ticks while struggling against his bonds. He never answers a straight question, and becomes more and more frustrated and agitated the more he is interacted with. He speaks only Common.",
+      "role": "NPC",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.8"
+    },
+    {
+      "name": "Knight Aleyd Burral",
+      "race": "Human",
+      "class_name": "Knight of the Black Fist",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A formidable warrior with a keen mind, but the soft heart she hides under a stern frown has kept from advancing further in the Knights of the Black Fist. In her late 40s with grey-streaked blonde hair, she has decided that doing her job well and protecting Phlan is perhaps more important than advancement. She does not suffer fools and counts adventurers among the most foolish of all.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.9"
+    },
+    {
+      "name": "Fillistrom Wunderkundoodle",
+      "race": "Gnome",
+      "class_name": "Healer",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Fillistrom Wunderkundoodle is cranky male gnome with a penchant for taking his time. Fillistrom is a trained healer who studies the mysteries of the body and is a competent mundane healer for those without the means to afford magical remedies or with a distrust of the magic.",
+      "role": "Healer",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.10"
+    },
+    {
+      "name": "Zern Xerkstil",
+      "race": "Half-orc",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The brash Zern Xerkstil, the Hammer of Impiltur (male half-orc) who asks to meet at the Dawn Fane, an abandoned temple. The Order of the Gauntlet is concerned about the rise of fell cults in the Moonsea region.",
+      "role": "Order of the Gauntlet contact",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.10"
+    },
+    {
+      "name": "Seranolla the Whisperer",
+      "race": "Forest gnome",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The reclusive Seranolla the Whisperer (female forest gnome) who asks to meet outside the city in the woods. The Emerald Enclave have determined that something unnatural is going on with the weather and storms seem to spring up every four days, corresponding directly with changes in the phase of the moon.",
+      "role": "Emerald Enclave contact",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.10"
+    },
+    {
+      "name": "Dornal Whitebeard",
+      "race": "Hill dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The gregarious Dornal Whitebeard (male hill dwarf), who asks to meet at the Velvet Doublet, a well-known feasthall. The Lord's Alliance believes a merchant, Gilfron Milon, is missing.",
+      "role": "Lord's Alliance contact",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.11"
+    },
+    {
+      "name": "Gilfron Milon",
+      "race": "Human",
+      "class_name": "Merchant",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Gilfron Milon is a friendly male human merchant who deals in lumber from the Quivering Forest and tools. While he is pleasant, he is no fool and knows the roads are dangerous, leaving him cautious at the outset of any meeting. Since his wife died of a fever three years ago, he travels in the company of his son Gilmont. He speaks with a false educated air, pretending to be of higher class than he is. Gilfron makes his living leading caravans of goods to and from Phlan with the help of his son Gilmont. They are currently headed to Phlan and have a wagon filled with axes, saws, pulleys, and other metal tools useful in working lumber, along with a smattering of southern goods unavailable on the northern bank of the Moonsea.",
+      "role": "Merchant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.11"
+    },
+    {
+      "name": "Warsh",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Warsh is a ferryman who lives on an island near the Moonsea. He has a pipe between his teeth at all times, making it even harder to understand his already angry, mumbled speech. His family has lived on the island for five generations before him and he was there when the town made its pact with Tiamat. He is superstitious of outsiders, mean, and very greedy. It is also his job to deal with non-islanders.",
+      "role": "Ferryman",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.14"
+    },
+    {
+      "name": "Elisande",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elisande is a young orphan human girl with wild dirty hair and a pox-marked face. She is friendly and eager to interact with outsiders, having heard stories of the outside world. She has no family left alive on the island and yearns to escape. She avoids combat and is fascinated with outsiders. She can provide information about the island and its folk, and may shadow the adventurers if rebuffed.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Shadows over the Moonsea p.15-16"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Palisade",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Attackers attempting to bypass the wall",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Not applicable; visible obstacle"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Low wall funnels most attackers. Building a stable wall requires a successful DC 15 Strength or Intelligence check to complete in one action (of the three each adventurer or group of adventurers have). Otherwise it takes two.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "A low wall built from rubble to funnel attackers.",
+      "source": "Shadows over the Moonsea p.21"
+    },
+    {
+      "name": "Ditch",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Creature enters the ditch area",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "The ditch is difficult terrain and if filled with obstacles does 2 (1d4) points of piercing damage. Succeeding at a DC 10 Dexterity halves this damage. No roll is need to dig the ditch, only time. Ditches filled with oil can be set ablaze for 2 (1d4) points of fire damage each round.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "2 (1d4)",
+      "damage_type": "piercing",
+      "area": "",
+      "description": "A muddy ditch that can be filled with dangerous debris or oil.",
+      "source": "Shadows over the Moonsea p.21"
+    },
+    {
+      "name": "Pits",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Creature steps into the pit area",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Hidden pits are difficult to make as they fill with water quickly, making it necessary to line them with spikes or other debris in order to do 3 (1d6) points of piercing damage. A successful DC 15 Dexterity saving throw avoids the pit. Pits filled with oil can be set ablaze for 2 (1d4) points of fire damage each round. Succeeding at a DC 10 Strength or Intelligence check is required to build a series of pits without having them collapse on themselves.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6)",
+      "damage_type": "piercing",
+      "area": "",
+      "description": "Hidden pits lined with spikes or debris.",
+      "source": "Shadows over the Moonsea p.21"
+    },
+    {
+      "name": "Hooked Nets",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Creature enters the area under the net",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Dodging a dropped net requires a successful DC 10 Dexterity saving throw. Failure restrains each Large or smaller creature within 5 feet of that point. A creature can break free by dealing 5 slashing damage to the net or by succeeding on a DC 10 Strength check using its action. If there are hooks sewn into the net, it does 1 point of damage each round the creature struggles or tries to free itself.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "1",
+      "damage_type": "piercing",
+      "area": "5 feet of that point",
+      "description": "A dropped net that restrains creatures, possibly with hooks.",
+      "source": "Shadows over the Moonsea p.21"
+    },
+    {
+      "name": "Trip Lines",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Creature walks through the trip line area",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Trip lines can be set to trip foes making them prone. Any adventurer that doesn’t see a trip line must succeed at a DC 10 Dexterity saving throw or fall prone.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "Lines set to trip creatures, making them prone.",
+      "source": "Shadows over the Moonsea p.21"
+    },
+    {
+      "name": "Swinging Weight Traps",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Creature enters the area of the swinging weight",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not applicable"
+      },
+      "effect": "Heavy objects that wing from a height at head or mid-level do 3 (1d6) points of bludgeoning damage and can be avoided by succeeding at DC 15 Dexterity saving throw. Determine how high the weights are placed, small creatures (such as kobolds) will often be missed.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6)",
+      "damage_type": "bludgeoning",
+      "area": "",
+      "description": "Heavy objects swinging from a height to strike creatures.",
+      "source": "Shadows over the Moonsea p.21"
+    }
+  ],
+  "_chapters_completed": [
+    "￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼￼Shadows over the Moonsea"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "SOM",
+  "_book_title": "DDEX13 Shadows over the Moonsea",
+  "_completed": true,
+  "_timestamp": 1790291525.6385887
+}

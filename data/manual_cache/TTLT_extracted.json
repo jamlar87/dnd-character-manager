@@ -1,0 +1,252 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Ice Magic by Zadel Akgrytan",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This obscure tome, written by an orcish mage, teaches spellcasters how to channel the energy of the surrounding environment in order to enhance their ability to cast cold-based spells. The caster, while in the environs of the frozen north, gains an extra 2 spell slots that can be used to cast spells that inflict cold damage (300 gp).",
+      "source": "The Tortured Land p.21"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Compass",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 1,
+      "description": "A small metal compass which points to the magnetic north pole. Using a compass grants advantage on Survival checks to avoid getting lost. A PC with a compass always knows which way is north.",
+      "source": "TTLT"
+    },
+    {
+      "name": "Fur-lined Tent",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 32,
+      "description": "This heavy tent, which packs away into a surprisingly compact roll, is made from bear fur and will keep you sheltered against even the coldest nights.",
+      "source": "TTLT"
+    },
+    {
+      "name": "Smoke Bomb",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 2,
+      "description": "Created by an alchemist, a smoke bomb is a small round glass bottle filled with a swirling black cloud. As an action, you can throw a smoke bomb up to 20 ft, shattering it on impact. Thick smoke fills an area in a 5 ft radius around where the smoke bomb shatters: this area is heavily obscured. The smoke disperses after one minute. A strong wind can also disperse the smoke after one round.",
+      "source": "TTLT"
+    },
+    {
+      "name": "Snow glasses",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "10 gp",
+      "weight": 0,
+      "description": "These eye protection devices, crafted from bone, are designed to stop snow blindness when travelling through snowy terrain.",
+      "source": "TTLT"
+    },
+    {
+      "name": "Snowshoes",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "1 gp",
+      "weight": 1,
+      "description": "Frames constructed of wood and sinew can be attached to your boots. Wearing snowshoes allows you to ignore difficult terrain caused by snow.",
+      "source": "TTLT"
+    },
+    {
+      "name": "Heavy Furs",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 5,
+      "source": "TTLT"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Oblex Spawn",
+      "size": "Tiny",
+      "type": "Ooze",
+      "alignment": "Lawful Evil",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "18",
+      "speed": "",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 16,
+        "constitution": 15,
+        "intelligence": 14,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "int": 4,
+        "cha": 2
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "prone"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this distance), passive Perception 12",
+      "languages": [],
+      "challenge_rating": "!",
+      "xp": 0,
+      "features": [
+        {
+          "name": "Amorphous",
+          "description": "The oblex can move through a space as narrow as 1 inch wide without squeezing."
+        },
+        {
+          "name": "Aversion to Fire",
+          "description": "If the oblex takes fire damage, it has disadvantage on attack rolls and ability checks until the end of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Pseudopod",
+          "description": "Melee Weapon Attack +5 to hit, reach 5 ft., one target. Hit 1d4+3 bludgeoning damage + 1d4 psychic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Combat Sheet: Red Goo"
+    },
+    {
+      "name": "Half-Ogre",
+      "size": "Large",
+      "type": "Giant",
+      "alignment": "CE",
+      "armor_class": 12,
+      "ac_type": "hide armour",
+      "hit_points": "30 (4d10 + 8)",
+      "speed": "",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 10,
+        "constitution": 14,
+        "intelligence": 7,
+        "wisdom": 9,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "Darkvision 60 ft., passive Perception 9",
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "challenge_rating": "1",
+      "xp": 0,
+      "features": [],
+      "actions": [
+        {
+          "name": "Battleaxe",
+          "description": "Melee Weapon Attack +5 to hit, reach 5 ft., one target. Hit 1d10+3 slashing damage."
+        },
+        {
+          "name": "Rock",
+          "description": "Ranged Weapon Attack +2 to hit, range 30/50, one target. Hit 1d4 bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Combat Sheet: Half-Ogre"
+    },
+    {
+      "name": "Gnoll Hunter",
+      "size": "Medium",
+      "type": "Humanoid",
+      "alignment": "CE",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "22",
+      "speed": "",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 8,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "Darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Gnoll"
+      ],
+      "challenge_rating": "\"",
+      "xp": 0,
+      "features": [
+        {
+          "name": "Rampage",
+          "description": "When the gnoll reduces a creature to 0 hit points with a melee attack on its turn, the gnoll can take a bonus action to move up to half its speed and make a bite attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The gnoll makes two melee attacks with its spear or two ranged attacks with its longbow."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit 1d6+2 piercing damage, or 1d8+2 when used with two hands in a melee attack."
+        },
+        {
+          "name": "Longbow",
+          "description": "Ranged Weapon Attack +4 to hit, range 150/600 ft., one target. Hit 1d8+2 piercing damage, and the target's speed is reduced by 10 feet until the end of its next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Combat Sheet: Gnoll Hunters"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "The Tortured Land - Taster"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "TTLT",
+  "_book_title": "1346683 The Tortured Land  Taster",
+  "_completed": true,
+  "_timestamp": 1790290211.0446882
+}

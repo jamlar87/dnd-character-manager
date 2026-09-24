@@ -1,0 +1,402 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Avert the Eye",
+      "level": 0,
+      "school": "illusion",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a glass eye or marble)",
+      "duration": "Concentration, up to 3 rounds",
+      "description": "By wrapping your hand around a small eyelike object, you become invisible until the spell ends. Anything you are wearing or carrying is invisible as long as it is on your person. The spell ends if you attack or cast another spell.",
+      "higher_levels": "When you cast this spell using a spell slot of 1st level or higher, you can extend the duration by 1 round for each slot level (2 rounds at 1st and 3 rounds at 2nd).",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Cloak of Chernobog",
+      "level": 3,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, M (a hat of black bear fur, worn during casting)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "Magical darkness spreads from a point you choose within range to fill a 60-foot-radius sphere for the duration. The darkness spreads around corners. A creature with darkvision can't see through this darkness, and nonmagical light can't illuminate it. However, gnomes can see in this darkness normally. This spell is typically cast on the cloak of a priest of Chernobog leading an expedition. If the point you choose is on an object you are holding or one that isn't being worn or carried, the darkness emanates from the object and moves with it. If any of this spell's area overlaps an area of light created by a spell of 3rd level or lower, the spell that created the light is dispelled.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Find Diabolical Familiar",
+      "level": 2,
+      "school": "conjuration",
+      "casting_time": "1 hour",
+      "range": "10 feet",
+      "components": "V, S, M (100 gp worth of charcoal, rich incense, and a written contract that must be consumed by fire in an iron brazier)",
+      "duration": "Instantaneous",
+      "description": "This spell is identical to the find familiar spell, but it is used only by diabolists to summon fiendish, corrupted, or undead familiars. Instead of the usual spirits, you gain the services of one of the following: d20 RESULT CR 1–6 Lemure 0 7 Stirge 1/8 8 Dretch 1/4 9 Ghoul Bat (TOB2) 1/4 10 Kalke (TOB) 1/4 11 Corrupted Pixie (TOB2) 1/2 12 Fire Imp (CC) 1/2 13 Skin Bat (TOB) 1/2 14 Gumienniki (CC) 1 15 Imp 1 16 Quasit 1 17 Ink Devil (TOB) 2 18 Kuunganisha (CC) 2 19 Wind Demon (CC) 2 20 Bearded Devil 3 (CC) see Creature Codex, (TOB) see Tome of Beasts, (TOB2) see Tome of Beasts 2 Appearing in an unoccupied space within range, the familiar has its typical statistics. Your familiar acts independently of you, and it chooses whether or not to obey your commands—a spiteful familiar may work against you.",
+      "higher_levels": "",
+      "classes": [
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "WO"
+    },
+    {
+      "name": "Gnomish Tongue",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a bit of fox fur)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You have advantage on Deception and Persuasion checks and on saving throws against spells that do psychic damage or affect the mind, provided they have a verbal component.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Sorcerer"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Hat Trick",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a hat and a small silver triangle with hinges worth 50 gp)",
+      "duration": "1 hour",
+      "description": "You touch a hat and create an invisible entrance within it that opens to an extradimensional space that lasts until the spell ends. The extradimensional space can be reached by reaching into the hat. The space can hold one Medium or smaller creature and its carried goods, or up to 100 pounds of unliving material. The hat always weighs about 1 pound, regardless of its contents. The hat cannot be pulled into itself. Attacks and spells can't cross through the entrance into or out of the extradimensional space, but a creature inside can see out of it through a small slit as wide as the hat. Anything inside the extradimensional space drops out when the spell ends or when the hat is destroyed. Gnomish casters often crawl into their own hat to avoid detection or to be carried safely from town to town.",
+      "higher_levels": "When you cast this spell using a spell slot greater than 1st, you extend the duration by 1 hour for each additional level, and the extradimensional space can hold one additional creature, or an additional 100 pounds.",
+      "classes": [
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WO"
+    },
+    {
+      "name": "Horn of Parzelon",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self (10-foot radius)",
+      "components": "V, S, M (a hunting horn worth 200 gp, not consumed in the casting)",
+      "duration": "Instantaneous",
+      "description": "You blow a hunting horn, creating a burst of noise that can be heard at a distance up to 3 miles away in open air or up to 900 feet in caverns or tunnels. Each creature in a 10-foot-radius sphere centered on you must make a Constitution saving throw, taking 1d8 thunder damage on a failed save or half as much damage on a successful one. Gnomes and evil-aligned creatures hearing the horn know that they are called by the arch-devil or his servants. They know the location and direction of the horn's casting and move toward it with preternatural speed. One or more creatures arrive at the caster's location within 2d6 rounds. The exact nature of the creature depends on the area where the spell was cast.",
+      "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d8 for each slot level above 1st, and the distance increases by 1 mile, or 300 feet underground, per level.",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WO"
+    },
+    {
+      "name": "Lion of Parzelon",
+      "level": 5,
+      "school": "conjuration",
+      "casting_time": "1 minute",
+      "range": "90 feet",
+      "components": "V, S, M (blood and a knife)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You call forth a spree demon (as per Creature Codex). Choose a space within range, and the demon appears in an unoccupied space within 10 feet of it. The demon disappears when it drops to 0 hit points or when the spell ends. The demon is friendly to you and your companions for the duration. Roll initiative for the demon,",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Summon Spree Demon",
+      "level": 3,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (blood and a knife)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You call forth a spree demon (as per Creature Codex). Choose a space within range, and the demon appears in an unoccupied space within 10 feet of it. The demon disappears when it drops to 0 hit points or when the spell ends. The demon is friendly to you and your companions for the duration. Roll initiative for the demon, which has its own turns. It obeys any verbal commands that you issue to it (no action required by you). If you don't issue any commands to the demon, it attacks the nearest living creatures, including members of your party. If your concentration is broken, the demon doesn't disappear. Instead, you lose control of the demon, it becomes hostile toward you personally, and it might attack. An uncontrolled demon can't be dismissed by you, and it disappears 1 hour after you summoned it. The GM has the spree demon's statistics.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Summon Spawn of Chernobog",
+      "level": 4,
+      "school": "conjuration",
+      "casting_time": "1 minute",
+      "range": "90 feet",
+      "components": "V, S, M (charcoal and a knife)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You call forth a spawn of Chernobog (see Creature Codex). Choose a space within range, and the spawn appears in an unoccupied space within 10 feet of it. The spawn disappears when it drops to 0 hit points or when the spell ends. The spawn is friendly to you and your companions for the duration. Roll initiative for the spawn, which has its own turns. It obeys any verbal commands that you issue to it (no action required by you). If you don't issue any commands to the spawn, it attacks the nearest living creatures if in darkness or twilight or disappears 1 round later if in sunlight or bright light. If your concentration is broken, the spawn doesn't disappear. Instead, you lose control of the spawn, it becomes hostile toward you personally, and it might attack. An uncontrolled spawn of Chernobog can't be dismissed by you, and it disappears 1 hour after you summoned it. The GM has the spawn of Chernobog's statistics.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WO"
+    },
+    {
+      "name": "Word of Parzelon",
+      "level": 2,
+      "school": "divination",
+      "casting_time": "1 minute",
+      "range": "Self",
+      "components": "V, S, M (blood from a bird)",
+      "duration": "Instantaneous",
+      "description": "By splattering blood on a stone or in dust, you may receive a single-word answer from the arch-devil Parzelon about a specific person, place, or object within 5 miles or about a specific action you plan to take within the next 30 minutes. Roll on the following table, using your spellcasting modifier: d20 RESULT 1 No response 2−6 Garbled word in a language not known to the caster 7−10 Answer is vague and potentially misleading 11−16 Answer is accurate, punny, or clever but not helpful 17−19 Answer is accurate and clear 20+ A precise and helpful answer",
+      "higher_levels": "",
+      "classes": [
+        "Cleric"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "WO"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "The Eye of Baba Yaga",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "Suspended from the underside of the cupola in the center of Misto Ellel is an eye the size of a human fist. Pupils stare out from four sides, blending together like an hourglass where they meet, the irises around each a different color—brown, blue, green, and gold. Secured to the cupola by four hooks on chains, the eye allows Baba Yaga to see everything within Misto Ellel, even within homes and behind walls, and out into the surrounding area within a 1-mile radius. It is through the eye that Baba Yaga monitors Tsura, and the wandering nature of Misto Ellel allows her to observe the countryside of the Rothenian Plain and the peoples within it. The Eye of Baba Yaga has darkvision with a radius of a mile. If it is destroyed (AC 10, 10 hp), Baba Yaga knows who destroyed it and can pinpoint the location of the creature on any plane of existence at any time. Baba Yaga may cast bestow curse (9th-level spell slot) through the eye once a day with the following modification: instead of a range of touch, the target must be within the walls of Misto Ellel.",
+      "source": "p.9-10"
+    },
+    {
+      "name": "Blood Feeder Weapon",
+      "type": "Weapon (Any Piercing or Slashing)",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Damage from this weapon causes wounds that continue to bleed. When a creature takes damage from this magic weapon, it takes additional damage at the start of its next turn, equal to half the original damage inflicted. If the creature receives any amount of healing or makes a DC 15 Wisdom (Medicine) check before its next turn, it does not take this additional damage.\n\nIn addition, if you score a critical hit with this weapon, you heal a number of hit points equal to the damage dealt.",
+      "source": "p.24"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Baba Yaga's Cat",
+      "size": "Tiny",
+      "type": "beast",
+      "alignment": "chaotic neutral",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "10 (4d4)",
+      "speed": "40 ft., climb 40 ft.",
+      "ability_scores": {
+        "strength": 3,
+        "dexterity": 15,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "0",
+      "xp": 10,
+      "features": [
+        {
+          "name": "Feline Telepathy",
+          "description": "Within the confines of Baba Yaga's property, the cat can magically command any beast within 60 feet of it, using its limited telepathy."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "The cat has advantage on Wisdom (Perception) checks that rely on smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tome of Beasts p.6"
+    },
+    {
+      "name": "Gnomish Tinker Scout",
+      "size": "Small",
+      "type": "humanoid (gnome)",
+      "alignment": "any evil",
+      "armor_class": 13,
+      "ac_type": "leather",
+      "hit_points": "32 (5d6 + 15)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Perception": 3,
+        "Persuasion": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Abyssal",
+        "Common",
+        "Gnomish"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Knife Familiar",
+          "description": "The tinker scout has a knife familiar (see below)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Ritual Knife",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) slashing damage plus 7 (2d6) poison damage."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The tinker scout casts one of the following spells, using Charisma as the spellcasting ability (spell save DC 13):\nAt will: avert the eye*, horn of Parzelon*, spider climb\n3/day each: bless, hat trick*\n1/day: haste\n(*) see below"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.23"
+    },
+    {
+      "name": "Knife Familiar",
+      "size": "Tiny",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 18,
+      "ac_type": "natural",
+      "hit_points": "14 (4d6)",
+      "speed": "0 ft., fly 40 ft. (hover)",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 18,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 5,
+        "charisma": 1
+      },
+      "saving_throws": {
+        "dex": 6
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 7",
+      "languages": [
+        "one language that its master knows; telepathy (with master only)"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Antimagic Susceptibility",
+          "description": "The knife familiar is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the knife familiar must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute."
+        },
+        {
+          "name": "False Appearance",
+          "description": "While the knife familiar remains motionless and isn't flying, it is indistinguishable from a normal knife."
+        },
+        {
+          "name": "Telepathy",
+          "description": "A knife familiar can speak telepathically to its master and tell them everything it has seen or done within roughly a one-week period. Its memory is fleeting, and it can't remember events more than a week ago."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Diabolical Knife",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d4 + 4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.23"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Misto Ellel: The Thundering Town",
+    "OPEN GAME LICENSE Version 1.0a",
+    "Baba Yaga: A Tangle of Mistruths",
+    "Table of Contents & Credits",
+    "Niemheim: Notes on Gnomish Diabolism",
+    "Grandmother's Daughters: Secrets of the Vila"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 6,
+  "_book_slug": "WO",
+  "_book_title": "Warlock 034 onlvlm",
+  "_completed": true,
+  "_timestamp": 1790290650.0741692
+}

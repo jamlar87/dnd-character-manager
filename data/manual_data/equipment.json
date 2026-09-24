@@ -4400,5 +4400,569 @@
     "weight": 0.1,
     "source": "(Kobold Quarterly 20)",
     "_source_manual": "KW"
+  },
+  {
+    "name": "Serpent Venom",
+    "type": "Poison",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Pearl",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Jar of Lead-Based Ink",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Gold Dust",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Ruby",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Platinum Ring",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Flask of Holy Water",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 1,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Diamond Dust",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "500 gp",
+    "weight": 0,
+    "source": "(Tales from the Shadows)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Glidecloak",
+    "type": "Equipment",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "200 gp",
+    "weight": 0,
+    "description": "This finely woven cloak is fashioned from specially prepared Yggdrasil bark. You can loop your hands and feet into specially designed loops at the sides and bottom of the cloak to create a wing-like surface to facilitate gliding through the air.\nWhile wearing a glidecloak and falling, you can use an action each turn to glide half of your falling speed in the horizontal direction of your choice. Before striking the ground, a successful DC 15 Dexterity (Acrobatics) check negates any falling damage.\nThe glidecloak has no effect if the falling distance is less than 15 feet.",
+    "source": "(Ratatosk)",
+    "_source_manual": "RAT"
+  },
+  {
+    "name": "Chitinous Armor",
+    "type": "Armor",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Saltmarsh Encounters)",
+    "_source_manual": "SME"
+  },
+  {
+    "name": "Club (Driftwood)",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d4 bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 2,
+    "source": "(Saltmarsh Encounters)",
+    "_source_manual": "SME"
+  },
+  {
+    "name": "Soul Canon",
+    "type": "Weapon",
+    "subtype": "martial ranged",
+    "damage": "8d10 force",
+    "properties": [
+      "range 200/600",
+      "ammunition (soul coin)",
+      "loading"
+    ],
+    "cost": "",
+    "weight": 25,
+    "source": "(Encounters in Avernus)",
+    "_source_manual": "EIA"
+  },
+  {
+    "name": "Compass",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 1,
+    "description": "A small metal compass which points to the magnetic north pole. Using a compass grants advantage on Survival checks to avoid getting lost. A PC with a compass always knows which way is north.",
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Fur-lined Tent",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 32,
+    "description": "This heavy tent, which packs away into a surprisingly compact roll, is made from bear fur and will keep you sheltered against even the coldest nights.",
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Smoke Bomb",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 2,
+    "description": "Created by an alchemist, a smoke bomb is a small round glass bottle filled with a swirling black cloud. As an action, you can throw a smoke bomb up to 20 ft, shattering it on impact. Thick smoke fills an area in a 5 ft radius around where the smoke bomb shatters: this area is heavily obscured. The smoke disperses after one minute. A strong wind can also disperse the smoke after one round.",
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Snow glasses",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "description": "These eye protection devices, crafted from bone, are designed to stop snow blindness when travelling through snowy terrain.",
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Snowshoes",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 1,
+    "description": "Frames constructed of wood and sinew can be attached to your boots. Wearing snowshoes allows you to ignore difficult terrain caused by snow.",
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Heavy Furs",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 5,
+    "source": "(The Tortured Land)",
+    "_source_manual": "TTLT"
+  },
+  {
+    "name": "Spell Scroll of See Invisibility",
+    "type": "Scroll",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Spell Scroll of Magic Circle",
+    "type": "Scroll",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Gem-studded Scabbard",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "150 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Engraved Bone Dice",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Obsidian Sphere",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Tomes for Spell Research",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "75 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Fine Elven Clothing",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Telescope",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1000 gp",
+    "weight": 0,
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Dart (tranquilizing poison)",
+    "type": "Weapon",
+    "subtype": "ranged",
+    "damage": "1d4 piercing",
+    "properties": [
+      "finesse",
+      "thrown (range 20/60)"
+    ],
+    "cost": "",
+    "weight": 0.25,
+    "source": "(Warlock Lair The Dark Aerie 082219)",
+    "_source_manual": "WLL1"
+  },
+  {
+    "name": "Alarm Trap",
+    "type": "Booby Trap",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 gp",
+    "weight": 2,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Explosive Trap",
+    "type": "Booby Trap",
+    "subtype": "",
+    "damage": "1d4 + proficiency bonus fire",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 1,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Poison Cloud Trap",
+    "type": "Trap",
+    "subtype": "Craftable Trap",
+    "damage": "1d6 + proficiency bonus poison",
+    "properties": [
+      "Required Construction Tool: Herbalism Kit or Poisoner's Kit",
+      "Raw Material Cost: 25 gp",
+      "Weight: 1 lb",
+      "Sprays a 5-foot diameter poisonous cloud",
+      "Dexterity saving throw negates",
+      "Strong wind gives advantage on saving throw",
+      "Improvement: +10 gp adds 5 feet to radius",
+      "Improvement: cloud persists additional round, heavily obscured, damage at end of each turn, strong wind disperses"
+    ],
+    "cost": "25 gp",
+    "weight": 1,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Restraining Trap",
+    "type": "Trap",
+    "subtype": "Craftable Trap",
+    "damage": "",
+    "properties": [
+      "Required Construction Tool: None",
+      "Raw Material Cost: 5 sp",
+      "Weight: 2 lbs",
+      "Snare out of rope or natural materials",
+      "Triggers when stepped in, restraining victim in a specific location",
+      "Improvement: +1 gp knocks target prone on failed save and pulls victims 5 feet off ground",
+      "Improvement: +1 gp increases snare area to 10-foot square with large net"
+    ],
+    "cost": "5 sp",
+    "weight": 2,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Slow Terrain Trap",
+    "type": "Trap",
+    "subtype": "Craftable Trap",
+    "damage": "",
+    "properties": [
+      "Required Construction Tool: None",
+      "Raw Material Cost: 2 sp",
+      "Weight: 3 lbs",
+      "Causes stones, marbles, or other loose material to fall in a 10-foot radius",
+      "Makes terrain difficult",
+      "Failed Dexterity saving throw also falls prone",
+      "Improvement: +1 gp uses caltrops, failed save takes 1 point piercing damage and reduces walking speed by 10 feet until regains at least 1 hit point"
+    ],
+    "cost": "2 sp",
+    "weight": 3,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Trip Rope Trap",
+    "type": "Trap",
+    "subtype": "Craftable Trap",
+    "damage": "",
+    "properties": [
+      "Required Construction Tool: None",
+      "Raw Material Cost: 5 sp",
+      "Weight: 4 lbs",
+      "Strong rope stretched across two points up to 20 feet apart",
+      "Failed Dexterity saving throw falls prone",
+      "Improvement: +2 gp extends rope by 10 feet",
+      "Improvement: +1 gp embeds wicked barbs, piercing damage 1d3 + proficiency bonus, no damage on successful save"
+    ],
+    "cost": "5 sp",
+    "weight": 4,
+    "source": "(Expanding the Ranger)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Staff of the Homing Tree (uncommon)",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d6 bludgeoning (versatile 1d8)",
+    "properties": [
+      "versatile (1d8)"
+    ],
+    "cost": "0 gp",
+    "weight": 4,
+    "source": "(Ancestral Weapons)",
+    "_source_manual": "AW"
+  },
+  {
+    "name": "The Windblade (uncommon)",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d6 piercing",
+    "properties": [
+      "finesse",
+      "light"
+    ],
+    "cost": "0 gp",
+    "weight": 2,
+    "source": "(Ancestral Weapons)",
+    "_source_manual": "AW"
+  },
+  {
+    "name": "Birding Shaft",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 1.5,
+    "source": "(Warlock 032 FINAL 1uxx3u)",
+    "_source_manual": "WF"
+  },
+  {
+    "name": "Lasso",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "—",
+    "properties": [
+      "Finesse",
+      "reach (15 feet)",
+      "special (see below)"
+    ],
+    "cost": "5 gp",
+    "weight": 6,
+    "source": "(Warlock 032 FINAL 1uxx3u)",
+    "_source_manual": "WF"
+  },
+  {
+    "name": "Windrunner Bolas",
+    "type": "Weapon",
+    "subtype": "martial ranged",
+    "damage": "1d4 bludgeoning",
+    "properties": [
+      "Finesse",
+      "light",
+      "thrown (range 30/60)",
+      "special (see below)"
+    ],
+    "cost": "25 gp",
+    "weight": 3,
+    "source": "(Warlock 032 FINAL 1uxx3u)",
+    "_source_manual": "WF"
+  },
+  {
+    "name": "Windrunner Boomerang",
+    "type": "Weapon",
+    "subtype": "martial ranged",
+    "damage": "1d4 bludgeoning (standard)/1d4 slashing (bladed)",
+    "properties": [
+      "Finesse",
+      "light",
+      "special (see below)",
+      "thrown (range 100/300)"
+    ],
+    "cost": "15 gp (standard)/25 gp (bladed)",
+    "weight": 3,
+    "source": "(Warlock 032 FINAL 1uxx3u)",
+    "_source_manual": "WF"
+  },
+  {
+    "name": "Climbing adze",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d6 slashing",
+    "properties": [
+      "Light"
+    ],
+    "cost": "6 gp",
+    "weight": 3,
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Stone rake",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 piercing",
+    "properties": [
+      "Versatile (1d10)",
+      "special"
+    ],
+    "cost": "10 gp",
+    "weight": 5,
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Whipsaw",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 slashing",
+    "properties": [
+      "Finesse",
+      "special"
+    ],
+    "cost": "15 gp",
+    "weight": 2,
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Hand trebuchet",
+    "type": "Weapon",
+    "subtype": "martial ranged",
+    "damage": "1d8 bludgeoning",
+    "properties": [
+      "Ammunition (60/240)",
+      "special"
+    ],
+    "cost": "4 gp",
+    "weight": 3,
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Barge Pole",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d6 bludgeoning",
+    "properties": [
+      "Heavy",
+      "special",
+      "two-Handed"
+    ],
+    "cost": "1 sp",
+    "weight": 7,
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
   }
 ]

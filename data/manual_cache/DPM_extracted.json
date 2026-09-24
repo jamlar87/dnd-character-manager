@@ -1,0 +1,395 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Afflict Line",
+      "level": 9,
+      "school": "necromancy",
+      "casting_time": "1 hour",
+      "range": "1 mile",
+      "components": "V, S, M (a statuette carved in the likeness of the victim worth 1,250 gp)",
+      "duration": "Permanent; one generation",
+      "description": "You invoke the darkest curses upon your victim and his or her descendants. This spell does not require that you have a clear path to your target, only that your target is within range. Your target must make a successful Wisdom saving throw or be cursed until the magic is dispelled. The victim has disadvantage on ability checks and saving throws made with the ability score that you choose when you cast the spell. In addition, the target's firstborn offspring is also targeted by the curse. The firstborn is allowed a saving throw of their own if they currently live, or they make one upon their birth if they're not yet born when the spell is cast. If the target's firstborn has already died, the curse passes to their next oldest offspring. Ritual Focus. If you expend your ritual focus, the curse becomes hereditary, passing from firstborn to firstborn for the entire length of the family's lineage until one of them successfully saves against the curse and throws off your dark magic.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Black Swan Storm",
+      "level": 2,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a feather from a black swan)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You call forth a whirlwind of black feathers that fills a cube 5 feet on each side. The feathers deal 2d8 force damage to creatures inside the cube's area and radiate darkness, causing the illumination level within 20 feet of the cube to drop by one step (from bright light to dim light, from dim light to darkness). Creatures that make a successful Dexterity saving throw suffer only half damage but are still affected by the change in light. Ritual Focus. If you expend your ritual focus, then you can move the whirlwind up to 15 feet by using a bonus action on your turn. If the whirlwind moves more than 30 feet from you, the spell ends.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the feathers do an additional 1d8 force damage for each slot level above 2nd.",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "DPM"
+    },
+    {
+      "name": "Bloom",
+      "level": 8,
+      "school": "conjuration",
+      "casting_time": "1 hour",
+      "range": "1 mile",
+      "components": "V, S, M (a silver acorn worth 500 gp, which is consumed in the casting)",
+      "duration": "1 year",
+      "description": "You plant a silver acorn in solid ground and spend an hour chanting a litany of praises to the natural world, after which the land within 1 mile of the acorn becomes extremely fertile, regardless of its previous state. Any seeds planted in the area of effect grow at twice the natural rate. Food harvested regrows within a week. After one year, the land slowly reverts to its normal fertility, unable to stave off the march of nature. Choose one of the following effects, which appears and grows immediately: • A field planted with vegetables of your choice, ready for harvest. • A thick forest of stout trees and ample undergrowth. • A grassland with wildflowers and extensive fodder for grazing. • An orchard of fruit trees of your choice, growing in orderly rows and ready for harvest. Living creatures that take a short rest within the area of a bloom receive the maximum hit points for hit dice expended. Bloom counters the effects of a desolation spell. Ritual Focus. If you expend your ritual focus, the duration becomes permanent.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Celebration",
+      "level": 7,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (a small party favor)",
+      "duration": "1 hour",
+      "description": "You create a 30-foot-radius area around a point that you choose within range. Intelligent creatures that enter the area or begin their turn there and fail a Wisdom saving throw engage in revelry: drinking, singing, laughing, and dancing. Affected creatures are reluctant to leave the area until the spell expires, preferring to enjoy the festivities. Affected creatures forsake appointments, cease caring about their woes, and generally behave in a cordial (if not hedonistic) manner. This preoccupation with merrymaking extends regardless of an affected creature's agenda or alignment. Assassins procrastinate, servants join in the celebration rather than serve, guards abandon their posts. The effect ends on creatures that are attacked, that take damage, or that are forced to leave the area. Those whose saving throw succeeds can enter or leave the area without danger of being enchanted. A creature that failed the saving throw and is removed from the area must repeat the saving throw if they return to the area. Ritual Focus. If you expend your ritual focus, unaffected intelligent creatures must make a new saving throw every time they begin their turn in the area of effect, even if they've previously saved against the spell.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 8th level or higher, the spell lasts for an additional hour for each slot level above 7th.",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Clearing the Field",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "40 feet",
+      "components": "V, S",
+      "duration": "1 hour",
+      "description": "With a harsh word and a vicious chopping motion, every tree, shrub, and stump within 40 feet of you sinks into the ground, leaving the vacated area clear of plant life that might otherwise hamper movement or obscure sight. Overgrown areas that counted as difficult terrain become clear ground and no longer hamper movement. The original plant life rises from the ground instantly when the spell ends or is dispelled. Plant creatures are not affected by clearing the field. Ritual Focus. If you expend your ritual focus, plant creatures within the area of effect must make a successful Constitution saving throw or be affected as though a by a reduce spell.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the spell lasts for an additional hour for each slot level above 2nd.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Cosmic Alignment",
+      "level": 9,
+      "school": "conjuration/illumination",
+      "casting_time": "1 hour",
+      "range": "Self",
+      "components": "V, S, M (a piece of quartz)",
+      "duration": "24 hours",
+      "description": "You arrange the forces of the cosmos to your benefit. Choose a cosmic event from the Comprehension of the Starry Sky ability that affects spellcasting (conjunction, eclipse, or nova; see Deep Magic 4: Illumination Magic for details). You cast spells as if under the effect of the cosmic event until the next sunrise or 24 hours have passed. When the ability",
+      "higher_levels": "",
+      "classes": [
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Desolation",
+      "level": 8,
+      "school": "necromancy",
+      "casting_time": "1 hour",
+      "range": "1 mile",
+      "components": "V, S, M (an obsidian acorn worth 500 gp, which is consumed in the casting)",
+      "duration": "1 year",
+      "description": "You plant an obsidian acorn in solid ground and spend an hour chanting a litany of curses to the natural world, after which the land within 1 mile of the acorn becomes unfertile, regardless of its previous state. Nothing will grow there, and all plant life in the area dies over the course of a day. Plant creatures are not affected. Spells that summon plants, such as entangle, require an ability check using the caster's spellcasting ability against your spell save DC. If the check succeeds, the spell functions normally; if the check fails, the spell is countered by desolation. After one year, the land slowly reverts to its normal fertility, unable to stave off the march of nature. Living creatures that take a short rest within the area of a desolation halve the result of any hit dice they expend. Desolation counters the effects of a bloom spell. Ritual Focus. If you expend your ritual focus, the duration becomes permanent.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Encroaching Shadows",
+      "level": 6,
+      "school": "illusion/illumination",
+      "casting_time": "1 hour",
+      "range": "150 feet",
+      "components": "V, S, M (a drop of blood smeared on a silver rod worth 100 gp)",
+      "duration": "12 hours",
+      "description": "You cause menacing shadows to invade an area 200 feet on a side and 50 feet high. Illumination in the area drops one step (from bright light to dim, from dim light to darkness). Any spell that creates light in the area that's cast using a lower-level spell slot than was used to cast encroaching shadows is dispelled, and spells that create light don't function in the area if they are of a lower spell slot level. Nonmagical effects can't increase the level of illumination in the affected area. Spells with \"shadow\" in their names and spells that create darkness or shadow take effect in the area as if a one-level-higher spell slot was used casting them. Ritual Focus. If you expend your ritual focus, the spell's duration increases by 12 hours and it cannot be dispelled by spells that create light, even if they are cast with a higher-level spell slot.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 7th level or higher, the effect lasts for an additional 12 hours for each slot level above 6th.",
+      "classes": [
+        "Cleric",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Extract Foyson",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 minute",
+      "range": "30 feet",
+      "components": "V, S, M (a wooden bowl)",
+      "duration": "Permanent",
+      "description": "You extract the goodness in food, pulling all the nutrition out of three days' worth of meals and concentrating it into about a tablespoon of bland, flourlike powder. The flour can be mixed with liquid and drunk or baked into elven bread. Foyson used in this way still imparts all the nutritional value of the original food, for the amount consumed. The original food appears unchanged and though it's still filling, it has no nutritional value. Someone eating nothing but foyson-free food will eventually starve. Ritual Focus. If you expend your ritual focus, you can choose to have each day's worth of foyson take the form of a slice of delicious elven bread.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, an additional three meals' worth of food can be extracted for each slot level above 1st.",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Guest of Honor",
+      "level": 1,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, M (a signet ring worth 25 gp)",
+      "duration": "10 minutes",
+      "description": "You whisper words of encouragement, and a target that you touch gains confidence along with approval from strangers. For the spell's duration, the subject puts their best foot forward and strangers associate the target with positive feelings. The target adds 1d4 to all Charisma (Persuasion) checks made to influence the attitudes of others and gains a +2 bonus to their status score (if used). Ritual Focus. If you expend your ritual focus, the effect lasts for 24 hours.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the effect lasts for an additional 10 minutes for each slot level above 1st.",
+      "classes": [
+        "Bard",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Harsh Light of Summer's Glare",
+      "level": 8,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S",
+      "duration": "1 round",
+      "description": "Your visage radiates the wrath of the shadow fey, which bears down oppressively upon your targets in a burst of brilliant light. Only creatures that can see you are affected. Creatures with darkvision that fail a Constitution saving throw are blinded and stunned. Creatures without darkvision that fail a Constitution saving throw are blinded. This is not a gaze attack, and it cannot be avoided by averting one's eyes or wearing a blindfold.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Heartache",
+      "level": 2,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a silver locket)",
+      "duration": "Instantaneous",
+      "description": "You force an enemy to experience pangs of unrequited love and emotional distress. These feelings manifest with such intensity that the creature suffers 5d6 psychic damage a failed Charisma saving, or half damage on with a successful saving throw.",
+      "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, you can target an additional enemy for each slot level above 2nd.",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Shadows Brought to Light",
+      "level": 2,
+      "school": "divination/illumination",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "If the target fails a Charisma saving throw, you cause the target's shadow to come to life and reveal one of the creature's most scandalous secrets: some fact that the target would not want widely known (GM's choice). When casting the spell, you choose whether everyone present will hear the secret, in which case the shadow speaks loudly in a twisted version of the target's voice, or if the secret is only whispered to you. The shadow speaks Common, unless the target does not speak Common, in which case it speaks in the target's native language. If the target creature does not have a scandalous secret or does not have a spoken language, the spell fails as if the creature's saving throw had succeeded. If the secret was spoken aloud, the target takes a −2 penalty to Charisma checks with anyone who was present when it was revealed, for the remainder of the day, in addition to any information you obtain or any scandal it provokes.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Paladin",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Shadowy Retribution",
+      "level": 4,
+      "school": "necromancy",
+      "casting_time": "10 minutes",
+      "range": "Self",
+      "components": "V, S, M (a silver goblet filled with the caster's blood)",
+      "duration": "12 hours",
+      "description": "You fill a silver cup with your own blood (taking 1d4 piercing damage) while chanting vile curses in the dark. Once the chant is completed, you consume the blood and swear an oath of vengeance against any who harm you. If you are reduced to 0 hit points, your curse is invoked; blood pours from your mouth and steams away into a red mist that transforms into a shadow. The shadow attacks the creature that reduced you to 0 hit points, ignoring all other targets, until it or the target is slain, at which point the shadow dissipates into nothing.",
+      "higher_levels": "When you cast this spell using a spell slot of 5th level or higher, an additional shadow is conjured for each slot level above 4th.",
+      "classes": [
+        "Cleric",
+        "Warlock",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    },
+    {
+      "name": "Song of the Forest",
+      "level": 3,
+      "school": "transmutation",
+      "casting_time": "1 minute",
+      "range": "Self",
+      "components": "V, S, M (a dried leaf crumpled and released)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You attune your senses to the natural world, so you detect every sound that occurs within 60 feet: wind blowing through branches, falling leaves, grazing deer, trickling streams, and more. You can clearly picture the cause of each sound in your mind. The effect gives you tremorsense with a range of 10 feet. In addition, you have advantage on Wisdom (Perception) checks that rely on sound. Creatures that make no noise or that are magically silent cannot be detected through this spell's effect. Song of the forest only functions in natural environments; it fails if cast underground, in a city, or in a building that isolates the caster from nature (GM's discretion).",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": true,
+      "source": "DPM"
+    },
+    {
+      "name": "Tongue Tied",
+      "level": 5,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You make a choking motion while pointing at a target, which must make a successful Wisdom saving throw or become unable to communicate verbally. The target's speech becomes garbled and it has disadvantage on Charisma checks that require speech. The creature can cast a spell with a verbal component only by making a successful Constitution check against your spell save DC. If the Constitution check fails, the creature's action is used but the spell slot isn't expended.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "DPM"
+    },
+    {
+      "name": "Vine Trestle",
+      "level": 2,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a 1-inch piece of green vine that is consumed in the casting)",
+      "duration": "1 hour",
+      "description": "You cause a vine to sprout from the ground and crawl across a surface or rise into the air in a direction chosen by you. The vine must sprout from a solid surface (the ground, a wall), but it is strong enough to support 600 pounds of weight along its entire length. The vine collapses immediately if that 600-pound limit is exceeded. A vine that collapses from weight or damage instantly disintegrates into nothing. The vine has many small shoots, so it can be climbed with a successful DC 5 Strength (Athletics) check. It has AC 8, (5 x your spellcasting level) hit points, and a damage threshold of 5.",
+      "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the vine can support an additional 30 pounds and its damage threshold increases by 1 for each slot level above 2nd.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": false,
+      "source": "DPM"
+    }
+  ],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [
+    {
+      "name": "Elven High Magic",
+      "class": "Wizard",
+      "description": "Elven high magic is very powerful and extremely rare. With high magic and sufficient time, an elven wizard can accomplish just about anything. It is a closely guarded secret, practiced only by the elves and their shadow fey relatives. Non-elves are never taught the ways of this school. That's both a sign of the elves' sense of superiority and an unfortunate practicality. High magic can take centuries to master, and humans and other short-lived races simply don't live long enough to become skilled in this art.",
+      "features": [
+        {
+          "name": "Ritual Savant",
+          "level": 2,
+          "description": "Beginning at 2nd level when you select this school, the gold and time you must spend to copy a high magic spell into your spellbook is halved."
+        },
+        {
+          "name": "Ritual Focus",
+          "level": 2,
+          "description": "Starting at 2nd level, you can spend 10 minutes centering your mental energy and creating a ritual focus. When you choose to do so, you can expend your ritual focus to create one of the following effects when casting the ritual version of a spell.\n  • You can cast a ritual version of a spell without adding the additional 10 minutes to the casting time that's normally required.\n  • You can expend a spell slot one or more levels higher than the spell's nominal level as you cast the ritual version of the spell, provided the spell allows that as an option. The ritual takes effect at the level of the expended spell slot instead of the minimum.\n  • Some spells have additional, specific effects that you can invoke by expending your ritual focus.\nYou can't use your ritual focus again until after you complete a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Bound Magic",
+          "level": 6,
+          "description": "At 6th level, you begin to master an understanding of elven high magic. You bind magic into the fabric of a place, making it last without any concentration. Choose a ritual spell you know that targets an area. Cast the ritual version of the spell and expend your ritual focus while burning expensive herbs worth 200 gp per level of the ritual. The spell's duration in that location becomes a year and a day. If you cast the ritual every day for 30 consecutive days, the spell becomes permanent in that location until it's dispelled or otherwise destroyed. Additionally, you can expend your ritual focus twice between rests.",
+          "uses": 2,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Ritual Master",
+          "level": 10,
+          "description": "Beginning at 10th level, you can copy any spells with the ritual tag, regardless of class, into your spellbook. Ritual spells that you copy into your spellbook using this ability must be no higher in level than half of your wizard level (rounded up). You can cast these spells only as rituals unless you also learn them by other means."
+        },
+        {
+          "name": "High Magic",
+          "level": 14,
+          "description": "Starting at 14th level, ritual versions of spells that you cast are treated as if they were cast using a spell slot one level higher than the slot you actually use. High magic can be combined with the increased spell level benefit of expending your ritual focus. This applies only to spells that can be cast at higher levels.\nAdditionally, you can expend your ritual focus three times between rests.",
+          "uses": 3,
+          "recharge": "short rest"
+        }
+      ],
+      "source": "Elven High Magic p.3-4"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "New Spells",
+    "OPEN GAME LICENSE Version 1.0a",
+    "Magic School: Elven High Magic",
+    "(ad) Tome of Beasts",
+    "Deep Magic 5E: Elven High Magic"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 5,
+  "_book_slug": "DPM",
+  "_book_title": "Deep Magic 5E Elven High Magic",
+  "_completed": true,
+  "_timestamp": 1790290868.7077587
+}

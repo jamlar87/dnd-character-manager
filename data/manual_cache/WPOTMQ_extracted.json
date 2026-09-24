@@ -1,0 +1,87 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Putrescent Faerie Circle",
+      "level": 5,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a piece of poisonous fungus)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a 20-foot-diameter circle of loosely-packed toadstools that spew sickly white spores and ooze a tarry substance. At the start of each of your turns, each creature within the circle must make a Constitution saving throw. A creature takes 4d8 necrotic damage on a failed save, or half as much damage on a successful one.\nIf a creature attempts to pass through the ring of toadstools, the toadstools release a cloud of spores, and the creature must make a Constitution saving throw. On a failure, the creature takes 8d8 poison damage and is poisoned for 1 minute. On a success, the creature takes half as much damage and isn't poisoned. While a creature is poisoned, it is paralyzed. It can attempt a new Constitution saving throw at the end of each of its turns to remove the paralyzed condition (but not the poisoned condition).",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "WPOTMQ"
+    }
+  ],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Vomiting Slime Mold Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the northern door, a barely-contained flow of slime mold sprays out.",
+      "detection": {
+        "dc": 14,
+        "skill": "Perception",
+        "detail": "A successful DC 14 Wisdom (Perception) check hears a gurgling sound behind the northern door as if a high-pressure fluid is pushing against it."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength",
+        "detail": "A successful DC 15 Strength check when opening the door holds it open just enough for the pressure from the slime to be released without harming all creatures within 15 feet of the door. On a failure, the trap triggers as normal."
+      },
+      "effect": "Each creature within 15 feet of the door must make a DC 15 Dexterity saving throw. On a failure, a creature takes 5 (1d10) bludgeoning damage and 11 (2d10) poison damage and is poisoned for 10 minutes. On a success, a creature takes half the damage and isn't poisoned.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10) bludgeoning and 11 (2d10) poison",
+      "damage_type": "bludgeoning and poison",
+      "area": "15 feet of the door",
+      "description": "A trap that sprays slime mold when the northern door is opened, dealing bludgeoning and poison damage and poisoning creatures.",
+      "source": "Margreve Player's Guide p.5"
+    },
+    {
+      "name": "Violet Fungus Expulsion Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the southern door, a wall of violet fungus explodes in rotting spores.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A successful DC 15 Wisdom (Perception) check notices the smell of rot behind the southern door."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength",
+        "detail": "A successful DC 15 Strength check when opening the door slows the flow of spores, limiting how many are ejected at one time. If successful, each creature within 20 feet of the door has advantage on its saving throw. On a failure, the trap triggers as normal. Alternatively, a gust of wind spell timed with opening the door disperses the spores harmlessly."
+      },
+      "effect": "Each creature within 20 feet of the door must make a DC 15 Dexterity saving throw, taking 22 (4d10) necrotic damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "necrotic",
+      "area": "20 feet of the door",
+      "description": "A trap that explodes with rotting spores when the southern door is opened, dealing necrotic damage.",
+      "source": "Margreve Player's Guide p.5"
+    }
+  ],
+  "_chapters_completed": [
+    "WL24 Pride of the Mushroom Queen"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "WPOTMQ",
+  "_book_title": "WL24 Pride of the Mushroom Queen",
+  "_completed": true,
+  "_timestamp": 1790292276.0646589
+}

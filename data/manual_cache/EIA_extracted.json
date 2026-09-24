@@ -1,0 +1,1736 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Soul Canon",
+      "type": "Martial ranged weapon",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The tube is a small soul canon. It is 2 inches wide, 3 feet long, and weighs 25 pounds. It has a range of 200/600 feet and inflicts 8d10 force damage on a hit. It is a martial ranged weapon. A soul coin is needed to fire the canon and is consumed in the process.",
+      "source": "Baldur's Gate: Descent into Avernus p.8"
+    },
+    {
+      "name": "Ear horn of hearing",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "See appendix B of Baldur's Gate: Descent into Avernus.",
+      "source": "Baldur's Gate: Descent into Avernus p.8"
+    },
+    {
+      "name": "Moon-touched longsword",
+      "type": "Weapon (longsword)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "See appendix B of Baldur's Gate: Descent into Avernus.",
+      "source": "Baldur's Gate: Descent into Avernus p.8"
+    },
+    {
+      "name": "Charlatan's Die",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Whenever you roll this six-sided die, you can control which number it rolls.",
+      "source": "Appendix B p.36"
+    },
+    {
+      "name": "Lock of Trickery",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This lock appears to be an ordinary lock (of the type described in chapter 5 of the Player's Handbook) and comes with a single key. The tumblers in this lock magically adjust to thwart burglars. Dexterity checks made to pick the lock have disadvantage.",
+      "source": "Appendix B p.36"
+    },
+    {
+      "name": "Poppet",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Upon first glance this item appears to be no more than a simple burlap doll in the shape of humanoid. Each poppet is made with the essence of a specific humanoid (and if the poppet is found, the DM determines which humanoid's essence the doll contains). You can use the doll in a ritual that targets the creature, as long as you know the creature's name and that creature is on the same plane as you. The ritual requires 10 minutes and an item that belonged to the humanoid tied to the poppet: this can be a scrap of clothing, a lock of hair, a piece of jewelry, or any item that denotes sentiment or identity. At the end of the ritual the item that belonged to the humanoid is consumed and the target must succeed on a DC 17 Constitution saving throw or gain a level of exhaustion from experiencing excruciating internal pain. You may use the poppet to complete this ritual once every 12 hours.",
+      "source": "Appendix B p.36"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Soul Canon",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "8d10 force",
+      "properties": [
+        "range 200/600",
+        "ammunition (soul coin)",
+        "loading"
+      ],
+      "cost": "",
+      "weight": 25,
+      "source": "EIA"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Black Abishai",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "58 (9d8 + 18)",
+      "speed": "30 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 13,
+        "wisdom": 16,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "dex": 6,
+        "wis": 6
+      },
+      "skills": {
+        "Perception": 6,
+        "Stealth": 6
+      },
+      "damage_resistances": [
+        "cold",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "acid",
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Draconic",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the abishai's darkvision."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The abishai has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The abishai's weapon attacks are magical."
+        },
+        {
+          "name": "Shadow Stealth",
+          "description": "While in dim light or darkness, the abishai can take the Hide action as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The abishai makes three attacks: two with its scimitar and one with its bite."
+        },
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) slashing damage."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d10 + 3) piercing damage plus 9 (2d8) acid damage."
+        },
+        {
+          "name": "Creeping Darkness (Recharge 6)",
+          "description": "The abishai casts darkness at a point within 120 feet of it, requiring no components. Wisdom is its spellcasting ability for this spell. While the spell persists, the abishai can move the area of darkness up to 60 feet as a bonus action."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.25"
+    },
+    {
+      "name": "Blue Abishai",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "195 (26d8 + 78)",
+      "speed": "30 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 17,
+        "intelligence": 22,
+        "wisdom": 23,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "int": 12,
+        "wis": 12
+      },
+      "skills": {
+        "Arcana": 12
+      },
+      "damage_resistances": [
+        "cold",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "fire",
+        "lightning",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Draconic",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "17",
+      "xp": 18000,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the abishai's darkvision."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The abishai has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The abishai's weapon attacks are magical."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The abishai is a 13th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 20, +12 to hit with spell attacks). The abishai has the following wizard spells prepared:\nCantrips (at will): friends, mage hand, message, minor illusion, shocking grasp\n1st level (4 slots): chromatic orb, disguise self, expeditious retreat, magic missile, charm person, thunderwave\n2nd level (3 slots): darkness, mirror image, misty step\n3rd level (3 slots): dispel magic, fear, lightning bolt\n4th level (3 slots): dimension door, greater invisibility, ice storm\n5th level (2 slots): cone of cold, wall of force\n6th level (1 slot): chain lightning\n7th level (1 slot): teleport"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The abishai makes two attacks: one with its quarterstaff and one with its bite."
+        },
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage if used with two hands."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 13 (2d10 + 2) piercing damage plus 14 (4d6) lightning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.25"
+    },
+    {
+      "name": "Green Abishai",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 18,
+      "ac_type": "natural armor",
+      "hit_points": "187 (25d8 + 75)",
+      "speed": "30 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 16,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 19
+      },
+      "saving_throws": {
+        "int": 8,
+        "cha": 9
+      },
+      "skills": {
+        "Deception": 9,
+        "Insight": 6,
+        "Perception": 6,
+        "Persuasion": 9
+      },
+      "damage_resistances": [
+        "cold",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Draconic",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "15",
+      "xp": 13000,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the abishai's darkvision."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The abishai's innate spellcasting ability is Charisma (spell save DC 17). It can innately cast the following spells, requiring no material components:\nAt will: alter self, major image\n3/day each: charm person, detect thoughts, fear\n1/day each: confusion, dominate person, mass suggestion"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The abishai has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The abishai's weapon attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The abishai makes two attacks, one with its claws and one with its longsword, or it casts one spell from its Innate Spellcasting trait and makes one claw attack."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage, or 6 (1d10 + 1) slashing damage if used with two hands."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 12 (2d8 + 3) piercing damage. If the target is a creature, it must succeed on a DC 16 Constitution saving throw or take 11 (2d10) poison damage and become poisoned for 1 minute. The poisoned target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.26"
+    },
+    {
+      "name": "Red Abishai",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 22,
+      "ac_type": "natural armor",
+      "hit_points": "255 (30d8 + 120)",
+      "speed": "30 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 23,
+        "dexterity": 16,
+        "constitution": 19,
+        "intelligence": 14,
+        "wisdom": 15,
+        "charisma": 19
+      },
+      "saving_throws": {
+        "str": 12,
+        "con": 10,
+        "wis": 8
+      },
+      "skills": {
+        "Intimidation": 10,
+        "Perception": 8
+      },
+      "damage_resistances": [
+        "cold",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 18",
+      "languages": [
+        "Draconic",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "19",
+      "xp": 22000,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the abishai's darkvision."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The abishai has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The abishai's weapon attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The abishai can use its Frightful Presence. It also makes three attacks: one with its morningstar, one with its claw, and one with its bite."
+        },
+        {
+          "name": "Morningstar",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 10 (1d8 + 6) piercing damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 17 (2d10 + 6) slashing damage."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft., one target. Hit: 22 (5d10 + 6) piercing damage plus 38 (7d10) fire damage."
+        },
+        {
+          "name": "Frightful Presence",
+          "description": "Each creature of the abishai's choice that is within 120 feet and aware of it must succeed on a DC 18 Wisdom saving throw or become frightened of it for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the abishai's Frightful Presence for the next 24 hours."
+        },
+        {
+          "name": "Incite Fanaticism",
+          "description": "The abishai chooses up to four of its allies within 60 feet of it that can see it. For 1 minute, each of those allies makes attack rolls with advantage and can't be frightened."
+        },
+        {
+          "name": "Power of the Dragon Queen",
+          "description": "The abishai targets one dragon it can see within 120 feet of it. The dragon must make a DC 18 Charisma saving throw. A chromatic dragon makes this save with disadvantage. On a successful save, the target is immune to the abishai's Power of the Dragon Queen for 1 hour. On a failed save, the target is charmed by the abishai for 1 hour. While charmed in this way, the target regards the abishai as a trusted friend to be heeded and protected. This effect ends if the abishai or its companions deal damage to the target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.26"
+    },
+    {
+      "name": "White Abishai",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "68 (8d8 + 32)",
+      "speed": "30 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 11,
+        "constitution": 18,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "str": 6,
+        "con": 7
+      },
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "cold",
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "Draconic",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the abishai's darkvision."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The abishai has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The abishai's weapon attacks are magical."
+        },
+        {
+          "name": "Reckless",
+          "description": "At the start of its turn, the abishai can gain advantage on all melee weapon attack rolls during that turn, but attack rolls against it have advantage until the start of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The abishai makes two attacks: one with its longsword and one with its claw."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d10 + 3) slashing damage."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) piercing damage plus 3 (1d6) cold damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Vicious Reprisal",
+          "description": "In response to taking damage, the abishai makes a bite attack against a random creature within 5 feet of it. If no creature is within reach, the abishai moves up to half its speed toward an enemy it can see, without provoking opportunity attacks."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.27"
+    },
+    {
+      "name": "Archduke Zariel of Avernus",
+      "size": "Large",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 21,
+      "ac_type": "natural armor",
+      "hit_points": "580 (40d10 + 360)",
+      "speed": "50 ft., fly 150 ft.",
+      "ability_scores": {
+        "strength": 27,
+        "dexterity": 24,
+        "constitution": 28,
+        "intelligence": 26,
+        "wisdom": 27,
+        "charisma": 30
+      },
+      "saving_throws": {
+        "int": 16,
+        "wis": 16,
+        "cha": 18
+      },
+      "skills": {
+        "Intimidation": 18,
+        "Perception": 16
+      },
+      "damage_resistances": [
+        "cold",
+        "fire",
+        "radiant",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 26",
+      "languages": [
+        "all",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "26",
+      "xp": 90000,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede Zariel's darkvision."
+        },
+        {
+          "name": "Fiery Weapons",
+          "description": "Zariel's weapon attacks are magical. When she hits with any weapon, the weapon deals an extra 36 (8d8) fire damage (included in the weapon attacks below)."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Zariel's innate spellcasting ability is Charisma (spell save DC 26). She can innately cast the following spells, requiring no material components:\nAt will: alter self (can become Medium when changing her appearance), detect evil and good, fireball, invisibility (self only), wall of fire\n3/day each: blade barrier, dispel evil and good, finger of death"
+        },
+        {
+          "name": "Legendary Resistance (3/Day)",
+          "description": "If Zariel fails a saving throw, she can choose to succeed instead.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "Zariel has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Regeneration",
+          "description": "Zariel regains 20 hit points at the start of her turn. If she takes radiant damage, this trait doesn't function at the start of her next turn. Zariel dies only if she starts her turn with 0 hit points and doesn't regenerate."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Zariel attacks twice with her longsword or with her javelins. She can substitute Horrid Touch for one of these attacks."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +16 to hit, reach 10 ft., one target. Hit: 17 (2d8 + 8) slashing damage, or 19 (2d10 + 8) slashing damage if used with two hands, plus 36 (8d8) fire damage."
+        },
+        {
+          "name": "Javelin",
+          "description": "Melee or Ranged Weapon Attack: +16 to hit, range 30/120 ft., one target. Hit: 15 (2d6 + 8) piercing damage plus 36 (8d8) fire damage."
+        },
+        {
+          "name": "Horrid Touch",
+          "description": "Melee Weapon Attack: +16 to hit, reach 10 ft., one target. Hit: 44 (8d10) necrotic damage, and the target is poisoned for 1 minute. While poisoned in this way, the target is also blinded and deafened. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Teleport",
+          "description": "Zariel magically teleports, along with any equipment she is wearing and carrying, up to 120 feet to an unoccupied space she can see."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Immolating Gaze (Costs 2 Actions)",
+          "description": "Zariel turns her magical gaze toward one creature she can see within 120 feet of her and commands it to combust. The target must succeed on a DC 26 Wisdom saving throw or take 22 (4d10) fire damage."
+        },
+        {
+          "name": "Teleport",
+          "description": "Zariel uses her Teleport action"
+        }
+      ],
+      "source": "Appendix A | Monsters & NPCs p.28"
+    },
+    {
+      "name": "Barghest",
+      "size": "Large",
+      "type": "fiend (shapechanger)",
+      "alignment": "neutral evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "90 (12d10 + 24)",
+      "speed": "60 ft. (30 ft. in goblin form)",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 13,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 4,
+        "Intimidation": 4,
+        "Perception": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "cold",
+        "fire",
+        "lightning",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "acid",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft., darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Abyssal",
+        "Common",
+        "Goblin",
+        "Infernal",
+        "telepathy 60 ft."
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Shapechanger",
+          "description": "The barghest can use its action to polymorph into a Small goblin or back into its true form. Other than its size and speed, its statistics are the same in each form. Any equipment it is wearing or carrying isn't transformed. The barghest reverts to its true form if it dies."
+        },
+        {
+          "name": "Fire Banishment",
+          "description": "When the barghest starts its turn engulfed in flames that are at least 10 feet high or wide, it must succeed on a DC 15 Charisma saving throw or be instantly banished to Gehenna. Instantaneous bursts of flame (such as a red dragon's breath or a fireball spell) don't have this effect on the barghest."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "The barghest has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The barghest's innate spellcasting ability is Charisma (spell save DC 12). The barghest can innately cast the following spells, requiring no material components:\nAt will: levitate, minor illusion, pass without trace\n1/day each: charm person, dimension door, suggestion"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack (true form only): +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack. +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.29"
+    },
+    {
+      "name": "Crokek'toeck",
+      "size": "Large",
+      "type": "fiend (demon)",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "297 (17d20 + 119)",
+      "speed": "60 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 28,
+        "dexterity": 10,
+        "constitution": 24,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "con": 12,
+        "wis": 5
+      },
+      "skills": {},
+      "damage_resistances": [
+        "cold",
+        "fire",
+        "lightning",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": [
+        "understands Abyssal but can't speak"
+      ],
+      "challenge_rating": "14",
+      "xp": 11500,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Crokek'toeck can breathe air and water."
+        },
+        {
+          "name": "Fiery Weapons",
+          "description": "Zariel's weapon attacks are magical. When she hits with any weapon, the weapon deals an extra 36 (8d8) fire damage (included in the weapon attacks below)."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "Crokek'toeck has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "Crokek'toeck's weapon attacks are magical."
+        },
+        {
+          "name": "Secure Memory",
+          "description": "Crokek'toeck is immune to the waters of the River Styx as well as any effect that would steal or modify its memories or detect or read its thoughts."
+        },
+        {
+          "name": "Standing Leap",
+          "description": "Crokek'toeck's long jump is up to 60 feet and its high jump is up to 30 feet, with or without a running start."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +14 to hit, reach 15 ft., one target. Hit: 44 (10d6 + 9) piercing damage."
+        },
+        {
+          "name": "Disgorge Allies (Recharge 6)",
+          "description": "Crokek'toeck opens its mouth and disgorges 1d4 barlguras, 3d6 gnolls led by 1 gnoll fang of Yeenoghu, 6d6 dretches, or 1d3 vrocks (see the Monster Manual for these creatures' stat blocks). Each creature it disgorges appears in an unoccupied space within 30 feet of Crokek'toeck's mouth, or the next closest unoccupied space."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.30"
+    },
+    {
+      "name": "Enchanter",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "40 (9d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 6,
+        "wis": 4
+      },
+      "skills": {
+        "Arcana": 6,
+        "History": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any four languages"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The enchanter is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The enchanter has the following wizard spells prepared:\nCantrips (at will): friends, mage hand, mending, message\n1st level (4 slots): charm person,* mage armor, magic missile\n2nd level (3 slots): hold person,* invisibility, suggestion*\n3rd level (3 slots): fireball, haste, tongues\n4th level (3 slots): dominate beast,* stoneskin\n5th level (2 slots): hold monster*\n*Enchantment spell of 1st level or higher"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d6 – 1) bludgeoning damage, or 3 (1d8 – 1) bludgeoning damage if used with two hands."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Instinctive Charm (Recharges after the Enchanter Casts an Enchantment Spell of 1st Level or Higher)",
+          "description": "The enchanter tries to magically divert an attack made against it, provided that the attacker is within 30 feet of it and visible to it. The enchanter must decide to do so before the attack hits or misses. The attacker must make a DC 14 Wisdom saving throw. On a failed save, the attacker targets the creature closest to it, other than the enchanter or itself. If multiple creatures are closest, the attacker chooses which one to target."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.30"
+    },
+    {
+      "name": "Evoker",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "66 (12d8 + 12)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 7,
+        "wis": 5
+      },
+      "skills": {
+        "Arcana": 7,
+        "History": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any four languages"
+      ],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The evoker is a 12th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). The evoker has the following wizard spells prepared:\nCantrips (at will): fire bolt,* light,* prestidigitation, ray of frost*\n1st level (4 slots): burning hands,* mage armor, magic missile*\n2nd level (3 slots): mirror image, misty step, shatter*\n3rd level (3 slots): counterspell, fireball,* lightning bolt*\n4th level (3 slots): ice storm,* stoneskin\n5th level (2 slots): Bigby's hand,* cone of cold*\n6th level (1 slot): chain lightning,* wall of ice*\n*Evocation spell"
+        },
+        {
+          "name": "Sculpt Spells",
+          "description": "When the evoker casts an evocation spell that forces other creatures it can see, it can choose a number of them equal to 1 + the spell's level. These creatures automatically succeed on their saving throws against the spell. If a successful save means a chosen creature would take half damage from the spell, it instead takes no damage from it."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 2 (1d6 – 1) bludgeoning damage, or 3 (1d8 – 1) bludgeoning damage if used with two hands."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.31"
+    },
+    {
+      "name": "Hellwasp",
+      "size": "Large",
+      "type": "fiend",
+      "alignment": "lawful evil",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "52 (8d10 + 8)",
+      "speed": "10 ft., fly 60 ft. (hover)",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "dex": 5,
+        "wis": 3
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "fire"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Infernal",
+        "telepathy 300 ft. (with other hellwasps only)"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Magic Weapons",
+          "description": "The hellwasp's weapon attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The hellwasp makes two attacks: one with its sting and one with its sword talons."
+        },
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack (true form only): +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage plus 7 (2d6) fire damage, and the target must succeed on a DC 12 Constitution saving throw or be poisoned for 1 minute. While poisoned in this way, the target is also paralyzed. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Sword Talons",
+          "description": "Melee Weapon Attack. +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.31"
+    },
+    {
+      "name": "Hydroloth",
+      "size": "Medium",
+      "type": "fiend (yugoloth)",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "135 (18d8 + 54)",
+      "speed": "20 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 21,
+        "constitution": 16,
+        "intelligence": 19,
+        "wisdom": 10,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 4,
+        "Perception": 4
+      },
+      "damage_resistances": [
+        "cold",
+        "lightning",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "acid",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "damage_vulnerabilities": [
+        "fire"
+      ],
+      "senses": "blindsight 60 ft., darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Abyssal",
+        "Infernal",
+        "telepathy 60 ft."
+      ],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The hydroloth can breathe air and water."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The hydroloth's innate spell casting ability is Intelligence (spell save DC 16). It can innately cast the following spells, requiring no material components:\nAt will: darkness, detect magic, dispel magic, invisibility (self only), water walk\n3/day each: control water, crown of madness, fear, phantasmal killer, suggestion"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The hydroloth has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The hydroloth's weapon attacks are magical."
+        },
+        {
+          "name": "Secure Memory",
+          "description": "The hydroloth is immune to the waters of the River Styx as well as any effect that would steal or modify its memories or detect or read its thoughts."
+        },
+        {
+          "name": "Watery Advantage",
+          "description": "While submerged in liquid, the hydroloth has advantage on attack rolls."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The hydroloth makes two melee attacks. In place of one of these attacks, it can cast one spell that takes 1 action to cast."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) slashing damage."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 16 (2d10 + 5) piercing damage."
+        },
+        {
+          "name": "Steal Memory (1/Day)",
+          "description": "The hydroloth targets one creature it can see within 60 feet of it. The target takes 4d6 psychic damage, and it must make a DC 16 Intelligence saving throw. On a successful save, the target becomes immune to this hydroloth's Steal Memory for 24 hours. On a failed save, the target loses all proficiencies, it can't cast spells, it can't understand language, and if its Intelligence and Charisma scores are higher than 5, they become 5. Each time the target finishes a long rest, it can repeat the saving throw, ending the effect on itself on a success. A greater restoration or remove curse spell cast on the target ends this effect early."
+        },
+        {
+          "name": "Teleport",
+          "description": "The hydroloth magically teleports, along with any equipment it is wearing or carrying, up to 60 feet to an unoccupied space it can see."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.32"
+    },
+    {
+      "name": "Merregon",
+      "size": "Large",
+      "type": "fiend (demon)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "45 (6d8 + 18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 14,
+        "constitution": 17,
+        "intelligence": 6,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "cold",
+        "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "understands Abyssal but can't speak"
+      ],
+      "challenge_rating": "4",
+      "xp": 1000,
+      "features": [
+        {
+          "name": "Devil's Sight",
+          "description": "Magical darkness doesn't impede the merregon's darkvision."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The merregon has advantage on saving throws against spells and other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The merregon makes two halberd attacks, or if an allied fiend of challenge rating 6 or higher is within 60 feet of it, the merregon makes three halberd attacks."
+        },
+        {
+          "name": "Halberd",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 9 (1d10 + 4) slashing damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 100/400 ft., one target. Hit: 7 (1d10 + 2) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Loyal Bodyguard",
+          "description": "When another fiend within 5 feet of the merregon is hit by an attack, the merregon causes itself to be hit instead."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.32"
+    },
+    {
+      "name": "Merrenoloth",
+      "size": "Medium",
+      "type": "fiend (yugoloth)",
+      "alignment": "neutral evil",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "40 (9d8)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 17,
+        "constitution": 10,
+        "intelligence": 17,
+        "wisdom": 14,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "dex": 5,
+        "int": 5
+      },
+      "skills": {
+        "History": 5,
+        "Nature": 5,
+        "Perception": 4,
+        "Survival": 4
+      },
+      "damage_resistances": [
+        "cold",
+        "fire",
+        "lightning",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "acid",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft., darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Abyssal",
+        "Infernal",
+        "telepathy 60 ft."
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The merrenoloth's spellcasting ability is Intelligence (spell save DC 13). It can innately cast the following spells, requiring no material components:\nAt will: charm person, darkness, detect magic, dispel magic, gust of wind\n3/day: control water\n1/day: control weather"
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The merrenoloth has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The merrenoloth's weapon attacks are magical."
+        },
+        {
+          "name": "Teleport",
+          "description": "As a bonus action, the merrenoloth magically teleports, along with any equipment it is wearing or carrying, up to 60 feet to an unoccupied space it can see."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The merrenoloth uses Fear Gaze once and makes one oar attack."
+        },
+        {
+          "name": "Oar",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) bludgeoning damage."
+        },
+        {
+          "name": "Fear Gaze",
+          "description": "The merrenoloth targets one creature it can see within 60 feet of it. The target must succeed on a DC 13 Wisdom saving throw or become frightened of the merrenoloth for 1 minute. The frightened creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.33"
+    },
+    {
+      "name": "Nupperibo",
+      "size": "Medium",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 13,
+      "ac_type": "Natural",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 11,
+        "constitution": 13,
+        "intelligence": 3,
+        "wisdom": 8,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 1
+      },
+      "damage_resistances": [
+        "Acid",
+        "Cold",
+        "Bludgeoning, Piercing, and Slashing from Nonmagical Attacks that aren't Silvered"
+      ],
+      "damage_immunities": [
+        "Fire",
+        "Poison"
+      ],
+      "condition_immunities": [
+        "Blinded",
+        "Charmed",
+        "Frightened",
+        "Poisoned"
+      ],
+      "senses": "Blindsight 10 ft. (blind beyond this radius), Passive Perception 11",
+      "languages": [
+        "understands Infernal but can't speak"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Cloud of Vermin",
+          "description": "Any creature, other than a devil, that starts its turn within 20 feet of the nupperibo must make a DC 11 Constitution saving throw. A creature within the areas of two or more nupperibos makes the saving throw with disadvantage. On a failure, the creature takes 2 (1d4) piercing damage."
+        },
+        {
+          "name": "Hunger-Driven",
+          "description": "In the Nine Hells, the nupperibos can flawlessly track any creature that has taken damage from any nupperibo's Cloud of Vermin within the previous 24 hours."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.33"
+    },
+    {
+      "name": "Orthon",
+      "size": "Large",
+      "type": "fiend (devil)",
+      "alignment": "lawful evil",
+      "armor_class": 17,
+      "ac_type": "half plate",
+      "hit_points": "105 (10d10 + 50)",
+      "speed": "30 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 16,
+        "constitution": 21,
+        "intelligence": 15,
+        "wisdom": 15,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "dex": 7,
+        "con": 9,
+        "wis": 6
+      },
+      "skills": {
+        "Perception": 10,
+        "Stealth": 11,
+        "Survival": 10
+      },
+      "damage_resistances": [
+        "cold; bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+      ],
+      "damage_immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., truesight 30 ft., passive Perception 20",
+      "languages": [
+        "Common",
+        "Infernal",
+        "telepathy 120 ft."
+      ],
+      "challenge_rating": "10",
+      "xp": 5900,
+      "features": [
+        {
+          "name": "Invisibility Field",
+          "description": "The orthon can use a bonus action to become invisible. Any equipment the orthon wears or carries is also invisible as long as the equipment is on its person. This invisibility ends immediately after the orthon makes an attack roll or is hit by an attack."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The orthon has advantage on saving throws against spells and other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Infernal Dagger",
+          "description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 11 (2d4 + 6) slashing damage, and the target must make a DC 17 Constitution saving throw, taking 22 (4d10) poison damage on a failed save, or half as much damage on a successful one. On a failure, the target is also poisoned for 1 minute. The poisoned target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Infernal Crossbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 100/400 ft., one target. Hit: 14 (2d10 + 3) piercing damage, plus one of the following effects:\n1. Acid. The target must make a DC 17 Constitution saving throw, taking an additional 17 (5d6) acid damage on a failed save, or half as much damage on a successful one.\n2. Blindness (1/Day). The target takes 5 (1d10) radiant damage. In addition, the target and all other creatures within 20 feet of it must each make a successful DC 17 Dexterity saving throw or be blinded until the end of the orthon's next turn.\n3. Concussion. The target and each creature within 20 feet of it must make a DC 17 Constitution saving throw, taking 13 (2d12) thunder damage on a failed save, or half as much damage on a successful one.\n4. Entanglement. The target must make a successful DC 17 Dexterity saving throw or be restrained for 1 hour by strands of sticky webbing. A restrained creature can escape by using an action to make a successful DC 17 Dexterity or Strength check. Any creature other than an orthon that touches the restrained creature must make a successful DC 17 Dexterity saving throw or become similarly restrained.\n5. Paralysis (1/Day). The target takes 22 (4d10) lightning damage and must make a successful DC 17 Constitution saving throw or be paralyzed for 1 minute. The paralyzed target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\n6. Tracking. For the next 24 hours, the orthon knows the direction and distance to the target, as long as it's on the same plane of existence. If the target is on a different plane, the orthon knows which one, but not the exact location there."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Explosive Retribution",
+          "description": "When it is reduced to 15 hit points or fewer, the orthon causes itself to explode. All other creatures within 30 feet of it must each make a DC 17 Dexterity saving throw, taking 9 (2d8) fire damage plus 9 (2d8) thunder damage on a failed save, or half as much damage on a successful one. This explosion destroys the orthon, its infernal dagger, and its brass crossbow."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs"
+    },
+    {
+      "name": "Rutterkin",
+      "size": "Medium",
+      "type": "fiend (demon)",
+      "alignment": "chaotic evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "37 (5d8 + 15)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 15,
+        "constitution": 17,
+        "intelligence": 5,
+        "wisdom": 12,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "understands Abyssal but can't speak"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Crippling Fear",
+          "description": "When a creature that isn't a demon starts its turn within 30 feet of three or more rutterkins, it must make a DC 11 Wisdom saving throw. The creature has disadvantage on the save if it's within 30 feet of six or more rutterkins. On a successful save, the creature is immune to the Crippling Fear of all rutterkins for 24 hours. On a failed save, the creature becomes frightened of the rutterkins for 1 minute. While frightened in this way, the creature is restrained. At the end of each of the frightened creature's turns, it can repeat the saving throw, ending the effect on itself on a success."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 12 (3d6 + 2) piercing damage. If the target is a creature, it must succeed on a DC 13 Constitution saving throw against disease or become poisoned. At the end of each long rest, the poisoned target can repeat the saving throw, ending the effect on itself on a success. If the target is reduced to 0 hit points while poisoned in this way, it dies and instantly transforms into a living abyssal wretch. The transformation of the body can be undone only by a wish spell."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs"
+    },
+    {
+      "name": "Warlock of the Archfey",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 11,
+      "ac_type": "14 with mage armor",
+      "hit_points": "49 (11d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 13,
+        "constitution": 11,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "wis": 3,
+        "cha": 6
+      },
+      "skills": {
+        "Arcana": 2,
+        "Deception": 6,
+        "Nature": 2,
+        "Persuasion": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed"
+      ],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any two languages (usually Sylvan)"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The warlock's innate spellcasting ability is Charisma. It can innately cast the following spells (spell save DC 15), requiring no material components:\nAt will: disguise self, mage armor (self only), silent image, speak with animals\n1/day: conjure fey"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The warlock is a 11th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). It regains its expended spell slots when it finishes a short or long rest. It knows the following warlock spells:\nCantrips (at will): dancing lights, eldritch blast, friends, mage hand, minor illusion, prestidigitation, vicious mockery\n1st–5th level (3 5th-level slots): blink, charm person, dimension door, dominate beast, faerie fire, fear, hold monster, misty step, phantasmal force, seeming, sleep"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Misty Escape (Recharges after a Short or Long Rest)",
+          "description": "In response to taking damage, the warlock turns invisible and teleports up to 60 feet to an unoccupied space it can see. It remains invisible until the start of its next turn or until it attacks, makes a damage roll, or casts a spell."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs"
+    },
+    {
+      "name": "Warlock of the Fiend",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "78 (12d8 + 24)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 15,
+        "intelligence": 12,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "wis": 4,
+        "cha": 7
+      },
+      "skills": {
+        "Arcana": 4,
+        "Deception": 7,
+        "Persuasion": 7,
+        "Religion": 4
+      },
+      "damage_resistances": [
+        "slashing damage from nonmagical attacks not made with silvered weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "any two languages (usually Abyssal or Infernal)"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The warlock's innate spellcasting ability is Charisma. It can innately cast the following spells (spell save DC 15), requiring no material components:\nAt will: alter self, false life, levitate (self only), mage armor (self only), silent image\n1/day each: feeblemind, finger of death, plane shift"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The warlock is a 17th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). It regains its expended spell slots when it finishes a short or long rest. It knows the following warlock spells:\nCantrips (at will): eldritch blast, fire bolt, friends, mage hand, minor illusion, prestidigitation, shocking grasp\n1st–5th level (4 5th-level slots): banishment, burning hands, flame strike, hellish rebuke, magic circle, scorching ray, scrying, stinking cloud, suggestion, wall of fire"
+        },
+        {
+          "name": "Dark One's Own Luck (Recharges after a Short or Long Rest)",
+          "description": "When the warlock makes an ability check or saving throw, it can add a d10 to the roll. It can do this after the roll is made but before any of the roll's effects occur.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Mace",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage plus 10 (3d6) fire damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.35"
+    },
+    {
+      "name": "Warlock of the Great Old One",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "91 (14d8 + 28)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 15,
+        "intelligence": 12,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "wis": 4,
+        "cha": 7
+      },
+      "skills": {
+        "Arcana": 4,
+        "History": 4
+      },
+      "damage_resistances": [
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "any two languages",
+        "telepathy 30 ft."
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The warlock's innate spellcasting ability is Charisma. It can innately cast the following spells (spell save DC 15), requiring no material components:\nAt will: detect magic, jump, levitate, mage armor (self only), speak with dead\n1/day each: arcane gate, true seeing"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The warlock is a 14th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). It regains its expended spell slots when it finishes a short or long rest. It knows the following warlock spells:\nCantrips (at will): chill touch, eldritch blast, guidance, mage hand, minor illusion, prestidigitation, shocking grasp\n1st–5th level (3 5th-level slots): armor of Agathys, arms of Hadar, crown of madness, clairvoyance, contact other plane, detect thoughts, dimension door, dissonant whispers, dominate beast, telekinesis, vampiric touch"
+        },
+        {
+          "name": "Whispering Aura",
+          "description": "At the start of each of the warlock's turns, each creature of its choice within 5 feet of it must succeed on a DC 15 Wisdom saving throw or take 10 (3d6) psychic damage, provided that the warlock isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix A | Monsters & NPCs p.35"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Mei Wind",
+      "race": "Human",
+      "class_name": "Assassin",
+      "subclass": "",
+      "level": 0,
+      "alignment": "chaotic evil",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Feeblemind",
+          "description": "Mei Wind is affected by the feeblemind spell. She wanders the banks of the River Styx wearing a blank expression. She attacks creatures that attack her first, but has a pleasant disposition otherwise. She remembers nothing about her personal history including her name, how she came to Avernus, and why she is in the Nine Hells. She cannot speak or communicate in any intelligible way, but if the characters are kind to her, Mei Wind travels with and aids them."
+        },
+        {
+          "name": "Secret History",
+          "description": "In truth Mei Wind is cultist of Baphomet who came to Avernus to prove herself to the Horned King. She believed if she killed Baphomet's enemies, the demon prince would reward her by transforming her into a minotaur. That plan went awry when a devil cast Mei Wind into the River Styx, causing her to lose all her memories. If Mei Wind's memories are restored, her mission comes back to her. She plays coy, but betrays the characters the first chance she gets, hoping to sacrifice them to Baphomet."
+        },
+        {
+          "name": "Labyrinth Tattoo",
+          "description": "Mei Wind has a tattoo of a labyrinth on her back, which is only visible if she takes off her armor. A successful DC 15 Intelligence (Religion) check reveals elaborate labyrinths are associated with the demon lord Baphomet."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Mei Wind (chaotic evil female human assassin affected by the feeblemind spell) wanders the banks of the River Styx wearing a blank expression.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Baldur's Gate: Descent into Avernus p.14"
+    },
+    {
+      "name": "Beryl Corth",
+      "race": "Human",
+      "class_name": "Knight",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "40",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Infernal Wound",
+          "description": "The wound continues bleeding (1d10 damage per round) until it is treated with a successful DC 12 Wisdom (Medicine) check or Beryl receives magical healing."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A human knight suffering from an infernal wound from a bearded devil's glaive.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Baldur's Gate: Descent into Avernus p.18"
+    },
+    {
+      "name": "Adriesta the Fallen Serpent",
+      "race": "Couatl (fiendish)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Evil",
+      "armor_class": 19,
+      "hit_points": "97 (13d8+39)",
+      "speed": "30 ft., fly 90 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 20,
+        "constitution": 17,
+        "intelligence": 18,
+        "wisdom": 20,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "constitution": 5,
+        "wisdom": 7,
+        "charisma": 6
+      },
+      "skills": {},
+      "features": [
+        {
+          "name": "Change Shape",
+          "description": "Adriesta can use her action to polymorph into a beast or humanoid she has seen, or back into her true form. Her statistics, other than her size, are the same in each form. Any equipment she is wearing or carrying isn't transformed. She reverts to her true form if she dies."
+        },
+        {
+          "name": "Fiendish Nature",
+          "description": "Adriesta's type is fiend, and her alignment is lawful evil."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one creature. Hit: 11 (1d12+5) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or be poisoned for 24 hours. Until this poison ends, the target is unconscious. Another creature can use an action to shake the target awake."
+        },
+        {
+          "name": "Constrict",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one Medium or smaller creature. Hit: 10 (2d6+3) bludgeoning damage, and the target is grappled (escape DC 15). Until this grapple ends, the target is restrained, and Adriesta can't constrict another target."
+        },
+        {
+          "name": "Summon Fiend (1/day)",
+          "description": "Adriesta conjures two hell hounds in the two unoccupied spaces closest to her."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A corrupting couatl who hides in Mahadi's Wandering Emporium, using her Change Shape trait to take the form of a female tiefling named veteran Adriesta with a red cloak and buzzed-short white hair. She seeks to pledge her service to Zariel.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 1800,
+      "source": "Baldur's Gate: Descent into Avernus p.21"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Cursed Oars",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A character holding both oars",
+      "detection": {
+        "dc": 0,
+        "skill": "detect magic",
+        "detail": "A detect magic spell marks them as holding a cursed enchantment."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "remove curse spell or similar effect",
+        "detail": "A character can be freed from the curse with a remove curse spell or similar effect."
+      },
+      "effect": "A character holding both oars must make a successful DC 15 Wisdom saving throw or be affected by the fiendish curse. For the next 24 hours, the cursed creature is at disadvantage to Intelligence and Wisdom saving throws. In addition, they are poisoned whenever they are more than 100 feet away from the River Styx. At the end of the 24 hours, the creature is transformed into a merrenoloth (see appendix A) contracted as the new captain of the abandoned ship. Though the oars and ship are immune to damage or magical effects, a character can be freed from the curse with a remove curse spell or similar effect.",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "Inside the boat is a pair of smooth wooden oars. A detect magic spell marks them as holding a cursed enchantment.",
+      "source": "Baldur's Gate: Descent into Avernus p.14"
+    }
+  ],
+  "_chapters_completed": [
+    "Introduction",
+    "Appendix A: Monsters & NPCs",
+    "Chapter 4: Encounter Chains",
+    "Appendix B: Magic Items",
+    "Chapter 2: River Styx Encounters",
+    "Chapter 1: Avernus Encounters",
+    "Chapter 3: Elturel Encounters"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 7,
+  "_book_slug": "EIA",
+  "_book_title": "378310 Encounters In Avernus",
+  "_completed": true,
+  "_timestamp": 1790290185.9036183
+}

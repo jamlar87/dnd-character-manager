@@ -1,0 +1,799 @@
+{
+  "races": [
+    {
+      "name": "Windrunner Elf",
+      "source": "Midgard Worldbook p.13-15",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Elven Weapon Training",
+          "description": "You have proficiency with the longbow, shortbow, and all simple weapons."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+        },
+        {
+          "name": "Keen Senses",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Trance",
+          "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        },
+        {
+          "name": "Windrunner Weapon Training",
+          "description": "You have proficiency with the windrunner bolas, windrunner boomerang, and birding shaft."
+        },
+        {
+          "name": "Kitecraft",
+          "description": "You have proficiency with kites and can use them to cross chasms and other treacherous land, launch from horseback, or descend from precipices. You can also use kites for competitive events, herding livestock, and marking land for grazing and water."
+        }
+      ],
+      "subraces": [],
+      "description": "Elusive, eccentric, and unpredictable, windrunner elves have quietly traversed Midgard's vast central grasslands for millennia. These diminutive nomads roaming the steppes and plains are thought to originally hail from the elven capital of Sephaya, long since abandoned during the Great Retreat.",
+      "_effects": {
+        "Elven Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Longbow",
+            "Shortbow",
+            "Simple weapons"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fey Ancestry": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep."
+        },
+        "Keen Senses": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Perception"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Trance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Don't need to sleep; meditate 4 hours for benefits of 8 hours of sleep."
+        },
+        "Windrunner Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Windrunner bolas",
+            "Windrunner boomerang",
+            "Birding shaft"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Kitecraft": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "Kites"
+          ],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can use kites to cross chasms, launch from horseback, descend precipices, and for competitive events, herding livestock, and marking land."
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Dreamstride",
+      "level": 3,
+      "school": "illusion",
+      "casting_time": "10 minutes",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You reach out with your consciousness and step into the dreams of another creature in order to view a memory or gather information. The creature must be on the same plane of existence as you and have a minimum Intelligence score of 7. If the target is not asleep or in meditation (in the case of elves or similar races) when the spell is cast, the spell fails. This spell has no effect on constructs or undead. When you cast the spell, you enter your target's dream, and you view the events as an invisible third party. The creature is unaware of your presence, and you cannot interact with the dream in any way other than the method listed below. As an action, you can reach out your consciousness and attempt to influence the course of the dream. For example, you may",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": true,
+      "source": "WF"
+    },
+    {
+      "name": "Oneiromancy",
+      "level": 1,
+      "school": "divination",
+      "casting_time": "10 minutes",
+      "range": "Touch",
+      "components": "V, S, M (incense and a bit of mushroom)",
+      "duration": "Concentration, 4 or 6 hours (see below)",
+      "description": "Dreams can be gateways to understanding, and you can induce such prophetic and insightful dreams in yourself and others. You touch a willing creature of your choice. The creature immediately falls into an enchanted dream state and remains for an entire long rest (4 or 6 hours, depending on their race) unless awakened or if they choose to end the spell early. During this long rest, they experience dreams and visions centering around an event or question of their choice, specified at the casting of the spell. The dreams may be literal, or they may be wrapped in symbolism, omens, and metaphor and left to the dreamer to interpret. This dream state counts as sleep or meditation for the purposes of a long rest. If the target's sleep is interrupted, the dreams induced by this spell end. The target may still complete a long rest and gain the benefits of said rest, but they do not return to their previous dreams. Elves and other creatures with immunity to magical sleep choose whether or not to be affected by this spell. This spell has no effect on constructs or undead.",
+      "higher_levels": "",
+      "classes": [
+        "Cleric",
+        "Druid",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": true,
+      "source": "WF"
+    },
+    {
+      "name": "Phantasm",
+      "level": 6,
+      "school": "illusion",
+      "casting_time": "10 minutes",
+      "range": "Self",
+      "components": "V, S, M (a sympathetic item from the target, a pinch of grave dirt, and 5,000 gp worth of powdered sapphire, which the spell consumes)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You reach out with your consciousness and influence the dreams of another creature The creature must be on the same plane of existence as you and have a minimum Intelligence score of 7. If the target is not asleep or in meditation (in the case of elves or similar races) when the spell is cast, the spell fails. This spell has no effect on constructs or undead. Your target must succeed on a Wisdom saving throw against your spell save DC. On a failure, their dream becomes a nightmare, and they take 4d10 psychic damage. On a success, they take half as much damage, the spell ends, and you take the same amount of psychic damage as you are shoved from the dream. At the start of each of their turns, the target repeats the saving throw, taking an additional 4d10 damage on a failed save. Once the target succeeds on their saving throw, they are immune to this spell for the next 7 days. The target cannot wake themselves, but if they are awakened by an outside force or if they fall to 0 hit points, the spell ends. If the target succeeds on their saving throw, they may attempt a DC 20 Wisdom (Insight) check. On a success, if they are familiar with you, they recognize you as the attacker. If they are unfamiliar with you, they do not recognize you, though you may seem strangely familiar if the two of you meet at a later time, and you may even evoke feelings of unease. For the duration of the spell, your body lies in repose in the location you cast the spell. You are blind and deaf to your body's surroundings, though you can feel and are aware if you take damage. If your body is moved, the spell ends. If your target is awakened, the spell ends.",
+      "higher_levels": "At Higher Levels. When you cast this spell at 7th level or higher, you deal an additional 1d10 psychic damage per spell slot above 6th (5d10 at 7th level, 6d10 at 8th level, 7d10 at 9th level).",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": true,
+      "concentration": true,
+      "source": "WF"
+    },
+    {
+      "name": "Breeze Walker",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a pheasant feather)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "Choosing a direction, you summon a strong, steady breeze to swirl beneath your feet and propel you. You levitate to a sustained height of 3 feet for the duration, and travel in the chosen direction is at 150% of your movement. Travel in any other direction is at 50% of your movement. While mounted, your mount's movement is affected as well.",
+      "higher_levels": "",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WF"
+    },
+    {
+      "name": "Windblown",
+      "level": 4,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a pinch of quail down)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You cause a column of air to swiftly launch the target creature or object up to 100 feet straight up. A creature can make a Dexterity saving throw to grab onto a fixed object it can reach, thus avoiding being launched. If some solid object (such as a ceiling) is encountered on the way up, the target strikes it just as if they had fallen the same distance. Once at its apex, the target remains buoyant, bobbing in midair, and will be blown along with the prevailing wind. When the spell ends, the target falls to the ground. This spell has no effect on flying creatures.",
+      "higher_levels": "",
+      "classes": [
+        "Sorcerer"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "WF"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Tears of the Dreamer",
+      "type": "Wondrous Item",
+      "rarity": "Varies by Color",
+      "requires_attunement": false,
+      "description": "This tear-shaped gemstone is roughly the size of an adult human's palm. Though cold to the touch, it hums with mystical vitality, and fleeting images can be glimpsed along its surface. A creature may spend a short rest meditating on the images within. During their meditation, they experience a memory held within the Tear, as determined by the GM. When they complete the meditation, the creature gains one proficiency, as noted in the table below. This benefit lasts for eight hours. Only one creature may gain this benefit at a time, and the item cannot be used in this way again until the next dawn. Additionally, a Tear can be ground into a fine gem dust that can be used in place of the spell components of equivalent monetary value. Doing so destroys the Tear. The worth of the gem dust is noted in the chart below. If the spell consumes the spell components, it instead consumes the equivalent value of dust.",
+      "source": "Unknown p.6-7"
+    },
+    {
+      "name": "Cedarskin Cuirass",
+      "type": "Armor (Studded Leather)",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This lightweight, fragrant piece is finely crafted of doeskin and reinforced with strips of woven cedar bark and rawhide. The armor is treated as +1 studded leather. In addition, while you wear it, you have advantage on any saving throws related to poison and disease, and difficult terrain doesn't impede your movement.",
+      "source": "p.16"
+    },
+    {
+      "name": "Saiga Helm",
+      "type": "Wondrous Item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This antelope skull is fashioned as a helm and engraved with druidic sigils. While wearing it, you gain a +1 bonus to armor class and are immune to the stunned condition. Additionally, you can headbutt an opponent. On a hit, the target takes 7 (2d6) bludgeoning damage and must succeed on a DC 15 Strength saving throw or be knocked prone.",
+      "source": "p.16"
+    },
+    {
+      "name": "Snowshoe Rabbit Snowboots",
+      "type": "Wondrous Item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "These low, soft boots are fashioned of enchanted snowshoe rabbit pelts and have wide, overlong soles. Icy terrain doesn't impede your movement, and you have advantage on Dexterity (Stealth) checks made to hide in snow. Additionally, on speaking the command word, you gain +15 feet of movement, plus your jump distance is tripled. When this property has been used for a total of 1 hour, the magic ceases to function until you finish a short or long rest.",
+      "source": "p.16"
+    },
+    {
+      "name": "Wind Kukri",
+      "type": "Weapon (Dagger)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to attack and damage rolls with this magic weapon. If wielding a pair of wind kukri, you gain a +2 bonus to attack and damage rolls made with each weapon. In addition, you gain the following abilities while wielding the pair: • Once per turn per kukri, when used as a thrown weapon, it flies back to your hand safely after each attack roll. If you don't have a hand free, the weapon lands at your feet. • When you score a critical hit with a kukri, the target takes an additional 2 (1d4) thunder damage. • A target hit by both kukris in the same round must succeed on a DC 13 Strength saving throw or be pushed back 5 feet and deafened until the end of their next turn.",
+      "source": "p.17"
+    },
+    {
+      "name": "Bands of Infernal Favor",
+      "type": "Wondrous Item",
+      "rarity": "Fabled (5th-Level and Higher Properties Require Attunement by a Paladin, Ranger, Sorcerer, Warlock, or Wizard)",
+      "requires_attunement": true,
+      "description": "This armband is made of two blood-red metal bands, which cross over one another three times. Between the gaps, crystals are set in place, hollow yet surprisingly durable.\n\nTo date, only a few of the Bands of Infernal Favor have been found, though their current locations are kept a mystery. Long before the rise of the magocracies—when there was still some trust between the elves and the humans—humans gifted the bands to various elven patrons: mages, druids, and paladins. Ostensibly, the bands were created to boost the wearer's connection with a familiar, companion, or steed. Highly valued by those who received them, it was unknown that the true purpose of the strange, twisted metal was the corruption of elvenkind.\n\nThose who passed them along to the elves were devout worshippers of infernal powers who wished to harness the magics wielded by elves. They sought ways to bend elven wills to their favor, granting them access to the shadow roads.\n\nThe elves were wary of the purpose that seemed to lurk within the bands, twisting their companions into fiendish forms. Casting them aside, the bands were hidden away from those who might cause harm. A few, however, have remained unaccounted for.\n\nWhile you are both conscious, you and your familiar, animal companion, or steed can't be surprised while you are within 30 feet of each other.\n\nInfernal Favor (Requires Attunement). As your level increases, you gain the following benefits while using this item. During attunement, and then at dawn of",
+      "source": "Fabled Elvish Magic Items p.21"
+    },
+    {
+      "name": "Infernal Favor",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": true,
+      "description": "While you are both conscious, you and your familiar, animal companion, or steed can't be surprised while you are within 30 feet of each other. As your level increases, you gain the following benefits while using this item. During attunement, and then at dawn of each day, the bands' spikes press into your flesh, draining blood that fills the crystals held in place by the red metal. This process empowers the bands and drains one Hit Die from you. Hit Dice drained in this manner can be recuperated as normal. If this process is not completed, the bands' abilities do not function for that day. 5th Level. You and your familiar, animal companion, or steed both gain advantage on attacks against a creature if you are both within 5 feet of the creature and neither of you is incapacitated. Additionally, your familiar, animal companion, or steed's hit points increase by the average of your class Hit Die when you increase in level from now on, including multiclass levels. 9th Level. You gain a +2 bonus to initiative as long as your familiar, animal companion, or steed is within 30 feet of you. Additionally, your familiar, animal companion, or steed does not die or disappear when they are reduced to 0 hit points. Instead, they are dying and may make death saving throws. You may use an action to spend an available Hit Die to stabilize and heal them for the amount of your Hit Die + your spellcasting modifier. As a bonus action, you can spend available Hit Dice to heal your familiar, animal companion, or steed. 13th Level. You cause your familiar, animal companion, or steed to magically change into a specific fiend of CR 5 or lower. The target's statistics are replaced by the statistics of the chosen fiend, though it retains its alignment and Intelligence, Wisdom, and Charisma scores. It also retains all its skill and saving throw proficiencies, in addition to gaining those of the fiend. (The fiend is an average example of the chosen fiend, without any class levels or the Spellcasting trait. The target can't use any legendary actions or lair actions of the new form.) The target assumes the hit points and Hit Dice of the new form. When it reverts to its normal form, it returns to the number of hit points it had before it was transformed. If it reverts as a result of dropping to 0 hit points, any excess damage carries over to its normal form. As long as the excess damage doesn't reduce its normal form to 0 hit points, it isn't knocked unconscious. The target can't use any special senses its normal form has unless the fiend has that sense. If the fiend can speak, the target can speak and understand any language known by you. Any equipment carried by either form falls to the ground when the change occurs unless both forms could hold the equipment. Once used, the armband can't be used in this way again until the next dawn. 17th Level. Your familiar, animal companion, or steed gain the fiend type, if it does not already have it, as it takes on fiendish features, such as black eyes, horns, or a fiendish hue. It becomes immune to fire and poison damage and can't be poisoned. As a bonus action, you can spend available Hit Dice to remove hit points from your companion in order to heal yourself. If your companion has changed shape, those hit points are temporary and last for 1 hour or until they are lost from taking damage. The Price of Attunement. While attuned to the armband, you have disadvantage on Wisdom (Insight) checks as well as Wisdom and Charisma saving throws against fiends. Charisma (Deception) checks made by you against fiends always fail. At any time, a fiend on your plane within 10 miles of you or your companion may use a bonus action to view what you or your companion see and hear.",
+      "source": "p.22-23"
+    },
+    {
+      "name": "Crown of the Eagle Emperor",
+      "type": "Wondrous Item",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "While wearing the crown, you have advantage on Wisdom (Perception) checks that require sight.\n\nThe Eagle Incarnate (Requires Attunement). As your level increases, you gain the following benefits while using this item.\n\n5th Level. Using an action, golden eagle wings appear from your back, granting you a flying speed of 60 feet. Once used, the crown can't be used in this way again until the next dawn.\n\n9th Level. You gain +10 to initiative and can't be surprised.\n\n13th Level. You can use your action to polymorph into an eagle-humanoid hybrid or into an eagle or back into your true form. Your statistics, other than your AC, are the same in each form. You choose whether your equipment falls to the ground, merges into your new form, or is worn by it. Worn equipment functions as normal, but the GM decides whether it is practical for the new form to wear a particular piece of equipment, based on the creature's shape and size. Your equipment doesn't change size or shape to match the new form, and any equipment the new form can't wear must either fall to the ground or merge with you. Equipment that merges with you has no effect until you leave the form. Your hybrid form has wings that grant you a flying speed of 60 feet, and you can hover.\n\nWhile in the hybrid form, you gain two natural weapon attacks which you are proficient with: Talons, which deal 2d6 + your Strength modifier slashing damage, and Beak, which deals 1d6 + your Strength modifier piercing damage. This damage is magical.\n\nIn addition, you are resistant to bludgeoning, piercing, and slashing weapons from nonmagical weapons that aren't silvered.\n\nOnce used, the crown can't be used in this way again until the next dawn, except to revert to your true form\n\n17th Level. You are immune to damage from nonmagical weapons. In addition, you may use the 5th-level and 13th-level abilities of the crown twice per day. You also gain the Piercing Cry action below.\n\nPiercing Cry (Recharge 6). You can release a screeching cry in a 30-foot cone. Creatures within this cone must succeed on a DC 18 Constitution saving throw or take 8d6 thunder damage and be deafened. Creatures that succeed on the saving throw take half the amount of damage and are not deafened.",
+      "source": "p.24-25"
+    },
+    {
+      "name": "Gorget of the Explorer",
+      "type": "Wondrous Item",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "You recall any regions you've traveled and can't get lost in those places unless the area has changed excessively or is hidden by magic. Spending 1 minute in deliberation, you can always determine which direction is north.\n\nWorld Walker (Requires Attunement). As your level increases, you gain the following benefits while using this item.\n\n5th Level. You have advantage on Wisdom (Survival) checks. Spending 1 minute, you can determine how far away the closest ley line is and in which direction it lies.\n\n9th Level. You are not affected by difficult terrain.\n\nAs a bonus action, you can activate the gorget to begin creating difficult terrain in your wake for up to 600 feet. This may appear as ice, vines, loose rubble, or similar, but it does not deal damage. Once used, the gorget can't be used in this way again until the next dawn.\n\n13th Level. While at a ley line, you can attune the gorget to that point by spending 1 minute focusing. You may only have one attuned point at a time.\n\nYou can teleport yourself and up to eight willing creatures to an attuned point. Once used, the gorget can't be used in this way again until the next dawn.\n\n17th Level. Once per day, you can use an action to choose an elemental type: acid, cold, fire, lightning, poison, or thunder. Aligning the gorget to that type alters the coloring of the decorative bits on the gorget and grants you immunity to that damage type. At dawn of the next day, this immunity fades and must be reactivated.",
+      "source": "p.26"
+    },
+    {
+      "name": "Sarastra's Baubles",
+      "type": "Wondrous Item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The baubles are a set of four glass globes, fragile in appearance, which hang from a small brass fixture. Other bits of gems, beads, and glass decorate the fine strings from which the baubles dangle. The brass plate has an oblong hole from which a leather strap or strong twine may be laced, allowing the baubles to be hung from a staff or belt loop.\n\nLong before she was the Queen of Night and Magic, Sarastra dabbled in magic that others might label as questionable. The daughter of High Queen Lelliana of Thorn experimented with and created many magic devices before she was banished, though most were confiscated and destroyed. One object that slipped past the watchful eyes of her mother and those sent to scour the lands for such magic were a set of ornaments. Called Sarastra's Baubles by those who know of their existence, they are highly sought by scholars, mages, and adventurers alike. Separated from the baubles when she was exiled, Sarastra herself would like to regain possession of these horrid trinkets.\n\nCreated by a younger yet no-less cruel Sarastra, one should not be shocked to find out that the future goddess and ruler of the dark fey formed these baubles to torment those who guarded her. Or when necessary, the baubles were used to capture those who learned Sarastra's devious plots, potential snitches that were never heard from or seen again.",
+      "source": "p.26"
+    },
+    {
+      "name": "Sarasta's Baubles",
+      "type": "Wondrous Item",
+      "rarity": "Fabled (5th-Level and Higher Properties Require Attunement)",
+      "requires_attunement": true,
+      "description": "You have advantage on Charisma-based ability checks.\n\nWill of the Mistress (Requires Attunement). As your level increases, you gain the following benefits while using this item.\n\n5th Level. Through the baubles, you are able to cast each of the following spells once per day (saving throw DC 15): calm emotions, charm monster, confusion, fear.\n\n9th Level. As an action, you can use a bauble to send one creature within 60 feet that you can see to a demiplane within the bauble. The creature must succeed on a DC 17 Charisma saving throw or be banished. While in the harmless demiplane, the target is incapacitated. Though aware of what is going on outside the bauble, the creature can't communicate beyond its confines. The creature does not hunger, thirst, or age. Poisons and diseases and other damaging effects that affect it are suspended while the creature is banished. A creature that succeeds on its saving throw is immune to the banishing effect of the baubles for the next 24 hours.\n\nA bauble can hold one creature at a time. You can release a banished creature as a bonus action, at which time the creature reappears in the space it left or in the nearest unoccupied space if that space is occupied. If the creature's original space is no longer within 60 feet of the bauble, it appears in a random space within 60 feet of the bauble's location.\n\nA bauble has AC 12, 10 hits points, and will release a banished creature if broken. Broken baubles reform after 1d4 days.\n\n13th Level. You can incite fear in a creature that is being held within a bauble. As an action, you can force the creature to make a DC 18 Charisma saving throw. If it fails, the creature is haunted by formless terrors for 1 minute. During this time, you can use its fear to heal yourself. As a bonus action, you cause the creature to suffer 3d12 psychic damage, and you regain an equal amount of hit points. If a creature is reduced to 0 hit points within a bauble, it falls unconscious for 1d4 hours but is stable.\n\n17th Level. Time spent in a bauble warps a creature's perceptions about you, making it malleable to your orders. Even though you can't make a creature not dislike or hate you, a creature you release can be forced to do your bidding for 1 hour. During that time, the creature is charmed and can't take actions to harm you. If instructed to do something that it would not typically do, such as harm a loved one, it may make a DC 17 Charisma saving throw to refuse, though it remains charmed by you. A charmed creature can't be forced to harm itself or put itself into situations that would cause its death, such as jumping off a cliff.\n\nTo recapture a creature, you impinge your will as an action, and the creature must make a DC 17 Charisma saving throw. If it fails, the creature is once again banished within a bauble. If it succeeds though, the creature breaks free of the spell and is immune to the banishing effect of the baubles for the next 24 hours.",
+      "source": "p.27"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Birding Shaft",
+      "type": "Ammunition",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "2 gp",
+      "weight": 1.5,
+      "source": "WF"
+    },
+    {
+      "name": "Lasso",
+      "type": "Weapon",
+      "subtype": "martial melee",
+      "damage": "—",
+      "properties": [
+        "Finesse",
+        "reach (15 feet)",
+        "special (see below)"
+      ],
+      "cost": "5 gp",
+      "weight": 6,
+      "source": "WF"
+    },
+    {
+      "name": "Windrunner Bolas",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d4 bludgeoning",
+      "properties": [
+        "Finesse",
+        "light",
+        "thrown (range 30/60)",
+        "special (see below)"
+      ],
+      "cost": "25 gp",
+      "weight": 3,
+      "source": "WF"
+    },
+    {
+      "name": "Windrunner Boomerang",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d4 bludgeoning (standard)/1d4 slashing (bladed)",
+      "properties": [
+        "Finesse",
+        "light",
+        "special (see below)",
+        "thrown (range 100/300)"
+      ],
+      "cost": "15 gp (standard)/25 gp (bladed)",
+      "weight": 3,
+      "source": "WF"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Water Wight",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "neutral evil",
+      "armor_class": 14,
+      "ac_type": "studded leather",
+      "hit_points": "45 (6d8 + 18)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "con": 5
+      },
+      "skills": {
+        "Perception": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [
+        "necrotic",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "the languages it knew in life"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Aversion to Dry Ground",
+          "description": "When the water wight is on dry ground, it has disadvantage on attack rolls."
+        },
+        {
+          "name": "Undead Nature",
+          "description": "A water wight doesn't require air, food, drink, or sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The water wight makes two Longsword attacks. It can use Drown in place of one of these attacks."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage or 8 (1d10 + 3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Drown",
+          "description": "The water wight locks eyes with its enemy, conjuring within its target the raging waters of the sea. The target must make a DC 14 Wisdom saving throw. On a failure, salt water fills the target's mouth, throat, and lungs, and the target has no breath left and immediately begins to drown. The target may repeat the saving throw at the end of their turn. On a success, the effect ends. The effect ends if the target or the water wight is reduced to 0 hit points. A target that dies in this fashion rises 24 hours later as a zombie under the water wight's control. The wight can have no more than six zombies under its control at one time."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Lost Arbonesse p.10-11"
+    },
+    {
+      "name": "Brinemaiden",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "chaotic evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "58 (13d8)",
+      "speed": "0 ft., fly 40 ft. (hover), swim 40 ft.",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 17
+      },
+      "saving_throws": {
+        "wis": 2,
+        "cha": 5
+      },
+      "skills": {},
+      "damage_resistances": [
+        "acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "bludgeoning, piercing, and slashing from nonmagical weapons"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "the languages she knew in life"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Detect Life",
+          "description": "The brinemaiden can magically sense the presence of creatures up to 5 miles away that aren't undead or constructs. She knows the general direction they're in but not exact locations."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The brinemaiden can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Undead Nature",
+          "description": "A brinemaiden doesn't require air, food, drink, or sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Corrupting Touch",
+          "description": "Melee Spell Attack: +4 to hit, reach 5 ft., one target. Hit: 12 (3d6 + 2) necrotic damage."
+        },
+        {
+          "name": "Calls of the Lost",
+          "description": "Each creature within 60 feet of the brinemaiden must succeed on a DC 13 Wisdom saving throw. On a failed save, they must use all of their movement and must take the dash action to move directly toward and into the nearest body of water, as the haunting wails of the drowned call out to them. The creature may take no other actions, bonus actions, or reactions. The target may repeat the saving throw at the end of their turn. A creature who reaches the water while under these effects swims (or walks, if they cannot swim) their full speed directly away from the shore until the effect ends. If there is no water nearby, the creature spends their turn wracked with mournful sobs."
+        },
+        {
+          "name": "Wail (1/day)",
+          "description": "The banshee releases a mournful wail, provided that she isn't in sunlight. This wail has no effect on constructs and undead. All other creatures within 30 feet of her that can hear her must make a DC 13 Constitution saving throw. On a failure, the creature drops to 0 hit points. On a success, a creature takes 10 (3d6) psychic damage.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Lost Arbonesse p.12"
+    },
+    {
+      "name": "Elf, Windrunner Scout",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "Any Non-Lawful Alignment",
+      "armor_class": 15,
+      "ac_type": "studded leather",
+      "hit_points": "52 (8d8 +16)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 11,
+        "wisdom": 14,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Animal Handling": 4,
+        "Perception": 4,
+        "Stealth": 5,
+        "Survival": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "The elf has advantage on saving throws against being charmed, and magic can't put them to sleep."
+        },
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The elf has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The elf has advantage on an attack roll against a creature if at least one of their allies is within 5 ft. of the creature and the ally isn't Incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The elf makes two Bone Knives attacks or one Bone Knives and one Lasso attack."
+        },
+        {
+          "name": "Bone Knives",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) slashing damage."
+        },
+        {
+          "name": "Lasso",
+          "description": "Melee Weapon Attack: +5 to hit, reach 15 ft., one target. Hit: Target is grappled (escape DC 14). While the grapple persists, the target is restrained. The elf can use a bonus action to pull a grappled target up to 5 feet or to dismount a mounted target, knocking it prone."
+        },
+        {
+          "name": "Boomerang",
+          "description": "Ranged Weapon Attack: +5 to hit, range 100/300, one target. Hit: 5 (1d4 + 3) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.17-19"
+    },
+    {
+      "name": "Elf, Windrunner Skirmisher",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "Any Non-Lawful Alignment",
+      "armor_class": 16,
+      "ac_type": "studded leather",
+      "hit_points": "112 (15d8 + 45)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 18,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "dex": 7,
+        "wis": 5
+      },
+      "skills": {
+        "Animal Handling": 5,
+        "Perception": 5,
+        "Stealth": 7,
+        "Survival": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Fey Ancestry",
+          "description": "The elf has advantage on saving throws against being charmed, and magic can't put them to sleep."
+        },
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The elf has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        },
+        {
+          "name": "Mounted Warrior",
+          "description": "When mounted, the elf has advantage on attacks against unmounted creatures smaller than its mount. If the elf's mount is subjected to an effect that allows it to take half damage with a successful Dexterity saving throw, the mount instead takes no damage if it succeeds on the saving throw and half damage if it fails."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The elf has advantage on an attack roll against a creature if at least one of their allies is within 5 ft. of the creature and the ally isn't Incapacitated."
+        },
+        {
+          "name": "Precision Shot",
+          "description": "When the elf attacks with a ranged or thrown melee weapon, their attacks ignore half cover and don't have disadvantage at long range."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The elf makes three Obsidian Scimitar attacks or three Shortbow attacks."
+        },
+        {
+          "name": "Obsidian Scimitar",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) slashing damage. For each hit a target takes from this attack, the target takes an additional cumulative +1 slashing damage at the start of each of its turns, so for example, three hits on a target would mean an additional +3 slashing damage per turn. Any amount of magical healing or a DC 13 Wisdom (Medicine) check stops this extra damage (and resets the count). Constructs and undead are immune to this extra damage."
+        },
+        {
+          "name": "Bolas",
+          "description": "Ranged Weapon Attack: +7 to hit, range 30/60, one target. Hit: 6 (1d4 + 4) bludgeoning damage, and the target must succeed on a DC 15 Strength or Dexterity saving throw (target's choice) or be restrained. A restrained target is freed with a successful DC 12 Strength (Athletics) or Dexterity (Acrobatics) check or by dealing 5 slashing damage to the bolas (AC 10)."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 80/320, one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The elf casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 11): • 2/day each: hunter's mark, waft* • 1/day each: pass without trace, thunderous charge* (* See Deep Magic.)"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.19-20"
+    },
+    {
+      "name": "Banshee",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "neutral evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "58 (13d8)",
+      "speed": "0 ft., fly 40 ft. (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 17
+      },
+      "saving_throws": {
+        "wis": 2,
+        "cha": 5
+      },
+      "skills": {},
+      "damage_resistances": [
+        "acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "bludgeoning",
+        "piercing",
+        "slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Detect Life",
+          "description": "The banshee can magically sense the presence of living creatures up to 5 miles away that aren't undead or constructs. She knows the general direction they're in but not their exact locations."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The banshee can move through other creatures and objects as if they were difficult terrain. She takes 5 (1d10) force damage if she ends her turn inside an object."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Corrupting Touch",
+          "description": "Melee Spell Attack: +4 to hit, reach 5 ft., one target. Hit: 12 (3d6 + 2) necrotic damage."
+        },
+        {
+          "name": "Horrifying Visage",
+          "description": "Each non-undead creature within 60 feet of the banshee that can see her must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, with disadvantage if the banshee is within line of sight, ending the effect on itself on a success. If a target's saving throw is successful or the effect ends for it, the target is immune to the banshee's Horrifying Visage for the next 24 hours."
+        },
+        {
+          "name": "Wail (1/Day)",
+          "description": "The banshee releases a mournful wail, provided that she isn't in sunlight. This wail has no effect on constructs and undead. All other creatures within 30 feet of her that can hear her must make a DC 13 Constitution saving throw. On a failure, the creature drops to 0 hit points. On a success, a creature takes 10 (3d6) psychic damage.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "MM p.23"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Mysteries of the Lost Elven Courts",
+    "Table of Contents & Credits",
+    "Windrunner Elves",
+    "Windrunner NPCs",
+    "Blank Page"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 5,
+  "_book_slug": "WF",
+  "_book_title": "Warlock 032 FINAL 1uxx3u",
+  "_completed": true,
+  "_timestamp": 1790292104.036615
+}

@@ -14931,5 +14931,602 @@
       }
     },
     "_source_manual": "RRG"
+  },
+  {
+    "name": "Custom Lineage",
+    "source": "(Tasha's Cauldron of Everything, p.8)",
+    "asi": {},
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Small or Medium (your choice)",
+    "traits": [
+      {
+        "name": "Creature Type",
+        "description": "You are a humanoid. You determine your appearance and whether you resemble any of your kin."
+      },
+      {
+        "name": "Size",
+        "description": "You are Small or Medium (your choice)."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Ability Score Increase",
+        "description": "One ability score of your choice increases by 2."
+      },
+      {
+        "name": "Feat",
+        "description": "You gain one feat of your choice for which you qualify."
+      },
+      {
+        "name": "Variable Trait",
+        "description": "You gain one of the following options of your choice: (a) darkvision with a range of 60 feet or (b) proficiency in one skill of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and one other language that you and your DM agree is appropriate for your character."
+      }
+    ],
+    "subraces": [],
+    "description": "Instead of choosing one of the game's races for your character at 1st level, you can use the following traits to represent your character's lineage, giving you full control over how your character's origin shaped them.",
+    "_effects": {
+      "Creature Type": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Creature type is Humanoid."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Small or Medium (player's choice)."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "One ability score of your choice increases by 2."
+      },
+      "Feat": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You gain one feat of your choice for which you qualify."
+      },
+      "Variable Trait": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose one: (a) darkvision 60 ft., or (b) proficiency in one skill of your choice."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "You can speak, read, and write Common and one other language agreed upon with your DM."
+      }
+    },
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Windrunner Elf",
+    "source": "(Warlock 032 FINAL 1uxx3u, p.13)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Elven Weapon Training",
+        "description": "You have proficiency with the longbow, shortbow, and all simple weapons."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+      },
+      {
+        "name": "Keen Senses",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Trance",
+        "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      },
+      {
+        "name": "Windrunner Weapon Training",
+        "description": "You have proficiency with the windrunner bolas, windrunner boomerang, and birding shaft."
+      },
+      {
+        "name": "Kitecraft",
+        "description": "You have proficiency with kites and can use them to cross chasms and other treacherous land, launch from horseback, or descend from precipices. You can also use kites for competitive events, herding livestock, and marking land for grazing and water."
+      }
+    ],
+    "subraces": [],
+    "description": "Elusive, eccentric, and unpredictable, windrunner elves have quietly traversed Midgard's vast central grasslands for millennia. These diminutive nomads roaming the steppes and plains are thought to originally hail from the elven capital of Sephaya, long since abandoned during the Great Retreat.",
+    "_effects": {
+      "Elven Weapon Training": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Longbow",
+          "Shortbow",
+          "Simple weapons"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Fey Ancestry": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [
+          "Charmed",
+          "Sleep"
+        ],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep."
+      },
+      "Keen Senses": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Perception"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Trance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Don't need to sleep; meditate 4 hours for benefits of 8 hours of sleep."
+      },
+      "Windrunner Weapon Training": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Windrunner bolas",
+          "Windrunner boomerang",
+          "Birding shaft"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Kitecraft": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "Kites"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can use kites to cross chasms, launch from horseback, descend precipices, and for competitive events, herding livestock, and marking land."
+      }
+    },
+    "_source_manual": "WF"
+  },
+  {
+    "name": "Winterfolk Halfling",
+    "source": "(Warlock 017 FINAL v2, p.2)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Coldforged Tools",
+        "description": "Winterfolk metalworking is done at low temperatures and most communities have at least one member capable of creating masterful coldforged items. Tools crafted by the winterfolk serve double duty as weapons as well."
+      },
+      {
+        "name": "Tool Weapons",
+        "description": "Many of the tools forged by the winterfolk can be used as weapons by simply substituting the closest approximation. A trowel acts as a dagger, a spade acts as a battleaxe, and a pitchfork acts as a trident, for instance."
+      }
+    ],
+    "subraces": [],
+    "description": "Winterfolk halflings are a reclusive, rugged people who dwell in the northern Rothenian Plains, hiding in small communities of sod-roofed huts. They are superstitious, hardy, and value privacy and community above all.",
+    "_effects": {
+      "Coldforged Tools": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor trait about crafting coldforged items; no direct mechanical effects."
+      },
+      "Tool Weapons": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Allows tools to be used as equivalent weapons (trowel=dagger, spade=battleaxe, pitchfork=trident); no proficiency granted by this trait itself."
+      }
+    },
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Riverfolk Halfling",
+    "source": "(Warlock 017 FINAL v2, p.17)",
+    "asi": {
+      "strength": 1,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Sure-Footed",
+        "description": "You're tough and strong despite your small size, no stranger to hard work, labor, and working muscle against the will of a river. Your Strength score is increased by 1. Additionally, you are adept at maintaining your balance on wet decks; you have advantage on Dexterity (Acrobatics) checks to keep your balance. Slippery surfaces are not considered difficult terrain for you."
+      },
+      {
+        "name": "River's Child",
+        "description": "You have advantage on Strength (Athletics) checks to swim. Additionally, you add twice your Wisdom bonus on your Wisdom (Animal Handling) checks with advantage if the animal is native to rivers or nests in riverbanks. You can sense ley lines that cross or run parallel to a river within 1 mile of you but gain no other benefit to tap into or unlock it."
+      }
+    ],
+    "subraces": [],
+    "description": "Riverfolk are city halflings, usually growing up on docks, fishing boats, and the patchwork barges. Most are more at home on a temperamental river than on solid ground, and riverfolk seldom fear drowning.",
+    "_effects": {
+      "Sure-Footed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Strength score increased by 1. Advantage on Dexterity (Acrobatics) checks to keep balance. Slippery surfaces are not difficult terrain."
+      },
+      "River's Child": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on Strength (Athletics) checks to swim. Adds twice Wisdom bonus on Wisdom (Animal Handling) checks with advantage for river-native animals. Can sense ley lines within 1 mile of a river."
+      }
+    },
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Courtfolk",
+    "source": "(Warlock 017 FINAL v2, p.22)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Fey-Touched Finery",
+        "description": "Courtfolk are as small in size and stature as any halfling. Their long proximity to elves and the Elflands shows in their complexion, usually pale and freckled with light-colored eyes and curly mops of hair. Courtfolk prefer neat, well-tailored clothing (most of which they make themselves) with touches of elven inspiration apparent without ever descending into gaudy imitation. Men typically wear baggy trousers and tight vests and women favor flowing skirts with bodices. Colors are pastel or forest tones and muted, befitting a servant, but never drab. Elven jewelry is common among halflings of any gender as are smoking pipes. Courtfolk women particularly favor pipes of unique design."
+      },
+      {
+        "name": "History of Servitude",
+        "description": "The provenance of the courtfolk—indeed, all halflings—is the subject of speculation, and one the halflings themselves are curiously unconcerned with solving. Some suspicious humans maintain halflings were once human servants, but frequent exposure to the Elflands and the magic there left them stunted and enthralled to the fey. An occasional mage postulates the halflings were wholly created as elven servitors, made up partly of Midgard's substance and given life by fey magic. The courtfolk themselves laugh off such claims. They maintain they are simply halflings, but unlike the reclusive winterfolk and sly riverfolk, they did not break faith with the covenant they forged, by choice, with the great elven lords and ladies of old. The courtfolk are what halflings should be, they claim, and their pitiable offshoot cousins are defined by their loss of purpose. Numerous families of courtfolk once served elven courts from Arbonesse to Valera and every holding in between. They were expert craftsmen, faithful seneschals, discreet handmaids, efficient butlers, reliable messengers, unexpected bodyguards, and talented gardeners such that their elven masters trusted few others with their breathtaking gardens and courtyards. While never ostentatious, halflings whose families served since the earliest days of the elves' arrival bore a certain prestige among their own, respect owed for the lengths of their good service. Most of these families disappeared in the Great Retreat with their lords and ladies, separated from friends and kin. Those remaining behind honored their oaths, lingering in the fading courts and subservient to elfmarked descendants of once-mighty rulers. Time wore on, and a seed of sorrow took root in the courtfolk, though hidden by deference and cheery service. The names of kin gone since the Last Horn are recorded among them from generation to generation and repeated in their private songs and stories."
+      },
+      {
+        "name": "Servants Without Masters",
+        "description": "Courtfolk enjoy long lives, lingering in a pleasant old age for up to 350 years, a century longer than most halflings do. Most have a parent or grandparent who remembers the old courts and passed down their stories, mannerisms, and a keen sense of loss. As such, adapting to newfound freedom in only one or two generations has proven difficult for those who remained after the Last Horn. As observed with some small bitterness, those halflings who abandoned their duties and wandered away, becoming winterfolk and riverfolk elsewhere, seem to have had less trouble. Only the secluded River Court and the Imperatrix's own Royal Court still maintain families of courtfolk servants in significant numbers. Outside of the"
+      }
+    ],
+    "subraces": [],
+    "description": "Courtfolk are a halfling subrace with obvious elven influence, mired as they have been in elven culture for generations. They are at home in elven courts and politics, with a soft and lilting flair to their names and an innate glamour.",
+    "_effects": {
+      "Fey-Touched Finery": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Purely descriptive/flavor trait. No mechanical effects."
+      },
+      "History of Servitude": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Purely descriptive/flavor trait. No mechanical effects."
+      },
+      "Servants Without Masters": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Descriptive trait noting a lifespan of up to 350 years. No direct combat or proficiency mechanics."
+      }
+    },
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Courtfolk Halfling",
+    "source": "(Warlock 017 FINAL v2, p.27)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Age",
+        "description": "Courtfolk are the longest-lived of the halfling subraces, perhaps owing to their close association with elves. Courtfolk are elderly by their second century but enjoy relatively pleasant and unhindered old age well past 300 years."
+      },
+      {
+        "name": "Boon Companion",
+        "description": "You are  quick to step in and help your friends, and you have a knack for knowing exactly how to best do it. When you work with an ally to complete a task or take the Help action in combat, your ally adds a d4 to their check or attack roll (this includes the second roll made with advantage)."
+      },
+      {
+        "name": "Wee Glamour",
+        "description": "You are—ever so slightly—imbued with a bit of elven magic. You move with grace, your laugh is always pleasant, and colors are more vibrant on you. Your Charisma score increases by 1, and you have advantage on saves against spells of the enchantment school."
+      }
+    ],
+    "subraces": [
+      {
+        "name": "Variant Courtfolk: Shadow Servitors",
+        "asi": {
+          "int": 1
+        },
+        "traits": [
+          {
+            "name": "Disquiet",
+            "description": "You still look like your old self, but your mind is changed by the knowledge you’ve accepted—and you’re not sure it’s for the better. Your Intelligence score increases by 1. Additionally, something in your eyes makes people uneasy around you. You have advantage on Charisma (Intimidate) and Charisma (Deception) checks against humanoids."
+          },
+          {
+            "name": "Silent Steps",
+            "description": "You’ve always been adept at evading notice, but now your own shadow seems to muffle the noise you make. You can cast the silence spell once per day centered on yourself, which you can end at any time by speaking. Additionally, you always have advantage on Dexterity (Stealth) checks made to be quiet.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "Those courtfolk who elect to serve shadow fey are usually broken spirits to start with, and over time, the cracks in their souls become filled with something darker."
+      }
+    ],
+    "description": "Courtfolk halflings are a subrace of halflings who have lived in elven courts for generations, developing a graceful and unobtrusive demeanor. They have a soft, lilting flair to their names and a deep connection to elven culture and magic.",
+    "_effects": {
+      "Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor trait only; no mechanical effects."
+      },
+      "Boon Companion": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When you work with an ally to complete a task or take the Help action in combat, your ally adds a d4 to their check or attack roll (including the second roll made with advantage)."
+      },
+      "Wee Glamour": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Charisma score increases by 1. Advantage on saving throws against spells of the enchantment school."
+      }
+    },
+    "_source_manual": "WFV"
   }
 ]

@@ -1,0 +1,821 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Wine of the Court",
+      "type": "Wondrous item (wine)",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "The white glass of this bottle of sweet, dark red wine is made from the sand found along the banks of the Neurabon river. It contains enough for six servings and bears the sigil of Ulorian the First, King of the River Court. A creature who drinks a serving of this wine may speak and understand Aquan for 1 hour. Creatures who drink more than one serving within 24 hours must make a successful DC 12 Constitution saving throw or become incapacitated for 1d4 hours.",
+      "source": "p.13"
+    },
+    {
+      "name": "Wine of the River",
+      "type": "Wondrous item (wine)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Kept in ebon-colored bottles, this sweet, aged wine tastes of citrus and a delicate flower that grows only on at the edge of the Neurabon river. The bottle contains four servings and is embossed with the oar-shaped symbol of Charun. A creature who drinks a serving of this wine may breathe both air and water for 1 hour. Additionally, the imbiber is filled with knowledge about the Arbonesse forest and gains advantage on Intelligence (history) checks about the forest for 1 hour. Creatures who drink more than one serving within 24 hours must make a successful DC 14 Constitution saving throw or become incapacitated for 1d4 hours.",
+      "source": "p.13"
+    },
+    {
+      "name": "Arbonesse Wine",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A creature who drinks a serving of this wine may breathe both air and water for 1 hour. Additionally, the imbiber is filled with knowledge about the Arbonesse forest and gains advantage on Intelligence (history) checks about the forest for 1 hour. Creatures who drink more than one serving within 24 hours must make a successful DC 14 Constitution saving throw or become incapacitated for 1d4 hours.",
+      "source": "Rogue's Gallery p.14"
+    },
+    {
+      "name": "Spell Scroll of Prismatic Spray",
+      "type": "Scroll",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "When the hut's former occupant hastily fled, she left behind a case with a scroll of prismatic spray in a desk.",
+      "source": "TOB"
+    },
+    {
+      "name": "Orichalcum Chains",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Bind the dolia in these orichalcum chains, and it will do your bidding.",
+      "source": "TOB"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Knight of the Deluge",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful neutral",
+      "armor_class": 16,
+      "ac_type": "chainmail",
+      "hit_points": "71 (13d8+13)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 12,
+        "intelligence": 11,
+        "wisdom": 10,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "con": 3
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Aquan",
+        "Elvish"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Blessing of the Neurabon",
+          "description": "The knight gains a swim speed equal to its speed and can breathe air or water whenever it is in the River Neurabon."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The knight makes two glaive attacks."
+        },
+        {
+          "name": "Glaive",
+          "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 8 (1d10 + 3) slashing damage."
+        },
+        {
+          "name": "Surge (Recharges after a Short or Long Rest)",
+          "description": "The knight is carried forward by a magical wave of water. It moves its speed in a straight line toward one target and makes a glaive attack, doing an additional 3 (1d6) force damage for every five feet it moves using this ability. Creatures struck by this attack are knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.12"
+    },
+    {
+      "name": "Extinguisher",
+      "size": "Medium",
+      "type": "humanoid (elf)",
+      "alignment": "lawful neutral",
+      "armor_class": 16,
+      "ac_type": "chainmail",
+      "hit_points": "130 (20d8+40)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 16,
+        "wisdom": 10,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "con": 4
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Aquan",
+        "Elvish"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Blessing of the Neurabon",
+          "description": "The Extinguisher gains a swim speed equal to its speed and can breathe air or water whenever it is in the River Neurabon."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The Extinguisher's spellcasting ability is Intelligence (spell save DC 15). The extinguisher can innately cast the following spells, requiring only verbal components.\nAt will: chill touch, light, ray of frost\n2/day each: fog cloud, thunderwave\n1/day: misty step"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The extinguisher makes three glaive attacks."
+        },
+        {
+          "name": "Glaive",
+          "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 8 (1d10 + 3) slashing damage."
+        },
+        {
+          "name": "Surge (Recharges after a Short or Long Rest)",
+          "description": "The Extinguisher is carried forward by a magical wave of water. It moves its speed in a straight line toward one target and makes a glaive attack, doing an additional 4 (1d8) force damage for every five feet it moves using this ability. Creatures struck by this attack are knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.12-13"
+    },
+    {
+      "name": "Grummlump, the Toll Collector",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "studded leather",
+      "hit_points": "79 (12d8 + 24)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 18,
+        "constitution": 14,
+        "intelligence": 13,
+        "wisdom": 15,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 6,
+        "Intimidation": 6,
+        "Perception": 5,
+        "Persuasion": 6,
+        "Sleight of Hand": 7,
+        "Stealth": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "Grummlump can breathe air and water."
+        },
+        {
+          "name": "Speak with Amphibians",
+          "description": "Grummlump can communicate with amphibious creatures."
+        },
+        {
+          "name": "Lightning Leap",
+          "description": "As a bonus action, Grummlump can move up to his speed. This movement does not provoke opportunity attacks. If he lands next to a creature, Grummlump can make a scimitar attack as part of the bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Grummlump makes two scimitar or shortbow attacks."
+        },
+        {
+          "name": "Scimitar",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Tongue Lash",
+          "description": "Grummlump's tongue lashes out and grabs an object within 20 feet that can be held in two hands, like a weapon, shield, wand, or other similar item. If the object is unattended, he automatically takes possession of it. If it is attended or wielded, the target must succeed on a DC 15 Strength saving throw to retain possession."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rogue's Gallery p.15-16"
+    },
+    {
+      "name": "Zizzbazz, Lady Pesk",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "72 (16d6 + 16)",
+      "speed": "30 ft., fly 50 (hover)",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 18,
+        "constitution": 13,
+        "intelligence": 11,
+        "wisdom": 17,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 6,
+        "Stealth": 7,
+        "Survival": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Cunning",
+          "description": "As a bonus action, Zizzbazz can dash, disengage, or hide on each of her turns in combat."
+        },
+        {
+          "name": "Flyby",
+          "description": "Zizzbazz doesn't provoke an opportunity attack when she flies out of an enemy's reach."
+        },
+        {
+          "name": "Sneak Attack (1/Turn)",
+          "description": "Zizzbazz deals an extra 17 (5d6) damage when she hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of Zizzbazz that isn't incapacitated and Zizzbazz doesn't have disadvantage on the attack roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Shortbow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rogue's Gallery p.16"
+    },
+    {
+      "name": "Uzit, the Crushing Vengeance",
+      "size": "Large",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "133 (14d10 + 60)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 8,
+        "constitution": 20,
+        "intelligence": 8,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 9
+      },
+      "damage_resistances": [
+        "piercing and slashing damage from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "paralyzed",
+        "petrified"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Disguise",
+          "description": "While Uzit remains motionless, she is indistinguishable from a pile of rocks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Uzit makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 7 (2d8 + 5) bludgeoning damage, and the target is grappled. While a target is grappled in this way, it is restrained (DC 17 to escape). Uzit can grapple two Large-sized or smaller targets in this manner but loses one slam attack per grappled creature."
+        },
+        {
+          "name": "Crush",
+          "description": "Melee Weapon Attack: one or two grappled targets. Uzit can crush each target that is has grappled. The target takes 23 (4d8 + 5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Book Name p.17"
+    },
+    {
+      "name": "River/Pond Undine",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "27 (8d6 + 6)",
+      "speed": "20 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Nature": 3,
+        "Perception": 4,
+        "Persuasion": 5,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Aquan",
+        "Sylvan"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "An undine can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) bludgeoning damage."
+        },
+        {
+          "name": "Chill Spray",
+          "description": "The undine sprays a 10-foot cone of frigid water. Each creature in the cone must make a DC 13 Constitution saving throw, taking 7 (2d6) cold damage on a failed save, or half as much on a successful one."
+        },
+        {
+          "name": "Soothing Song",
+          "description": "The undine target one living creature she can see within 30 feet of her. That creature must make a DC 13 Wisdom saving throw or become incapacitated. The creature can attempt a saving throw at the end of each of its turns to remove the effect."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "TOB p.25"
+    },
+    {
+      "name": "Bay/Lake Undine",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "78 (12d8 + 24)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 11,
+        "wisdom": 15,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 6,
+        "Perception": 5,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "cold",
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "petrified",
+        "prone"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Aquan",
+        "Sylvan"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "An undine can breathe air and water."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The undine’s innate spellcasting ability is Intelligence. It can innately cast the following spells, requiring no components.\nAt will: friends, resistance\n3/day each: acid arrow, blur, misty step\n1/day each: hypnotic pattern"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The undine makes two slam attacks or two water plume attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage."
+        },
+        {
+          "name": "Water Plume",
+          "description": "Ranged Weapon Attack: +7 to hit, range 120 ft., one target. Hit: 8 (1d10 + 3) bludgeoning damage. The target must succeed on a DC 15 Strength saving throw or be knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.26-27"
+    },
+    {
+      "name": "Ocean/Sea Undine",
+      "size": "Large",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "136 (16d10 + 48)",
+      "speed": "20 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 14,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 7,
+        "Perception": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "acid",
+        "cold",
+        "fire"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "paralyzed",
+        "petrified",
+        "prone"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Aquan",
+        "Sylvan"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "An undine can breathe air and water."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The undine’s innate spellcasting ability is Intelligence. It can innately cast the following spells, requiring no components.\nAt will: create/destroy water, fog cloud, thunderwave\n3/day each: call lightning, enthrall, shatter\n1/day: cone of cold, conjure elemental, mislead"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The undine makes three slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
+        },
+        {
+          "name": "Acid Geyser (Recharge 5-6)",
+          "description": "The undine sprays a 30-foot cone of corrosive water. Each creature in the cone must make a DC 15 Constitution saving throw, taking 35 (10d6) acid damage on a failed save and being pushed 20 feet. On a successful saving throw, a target takes half damage and is not pushed."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.27"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Enetha Senbloom",
+      "race": "Elf",
+      "class_name": "Cleric",
+      "subclass": "Storm Domain",
+      "level": 8,
+      "alignment": "Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "High Priest of Charun. A tall, pale woman whose robe is made of undulating river plants. The cowl of her robe is made entirely of shaped, black water, which shadows her face and lends a trickling quality to her speech. She spends most of her time in the Spire of Charun where she gives sermons and counsels the court's membership. She travels the Neurabon on a riverboat made from the bones of those enemies of the court who drowned.",
+      "role": "High Priest",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Midgard Worldbook p.9"
+    },
+    {
+      "name": "Gibbers Crane",
+      "race": "Halfling",
+      "class_name": "Scout",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Master of the Pluckers. A severe and hard-working halfling who leads the Pluckers—a union of halfling laborers responsible for harvesting the grapes from the wineries of the River Court. He wears patched overalls and a floppy, wide-brimmed hat decorated with a single crane feather. His hands are permanently stained a dark purple color from a lifetime of plucking the magical grapes.",
+      "role": "Master of the Pluckers",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Midgard Worldbook p.9"
+    },
+    {
+      "name": "Halliath Moro",
+      "race": "Elf",
+      "class_name": "Knight",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Evil",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "sentient glaive named Torrent with the power to control water and summon elemental guardians",
+        "armor made entirely from hardened hydra scales",
+        "helm made from the skull of a particularly large hydra"
+      ],
+      "spellcasting": null,
+      "description": "Marshal of the Knights of the Deluge. The leader of the River Court's small unit of elite king's guards, the Knights of the Deluge. He is rarely more than twenty feet from the king and, thanks to Ulorian's magic, has not slept in over seventy years. Moro is a devastating opponent whose armor is made entirely from hardened hydra scales. His helm is made from the skull of a particularly large hydra that he slew single-handedly when it threatened the spires. He wields a sentient glaive named Torrent with the power to control water and summon elemental guardians.",
+      "role": "Marshal of the Knights of the Deluge",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Midgard Worldbook p.9"
+    },
+    {
+      "name": "Seriathe",
+      "race": "Fey (dau)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The dau has some spellcasting and an extensive knowledge of the intrigues of the River Court but is a stickler for etiquette. The dau will respond only if the PCs are polite. A DC 10 Charisma (Persuasion) check is required."
+        },
+        {
+          "name": "Boon",
+          "description": "You may have of me one boon. If it is in my power, I will grant it."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The dau has some spellcasting and an extensive knowledge of the intrigues of the River Court but is a stickler for etiquette.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "TOB p.21"
+    },
+    {
+      "name": "Sister Amie",
+      "race": "Hag (mirror hag)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Mirror of Life Trapping",
+          "description": "Sister Amie invites visitors to gaze into her mirror. Covered by a drapery, the mirror of life trapping hangs over the fireplace."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "Mirror of Life Trapping"
+      ],
+      "spellcasting": null,
+      "description": "Sister Amie is a mirror hag who sits in a rocking chair clutching a lap blanket and greeting visitors in the main room.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "TOB p.22"
+    },
+    {
+      "name": "Sister Belle",
+      "race": "Hag (green hag)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Bad Attitude",
+          "description": "Sister Belle comes from the upstairs wearing a sleeping gown and possessing a bad attitude."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Sister Belle is a green hag who comes from the upstairs wearing a sleeping gown and possessing a bad attitude.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "TOB p.22"
+    },
+    {
+      "name": "Sister Christine",
+      "race": "Hag (green hag)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Foul Concoction",
+          "description": "Sister Christine comes in from a side door from the kitchen carrying a ladle, insisting visitors taste her foul-smelling concoction."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Sister Christine is a green hag who comes in from a side door from the kitchen carrying a ladle, insisting visitors taste her foul-smelling concoction.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "TOB p.22"
+    },
+    {
+      "name": "Lanie",
+      "race": "Fey (duskthorn dryad)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Command Vine Troll Skeleton",
+          "description": "A duskthorn dryad (TOB), Lanie, can command a vine troll skeleton (TOB) to defend the staff."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "Staff of the Woodlands"
+      ],
+      "spellcasting": null,
+      "description": "Lanie is a duskthorn dryad who can command a vine troll skeleton to defend the staff of the woodlands.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "TOB p.22"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Duskthorn Grove Thorns",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Any movement in this area",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The grove of thorny trees is tightly packed and visible."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Cannot be disarmed; must be avoided or endured."
+      },
+      "effect": "Any movement in this area requires a DC 10 Dexterity save to avoid taking 1d10 piercing damage.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "1d10",
+      "damage_type": "piercing",
+      "area": "The grove of thorny trees",
+      "description": "The grove of thorny trees is tightly packed, any movement in this area requires a DC 10 Dexterity save to avoid taking 1d10 piercing damage.",
+      "source": "TOB p.22"
+    }
+  ],
+  "_chapters_completed": [
+    "Warlock 7: Fey Courts"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "W",
+  "_book_title": "Warlock 007",
+  "_completed": true,
+  "_timestamp": 1790291612.7639272
+}

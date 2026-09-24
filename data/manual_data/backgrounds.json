@@ -1437,5 +1437,81 @@
     "description": "You wandered into the enchanted land of the Elves as a young child, and grew up under their care and tutelage. They delighted in your mortal innocence and wonder, and taught you the ways of the Elves. Now, you have returned to the mortal realm, but you remember with fondness the teachings of your foster-parents. You are a child of the twilight, halfway between the starry night of the Elves and the harsh day of the Edain.",
     "source": "(Mirkwood Campaign)",
     "_source_manual": "MWC"
+  },
+  {
+    "name": "Zymurgist",
+    "skill_proficiencies": [
+      "Nature",
+      "Medicine"
+    ],
+    "tool_proficiencies": [
+      "One type of artisan's tools (alchemist's supplies or brewer's supplies)"
+    ],
+    "languages": [],
+    "equipment": [
+      "A set of artisan's tools (either alchemist's supplies or brewer's supplies)",
+      "an apron",
+      "glass vials and jars filled with bubbling substances",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Local Sourcing",
+      "description": "You have a knack for sourcing food anywhere you go, even if the nature of that food might be distasteful to your fellow party members. You can make something palatable out of almost nothing and can preserve whatever you make for weeks and even months. This makes you a resourceful traveling companion, especially for longer journeys where finding sustenance may prove difficult."
+    },
+    "description": "You are a naturalist who has studied the fermentation process and its effects on organic materials. Yours is a community of druids, alchemists, witches, and various artisans and crafters—though many others regularly seek out your expertise. You appreciate that change is a part of life everywhere in the multiverse. Rather than resent that, you see the beauty and potential to apply these processes to your life, and to your magic.",
+    "source": "(Warlock 022 Druids zkpxhg)",
+    "_source_manual": "WDZ"
+  },
+  {
+    "name": "Silver Mountain Kingdom Scout",
+    "skill_proficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [
+      "Giant"
+    ],
+    "equipment": [
+      "A hunting trap",
+      "a tent",
+      "a tinder box",
+      "a cold weather outfit",
+      "a pouch containing 10 gp"
+    ],
+    "feature": {
+      "name": "Emergency Supply Cache",
+      "description": "While you are traveling in the Silver Mountains, you can find and use small supply caches left by other scouts. Caches are small by necessity with a value that doesn’t exceed 5 gp. A typical cache consists of enough rations for four people for one day, two full waterskins, two torches, plus a dagger, a quiver of 20 arrows, or a case of 20 crossbow bolts. You can find a cache by spending an hour searching. If you search for more than one cache in a seven-day period, the second takes two hours and a successful DC 10 Wisdom (Survival) check to find. The Wisdom (Survival) check DC increases by 5 for each cache sought after the second. For example, if you are searching for a fifth supply cache in a seven-day period, you must search for two hours and make a DC 25 Wisdom (Survival) check. If you use the caches left by other scouts but never leave supplies for others to use, you risk gaining a negative reputation amongst your fellow freedom fighters."
+    },
+    "description": "When the giants of the Northlands sacked the Silver Mountain Kingdom, you were one of the lucky few who escaped into the wider environs of Domovogrod. What you were before the invaders came is inconsequential. Now you spend your time planning and executing strikes against your conquerors. The harsh wilds of the north have melted any softness from your body and spirit, leaving only a hard determination as unforgiving as the mountains themselves.",
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
+  },
+  {
+    "name": "Court Servant",
+    "skill_proficiencies": [
+      "Insight",
+      "Nature"
+    ],
+    "tool_proficiencies": [
+      "One artisan’s tools set of your choice"
+    ],
+    "languages": [
+      "Elven"
+    ],
+    "equipment": [
+      "One artisan’s tools set of your choice",
+      "a unique piece of elven jewelry",
+      "a set of fine clothes",
+      "a handcrafted pipe",
+      "a belt pouch containing 20 gp"
+    ],
+    "feature": {
+      "name": "Servant’s Invisibility",
+      "description": "The art of excellent service requires a balance struck between being always available and yet unobtrusive, and you’ve mastered it. If you do not perform a visible action, speak or be spoken to, or otherwise have attention drawn to you for at least 1 minute, creatures nearby have trouble remembering you are even in the room. Until you speak, perform a visible action, or have someone draw attention to you, creatures must attempt a Wisdom save (DC 8 + your Charisma modifier + your proficiency bonus) to notice you. Otherwise, they will conduct themselves as though you aren’t present until either attention is drawn to you or one of their actions would take them into or adjacent to the square you occupy."
+    },
+    "description": "Courtfolk are a long-lived race, and old habits have been hard to shake. The majority of courtfolk, even independent now, were once servants at some point in their lives. These halflings are experts in complex social dynamics and knowledgeable in elven history and customs.",
+    "source": "(Warlock 017 FINAL v2)",
+    "_source_manual": "WFV"
   }
 ]

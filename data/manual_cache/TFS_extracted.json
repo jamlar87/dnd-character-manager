@@ -76,11 +76,11 @@
     },
     {
       "name": "Night Messenger's Coat",
-      "type": "Wondrous item",
+      "type": "Wondrous Item",
       "rarity": "uncommon",
       "requires_attunement": false,
-      "description": "A coat given to the PCs by Bhorhan as a symbol of their proven themselves as Messengers in spirit.",
-      "source": "Tales from the Shadows p.14"
+      "description": "This ankle-length black woolen coat has a high, flared collar and an elbow-length capelet. It has wide, open sleeves and a row of large, silver buttons down one side. At the front corners of the capelet, embroidery of stylized, shadowy horses in a rearing stance appear in silver thread. While wearing the coat, you gain the following benefits:\nShadow-touched Steed. You can, at will, use the coat to cast the spell find steed to summon a shadow-touched fey mount of your preferred size and type. Summoning this steed takes 1 round, but once you have chosen your mount and its form, the coat always summons this same companion for you. Removing the night messenger's coat causes a mount summoned with it to vanish as though you dismissed it. Summoning mounts via find steed from other sources automatically fail while you wear a night messenger's coat.\nWitchlight Sight. You can see and sense the trails left behind by witchlights.\nShadow Sense. You have advantage on Wisdom (Survival) checks made to navigate or avoid getting lost in the Shadow Realm.\nIncorruptible. You have advantage on all saving throws made to resist shadow corruption.",
+      "source": "Tales from the Shadows p.176"
     },
     {
       "name": "Potion of Vitality",
@@ -108,11 +108,11 @@
     },
     {
       "name": "Chitinous Club of c'Naazo",
-      "type": "Weapon (club)",
-      "rarity": "unknown",
-      "requires_attunement": false,
-      "description": "The segmented tentacle—the Chitinous Club of c'Naazo—can be used as a magical weapon (see appendix) and serves as the only treasure to be found in the lair.",
-      "source": "Tales from the Shadows p.84"
+      "type": "Weapon (maul)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "Once a tentacle of the monstrosity c'Naazo, this massive club made of segmented chitin is suffused with glowing, phosphorescent green magic and emits an unpleasant odor when wielded.\nYou have a +1 bonus to attack and damage rolls made with this magic weapon.\nVenomous Spray. As an action, you point the weapon at your enemies and spray forth a noxious cone of poison. Each creature in a 15-foot cone must make a DC 14 Dexterity saving throw. A creature takes 10 (3d6) poison damage on a failed save, or half as much on a successful one. Once you use this property, you can't use it again until you finish a short or long rest.",
+      "source": "Tales from the Shadows p.175"
     },
     {
       "name": "The Horn of Revels",
@@ -125,10 +125,186 @@
     {
       "name": "Liliana's Rose",
       "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This rose is fashioned of blood-red crystal affixed to a stem crafted of green gold, complete with hammered green-gold leaves and sharp thorns. The rose glows with an inner light that, when held, seems to pulse to the heartbeat of its bearer. A white silk ribbon is tied to the rose's stem, stitched with Elvish runes of gold thread, representing light, life, and revelation.\nWhile you carry it, you can perform the following actions:\nRose of Radiance. The rose gives off light equal to that of a candle. As a bonus action, you can adjust the brightness of its illumination, extinguishing it entirely or increasing it so that it equals the brightness of a hooded lantern.\nNot Yet My Love. As an action, you can, at will, touch a creature with the rose and cast spare the dying.\nShared Suffering. As a bonus action, you can prick your finger on one of the thorns of the rose, allowing it to feed on your blood and causing you 7 2d6 points of damage. If you then touch the rose to a creature, you can, as an action, heal it for 2d6 points or provide those points to the creature as temporary hit points. If used in the latter fashion, you cannot heal the damage done to you by the rose until those temporary hit points have been expended. Once you use this property, you can't use it again until you finish a long rest.\nInspiration of the Muse. As an action, you can use the rose to provide one creature with inspiration. Once you use this property, you can't use it again until you finish a long rest. If the creature does not expend the awarded inspiration by the time you next finish a long rest, the inspiration expires.",
+      "source": "Tales from the Shadows p.175"
+    },
+    {
+      "name": "+1 dagger",
+      "type": "Weapon (dagger)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "You have a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "source": "Tales from the Shadows p.102"
+    },
+    {
+      "name": "Scroll of Darkvision",
+      "type": "Scroll",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A scroll of darkvision.",
+      "source": "Tales from the Shadows p.123"
+    },
+    {
+      "name": "Figurine of Wondrous Power (Silver Raven)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A figurine of wondrous power (silver raven).",
+      "source": "Tales from the Shadows p.123"
+    },
+    {
+      "name": "Umbril Opal Necklace",
+      "type": "Wondrous Item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This stunning necklace is crafted from finely wrought silver and sparkling black opals. When attuned to this necklace, your Charisma score increases by 2. Additionally, you have advantage on saving throws against being charmed.",
+      "source": "Tales from the Shadows p.179"
+    },
+    {
+      "name": "Shroud of Kairious",
+      "type": "Wondrous Item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "The top of this brass censer has silhouettes of hourglasses and the sun punched through its surface. When issued its command word, the censer begins to emit a hazy, jasmine-scented shroud of vapor in a 15-foot radius centered on it for 2 hours. The vapor shroud does not affect your vision or the vision or visibility of the creatures inside of it. Creatures standing inside the vapor shroud are immune to Oshragora's temporal distortions and magic spells and effects that alter time, such as slow, haste, or time stop. Once per day, while the censer is emitting vapor, you can use the command word to jump backwards in time 1 hour, losing any progress or ill effects gained during the erased hour. Once you have used this function, the censer ceases emitting vapor. Once the censer has been used, it cannot be used again until noon the next day.",
+      "source": "Tales from the Shadows p.179"
+    },
+    {
+      "name": "Figurine of Wondrous Power (Bronze Griffon)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "A bronze griffon figurine of wondrous power, mixed among the figures in area 5 (Menagerie).",
+      "source": "Tales from the Shadows p.142"
+    },
+    {
+      "name": "Flame Tongue Longsword",
+      "type": "Weapon (longsword)",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "A red-hued flame tongue longsword clutched in the skeleton's hands.",
+      "source": "Tales from the Shadows p.152"
+    },
+    {
+      "name": "Scroll of Protection from Evil and Good",
+      "type": "Scroll",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "A scroll of protection from evil and good found in an alter box containing four flasks of holy water.",
+      "source": "Tales from the Shadows p.152"
+    },
+    {
+      "name": "Blue Watering Can",
+      "type": "Wondrous item",
       "rarity": "unknown",
       "requires_attunement": false,
-      "description": "An exquisitely beautiful crystal rose. Engraved on the lid of the polished wooden box containing it is an inscription: To my silver-tongued love, from your muse.",
-      "source": "Tales from the Shadows p.93"
+      "description": "The blue watering can ceases to spout water if removed from its hook, and it has the properties of a decanter of endless water. It is one of the seven items needed to open the secret passageway in the Drawing Room (area 14).",
+      "source": "Radiance Lost p.156"
+    },
+    {
+      "name": "Red Notebook",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The red notebook is filled with sheet music of long-lost ballads and original compositions. It is one of the seven items needed to open the secret passageway in the Drawing Room (area 14).",
+      "source": "Radiance Lost p.156"
+    },
+    {
+      "name": "Green Spyglass",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The green spyglass loses its magic qualities when removed from the room, but it is worth 1,200 gp. It is one of the seven items needed to open the secret passageway in the Drawing Room (area 14).",
+      "source": "Radiance Lost p.156"
+    },
+    {
+      "name": "+1 longsword",
+      "type": "Weapon (longsword)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "The indigo blade is a +1 longsword and is one of the seven items needed to open the secret passageway in the Drawing Room (area 14).",
+      "source": "Radiance Lost p.158"
+    },
+    {
+      "name": "Combined Mirror Shards",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "If all five mirror shards are held together so they are stacked front to back, front to back, they have the following powers:\n• Wielder can cast sacred flame three times per day as if by an 11th-level caster\n• Instead of the above, the wielder can opt to cast a single robust sacred flame spell once per day. This causes maximum (24) damage, and any target creature with vulnerability to radiant damage rolls its saving throw with disadvantage\nAnyone can use the five mirror shards in this way, even non-spellcasters.\nAlthough the shards' edges are certainly sharp, reasonably careful PCs should be in no danger of cutting themselves when using the shards in this way. A clever PC might even bind the five shards together with strong cord, wire, or rope to keep them together and make it easier to use them.",
+      "source": "Shadows of the Dusk Queen p.167"
+    },
+    {
+      "name": "+1 Leather Armor",
+      "type": "Armor (light)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You have a +1 bonus to AC while wearing this armor.",
+      "source": "Shadows of the Dusk Queen p.169"
+    },
+    {
+      "name": "+1 Ring of Protection",
+      "type": "Ring",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to AC and saving throws while wearing this ring.",
+      "source": "Shadows of the Dusk Queen p.169"
+    },
+    {
+      "name": "Ring of Resistance (Cold)",
+      "type": "Ring",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "You have resistance to one type of damage while you wear this ring. The GM chooses the type or determines it randomly from the options below. The ring grants resistance to cold damage.",
+      "source": "Shadows of the Dusk Queen p.169"
+    },
+    {
+      "name": "Mirror Shard",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Anyone can use the five mirror shards in this way, even non-spellcasters. Although the shards' edges are certainly sharp, reasonably careful PCs should be in no danger of cutting themselves when using the shards in this way. A clever PC might even bind the five shards together with strong cord, wire, or rope to keep them together and make it easier to use them.",
+      "source": "Shadows of the Dusk Queen p.168"
+    },
+    {
+      "name": "Alchemist's Fire (flask)",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This sticky, adhesive fluid ignites when exposed to air. As an action, you can throw this flask up to 20 feet, shattering it on impact. Make a ranged attack against a creature or object, treating the alchemist's fire as an improvised weapon. On a hit, the target takes 1d4 fire damage at the start of each of its turns. A creature can end this damage by using its action to make a DC 10 Dexterity check to extinguish the flames.",
+      "source": "Adventure text (area 13)"
+    },
+    {
+      "name": "Goblin Chisel",
+      "type": "Wondrous Item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Used in the construction of a small goblin community in the Paletree Rise, this chisel is made of hardened grick beak. While using the goblin chisel, your proficiency bonus is doubled for any ability check you make that uses your proficiency with Mason's tools or Woodcarver's tools.",
+      "source": "Tales from the Shadows p.175"
+    },
+    {
+      "name": "The Luminous Codex",
+      "type": "Wondrous Item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "The Luminous Codex is a spellbook that contains all the spells that an archmage has, plus the following: fireball, sunbeam, sunburst, plane shift, demiplane, and imprisonment.\nWhile you are attuned to it, you gain the following benefits:\nRadiant Illumination. You know the light cantrip, and you can cast the daylight spell at will.\nRadiant Blast. You can change the damage type of any spell you cast to radiant damage. Once you use this property, you can't use it again until you finish a short or long rest.\nRadiant Resilience. You are immune to radiant damage, and you disregard any penalties you would normally suffer from being in sunlight.",
+      "source": "Tales from the Shadows p.175"
+    },
+    {
+      "name": "Painted Stones",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "The painted stones are magical and emanate different auras of magic, depending on the color. If the stones are taken from the Whispering Plains, they instantly lose their magical properties. Returning a stone to the Plains does not bring back its magic.\nOnly one stone can affect a creature at a time. Each stones has one charge. With a bonus action, a creature holding one of the stones can expend its single charge, activating the corresponding effect below:\nColor | Emanation | Effect\nPuce | Evocation | For 1 minute, your weapon attacks deal additional fire damage equal to twice your proficiency bonus.\nIndigo | Illusion | For 1 minute, you become invisible (no concentration required); the effect ends if you attack or cast a spell.\nViolet | Enchantment | For 1 minute, you and one willing creature you can see within 30 feet become immune to the frightened and charmed conditions.\nSlate | Divination | For 1 minute, all attacks against you are made with disadvantage.\nMustard | Transmutation | For 1 hour, you gain the benefits of the enhance ability spell, choosing two of the spell's effects instead of one (no concentration required).\nJuniper | Abjuration | A magical shield that has a number of hit points equal to five times your proficiency bonus surrounds you. When you have the shield active and take damage, the shield's hit points are lost first, and any leftover damage carries over to your normal hit points. The shield lasts for 1 minute, or until the shield's hit points are reduced to 0.\nUmber | Conjuration | For 1 minute, you can use your reaction to fling a magical spike at a target you can see within 60 feet. The spike automatically hits its target, causing and amount of force damage equal to your proficiency bonus.\nBone | Necromancy | For 1 minute, each time you damage a creature with a weapon or spell attack, you regain an amount of hit points equal to your proficiency bonus.",
+      "source": "Tales from the Shadows p.176"
+    },
+    {
+      "name": "Shadow Grimoire",
+      "type": "Wondrous item",
+      "rarity": "fabled (5th-level and higher properties require attunement)",
+      "requires_attunement": true,
+      "description": "This thick tome is covered in inky black nightmare hide and bound with iron overlaid with silver. Delicate silver runes are inlaid in a circular pattern across the cover. The pages within are written in silver ink on jet-black paper. The book is extremely well-crafted, durable, and waterproof and measures just over 12 inches tall, 9 inches wide and 1 inch thick.\n\nWhile the grimoire is on your person, you have advantage on all skill checks pertaining to shadow or darkness magic, geography, history, and denizens of the Shadow Realm.\n\nSentience. The Shadow Grimoire is a sentient neutral spellbook with an Intelligence of 15, a Wisdom of 15, and a Charisma of 14. It has an Armor Class of 15 and 20 hit points. It regains 1d8 + 4 hit points each evening at dusk. It has hearing and normal vision out to a range of 30 feet and darkvision out to a range of 60 feet.\n\nThe book can speak, read, and understand Common and Umbral and can communicate with its owner telepathically out to a range of 60 feet.\n\nPersonality. The Shadow Grimoire is intelligent, haughty, and extremely proud of its abilities and its unique nature. Once it decides to reveal its sentience and awareness, it expects to be treated in every way like a highly regarded equal. If the grimoire is confident its owner shares its outlook and goals, it reveals its abilities and complies with most requests.\n\nIt is often mysterious, cryptic, and prone to falling silent for long periods of time without cause or explanation. If it feels it is being mistreated or not shown the proper level of respect, the grimoire snaps itself shut and refuses to open or use any of its abilities until the situation changes to its satisfaction.\n\nThe grimoire has little interest in good or evil, law or chaos. Its primary interests lie in magic, specifically shadow and darkness magic or anything pertaining to the Shadow Realm. The grimoire is single-minded in its desire to learn all it can about shadow magic, and it expects its owner to share this desire. It insists that its owner prepare at least a few of the spells contained within its pages every day (the more, the better, of course). If the owner refuses, the grimoire may (at the GM's discretion) demand to be given to someone more worthy of it, make it impossible for its owner to attune to it, suppress one or more of its properties, or attempt to take control of its owner.\n\nIf the Shadow Grimoire attempts to take control of its owner, the owner must make a Charisma saving throw with a DC equal to 12 + the grimoire's Charisma modifier. On a failed save, the owner is charmed by the grimoire for 1d12 hours. While charmed, the owner must try to follow the grimoire's commands. Whether the attempt to control its owner succeeds or fails, the Shadow Grimoire can't use this power again until the next dusk.\n\nBookish. As an action, the Shadow Grimoire can open and close itself and flip instantly to any page it desires, including the current scroll page (see below). A DC 25 Strength check is required to close it, pry it open, or tear out a page against its will.\n\nShadow Jump (3/Day). The Shadow Grimoire can move from one shadow into another. As a bonus action, when the grimoire is in dim light or darkness, it can teleport up to 60 feet to an unoccupied space it can see that is also in dim light or darkness.\n\nSunlight Vulnerability. The Shadow Grimoire must always remain cloaked in shadow or the darkness of night. The grimoire is damaged if exposed to direct sunlight (not merely a daylight spell). For every minute the Shadow Grimoire is exposed to sunlight, it takes 1d8 radiant damage. If this damage exceeds the book's total hit points, the Shadow Grimoire bursts into gray flame and is forever destroyed.\n\nWarded. The Shadow Grimoire is protected by a glyph of warding. The glyph can be triggered by the grimoire if it feels threatened. The glyph causes explosive runes to erupt in a 20-foot-radius sphere of crackling, shadowy energy. Each creature in the area must make a DC 13 Dexterity saving throw. A creature takes 5d8 cold damage on a failed save, or half as much damage on a successful one.",
+      "source": "Tales from the Shadows p.177"
     }
   ],
   "equipment": [
@@ -163,6 +339,96 @@
       "damage": "",
       "properties": [],
       "cost": "",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Dragonchess Set",
+      "type": "Gaming set",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Serpent Venom (dose)",
+      "type": "Adventuring Gear",
+      "subtype": "Poison",
+      "damage": "",
+      "properties": [],
+      "cost": "200 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Pearl",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Jar of Lead-Based Ink",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "10 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Gold Dust",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "100 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Ruby",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Platinum Ring",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "50 gp",
+      "weight": 0,
+      "source": "TFS"
+    },
+    {
+      "name": "Flask of Holy Water",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 1,
+      "source": "TFS"
+    },
+    {
+      "name": "Diamond Dust",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "500 gp",
       "weight": 0,
       "source": "TFS"
     }
@@ -270,27 +536,1425 @@
       "reactions": [],
       "legendary_actions": [],
       "source": "The Night Messengers p.11"
+    },
+    {
+      "name": "Black Stirge",
+      "size": "Tiny",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "2 (1d4)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 16,
+        "constitution": 11,
+        "intelligence": 2,
+        "wisdom": 8,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 9",
+      "languages": [],
+      "challenge_rating": "1/8",
+      "xp": 25,
+      "features": [
+        {
+          "name": "Shadow Blend",
+          "description": "While not in sunlight, the black stirge can become invisible as a bonus action. It can end this effect as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Strength Drain",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 5 (1d4 + 3) piercing damage, and the stirge attaches to the target. While attached, the stirge doesn't attack. Instead, the target's Strength score is reduced by 1d4. The target dies if this reduces its Strength to 0. Otherwise, the reduction lasts until the target finishes a short or long rest. The stirge can detach itself by spending 5 feet of its movement. It does so after it drains 4 points of Strength from the target, or the target dies. A creature, including the target, can use its action to detach the stirge. This replaces the stirge's Blood Drain action."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.165"
+    },
+    {
+      "name": "Will-o'-Wisp (Injured)",
+      "size": "Tiny",
+      "type": "undead",
+      "alignment": "chaotic evil",
+      "armor_class": 19,
+      "ac_type": "natural armor",
+      "hit_points": "11",
+      "speed": "0 ft., fly 50 ft. (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 28,
+        "constitution": 10,
+        "intelligence": 13,
+        "wisdom": 14,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "acid",
+        "cold",
+        "fire",
+        "necrotic",
+        "thunder",
+        "bludgeoning",
+        "piercing",
+        "slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "lightning",
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 12",
+      "languages": [
+        "the languages it knew in life"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Consume Life",
+          "description": "As a bonus action, the will-o'-wisp can target one creature it can see within 5 feet of it that has 0 hit points and is still alive. The target must succeed on a DC 10 Constitution saving throw against this magic or die. If the target dies, the will-o'-wisp regains 10 (3d6) hit points."
+        },
+        {
+          "name": "Ephemeral",
+          "description": "The will-o'-wisp can't wear or carry anything."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The will-o'-wisp can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Variable Illumination",
+          "description": "The will-o'-wisp sheds bright light in a 5- to 20-foot radius and dim light for an additional number of feet equal to the chosen radius. The will-o'-wisp can alter the radius as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shock",
+          "description": "Melee Spell Attack: +4 to hit, reach 5 ft., one creature. Hit: 9 (2d8) lightning damage."
+        },
+        {
+          "name": "Invisibility",
+          "description": "The will-o'-wisp and its light magically become invisible until it attacks or uses its Consume Life, or until its concentration ends (as if concentrating on a spell)."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Night Messengers p.11"
+    },
+    {
+      "name": "Aquatic Roper",
+      "size": "Large",
+      "type": "monstrosity",
+      "alignment": "neutral evil",
+      "armor_class": 20,
+      "ac_type": "natural armor",
+      "hit_points": "93 (11d10+33)",
+      "speed": "10 ft., swim 10 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 8,
+        "constitution": 17,
+        "intelligence": 7,
+        "wisdom": 16,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 6,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Aquatic",
+          "description": "The roper can breathe underwater and has a swim speed of 10 feet."
+        },
+        {
+          "name": "False Appearance",
+          "description": "While the roper remains motionless, it is indistinguishable from a normal cave formation, such as a stalagmite."
+        },
+        {
+          "name": "Grasping Tendrils",
+          "description": "The roper can have up to six tendrils at a time. Each tendril can be attacked (AC 20; 10 hit points; immunity to poison and psychic damage). Destroying a tendril deals no damage to the roper, which can extrude a replacement tendril on its next turn. A tendril can also be broken if a creature takes an action and succeeds on a DC 15 Strength check against it."
+        },
+        {
+          "name": "Spider Climb",
+          "description": "The roper can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The roper makes four attacks with its tendrils, uses Reel, and makes one attack with its bite."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 22 (4d8+4) piercing damage."
+        },
+        {
+          "name": "Tendril",
+          "description": "Melee Weapon Attack: +7 to hit, reach 50 ft., one creature. Hit: The target is grappled (escape DC 15). Until the grapple ends, the target is restrained and has disadvantage on Strength checks and Strength saving throws, and the roper can't use the same tendril on another target."
+        },
+        {
+          "name": "Reel",
+          "description": "The roper pulls each creature grappled by it up to 25 feet straight toward it."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Radiance Lost p.153"
+    },
+    {
+      "name": "Aazael, The Dread Knight",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "Chaotic Evil",
+      "armor_class": 20,
+      "ac_type": "+1 plate, +1 ring of protection",
+      "hit_points": "85 (9d8 + 45)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 11,
+        "constitution": 20,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Abyssal",
+        "Common"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "Aazael has +1 plate, a +1 ring of protection, and a +1 glaive."
+        },
+        {
+          "name": "Dread Knight Weapons",
+          "description": "Aazael's weapon attacks are magical. When he hits with any weapon, the weapon deals an extra 3d6 necrotic damage (included in the attack)."
+        },
+        {
+          "name": "Fear Aura",
+          "description": "Any creature hostile to Aazael that starts its turn within 20 feet of the dread knight must make a DC 15 Wisdom saving throw, unless Aazael is incapacitated. On a failed save, the creature is frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to Aazael's fear aura for the next 24 hours."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "Aazael has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Rejuvenation",
+          "description": "One day after Aazael is destroyed, his armor begins to rebuild the undead body trapped within. This process takes 1d10 days—if the body is destroyed before that time passes, the armor merely starts the process anew. After this time has elapsed, Aazael regains all his hit points and becomes active again (see sidebar for more information)."
+        },
+        {
+          "name": "Undead Nature",
+          "description": "Aazael doesn't require air, food, drink, or sleep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Aazael makes two melee attacks."
+        },
+        {
+          "name": "+1 Glaive",
+          "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 11 (1d10 + 6) slashing damage plus 10 (3d6) necrotic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.180"
+    },
+    {
+      "name": "Briar Troll",
+      "size": "Large",
+      "type": "giant",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "105 (10d10 + 50)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 20,
+        "intelligence": 7,
+        "wisdom": 11,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Brambleskin",
+          "description": "A creature that hits the troll with a melee attack while within 5 feet of the troll or ends its turn within 5 feet of the troll takes 9 (2d8) piercing damage from the thorny brambles that cover its skin."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "The troll has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Regeneration",
+          "description": "The troll regains 10 hit points at the start of its turn. If the troll takes acid or fire damage, this trait doesn't function at the start of the troll's next turn. The troll dies only if it starts its turn with 0 hit points and doesn't regenerate."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The briar troll makes one Bite attack and two Claw attacks."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) slashing damage, and if the target is a creature it is grappled (escape DC 16). Until this grapple ends, the target is restrained, and the troll can't bite another target."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage."
+        },
+        {
+          "name": "Briar Blast (Recharge 6)",
+          "description": "Vicious thorns shoot out of the troll's skin. Each creature within 15 feet of the troll must make a DC 16 Constitution saving throw. On a failed save, a creature takes 19 (3d12) piercing damage and is stunned until the end of its next turn. On a successful save, the creature takes half as much damage and isn't stunned. The area becomes difficult terrain (which the troll ignores) for 1 minute, or until the troll uses this action again."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.181-182"
+    },
+    {
+      "name": "Annominc",
+      "size": "Medium",
+      "type": "fiend",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "45 (10d8)",
+      "speed": "50 ft., climb 40 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 19,
+        "constitution": 10,
+        "intelligence": 8,
+        "wisdom": 14,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 6
+      },
+      "damage_resistances": [
+        "cold",
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Keen Smell",
+          "description": "Annominc has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Pounce",
+          "description": "If Annominc moves at least 20 feet straight toward a creature and then hits it with a claw attack on the same turn, that target must succeed on a DC 12 Strength saving throw or be knocked prone. If the target is prone, Annominc can make one bite attack against it as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage plus 4 (1d8) necrotic damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) slashing damage plus 3 (1d6) necrotic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.181"
+    },
+    {
+      "name": "c'Naazo",
+      "size": "Large",
+      "type": "aberration",
+      "alignment": "chaotic evil",
+      "armor_class": 20,
+      "ac_type": "natural armor",
+      "hit_points": "120 (16d10 + 32)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 12
+      },
+      "saving_throws": {
+        "Str": 6,
+        "Con": 5
+      },
+      "skills": {
+        "Athletics": 6,
+        "Intimidation": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": [
+        "Void Speech"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Rage of c'Naazo",
+          "description": "C'Naazo has advantage on melee attack rolls against any creature that doesn't have all its hit points."
+        },
+        {
+          "name": "Centipede Singer",
+          "description": "At the beginning of each of its turns, c'Naazo summons 1d4 giant centipedes to aid it in combat. The centipedes appear in unoccupied spaces within 20 feet of c'Naazo."
+        },
+        {
+          "name": "Venom's Succor",
+          "description": "Whenever c'Naazo is subjected to poison damage, it takes no damage and instead regains a number of hit points equal to the poison damage dealt."
+        },
+        {
+          "name": "Cracked Shell",
+          "description": "The first time c'Naazo takes 10 or more bludgeoning damage at once from any source, its armor class is reduced to 16 until it completes a long rest."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "C'Naazo makes three Segmented Tentacle attacks."
+        },
+        {
+          "name": "Segmented Tentacle",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 3) slashing damage, and the target must succeed on a DC 15 Constitution saving throw or be poisoned until the end of its next turn."
+        },
+        {
+          "name": "Poison Spray (Recharge 6)",
+          "description": "C'Naazo sprays poisonous mist in a 15-ft. cone in front of it. Creatures caught within the spray must succeed on a DC 15 Constitution saving throw, taking 21 (6d6) poison damage on a failed save or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.182"
+    },
+    {
+      "name": "The Dusk Queen",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "with mage armor",
+      "hit_points": "88 (16d8 + 16)",
+      "speed": "40 ft., fly 40 ft. (with winged boots)",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 20,
+        "wisdom": 20,
+        "charisma": 21
+      },
+      "saving_throws": {
+        "Dex": 6,
+        "Con": 4,
+        "Cha": 8
+      },
+      "skills": {
+        "Perception": 8,
+        "Stealth": 6
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing damage from nonmagical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "exhaustion"
+      ],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 18",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Giant",
+        "Sylvan"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Special Equipment",
+          "description": "The Dusk Queen has spell scrolls of: dominate person, globe of invulnerability, protection from energy (×2), see invisibility, slow, and true seeing. She also wears a handy haversack, a ring of feather falling, and winged boots."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "The Dusk Queen has advantage on saving throws against being charmed, and magic can't put her to sleep."
+        },
+        {
+          "name": "Shadow Dweller",
+          "description": "Magical darkness doesn't impede the Dusk Queen's darkvision."
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, the Dusk Queen has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "The Dusk Queen has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Dusk Queen makes three Shadow Bolt attacks. She can replace one attack with a use of Spellcasting."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        },
+        {
+          "name": "Shadow Bolt",
+          "description": "Ranged Spell Attack: +8 to hit, range 120 ft., one target. Hit: 7 (2d6) necrotic damage plus 7 (2d6) cold damage."
+        },
+        {
+          "name": "Call the Shadows (Recharge 5–6)",
+          "description": "The Dusk Queen magically causes shadows to pour out of a point she can"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.182"
+    },
+    {
+      "name": "Erestee Loff",
+      "size": "Small",
+      "type": "humanoid (goblinoid)",
+      "alignment": "Neutral Evil",
+      "armor_class": 15,
+      "ac_type": "studded leather",
+      "hit_points": "49 (9d6 + 18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 17,
+        "constitution": 14,
+        "intelligence": 16,
+        "wisdom": 11,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "dex": 5,
+        "int": 5
+      },
+      "skills": {
+        "Acrobatics": 5,
+        "Deception": 2,
+        "Perception": 4,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "poison"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Goblin",
+        "Umbral",
+        "Thieves’ Cant"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Assassinate",
+          "description": "During her first turn, Erestee has advantage on attack rolls against any creature that hasn’t taken a turn. Any hit Erestee scores against a surprised creature is a critical hit."
+        },
+        {
+          "name": "Sneak Attack",
+          "description": "Once per turn, Erestee deals an extra 7 (2d6) damage when she hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of Erestee that isn’t incapacitated and Erestee doesn’t have disadvantage on the attack roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage, and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
+        },
+        {
+          "name": "Light Crossbow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft., one target. Hit: 7 (1d8 + 3) piercing damage, and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.183"
+    },
+    {
+      "name": "Gothrolg",
+      "size": "Medium",
+      "type": "humanoid (goblinoid)",
+      "alignment": "Chaotic Evil",
+      "armor_class": 15,
+      "ac_type": "studded leather",
+      "hit_points": "90 (12d8 + 36)",
+      "speed": "30 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 17,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 3,
+        "Stealth": 6,
+        "Survival": 4
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 10 ft., darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Draconic",
+        "Goblin"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Brute",
+          "description": "A melee weapon deals one extra die of its damage when Gothrolg hits with it (included in the attack)."
+        },
+        {
+          "name": "Indominable Heart",
+          "description": "Gothrolg has advantage on saving throws against being charmed, frightened, paralyzed, poisoned, stunned, or put to sleep."
+        },
+        {
+          "name": "Surprise Attack",
+          "description": "If Gothrolg surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Gothrolg makes three melee attacks."
+        },
+        {
+          "name": "Morningstar",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage."
+        },
+        {
+          "name": "Javelin",
+          "description": "Melee or Ranged Weapon Attack: +7 to hit, reach 5 ft. or range 30/120 ft., one target. Hit: 11 (2d6 + 4) piercing damage, or 7 (1d6 + 4) piercing damage if used to make a ranged attack."
+        },
+        {
+          "name": "Necrotic Breath (Recharge 5–6)",
+          "description": "Gothrolg exhales a burst of withering energy in a 15-foot cone. Each creature in that area must make a DC 15 Dexterity saving throw, taking 21 (6d6) necrotic damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.184"
+    },
+    {
+      "name": "Gruesome Plushy Swarm",
+      "size": "Large",
+      "type": "swarm of Tiny constructs",
+      "alignment": "Unaligned",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "67 (9d8 + 27)",
+      "speed": "40 ft., climb 20 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 16,
+        "intelligence": 3,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "lightning",
+        "poison",
+        "bludgeoning",
+        "piercing",
+        "slashing from nonmagical attacks not made with adamantine weapons"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "stunned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "understands the languages of its creator but can’t speak"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Incessant Babble",
+          "description": "At the start of its turn, the plushies in the swarm spout inane statements—in extremely saccharine tones—such as “You’re my best friend!” “I love you!” “Hugs are my favorite!” “It’s time for some fun!” and “Let’s play!” The incessant babble has no effect on Fey, Constructs, or Undead. Each other creature within 60 feet of the swarm that can hear it must make a DC 13 Wisdom saving throw. On a failure, a creature takes 10 (3d6) psychic damage and becomes frightened of the swarm for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature’s saving throw is successful or the effect ends for it, the target is immune to the swarm’s incessant babble for the next 24 hours."
+        },
+        {
+          "name": "Immutable Form",
+          "description": "The plushy swarm is immune to any spell or effect that would alter its form."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The plushy swarm has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The plushy swarm’s flensing knives attacks are magical."
+        },
+        {
+          "name": "Swarm",
+          "description": "The swarm can occupy another creature’s space and vice versa, and it can move through any opening large enough for a Tiny plushy. The swarm can’t regain hp or gain temporary hp."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Flensing Knives",
+          "description": "Melee Weapon Attack: +5 to hit, reach 0 ft., one creature in the swarm’s space. Hit: 21 (6d6) slashing damage, or 10 (3d6) slashing damage if the swarm has half of its hit points or fewer."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.184"
+    },
+    {
+      "name": "Nymph",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "60 (8d8 + 24)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 18,
+        "constitution": 17,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 20
+      },
+      "saving_throws": {
+        "dex": 6,
+        "cha": 7
+      },
+      "skills": {
+        "Perception": 4,
+        "Stealth": 6
+      },
+      "damage_resistances": [
+        "cold",
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The nymph can breathe air and water."
+        },
+        {
+          "name": "Blinding Beauty",
+          "description": "When a creature that can see the nymph starts its turn within 30 feet of the nymph, the nymph can force it to make a DC 15 Constitution saving throw if the nymph isn't incapacitated and can see the creature. If the saving throw fails by 5 or more, the creature is permanently blinded. Otherwise, a creature that fails its save is blinded for 1 minute. A blinded creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the nymph until the start of its next turn, when it can avert its eyes again. If the creature looks at the nymph in the meantime, it must immediately make the save."
+        },
+        {
+          "name": "Water Spirit",
+          "description": "While the nymph is in contact with or submerged in a body of water, she ignores difficult terrain, and magical effects can't reduce her speed or cause her to be restrained. She can spend 5 feet of movement to escape from nonmagical restraints or being grappled."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The nymph uses Nymph's Gaze. She then makes two Dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d4 + 4) piercing damage."
+        },
+        {
+          "name": "Nymph's Gaze",
+          "description": "The nymph directs her gaze at one creature she can see within 30 feet of her, targeting the creature with one of the following effects: Concerned Look. The target regains 10 (3d6) hit points. Once a creature has regained 20 hit points from this stare, it can't regain more hit points from this nymph's Concerned Gaze until it finishes a long rest. Glare of Nature's Fury. The target must make a DC 15 Dexterity saving throw, taking 14 (4d6) lightning damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.185"
+    },
+    {
+      "name": "Jack Of Strings",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "90 (12d8 + 36)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 19,
+        "constitution": 17,
+        "intelligence": 15,
+        "wisdom": 14,
+        "charisma": 20
+      },
+      "saving_throws": {
+        "dex": 7
+      },
+      "skills": {
+        "Acrobatics": 10,
+        "Performance": 8,
+        "Sleight of Hand": 7
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks not made with cold iron weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Common",
+        "Sylvan",
+        "Umbral"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Magic Resistance",
+          "description": "The jack of strings has advantage on saving throws against spells and other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The jack of strings makes two Mocking Slap attacks."
+        },
+        {
+          "name": "Mocking Slap",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) bludgeoning damage plus 3 (1d6) psychic damage."
+        },
+        {
+          "name": "Animate Puppet",
+          "description": "The jack of strings animates up to three wooden puppets it can see within 60 feet of it. This works like the animate objects spell, except the wooden puppet uses the statistics of a Small object, regardless of the puppet's actual size. The jack can have no more than five puppets animated at one time."
+        },
+        {
+          "name": "Puppet Link",
+          "description": "One humanoid or beast the jack of strings can see within 60 feet of it must succeed on a DC 15 Wisdom saving throw or become magically linked to the jack's marionette. This link appears as a barely perceptible string between the jack's marionette and the target. A linked creature can repeat the saving throw at the end of each of its turns, ending the link on a success. While a target is linked, the jack of strings can use its reaction at the start of the target's turn to control the linked target. The jack of strings can make the target move, manipulate objects, attack, or take other purely physical actions. The jack can't make the target cast spells. While controlled, the target moves awkwardly and has disadvantage on attack rolls and ability checks. If the target receives a suicidal command from the jack of strings, it can repeat the saving throw, ending the effect on a success. The jack of strings can have only one target linked at a time. If it links another, the effect on the previous target ends. If a creature dies while linked to the jack's marionette, the creature's body becomes a wooden puppet that resembles the creature."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.185"
+    },
+    {
+      "name": "The Painted King",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "Chaotic Evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "91 (14d8 + 28)",
+      "speed": "0 ft., fly 40 ft. (hover)",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "wis": 6
+      },
+      "skills": {
+        "Insight": 6,
+        "Perception": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Ankeshelian",
+        "Common"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Stone Seeker",
+          "description": "The painted king focuses its attacks on any creature carrying one of the painted stones from the Paletree Rise. The king's goal is to collect the stones, and should they be turned over to it, it gathers them and flees."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The painted king can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Limited Telepathy",
+          "description": "The painted king can speak telepathically with any creature within 60 feet of it that carries a painted stone."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The painted king makes three Claw attacks or Paint Splash attacks."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) slashing damage, and the target must succeed on a DC 14 Constitution saving throw or take 7 (2d6) necrotic damage."
+        },
+        {
+          "name": "Paint Splash",
+          "description": "Ranged Spell Attack: +6 to hit, range 120 ft., one target. Hit: 10 (3d6) poison damage, and the target must succeed on a DC 14 Constitution saving throw or be poisoned until the end of its next turn."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The painted king casts one of the following spells, requiring no material components and using Wisdom as its spellcasting ability (spell save DC 14): At will: protection from energy; 2/day each: hold person, silence"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.186"
+    },
+    {
+      "name": "Sable",
+      "size": "Medium",
+      "type": "monstrosity",
+      "alignment": "Chaotic Neutral",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "60 (8d8 + 24)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 17,
+        "constitution": 16,
+        "intelligence": 5,
+        "wisdom": 8,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 3,
+        "Perception": 1,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "necrotic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Contingent Docility",
+          "description": "If a creature presents an item belonging to Mery to Sable, Sable must succeed on a DC 11 Wisdom saving throw or be charmed by the creature for 1 hour. Sable can repeat the saving throw every 10 minutes, ending the effect on a success. If the effect ends, Sable automatically succeeds on this saving throw for the next 10 minutes."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "Sable has advantage on Wisdom (Perception) checks that rely on smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Sable makes one Bite attack and one Shadow Tendril attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) piercing damage. If the target is Medium or smaller, it must succeed on a DC 11 Strength check or be knocked prone."
+        },
+        {
+          "name": "Shadow Tendril",
+          "description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage plus 2 (1d4) necrotic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.186"
+    },
+    {
+      "name": "Shadow Nymph",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "93 (11d8 + 44)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 20,
+        "constitution": 18,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 22
+      },
+      "saving_throws": {
+        "dex": 8,
+        "cha": 9
+      },
+      "skills": {
+        "Deception": 9,
+        "Perception": 5,
+        "Persuasion": 9,
+        "Stealth": 8
+      },
+      "damage_resistances": [
+        "cold",
+        "necrotic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 15",
+      "languages": [
+        "Common",
+        "Sylvan",
+        "Umbral"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The shadow nymph can breathe air and water."
+        },
+        {
+          "name": "Blinding Beauty",
+          "description": "When a creature that can see the nymph starts its turn within 30 feet of the nymph, the nymph can force it to make a DC 17 Constitution saving throw if the nymph isn't incapacitated and can see the creature. If the saving throw fails by 5 or more, the creature is permanently blinded. Otherwise, a creature that fails its save is blinded for 1 minute. A blinded creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the nymph until the start of its next turn, when it can avert its eyes again. If the creature looks at the nymph in the meantime, it must immediately make the save."
+        },
+        {
+          "name": "Shadow Dweller",
+          "description": "Magical darkness doesn't impede the shadow nymph's darkvision."
+        },
+        {
+          "name": "Water Spirit",
+          "description": "While the shadow nymph is in contact with or submerged in a body of water, she ignores difficult terrain, and magical effects can't reduce her speed or cause her to be restrained. She can spend 5 feet of movement to escape from nonmagical restraints or being grappled."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The shadow nymph uses Shadow Nymph's Gaze. She then makes two Dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d4 + 5) piercing damage."
+        },
+        {
+          "name": "Shadow Nymph's Gaze",
+          "description": "The shadow nymph directs her gaze at one creature she can see within 30 feet of her, targeting the creature with one of the following effects: Icy Glance. The target must make a DC 17 Dexterity saving throw. On a failure, the creature takes 10 (3d6) cold damage and is restrained until the end of its next turn as ice forms around its limbs. On a success, the creature takes half as much damage and isn't restrained. Shadow Glare. The target must make a DC 17 Constitution saving throw, taking 18 (4d8) necrotic damage on a failed save, or half as much damage on a successful one. Stunning Stare. The target must succeed on a DC 17 Charisma saving throw or become stunned until the end of its next turn. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the shadow nymph's Stunning Stare for the next 24 hours."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The shadow nymph casts one of the following spells, requiring no material components and using Charisma as her spellcasting ability (spell save DC 17). At will: animal messenger, detect magic, fog cloud 2/day each: darkness, faerie fire, water walk 1/day each: barkskin, conjure woodland beings, control water"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.187"
+    },
+    {
+      "name": "The Ticktock Man",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "chaotic evil",
+      "armor_class": 15,
+      "ac_type": "",
+      "hit_points": "55 (10d6 + 20)",
+      "speed": "50 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 21,
+        "constitution": 15,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "dex": 8
+      },
+      "skills": {
+        "Acrobatics": 8,
+        "Perception": 4,
+        "Stealth": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "lightning"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Evasion",
+          "description": "If the Ticktock Man is subjected to an effect that allows him to make a Dexterity saving throw to take only half damage, the Ticktock Man instead takes no damage if he succeeds on the saving throw, and only half damage if he fails."
+        },
+        {
+          "name": "Lightning Absorption",
+          "description": "Whenever the Ticktock Man is subjected to lightning damage, he takes no damage and instead regains a number of hp equal to the lightning damage dealt."
+        },
+        {
+          "name": "Startling Speed",
+          "description": "The Ticktock Man's movements are so swift that he is almost invisible when in motion. If the Ticktock Man moves at least 10 feet on his turn, attack rolls against him have disadvantage until the start of his next turn, unless the Ticktock Man is incapacitated or restrained."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Ticktock Man makes three Hidden Dagger attacks."
+        },
+        {
+          "name": "Hidden Dagger",
+          "description": "Melee or Ranged Weapon Attack: +10 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 7 (1d4 + 5) piercing damage plus 7 (2d6) lightning damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Stolen Time (Recharges after a Short or Long Rest)",
+          "description": "If damage is dealt to The Ticktock Man that would kill him, he can attempt to steal time from another creature to avoid death. One creature the Ticktock Man can see within 120 feet must succeed on a DC 16 Constitution saving throw or take 10 (3d6) necrotic damage, and the Ticktock Man regains hp equal to the damage taken. The target is stable and doesn't die if this effect reduces its hp to 0. After 2 rounds, the xiphus takes necrotic damage, and the target regains hp, equal to the original amount borrowed."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.188"
+    },
+    {
+      "name": "Vodyanoi",
+      "size": "Medium",
+      "type": "elemental",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "44 (8d8 + 8)",
+      "speed": "30 ft., swim 40 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "cold",
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Aquan",
+        "Common"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Watery Camouflage",
+          "description": "The vodyanoi has advantage on Dexterity (Stealth) checks made to hide in water."
+        },
+        {
+          "name": "Water Dependency",
+          "description": "The vodyanoi can breathe air and water, but it needs to be immersed in water at least once every 4 hours to avoid suffocating."
+        },
+        {
+          "name": "Watery Grapple",
+          "description": "The vodyanoi has advantage on attack rolls against a creature if the vodyanoi and its opponent are in contact with the same body of water. If the opponent and the vodyanoi are both on dry ground, the vodyanoi has disadvantage on attack rolls."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The vodyanoi makes two Claws attacks."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) slashing damage. If the target is a Medium or smaller creature, it is grappled (escape DC 13)."
+        },
+        {
+          "name": "Crashing Wave (1/Day)",
+          "description": "The vodyanoi conjures a wave of water in a 30-foot cone. Each creature in that area must make a DC 13 Strength saving throw. On a failure, a creature takes 7 (2d6) bludgeoning damage and is knocked prone if on land or pushed up to 10 feet away from the vodyanoi if submerged in water. On a success, a creature takes half as much damage and isn't knocked prone or pushed."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The vodyanoi casts one of the following spells, requiring no material components and using Charisma as its spellcasting ability (spell save DC 12):\nAt will: water breathing, water walk\n1/day: control water"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "bonus_actions": [
+        {
+          "name": "Change Shape",
+          "description": "The vodyanoi magically transforms into a Small or Medium Humanoid that has a challenge rating no higher than its own, or back into its true form. Other than its size, its statistics are the same in each form. Any equipment it is wearing or carrying is absorbed or borne by its new form (the vodyanoi's choice). It reverts to its true form if it dies."
+        }
+      ],
+      "source": "Tales from the Shadows p.189"
+    },
+    {
+      "name": "Weeper in Shadow",
+      "size": "Large",
+      "type": "plant",
+      "alignment": "neutral evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "93 (11d10 + 33)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 6
+      },
+      "saving_throws": {
+        "str": 4,
+        "con": 5
+      },
+      "skills": {},
+      "damage_resistances": [
+        "fire"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "deafened",
+        "exhaustion",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 10",
+      "languages": [
+        "understands Common but can't speak"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Alien Mind",
+          "description": "A creature who attempts to communicate with the weeper must succeed on a DC 13 Wisdom saving throw or become frightened for 1 minute. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The weeper has advantage on saving throws against spells and other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The weeper makes three attacks, only one of which can be a Stinger attack."
+        },
+        {
+          "name": "Stinger",
+          "description": "Melee Weapon Attack: +4 to hit, reach 10 ft., one target. Hit: 9 (2d6 + 2) piercing damage, and the target must succeed on a DC 13 Constitution saving throw or become poisoned for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Lashing Tendril",
+          "description": "Melee Weapon Attack: +4 to hit, reach 15 ft., one target. Hit: 7 (2d4 + 2) bludgeoning damage and the target is grappled (escape DC 12) if it is a Medium or smaller creature. The weeper has two lashing tendrils, each of which can grapple only one target."
+        },
+        {
+          "name": "Grasping Tendril",
+          "description": "Melee Weapon Attack: +4 to hit, reach 60 ft., one target. Hit: The target is grappled (escape DC 12), and the target must succeed on a DC 12 Strength saving throw or be pulled to up to 15 feet toward the weeper. It has two grasping tendrils, each of which can grapple only one target. If it is grappling at least one creature with its grasping tendril, the weeper can use this action to pull all creatures grappled in this way up to 30 feet closer to it."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "bonus_actions": [
+        {
+          "name": "Maddening Song (Recharge 4–6)",
+          "description": "The weeper sings its maddening melody. The song doesn't typically affect sentient creatures but being subjected to it at close range can have deleterious effects. Each creature within 15 feet of the weeper that can hear its song must succeed on a DC 13 Constitution saving throw or become poisoned until the end of its next turn, as the alien song muddles the mind and confuses the senses."
+        }
+      ],
+      "source": "Tales from the Shadows p.189"
+    },
+    {
+      "name": "Weeper Sapling",
+      "size": "Small",
+      "type": "plant",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "natural armor",
+      "hit_points": "7 (2d6)",
+      "speed": "5 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 6,
+        "constitution": 10,
+        "intelligence": 2,
+        "wisdom": 6,
+        "charisma": 6
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "fire"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "deafened",
+        "exhaustion",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius)",
+      "languages": [],
+      "challenge_rating": "0",
+      "xp": 10,
+      "features": [],
+      "actions": [
+        {
+          "name": "Stinger",
+          "description": "Melee Weapon Attack: +1 to hit, reach 10 ft., one target. Hit: 1 piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales from the Shadows p.189"
     }
   ],
   "npcs": [
     {
       "name": "Sohana",
-      "race": "Elf",
+      "race": "Unknown (silvery form)",
       "class_name": "",
       "subclass": "",
       "level": 0,
-      "alignment": "Neutral Good",
+      "alignment": "",
       "armor_class": 0,
       "hit_points": "",
       "speed": "",
       "ability_scores": {},
       "saving_throws": {},
       "skills": {},
-      "features": [],
+      "features": [
+        {
+          "name": "Protective Ward",
+          "description": "Sohana kneels in the center of the hollow, her blade before her, and summons up an energy that emanates outward from her silvery form. Glowing runes manifest on her weapon then appear too on the grass, trees, and rocks. The magic circle Sohana cast keeps their pursuers from entering the hollow itself if they are discovered."
+        }
+      ],
       "actions": [],
-      "equipment": [],
+      "equipment": [
+        "blade",
+        "waterskin"
+      ],
       "spellcasting": null,
-      "description": "Sohana is a silvery, ghostly elf who guides the PCs along the path. She is friendly to The Night Messengers and can cast a protective ward against ghouls.",
+      "description": "Sohana is a silvery being who has been friendly to The Night Messengers for many years. She can cast a protective ward against ghouls and moves quickly and quietly alone.",
       "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
@@ -517,8 +2181,8 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "Palace sommelier. If shown the remains of the wine bottle from Eillyn's room, he can account for it, saying that it left his stores sealed and in possession of a servant, along with a single goblet and tray.",
-      "role": "Neutral",
+      "description": "Palace sommelier. If shown the remains of the wine bottle from Eillyn's room, he can account for it, saying that it left his stores sealed and in possession of a servant, along with a single goblet and tray. He can't remember which servant it was, but is sure it was a woman, definitely not a gnome, and fairly certain she had dark hair.",
+      "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
       "source": "A Death Among the Pale Roses p.47"
@@ -540,7 +2204,7 @@
       "actions": [],
       "equipment": [],
       "spellcasting": null,
-      "description": "King's manservant. Once a mortal man, he ran afoul of King Frulio; to avoid retribution, he agreed to a foolish bargain that saw him transformed and bound to Frulio's service indefinitely. While Gilfrith is incapable of disobeying his master's commands, his loyalty is entirely a product of the magic that binds him.",
+      "description": "King's manservant. Once a mortal man, he ran afoul of King Frulio; to avoid retribution, he agreed to a foolish bargain that saw him transformed and bound to Frulio's service indefinitely. While incapable of disobeying his master's commands, his loyalty is entirely a product of the magic that binds him. He has been ordered by the king to make himself available to the PCs and assist them in any way he is capable, unless directly countermanded by the king himself or due to an already standing order. He was enamored with the victim, Eillyn, and admits to being heartbroken but not angry over her rebuffing his advances.",
       "role": "Ally",
       "is_enemy": false,
       "xp_reward": 0,
@@ -846,7 +2510,7 @@
     },
     {
       "name": "Sascha",
-      "race": "Darakhul",
+      "race": "Darakhul (trollkin in life)",
       "class_name": "Veteran",
       "subclass": "",
       "level": 0,
@@ -859,8 +2523,20 @@
       "skills": {},
       "features": [
         {
-          "name": "Invisibility",
+          "name": "Invisible",
           "description": "Sascha abandoned his disguise as the servant Nole (whom he killed) ages ago, when he determined the people in the tower couldn't see or hear him."
+        },
+        {
+          "name": "Searching for Freedom",
+          "description": "He is searching through the stacks for anything that might set him free of the tower. He hasn't been able to leave since he offended the satyr Ambrose on his arrival in the glade; the unicorn swore to destroy Sascha should he ever set foot in the glade again, so the darakhul hasn't attempted to return to use the fairy ring to escape."
+        },
+        {
+          "name": "Perception of PCs",
+          "description": "Sascha takes no heed of the PCs as he thinks they can't perceive him. They must make a Charisma (Deception or Intimidation) check, contested by Sascha's Wisdom (Insight), to convince him they are not torments conjured by the tower."
+        },
+        {
+          "name": "Aggressive Response",
+          "description": "If the PCs try to physically stop Sascha's search, he unleashes a bloodcurdling scream and attacks until he dies, or they leave him alone."
         }
       ],
       "actions": [],
@@ -870,7 +2546,7 @@
       "role": "Enemy",
       "is_enemy": true,
       "xp_reward": 0,
-      "source": "Reflections and Remembrance p.63"
+      "source": "Tales from the Shadows p.63"
     },
     {
       "name": "Fultaris of Arborin",
@@ -916,15 +2592,33 @@
       "ability_scores": {},
       "saving_throws": {},
       "skills": {},
-      "features": [],
+      "features": [
+        {
+          "name": "Ring of Invisibility",
+          "description": "Friedel follows the party throughout the adventure, using a ring of invisibility to remain hidden."
+        },
+        {
+          "name": "Magical Quill",
+          "description": "Scholar Friedel communicates with the \"grimoire\" via ink and paper. He writes his questions using a magical quill, and he believes the tome guides his hand to write a response."
+        },
+        {
+          "name": "Shadow Grimoire Protection",
+          "description": "Under the influence of the Shadow Grimoire, the scholar is magically shielded from such intrusive spells."
+        }
+      ],
       "actions": [],
-      "equipment": [],
+      "equipment": [
+        "thin, slate-colored robes",
+        "wooden staff",
+        "ring of invisibility",
+        "magical quill"
+      ],
       "spellcasting": null,
       "description": "A stooped man of indeterminate age stands before you in thin, slate-colored robes. His face is half hidden in the shadows of a hood, whose trim is interwoven with moon-white thread. A wispy beard catches the light of a nearby sconce. The man leans heavily on a wooden staff, his arthritic fingers wrapped around the dry limb-like claws. Friedel (NE umbral human mage) is a senior scholar in the Order of the Shuttered Tower. He spends most of his time alone among the tomes and scrolls. He is abrupt, awkward, and easily startled. Friedel looks to be in his seventieth year but seems hale and spry.",
-      "role": "Quest Giver / Deceiver",
+      "role": "Quest Giver / Antagonist",
       "is_enemy": true,
       "xp_reward": 0,
-      "source": "Tales from the Shadows p.76"
+      "source": "Tales from the Shadows p.76-77"
     },
     {
       "name": "Netha",
@@ -1083,6 +2777,865 @@
       "is_enemy": false,
       "xp_reward": 0,
       "source": "Tales from the Shadows p.94"
+    },
+    {
+      "name": "Risa d'Ruvek",
+      "race": "Shadow Fey",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A serious-looking female shadow fey mage, living quarters and study of the Sodality's mage. Devoted to the Moonlit King, she has not undergone the disfiguration that many members of the Order have, as she believes it would affect her spellcasting. She spends most of her time in this room doing research.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.102"
+    },
+    {
+      "name": "Albrytara",
+      "race": "",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An information broker who provides supper and connects the PCs with Fradelrix Ungwort.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.112"
+    },
+    {
+      "name": "Fradelrix Ungwort",
+      "race": "Wyrd gnome",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A fidgety sort who runs a high-stakes game of nonsensical rhyming called Redcap's Cat Trap. He fears he cannot defeat Elyshrith and desperately needs someone to dethrone him.",
+      "role": "Game host",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.112"
+    },
+    {
+      "name": "Elyshrith",
+      "race": "Shadow Fey (secretly an incubus)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A former Shadow Court elocutionist exiled for backtalking his superiors, who presents himself as a shadow fey but is secretly an incubus. He is the game's champion and has challenged Ungwort to a game with the winner taking sole ownership and control of the game itself. Constitution Modifier +2, Performance Modifier +8.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.112"
+    },
+    {
+      "name": "Qask",
+      "race": "Scaly humanoid",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A snake-faced, scaly humanoid dressed in magenta robes. Constitution Modifier +0, Performance Modifier +2.",
+      "role": "Contestant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.112"
+    },
+    {
+      "name": "Duke Montequise",
+      "race": "Humanoid",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An elegantly dressed humanoid with the face of a spider under a fabulous large hat. Constitution Modifier +1, Performance Modifier +4.",
+      "role": "Contestant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.112"
+    },
+    {
+      "name": "Ms. Tildywadders",
+      "race": "Erina",
+      "class_name": "Scout",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Fortune Reading",
+          "description": "reads people's fortunes using her quills to plot points upon their bodies that mark the flow of shadow energy. She offers her services, and if the PCs accept, she performs the painful procedure upon them as the evening's entertainment. Unfortunately, Tildywadders is deluded in her abilities. Ungwort knows Tildywadders has no powers. However, he encourages her treatment, as he finds it wildly amusing."
+        },
+        {
+          "name": "No Pain No Gain",
+          "description": "The excruciatingly painful treatment deals 10 (3d6) piercing damage."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ms. Tildywadders (NG erina scout), a member of the hedgehog folk race known as erina, reads people's fortunes using her quills to plot points upon their bodies that mark the flow of shadow energy.",
+      "role": "Guest",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The House of Reciprocities p.113"
+    },
+    {
+      "name": "Tildywadders",
+      "race": "Shadow Fey",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "No Pain No Gain",
+          "description": "The excruciatingly painful treatment deals 10 (3d6) piercing damage."
+        },
+        {
+          "name": "Hedge Your Bets",
+          "description": "During the treatment, Tildywadders asks the victim questions and makes predictions. To attempt to convince Tildywadders that they see themselves entering The House of Reciprocities, the PC can manipulate the prediction with a Charisma (Deception or Persuasion) check; the DC equals 8 plus half the amount of damage taken from the quills. If successful, Tildywadders invites the PCs to join her entourage; on a failure, she becomes upset and leaves the gathering in a fluster—but her leaving in a huff alerts the other guests that the PCs need a host, causing them to approach the PCs, prepared to make a bargain."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tildywadders is deluded in her abilities. Ungwort knows Tildywadders has no powers. However, he encourages her treatment, as he finds it wildly amusing.",
+      "role": "Entertainer",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.114"
+    },
+    {
+      "name": "Torriense Darkwysper",
+      "race": "Shadow Fey",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Dress Heist",
+          "description": "If the PCs imply they can perhaps acquire the dress for him, he becomes keenly interested. It’s likely they’d have to steal it; if they convince him they can and will steal the dress for him, he offers to take them inside the house. If the PCs don’t fulfill their end of the bargain, Torriense just sighs wistfully, clearly disappointed; after a moment, though, he asks if they ran into Reissward, and if so, is there anything they could share? If the PCs can tell him anything, he’ll be satisfied with the deal."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Torriense Darkwysper (CN shadow fey noble) dresses in an antiquated gossamer dress with an elegant lace collar. Those conversing with him quickly discover he is obsessed with elven fashion, particularly wigs and dresses from earlier centuries. During the conversation, he expresses his desire to acquire a “Moonlit Court Gown.” There’s one for sale at a shop inside The House of Reciprocities, but at present, the cost of the gown is far beyond his means. He gleefully says he would kill to have it; a successful DC 12 Wisdom (Insight) check determines he might not be joking.",
+      "role": "Guest",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.114"
+    },
+    {
+      "name": "Lady Bauldrimere",
+      "race": "Shadow Fey",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Stink Collector",
+          "description": "If the PCs mention the powerful odor of Puddug’s pets, she becomes extraordinarily excited and wishes to acquire one immediately. The PCs can win her favor by telling her the location of Puddug’s tent. Whether or not Puddug will part with one of his pungent pets is another question."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Lady Bauldrimere (CG shadow fey mage) delights in odors of all sorts and carries several small vials containing scents that she passes around to guests to partake of. The scents range from heady floral bouquets to cloying candies to glandular musk—some pleasant, some awful, but all highly evocative. She has come here to collect new scents.",
+      "role": "Guest",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.114"
+    },
+    {
+      "name": "Dr. Slipstitch",
+      "race": "Shurale Satyr",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Evil",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "De-banish Me",
+          "description": "The doctor was banished to the Shadow Realm and desperately wishes to return home. He only takes the PCs into The House if they agree to bring him back to Midgard with them (or wherever their home plane is located). If the PCs renege on their end of the deal, he hunts them down … and collects his payment in laughter or tears."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Dr. Slipstitch (NE shurale satyr) is a devilish-looking satyr with a single horn protruding from his forehead, dressed in a tweed waistcoat, cravat, and spectacles. He carries a large black case with gold lettering that reads, “Dr. Slipstitch. Extraction Specialist.” The good doctor feeds off the laughter and tears of the dying and uses trained tapeworms, earwigs, and leeches to extract toxins and disease from the individuals he treats. Not surprisingly, many receive his services after they are “too late to be saved.” He has come to the house to refresh his stock of “extractors.”",
+      "role": "Guest",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.114"
+    },
+    {
+      "name": "Doorkeeper Drenexla",
+      "race": "Shadow Fey",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Stern-faced Doorkeeper Drenexla (LN shadow fey guard) appears, dressed in a perfectly tailored white suit. She allows everyone entry, then tells the host they must return in three hours to exit.",
+      "role": "Doorkeeper",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.114"
+    },
+    {
+      "name": "Oslak",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A middle-aged man with a glorious black handlebar mustache and a black derby hat. He is the proprietor of The Blithe Spirit.",
+      "role": "Shopkeeper",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.118"
+    },
+    {
+      "name": "Florian",
+      "race": "Satyr",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 20,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "saving_throws": {
+        "constitution": 7
+      },
+      "skills": {},
+      "features": [
+        {
+          "name": "Creature Change",
+          "description": "Florian has 20 Constitution, a Constitution saving throw bonus of +7, has advantage on saving throws against poison, and has resistance to poison damage."
+        },
+        {
+          "name": "Florian's Tolerance",
+          "description": "If the PCs question Oslak about Florian's ability to drink so much or question the \"three drink maximum\" warning in contrast to Florian's drinking, Oslak just shakes his head and says he's never seen anyone like Florian. \"He kind of scares me,\" he admits."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A satyr sitting on one of the barstools with his head on the bar. He hopes to score drinks and tries to goad PCs into a drinking contest.",
+      "role": "Patron",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.118"
+    },
+    {
+      "name": "Soren Cimmerian",
+      "race": "Shadow Fey",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Soren Cimmerian is an up-and-coming artist living in the city of Corremel-in-Shadow. He's a tall and broad-shouldered shadow fey with long, white hair he adorns with small braids, and his tiny black horns are easy to miss. His face is more pretty than handsome, and his skin and eyes are pale gray.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Among the Shades and Shadows p.127"
+    },
+    {
+      "name": "Yildbray Kairious",
+      "race": "Human",
+      "class_name": "Wizard",
+      "subclass": "",
+      "level": 18,
+      "alignment": "",
+      "armor_class": 12,
+      "hit_points": "99 (18d8+18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 20,
+        "wisdom": 15,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "intelligence": 11,
+        "wisdom": 8
+      },
+      "skills": {
+        "Arcana": 13,
+        "History": 13
+      },
+      "features": [
+        {
+          "name": "Magic Resistance",
+          "description": "The archmage has advantage on saving throws against spells and other magical effects."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared:\n\nCantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp\n1st level (4 slots): detect magic, identify, mage armor, magic missile\n2nd level (3 slots): detect thoughts, mirror image, misty step\n3rd level (3 slots): counterspell, fly, lightning bolt\n4th level (3 slots): banishment, fire shield, stoneskin\n5th level (3 slots): cone of cold, scrying, wall of force\n6th level (1 slot): globe of invulnerability\n7th level (1 slot): teleport\n8th level (1 slot): mind blank\n9th level (1 slot): time stop\n*The archmage casts these spells on itself before combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": {
+        "ability": "Intelligence",
+        "save_dc": 17,
+        "attack_bonus": 9,
+        "spells": {
+          "at_will": [
+            "disguise self",
+            "invisibility"
+          ],
+          "cantrips": [
+            "fire bolt",
+            "light",
+            "mage hand",
+            "prestidigitation",
+            "shocking grasp"
+          ],
+          "1st": [
+            "detect magic",
+            "identify",
+            "mage armor",
+            "magic missile"
+          ],
+          "2nd": [
+            "detect thoughts",
+            "mirror image",
+            "misty step"
+          ],
+          "3rd": [
+            "counterspell",
+            "fly",
+            "lightning bolt"
+          ],
+          "4th": [
+            "banishment",
+            "fire shield",
+            "stoneskin"
+          ],
+          "5th": [
+            "cone of cold",
+            "scrying",
+            "wall of force"
+          ],
+          "6th": [
+            "globe of invulnerability"
+          ],
+          "7th": [
+            "teleport"
+          ],
+          "8th": [
+            "mind blank"
+          ],
+          "9th": [
+            "time stop"
+          ]
+        }
+      },
+      "description": "Yildbray Kairious is an archmage who is still alive and trapped in a magical resin his sisters duped him into creating ages before Oshragora fell into the Shadow Realm. If freed, he is forceful and paranoid. Until he rests, he only has his 1st- through 3rd-level and his 7th-level spell slots.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.141"
+    },
+    {
+      "name": "Sluja the Homunculus",
+      "race": "Homunculus",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "5 (2d4)",
+      "speed": "20 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 15,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Telepathic Bond",
+          "description": "While the homunculus is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 1 piercing damage, and the target must succeed on a DC 10 Constitution saving throw or be poisoned for 1 minute. If the saving throw fails by 5 or more, the target is instead poisoned for 5 (1d10) minutes and unconscious while poisoned in this way."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Sluja appears to be a tiny humanoid doll constructed of leather, twine, and bone. The homunculus' greatest desire is to be praised for doing good work, and it readily attends to small tasks in service to people who do so. Sluja can be convinced to tell the PCs how members of the Kairious family opened the cupboard in area 5. It also knows the names of all the members of the family alive at the fall of Oshragora: Pagritte, Buhlford, Jitsko, Kelevray, and Visterella.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.141"
+    },
+    {
+      "name": "Mal",
+      "race": "Gearforged",
+      "class_name": "Veteran",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Mal is demoralized and has five levels of exhaustion."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A rusty gearforged veteran with a crude metal stump affixed to the knee of its left leg, carrying the cracked and warped remainder of that leg. It is so motionless at first, it appears to be a statue. When it moves, its joints screech loudly, as if they haven't been oiled for ages. A successful DC 15 Intelligence check using tinker's tools determines that Mal's chassis looks like it's aged more than a thousand years.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.143"
+    },
+    {
+      "name": "Ulla Chezzino",
+      "race": "Human",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {
+        "Nature": 0,
+        "Religion": 0
+      },
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Ulla is a CG mage who has access to all 1st- to 5th-level wizard spells, as well as proficiency in Nature and Religion."
+        },
+        {
+          "name": "Temporal Disruption",
+          "description": "She is a source of temporal disruption. No matter where an encounter involving her takes place, roll on the \"Temporal Distortions\" table; the effect rolled has a 50-foot-radius centered on her."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ulla is a nineteen-year-old girl with olive skin, blue eyes, and braided platinum hair. She is wearing a blue dress patterned in white. Ulla's personality is sarcastic, and she loves clever wordplay. She uses three words when she could say the same in thirteen. She is well educated, though all her knowledge of the world is millennia out of date. She lacks patience for people who lack the desire to learn or who think her incapable of something due to her age or gender. When people offend her, she speaks to them in a mocking fashion. If offered a chance to leave, she accepts, so long as her liberators promise to take her to the nearest sizable settlement. Ulla has no conception of how long she has been in the vault; to her, it feels as if it might have been a few weeks at most. Before she was locked inside, her father magically transferred all his magical knowledge to her, so she can recall astounding facts about the nature and manipulation of magic, some of which have been lost in the intervening ages. But she—like any other creature—can't cast spells while in the vault.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.145"
+    },
+    {
+      "name": "Grim",
+      "race": "Hill Giant",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Personality Trait",
+          "description": "I take the time to consider my words before speaking."
+        },
+        {
+          "name": "Ideal",
+          "description": "Everyone deserves a second chance."
+        },
+        {
+          "name": "Bond",
+          "description": "I owe Elmyra my life, and I would follow her to the ends of the earth."
+        },
+        {
+          "name": "Flaw",
+          "description": "I become furious when people treat me like an unintelligent brute."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Grim is a very unusual hill giant. He does not know anything about his past or how he arrived in the Shadow Realm. Elmyra found him a few months ago wandering along the banks of the River Styx with his memories wholly drained by the water's magical effects. Since then, they have spent most of their time together, with the shadow fey relying on him to be her research assistant and bodyguard. Perhaps because whatever personality he once had was wiped clean by the river, the giant has a surprisingly gentle and thoughtful demeanor about him. Elmyra thinks he may even be capable of learning the spellcasting arts one day, should she ever have the time and inclination to teach him.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Radiance Lost p.151"
+    },
+    {
+      "name": "Bhorhan",
+      "race": "Bearfolk",
+      "class_name": "Druid",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Bhorhan (NG bearfolk druid [Book of Ebon Tides]) is heavily injured and poisoned. He is a Night Messenger, an order of couriers sworn to deliver messages and items of import across the Shadow Realm.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.6"
+    },
+    {
+      "name": "Tertso",
+      "race": "Human",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "night messenger's coat",
+        "long scarf"
+      ],
+      "spellcasting": null,
+      "description": "Tertso is a disheveled, sandy blonde-haired human with thin stubble, wearing a night messenger's coat and a long scarf. He stinks to high heaven of something with a horrible musk (boar urine). He is a Night Messenger who fended off a small ghoul party and is hiding up a tree.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Night Messengers p.9"
+    },
+    {
+      "name": "Hubert Delacroix",
+      "race": "Human",
+      "class_name": "Priest",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hubert Delacroix (LG human priest) has undertaken a quest to destroy Mery's shadow creations, several of which have slipped out of the Shadow Realm to terrorize people under his protection.",
+      "role": "Antagonist",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.23"
+    },
+    {
+      "name": "Melkar",
+      "race": "Goblin",
+      "class_name": "Spy",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A goblin spy paid by the Sparrow Court representatives to chase rumors about the Sodality. He is found working at a weapons stall near the center of the Sheltered Market.",
+      "role": "Informant",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Sodality of Silent Rites p.97"
+    },
+    {
+      "name": "Xeven",
+      "race": "Shadow Fey",
+      "class_name": "Guard",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A member of the city watch, the Lanternkeepers. Xeven apparently has a complicated history with the Sodality.",
+      "role": "Contact",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Sodality of Silent Rites p.97"
+    },
+    {
+      "name": "Vacer",
+      "race": "Umbral Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A ghostly pale human man who intercepts the PCs near the city gates. He represents a group that does not want the statue returned and offers double the payment to destroy it. He serves the Demon Lord Akyishigal.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "The Sodality of Silent Rites p.97"
+    },
+    {
+      "name": "Andarian",
+      "race": "Dream Eater (disguised as midnight shadow fey)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Andarian is a dream eater disguised as a midnight shadow fey. He is one of the most popular courtesans at The Pluming Lantern. He has black eyes, alabaster white skin, dark charcoal gray hair that hangs long and loose around his shoulders to his mid back, and two long, white twisting horns that angle back and away from his head. He wears dark gray leggings with soft, black, thigh-high leather boots and a black vest with intricate silver stitching along the border that hangs open to show his muscled physique. Black onyx earrings stud his ears, silver and black bracelets on both arms jangle as he moves, and multiple silver rings glint against his pale skin.",
+      "role": "Courtesan",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.131"
+    },
+    {
+      "name": "Duella",
+      "race": "Dream Eater (disguised as midnight shadow fey)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Duella is a dream eater disguised as a midnight shadow fey. She is one of the most popular courtesans at The Pluming Lantern. She has pale eyes, gray skin, and white hair done up in an intricate style of braids, held back with an opalescent hair stick to show off her long, pointed ears and thin, black horns. She wears a gown with draped sleeves that attach at her wrist, her silhouette visible through the diaphanous material. She also wears delicate silver and black opal earrings, and though the gown is high-necked, it bears a keyhole neckline through which an intricate silver and black opal necklace can be seen. She wears the Umbril opal necklace, which belonged to Eldreth's mother. While wearing the necklace, her Charisma score becomes 22, her Charisma bonus is +6, and her spell save is DC 18.",
+      "role": "Courtesan",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.131"
+    },
+    {
+      "name": "Elmyra Lamorieth",
+      "race": "Shadow Elf",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral Evil",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spellbook",
+          "description": "Elmyra has all the spells in her spellbook that a mage normally does, but also has the spells identify and dimension door."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elmyra Lamorieth is a brilliant mage and the last living member of the Lamorieth bloodline. Her family once held great status and power in the shadow fey courts, until one of her ancestors was accused of plotting against the Queen of Night and Magic. The Lamorieth family lost all favor and were stripped of their lands and titles from that moment on. Elmyra seethes with hatred for those who cast her family into disgrace and has spent her long life mastering the arcane arts and accumulating allies outside the courts in hopes of one day restoring her family's name.",
+      "role": "Quest Giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tales from the Shadows p.148"
     }
   ],
   "feats": [],
@@ -1256,22 +3809,462 @@
       "area": "20-foot radius",
       "description": "The trapdoor leading to the cellar has a glyph of warding cast on it. Opening the door without saying the phrase, \"Wine for m'lady\" causes a blast of magical energy in a 20-foot radius.",
       "source": "The Horn of Revels p.91"
+    },
+    {
+      "name": "Trapped Final Step",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If more than 10 pounds are placed on the step",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A successful DC 15 Wisdom (Perception) check reveals the final step is trapped."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Intelligence (Arcana)",
+        "detail": "A successful DC 12 Intelligence (Arcana) check also reveals the trap can be disabled by poking the open eye of the winking figure in the painting."
+      },
+      "effect": "The figure in the painting opens its mouth and releases a blast of frigid cold. Each creature within 5 feet of the final step must make a successful DC 13 Dexterity saving throw or take 16 (3d10) damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "16 (3d10)",
+      "damage_type": "cold",
+      "area": "Each creature within 5 feet of the final step",
+      "description": "A trapped final step that releases a blast of frigid cold from a painting when more than 10 pounds are placed on it.",
+      "source": "Tales from the Shadows p.104"
+    },
+    {
+      "name": "Enhanced Glyph of Warding",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Destroying the door, or a failed check to disable the glyph",
+      "detection": {
+        "dc": 25,
+        "skill": "Perception or Investigation",
+        "detail": "Any active glyphs on the doors can be found with a successful DC 25 Wisdom (Perception) or Intelligence (Investigation) check."
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Intelligence (Arcana)",
+        "detail": "A successful DC 20 Intelligence (Arcana) check can be used to disable a glyph."
+      },
+      "effect": "The glyph explodes in a 20-foot radius; creatures in the area of effect must succeed on a DC 18 Dexterity saving throw or take 27 (6d8) cold damage, or half that much damage on a successful one.",
+      "save_dc": 18,
+      "save_ability": "Dexterity",
+      "damage": "27 (6d8)",
+      "damage_type": "cold",
+      "area": "20-foot radius",
+      "description": "Doors in the labyrinth are locked and trapped with an enhanced glyph of warding; following the path from the center of the labyrinth to a door unlocks the door and disables the trap.",
+      "source": "Tales from the Shadows p.105"
+    },
+    {
+      "name": "Time Trap (Beneath and Under Door)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Passing through the door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The door is unlocked and appears normal; the clock face reads 3:16 and the doormat reads 6."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Arrange the clock's hands",
+        "detail": "To bypass the effect, the clock's hands must be arranged so that if one were to subtract all of the individual digits from each other, going from left to right (for example 9 – 2 – 1), the result would be 6."
+      },
+      "effect": "The door alters time, and those passing through it are subjected to a random temporal effect (see the \"Temporal Effects\" sidebar).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Anyone passing through the door",
+      "description": "A wooden door with a clock face mounted on it hangs in an archway that faces the steps. The clock reads, \"3:16.\" The door is closed. The doormat reads, \"6.\" The door alters time for those passing through it.",
+      "source": "Tales from the Shadows p.120"
+    },
+    {
+      "name": "Hammerbell Alarms",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Stepping onto the staircase without first opening the Beneath and Under Door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The clocks with hammer bell alarms are visible throughout the tower."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified; avoid by opening the door first."
+      },
+      "effect": "All the clocks with hammer bell alarms go off simultaneously. All creatures in the tower (except The Ticktock Man) must make a DC 16 Constitution saving throw or lose any concentration spells and become deafened for 1 minute, or if successful, until the start of their next turn.",
+      "save_dc": 16,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "All creatures in the tower (except The Ticktock Man)",
+      "description": "All hammer bell alarm clocks in the tower go off at once, deafening and disrupting concentration.",
+      "source": "Tales from the Shadows p.120"
+    },
+    {
+      "name": "Time Trap (Up and Over Door)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Passing through the door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The door is unlocked and appears normal; the clock face reads 7:29 and the doormat reads 9."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Arrange the clock's hands",
+        "detail": "To bypass the effect, the clock's hands must be arranged so that if one were to add all the individual digits together (for example 3 + 3 + 3), the result would be 9."
+      },
+      "effect": "The door alters time, and those passing through it are subjected to a random temporal effect (see the \"Temporal Effects\" sidebar).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Anyone passing through the door",
+      "description": "A wooden plank door with a clock face mounted on it hangs in an archway that stands directly at the top of the steps. \"7:29.\" The door is closed. The doormat reads, \"9.\" The door alters time for those passing through it.",
+      "source": "Tales from the Shadows p.120"
+    },
+    {
+      "name": "Cuckoo Alarms",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Triggered in conjunction with the Up and Over Door area (specific trigger not fully detailed in this text)",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The cuckoo clocks are visible throughout the tower."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "All the cuckoo clocks in the tower ring simultaneously. The cacophony is maddening, and all creatures in the tower (except The Ticktock Man) must make a DC 16 Constitution saving throw to avoid losing concentration on any active spells.",
+      "save_dc": 16,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "All creatures in the tower (except The Ticktock Man)",
+      "description": "All cuckoo clocks ring at once, creating a maddening cacophony that disrupts concentration.",
+      "source": "Tales from the Shadows p.120"
+    },
+    {
+      "name": "Enchanted Door Memory Siphon",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Passing through the door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Bypass",
+        "detail": "To bypass the effect, the clock's hands must be arranged so that if one were to multiply the individual digits together, going from left to right (for example 2 × 3 × 2), the result would be 12."
+      },
+      "effect": "Those passing through it must make a DC 16 Wisdom save or lose their background, including proficiency in any skills, tools, and languages associated with the background. The memories transform into colored sand and manifest within one of the hourglasses atop the shelf in the Nowhere Room. The effect lasts until the individual recovers their memories, as described below.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "The enchanted door siphons memories.",
+      "source": "Tales from the Shadows p.122"
+    },
+    {
+      "name": "Hungry Demon Puzzle Lock",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Placing items that don't contain the specified colors (blue, yellow, purple) into the balor's mouth, or offering a name other than a member of the Kairious family when asked.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The hollow inside the demon's mouth is pitch black. If a light is shone inside it, the following words can be seen engraved in a tiny, neat script: I relish cobalt, dote on flax, and periwinkle my diet lacks."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The northern door is locked and cannot be opened with a physical key or thieves' tools. The puzzle must be solved by placing a blue, yellow, and purple object of any material (multicolored items can be used if one or more of the listed colors is present on it) in the balor's mouth, or by casting a spell that produces an array of colors, such as color spray or prismatic spray into it. Then, when asked 'Who are you?', a PC must offer the name of a member of the Kairious family."
+      },
+      "effect": "If the wrong items or name are given, the demon's face makes a disgusted expression and wakes the gorgons disguised as the steel bull statues. The gorgons cannot easily escape the room and fight to the death.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "A locked door with a carved balor's head that opens only when the correct colored items are placed in its mouth and a Kairious family name is given.",
+      "source": "Tales from the Shadows p.142"
+    },
+    {
+      "name": "Time Trap",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Each time a creature steps on one of the tiles in the courtyard.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The tiles' appearance changes with age: pristine in the first 25 feet, scuffed with slight patina in the second 25 feet, heavily worn with hairline fractures in the third 25 feet, and chipped with wide cracks and broken edges in the fourth 25 feet."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "A creature can escape the aging effects by traversing the courtyard in the following fashion: (1) slithering, then (2) crawling, then (3) dancing, then (4) stooping and walking with a cane."
+      },
+      "effect": "Each time a creature steps on one of the tiles, they age a certain amount depending on where in the courtyard they are. Refer to the \"Time Trap Aging\" table to determine how much aging occurs with each step, how one can avoid the aging effect, and what the tiles in each section look like. A creature that enters the courtyard from anywhere other than the stairs ages 100 years for its first step, then the trap functions as described above. A creature standing within the vapor emitted by the shroud of Kairious is immune to the effects of the trap.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The courtyard is laid in orderly five-foot squares of white onyx; they start out pristine, as if freshly laid, then progressively show more and more signs of age the closer one gets to the vault door. Directly in front of the double doors, there is a slightly raised long dais made of smooth, polished stone that spans 30 feet long by 5 feet wide.",
+      "description": "A magical trap in a courtyard that ages creatures as they step on tiles, with the aging effect increasing closer to the vault door.",
+      "source": "Tales from the Shadows p.144"
+    },
+    {
+      "name": "Explosive Glyph",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Hidden within the locking mechanism of the padlock; triggered when the lock is broken or when the glyph's trigger condition is met.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "A magical glyph is hidden within the locking mechanism of the padlock."
+      },
+      "disarm": {
+        "dc": 16,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The padlock can be picked with a successful DC 16 Dexterity check using thieves' tools. A success also disables the effect of the glyph of warding."
+      },
+      "effect": "Its explosive runes erupt with magical energy as described in the spell glyph of warding. The spell was cast at 3rd level and is set to deal fire damage.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "fire",
+      "area": "",
+      "description": "A magical glyph hidden within the locking mechanism of the padlock on the iron gate. If triggered, its explosive runes erupt with magical energy as described in the spell glyph of warding, cast at 3rd level and set to deal fire damage.",
+      "source": "Tales from the Shadows p.152"
+    },
+    {
+      "name": "Putrid Bog Stench",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Any non-resident of the bog entering the Putrid Bog",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The putrid stench is immediately obvious; no check required to notice."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Cannot be disarmed; a protection from poison spell removes the effect from a sickened creature and renders them immune to the effects for the remainder of the visit."
+      },
+      "effect": "Any non-resident of the bog must make a DC 17 Constitution saving throw or gain the poisoned condition from the bog's putrid stench for as long as they remain within its confines. A successful save renders them immune to the effects of the bog's stench for the duration of the visit. A protection from poison spell removes the effect from a sickened creature and renders them immune to the effects for the remainder of the visit. Creatures with immunity to poison are unaffected, and creatures with poison resistance receive their normal advantage on the saving throws.",
+      "save_dc": 17,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "The Putrid Bog",
+      "description": "The Putrid Bog is covered in dank brackish water and thick mud. Any non-resident must save or be poisoned by the bog's putrid stench.",
+      "source": "Shadows of the Dusk Queen p.167"
+    },
+    {
+      "name": "Symbol of Stunning (Black Rock Altar)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Anyone not of evil alignment passing through the ring of standing stones",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The black rock altar radiates a permanent symbol of stunning; a palpable feeling of evil and dark magic radiates from the entire area and the black altar in particular."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified."
+      },
+      "effect": "The black rock altar radiates a permanent symbol of stunning (successful DC 16 Wisdom saving throw negates), which is triggered by anyone not of evil alignment passing through the ring of standing stones.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "Ring of standing stones, approximately 30 feet in diameter",
+      "description": "A permanent symbol of stunning on the black rock altar at the heart of the Putrid Bog triggers when a non-evil creature passes through the ring of standing stones.",
+      "source": "Shadows of the Dusk Queen p.167"
+    },
+    {
+      "name": "Shard of the Mirror",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Disturbing or attempting to remove the shard from the tree",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The shard is visible; failing either of these checks by 3 or more requires a DC 12 Dexterity saving throw to avoid being cut by the shard for 3 (1d6) slashing damage. Failing either check by 10 or more requires a successful DC 17 Dexterity saving throw to avoid falling from the tree for 14 (4d6) bludgeoning damage."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The shard is too firmly embedded in the tree for mage hand or similar magic to pull free."
+      },
+      "effect": "Being cut by the shard for 3 (1d6) slashing damage, or falling from the tree for 14 (4d6) bludgeoning damage.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6)",
+      "damage_type": "slashing",
+      "area": "The tree containing the shard",
+      "description": "A shard embedded in a tree that cuts those who fail to remove it carefully, with a risk of falling.",
+      "source": "Tales from the Shadows p.170"
+    },
+    {
+      "name": "Pit of Shadows Steps",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Attempting to navigate the steep and uneven steps",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "A DC 10 Wisdom (Perception) check reveals a partially worn and eroded set of ancient stone steps cut into the sides of the pit."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "If the PCs take precautionary measures, such as using rope or other climbing gear, the checks are made with advantage."
+      },
+      "effect": "PCs failing a DC 12 Dexterity (Acrobatics) check fall from the steps and crash to the stone ledge below, taking 10 (3d6) bludgeoning damage.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "10 (3d6)",
+      "damage_type": "bludgeoning",
+      "area": "The steps leading down into the pit",
+      "description": "Extremely steep and uneven steps that are difficult to navigate, causing falls.",
+      "source": "Tales from the Shadows p.170"
+    },
+    {
+      "name": "Glyph of Warding on Tower Door",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Opening or touching the warded door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The door is warded with arcane lock and protected by a glyph of warding."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified."
+      },
+      "effect": "31 (7d8) cold damage, DC 18 Dexterity saving throw for half.",
+      "save_dc": 18,
+      "save_ability": "Dexterity",
+      "damage": "31 (7d8)",
+      "damage_type": "cold",
+      "area": "The door",
+      "description": "A glyph of warding protecting the tower's front door.",
+      "source": "Tales from the Shadows p.172"
+    },
+    {
+      "name": "Bramble Path",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Moving faster than half speed on the path",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The brambles are obvious and visible"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Cannot be disarmed; must be avoided by moving at half speed or making checks"
+      },
+      "effect": "Moving faster than half speed on the path requires a successful DC 10 Wisdom (Animal Handling) check if mounted (or a DC 10 Dexterity [Acrobatics] check if on foot) to avoid taking 5 (2d4) points of slashing damage to their mount or themselves. After five checks, regardless of success or failure, the PCs are able to get clear of the brambles.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "5 (2d4)",
+      "damage_type": "slashing",
+      "area": "Entire trail lined by thick patches of brambles",
+      "description": "This entire trail is lined by thick patches of brambles that are difficult to avoid.",
+      "source": "The Night Messengers p.11"
+    },
+    {
+      "name": "Frigid Blast Step Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If more than 10 pounds are placed on the final step",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A successful DC 15 Wisdom (Perception) check reveals the final step is trapped."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The figure in the painting opens its mouth and releases a blast of frigid",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "The final step of the stairwell is trapped; when more than 10 pounds are placed on it, the figure in the painting opens its mouth and releases a blast of frigid (text truncated).",
+      "source": "The Sodality of Silent Rites p.103"
+    },
+    {
+      "name": "Glyph of Warding (Front Door)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Opening or entering the warded door",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The door is warded with arcane lock and protected by a glyph of warding."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "31 (7d8) cold damage, DC 18 Dexterity saving throw for half.",
+      "save_dc": 18,
+      "save_ability": "Dexterity",
+      "damage": "31 (7d8)",
+      "damage_type": "cold",
+      "area": "The front door of the Dusk Queen's Tower",
+      "description": "A glyph of warding protecting the front door of the tower.",
+      "source": "Tales from the Shadows p.172"
     }
   ],
   "_chapters_completed": [
+    "The Sodality  of Silent Rites",
     "The Night Messengers",
+    "Among the Shades and Shadows",
+    "Radiance Lost",
+    "The Time-Twister’s Daughter",
     "A Death Among  the Pale Roses",
     "The Horn of Revels",
     "Reflections and Remembrance",
+    "The House of Reciprocities",
     "The Weeper in Shadow",
+    "Blank Page",
+    "Shadows of the Dusk Queen",
     "Hunters of the Tenebrous Plain",
     "The Lost Treasure  of Paletree Rise",
     "Big Briar’s Blessings"
   ],
-  "_current_chapter": "The Sodality  of Silent Rites",
+  "_chapter_errors": {},
+  "_current_chapter": "",
   "_total_chapters": 16,
   "_book_slug": "TFS",
   "_book_title": "Tales from the Shadows",
-  "_completed": false,
-  "_timestamp": 1790289370.505094
+  "_completed": true,
+  "_timestamp": 1790289846.4623985
 }

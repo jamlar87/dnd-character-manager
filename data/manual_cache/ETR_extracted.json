@@ -1,0 +1,365 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Featherwing",
+      "type": "Weapon (Longbow)",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "While holding Featherwing, gentle breezes rustle your hair and stir your clothes. Should you fall, comforting winds buoy your descent, and you take no damage from falls of 60 feet or less. For falls of greater than 60 feet, subtract 60 from the total fall height to determine falling damage.\n\nFavored Winds (Requires Attunement). As your level increases, you gain the following benefits while wielding or holding this longbow.\n\n5th level. You have a +1 bonus to attack and damage rolls made with this magic longbow. Whenever you roll a 20 on your attack roll with this weapon, the target must succeed on a DC 13 Strength saving throw or be pushed up to 5 feet away from you by violent winds.\n\n9th level. Whenever you attack with this magic longbow, you gain a flying speed equal to your walking speed until the end of your turn.\n\n13th level. While holding Featherwing, you have advantage on Wisdom (Perception) checks that rely on hearing or sight. In addition, when you hit with an attack using this magic longbow, the target takes an extra 1d6 force damage as invisible claws tear at them.\n\n17th level. You have a +2 bonus to attack and damage rolls made with this magic longbow. While holding this magic longbow, you always have a flying speed equal to your walking speed and you don't provoke opportunity attacks when you fly out of an enemy's reach.",
+      "source": "p.8"
+    },
+    {
+      "name": "Deadfall and Fetch",
+      "type": "Weapon (Paired Handaxes)",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "You have a +1 bonus to attack and damage rolls made with both Deadfall and Fetch. When holding both handaxes, you can activate them to gain advantage on Wisdom (Survival) checks for 1 hour. Once used, this property can't be used again until the next dawn.\n\nSwiftly Hewn (Requires Attunement). As your level increases, you gain the following benefits while wielding or holding both of these paired axes. You cannot use any of these abilities unless holding both axes.\n\n5th level. Whenever you roll a 20 on your attack roll with Deadfall, the target must succeed on a DC 13 Strength saving throw or be knocked prone. When throwing Fetch, you may make ranged attack at long range without disadvantage.\n\n9th level. When you use an action to make an attack with one of these handaxes while two-weapon fighting and use a bonus action to make a melee attack with the other of these magical handaxes, you may make an additional attack with either handaxe.\n\n13th level. Deadfall gains 3 charges. You spend 1 charge and use an action to slam Deadfall to the ground, causing violent vibrations to spread out from you in a 30-feet cone. Creatures within the area of effect take 6d6 thunder damage and fall prone unless they succeed on a DC 15 Constitution saving throw. Creatures that succeed take half damage and do not fall prone. Deadfall regains all expended charges daily at dawn. Fetch returns to your hand immediately after it is used to make a ranged attack.\n\n17th level. Melee attacks with Deadfall do an additional 2d6 thunder damage to Constructs and",
+      "source": "p.8"
+    },
+    {
+      "name": "Deadfall",
+      "type": "Weapon",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "effect take 6d6 thunder damage and fall prone unless they succeed on a DC 15 Constitution saving throw. Creatures that succeed take half damage and do not fall prone. Deadfall regains all expended charges daily at dawn. Fetch returns to your hand immediately after it is used to make a ranged attack. 17th level. Melee attacks with Deadfall do an additional 2d6 thunder damage to Constructs and Plants. Ranged attacks with Fetch do not incur disadvantage when made within 5 feet of a hostile creature.",
+      "source": "p.9"
+    },
+    {
+      "name": "Trainer's Whip",
+      "type": "Weapon (Whip)",
+      "rarity": "Fabled",
+      "requires_attunement": true,
+      "description": "The wood-bound handle of this braided whip ends in a small animal paw. The leather is embossed impressions of claws, hooves, beaks, and pointed teeth. The trainer's whip was the property of Cruinna Finnthighearn, a ranger known for her menagerie of animal friends. Unfortunately, the ship carrying Cruinna sank in a violent storm. While the ranger and her companions survived the ordeal by working together, she was forced to leave behind much of her gear. When the ship went down, a trunk containing the trainer's whip, among other things, was lost. Whether her magical whip lies at the bottom of the sea, or the trunk washed up on some beach remains to be seen. Each day after completing a long rest, you may choose one friendly Beast that you can see within 60 feet of you. That Beast gains 1 trick until you activate the magic whip again. Beast Friend (Requires Attunement). As your level increases, you gain the following benefits while wielding or holding this magical whip. 5th level. While within 5 feet of your chosen Beast, you each gain +1 AC. 9th level. Your chosen Beast's attacks become magical. When you take an attack with this magical whip, your chosen Beast may use a reaction to make an attack against the same target. 13th level. Your chosen Beast has a +1 bonus to attack and damage rolls. When your chosen Beast hits a creature with an opportunity attack, that creature's speed becomes 0 until the start of your next turn. 17th level. Each day when you choose your Beast, you can store a single spell of 1st through 5th level in your Beast by touching the whip to the Beast as the spell is cast. If you attempt to store another spell in your Beast, any previously stored spell is lost. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if the Beast cast the spell. The Beast does not choose when to cast the spell, but rather it takes effect when a certain circumstance occurs. You choose that circumstance when the spell is stored. The spell is cast with any parameters set by the original caster, requiring no components, immediately after the circumstance is met for the first time, whether or not you want it to.",
+      "source": "p.9"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Alarm Trap",
+      "type": "Booby Trap",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "5 gp",
+      "weight": 2,
+      "source": "ETR"
+    },
+    {
+      "name": "Explosive Trap",
+      "type": "Booby Trap",
+      "subtype": "",
+      "damage": "1d4 + proficiency bonus fire",
+      "properties": [],
+      "cost": "25 gp",
+      "weight": 1,
+      "source": "ETR"
+    },
+    {
+      "name": "Poison Cloud Trap",
+      "type": "Trap",
+      "subtype": "Craftable Trap",
+      "damage": "1d6 + proficiency bonus poison",
+      "properties": [
+        "Required Construction Tool: Herbalism Kit or Poisoner's Kit",
+        "Raw Material Cost: 25 gp",
+        "Weight: 1 lb",
+        "Sprays a 5-foot diameter poisonous cloud",
+        "Dexterity saving throw negates",
+        "Strong wind gives advantage on saving throw",
+        "Improvement: +10 gp adds 5 feet to radius",
+        "Improvement: cloud persists additional round, heavily obscured, damage at end of each turn, strong wind disperses"
+      ],
+      "cost": "25 gp",
+      "weight": 1,
+      "source": "ETR"
+    },
+    {
+      "name": "Restraining Trap",
+      "type": "Trap",
+      "subtype": "Craftable Trap",
+      "damage": "",
+      "properties": [
+        "Required Construction Tool: None",
+        "Raw Material Cost: 5 sp",
+        "Weight: 2 lbs",
+        "Snare out of rope or natural materials",
+        "Triggers when stepped in, restraining victim in a specific location",
+        "Improvement: +1 gp knocks target prone on failed save and pulls victims 5 feet off ground",
+        "Improvement: +1 gp increases snare area to 10-foot square with large net"
+      ],
+      "cost": "5 sp",
+      "weight": 2,
+      "source": "ETR"
+    },
+    {
+      "name": "Slow Terrain Trap",
+      "type": "Trap",
+      "subtype": "Craftable Trap",
+      "damage": "",
+      "properties": [
+        "Required Construction Tool: None",
+        "Raw Material Cost: 2 sp",
+        "Weight: 3 lbs",
+        "Causes stones, marbles, or other loose material to fall in a 10-foot radius",
+        "Makes terrain difficult",
+        "Failed Dexterity saving throw also falls prone",
+        "Improvement: +1 gp uses caltrops, failed save takes 1 point piercing damage and reduces walking speed by 10 feet until regains at least 1 hit point"
+      ],
+      "cost": "2 sp",
+      "weight": 3,
+      "source": "ETR"
+    },
+    {
+      "name": "Trip Rope Trap",
+      "type": "Trap",
+      "subtype": "Craftable Trap",
+      "damage": "",
+      "properties": [
+        "Required Construction Tool: None",
+        "Raw Material Cost: 5 sp",
+        "Weight: 4 lbs",
+        "Strong rope stretched across two points up to 20 feet apart",
+        "Failed Dexterity saving throw falls prone",
+        "Improvement: +2 gp extends rope by 10 feet",
+        "Improvement: +1 gp embeds wicked barbs, piercing damage 1d3 + proficiency bonus, no damage on successful save"
+      ],
+      "cost": "5 sp",
+      "weight": 4,
+      "source": "ETR"
+    }
+  ],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [
+    {
+      "name": "Blade Dancer",
+      "class": "Ranger",
+      "description": "A Blade Dancer is as beautiful to behold as they are dangerous. They artfully whirl through melee, flowing across the battlefield dodging blows and rapidly slicing foes to bloody pieces. While rangers are often associated with the longbow, the Blade Dancer embodies the spirit of two weapon fighting. Facing a Blade Dancer with a weapon in each hand, is a dance with death.",
+      "features": [
+        {
+          "name": "Bob and Weave",
+          "level": 3,
+          "description": "When you choose this subclass at 3rd level, you become adept at moving in and out of combat with two weapons in hand, attacking before your target can defend themselves. You may treat any melee weapon that does not have the two-handed property as if it had the light property. During your turn, if you make a melee attack against a creature as a bonus action while two-weapon fighting, that creature can't make opportunity attacks against you for the rest of your turn. On a turn in which you make an attack while two-weapon fighting, difficult terrain doesn't slow your movement."
+        },
+        {
+          "name": "Parry",
+          "level": 7,
+          "description": "At 7th level you may use your reaction to add your proficiency bonus to your AC against one melee attack that would hit you. To do so, you must see the attacker and be wielding a light melee weapon in each hand. Once you use this feature, you must finish a short or long rest before you can use it again. Starting at 13th level, you can use it twice before a rest, but only once on the same turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Superior Two-Weapon Fighting",
+          "level": 15,
+          "description": "At 15th level, when you engage in two-weapon fighting, you gain a +2 bonus to damage rolls with each weapon. Once while two-weapon fighting on your turn, you can rend a creature that you hit with two attacks, dealing an extra 3d6 damage to that creature."
+        },
+        {
+          "name": "Dance of Death",
+          "level": 17,
+          "description": "Starting at 17th level, as a bonus action you can perform a dance of whirling death that lasts until the end of your turn. When you take an Attack action while engaging in two-weapon fighting, you may make a melee attack for every 5 feet that you move, up to a maximum number of attacks equal to your proficiency bonus. No more than half of your attacks can use the same weapon. Your movement does not provoke opportunity attacks while using dance of death. Once you use this feature, you must finish a long rest before you can use it again.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Unknown p.5"
+    },
+    {
+      "name": "Peerless Scout",
+      "class": "Ranger",
+      "description": "To protect the edges of society from encroaching monsters, rangers learn to navigate various terrains, and acquire nature magic to make them better hunters. The Peerless Scout forgoes those spells to strengthen their relationship to the terrain they fight in. They become consummate guides who can sense subtle changes in terrain or an enemy's demeanor and use that information to protect their allies. They control the battlefield with a supernatural ability to quickly set traps and predict the movement of their foes.",
+      "features": [
+        {
+          "name": "Preternatural Augment",
+          "level": 3,
+          "description": "When you choose this subclass at 3rd-level, you undergo a ritual that strengthens your connection to the world around you at the expense of your ability to work magic. You lose the ability to cast ranger spells but continue to gain spell slots. You can use spells slots, from this or other classes, to enhance your ability to track in combat and create magical booby traps. You gain two of the following Preternatural Augments of your choice. You gain another one at 9th and 13th level. You can use only one Preternatural Augment at a time, unless otherwise noted.\n\nCunning Trap. When placing a Booby Trap, you expend one spell slot to increase the DC to find, disable, and save against the trap by 1 per level of the slot expended.\n\nExtra Ally. When Tracking in Combat, you expend one spell slot to affect additional allies equal to the level of the slot expended.\n\nDeadly Traps. When placing a Booby Trap, you expend one spell slot to increase the damage done by a trap that does damage by an additional 1d6 per level of the slot expended.\n\nFocus Ally. When Tracking in Combat, you expend one spell slot to increase the bonus granted to one ally equal to the level of the slot expended.\n\nFueled By Magic. When creating a Booby Trap, you expend one spell slot to create one trap or improvement per level of the slot expended. This allows you to add more than one improvement to a trap. These traps do not require any raw materials but disappear after 1 hour.\n\nLong Range Plan. When Tracking in Combat, you expend one spell slot to extend the duration of the benefit granted to one ally by a number of rounds equal to the level of slot expended.\n\nRapid Deployment. You place a Booby Trap as a bonus action by expending one spell slot. The trap remains for a number of rounds equal to the level of the slot expended.\n\nSafe Path. When Tracking in Combat, you expend one spell slot to make your allies affected by a Tracking in Combat benefit able to pass through your Booby Traps without triggering them. The number of allies affected is equal to the level of the slot expended.\n\nSwift Assessment. When Tracking in Combat, you expend one spell slot to Track in Combat as a bonus action. The granted benefit lasts a number of rounds equal to the level of the slot expended.\n\nWiden Trap. When placing a Booby Trap, you can expend one spell slot to have the trap affect a number of additional 5-foot squares equal to the level of the slot expended."
+        },
+        {
+          "name": "Experienced Explorer",
+          "level": 7,
+          "description": "At 7th level your Booby Traps placed while in your favored terrain automatically gain one improvement with no additional cost or time to construct it. You gain advantage on Wisdom (Survival) checks to Track in Combat while in your favored terrain."
+        },
+        {
+          "name": "Situational Awareness: Impromptu Ambush",
+          "level": 15,
+          "description": "At 15th level, your experience and training coalesce into a state of heightened situational awareness. As an action, you may expend your situational awareness while Tracking in Combat or placing a Booby Trap. You can expend your situational awareness to magically create one of two effects: Contingent Attack or Unseen Trap.\n\nContingent Attack. You declare a perceivable action the target of your Tracking in Combat might take as a triggering event. Allies who gain a benefit from your Tracking in Combat may immediately make one single melee or ranged weapon attack against the target if they witness the declared triggering event. An ally's attack gains a bonus to hit equal to your proficiency bonus. This attack requires no action from your allies and may only occur once per target per day.\n\nUnseen Trap. While in direct line of sight of your foes, you can expend your situational awareness to place a Booby Trap at exactly the right time when no one is looking at you, even if you are not hiding. The trap is considered hidden and must be found with a Wisdom (Perception) check as normal.\n\nWhen you expend your situational awareness to use Improptu Ambush, you choose which effect to create. You must finish a short or long rest to use your situational awareness again.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Situational Awareness: Master Ambusher",
+          "level": 17,
+          "description": "Starting at 17th level, as an action you can expend your situational awareness to access the battlefield, give suggestions to your allies, and place a flurry of traps. You automatically succeed on a roll for Tracking in Combat against one creature that you can see and place six Booby Traps within 30 feet of you. These Booby Traps cannot be placed in the same spot or adjacent to another Booby Trap. Additionally, you may expend two spell slots, one to augment your Booby Traps and one to augment your Tracking in Combat benefit at no additional cost in money, time, or materials.\n\nWhen you expend your situational awareness to use Master Ambush, you must finish a long rest to use your situational awareness again.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Unknown p.6-7"
+    }
+  ],
+  "traps": [
+    {
+      "name": "Alarm Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature trips the wire or moves an attached item.",
+      "detection": {
+        "dc": 0,
+        "skill": "Wisdom (Perception)",
+        "detail": "A hidden trap requires a Wisdom (Perception) check to spot it. The DC equals the setter's Wisdom (Survival) check total."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The DC to disable the trap equals the setter's Wisdom (Survival) check total."
+      },
+      "effect": "Creates a noise when tripped or an attached item is moved. It deals no damage, and the wire is not strong enough to cause a creature to trip.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Thin wire up to 10 feet long",
+      "description": "This trap consists of several small bells or other noise makers attached to a thin wire up to 10 feet long which creates a noise when tripped or an attached item is moved.",
+      "source": "Unearthed Arcana: Ranger and Rogue p.11"
+    },
+    {
+      "name": "Explosive Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature triggers the alchemical mixture.",
+      "detection": {
+        "dc": 0,
+        "skill": "Wisdom (Perception)",
+        "detail": "A hidden trap requires a Wisdom (Perception) check to spot it. The DC equals the setter's Wisdom (Survival) check total."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "The DC to disable the trap equals the setter's Wisdom (Survival) check total."
+      },
+      "effect": "The alchemical mixture explodes in a 1-foot diameter doing 1d4 + your proficiency bonus fire damage to the creature that triggers the trap. A creature takes half damage on a successful Dexterity saving throw.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "1d4 + proficiency bonus",
+      "damage_type": "fire",
+      "area": "1-foot diameter",
+      "description": "You craft an alchemical mixture that explodes in a 1-foot diameter doing 1d4 + your proficiency bonus fire damage to the creature that triggers the trap.",
+      "source": "Unearthed Arcana: Ranger and Rogue p.11"
+    },
+    {
+      "name": "Poison Cloud Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature steps into the trapped area",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Sprays a 5-foot diameter poisonous cloud that deals 1d6 + your proficiency bonus poison damage to a creature that can breathe. The creature takes no damage on a successful Dexterity saving throw. A strong wind gives the target advantage on their saving throw.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "1d6 + proficiency bonus",
+      "damage_type": "poison",
+      "area": "5-foot diameter cloud",
+      "description": "By mixing poisonous herbs, you create a trap that sprays a 5-foot diameter poisonous cloud that deals 1d6 + your proficiency bonus poison damage to a creature that can breathe.",
+      "source": "p.12"
+    },
+    {
+      "name": "Restraining Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature steps into the snare",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Restrains the victim in a specific location.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "Specific location",
+      "description": "This trap is made by crafting a snare out of rope or natural materials that triggers when stepped in, restraining the victim in a specific location.",
+      "source": "p.12"
+    },
+    {
+      "name": "Slow Terrain Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature enters the trapped area",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Causes stones, marbles, or other loose material to fall in a 10-foot radius around the victim, making the terrain difficult. A creature that fails its Dexterity saving throw also falls prone.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "10-foot radius",
+      "description": "This trap causes stones, marbles, or other loose material to fall in a 10-foot radius around the victim, making the terrain difficult.",
+      "source": "p.12"
+    },
+    {
+      "name": "Trip Rope Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature crosses the rope",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Creatures that fail their Dexterity saving throw fall prone.",
+      "save_dc": 0,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "Up to 20 feet apart",
+      "description": "This trap is made by stretching a strong rope across two points up to 20 feet apart.",
+      "source": "p.12"
+    }
+  ],
+  "_chapters_completed": [
+    "OPEN GAME LICENSE Version 1.0a",
+    "Rangers in Gaming History and Media",
+    "New Ranger Subclasses",
+    "Animal Messangers",
+    "Fabled Magic Weapons",
+    "Optional Rules",
+    "[Ad] Tome of Beasts 3"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 7,
+  "_book_slug": "ETR",
+  "_book_title": "Expanding the Ranger",
+  "_completed": true,
+  "_timestamp": 1790290725.344849
+}

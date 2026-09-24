@@ -1,0 +1,668 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Orb of Direction",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Amongst the garbage is an orb of direction, which can be found with a successful DC 12 Wisdom (Perception) check.",
+      "source": "Ghosts of Saltmarsh p.5"
+    },
+    {
+      "name": "Potion of Resistance (Radiant)",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A potion of resistance (radiant) in an onion-shaped bottle made of green glass and inscribed with an image of the sun.",
+      "source": "Ghosts of Saltmarsh p.5"
+    },
+    {
+      "name": "Figurine of Wondrous Power (Silver Raven)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A figurine of wondrous power (silver raven), the cyclops's only item of value.",
+      "source": "Ghosts of Saltmarsh p.6"
+    },
+    {
+      "name": "Anchor of Seafaring",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This item consists of a 2-foot-long central iron shaft with an upper crosspiece and two curved iron bars at the base. Attached to it is a thick wooden rope. You can use an action to speak the anchor's command word and the rope magically lengthens until the anchor touches bottom or the rope reaches its maximum length of 1 mile. If you use an action to speak the command word, the rope shortens until it is 4 feet long.",
+      "source": "Appendix 2. New Magic Items p.21"
+    },
+    {
+      "name": "Anklet of Walking",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While wearing this anklet, you can stand on and move across any liquid surface as if it were solid ground.",
+      "source": "Appendix 2. New Magic Items p.21"
+    },
+    {
+      "name": "Bellows of Breezes",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "These bellows are made from brown leather and hardwood, with a brass nozzle. You may use an action to pump the bellows causing them to exhale a line of strong wind 60 feet long and 10 feet wide for 1 minute. Each creature that starts its turn in the line must succeed on a DC 15 Strength saving throw or be pushed 15 feet away from the bellows in a direction following the line.\nAny creature in the line must spend 2 feet of movement for every 1 foot it moves when moving closer to the bellows. The wind disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in the area. It causes protected flames, such as those of lanterns, to dance wildly and has a 50 percent chance to extinguish them.\nAs a bonus action on each of your turns before the effect ends, you can change the direction in which you are pointing the bellows.\nOnce you have used this property of the bellows, it can't be used again until the next dawn.",
+      "source": "Appendix 2. New Magic Items p.21"
+    },
+    {
+      "name": "Bottle of Moonlight",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This crescent-shaped bottle is made of pale stone and contains a thick, silvery liquid. When you use an action to pour this liquid on a lycanthrope, that creature immediately assumes its bestial form for 1 hour.",
+      "source": "Appendix 2. New Magic Items p.21"
+    },
+    {
+      "name": "Chalice of Colors",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Once this colorful glass chalice is filled with water, you can use your action to throw the contents in any direction. The liquid turns into a blinding array of flashing, colored light. Roll 6d10; the total is how many hit points of creatures are affected. Creatures in a 15-foot cone originating from you are affected in ascending order of their current hit points (ignore creatures that can't see).\nStarting with the creature that has the lowest current hit points, each creature in the cone is blinded until the end of your next turn. Subtract each creature's hit points from the total before moving on to the creature with the next lowest hit points. A creature's hit points must be equal to or less than the remaining total for that creature to be affected.\nOnce you have used this property of the chalice, it can't be used again until the next dawn.",
+      "source": "Appendix 2. New Magic Items p.21"
+    },
+    {
+      "name": "Chitinous Armor",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This armor consists of a coat and leggings of fish-skin leather covered with overlapping pieces of chitin taken from giant crab shells. While wearing this armor, you can breathe underwater. In all other respects, it is identical to scale mail.",
+      "source": "Appendix 2. New Magic Items p.21"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Chitinous Armor",
+      "type": "Armor",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "SME"
+    },
+    {
+      "name": "Club (Driftwood)",
+      "type": "Weapon",
+      "subtype": "simple melee",
+      "damage": "1d4 bludgeoning",
+      "properties": [],
+      "cost": "",
+      "weight": 2,
+      "source": "SME"
+    },
+    {
+      "name": "Laser Pistol",
+      "type": "Weapon",
+      "subtype": "firearm",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "SME"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Deep Scion",
+      "size": "Medium",
+      "type": "humanoid (shapechanger)",
+      "alignment": "neutral evil",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "67 (9d8 + 27)",
+      "speed": "30 ft. (20 ft. and swim 40 ft. in hybrid form)",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "wis": 3,
+        "cha": 4
+      },
+      "skills": {
+        "Deception": 6,
+        "Insight": 3,
+        "Sleight of Hand": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 11",
+      "languages": [
+        "Aquan",
+        "Common",
+        "thieves' cant"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Shapechanger",
+          "description": "The deep scion can use its action to polymorph into a humanoid-piscine hybrid form, or back into its true form. Its statistics, other than its speed, are the same in each form. Any equipment it is wearing or carrying isn't transformed. The deep scion reverts to its true form if it dies."
+        },
+        {
+          "name": "Amphibious (Hybrid Form Only)",
+          "description": "The deep scion can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "In humanoid form, the deep scion makes two melee attacks. In hybrid form, the deep scion makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Battleaxe (Humanoid Form Only)",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) slashing damage, or 9 (1d10 + 4) slashing damage if used with two hands."
+        },
+        {
+          "name": "Bite (Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 6 (1d4 + 4) piercing damage."
+        },
+        {
+          "name": "Claw (Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) slashing damage."
+        },
+        {
+          "name": "Psychic Screech (Hybrid Form Only; Recharges after a Short or Long Rest)",
+          "description": "The deep scion emits a terrible scream audible within 300 feet. Creatures within 30 feet of the deep scion must succeed on a DC 13 Wisdom saving throw or be stunned until the end of the deep scion's next turn. In water, the psychic screech also telepathically transmits the deep scion's memories of the last 24 hours to its master, regardless of distance, so long as it and its master are in the same body of water.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.18"
+    },
+    {
+      "name": "Conjurer",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "40 (9d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 6,
+        "wis": 4
+      },
+      "skills": {
+        "Arcana": 6,
+        "History": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any four languages"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The conjurer is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The conjurer has the following wizard spells prepared:\nCantrips (at will): acid splash,* mage hand,* poison spray,* prestidigitation\n1st level (4 slots): mage armor, magic missile, unseen servant*\n2nd level (3 slots): cloud of daggers,* misty step,* web*\n3rd level (3 slots): fireball, stinking cloud*\n4th level (3 slots): Evard's black tentacles,* stoneskin\n5th level (2 slots): cloudkill,* conjure elemental*\n*Conjuration spell of 1st level or higher"
+        },
+        {
+          "name": "Benign Transportation (Recharges after the Conjurer Casts a Conjuration Spell of 1st Level or Higher)",
+          "description": "As a bonus action, the conjurer teleports up to 30 feet to an unoccupied space that it can see. If it instead chooses a space within range that is occupied by a willing Small or Medium creature, they both teleport, swapping places.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.18"
+    },
+    {
+      "name": "Enchanter",
+      "size": "Medium",
+      "type": "humanoid (any race)",
+      "alignment": "any alignment",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "40 (9d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "int": 6,
+        "wis": 4
+      },
+      "skills": {
+        "Arcana": 6,
+        "History": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "any four languages"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "The enchanter is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The enchanter has the following wizard spells prepared:\nCantrips (at will): friends, mage hand, mending, message\n1st level (4 slots): charm person,* mage armor, magic missile\n2nd level (3 slots): hold person,* invisibility, suggestion*\n3rd level (3 slots): fireball, haste, tongues\n4th level (3 slots): dominate beast,* stoneskin\n5th level (2 slots): hold monster*\n*Enchantment spell of 1st level or higher"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d6 – 1) bludgeoning damage, or 3 (1d8 – 1) bludgeoning damage if used with two hands."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Instinctive Charm (Recharges after the Enchanter Casts an Enchantment Spell of 1st Level or Higher)",
+          "description": "The enchanter tries to magically divert an attack made against it, provided that the attacker is within 30 feet of it and visible to it. The enchanter must decide to do so before the attack hits or misses. The attacker must make a DC 14 Wisdom saving throw. On a failed save, the attacker targets the creature closest to it, other than the enchanter or itself. If multiple creatures are closest, the attacker chooses which one to target.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.19"
+    },
+    {
+      "name": "Nereid",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "any chaotic alignment",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "44 (8d8 + 8)",
+      "speed": "30 ft., swim 60 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 13,
+        "wisdom": 14,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 5,
+        "Nature": 3,
+        "Stealth": 5,
+        "Survival": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [
+        "Aquan",
+        "Common",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The nereid can breathe air and water."
+        },
+        {
+          "name": "Aquatic Invisibility",
+          "description": "If immersed in water, the nereid can make itself invisible as a bonus action. It remains invisible until it leaves the water, ends the invisibility as a bonus action, or dies."
+        },
+        {
+          "name": "Mantle Dependent",
+          "description": "The nereid wears a mantle of silky cloth the color of sea foam, which holds the creature's spirit. The mantle has an AC and hit points equal to that of the nereid, but the garment can't be directly harmed while the nereid wears it. If the mantle is destroyed, the nereid becomes poisoned and dies within 1 hour. A nereid is willing to do anything in its power to recover the mantle if it is stolen, including serving the thief."
+        },
+        {
+          "name": "Shape Water",
+          "description": "The nereid can cast control water at will, requiring no components. Its spellcasting ability for it is Charisma. This use of the spell has a range of 30 feet and can affect a cube of water no larger than 30 feet on a side."
+        },
+        {
+          "name": "Speak with Animals",
+          "description": "The nereid can comprehend and verbally communicate with beasts."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Blinding Acid",
+          "description": "Melee or Ranged Spell Attack: +5 to hit, reach 5 ft. or range 30 ft., one target. Hit: 16 (2d12 + 3) acid damage, and the target is blinded until the start of the nereid's next turn."
+        },
+        {
+          "name": "Drowning Kiss (Recharge 5–6)",
+          "description": "The nereid touches one creature it can see within 5 feet of it. The target must succeed on a DC 13 Constitution saving throw or take 22 (3d12 + 3) acid damage. On a failure, it also runs out of breath and can't speak for 1 minute. At the end of each of its turns, it can repeat the save, ending the effect on itself on a success.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Water Lash",
+          "description": "The nereid causes a 5-foot cube of water within 60 feet of it to take a shape of its choice and strike one target it can see within 5 feet of that water. The target must make a DC 13 Strength saving throw. On a failed save, it takes 17 (4d6 + 3) bludgeoning damage, and if it is a Large or smaller creature, it is pushed up to 15 feet in a straight line or is knocked prone (nereid's choice). On a successful save, the target takes half as much damage and isn't pushed or knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.19"
+    },
+    {
+      "name": "Sea Spawn",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "neutral evil",
+      "armor_class": 11,
+      "ac_type": "natural armor",
+      "hit_points": "32 (5d8 + 10)",
+      "speed": "20 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 8,
+        "constitution": 15,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 10",
+      "languages": [
+        "understands Aquan and Common but can't speak"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Limited Amphibiousness",
+          "description": "The sea spawn can breathe air and water, but needs to be submerged in the sea at least once a day for 1 minute to avoid suffocating."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The sea spawn makes three attacks: two unarmed strikes and one with its Piscine Anatomy."
+        },
+        {
+          "name": "Unarmed Strike",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage."
+        },
+        {
+          "name": "Piscine Anatomy",
+          "description": "The sea spawn has one or more of the following attack options, provided it has the appropriate anatomy: Bite. Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage. Poison Quills. Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 3 (1d6) poison damage, and the target must succeed on a DC 12 Constitution saving throw or be poisoned for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Tentacle. Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage, and the target is grappled (escape DC 12) if it is a Medium or smaller creature. Until this grapple ends, the sea spawn can't use this tentacle on another target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.20"
+    },
+    {
+      "name": "Wereraven",
+      "size": "Medium",
+      "type": "humanoid (human, shapechanger)",
+      "alignment": "lawful good",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "31 (7d8)",
+      "speed": "30 ft. (fly 50 ft. in raven and hybrid forms)",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 15,
+        "constitution": 11,
+        "intelligence": 13,
+        "wisdom": 15,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 4,
+        "Perception": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "bludgeoning, piercing, and slashing from nonmagical attacks not made with silvered weapons"
+      ],
+      "condition_immunities": [],
+      "senses": "passive Perception 16",
+      "languages": [
+        "Common (can't speak in raven form)"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Shapechanger",
+          "description": "The wereraven can use its action to polymorph into a raven-humanoid hybrid or into a raven, or back into its human form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its human form if it dies."
+        },
+        {
+          "name": "Mimicry",
+          "description": "The wereraven can mimic simple sounds it has heard, such as a person whispering, a baby crying, or an animal chittering. A creature that hears the sounds can tell they are imitations with a successful DC 10 Wisdom (Insight) check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack (Human or Hybrid Form Only)",
+          "description": "The wereraven makes two weapon attacks, one of which can be with its hand crossbow."
+        },
+        {
+          "name": "Beak (Raven or Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 1 piercing damage in raven form, or 4 (1d4 + 2) piercing damage in hybrid form. If the target is a humanoid, it must succeed on a DC 10 Constitution saving throw or be cursed with wereraven lycanthropy."
+        },
+        {
+          "name": "Shortsword (Humanoid or Hybrid Form Only)",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Hand Crossbow (Humanoid or Hybrid Form Only)",
+          "description": "Ranged Weapon Attack: +4 to hit, range 30/120 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.20"
+    },
+    {
+      "name": "Xvart",
+      "size": "Small",
+      "type": "humanoid (xvart)",
+      "alignment": "chaotic evil",
+      "armor_class": 13,
+      "ac_type": "leather armor",
+      "hit_points": "7 (2d6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 8,
+        "wisdom": 7,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 30 ft., passive Perception 8",
+      "languages": [
+        "Abyssal"
+      ],
+      "challenge_rating": "1/8",
+      "xp": 25,
+      "features": [
+        {
+          "name": "Low Cunning",
+          "description": "The xvart can take the Disengage action as a bonus action on each of its turns."
+        },
+        {
+          "name": "Overbearing Pack",
+          "description": "The xvart has advantage on Strength (Athletics) checks to shove a creature if at least one of the xvart's allies is within 5 feet of the target and the ally isn't incapacitated."
+        },
+        {
+          "name": "Raxivort's Tongue",
+          "description": "The xvart can communicate with ordinary bats and rats, as well as giant bats and giant rats."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Sling",
+          "description": "Ranged Weapon Attack: +4 to hit, range 30/120 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix 1 | Monster & NPC Statistics p.20"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Cap'n Jackie",
+      "race": "Human",
+      "class_name": "Bandit Captain",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A human bandit captain calling herself \"Cap'n Jackie\" stands inside the palisade and is accompanied by 1d4 + 2 bandits. She demands that any passersby handover their \"booty\" or they will be \"feeding the sharks tonight.\"",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Ghosts of Saltmarsh p.5"
+    },
+    {
+      "name": "Corrupt Constable",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A woman in a dirty, patched farmer's smock approaches the characters and tells them she is the town constable, and they are under arrest on suspicion of arson. She insists they come with her to the lockup, but then hints she could let them go for \"suitable recompense.\" She is, in fact, the town constable, which is an office assigned by lot every year. This particular person has turned the office to profit by harassing strangers. Under town law, she can lock up anyone on suspicion of a crime until the local magistrate can hear the case, which usually takes about 2 days.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Ghosts of Saltmarsh p.5"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Poison Gas Trap (Box)",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Opening the box without disarming the trap",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "DC 15 to notice"
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "DC 15 to disarm"
+      },
+      "effect": "Each creature must succeed on a DC 15 Constitution saving throw or take 16 (3d10) poison damage and become poisoned for the next 24 hours. Each hour, the poisoned creature can repeat the saving throw, ending the effect on a success. The box is empty.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "16 (3d10)",
+      "damage_type": "poison",
+      "area": "Each creature (in range of the trap)",
+      "description": "A box bound with crisscrossing metal latches that is armed with a poison gas trap.",
+      "source": "Ghosts of Saltmarsh p.17"
+    },
+    {
+      "name": "Glyph of Warding (Box)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Opening the box",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Not specified"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified"
+      },
+      "effect": "The glyph has the explosive runes effect and deals cold damage. The box contains valuable gems worth 300gp.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "cold",
+      "area": "",
+      "description": "A box armed with a glyph of warding that activates when the box is opened.",
+      "source": "Ghosts of Saltmarsh p.17"
+    }
+  ],
+  "_chapters_completed": [
+    "Appendix 2. New Magic Items",
+    "Overview",
+    "Appendix 1. Monster & NPC Statistics",
+    "Random Encounters"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 4,
+  "_book_slug": "SME",
+  "_book_title": "177004 Saltmarsh Encounters",
+  "_completed": true,
+  "_timestamp": 1790290085.793785
+}

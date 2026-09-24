@@ -1,0 +1,824 @@
+{
+  "races": [
+    {
+      "name": "Ratatosk",
+      "source": "Midgard Heroes Handbook p.21-22",
+      "asi": {
+        "strength": -2,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 60,
+      "languages": [
+        "Celestial",
+        "Common"
+      ],
+      "size": "Tiny or Small (varies by subrace)",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, but your Strength score decreases by 2."
+        },
+        {
+          "name": "Age",
+          "description": "Ratatosk reach adulthood at age 10 and, due to their celestial nature, live up to 180 years."
+        },
+        {
+          "name": "Alignment",
+          "description": "Ever curious and delighting in unpredictability, ekorre ratatosk gravitate toward chaotic alignments as they view laws as vague suggestions at best. The tradvakt tend to be slightly more focused and lawful in their thinking. Both groups tend toward good, placing value on doing the right thing, though some individuals lean more toward their darker impulses."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet, and you have a climb speed of 10 feet."
+        },
+        {
+          "name": "Darkvision",
+          "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+        },
+        {
+          "name": "Grounded Celestial",
+          "description": "You are descended from celestials, but you are strongly attuned to the mortal world. Though you are a humanoid, you are still susceptible to effects that target celestials."
+        },
+        {
+          "name": "Sharp Tusks",
+          "description": "Your sharp tusks are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal 1 piercing damage plus 1d4 psychic damage."
+        },
+        {
+          "name": "Telepathic",
+          "description": "You can speak telepathically to any creature you can see, provided the creature is within a number of feet of you equal to 10 times your level. You don’t need to share a language with the creature for it to understand your telepathic utterances, but the creature must be able to understand at least one language."
+        },
+        {
+          "name": "Languages",
+          "description": "You can understand, read, and write Celestial and Common, but you speak via Telepathy."
+        }
+      ],
+      "subraces": [
+        {
+          "name": "Ekorre (Clever Tusk)",
+          "asi": {
+            "int": 1,
+            "cha": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Either your Intelligence or Charisma score increases by 1."
+            },
+            {
+              "name": "Size",
+              "description": "Ekorre ratatosk are around 1-1/2 feet tall and weigh between 20 and 50 pounds. Your size is Tiny."
+            },
+            {
+              "name": "Blessing of Yggdrasil",
+              "description": "You are attuned to the World Tree and can tap into its power. You know the message and vicious mockery cantrips. When you reach 5th level, you can cast the mirror image spell with this trait. Once you cast a non-cantrip spell with this trait, you can't do so again until you finish a long rest. Charisma is your spellcasting ability for these spells.",
+              "uses": 1,
+              "recharge": "long rest"
+            },
+            {
+              "name": "Diminutive Weapons",
+              "description": "You can wield weapons with the light or finesse properties normally. You have disadvantage on attack rolls with other weapons, unable to use them effectively due to your Tiny size, and they are treated as two-handed weapons. You can't use heavy weapons at all. A weapon specifically designed for ratatosk (or for other Tiny creatures at the GM's discretion) are treated normally."
+            }
+          ],
+          "description": "The ekorre are the image most have in mind when discussing ratatosk. Superficially similar to squirrels, they have sleek fur, often in shades of red and brown, and tiny tusks. These celestials dwell upon Yggdrasil and all its branches. Clever, egotistical, and endlessly curious, the ekorre carry messages across the planes, sharing information from individual to individual in a never-ending gossip network."
+        },
+        {
+          "name": "Tradvakt (Tree Protector)",
+          "asi": {
+            "con": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Your Constitution score increases by 1."
+            },
+            {
+              "name": "Size",
+              "description": "A typical tradvakt stands between 2 and 3 feet tall, weighing from 60 to 100 pounds. Some massive ratatosk warlords reach a towering 3-1/2 feet. Your size is Small."
+            },
+            {
+              "name": "War Chatter",
+              "description": "Your constant chittering distracts your opponents. As a bonus action, a non-ratatosk creature within 30 feet that can hear you must succeed on a Charisma saving throw or have disadvantage on its attack rolls until the start of your next turn. The DC of the save equals 8 + your proficiency bonus + your Constitution bonus. Once you use this trait, you can't use it again until you finish a short or long rest.",
+              "uses": 1,
+              "recharge": "short rest"
+            }
+          ],
+          "description": "The tradvakt, also called ratatosk warlords, believe themselves to be the guardians and protectors of Yggdrasil and the branches of the World Tree. Larger than their ekorre cousins, the tradvakt train from a young age to master weapons and battle tactics. They act to maintain order in their communities and stamp out dangers that threaten those settlements."
+        }
+      ],
+      "description": "Ratatosk are insatiable tricksters resembling squirrels with sleek fur and small tusks. They form close matriarchal familial units called drays within larger communities called scurries.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Strength -2"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Adulthood at 10, lifespan up to 180 years"
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Roleplay/flavor only; no mechanical effects"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Climb speed of 10 feet"
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Grounded Celestial": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Creature type is Humanoid but is also susceptible to effects that target celestials"
+        },
+        "Sharp Tusks": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural weapon (tusks) usable for unarmed strikes; deals 1 piercing damage plus 1d4 psychic damage on hit"
+        },
+        "Telepathic": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak telepathically to any creature within 10 x level feet that can understand at least one language; no shared language required"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can understand, read, and write Celestial and Common; speaks via Telepathy"
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Conjure Acorns",
+      "level": 1,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You create 1 pound of acorns on the ground or in a container within range. The acorns spoil if uneaten after 24 hours.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "RAT"
+    },
+    {
+      "name": "Glide",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 reaction, which you take when you or a creature within 60 feet of you falls",
+      "range": "60 feet",
+      "components": "V, M (an unbroken leaf)",
+      "duration": "1 minute",
+      "description": "Choose 1 falling creature within range. A falling creature can move 5 feet horizontally for every 10 feet it falls vertically, up to a maximum distance equal to their normal speed.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "RAT"
+    },
+    {
+      "name": "Gnawing Leap",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "S, M (the teeth in your mouth)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You surround yourself with spectral gnashing teeth and leap through the air up to half your normal speed. Your leap does not provoke opportunity attacks, and you must land within 5 feet of a target. Upon landing, you can make a single melee attack against that target. On a hit, the target suffers your weapon's normal effects, and the attack deals an extra 1d6 piercing damage from the spectral teeth.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the leap distance increases by 5 feet, and the extra damage dealt by the attack increases by 1d6 for each slot above 1st.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "RAT"
+    },
+    {
+      "name": "Host of Diminutive Humans",
+      "level": 3,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a stick figure of a human)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "While in a settlement, you call a host of Tiny human-looking creatures to emerge from buildings, alleys, or sewers at a point you can see within range. The humans form into a swarm that uses the statistics of a swarm of poisonous snakes, except it has a speed of 40 feet and no swim speed. The host of humans is friendly to you and your companions. Roll initiative for the host, which has its own turns. The host of humans obeys your verbal commands (no action required by you). If you don't issue any commands to the host, it defends itself from hostile creatures but otherwise takes no actions. If you command it to move further than 60 feet from you, or when the spell ends, the host disperses back into the settlement.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 4th level or higher, the host's poison damage increases by 1d6 for each slot level above 3rd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "RAT"
+    },
+    {
+      "name": "Quivering Tail",
+      "level": 2,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a tuft of squirrel fur)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You touch a willing creature and bestow the ratatosk's innate twitchy senses. For the duration, the target can't be surprised. This spell immediately ends after the first time it is used to negate surprise.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "RAT"
+    },
+    {
+      "name": "Spear of Yggdrasil",
+      "level": 2,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You call upon Yggdrasil's might, and a thick tree root bursts from the ground beneath a creature of your choice that you can see within range. The target must make a Dexterity saving throw. On a failed save, the target takes 4d6 piercing damage and is restrained by being impaled on the root. A successful save deals half the damage and the target is not restrained. An impaled creature can use an action to remove itself (or a creature it can reach) from the root, ending the restrained condition.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, you create an additional root that can strike another creature within 30 feet of the initial target, and the damage from each root increases by 1d6 for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "RAT"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Blessed Gryta Mead",
+      "type": "Potion",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Enhanced by ratatosk brewer-clerics, this thick, golden liquid is brewed from the acorns of the World Tree and smells of honey and oak. When you drink a pint of this elixir, you gain the benefits of a heroes' feast spell for 1 hour. In addition, you have advantage on Dexterity checks and saving throws for the same duration.",
+      "source": "PAGE 5"
+    },
+    {
+      "name": "Chaos Acorn",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This acorn was harvested from a branch of the World Tree growing in a chaotic area of the void. A sheen of ever-changing colors decorates its smooth surface.\nYou can use an action to eat the acorn. Doing so triggers a chaos magic surge. Roll percentile dice and consult the chaos magic surge table (see Deep Magic). If the result of the roll specifies a target, such as \"the target of your spell or ability,\" then the effect targets a random creature you can see within 60 feet. The GM has final say on how the rolled result functions.\nThe chaos acorn appears in your pocket, whole and unconsumed, after a long rest.",
+      "source": "Page 8"
+    },
+    {
+      "name": "Cloak of Squirrels",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This wool brocade cloak features a repeating pattern of squirrel heads and tree branches. It has 3 charges and regains all charges daily at dawn.\nWhile wearing this cloak, you can use an action to expend 1 charge to cast the legion of rabid squirrels spell (see Deep Magic). The swarm of squirrels uses the statistics of a swarm of poisonous snakes, except that it has a climbing speed of 30 feet rather than a swimming speed. The swarm emerges from within the cloak and obeys your verbal commands for 1 minute before vanishing back inside the cloak.",
+      "source": "Page 8"
+    },
+    {
+      "name": "Feather Token: World Tree Sapling",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This tiny object looks like a finger-sized tree sapling. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place, a tree sapling springs into existence. Though only 2 feet wide, the tree stretches impossibly high up into the sky. The sapling lasts 1 hour before crumbling away. When you begin climbing the tree, after 10 feet you plane shift to a random location on Yggdrasil.",
+      "source": "Page 8"
+    },
+    {
+      "name": "Glidecloak",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "While wearing a glidecloak and falling, you can use an action each turn to glide half of your falling speed in the horizontal direction of your choice. Before striking the ground, a successful DC 15 Dexterity (Acrobatics) check negates any falling damage. The glidecloak has no effect if the falling distance is less than 15 feet.",
+      "source": "p.8"
+    },
+    {
+      "name": "Mimwood Armor",
+      "type": "Armor (medium or heavy, but not hide or chain)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Mimwood is a wood harvested from Yggdrasil and alchemically rendered as strong as steel. Armor made from mimwood is naturally resistant to fire but does not impart this resistance to the wearer.",
+      "source": "p.9"
+    },
+    {
+      "name": "Nidhogg's Tooth",
+      "type": "Wondrous Item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This fist-sized serpent's fang is carved from obsidian and is curiously cold to the touch. You can use an action to place the fang in an unoccupied space within your reach or to throw it into an unoccupied space within 10 feet of you. Upon doing so, it burrows into the ground and vanishes. A tveirherjar (see Creature Codex) appears in an unoccupied space as close to where the fang vanished as possible. The tveirherjar is an ally to you, speaks all the languages you speak, and lingers for 10 rounds before disappearing.",
+      "source": "p.9"
+    },
+    {
+      "name": "Skipstone",
+      "type": "Wondrous Item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This small bark-colored stone measures 3/4 of an inch in diameter and weighs an ounce. You can use an action to throw it up to 60 feet. The first creature struck by, or that physically touches, the stone within the next 1d4 rounds must succeed a DC 15 Constitution saving throw or be thrown forward 1 round in time. The creature disappears, during which time it cannot act or be acted upon in any way. When the creature returns, it is unaware that any time has passed. After the stone is used, it crumbles to dust.",
+      "source": "p.9"
+    },
+    {
+      "name": "Yggdrasil Net",
+      "type": "Weapon (net)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This net is a ranged weapon woven from living vines cultivated from those growing upon the side of the World Tree. It functions as a normal net except it has AC 10 and 10 hp. Creatures restrained by the net take 3 (1d6) bludgeoning damage each round as the vines constrict. If the net is broken or cut apart, it heals 1d4 hit points each day at dawn as long as the remains of the net are kept in close proximity to each other. Magical healing functions normally on an Yggdrasil net.",
+      "source": "p.9"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glidecloak",
+      "type": "Equipment",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "200 gp",
+      "weight": 0,
+      "description": "This finely woven cloak is fashioned from specially prepared Yggdrasil bark. You can loop your hands and feet into specially designed loops at the sides and bottom of the cloak to create a wing-like surface to facilitate gliding through the air.\nWhile wearing a glidecloak and falling, you can use an action each turn to glide half of your falling speed in the horizontal direction of your choice. Before striking the ground, a successful DC 15 Dexterity (Acrobatics) check negates any falling damage.\nThe glidecloak has no effect if the falling distance is less than 15 feet.",
+      "source": "RAT"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Ratatosk Commoner",
+      "size": "Tiny",
+      "type": "celestial",
+      "alignment": "chaotic neutral",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "63 (18d4 + 18)",
+      "speed": "20 ft., climb 20 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 15,
+        "wisdom": 10,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "wis": 2,
+        "cha": 4
+      },
+      "skills": {
+        "Deception": 4,
+        "Persuasion": 4,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing damage from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Celestial",
+        "Common; telepathy 100 ft."
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "The ratatosk's spellcasting attribute is Charisma (save DC 14). They can innately cast the following spells without requiring material or somatic components:\n• At will: message, vicious mockery\n• 1/day: mirror image"
+        },
+        {
+          "name": "Skitter",
+          "description": "The ratatosk can take the Dash, Disengage, or Hide action as a bonus action on each of its turns."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Gore",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 7 (2d6) psychic damage, and the target must make a successful DC 12 Wisdom saving throw or be charmed for 1 round. While charmed in this way, the creature regards one randomly determined ally as a foe."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Page 14"
+    },
+    {
+      "name": "Ratatosk Assassin",
+      "size": "Tiny",
+      "type": "celestial",
+      "alignment": "chaotic neutral",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "63 (18d4 + 18)",
+      "speed": "20 ft., climb 20 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 18,
+        "constitution": 12,
+        "intelligence": 17,
+        "wisdom": 10,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "wis": 5,
+        "cha": 7
+      },
+      "skills": {
+        "Deception": 7,
+        "Persuasion": 7,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing damage from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Celestial",
+        "Common",
+        "telepathy 100 ft."
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Evasion",
+          "description": "The ratatosk assassin can nimbly dodge out of the way of certain area effects. When they are subjected to an effect that allows them to make a Dexterity saving throw to only take half damage, they instead take no damage if they succeed on the saving throw, and only half damage if they fail."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "The ratatosk’s spellcasting attribute is Charisma (save DC 14). They can innately cast the following spells without requiring material or somatic components:\n•\tAt will: minor illusion, true strike, vicious mockery\n•\t1/day each: longstrider, silence\n•\t3/day: disguise self"
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The ratatosk assassin has advantage on an attack roll against a creature if at least one other ratatosk is within 5 feet of the creature and the other ratatosk is not incapacitated."
+        },
+        {
+          "name": "Skitter",
+          "description": "The ratatosk can take the Dash, Disengage, or Hide action as a bonus action on each of their turns."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The ratatosk assassin makes two curved dagger attacks (melee or ranged) or one dagger attack and one gore attack."
+        },
+        {
+          "name": "Curved Dagger",
+          "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft or 20/60 ft., one target. Hit: 6 (1d4 + 4) piercing damage. The target must make a DC 14 Constitution saving throw. On a failed save, the target takes 10 (3d6) poison damage and is poisoned. On a successful saving throw, the target takes half as much and is not poisoned. A poisoned target may repeat the saving throw at the end of each of its turns, ending the condition on itself on a success."
+        },
+        {
+          "name": "Gore",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 14 (4d6) psychic damage."
+        },
+        {
+          "name": "Psychic Strike (recharge 5–6)",
+          "description": "The assassin delivers a quick slashing blow to the mind of a single creature within 30 feet. The target must make a DC 14 Charisma saving throw, taking 31 (9d6) psychic damage on a failed saving throw or half as much on a successful saving throw."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Nimble Reposition",
+          "description": "When a creature the ratatosk assassin can see hits them with an attack, the assassin can move up to their normal movement without provoking opportunity attacks."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Page 15"
+    },
+    {
+      "name": "Ratatosk Monk",
+      "size": "Tiny",
+      "type": "celestial",
+      "alignment": "chaotic neutral",
+      "armor_class": 15,
+      "ac_type": "unarmored defense",
+      "hit_points": "87 (25d4 + 25)",
+      "speed": "30 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 4,
+        "dexterity": 18,
+        "constitution": 12,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "wis": 6,
+        "cha": 6
+      },
+      "skills": {
+        "Deception": 6,
+        "Persuasion": 6,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing damage from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Celestial",
+        "Common",
+        "telepathy 100 ft."
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Ki Power",
+          "description": "The ratatosk monk has a pool of martial power represented by 4 ki points. These points can be spent to activate their Martial Maneuvers."
+        },
+        {
+          "name": "Martial Maneuver",
+          "description": "Once per turn, when the ratatosk monk hits a target with their unarmed strike or gore attack, they can spend ki points to add one of the following effects to the attack. Unless indicated, each maneuver costs 1 ki point. Succeeding at the saving throw listed for a maneuver negates the effect but not the damage from the initial attack.\n•\t Apprehensive. The target has disadvantage on all attack rolls until the start of the monk’s next turn (DC 14 Charisma).\n•\t Confused. The target is affected as if by a confusion spell until the start of the monk’s next turn (DC 14 Wisdom).\n•\t Disarmed. An object, weapon, or item held by the target is knocked 10 feet away (DC 14 Strength).\n•\t Knockdown. The target falls prone (DC 14 Dexterity).\n•\t Stun (Costs 3 Ki Points). The target is stunned until the start of the monk’s next turn. (DC 14 Constitution)"
+        },
+        {
+          "name": "Unarmored Defense",
+          "description": "While the ratatosk monk is wearing no armor and wielding no shield, their AC includes their Wisdom modifier."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The ratatosk monk makes two unarmed attacks or one unarmed attack and one gore attack."
+        },
+        {
+          "name": "Unarmed Strike",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 1 bludgeoning damage plus 21 (6d6) psychic damage."
+        },
+        {
+          "name": "Gore",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 14 (4d6) psychic damage, and the target must make a successful DC 14 Wisdom saving throw or be charmed for 1 round. While charmed in this way, the creature regards one randomly determined ally as a foe."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Kinetic Recovery",
+          "description": "If the ratatosk monk begins a turn with no ki points and is hit with a melee or ranged weapon attack, the monk gains 1 ki point."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Page 15-16"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Alva Frostpaw",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Intoxicating Flask (Recharge 5–6)",
+          "description": "Alva throws a flask of volatile liquor at a point within 30 feet. The flask explodes in a 15-foot radius. Creatures in the area must succeed on a DC 14 Dexterity saving throw or take 24 (7d6) poison damage and be poisoned for 1 minute. On a successful save, they take half damage and are not poisoned. A poisoned creature repeats the saving throw at the end of each of its turns, ending the poisoned condition on a success."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Obsessive olfactory collector. This fierce ratatosk lives among the branches of Wotan's Tree in Trollheim where she regularly feuds with the local ravenfolk population. Alva guides anyone to Yggdrasil who meets her fee of exotic beverages, yet she is a collector, not an imbiber, and dislikes the taste of alcohol. Alva's love is the scent of beverages, the stranger the better. She keeps her \"hoard\" in her fortified den carved halfway up the World Tree. Use ratatosk (see Tome of Beasts) but add the following new action.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    },
+    {
+      "name": "Churrit the Destroyer",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Disruptor (Recharges 5–6)",
+          "description": "Ranged Weapon Attack: +7 to hit, range 100/300 ft., one target. Hit: 27 (6d8) force damage and all creatures within 10 feet of impact (including the target) must succeed on a DC 13 Strength saving throw or fall prone."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Arrogant bully. Churrit the Destroyer always insists that his whole name be used when addressing him. As one of Beloved Leader Braagezz's enforcers, the ratatosk warlord occupies a favored position among the goblins of the Wasted West. Whispers suggest Churrit led Braagezz to the Ankeshelian vault where she acquired her ancient technology. Use ratatosk warlord (see Creature Codex) but add a custom Ankeshelian disruptor (see Warlock 10: Magocracies).",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    },
+    {
+      "name": "Keerthi Cleversong",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Ki Points",
+          "description": "Keerthi has 2 ki points that she regains when she takes a short or long rest. These points power her martial art abilities.",
+          "uses": 2,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Flowing Dragon Strike (1 ki point)",
+          "description": "As part of a successful gore attack, Keerthi forgoes the normal damage and effect of the gore to instead deal 14 (4d6) of a damage type of her choice (acid, cold, fire, lightning, or poison)."
+        },
+        {
+          "name": "Locust Avoids the Sparrow (1 ki point)",
+          "description": "As a bonus action, Keerthi spends 1 ki point to become more elusive until the start of her next turn. When an enemy targets Keerthi with an attack while she is elusive, she can move up to 10 feet. If this movement takes Keerthi out of range of the attack, the attack misses. This movement doesn't provoke opportunity attacks."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Contemplative martial artist. Keerthi lives in an uneasy alliance with Ruomu, an awakened World Tree sapling in the far reaches of the Brilliant East. She bribes the massive mulberry treant with fine poetry and song to allow travelers access. The silver furred squirrel-folk follows the teachings of the Eastern philosopher Laoshi and his \"Five Steps\" to enlightenment. Use ratatosk (see Tome of Beasts) but add the following.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    },
+    {
+      "name": "Lutalo Flitwhisker",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "cape of the mountebank"
+      ],
+      "spellcasting": null,
+      "description": "Spy for the serpent queen. Lutalo guards Mamiwata's Mangrove, a massive tree growing in the middle of the Selwheyha River Delta in Lignas. He will allow access to groups of climbers in return for magic items of uncommon or greater rarity. Secretly, Lutalo acts as a spy for the Lady of Vipers. Use ratatosk warlord but add resistance to poison damage and a cape of the mountebank.",
+      "role": "Spy",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    },
+    {
+      "name": "Nanja Sandtooth",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "burrow 10 ft.",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Sneakthief stylist. A ratatosk with pale fur, Nanja can be found most often at the Menatayni Oasis in the Crescent Desert. For a small fee of gaudy clothing, she guides travelers up the towering Palm of the Sheikh and onto Yggdrasil. Nanja travels across Nuria Natal, sneaking into tombs to dress interred mummies in fashionable outfits from her collection. She believes she performs a much-needed service to the dead because, \"they look so sad with their decayed clothing!\" Use ratatosk but add a burrow speed of 10 feet and proficiency with thieves' tools.",
+      "role": "Guide",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    },
+    {
+      "name": "Turatup Farstep",
+      "race": "Ratatosk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Devoted murderer. Twisted and merciless, Turatup devotes himself to Karakhune the god of portals, otherwise known as Hune the Doorlord, by cleansing magical pathways with blood. He believes those who use magical portals and roads despoil Karakhune's",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Book of Ratatosk p.12"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Ratatosk"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "RAT",
+  "_book_title": "Ratatosk",
+  "_completed": true,
+  "_timestamp": 1790289972.4159622
+}

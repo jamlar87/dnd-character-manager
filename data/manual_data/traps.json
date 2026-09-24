@@ -6698,5 +6698,2805 @@
     "description": "A trap that fires a poisoned dart when touched.",
     "source": "(Kobold Quarterly 20, p.42)",
     "_source_manual": "KW"
+  },
+  {
+    "name": "Falling Net Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A trip wire stretched between the trees is triggered.",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "Spotting the trip wire stretched between the trees requires a successful DC 10 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The trap can be disarmed (no specific DC or method given in the source)."
+    },
+    "effect": "A net falls from the branches, trapping those beneath it. If a PC is caught in the net, Tertso comes down to cut them free.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Set in the branches on either side of the tree Tertso is hiding in.",
+    "description": "Two falling net traps are set in the branches on either side of the tree Tertso is hiding in, triggered by a trip wire stretched between the trees.",
+    "source": "(Tales from the Shadows, p.9)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Bramble Wall",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Attempting to move through the initial wall of brambles without clearing it.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The brambles are obvious."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Cut through, burn away, or otherwise clear",
+      "detail": "The initial wall of brambles cannot be bypassed and must be cut through, burned away, or otherwise cleared to avoid damage (AC 8, 20 hp)."
+    },
+    "effect": "Moving faster than half speed on the path requires a successful DC 10 Wisdom (Animal Handling) check if mounted (or a DC 10 Dexterity [Acrobatics] check if on foot) to avoid taking 5 (2d4) points of slashing damage to their mount or themselves. After five checks, regardless of success or failure, the PCs are able to get clear of the brambles.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "5 (2d4)",
+    "damage_type": "slashing",
+    "area": "The entire trail lined by thick patches of brambles.",
+    "description": "Dark, ominous brambles have encroached on this trailhead, and rows of thorns glisten in the hazy twilight all along the edges of the forked path that follows.",
+    "source": "(Tales from the Shadows, p.11)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Poisoned Dart Trip Wire",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Opening the door cuts a trip wire that unleashes four poisoned darts.",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "A successful DC 13 Wisdom (Perception) check notices the trip wire through a gap in the door."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 13 Dexterity check using thieves' tools cuts the trip wire harmlessly. A PC without thieves' tools can attempt this check with disadvantage using an edged weapon or tool. On a failure, the wire hasn't been cut sufficiently, permitting the trap to trigger when the door is opened."
+    },
+    "effect": "Make a ranged weapon attack for each dart with a +7 bonus to hit, selecting random targets outside that are within 10 feet of the door. A creature that is hit takes 3 (1d6) piercing damage and must succeed on a DC 13 Constitution saving throw, taking 7 (2d6) poison damage on a failed save, or half as much damage on a successful one. Once triggered, the darts and tripwire must be reset to allow the trap to function once more.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "3 (1d6) piercing plus 7 (2d6) poison",
+    "damage_type": "piercing and poison",
+    "area": "Targets outside within 10 feet of the door",
+    "description": "A trip wire connected to four poisoned darts is set to fire when the locked door of the goblin leader's abode is opened.",
+    "source": "(Tales from the Shadows, p.24)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Sarastra's Holy Book",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Opening the book",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not specified"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified"
+    },
+    "effect": "Any creature other than Hypatia who opens her copy of the book must make a DC 15 Constitution saving throw or be blinded for 1 hour.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "An ancient-looking copy of Sarastra's holy book, Mistress of Air and Darkness, sits on the table in Hypatia's room. Any creature other than Hypatia who opens it must make a DC 15 Constitution saving throw or be blinded for 1 hour.",
+    "source": "(Tales from the Shadows, p.58)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Dark Script",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A PC lights the lantern in area 2.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Any PC with the ability to cast 1st-level sorcerer or wizard spells automatically discerns the dangerous nature of the writing. If a PC can read the writing through magical means, they learn the writing's trap triggers if the lantern is lit, though what the nature of the trap is remains a mystery."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "dispel magic",
+      "detail": "The trap functions as an 8th-level spell and can be dispelled using dispel magic."
+    },
+    "effect": "A PC who lights the lantern immediately suffers the effects of the maze spell for 10 minutes or until they escape.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "The writing on the wall is a powerful spell trap written in a forgotten language known as Old Umbral.",
+    "source": "(Tales from the Shadows, p.81)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Magical Fence",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Attempting to cross into the courtyard while the fence is active",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Spidery runes engraved on the posts flicker with a bluish glow. A weave of transparent, bluish energy stretches between the posts, blocking access to the courtyard beyond. As the runes flicker and dim, the weave of energy flickers in and out of existence with a faint humming noise."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Destroy one of the posts",
+      "detail": "If one of the posts is destroyed, any sections of fence it connects to cease to function altogether. Each post has AC 17 and 18 hp and a damage threshold of 10."
+    },
+    "effect": "During the periods it stands, it functions as a wall of force, except it is translucent (rather than entirely transparent), and there are strategically-placed gaps in the wall through which defenders could make ranged attacks. Any creature standing adjacent to the fence has three-quarters cover against attacks at a range of 10 feet or more from the other side. If the PCs attempt to cross into the courtyard, they must rush through while one of the sections of the fence is down. A successful DC 13 Dexterity saving throw allows safe passage past the fence. On a failed save, a creature takes 22 (4d10) points of force damage and is thrown back 5 feet and falls prone. However, any damage dealt to a post that does not reduce it to 0 hp releases a surge of energy. All creatures within 5 feet of a post when it surges take 11 (2d10) points of force damage. A successful DC 13 Dexterity saving throw reduces the damage by half.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "force",
+    "area": "The fence stretches between the posts blocking access to the courtyard beyond.",
+    "description": "This magical fence once provided the primary means of defense for the palace. Decades of neglect have caused the magic to malfunction; as a result, the fence now flickers in and out of existence at random intervals.",
+    "source": "(Tales from the Shadows, p.87)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Trapped Final Step",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If more than 10 pounds are placed on the step",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A successful DC 15 Wisdom (Perception) check reveals the final step is trapped."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 12 Intelligence (Arcana) check also reveals the trap can be disabled by poking the open eye of the winking figure in the painting."
+    },
+    "effect": "The figure in the painting opens its mouth and releases a blast of frigid cold. Each creature within 5 feet of the final step must make a successful DC 13 Dexterity saving throw or take 16 (3d10) damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "16 (3d10)",
+    "damage_type": "cold",
+    "area": "Each creature within 5 feet of the final step",
+    "description": "A trapped final step that releases a blast of frigid cold from a painting when more than 10 pounds are placed on it.",
+    "source": "(Tales from the Shadows, p.104)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Enhanced Glyph of Warding",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Destroying the door, or a failed check to disable the glyph",
+    "detection": {
+      "dc": 25,
+      "skill": "Perception or Investigation",
+      "detail": "Any active glyphs on the doors can be found with a successful DC 25 Wisdom (Perception) or Intelligence (Investigation) check."
+    },
+    "disarm": {
+      "dc": 20,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 20 Intelligence (Arcana) check can be used to disable a glyph."
+    },
+    "effect": "The glyph explodes in a 20-foot radius; creatures in the area of effect must succeed on a DC 18 Dexterity saving throw or take 27 (6d8) cold damage, or half that much damage on a successful one.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "27 (6d8)",
+    "damage_type": "cold",
+    "area": "20-foot radius",
+    "description": "Doors in the labyrinth are locked and trapped with an enhanced glyph of warding; following the path from the center of the labyrinth to a door unlocks the door and disables the trap.",
+    "source": "(Tales from the Shadows, p.105)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Time Trap (Beneath and Under Door)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Passing through the door",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The door is unlocked and appears normal; the clock face reads 3:16 and the doormat reads 6."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Arrange the clock's hands",
+      "detail": "To bypass the effect, the clock's hands must be arranged so that if one were to subtract all of the individual digits from each other, going from left to right (for example 9 – 2 – 1), the result would be 6."
+    },
+    "effect": "The door alters time, and those passing through it are subjected to a random temporal effect (see the \"Temporal Effects\" sidebar).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Anyone passing through the door",
+    "description": "A wooden door with a clock face mounted on it hangs in an archway that faces the steps. The clock reads, \"3:16.\" The door is closed. The doormat reads, \"6.\" The door alters time for those passing through it.",
+    "source": "(Tales from the Shadows, p.120)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Hammerbell Alarms",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Stepping onto the staircase without first opening the Beneath and Under Door",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The clocks with hammer bell alarms are visible throughout the tower."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified; avoid by opening the door first."
+    },
+    "effect": "All the clocks with hammer bell alarms go off simultaneously. All creatures in the tower (except The Ticktock Man) must make a DC 16 Constitution saving throw or lose any concentration spells and become deafened for 1 minute, or if successful, until the start of their next turn.",
+    "save_dc": 16,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "All creatures in the tower (except The Ticktock Man)",
+    "description": "All hammer bell alarm clocks in the tower go off at once, deafening and disrupting concentration.",
+    "source": "(Tales from the Shadows, p.120)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Cuckoo Alarms",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Triggered in conjunction with the Up and Over Door area (specific trigger not fully detailed in this text)",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The cuckoo clocks are visible throughout the tower."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "All the cuckoo clocks in the tower ring simultaneously. The cacophony is maddening, and all creatures in the tower (except The Ticktock Man) must make a DC 16 Constitution saving throw to avoid losing concentration on any active spells.",
+    "save_dc": 16,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "All creatures in the tower (except The Ticktock Man)",
+    "description": "All cuckoo clocks ring at once, creating a maddening cacophony that disrupts concentration.",
+    "source": "(Tales from the Shadows, p.120)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Enchanted Door Memory Siphon",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Passing through the door",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Bypass",
+      "detail": "To bypass the effect, the clock's hands must be arranged so that if one were to multiply the individual digits together, going from left to right (for example 2 × 3 × 2), the result would be 12."
+    },
+    "effect": "Those passing through it must make a DC 16 Wisdom save or lose their background, including proficiency in any skills, tools, and languages associated with the background. The memories transform into colored sand and manifest within one of the hourglasses atop the shelf in the Nowhere Room. The effect lasts until the individual recovers their memories, as described below.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "The enchanted door siphons memories.",
+    "source": "(Tales from the Shadows, p.122)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Hungry Demon Puzzle Lock",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Placing items that don't contain the specified colors (blue, yellow, purple) into the balor's mouth, or offering a name other than a member of the Kairious family when asked.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The hollow inside the demon's mouth is pitch black. If a light is shone inside it, the following words can be seen engraved in a tiny, neat script: I relish cobalt, dote on flax, and periwinkle my diet lacks."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The northern door is locked and cannot be opened with a physical key or thieves' tools. The puzzle must be solved by placing a blue, yellow, and purple object of any material (multicolored items can be used if one or more of the listed colors is present on it) in the balor's mouth, or by casting a spell that produces an array of colors, such as color spray or prismatic spray into it. Then, when asked 'Who are you?', a PC must offer the name of a member of the Kairious family."
+    },
+    "effect": "If the wrong items or name are given, the demon's face makes a disgusted expression and wakes the gorgons disguised as the steel bull statues. The gorgons cannot easily escape the room and fight to the death.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A locked door with a carved balor's head that opens only when the correct colored items are placed in its mouth and a Kairious family name is given.",
+    "source": "(Tales from the Shadows, p.142)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Time Trap",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Each time a creature steps on one of the tiles in the courtyard.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The tiles' appearance changes with age: pristine in the first 25 feet, scuffed with slight patina in the second 25 feet, heavily worn with hairline fractures in the third 25 feet, and chipped with wide cracks and broken edges in the fourth 25 feet."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "A creature can escape the aging effects by traversing the courtyard in the following fashion: (1) slithering, then (2) crawling, then (3) dancing, then (4) stooping and walking with a cane."
+    },
+    "effect": "Each time a creature steps on one of the tiles, they age a certain amount depending on where in the courtyard they are. Refer to the \"Time Trap Aging\" table to determine how much aging occurs with each step, how one can avoid the aging effect, and what the tiles in each section look like. A creature that enters the courtyard from anywhere other than the stairs ages 100 years for its first step, then the trap functions as described above. A creature standing within the vapor emitted by the shroud of Kairious is immune to the effects of the trap.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The courtyard is laid in orderly five-foot squares of white onyx; they start out pristine, as if freshly laid, then progressively show more and more signs of age the closer one gets to the vault door. Directly in front of the double doors, there is a slightly raised long dais made of smooth, polished stone that spans 30 feet long by 5 feet wide.",
+    "description": "A magical trap in a courtyard that ages creatures as they step on tiles, with the aging effect increasing closer to the vault door.",
+    "source": "(Tales from the Shadows, p.144)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Explosive Glyph",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Hidden within the locking mechanism of the padlock; triggered when the lock is broken or when the glyph's trigger condition is met.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A magical glyph is hidden within the locking mechanism of the padlock."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The padlock can be picked with a successful DC 16 Dexterity check using thieves' tools. A success also disables the effect of the glyph of warding."
+    },
+    "effect": "Its explosive runes erupt with magical energy as described in the spell glyph of warding. The spell was cast at 3rd level and is set to deal fire damage.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "fire",
+    "area": "",
+    "description": "A magical glyph hidden within the locking mechanism of the padlock on the iron gate. If triggered, its explosive runes erupt with magical energy as described in the spell glyph of warding, cast at 3rd level and set to deal fire damage.",
+    "source": "(Tales from the Shadows, p.152)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Putrid Bog Stench",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Any non-resident of the bog entering the Putrid Bog",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The putrid stench is immediately obvious; no check required to notice."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed; a protection from poison spell removes the effect from a sickened creature and renders them immune to the effects for the remainder of the visit."
+    },
+    "effect": "Any non-resident of the bog must make a DC 17 Constitution saving throw or gain the poisoned condition from the bog's putrid stench for as long as they remain within its confines. A successful save renders them immune to the effects of the bog's stench for the duration of the visit. A protection from poison spell removes the effect from a sickened creature and renders them immune to the effects for the remainder of the visit. Creatures with immunity to poison are unaffected, and creatures with poison resistance receive their normal advantage on the saving throws.",
+    "save_dc": 17,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "The Putrid Bog",
+    "description": "The Putrid Bog is covered in dank brackish water and thick mud. Any non-resident must save or be poisoned by the bog's putrid stench.",
+    "source": "(Tales from the Shadows, p.167)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Symbol of Stunning (Black Rock Altar)",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Anyone not of evil alignment passing through the ring of standing stones",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The black rock altar radiates a permanent symbol of stunning; a palpable feeling of evil and dark magic radiates from the entire area and the black altar in particular."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified."
+    },
+    "effect": "The black rock altar radiates a permanent symbol of stunning (successful DC 16 Wisdom saving throw negates), which is triggered by anyone not of evil alignment passing through the ring of standing stones.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "Ring of standing stones, approximately 30 feet in diameter",
+    "description": "A permanent symbol of stunning on the black rock altar at the heart of the Putrid Bog triggers when a non-evil creature passes through the ring of standing stones.",
+    "source": "(Tales from the Shadows, p.167)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Shard of the Mirror",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Disturbing or attempting to remove the shard from the tree",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The shard is visible; failing either of these checks by 3 or more requires a DC 12 Dexterity saving throw to avoid being cut by the shard for 3 (1d6) slashing damage. Failing either check by 10 or more requires a successful DC 17 Dexterity saving throw to avoid falling from the tree for 14 (4d6) bludgeoning damage."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The shard is too firmly embedded in the tree for mage hand or similar magic to pull free."
+    },
+    "effect": "Being cut by the shard for 3 (1d6) slashing damage, or falling from the tree for 14 (4d6) bludgeoning damage.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6)",
+    "damage_type": "slashing",
+    "area": "The tree containing the shard",
+    "description": "A shard embedded in a tree that cuts those who fail to remove it carefully, with a risk of falling.",
+    "source": "(Tales from the Shadows, p.170)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Pit of Shadows Steps",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Attempting to navigate the steep and uneven steps",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "A DC 10 Wisdom (Perception) check reveals a partially worn and eroded set of ancient stone steps cut into the sides of the pit."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "If the PCs take precautionary measures, such as using rope or other climbing gear, the checks are made with advantage."
+    },
+    "effect": "PCs failing a DC 12 Dexterity (Acrobatics) check fall from the steps and crash to the stone ledge below, taking 10 (3d6) bludgeoning damage.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "10 (3d6)",
+    "damage_type": "bludgeoning",
+    "area": "The steps leading down into the pit",
+    "description": "Extremely steep and uneven steps that are difficult to navigate, causing falls.",
+    "source": "(Tales from the Shadows, p.170)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Glyph of Warding on Tower Door",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Opening or touching the warded door",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The door is warded with arcane lock and protected by a glyph of warding."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified."
+    },
+    "effect": "31 (7d8) cold damage, DC 18 Dexterity saving throw for half.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "31 (7d8)",
+    "damage_type": "cold",
+    "area": "The door",
+    "description": "A glyph of warding protecting the tower's front door.",
+    "source": "(Tales from the Shadows, p.172)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Bramble Path",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Moving faster than half speed on the path",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The brambles are obvious and visible"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed; must be avoided by moving at half speed or making checks"
+    },
+    "effect": "Moving faster than half speed on the path requires a successful DC 10 Wisdom (Animal Handling) check if mounted (or a DC 10 Dexterity [Acrobatics] check if on foot) to avoid taking 5 (2d4) points of slashing damage to their mount or themselves. After five checks, regardless of success or failure, the PCs are able to get clear of the brambles.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "5 (2d4)",
+    "damage_type": "slashing",
+    "area": "Entire trail lined by thick patches of brambles",
+    "description": "This entire trail is lined by thick patches of brambles that are difficult to avoid.",
+    "source": "(Tales from the Shadows, p.11)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Frigid Blast Step Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If more than 10 pounds are placed on the final step",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A successful DC 15 Wisdom (Perception) check reveals the final step is trapped."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The figure in the painting opens its mouth and releases a blast of frigid",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "The final step of the stairwell is trapped; when more than 10 pounds are placed on it, the figure in the painting opens its mouth and releases a blast of frigid (text truncated).",
+    "source": "(Tales from the Shadows, p.103)",
+    "_source_manual": "TFS"
+  },
+  {
+    "name": "Crumbling Ruin",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Anyone who fails an attribute check with a natural '1' on the die whilst exploring the ruin dislodges something",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The structures that support the building look weak and dust regularly filters down from them. The whole ruin groans alarmingly with the wind, punctuated by the sounds of small stones falling from the ceiling."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Falling masonry",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "Portions of the ruin are still standing, if only just. Large portions of the stonework have clearly fallen away, time and weather having worn them down.",
+    "source": "(The Road Goes Ever On, p.18)",
+    "_source_manual": "RGEO"
+  },
+  {
+    "name": "Cursed Oars",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A character holding both oars",
+    "detection": {
+      "dc": 0,
+      "skill": "detect magic",
+      "detail": "A detect magic spell marks them as holding a cursed enchantment."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "remove curse spell or similar effect",
+      "detail": "A character can be freed from the curse with a remove curse spell or similar effect."
+    },
+    "effect": "A character holding both oars must make a successful DC 15 Wisdom saving throw or be affected by the fiendish curse. For the next 24 hours, the cursed creature is at disadvantage to Intelligence and Wisdom saving throws. In addition, they are poisoned whenever they are more than 100 feet away from the River Styx. At the end of the 24 hours, the creature is transformed into a merrenoloth (see appendix A) contracted as the new captain of the abandoned ship. Though the oars and ship are immune to damage or magical effects, a character can be freed from the curse with a remove curse spell or similar effect.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "Inside the boat is a pair of smooth wooden oars. A detect magic spell marks them as holding a cursed enchantment.",
+    "source": "(Encounters in Avernus, p.14)",
+    "_source_manual": "EIA"
+  },
+  {
+    "name": "Collapsing Wall",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Each creature that crosses the bridge",
+    "detection": {
+      "dc": 13,
+      "skill": "Investigation or Perception",
+      "detail": "A successful DC 13 Intelligence (Investigation) or Wisdom (Perception) check notices the wall isn't sound."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The wall is damaged and at risk of giving way. Each creature that crosses the bridge must succeed on a ... (text truncated)",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge",
+    "description": "The wall is a 15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge. The wall is damaged and at risk of giving way.",
+    "source": "(Warlock Lair: The Returners' Tower, p.14)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Damaged Bridge Wall",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Each creature that crosses the bridge must succeed on a DC 13 Dexterity saving throw or cause part of the wall to crumble",
+    "detection": {
+      "dc": 13,
+      "skill": "Investigation or Perception",
+      "detail": "A successful DC 13 Intelligence (Investigation) or Wisdom (Perception) check notices the wall isn't sound."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "cause part of the wall to crumble, taking 2 (1d4) bludgeoning damage, and unless tethered to other creatures or to the wall, they fall into the abyss (see Oubliette Features). A creature that moves at half its speed across the bridge has advantage on the saving throw.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "2 (1d4)",
+    "damage_type": "bludgeoning",
+    "area": "15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge",
+    "description": "A damaged wall on a bridge that can crumble when crossed, causing creatures to fall into the abyss.",
+    "source": "(Warlock Lair: The Returners' Tower, p.15)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Falling Halberd Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature opens the secret door to Area 3, a trip wire snaps, releasing the halberd to fall in the spaces between the statue and the door.",
+    "detection": {
+      "dc": 12,
+      "skill": "Investigation",
+      "detail": "A successful DC 12 Intelligence (Investigation) check notices the trip wire hidden among the thick grass covering the floor. Alternatively, a successful DC 15 Wisdom (Perception) check notices a fracture on the right wrist of the statue where it was broken and reattached to form the trap."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 12 Dexterity (thieves' tools) check harmlessly detaches the trip wire from the halberd. A character without thieves' tools can attempt this check with disadvantage, using any edged weapon or edged tool. On a failed check, the trap triggers."
+    },
+    "effect": "Each creature between the statue and the secret door when the trap triggers must make a DC 11 Dexterity saving throw, taking 11 (2d10) bludgeoning damage on a failed save or half as much damage on a successful one. If no creatures are between the statue and the door when the trap triggers, the halberd loudly but harmlessly clatters to the floor.",
+    "save_dc": 11,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "The spaces between the statue and the secret door",
+    "description": "A simple trap left by the children of the briar, using a stone halberd held by a statue that falls when the secret door to Area 3 is opened.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Thorny Vines",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature touches the vines or hits them with a melee attack while within 5 feet of them, or attempts to squeeze through the vines.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The vines are visible and fill the base of the battlement."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Attack and destroy the vines",
+      "detail": "The vines can be attacked and destroyed (AC 12; hp 10; vulnerability to fire; immunity to piercing, poison, and psychic damage per 10-foot section). Hacking through the vines alerts every creature in the tower to the PCs' presence."
+    },
+    "effect": "Each creature that touches the vines or hits them with a melee attack while within 5 feet of them must succeed on a DC 12 Dexterity saving throw or take 9 (2d8) piercing damage. A creature can squeeze through the vines without alerting the tower's residents, but it must succeed on a DC 12 Dexterity saving throw or take 4 (1d8) piercing damage for each 5 feet it moves through the vines.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "9 (2d8)",
+    "damage_type": "piercing",
+    "area": "Base of the battlement, 10-foot sections",
+    "description": "A tangle of thorny vines fills the base of this battlement but doesn't climb the stairs.",
+    "source": "(Warlock Lair: The Returners' Tower, p.23)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Shard Sphere Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature opens the door, a rusted iron sphere falls to the ground and explodes in a shower of metal shards.",
+    "detection": {
+      "dc": 13,
+      "skill": "Investigation",
+      "detail": "A successful DC 13 Intelligence (Investigation) check finds the almost invisible seams marking the door."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 14 Intelligence (Investigation) check locates a lead wire from the door connected to a group of wires holding the sphere in place overhead. A successful DC 12 Dexterity (thieves' tools) check disables the lead wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+    },
+    "effect": "Each creature within 15 feet of the door must make a DC 13 Dexterity saving throw, taking 11 (2d10) piercing damage on a failed save or half as much damage on a successful one.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "piercing",
+    "area": "15 feet of the door",
+    "description": "A rusted iron sphere falls and explodes in a shower of metal shards when the door to Kettek's Lobby is opened.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Snare Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A Small or larger creature steps into the room",
+    "detection": {
+      "dc": 16,
+      "skill": "Perception",
+      "detail": "A character spots a simple snare trap at the door"
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 15 Dexterity (thieves' tools) check disarms the trap"
+    },
+    "effect": "Creatures caught in the snare must make a DC 15 Dexterity saving throw. On a failed save, the creature is restrained until it uses an action to free itself.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "The door to the southernmost storeroom (bucca nest)",
+    "description": "A simple snare trap at the door of the bucca nest that triggers when a Small or larger creature steps into the room.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Portcullis Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature attempts to move past the bars after they have been lowered by pulling the lever.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified in the source text."
+    },
+    "effect": "The lever suddenly snaps back to the upright position as the bars spring from the floor, back into their original position, dealing 11 (2d10) points of bludgeoning damage to the creature and knocking them back 5 feet.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "The passage blocked by the portcullis.",
+    "description": "A portcullis trap in Area 2: pulling a lever lowers the bars, but moving past them causes the bars to spring back up, damaging and knocking back the creature.",
+    "source": "(Warlock Lair: The Returners' Tower, p.46)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Springing Bars Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature attempts to move past the bars after they have been lowered.",
+    "detection": {
+      "dc": 13,
+      "skill": "Investigation or Perception",
+      "detail": "A DC 13 Intelligence (Investigation) or Wisdom (Perception) check made by the person who pulls the lever notes that it does not sound or feel as if the lever has locked down properly."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 13 Dexterity (thieves' tools) check can be made to jam the lever, preventing it from releasing and raising the bars again."
+    },
+    "effect": "The lever suddenly snaps back to the upright position as the bars spring from the floor, back into their original position, dealing 11 (2d10) points of bludgeoning damage to the creature and knocking them back 5 feet.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "The area past the bars",
+    "description": "A lever lowers bars into the floor, but the mechanism is faulty and the bars spring back up with great force when a creature tries to pass.",
+    "source": "(Warlock Lair: The Returners' Tower, p.47)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Statue Lightning Arc Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature walks between the two statues at the far end of the room.",
+    "detection": {
+      "dc": 14,
+      "skill": "Investigation",
+      "detail": "A successful DC 14 Intelligence (Investigation) check finds a hidden switch in the folds of the robe on the statue to the southwest."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Investigation or dispel magic",
+      "detail": "Flipping the hidden switch will deactivate the trap for 1 minute. A successful dispel magic can also deactivate the trap."
+    },
+    "effect": "An arc of electricity jumps between the tips of the staves the statues hold. Any creature in the path of the arc takes 11 (2d10) lightning damage and is stunned for 1 round.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "lightning",
+    "area": "The path between the two statues",
+    "description": "Two bronze statues of robed, hooded figures carrying staves unleash an arc of electricity when a creature passes between them.",
+    "source": "(Warlock Lair: The Returners' Tower, p.47)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Incense Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Burning any of Durgleel's meditation incense",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not described"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not described"
+    },
+    "effect": "Releases a cloud of toxic smoke. All creatures in the area of this smoke must make a DC 13 Constitution saving throw. On a failed save, creatures take 9 (2d8) poison damage and are poisoned for 1 minute. While poisoned from the incense, a creature is plagued with \"visions,\" vivid flashes of other places and events, which cause the creature to have disadvantage on attacks and on any Intelligence-, Wisdom-, and Charisma-based saving throws and skill checks for as long as they are poisoned. On a successful save, a creature takes half damage and is not poisoned. Should any creature directly inhale the incense for whatever reason, they inhale some of the deadly spores. The DC of the saving throw is then increased to 16, the poison damage increases to 18 (4d8), and the poisoned duration increases to 10 minutes.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "9 (2d8)",
+    "damage_type": "poison",
+    "area": "Area of the smoke cloud",
+    "description": "A sack of meditation incense mixed with toxic spores from Roggsothof the Fungal Horror. Burning it releases a cloud of toxic smoke.",
+    "source": "(Warlock Lair: The Returners' Tower, p.49)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Hall of Force Plates",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Each plate projects a powerful wave of energy any time a creature passes in front of it within 15 feet.",
+    "detection": {
+      "dc": 15,
+      "skill": "Arcana",
+      "detail": "A detect magic spell will show an aura of evocation magic around each plate. A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+    },
+    "effect": "A creature caught in a wave must make a DC 15 Strength saving throw. On a failed save, the creature takes 11 (2d10) force damage and is pushed 15 feet and knocked prone. On a successful saving throw, the creature takes half damage, remains unmoved, and is not knocked prone. The first plate is only 10 feet from the opposite wall however, so a creature that fails its saving throw also takes 7 (2d6) bludgeoning damage from its impact with the opposite wall before falling prone. A creature that fails its saving throw against the third plate must also succeed at a DC 13 Dexterity saving throw or be knocked over the side of the bridge into the stream below.",
+    "save_dc": 15,
+    "save_ability": "Strength",
+    "damage": "11 (2d10)",
+    "damage_type": "force",
+    "area": "15 feet in front of each plate",
+    "description": "Three large plates of a strange, blue-green metal mounted to the wall each project a powerful wave of energy when a creature passes in front of them.",
+    "source": "(Warlock Lair: The Returners' Tower, p.50)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Deadfall Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A tripwire is stretched across the passage leading up from the bottom of the sinkhole in Area 14, right at the top of the first incline before the passage widens. If triggered, a deadfall—a large log with sharpened spikes along the side facing the tripwire—drops from behind a dip in the ceiling, swinging from ropes attached to each end, to arc down into any creatures in the widest area of the passage to the top of the first incline where the tripwire is located.",
+    "detection": {
+      "dc": 14,
+      "skill": "Intelligence (Investigation) or Wisdom (Perception)",
+      "detail": "A successful DC 14 Intelligence (Investigation) or Wisdom (Perception) check will spot the camouflaged tripwire."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Avoid the trap",
+      "detail": "The easiest method is to simply avoid the trap, stepping over the tripwire and moving on. Alternatively, the tripwire can be triggered from a safe distance. Once the trap is triggered, it will not go off again until reset, and the deadfall can either be cut down or bypassed."
+    },
+    "effect": "The deadfall deals 22 (4d10) piercing damage to all creatures in its path and impales them on the spikes, where they are restrained. A successful DC 15 Dexterity saving throw halves the damage and the creature is not restrained. If a creature beats the DC by 5 or more, it takes no damage at all and completely avoids the deadfall.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "piercing",
+    "area": "The widest area of the passage to the top of the first incline where the tripwire is located.",
+    "description": "A tripwire-triggered deadfall log with sharpened spikes that swings down from the ceiling to impale creatures in a passage.",
+    "source": "(Warlock Lair: The Returners' Tower, p.51)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Control Panel",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Operating a lever, wheel, or switch on the control panel",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The cabinet on the western wall appears to have remained untouched for decades."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Roll d100 and consult the table: 01–25 No effect. 26–50 Insecticide sprays in Areas 10–15, but the concoction has weakened over time. Insects are not killed but enraged. Add one swarm of insects to each of those areas. If this result is rolled a second time, the second dose kills any swarms. This result has no effect after the second time. 51–60 A magical fertilizer is applied to Areas 6 and 10–15, causing rapid growth. All terrain in Areas 10–15 is now considered difficult terrain. Each plant creature in Areas 6 and 10–15 gain 11 (2d10) temporary hit points and a +2 bonus to attack and damage rolls. If this result is rolled again, it has no effect. 61–70 A purifying element is released into the water in Areas 10–15. Acraecea's corrupt form is inadvertently affected, and she is poisoned for 1 hour. If this result is rolled again, it has no effect. 71–90 Herbicide is released into the test planter in Area 6, killing the quash moss (see Hazards in Appendix). 91–95 That particular lever/switch/wheel shorts out, causing smoke and dealing 11 (2d10) lightning damage to the creature that triggered it. 96–00 Same as a roll of 91–95, except the resulting feedback shorts out the entire machine, causing a cloud of smoke to fill the entire passageway for 1 minute, which heavily obscures the area and possibly alerts creatures in nearby areas to the PCs' presence, at GM's discretion.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "11 (2d10)",
+    "damage_type": "lightning",
+    "area": "",
+    "description": "A strange metal cabinet affixed to the western wall, its rusty surface covered with levers, wheels, and switches. This was the control unit for experimental treatments the wizard had developed for his garden.",
+    "source": "(Warlock Lair: The Returners' Tower, p.67)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Illusion-Shrouded Pit",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature steps onto the illusion-covered pit in the center of the room.",
+    "detection": {
+      "dc": 16,
+      "skill": "Investigation or Perception",
+      "detail": "Anyone examining the floor carefully and succeeding on a DC 16 Intelligence (Investigation) or Wisdom (Perception) check notices faint scratches on the floor outlining a rough square, just over 5 feet per side. Tactile investigation of the floor within the square reveals it to be nothing more than an illusion."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method is described in the source text."
+    },
+    "effect": "A creature that falls into the pit takes half the normal falling damage since the decaying vegetation piled at the bottom softens the fall. A mass of asp vines lurks in the pile at the bottom of the pit and attacks any creature that falls into the pit, scoring it with their poisonous thorns until it dies.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "half normal falling damage (50-foot-deep pit)",
+    "damage_type": "bludgeoning",
+    "area": "50-foot-deep pit, just over 5 feet per side, in the center of the room",
+    "description": "A 50-foot-deep pit lies covered with an illusion to appear as a normal floor. When one of Nazaire's followers fell to his death, one of the others marked the floor, so they could avoid the trap in the future. Now they use the pit to dispose of unwanted vegetation.",
+    "source": "(Warlock Lair: The Returners' Tower, p.68)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Colored Paver Trap",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Stepping on any paver that is not pink, including walking toward the archway without specifying which paver is stepped on",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified; the pink stones are visibly safe to walk upon"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified"
+    },
+    "effect": "The creature takes 1d4 damage of a type according to the paver's color: necrotic (black), radiant (white), force (green), fire (red), acid (orange), and cold (blue).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d4",
+    "damage_type": "varies (necrotic, radiant, force, fire, acid, or cold)",
+    "area": "The paved area leading to the center archway",
+    "description": "Only the pink stones are safe to walk upon. Stepping on any other colored paver deals 1d4 damage of a type based on the paver's color.",
+    "source": "(Warlock Lair: The Returners' Tower, p.79)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Rug of Smothering",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "When the PCs touch the rug of smothering, it animates and attacks.",
+    "detection": {
+      "dc": 14,
+      "skill": "Perception",
+      "detail": "A successful DC 14 Wisdom (Perception) check allows the PCs to realize the rug is not threadbare like the others in the tower but appears to be in pristine condition."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The rug animates and attacks.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Area 6",
+    "description": "A rug of smothering disguised as a pristine rug in Area 6.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Tapestry of the Radiant Eye",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "PCs who investigate or look at the tapestry for more than 20 seconds",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The tapestry depicting the radiant eye is saturated with mysterious, divine energy from years of intense and repentant prayer in front of it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "must succeed on a DC 15 Wisdom saving throw or be paralyzed in ecstasy for 1d4 hours.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A tapestry depicting the radiant eye that paralyzes those who gaze upon it for too long.",
+    "source": "(Warlock Lair: The Returners' Tower, p.92)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Vomiting Slime Mold Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature opens the northern door, a barely contained flow of slime mold sprays out.",
+    "detection": {
+      "dc": 14,
+      "skill": "Perception",
+      "detail": "A successful DC 14 Wisdom (Perception) check hears a gurgling sound behind the northern door as if a high-pressure fluid is pushing against it."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength (Athletics)",
+      "detail": "A successful DC 15 Strength (Athletics) check when opening the door holds it open just enough for the pressure from the slime to be released without harming all creatures within 15 feet of the door. On a failure, the trap triggers as normal."
+    },
+    "effect": "Each creature within 15 feet of the door must make a DC 15 Dexterity saving throw. On a failure, a creature takes 5 (1d10) bludgeoning damage and 11 (2d10) poison damage and is poisoned for 10 minutes. On a success, a creature takes half the damage and isn't poisoned.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "5 (1d10) bludgeoning and 11 (2d10) poison",
+    "damage_type": "bludgeoning and poison",
+    "area": "15 feet of the door",
+    "description": "A trap that sprays slime mold when the northern door is opened.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Violet Fungus Expulsion Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature opens the southern door, a wall of violet fungus explodes in rotting spores.",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A successful DC 15 Wisdom (Perception) check notices the smell of rot behind the southern door."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Strength (Athletics)",
+      "detail": "A successful DC 15 Strength (Athletics) check when opening the door slows the flow of spores, limiting how many are ejected at one time. If successful, each creature within 20 feet of the door has advantage on its saving throw. On a failure, the trap triggers as normal. Alternatively, a gust of wind spell timed with opening the door disperses the spores harmlessly."
+    },
+    "effect": "Each creature within 20 feet of the door must make a DC 15 Dexterity saving throw, taking 22 (4d10) necrotic damage on a failed save or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "necrotic",
+    "area": "20 feet of the door",
+    "description": "A trap that explodes with rotting spores when the southern door is opened.",
+    "source": "(Warlock Lair: The Returners' Tower)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Maddening Statue",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A PC spends more than 1 round inspecting the statue.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The effigy's worn state makes it difficult to discern any details about the deity, but the PCs can make out the remains of whorls and eyes carved all over the statue."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The PC must succeed on a DC 16 Wisdom saving throw or be afflicted with a short-term madness for 1 minute. If an affected PC hits an unaffected creature, that creature must also succeed on a DC 13 Wisdom saving throw or be afflicted with a short-term madness for 1 minute. A creature so afflicted with a short-term madness can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+    "save_dc": 16,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "Single creature inspecting the statue; secondary spread on hit",
+    "description": "An eroded effigy to an ancient god of insanity whose worn state hides whorls and eyes carved all over it. Inspecting it too long afflicts viewers with short-term madness.",
+    "source": "(Warlock Lair: The Returners' Tower, p.103)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Poison Darts Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A pressure plate just inside the doors",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not specified in source text"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified in source text"
+    },
+    "effect": "Setting off the trap summons the two shadow fey guardians (see Tome of Beasts) to Area 6.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Area 3: Southeast Entrance Interior",
+    "description": "A pressure plate just inside the doors triggers a poison darts trap. Setting off the trap summons the two shadow fey guardians to Area 6.",
+    "source": "(Warlock Lair: The Returners' Tower, p.105)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "The Trapped Path",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on an incorrect tile in the hallway",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "A spell such as detect magic, or other effect that can sense magic, reveals an abjuration aura around the tiles."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The magic of the tiles can't be dispelled until the darkness covering the compound disperses and sunlight shines on the hills again."
+    },
+    "effect": "Each creature in the room must make a DC 15 Constitution saving throw, taking 11 (2d10) radiant damage on a failed save or half as much damage on a successful one as it is wreathed in ghostly flames. All tiles in the room cease to glow, the trap activates, and the path resets.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "11 (2d10)",
+    "damage_type": "radiant",
+    "area": "The entire hallway",
+    "description": "A meditative path of eight painted tiles representing moon phases that must be walked in the correct order to open the doors; stepping on a wrong tile triggers ghostly flames.",
+    "source": "(Warlock Lair: The Returners' Tower, p.113)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Path of Fire (Hot Coals)",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A character walks across the hot coals.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The hot coals are plainly visible."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method given; the hazard must be crossed or avoided."
+    },
+    "effect": "A character that walks across the hot coals must make a DC 12 Dexterity saving throw, taking 5 (2d4) fire damage on a failed save or half as much damage on a successful one.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "5 (2d4)",
+    "damage_type": "fire",
+    "area": "A 10-foot path of hot coals",
+    "description": "A 10-foot path of hot coals that burns those who walk across it.",
+    "source": "(Warlock Lair: The Returners' Tower, p.119)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Crumbling Bridge",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature walks across the center of the bridge",
+    "detection": {
+      "dc": 15,
+      "skill": "Investigation or Survival",
+      "detail": "A successful DC 15 Intelligence (Investigation) or Wisdom (Survival) check finds a set of tracks that appear to follow a safe path across the bridge."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method given; creatures on the safe path don't trigger the trap."
+    },
+    "effect": "The creature falls to the ground 20 feet below as part of the bridge gives way. The creature takes 11 (2d10) bludgeoning damage and is knocked prone and buried under the rubble below the bridge. The buried target is restrained and unable to breathe or stand up. A creature can take an action to make a DC 10 Strength (Athletics) check, ending the buried state on a success.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "Center of the bridge",
+    "description": "A stone bridge crossing between Area 4 and Area 6, damaged by previous assaults, is now dangerous for the unwary to cross.",
+    "source": "(Warlock Lair: The Returners' Tower, p.121)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Sands of Sleep",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Any character who touches the sleeping sand",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pit is filled with white sand that continuously churns like ocean waves; objects can be glimpsed bubbling to the surface."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method is described; characters can avoid contact or use magic or creative means to fish objects out."
+    },
+    "effect": "Any character who touches the sand must succeed on a DC 15 Constitution saving throw or fall unconscious. An unconscious PC is rapidly pulled underneath the sand and begins to suffocate. An unconscious character can repeat the saving throw at the end of each of their turns to see if they wake up. Pulling a character out of the sand or swimming out of the sand requires a successful DC 15 Strength (Athletics) check.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "A lake of white sand beneath a thin walkway between the two doors of Area 3.",
+    "description": "A pit of sleeping sand that causes unconsciousness and suffocation to those who touch it.",
+    "source": "(Warlock Lair: The Returners' Tower, p.131)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Forever Hall Teleportation Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If either door is entered, it will swing shut 2 rounds after a creature passes over its threshold. A creature entering the square in front of either of the doors will be teleported to the center of the hallway.",
+    "detection": {
+      "dc": 15,
+      "skill": "Investigation",
+      "detail": "A successful DC 15 Intelligence (Investigation) check finds the door beyond the illusion. A detect magic spell will note illusion magic in the hallway, conjuration magic at the two true ends of the hall, and abjuration magic from the glass globes above."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Damaging the mosaic on the floor in front of the doors",
+      "detail": "Damaging the mosaic on the floor in front of the doors will disable the teleportation effect. The squares have an AC 15. Doing at least 14 damage to the tiles is enough to disable the teleportation effect in that square."
+    },
+    "effect": "The hallway seems to lengthen with the door at the far end receding into the distance. No matter how fast a creature runs the length of the hallway, they never seem to get any closer to the door. Looking in the other direction, back to the entrance, reveals a similar lengthening of the hallway. The lengthening of the hall is an illusion, and the reason a creature can never reach the end of the hall is because a creature entering the square in front of either of the doors will be teleported to the center of the hallway.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The hallway, about 20 feet between two doors",
+    "description": "A magical trap in a hallway that creates an illusion of lengthening and teleports creatures back to the center when they try to reach the doors.",
+    "source": "(Warlock Lair: The Returners' Tower, p.139)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Snow Pits",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "When a creature steps anywhere in the pit's 10-foot square, the layer of snow gives way.",
+    "detection": {
+      "dc": 19,
+      "skill": "Perception",
+      "detail": "A successful DC 19 Wisdom (Perception) or DC 15 Wisdom (Survival) check alerts a character to a pit's presence and allows them to walk around it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Topping a pit with a stout tarp or other covering allows free movement across the pit."
+    },
+    "effect": "The layer of snow gives way, dumping the creature 30 feet into the pit below unless it succeeds on a DC 17 Dexterity saving throw. The pit's walls are sheer ice, requiring a trapped creature to succeed on a DC 15 Strength (Athletics) check to scale.",
+    "save_dc": 17,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "10-foot square",
+    "description": "Three snow pits randomly placed 20–30 feet from the pass's entrance await the unwary.",
+    "source": "(Warlock Lair: The Returners' Tower, p.146)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Falling Icicles",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Sound and vibration dislodge the icicles, which impale those below. Anything above whispered conversation disturbs them as does walking heavily.",
+    "detection": {
+      "dc": 20,
+      "skill": "Perception",
+      "detail": "A successful DC 20 Wisdom (Perception) check or DC 17 Wisdom (Survival) or Intelligence (Investigation) check realizes the icicles' inherent danger."
+    },
+    "disarm": {
+      "dc": 13,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 13 Intelligence (Arcana) check reveals that a spell or effect that deals thunder damage causes the icicles to fall, rendering the area harmless afterward. A success by 5 or more also informs the character that the area of effect for such a spell or effect increases by 50% (thus a 20-foot-radius burst would affect icicles in a 30-foot-radius burst). Each creature in the area is subject to the icicles' attacks."
+    },
+    "effect": "A creature passing through the area must make a DC 16 passive Dexterity (Stealth) check. On a failure, 1d4 icicles fall on the creature. Each icicle makes a ranged attack with a +9 bonus. If an icicle hits the creature, the target takes 9 (2d8) piercing damage and 4 (1d8) cold damage. If a creature fails the check by 5 or more, all creatures within 10 feet of the creature are subject to the above attacks.",
+    "save_dc": 16,
+    "save_ability": "Dexterity",
+    "damage": "9 (2d8) piercing damage and 4 (1d8) cold damage",
+    "damage_type": "piercing and cold",
+    "area": "10 feet of the creature",
+    "description": "Inches-long icicles hang from the trees in this forest and lightly chime as they sway in the breeze. The cult maintains this section of the forest, with its dangerous, spear-like icicles, as it provides the most direct route to Havenhearth.",
+    "source": "(Warlock Lair: The Returners' Tower, p.146)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Rockfall",
+    "type": "mechanical",
+    "danger": "deadly",
+    "trigger": "A lever in Area 10 of the lower level triggers this trap. Alternatively, a successful DC 16 Dexterity (thieves' tools) check opens the hatch, albeit unsafely.",
+    "detection": {
+      "dc": 16,
+      "skill": "Perception or Investigation",
+      "detail": "A successful DC 16 Wisdom (Perception) or Intelligence (Investigation) check finds the hatch."
+    },
+    "disarm": {
+      "dc": 19,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 19 Dexterity (thieves' tools) check jams the hatch mechanism, rendering the lever useless."
+    },
+    "effect": "When the rocks are released, they completely fill the 10-foot corridor, crushing everything within. Each creature in the area must make a DC 18 Dexterity saving throw. On a failed save, the creature takes 28 (8d6) bludgeoning damage and is both prone and restrained. On a successful save, the creature takes half as much damage and is not otherwise affected. A creature, or any adjacent creature, can take its action to free itself with a successful DC 12 Strength (Athletics) check.",
+    "save_dc": 18,
+    "save_ability": "Dexterity",
+    "damage": "28 (8d6)",
+    "damage_type": "bludgeoning",
+    "area": "10-foot corridor",
+    "description": "A concealed hatch blocks several hundred pounds of loose rocks, triggered by a lever in Area 10 of the lower level.",
+    "source": "(Warlock Lair: The Returners' Tower, p.148)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Shadow Tendrils",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature touches the shadow river or ends its turn within 10 feet of it",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not applicable"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Takes 5 (2d4) necrotic damage and must succeed on a DC 15 Constitution saving throw or have its Strength score reduced by 1d4. The creature dies if this reduces its Strength to 0. Otherwise, the reduction lasts until the creature finishes a short or long rest. A humanoid that dies from this damage or Strength reduction rises as a shadow under the shadow river lord's control after 1 minute.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "5 (2d4)",
+    "damage_type": "necrotic",
+    "area": "Within 10 feet of the shadow river",
+    "description": "The shadow river poses a threat to creatures not native to the Shadow Realm or granted protection by the Weft of Shadows.",
+    "source": "(Warlock Lair: The Returners' Tower, p.159)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Quash Moss",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Pressure applied to its surface, as when a creature walks upon it",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "It appears as completely normal moss until pressure is applied to its surface."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Any effect that causes fire damage or 48 hours of exposure to direct sunlight will destroy an average patch of quash moss."
+    },
+    "effect": "The moss curls up, wrapping around whatever is on it. A creature must succeed on a DC 13 Dexterity saving throw to jump clear; otherwise, the quash moss rolls up tightly around it. A captured creature is restrained and takes 5 (1d10) bludgeoning damage and 5 (1d10) acid damage each round on its turn. A captured creature may make a DC 13 Dexterity check each round, slipping free on a success.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "5 (1d10) bludgeoning and 5 (1d10) acid",
+    "damage_type": "bludgeoning and acid",
+    "area": "10-foot square",
+    "description": "This thick, deep-green moss grows quickly after a spawning storm, typically in shaded areas. A typical patch of quash moss covers a 10-foot square.",
+    "source": "(Warlock Lair: The Returners' Tower, p.161)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Welcome to the Camp Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A trip wire colored to match the ground runs from north to south through the space labeled '1' on the map. When a creature breaks the trip wire, bells jingle loud enough to signal all gnolls in the camp who are currently awake. Simultaneously, a section of rock cut away from and resting against the wall slams to the ground.",
+    "detection": {
+      "dc": 15,
+      "skill": "Investigation",
+      "detail": "A successful DC 15 Intelligence (Investigation) or DC 18 Wisdom (Perception) check discovers the trip wire or the section cut from the wall."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 15 Dexterity check using thieves' tools disables the trip wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+    },
+    "effect": "Each creature within 15 feet of the space labeled '1' on the map when the trap is triggered must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "22 (4d10)",
+    "damage_type": "bludgeoning",
+    "area": "15 feet of the space labeled '1' on the map",
+    "description": "This trap serves the Shredskin tribe in two fashions: it alerts the gnolls to trespassers, and it acts as their first line of defense.",
+    "source": "(Warlock Lair The Dark Aerie 082219)",
+    "_source_manual": "WLL1"
+  },
+  {
+    "name": "Jumping Fire Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A snake-like tendril of fire strikes at any creature that is not a gnoll or hyena moving within 5 feet of the pyre.",
+    "detection": {
+      "dc": 16,
+      "skill": "Arcana",
+      "detail": "A successful DC 16 Intelligence (Arcana) check realizes the danger posed by proximity to the pyre."
+    },
+    "disarm": {
+      "dc": 16,
+      "method": "dispel magic",
+      "detail": "A successful dispel magic (DC 16) cast on the pyre disables the trap for 24 hours. If Laughing Fire is killed, she can't rekindle the pyre, which effectively destroys it until Forresh locates a new host for his power."
+    },
+    "effect": "The tendril attacks with a +6 bonus and inflicts 4d10 fire damage on a successful hit.",
+    "save_dc": null,
+    "save_ability": null,
+    "damage": "4d10",
+    "damage_type": "fire",
+    "area": "within 5 feet of the pyre",
+    "description": "A shrine defense mechanism for the Shredskin tribe. A snake-like tendril of fire strikes at any creature that is not a gnoll or hyena moving within 5 feet of the pyre.",
+    "source": "(Warlock Lair The Dark Aerie 082219, p.6)",
+    "_source_manual": "WLL1"
+  },
+  {
+    "name": "Floor Spikes",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The trap activates when more than 20 pounds of weight is placed on a pressure plate (indicated with a 'T' on the map).",
+    "detection": {
+      "dc": 14,
+      "skill": "Investigation or Perception",
+      "detail": "A successful DC 14 Intelligence (Investigation) or Wisdom (Perception) check finds the pressure plate."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Wedging an iron spike or other object under the pressure plate",
+      "detail": "Wedging an iron spike or other object under the pressure plate prevents the trap from activating."
+    },
+    "effect": "Each creature within 10 feet of a pressure plate when the trap is triggered must succeed on a DC 15 Dexterity saving throw or take 11 (2d10) piercing damage. The trap automatically resets after it is triggered.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "piercing",
+    "area": "10 feet of a pressure plate",
+    "description": "A pressure plate trap that triggers floor spikes when more than 20 pounds of weight is placed on it.",
+    "source": "(Warlock Lair The Dark Aerie 082219, p.9)",
+    "_source_manual": "WLL1"
+  },
+  {
+    "name": "Aspect of Alquam",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "If a creature other than the aerie's current inhabitants moves within 5 feet of the wall adjoining Area 10, a shadowy wing and set of talons emerge from the portal to attack those nearby.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The wing and talons each make a melee attack with a +7 bonus against a random target within 10 feet of the portal (vision is irrelevant to this attack roll). A target that is hit takes 2d10 bludgeoning damage (wing) or slashing damage (talons).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2d10",
+    "damage_type": "bludgeoning or slashing",
+    "area": "Within 10 feet of the portal",
+    "description": "A shadowy wing and set of talons emerge from the portal to attack those nearby when a creature other than the aerie's current inhabitants moves within 5 feet of the wall adjoining Area 10.",
+    "source": "(Warlock Lair The Dark Aerie 082219, p.10)",
+    "_source_manual": "WLL1"
+  },
+  {
+    "name": "The Blot Shadowstuff Boundary",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature attempts to move beyond the boundaries of the Blot into the surrounding shadowstuff.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The boundary is apparent from the map; stepping beyond it into shadowstuff is an intentional or accidental action."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed; the shadowstuff is a environmental hazard."
+    },
+    "effect": "For every 5 feet a creature attempts to move within the shadowstuff, it must make a DC 15 Wisdom saving throw. On a failure, the creature is affected (specific effect not fully described in this text).",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "The shadowstuff surrounding and filling the Blot, beyond the mapped boundaries.",
+    "description": "The Blot's boundary is a hazardous region of shadowstuff that requires a Wisdom saving throw for every 5 feet of movement within it.",
+    "source": "(WL25 Shadows Envy, p.4)",
+    "_source_manual": "WSE"
+  },
+  {
+    "name": "Magical Sensor",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Entering the hallway between Areas 4 and 5",
+    "detection": {
+      "dc": 20,
+      "skill": "Perception",
+      "detail": "A successful DC 20 Wisdom (Perception) check notices the sensor as a tiny, slit pupil in the shadowstuff on the wall."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 15 Intelligence (Arcana) check disperses the magic used to create the sensor, destroying it. If the check fails by 5 or more, the hags are immediately alerted to the PCs' presence."
+    },
+    "effect": "A hag can use an action to see or hear through the sensor as if using the clairvoyance spell. If the PCs don't locate and disable the sensor within two rounds of entering the hallway, the hags use their Change Shape actions to appear as mortal elves searching the Cauldron for their stolen souls. They attempt to convince the PCs to destroy the lunar devil, or they use their guises to catch the PCs by surprise.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Hallway between Areas 4 and 5",
+    "description": "A magical sensor created by night hags to monitor the hallway for intruders and spy on the lunar devil.",
+    "source": "(WL25 Shadows Envy, p.6)",
+    "_source_manual": "WSE"
+  },
+  {
+    "name": "Alarm Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature trips the wire or moves an attached item.",
+    "detection": {
+      "dc": 0,
+      "skill": "Wisdom (Perception)",
+      "detail": "A hidden trap requires a Wisdom (Perception) check to spot it. The DC equals the setter's Wisdom (Survival) check total."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The DC to disable the trap equals the setter's Wisdom (Survival) check total."
+    },
+    "effect": "Creates a noise when tripped or an attached item is moved. It deals no damage, and the wire is not strong enough to cause a creature to trip.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Thin wire up to 10 feet long",
+    "description": "This trap consists of several small bells or other noise makers attached to a thin wire up to 10 feet long which creates a noise when tripped or an attached item is moved.",
+    "source": "(Expanding the Ranger, p.11)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Explosive Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A creature triggers the alchemical mixture.",
+    "detection": {
+      "dc": 0,
+      "skill": "Wisdom (Perception)",
+      "detail": "A hidden trap requires a Wisdom (Perception) check to spot it. The DC equals the setter's Wisdom (Survival) check total."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "The DC to disable the trap equals the setter's Wisdom (Survival) check total."
+    },
+    "effect": "The alchemical mixture explodes in a 1-foot diameter doing 1d4 + your proficiency bonus fire damage to the creature that triggers the trap. A creature takes half damage on a successful Dexterity saving throw.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "1d4 + proficiency bonus",
+    "damage_type": "fire",
+    "area": "1-foot diameter",
+    "description": "You craft an alchemical mixture that explodes in a 1-foot diameter doing 1d4 + your proficiency bonus fire damage to the creature that triggers the trap.",
+    "source": "(Expanding the Ranger, p.11)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Poison Cloud Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature steps into the trapped area",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Sprays a 5-foot diameter poisonous cloud that deals 1d6 + your proficiency bonus poison damage to a creature that can breathe. The creature takes no damage on a successful Dexterity saving throw. A strong wind gives the target advantage on their saving throw.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "1d6 + proficiency bonus",
+    "damage_type": "poison",
+    "area": "5-foot diameter cloud",
+    "description": "By mixing poisonous herbs, you create a trap that sprays a 5-foot diameter poisonous cloud that deals 1d6 + your proficiency bonus poison damage to a creature that can breathe.",
+    "source": "(Expanding the Ranger, p.12)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Restraining Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature steps into the snare",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Restrains the victim in a specific location.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "Specific location",
+    "description": "This trap is made by crafting a snare out of rope or natural materials that triggers when stepped in, restraining the victim in a specific location.",
+    "source": "(Expanding the Ranger, p.12)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Slow Terrain Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature enters the trapped area",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Causes stones, marbles, or other loose material to fall in a 10-foot radius around the victim, making the terrain difficult. A creature that fails its Dexterity saving throw also falls prone.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "10-foot radius",
+    "description": "This trap causes stones, marbles, or other loose material to fall in a 10-foot radius around the victim, making the terrain difficult.",
+    "source": "(Expanding the Ranger, p.12)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Trip Rope Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature crosses the rope",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Creatures that fail their Dexterity saving throw fall prone.",
+    "save_dc": 0,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "Up to 20 feet apart",
+    "description": "This trap is made by stretching a strong rope across two points up to 20 feet apart.",
+    "source": "(Expanding the Ranger, p.12)",
+    "_source_manual": "ETR"
+  },
+  {
+    "name": "Magic Mouth Alarm on Crypt Locks",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Opening or attempting to open one of the locks with anything other than the proper key",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The magic mouth is not hidden; it triggers visibly when the lock is tampered with."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No method given to disarm the magic mouth; using the proper key avoids it."
+    },
+    "effect": "A magic mouth spell intones, \"Think twice on what you are about to do, friend. Your trespass has been noted.\" There is no other alarm and the magic mouth spell doesn't alert the faithful of Kelemvor to the break-in.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Each locked iron grate in the First Families of Phlan crypts",
+    "description": "Every iron grate in the First Families crypts is double-locked and warded. Tampering with a lock triggers a magic mouth warning.",
+    "source": "(Dues for the Dead, p.10)",
+    "_source_manual": "DD"
+  },
+  {
+    "name": "Bone Pit",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Walking the narrow path around the pit without falling",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pit and narrow pathway are obvious."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm; characters must cross carefully."
+    },
+    "effect": "Falling into the jagged bones in the pit causes 3 (1d6) points of piercing damage. Falling into the pit and the subsequent struggle to get out makes enough noise to alert the ghouls who are hiding in area 5.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "3 (1d6)",
+    "damage_type": "piercing",
+    "area": "Circular pit nearly fills the chamber, leaving only a foot-wide pathway between the edge of the pit and the wall.",
+    "description": "A circular pit filled with humanoid bones; the encircling pathway is only about a foot wide.",
+    "source": "(Dues for the Dead, p.11)",
+    "_source_manual": "DD"
+  },
+  {
+    "name": "Rickety Stairs",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Using the stairs to descend or ascend",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The stairs look ancient, and the wood rotted and weak."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm; characters can avoid damage to the stairs with successful Acrobatics checks."
+    },
+    "effect": "Each character who uses the steps must make a DC 10 Dexterity (Acrobatics) check at the midpoint of the stairs as they descend or ascend. An unsuccessful check causes 5 points of damage to the stairs. If the check succeeds, no damage is dealt to the stairs. The staircase collapses when it accumulates 10 points of damage, dropping everyone on it to the floor of the room. Any character who is on the stairs when they collapse suffers 7 (2d6) bludgeoning damage and falls prone.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "7 (2d6)",
+    "damage_type": "bludgeoning",
+    "area": "Wooden stairs wind around the walls of the shaft down into the darkness.",
+    "description": "Ancient, rotted wooden stairs that are on the verge of collapse.",
+    "source": "(Dues for the Dead, p.11)",
+    "_source_manual": "DD"
+  },
+  {
+    "name": "Tripwire Alarm Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Any creature passing through the area containing the tripwire sets off the trap. The tripwire is set across the entrance to this room, roughly two feet above the ground.",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "The trap can be found with a successful DC 10 Wisdom (Perception) check."
+    },
+    "disarm": {
+      "dc": 10,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "Disabled by a character with a set of thieves' tools with a successful DC 10 Dexterity check."
+    },
+    "effect": "If triggered, stones fall into the ceiling of the 10-foot by 40-foot section of Area 2A directly north of the tripwire. Any creature in the trapped area takes 5 (2d4) bludgeoning damage from falling rocks. The trap also sets off alarm bells in other parts of the lair. If the trap is successfully disarmed, pulling the alarm rope in other areas of the lair has no effect.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "5 (2d4)",
+    "damage_type": "bludgeoning",
+    "area": "10-foot by 40-foot section of Area 2A directly north of the tripwire",
+    "description": "A tripwire set across the entrance to a room, roughly two feet above the ground, that triggers falling stones and alarm bells when tripped.",
+    "source": "(Defiance in Phlan, p.13)",
+    "_source_manual": "DDP"
+  },
+  {
+    "name": "Xandria's Crypt Gas Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "The trap triggers soon after the sarcophagus lid is removed and its contents examined.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "The door closes and seals, and a hissing sound makes you aware that some kind of gas is entering the crypt. It does not smell pleasant.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "The crypt",
+    "description": "A trap in Xandria's crypt that seals the door and releases a foul-smelling gas after the sarcophagus is disturbed.",
+    "source": "(Defiance in Phlan, p.18)",
+    "_source_manual": "DDP"
+  },
+  {
+    "name": "Collapsing Obelisk Ceiling",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Destroying an obelisk (AC 8, 5 hp) or pushing it over with a successful DC 5 Strength check causes the ceiling of the cavern around the obelisk to collapse.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection check specified; the obelisks are quite old and fragile and visibly so."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "The ceiling of the cavern around the obelisk collapses, dealing 7 (2d6) bludgeoning damage to each creature in a square adjacent to the obelisks and knocking that creature prone. A creature making a successful DC 10 Dexterity saving throw takes only half damage and is not knocked prone.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "7 (2d6)",
+    "damage_type": "bludgeoning",
+    "area": "Each square adjacent to the obelisks",
+    "description": "The obelisks in the cavern are quite old and fragile. Destroying or toppling one causes the surrounding ceiling to collapse.",
+    "source": "(Defiance in Phlan, p.29)",
+    "_source_manual": "DDP"
+  },
+  {
+    "name": "Avalanche",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "When an avalanche occurs, all nearby creatures must roll initiative. Twice each round, on initiative counts 10 and 0, the avalanche travels 300 feet until it can travel no more.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method specified."
+    },
+    "effect": "When an avalanche moves, any creature in its space moves along with it and falls prone, and the creature must make a DC 15 Strength saving throw, taking 1d10 bludgeoning damage on a failed save, or half as much damage on a successful one. When an avalanche stops, the snow and other debris settle and bury creatures. A creature buried in this way is blinded and restrained, and it has total cover. The creature gains 1 level of exhaustion for every 5 minutes it spends buried. It can try to dig itself free as an action, breaking the surface and ending the blinded and restrained conditions on itself with a successful DC 15 Strength (Athletics) check. A creature that fails this check three times can't attempt to dig itself out again. A creature that is not restrained or incapacitated can spend 1 minute freeing a buried creature. Once free, that creature is no longer blinded or restrained by the avalanche.",
+    "save_dc": 15,
+    "save_ability": "Strength",
+    "damage": "1d10",
+    "damage_type": "bludgeoning",
+    "area": "300 feet wide, 150 feet long, and 30 feet thick",
+    "description": "A typical avalanche (or rockslide) is 300 feet wide, 150 feet long, and 30 feet thick. Creatures in the path of an avalanche can avoid it or escape it if they're close to its edge, but outrunning one is almost impossible.",
+    "source": "(Tasha's Cauldron of Everything, p.169)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Reckless Steps Poison Gas Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A trapped tile is triggered when more than 20 pounds of weight are placed on it, activating the pressure plate underneath.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "Jets of poisonous gas spout from the cracks between the tiles. Any creature above the trapped floor tile or one of its adjacent tiles must make a DC 15 Constitution saving throw, taking 11 (2d10) poison damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "11 (2d10)",
+    "damage_type": "poison",
+    "area": "The trapped floor tile and its adjacent tiles",
+    "description": "A word-search puzzle room where stepping on tiles spelling 'magic' or a school of magic triggers a poison gas trap.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Abjuration Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'abjuration'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "The trap casts dispel magic on each creature in the room, using a 9th-level spell slot.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Each creature in the room",
+    "description": "A trap variant that casts dispel magic on each creature in the room.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Conjuration Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'conjuration'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "The trap teleports the creature that triggered it back to the entrance of the room. That creature must also make a DC 15 Constitution saving throw, taking 11 (2d10) force damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Constitution",
+    "damage": "11 (2d10)",
+    "damage_type": "force",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that teleports the triggering creature to the room's entrance and deals force damage.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Divination Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'divination'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "The creature that triggered the trap must succeed on a DC 15 Intelligence saving throw or be unable to perceive any of the letters on the tiles by sight or touch. Any magic that ends a curse ends this effect on the character. A player whose character is affected by this trap should not be allowed to reference the accompanying player handout until the effect on that character ends.",
+    "save_dc": 15,
+    "save_ability": "Intelligence",
+    "damage": "",
+    "damage_type": "",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that prevents the triggering creature from perceiving letters on the tiles.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Enchantment Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'enchantment'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "The trap casts suggestion (save DC 15) on the creature that triggered it. On a failed save, a gentle voice only the creature can hear tells it to move 5 feet in a random direction. This movement might cause it to trigger another trap.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that casts suggestion on the triggering creature.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Evocation Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'evocation'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "Magical fire erupts from the trapped tile. The creature that triggered this trap must succeed on a DC 15 Dexterity saving throw, taking 11 (2d10) fire damage on a failed save, or half as much damage on a successful one.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "fire",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that erupts in magical fire.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Illusion Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'illusion'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "A suit of animated armor appears in an unoccupied space within 5 feet of the creature that set off this trap. The armor attacks only the creature that summoned it and can't leave the room. It doesn't set off any of the room's traps and disappears if it takes any damage. Otherwise, it lasts for 1 minute.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "An unoccupied space within 5 feet of the triggering creature",
+    "description": "A trap variant that summons a suit of animated armor to attack the triggering creature.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Necromancy Trap Variant",
+    "type": "magical",
+    "danger": "deadly",
+    "trigger": "Stepping on a tile with a red letter spelling 'necromancy'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "Any creature that triggers this trap hears a banshee's wail in its mind. Unless the creature is a construct or undead, it must succeed on a DC 13 Constitution saving throw. On a failure, the creature drops to 0 hit points. On a success, it takes 10 (3d6) psychic damage.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "10 (3d6)",
+    "damage_type": "psychic",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that mimics a banshee's wail, potentially dropping the creature to 0 hit points.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Transmutation Trap Variant",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Stepping on a tile with a red letter spelling 'transmutation'.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection method specified in the source text."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check using thieves' tools",
+      "detail": "As an action, a character can disable a trap with a successful DC 15 Dexterity check using thieves' tools. If a character fails to disable the trap, the tile's trap can no longer be disabled."
+    },
+    "effect": "The trap casts polymorph (save DC 15) on the creature that triggered it. On a failed save, the creature turns into a giant frog.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "The creature that triggered the trap",
+    "description": "A trap variant that casts polymorph on the triggering creature.",
+    "source": "(Tasha's Cauldron of Everything, p.174)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Banshee's Wail Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature that hears a banshee's wail in its mind",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Unless the creature is a construct or undead, it must succeed on a DC 13 Constitution saving throw. On a failure, the creature drops to 0 hit points. On a success, it takes 10 (3d6) psychic damage.",
+    "save_dc": 13,
+    "save_ability": "Constitution",
+    "damage": "10 (3d6)",
+    "damage_type": "psychic",
+    "area": "",
+    "description": "A magical trap that assails a creature's mind with a banshee's wail, potentially dropping it to 0 hit points.",
+    "source": "(Tasha's Cauldron of Everything, p.175)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Transmutation Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "The creature that triggered it",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The trap casts polymorph (save DC 15) on the creature that triggered it. On a failed save, the creature turns into a giant frog.",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A magical trap that casts polymorph on the triggering creature, turning it into a giant frog on a failed save.",
+    "source": "(Tasha's Cauldron of Everything, p.175)",
+    "_source_manual": "DTCOE"
+  },
+  {
+    "name": "Palisade",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Attackers attempting to bypass the wall",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not applicable; visible obstacle"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Low wall funnels most attackers. Building a stable wall requires a successful DC 15 Strength or Intelligence check to complete in one action (of the three each adventurer or group of adventurers have). Otherwise it takes two.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A low wall built from rubble to funnel attackers.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Ditch",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Creature enters the ditch area",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "The ditch is difficult terrain and if filled with obstacles does 2 (1d4) points of piercing damage. Succeeding at a DC 10 Dexterity halves this damage. No roll is need to dig the ditch, only time. Ditches filled with oil can be set ablaze for 2 (1d4) points of fire damage each round.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "2 (1d4)",
+    "damage_type": "piercing",
+    "area": "",
+    "description": "A muddy ditch that can be filled with dangerous debris or oil.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Pits",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Creature steps into the pit area",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Hidden pits are difficult to make as they fill with water quickly, making it necessary to line them with spikes or other debris in order to do 3 (1d6) points of piercing damage. A successful DC 15 Dexterity saving throw avoids the pit. Pits filled with oil can be set ablaze for 2 (1d4) points of fire damage each round. Succeeding at a DC 10 Strength or Intelligence check is required to build a series of pits without having them collapse on themselves.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6)",
+    "damage_type": "piercing",
+    "area": "",
+    "description": "Hidden pits lined with spikes or debris.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Hooked Nets",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Creature enters the area under the net",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Dodging a dropped net requires a successful DC 10 Dexterity saving throw. Failure restrains each Large or smaller creature within 5 feet of that point. A creature can break free by dealing 5 slashing damage to the net or by succeeding on a DC 10 Strength check using its action. If there are hooks sewn into the net, it does 1 point of damage each round the creature struggles or tries to free itself.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1",
+    "damage_type": "piercing",
+    "area": "5 feet of that point",
+    "description": "A dropped net that restrains creatures, possibly with hooks.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Trip Lines",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Creature walks through the trip line area",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Trip lines can be set to trip foes making them prone. Any adventurer that doesn’t see a trip line must succeed at a DC 10 Dexterity saving throw or fall prone.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "Lines set to trip creatures, making them prone.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Swinging Weight Traps",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Creature enters the area of the swinging weight",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "Requires a successful DC 15 Wisdom (Perception) check to detect."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Heavy objects that wing from a height at head or mid-level do 3 (1d6) points of bludgeoning damage and can be avoided by succeeding at DC 15 Dexterity saving throw. Determine how high the weights are placed, small creatures (such as kobolds) will often be missed.",
+    "save_dc": 15,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6)",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "Heavy objects swinging from a height to strike creatures.",
+    "source": "(Shadows over the Moonsea, p.21)",
+    "_source_manual": "SOM"
+  },
+  {
+    "name": "Slab Trap",
+    "type": "magical",
+    "danger": "setback",
+    "trigger": "Touching the indentation and saying anything other than the correct words",
+    "detection": {
+      "dc": 20,
+      "skill": "Arcana",
+      "detail": "A successful DC 20 Intelligence (Arcana) check recognizes the glyphs as a component to some sort of ritual that allows something in plain sight to remain unseen. However, the glyphs are worn enough that they no longer function."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Removing the slab without the use of magic would require more time and resources than the characters have available, such as cranes, pulleys and a few extra men."
+    },
+    "effect": "The characters touching the slab must make a DC 10 Constitution save or take 4 (1d4+2) lightning damage and be stunned for 1 round.",
+    "save_dc": 10,
+    "save_ability": "Constitution",
+    "damage": "4 (1d4+2)",
+    "damage_type": "lightning",
+    "area": "The stone slab approximately 10 feet on a side",
+    "description": "A stone slab bordered in worn glyphs with a hand-shaped indentation that triggers a lightning trap when the wrong words are spoken.",
+    "source": "(Secrets of Sokol Keep, p.16)",
+    "_source_manual": "SSK"
+  },
+  {
+    "name": "Duskthorn Grove Thorns",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Any movement in this area",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The grove of thorny trees is tightly packed and visible."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Cannot be disarmed; must be avoided or endured."
+    },
+    "effect": "Any movement in this area requires a DC 10 Dexterity save to avoid taking 1d10 piercing damage.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "1d10",
+    "damage_type": "piercing",
+    "area": "The grove of thorny trees",
+    "description": "The grove of thorny trees is tightly packed, any movement in this area requires a DC 10 Dexterity save to avoid taking 1d10 piercing damage.",
+    "source": "(Wrath of the Bramble King, p.22)",
+    "_source_manual": "W"
+  },
+  {
+    "name": "Crumbling Bridge Wall",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Each creature that crosses the bridge must succeed on a DC 13 Dexterity saving throw or cause part of the wall to crumble",
+    "detection": {
+      "dc": 13,
+      "skill": "Investigation or Perception",
+      "detail": "A successful DC 13 Intelligence (Investigation) or Wisdom (Perception) check notices the wall isn't sound."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The wall is damaged and at risk of giving way. Each creature that crosses the bridge must succeed on a DC 13 Dexterity saving throw or cause part of the wall to crumble, taking 2 (1d4) bludgeoning damage, and unless tethered to other creatures or to the wall, they fall into the abyss (see Oubliette Features). A creature that moves at half its speed across the bridge has advantage on the saving throw.",
+    "save_dc": 13,
+    "save_ability": "Dexterity",
+    "damage": "2 (1d4)",
+    "damage_type": "bludgeoning",
+    "area": "15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge",
+    "description": "A damaged stone bridge wall that crumbles when crossed, potentially causing creatures to fall into the abyss.",
+    "source": "(Warlock Lair: The Returners' Tower, p.15)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Unstable Staircase",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature walks on the flagstones 5 feet below the stair's summit, which have crumbled away and been deliberately replaced in a precariously unstable position.",
+    "detection": {
+      "dc": 10,
+      "skill": "Wisdom (Perception)",
+      "detail": "Anyone failing a DC 10 Wisdom (Perception) check falls through the staircase."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method is described in the source text."
+    },
+    "effect": "The creature falls through the staircase, dropping 10 feet onto the steps below and taking 3 (1d6) bludgeoning damage. Failing a subsequent DC 10 Dexterity check means they roll down the next 10 feet of steps for an additional 2 (1d4) bludgeoning damage. Regardless, the noise alerts the trollkin bandit above who will sound the alarm by blowing a large horn and take the Ready action at the top of the staircase.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "3 (1d6) bludgeoning, plus 2 (1d4) bludgeoning on a failed Dexterity check",
+    "damage_type": "bludgeoning",
+    "area": "5 feet below the stair's summit in the lookout tower",
+    "description": "A deliberately unstable section of flagstones on the spiral staircase of the lookout tower that collapses when stepped on.",
+    "source": "(Warlock Lair: The Returners' Tower, p.40)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Statue Arc Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature walks between the two statues at the far end of the room.",
+    "detection": {
+      "dc": 14,
+      "skill": "Investigation",
+      "detail": "A successful DC 14 Intelligence (Investigation) check finds a hidden switch in the folds of the robe on the statue to the southwest."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Investigation or dispel magic",
+      "detail": "Flipping the hidden switch will deactivate the trap for 1 minute. A successful dispel magic can also deactivate the trap."
+    },
+    "effect": "An arc of electricity jumps between the tips of the staves the statues hold. Any creature in the path of the arc takes 11 (2d10) lightning damage and is stunned for 1 round. A successful DC 14 Dexterity saving throw halves the damage and negates the stunned condition.",
+    "save_dc": 14,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "lightning",
+    "area": "The path of the arc between the two statues",
+    "description": "Two bronze statues of robed, hooded figures carrying staves create an arc of electricity when a creature walks between them.",
+    "source": "(Warlock Lair: The Returners' Tower, p.47)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Hall of Force Trap",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Each plate projects a powerful wave of energy any time a creature passes in front of it within 15 feet.",
+    "detection": {
+      "dc": 15,
+      "skill": "Arcana",
+      "detail": "A detect magic spell will show an aura of evocation magic around each plate. A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Intelligence (Arcana)",
+      "detail": "A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+    },
+    "effect": "A creature caught in a wave must make a DC 15 Strength saving throw. On a failed save, the creature takes 11 (2d10) force damage and is pushed 15 feet and knocked prone. On a successful saving throw, the creature takes half damage, remains unmoved, and is not knocked prone. The first plate is only 10 feet from the opposite wall however, so a creature that fails its saving throw also takes 7 (2d6) bludgeoning damage from its impact with the opposite wall before falling prone. A creature that fails its saving throw against the third plate must also succeed at a DC 13 Dexterity saving throw or be knocked over the side of the bridge into the stream below.",
+    "save_dc": 15,
+    "save_ability": "Strength",
+    "damage": "11 (2d10)",
+    "damage_type": "force",
+    "area": "15 feet in front of each plate",
+    "description": "Three large plates of a strange, blue-green metal mounted to the wall project powerful waves of energy at creatures passing in front of them.",
+    "source": "(Warlock Lair: The Returners' Tower, p.50)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Radiant Eye Tapestry",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "PCs who investigate or look at the tapestry for more than 20 seconds",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The tapestry depicting the radiant eye is saturated with mysterious, divine energy from years of intense and repentant prayer in front of it."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "must succeed on a DC 15 Wisdom saving throw or be paralyzed in ecstasy for 1d4 hours",
+    "save_dc": 15,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A tapestry depicting the radiant eye that paralyzes those who gaze upon it.",
+    "source": "(Warlock Lair: The Returners' Tower, p.92)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Stuck and Hidden Trapdoor",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Attempting to open the trapdoor",
+    "detection": {
+      "dc": 14,
+      "skill": "Investigation",
+      "detail": "A successful DC 14 Intelligence (Investigation) check locates the trapdoor. Alternatively, the PCs can discover the trapdoor by spending 20 minutes, clearing the rubble from the room."
+    },
+    "disarm": {
+      "dc": 14,
+      "method": "Strength (Athletics)",
+      "detail": "A successful DC 14 Strength (Athletics) check pulls open the stuck trapdoor."
+    },
+    "effect": "The trapdoor is stuck and must be forced open.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A concealed trapdoor in a debris-strewn room that is stuck and must be forced open.",
+    "source": "(Warlock Lair: The Returners' Tower, p.102)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Path of Fire",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A character walks across the hot coals.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The hot coals are plainly visible."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method provided."
+    },
+    "effect": "The character takes fire damage.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "5 (2d4)",
+    "damage_type": "fire",
+    "area": "A 10-foot path of hot coals.",
+    "description": "A 10-foot path of hot coals that burns those who walk across it.",
+    "source": "(Warlock Lair: The Returners' Tower, p.119)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Icy Water",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A character walks through the shallow, icy water.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The icy water is plainly visible."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method provided."
+    },
+    "effect": "The character's speed is halved until they finish a short rest by a fire (or other source of prolonged warmth).",
+    "save_dc": 12,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "A small stretch of icy water.",
+    "description": "A small stretch of icy water that chills those who walk through it.",
+    "source": "(Warlock Lair: The Returners' Tower, p.119)",
+    "_source_manual": "W8"
+  },
+  {
+    "name": "Crimson Slime",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "When a living creature moves within 10 feet of a crimson slime, the dark splotches on its surface burst and release spores in a 10-foot-radius around itself. Ingestion of or physical contact with the crimson slime will also cause exposure to the spores.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "No detection DC given; the slime is bright red with darker blotches scattered over its surface."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Any effect that cures disease, and any effect that deals cold or fire damage destroys a patch of crimson slime."
+    },
+    "effect": "Release spores in a 10-foot-radius around itself (see the crimson shambler's Spores trait for the effects of the spores).",
+    "save_dc": 12,
+    "save_ability": "Constitution",
+    "damage": "",
+    "damage_type": "",
+    "area": "10-foot-radius",
+    "description": "This slime mold is bright red with darker blotches scattered over its surface. Crimson slime is usually encountered in warm, heavily forested areas or deep underground in areas full of living creatures for its spores. Crimson slime typically covers a 5-foot square.",
+    "source": "(Warlock Bestiary, p.7)",
+    "_source_manual": "WLB"
+  },
+  {
+    "name": "Weighted Net Traps",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "Anyone entering their squares",
+    "detection": {
+      "dc": 15,
+      "skill": "Perception",
+      "detail": "A DC 15 Wisdom (Perception) check is necessary to spot the trap"
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity",
+      "detail": "A DC 15 Dexterity check successfully disarms it"
+    },
+    "effect": "Any creature caught in the square when the trap is triggered becomes restrained, and those that fail a DC 10 Strength saving throw are also knocked prone. A creature can use its action to make a DC 10 Strength check to free itself or another creature within its reach on a success. The net has AC 11 and 10 hit points.",
+    "save_dc": 10,
+    "save_ability": "Strength",
+    "damage": "",
+    "damage_type": "",
+    "area": "The square where the trap is triggered",
+    "description": "The tripwire for each trap is positioned three inches from the ground, stretched between two trees, and the net itself is hidden among the foliage.",
+    "source": "(Wrath of the River King, p.8)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Logs",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "A floating log is available to hang onto",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible floating log"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "The log is 1d6 squares long and supports the weight of one character per square of length. The character need not make a Strength (Athletics) check to stay above water. Logs move in the current as the GM chooses, 1d3 squares per round. A group of PCs working together can move a log 2 squares with a successful DC 19 Strength (Athletics) check. Failing with at least one natural 1 means the log jams in river rocks, and a DC 15 Strength check is required to remove the log against the force of the current. At the DM's option, a whirlpool may form near the log, dragging characters under (see Whirlpool, below).",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A floating log hazard in the Rushing River.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Rapids",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "PCs in difficult water",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible difficult water"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "PCs in difficult water have disadvantage on Strength (Athletics) checks for movement.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "Difficult water that impedes movement.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "River Snags",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "An underwater tree, sharp stones, or stumps grab a PC's foot",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Hidden underwater"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "This causes 1d6 slashing damage and the PC can't move for 1 round.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d6",
+    "damage_type": "slashing",
+    "area": "",
+    "description": "Underwater obstacles that grab a PC's foot.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Small Waterfall",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "The river drops by 10 feet onto rocks and churning water",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible waterfall"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Characters with proficiency in Dexterity (Acrobatics) avoid this damage; all others take 1d6 falling damage.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d6",
+    "damage_type": "falling",
+    "area": "",
+    "description": "A 10-foot drop onto rocks and churning water.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Surface Rocks",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "The character hits a large rock",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible large rock"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "The character suffers 2d10 bludgeoning damage and is stunned next round.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "2d10",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "Large rocks on the surface that cause damage and stun.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Whirlpool",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "An eddy drags the character down below the surface",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Visible eddy"
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "Escaping requires a successful DC 10 Strength (Athletics) check. Each round the PC fails a check, that PC remains underwater and must hold her breath or begin suffocating. It takes 1 round for an affected PC who has broken free from the eddy to swim back to the surface.",
+    "save_dc": 10,
+    "save_ability": "Strength",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "An eddy that drags characters underwater.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Waterfall",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "After 4 rounds, any PCs still in the river are hurled over the waterfall",
+    "detection": {
+      "dc": 10,
+      "skill": "Perception",
+      "detail": "A DC 10 Wisdom (Perception) check to hear the thundering crash of a waterfall not far away."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not applicable"
+    },
+    "effect": "The next round, the waters hurl him over the waterfall onto rocks below. This is a 40-foot drop for 4d6 bludgeoning damage. On the plus side, swimming out of the quiet pool past the waterfall requires only a DC 5 Strength (Athletics) check.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "4d6",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "A 40-foot waterfall drop onto rocks.",
+    "source": "(Wrath of the River King, p.16)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Cocoon-Chest Lock",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "Attempting to open the locked cocoon-chest of black spider silk without picking the lock, or attempting to break the chest open by force.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The lock is visible on the cocoon-chest."
+    },
+    "disarm": {
+      "dc": 15,
+      "method": "Dexterity check with thieves' tools",
+      "detail": "Pick the lock with a DC 15 Dexterity check using thieves' tools."
+    },
+    "effect": "If anyone attempts to break the chest open by force, a swarm of spiders is released.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "The rich treasures of the Lady of Spiders are kept guarded in a locked cocoon-chest of black spider silk. Breaking the chest open by force releases a swarm of spiders.",
+    "source": "(Wrath of the River King, p.47)",
+    "_source_manual": "WRKF"
+  },
+  {
+    "name": "Tripwire Halberd Trap",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "A tripwire hidden among the thick grass covering the floor is triggered when a creature steps on it, causing a halberd to swing down.",
+    "detection": {
+      "dc": 12,
+      "skill": "Investigation",
+      "detail": "A successful DC 12 Intelligence (Investigation) check notices the tripwire hidden among the thick grass covering the floor. Alternatively, a successful DC 15 Wisdom (Perception) check notices a fracture on the right wrist of the statue where it was broken and then reattached to form the trap."
+    },
+    "disarm": {
+      "dc": 12,
+      "method": "Dexterity (thieves' tools)",
+      "detail": "A successful DC 12 Dexterity check using thieves' tools harmlessly detaches the tripwire from the halberd. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+    },
+    "effect": "The halberd swings down, taking 11 (2d10) bludgeoning damage on a failed save, or half as much damage on a successful one. If no creatures are between the statue and the door when the trap triggers, the halberd loudly, but harmlessly, clatters to the floor.",
+    "save_dc": 12,
+    "save_ability": "Dexterity",
+    "damage": "11 (2d10)",
+    "damage_type": "bludgeoning",
+    "area": "Between the statue and the door",
+    "description": "A tripwire hidden in the grass triggers a halberd to swing down from a statue, striking creatures between the statue and the door.",
+    "source": "(WL23 Wrath of the Bramble King, p.5)",
+    "_source_manual": "WWOTBK"
   }
 ]

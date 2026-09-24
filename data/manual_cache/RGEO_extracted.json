@@ -1,0 +1,55 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Crumbling Ruin",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Anyone who fails an attribute check with a natural '1' on the die whilst exploring the ruin dislodges something",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The structures that support the building look weak and dust regularly filters down from them. The whole ruin groans alarmingly with the wind, punctuated by the sounds of small stones falling from the ceiling."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Falling masonry",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "",
+      "description": "Portions of the ruin are still standing, if only just. Large portions of the stonework have clearly fallen away, time and weather having worn them down.",
+      "source": "Bones of the Earth p.18"
+    }
+  ],
+  "_chapters_completed": [
+    "Wonders of Middle-earth",
+    "Events Expanded",
+    "Lodgings Along the Road",
+    "Bones of the Earth",
+    "Avoiding Battle",
+    "Dangers Along the Way",
+    "Introduction and Contents",
+    "Sights None Yet Seen",
+    "Encounters on the Road"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 9,
+  "_book_slug": "RGEO",
+  "_book_title": "theroadgoeseveron",
+  "_completed": true,
+  "_timestamp": 1790290036.812682
+}

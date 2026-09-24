@@ -1,0 +1,104 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Bag of Bramble Beasts",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This ordinary bag, made from green cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, spiky object. The bag weighs 1/2 pound.\nYou can use an action to pull the spiky object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the below table. The creature is a bramble version (see template) of the beast listed in the below table. The creature vanishes at the next dawn or when it is reduced to 0 hp. \nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn, or give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\nOnce three spiky objects have been pulled from the bag, the bag can't be used again until the next dawn.\nAlternatively, one willing animal companion or familiar can be placed in the bag for 1 week. A non-beast animal companion or familiar that is placed in the bag is treated as if it had been placed into a bag of holding and can be removed from the bag at any time. A beast animal companion or familiar disappears once placed in the bag, and the bag's magic is dormant until the week is up. At the end of the week, the animal companion or familiar exits the bag as a bramble creature (see template) and can be returned to its original form only with a wish. The creature retains its status as an animal companion or familiar after its transformation. Once the bag has been used to change an animal companion or familiar into a bramble creature, it becomes an ordinary bag.\n1d8 Creature\n1 Weasel\n2 Giant rat\n3 Badger\n4 Boar\n5 Panther\n6 Giant badger",
+      "source": "page 8"
+    }
+  ],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Falling Halberd Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the secret door to Area 3, a trip wire snaps, releasing the halberd to fall in the spaces between the statue and the door.",
+      "detection": {
+        "dc": 12,
+        "skill": "Investigation",
+        "detail": "A successful DC 12 Intelligence (Investigation) check notices the tripwire hidden among the thick grass covering the floor. Alternatively, a successful DC 15 Wisdom (Perception) check notices a fracture on the right wrist of the statue where it was broken and then reattached."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Each creature between the statue and the secret door when the trap triggers must make a DC 11 Dexterity saving throw, taking 11 (2d10) bludgeoning damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 11,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "The spaces between the statue and the secret door",
+      "description": "A simple trap left by the children of the briar, using a stone halberd held by a statue that falls when the secret door is opened.",
+      "source": "Margreve Forest p.5"
+    },
+    {
+      "name": "Tripwire Halberd Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A tripwire hidden among the thick grass covering the floor is triggered when a creature steps on it, causing a halberd to swing down.",
+      "detection": {
+        "dc": 12,
+        "skill": "Investigation",
+        "detail": "A successful DC 12 Intelligence (Investigation) check notices the tripwire hidden among the thick grass covering the floor. Alternatively, a successful DC 15 Wisdom (Perception) check notices a fracture on the right wrist of the statue where it was broken and then reattached to form the trap."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 12 Dexterity check using thieves' tools harmlessly detaches the tripwire from the halberd. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "The halberd swings down, taking 11 (2d10) bludgeoning damage on a failed save, or half as much damage on a successful one. If no creatures are between the statue and the door when the trap triggers, the halberd loudly, but harmlessly, clatters to the floor.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "Between the statue and the door",
+      "description": "A tripwire hidden in the grass triggers a halberd to swing down from a statue, striking creatures between the statue and the door.",
+      "source": "Book Name p.5-6"
+    },
+    {
+      "name": "Thorny Vines",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "Each creature that touches the vines or hits them with a melee attack while within 5 feet of them.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The vines are visible and fill the base of the battlement."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The vines can be attacked and destroyed (AC 12; hp 10; vulnerability to fire; immunity to piercing, poison, and psychic damage per 10-foot section)."
+      },
+      "effect": "Each creature that touches the vines or hits them with a melee attack while within 5 feet of them must succeed on a DC 12 Dexterity saving throw or take 9 (2d8) piercing damage.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "9 (2d8)",
+      "damage_type": "piercing",
+      "area": "Base of the battlement, 10-foot sections",
+      "description": "A tangle of thorny vines fills the base of the battlement, damaging creatures that touch or attack them.",
+      "source": "Book Name p.6"
+    }
+  ],
+  "_chapters_completed": [
+    "WL23 Wrath of the Bramble King"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "WWOTBK",
+  "_book_title": "WL23 Wrath of the Bramble King",
+  "_completed": true,
+  "_timestamp": 1790292494.5470407
+}

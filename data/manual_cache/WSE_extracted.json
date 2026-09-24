@@ -1,0 +1,233 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Mask of Unmitigated Terror",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": false,
+      "description": "The fear smith carries a shadow version of an artifact known as the Mask of Unmitigated Terror. If the fear smith dies, the mask dissipates in a puff of black smoke. While the fear smith carries this item, it can use an action once each day to create a pulse of darkness that extends outward from it to all creatures within 20 feet of it. Each creature in that area must succeed on a DC 17 Wisdom saving throw or have disadvantage on its first attack roll each turn when in dim light or darkness for the next 24 hours as it fears the unknown things that might lurk unseen nearby. A remove curse spell cures the creature of its fear.",
+      "source": "Book p.6"
+    },
+    {
+      "name": "Bramble Crown (Shadow Version)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The shadow beast wears a shadow version of an artifact known as the Bramble Crown. If the shadow beast dies, the crown dissipates in a puff of black smoke. While the shadow beast wears this item, it can use an action once each day to create a wall of thorns, except the wall deals necrotic damage instead of piercing or slashing damage.",
+      "source": "Page 7"
+    },
+    {
+      "name": "Enoki Scepter (Shadow Version)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The herald of darkness carries a shadow version of an artifact known as the Enoki Scepter. If the herald of darkness dies, the scepter dissipates in a puff of black smoke. In addition to using the scepter to push the Blot's boundaries to the north, the herald of darkness can use an action once each day while holding the scepter to spray shadowy spores in a 30-foot cone. Each creature in that area must make a DC 18 Constitution saving throw.",
+      "source": "Page 7"
+    },
+    {
+      "name": "Goggles of Night (Monolith Champion's Eyes)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "The monolith champion's eyes are lenses that operate as goggles of night.",
+      "source": "Page 7"
+    },
+    {
+      "name": "Enoki Scepter",
+      "type": "Artifact",
+      "rarity": "artifact",
+      "requires_attunement": false,
+      "description": "an artifact known as the Enoki Scepter. If the herald of darkness dies, the scepter dissipates in a puff of black smoke. In addition to using the scepter to push the Blot's boundaries to the north, the herald of darkness can use an action once each day while holding the scepter to spray shadowy spores in a 30-foot cone. Each creature in that area must make a DC 18 Constitution saving throw. On a failure, a creature takes 21 (6d6) necrotic damage and becomes infected with the shadow mold disease. On a success, a creature takes half the damage and doesn't become infected with the disease. A target infected with shadow mold sprouts gray fungal growths from its body. Until the disease is cured, the target can't regain hp except by magical means. At the end of each long rest, the infected target must succeed on a DC 18 Constitution saving throw or have its hp maximum reduced by 7 (2d6). The target dies if this effect reduces its hp maximum to 0. When an infected creature dies, a gloomflower (Creature Codex, p. 188) sprouts from its corpse 24 hours later.",
+      "source": "p.8"
+    },
+    {
+      "name": "silver pin in the shape of a sunflower",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Daesanderena becomes an ally to the PCs and gives them a silver pin in the shape of a sunflower (worth 1,000 gp), which they can use as a bonus action once per day to ask for her aid. This aid comes in a form of your choosing, though it is usually in the form of advice on otherworldly topics or similar assistance that doesn't require the planar elf to physically manifest on the Material Plane (a taxing and dangerous task).",
+      "source": "p.8"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Weft of Shadows",
+      "size": "Large",
+      "type": "monstrosity",
+      "alignment": "neutral evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "171 (18d10 + 72)",
+      "speed": "40 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 12,
+        "constitution": 19,
+        "intelligence": 13,
+        "wisdom": 14,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "con": 8
+      },
+      "skills": {
+        "Arcana": 5,
+        "Intimidation": 8,
+        "Perception": 6,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "cold",
+        "necrotic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "stunned",
+        "unconscious"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Shadow Blend",
+          "description": "In areas of dim light or darkness, the Weft of Shadows is invisible."
+        },
+        {
+          "name": "Shadow Traveler (5/Day)",
+          "description": "As a bonus action while in shadows, dim light, or darkness, the Weft of Shadows disappears into the darkness and reappears in an unoccupied space it can see within 30 feet. A tendril of inky smoke appears at the origin and destination when it uses this trait. If the Weft of Shadows is in the Blot, it can use this trait to teleport to any unoccupied space within the Blot, whether it can see the location or not.",
+          "uses": 5,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "The Weft of Shadows has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Weft of Shadows makes three tentacle attacks."
+        },
+        {
+          "name": "Tentacle",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one creature. Hit: 13 (2d8 + 4) bludgeoning damage plus 9 (2d8) necrotic damage, and the target is grappled (escape DC 16) if it is a Large or smaller creature and the Weft doesn't have two other creatures grappled. Until the grapple ends, the target is restrained and takes 9 (2d8) necrotic damage at the start of each of its turns."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Dismiss Light",
+          "description": "The Weft of Shadows dispels a single source of magical light. This effect works like a dispel magic spell."
+        },
+        {
+          "name": "Move",
+          "description": "The Weft of Shadows moves up to its speed without provoking opportunity attacks."
+        },
+        {
+          "name": "Strength Drain (Costs 2 Actions)",
+          "description": "The Weft of Shadows drains energy from one creature it is grappling. The target must succeed on a DC 16 Constitution saving throw or its Strength score is reduced by 1d6. The target dies if this legendary action reduces its Strength to 0. Otherwise, the reduction lasts until the target finishes a long rest. A humanoid that dies from this action rises as a shadow under the Weft of Shadows' control at the start of the Weft's next turn."
+        }
+      ],
+      "source": "p.9"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "The Blot Shadowstuff Boundary",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A creature attempts to move beyond the boundaries of the Blot into the surrounding shadowstuff.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The boundary is apparent from the map; stepping beyond it into shadowstuff is an intentional or accidental action."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Cannot be disarmed; the shadowstuff is a environmental hazard."
+      },
+      "effect": "For every 5 feet a creature attempts to move within the shadowstuff, it must make a DC 15 Wisdom saving throw. On a failure, the creature is affected (specific effect not fully described in this text).",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "The shadowstuff surrounding and filling the Blot, beyond the mapped boundaries.",
+      "description": "The Blot's boundary is a hazardous region of shadowstuff that requires a Wisdom saving throw for every 5 feet of movement within it.",
+      "source": "Unknown p.4"
+    },
+    {
+      "name": "Magical Sensor",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Entering the hallway between Areas 4 and 5",
+      "detection": {
+        "dc": 20,
+        "skill": "Perception",
+        "detail": "A successful DC 20 Wisdom (Perception) check notices the sensor as a tiny, slit pupil in the shadowstuff on the wall."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Intelligence (Arcana)",
+        "detail": "A successful DC 15 Intelligence (Arcana) check disperses the magic used to create the sensor, destroying it. If the check fails by 5 or more, the hags are immediately alerted to the PCs' presence."
+      },
+      "effect": "A hag can use an action to see or hear through the sensor as if using the clairvoyance spell. If the PCs don't locate and disable the sensor within two rounds of entering the hallway, the hags use their Change Shape actions to appear as mortal elves searching the Cauldron for their stolen souls. They attempt to convince the PCs to destroy the lunar devil, or they use their guises to catch the PCs by surprise.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Hallway between Areas 4 and 5",
+      "description": "A magical sensor created by night hags to monitor the hallway for intruders and spy on the lunar devil.",
+      "source": "Book p.6"
+    },
+    {
+      "name": "Shadow Tendrils",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A creature touches the shadow river or ends its turn within 10 feet of the shadow river",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Takes 5 (2d4) necrotic damage and must succeed on a DC 15 Constitution saving throw or have its Strength score reduced by 1d4. The creature dies if this reduces its Strength to 0. Otherwise, the reduction lasts until the creature finishes a short or long rest. A humanoid that dies from this damage or Strength reduction rises as a shadow under the shadow river lord's control after 1 minute.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "5 (2d4)",
+      "damage_type": "necrotic",
+      "area": "Within 10 feet of the shadow river",
+      "description": "The shadow river's tendrils damage and weaken creatures not native to the Shadow Realm or granted protection by the Weft of Shadows.",
+      "source": "Page 7"
+    }
+  ],
+  "_chapters_completed": [
+    "WL25 Shadows Envy"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "WSE",
+  "_book_title": "WL25 Shadows Envy",
+  "_completed": true,
+  "_timestamp": 1790290674.7922895
+}

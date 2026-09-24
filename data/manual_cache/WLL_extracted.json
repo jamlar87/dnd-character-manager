@@ -1,0 +1,3350 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Call Shadow Mastiff",
+      "level": 3,
+      "school": "conjuration (shadow)",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a dog's tooth)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You conjure a shadow mastiff (see below) from the Shadow Realm. This creature obeys your verbal commands to aid you in battle or to seek out a specific creature. It has the body of a large dog with a smooth black coat, 2 feet high at the shoulder and weighing 200 pounds.\nThe mastiff is friendly to you and your companions. Roll initiative for the mastiff; it acts on its own turn. It obeys simple verbal commands from you within its ability to act. Giving a command takes no action on your part.\nThe mastiff disappears when it drops to 0 hit points or when the spell ends.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "WLL"
+    },
+    {
+      "name": "Putrescent Faerie Circle",
+      "level": 5,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a piece of poisonous fungus)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a 20-foot-diameter circle of loosely packed toadstools that spew sickly white spores and secrete a tarry substance. At the start of each of your turns, each creature within the circle must make a Constitution saving throw. A creature takes 4d8 necrotic damage on a failed save or half as much damage on a successful one.\nIf a creature attempts to pass through the ring of toadstools, the toadstools release a cloud of spores, and the creature must make a Constitution saving throw. On a failure, the creature takes 8d8 poison damage and is poisoned for 1 minute. On a success, the creature takes half as much damage and isn't poisoned. While a creature is poisoned, it is paralyzed. It can attempt a new Constitution saving throw at the end of each of its turns to remove the paralyzed condition (but not the poisoned condition).",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "WLL"
+    },
+    {
+      "name": "Pyroclastic Burst",
+      "level": 4,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (residue from a magmin)",
+      "duration": "Instantaneous",
+      "description": "When you cast this spell, a ball of magma shoots from your hand and messily explodes at a point where you indicate. Each creature in a 30-foot-radius sphere centered on the point must make a Dexterity saving throw, taking 6d8 fire damage and catching on fire on a failed save or half as much damage and suffers no additional effect on a successful save. An ignited creature takes 1d8 fire damage at the beginning of each of its turns. Any adjacent creature can take an action to douse the fire.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 5th level or higher, the damage increases by 1d8 for each slot level above 4th. The extra damage dealt to an ignited creature increases by 1d8 for every two slot levels above 4th.",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "WLL"
+    },
+    {
+      "name": "Summon Ancestor",
+      "level": 5,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "10 feet",
+      "components": "V, S, M (natural stone; optionally, an object connected to target's memories for binding, see text)",
+      "duration": "10 minutes or 1 hour if bound",
+      "description": "You speak the name of one of your ancestors (you need not be blood-related, but you must be considered part of their family line) while touching a stone as a focus for the spell. If you wish to bind the spirit (see below), you must also hold a personal object of theirs or something infused with their memories, like a journal, which is consumed at the end of the duration. The ancestor is summoned as a ghost with their memories and personality, except for memories of their death and the afterlife, which are suppressed.\nYou can attempt to summon an unknown ancestor, but the spell has a 30% chance of failure.\nThe ancestor will perform one of the following tasks for you when summoned:\n• Answer Five Questions. This functions as speak with dead, but as you are speaking to an intact soul, it can give more complete answers and can speculate if needed.\n• Provide Advice. Your ancestor gives you information or guidance based on their skills and specialties in life. You gain advantage on all skill check rolls of a relevant skill until the next dawn.\nBinding an ancestor ties them to the stone used as a focus for the spell, unable to move more than 120 feet away from it. You may choose to have your ancestor watch or guard the area.\nIf watching, the spirit hides in the Ethereal Plane and observes, appearing to you at the end of the duration to tell you what it saw.\nIf guarding, it attempts to scare off any creatures entering the area (or specific creatures you describe after casting the spell) but will only attack to defend itself.\nYou cannot summon the same ancestor more often than once in 10 days.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "WLL"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Light of Memoria",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "The Light of Memoria is a relic created by the Memorians as the magical focus of a ritual that permanently bridged their settlement with the afterlife in an attempt at peaceful coexistence with their ancestors. The relic is powered by the voluntary sacrifice of vital spirit energy. The relic is approximately 1-1/2 feet long and painstakingly carved from a brilliant blue gemstone. Narrow at the base, the relic flutes outward, like a torch. Grooves along its length are dotted with small inlaid crystals, which are inscribed with Elven runes, altogether translated as, We give of our years ahead to summon those whose years are behind. Dying Relic. The Light of Memoria was built to be consumed during the grand ritual. However, the ritual never fully completed, leaving the relic a glimmer of its former glory and a hairsbreadth away from collapsing into dust. The residual magic in the relic combined with the rage of the Forgotten and the spectral memories of the Memorians sustains both the relic and the Oubliette. When the PCs find the relic, only faint sparkles of blue light in its crystals indicate it is anything but an extraordinarily carved, though cracked, gemstone. If a PC proficient in the Arcana skill studies it during a short rest, the PC understands it was the focus of a magical ritual that involved communicating with the dead. The PC also understands that the relic can be temporarily powered by the voluntary sacrifice of vital energy. The PCs need the relic to travel into the Oubliette and to return, but they also need it to better survive the perils awaiting them there. Using the Light. As an action, a creature holding the relic can sacrifice some of its life energy to it, causing the gem to shed bright light in a 15-foot radius and dim light for an additional 15 feet. This light lasts for 24 hours and isn't reduced by the light-reducing effects of the Oubliette. The creature that made the sacrifice ages by 10 years or by 10% of its maximum lifespan, whichever is greater. Each time the relic is used in this way, new cracks appear, gradually spiderwebbing throughout it. If charged with life energy while within 60 feet of the archway in the lifeless clearing, the Light of Memoria opens the portal to the Oubliette. Once the PCs cross through the portal, the duration of the light shed by the relic shortens to 8 hours, as the opening of the portal drained much of the life energy out of it. Each time the relic absorbs a spectral memory (see Memorian Specters sidebar), the light it sheds increases by 5 feet and the duration of the light increases to 24 hours. Once it absorbs all three spectral memories, it can re-open the portal to Midgard from the Oubliette. This final act destroys the Oubliette, frees the spirits of the Memorians who have been trapped within the Oubliette for centuries, and destroys the relic (see Memoria's Legacy).",
+      "source": "p.10-11"
+    },
+    {
+      "name": "Amulet of Memory",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Made of gold or silver, this spherical locket is engraved with two cresting waves, facing away from each other while bound in a twisted loop. It preserves a memory to be re-experienced later.\nWhile wearing this amulet, you can use an action to speak the command word and open the locket. The open locket stores what you see and experience for up to 10 minutes. You can shut the locket at any time (no action required), stopping the memory recording. Opening the locket with the command word again overwrites the contained memory.\nWhile a memory is stored, you or another creature can touch the locket to experience the memory from the beginning. Breaking contact ends the memory early. In addition, you have advantage on any skill check related to details or knowledge of the stored memory.\nIf you die while wearing the amulet, it preserves you. Your body is affected by the gentle repose spell until the amulet is removed or until you are restored to life. In addition, at the moment of your death, you can store any memory into the amulet. A creature touching the amulet perceives the memory stored there even after your death.\nAttuning to an amulet of memory removes any prior memories stored in it.",
+      "source": "Appendix p.161"
+    },
+    {
+      "name": "Golden Diadem",
+      "type": "Treasure",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A golden diadem worth 250 gp and inlaid with the same cresting wave symbol that appears on the amulet of memory. Found on Stefanya's body.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Gem of Brightness (chunk)",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A fist-sized chunk of blue gemstone that remains after the Light of Memoria breaks. It functions as a gem of brightness with 50 charges.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Stone of Good Luck",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A stone of good luck given to the PCs by Tymon. He found it while poking around the Scarlet Citadel, and he's not entirely sure it ever did him any good.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Potion of Healing (Greater)",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "PCs who spend time swimming and searching (DC 18 Perception) here are rewarded with a pair of greater potions of healing in fine glass bottles.",
+      "source": "Adventure p.33"
+    },
+    {
+      "name": "Potion (Common)",
+      "type": "Potion",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "In one of the curtained chambers, he keeps a gilded elven strongbox filled with 200 gp, two common potions, and a finely carved owl made from gypsum (75 gp).",
+      "source": "Adventure p.33"
+    },
+    {
+      "name": "Baleful Eye of Chernobog",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "A ruby orb set into a golden circle, the pendant of this necklace somewhat resembles a malicious eye with the lids draped across the ruby. The baleful eye has five charges. Using an action, you may expend a charge to cause the eye to open. When this happens, all dwarves within 60 feet of the bearer must succeed on a DC 15 Wisdom saving throw or behave as if under the effects of a fear spell. After all charges have been expended, the baleful eye loses its power and becomes an ordinary if ghastly necklace valued at 200 gp to the right collector.",
+      "source": "Appendix p.161"
+    },
+    {
+      "name": "+1 Handaxe",
+      "type": "Weapon",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A tarnished weapon mounted on a crossbeam is actually a +1 handaxe in need of a good polish. The weapon can be spotted easily in any detailed search of the longhouse and does not require an ability check to find, though its magical nature will not be immediately obvious.",
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "+1 scimitar",
+      "type": "Weapon",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "The goblin captain has a +1 scimitar with his remains.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Spell Scroll of comprehend languages",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "There are three intact scroll cases with spell scrolls of comprehend languages, detect magic, and protection from evil and good.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Spell Scroll of detect magic",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "There are three intact scroll cases with spell scrolls of comprehend languages, detect magic, and protection from evil and good.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Spell Scroll of protection from evil and good",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "There are three intact scroll cases with spell scrolls of comprehend languages, detect magic, and protection from evil and good.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Engraved bone dice",
+      "type": "Treasure",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "Among the shelves is a pair of engraved bone dice worth 25 gp.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Obsidian sphere",
+      "type": "Treasure",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A small obsidian sphere worth 10 gp.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Abjuration stone",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The abjuration stone resting in the viscera of the goblin captain. See The Mnemonic Puzzle in Area 11.",
+      "source": "Adventure p.57"
+    },
+    {
+      "name": "Enchantment stone",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Tucked under the bed, the PCs can find the enchantment stone (see The Mnemonic Puzzle in Area 11).",
+      "source": "Adventure p.58"
+    },
+    {
+      "name": "Bell Jar",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The three bell jars in the wall niches are magical, and any organic material placed in one of them is magically preserved, remaining in the same condition it was when it was first placed inside. When removed from the jar, the material continues to decay at its normal rate. Each jar can hold up to 1/2 cubic foot of material (approximately 3 days of rations).",
+      "source": "Book p.67"
+    },
+    {
+      "name": "Green Mantle",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This garment is made of living plants—mosses, vines, and grasses—interwoven into a light, comfortable piece of clothing. When you attune to the green mantle, it forms a symbiotic relationship with you, sinking roots beneath your skin. While wearing it, your hit point maximum is reduced by 5, and you gain the following benefits:\n• If you aren't wearing armor, your base AC is 13 + your Dexterity modifier.\n• You have resistance to radiant damage.\n• You have immunity to the poisoned condition and poison damage that originates from a plant, moss, fungus, or plant creature.\n• As an action, you cause the mantle to produce six berries. It can have no more than twelve berries on it at one time. The berries have the same effect as berries produced by the goodberry spell. Unlike the goodberry spell, the berries retain their potency as long as they are not picked from the mantle. Once used, this property can't be used again until the next dawn.\nCurse. Once you don and attune to this mantle, you are cursed and can't remove it unless you are targeted by the remove curse spell or similar magic. The green mantle requires at least 1 pint of water each day. If you fail to provide water to it, it draws the moisture it needs from your body, dealing 10 (3d6) necrotic damage to you.\nIf it is unable to gain moisture, whether due to its host's immunities or magical protections or to being in a dry environment on a dead host, the green mantle begins to wither. After the first 24 hours, it is unable to gain moisture, the AC it provides is reduced by 1, and you lose resistance to radiant damage. After 48 hours without moisture, it no longer provides any benefits to AC, and you lose immunity to the poisoned condition and plant-based poison damage. After 72 hours without moisture, it dies, becoming nonmagical, and you are able to remove it.",
+      "source": ""
+    },
+    {
+      "name": "Rug of Smothering",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A thick, colorful rug of smothering at the base of the stairs. When the PCs touch the rug of smothering, it animates and attacks.",
+      "source": "Adventure p.80"
+    },
+    {
+      "name": "Warrior's Eye Helm",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This finely crafted silver and bronze helm is etched on each side with a stylized eye surrounded by ivy. When wearing it, you are better able to anticipate your opponent's movements during battle. You gain either a +2 on your attack roll or a +2 to your AC during each round of combat. You can change how you use this bonus with a bonus action. In addition, you can use an action to cast the invisibility spell. Once used, the invisibility effect can't be used again until the next dawn.",
+      "source": "p.166"
+    },
+    {
+      "name": "Thirsting Scalpel",
+      "type": "Weapon (dagger)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to attack and damage rolls with this magic weapon, which deals slashing damage instead of piercing damage.\nWhen you attack a creature with this weapon and roll a 20 on the attack roll, that target takes an extra 2d6 slashing damage. If the target is a creature other than an undead or construct, it must succeed on a DC 12 Constitution saving throw or lose 2d6 hit points at the start of each of its turns from a bleeding wound. Any creature can take an action to stanch the wound with a successful DC 12 Wisdom (Medicine) check. The wound also closes if the target receives magical healing.\nCurse. This scalpel is cursed and contains a bearded devil's essence. Becoming attuned to it extends the curse to you. As long as you remain cursed, you are unwilling to part with the scalpel, keeping it on your person at all times. While attuned to this weapon, you have disadvantage on attack rolls made with weapons other than this one.\nIn addition, once per week while the scalpel is on your person, you must succeed on a DC 15 Charisma saving throw or become driven to feed blood to the scalpel. You have advantage on attack rolls with the scalpel until it is sated. The dagger is sated when you roll a 20 on an attack roll with it or deal 14 slashing damage with it. If 1 hour elapses and you haven't sated its thirst for blood, the dagger deals 14 slashing damage to you. If the dagger deals damage to you as a result of the curse, you can't heal the damage for 24 hours.\nYou can break the curse in the usual ways. Alternatively, casting banishment on the dagger forces the devil to leave it. The scalpel then becomes a +1 weapon with no other properties.",
+      "source": "p.165"
+    },
+    {
+      "name": "Orb of the Warrior",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a champion in combat. Activating this orb gives the PC a +1 bonus to attack and damage rolls made with melee weapons.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Hunter",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a hunter stalking its prey. Activating this orb gives the PC a +1 bonus to attack and damage rolls made with ranged weapons.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Mage",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a spellcaster launching an arcane attack. Activating this orb causes the PC’s spells to deal additional damage. When the PC casts a spell that deals damage, the spell deals an extra 1d6 radiant damage.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Rogue",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a rogue brandishing a twisted dagger. Activating this orb gives the PC the ability to cast the invisibility spell once before the boon ends. Casting this spell doesn’t expend a spell slot, if the PC has spell slots.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Diplomat",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts an orator speaking before a crowd. Activating this orb gives the PC the ability to cast the suggestion spell (save DC 15) once before the boon ends. Casting this spell doesn’t expend a spell slot, if the PC has spell slots.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Beast",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a powerful beast charging across the sky. Activating this orb increases the PC’s speed by 10 feet.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Orb of the Sage",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This constellation depicts a scholar penning a tome. Activating this orb allows the PC to add its proficiency bonus to any Intelligence-based skill checks it makes before the boon ends.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Phase Mirror",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The mirror can be attacked and destroyed (AC 10; hp 50; vulnerability to bludgeoning damage; immunity to slashing, poison, and psychic damage). If the mirror is reduced to half its hit points or fewer, it is considered “broken,” and the ritual is effectively prevented. The broken mirror can be repaired with 1 hour of work by a creature with proficiency with tinker’s tools. If the mirror is reduced to 0 hit points, it is destroyed with no hope of repair.",
+      "source": "Book Name p.115"
+    },
+    {
+      "name": "Spell Scroll of Telepathic Bond",
+      "type": "Scroll",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell telepathic bond.",
+      "source": "Vault of Dreams p.130"
+    },
+    {
+      "name": "Spell Scroll of Phantom Steed",
+      "type": "Scroll",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell phantom steed.",
+      "source": "Vault of Dreams p.130"
+    },
+    {
+      "name": "Wyvern Poison",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A vial containing a single dose of wyvern poison.",
+      "source": "Adventure p.142"
+    },
+    {
+      "name": "Rod of Rampancy",
+      "type": "Rod",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This rod of polished, silvery metal resembles a scepter. It has an eye fashioned at the top of it, flanked by a pair of wings. The octagonal rod narrows into a sharp point at the other end. You can wield the rod as a javelin, and it counts as a magic weapon. When you are attuned to the rod, you are unaffected by spells and other magical effects that would reduce your speed or cause you to become paralyzed or restrained (including the temporal effects described in this adventure). The rod has 3 charges. You can expend a charge from the rod to cast freedom of movement on a target as an action by touching a creature with the rod or to cast knock by touching an object. The rod regains all expended charges at dawn.",
+      "source": "p.164"
+    },
+    {
+      "name": "+1 longbow",
+      "type": "Weapon (longbow)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Weapon (longbow), uncommon. You have a +1 bonus to attack and damage rolls made with this magic weapon.",
+      "source": "Havenhearth p.151"
+    },
+    {
+      "name": "ring set with a garnet",
+      "type": "Treasure",
+      "rarity": "none",
+      "requires_attunement": false,
+      "description": "One of the previous sacrifices dropped a ring set with a garnet, defiantly preventing the cult from obtaining the item. The ring is worth 150 gp.",
+      "source": "Havenhearth p.152"
+    },
+    {
+      "name": "Mask of Unmitigated Terror",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": false,
+      "description": "The fear smith carries a shadow version of an artifact known as the Mask of Unmitigated Terror. If the fear smith dies, the mask dissipates in a puff of black smoke. While the fear smith carries this item, they can use an action once each day to create a pulse of darkness that extends outward from them to all creatures within 20 feet. Each creature in that area must succeed on a DC 17 Wisdom saving throw or have disadvantage on its first attack roll each turn when in dim light or darkness for the next 24 hours as it fears the unknown things that might lurk unseen nearby. A remove curse spell cures the creature of its fear.",
+      "source": "Unknown p.159"
+    },
+    {
+      "name": "Bramble Crown",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": false,
+      "description": "The shadow beast wears a shadow version of an artifact known as the Bramble Crown. If the shadow beast dies, the crown dissipates in a puff of black smoke. While the shadow beast wears this item, it can use an action once each day to create a wall of thorns, except the wall deals necrotic damage instead of piercing or slashing damage.",
+      "source": "Unknown p.159"
+    },
+    {
+      "name": "Enoki Scepter (Shadow Version)",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": false,
+      "description": "The herald of darkness carries a shadow version of an artifact known as the Enoki Scepter. If the herald of darkness dies, the scepter dissipates in a puff of black smoke. In addition to using the scepter to push the Blot's boundaries to the north, the herald of darkness can use an action once each day while holding the scepter to spray shadowy spores in a 30-foot cone. Each creature in that area must make a DC 18 Constitution saving throw. On a failure, a creature takes 21 (6d6) necrotic damage and becomes infected with the shadow mold disease. On a success, a creature takes half the damage and doesn't become infected with the disease. A target infected with shadow mold sprouts gray fungal growths from its body. Until the disease is cured, the target can't regain hit points except by magical means. At the end of each long rest, the infected target must succeed on a DC 18 Constitution saving throw or have its hit point maximum reduced by 7 (2d6). The target dies if this effect reduces its hit point maximum to 0. When an infected creature dies, a gloomflower (see Creature Codex) sprouts from its corpse 24 hours later.",
+      "source": "Book of Ebon Tides p.160"
+    },
+    {
+      "name": "Portrait of Qeldar",
+      "type": "Art object",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "The portrait of Qeldar is worth 500 gp to a collector of esoteric objects.",
+      "source": "Book of Ebon Tides p.160"
+    },
+    {
+      "name": "Gold band set with diamonds",
+      "type": "Art object",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A gold band set with diamonds worth 1,000 gp.",
+      "source": "Book of Ebon Tides p.160"
+    },
+    {
+      "name": "Amethyst-inset earrings",
+      "type": "Art object",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A pair of amethyst-inset earrings worth 750 gp.",
+      "source": "Book of Ebon Tides p.160"
+    },
+    {
+      "name": "Silver pin in the shape of a sunflower",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A silver pin in the shape of a sunflower (worth 1,000 gp), which they can use as a bonus action once per day to ask for Daesanderena's aid. This aid comes in a form of your choosing, though it is usually in the form of advice on otherworldly topics or similar assistance that doesn't require the planar elf to physically manifest on the Material Plane (a taxing and dangerous task).",
+      "source": "Book of Ebon Tides p.160"
+    },
+    {
+      "name": "Bag of Bramble Beasts",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This ordinary green cloth bag appears empty. Reaching inside, however, reveals a small ball of brambles. The bag weighs 1/2 pound.\nYou can use an action to pull the ball of brambles from the bag and throw it up to 20 feet. When the ball lands, it transforms into a creature you determine by rolling a d8 and consulting the table below. The creature is a bramble version (see bramble creature template in Monsters & NPCs below) of the beast listed. The creature vanishes at the next dawn or when it is reduced to 0 hit points.\nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn or give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\nOnce three balls of brambles have been pulled from the bag, the bag can't be used again until the next dawn.\nAlternatively, one willing animal companion or familiar can be placed in the bag for 1 week. A non-beast animal companion or familiar that is placed in the bag is treated as if it had been placed into a bag of holding and can be removed from the bag at any time. A beast animal companion or familiar disappears once placed in the bag, and the bag's magic is dormant until the week is up. At the end of the week, the animal companion or familiar exits the bag as a bramble creature (see bramble creature template in Monsters & NPCs below) and can be returned to its original form only with a wish spell. The creature retains its status as an animal companion or familiar after its transformation. Once the bag has been used to change an animal companion or familiar into a bramble creature, it becomes an ordinary bag.\n1d8 Creature\n1 Weasel\n2 Giant rat\n3 Badger\n4 Boar\n5 Panther\n6 Giant badger\n7 Dire wolf\n8 Giant elk",
+      "source": "Appendix p.161"
+    },
+    {
+      "name": "Constant Dagger",
+      "type": "Weapon (dagger)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\nWhen you roll a 20 on an attack roll made with this weapon, the target loses its resistance to bludgeoning, piercing, and slashing damage until the start of your next turn. If it has immunity to bludgeoning, piercing, and slashing damage, its immunity instead becomes resistance to such damage until the start of your next turn. If the creature doesn't have resistance or immunity to such damage, you roll your damage dice three times, instead of twice.",
+      "source": ""
+    },
+    {
+      "name": "Phase Mirror (Vanity)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This mirror is about 2 feet wide. Up to four creatures can attune to it, and the mirror must spend at least 40 total hours (approximately 5 days) exposed to moonlight or starlight before it can be activated.",
+      "source": "p.164"
+    },
+    {
+      "name": "Phase Mirror (Floor)",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This mirror is about 5 feet wide. Up to seven creatures can attune to it, and the mirror must spend at least 56 total hours (approximately 7 days) exposed to moonlight or starlight before it can be activated. Phase mirrors connected to planes without moonlight or starlight can be recharged in whatever light is native to its connected plane, but it must still be recharged by moonlight or starlight while on the Material Plane.",
+      "source": "p.164"
+    },
+    {
+      "name": "Sleeping Sand",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Found in a small packet, this powder resembles soft white sand. There is enough of it for one use. When you use an action to throw the dust into the air, you and each creature within 30 feet of you that requires sleep must succeed on a DC 15 Constitution saving throw or fall unconscious until the sleeper takes damage, someone uses an action to shake or slap the sleeper awake, or 1 minute has passed.",
+      "source": "p.165"
+    },
+    {
+      "name": "Vril Force Glove",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This bulky gauntlet is crafted of thick leather covered in plates of a strange blue-green metal. Orichalcum studs and wires bedeck the gauntlet with the wires leading to a metal cylinder attached to a leather harness that fits to the wearer's back/shoulder. The metal cylinder is made to hold a vril battery (see Midgard Worldbook), which must be inserted for the force glove to function.\nYou use an action to discharge a bolt of force as a ranged weapon attack against a target within 60 feet, dealing 3 (1d6) points of force damage on a hit and knocking the target prone if it fails a DC 10 Strength saving throw, expending 1 charge from the vril battery to do so. You can delay discharging the glove for up to 3 rounds, using your action to build up a more powerful bolt. Each round you spend building up power affects the force bolt as follows:\n• 1 Round. 7 (2d6) force damage, DC 12 Strength saving throw, costs 2 charges.\n• 2 Rounds. 14 (4d6) force damage, DC 14 Strength saving throw, costs 3 charges.\n• 3 Rounds. 28 (8d6) force damage; DC 16 Strength saving throw, costs 4 charges.\nHolding a charge requires concentration. If your concentration is broken while delaying the discharge, all spent charges are lost, and the resulting bolt deals only 1d6 + 1 per round of delay. Attempts to charge the device for more than 3 rounds cause it to overload, dealing 35 (10d6) force damage to everything in a 10-foot burst. A successful DC 15 Dexterity saving throw reduces this damage by half. There is a 50% chance the force glove is destroyed by the overload. Otherwise, the vril battery that powers it is simply drained of all charges.",
+      "source": "p.166"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Gem-studded Scabbard",
+      "type": "Treasure",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "150 gp",
+      "weight": 0,
+      "source": "WLL"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Shadow Mastiff",
+      "size": "Medium",
+      "type": "monstrosity",
+      "alignment": "neutral evil",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "30 (4d8 +12)",
+      "speed": "50 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 13,
+        "constitution": 17,
+        "intelligence": 4,
+        "wisdom": 12,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 6,
+        "Stealth": 8,
+        "Survival": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 16",
+      "languages": [
+        "understands Common but does not speak"
+      ],
+      "challenge_rating": "2",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Bay",
+          "description": "When a shadow mastiff howls, all creatures within a 300-foot radius who are not evil monstrosities must succeed on a DC 13 Wisdom saving throw or be panicked. On each of its turns, a panicked creature must take the Dash action and move away from the mastiff by the safest and shortest route, if such a route exists. If the target moves out of range of this ability, the effect ends."
+        },
+        {
+          "name": "Scent",
+          "description": "Shadow mastiffs have advantage on all Wisdom checks that rely on their sense of smell."
+        },
+        {
+          "name": "Shadow Blend",
+          "description": "Shadow mastiffs can hide in any condition of illumination other than bright light."
+        },
+        {
+          "name": "Trip",
+          "description": "Whenever a shadow mastiff hits an opponent with a bite attack for the first time on a turn, the opponent falls prone unless it succeeds on a DC 15 Dexterity saving throw. On a failed save, the shadow mastiff makes an immediate second bite attack as a bonus action."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d6+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Appendix p.161"
+    },
+    {
+      "name": "Animated Book",
+      "size": "Small",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "12 (5d4)",
+      "speed": "0 ft., fly 50 ft. (hover)",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 16,
+        "constitution": 11,
+        "intelligence": 1,
+        "wisdom": 5,
+        "charisma": 1
+      },
+      "saving_throws": {
+        "dex": 3
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 7",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Antimagic Susceptibility",
+          "description": "The book is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the book must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute."
+        },
+        {
+          "name": "False Appearance",
+          "description": "While the book remains motionless and isn't flying, it is indistinguishable from a normal book."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (2d4 + 1) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.167"
+    },
+    {
+      "name": "Ash Troll",
+      "size": "Large",
+      "type": "giant",
+      "alignment": "chaotic evil",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "126 (12d10 + 60)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 10,
+        "constitution": 21,
+        "intelligence": 8,
+        "wisdom": 11,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 1,
+        "Survival": 3
+      },
+      "damage_resistances": [
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Abyssal",
+        "Giant"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Keen Senses",
+          "description": "The creature has advantage on Wisdom (Perception) checks that rely on certain senses."
+        },
+        {
+          "name": "Regeneration",
+          "description": "The ash troll regains 10 hp at the start of its turn. If the troll takes acid or thunder damage, this trait doesn't function at the start of the creature's next turn. The ash troll dies only if it starts its turn with 0 hit points and doesn't regenerate. If the troll uses its Exhale Ash action, this trait doesn't function at the start of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The ash troll makes three attacks: one with its bite and two with its claws."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one creature. Hit: 11 (2d6 + 4) piercing damage plus 2 (1d4) fire damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one creature. Hit: 14 (3d6 + 4) slashing damage."
+        },
+        {
+          "name": "Exhale Ash (Recharge 4–6)",
+          "description": "The ash troll breathes fiery ash in a 15-foot cone. A creature in the area must make a DC 16 Constitution saving throw. On a failed save, it takes 14 (4d6) fire damage and is poisoned for 1 minute. On a successful save, it takes half the damage and suffers no additional effect. A creature poisoned by the ash troll can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.167"
+    },
+    {
+      "name": "Asp Vine",
+      "size": "Medium",
+      "type": "plant",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "45 (7d8 + 14)",
+      "speed": "5 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 12,
+        "constitution": 12,
+        "intelligence": 1,
+        "wisdom": 3,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "blinded",
+        "deafened",
+        "frightened"
+      ],
+      "senses": "blindsight 30 ft. (blind beyond this radius), passive Perception 6",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "False Appearance",
+          "description": "While the asp vine remains motionless, it is indistinguishable from a normal cluster of vines."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The asp vine makes four vine attacks."
+        },
+        {
+          "name": "Vine",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage and 5 (2d4) poison damage, and the target must succeed on a DC 14 Constitution saving throw or be poisoned for 1 minute. If the target is a creature, it is grappled (escape DC 14). Until this grapple ends, the target is restrained and must succeed on a new saving throw each round it remains grappled or take another 5 (2d4) poison damage. The asp vine can grapple up to four targets at a time, though it can still make vine attacks against other targets even if it has four grappled opponents."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.168"
+    },
+    {
+      "name": "Cheshirian",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "66 (12d6 + 24)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 18,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "cha": 5
+      },
+      "skills": {
+        "Deception": 7,
+        "Stealth": 6,
+        "Survival": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Claim Territory (1/Day)",
+          "description": "The cheshirian spends 1 hour out of phase, attuning itself to a section of the Forlorn Roads up to 1 square mile in size. This section becomes its territory until it dies or it designates another area as its territory. It also attunes itself to a similarly sized swath of land on the Material Plane in the Northlands as part of this process. More than one cheshirian can claim the same territory, though this overlap often ends with one of the cheshirians slain by the other or moving on to a different area.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Out of Phase",
+          "description": "As a bonus action, the cheshirian can magically exist on the Material Plane and the Forlorn Roads simultaneously. While it is out of phase in this way, it is invisible in both realms (though it can choose for its mouth and teeth to remain visible), and it has resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks. A creature that the cheshirian hits with its claw attack while out of phase has resistance to the cheshirian's claw damage. As a bonus action on a subsequent turn, the cheshirian can choose to fully manifest on the Material Plane or the Forlorn Roads."
+        },
+        {
+          "name": "Sound Mimicry",
+          "description": "The cheshirian can mimic humanoid voices. A creature that hears the voices can tell they are imitations with a successful DC 15 Wisdom (Insight) check."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The cheshirian makes two claw attacks."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) slashing damage. If the target is a Medium or smaller creature, it is grappled (escape DC 11). Until this grapple ends, the target is restrained, and the cheshirian can't use its claw on another target."
+        },
+        {
+          "name": "Drag to the Forlorn Roads",
+          "description": "The cheshirian teleports itself to its claimed territory in the Forlorn Roads, its claimed territory in the Northlands, or to an area of the Forlorn Roads with which it is familiar. If it is grappling a creature, the grappled creature must make a DC 13 Wisdom saving throw (a creature can willingly fail this saving throw). On a failure, the grappled creature teleports with the cheshirian to the chosen location. A creature that is in the Forlorn Roads and not native to the Shadow Realm can attempt a new Wisdom saving throw at the end of each hour, reappearing in the space it left (or in the nearest unoccupied space if that space is occupied) on a success. A creature can choose to fail this saving throw. If a creature fails this saving throw each hour for 48 hours, it is permanently stuck in the Forlorn Roads and must find a different way out. A fey creature or a creature native to the Shadow Realm can choose to permanently remain in the Forlorn Roads or not at the end of the first hour."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.168-169"
+    },
+    {
+      "name": "Durgleel",
+      "size": "Small",
+      "type": "humanoid (goblinoid)",
+      "alignment": "neutral evil",
+      "armor_class": 16,
+      "ac_type": "studded leather",
+      "hit_points": "44 (8d6 + 16)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 18,
+        "constitution": 15,
+        "intelligence": 14,
+        "wisdom": 13,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "dex": 7,
+        "int": 5
+      },
+      "skills": {
+        "Intimidation": 3,
+        "Stealth": 8,
+        "Survival": 3
+      },
+      "damage_resistances": [
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Ankeshelian",
+        "Common",
+        "Goblin"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Alien Mind",
+          "description": "Durgleel has advantage on saving throws against being charmed or frightened. In addition, she can use a bonus action to read the surface thoughts of one creature within 30 feet. This works like the detect thoughts spell, except it can only read surface thoughts and there is no limit to the duration. Durgleel can end this effect as a bonus action or by using a bonus action to change the target."
+        },
+        {
+          "name": "Cunning Action",
+          "description": "On each of her turns, Durgleel can use a bonus action to take the Dash, Disengage, or Hide action."
+        },
+        {
+          "name": "Sneak Attack (1/Turn)",
+          "description": "Durgleel deals an extra 10 (3d6) damage when she hits a target with a weapon attack and has advantage on the attack roll or when the target is within 5 feet of an ally of hers that isn't incapacitated and she doesn't have disadvantage on the attack roll."
+        },
+        {
+          "name": "Twisted",
+          "description": "When Durgleel attacks a creature from hiding, the target must succeed on a DC 13 Wisdom saving throw or be frightened until the end of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage plus 4 (1d8) poison damage. The target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Light Crossbow",
+          "description": "Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 8 (1d8 + 4) piercing damage plus 4 (1d8) poison damage. The target must succeed on a DC 13 Constitution saving throw or be poisoned for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Force Glove",
+          "description": "Ranged Weapon Attack: +6 to hit, range 60 ft., one target. Hit: 3 (1d6) force damage, and the target must succeed at a DC 10 Constitution saving throw or be knocked prone. The force glove is powered by a fully charged vril battery, giving her a maximum of 50 shots with this attack, less if she delays powering it up. (See vril force glove for full effects and abilities.)"
+        },
+        {
+          "name": "Psychic Blast (Recharge 5–6)",
+          "description": "Durgleel lashes out with the power of her vril artifact, projecting a wave of psychic energy in a 15-foot cone. Creatures in the area of effect must make a DC 12 Charisma saving throw. On a failed save, a creature takes 10 (4d4) psychic damage and suffers disadvantage on its next attack, saving throw, or skill check after taking the damage. On a successful save, the creature takes half damage and does not have disadvantage on its next roll.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.169"
+    },
+    {
+      "name": "Hammer Holly",
+      "size": "Huge",
+      "type": "plant",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "60 (8d12 + 8)",
+      "speed": "0 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 10,
+        "constitution": 12,
+        "intelligence": 1,
+        "wisdom": 10,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "blinded",
+        "deafened",
+        "frightened"
+      ],
+      "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 10",
+      "languages": [],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "False Appearance",
+          "description": "While the hammer holly remains motionless, it is indistinguishable from a normal holly tree."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 21 (5d6 + 4) bludgeoning damage and target is stunned for 1 round. If the target succeeds on DC 12 Constitution saving throw, it is not stunned."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.170"
+    },
+    {
+      "name": "Infernal Centaur",
+      "size": "Medium",
+      "type": "fiend",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "60 (8d8 + 24)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 14,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 3,
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "fire"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Gnomish",
+        "Infernal"
+      ],
+      "challenge_rating": "4",
+      "xp": 1100,
+      "features": [
+        {
+          "name": "Cruelty",
+          "description": "If the infernal centaur scores a critical hit with a melee attack, it can make a second attack against the same target as a bonus action. It has advantage on this attack roll."
+        },
+        {
+          "name": "Hell Hound Affinity",
+          "description": "Hell hounds view infernal centaurs as leaders of their packs. A hell hound refuses to attack an infernal centaur unless the centaur attacks it first. If magically coerced, the hell hound has disadvantage on attack rolls against the centaur. The centaur has advantage on Charisma (Persuasion) checks against hell hounds."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The centaur has advantage on attack rolls against a creature if at least one of the centaur's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The infernal centaur makes two dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage."
+        },
+        {
+          "name": "Fiery Breath (Recharge 5–6)",
+          "description": "The infernal centaur exhales fire in a 15-foot cone. Each creature in that area must make a DC 13 Dexterity saving throw, taking 28 (8d6) fire damage on a failed save or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.170-171"
+    },
+    {
+      "name": "Lady Madaera D'Faucon, the Chimeric Mage",
+      "size": "Medium",
+      "type": "humanoid (shadow fey)",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "15 with mage armor",
+      "hit_points": "55 (10d8 +10)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {
+        "Int": 7,
+        "Wis": 5
+      },
+      "skills": {
+        "Arcana": 7,
+        "History": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Infernal",
+        "Umbral"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Chimeric Magic",
+          "description": "Madaera can grant another creature within 30 feet one of the following benefits when she casts a transmutation spell: • The creature's arms elongate for their next attack, granting them an additional 5 ft. reach. • The creature's legs strengthen, granting them an additional 10 ft. of movement for 1 round."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "Madaera has advantage on saving throws against being charmed, and magic can't put her to sleep."
+        },
+        {
+          "name": "Innate Spellcasting",
+          "description": "Madaera's innate spellcasting ability is Charisma. She can cast the following spells innately, requiring no material components. 3/day: misty step (when in shadows, dim light, or darkness only)"
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Madaera is a 10th-level spellcaster. Her spellcasting ability is Intelligence (spell save DC 14, +7 to hit with spell attacks). Madaera has the following wizard spells prepared: Cantrips (at will): light, mending, prestidigitation, ray of frost; 1st level (4 slots): false life*, mage armor, magic missile; 2nd level (3 slots): arcane lock, enhance ability*, hold person; 3rd level (3 slots): blink*, fireball, slow*; 4th level (3 slots): polymorph*, stoneskin; 5th level (2 slots): modify memory, telekinesis*; *Transmutation spell of 1st level or higher"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Madaera has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "Madaera has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 1 (1d4 – 1) piercing damage"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.171"
+    },
+    {
+      "name": "Lyra Ironhide",
+      "size": "Medium",
+      "type": "humanoid (bearfolk)",
+      "alignment": "neutral",
+      "armor_class": 13,
+      "ac_type": "natural armor (16 with barkskin)",
+      "hit_points": "136 (21d8 + 42)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 10,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 18,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "Con": 5
+      },
+      "skills": {
+        "Animal Handling": 7,
+        "Perception": 7,
+        "Persuasion": 5,
+        "Religion": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 17",
+      "languages": [
+        "Common",
+        "Druidic",
+        "Sylvan"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Frenzy (1/Rest)",
+          "description": "As a bonus action, Lyra can trigger a berserk frenzy that lasts 1 minute. While in a frenzy, she gains resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks and has advantage on attack rolls. Attack rolls made against Lyra while she is frenzied have advantage.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Keen Smell",
+          "description": "Lyra has advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Moon Touched",
+          "description": "While she or her target is in moonlight, Lyra's weapon attacks are magical, and when she hits with any weapon, the weapon deals an extra 2d8 radiant damage."
+        },
+        {
+          "name": "Spellcasting",
+          "description": "Lyra is an 8th-level spellcaster. Her spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). Lyra has the following druid spells prepared: Cantrips (at will): druidcraft, mending, produce flame; 1st level (4 slots): cure wounds, entangle, faerie fire, speak with animals; 2nd level (3 slots): barkskin, hold person, moonbeam"
+        }
+      ],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.171"
+    },
+    {
+      "name": "Mirror Image",
+      "size": "Medium",
+      "type": "monstrosity",
+      "alignment": "lawful evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "170 (20d8 + 80)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 20,
+        "constitution": 19,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "radiant"
+      ],
+      "condition_immunities": [
+        "blinded"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 12",
+      "languages": [
+        "understands the language of its creator but can't speak"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Refract",
+          "description": "If the mirror image is hit with radiant damage, every creature who can see it must succeed on a DC 15 Constitution saving throw or be blinded."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The mirror image makes three slash attacks. One of these attacks can be replaced with its Multiplicity action."
+        },
+        {
+          "name": "Slash",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 15 (3d6 + 5) slashing damage."
+        },
+        {
+          "name": "Multiplicity (Recharge 5–6)",
+          "description": "The mirror image conjures three illusory duplicates of itself that appear in its space. The duplicates move with the mirror image and mimic its actions, shifting positions, so it's impossible to track which image is real. Each time a creature targets the mirror image with an attack, roll a d20 to determine whether the attack targets one of the duplicates. On a roll of 10 or higher, the attack targets a duplicate, which is immediately destroyed. A creature is unaffected by this ability if it can't see, if it relies on senses other than sight, such as blindsight, or if it can perceive illusions as false, as with truesight."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Copy",
+          "description": "When the mirror image takes damage from a creature within melee range, it can use a reaction to assume the form of its attacker for the remainder of its turn. While a creature is copied, all damage dealt to the mirror image is also dealt to it."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "p.172-173"
+    },
+    {
+      "name": "Nazaire the Corrupted",
+      "size": "Medium",
+      "type": "humanoid (human)",
+      "alignment": "lawful evil",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "97 (15d8 + 30)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 14,
+        "constitution": 15,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Arcana": 5,
+        "Investigation": 5
+      },
+      "damage_resistances": [
+        "bludgeoning"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Common",
+        "Goblin",
+        "Void Speech"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "Nazaire's innate spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). He can innately cast the following spells, requiring no material components:\nAt will: eldritch blast, minor illusion\n3/day each: charm person, vampiric touch\n1/day: black tentacles"
+        },
+        {
+          "name": "Virulent Pustules",
+          "description": "When Nazaire takes piercing or slashing damage, the pustules on his hide erupt in a noxious spray. Each creature within 5 feet of Nazaire must make a DC 15 Constitution saving throw. On a failure, a creature takes 7 (2d6) poison damage and is poisoned for 1 minute. On a success, a creature takes half the damage and isn't poisoned. A poisoned creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+        },
+        {
+          "name": "Void-Touched Weapons",
+          "description": "Nazaire's weapon attacks are magical. When he hits with any weapon, the weapon deals an extra 2d8 psychic damage (included in the attack)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Nazaire makes two melee attacks."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 6 (1d6 + 3) piercing damage or 7 (1d8 + 3) piercing damage if used with two hands to make a melee attack, plus 9 (2d8) psychic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.173"
+    },
+    {
+      "name": "Spectral Memory",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "neutral",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "22 (5d8)",
+      "speed": "0 ft., fly 50 ft. (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 15,
+        "wisdom": 12,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "acid",
+        "cold",
+        "fire",
+        "lightning",
+        "thunder",
+        "bludgeoning, piercing, and slashing from nonmagical attacks"
+      ],
+      "damage_immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Incorporeal Movement",
+          "description": "The spectral memory can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Light Sensitivity",
+          "description": "While in bright light, the spectral memory has disadvantage on attack rolls as well as on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Remembered Expertise",
+          "description": "If the spectral memory makes an attack roll while at least one creature within 30 feet of it is missing a memory from Memory Drain, the spectral memory can roll a d4 and add the number rolled to the attack roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Memory Drain",
+          "description": "Melee Spell Attack: +4 to hit, reach 5 ft., one creature. Hit: 7 (2d6) necrotic damage. The target must succeed on a DC 10 Wisdom saving throw or lose a cherished memory. This loss lasts until the target"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.173"
+    },
+    {
+      "name": "Trollkin Bandit",
+      "size": "Medium",
+      "type": "humanoid",
+      "alignment": "neutral",
+      "armor_class": 14,
+      "ac_type": "hide armor",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 11,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Common",
+        "Trollkin"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Regeneration",
+          "description": "The trollkin regains 1 hp at the start of its turn. If the trollkin takes acid or fire damage, this trait doesn't function at the start of the trollkin's next turn. The trollkin dies only if it starts its turn with 0 hit points and doesn't regenerate."
+        },
+        {
+          "name": "Thick Hide",
+          "description": "The trollkin's skin is thick and tough, granting it a +1 bonus to AC (included above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Handaxe",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 7 (1d6 + 1) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Warlock p.174"
+    },
+    {
+      "name": "Weft of Shadows",
+      "size": "Large",
+      "type": "monstrosity",
+      "alignment": "neutral evil",
+      "armor_class": 17,
+      "ac_type": "natural armor",
+      "hit_points": "171 (18d10 + 72)",
+      "speed": "40 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 12,
+        "constitution": 19,
+        "intelligence": 13,
+        "wisdom": 14,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "con": 8
+      },
+      "skills": {
+        "Arcana": 5,
+        "Intimidation": 8,
+        "Perception": 6,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "cold",
+        "necrotic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "stunned",
+        "unconscious"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 16",
+      "languages": [
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "12",
+      "xp": 8400,
+      "features": [
+        {
+          "name": "Shadow Blend",
+          "description": "In areas of dim light or darkness, the Weft of Shadows is invisible."
+        },
+        {
+          "name": "Shadow Traveler (5/Day)",
+          "description": "As a bonus action while in shadows, dim light, or darkness, the Weft of Shadows disappears into the darkness and reappears in an unoccupied space it can see within 30 feet. A tendril of inky smoke appears at the origin and destination when it uses this trait. If the Weft of Shadows is in the Blot, it can use this trait to teleport to any unoccupied space within the Blot, whether it can see the location or not.",
+          "uses": 5,
+          "recharge": "day"
+        },
+        {
+          "name": "Traveler in Darkness",
+          "description": "The Weft of Shadows has advantage on Intelligence (Arcana) checks made to know about shadow roads and shadow magic spells or items."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Weft of Shadows makes three tentacle attacks."
+        },
+        {
+          "name": "Tentacle",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one creature. Hit: 13 (2d8 + 4) bludgeoning damage, plus 9 (2d8) necrotic damage, and the target is grappled (escape DC 16) if it is a Large or smaller creature and the Weft doesn't have two other creatures grappled. Until the grapple ends, the target is restrained and takes 9 (2d8) necrotic damage at the start of each of its turns."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [
+        {
+          "name": "Dismiss Light",
+          "description": "The Weft of Shadows dispels a single source of magical light. This effect works like the dispel magic spell."
+        },
+        {
+          "name": "Move",
+          "description": "The Weft of Shadows moves up to its speed without provoking opportunity attacks."
+        },
+        {
+          "name": "Strength Drain (Costs 2 Actions)",
+          "description": "The Weft of Shadows drains energy from one creature it is grappling. The target must succeed on a DC 16 Constitution saving throw or have its Strength score reduced by 3 (1d6). The target dies if this legendary action reduces its Strength to 0. Otherwise, the reduction lasts until the target finishes a long rest. A humanoid that dies from this action rises as a shadow under the Weft of Shadows's control at the start of the Weft's next turn."
+        }
+      ],
+      "source": "Warlock p.174"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Tymon",
+      "race": "Human",
+      "class_name": "Noble",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "9 (2d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 11,
+        "intelligence": 12,
+        "wisdom": 14,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Insight": 4,
+        "Persuasion": 5
+      },
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Tymon knows the fire bolt and prestidigitation cantrips and can cast magic missile once per day."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Rapier",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8+1) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Tymon is a 17-year-old lanky human who is, ostensibly, an apprentice of Gellert the Gruesome. To be accurate, he's a hapless henchman that runs errands for one of Gellert's lieutenants, Cagoth-ze, a gnome wizard who specializes in ley line magic. Cagoth-ze uses the boy's eagerness to learn magic as a way of manipulating him into performing a variety of mundane tasks, ever-promising to teach him magic \"soon.\" Minor magic came to Tymon through sheer stubbornness and scraps of arcane lore he snuck out of Cagoth-ze's sanctum. Ambitious sorcery and banditry sounded romantic to Tymon in his former life as a bored merchant's son in Triolo. However, his time as Gellert's \"apprentice\" has yielded very little magical knowledge, several new scars and callouses, and much more involvement with bandits than he ever thought he'd have. Disillusionment is settling in, and Tymon's current predicament isn't helping. Tymon uses the statistics of a noble, except he knows the fire bolt and prestidigitation cantrips and can cast magic missile once per day. He is helpful to the PCs but hangs back in combat unless coerced. During the final encounter with the Forgotten, he joins the fray without hesitation, desperate to escape his former captor. He is a little fatalistic about his life choices, something the PCs might be able to help him overcome.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "p.11"
+    },
+    {
+      "name": "Ulran",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Club"
+      ],
+      "spellcasting": null,
+      "description": "Ulran (commoner) was nabbed by the far darrig before the bagiennik could restore him. The children fled when this occurred. Ulran is currently alive and unconscious in the far darrig's lair in the elven ruins.",
+      "role": "Missing Youth",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Bagiennik Game p.30"
+    },
+    {
+      "name": "Tomra",
+      "race": "Human",
+      "class_name": "Veteran",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "58 (9d8+18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "str": 5,
+        "con": 4
+      },
+      "skills": {
+        "athletics": 5,
+        "perception": 2
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8+3) slashing damage, or 8 (1d10+3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
+        }
+      ],
+      "equipment": [
+        "+1 handaxe",
+        "shield",
+        "axe",
+        "bow",
+        "crossbow"
+      ],
+      "spellcasting": null,
+      "description": "Tomra (veteran) is a retired guard from Reywald. He is handy with an axe and shield, and he knows his way around bows and crossbows. He is an older man with a broad frame and close-cut silver hair. He has managed to extract the detail of where the children were playing from them but little more. He is a good-hearted man with sincere concern for the youth. If the party requires support, he is willing to join them as a combatant (taking a share of the XP). He offers each character a sack of 50 gp if they help find the boy. He has a +1 handaxe that he is willing to part with if the characters require more payment.",
+      "role": "Village Elder",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Bagiennik Game p.30"
+    },
+    {
+      "name": "Ina",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Club"
+      ],
+      "spellcasting": null,
+      "description": "Ina is deeply traumatized by the experience, and she will reveal nothing unless a calm emotions spell is cast on her, at which point she reveals the fate of Ulran.",
+      "role": "Reluctant Youth",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Bagiennik Game p.30"
+    },
+    {
+      "name": "Halson",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Club"
+      ],
+      "spellcasting": null,
+      "description": "Halson is terrified of the consequences of telling the truth, but he can be coaxed into revealing what happened to Ulran with a DC 17 Charisma (Persuasion) check.",
+      "role": "Reluctant Youth",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Bagiennik Game p.30"
+    },
+    {
+      "name": "Gralich",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "4 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Club"
+      ],
+      "spellcasting": null,
+      "description": "Gralich tells twelve different versions of the story, and he believes it is all a game. A zone of truth spell or a DC 17 Charisma (Intimidation) check forces him to tell the truth.",
+      "role": "Reluctant Youth",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Bagiennik Game p.30"
+    },
+    {
+      "name": "Revna Ravenstone",
+      "race": "Dwarf",
+      "class_name": "Veteran",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "58 (9d8+18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 13,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 5,
+        "Perception": 2
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+        },
+        {
+          "name": "Battleaxe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8+3) slashing damage, or 8 (1d10+3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10+1) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Battleaxe"
+      ],
+      "spellcasting": null,
+      "description": "Revna Ravenstone is the leader of the White Worg Reavers. She uses the statistics of a veteran, but she carries a battleaxe instead of a longsword.",
+      "role": "Leader of the White Worg Reavers",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Unknown"
+    },
+    {
+      "name": "Broke Tooth",
+      "race": "Trollkin",
+      "class_name": "Raider",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A trollkin raider who orders one of the two bandits to use an action to put out the fire while he and the other bandit attack.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Hates Bears",
+      "race": "Trollkin",
+      "class_name": "Bandit",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Hates Bears has three levels of exhaustion (speed halved and disadvantage on ability checks, attack rolls, and saving throws)."
+        },
+        {
+          "name": "Bear Hatred",
+          "description": "In the event that Hates Bears encounters a werebear, bearfolk, or druid shapeshifted into bear form, he will become furious, targeting all of his attacks on that character regardless of the wisdom of this strategy."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A trollkin bandit sleeping off a bender in a longhouse. He has a coin purse hidden in the hollow leg of his cot containing 20 sp and a golden tooth worth 2 gp.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Burps Loudly",
+      "race": "Trollkin",
+      "class_name": "Bandit",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Exhaustion",
+          "description": "Burps Loudly has three levels of exhaustion (speed halved and disadvantage on ability checks, attack rolls, and saving throws)."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A trollkin bandit sleeping off a bender in a longhouse.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Golden Throat",
+      "race": "Trollkin",
+      "class_name": "Bandit",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Magnificent Singing Voice",
+          "description": "Golden Throat is blessed with a magnificent singing voice that she insists is a gift from the northern god Baldur."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A trollkin bandit who dreams of becoming an actual bard one day. She has been considering freeing the bard prisoner, Bragi Skallagrimsson, with whom she has spoken, and fleeing with him to Skaldholm.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Cleft Ear",
+      "race": "Trollkin",
+      "class_name": "Bandit",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A trollkin bandit who found Bragi Skallagrimsson first and lifted a gold bar worth 50 gp off the bard. The gold bar is in a satchel hidden under a stone in the floor of the longhouse.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Bragi Skallagrimsson",
+      "race": "Human",
+      "class_name": "Bard",
+      "subclass": "",
+      "level": 1,
+      "alignment": "Neutral Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Bragi is willing to cast cure wounds or heroism on a member of the party."
+        },
+        {
+          "name": "Coward",
+          "description": "Bragi is an inveterate coward when it comes to combat and will not fight."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": "Bragi can cast cure wounds and heroism.",
+      "description": "A bard of Skaldholm who is bound and gagged and tied to a cot. He knows a secret about the trollkin cave, which he's used as a bargaining chip to keep himself alive. He promises a reward of 300 gp if he is returned safely to Skaldholm.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Tome of Beasts 2 Adventure p.41"
+    },
+    {
+      "name": "Chrysanthi",
+      "race": "Human",
+      "class_name": "Alchemist",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Chaotic Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {
+        "Arcana": 4
+      },
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Chrysanthi is a chaotic good human professional alchemist (acolyte, adding Arcana +4 to skills). She is a direct descendent of Kaiti and Theodoro Vadeki and thus the rightful heir of the estate and its ghosts. She's also down on her luck and willing to do some outrageous things to get back on her feet, including imploring some adventurers to clear out a ruined house, so she can try and reclaim it. She's impulsive, energetic, bright, and a little high-strung.",
+      "role": "Quest Giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Adventure p.53"
+    },
+    {
+      "name": "Lady Ollana Elincourt",
+      "race": "Elfmarked",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Ollana Elincourt is a lovely elfmarked whose fair face is lined with grief, making her look older than she is. Her blond hair is streaked with silver at the temples, and the entire time she is speaking to the PCs, her eyes flick between them as if searching for something. She is a stereotypical doting mother who believes the best of her son and cannot imagine him harming anyone. She knows nothing about the situation other than the certainty that Harper is innocent. She is soft spoken and kind and only shows any anger when speaking of the Amberthauds.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Warlock 5 (Midgard) p.75"
+    },
+    {
+      "name": "Lord Maramir Elincourt",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Maramir Elincourt is a human with salt-and-pepper hair, dark skin, a straight nose, high cheekbones, and a strong chin. He carries himself in a way that suggests he's seen battle, and it wouldn't be surprising if he knows how to use the sword on his hip. His knuckles are scarred, and there's the silvery shadow of an old wound on his right jaw, just under his ear. He had his own share of adventuring as a young man, only settling down in Reywald once he met (and fell in love with) Ollana. Her reserve is the only thing keeping him from charging off and challenging Koriandril Amberthaud to hand-to-hand combat.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book Name p.76"
+    },
+    {
+      "name": "Baroness Yllara Amberthaud",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral evil",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Yllara Amberthaud is every inch the stereotypical haughty elven noble. With blond hair that falls in ringlets, alabaster skin, and a mouth that's pressed in a nearly constant line of disapproval, she certainly makes an impression. For Yllara, the idea that her daughter could have had an affair with Harper, or that she ran off on her own, is something she cannot fathom—it's too scandalous and wounds the pride of their family too deeply.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Book Name p.76"
+    },
+    {
+      "name": "Baron Koriandril Amberthaud",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Koriandril Amberthaud is wide-shouldered but otherwise lithe of figure with straight blond hair and dark eyes that are nearly black. His eyes soften, however, when he speaks of his daughter, and his resolve about Lilli's fate is not quite as solid as his wife's, but the doubts are quickly buried with a glance from Yllara or the thought that his precious daughter may not have loved them as much as he'd hoped.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Book Name p.76"
+    },
+    {
+      "name": "Lenora Amberthaud",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Lenora Amberthaud is young with pink cheeks and her father's straight blond hair. She has always held out hope that her sister was alive somewhere and is frustrated to the point of exhaustion with her parents' stubborn refusal to consider the possibility. It's obvious by the way she speaks that she and her sister were close, and she misses Lilli dearly. Forging the letter for the PCs is a new act of rebellion for her, and she seems surprised that it was so easy.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book Name p.76"
+    },
+    {
+      "name": "Captain Karlora Everrest",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Captain Karlora is a formidable figure. Though she has the typical slender elvish build, there's something in her green eyes that tells you she brooks no nonsense. She is reluctant to discuss any aspects of the Amberthaud case with the PCs since they are strangers, but she harbors doubt at Harper's guilt while feeling pressured to keep him imprisoned due to his family's stature. On a successful DC 18 Wisdom (Insight) check, the PCs can tell she is a woman bound by duty and who is frustrated at their inability to crack the case.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book Name p.76"
+    },
+    {
+      "name": "Harper Elincourt",
+      "race": "Elfmarked",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Lawful Good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Harper Elincourt is a handsome elfmarked with his father's facial structure and his mother's fair skin, blond hair, and slightly pointed ears. He has spent his time since Lilli's disappearance in prison, and it is apparent in the circles under his eyes and his thin frame. When speaking with the PCs, his mood fluctuates from anger to despair. He insists he's innocent, rails against the Amberthauds (but speaks kindly of Lenora, Lilli's sister), and wishes nothing more than to be free, so he can find his beloved—or the one who took her life.",
+      "role": "Prisoner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Adventure p.77"
+    },
+    {
+      "name": "Yffreyja, the Shining Swallowtail",
+      "race": "Fey",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Demesne Bound",
+          "description": "Yffreyja cannot leave her demesne as she's put so much of herself into maintaining her hold against the darkness that she would quickly fade and perish outside of its boundaries."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A tall, slender woman, Yffreyja has an otherworldly look to her. Her cheekbones are high and sharp, and her eyes are a pale violet. Her golden hair is twisted up in an elaborate braid, and a diadem adorns her brow. Her long ears sweep up and back, almost touching at the back of her head, and delicate jeweled earrings dangle from the lobes. She wears a deep-green gown with pointed sleeves and embroidery that echoes the twisting and winding of vines and branches. Yffreyja, the Shining Swallowtail: Neutral fey (age 423). Yffreyja is expecting the PCs—this is her demesne after all. She welcomes them to her home and is kind, though she is occasionally forgetful and mercurial as her concentration slips, and the PCs see her personality fraying around the edges. So much of her concentration is used to maintain the integrity of her demesne that she sometimes misses parts of the conversation. Yffreyja is desperate to keep Lilli with her, though she won't go so far as to hold the woman against her will. She attempts to convince Lilli to remain or suggest the adventurers should return to the jail and slaughter everyone in order to free Harper as she has no qualms about breaking mortal laws.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book Name p.82"
+    },
+    {
+      "name": "Lilli Amberthaud",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral good",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Lilli Amberthaud: Neutral good elf (age 21). Lilli Amberthaud is a young elf with a mass of curly blond hair, bright blue eyes, and a sparkling smile. She wears a gown of yellow and white and a pendant shaped like a lily of the valley set with seed pearls. Lilli met Yffreyja while wandering the forest at the edge of her estate. Distraught over her parents' decision to betroth her to another against her will, Lilli sat beneath the witchwillow and sobbed. Ellilee sat in the branches above her and watched curiously, and once Lilli had gone, Ellilee entered the witchwillow and relayed what they had seen to Yffreyja. Sensing some purity in Lilli's grief, Yffreyja had Ellilee extend an invitation to Lilli the next time the young elven woman visited the witchwillow. Lilli was hesitant at first but was desperate enough to cling to any hope, and she visited Yffreyja within her demesne. Enthralled by Yffreyja's beauty and bearing, Lilli poured her heart out to the fey over tea, and after several visits, the two became friends. When Yffreyja offered her the opportunity to escape to the witchwillow demesne with Harper, she took the chance happily.",
+      "role": "Neutral good",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Book Name p.82"
+    },
+    {
+      "name": "Xandar Demir",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "rod of rampancy"
+      ],
+      "spellcasting": null,
+      "description": "A man in dirty, ragged robes with wild hair and a tangled beard who performs the final tasks of the ritual. He wields a pointed, silvery rod (rod of rampancy).",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Adventure p.142"
+    },
+    {
+      "name": "Zeren Brusch",
+      "race": "",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Overseer",
+          "description": "Zeren Brusch oversees Havenhearth's operations from here. He arranges hunting and growing schedules and uses this room to interview new arrivals and settle disputes between residents. As his focus is on the residents, he tries not to involve himself in cult activity, mostly so he can enjoy some plausible deniability when asked about any strange goings-on."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Zeren Brusch oversees Havenhearth's operations from here.",
+      "role": "Leader",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Kareena Desmontague",
+      "race": "Human",
+      "class_name": "Spy",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Cultist Disguise",
+          "description": "A cultist who pretends to be one of Havenhearth's earliest residents, this human spy establishes an easy rapport with most new arrivals. She susses out troublemakers by providing a sympathetic ear to conspiratorial musings. Kareena often stages thefts to remove those she believes pose a threat to the cult."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A cultist who pretends to be one of Havenhearth's earliest residents, this human spy establishes an easy rapport with most new arrivals.",
+      "role": "Cultist",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Meerie Fitzgray",
+      "race": "Halfling",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Gossip",
+          "description": "This friendly and welcoming halfling commoner arrived 18 months ago and is the most likely person to introduce herself to newcomers. She believes she knows the enclave better than anyone else since she is one of the enclave's senior residents. Meerie verges on nosiness when talking to others and tends to gossip, which helps Kareena with her duties."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This friendly and welcoming halfling commoner arrived 18 months ago and is the most likely person to introduce herself to newcomers.",
+      "role": "Commoner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Vinyu Nisp",
+      "race": "Human",
+      "class_name": "Commoner",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Trauma Bond",
+          "description": "The cultists found this human commoner in his early 20s wandering away from the remains of his village after a devastating frost giant attack. One of the PCs reminds Vinyu of a village elder, so he is drawn to that PC."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The cultists found this human commoner in his early 20s wandering away from the remains of his village after a devastating frost giant attack.",
+      "role": "Commoner",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Berendor Hallowhall",
+      "race": "Dwarf",
+      "class_name": "Cult Fanatic",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Forced Cult Membership",
+          "description": "The dwarf Berendor arrived with his young son 7 months ago and ran afoul of Havenhearth law when Finnian innocently grabbed another resident's necklace. Faced with exile or death for him and his son, Berendor agreed to join the cult. The PCs may be able to sway this cult fanatic if they assure him they can protect his son."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The dwarf Berendor arrived with his young son 7 months ago and ran afoul of Havenhearth law when Finnian innocently grabbed another resident's necklace.",
+      "role": "Cultist",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Finnian Hallowhall",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Innocent Theft",
+          "description": "Finnian innocently grabbed another resident's necklace."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Young son of Berendor Hallowhall.",
+      "role": "Innocent",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Genavie Bartoss",
+      "race": "Human",
+      "class_name": "Scout",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Hunter",
+          "description": "The human scout Genavie spends much of her time outside, preferring open spaces to the plateau's confines. She often leads the enclave's hunts."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "+1 longbow"
+      ],
+      "spellcasting": null,
+      "description": "The human scout Genavie spends much of her time outside, preferring open spaces to the plateau's confines.",
+      "role": "Scout",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Jerille Quenn",
+      "race": "Elfmarked",
+      "class_name": "Mage",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "ring of cold resistance"
+      ],
+      "spellcasting": "Replaces greater invisibility with dimension door.",
+      "description": "Jerille, an elfmarked mage, scribes scrolls for the cultists and provides surreptitious travel when the cult can't use the secret door in Area 3.",
+      "role": "Cultist",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Havenhearth p.151"
+    },
+    {
+      "name": "Lyra",
+      "race": "Human",
+      "class_name": "Druid",
+      "subclass": "",
+      "level": 8,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Spellcasting",
+          "description": "Lyra is an 8th-level spellcaster. Her spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). Lyra has the following druid spells prepared:\nCantrips (at will): druidcraft, mending, produce flame\n1st level (4 slots): cure wounds, entangle, faerie fire, speak with animals\n2nd level (3 slots): barkskin, hold person, moonbeam\n3rd level (3 slots): conjure animals, dispel magic, meld into stone\n4th level (2 slots): blight, stone shape"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Lyra makes two attacks: one with her bite and one with her quarterstaff."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+        },
+        {
+          "name": "Quarterstaff",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) bludgeoning damage or 8 (1d8 + 4) bludgeoning damage if used with two hands."
+        },
+        {
+          "name": "Change Shape (2/Day)",
+          "description": "Lyra magically polymorphs into a beast with a challenge rating of 2 or less and can remain in this form for up to 4 hours. Lyra reverts to her true form if she dies. Any equipment she is wearing or carrying is absorbed or borne by the new form or falls to the ground (her choice). She can revert to her true form as a bonus action on her turn.\nIn a new form, Lyra retains her game statistics and ability to speak, but her AC, movement modes, Strength, and Dexterity are replaced by those of the new form, and she gains any special senses, proficiencies, traits, actions, and reactions (except class features, legendary actions, and lair actions) that the new form has but that she lacks.\nHer new form's attacks count as magical for the purpose of overcoming resistances and immunity to nonmagical attacks."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Lyra is an 8th-level druid spellcaster.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "p.172"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Collapsing Wall",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Each creature that crosses the bridge",
+      "detection": {
+        "dc": 13,
+        "skill": "Investigation or Perception",
+        "detail": "A successful DC 13 Intelligence (Investigation) or Wisdom (Perception) check notices the wall isn't sound."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The wall is damaged and at risk of giving way. Each creature that crosses the bridge must succeed on a",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge",
+      "description": "The wall is a 15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge. The wall is damaged and at risk of giving way.",
+      "source": "Scarlet Citadel p.14"
+    },
+    {
+      "name": "Crumbling Bridge Wall",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Each creature that crosses the bridge must succeed on a DC 13 Dexterity saving throw or cause part of the wall to crumble",
+      "detection": {
+        "dc": 13,
+        "skill": "Investigation or Perception",
+        "detail": "A successful DC 13 Intelligence (Investigation) or Wisdom (Perception) check notices the wall isn't sound."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The wall is damaged and at risk of giving way. Each creature that crosses the bridge must succeed on a DC 13 Dexterity saving throw or cause part of the wall to crumble, taking 2 (1d4) bludgeoning damage, and unless tethered to other creatures or to the wall, they fall into the abyss (see Oubliette Features). A creature that moves at half its speed across the bridge has advantage on the saving throw.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "2 (1d4)",
+      "damage_type": "bludgeoning",
+      "area": "15-foot-wide stone construction with sheer sides leading to rocky ground sloping off the edge",
+      "description": "A damaged stone bridge wall that crumbles when crossed, potentially causing creatures to fall into the abyss.",
+      "source": "Oubliette p.15-16"
+    },
+    {
+      "name": "Falling Halberd Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the secret door to Area 3, a trip wire snaps, releasing the halberd to fall in the spaces between the statue and the door.",
+      "detection": {
+        "dc": 12,
+        "skill": "Investigation",
+        "detail": "A successful DC 12 Intelligence (Investigation) check notices the trip wire hidden among the thick grass covering the floor. Alternatively, a successful DC 15 Wisdom (Perception) check notices a fracture on the right wrist of the statue where it was broken and reattached to form the trap."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 12 Dexterity (thieves' tools) check harmlessly detaches the trip wire from the halberd. A character without thieves' tools can attempt this check with disadvantage, using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "Each creature between the statue and the secret door when the trap triggers must make a DC 11 Dexterity saving throw, taking 11 (2d10) bludgeoning damage on a failed save or half as much damage on a successful one. If no creatures are between the statue and the door when the trap triggers, the halberd loudly but harmlessly clatters to the floor.",
+      "save_dc": 11,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "The spaces between the statue and the secret door",
+      "description": "A simple trap left by the children of the briar, using a stone halberd held by a statue that falls when a trip wire is snapped by opening the secret door to Area 3.",
+      "source": "Margreve Forest p.22"
+    },
+    {
+      "name": "Thorny Vines",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "A creature touches the vines or hits them with a melee attack while within 5 feet of them, or attempts to squeeze through the vines.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The vines are visible and fill the base of the battlement."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Attack and destroy the vines",
+        "detail": "The vines can be attacked and destroyed (AC 12; hp 10; vulnerability to fire; immunity to piercing, poison, and psychic damage per 10-foot section). Hacking through the vines alerts every creature in the tower to the PCs' presence."
+      },
+      "effect": "Each creature that touches the vines or hits them with a melee attack while within 5 feet of them must succeed on a DC 12 Dexterity saving throw or take 9 (2d8) piercing damage. A creature can squeeze through the vines without alerting the tower's residents, but it must succeed on a DC 12 Dexterity saving throw or take 4 (1d8) piercing damage for each 5 feet it moves through the vines.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "9 (2d8)",
+      "damage_type": "piercing",
+      "area": "Base of the battlement, per 10-foot section",
+      "description": "A tangle of thorny vines fills the base of this battlement but doesn't climb the stairs.",
+      "source": "Book of Ebon Tides? p.23"
+    },
+    {
+      "name": "Shard Sphere Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the door, a rusted iron sphere falls to the ground and explodes in a shower of metal shards.",
+      "detection": {
+        "dc": 13,
+        "skill": "Investigation",
+        "detail": "A successful DC 13 Intelligence (Investigation) check finds the almost invisible seams marking the door."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 14 Intelligence (Investigation) check locates a lead wire from the door connected to a group of wires holding the sphere in place overhead. A successful DC 12 Dexterity (thieves' tools) check disables the lead wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "Each creature within 15 feet of the door must make a DC 13 Dexterity saving throw, taking 11 (2d10) piercing damage on a failed save or half as much damage on a successful one.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "piercing",
+      "area": "15 feet of the door",
+      "description": "A rusted iron sphere falls and explodes in a shower of metal shards when the door to Kettek's Lobby is opened.",
+      "source": "Midgard Worldbook"
+    },
+    {
+      "name": "Snare Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "triggers when a Small or larger creature steps into the room",
+      "detection": {
+        "dc": 16,
+        "skill": "Perception",
+        "detail": "a character spots a simple snare trap at the door"
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "a successful DC 15 Dexterity (thieves' tools) check disarms the trap"
+      },
+      "effect": "Creatures caught in the snare must make a DC 15 Dexterity saving throw. On a failed save, the creature is restrained until it uses an action to free itself.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "the door of the southernmost storeroom",
+      "description": "A simple snare trap at the door of the bucca nest that triggers when a Small or larger creature steps into the room.",
+      "source": "Adventure p.33"
+    },
+    {
+      "name": "Unstable Staircase",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature walks on the flagstones 5 feet below the stair's summit, which have crumbled away and been deliberately replaced in a precariously unstable position.",
+      "detection": {
+        "dc": 10,
+        "skill": "Wisdom (Perception)",
+        "detail": "Anyone failing a DC 10 Wisdom (Perception) check falls through the staircase."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method is described in the source text."
+      },
+      "effect": "The creature falls through the staircase, dropping 10 feet onto the steps below and taking 3 (1d6) bludgeoning damage. Failing a subsequent DC 10 Dexterity check means they roll down the next 10 feet of steps for an additional 2 (1d4) bludgeoning damage. Regardless, the noise alerts the trollkin bandit above who will sound the alarm by blowing a large horn and take the Ready action at the top of the staircase.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6) bludgeoning, plus 2 (1d4) bludgeoning on a failed Dexterity check",
+      "damage_type": "bludgeoning",
+      "area": "5 feet below the stair's summit in the lookout tower",
+      "description": "A deliberately unstable section of flagstones on the spiral staircase of the lookout tower that collapses when stepped on.",
+      "source": "Midgard Worldbook p.40"
+    },
+    {
+      "name": "Portcullis Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature attempts to move past the bars after they have been lowered by pulling the lever.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified in the source text."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified in the source text."
+      },
+      "effect": "The lever suddenly snaps back to the upright position as the bars spring from the floor, back into their original position, dealing 11 (2d10) points of bludgeoning damage to the creature and knocking them back 5 feet.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "The passage blocked by the portcullis.",
+      "description": "A portcullis trap in Area 2 that deals bludgeoning damage and knocks creatures back when they attempt to pass after lowering the bars.",
+      "source": "Book Name p.46"
+    },
+    {
+      "name": "Springing Bars Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature attempts to move past the bars after they have been lowered.",
+      "detection": {
+        "dc": 13,
+        "skill": "Investigation or Perception",
+        "detail": "A DC 13 Intelligence (Investigation) or Wisdom (Perception) check made by the person who pulls the lever notes that it does not sound or feel as if the lever has locked down properly. It's also suspicious to have the trigger for a defense on the outside where potential enemies can use it."
+      },
+      "disarm": {
+        "dc": 13,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 13 Dexterity (thieves' tools) check can be made to jam the lever, preventing it from releasing and raising the bars again."
+      },
+      "effect": "The lever suddenly snaps back to the upright position as the bars spring from the floor, back into their original position, dealing 11 (2d10) points of bludgeoning damage to the creature and knocking them back 5 feet. A successful DC 13 Dexterity saving throw allows the creature to jump back before the bars hit, avoiding the damage. If the roll for the save is 5 or more higher than the DC, the creature can choose to lunge forward, getting to the other side before the bars come up.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "The area between the bars",
+      "description": "A lever lowers bars into the floor, but the bars spring back out with great force if a creature attempts to move past them.",
+      "source": "Unknown p.47"
+    },
+    {
+      "name": "Statue Arc Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A creature walks between the two statues at the far end of the room.",
+      "detection": {
+        "dc": 14,
+        "skill": "Investigation",
+        "detail": "A successful DC 14 Intelligence (Investigation) check finds a hidden switch in the folds of the robe on the statue to the southwest."
+      },
+      "disarm": {
+        "dc": 14,
+        "method": "Investigation or dispel magic",
+        "detail": "Flipping the hidden switch will deactivate the trap for 1 minute. A successful dispel magic can also deactivate the trap."
+      },
+      "effect": "An arc of electricity jumps between the tips of the staves the statues hold. Any creature in the path of the arc takes 11 (2d10) lightning damage and is stunned for 1 round. A successful DC 14 Dexterity saving throw halves the damage and negates the stunned condition.",
+      "save_dc": 14,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "lightning",
+      "area": "The path of the arc between the two statues",
+      "description": "Two bronze statues of robed, hooded figures carrying staves create an arc of electricity when a creature walks between them.",
+      "source": "Unknown p.47"
+    },
+    {
+      "name": "Incense Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Burning any of Durgleel's meditation incense",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No detection method specified; the incense appears as innocuous herbs and weeds mixed with spores."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "Releases a cloud of toxic smoke. All creatures in the area of this smoke must make a DC 13 Constitution saving throw. On a failed save, creatures take 9 (2d8) poison damage and are poisoned for 1 minute. While poisoned from the incense, a creature is plagued with \"visions,\" vivid flashes of other places and events, which cause the creature to have disadvantage on attacks and on any Intelligence-, Wisdom-, and Charisma-based saving throws and skill checks for as long as they are poisoned. On a successful save, a creature takes half damage and is not poisoned. Should any creature directly inhale the incense for whatever reason, they inhale some of the deadly spores. The DC of the saving throw is then increased to 16, the poison damage increases to 18 (4d8), and the poisoned duration increases to 10 minutes.",
+      "save_dc": 13,
+      "save_ability": "Constitution",
+      "damage": "9 (2d8)",
+      "damage_type": "poison",
+      "area": "Cloud of toxic smoke (area not specified)",
+      "description": "A sack of meditation incense mixed with deadly spores from Roggsothof the Fungal Horror. Burning it releases toxic smoke that poisons and plagues creatures with visions.",
+      "source": "Unknown p.49"
+    },
+    {
+      "name": "Hall of Force Trap",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Each plate projects a powerful wave of energy any time a creature passes in front of it within 15 feet.",
+      "detection": {
+        "dc": 15,
+        "skill": "Arcana",
+        "detail": "A detect magic spell will show an aura of evocation magic around each plate. A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Intelligence (Arcana)",
+        "detail": "A successful DC 15 Intelligence (Arcana) check will provide a way to neutralize the magic of the plates for 1 minute, allowing passage without setting them off."
+      },
+      "effect": "A creature caught in a wave must make a DC 15 Strength saving throw. On a failed save, the creature takes 11 (2d10) force damage and is pushed 15 feet and knocked prone. On a successful saving throw, the creature takes half damage, remains unmoved, and is not knocked prone. The first plate is only 10 feet from the opposite wall however, so a creature that fails its saving throw also takes 7 (2d6) bludgeoning damage from its impact with the opposite wall before falling prone. A creature that fails its saving throw against the third plate must also succeed at a DC 13 Dexterity saving throw or be knocked over the side of the bridge into the stream below.",
+      "save_dc": 15,
+      "save_ability": "Strength",
+      "damage": "11 (2d10)",
+      "damage_type": "force",
+      "area": "15 feet in front of each plate",
+      "description": "Three large plates of a strange, blue-green metal mounted to the wall project powerful waves of energy at creatures passing in front of them.",
+      "source": "Unknown p.50"
+    },
+    {
+      "name": "Deadfall Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A tripwire is stretched across the passage leading up from the bottom of the sinkhole in Area 14, right at the top of the first incline before the passage widens. If triggered, a deadfall—a large log with sharpened spikes along the side facing the tripwire—drops from behind a dip in the ceiling, swinging from ropes attached to each end, to arc down into any creatures in the widest area of the passage to the top of the first incline where the tripwire is located.",
+      "detection": {
+        "dc": 14,
+        "skill": "Intelligence (Investigation) or Wisdom (Perception)",
+        "detail": "A successful DC 14 Intelligence (Investigation) or Wisdom (Perception) check will spot the camouflaged tripwire."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Avoid the trap or trigger from a safe distance",
+        "detail": "The easiest method is to simply avoid the trap, stepping over the tripwire and moving on. Alternatively, the tripwire can be triggered from a safe distance. Once the trap is triggered, it will not go off again until reset, and the deadfall can either be cut down or bypassed."
+      },
+      "effect": "The deadfall deals 22 (4d10) piercing damage to all creatures in its path and impales them on the spikes, where they are restrained. A successful DC 15 Dexterity saving throw halves the damage and the creature is not restrained. If a creature beats the DC by 5 or more, it takes no damage at all and completely avoids the deadfall.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "piercing",
+      "area": "The widest area of the passage to the top of the first incline where the tripwire is located",
+      "description": "A tripwire-triggered deadfall log with sharpened spikes that swings down from the ceiling to impale creatures in a passage.",
+      "source": "Unknown p.51"
+    },
+    {
+      "name": "Collapsing Roof",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Whenever the walls or ceiling inside the estate are subject to a significant disturbance—such as a fireball spell or a Medium or larger creature being thrown into it",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "There is a 20% chance the roof in that 5-foot square, and in a 5-foot radius around it, collapses. Creatures caught in the collapse must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save or half as much on a successful one. Additionally, all squares affected by the collapse become difficult terrain.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "bludgeoning",
+      "area": "5-foot square and 5-foot radius around it",
+      "description": "The roof is less protected than the walls and has the potential to collapse.",
+      "source": "Adventure p.53"
+    },
+    {
+      "name": "Control Panel",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Operating a lever, wheel, or switch on the control panel",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The cabinet is clearly visible; its purpose is not obvious."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No method given."
+      },
+      "effect": "Roll d100 and consult the table: 01–25 No effect. 26–50 Insecticide sprays in Areas 10–15, but the concoction has weakened over time. Insects are not killed but enraged. Add one swarm of insects to each of those areas. If this result is rolled a second time, the second dose kills any swarms. This result has no effect after the second time. 51–60 A magical fertilizer is applied to Areas 6 and 10–15, causing rapid growth. All terrain in Areas 10–15 is now considered difficult terrain. Each plant creature in Areas 6 and 10–15 gain 11 (2d10) temporary hit points and a +2 bonus to attack and damage rolls. If this result is rolled again, it has no effect. 61–70 A purifying element is released into the water in Areas 10–15. Acraecea's corrupt form is inadvertently affected, and she is poisoned for 1 hour. If this result is rolled again, it has no effect. 71–90 Herbicide is released into the test planter in Area 6, killing the quash moss (see Hazards in Appendix). 91–95 That particular lever/switch/wheel shorts out, causing smoke and dealing 11 (2d10) lightning damage to the creature that triggered it. 96–00 Same as a roll of 91–95, except the resulting feedback shorts out the entire machine, causing a cloud of smoke to fill the entire passageway for 1 minute, which heavily obscures the area and possibly alerts creatures in nearby areas to the PCs' presence, at GM's discretion.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "11 (2d10)",
+      "damage_type": "lightning",
+      "area": "Areas 6, 10–15, or the creature that triggered it",
+      "description": "A strange metal cabinet affixed to the western wall, covered with levers, wheels, and switches. It was the control unit for experimental treatments the wizard had developed for his garden.",
+      "source": "Book p.67"
+    },
+    {
+      "name": "Illusion-Shrouded Pit",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature steps onto the illusory floor covering the pit in the center of the room.",
+      "detection": {
+        "dc": 16,
+        "skill": "Investigation or Perception",
+        "detail": "Anyone examining the floor carefully and succeeding on a DC 16 Intelligence (Investigation) or Wisdom (Perception) check notices faint scratches on the floor outlining a rough square, just over 5 feet per side. Tactile investigation of the floor within the square reveals it to be nothing more than an illusion."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method is described in the source text."
+      },
+      "effect": "A creature that falls into the pit takes half the normal falling damage since the decaying vegetation piled at the bottom softens the fall. A mass of asp vines lurks in the pile at the bottom of the pit and attacks any creature that falls into the pit, scoring it with their poisonous thorns until it dies.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "half normal falling damage (50-foot-deep pit)",
+      "damage_type": "bludgeoning",
+      "area": "A 50-foot-deep pit, just over 5 feet per side, in the center of the room.",
+      "description": "A 50-foot-deep pit lies covered with an illusion to appear as a normal floor in the center of a small cave.",
+      "source": "Midgard Worldbook p.68"
+    },
+    {
+      "name": "Colored Paver Trap",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "Stepping on any paver that is not pink, including walking toward the archway without specifying which paver is stepped on.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Only the pink stones are safe to walk upon; the danger is apparent from the color of the pavers."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method is given; the trap is avoided by stepping only on pink pavers."
+      },
+      "effect": "The creature takes 1d4 damage of a type according to the paver's color: necrotic (black), radiant (white), force (green), fire (red), acid (orange), and cold (blue).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "1d4",
+      "damage_type": "varies (necrotic, radiant, force, fire, acid, or cold)",
+      "area": "The paved area leading to the center archway.",
+      "description": "A paved path where only pink stones are safe; stepping on any other color paver deals 1d4 damage of a type based on the paver's color.",
+      "source": "Adventure p.79"
+    },
+    {
+      "name": "Collapsing Floor",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A character who weighs more than 150 pounds moves faster than half speed within Area 5.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The floor is visibly damaged, with a large portion of the southeast side fallen into the room below and holes in the ceiling."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method is given; the trap is avoided by moving at half speed or less, or by weighing 150 pounds or less."
+      },
+      "effect": "The floor collapses beneath the character, and they fall through to the room below, taking 2d6 bludgeoning damage.",
+      "save_dc": 14,
+      "save_ability": "Dexterity",
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "area": "Area 5: Destroyed Rooms.",
+      "description": "A weakened floor in the destroyed rooms that collapses under heavy or fast-moving characters, dropping them into the room below.",
+      "source": "Adventure p.80"
+    },
+    {
+      "name": "Radiant Eye Tapestry",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "PCs who investigate or look at the tapestry for more than 20 seconds",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The tapestry depicting the radiant eye is saturated with mysterious, divine energy from years of intense and repentant prayer in front of it."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "must succeed on a DC 15 Wisdom saving throw or be paralyzed in ecstasy for 1d4 hours",
+      "save_dc": 15,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "A tapestry depicting the radiant eye that paralyzes those who gaze upon it.",
+      "source": "Unknown p.92"
+    },
+    {
+      "name": "Vomiting Slime Mold Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the northern door, a barely contained flow of slime mold sprays out.",
+      "detection": {
+        "dc": 14,
+        "skill": "Perception",
+        "detail": "A successful DC 14 Wisdom (Perception) check hears a gurgling sound behind the northern door as if a high-pressure fluid is pushing against it."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength (Athletics)",
+        "detail": "A successful DC 15 Strength (Athletics) check when opening the door holds it open just enough for the pressure from the slime to be released without harming all creatures within 15 feet of the door. On a failure, the trap triggers as normal."
+      },
+      "effect": "Each creature within 15 feet of the door must make a DC 15 Dexterity saving throw. On a failure, a creature takes 5 (1d10) bludgeoning damage and 11 (2d10) poison damage and is poisoned for 10 minutes. On a success, a creature takes half the damage and isn't poisoned.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10) bludgeoning and 11 (2d10) poison",
+      "damage_type": "bludgeoning and poison",
+      "area": "15 feet of the door",
+      "description": "A trap that sprays slime mold when the northern door is opened, dealing bludgeoning and poison damage and poisoning creatures.",
+      "source": "Unknown p.95"
+    },
+    {
+      "name": "Violet Fungus Expulsion Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature opens the southern door, a wall of violet fungus explodes in rotting spores.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A successful DC 15 Wisdom (Perception) check notices the smell of rot behind the southern door."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Strength (Athletics)",
+        "detail": "A successful DC 15 Strength (Athletics) check when opening the door slows the flow of spores, limiting how many are ejected at one time. If successful, each creature within 20 feet of the door has advantage on its saving throw. On a failure, the trap triggers as normal. Alternatively, a gust of wind spell timed with opening the door disperses the spores harmlessly."
+      },
+      "effect": "Each creature within 20 feet of the door must make a DC 15 Dexterity saving throw, taking 22 (4d10) necrotic damage on a failed save or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "necrotic",
+      "area": "20 feet of the door",
+      "description": "A trap that explodes with rotting spores when the southern door is opened, dealing necrotic damage.",
+      "source": "Unknown p.95"
+    },
+    {
+      "name": "Stuck and Hidden Trapdoor",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Attempting to open the trapdoor",
+      "detection": {
+        "dc": 14,
+        "skill": "Investigation",
+        "detail": "A successful DC 14 Intelligence (Investigation) check locates the trapdoor. Alternatively, the PCs can discover the trapdoor by spending 20 minutes, clearing the rubble from the room."
+      },
+      "disarm": {
+        "dc": 14,
+        "method": "Strength (Athletics)",
+        "detail": "A successful DC 14 Strength (Athletics) check pulls open the stuck trapdoor."
+      },
+      "effect": "The trapdoor is stuck and must be forced open.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "A concealed trapdoor in a debris-strewn room that is stuck and must be forced open.",
+      "source": "Unknown p.102"
+    },
+    {
+      "name": "Maddening Statue",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "A PC spends more than 1 round inspecting the statue",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The effigy's worn state makes it difficult to discern any details about the deity, but the PCs can make out the remains of whorls and eyes carved all over the statue."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The PC must succeed on a DC 16 Wisdom saving throw or be afflicted with a short-term madness for 1 minute. If an affected PC hits an unaffected creature, that creature must also succeed on a DC 13 Wisdom saving throw or be afflicted with a short-term madness for 1 minute. A creature so afflicted with a short-term madness can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+      "save_dc": 16,
+      "save_ability": "Wisdom",
+      "damage": "",
+      "damage_type": "",
+      "area": "Single creature inspecting the statue; secondary creatures hit by an affected PC",
+      "description": "An eroded effigy to an ancient god of insanity whose worn state hides whorls and eyes carved all over it. Inspecting it too long afflicts viewers with short-term madness.",
+      "source": "Adventure p.103"
+    },
+    {
+      "name": "Poison Darts Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A pressure plate just inside the doors",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Setting off the trap summons the two shadow fey guardians (see Tome of Beasts) to Area 6.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Area 3: Southeast Entrance Interior",
+      "description": "A pressure plate just inside the doors triggers a poison darts trap. Setting off the trap summons the two shadow fey guardians (see Tome of Beasts) to Area 6.",
+      "source": "Unknown p.105"
+    },
+    {
+      "name": "The Trapped Path",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Stepping on an incorrect tile in the hallway",
+      "detection": {
+        "dc": 0,
+        "skill": "detect magic",
+        "detail": "A spell such as detect magic, or other effect that can sense magic, reveals an abjuration aura around the tiles."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The magic of the tiles can't be dispelled until the darkness covering the compound disperses and sunlight shines on the hills again."
+      },
+      "effect": "Each creature in the room must make a DC 15 Constitution saving throw, taking 11 (2d10) radiant damage on a failed save or half as much damage on a successful one as it is wreathed in ghostly flames. All tiles in the room cease to glow, the trap activates, and the path resets.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "11 (2d10)",
+      "damage_type": "radiant",
+      "area": "The entire hallway (Path of Contemplation)",
+      "description": "A meditative path of eight painted moon-phase tiles that doubles as a deadly trap. To open the doors at the far end, PCs must walk on the correct tiles in the correct order.",
+      "source": "Adventure p.113"
+    },
+    {
+      "name": "Path of Fire",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "A character walks across the hot coals.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The hot coals are plainly visible."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method provided."
+      },
+      "effect": "The character takes fire damage.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "5 (2d4)",
+      "damage_type": "fire",
+      "area": "A 10-foot path of hot coals.",
+      "description": "A 10-foot path of hot coals that burns those who walk across it.",
+      "source": "Midgard Worldbook p.119"
+    },
+    {
+      "name": "Icy Water",
+      "type": "hazard",
+      "danger": "setback",
+      "trigger": "A character walks through the shallow, icy water.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The icy water is plainly visible."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method provided."
+      },
+      "effect": "The character's speed is halved until they finish a short rest by a fire (or other source of prolonged warmth).",
+      "save_dc": 12,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "A small stretch of icy water.",
+      "description": "A small stretch of icy water that chills those who walk through it.",
+      "source": "Midgard Worldbook p.119"
+    },
+    {
+      "name": "Crumbling Bridge",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature walks across the center of the bridge",
+      "detection": {
+        "dc": 15,
+        "skill": "Investigation or Survival",
+        "detail": "A successful DC 15 Intelligence (Investigation) or Wisdom (Survival) check finds a set of tracks that appear to follow a safe path across the bridge."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method given; creatures on the safe path don't trigger the trap."
+      },
+      "effect": "The creature falls to the ground 20 feet below as part of the bridge gives way. The creature takes 11 (2d10) bludgeoning damage and is knocked prone and buried under the rubble below the bridge. The buried target is restrained and unable to breathe or stand up. A creature can take an action to make a DC 10 Strength (Athletics) check, ending the buried state on a success.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "11 (2d10)",
+      "damage_type": "bludgeoning",
+      "area": "Center of the stone bridge between Area 4 and Area 6",
+      "description": "A damaged stone bridge that gives way when walked across, dropping creatures 20 feet into rubble.",
+      "source": "Unknown p.121"
+    },
+    {
+      "name": "Sands of Sleep",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Any character who touches the sleeping sand",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "The pit is filled with white sand that continuously churns like ocean waves; objects can be glimpsed bubbling to the surface."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Cannot be disarmed; characters must avoid contact or be pulled out."
+      },
+      "effect": "Any character who touches the sand must succeed on a DC 15 Constitution saving throw or fall unconscious. An unconscious PC is rapidly pulled underneath the sand and begins to suffocate. An unconscious character can repeat the saving throw at the end of each of their turns to see if they wake up. Pulling a character out of the sand or swimming out of the sand requires a successful DC 15 Strength (Athletics) check.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "",
+      "damage_type": "",
+      "area": "A lake of white sand beneath a thin walkway between two doors.",
+      "description": "A pit of sleeping sand that causes unconsciousness and suffocation to those who touch it.",
+      "source": "Vault of Dreams p.131"
+    },
+    {
+      "name": "Forever Hall Teleportation Trap",
+      "type": "magical",
+      "danger": "setback",
+      "trigger": "If either door is entered, it will swing shut 2 rounds after a creature passes over its threshold. A creature entering the square in front of either of the doors will be teleported to the center of the hallway.",
+      "detection": {
+        "dc": 15,
+        "skill": "Investigation",
+        "detail": "A successful DC 15 Intelligence (Investigation) check finds the door beyond the illusion. A detect magic spell will note illusion magic in the hallway, conjuration magic at the two true ends of the hall, and abjuration magic from the glass globes above."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "Damaging the mosaic",
+        "detail": "Damaging the mosaic on the floor in front of the doors will disable the teleportation effect. The squares have an AC 15. Doing at least 14 damage to the tiles is enough to disable the teleportation effect in that square."
+      },
+      "effect": "The hallway seems to lengthen with the door at the far end receding into the distance. No matter how fast a creature runs the length of the hallway, they never seem to get any closer to the door. Looking in the other direction, back to the entrance, reveals a similar lengthening of the hallway. The lengthening of the hall is an illusion, and the reason a creature can never reach the end of the hall is because a creature entering the square in front of either of the doors will be teleported to the center of the hallway.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The hallway between the two doors, about 20 feet long.",
+      "description": "A magical trap in a hallway that creates an illusion of an endlessly lengthening hall and teleports creatures who step in front of either door back to the center.",
+      "source": "Book Name p.139-140"
+    },
+    {
+      "name": "Snow Pits",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature steps anywhere in the pit's 10-foot square, the layer of snow gives way.",
+      "detection": {
+        "dc": 19,
+        "skill": "Perception",
+        "detail": "A successful DC 19 Wisdom (Perception) or DC 15 Wisdom (Survival) check alerts a character to a pit's presence and allows them to walk around it."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Topping a pit with a stout tarp or other covering allows free movement across the pit."
+      },
+      "effect": "The layer of snow gives way, dumping the creature 30 feet into the pit below unless it succeeds on a DC 17 Dexterity saving throw. The pit's walls are sheer ice, requiring a trapped creature to succeed on a DC 15 Strength (Athletics) check to scale.",
+      "save_dc": 17,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "10-foot square, 30 feet deep",
+      "description": "Three snow pits randomly placed 20–30 feet from the pass's entrance await the unwary.",
+      "source": "Midgard Worldbook p.146"
+    },
+    {
+      "name": "Falling Icicles",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Sound and vibration dislodge the icicles, which impale those below. Anything above whispered conversation disturbs them as does walking heavily.",
+      "detection": {
+        "dc": 20,
+        "skill": "Perception",
+        "detail": "A successful DC 20 Wisdom (Perception) check or DC 17 Wisdom (Survival) or Intelligence (Investigation) check realizes the icicles' inherent danger."
+      },
+      "disarm": {
+        "dc": 13,
+        "method": "Intelligence (Arcana)",
+        "detail": "A successful DC 13 Intelligence (Arcana) check reveals that a spell or effect that deals thunder damage causes the icicles to fall, rendering the area harmless afterward. A success by 5 or more also informs the character that the area of effect for such a spell or effect increases by 50%."
+      },
+      "effect": "A creature passing through the area must make a DC 16 passive Dexterity (Stealth) check. On a failure, 1d4 icicles fall on the creature. Each icicle makes a ranged attack with a +9 bonus. If an icicle hits the creature, the target takes 9 (2d8) piercing damage and 4 (1d8) cold damage. If a creature fails the check by 5 or more, all creatures within 10 feet of the creature are subject to the above attacks.",
+      "save_dc": 16,
+      "save_ability": "Dexterity",
+      "damage": "9 (2d8) piercing and 4 (1d8) cold per icicle",
+      "damage_type": "piercing and cold",
+      "area": "Area of the forest with icicles; 10-foot radius on severe failure",
+      "description": "Inches-long icicles hang from the trees in this forest and lightly chime as they sway in the breeze. The cult maintains this section of the forest, with its dangerous, spear-like icicles, as it provides the most direct route to Havenhearth.",
+      "source": "Midgard Worldbook p.146"
+    },
+    {
+      "name": "Rockfall",
+      "type": "mechanical",
+      "danger": "deadly",
+      "trigger": "A lever in Area 10 of the lower level triggers this trap. Alternatively, a successful DC 16 Dexterity (thieves' tools) check opens the hatch, albeit unsafely.",
+      "detection": {
+        "dc": 16,
+        "skill": "Perception or Investigation",
+        "detail": "A successful DC 16 Wisdom (Perception) or Intelligence (Investigation) check finds the hatch."
+      },
+      "disarm": {
+        "dc": 19,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 19 Dexterity (thieves' tools) check jams the hatch mechanism, rendering the lever useless."
+      },
+      "effect": "When the rocks are released, they completely fill the 10-foot corridor, crushing everything within. Each creature in the area must make a DC 18 Dexterity saving throw. On a failed save, the creature takes 28 (8d6) bludgeoning damage and is both prone and restrained. On a successful save, the creature takes half as much damage and is not otherwise affected. A creature, or any adjacent creature, can take its action to free itself with a successful DC 12 Strength (Athletics) check.",
+      "save_dc": 18,
+      "save_ability": "Dexterity",
+      "damage": "28 (8d6)",
+      "damage_type": "bludgeoning",
+      "area": "10-foot corridor",
+      "description": "A concealed hatch blocks several hundred pounds of loose rocks, triggered by a lever in Area 10 of the lower level.",
+      "source": "Unknown p.148-149"
+    },
+    {
+      "name": "Glyph of Warding (Pyroclastic Burst)",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "If the door is opened without speaking the phrase \"Mother is expecting me,\" it triggers a pyroclastic burst spell centered on the creature that triggered the glyph.",
+      "detection": {
+        "dc": 20,
+        "skill": "Investigation",
+        "detail": "A successful DC 20 Intelligence (Investigation) check uncovers the glyph etched on the door's center. Detect magic or another such spell reveals the glyph's abjuration aura."
+      },
+      "disarm": {
+        "dc": 14,
+        "method": "dispel magic",
+        "detail": "A successful dispel magic (DC 14) cast on the door destroys the glyph."
+      },
+      "effect": "Triggers a pyroclastic burst spell (save DC 18) centered on the creature that triggered the glyph.",
+      "save_dc": 18,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "Centered on the creature that triggered the glyph",
+      "description": "The door is trapped with a glyph of warding that triggers a pyroclastic burst spell if the door is opened without speaking the passphrase.",
+      "source": "Unknown p.150"
+    },
+    {
+      "name": "Pit Trap",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature steps in one of the areas denoted by the X on the map, the trap activates.",
+      "detection": {
+        "dc": 17,
+        "skill": "Investigation or Perception",
+        "detail": "A successful DC 17 Intelligence (Investigation) or Wisdom (Perception) check notices the incongruities in the floor."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The creature must succeed on a DC 17 Dexterity saving throw or fall 15 feet into a lava-heated pit. At the beginning of each of its turns, the creature takes 4 (1d8) fire damage.",
+      "save_dc": 17,
+      "save_ability": "Dexterity",
+      "damage": "4 (1d8)",
+      "damage_type": "fire",
+      "area": "Areas denoted by the X on the map",
+      "description": "A hidden pit trap in the storeroom that drops victims into a lava-heated pit.",
+      "source": "Havenhearth p.152"
+    },
+    {
+      "name": "Shadow Tendrils",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "A creature touches the shadow river or ends its turn within 10 feet of it",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Takes 5 (2d4) necrotic damage and must succeed on a DC 15 Constitution saving throw or have its Strength score reduced by 1d4. The creature dies if this reduces its Strength to 0. Otherwise, the reduction lasts until the creature finishes a short or long rest. A humanoid that dies from this damage or Strength reduction rises as a shadow under the shadow river lord's control after 1 minute.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "5 (2d4)",
+      "damage_type": "necrotic",
+      "area": "Within 10 feet of the shadow river",
+      "description": "The shadow river poses a threat to creatures not native to the Shadow Realm or granted protection by the Weft of Shadows.",
+      "source": "Unknown p.159"
+    },
+    {
+      "name": "Quash Moss",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "Pressure applied to its surface, as when a creature walks upon it",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Appears as completely normal moss until pressure is applied to its surface"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Any effect that causes fire damage or 48 hours of exposure to direct sunlight will destroy an average patch of quash moss."
+      },
+      "effect": "The moss curls up, wrapping around whatever is on it. A creature must succeed on a DC 13 Dexterity saving throw to jump clear; otherwise, the quash moss rolls up tightly around it. A captured creature is restrained and takes 5 (1d10) bludgeoning damage and 5 (1d10) acid damage each round on its turn. A captured creature may make a DC 13 Dexterity check each round, slipping free on a success.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10) bludgeoning and 5 (1d10) acid",
+      "damage_type": "bludgeoning and acid",
+      "area": "10-foot square",
+      "description": "This thick, deep-green moss grows quickly after a spawning storm, typically in shaded areas. A typical patch of quash moss covers a 10-foot square.",
+      "source": "Appendix p.161"
+    }
+  ],
+  "_chapters_completed": [
+    "OPEN GAME LICENSE Version 1.0a",
+    "Conclusion"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 2,
+  "_book_slug": "WLL",
+  "_book_title": "Warlock Lair 9 The Returners Tower",
+  "_completed": true,
+  "_timestamp": 1790291940.7078311
+}
