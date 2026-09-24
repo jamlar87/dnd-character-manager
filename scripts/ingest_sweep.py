@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -179,6 +180,7 @@ def main() -> int:
     started = time.time()
     done = failed = 0
     before = counts()
+    needs_action = 0
     log(f"starting sweep: {len(plan)} book(s); totals before {before}")
     try:
         for app_slug, eng_slug, m in plan:
@@ -227,10 +229,27 @@ def main() -> int:
                 log(f"  !! SHRINK DETECTED {shrink} — stopping so nothing else is touched")
                 return 2
             log(f"  ok: {added} entr(ies) added, {remapped} source slug(s) remapped; totals {post}")
+            # Every trait the app marks limited-use needs a known action type, or the sheet
+            # cannot render it. One second to check here; otherwise it surfaces at the next
+            # full-suite run (MPMM's races did exactly that). Warn loudly, keep going — the
+            # fix is a registration in data.py, not a reason to strand the sweep.
+            guard = subprocess.run(
+                [sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider",
+                 "tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage"
+                 "::test_runtime_limited_use_keys_resolve_via_clean_strip"],
+                cwd=HERE, capture_output=True, text=True, timeout=300)
+            if guard.returncode != 0:
+                needs_action += 1
+                log(f"  !! ACTION-TYPE GAP after {app_slug}: a limited-use trait has no "
+                    f"registered action type — add it to FEATURE_ACTION_TYPES in data.py")
+                for line in (guard.stdout or "").strip().split("\n")[-6:]:
+                    log(f"     {line.strip()}")
             done += 1
     finally:
         LOCK.unlink(missing_ok=True)
-    log(f"sweep run finished: {done} ingested, {failed} failed, {time.time() - started:.0f}s")
+    log(f"sweep run finished: {done} ingested, {failed} failed, {time.time() - started:.0f}s"
+        + (f"; {needs_action} book(s) left an unregistered action type — see ACTION-TYPE GAP above"
+           if needs_action else ""))
     return 0 if failed == 0 else 1
 
 
