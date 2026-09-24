@@ -20,6 +20,26 @@
       "size": "Medium",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Strength score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Centaurs mature and age at about the same rate as humans."
+        },
+        {
+          "name": "Alignment",
+          "description": "Centaurs are inclined toward neutrality. Those who join the Selesnya are more often neutral good, while those who join the Gruul are typically chaotic neutral."
+        },
+        {
+          "name": "Size",
+          "description": "Centaurs stand between 6 and 7 feet tall, with their equine bodies reaching about 4 feet at the withers. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 40 feet."
+        },
+        {
           "name": "Fey",
           "description": "Your creature type is fey, rather than humanoid."
         },
@@ -38,10 +58,175 @@
         {
           "name": "Survivor",
           "description": "You have proficiency in one of the following skills of your choice: Animal Handling, Medicine, Nature, or Survival."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Sylvan. Sylvan is widely spoken in the Selesnya Conclave, for it is rich in vocabulary to describe natural phenomena and spiritual forces."
         }
       ],
       "subraces": [],
-      "description": "Centaurs are inclined toward neutrality, with equine bodies and humanoid upper torsos."
+      "description": "Centaurs are creatures with the upper body of a humanoid and the lower body of a horse. They stand between 6 and 7 feet tall, with equine bodies reaching about 4 feet at the withers.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength +2, Wisdom +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 40,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fey": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Creature type is fey instead of humanoid"
+        },
+        "Charge": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "After moving 30 feet straight toward a target and hitting with a melee weapon attack, can use a bonus action to make one hooves attack against that target"
+        },
+        "Hooves": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural melee weapon: hooves deal 1d4 + Strength modifier bludgeoning damage on unarmed strikes"
+        },
+        "Equine Build": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Count as one size larger for carrying capacity and push/drag weight; climbing that requires hands and feet costs 4 extra feet per foot of movement"
+        },
+        "Survivor": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Animal Handling",
+            "Medicine",
+            "Nature",
+            "Survival"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Proficiency in one skill of your choice from the listed options"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Sylvan"
+        }
+      }
     },
     {
       "name": "Goblin",
@@ -63,22 +248,172 @@
       "size": "Small",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and your Constitution score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Goblins reach adulthood around age 8. They age noticeably faster than humans, and though few goblins live to old age, the most cautious rarely live longer than 60 years."
+        },
+        {
+          "name": "Alignment",
+          "description": "Most of the goblins of Ravnica are chaotic, with no inclination toward good or evil."
+        },
+        {
+          "name": "Size",
+          "description": "Goblins are between 3 and 4 feet tall and weigh between 40 and 80 pounds. Your size is Small."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
           "name": "Darkvision",
           "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
         },
         {
           "name": "Fury of the Small",
-          "description": "When you damage a creature with an attack or a spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage to the creature. The extra damage equals your level. Once you use this trait, you can't use it again until you finish a short or long rest.",
-          "uses": 1,
-          "recharge": "short rest"
+          "description": "When you damage a creature with an attack or a spell and the creature's size is larger than yours, you can cause the attack or spell to deal extra damage to the creature. The extra damage equals your level. Once you use this trait, you can't use it again until you finish a short or long rest."
         },
         {
           "name": "Nimble Escape",
           "description": "You can take the Disengage or Hide action as a bonus action on each of your turns."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Goblin. In Ravnica, Goblin is a simplistic language with a limited vocabulary and fluid rules of grammar, unsuited for any sophisticated conversation."
         }
       ],
       "subraces": [],
-      "description": "Goblins are small, wiry creatures with warty green or red skin, known for their tenacity and agility."
+      "description": "Goblins are small, mischievous humanoids standing between 3 and 4 feet tall and weighing between 40 and 80 pounds, known for their wild mood swings, destructive inclinations, and outrageous sense of humor.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Constitution +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fury of the Small": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When you damage a creature larger than you with an attack or spell, you can deal extra damage equal to your level. Usable once per short or long rest."
+        },
+        "Nimble Escape": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can take the Disengage or Hide action as a bonus action on each of your turns."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Goblin"
+        }
+      }
     },
     {
       "name": "Loxodon",
@@ -100,8 +435,28 @@
       "size": "Medium",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Loxodons physically mature at the same rate as humans, but they live about 450 years. They highly value the weight of wisdom and experience and are considered young until they reach the age of 60."
+        },
+        {
+          "name": "Alignment",
+          "description": "Most loxodons are lawful, believing in the value of a peaceful, ordered life. They also tend toward good."
+        },
+        {
+          "name": "Size",
+          "description": "Loxodons stand between 7 and 8 feet tall. Their massive bodies weigh between 300 and 400 pounds. Your size is Medium."
+        },
+        {
           "name": "Powerful Build",
           "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
         },
         {
           "name": "Loxodon Serenity",
@@ -118,10 +473,177 @@
         {
           "name": "Keen Smell",
           "description": "Thanks to your sensitive trunk, you have advantage on Wisdom (Perception), Wisdom (Survival), and Intelligence (Investigation) checks that involve smell."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Loxodon."
         }
       ],
       "subraces": [],
-      "description": "Loxodons are elephant-folk who value community, order, and the bonds of family and guild. They stand between 7 and 8 feet tall and live about 450 years."
+      "description": "Loxodons are elephant-folk who stand between 7 and 8 feet tall, with massive bodies weighing between 300 and 400 pounds. They have thick, leathery skin and a sensitive trunk that can grasp objects and serve as a snorkel.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2, Wisdom score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Powerful Build": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Count as one size larger for carrying capacity and for the weight you can push, drag, or lift."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Loxodon Serenity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Frightened"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed or frightened."
+        },
+        "Natural Armor": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": {
+            "base_ac": 12,
+            "max_dex": null,
+            "allow_shield": true
+          },
+          "notes": "When not wearing armor, AC = 12 + Constitution modifier. Can use natural armor if worn armor would leave a lower AC. Shields apply as normal."
+        },
+        "Trunk": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Trunk has 5 ft reach; can lift pounds equal to 5 x Strength score; can perform simple tasks (lift, drop, hold, push, pull, open/close door or container, grapple, unarmed strike). Can be used as a snorkel. Cannot wield weapons or shields or perform tasks requiring manual precision (tools, magic items, somatic components)."
+        },
+        "Keen Smell": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Wisdom (Perception), Wisdom (Survival), and Intelligence (Investigation) checks that involve smell."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Loxodon."
+        }
+      }
     },
     {
       "name": "Minotaur",
@@ -143,6 +665,22 @@
       "size": "Medium",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Strength score increases by 2, and your Constitution score increases by 1."
+        },
+        {
+          "name": "Alignment",
+          "description": "Most minotaurs who join the Boros Legion lean toward lawful alignments, while those associated with the Cult of Rakdos or the Gruul Clans tend toward chaotic alignments."
+        },
+        {
+          "name": "Size",
+          "description": "Minotaurs average over 6 feet in height, and they have stocky builds. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
           "name": "Horns",
           "description": "Your horns are natural melee weapons, which you can use to make unarmed strikes. If you hit with them, you deal piercing damage equal to 1d6 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike."
         },
@@ -157,10 +695,145 @@
         {
           "name": "Imposing Presence",
           "description": "You have proficiency in one of the following skills of your choice: Intimidation or Persuasion."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Minotaur."
         }
       ],
       "subraces": [],
-      "description": "Minotaurs are a race of stocky, powerful humanoids with horns, known for their passionate nature and martial prowess."
+      "description": "Minotaurs average over 6 feet in height, and they have stocky builds.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength +2, Constitution +1"
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Horns": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural melee weapon (horns): unarmed strike dealing 1d6 + Strength modifier piercing damage"
+        },
+        "Goring Rush": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "After Dash action and moving at least 20 feet, can make one melee horns attack as a bonus action"
+        },
+        "Hammering Horns": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "After hitting with a melee attack, can use bonus action to shove target (max one size larger, within 5 ft) up to 10 feet away; target makes Strength save vs DC 8 + proficiency bonus + Strength modifier"
+        },
+        "Imposing Presence": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Intimidation",
+            "Persuasion"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Proficiency in one of Intimidation or Persuasion (choice)"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Minotaur"
+        }
+      }
     },
     {
       "name": "Simic Hybrid",
@@ -187,7 +860,23 @@
         }
       ],
       "subraces": [],
-      "description": "Simic hybrids are humanoids magically fused with animal traits, created by the Simic Combine's Guardian Project."
+      "description": "Simic hybrids are created from human, vedalken, and elf guild members who volunteer to be transformed by biomancers into soldiers to defend the Simic Combine.",
+      "_effects": {
+        "Animal Enhancement": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one enhancement at 1st level and a second at 5th level. Manta Glide: subtract up to 100 feet from fall damage and move 2 feet horizontally per 1 foot descended when falling and not incapacitated. Nimble Climber: climbing speed equal to walking speed. Underwater Adaptation: can breathe air and water, swimming speed equal to walking speed. Grappling Appendages (5th level): two natural weapon appendages (claws or tentacles) usable for unarmed strikes dealing 1d6 + Strength modifier bludgeoning damage; can attempt grapple as an action and as a bonus action after hitting; cannot wield weapons or manipulate objects precisely. Carapace (5th level): +1 bonus to AC when not wearing heavy armor."
+        }
+      }
     },
     {
       "name": "Vedalken",
@@ -209,6 +898,26 @@
       "size": "Medium",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Intelligence score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Vedalken mature slower than humans do, reaching maturity around age 40. Their life span is typically 350 years, with some living to the age of 500."
+        },
+        {
+          "name": "Alignment",
+          "description": "Vedalken are usually lawful and non-evil."
+        },
+        {
+          "name": "Size",
+          "description": "Tall and slender, Vedalken stand 6 to 6½ feet tall on average and usually weigh less than 200 pounds. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
           "name": "Vedalken Dispassion",
           "description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws."
         },
@@ -218,13 +927,152 @@
         },
         {
           "name": "Partially Amphibious",
-          "description": "By absorbing oxygen through your skin, you can breathe underwater for up to 1 hour. Once you've reached that limit, you can't use this trait again until you finish a long rest.",
-          "uses": 1,
-          "recharge": "long rest"
+          "description": "By absorbing oxygen through your skin, you can breathe underwater for up to 1 hour. Once you've reached that limit, you can't use this trait again until you finish a long rest."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common, Vedalken, and one other language of your choice."
         }
       ],
       "subraces": [],
-      "description": "Vedalken are tall, slender, blue-skinned humanoids who pursue perfection through rationality, education, and careful experimentation."
+      "description": "Vedalken are tall and slender, standing almost a head taller than humans on average but weighing about the same. Their hairless skin comes in a range of shades of blue, their eyes are darker shades of blue or violet, they lack external ears, their noses are broad and flat, and they are partially amphibious.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Intelligence score increases by 2, Wisdom score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Vedalken Dispassion": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on all Intelligence, Wisdom, and Charisma saving throws."
+        },
+        "Tireless Precision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "one tool of your choice"
+          ],
+          "skill_profs": [
+            "Arcana",
+            "History",
+            "Investigation",
+            "Medicine",
+            "Performance",
+            "Sleight of Hand"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one skill from the listed options and one tool of your choice for proficiency. When making an ability check with the chosen skill or tool, roll a d4 and add the number rolled to the check's total."
+        },
+        "Partially Amphibious": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can breathe underwater for up to 1 hour. Once used, cannot use again until finishing a long rest."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common, Vedalken, and one other language of your choice."
+        }
+      }
     }
   ],
   "spells": [
@@ -6581,6 +7429,6 @@
   "_total_chapters": 1,
   "_book_slug": "GGR",
   "_book_title": "D&D 5E  Guildmasters' Guide to Ravnica",
-  "_completed": false,
-  "_timestamp": 1790282433.5938537
+  "_completed": true,
+  "_timestamp": 1790282492.6191745
 }

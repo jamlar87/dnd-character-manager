@@ -116665,5 +116665,266 @@
     "legendary_actions": [],
     "source": "(D&D 5E  Mordenkainen's Tome of Foes)",
     "_source_manual": "MTF"
+  },
+  {
+    "name": "Deathpact Angel",
+    "size": "Medium",
+    "type": "celestial",
+    "alignment": "lawful evil",
+    "armor_class": 18,
+    "ac_type": "natural armor",
+    "hit_points": "175 (27d8 + 54)",
+    "speed": "30 ft., fly 90 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 18,
+      "constitution": 14,
+      "intelligence": 19,
+      "wisdom": 20,
+      "charisma": 23
+    },
+    "saving_throws": {
+      "int": 9,
+      "wis": 10,
+      "cha": 11
+    },
+    "skills": {
+      "Insight": 10,
+      "Intimidation": 11,
+      "Perception": 10,
+      "Persuasion": 11
+    },
+    "damage_resistances": [
+      "necrotic",
+      "radiant",
+      "bludgeoning, piercing, and slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened"
+    ],
+    "senses": "truesight 120 ft., passive Perception 20",
+    "languages": [
+      "all"
+    ],
+    "challenge_rating": "14",
+    "xp": 11500,
+    "features": [
+      {
+        "name": "Exploitation of the Debtors",
+        "description": "As a bonus action, the angel targets a creature charmed by it that it can see within 30 feet of it. The angel deals 11 (2d10) necrotic damage to the target, and the angel gains temporary hit points equal to the damage dealt."
+      },
+      {
+        "name": "Flyby",
+        "description": "The angel doesn't provoke an opportunity attack when it flies out of an enemy's reach."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The angel's innate spellcasting ability is Charisma (spell save DC 19, +11 to hit with spell attacks). The angel can innately cast the following spells, requiring no material components:\nAt will: command (as a 2nd-level spell), detect evil and good\n3/day each: charm person (as a 5th-level spell), darkness, suggestion\n1/day: raise dead"
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The angel has advantage on saving throws against spells and other magical effects."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The angel makes two attacks with its scythe. It can substitute Chains of Obligation for one of these attacks."
+      },
+      {
+        "name": "Scythe",
+        "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 9 (2d4 + 4) slashing damage plus 27 (6d8) necrotic damage."
+      },
+      {
+        "name": "Chains of Obligation",
+        "description": "The angel targets one creature charmed by it that it can see within 90 feet of it. The target must succeed on a DC 19 Charisma saving throw or become paralyzed for 1 minute or until it takes any damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.190)",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Izzet Blastseeker",
+    "size": "Medium",
+    "type": "humanoid (any race)",
+    "alignment": "chaotic neutral",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "52 (8d8 + 16)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 17,
+      "constitution": 14,
+      "intelligence": 19,
+      "wisdom": 10,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "dex": 6
+    },
+    "skills": {
+      "Acrobatics": 6,
+      "Arcana": 7,
+      "Perception": 3
+    },
+    "damage_resistances": [
+      "lightning",
+      "thunder"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 13",
+    "languages": [
+      "Common",
+      "Primordial",
+      "any one language"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Galvanic Overcast (Recharge 5-6)",
+        "description": "When the blastseeker casts lightning bolt or thunderwave, it can roll a die. On an odd number, the blastseeker takes 9 (2d8) force damage. On an even number, the spell also deals 9 (2d8) lightning damage to each target that fails its saving throw."
+      },
+      {
+        "name": "Heart of the Storm",
+        "description": "When the blastseeker casts lightning bolt or thunderwave, all other creatures within 10 feet of the blastseeker each take 3 lightning damage."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The blastseeker's innate spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). The blastseeker can innately cast the following spells, requiring no components other than its Izzet gear, which doesn't function for others: 3/day each: levitate, lightning bolt, thunderwave; 1/day: stoneskin"
+      },
+      {
+        "name": "Gust-Propelled Leap",
+        "description": "The blastseeker can use a bonus action to fly up to 10 feet without provoking opportunity attacks."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 3 (1d6) piercing damage, or 4 (1d8) piercing damage if used with two hands to make a melee attack."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.240)",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Izzet Scorchbringer Guard",
+    "size": "Medium",
+    "type": "humanoid (any race)",
+    "alignment": "chaotic neutral",
+    "armor_class": 16,
+    "ac_type": "breastplate",
+    "hit_points": "11 (2d8 + 2)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 9,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 9",
+    "languages": [
+      "any one language (usually Common)"
+    ],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [
+      {
+        "name": "Explosive Tonic",
+        "description": "When the guard dies, or if it rolls a 1 when checking whether its Scorchbringer action recharges, the tank on its back explodes in a 10-foot radius sphere. Each creature in that area must make a DC 12 Dexterity saving throw, taking 7 (2d6) fire damage on a failed save, or half as much damage on a successful one. The explosion ignites flammable objects that aren't being worn or carried, and it destroys the scorchbringer."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Light Hammer",
+        "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage."
+      },
+      {
+        "name": "Scorchbringer (Recharge 4-6)",
+        "description": "The guard's scorchbringer spouts a stream of flame in a line that is 30 feet long and 5 feet wide. Each creature in the line must make a DC 12 Dexterity saving throw, taking 7 (2d6) fire damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.240)",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Horncaller",
+    "size": "Medium",
+    "type": "humanoid (any race)",
+    "alignment": "lawful good",
+    "armor_class": 13,
+    "ac_type": "hide armor",
+    "hit_points": "39 (6d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Animal Handling": 4,
+      "Nature": 2,
+      "Perception": 4
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 14",
+    "languages": [
+      "Common",
+      "any one language"
+    ],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Innate Spellcasting",
+        "description": "The horncaller's innate spellcasting ability is Wisdom (spell save DC 14). The horncaller can innately cast the following spells, requiring no material components:\n1/day each: bless, conjure animals"
+      },
+      {
+        "name": "Speak with Beasts",
+        "description": "The horncaller can communicate with beasts as if they shared a language."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The horncaller makes two melee attacks with its staff and uses One with the Worldsoul."
+      },
+      {
+        "name": "Staff",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) piercing damage, or 5 (1d8 + 1) bludgeoning damage if used with two hands."
+      },
+      {
+        "name": "One with the Worldsoul",
+        "description": "The horncaller chooses one beast it can see within 30 feet of it. If the beast can hear the horncaller, the beast uses its reaction to make one melee attack against a target that the horncaller can see."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.222)",
+    "_source_manual": "GGR"
   }
 ]

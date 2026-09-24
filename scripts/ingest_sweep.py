@@ -108,6 +108,31 @@ def remap_source_slug(engine_slug: str, app_slug: str) -> int:
     return total
 
 
+def normalize_display(app_slug: str) -> int:
+    """Rewrite the book's display strings to the name the app expects.
+
+    The loader validates every record's display against the app's own display map and warns on
+    a mismatch; the engine writes its own title instead ("D&D 5E  <Title>", with its double
+    space), which produced 206 warnings across the folded books. Doing it here means a book is
+    never left in the state where it renders with the wrong book name.
+    """
+    try:
+        import main as app_main  # noqa: PLC0415 - heavy import, only needed post-fold
+        from append_extraction import fix_sources  # noqa: PLC0415
+    except Exception as exc:  # noqa: BLE001
+        log(f"  display normalise skipped: {type(exc).__name__}: {exc}")
+        return 0
+    display = (app_main._get_source_slug_map().get(app_slug) or {}).get("display")
+    if not display:
+        log(f"  display normalise skipped: no display name for {app_slug}")
+        return 0
+    try:
+        return fix_sources(app_slug, display)
+    except Exception as exc:  # noqa: BLE001
+        log(f"  display normalise failed: {type(exc).__name__}: {exc}")
+        return 0
+
+
 def book_plan() -> list[tuple[str, str, dict]]:
     """(app_slug, engine_slug, engine_manual) for every book needing extraction."""
     meta = json.loads((MERGED / "_meta.json").read_text())
@@ -223,12 +248,14 @@ def main() -> int:
                 failed += 1
                 continue
             remapped = remap_source_slug(eng_slug, app_slug)
+            renamed = normalize_display(app_slug)
             post = counts()
             shrink = {c: (pre[c], post[c]) for c in CATEGORIES if post[c] < pre[c]}
             if shrink:
                 log(f"  !! SHRINK DETECTED {shrink} — stopping so nothing else is touched")
                 return 2
-            log(f"  ok: {added} entr(ies) added, {remapped} source slug(s) remapped; totals {post}")
+            log(f"  ok: {added} entr(ies) added, {remapped} source slug(s) remapped, "
+                f"{renamed} display name(s) normalised; totals {post}")
             # Every trait the app marks limited-use needs a known action type, or the sheet
             # cannot render it. One second to check here; otherwise it surfaces at the next
             # full-suite run (MPMM's races did exactly that). Warn loudly, keep going — the

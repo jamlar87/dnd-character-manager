@@ -2735,4 +2735,133 @@ Stats: 152 chunks → 160 raw → 159 valid → 151 new
       Wiring 11 traits → 9 wired
       Wiring 9 traits → 7 wired
       Wiring 11 traits → 11 wired
-      Wiring 9 traits → 
+      Wiring 9 traits → 8 wired
+      Wiring 1 traits → 1 wired
+      Wiring 9 traits → 9 wired
+
+  ✓ Extraction complete: 151 new entries across 1 chapter(s)
+    backgrounds: 11 — Azorius Functionary, Boros Legionnaire, Dimir Operative, Golgari Agent, Gruul Anarch (+6 more)
+    equipment: 10 — Guild Insignia, Cup of coffee, Newspaper, Pendulum clock, Spectacles (+5 more)
+    feats: 3 — Independent Agent, Star Performer, Ringmaster
+    magic_items: 31 — Spies' Murmur, Potion of Giant Strength (Hill), Azorius Charm, Boros Charm, Dimir Charm (+26 more)
+    monsters: 79 — Goblin Gang Member, Krenko, Loading Rig, Battleforce Angel, Firemane Angel (+74 more)
+    npcs: 4 — Palish, Lavinia, Steward of the Guildpact, Supreme Judge Isperia, Teysa Karlov
+    races: 6 — Centaur, Goblin, Loxodon, Minotaur, Simic Hybrid (+1 more)
+    spells: 2 — Encode Thoughts, Chaos Bolt
+    subclasses: 2 — Order Domain, Circle of Spores
+    traps: 3 — Glyph of Warding (Falish's Workshop Door), Glyph Trap on Door, Weakened Staircase
+  races.json: +0 (skipped 6 duplicate(s)) → 100 total
+  spells.json: +0 (skipped 2 duplicate(s)) → 325 total
+  magic_items.json: +11 (skipped 20 duplicate(s)) → 783 total
+  equipment.json: +5 (skipped 5 duplicate(s)) → 242 total
+  monsters.json: +4 (skipped 75 duplicate(s)) → 1719 total
+  npcs.json: +1 (skipped 3 duplicate(s)) → 428 total
+  feats.json: +2 (skipped 1 duplicate(s)) → 109 total
+  backgrounds.json: +0 (skipped 11 duplicate(s)) → 53 total
+  subclasses.json: +0 (skipped 2 duplicate(s)) → 99 total
+  traps.json: +2 (skipped 1 duplicate(s)) → 121 total
+
+_meta.json updated: totals{'magic_items': 11, 'equipment': 5, 'monsters': 4, 'npcs': 1, 'feats': 2, 'traps': 2}, source_manuals+GGR, pdf_map[GGR]
+Appended 25 entries from GGR
+[2026-09-24 14:41:33]   ok: 0 entr(ies) added, 0 source slug(s) remapped; totals {'races': 100, 'spells': 325, 'magic_items': 783, 'equipment': 242, 'monsters': 1719, 'npcs': 428, 'feats': 109, 'backgrounds': 53, 'subclasses': 99, 'traps': 121}
+[2026-09-24 14:41:33]   ok: 0 entr(ies) added, 0 source slug(s) remapped; totals {'races': 100, 'spells': 325, 'magic_items': 783, 'equipment': 242, 'monsters': 1719, 'npcs': 428, 'feats': 109, 'backgrounds': 53, 'subclasses': 99, 'traps': 121}
+[2026-09-24 14:41:33] --- ToA (D&D 5E  Tomb of Annihilation) ---
+[2026-09-24 14:41:33] --- ToA (D&D 5E  Tomb of Annihilation) ---
+
+============================================================
+Processing: D&D 5E  Tomb of Annihilation (ToA)
+  PDF: DnD-Manuals/Campaigns/D&D 5E - Tomb of Annihilation.pdf (89932 KB)
+  Cache has no page markers (old pdftotext cache) — re-extracting with pymupdf
+  Extracting text...
+  Extracted 1,100,435 chars (260 pages) via pymupdf → ToA.txt
+  Detected 1 chapters from TOC:
+    p1-9999: Tomb of Annihilation
+  1 chapter(s) with text retained
+  1 chapter(s), 0 completed, 0 with errors
+
+  [1/1] Tomb of Annihilation (1,096,206 chars)
+    Chunk 0 (4,624 chars) → 0 items {} (1.0s)
+    Chunk 1 (12,468 chars) → 0 items {} (1.1s)
+    Chunk 2 (3,902 chars) → 0 items {} (0.9s)
+    Chunk 3 (6,140 chars) → 0 items {} (0.9s)
+    Chunk 4 (6,485 chars) → 0 items {} (0.7s)
+    Chunk 5 (6,279 chars) → 0 items {} (1.0s)
+    Chunk 6 (5,452 chars) → 1 items {'npcs': 1} (2.2s)
+    Chunk 7 (7,248 chars) → 0 items {} (0.9s)
+    Chunk 8 (7,349 chars) → 0 items {} (0.9s)
+    Chunk 9 (4,746 chars) → 0 items {} (1.2s)
+    Chunk 10 (6,390 chars) → 0 items {} (0.8s)
+    Chunk 11 (2,761 chars) → 0 items {} (0.7s)
+    Chunk 12 (6,090 chars) → 0 items {} (0.9s)
+    Chunk 13 (6,726 chars) → 11 items {'npcs': 11} (9.4s)
+    Chunk 14 (6,762 chars) → 0 items {} (0.9s)
+    Chunk 15 (5,034 chars) → 0 items {} (0.9s)
+    Chunk 16 (5,256 chars) → 3 items {'npcs': 3} (2.8s)
+    Chunk 17 (4,879 chars) → 3 items {'npcs': 3} (2.8s)
+    Chunk 18 (5,146 chars) → 0 items {} (0.9s)
+    Chunk 19 (4,672 chars) → 0 items {} (0.7s)
+    Chunk 20 (4,696 chars) → 0 items {} (1.1s)
+    Chunk 21 (4,828 chars) → 3 items {'npcs': 3} (4.0s)
+    Chunk 22 (6,100 chars) → 2 items {'npcs': 2} (2.2s)
+    Chunk 23 (3,131 chars) → 0 items {} (0.7s)
+    Chunk 24 (5,796 chars) → 0 items {} (0.8s)
+    Chunk 25 (6,315 chars) → 0 items {} (0.9s)
+    Chunk 26 (5,256 chars) → 1 items {'equipment': 1} (1.1s)
+    Chunk 27 (4,838 chars) → 7 items {'equipment': 7} (2.0s)
+    Chunk 28 (6,486 chars) → 1 items {'npcs': 1} (2.3s)
+    Chunk 29 (6,236 chars) → 6 items {'npcs': 6} (7.2s)
+    Chunk 30 (6,056 chars) → 7 items {'npcs': 7} (7.0s)
+    Chunk 31 (7,537 chars) → 0 items {} (0.7s)
+    Chunk 32 (6,692 chars) → 0 items {} (1.1s)
+    Chunk 33 (6,030 chars) → 0 items {} (1.1s)
+    Chunk 34 (3,227 chars) → 0 items {} (0.8s)
+    Chunk 35 (5,996 chars) → 0 items {} (1.0s)
+    Chunk 36 (6,724 chars) → 0 items {} (0.9s)
+    Chunk 37 (6,189 chars) → 2 items {'traps': 2} (2.7s)
+    Chunk 38 (6,695 chars) → 6 items {'magic_items': 1, 'traps': 5} (6.5s)
+    Chunk 39 (3,248 chars) → 0 items {} (1.1s)
+    Chunk 40 (6,319 chars) → 6 items {'npcs': 6} (4.0s)
+    Chunk 41 (5,800 chars) → 1 items {'traps': 1} (1.8s)
+    Chunk 42 (3,588 chars) → 1 items {'traps': 1} (1.9s)
+    Chunk 43 (6,758 chars) → 3 items {'magic_items': 3} (1.9s)
+    Chunk 44 (6,512 chars) → 0 items {} (0.9s)
+    Chunk 45 (3,156 chars) → 0 items {} (0.8s)
+    Chunk 46 (6,821 chars) → 5 items {'magic_items': 2, 'npcs': 3} (3.3s)
+    Chunk 47 (3,233 chars) → 0 items {} (0.9s)
+    Chunk 48 (6,460 chars) → 3 items {'npcs': 3} (2.7s)
+    Chunk 49 (5,039 chars) → 8 items {'magic_items': 5, 'npcs': 3} (5.7s)
+    Chunk 50 (7,644 chars) → 7 items {'magic_items': 6, 'npcs': 1} (5.4s)
+    Chunk 51 (6,135 chars) → 0 items {} (1.2s)
+    Chunk 52 (2,988 chars) → 0 items {} (0.8s)
+    Chunk 53 (6,228 chars) → 1 items {'traps': 1} (1.8s)
+    Chunk 54 (6,289 chars) → 3 items {'magic_items': 1, 'equipment': 2} (1.5s)
+    Chunk 55 (6,568 chars) → 0 items {} (1.0s)
+    Chunk 56 (7,091 chars) → 0 items {} (1.3s)
+    Chunk 57 (6,888 chars) → 10 items {'equipment': 1, 'monsters': 9} (13.4s)
+    Chunk 58 (3,427 chars) → 5 items {'magic_items': 2, 'npcs': 3} (7.4s)
+    Chunk 59 (6,739 chars) → 2 items {'npcs': 2} (3.3s)
+    Chunk 60 (3,586 chars) → 0 items {} (0.8s)
+    Chunk 61 (6,494 chars) → 0 items {} (1.0s)
+    Chunk 62 (5,865 chars) → 0 items {} (1.0s)
+    Chunk 63 (5,014 chars) → 1 items {'npcs': 1} (4.0s)
+    Chunk 64 (6,424 chars) → 0 items {} (0.9s)
+    Chunk 65 (6,285 chars) → 0 items {} (0.9s)
+    Chunk 66 (5,562 chars) → 0 items {} (1.0s)
+    Chunk 67 (6,144 chars) → 0 items {} (1.2s)
+    Chunk 68 (6,054 chars) → 1 items {'magic_items': 1} (1.2s)
+    Chunk 69 (6,169 chars) → 4 items {'magic_items': 2, 'traps': 2} (3.0s)
+    Chunk 70 (6,374 chars) → 0 items {} (0.9s)
+    Chunk 71 (5,831 chars) → 0 items {} (0.8s)
+    Chunk 72 (5,987 chars) → 0 items {} (0.8s)
+    Chunk 73 (6,276 chars) → 0 items {} (0.9s)
+    Chunk 74 (3,367 chars) → 6 items {'npcs': 6} (3.5s)
+    Chunk 75 (6,039 chars) → 3 items {'magic_items': 1, 'equipment': 1, 'monsters': 1} (3.5s)
+    Chunk 76 (3,121 chars) → 2 items {'magic_items': 1, 'traps': 1} (2.7s)
+    Chunk 77 (5,909 chars) → 1 items {'traps': 1} (1.5s)
+    Chunk 78 (5,055 chars) → 11 items {'magic_items': 2, 'equipment': 8, 'npcs': 1} (3.4s)
+    Chunk 79 (5,154 chars) → 3 items {'magic_items': 1, 'traps': 2} (2.9s)
+    Chunk 80 (6,345 chars) → 0 items {} (0.7s)
+    Chunk 81 (6,247 chars) → 0 items {} (0.8s)
+    Chunk 82 (5,062 chars) → 0 items {} (1.2s)
+    Chunk 83 (4,773 chars) → 0 items {} (0.9s)
+    Chunk 84 (4,233 chars) → 

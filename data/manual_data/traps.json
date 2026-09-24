@@ -2973,5 +2973,55 @@
     "description": "In a seldom-used cavern with a high ceiling, a beholder might erect a wall that doesn't reach the ceiling and build a trapped door into it. The beholder can fly over the trap, while intruders are forced to deal with the door or waste time trying to climb over the wall.",
     "source": "(D&D 5E  Volo's Guide to Monsters, p.318)",
     "_source_manual": "VGM"
+  },
+  {
+    "name": "Glyph Trap on Door",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "Triggered when characters open or touch the door to Palish's laboratory.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Not specified in the text."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Not specified in the text."
+    },
+    "effect": "If characters trigger the glyph trap on the door, Palish grabs her gear and heads out through a secret door in the back of her living quarters as quickly as possible, closing the door behind her.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "A glyph trap is placed on the door to Palish's laboratory. Triggering it alerts Palish, who then escapes through a secret door.",
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.165)",
+    "_source_manual": "GGR"
+  },
+  {
+    "name": "Weakened Staircase",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature that weighs more than 100 pounds steps on the fragile board located 10 feet off the ground.",
+    "detection": {
+      "dc": 13,
+      "skill": "Perception",
+      "detail": "Can be spotted by anyone on the stairs who has a passive Wisdom (Perception) score of 13 or higher."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "The gap that the collapsing board creates can be easily avoided by other creatures walking up the stairs."
+    },
+    "effect": "The board collapses and the creature falls 10 feet to the ground below.",
+    "save_dc": 10,
+    "save_ability": "Dexterity",
+    "damage": "",
+    "damage_type": "",
+    "area": "One step of the catwalk staircase",
+    "description": "One of the steps of the catwalk staircase is ready to collapse.",
+    "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.168)",
+    "_source_manual": "GGR"
   }
 ]
