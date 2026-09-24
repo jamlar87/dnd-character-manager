@@ -632,7 +632,8 @@ FLEXIBLE_ASI_RACES = {
 
 # Monsters of the Multiverse races: the book lets the player choose the spread —
 # "+2 to one ability score and +1 to a different one, or +1 to three different ones"
-# (MPMM p.6, the Ability Score Increase sidebar; Tortle on p.34 uses it too).
+# (MPMM p.5, "Ability Score Increases" in the Creating Your Character section — the rule is
+# chapter-wide, so Tortle's own entry on p.34 does not repeat it).
 # Unlike FLEXIBLE_ASI_RACES (zero-ASI races that ADD +2 to a pick), these races have a real
 # default spread in RACES — the classic +2 STR / +1 WIS — and a pick REPLACES it, because the
 # default is already a +2/+1. No pick sent = the default stands, which MPMM also permits.

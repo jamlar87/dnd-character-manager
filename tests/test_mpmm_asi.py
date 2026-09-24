@@ -1,7 +1,7 @@
 """Monsters of the Multiverse flexible ASI (Tortle).
 
 MPMM lets the player choose "+2 to one ability score and +1 to a different one, or +1 to three
-different ones" (MPMM p.6). The record in RACES already carries a default +2/+1 spread, so a
+different ones" (MPMM p.5, "Ability Score Increases" — chapter-wide). The record in RACES already carries a default +2/+1 spread, so a
 player's pick must REPLACE that spread — adding would silently grant four points. These tests
 pin the server half of that contract, and guard the client half (create.html) so the picker
 cannot drift back into "add" behaviour or stop being wired up at all.
