@@ -98,13 +98,26 @@ SUBRACE_EVIDENCE = {
 # text named the book by a name openSourceRef() cannot match (or named a book we do not own).
 RACE_SOURCE_EVIDENCE = {
     "Stygian Shade": ("(Book of Ebon Tides, p.36)", "EBT", "EBT text: 'Stygian Shade Traits' p.36"),
-    "Alseid": (f"({MPG}, p.8-9)", "MPG", "MPG TOC: 'Alseid' 8"),
+    "Alseid": (f"({MPG}, p.8)", "MPG", "MPG TOC: 'Alseid' 8"),
     "Piney": (f"({MPG}, p.10)", "MPG", "MPG TOC: 'Piney' 10"),
+    # VGM p.156 is the grung entry (VGM index: 'Grung' 156); the record had claimed Waterdeep:
+    # Dragon Heist, which has no grung at all. The ASI half of the write-up is One Grung Above's
+    # (not on the shelf) — VGM is the closest owned source and is where the page map points.
     "Grung": ("(Volo's Guide to Monsters, p.156)", "VGM", "VGM index: 'Grung' 156"),
     "Changeling": ("(Wayfinder's Guide to Eberron, p.61)", "WGE", "WGE text: 'Changeling Traits' p.61"),
     "Kalashtar": ("(Wayfinder's Guide to Eberron, p.63)", "WGE", "WGE text: 'Kalashtar Traits' p.63"),
     "Shifter": ("(Wayfinder's Guide to Eberron, p.65)", "WGE", "WGE text: 'Shifter Traits' p.65"),
     "Warforged": ("(Wayfinder's Guide to Eberron, p.68)", "WGE", "WGE text: 'Warforged Traits' p.68"),
+    # Chapter-style strings that a page map masks at runtime. The page map is the app's own
+    # authoritative citation for these, so the seed simply agrees with it.
+    "Aarakocra": ("(Elemental Evil Player's Companion, p.3)", "EEPC",
+                  "app's own race_page_map: 'EEPC p.3'"),
+    "Firbolg": ("(Volo's Guide to Monsters, p.106)", "VGM",
+                "app's own race_page_map: 'VGM p.106'"),
+    "Lizardfolk": ("(Volo's Guide to Monsters, p.111)", "VGM",
+                   "app's own race_page_map: 'VGM p.111'"),
+    "Xvart": ("(Volo's Guide to Monsters, p.200)", "VGM",
+              "app's own race_page_map: 'VGM p.200'"),
 }
 
 
@@ -182,21 +195,33 @@ def main() -> int:
         # subclass-level
         subs = cls.get("_subclass_sources") or {}
         for sub, src in list(subs.items()):
+            # Evidence entries are authoritative: they also carry the slug the record must
+            # claim, which is what keeps the badge's text and its slug naming the same book.
+            if sub in CLASS_SUBCLASS_EVIDENCE:
+                new, slug, why = CLASS_SUBCLASS_EVIDENCE[sub]
+                rec = sub_by_name.get(sub)
+                cur_slug = str((rec or {}).get("_source_manual") or "").strip()
+                if src == new and (rec is None or cur_slug == slug):
+                    continue
+                record("subclass", sub, f"{src} (slug {cur_slug or '-'})",
+                       f"{new} (slug {slug})", why)
+                if args.apply:
+                    subs[sub] = new
+                    if rec is not None:
+                        rec["source"] = new
+                        rec["_source_manual"] = slug
+                continue
             if opens(src):
                 continue
+            rec = sub_by_name.get(sub) or {}
             new, why = "", ""
-            if sub in CLASS_SUBCLASS_EVIDENCE:
-                new, _slug, why = CLASS_SUBCLASS_EVIDENCE[sub]
-            else:
-                rec = sub_by_name.get(sub) or {}
-                if opens(rec.get("source"), rec.get("_source_manual")):
-                    new, why = rec["source"], "manual record"
+            if opens(rec.get("source") or "", rec.get("_source_manual") or ""):
+                new, why = rec["source"], "manual record"
             if new:
                 record("subclass", sub, src, new, why)
                 if args.apply:
                     subs[sub] = new
-                    rec = sub_by_name.get(sub)
-                    if rec is not None and rec.get("source") != new:
+                    if rec.get("source") != new:
                         rec["source"] = new          # keep the ingest record in step
             else:
                 left.append(("subclass", sub, src))
@@ -207,26 +232,44 @@ def main() -> int:
         # Race-level display text: a resolvable slug can still sit next to text no book matches
         # (e.g. "Tome of Heroes p.37" for a race whose write-up is in Book of Ebon Tides).
         src = str(race.get("source") or "").strip()
-        if src and not resolves_to_book(src, displays) and race_name in RACE_SOURCE_EVIDENCE:
-            new, _slug, why = RACE_SOURCE_EVIDENCE[race_name]
-            record("race", race_name, src, new, why)
-            if args.apply:
-                race["source"] = new
-                rec = race_by_name.get(race_name)
-                if rec is not None and rec.get("source") != new:
-                    rec["source"] = new      # keep the ingest record in step
+        if race_name in RACE_SOURCE_EVIDENCE:
+            new, slug, why = RACE_SOURCE_EVIDENCE[race_name]
+            rec = race_by_name.get(race_name)
+            cur_slug = str((rec or {}).get("_source_manual") or "").strip()
+            if src != new or (rec is not None and cur_slug != slug):
+                record("race", race_name, f"{src} (slug {cur_slug or '-'})",
+                       f"{new} (slug {slug})", why)
+                if args.apply:
+                    race["source"] = new
+                    if rec is not None:
+                        rec["source"] = new
+                        rec["_source_manual"] = slug
+        elif src and not resolves_to_book(src, displays):
+            left.append(("race", race_name, src))
         subs = race.get("_subrace_sources") or {}
         for sub, src in list(subs.items()):
+            if sub in SUBRACE_EVIDENCE:
+                new, slug, why = SUBRACE_EVIDENCE[sub]
+                nrec = next((s for s in (race_by_name.get(race_name) or {}).get("subraces", [])
+                             if isinstance(s, dict) and s.get("name") == sub), None)
+                cur_slug = str((nrec or {}).get("_source_manual") or "").strip()
+                if src == new and (nrec is None or cur_slug == slug):
+                    continue
+                record("subrace", f"{race_name}/{sub}", f"{src} (slug {cur_slug or '-'})",
+                       f"{new} (slug {slug})", why)
+                if args.apply:
+                    subs[sub] = new
+                    if nrec is not None:
+                        nrec["source"] = new
+                        nrec["_source_manual"] = slug
+                continue
             if opens(src):
                 continue
+            rec = next((s for s in (race_by_name.get(race_name) or {}).get("subraces", [])
+                        if isinstance(s, dict) and s.get("name") == sub), {})
             new, why = "", ""
-            if sub in SUBRACE_EVIDENCE:
-                new, _slug, why = SUBRACE_EVIDENCE[sub]
-            else:
-                rec = next((s for s in (race_by_name.get(race_name) or {}).get("subraces", [])
-                            if isinstance(s, dict) and s.get("name") == sub), {})
-                if opens(rec.get("source"), rec.get("_source_manual")):
-                    new, why = rec["source"], "manual record"
+            if opens(rec.get("source") or "", rec.get("_source_manual") or ""):
+                new, why = rec["source"], "manual record"
             if new:
                 record("subrace", f"{race_name}/{sub}", src, new, why)
                 if args.apply:
