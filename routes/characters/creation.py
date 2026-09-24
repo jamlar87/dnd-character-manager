@@ -19,6 +19,7 @@ from main import (
     get_db, require_user, _render, _get_source_slug_map,
     RACES, RACE_NAMES, CLASSES, BACKGROUNDS, BACKGROUND_SOURCES, ALIGNMENTS,
     FLEXIBLE_ASI_RACES, SUBASIS, SKILL_ABILITIES, ALL_SKILLS,
+    MPMM_ASI_RACES,
     DRACONIC_ANCESTRIES, PREPARED_CASTERS, SPELLS_KNOWN_CASTERS,
     SUBCLASS_FEATURES, SUBCLASS_FEATURE_REPLACEMENTS, STARTING_EQUIPMENT,
     SRD_SPELLS, SPELL_DICE, EXPERTISE_LEVELS,
@@ -56,6 +57,7 @@ async def create_character_page(request: Request):
         draconic_ancestries=DRACONIC_ANCESTRIES,
         race_names=RACE_NAMES, expertise_levels=EXPERTISE_LEVELS,
         flexible_asi_races=list(FLEXIBLE_ASI_RACES),
+        mpmm_asi_races=list(MPMM_ASI_RACES),
         fighting_style_options=FIGHTING_STYLE_OPTIONS,
         fighting_styles=FIGHTING_STYLES,
         metamagic_options=METAMAGIC_OPTIONS, metamagic_levels=METAMAGIC_LEVELS, metamagic_picks=METAMAGIC_PICKS,
@@ -70,6 +72,40 @@ async def create_character_page(request: Request):
         infusion_options=INFUSION_OPTIONS, infusion_levels=INFUSION_LEVELS, infusion_picks=INFUSION_PICKS,
         source_map_json=json.dumps(_get_source_slug_map()),
         subclass_feature_replacements=SUBCLASS_FEATURE_REPLACEMENTS)
+
+
+def _race_asi(race_name: str, subrace: str, asi_picks, asi_mode: str = "") -> dict:
+    """Ability bonuses a race (plus subrace, plus the player's flexible picks) grants.
+
+    Four shapes, in this order:
+      * the record's own spread + any subrace addition (always);
+      * Half-Elf, whose +1/+1 is chosen by the player and ADDS to the record;
+      * FLEXIBLE_ASI_RACES — zero-ASI races (Custom Lineage, Grung, …) where a single pick ADDS +2;
+      * MPMM_ASI_RACES — the book lets the player choose +2/+1 or +1/+1/+1, so the pick REPLACES
+        the record's default spread (the default is already a +2/+1, so adding would double it).
+        No valid pick = the default stands, which MPMM also permits.
+    """
+    race_asi = dict((RACES.get(race_name, {}) or {}).get("asi", {}))
+    if subrace and subrace in SUBASIS:
+        for k, v in SUBASIS[subrace].items():
+            race_asi[k] = race_asi.get(k, 0) + v
+    picks = [a for a in (asi_picks or []) if a]
+    # Half-Elf: +1 to two other abilities. The pick may name an ability the record does not
+    # mention (records often carry only their fixed part), so create the key rather than
+    # requiring it to exist — otherwise the player's choice silently grants nothing.
+    if race_name == "Half-Elf" and len(picks) == 2:
+        for a in picks:
+            race_asi[a] = race_asi.get(a, 0) + 1
+    # Custom Lineage / other zero-ASI races: +2 to one ability (same reasoning).
+    if race_name in FLEXIBLE_ASI_RACES and len(picks) == 1:
+        race_asi[picks[0]] = race_asi.get(picks[0], 0) + 2
+    # Monsters of the Multiverse: the player's chosen spread takes the record's place.
+    if race_name in MPMM_ASI_RACES:
+        if asi_mode == "two" and len(picks) == 2 and picks[0] != picks[1]:
+            race_asi = {picks[0]: 2, picks[1]: 1}
+        elif asi_mode == "three" and len(set(picks)) == 3:
+            race_asi = {a: 1 for a in picks}
+    return race_asi
 
 
 def _build_character(data: dict, user_id: int) -> tuple[int, str]:
@@ -91,23 +127,9 @@ def _build_character(data: dict, user_id: int) -> tuple[int, str]:
     if not name or not race_name or not class_name:
         raise ValueError("Name, race, and class required")
 
-    # Race ASIs
+    # Race ASIs (race_data is also used further down for trait/feature lookups)
     race_data = RACES.get(race_name, {})
-    race_asi = dict(race_data.get("asi", {}))
-    if subrace and subrace in SUBASIS:
-        for k, v in SUBASIS[subrace].items():
-            race_asi[k] = race_asi.get(k, 0) + v
-    # Half-Elf: +1 to two other abilities (user picks from data.asi_picks)
-    asi_picks = data.get("asi_picks", [])
-    if race_name == "Half-Elf" and len(asi_picks) == 2:
-        for a in asi_picks:
-            if a in race_asi:
-                race_asi[a] = race_asi.get(a, 0) + 1
-    # Custom Lineage: +2 to one ability (user picks from data.asi_picks)
-    if race_name in FLEXIBLE_ASI_RACES and len(asi_picks) == 1:
-        a = asi_picks[0]
-        if a in race_asi:
-            race_asi[a] = race_asi.get(a, 0) + 2
+    race_asi = _race_asi(race_name, subrace, data.get("asi_picks", []), str(data.get("asi_mode") or ""))
 
     stats = _asi(data.get("abilities", {}), race_asi)
 

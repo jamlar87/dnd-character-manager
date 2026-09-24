@@ -21,6 +21,8 @@ class CreateCharacter(BaseModel):
     wisdom: int = Field(default=10, ge=3, le=20)
     charisma: int = Field(default=10, ge=3, le=20)
     asi_picks: list[str] = []
+    # MPMM races (Tortle): which spread the player chose — "two" (+2/+1) or "three" (+1/+1/+1).
+    asi_mode: str = ""
     background: Optional[str] = ""
     alignment: Optional[str] = ""
     hp_max: int = Field(default=10, ge=1, le=999)

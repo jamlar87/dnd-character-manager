@@ -111,6 +111,21 @@
       <div class="grid-2" id="customlineage-grid"></div>
     </div>
     {% endif %}
+    {% if mpmm_asi_races %}
+    <div id="mpmm-picks" style="margin-top:1rem;display:none">
+      <p style="font-size:0.9rem;color:var(--text-muted)">Ability Score Increase — Monsters of the Multiverse gives you the choice</p>
+      <div class="grid-2" style="margin-bottom:0.5rem">
+        <label class="option-card" style="cursor:pointer">
+          <input type="radio" name="mpmm-mode" value="two" onchange="setMpmmMode('two')" style="pointer-events:none"> +2 to one, +1 to another
+        </label>
+        <label class="option-card" style="cursor:pointer">
+          <input type="radio" name="mpmm-mode" value="three" onchange="setMpmmMode('three')" style="pointer-events:none"> +1 to three different
+        </label>
+      </div>
+      <div id="mpmm-grids"></div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem">Leave both blank and you keep the classic +2 STR / +1 WIS.</p>
+    </div>
+    {% endif %}
     <div class="wizard-nav"><button class="btn btn-outline" onclick="prevStep()">← Back</button><button class="btn btn-outline btn-sm" onclick="idealAbilities()">⭐ Ideal Default</button><button class="btn btn-outline btn-sm" onclick="randomizeAbilities()">🎲 Randomize</button><button class="btn btn-primary" onclick="nextStep()">Next →</button></div>
   </div>
 
@@ -266,6 +281,7 @@ const RACES = {{ races | tojson }};
 const SUBASIS = {{ subasis | tojson }};
 const CLASSES = {{ classes | tojson }};
 const FLEXIBLE_ASI = new Set({{ flexible_asi_races | tojson }});
+const MPMM_ASI = new Set({{ mpmm_asi_races | tojson }});
 const ALL_SKILLS = {{ all_skills | tojson }};
 const SKILL_ABILITIES = {{ skill_abilities | tojson }};
 const EXPERTISE_LEVELS = {{ expertise_levels | tojson }};
@@ -450,7 +466,7 @@ const STARTING_EQUIPMENT = {
   "Wizard":["Quarterstaff","Arcane Focus","Scholar's Pack","Spellbook"]
 };
 
-let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], expertise_skills: [], fighting_style: "", metamagic: [], invocations: [], pact_boon: "", maneuvers: [], magical_secrets: [], totem_spirits: {}, hunters_prey: "", infusions: [], favored_enemies: [], favored_terrains: [], asi_picks: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
+let state = { race: null, subrace: null, class_name: null, subclass: null, abilities: {}, skills: [], expertise_skills: [], fighting_style: "", metamagic: [], invocations: [], pact_boon: "", maneuvers: [], magical_secrets: [], totem_spirits: {}, hunters_prey: "", infusions: [], favored_enemies: [], favored_terrains: [], asi_picks: [], mpmm_mode: "", mpmm_p2: "", mpmm_p1: "", mpmm_t3: [], name: "", background: "", alignment: "", personality: "", backstory: "", level: 1, equipment: [], showAllSkills: false, unlockedSkills: [], subclass_bonus: [] };
 let step = 0;
 
 // Subclass bonus proficiency map (same as backend SUBCLASS_PROFICIENCIES)
@@ -640,6 +656,7 @@ function buildRaces() {
 
 function selectRace(name) {
   state.race = name; state.subrace = null; state.asi_picks = [];
+  state.mpmm_mode = ""; state.mpmm_p2 = ""; state.mpmm_p1 = ""; state.mpmm_t3 = [];
   document.querySelectorAll('#race-grid .option-card').forEach(c => c.classList.toggle('selected', c.dataset.name === name));
   
   const r = RACES[name];
@@ -872,6 +889,10 @@ function updateAsiPreview() {
   if (state.subrace && SUBASIS[state.subrace]) Object.entries(SUBASIS[state.subrace]).forEach(([k,v]) => bonuses[k] = (bonuses[k]||0)+v);
   if (state.race === 'Half-Elf' && state.asi_picks.length === 2) state.asi_picks.forEach(a => bonuses[a] = (bonuses[a]||0)+1);
   if (FLEXIBLE_ASI.has(state.race) && state.asi_picks.length === 1) bonuses[state.asi_picks[0]] = (bonuses[state.asi_picks[0]]||0)+2;
+  // MPMM (Tortle): the chosen spread REPLACES the record's default +2 STR/+1 WIS.
+  const _mpmm = MPMM_ASI.has(state.race) ? mpmmPicks() : null;
+  if (_mpmm && _mpmm.length) { bonuses = {}; _mpmm.forEach(([a, v]) => bonuses[a] = v); }
+  renderMpmmGrids();
   document.getElementById('asi-bonus').innerHTML = Object.entries(bonuses).map(([k,v]) => `${k.slice(0,3).toUpperCase()}+${v}`).join(' · ') || '';
 
   // Half-Elf ASI picks
@@ -904,6 +925,57 @@ function toggleAsiPick(a, checked) {
   updateAsiPreview();
 }
 
+// ── MPMM flexible ASI (Tortle and any future MMOM race) ──────────────────────
+// Monsters of the Multiverse: +2 to one ability and +1 to a different one, or +1 to three
+// different ones (MPMM p.6). That pick REPLACES the record's default +2 STR/+1 WIS spread —
+// the server does the same swap in routes/characters/creation.py. Nothing picked = the default
+// stands, which MPMM also permits (the picker says so on screen).
+function mpmmPicks() {
+  if (state.mpmm_mode === 'two' && state.mpmm_p2 && state.mpmm_p1 && state.mpmm_p2 !== state.mpmm_p1)
+    return [[state.mpmm_p2, 2], [state.mpmm_p1, 1]];
+  if (state.mpmm_mode === 'three') {
+    const t = state.mpmm_t3.filter(Boolean);
+    if (new Set(t).size === 3) return t.map(a => [a, 1]);
+  }
+  return [];
+}
+function setMpmmMode(mode) {
+  state.mpmm_mode = mode; state.mpmm_p2 = ''; state.mpmm_p1 = ''; state.mpmm_t3 = [];
+  updateAsiPreview();
+}
+function setMpmmPick(slot, a) {
+  if (state.mpmm_mode === 'three') {
+    const t = state.mpmm_t3.slice(); t[slot] = a; state.mpmm_t3 = t;
+  } else if (slot === 0) {
+    state.mpmm_p2 = a; if (state.mpmm_p1 === a) state.mpmm_p1 = '';
+  } else {
+    state.mpmm_p1 = a; if (state.mpmm_p2 === a) state.mpmm_p2 = '';
+  }
+  updateAsiPreview();
+}
+function renderMpmmGrids() {
+  const box = document.getElementById('mpmm-picks');
+  if (!box) return;
+  if (!MPMM_ASI.has(state.race)) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  document.querySelectorAll('input[name="mpmm-mode"]').forEach(el => { el.checked = (el.value === state.mpmm_mode); });
+  const host = document.getElementById('mpmm-grids');
+  if (!state.mpmm_mode) { host.innerHTML = ''; return; }
+  const rows = state.mpmm_mode === 'three'
+    ? [0, 1, 2].map(i => ({ slot: i, label: '+1', val: state.mpmm_t3[i] || '' }))
+    : [{ slot: 0, label: '+2', val: state.mpmm_p2 }, { slot: 1, label: '+1', val: state.mpmm_p1 }];
+  host.innerHTML = rows.map(({slot, label, val}) => `
+    <div style="margin-bottom:0.5rem">
+      <p style="font-size:0.8rem;color:var(--text-muted);margin:0 0 0.25rem">${label} → <strong>${val ? val.slice(0,3).toUpperCase() : '—'}</strong></p>
+      <div class="grid-2">
+        ${ABILITIES.filter(a => a === val || !rows.some(r => r.val === a)).map(a => `
+          <label class="option-card" style="cursor:pointer">
+            <input type="radio" name="mpmm-asi-${slot}" value="${a}" ${val === a ? 'checked' : ''} onchange="setMpmmPick(${slot},'${a}')" style="pointer-events:none">
+            ${a.slice(0,3).toUpperCase()} ${label}
+          </label>`).join('')}
+      </div>
+    </div>`).join('');
+}
 function setLineageAsi(a) {
   state.asi_picks = [a];
   updateAsiPreview();
@@ -1026,6 +1098,7 @@ function buildReview() {
     ${state.equipment && state.equipment.length ? `<p style="font-size:0.85rem;color:var(--text-muted)">Equipment: ${state.equipment.join(', ')}</p>` : ''}
     ${state.race === 'Half-Elf' && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">Half-Elf bonus: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')}</p>` : ''}
     ${FLEXIBLE_ASI.has(state.race) && state.asi_picks.length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI pick: ${state.asi_picks.map(a=>a.slice(0,3).toUpperCase()).join(', ')} +2</p>` : ''}
+    ${MPMM_ASI.has(state.race) && mpmmPicks().length ? `<p style="font-size:0.85rem;color:var(--accent)">ASI choice: ${mpmmPicks().map(([a,v])=>a.slice(0,3).toUpperCase()+'+'+v).join(', ')} <span style="color:var(--text-muted)">(MPMM)</span></p>` : ''}
     ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && !state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--danger);margin-top:0.5rem">⚠ Draconic Ancestry not selected — required for resistance & breath weapon</p>` : ''}
     ${(state.race === 'Dragonborn' || state.race === 'Dragonblood') && state.dragonborn_ancestry ? `<p style="font-size:0.85rem;color:var(--accent)">Draconic Ancestry: ${state.dragonborn_ancestry}</p>` : ''}
     ${state.subclass_bonus && state.subclass_bonus.length ? `<p style="font-size:0.85rem;color:var(--accent)">Bonus: ${state.subclass_bonus.join(', ')}</p>` : ''}
@@ -1597,7 +1670,9 @@ async function createCharacter() {
       favored_enemies: state.favored_enemies,
       favored_terrains: state.favored_terrains,
       infusions: state.infusions,
-      asi_picks: state.asi_picks, background: state.background,
+      asi_picks: MPMM_ASI.has(state.race) ? mpmmPicks().map(x => x[0]) : state.asi_picks,
+      asi_mode: MPMM_ASI.has(state.race) ? state.mpmm_mode : "",
+      background: state.background,
       background_data: state.background_data || '',
       alignment: state.alignment, personality: state.personality, backstory: state.backstory,
       level: 1,  // Always create at L1 — level-up wizard handles higher levels

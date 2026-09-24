@@ -630,6 +630,14 @@ FLEXIBLE_ASI_RACES = {
     "High Elves of Rivendell", "Tlincalli"
 }
 
+# Monsters of the Multiverse races: the book lets the player choose the spread —
+# "+2 to one ability score and +1 to a different one, or +1 to three different ones"
+# (MPMM p.6, the Ability Score Increase sidebar; Tortle on p.34 uses it too).
+# Unlike FLEXIBLE_ASI_RACES (zero-ASI races that ADD +2 to a pick), these races have a real
+# default spread in RACES — the classic +2 STR / +1 WIS — and a pick REPLACES it, because the
+# default is already a +2/+1. No pick sent = the default stands, which MPMM also permits.
+MPMM_ASI_RACES = {"Tortle"}
+
 # ── Rich supplement race descriptions ──
 # Overrides short auto-extracted descriptions from manual data with full PHB lore.
 RICH_RACE_DESCS: dict[str, str] = {
