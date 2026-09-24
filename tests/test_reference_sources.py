@@ -229,3 +229,75 @@ def test_every_exported_race_slug_opens_a_real_book():
                for name, entry in export.items()
                if str(entry.get("_source_slug") or "").strip() not in slug_map]
     assert missing == [], "races whose book the app cannot open: " + ", ".join(missing)
+
+
+# A source can carry a LIVE slug next to text no book matches — Changeling served "ERLW p.18"
+# while its slug pointed at Wayfinder's Guide to Eberron. The slug decides whether the click
+# opens something; the text decides whether the reader is told the truth, and openSourceRef()
+# matches on the text. So both layers are checked here: the records/data the app serves, and
+# the page maps that OVERRIDE those records.
+_KNOWN_UNOPENABLE_TEXTS = {
+    "W1 p.8",  # Warlock #1 is not on the shelf (issues 2-6 and the Lairs are); spell "putrescent faerie circle"
+}
+
+
+def _resolves(_displays, src):
+    from services.sources import resolves_to_book
+
+    s = str(src or "").strip()
+    return (not s) or s in _KNOWN_UNOPENABLE_TEXTS or resolves_to_book(s, _displays)
+
+
+def test_every_effective_source_text_names_a_book_the_app_can_open():
+    """Every source string the app serves must name a book the app can open, by text."""
+    import main
+
+    slug_map = main._get_source_slug_map()
+    displays = {s: str((i or {}).get("display") or (i or {}).get("title") or "")
+                for s, i in slug_map.items()}
+    bad = []
+
+    def check(kind, name, text):
+        if not _resolves(displays, text):
+            bad.append(f"{kind} {name}: {str(text)!r}")
+
+    for name, rec in (main.RACES or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        check("race", name, rec.get("source"))
+        for sub in rec.get("subraces") or []:
+            if isinstance(sub, dict):
+                check("subrace", f"{name}/{sub.get('name')}", sub.get("source"))
+        for sub, src in (rec.get("_subrace_sources") or {}).items():
+            check("subrace-source", f"{name}/{sub}", src)
+    for name, rec in (main.CLASSES or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        check("class", name, rec.get("source"))
+        for sub, src in (rec.get("_subclass_sources") or {}).items():
+            check("subclass", f"{name}/{sub}", src)
+
+    assert bad == [], "source texts no book resolves to: " + "; ".join(bad[:8])
+
+
+def test_page_maps_do_not_override_records_with_an_unopenable_source():
+    """Page maps win over the records they shadow, so their own source_str must resolve too.
+
+    Nine of these were live defects: the four Eberron races and their shifter subraces pointed
+    at ERLW (not in the library) and grung at OGA, all of which open nothing; 'potions of
+    healing' said only 'p.57', naming no book at all.
+    """
+    import main
+
+    slug_map = main._get_source_slug_map()
+    displays = {s: str((i or {}).get("display") or (i or {}).get("title") or "")
+                for s, i in slug_map.items()}
+    bad = []
+    for path in sorted((REPO / "data" / "page_maps").glob("*.json")):
+        for key, entry in json.loads(path.read_text()).items():
+            if not isinstance(entry, dict):
+                continue
+            src = entry.get("source_str") or entry.get("source") or ""
+            if not _resolves(displays, src):
+                bad.append(f"{path.name}: {key} -> {str(src)!r}")
+    assert bad == [], "page-map sources that open nothing: " + "; ".join(bad[:8])
