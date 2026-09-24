@@ -434,6 +434,23 @@ FEATURE_ACTION_TYPES = {
     "legendary resistance":            ("Special", "If you fail a saving throw, choose to succeed instead (3/day)"),
     "shapechanger":                    ("Action", "Polymorph into bat/mist form or back (monster/NPC trait)"),
     "spellcasting":                    ("Action", "Cast spells (monster/NPC trait)"),
+    # Added when ingestion folded the books that carry them. Action type read from each record's
+    # own text, never assumed: "As a bonus action..." is a Bonus Action; a "once per turn, when you
+    # hit" rider costs no action, so it is Special; innate spellcasting is Special. The tiefling
+    # bloodline traits below are the MM's variant tieflings (Zariel, Mephistopheles, Glasya,
+    # Mammon, Fierna, Levistus) and the Asmodeus variant that swaps hellish rebuke for burning
+    # hands — they resolve by their bare names, so a suffixed key like "Taunt (2/Day)" also lands.
+    "displacement":                    ("Bonus Action", "Project an illusory duplicate; attacks against it have disadvantage"),
+    "taunt":                           ("Bonus Action", "Target must make a CHA save or have disadvantage until your next turn"),
+    "poison strike":                   ("Special", "Once per turn on a melee hit, spend a use for +2d8 poison (monster/NPC trait)"),
+    "winter strike":                   ("Special", "Once per turn on a melee hit, spend a use for +2d8 cold (monster/NPC trait)"),
+    "hellfire":                        ("Special", "Cast burning hands once per day as a 2nd-level spell (racial)"),
+    "legacy of avernus":               ("Special", "Innate spells: thaumaturgy; searing smite at 3rd, branding smite at 5th (racial)"),
+    "legacy of cania":                 ("Special", "Innate spells: mage hand; burning hands at 3rd, flame blade at 5th (racial)"),
+    "legacy of malbolge":              ("Special", "Innate spells: minor illusion; disguise self at 3rd, invisibility at 5th (racial)"),
+    "legacy of minauros":              ("Special", "Innate spells: mage hand; Tenser's floating disk at 3rd, arcane lock at 5th (racial)"),
+    "legacy of phlegethos":            ("Special", "Innate spells: friends; charm person at 3rd, suggestion at 5th (racial)"),
+    "legacy of stygia":                ("Special", "Innate spells: ray of frost; armor of Agathys at 3rd, darkness at 5th (racial)"),
 }
 
 # ── Always-on combat rider callout cards ─────────────────────────────

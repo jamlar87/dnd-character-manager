@@ -117561,5 +117561,1178 @@
     "legendary_actions": [],
     "source": "(Waterdeep: Dragon Heist)",
     "_source_manual": "WDH"
+  },
+  {
+    "name": "The Iron Teeth of Baba Yaga",
+    "size": "Tiny",
+    "type": "fey",
+    "alignment": "chaotic neutral",
+    "armor_class": 14,
+    "ac_type": "",
+    "hit_points": "67 (15d6+15)",
+    "speed": "0 ft., fly 30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 18,
+      "constitution": 12,
+      "intelligence": 18,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "damage_resistances": [
+      "lightning"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 10",
+    "languages": [
+      "Common",
+      "Dwarvish",
+      "Elvish",
+      "Infernal",
+      "Sylvan"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Scholar",
+        "description": "The dentures are scholars of the arcane and are often found exploring ruins, especially ancient sites of magic. They see themselves as intellectually superior to their owner and chastise Baba Yaga for her use of baser forms of magic."
+      },
+      {
+        "name": "Wilful",
+        "description": "The iron teeth are usually content sitting firmly in Baba Yaga's mouth, assisting the witch. However, should she anger the dentures, either by ignoring their request to visit some forgotten tower or scolding them too much for insolence, the dentures may abandon her for a while. They may work against her if the two are particularly at odds."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The teeth's innate spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). It may cast the following spells innately, requiring only verbal components:\nAt will: detect magic, mending, ray of frost, true strike\n2/day each: grease, magic missile, shield\n1/day each: acid arrow, blur, heat metal"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Pinch",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5ft., one target. Hit: 11 (3d4 + 4) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.47)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Clockwork Dragon",
+    "size": "Huge",
+    "type": "construct",
+    "alignment": "unaligned",
+    "armor_class": 18,
+    "ac_type": "natural armor",
+    "hit_points": "178 (17d10 + 85)",
+    "speed": "30 ft., fly 50 ft.",
+    "ability_scores": {
+      "strength": 22,
+      "dexterity": 10,
+      "constitution": 20,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 1
+    },
+    "saving_throws": {
+      "str": 9,
+      "con": 8
+    },
+    "skills": {
+      "Athletics": 9,
+      "Perception": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison",
+      "psychic"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 16",
+    "languages": [
+      "understands Common but can't speak"
+    ],
+    "challenge_rating": "8",
+    "xp": 3900,
+    "features": [
+      {
+        "name": "Bound",
+        "description": "The dragon is magically bound to three circlets. As long as the dragon is within 1 mile of a circlet wearer on the same plane of existence, the wearer can communicate telepathically with the dragon. While the dragon is active, the wearers see through its eyes and hear what it hears. During this time, the wearers are deaf and blind with regard to their own senses. If only two circlet wearers are within 1 mile of the active dragon, each hour spent wearing the circlets imposes one level of exhaustion on those wearers. If only a single wearer is within 1 mile of the active dragon, each minute spent wearing the circlet gives that wearer one level of exhaustion. If no circlet wearers are within 1 mile of the dragon, it views all creatures it can see as enemies and tries to destroy them until a circlet wearer communicates with the dragon or the dragon is destroyed. A circlet wearer can use its action to put the dragon in an inactive state where it becomes incapacitated until a wearer uses an action to switch the dragon to active. Each circlet is a magic item that must be attuned."
+      },
+      {
+        "name": "Immutable Form",
+        "description": "The dragon is immune to any spell or effect that would alter its form."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "The dragon has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Siege Monster",
+        "description": "The dragon deals double damage to objects and structures."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The dragon can use its Oil Spray. It then makes three attacks: one with its bite and two with its fists."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 17 (2d10 + 6) piercing damage plus 3 (1d6) fire damage."
+      },
+      {
+        "name": "Fist",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) bludgeoning damage."
+      },
+      {
+        "name": "Fire Breath (Recharge 6)",
+        "description": "The dragon exhales fire in a 30-foot cone. Each creature in that area must make a DC 16 Dexterity saving throw, taking 35 (10d6) fire damage on a failed save, or half as much damage on a successful one."
+      },
+      {
+        "name": "Oil Spray",
+        "description": "The dragon sprays oil in a 30-foot-cone. Each creature in the area must succeed on a DC 16 Dexterity saving throw or become vulnerable to fire damage until the end of the dragon's next turn."
+      },
+      {
+        "name": "Tail Sweep",
+        "description": "The dragon swings its bladed tail. Each creature within 10 feet of the dragon must make a DC 17 Dexterity saving throw, taking 15 (2d8 + 6) slashing damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.112)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Dragonborn, Edjet",
+    "size": "Medium",
+    "type": "humanoid (dragonborn)",
+    "alignment": "lawful neutral",
+    "armor_class": 14,
+    "ac_type": "chain shirt",
+    "hit_points": "52 (8d8 + 16)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "str": 6,
+      "con": 5
+    },
+    "skills": {
+      "Athletics": 6,
+      "Perception": 4
+    },
+    "damage_resistances": [
+      "fire"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 14",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Line of Battle",
+        "description": "When the dragonborn edjet is within 5 feet of two allies that aren't incapacitated, it has advantage on saving throws against being frightened."
+      },
+      {
+        "name": "Martial Advantage",
+        "description": "Once per turn, the dragonborn edjet can deal an extra 10 (3d6) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the edjet that isn't incapacitated."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The dragonborn edjet makes two melee or ranged attacks."
+      },
+      {
+        "name": "Halberd",
+        "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 8 (1d10 + 3) slashing damage."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+      },
+      {
+        "name": "Shortbow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 4 (1d6 + 1) piercing damage."
+      },
+      {
+        "name": "Fire Breath (Recharges after a Short or Long Rest)",
+        "description": "The dragonborn edjet exhales fire in a 15-foot cone. Each creature in that area must make a DC 13 Dexterity saving throw, taking 10 (3d6) fire damage on a failed save, or half as much damage on a successful one.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.121)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Dragonborn, Elementalist",
+    "size": "Medium",
+    "type": "humanoid (dragonborn)",
+    "alignment": "lawful neutral",
+    "armor_class": 15,
+    "ac_type": "studded leather",
+    "hit_points": "45 (7d8 + 14)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 16,
+      "constitution": 15,
+      "intelligence": 12,
+      "wisdom": 10,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "Arcana": 3,
+      "Stealth": 5
+    },
+    "damage_resistances": [
+      "one of fire, lightning, cold, or poison (see Elemental Focus)"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Elemental Focus",
+        "description": "Each dragonborn elementalist permanently aligns with a particular element. This elemental focus grants the dragonborn resistance to a certain damage type and the ability to innately cast some spells. Its spellcasting ability is Charisma (spell save DC 13, +5 to hit with spell attacks). Flame (Fire): The dragonborn has resistance to fire damage. It can cast the produce flame cantrip at will and can cast heat metal or scorching ray three times per day. Storm (Air): The dragonborn has resistance to lightning damage. It can cast the shocking grasp cantrip at will and can cast blur or gust of wind three times per day. Tide (Water): The dragonborn has resistance to cold damage. It can cast the ray of frost cantrip at will and can cast sleet storm or water breathing three times per day. Cave (Earth): The dragonborn has resistance to poison damage. It can cast the blade ward cantrip at will and can cast meld into stone or shatter three times per day."
+      },
+      {
+        "name": "War Mage",
+        "description": "When making an opportunity attack, the dragonborn can cast a spell with a casting time of 1 action instead of making a weapon attack. If this spell requires a ranged attack roll, the dragonborn doesn't have disadvantage on the attack roll from being within 5 feet of a hostile creature, though it may still have disadvantage from other sources. This spell must only target the creature that provoked the opportunity attack."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The dragonborn makes two scimitar attacks."
+      },
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) slashing damage."
+      },
+      {
+        "name": "Fire Breath (Recharges after a Short or Long Rest)",
+        "description": "The dragonborn breathes elemental energy in a 15-foot cone. Each creature in that area must make a DC 12 Dexterity saving throw, taking 10 (3d6) damage of the elementalist's elemental focus type on a failed save, or half as much damage on a successful one.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.122)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Dragonborn, Heavy Cavalry",
+    "size": "Medium",
+    "type": "humanoid (dragonborn)",
+    "alignment": "lawful neutral",
+    "armor_class": 19,
+    "ac_type": "splint, shield",
+    "hit_points": "75 (10d8 + 30)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 17,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 4
+    },
+    "damage_resistances": [
+      "fire"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 12",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Cavalry Charge",
+        "description": "If the dragonborn moves at least 20 feet straight toward a creature while mounted and then hits with a lance attack on the same turn, it can make a trample attack against that creature as a bonus action."
+      },
+      {
+        "name": "Locked Saddle",
+        "description": "The dragonborn can't be knocked prone, dismounted, or moved against its will while mounted."
+      },
+      {
+        "name": "Mounted Warrior",
+        "description": "The dragonborn is rarely seen without its giant lizard mount. The lizard wears custom scale mail that raises its Armor Class to 15. While the dragonborn is mounted, the giant lizard can't be charmed or frightened."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Lance",
+        "description": "Melee Weapon Attack: +4 to hit, reach 10 ft., one target. Hit: 8 (1d12 + 2) piercing damage."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+      },
+      {
+        "name": "Trample (Mounted Only)",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage and the target must succeed on a DC 13 Strength saving throw or be knocked prone."
+      },
+      {
+        "name": "Fire Breath (Recharges after a Short or Long Rest)",
+        "description": "The dragonborn breathes fire in a 15-foot cone. All creatures in that area must make a DC 13 Dexterity saving throw, taking 10 (3d6) fire damage on a failed save, or half as much damage on a successful one.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.123)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Dragonborn, Light Cavalry",
+    "size": "Medium",
+    "type": "humanoid (dragonborn)",
+    "alignment": "lawful neutral",
+    "armor_class": 14,
+    "ac_type": "leather, shield",
+    "hit_points": "39 (6d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 15,
+      "intelligence": 8,
+      "wisdom": 14,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 4,
+      "Perception": 4
+    },
+    "damage_resistances": [
+      "fire"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 14",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Infantry Slayer",
+        "description": "While mounted, the dragonborn has advantage on melee weapon attacks against creatures that are Medium or smaller and are not mounted."
+      },
+      {
+        "name": "Mounted Warrior",
+        "description": "While mounted, the dragonborn's mount can't be charmed or frightened."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Cavalry Saber",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+      },
+      {
+        "name": "Shortbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft., one target. Hit: 4 (1d6 + 1) piercing damage."
+      },
+      {
+        "name": "Fire Breath (Recharges after a Short or Long Rest)",
+        "description": "The dragonborn breathes fire in a 15-foot cone. All creatures in that area must make a DC 12 Dexterity saving throw, taking 10 (3d6) fire damage on a failed save, or half as much damage on a successful one.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.124)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Giant Moth, Rimewing",
+    "size": "Small",
+    "type": "beast",
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "ac_type": "",
+    "hit_points": "22 (5d6 + 5)",
+    "speed": "25 ft., fly 30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 3,
+      "wisdom": 10,
+      "charisma": 7
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 2,
+      "Stealth": 4
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "cold"
+    ],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Antennae",
+        "description": "The giant moth has advantage on Wisdom (Perception) checks that rely on smell."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Proboscis",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+      },
+      {
+        "name": "Frosted Wings (1/Day)",
+        "description": "A 20-foot radius cloud of colorful ice crystals extends from the rimewing. Each creature in that area must succeed on a DC 10 Wisdom saving throw or be charmed by the rimewing",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.178)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Rotten Goreling",
+    "size": "Small",
+    "type": "undead",
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "ac_type": "",
+    "hit_points": "11 (2d6 + 4)",
+    "speed": "20 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 1,
+      "wisdom": 5,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 7",
+    "languages": [],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [
+      {
+        "name": "Bloodthirsty",
+        "description": "If 6 or more gorelings are within 30 feet of one another, they become frenzied and their attacks deal an extra 2 (1d4) necrotic damage."
+      },
+      {
+        "name": "Swarming",
+        "description": "Up to five gorelings can occupy the same space."
+      },
+      {
+        "name": "Undead Nature",
+        "description": "The goreling doesn’t require air, food, drink, or sleep."
+      },
+      {
+        "name": "Putrid Stench",
+        "description": "Rotten gorelings emit a terrible, sweet stench. Each creature that starts its turn within 30 feet of the goreling must succeed on a DC 13 Constitution saving throw or have disadvantage on attack rolls for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature’s saving throw is successful or the effect ends for it, the creature is immune to the Putrid Stench of all gorelings for the next 24 hours."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage plus 2 (1d4) necrotic damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Multiplying",
+        "description": "When a goreling is hit but not reduced to 0 hp, it splits into two new gorelings. Each new goreling has 1 hp, doesn’t have this reaction, and is one size smaller than the original goreling."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.207)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Kobold, King",
+    "size": "Small",
+    "type": "humanoid (kobold)",
+    "alignment": "lawful neutral",
+    "armor_class": 15,
+    "ac_type": "18 with mage armor",
+    "hit_points": "112 (25d6 + 25)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 20,
+      "constitution": 12,
+      "intelligence": 14,
+      "wisdom": 14,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "dex": 8,
+      "int": 5
+    },
+    "skills": {
+      "Deception": 5,
+      "Insight": 8,
+      "Intimidation": 8,
+      "Persuasion": 8
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "6",
+    "xp": 2300,
+    "features": [
+      {
+        "name": "Cunning Action",
+        "description": "On each of its turns, the king kobold can use a bonus action to take the Dash, Disengage, or Hide action."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the king kobold is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the king instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Pack Tactics",
+        "description": "The king has advantage on attack rolls against a creature if at least one of the king’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "The king kobold deals an extra 14 (4d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the king that isn’t incapacitated and the king doesn’t have disadvantage on the attack roll."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the king has disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The king kobold is a 4th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). It has the following wizard spells prepared:\nCantrips (at will): fire bolt, mage hand, minor illusion, poison spray\n1st level (4 slots): alarm, grease, mage armor\n2nd level (3 slots): alter self, hold person, invisibility"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The king kobold makes two shortsword attacks."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 8 (1d6 + 5) piercing damage."
+      },
+      {
+        "name": "Hand Crossbow",
+        "description": "Ranged Weapon Attack: +8 to hit, range 30/120 ft., one target. Hit: 8 (1d6 + 5) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Uncanny Dodge",
+        "description": "The king kobold halves the damage from one attack that hits it. To do so, it must see the attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.239)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Kobold, Swolbold",
+    "size": "Medium",
+    "type": "humanoid (kobold)",
+    "alignment": "chaotic neutral",
+    "armor_class": 14,
+    "ac_type": "scale mail",
+    "hit_points": "65 (10d8 + 20)",
+    "speed": "20 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 11,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 12,
+      "charisma": 7
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6
+    },
+    "damage_resistances": [
+      "bludgeoning"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [
+      "Draconic"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Leaping Attack",
+        "description": "If the swolbold uses the Dash action on its turn and stops within 5 feet of a creature, it can make one slam attack with disadvantage as a bonus action against that creature."
+      },
+      {
+        "name": "Pack Tactics",
+        "description": "The swolbold has advantage on attack rolls against a creature if at least one of the swolbold’s allies is within 5 feet of the creature and the ally isn’t incapacitated."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the swolbold has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage. If the target is a Large or smaller creature, it is grappled (escape DC 14). Until the grapple ends, the target is restrained and the swolbold can’t make slam attacks against other targets."
+      },
+      {
+        "name": "Crush",
+        "description": "One creature grappled by the swolbold must make a DC 14 Strength saving throw, taking 21 (5d6 + 4) bludgeoning damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.240)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Mantik",
+    "size": "Huge",
+    "type": "monstrosity",
+    "alignment": "lawful evil",
+    "armor_class": 16,
+    "ac_type": "natural armor",
+    "hit_points": "168 (16d12 + 64)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 14,
+      "constitution": 18,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "Str": 8,
+      "Con": 8
+    },
+    "skills": {
+      "Athletics": 8,
+      "Intimidation": 7,
+      "Perception": 6
+    },
+    "damage_resistances": [
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "poisoned"
+    ],
+    "senses": "darkvision 120 ft., passive Perception 16",
+    "languages": [
+      "Common",
+      "Draconic",
+      "Dwarvish"
+    ],
+    "challenge_rating": "9",
+    "xp": 5000,
+    "features": [
+      {
+        "name": "Cursed",
+        "description": "Mantik may not fly, levitate, or be polymorphed by any spell or effect."
+      },
+      {
+        "name": "Legendary Resistance (2/Day)",
+        "description": "If Mantik fails a saving throw, he can choose to succeed instead.",
+        "uses": 2,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Magic Weapons",
+        "description": "Mantik's weapon attacks are magical."
+      },
+      {
+        "name": "Merciless Ferocity",
+        "description": "Mantik has advantage on all opportunity attacks, and a creature reduced to 0 hp by his attacks has disadvantage on its first death saving throw."
+      },
+      {
+        "name": "Penetrating Volley",
+        "description": "If Mantik moves at least 20 feet in a straight line, all tail spike attacks made this round have advantage. A creature struck by these tail spike attacks must succeed on a DC 16 Strength saving throw or be knocked prone."
+      },
+      {
+        "name": "Tail Spike Regrowth",
+        "description": "Mantik has thirty-six tail spikes. Used spikes regrow when he finishes a long rest."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Mantik makes three attacks: two with his claws and one with his bite or three with his tail spikes."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5ft., one target. Hit: 13 (2d8 + 4) piercing damage."
+      },
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5ft., one target. Hit: 11 (2d6 + 4) slashing damage."
+      },
+      {
+        "name": "Tail Spike",
+        "description": "Ranged Weapon Attack: +6 to hit, range 100/200 ft., one target. Hit: 11 (2d8 + 2) piercing damage and the creature must succeed on a DC 16 Constitution saving throw or be poisoned until the end of its next turn. A creature poisoned by the tail spike has its speed halved and can't take the Dash action."
+      },
+      {
+        "name": "Roar of the Barbed King (Recharge 5-6)",
+        "description": "Mantik unleashes an ground-shaking roar. Each creature within 60 feet who can hear him must succeed on a DC 14 Wisdom saving throw or be incapacitated for 1d4 rounds.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [
+      {
+        "name": "Move",
+        "description": "Mantik moves up to his speed without provoking opportunity attacks."
+      },
+      {
+        "name": "Growl (Costs 2 Actions)",
+        "description": "Mantik lets loose a throaty growl. Each creature within 60 feet who can hear Mantik must succeed on a DC 14 Wisdom saving throw or be frightened of him until the end of its next turn."
+      },
+      {
+        "name": "Tail Spike (Costs 2 Actions)",
+        "description": "Mantik makes a tail spike attack."
+      }
+    ],
+    "source": "(Creature Codex, p.262)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Philosopher’s Ghost",
+    "size": "Medium",
+    "type": "ooze",
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "77 (14d8 + 14)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 17,
+      "constitution": 12,
+      "intelligence": 2,
+      "wisdom": 10,
+      "charisma": 6
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "acid",
+      "cold",
+      "slashing from nonmagical attacks"
+    ],
+    "damage_immunities": [
+      "fire",
+      "poison"
+    ],
+    "condition_immunities": [
+      "blinded",
+      "charmed",
+      "deafened",
+      "exhaustion",
+      "frightened",
+      "prone"
+    ],
+    "senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 10",
+    "languages": [],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Illumination",
+        "description": "The philosopher’s ghost sheds bright light in a 20-foot-radius and dim light for an additional 20 feet."
+      },
+      {
+        "name": "Persistent Burning Form",
+        "description": "The philosopher’s ghost can move through a space as narrow as 1 inch wide without squeezing. A creature that touches the ghost or hits it with a melee attack while within 5 feet of it takes 5 (1d10) fire damage. In addition, the philosopher’s ghost can enter a hostile creature’s space and stop there. The first time it enters a creature’s space on a turn, that target takes 5 (1d10) fire damage and catches fire; until a creature takes an action to douse the fire, the target takes 5 (1d10) fire damage at the start of each of its turns."
+      },
+      {
+        "name": "Siege Monster",
+        "description": "The philosopher’s ghost deals double damage to objects and structures."
+      },
+      {
+        "name": "Water Vulnerability",
+        "description": "If completely immersed in water, a philosopher’s ghost’s movement halves each round until it stops moving completely, becoming incapacitated, and contact with it no longer causes damage. As soon as any portion of it is exposed to the air again, it resumes moving at full speed."
+      },
+      {
+        "name": "Ooze Nature",
+        "description": "A philosopher’s ghost doesn’t require sleep."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The philosopher’s ghost makes two burning touch attacks."
+      },
+      {
+        "name": "Burning Touch",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) fire damage. If the target is a creature, it suffers a burning lesion, taking 2 (1d4) fire damage at the start of each of its turns. Any creature can take an action to soothe the burning lesion with a successful DC 12 Wisdom (Medicine) check. The lesion is also soothed if the target receives magical healing."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.297)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Red Queen Terror Bird",
+    "size": "Large",
+    "type": "beast",
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "ac_type": "natural armor",
+    "hit_points": "65 (10d8 + 20)",
+    "speed": "50 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 3,
+      "wisdom": 12,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6,
+      "Perception": 3
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 13",
+    "languages": [],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Pack Tactics",
+        "description": "The terror bird has advantage on attack rolls against a creature if at least one of the bird's allies is within 5 feet of the creature and the ally isn't incapacitated."
+      },
+      {
+        "name": "Passing Bite",
+        "description": "Terror birds who move at least 20 feet straight toward a target have advantage on the next attack roll against that target."
+      },
+      {
+        "name": "Multiattack",
+        "description": "The red queen terror bird makes two serrated beak attacks."
+      },
+      {
+        "name": "Limited Levitation",
+        "description": "The red queen terror bird gains a limited form of levitation, which allows them to \"run uphill\" on empty air or to cross chasms. This movement must be completed between two portions of solid ground within two turns (with Dash actions, a red queen bird can move up to 200 feet over empty space)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Serrated Beak",
+        "description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (3d6 + 4) slashing damage. The target must succeed on a DC 12 Constitution saving throw or take 7 (2d6) slashing damage at the beginning of its next turn."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.352)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Tosculi Jeweled Drone",
+    "size": "Small",
+    "type": "humanoid (tosculi)",
+    "alignment": "lawful evil",
+    "armor_class": 15,
+    "ac_type": "natural armor",
+    "hit_points": "90 (12d6 + 48)",
+    "speed": "30 ft., fly 60 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 18,
+      "constitution": 18,
+      "intelligence": 14,
+      "wisdom": 14,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 5,
+      "Insight": 4,
+      "Persuasion": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "frightened"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 12",
+    "languages": [
+      "Common",
+      "Infernal",
+      "Tosculi"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Pheromones",
+        "description": "The jeweled drone emits a sweet scent that empowers other tosculi within 15 feet of the drone. A tosculi that starts its turn within the area can add a d6 to one attack roll or saving throw it makes before the start of its next turn, provided it can smell the scent. A tosculi can benefit from only one Pheromones die at a time. This effect ends if the jeweled drone dies."
+      },
+      {
+        "name": "Scintillating Carapace",
+        "description": "While in bright light, the jeweled drone's carapace shines and glitters. When a non-tosculi creature that can see the drone starts its turn within 30 feet of the drone, the drone can force the creature to make a DC 12 Wisdom saving throw if the drone isn't incapacitated. On a failure, the creature is blinded until the start of its next turn. Unless surprised, a creature can avert its eyes to avoid the saving throw at the start of its turn. If it does so, it can't see the drone until the start of its next turn, when it can avert its eyes again. If it looks at the drone in the meantime, it must immediately make the save."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The jeweled drone makes three attacks: two with its claws and one with its scimitar."
+      },
+      {
+        "name": "Claws",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) slashing damage."
+      },
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) slashing damage plus 10 (3d6) poison damage. If the poison damage reduces the target to 0 hp, the target is stable but poisoned for 1 hour, even after regaining hp, and is paralyzed while poisoned in this way."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Protect the Queen",
+        "description": "When a creature makes an attack against a tosculi hive queen, the jeweled drone grants a +2 bonus to the queen's AC if the drone is within 5 feet of the queen."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.355)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Zombie, Lord",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "ac_type": "natural armor",
+    "hit_points": "82 (11d8 + 33)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 14,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "con": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Perception": 4
+    },
+    "damage_resistances": [
+      "bludgeoning, piercing, and slashing from nonmagical attacks not made with silver"
+    ],
+    "damage_immunities": [
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [
+      "the languages it knew in life"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Legendary Resistance (3/Day)",
+        "description": "If the lord fails a saving throw, it can choose to succeed instead.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Stench",
+        "description": "Any non-undead creature that starts its turn within 30 feet of the lord must succeed on a DC 16 Constitution saving throw or be poisoned until the start of the creature's next turn. On a successful saving throw, the creature is immune to the lord's Stench for 24 hours."
+      },
+      {
+        "name": "Undead Fortitude",
+        "description": "If damage reduces the lord to 0 hp, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the lord drops to 1 hp instead."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The lord zombie makes two slam attacks. It can use its Life Drain in place of one slam attack."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage."
+      },
+      {
+        "name": "Life Drain",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 6 (1d6 + 3) necrotic damage. The target must succeed on a DC 16 Constitution saving throw or its hp maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hp maximum to 0. A humanoid slain by this attack rises 24 hours later as a zombie under the lord's control, unless the humanoid is restored to life or its body is destroyed. The lord can have no more than twenty zombies under its control at one time."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [
+      {
+        "name": "Shambling Hordes",
+        "description": "The lord telepathically commands all zombies it controls within 1 mile to immediately move up to half their speed. A zombie that moves out of an enemy's reach because of this movement doesn't provoke an opportunity attack."
+      },
+      {
+        "name": "Life Drain (Costs 2 Actions)",
+        "description": "The lord makes a life drain attack."
+      },
+      {
+        "name": "Arise (Costs 3 Actions)",
+        "description": "The lord targets a humanoid corpse within 30 feet, which rises as a zombie under the lord's control."
+      }
+    ],
+    "source": "(Creature Codex, p.394)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Zombie, Mold",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "chaotic evil",
+    "armor_class": 13,
+    "ac_type": "natural armor",
+    "hit_points": "75 (10d8 + 30)",
+    "speed": "20 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 8,
+      "constitution": 16,
+      "intelligence": 3,
+      "wisdom": 6,
+      "charisma": 5
+    },
+    "saving_throws": {
+      "str": 5,
+      "wis": 0
+    },
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 8",
+    "languages": [],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Spore Death",
+        "description": "When the zombie is reduced to 0 hp and doesn't survive with its Undead Fortitude, it explodes in a cloud of spores. Each creature within 5 feet of the zombie must succeed on a DC 13 Constitution saving throw or take 9 (2d8) necrotic damage and contract iumenta pox (see Iumenta Pox sidebar)."
+      },
+      {
+        "name": "Undead Fortitude",
+        "description": "If damage reduces the zombie to 0 hp, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hp instead."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The zombie makes two slam attacks."
+      },
+      {
+        "name": "Slam",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage plus 7 (2d6) necrotic damage."
+      },
+      {
+        "name": "Plague Breath (Recharge 6)",
+        "description": "The zombie breathes a cloud of spores in 15-foot cone. Each creature in that area must succeed on a DC 13 Constitution saving throw or take 10 (3d6) necrotic damage and contract iumenta pox (see Iumenta Pox sidebar).",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Creature Codex, p.395)",
+    "_source_manual": "CC"
   }
 ]

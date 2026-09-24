@@ -16938,5 +16938,752 @@
     "xp_reward": 0,
     "source": "(The Rise of Tiamat)",
     "_source_manual": "RoT"
+  },
+  {
+    "name": "Parzelon",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Parzelon makes two melee attacks."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +13 to hit, reach 5 ft., one target. Hit: 14 (2d8 +5) piercing damage plus 14 (4d6) necrotic damage."
+      },
+      {
+        "name": "Serpentine Lash",
+        "description": "Melee Weapon Attack: +13 to hit, reach 10 ft., one target. Hit: 15 (4d4 +5) piercing damage plus 21 (6d6) poison damage."
+      },
+      {
+        "name": "Summon Devil (1/Day)",
+        "description": "Parzelon summons 1d4 barbed devils or 1d4 spawn of Parzelon. A summoned devil appears in an unoccupied space within 60 feet of Parzelon, acts as an ally, and can't summon other devils. It remains for 1 minute, or until Parzelon dismisses it as an action."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "",
+      "save_dc": 0,
+      "spells": {
+        "2nd": [
+          "darkness",
+          "hold person",
+          "locate object",
+          "suggestion"
+        ],
+        "3rd": [
+          "bestow curse",
+          "clairvoyance",
+          "haste",
+          "lightning bolt"
+        ],
+        "4th": [
+          "dimension door",
+          "greater invisibility",
+          "locate creature",
+          "phantasmal killer",
+          "polymorph"
+        ],
+        "5th": [
+          "dominate person",
+          "scrying",
+          "telekinesis",
+          "wall of force"
+        ],
+        "6th": [
+          "chain lightning",
+          "disintegrate"
+        ],
+        "7th": [
+          "plane shift",
+          "prismatic spray"
+        ],
+        "8th": [
+          "feeblemind"
+        ],
+        "9th": [
+          "foresight"
+        ]
+      }
+    },
+    "description": "Parzelon is a powerful devil with legendary actions, including the Horn of Nessus.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Creature Codex, p.102)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Vampire Priestess",
+    "race": "Undead",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Vampire Weaknesses",
+        "description": "The priestess has the following flaws: Forbiddance. The priestess can't enter a residence without an invitation from one of the occupants. Harmed by Running Water. The priestess takes 20 acid damage if she ends her turn in running water. Stake to the Heart. If a piercing weapon made of wood is driven into the priestess' heart while she is incapacitated in her resting place, the she is paralyzed until the stake is removed. Sunlight Hypersensitivity. The priestess takes 20 radiant damage when she starts her turn in sunlight. While in sunlight, she has disadvantage on attack rolls and ability checks."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The vampire priestess can use her Bewitching Gaze. She then makes two attacks, only one of which can be a bite attack."
+      },
+      {
+        "name": "Scourge",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, and the creature must succeed on a DC 16 Constitution saving throw or bleed profusely from the wound. A bleeding creature takes 7 (2d6) slashing damage at the start of each of its turns. A creature can take an action to stanch the wound with a successful DC 12 Wisdom (Medicine) check. The wound also closes if the target receives magical healing."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one willing creature, or a creature that is grappled by the vampire priestess, incapacitated, or restrained. Hit: 6 (1d6 + 3) piercing damage plus 7 (2d6) necrotic damage. The target's hp maximum is reduced by an amount equal to the necrotic damage taken, and the priestess regains hp equal to that amount. The reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hp maximum to 0. A humanoid slain in this way and then buried in the ground rises the following night as a vampire spawn under the priestess' control."
+      },
+      {
+        "name": "Bewitching Gaze",
+        "description": "The vampire priestess targets one humanoid she can see within 30 feet. If the target can see her, the target must succeed on a DC 16 Wisdom saving throw or be charmed by the priestess for 1 minute. While charmed, the creature is incapacitated and has a speed of 0. Each time the vampire priestess or her allies do anything harmful to the target, it can repeat the saving throw, ending the effect on a success. The target can also repeat the saving throw if another creature uses an action to shake the target out of its stupor."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "",
+      "save_dc": 0,
+      "attack_bonus": 0,
+      "spells": [
+        "Cantrips (at will): light, guidance, poison spray, thaumaturgy",
+        "1st level (4 slots): bane, command, inflict wounds, ray of sickness",
+        "2nd level (3 slots): blindness/deafness, silence, spiritual weapon",
+        "3rd level (3 slots): bestow curse, dispel magic, spirit guardians",
+        "4th level (3 slots): banishment, freedom of movement",
+        "5th level (1 slot): contagion, flame strike"
+      ],
+      "midgard_variant": [
+        "Cantrips (at will): blood tide*, guidance, poison spray, thaumaturgy",
+        "1st level (4 slots): command, find kin*, inflict wounds, ray of sickness",
+        "2nd level (3 slots): animate ghoul*, silence, spiritual weapon",
+        "3rd level (3 slots): bestow curse, conjure undead*, dispel magic",
+        "4th level (3 slots): banishment, freedom of movement",
+        "5th level (1 slot): cruor of visions*, exsanguinate*"
+      ]
+    },
+    "description": "The vampire priestess is trained in the use of blood magic.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Creature Codex, p.368)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Battle Mage",
+    "race": "any race",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 7,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "66 (12d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 18,
+      "wisdom": 14,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "con": 3,
+      "int": 6
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "features": [
+      {
+        "name": "Overchannel",
+        "description": "As a bonus action, a battle mage can overchannel its spells until the start of its next turn. A creature has disadvantage on its saving throws against an overchanneled spell. Attack rolls against the battle mage have advantage until the start of its next turn."
+      },
+      {
+        "name": "Tactical Casting",
+        "description": "When a battle mage casts a spell that causes damage or that forces a creature to make a saving throw, it can choose itself and any number of allies to be immune to the damage caused by the spell and to automatically succeed on the required saving throw."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The battle mage is a 7th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The battle mage has the following wizard spells prepared:\nCantrips (at will): fire bolt, mage hand, poison spray, shocking grasp\n1st level (4 slots): burning hands, mage armor, magic missile, thunderwave\n2nd level (3 slots): flaming sphere, misty step, shatter\n3rd level (3 slots): counterspell, fireball, lightning bolt\n4th level (1 slots): ice storm"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 14,
+      "to_hit": 6,
+      "level": 7,
+      "spells": {
+        "cantrips": [
+          "fire bolt",
+          "mage hand",
+          "poison spray",
+          "shocking grasp"
+        ],
+        "1st": [
+          "burning hands",
+          "mage armor",
+          "magic missile",
+          "thunderwave"
+        ],
+        "2nd": [
+          "flaming sphere",
+          "misty step",
+          "shatter"
+        ],
+        "3rd": [
+          "counterspell",
+          "fireball",
+          "lightning bolt"
+        ],
+        "4th": [
+          "ice storm"
+        ]
+      }
+    },
+    "description": "Battle mages are open vessels through which arcane energy pours raw, unfettered, and without regard for self-preservation.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 1100,
+    "source": "(Creature Codex, p.397)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Blood Mage",
+    "race": "any race",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 10,
+    "alignment": "any evil alignment",
+    "armor_class": 13,
+    "hit_points": "65 (10d8 + 20)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 18,
+      "wisdom": 12,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 7,
+      "Medicine": 4
+    },
+    "features": [
+      {
+        "name": "Absorb Impurities",
+        "description": "The blood mage can absorb poisons or diseases from another creature, living or dead, and turn it to the mage's use. It can expose a fresh cut to a source of disease or poison and safely absorb the dormant affliction into its blood stream. It can then inflict the disease or poison on another by spitting a stream of blood at the creature. On a successful hit as a ranged spell attack, the target is exposed to the disease or poison and must proceed with whatever saving throws are required."
+      },
+      {
+        "name": "Blood Savant",
+        "description": "When subjected to a disease or poison effect that allows a Constitution saving throw to take only half damage, the blood mage instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Blood Vision",
+        "description": "When the blood mage ingests the blood of another creature, it is stunned until the start of its next turn. During that time, the blood mage experiences a memory of the creature through its own eyes which may or may not be of the incident which caused the creature to bleed. The older the blood, the foggier and more obscure the memory is likely to be. Once the blood mage has consumed a creature's blood in this way, the same creature's blood will never again produce a memory for that blood mage."
+      },
+      {
+        "name": "Regeneration",
+        "description": "The blood mage holds power over the flow of its own blood and the speed at which it heals. The blood mage regains 10 hp at the start of its turn if it has at least 1 hp."
+      },
+      {
+        "name": "Spellcaster",
+        "description": "The blood mage is a 10th-level spellcaster. Its casting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). It has the following wizard spells prepared:\nCantrips (at will): acid splash, mage hand, mending, poison spray, prestidigitation\n1st level (4 slots): charm person, false life, mage armor, magic missile\n2nd level (3 slots): acid arrow, hold person\n3rd level (3 slots): dispel magic, feign death, fly, vampiric touch\n4th level (3 slots): black tentacles, blight\n5th level (2 slots): conjure elemental (blood or water only), scrying"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage."
+      },
+      {
+        "name": "Blood Feast (Recharge 5-6)",
+        "description": "The blood mage drains life-giving blood from nearby creatures. Each creature within 20 feet of the blood mage must succeed on a DC 15 Constitution saving throw, taking 35 (10d6) necrotic damage on a failed save, or half as much damage on a successful one. The blood mage gains temporary hp equal to the single highest amount of necrotic damage dealt. A creature that doesn't have blood is immune to Blood Feast."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 10,
+      "spells": {
+        "cantrips": [
+          "acid splash",
+          "mage hand",
+          "mending",
+          "poison spray",
+          "prestidigitation"
+        ],
+        "1st": [
+          "charm person",
+          "false life",
+          "mage armor",
+          "magic missile"
+        ],
+        "2nd": [
+          "acid arrow",
+          "hold person"
+        ],
+        "3rd": [
+          "dispel magic",
+          "feign death",
+          "fly",
+          "vampiric touch"
+        ],
+        "4th": [
+          "black tentacles",
+          "blight"
+        ],
+        "5th": [
+          "conjure elemental (blood or water only)",
+          "scrying"
+        ]
+      }
+    },
+    "description": "Drawing power from bloodletting, both its own and that of others, makes most civilizations fear and despise the blood mage, necessitating that it practice its dark arts in secret.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 2900,
+    "source": "(Creature Codex, p.397)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Doomspeaker",
+    "race": "any race",
+    "class_name": "Paladin",
+    "subclass": "",
+    "level": 12,
+    "alignment": "chaotic evil",
+    "armor_class": 15,
+    "hit_points": "78 (12d8 + 24)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 17,
+      "constitution": 15,
+      "intelligence": 10,
+      "wisdom": 12,
+      "charisma": 18
+    },
+    "saving_throws": {
+      "con": 5,
+      "wis": 4
+    },
+    "skills": {
+      "Religion": 6
+    },
+    "features": [
+      {
+        "name": "Aura of the Funeral Feast",
+        "description": "The doomspeaker gains 10 (3d6) temporary hp whenever a creature dies within 10 feet of it."
+      },
+      {
+        "name": "Pervasive Unholy Smite",
+        "description": "Whenever the doomspeaker deals damage with a melee weapon attack, the target takes an extra 9 (2d8) necrotic damage (included in the attack). This damage increases to 13 (3d8) if the target is a celestial, a good-aligned dragon, or a fey."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The doomspeaker is a 12th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). It has the following paladin spells prepared:\n1st level (4 slots): command, searing smite, shield of faith\n2nd level (3 slots): branding smite, locate object, magic weapon, protection from poison\n3rd level (3 slots): aura of vitality, blinding smite, dispel magic"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The doomspeaker makes two shortsword attacks."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage plus 9 (2d8) necrotic damage."
+      }
+    ],
+    "equipment": [
+      "shield",
+      "shortsword"
+    ],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 12,
+      "class": "Paladin",
+      "spells": {
+        "1st": [
+          "command",
+          "searing smite",
+          "shield of faith"
+        ],
+        "2nd": [
+          "branding smite",
+          "locate object",
+          "magic weapon",
+          "protection from poison"
+        ],
+        "3rd": [
+          "aura of vitality",
+          "blinding smite",
+          "dispel magic"
+        ]
+      }
+    },
+    "description": "The only creatures more vile than demons—creatures born irredeemably evil—are those who willingly adopt a demon's cruel ways. Worst among the demon worshipers are the fallen paladins known as doomspeakers, warriors so ensorcelled by power that they would burn the world just to rule its ashes.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 2300,
+    "source": "(Creature Codex, p.399)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Cleric of the Brew",
+    "race": "Dwarf",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 8,
+    "alignment": "any good",
+    "armor_class": 18,
+    "hit_points": "104 (16d8 + 32)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 10,
+      "constitution": 15,
+      "intelligence": 11,
+      "wisdom": 18,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "con": 5,
+      "wis": 7
+    },
+    "skills": {
+      "Medicine": 7,
+      "Persuasion": 4,
+      "Religion": 3
+    },
+    "features": [
+      {
+        "name": "Master Brewer",
+        "description": "The cleric has a +6 bonus on ability checks to brew beer, has advantage on saving throws against poison, and can't be intoxicated unless it chooses to be."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The cleric of the brew is an 8th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). It has the following cleric spells prepared:\nCantrips (at will): guidance, light, mending, sacred flame\n1st level (4 slots): cure wounds, healing word, heroism, purify food and drink\n2nd level (3 slots): hold person, prayer of healing, spiritual weapon\n3rd level (3 slots): aura of vitality, dispel magic, spirit guardians\n4th level (2 slots): confusion, freedom of movement"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The cleric can use its Intoxicating Burp. It then makes two divine strike attacks."
+      },
+      {
+        "name": "Divine Strike",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) bludgeoning damage plus 9 (2d8) radiant damage."
+      },
+      {
+        "name": "Divine Brew",
+        "description": "The cleric drinks, or administers to an ally, one of the beer goddess' holy ales. For 1 minute, the drinker is immune to being frightened, gains 7 (2d6) temporary hp, and has advantage on ability checks based on Charisma. The creature can't benefit from Blessed Brew again until it finishes a short or long rest."
+      },
+      {
+        "name": "Intoxicating Burp",
+        "description": "The cleric of the brew belches revoltingly in the face of a single creature within 5 feet. The target must succeed on a DC 15 Constitution saving throw or become poisoned for 1 minute. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the cleric's Intoxicating Burp for the next 24 hours."
+      },
+      {
+        "name": "Boot and Rally (Recharges after a Short or Long Rest)",
+        "description": "Allies within 30 feet of the cleric who are frightened, paralyzed, poisoned, or stunned by an effect that allows repeated saving throws (such as a dragon's Frightful Presence) have advantage on the next saving throw. A creature that succeeds on the saving throw regains 7 (2d6) hp."
+      }
+    ],
+    "equipment": [
+      "chain mail",
+      "shield",
+      "mace"
+    ],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 8,
+      "class": "Cleric",
+      "spells": {
+        "cantrips": [
+          "guidance",
+          "light",
+          "mending",
+          "sacred flame"
+        ],
+        "1st": [
+          "cure wounds",
+          "healing word",
+          "heroism",
+          "purify food and drink"
+        ],
+        "2nd": [
+          "hold person",
+          "prayer of healing",
+          "spiritual weapon"
+        ],
+        "3rd": [
+          "aura of vitality",
+          "dispel magic",
+          "spirit guardians"
+        ],
+        "4th": [
+          "confusion",
+          "freedom of movement"
+        ]
+      }
+    },
+    "description": "Dwarves love their beer, so it is no surprise that many of them revere the goddess of beer. Clerics of the brew are talented brewers, creating delicious full-flavored mundane ales, but they can also channel the power of the goddess to make special \"blessed\" brews to aid her followers. They are capable fighters and are often found in the front ranks of dwarven war bands, swinging their maces and inspiring their comrades.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 1800,
+    "source": "(Creature Codex, p.399)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Graveslayer",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "any non-evil alignment",
+    "armor_class": 18,
+    "hit_points": "112 (15d8 + 45)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 10,
+      "constitution": 17,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "plate"
+    ],
+    "spellcasting": null,
+    "description": "Pious servants of the sun god, dwarven graveslayers belong to an elite group of undead-slaying warriors. Trained and drilled from an early age in the art of battle, these dwarves are molded into fanatical fighters against the skeletons, zombies, and worse creatures that threaten their mountain homeland. Although not full paladins, the graveslayers have blessings from the sun god that grant them the ability to channel holy power through their weapons and ensure that the undead they slay do not rise up again. The bodies of any fallen comrades are carried back home whenever possible to ensure they do not line up against the dwarves as undead opponents in the future.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Creature Codex, p.400)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Scorpion Assassin",
+    "race": "any race",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 5,
+    "alignment": "neutral evil",
+    "armor_class": 17,
+    "hit_points": "105 (14d8 + 42)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 20,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 18,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "dex": 8,
+      "wis": 7
+    },
+    "skills": {
+      "Deception": 6,
+      "Perception": 7,
+      "Stealth": 8
+    },
+    "features": [
+      {
+        "name": "Assassinate",
+        "description": "During its first turn, the assassin has advantage on attack rolls against any creature that hasn't taken a turn. Any hit the assassin scores against a surprised creature is a critical hit."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the scorpion assassin is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the assassin instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "Once per turn, the scorpion assassin deals an extra 17 (5d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the assassin that isn't incapacitated and the assassin doesn't have disadvantage on the attack roll."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The assassin is a 5th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). The assassin has the following cleric spells prepared.\nCantrips (at will): guidance, light, mending, thaumaturgy\n1st level (4 slots): bane, command, inflict wounds, shield of faith\n2nd level (3 slots): blindness/deafness, hold person, silence\n3rd level (2 slots): bestow curse, meld into stone"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The scorpion assassin makes two scorpion stiletto attacks."
+      },
+      {
+        "name": "Scorpion Stiletto",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d4 + 5) piercing damage, and the target must make a DC 14 Constitution saving throw. On a failure, the target takes 24 (7d6) poison damage and is poisoned for 1 minute. On a success, the target takes half the damage and isn't poisoned."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 5,
+      "spells": {
+        "cantrips": [
+          "guidance",
+          "light",
+          "mending",
+          "thaumaturgy"
+        ],
+        "1st": [
+          "bane",
+          "command",
+          "inflict wounds",
+          "shield of faith"
+        ],
+        "2nd": [
+          "blindness/deafness",
+          "hold person",
+          "silence"
+        ],
+        "3rd": [
+          "bestow curse",
+          "meld into stone"
+        ]
+      }
+    },
+    "description": "Medium humanoid (any race), neutral evil",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 3900,
+    "source": "(Creature Codex, p.405)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "Thief Lord",
+    "race": "any race",
+    "class_name": "Rogue",
+    "subclass": "",
+    "level": 0,
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "hit_points": "66 (12d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 18,
+      "constitution": 12,
+      "intelligence": 14,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "dex": 7,
+      "int": 5
+    },
+    "skills": {
+      "Acrobatics": 7,
+      "Deception": 9,
+      "Investigation": 5,
+      "Perception": 5,
+      "Persuasion": 6,
+      "Stealth": 10
+    },
+    "features": [
+      {
+        "name": "Cunning Action",
+        "description": "On each of its turns, the thief lord can use a bonus action to take the Dash, Disengage, or Hide action."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Medium humanoid (any race), lawful evil",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 3900,
+    "source": "(Creature Codex, p.406)",
+    "_source_manual": "CC"
+  },
+  {
+    "name": "War Chaplain",
+    "race": "",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The war chaplain is a spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The war chaplain has the following cleric spells prepared:\nCantrips (at will): light, resistance, sacred flame, spare the dying\n1st level (4 slots): bless, cure wounds, healing word, protection from evil and good\n2nd level (3 slots): lesser restoration, spiritual weapon\n3rd level (2 slots): beacon of hope"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The war chaplain makes two melee attacks."
+      },
+      {
+        "name": "Longsword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) slashing damage or 7 (1d10 + 2) slashing damage if used with two hands."
+      },
+      {
+        "name": "War God’s Healing (Recharge 5-6)",
+        "description": "The war chaplain targets one ally within 30 feet engaged in melee combat. The target regains 10 (3d6) hit points."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A war chaplain leads with words, actions, and no small amount of physical violence against its enemies.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Creature Codex, p.411)",
+    "_source_manual": "CC"
   }
 ]

@@ -4409,3 +4409,252 @@ Stats: 3 chunks → 5 raw → 5 valid → 5 new
   [27/30] Appendix A: NPC Codex (50,115 chars)
     Chunk 0 (7,168 chars) → 2 items {'npcs': 2} (6.2s)
     Chunk 1 (7,537 chars) → 3 items {'npcs': 3} (7.3s)
+    Chunk 2 (7,687 chars) → 3 items {'monsters': 3} (6.5s)
+    Chunk 3 (7,097 chars) → 4 items {'monsters': 4} (6.7s)
+    Chunk 4 (5,997 chars) → 3 items {'npcs': 3} (6.6s)
+    Chunk 5 (7,424 chars) → 3 items {'monsters': 3} (6.3s)
+    Chunk 6 (7,037 chars) → 2 items {'monsters': 2} (4.8s)
+    Chunk 7 (2,968 chars) → 2 items {'monsters': 1, 'npcs': 1} (3.7s)
+    Intra-book dedup: removed 1 duplicate(s), upgraded 1 with better version
+    ⚠ Validation issues: 2
+      - Monster Gnomish Knife Cultist: rejected (missing AC=0, HP=)
+      - Monster Thief Lord: rejected (missing AC=0, HP=)
+
+── Chapter Readout: Appendix A: NPC Codex ──
+Stats: 8 chunks → 21 raw → 19 valid → 19 new
+  1 intra-chapter duplicates removed
+  2 entries rejected by validation
+  monsters: 10 — Graveslayer, Gear Mage, Elfmarked Human, Metee-Kolen-Ol, Necromancer, Void Cultist, Void Speaker, Voidwracked Mage (+2 more)
+  npcs: 9 — Battle Mage, Blood Mage, Doomspeaker, Cleric of the Brew, Graveslayer, Necromancer, Scorpion Assassin, Thief Lord (+1 more)
+  [28/30] Appendix B: Creatures by Type (16,208 chars)
+    Chunk 0 (7,629 chars) → 0 items {} (0.8s)
+    Chunk 1 (8,979 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: Appendix B: Creatures by Type ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [29/30] Appendix C: Creatures by Challenge (17,418 chars)
+    Chunk 0 (8,682 chars) → 0 items {} (0.9s)
+    Chunk 1 (9,136 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Appendix C: Creatures by Challenge ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [30/30] Appendix D: Creatures by Terrain (22,843 chars)
+    Chunk 0 (6,104 chars) → 0 items {} (0.8s)
+    Chunk 1 (5,902 chars) → 0 items {} (0.9s)
+    Chunk 2 (8,784 chars) → 0 items {} (1.0s)
+    Chunk 3 (3,238 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Appendix D: Creatures by Terrain ──
+Stats: 4 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+    ⚠ Validation issues: 1
+      - Item Bookkeeper's Book: unknown rarity=
+
+  ✓ Extraction complete: 410 new entries across 30 chapter(s)
+    magic_items: 7 — Alp's Cap, Bookkeeper's Book, Carbuncle's Garnet, Cloud Pipes of Chittr'k'k, Ebon Shards (+2 more)
+    monsters: 391 — Aatxe, Acid Ant, Agnibarra, Ahuizotl, Ahu-Nixta (+386 more)
+    npcs: 11 — Parzelon, Vampire Priestess, Battle Mage, Blood Mage, Doomspeaker (+6 more)
+    spells: 1 — Call a Roggenwolf
+  spells.json: +1 (skipped 0 duplicate(s)) → 326 total
+  magic_items.json: +2 (skipped 5 duplicate(s)) → 858 total
+  monsters.json: +16 (skipped 375 duplicate(s)) → 1745 total
+  npcs.json: +10 (skipped 1 duplicate(s)) → 516 total
+
+_meta.json updated: totals{'spells': 1, 'magic_items': 2, 'monsters': 16, 'npcs': 10}, source_manuals+CC, pdf_map[CC]
+Appended 29 entries from CC
+[2026-09-24 15:31:58]   ok: 0 entr(ies) added, 0 source slug(s) remapped; totals {'races': 100, 'spells': 326, 'magic_items': 858, 'equipment': 280, 'monsters': 1745, 'npcs': 516, 'feats': 109, 'backgrounds': 56, 'subclasses': 99, 'traps': 249}
+[2026-09-24 15:31:58]   ok: 0 entr(ies) added, 0 source slug(s) remapped; totals {'races': 100, 'spells': 326, 'magic_items': 858, 'equipment': 280, 'monsters': 1745, 'npcs': 516, 'feats': 109, 'backgrounds': 56, 'subclasses': 99, 'traps': 249}
+[2026-09-24 15:31:58] --- EBT (Book of Ebon Tides) ---
+[2026-09-24 15:31:58] --- EBT (Book of Ebon Tides) ---
+
+============================================================
+Processing: Book of Ebon Tides (EBT)
+  PDF: DnD-Manuals/5e Kobold Press Resources/Book_of_Ebon_Tides.pdf (50428 KB)
+  Text cached (813,770 chars)
+  Detected 13 chapters from TOC:
+    p6-6: Introduction
+    p7-21: Overview and History
+    p22-40: Umbral People and Heroes
+    p41-50: Heroes from the Shadows
+    p51-71: Magic in the Shadow Realm
+    p72-82: The Nature of Shadow
+    p83-139: Fey Courts and Servitors
+    p140-163: Umbral Pantheon
+    p164-192: Monsters and NPCs
+    p193-210: Magic Items and Trickery
+    p211-222: Appendix: Life in the Shadow Realm
+    p223-232: Appendix: Shadow Realm Encounters
+    p233-9999: Appendix: Shadow Realm  Creatures by Terrain
+  13 chapter(s) with text retained
+  13 chapter(s), 0 completed, 0 with errors
+
+  [1/13] Introduction (2,667 chars)
+    Chunk 0 (2,667 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Introduction ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/13] Overview and History (53,741 chars)
+    Chunk 0 (6,860 chars) → 0 items {} (1.0s)
+    Chunk 1 (6,023 chars) → 0 items {} (1.0s)
+    Chunk 2 (6,660 chars) → 0 items {} (1.3s)
+    Chunk 3 (5,139 chars) → 0 items {} (1.2s)
+    Chunk 4 (4,529 chars) → 0 items {} (1.0s)
+    Chunk 5 (5,287 chars) → 0 items {} (1.0s)
+    Chunk 6 (7,500 chars) → 0 items {} (0.9s)
+    Chunk 7 (4,088 chars) → 0 items {} (0.8s)
+    Chunk 8 (5,132 chars) → 0 items {} (0.8s)
+    Chunk 9 (6,123 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Overview and History ──
+Stats: 10 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [3/13] Umbral People and Heroes (68,454 chars)
+    Chunk 0 (5,204 chars) → 1 items {'races': 1} (2.2s)
+    Chunk 1 (7,469 chars) → 2 items {'races': 2} (3.0s)
+    Chunk 2 (7,776 chars) → 2 items {'races': 2} (5.3s)
+    Chunk 3 (7,901 chars) → 3 items {'races': 3} (4.8s)
+    Chunk 4 (7,757 chars) → 2 items {'races': 2} (5.1s)
+    Chunk 5 (7,443 chars) → 3 items {'races': 3} (4.5s)
+    Chunk 6 (7,275 chars) → 1 items {'races': 1} (4.9s)
+    Chunk 7 (5,060 chars) → 2 items {'races': 2} (3.9s)
+    Chunk 8 (4,997 chars) → 1 items {'races': 1} (4.1s)
+    Chunk 9 (5,019 chars) → 2 items {'races': 2} (2.8s)
+    Chunk 10 (6,553 chars) → 2 items {'races': 2} (4.7s)
+    Intra-book dedup: removed 4 duplicate(s), upgraded 4 with better version
+
+── Chapter Readout: Umbral People and Heroes ──
+Stats: 11 chunks → 17 raw → 17 valid → 17 new
+  4 intra-chapter duplicates removed
+  races: 17 — Bearfolk, Shadowborn Bearfolk, Darakhul, Shadow Fey, Lunar Elf, Sable Elf, Shadow Goblin, Umbral Human (+9 more)
+  ⚠️ Race 'Darakhul' missing ASI
+  ⚠️ Race 'Umbral Human' missing ASI
+  [4/13] Heroes from the Shadows (27,449 chars)
+    Chunk 0 (7,272 chars) → 2 items {'subclasses': 2} (5.8s)
+    Chunk 1 (5,857 chars) → 2 items {'subclasses': 2} (5.1s)
+    Chunk 2 (5,907 chars) → 2 items {'subclasses': 2} (5.1s)
+    Chunk 3 (5,331 chars) → 3 items {'subclasses': 3} (5.1s)
+    Chunk 4 (4,682 chars) → 1 items {'subclasses': 1} (2.8s)
+    ⚠ Validation issues: 1
+      - Subclass Umbral Binder: only 2 features — may be incomplete
+
+── Chapter Readout: Heroes from the Shadows ──
+Stats: 5 chunks → 10 raw → 10 valid → 10 new
+  subclasses: 10 — Circle of Shadows, College of Shadow, Keeper Domain, Light Weaver Sorcerous Origin, Mother of Sorrows, Shadow Arcane Tradition, Shadow Domain, Umbral Binder (+2 more)
+  [5/13] Magic in the Shadow Realm (73,031 chars)
+    Chunk 0 (4,276 chars) → 0 items {} (0.8s)
+    Chunk 1 (6,678 chars) → 0 items {} (0.7s)
+    Chunk 2 (5,332 chars) → 2 items {'spells': 2} (2.6s)
+    Chunk 3 (4,622 chars) → 4 items {'spells': 4} (4.1s)
+    Chunk 4 (4,584 chars) → 3 items {'spells': 3} (3.4s)
+    Chunk 5 (4,436 chars) → 3 items {'spells': 3} (3.7s)
+    Chunk 6 (4,308 chars) → 5 items {'spells': 5} (3.7s)
+    Chunk 7 (5,007 chars) → 4 items {'spells': 4} (4.5s)
+    Chunk 8 (6,550 chars) → 6 items {'spells': 6} (5.3s)
+    Chunk 9 (4,014 chars) → 4 items {'spells': 4} (3.7s)
+    Chunk 10 (4,712 chars) → 4 items {'spells': 4} (4.2s)
+    Chunk 11 (4,584 chars) → 5 items {'spells': 5} (4.3s)
+    Chunk 12 (7,879 chars) → 4 items {'spells': 4} (5.4s)
+    Chunk 13 (7,264 chars) → 8 items {'spells': 8} (6.4s)
+    Chunk 14 (4,385 chars) → 3 items {'spells': 3} (3.2s)
+    Intra-book dedup: removed 2 duplicate(s), upgraded 2 with better version
+    ⚠ Validation issues: 11
+      - Spell Bitter Wind: unknown school=evocation (weather)
+      - Spell Ebon Tide: unknown school=unknown
+      - Spell Fire Dance: unknown school=illusion (elemental)
+      - Spell Fireflies: unknown school=evocation (fey)
+      - Spell Gloaming: unknown school=evocation (shadow)
+
+── Chapter Readout: Magic in the Shadow Realm ──
+Stats: 15 chunks → 53 raw → 53 valid → 53 new
+  2 intra-chapter duplicates removed
+  spells: 53 — Bitter Wind, Blade of Blood and Bone, Bright Sparks, Charnel Banquet, Child of Light and Darkness, Conjure Ferryman, Conjure Giant, Deep Roots of the Moon (+45 more)
+  [6/13] The Nature of Shadow (41,366 chars)
+    Chunk 0 (6,466 chars) → 0 items {} (1.1s)
+    Chunk 1 (4,148 chars) → 0 items {} (1.1s)
+    Chunk 2 (5,286 chars) → 5 items {'traps': 5} (5.3s)
+    Chunk 3 (4,910 chars) → 0 items {} (1.0s)
+    Chunk 4 (4,821 chars) → 0 items {} (0.9s)
+    Chunk 5 (7,989 chars) → 0 items {} (1.2s)
+    Chunk 6 (5,941 chars) → 0 items {} (1.2s)
+    Chunk 7 (4,605 chars) → 0 items {} (1.1s)
+
+── Chapter Readout: The Nature of Shadow ──
+Stats: 8 chunks → 5 raw → 5 valid → 5 new
+  traps: 5 — Doomsand, Hungry Gloom, Leaden Clouds, Radiant Well, Shadow Mire
+  [7/13] Fey Courts and Servitors (193,484 chars)
+    Chunk 0 (7,958 chars) → 0 items {} (0.8s)
+    Chunk 1 (4,141 chars) → 1 items {'traps': 1} (2.3s)
+    Chunk 2 (5,205 chars) → 0 items {} (0.8s)
+    Chunk 3 (4,599 chars) → 0 items {} (0.8s)
+    Chunk 4 (7,226 chars) → 0 items {} (1.1s)
+    Chunk 5 (4,461 chars) → 0 items {} (1.0s)
+    Chunk 6 (7,413 chars) → 0 items {} (1.0s)
+    Chunk 7 (4,567 chars) → 0 items {} (1.2s)
+    Chunk 8 (4,486 chars) → 0 items {} (1.0s)
+    Chunk 9 (5,918 chars) → 0 items {} (1.1s)
+    Chunk 10 (6,117 chars) → 0 items {} (1.1s)
+    Chunk 11 (6,844 chars) → 0 items {} (1.0s)
+    Chunk 12 (5,180 chars) → 0 items {} (1.0s)
+    Chunk 13 (5,357 chars) → 0 items {} (0.8s)
+    Chunk 14 (4,193 chars) → 0 items {} (0.8s)
+    Chunk 15 (7,856 chars) → 0 items {} (0.8s)
+    Chunk 16 (6,503 chars) → 0 items {} (1.0s)
+    Chunk 17 (4,078 chars) → 0 items {} (1.1s)
+    Chunk 18 (4,410 chars) → 0 items {} (1.2s)
+    Chunk 19 (6,873 chars) → 0 items {} (1.2s)
+    Chunk 20 (6,787 chars) → 0 items {} (0.9s)
+    Chunk 21 (5,395 chars) → 0 items {} (0.8s)
+    Chunk 22 (5,385 chars) → 0 items {} (1.0s)
+    Chunk 23 (7,829 chars) → 0 items {} (0.8s)
+    Chunk 24 (3,942 chars) → 0 items {} (0.9s)
+    Chunk 25 (5,551 chars) → 0 items {} (0.8s)
+    Chunk 26 (6,975 chars) → 0 items {} (1.2s)
+    Chunk 27 (5,467 chars) → 0 items {} (1.0s)
+    Chunk 28 (7,951 chars) → 0 items {} (1.0s)
+    Chunk 29 (6,140 chars) → 0 items {} (0.8s)
+    Chunk 30 (5,154 chars) → 2 items {'magic_items': 2} (3.1s)
+    Chunk 31 (5,068 chars) → 1 items {'traps': 1} (2.4s)
+    Chunk 32 (4,975 chars) → 0 items {} (1.2s)
+    Chunk 33 (4,415 chars) → 0 items {} (1.2s)
+    Chunk 34 (4,178 chars) → 0 items {} (0.9s)
+    Chunk 35 (4,293 chars) → 0 items {} (1.0s)
+    Chunk 36 (4,994 chars) → 0 items {} (0.9s)
+    ⚠ Validation issues: 2
+      - Item Requiem Clay: unknown rarity=unknown
+      - Item Requiem Bliss: unknown rarity=unknown
+
+── Chapter Readout: Fey Courts and Servitors ──
+Stats: 37 chunks → 4 raw → 4 valid → 4 new
+  magic_items: 2 — Requiem Clay, Requiem Bliss
+  traps: 2 — Whispering Room, Roachling Pit
+  [8/13] Umbral Pantheon (76,362 chars)
+    Chunk 0 (4,850 chars) → 0 items {} (0.9s)
+    Chunk 1 (7,423 chars) → 0 items {} (1.1s)
+    Chunk 2 (7,220 chars) → 0 items {} (0.7s)
+    Chunk 3 (7,441 chars) → 0 items {} (1.2s)
+    Chunk 4 (6,265 chars) → 0 items {} (0.7s)
+    Chunk 5 (6,610 chars) → 0 items {} (1.0s)
+    Chunk 6 (6,847 chars) → 0 items {} (1.0s)
+    Chunk 7 (6,743 chars) → 0 items {} (1.0s)
+    Chunk 8 (7,439 chars) → 0 items {} (1.1s)
+    Chunk 9 (6,605 chars) → 0 items {} (1.0s)
+    Chunk 10 (6,263 chars) → 0 items {} (1.2s)
+    Chunk 11 (7,056 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Umbral Pantheon ──
+Stats: 12 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [9/13] Monsters and NPCs (89,168 chars)
+    Chunk 0 (5,983 chars) → 2 items {'monsters': 2} (4.7s)
+    Chunk 1 (6,644 chars) → 3 items {'monsters': 3} (6.6s)
+    Chunk 2 (7,720 chars) → 2 items {'monsters': 2} (6.9s)
+    Chunk 3 (7,663 chars) → 2 items {'monsters': 2} (4.8s)
+    Chunk 4 (6,080 chars) → 2 items {'monsters': 2} (4.9s)
+    Chunk 5 (6,189 chars) → 2 items {'monsters': 2} (4.0s)
+    Chunk 6 (6,403 chars) → 2 items {'monsters': 2} (5.6s)
+    Chunk 7 (7,758 chars) → 1 items {'monsters': 1} (4.4s)
+    Chunk 8 (6,212 chars) → 3 items {'monsters': 2, 'npcs': 1} (7.1s)
+    Chunk 9 (6,877 chars) → 
