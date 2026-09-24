@@ -1,0 +1,2308 @@
+{
+  "races": [
+    {
+      "name": "Dwarf of the Blue Mountains",
+      "source": "Bree-land Region Guide p.43-45",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Westron",
+        "secret language of the Dwarves"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2."
+        },
+        {
+          "name": "Adventuring Age",
+          "description": "50 to 100. Dwarves generally start their life on the road in their fifties, and do not usually consider retiring before their nineties. Around that time, they feel they can no longer stay away from their family, or want to dedicate themselves solely to the perfection of their crafts. But Dwarves can remain active until they are more than two hundred years old, and may return to adventuring if a great need arises, like the opportunity to avenge an old insult or injury, or to recover a treasure or reclaim a long-lost dwarf-hold. A healthy Dwarf who avoids a violent death can reach 250 years of age."
+        },
+        {
+          "name": "Size",
+          "description": "Dwarves generally stand between 4 to 5 feet tall and can weigh upwards of 160 lbs. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet. Your speed is not reduced by wearing heavy armour."
+        },
+        {
+          "name": "Night Vision (Dwarf)",
+          "description": "Accustomed to life underground, you have superior vision in dim conditions. You can see in dim light within 60 feet of you as if it were bright light, but you cannot see in the dark."
+        },
+        {
+          "name": "Dwarven Resilience",
+          "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+        },
+        {
+          "name": "Weapons of the Trade",
+          "description": "You have proficiency with axes, hand-axes and mattocks."
+        },
+        {
+          "name": "Tool Proficiency",
+          "description": "You gain proficiency with the artisan's tools of your choice: jeweller's tools, mason's tools, miner's tools, smith's tools, or woodcarver's tools. You also gain proficiency in one musical instrument of your choice."
+        },
+        {
+          "name": "Singer of the Old Songs",
+          "description": "You have proficiency in the Performance skill."
+        },
+        {
+          "name": "Tales of Days Gone By",
+          "description": "You have proficiency in either the History or Lore skill (your choice) and increase your Intelligence score by 1."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Westron, the Common Tongue of Eriador. You can also speak, read and write the secret language of your people, which has never been shared with any others."
+        }
+      ],
+      "subraces": [],
+      "description": "An extraordinarily venerable Dwarf of the Blue Mountains, Iari has decided that he wishes to see the restored Kingdom Under the Mountain before he dies.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2."
+        },
+        "Adventuring Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor/lifespan information only; no mechanical effects."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speed is not reduced by wearing heavy armor."
+        },
+        "Night Vision (Dwarf)": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Sees in dim light within 60 feet as if it were bright light, but cannot see in darkness (this is dim-light vision, not true darkvision)."
+        },
+        "Dwarven Resilience": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Poison"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison."
+        },
+        "Weapons of the Trade": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Axes",
+            "Hand-axes",
+            "Mattocks"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Tool Proficiency": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "Jeweller's tools",
+            "Mason's tools",
+            "Miner's tools",
+            "Smith's tools",
+            "Woodcarver's tools",
+            "Musical instrument (one of choice)"
+          ],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one artisan's tools from the listed options; also gain proficiency in one musical instrument of choice."
+        },
+        "Singer of the Old Songs": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Performance"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Tales of Days Gone By": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "History",
+            "Lore"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose either History or Lore skill proficiency; Intelligence score increases by 1."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Westron (Common Tongue of Eriador) and the secret dwarven language."
+        }
+      }
+    }
+  ],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Harp of the Halls",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "You have been rewarded with one of the finest harps crafted in the Blue Mountains. Their sweet music is beautiful to all ears, even those who do not normally hold the music of Dwarves in high regard.\n\nYou may use the Harp of the Halls to entertain the assembled folk during an Audience. Your performance automatically grants Advantage to both the Introduction check and the Final Audience check. You also have Advantage on performing Company songs (see page 26 of the Rivendell Region Guide).",
+      "source": "Bree-land Region Guide p.46"
+    },
+    {
+      "name": "The Ring of Seven Jewels",
+      "type": "Ring",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This Ring of Power was forged by the folk of the Whispering Halls (see Rivendell Region Guide, page 37) in the middle days of the Second Age. It was one of their last essays in Ring-lore, before they turned their hands towards the forging of the Great Rings, and as such it is extremely powerful. Unfortunately, the ring was tainted in the destruction of Eregion, for the Elf-lord who wore it last was captured and tortured by the Enemy, and her suffering stained the Seven Jewels. Now, while the Ring greatly enhances the spirit and might of anyone who wears it, it twists the wearer's soul towards darkness. The Ring grants Advantage on all saving throws made while it is worn. The ring also has a most peculiar Greater Blessing, affecting whatever skill the wearer most desires to use when appealing to its powers. But the Ring is doubly cursed, increasing the wearer's Shadow total by 5 points (Shadow Taint) and attracting the attention of the Enemy (Hunted). (For details about the effects of Blessings and the Ring's Curses, see the Loremaster's Guide, page 127 and the Rivendell Region Guide, page 101, respectively.)",
+      "source": "Bree-land Region Guide p.92"
+    },
+    {
+      "name": "Flask of Rivendell Tonic",
+      "type": "Potion",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A flask of silver containing a tonic made in Rivendell; drinking from it restores 2d4+2 hit points. There's a single draught left in the flask.",
+      "source": "Bree-land Region Guide p.91"
+    },
+    {
+      "name": "Amulet with Gorlanc's Rune",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A small amulet made of greenish glass, held on a golden chain. There's a strange symbol on the amulet. A character that makes a DC 15 Intelligence (Shadow-lore) check, or who might plausibly know about Gorlanc, recognises the symbol as Gorlanc's rune.",
+      "source": "Bree-land Region Guide p.91"
+    },
+    {
+      "name": "The Gardener's Sickle",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "The Gardener's Sickle has a silver blade that never dulls. It was made by the Elves, long ago, and seems to quiver in the hand when one is hunting for the wild herbs of Eriador. It is considered a Wondrous Artefact with a Blessing to Nature.",
+      "source": "Bree-land Region Guide p.117"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Regular or Hobbit-sized Room, per night",
+      "type": "Service",
+      "subtype": "Lodging",
+      "damage": "",
+      "properties": [],
+      "cost": "9c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Company-sized Room, per night",
+      "type": "Service",
+      "subtype": "Lodging",
+      "damage": "",
+      "properties": [],
+      "cost": "2s",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Fancy Room, per night",
+      "type": "Service",
+      "subtype": "Lodging",
+      "damage": "",
+      "properties": [],
+      "cost": "5s",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Hot Bath",
+      "type": "Service",
+      "subtype": "Bath",
+      "damage": "",
+      "properties": [],
+      "cost": "6c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Stabling, per animal, per night",
+      "type": "Service",
+      "subtype": "Stabling",
+      "damage": "",
+      "properties": [],
+      "cost": "2c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Ale, per tankard",
+      "type": "Food and Drink",
+      "subtype": "Drink",
+      "damage": "",
+      "properties": [],
+      "cost": "1c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Wine, per glass",
+      "type": "Food and Drink",
+      "subtype": "Drink",
+      "damage": "",
+      "properties": [],
+      "cost": "3c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Meal, per person",
+      "type": "Food and Drink",
+      "subtype": "Meal",
+      "damage": "",
+      "properties": [],
+      "cost": "6c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Pipe-weed (Southlinch from Staddle), 10 uses",
+      "type": "Trade Good",
+      "subtype": "Pipe-weed",
+      "damage": "",
+      "properties": [],
+      "cost": "1s",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Pipe-weed (Longbottom Leaf), 10 uses",
+      "type": "Trade Good",
+      "subtype": "Pipe-weed",
+      "damage": "",
+      "properties": [],
+      "cost": "2s",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Pony for Hire, per day",
+      "type": "Service",
+      "subtype": "Mount",
+      "damage": "",
+      "properties": [],
+      "cost": "6c",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Pony for Sale (worn and dispirited)",
+      "type": "Mount",
+      "subtype": "Pony",
+      "damage": "",
+      "properties": [],
+      "cost": "4s",
+      "weight": 0,
+      "source": "BLRG"
+    },
+    {
+      "name": "Pony for Sale (well-kept)",
+      "type": "Mount",
+      "subtype": "Pony",
+      "damage": "",
+      "properties": [],
+      "cost": "8s",
+      "weight": 0,
+      "source": "BLRG"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Ruby Boffin",
+      "size": "Small",
+      "type": "hobbit",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "Leather jerkin",
+      "hit_points": "33 (6d6+12)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 17,
+        "wisdom": 15,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 4,
+        "Riddle": 5,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Focused",
+          "description": "Ruby's use of the staff in combat is unmatched. She may use her Dexterity modifier instead of her Strength to determine to-hit and damage. She has 3 Focus points, which she regains when she takes a short or long rest. She can use her bonus action and spend one Focus point on her turn to take the Dash, Disengage or Dodge action or to make another attack with her Staff.",
+          "uses": 3,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Well-travelled",
+          "description": "If Ruby is with the Company and they are travelling in the Bree-land then the Guide rolls 1d8+4 for the Embarkation Roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Staff",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) bludgeoning damage or 6 (1d8+2) bludgeoning damage if used with two hands."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.12"
+    },
+    {
+      "name": "Hallas",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Scale hauberk, Shield",
+      "hit_points": "66 (7d8+35)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 20,
+        "intelligence": 11,
+        "wisdom": 15,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 5,
+        "Perception": 5,
+        "Pipe": 3,
+        "Survival": 5,
+        "Traditions": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 15",
+      "languages": [
+        "Westron",
+        "Sindarin"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Battle-wise",
+          "description": "Hallas has Advantage on initiative checks."
+        },
+        {
+          "name": "Endurance of the Dúnedain",
+          "description": "Hallas may continue to act normally for one round after being reduced to 0 hit points."
+        },
+        {
+          "name": "Long-pipe",
+          "description": "Hallas can make a DC 15 Intelligence (Pipe) check as an action. On a success, he makes his next ability check with Advantage."
+        },
+        {
+          "name": "Unyielding",
+          "description": "Hallas can use his bonus action to gain 10 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Hallas can make two attacks with his Long Sword or Short Bow."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 4 (1d6+1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.12"
+    },
+    {
+      "name": "Oakman",
+      "size": "Small",
+      "type": "Nature Spirit",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "14 (4d6)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 15,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 18,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 6,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Charmed",
+        "Frightened",
+        "Paralysed",
+        "Poisoned"
+      ],
+      "senses": "darkvision 60 ft, passive Perception 16",
+      "languages": [
+        "understands Westron, does not speak"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Glamour",
+          "description": "An Oakman can choose to appear more Hobbitish, though in this form they still appear unkempt and uncivilised. This illusion can be dispelled as a bonus action, and is automatically dispelled when the Oakman attacks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Oakman makes two attacks with either its Short Sword or its Bow."
+        },
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Ill-turn of Luck (Recharge 5-6)",
+          "description": "Strange fates befall those who attack the Oakmen. If an attack roll misses the Oakman, it may use this ability: the attacking creature must make another attack roll against its own AC. On a success, it does damage to itself."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.47"
+    },
+    {
+      "name": "Swamp Goblin",
+      "size": "Small",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Leather jerkin",
+      "hit_points": "18 (4d6+4)",
+      "speed": "30 ft, swim 30 ft",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 19,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 14",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Corpse Light (Recharge 5-6)",
+          "description": "A Swamp Goblin can use its bonus action to cause a light to appear anywhere within 60 feet of it. Any hostile creature who is not Blinded must make a DC 13 Wisdom saving throw. On a failure, the creature must use its movement to approach the light, repeating the save at the end of its turn."
+        },
+        {
+          "name": "Sneak Attack",
+          "description": "Once per turn, the Swamp Goblin deals an extra 3 (1d6) damage when it hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 feet of an ally of the Goblin that isn't Incapacitated and the Goblin doesn't have Disadvantage on the attack roll."
+        },
+        {
+          "name": "Stealthy",
+          "description": "The Swamp Goblin may use its bonus action each round to Hide."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Jagged Knife",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 6 (1d4+4) piercing damage."
+        },
+        {
+          "name": "Bow of Horn",
+          "description": "Ranged Weapon Attack: +6 to hit, range 80/320 ft, one target. Hit: 7 (1d6+4) piercing damage. The victim must also make a DC 13 Constitution saving throw or be poisoned for 1 minute."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.48"
+    },
+    {
+      "name": "Two-headed Troll",
+      "size": "Huge",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "natural armour",
+      "hit_points": "112 (9d12+54)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 26,
+        "dexterity": 10,
+        "constitution": 23,
+        "intelligence": 9,
+        "wisdom": 13,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {
+        "Riddle": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 16 (see below)",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Argumentative",
+          "description": "A Two-headed Troll is prone to getting into fights with itself. A creature can make a DC 13 Intelligence (Riddle) or Charisma (Persuasion) check to distract the Troll. On a success, the Troll must make a DC 10 Wisdom saving throw at the start of its next turn or spend its turn arguing with itself. If the Troll is injured, it has Advantage on this saving throw."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If the Two-headed Troll makes a successful melee attack, it may use its bonus action to cause 8 additional damage of the same type to the target."
+        },
+        {
+          "name": "Two-headed",
+          "description": "Trolls with two heads are much harder to catch unawares. Any attempts at Stealth are made with Disadvantage and the Troll gains Advantage on both active and passive Perception checks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Troll makes two attacks with its club."
+        },
+        {
+          "name": "Troll-club",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 21 (2d12+8) bludgeoning damage. If the target is a creature, it must make a DC 18 Strength saving throw or be knocked prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.48"
+    },
+    {
+      "name": "White Wolf of the North",
+      "size": "Large",
+      "type": "monstrosity (warg-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "63 (6d10+30)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 19,
+        "constitution": 20,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Wargspeech"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Craven",
+          "description": "If the White Wolf starts its turn with 31 or less hit points, it must make a DC 10 Wisdom saving throw. On a failure, it becomes Frightened and must use its Dash or Disengage action to move away from any enemies. If movement is impossible, it will take the Dodge action instead."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "The White Wolf is fearful of fire. If a torch or other flame comes within 10 feet of it, the wolf suffers Disadvantage on its attack rolls. In addition, the White Wolf is not able to use its Pack Tactics ability."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The White Wolf has Advantage on an attack roll against a creature if at least one of the White Wolf's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The White Wolf makes two attacks: one bite and one claw attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 9 (2d6+2) piercing damage. If the target is a creature, it must make a DC 12 Strength saving throw or be knocked prone."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 10 (1d12+4) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "The White Wolf can snarl in the language of its kind to issue commands. It may use its reaction when a non-hostile creature, that it can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.49"
+    },
+    {
+      "name": "The Ogre of Midgewater",
+      "size": "Large",
+      "type": "giant",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "150 (12d10+84)",
+      "speed": "30 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 10,
+        "constitution": 25,
+        "intelligence": 5,
+        "wisdom": 7,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "bludgeoning"
+      ],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 8",
+      "languages": [],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The Ogre can hold its breath for such long periods that it is effectively a water-breather in combat situations."
+        },
+        {
+          "name": "Rubbery Skin",
+          "description": "This creature's rubbery flesh is immune to bludgeoning damage."
+        },
+        {
+          "name": "Swimmer",
+          "description": "This creature can move through aquatic environments without penalty."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Grasp",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one Medium or smaller target. Hit: The target becomes grappled (escape DC 17). As a bonus action, the Ogre may inflict 16 (2d10+5) bludgeoning damage on the grappled creature."
+        },
+        {
+          "name": "Shield Smasher (Recharge after a short or long rest)",
+          "description": "To destroy a shield, the Ogre makes a Slam attack, concentrating all its damage on the shield itself. If the Ogre deals 20 or more damage, the targeted shield is destroyed and worthless. A legendary shield might be salvageable but cannot be used for the remainder of the combat.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 16 (2d10+5) bludgeoning damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Great Might (Recharge 5-6)",
+          "description": "The Ogre may use its reaction when it takes damage from a melee or ranged weapon attack: the damage amount is reduced by 5, to a minimum of 1 point of damage taken.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.49"
+    },
+    {
+      "name": "The Old Troll",
+      "size": "Large",
+      "type": "giant (troll-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "heavy mail",
+      "hit_points": "126 (12d10+60)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 12,
+        "constitution": 20,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "Dexterity": 4
+      },
+      "skills": {
+        "Perception": 3,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Westron",
+        "Orcish"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Great Leap",
+          "description": "The Old Troll is capable of jumping huge distances. He may make a special Dash action to go twice his normal movement in a single jump. Any opponents in melee combat with the Old Troll when he uses this ability get Opportunity Attacks as normal."
+        },
+        {
+          "name": "Reckless",
+          "description": "The Old Troll may use his bonus action to gain Advantage on attack rolls until the start of his next turn but all attacks on him also have Advantage."
+        },
+        {
+          "name": "Sunlight Curse",
+          "description": "Stone-trolls become Petrified and turn into stone if they are touched by the bright light of the sun. Once the sun rises, the Old Troll must make a DC 10 Dexterity saving throw at the beginning of his turn in order to find enough cover to avoid being turned to stone. On a failure, the Old Troll becomes Petrified."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Old Troll makes two attacks: one with his troll-knife and one slam."
+        },
+        {
+          "name": "Troll-knife",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 13 (2d8+4) piercing damage."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 15 (2d10+4) bludgeoning damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Deadly Misfortune (Lair Only, Recharge 5-6)",
+          "description": "Trolls don't usually know any magic, but the Old Troll remembers a few tricks he learned in ancient Angmar. If a character attacks the Troll and misses, he may cause one of his piles of bones to suddenly slip and collapse on top of the character, crashing and clattering very loudly. The target must make a DC 13 Strength saving throw or be knocked Prone. The area within 10 feet of the target is now difficult terrain and the target makes all attack rolls at Disadvantage until it is outside the area of effect.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.50"
+    },
+    {
+      "name": "Brigand",
+      "size": "Medium",
+      "type": "Human",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Thick Hide, Shield",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 11,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 2,
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Bulky Armour",
+          "description": "The Brigand has Disadvantage on Dexterity checks"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Battle Cry (1/day)",
+          "description": "The Brigand may use its action to activate this ability. Each Brigand within 30 feet of it gains Advantage on attack rolls until the start of the Brigand's next turn. The Brigand may then make one attack as a bonus action.",
+          "uses": 1,
+          "recharge": "day"
+        },
+        {
+          "name": "Multiattack",
+          "description": "The Brigand makes two attacks with its axe."
+        },
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land p.51"
+    },
+    {
+      "name": "Mountebank",
+      "size": "Medium",
+      "type": "Human",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Leather Corslet",
+      "hit_points": "71 (11d8+22)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 15,
+        "intelligence": 13,
+        "wisdom": 11,
+        "charisma": 20
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 11,
+        "Persuasion": 8,
+        "Riddle": 4,
+        "Sleight of Hand": 11
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Expert",
+          "description": "The Mountebank doubles its Proficiency Bonus for Deception and Sleight of Hand (included above)."
+        },
+        {
+          "name": "Nimble Escape",
+          "description": "The Mountebank can take the Disengage or Hide action as a bonus action on each of its turns."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Mountebank makes two dagger attacks."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 5 (1d4+3) piercing damage."
+        },
+        {
+          "name": "Prestidigitation",
+          "description": "As long as the Mountebank has had time to prepare the area, it may spend its action to activate a series of distracting effects — clouds of smoke, loud noises, strange clatterings, objects moving seemingly of their own accord or the like. Each enemy within 60 feet of the Mountebank must make a DC 15 Wisdom saving throw or become Stunned until the beginning of the Mountebank's next turn. The Mountebank can then use its bonus action to make a single Dagger attack."
+        },
+        {
+          "name": "Voice of Command (Recharge 5-6)",
+          "description": "A Mountebank can bring all of its considerable force of personality to bear on a single creature. Its voice booms with authority or softly suggests wiser courses of action. The creature must make a DC 15 Charisma saving throw or become Charmed by the Mountebank for 1 minute. The creature will not attack its allies and realises that the Mountebank affected it only after the effect expires.",
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Uncanny Dodge",
+          "description": "If the Mountebank can see an attacker that has struck it, it may use its reaction to halve that attack's damage."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Bree-land p.51"
+    },
+    {
+      "name": "Vogar",
+      "size": "Medium",
+      "type": "Dwarf",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Corslet of Mail",
+      "hit_points": "37 (5d8+15)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 11,
+        "constitution": 16,
+        "intelligence": 8,
+        "wisdom": 10,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Survival": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Berserk Rage",
+          "description": "Whenever Vogar takes damage, he must make a Wisdom saving throw against DC 10 or half the damage, whichever is higher. On a failure he flies into a berserk rage. He gains Advantage on his attack rolls, Disadvantage on ability checks and saving throws and all attacks against him are at Advantage. At the start of his turn if there are no enemies within his movement, he must make another saving throw (with Disadvantage) to end this effect. On a failure, he attacks an ally within range."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Vogar makes a successful melee attack, he may use his bonus action to cause 4 additional of the same type to the target."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Mattock",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 11 (2d6+4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.96"
+    },
+    {
+      "name": "Narvig or Narvi",
+      "size": "Medium",
+      "type": "Dwarf",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Corslet of Mail",
+      "hit_points": "22 (4d8+4)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Persuasion": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "The young Dwarf may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broad Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.97"
+    },
+    {
+      "name": "Berelas",
+      "size": "Medium",
+      "type": "Human",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Leather Corslet",
+      "hit_points": "58 (9d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 20,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Performance": 4,
+        "Shadow-lore": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Cold be Hand and Heart",
+          "description": "If Berelas has just successfully made a melee attack, she can use her bonus action to channel some of the Cold Shade's power. The target takes 1d8 necrotic damage and can't regain hit points until the start of her next turn."
+        },
+        {
+          "name": "Shade-caller",
+          "description": "As a bonus action, Berelas can summon the Cold Shade. It arrives at the end of her next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 7 (1d4+5) piercing damage."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.98"
+    },
+    {
+      "name": "Cold Shade",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "65 (10d8+20)",
+      "speed": "0 ft., fly 50 ft. (hover)",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 10,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "non-magical bludgeoning",
+        "non-magical piercing",
+        "non-magical slashing"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "paralysed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained"
+      ],
+      "senses": "blindsight 30 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "The Cold Shade is repulsed by the heat of fire. If a torch or other flame comes within 10 feet of it, it suffers Disadvantage on its attack rolls."
+        },
+        {
+          "name": "Ghost-form",
+          "description": "The Cold Shade is insubstantial and cannot be easily hurt by normal means. See the damage and condition resistances and immunities above."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The Cold Shade can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Cold Shade can use its bonus action to bring a cold chill to the heart of any hero. Any companion within 60 feet must make a DC 15 Wisdom saving throw or be Frightened of the ghost. At the end of the creature's turn it may repeat the saving throw, ending the effect on a success.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Icy Touch",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6+3) necrotic damage and the target must make a DC 13 Constitution saving throw or become Paralysed by the cold. A target can repeat the save at the end of its turn to end the effect."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Bree-land Region Guide p.101"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Hallas",
+      "race": "Dúnadan",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Bonus Action: Temporary Hit Points",
+          "description": "his bonus action to gain 10 temporary hit points."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Hallas can make two attacks with his Long Sword or Short Bow."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 4 (1d6+1) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Once esquire to Talandil, the guardian of Fornost Erain (see Rivendell Region Guide, page 60), Hallas is wise in old lore and a shrewd tactician, a veteran of many battles fought in the Trollshaws. But among his many talents is an unguessable one: Hallas often enters the Shire with his son from Sarn Ford, posing as a merchant visiting the Southfarthing to buy pipe-weed. This way Hallas keeps himself up to date with any Shire gossip, and fills the pipes of his men with the best leaf. Motivation: Even the meekest and meanest are worthy of our protection. Expectations: \"Fair words can hide foul intent\" -2 if the companions are not plain-spoken; \"Scorn and doubt are our lot\" +1 if the heroes are kind and respectful.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land & Around p.13"
+    },
+    {
+      "name": "Matthew Mugwort",
+      "race": "Hobbit",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "9 (2d6+2)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 11,
+        "constitution": 13,
+        "intelligence": 15,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 3,
+        "Intimidation": 4,
+        "Perception": 3,
+        "Pipe": 4,
+        "Traditions": 4
+      },
+      "features": [
+        {
+          "name": "Bolster",
+          "description": "If Matthew is present for an Audience, his support can sway others. The spokesperson for the Company can make a DC 15 Persuasion (Charisma) check with Disadvantage to impress him, on a success the Company has Advantage on all other checks during the Audience."
+        },
+        {
+          "name": "Confound",
+          "description": "If Matthew is present for an Audience, he can bluster a storm of opinions that can turn the tide against outsiders. The spokesperson for the Company must make a DC 12 Charisma saving throw or gain Disadvantage on all further checks during the Audience."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Hazel Rod",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft, one target. Hit: 1 bludgeoning damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Small Hobbit, Challenge 0 (0 XP). Senses passive Perception 13. Languages Westron.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.19"
+    },
+    {
+      "name": "Twyc Greenleaf",
+      "race": "Human",
+      "class_name": "Reeve",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Old Twyc is in his third term as Reeve. He attributes his snowy-white hair and weariness to the demands of his high office; everyone else points out that he is well into his seventh decade, and that he spends more time snoozing than working in the Reeve's House. He entrusts virtually all business of managing Bree to his young (and ambitious) assistant, Cole. The one thing that shakes him out of his lethargy is crime; as Reeve, he is the judge of Bree, and is infamously stern when it comes to the perpetrators of violence or cruelty. Motivation: Justice will be done, in the name of Bree. Expectations: \"Evil will out, in the end\" +2 if the heroes bring solid evidence of wrongdoing to him; \"This isn't the place for fairy stories\" -2 if the Company speaks of spirits, magic or other outlandish things.",
+      "role": "Reeve of Bree",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.20"
+    },
+    {
+      "name": "Tad Tillfield",
+      "race": "Human",
+      "class_name": "Warden",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "13 (3d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 2,
+        "Investigation": 2,
+        "Perception": 3
+      },
+      "features": [
+        {
+          "name": "Defender of That Which He Loves",
+          "description": "If Tad is fighting in defense of Bree, he can use his bonus action to gain 10 temporary hit points.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Shield-strike",
+          "description": "If Tad has just struck with his club, he can use his bonus action to slam his shield into his target. The creature takes 2 points of bludgeoning damage and must make a DC 11 Strength saving throw or become Prone.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Club",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 3 (1d4+1) bludgeoning damage."
+        }
+      ],
+      "equipment": [
+        "Hide Armour",
+        "Shield",
+        "Club"
+      ],
+      "spellcasting": null,
+      "description": "Young Tad is a newly commissioned Warden of Bree. Indeed, he is so excited about becoming a Warden that he has thrown himself wholeheartedly into his new role. He rushes around Bree-land on Important Missions and Warden Business, never stinting or shirking.",
+      "role": "Warden",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Bree-land Region Guide p.21"
+    },
+    {
+      "name": "Anna Wintermoss",
+      "race": "Human",
+      "class_name": "Schoolmistress",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "35 (7d8+7)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 19,
+        "wisdom": 15,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 2,
+        "History": 6,
+        "Performance": 2,
+        "Riddle": 6,
+        "Shadow-lore": 6
+      },
+      "features": [
+        {
+          "name": "Cruel Stroke",
+          "description": "If Anna's attack has just hit, she may spend her bonus action to turn her attack into a critical hit.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Distraction Attack",
+          "description": "Anna can use her bonus action to feint or otherwise distract her opponent. The target must make a DC 13 Wisdom saving throw or she gains Advantage on her attacks this round."
+        },
+        {
+          "name": "Wicked Cunning",
+          "description": "Anna can use her bonus action to activate this ability. For the remainder of the combat, she has +4 to her AC.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "She makes three melee attacks with her Dagger."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d4+3) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Dagger"
+      ],
+      "spellcasting": null,
+      "description": "Anna runs the school in Bree, teaching the youths of Bree their letters and numbers. She's not a native of the North — she came up the Greenway five years ago, pursued by strange men who chased her right to the end of Bree-land. Anna never talks about her past, but from her accent and speech, she must come from the distant South. When not teaching, she sometimes wanders the Barrow-downs, as if looking for a particular tomb.",
+      "role": "Schoolmistress",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Bree-land Region Guide p.22"
+    },
+    {
+      "name": "Jack the Forsaken",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 13,
+      "hit_points": "39 (6d8+12)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 4,
+        "Perception": 5,
+        "Stealth": 3,
+        "Survival": 3,
+        "Traditions": 2
+      },
+      "features": [
+        {
+          "name": "Expert",
+          "description": "Jack doubles his Proficiency Bonus for Deception and Perception (included above)."
+        },
+        {
+          "name": "Nimble Escape",
+          "description": "Jack can take the Disengage or Hide action as a bonus action on each of his turns."
+        },
+        {
+          "name": "Sneak Attack",
+          "description": "Once per turn, Jack deals an extra 3 (1d6) damage when he hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 feet of his ally that isn't Incapacitated and he doesn't have Disadvantage on the attack roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "In appearance Jack is scruffy, with a wiry frame and a face that tells the story of a tough life, despite his apparent young years. His countenance is rough, and he lacks most manners. However he is a survivor, eking out a meagre living, helping people as best as his bad habits and bitter experiences will allow.",
+      "role": "Innkeeper",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Bree-land Region Guide p.23"
+    },
+    {
+      "name": "Grandmother Tunnelly",
+      "race": "Hobbit",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 10,
+      "hit_points": "14 (4d6)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 10,
+        "constitution": 11,
+        "intelligence": 13,
+        "wisdom": 14,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 8,
+        "History": 3,
+        "Persuasion": 6,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Expert",
+          "description": "Grandmother Tunnelly doubles her Proficiency Bonus for Intimidation and Traditions (included above)."
+        },
+        {
+          "name": "Lord of Her Domain",
+          "description": "Grandmother Tunnelly only meets with visitors in the ancient and richly decorated halls of the Great Smial. She imposes Disadvantage on the Introduction Check for an Audience."
+        },
+        {
+          "name": "Stubborn Will",
+          "description": "If a speaker in an Audience with Grandmother Tunnelly wishes to propose a course of action adverse to her wishes, the speaker must first make a DC 14 Charisma saving throw."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Umbrella",
+          "description": "Melee Weapon Attack: +1 to hit, reach 5 ft, one target. Hit: 1 bludgeoning damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Grandmother Tunnelly is a Small Hobbit with a commanding presence, known for her expertise in intimidation and traditions.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.25"
+    },
+    {
+      "name": "Oswald Breeker, the Squire of Combe",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "52 (7d8+21)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 11,
+        "constitution": 17,
+        "intelligence": 16,
+        "wisdom": 18,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Lore": 5,
+        "Shadow-lore": 5,
+        "Survival": 6,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Duellist",
+          "description": "Oswald is more skilled with a sword than most Bree-folk know, add +2 to his damage (included below)."
+        },
+        {
+          "name": "Unyielding (Recharge 5-6)",
+          "description": "Oscar can use his bonus action to gain 6 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Oscar makes two melee attacks with his Long Sword."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d8+5) slashing damage or 10 (1d10+5) slashing damage if wielded with two hands."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Great Might (Recharge 5-6)",
+          "description": "Oscar can use his reaction when struck to reduce the damage he takes by 3, to a minimum of 1.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "equipment": [
+        "Corslet of Mail",
+        "Shield",
+        "Long Sword"
+      ],
+      "spellcasting": null,
+      "description": "Oswald Breeker is the richest and most miserly man in Bree-land, living in a big house at the edge of Combe. He is not popular among the Bree-folk.",
+      "role": "",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Bree-land Region Guide p.26"
+    },
+    {
+      "name": "Harry Talltree",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "48 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 19,
+        "constitution": 15,
+        "intelligence": 11,
+        "wisdom": 14,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 6,
+        "Survival": 4
+      },
+      "features": [
+        {
+          "name": "Battle-wise",
+          "description": "Harry has Advantage on initiative checks."
+        },
+        {
+          "name": "Savage Assault",
+          "description": "When Harry rolls a natural 18 or 19 on his attack roll, he may use his bonus action to make a single additional melee attack against the same opponent."
+        },
+        {
+          "name": "Warrior's Charge",
+          "description": "Harry gains Advantage on all attacks made in the first round of combat."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Great Axe"
+      ],
+      "spellcasting": null,
+      "description": "The current holder of the office of Royal Forester is Harry Talltree, a giant of a man. Despite his astounding size (seven feet if he's an inch) and prodigious girth, he is quiet as a mouse when moving through the forests. He carries a huge wood-chopping axe with him everywhere he goes, and knows how to use it on more than just trees.",
+      "role": "Royal Forester of Archet",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Bree-land Region Guide p.28"
+    },
+    {
+      "name": "Barnabas Butterbur",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 9,
+      "hit_points": "22 (4d8+4)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 9,
+        "constitution": 13,
+        "intelligence": 15,
+        "wisdom": 16,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 4,
+        "Insight": 7,
+        "Perception": 7,
+        "Performance": 5,
+        "Riddle": 4,
+        "Traditions": 6
+      },
+      "features": [
+        {
+          "name": "Expert",
+          "description": "Butterbur doubles his Proficiency Bonus for both Insight and Perception (included above)."
+        },
+        {
+          "name": "Friendly and Inquisitive",
+          "description": "Butterbur doubles his Proficiency Bonus for Traditions (included above) and counts as Friendly during any Audience."
+        },
+        {
+          "name": "Storehouse of Knowledge",
+          "description": "Butterbur knows much about the Bree-land. A hero that spends a short rest talking to him can automatically begin a journey that starts from Bree on Paths Both Swift and True."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Staff",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 4 (1d6+1) bludgeoning damage or 5 (1d8+1) bludgeoning damage if wielded with two hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Barnabas Butterbur is one of the most important men in Bree, and cleverer than he seems. He may have a thousand things on his mind, nine hundred and ninety of which are errands and orders and shopping lists and gossip from Bree, but he knows that Bree is but a small place in a wide, wilder world - he knows something about Mordor for example, and has met Gandalf, and more besides.",
+      "role": "Innkeeper",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Bree-land Region Guide p.31"
+    },
+    {
+      "name": "Tomas Heatherton",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "11 (2d8+2)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Survival": 2
+      },
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "Tomas may use his bonus action to gain Advantage on attack rolls until the start of his next turn but all attacks on him also have Advantage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Shield",
+        "Dagger"
+      ],
+      "spellcasting": null,
+      "description": "Young Tom Heatherton is a strapping youth, with a mop of dark hair and the start of what might be a beard one day. Like most young men, he fancies himself to be wiser, cleverer and more dangerous than his elders. For a Bree-lander, he's impatient and ambitious, and dreams of travelling over the mountains to distant lands like Dale, and using his uncle's fortune to set himself up as a merchant prince.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 50,
+      "source": "Bree-land Region Guide p.71"
+    },
+    {
+      "name": "Edoric",
+      "race": "Human (Enedwaith/Dunlending)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 11,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 6,
+        "Perception": 4,
+        "Survival": 4
+      },
+      "features": [
+        {
+          "name": "Leadership",
+          "description": "As a bonus action, Edoric can command a nearby ally that has not yet acted this round. That creature takes its turn immediately after Edoric."
+        },
+        {
+          "name": "Unyielding (Recharge 5-6)",
+          "description": "Edoric can use his bonus action to gain 6 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 7 (1d6+4) piercing damage or 8 (1d8+4) if used with two hands to make a melee attack."
+        }
+      ],
+      "equipment": [
+        "Ring-mail",
+        "Spear"
+      ],
+      "spellcasting": null,
+      "description": "Edoric is of the Enedwaith, kin to the Dunlendings, who dwell far to the south of Eriador along the coast, near where the Greyflood empties into the sea. Edoric is not the name he was given by his mother, but the name he uses when travelling in the North. His is a restless soul; he has not seen the land of his birth in twenty years, and he knows he shall die on the Road. He is an experienced caravan guide; he has led traders from the Blue Mountains to the Great Ford, but he has never gone east of the Anduin. He's fiercely protective of those in his care; all he has in his life is his professional reputation.",
+      "role": "Caravan Guide",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Bree-land Region Guide p.94"
+    },
+    {
+      "name": "Eoin, the Bree-lander",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Eoin is a young man of Bree. This is his first journey outside Bree-land; he travelled from Bree as far as the High Pass, and now believes he has seen all the world. He's a simple, honest fellow, hired by Edoric because he has a strong back and follows orders. Game Rules: Eoin uses the Town Guard statistics on page 69 of the Loremaster's Guide.",
+      "role": "Scout",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.95"
+    },
+    {
+      "name": "Vig, Brother of Vogar",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Old Vig is the eldest of the four Dwarves in the caravan, and their leader. He is a smith, and if he once dreamed of forging swords and shields for some King under the Mountain, he has long since put those dreams aside. He is a tinker, fixing pots and pans. Game Rules: Use the Dwarf statistics on page 78 of the Loremaster's Guide for Vig. Vig is deeply indebted to Mirabar, and owes him a fortune. He ran into debt when his brother Vogar was wounded by an Orc, and Vig had to stop working in the forge to care for him. The forge burnt down, and Vig had to borrow money from Mirabar to survive. Now, he is a homeless wandering tinker-smith, trying to scrape together enough coin to repay the money-lender. In game terms, Vig owes around 50 gold pieces to Mirabar.",
+      "role": "Leader",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.95"
+    },
+    {
+      "name": "Narvig, Son of Vig",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The elder son of Vig, Narvig feels his father's shame very keenly. He would do anything to relieve Vig's suffering and restore his pride. Narvig is clearly the liaison between the Dwarves and the other travellers. He's the only one who speaks to Edoric or Eoin.",
+      "role": "Liaison",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.96"
+    },
+    {
+      "name": "Narvig",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "22 (4d8+4)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Persuasion": 3
+      },
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "The young Dwarf may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broad Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Narvig is clearly the liaison between the Dwarves and the other travellers. He's the only one who speaks to Edoric or Eoin. He would do anything to relieve Vig's suffering and restore his pride. Narvig intends to give the stolen items to Mirabar, freeing his father Vig from the debt he owes.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 50,
+      "source": "Bree-land Region Guide p.97"
+    },
+    {
+      "name": "Narvi the Young",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "22 (4d8+4)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 5
+      },
+      "features": [
+        {
+          "name": "Reckless",
+          "description": "The young Dwarf may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broad Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "The youngest of the Dwarves, Narvi is something of a scoundrel. He dreams of going to Erebor and becoming as wealthy as the kings of old, and is frustrated by his father's debts and his uncle's illness. Narvi always wants the quick fix, the easy answer. Narvi's the mastermind of the 'plan' to steal from Berelas.",
+      "role": "Neutral",
+      "is_enemy": false,
+      "xp_reward": 50,
+      "source": "Bree-land Region Guide p.97"
+    },
+    {
+      "name": "Hirlinon of Gondor, Follower of Gorlanc",
+      "race": "Human",
+      "class_name": "Mountebank",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Hirlinon comes from the land of Gondor, far to the South. He is one of Gorlanc's followers, a secret worshipper of the Enemy. He has seen the power of Mordor; he knows the gathering strength of the Enemy, and he knows that the Free Peoples cannot hope to stand against it. He has succumbed to despair, and come out the other side filled with malice and secret loathing for the common folk. He now delights in tricking people out of their money and causing suffering, because what else is there to do? The Enemy will soon rule all of Middle-earth, so why should Hirlinon not have some merriment at the expense of others before the day is done? Game Rules: Hirlinon is a Mountebank, see page 51 for his statistics.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.97"
+    },
+    {
+      "name": "Berelas, the Ringbearer",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "58 (9d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 20,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 11,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Performance": 4,
+        "Shadow-lore": 3
+      },
+      "features": [
+        {
+          "name": "Cold be Hand and Heart",
+          "description": "If Berelas has just successfully made a melee attack, she can use her bonus action to channel some of the Cold Shade's power. The target takes 1d8 necrotic damage and can't regain hit points until the start of her next turn."
+        },
+        {
+          "name": "Shade-caller",
+          "description": "As a bonus action, Berelas can summon the Cold Shade. It arrives at the end of her next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 7 (1d4+5) piercing damage."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Berelas is older than she looks. She was one of the Woodmen captives taken into Dol Guldur, and there she learned terrible secrets of the Enemy. Released, she fell into the service of a lesser evil, Gorlanc the Sorcerer. Despite all these horrors, she has not entirely fallen to the Shadow, and is still capable of mercy and even kindness. She serves Gorlanc because she fears the Enemy, and believes that only a strong hero can hope to stand against Sauron when he returns. She sees Gorlanc like a younger, more forceful Radagast, and hopes that if she brings him the Ring and helps him grow in power, he will be able to drive away the Shadow. Berelas is deluding herself in this – Gorlanc is a servant of Sauron, or at best a rival like Saruman the White, not a hero – but she has no other hope to cling to. Berelas carries a Wondrous Artefact, the Ring of Seven Jewels, on a chain around her neck.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 450,
+      "source": "Bree-land Region Guide p.98"
+    },
+    {
+      "name": "Berelas",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Healer",
+          "description": "She's a talented healer, much more so than Hirlinon. Anything of actual potency that he sells from his wagon of cure-alls was made by her."
+        },
+        {
+          "name": "Ring of Seven Jewels",
+          "description": "Berelas carries a Wondrous Artefact, the Ring of Seven Jewels, on a chain around her neck. She won't wear the Ring herself, but if she or the Ring are threatened, she calls a Shade from Gorlanc (see The Cold Shade, page 101). If the caravan is attacked by night, or if Berelas or Hirlinon are ambushed, then the Cold Shade automatically appears to protect them. During the day, the Shade is less powerful and less supernaturally aware of danger, so Berelas must consciously summon the creature. She might also summon the Shade if she suspects the caravan is being spied upon, and send it out to hunt for nearby Player-heroes."
+        }
+      ],
+      "actions": [],
+      "equipment": [
+        "Ring of Seven Jewels"
+      ],
+      "spellcasting": null,
+      "description": "A talented healer who travels with the caravan. She carries the Ring of Seven Jewels and can summon the Cold Shade to protect it.",
+      "role": "Caravan member",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.99"
+    },
+    {
+      "name": "Mirabar of Dorwinion",
+      "race": "Human",
+      "class_name": "Merchant",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Merchant",
+          "description": "Mirabar is a merchant from the Land of Vineyards; he brings cloth from the East and trades it for gems and crafted items from the Blue Mountains. Most of the baggage ponies in the caravan belong to him, and he's the one who hired Edoric. Some years ago, he loaned a large sum of money to the dwarf-smith Vig, and he wants that debt repaid. When Vig protested that he didn't have the coin to repay Mirabar, the merchant decided to accompany the caravan himself (he normally dwells in the Vales of Anduin, across the mountains)."
+        },
+        {
+          "name": "Surface Details",
+          "description": "An old man, with a face like an aged crow, all beak and dark wary eyes. He's bundled in furs despite the warm weather; he has many rings of gold on his old fingers. He's the only member of the caravan to ride instead of walking."
+        },
+        {
+          "name": "First Impressions",
+          "description": "If he makes it as far as Bree, it'll be something of a miracle. He seems half-dead from the journey."
+        },
+        {
+          "name": "Close Associates",
+          "description": "No one. Edoric and Eoin obey his commands, but he doesn't welcome their company. He tolerates Berelas, glares at Hirlinon, and has little time for the Dwarves, who seem subdued in his presence."
+        },
+        {
+          "name": "Digging Deeper",
+          "description": "Mirabar keeps a ledger of accounts with him, and there's a column of red ink with Vig's name on it. The Player-heroes could learn this by sneaking into the camp and reading the journal, or by eavesdropping on Mirabar when he makes snide comments about Vig's indebtedness. He hates the Rangers, believing them to be nothing more than bandits. He blames them for the loss of several of his trade caravans en route to the Blue Mountains (in truth, the Dúnedain have saved far more of Mirabar's caravans from meeting grisly ends, but there's no reasoning with such prejudice)."
+        },
+        {
+          "name": "Secrets",
+          "description": "Mirabar believes he nearly died at the Forsaken Inn. He's sure that he glimpsed Death come to claim him and carry him away beyond the circles of the world. What he actually saw was the Shade sent by Gorlanc, the one that killed Mallor, but Mirabar's convinced that he's going to die on his journey. He's debating whether to forgive Vig his debt as a last kindness, or write up a letter to his business partners transferring the lien on the loan to them."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An old merchant from Dorwinion, traveling with the caravan to collect a debt from Vig. He is prejudiced against Rangers and fears he will die on the journey.",
+      "role": "Caravan leader",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Bree-land Region Guide p.99"
+    },
+    {
+      "name": "Gorlanc",
+      "race": "Human (Evil Men)",
+      "class_name": "Sorcerer",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Evil",
+      "armor_class": 12,
+      "hit_points": "65 (10d8+20)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 19,
+        "wisdom": 17,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Persuasion": 5
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Bewilder (1/day)",
+          "description": "Gorlanc still has enough magic to temporarily distract his foes. He can use his action to make all creatures within 30 feet make a DC 13 Wisdom saving throw or become Stunned for 1d4+1 rounds. While the effect lasts, he may use his bonus action to make a melee attack against a Stunned creature."
+        },
+        {
+          "name": "Enervation (Recharge 5-6)",
+          "description": "Gorlanc points at a creature and snarls in a dark tongue some sorcerous malediction. The target must make a DC 13 Strength saving throw. On a failure, the target is weakened: it may only move or take an action (not both) on its turn and has Disadvantage on attack rolls. And the end of its turn, the target may repeat the saving throw, ending the effect on a success."
+        },
+        {
+          "name": "Poisoned Dagger",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage and the target must make a DC 13 Constitution saving throw or become Poisoned until they take a long rest."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A foul-smelling old man with a ragged beard, wearing a mixture of tattered robes and fine but Hobbit-sized clothing. He is a sorcerer, tomb robber, and self-proclaimed lord of the North.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 450,
+      "source": "Bree-land Region Guide p.125"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Introduction",
+    "A History of the Bree-land",
+    "Dwarves of the Blue Mountains",
+    "Old Bones and Skin",
+    "Bree-land & Around",
+    "Strange Men, Strange Roads",
+    "Holed Up in Staddle",
+    "Index",
+    "An Empty Land",
+    "The Prancing Pony",
+    "Adventuring in Bree",
+    "Foes to Freeze the Heart"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 12,
+  "_book_slug": "BLRG",
+  "_book_title": "bree landregionguide",
+  "_completed": true,
+  "_timestamp": 1790287411.47009
+}

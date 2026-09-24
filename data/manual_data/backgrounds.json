@@ -1194,5 +1194,234 @@
     "description": "You are a creature of the forest, born and reared under a canopy of green. You expected to live all your days in the Margreve, at one with the green things of the world, until an unforeseen occurrence, traumatic or transformative, drove you from your familiar home and into the larger world. Civilization is strange to you, the open sky unfamiliar, and the bizarre ways of the so-called civilized world run counter to the truths of the Old Ways.",
     "source": "(Margreve Player's Guide)",
     "_source_manual": "MPG"
+  },
+  {
+    "name": "Loyal Servant",
+    "skill_proficiencies": [
+      "Insight"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Inseparable",
+      "description": "You are always close at hand when your master is concerned, though your presence is often ignored. Unless the Loremaster rules otherwise, you are always considered to be nearby your master, even in situations where you would not normally be expected to be. \nFor example, if your master is summoned to a secret council, you are assumed to tag along and eavesdrop. If your master tries to sneak off alone, you are assumed to have followed after him like a loyal hound."
+    },
+    "description": "You have dedicated your life to the service of another. You might be a member of a retinue of followers, or a knight in the king’s house, or just a humble gardener in the employ of a gentle-hobbit. You always put your master’s needs above your own, even when your master ignores or overlooks yours.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Doomed to Die",
+    "skill_proficiencies": [
+      "Athletics",
+      "Intimidation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Dark Foreboding",
+      "description": "While they know not the hour or manner of their death, those Doomed to Die often have a sixth sense of sorts when in the presence of Shadow. They may not know exactly what is behind this feeling, but they can sense its presence grow stronger or weaker. The Doomed to Die can usually tell, for example, whether an Orc band is an isolated raiding party or part of a larger force being driven by something more sinister, or whether a nearby ruin is steeped in Shadow."
+    },
+    "description": "Things are not going to end well for you. You've known this for most of your life, although you don't quite understand why. It may just be a gut feeling or perhaps you took some prophetic dream to heart and assume that you're going to be denied a happy ending in life. You just soldier on as best you can before the inevitable happens, hoping that your actions will at least make you worth remembering in the songs and tales now being written.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Driven from Home",
+    "skill_proficiencies": [
+      "Intimidation",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Infamous",
+      "description": "Those who know of your past speak in half-hushed whispers of what drove you from your home. For some this is reason enough to give you a wide berth, for others it hints at a person desperate enough to take any job, no matter how menial or lowly. You can always find some sort of upkeep, at least enough to match your Standard of Living, whenever you are in a settlement of some sort."
+    },
+    "description": "You have no place to call home. This may be because it no longer exists, your people cast you out for some real or imagined reason, or you have done something that would prove troublesome should you ever return.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Emissary of your People",
+    "skill_proficiencies": [
+      "Persuasion"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Sigil of Your Master",
+      "description": "As an emissary you are entitled to a certain consideration amongst foreign peoples. While you cannot speak with the authority of your lord and master, you do receive some official respect. You can expect to pass through the lands of other Free Peoples unmolested, be able to call upon other kings and chieftains for lodging, and be received into the halls of power."
+    },
+    "description": "The Free People of the West are beginning to again make connections with each other. Trade is improving, alliances are forming and folk who have had nothing to do with each other for centuries are finding reasons to communicate. You have been sent by your people to go out and meet other cultures, see strange lands and report back on what is out there in the grand world. The Shadow is lifting, and not just in Wilderland, and you are a beacon of hope for a new age.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fallen Scion",
+    "skill_proficiencies": [
+      "History"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Noble Bearing",
+      "description": "Your family’s wealth, power and holdings may be gone, but your title remains. In social gatherings you are still a lord amongst lords and you are treated accordingly as such. You may call upon the rights of hospitality in any noble home and your words and advice often carry great weight; you aren’t easily dismissed. You are also expected"
+    },
+    "description": "You are the last of a powerful bloodline, or at least that’s what your parents and those closest to them keep telling you. Your aristocratic line was highly influential, perhaps even royal, before some calamity befell them. Perhaps the lands they once ruled were overrun or a coup drove them from power. Perhaps it’s as simple as your forebears disappearing while travelling through treacherous terrain. Whatever the case, you have a powerful destiny ahead of you should you choose to seize it.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Harrowed",
+    "skill_proficiencies": [
+      "Investigation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Foreknowledge",
+      "description": "Your dream often grants you riddles, verses and visions that not only directly aid you on your quest but also tangentially give you an insight into people and places that may only be peripherally related to your dream. Whenever you enter a new community or meet a person of note, you may have a flash of insight about their relationship to your dream. For example, if you are meeting a lord for the first time you may recall that a dream-verse indicates that he acts honourably, which likely means that you can trust him. Similarly, you may walk into a community with a vision of their friendly faces turning to abandonment and even betrayal when they stand with others in the face of Shadow."
+    },
+    "description": "You are plagued by a persistent dream. It beckons you to complete some task, although you are currently unsure of its particulars and whether fulfilling the dream will lead to good or ill. All that you do know is that the dream is strong and its intensity increases whenever you neglect its demands of you. It is simply impossible for you to get a good night's sleep otherwise.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hunted by the Shadow",
+    "skill_proficiencies": [
+      "Stealth",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Troubling to the Wise",
+      "description": "You or your family’s deeds are well-known amongst the notables of Middle-earth and you have come to know many lords, Elves and even Wizards. Some of these you count as friends and others are merely names you can mention to be accorded food and shelter for the night. Even your friends know that trouble follows you and they will do everything they can to help you on your way while keeping you as safe as possible. This means that you often have knowledge of the lesser-known hiding places and catacombs in the castles and cities that you visit."
+    },
+    "description": "\"I do not know for what reason the Enemy is pursuing you,\"answered Gildor, \"but I perceive he is – strange though that seems to me. And I warn you that peril is now both before you and behind you, and upon either side.\" You or your family have struck a blow against the Shadow and it hit back hard. The Shadow’s agents are tracking you everywhere, making it dangerous for you to stay in one place for too long. If that wasn’t enough, your reputation precedes you and your mere presence is disturbing and troubling to local notables. Most will still extend you the common courtesies due your station, but you are often encouraged to move quickly onward before the Shadow finds you.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.131)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Lure of the Road",
+    "skill_proficiencies": [
+      "Animal Handling",
+      "Survival"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Weather-lore",
+      "description": "As a seasoned traveller you have an uncanny ability to predict the weather; you can 'smell' rain or snow earlier than others or sense when a fog is about to roll in. You also know the best places to shelter from sudden storms and which areas to avoid. You have well-established habits and the ability to quickly forage what you need before settling in to wait out a storm. You also have a good grasp of creature habits in various types of weather conditions; you know where bears hibernate and where a Goblin band is likely to camp when a storm hits."
+    },
+    "description": "You are a rover; the road calls to you and you must answer. Sometimes, rare years, you return home to friends and family, but it does not take long before you start longing for the next adventure, to explore a new land, or meet unusual people.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Magician",
+    "skill_proficiencies": [
+      "Performance",
+      "Sleight of Hand"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Air of Magic",
+      "description": "While you rely on your theatrics and prestidigitation to provide you with room and board in your travels, there is another benefit to holding yourself as a magician: people tend to give you the benefit of the doubt. They may not believe that you can do everything that you say and most are savvy enough to know that at least some of your tricks are simple legerdemain, but that doesn’t mean that you don’t have some true magic inside you. No one wants to fall victim to a spiteful curse or be accused of being an agent of Shadow. As a result, people tend to give you a wide berth and accede to reasonable requests, so long as you don’t take undue advantage. A barn is always available to you even if the inn is full, food and wine are produced on request, and even minor conveniences like freshly washed clothes or grooming can be had with a simple ask. You can also sway opinions by noting that you prefer a particular course of action and insinuate that things may go badly if another course is taken, but be wary – there are always those who’ll gladly take a few coins to rid a community of a troublesome ‘Wizard.’"
+    },
+    "description": "When your wagon rolls into a village you are immediately beset by happy children who can’t wait to watch you perform magic under the sceptical eyes of their parents. You are only too happy to oblige – that is how you make your coin, after all – but you are careful to guard your illusions as real magic. Amongst your company, of course, you are free to operate as you truly are, a companion whose skills at deception, legerdemain and other such arts are useful assets to have on an adventure.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Oathsworn",
+    "skill_proficiencies": [
+      "Intimidation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Mighty Oath",
+      "description": "You have sworn a mighty oath, one that is now indelibly associated with your name. The oath itself should be both suitably epic and possible to accomplish; \"I want to kill the merchant who cheated me\" fails the first test, while \"I want to rid the world of Shadow\" fails the second. Vowing to destroy a Dragon plaguing the land is suitably epic, as is overthrowing an evil kingdom. \nA mighty oath carries its own legend and you often find yourself receiving aid from those who want to help the legend or even become embroiled in it. When you enter Lake-town, for example, you may find a merchant or two willing to donate a priceless weapon to your cause or re-provision you, while an eager young would-be adventurer may ask to join you on your quest. \nThe downside is that the subject of any such oath obviously wants to do away with you and if you enter a town or countryside that is beholden to the subject you may quickly find yourself in very difficult circumstances!\nFate also frowns on oath-breakers. If you ever abandon or break your oath, then fate conspires against you. Your reputation suffers and you become a magnet of ill-fortune. Such troubles tend to be minor at first, coaxing you back towards fulfilling your oath, but eventually the weight of them becomes so much that it destroys you in spirit if not of body as well (death is often too merciful for an oath-breaker)."
+    },
+    "description": "You are a pillar of your community, whether noble-born or someone who has already accomplished great deeds, and you have publicly sworn a great oath. Due to your station no one doubts that you'll either succeed in your oath or die trying. Towards that end you muster all of your energies to fulfilling your oath, as you know that both fate and Man do not look kindly on oath-breakers.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Reluctant Adventurer",
+    "skill_proficiencies": [
+      "Medicine",
+      "Nature"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Pathetic and Bedraggled",
+      "description": "You can take on the mien of a sad, desperate and despondent figure. As long as you are not threatening, strangers will take pity on you and give you a warm place to sleep for the night, hot food and a bit of comfort. Every time this happens you promise yourself that you will just stay home, yet you always soon find yourself back out in the Wild, living off of roots and berries, without any handkerchiefs."
+    },
+    "description": "If you had your way, you’d lead an idyllic life staying at home and tending your garden, perfectly boring and peaceful. You don’t know why you keep leaving home and walking the roads and trails of the land. It is never your choice, at least never your direct choice, but circumstances conspire and there you are, a hundred miles from home, cold, wet and without your handkerchiefs. You never actually enjoy your adventures… do you?",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Seeker of the Lost",
+    "skill_proficiencies": [
+      "Investigation"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Lore of the Lost",
+      "description": "While you have not found that which you seek, you have come across much lost lore concerning other issues. You know titbits of lore, hints of where lost kingdoms lie, ruins lay buried and relics have been discarded. \nWhen you hear about a new region or ruin for the first time, you probably know at least a bit of lore about it and where you can likely find even more information (such as a song known to minstrels of a particular region, an old book in a library in Rivendell, Goblin cave paintings in the Misty Mountains and so on)."
+    },
+    "description": "There is something missing from the world and you feel that it is your mission to find it, whether is be something from your own history or from those close to you. You might wish to reclaim an ancestral home, a forgotten treasure, or long faded lineage. Whatever it is, the search drives you and threatens to consume you.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "World Weary",
+    "skill_proficiencies": [
+      "History",
+      "Insight"
+    ],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Seasoned Connections",
+      "description": "Through the course of your long career you’ve met many people and made friends throughout the land; it is rare for you to enter a large town or city where you don’t know at least one person of import. Usually you can call upon these old connections for specific aid and favours based upon their professions and influence.\nYour enemy amongst these connections is time. A lot could happen between the heyday of your travels and now. Old friends that owed you favours may be dead and their children uninterested in helping you, a local prince may have fallen under the influence of the Shadow, or something unresolved since the last time you left still festers. Such difficulties are even more pronounced if you are a member of a long-lived race and it has been decades since you last set out on an adventure. Whenever you call on old contacts for aid be aware that your Loremaster may twist them into something else due to the passage of time."
+    },
+    "description": "You’ve had quite enough of the world; you’re either very long-lived or you’ve just seen so much in your life that you’ve grown tired of it. All of the pain and misery that you have endured was for naught; you simply want to live out the rest of your days until that merciful final journey commences. Unfortunately, something always calls you back to face danger one last time…but you’ll never admit that that ‘something’ likely comes from within.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "World-Weary (Elves Only)",
+    "skill_proficiencies": [],
+    "tool_proficiencies": [],
+    "languages": [],
+    "equipment": [],
+    "feature": {
+      "name": "Sea Dreams",
+      "description": "You often have dreams of the shores of the Undying Lands calling you, and sometimes the voices in your dreams bring you news of distant events or things yet to come. The Loremaster will inform you if you have such a prophetic dream or warning from the Valar."
+    },
+    "description": "Optional World-Weary: The Call of the Sea (Elves Only). The Elves are leaving Middle-earth. As the long years go by and the Shadow deepens, more and more of the Firstborn seek the Grey Havens and take to the ships that wait for them there. They go West, sailing the straight path to the Undying Lands beyond. If you take this background, you are leaving Middle-earth and are on your way to the Sea, although you may take a winding road to get there. Replace the Seasoned Connections feature with Sea-Dreams.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
   }
 ]

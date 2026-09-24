@@ -5164,5 +5164,849 @@
     ],
     "source": "(Margreve Player's Guide, p.31)",
     "_source_manual": "MPG"
+  },
+  {
+    "name": "Master Healer",
+    "class": "Scholar",
+    "description": "A Scholar who specializes in the healing arts, using knowledge of herbs and medicine to mend wounds and cure ailments.",
+    "features": [
+      {
+        "name": "Athelas",
+        "level": 3,
+        "description": "Burned into a powder and then boiled, this herb produces a cloud of vapour that removes a level of exhaustion from a number of creatures equal to your Scholar level."
+      },
+      {
+        "name": "Hagweed",
+        "level": 3,
+        "description": "Ground into a paste, dried and smoked in a pipe, hagweed eases the spirit and cures 1 Shadow point. A Master Healer can only cure 1 Shadow point using hagweed per year."
+      },
+      {
+        "name": "Kingcup",
+        "level": 3,
+        "description": "A poultice of kingcup applied to a poisoned wound draws the poison out and heals any damage the poison has caused."
+      },
+      {
+        "name": "Reedmace",
+        "level": 3,
+        "description": "Dried, powdered and inhaled, reedmace allows a person to stay awake and aware for three days without the need for sleep or food. After that, the Player-hero gains two levels of exhaustion."
+      },
+      {
+        "name": "Shadow-thorn",
+        "level": 3,
+        "description": "Once double brewed and strained, shadow-thorn produces a wet residue of plant matter that can be used to perfectly mask a creature’s scent, giving them advantage on Dexterity (Stealth) ability checks for three days."
+      },
+      {
+        "name": "Water-lily",
+        "level": 3,
+        "description": "If dried and ground into a fine powder, white water-lily can be baked into sweet cakes. These cakes invigorate and revivify, allowing a single person to gain the advantages of a long rest while taking a short rest. If boiled down to a syrup, red water-lily creates a potent but evil-smelling liquid. Few who know of this use readily produce this remedy, for while it does grant the Player-hero +2 to attack and damage rolls for an hour, it also generates a red anger and 1 Shadow point."
+      },
+      {
+        "name": "Healer’s Staunching Song",
+        "level": 3,
+        "description": "The words of this song and its special tune can help wounds close and help heal injuries. Once you have learned this song, during a short rest you may perform it for a number of companions equal to your Scholar levels. Those benefiting from this song may each recover one of their Hit Dice worth of damage + their Constitution modifier without expending any of their Hit Dice."
+      },
+      {
+        "name": "Friend to All",
+        "level": 3,
+        "description": "A Master Healer is welcome nearly everywhere, and even bitter foes will hesitate to attack such a person. Your reputation and skill precedes you. You gain advantage on any rolls to convince a person to give you shelter or food for a night. Additionally, if you do not make an attack during combat, intelligent foes that do not serve the Shadow will not attack you. However, you have sworn to use your skills to help all who need your aid, so refusing or neglecting to treat any potential patient counts as a Misdeed for you. Additionally, if you do not have it already, gain proficiency in the Traditions skill."
+      },
+      {
+        "name": "Softer Underneath",
+        "level": 3,
+        "description": "Your studies of the anatomy of various creatures and beings have granted you an intimate knowledge of their weaknesses. If you spend an action studying a target, you gain an additional damage die that may be applied to a single attack from you or a companion that hits the creature. This die is a d6 at 3rd level, and increases to a d8 at 6th, a d10 at 12th, and a d12 at 20th level."
+      },
+      {
+        "name": "Relief from Long Burdens",
+        "level": 3,
+        "description": "You have learned how to heal even the wounds of the heart and mind. If you spend a long rest doing nothing but resting and talking with a willing creature, you may remove a Shadow point from that creature. The number of Shadow points healed increases to two points at 10th level and three points at 20th level. You cannot use this ability on yourself, nor can another Master Healer so assist you."
+      },
+      {
+        "name": "The Weapons of the Enemy",
+        "level": 3,
+        "description": "You know how to counteract the various poisons Orcs use. You can cure certain terrible wounds inflicted by the evil spells or weapons of the Enemy, such as Morgul-knives or the Black Breath of the Nazgûl. Additionally, if you do not have it already, gain proficiency in the Shadow-lore skill."
+      },
+      {
+        "name": "House of the Healer",
+        "level": 14,
+        "description": "At 14th level, if you reside in a place for more than a year, it becomes a Sanctuary as long as you remain there. Once you leave, this blessing persists for one month per Scholar level."
+      },
+      {
+        "name": "Seen and Unseen",
+        "level": 18,
+        "description": "Once you reach 18th level, even if you have never been there, the light of the Blessed Realm shines in your eyes. You have advantage on all tests against Corruption, and can see invisible creatures and spirits."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.68)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Master Scholar",
+    "class": "Scholar",
+    "description": "A Scholar who dedicates themselves to the pursuit of knowledge and lore, mastering many fields of study to aid their companions and overcome challenges.",
+    "features": [
+      {
+        "name": "Bonus Proficiency",
+        "level": 3,
+        "description": "When you choose this speciality at 3rd level, you gain proficiency in a single Intelligence or Wisdom skill of your choice."
+      },
+      {
+        "name": "Secret Lores",
+        "level": 3,
+        "description": "Also at 3rd level, you learn one branch of obscure or hidden lore. You gain another secret at 7th, 10th, 14th and 18th levels. Choose from the following secrets."
+      },
+      {
+        "name": "Ancient Lore",
+        "level": 3,
+        "description": "Your knowledge stretches back to the Elder Days. You know the names of the Two Trees, the Tale of the Three Jewels and the terror of the Great Enemy Morgoth. You’ve heard the tales of the Elven Kingdoms of Beleriand, now lost beneath the sea, and the stolen halls of the Dwarf Lords, and you know of the rise and fall of the Dúnedain. You may make Intelligence (History) ability checks without penalty regarding ancient matters. Additionally, if you do not have it already, gain proficiency with History."
+      },
+      {
+        "name": "Birds & Beasts",
+        "level": 3,
+        "description": "You have learned the secret speech of a specific breed of animal, such as the speech of eagles or foxes. You can communicate with them using skills such as Deception, Insight, Intimidation and Persuasion. Animals may be persuaded to carry messages, spy on areas or even lead a Master Scholar to food and water. The communication is limited to the knowledge of the animal in question and animals tend to care only about the things of their world, such as food, shelter and predators, paying little attention to the goings-on of larger creatures; however, a great deal of knowledge can be gleaned from their speech, and while a songbird might not be able to tell an Orc from a Hobbit, she will note which is despoiling the forest. You may choose this secret a second time. If you do, your knowledge expands from a specific breed to all creatures of a similar kind and you gain Advantage on your Charisma skills regarding them. For example, when you first select this secret, you learn the hooting speech of owls; with your second, you learn the tongues of all birds and gain their favour."
+      },
+      {
+        "name": "Dark Knowledge",
+        "level": 3,
+        "description": "Dark and terrible is the lore of the Enemy and you, perhaps, know more of it than is safe. Upon selecting this secret, you learn the Black Speech of Mordor and can make ability checks about information regarding the Shadow and its followers without penalty. Additionally, if you do not already possess it, gain proficiency with Shadow-lore. Finally, when you learn this Secret, you gain 4 Shadow points."
+      },
+      {
+        "name": "Natural World",
+        "level": 3,
+        "description": "You know the secret properties of many plants, for good and ill, readily identifying natural poisons. You can tell if a beast is natural or not just by looking at it. While you may not have met them, you know of the existence of the Shepherds of the Trees, the Ents of Fangorn Forest. With a successful DC 15 Intelligence (Nature) ability check you can correctly identify a Blighted area, and can guess roughly what caused it to become blighted. If you travel through an area whose blight you successfully deduced, you have advantage on your Wisdom saving throw against Corruption. In addition, if you do have it already, gain proficiency with the Nature skill."
+      },
+      {
+        "name": "Runes",
+        "level": 3,
+        "description": "You know the secrets of reading old runes, from the ancient Tengwar to the Alphabet of Daeron – the Angerthas Moria. You are adept at finding lore hidden within cunning texts and have advantage on Intelligence (Lore) ability checks regarding all such matters."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.68)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Rider",
+    "class": "Slayer",
+    "description": "While the Rohirrim are the most famous riders among the Free People, they are not the only folk to fight from horseback. The charge of a mounted Slayer is as terrible and glorious as the break of dawn, and the blowing of their horns resounds from the mountains to the Sea.",
+    "features": [
+      {
+        "name": "Mounted Combat",
+        "level": 3,
+        "description": "Beginning at 3rd level, if you are mounted, you deal an extra 1d4 damage when you hit an unmounted Medium or Small foe with a melee attack. If you take the Dash action you may make an attack as a bonus action."
+      },
+      {
+        "name": "Mighty Spear-Throw",
+        "level": 6,
+        "description": "At 6th level, when you throw your spear with advantage, you automatically inflict maximum damage instead of rolling the dice. If you are mounted, you do not gain disadvantage when throwing your spear at long range."
+      },
+      {
+        "name": "Horns Wildly Blowing",
+        "level": 14,
+        "description": "At 14th level, you can inspire your allies. As a bonus action, you may blow your horn or shout a battle-cry. If you do, a number of allies equal to 1+ your Charisma modifier gain the benefits of your Reckless Attack feature. If an ally makes a Reckless Attack, they get to add your Fury Damage bonus to their damage rolls."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.74)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Foe-Hammer",
+    "class": "Slayer",
+    "description": "Slayers who walk the path of the Foe-hammer wade into the very thick of battle, heedless of their enemies' paltry blows. Such Slayers are near unstoppable, their fury enhancing their might to a point where they can slay lesser warriors with nothing more than a blow of their fist.",
+    "features": [
+      {
+        "name": "Armoured Fury",
+        "level": 3,
+        "description": "Starting when you choose this path at 3rd level, you gain the full benefits of your Battle-fury while wearing heavy armour. In addition, if you do not already have it, you also acquire the heavy armour proficiency."
+      },
+      {
+        "name": "Hooped and Hasped",
+        "level": 6,
+        "description": "Beginning at the 6th level, your armour no longer impedes you in any way. You add your full Dexterity modifier as a bonus to your Armour Class, regardless of the type of armour you are wearing. You are no longer subject to stealth disadvantage when wearing medium armour."
+      },
+      {
+        "name": "Hammerhand",
+        "level": 10,
+        "description": "Beginning at 10th level, your anger courses through your limbs. At all times, your hands now count as martial melee weapons. When you are in a Battle-fury, they do a base 1d4 bludgeoning damage and score a critical hit on a roll of 19-20. If you are fighting with a melee weapon other than your hands, then you immediately get a bonus unarmed attack if you miss with your regular attack as a bonus action."
+      },
+      {
+        "name": "Splintered Spears & Shattered Shields",
+        "level": 14,
+        "description": "Starting at 14th level, you may choose to channel all of your fury into a single, devastating, blow. You can choose one of the following options: • Automatically score a critical hit in melee combat with any melee weapon other than your fist. After determining damage, your weapon is utterly broken in the attack and cannot be used again. (Some ancient, often magical, arms cannot be broken, but can be damaged enough to require repair after being used in this fashion.) Creatures immune to critical hits still take the full damage from this attack. • Automatically destroy an opponent's shield in place of an attack, splitting it asunder, or crumpling it under a heavy blow. Some shields, often wrought by Durin's folk long ago, cannot be broken this way, in which case the opponent suffers damage as if they had been successfully struck. Once you have used this ability, you cannot use it again until you have had a long rest. At 17th level, this ability may be used twice per long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.75)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Treasure Hunter",
+    "class": "Treasure Hunter",
+    "description": "Treasure Hunters are not necessarily burglars or thieves; they might equally be explorers or scouts. Soft-footed and clever, a Treasure Hunter can be a marvellous asset to a company of adventurers, even if they cannot be entirely trusted.",
+    "features": [
+      {
+        "name": "Expertise",
+        "level": 1,
+        "description": "At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies. At 6th level, you can choose two more of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools, to gain this benefit."
+      },
+      {
+        "name": "Night Vision",
+        "level": 1,
+        "description": "Due to the clandestine nature of your activities you tend to operate in the shadows and other dimly lit or unlit places. Over time you have grown accustomed to doing so and your senses have adapted accordingly. While you don't necessarily see better in dim light or total darkness, your other senses have grown to compensate for it. Within 60 feet, you treat dim light as if it were bright light and no light as if it were dim light. Note that while your other senses aid your sight, you cannot use this feature if you are Blinded."
+      },
+      {
+        "name": "Sneak Attack",
+        "level": 1,
+        "description": "Beginning at 1st level, you know how to strike subtly and exploit a foe's distraction. Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon. You don't need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn't incapacitated, and you don't have disadvantage on the attack roll. The amount of this extra damage increases as you gain levels in this class, as shown in the Sneak Attack column of the Treasure Hunter table."
+      },
+      {
+        "name": "Cunning Action",
+        "level": 2,
+        "description": "Starting at 2nd level, your quick thinking and agility allow you to move and act swiftly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage or Hide actions."
+      },
+      {
+        "name": "Treasure Hunter Archetype",
+        "level": 3,
+        "description": "At 3rd level, you choose an archetype that you emulate in the exercise of your Treasure Hunting abilities. Choose Agent or Burglar (both are detailed at the end of the class description)."
+      },
+      {
+        "name": "Uncanny Dodge",
+        "level": 5,
+        "description": "Uncanny Dodge feature (description not provided in source text)."
+      },
+      {
+        "name": "Avoidance",
+        "level": 7,
+        "description": "Avoidance feature (description not provided in source text)."
+      },
+      {
+        "name": "Luck-winner",
+        "level": 11,
+        "description": "Luck-winner feature (description not provided in source text)."
+      },
+      {
+        "name": "Quiet as Quiet",
+        "level": 14,
+        "description": "Quiet as Quiet feature (description not provided in source text)."
+      },
+      {
+        "name": "Slippery Mind",
+        "level": 15,
+        "description": "Slippery Mind feature (description not provided in source text)."
+      },
+      {
+        "name": "Elusive",
+        "level": 18,
+        "description": "Elusive feature (description not provided in source text)."
+      },
+      {
+        "name": "Stroke of Luck",
+        "level": 20,
+        "description": "Stroke of Luck feature (description not provided in source text)."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.76)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Agent",
+    "class": "Treasure Hunter",
+    "description": "The Agent relies on charm as much as stealth or wit. As such, while the Agent still knows a lot about getting into places normally barred to outsiders, they can often do so in the open by simply convincing people that they should be allowed to pass.",
+    "features": [
+      {
+        "name": "Bonus Proficiencies",
+        "level": 3,
+        "description": "You gain tool proficiencies with the disguise kit and the forgery kit, and gain proficiency with the Traditions skill if you don’t possess it already."
+      },
+      {
+        "name": "Secrets Gleaned",
+        "level": 3,
+        "description": "You are adept at observing the plans and weapons of your enemies. Starting at 3rd level, if you spy on an enemy without being detected for at least 10 minutes, you may pick one of the following benefits:\n• The Loremaster gives you a clue about the enemy’s plans or destination.\n• You spot a potential weakness in the enemy, giving you (or an ally you advise) advantage on the first attack you make against foes of that kind.\n• You gain a +1 bonus to AC against attacks made by enemies of the kind you are observing. This benefit lasts until you next take a short rest.\n• You gain advantage on Dexterity (Stealth) ability checks made against enemies of this kind. This benefit lasts until you next take a short rest.\n• You closely observe the enemy and can describe their appearance, gear and tactics in sufficient detail that when you give your report, other player-heroes gain advantage on checks to obtain more information about the enemy through ability checks like Intelligence (Lore) or Intelligence (Traditions)."
+      },
+      {
+        "name": "Riddling Words",
+        "level": 9,
+        "description": "At 9th level, you have mastered the art of gaining trust. When you spend at least 10 minutes persuading a creature of your good intentions, that creature is considered Charmed unless the creature makes a Wisdom saving throw against a DC 8 + your Charisma modifier + your proficiency bonus. \nThis charmed state lasts until you give the creature reason to doubt your sincerity or until a long rest. Another creature can attempt to break a Charmed creature from your influence, but has disadvantage on their appropriate social interaction roll if you are present."
+      },
+      {
+        "name": "Exit Strategy",
+        "level": 13,
+        "description": "When you reach 13th level, you have mastered the art of escape. Whenever you enter a new location your mind instinctively looks for all the ways that you can most efficiently extricate yourself should you find yourself in danger. You have advantage on any ability checks that you make for the sole purpose of escaping the location."
+      },
+      {
+        "name": "Compelling Words",
+        "level": 17,
+        "description": "When you reach 17th level, your ability to convince others borders on the preternatural. You may issue commands to any creature that you have charmed with your Riddling Words feature and that creature must carry them out to the best of its ability. \nIf the command is something that the creature would question or have an aversion to following your commands, then it gets another Wisdom saving throw against the DC for your Riddling Words feature. \nIf you are attempting to compel the creature to do something abhorrent to its nature, then it has advantage on its saving throw. Use of Compelling Words may count as a Misdeed."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.79)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Burglar",
+    "class": "Rogue",
+    "description": "You employ your dubious, if highly useful, skills to acquire things that others possess. Whether you use your prowess to plunder old forgotten ruins in search of unclaimed treasure, or the purses of honest Free Folk is up to you.",
+    "features": [
+      {
+        "name": "The Shadow of My Pockets",
+        "level": 3,
+        "description": "Yours may be a somewhat larcenous spirit, but you certainly don’t serve the Shadow in the East. Starting when you choose this archetype at 3rd level, when you commit a Theft Misdeed (normally causing you to automatically acquire 3 Shadow points) you only receive 1 Shadow point."
+      },
+      {
+        "name": "Filch",
+        "level": 3,
+        "description": "You are adept at picking people’s pockets and performing other acts of legerdemain when their guard is down. Also starting at 3rd level, when you make a Sneak Attack in melee combat, instead of inflicting extra damage you may instead successfully perform a Dexterity (Sleight of Hand) check on your opponent (you still do regular damage as normal if you wish). In addition to normal uses of Sleight of Hand, this feature enables you to take any weapon on your opponent’s person that they are not currently wielding."
+      },
+      {
+        "name": "Treasure Lore",
+        "level": 3,
+        "description": "When you first pick this archetype at 3rd level, you hear many tales about strongholds or ruins where great treasures may lay. Whenever you are told of a particular location or chance across it, you may ask the Loremaster for three pieces of information regarding the locale. This information is usually a mixture of particular treasures and obstacles. Information gleaned may be taken as generally true, although details may be fuzzy and key bits omitted."
+      },
+      {
+        "name": "Hide in Shadows",
+        "level": 9,
+        "description": "At 9th level, you have an uncanny ability to hide, or at least use the shadows to your advantage. So long as there are shadows present, you may take a bonus action to Hide, even when other creatures are aware of your presence. Such opponents may make a Wisdom (Perception) check (DC equals the result of your Dexterity (Stealth) check) to notice you and negate your attack advantage."
+      },
+      {
+        "name": "Wary",
+        "level": 13,
+        "description": "At 13th level, you have become accustomed to spotting traps and ambushes before they occur. You gain +5 on any passive Perception checks to spot an ambush or a trap. If you are actively searching for traps or ambushes, then you may substitute your increased passive Perception score for your ability check result if the former is higher."
+      },
+      {
+        "name": "Obfuscation",
+        "level": 17,
+        "description": "At 17th level, your ability to go unseen is legendary. You have advantage whenever you make a Dexterity (Stealth) ability check to hide and you can hide nearly anywhere. If you are in a shadowy area that lends itself to hiding, others looking for you have disadvantage."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.80)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Wanderer",
+    "class": "Wanderer",
+    "description": "A class focused on travelling through and surviving the wilderness of Middle-earth, with knowledge of specific regions and mastery of wild terrains.",
+    "features": [
+      {
+        "name": "Known Lands",
+        "level": 1,
+        "description": "Long years spent roaming over the land have given you vast amounts of knowledge about some of the regions of Middle-earth. You know the terrain of such lands like the backs of your hands and your lore can seem almost unnatural to any companions travelling with you. At 1st level, choose 3 regions + a number of regions equal to your Wisdom modifier from the Middle-earth maps. When you make an Intelligence or Wisdom check related to a land you know, your proficiency bonus is doubled if you are using a skill you are proficient in.\nWhen you are travelling in one of your Known Lands you gain the following benefits:\n• If any part of a journey passes through a land you know, the DC of your personal Event tests are lowered by 2.\n• If the entire journey passes through lands you know, and you act as Guide, you lower the Peril Rating of the Journey by 2.\n• You have advantage when making Wisdom saving throws against Corruption caused by Blighted lands you know.\n• You cannot become lost under normal circumstances.\n• You know at least one place in each Known Land where you can safely take a long rest: a settlement where you have friends, perhaps, or a hidden cabin in the woods or simply a dry and defensible cavern or secret glade.\n• You have advantage on Dexterity (Stealth) ability checks and can move stealthily at a normal pace.\n• While tracking other creatures, you automatically learn their exact number, their sizes and how recently they passed through the area.\nAt both 6th and 10th level you choose an additional number of Known Lands equal to 1 + your Wisdom modifier, with a minimum of 1. With the Loremaster's permission, you can save these Known Lands until you start exploring new areas – once chosen, they cannot be changed."
+      },
+      {
+        "name": "Ways of the Wild",
+        "level": 1,
+        "description": "You have a great deal of experience from travelling through the wilderness and surviving the various dangers that the wild constantly offers.\nAt 1st level, you have advantage on all Wisdom (Survival) ability checks when tracking others through the wilderness. If you act as a company's Guide on a journey, you are considered to be assuming all vacant travelling roles (you are considered to 'fill in' as the company's Hunter, Scout and Look-out at the same time, if no other companion is already covering that role).\nAt 6th level, your time in the Wild has taught you that only those that strike fast and hard live to fight another day. When fighting in the wilderness, your first round of attacks in every combat has advantage.\nAt 14th level, you can no longer be ambushed and cannot be surprised in the wilderness."
+      },
+      {
+        "name": "Fighting Style",
+        "level": 2,
+        "description": "Starting at 2nd level, you adopt a particular style of fighting as your speciality. Choose one of the following options. You cannot choose a Fighting Style more than once, even if you later get to choose again.\nArchery\nYou gain a +2 bonus to attack rolls you make with ranged weapons.\nDefence\nWhile you are wearing armour, you gain a +1 bonus to AC.\nDuelling\nWhen you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.\nTwo-Weapon Fighting\nWhen you engage in two-weapon fighting, you can add your ability modifier to the damage of the second attack."
+      },
+      {
+        "name": "Natural Watchfulness",
+        "level": 2,
+        "description": "Also at 2nd level, whether travelling, exploring or even resting, you have learned to constantly pay attention to the sights and sounds of the world about you. When in the wilderness, your proficiency bonus for Perception is doubled, if you are proficient in Perception."
+      },
+      {
+        "name": "Wanderer Archetype",
+        "level": 3,
+        "description": "At 3rd level, you choose an archetype you strive to emulate. Choose from the Hunter of Beasts or Hunter of Shadows (both detailed at the end of the class description). Your choice grants you features at 3rd level and again at 7th, 11th and 15th level."
+      },
+      {
+        "name": "Rumour of the Earth",
+        "level": 3,
+        "description": "Also starting at 3rd level, when you stretch yourself upon the ground with your ear pressed against the turf you can decipher the sounds of the earth. You can hear it groan when the enemy treads upon it, or echo the distant gallop of horses, or sing in tune with the rushing of tumbling waters.\nBetween each long rest, you may make a DC 15 Wisdom (Survival) ability check. On a success, the Loremaster must give you a useful piece of information about a quarry you are hunting or a place you are seeking. If you get 25 or higher as a result, the information gleaned may very well seem near-miraculous to others.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 4,
+        "description": "When you reach 4th level, and again at 8th, 12th, 16th and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1, or you can take a Cultural or Open Virtue. As normal, you cannot increase an ability score above 20 using this feature."
+      },
+      {
+        "name": "Extra Attack",
+        "level": 5,
+        "description": "Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "name": "Known Lands and Ways of the Wild improvements",
+        "level": 6,
+        "description": "At 6th level you choose an additional number of Known Lands equal to 1 + your Wisdom modifier, with a minimum of 1. With the Loremaster's permission, you can save these Known Lands until you start exploring new areas – once chosen, they cannot be changed. Additionally, at 6th level, your time in the Wild has taught you that only those that strike fast and hard live to fight another day. When fighting in the wilderness, your first round of attacks in every combat has advantage."
+      },
+      {
+        "name": "Wanderer Archetype feature",
+        "level": 7,
+        "description": "At 7th level, you gain a feature from your chosen Wanderer Archetype (Hunter of Beasts or Hunter of Shadows)."
+      },
+      {
+        "name": "Character Improvement",
+        "level": 8,
+        "description": "When you reach 8th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1, or you can take a Cultural or Open Virtue. As normal, you cannot increase an ability score above 20 using this feature."
+      },
+      {
+        "name": "Poison Resistance",
+        "level": 8,
+        "description": "At 8th level your long exposure to the poisons and venoms of the creatures of the wilderness (and the arrows of certain Orcs!) have partially inured you to them. You gain resistance to all poison damage."
+      },
+      {
+        "name": "Trackless Steps",
+        "level": 9,
+        "description": "Starting at 9th level, you cease leaving any signs of your passage through the Wild. You can no longer be tracked by any normal means through the wilderness. Additionally, you can cover the tracks of a number of companions equal to your Wisdom modifier, with a minimum of 1."
+      },
+      {
+        "name": "Hide in Plain Sight, Known Lands improvement",
+        "level": 10,
+        "description": "At 10th level you choose an additional number of Known Lands equal to 1 + your Wisdom modifier, with a minimum of 1. With the Loremaster's permission, you can save these Known Lands until you start exploring new areas – once chosen, they cannot be changed. Additionally, you gain the Hide in Plain Sight feature."
+      },
+      {
+        "name": "Wanderer Archetype feature",
+        "level": 11,
+        "description": "At 11th level, you gain a feature from your chosen Wanderer Archetype (Hunter of Beasts or Hunter of Shadows)."
+      },
+      {
+        "name": "Character Improvement",
+        "level": 12,
+        "description": "When you reach 12th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1, or you can take a Cultural or Open Virtue. As normal, you cannot increase an ability score above 20 using this feature."
+      },
+      {
+        "name": "Unflagging",
+        "level": 13,
+        "description": "At 13th level, you gain the Unflagging feature."
+      },
+      {
+        "name": "Ways of the Wild improvement, Vanish",
+        "level": 14,
+        "description": "At 14th level, you can no longer be ambushed and cannot be surprised in the wilderness. Additionally, you gain the Vanish feature."
+      },
+      {
+        "name": "Wanderer Archetype feature",
+        "level": 15,
+        "description": "At 15th level, you gain a feature from your chosen Wanderer Archetype (Hunter of Beasts or Hunter of Shadows)."
+      },
+      {
+        "name": "Character Improvement",
+        "level": 16,
+        "description": "When you reach 16th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1, or you can take a Cultural or Open Virtue. As normal, you cannot increase an ability score above 20 using this feature."
+      },
+      {
+        "name": "Blight Ward",
+        "level": 17,
+        "description": "At 17th level, you gain the Blight Ward feature."
+      },
+      {
+        "name": "Secrets on the Wind",
+        "level": 18,
+        "description": "At 18th level, you gain the Secrets on the Wind feature."
+      },
+      {
+        "name": "Character Improvement",
+        "level": 19,
+        "description": "When you reach 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1, or you can take a Cultural or Open Virtue. As normal, you cannot increase an ability score above 20 using this feature."
+      },
+      {
+        "name": "Deadly Foe",
+        "level": 20,
+        "description": "At 20th level, you gain the Deadly Foe feature."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.82)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hunter of Beasts",
+    "class": "Wanderer",
+    "description": "You can track your quarry across many miles, and bring it down with a well-placed arrow or swift blow. Some folk in Middle-earth rely on hunters for both sustenance and protection; the Woodmen of Mirkwood, for example, are kept safe from Spiders and other horrors by the arrows of their hunters. Others, like the Elves, hunt for sport, or for the joy of the chase – or hunt two-legged prey, trespassers and despoilers of the wood.",
+    "features": [
+      {
+        "name": "Tracker",
+        "level": 3,
+        "description": "Beginning at 3rd level, you double your proficiency bonus when making Wisdom (Survival) ability tests to track a creature. Furthermore, you may substitute Survival for Investigation when making deductions based on tracks, spoors and other physical traces."
+      },
+      {
+        "name": "Swift Shot",
+        "level": 7,
+        "description": "Beginning at 7th level, if you have a ranged weapon to hand, you may make a single ranged attack before initiative is rolled. This applies even if you are surprised."
+      },
+      {
+        "name": "Master Hunter",
+        "level": 11,
+        "description": "At 11th level, choose one of the following abilities. At 15th level, choose another. You may not choose the same ability twice."
+      },
+      {
+        "name": "Run to Ground",
+        "level": 11,
+        "description": "If you spend a day stalking a foe before attacking, that foe gains 1 level of exhaustion. If you spend three days, the foe gains another level of exhaustion (+2 total). If you spend a week, the foe suffers a third additional level of exhaustion (+3 total). This is in addition to any exhaustion levels otherwise accrued by the foe."
+      },
+      {
+        "name": "Volley",
+        "level": 11,
+        "description": "You can use your action to make a ranged attack against any number of creatures within 10 feet of a point you can see that are within your weapon’s range. You must have ammunition for each target, as normal, and you must make a separate attack roll for each target. You must finish a short or long rest before you can use this ability again.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Hunter’s Blessing",
+        "level": 11,
+        "description": "Regain a Hit Die (up to your maximum) when you bring down (kill or incapacitate) a creature you’ve been hunting. Once you’ve used this ability, you cannot regain a Hit Die in this manner again until you’ve finished a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.84)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hunter of Shadows",
+    "class": "Wanderer",
+    "description": "The lonely souls who choose this archetype forever hunt the servants of the Enemy, wherever they may hide. There is no respite for such Wanderers and little hope of final victory, yet they fight on, regardless.",
+    "features": [
+      {
+        "name": "Foe of the Enemy",
+        "level": 3,
+        "description": "Beginning at 3rd level, when you choose this archetype, all of your attacks made against servants of the Enemy inflict +2 damage. Such servants are Orcs, Goblins, Spiders, Trolls, many Evil Men and any other creature that willingly serves the Lord of Mordor. In addition, you gain proficiency in the Shadow-lore skill."
+      },
+      {
+        "name": "Revenge",
+        "level": 7,
+        "description": "Beginning at 7th level, whenever a servant of the Enemy successfully attacks you, as a reaction you can make a single attack against them in return."
+      },
+      {
+        "name": "Shadow Killer",
+        "level": 11,
+        "description": "At 11th level, choose one of the following features:"
+      },
+      {
+        "name": "Bane",
+        "level": 11,
+        "description": "Once per turn, when you hit a servant of the Enemy with an attack, you may deal an extra d8 radiant damage. Furthermore, if you use a flaming torch against undead or other evil spirits, your attacks deal 1d12 radiant damage instead of the normal damage for a torch."
+      },
+      {
+        "name": "Whirlwind Attack",
+        "level": 11,
+        "description": "You can use your action to make a melee attack against any number of creatures within 5 feet of you, with a separate attack roll for each target."
+      },
+      {
+        "name": "Defence Against the Shadow",
+        "level": 15,
+        "description": "At 15th level, you gain one of the following features of your choice."
+      },
+      {
+        "name": "Stand Against the Tide",
+        "level": 15,
+        "description": "When a hostile creature misses you with a melee attack, you can use your reaction to force that creature to repeat the same attack against another creature (other than itself) of your choice."
+      },
+      {
+        "name": "Unbreakable Will",
+        "level": 15,
+        "description": "You cannot be intimidated or frightened in any way and are totally immune to all supernatural sources of fear."
+      },
+      {
+        "name": "Uncanny Dodge",
+        "level": 15,
+        "description": "When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack’s damage against you."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.85)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Warden",
+    "class": "Warden",
+    "description": "In this age of the world where shadows grow deeper with every passing year, you have sworn to defend all who cannot defend themselves. Sometimes, your choice forces you to forsake civilised areas, to better guard their inhabitants from what lurks right outside their fences. This has made you a stranger in the eyes of the common folk, a figure as threatening as those you are protecting them from.",
+    "features": [
+      {
+        "name": "Hit Points",
+        "level": 1,
+        "description": "Hit Dice: 1d8 per Warden level.\nHit Points at 1st level: 8 + your Constitution modifier.\nHit Points at Higher Levels: 1d8 (or 5) + your Constitution modifier per Warden level after 1st."
+      },
+      {
+        "name": "Proficiencies",
+        "level": 1,
+        "description": "Armour: Light armour, shields.\nWeapons: Simple weapons, broadswords, long swords, short swords.\nSaving Throws: Dexterity, Charisma.\nSkills: Traditions, choose any other two."
+      },
+      {
+        "name": "Equipment",
+        "level": 1,
+        "description": "You start with the following extra equipment, in addition to equipment granted by your Standard of Living.\nPoor or Frugal: Any simple weapon, a short bow with a quiver of 20 arrows, a leather jerkin.\nMartial or Prosperous: A broad-, long- or short sword, a short bow or a great bow with a quiver of 20 arrows, a leather corslet, a shield.\nRich: A broad-, long- or short sword, a short bow or a great bow with a quiver of 20 arrows, a leather corslet, a shield or great shield."
+      },
+      {
+        "name": "Shadow Weakness: Lure of Power",
+        "level": 1,
+        "description": "Lure of Power"
+      },
+      {
+        "name": "Warden's Gift",
+        "level": 1,
+        "description": "You can inspire others through stirring words, through music or by your presence alone. To do so, use a bonus action on your turn. Choose one creature other than yourself that is within 60 feet of you and who can hear you. That creature gains one Gift die, a d6.\nOnce within the next 10 minutes, the creature can roll the Gift die and add the number rolled to one ability check, attack roll or saving throw it attempts. The creature can wait until after it rolls the d20 before deciding to use the Gift die, but must decide before the Loremaster says whether the roll succeeds or fails. Once the Gift die is rolled, it is lost. A creature may have only one Gift die at a time.\nYou can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses after a long rest.\nYour Gift die increases in size when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level and a d12 at 15th level.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Ever Watchful",
+        "level": 1,
+        "description": "Wardens make a point of keeping up with the latest news both local and from afar, as well as making an effort to know the wise and the powerful. If you can freely travel about an area talking with locals and passing travellers for a few hours, you can make a DC 12 Intelligence (Investigation) ability check with advantage. \nSuccess indicates that you hear all the latest useful rumours, including news of trouble. Failure means you hear all the latest rumours and news, but cannot discern the true from the false. On a success, you can also glean the names, whereabouts and general appearances of all local influential individuals, households and factions, as well as what livery, colours and heraldry they typically bear, if any."
+      },
+      {
+        "name": "Jack of All Trades",
+        "level": 2,
+        "description": "Wardens tend to know a little bit about everything. Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus."
+      },
+      {
+        "name": "Campfire Tales",
+        "level": 2,
+        "description": "Campfire Tales (d6)"
+      },
+      {
+        "name": "Talented",
+        "level": 3,
+        "description": "Talented"
+      },
+      {
+        "name": "Warden Expression",
+        "level": 3,
+        "description": "Warden Expression"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 4,
+        "description": "Character Improvement"
+      },
+      {
+        "name": "Dauntless",
+        "level": 5,
+        "description": "Dauntless"
+      },
+      {
+        "name": "Distraction",
+        "level": 6,
+        "description": "Distraction"
+      },
+      {
+        "name": "Expression Feature",
+        "level": 7,
+        "description": "Expression Feature"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 8,
+        "description": "Character Improvement"
+      },
+      {
+        "name": "Campfire Tales",
+        "level": 9,
+        "description": "Campfire Tales (d8)"
+      },
+      {
+        "name": "Talented",
+        "level": 10,
+        "description": "Talented"
+      },
+      {
+        "name": "Expression Feature",
+        "level": 11,
+        "description": "Expression Feature"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 12,
+        "description": "Character Improvement"
+      },
+      {
+        "name": "Campfire Tales",
+        "level": 13,
+        "description": "Campfire Tales (d10)"
+      },
+      {
+        "name": "Nor Weariness, Nor Endless Barren Miles",
+        "level": 14,
+        "description": "Nor Weariness, Nor Endless Barren Miles"
+      },
+      {
+        "name": "Expression Feature",
+        "level": 15,
+        "description": "Expression Feature"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 16,
+        "description": "Character Improvement"
+      },
+      {
+        "name": "Campfire Tales",
+        "level": 17,
+        "description": "Campfire Tales (d12)"
+      },
+      {
+        "name": "Commanding Voice",
+        "level": 18,
+        "description": "Commanding Voice"
+      },
+      {
+        "name": "Character Improvement",
+        "level": 19,
+        "description": "Character Improvement"
+      },
+      {
+        "name": "A Light When All Other Lights Go Out",
+        "level": 20,
+        "description": "A Light When All Other Lights Go Out"
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.86)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Counsellor",
+    "class": "Warden",
+    "description": "Your voice is your weapon. You have the ear of heroes and lords, and can accomplish more with a whispered word than with a drawn sword.",
+    "features": [
+      {
+        "name": "Bonus Proficiency",
+        "level": 3,
+        "description": "When you choose this expression at 3rd level, you gain proficiency in a single Charisma or Wisdom skill of your choice."
+      },
+      {
+        "name": "Discourse",
+        "level": 3,
+        "description": "Also starting at 3rd level, through carefully chosen words and the force of your personality, you have an uncanny ability to lower the guard of potential enemies and sway them towards parley instead of violence. Choose one creature within earshot and make a Charisma check with advantage. Your opponent may make a Wisdom saving throw. If you succeed, then that creature is considered friendly towards you. The skill you use for this Charisma check depends on the type of discourse that you wish to engage in: if you are trying to trick your opponent then you use Deception; if you are using your strength of arms to make your enemy stand down then you use Intimidation; if you are trying to convince a neutral party to join you then you use Persuasion; and if you simply wish to occupy your opponent’s attention for a while then you use Performance. In short, any Charisma-based skill can be used as long as there is a reasonable basis. A friendly creature actively tries to help you so long as it or its allies aren’t threatened; any attack against a friendly creature or its allies obviously ends the discourse! If you ask a friendly creature to commit a Misdeed, do something that would force it to defy its orders, or otherwise upset someone above it, then at the Loremaster’s discretion it is allowed to make another Wisdom saving throw. It takes a lot out of you to think quickly and find the best words to lower your opponent’s guard. Once this feature is used, it cannot be used again until you have taken a short rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Worthy Counsel",
+        "level": 7,
+        "description": "By 7th level, you are particularly good at giving advice. When you grant a creature a Gift die, if they use it to make an ability check following your guidance, they also have advantage on the roll. Alternatively, you can give bad counsel, and give them disadvantage on the roll, but only if the creature already trusts you and accepts your advice at face value."
+      },
+      {
+        "name": "Anticipate",
+        "level": 11,
+        "description": "At 11th level, your knowledge and experience almost give you a sixth sense when it comes to anticipating things that might go wrong. Once per long rest, if you have spent at least half an hour pondering a course of action, the Loremaster gives you some insight on one or more likely problems with your contemplated course of action. This could be a particularly stubborn diplomat, an insufficient number of troops to accomplish a goal or even the lack of an ally’s resolve to see a plan through. This feature does not give you access to any information that you would not reasonably know beforehand. For example, if your enemy secretly bolstered his troops with Black Númenórean mercenaries, then you would not have access to that knowledge; however, the Loremaster may inform you that your enemy would never make a move against you at his current strength, so the fact that he is moving against you must mean that something has changed, something that is likely to impact your own forces…",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Embassy",
+        "level": 15,
+        "description": "At 15th level, you are widely respected. No matter how hostile an enemy, your summons will bring that enemy to the negotiating table to hear your pleas or proposals. This is done under a flag of truce and there will be no deception on the part of those whom you have summoned. During this period of negotiation (usually about an hour) you have advantage on any ability checks made against your enemy. While this may not result in the enemy agreeing to your demands, you may have at least bought some time to get better prepared or learn more about your foe. Note that even the forces of the Dark Lord of Mordor will heed such a summons. Though they may choose to spend the hour mocking you, you can still glean much between their threats and insults. You can only enforce an audience with an enemy once during any particular Adventuring phase, although the Loremaster may waive this limitation for particularly complex plots or long wars."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.88)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Herald",
+    "class": "Warden",
+    "description": "Heralds are warriors as well as scholars, advocating for a cause that can motivate others and fighting for their beliefs. Heralds seek to witness great deeds of valour first hand and sing of what they have seen to others, to inspire them in turn.",
+    "features": [
+      {
+        "name": "Bonus Proficiencies",
+        "level": 3,
+        "description": "When you choose this expression at 3rd level, you gain proficiency in medium armour, shields and martial weapons."
+      },
+      {
+        "name": "Songs of Slaying",
+        "level": 3,
+        "description": "The songs of battle resound where Heralds are present. Also starting at 3rd level, you may expend one of your Warden’s Gift dice to give all of your allies within 30 feet an additional d4 on their next attack roll. Alternatively, any creature that has one of your Warden’s Gift dice may roll the die and add the number rolled to a weapon damage roll that they just made."
+      },
+      {
+        "name": "Extra Attack",
+        "level": 7,
+        "description": "Starting at 7th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+      },
+      {
+        "name": "Break Resolve",
+        "level": 11,
+        "description": "At 11th level, your steely gaze causes lesser foes to falter before you. As an action, you may attempt to instil fear in one creature within 30 feet of you that can see you by making a DC 15 Charisma (Intimidation) check. The affected creature must make a Wisdom saving throw (DC equals the result of your Charisma check) or gain the Frightened condition. You may use this ability only once, regaining it after a short rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "An End Worthy of Song",
+        "level": 15,
+        "description": "At 15th level, your stirring words help your allies stand against any challenge, even if it is to be their last stand. As an action, you can speak words of hope and valour that move you and all of your allies within 30 feet, granting each of you a +2 bonus on all attack rolls, a pool of temporary hit points equal to your Warden level and immunity to being Frightened. This effect lasts a number of rounds equal to your Charisma modifier +1 (minimum of 1). When this ability ends, all those affected lose any remaining temporary hit points they gained from this ability and suffer one level of exhaustion. You must take a long rest in a Sanctuary before you can use this ability again.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.90)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Bounder",
+    "class": "Warden",
+    "description": "Bounders protect the simple folk so they can go about their lives untroubled by the dangers of the untamed wilderness. To walk the path of the Bounders is to be forever on the edge of the Wild, patrolling where the tilled green fields meet the edge of dark forests. Bounders are resilient and near tireless guardians, who stay in the darkness, that others may thrive in the light.",
+    "features": [
+      {
+        "name": "Guardian",
+        "level": 3,
+        "description": "Starting at 3rd level when you choose this expression, when a creature you can see attacks a target within 5 feet of you (other than yourself), you can use your reaction to impose a disadvantage on the attack roll."
+      },
+      {
+        "name": "Ceaseless Guard",
+        "level": 7,
+        "description": "At 7th level, you can use your reaction in order to interpose yourself in front of an attack meant for another. You make a Dexterity saving throw with a DC equal to the enemy’s attack roll. If you succeed, the attack is automatically directed at you. If the ally you’re trying to protect has one of your Warden’s Gift dice, you may roll that die and add it to your AC against this attack only."
+      },
+      {
+        "name": "A Creature of Stone and Steel",
+        "level": 11,
+        "description": "At 11th level, you have been pounded into unyielding iron. You gain a permanent pool of temporary hit points equal to 12 + your Constitution modifier. This pool replenishes after finishing a long rest."
+      },
+      {
+        "name": "Unyielding Guard",
+        "level": 15,
+        "description": "Starting at 15th level, your skill at protecting yourself and others reaches its zenith. You can use your action to utterly thwart your enemies. Choose any number of opponents within 10 feet of you whose total Hit Dice are equal to or less than your own number of Hit Dice. For the following round, these opponents do not roll their attack dice – all of their attacks automatically miss. You cannot use this ability again until you’ve taken a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.90)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Knight",
+    "class": "Warrior",
+    "description": "Sworn to serve and defend a liege lord, the Knight places their body between those who would do violence and their charge. Steadfast and resolute, a Knight must always be alert for danger and ready to intercept it.",
+    "features": [
+      {
+        "name": "Sworn Defender",
+        "level": 3,
+        "description": "Upon choosing this archetype at 3rd level you gain the ability to nominate a Charge. At the end of a long rest you can name a person or place and swear mighty oaths to protect and defend it. This Charge remains until either it is killed, or you change your Charge following a long rest. While near your Charge, you gain temporary hit points equal to your Wisdom bonus plus your Warrior levels.\nAlternatively, your liege lord may assign you a task, in which case the completion of that quest becomes your Charge, and you lose the temporary hit points if, in the judgement of the Loremaster, you tarry or stray from your quest. \nIf your Charge is a place, it becomes a Sanctuary for you as long as it remains your Charge (see the Fellowship Phase chapter for more information on Sanctuaries)."
+      },
+      {
+        "name": "Marks of Honour",
+        "level": 3,
+        "description": "Also at 3rd level, your faithful service is recognised with a mark of honour. You gain another mark at 7th , 10th, 15th and 18th levels.\nChoose from the following marks.\nReward: Gain a Cultural Heirloom from your liege-lord’s culture. You may take this mark multiple times. \nInspiration: You may draw Inspiration from your Charge. Once you have gained Inspiration from your Charge, you cannot do so again until you finish a long rest. \nMinstrel’s Tales: After completing a task for your liege lord, you may declare that your deed has passed into song. In any social encounter, improve the starting attitude towards you by one step (see the Attitudes table on page 193). \nFor example, if you would normally be considered a Friend by another culture, you are now Favoured in their halls. If you would normally be looked upon Askance, they are at least now Neutral towards you. If your culture is Unknown in these parts, you at least are seen in a Neutral light.\nYou may take this mark multiple times; each time it improves attitudes by one step. \nOf course, if your task insulted or injured another culture, then you gain no benefit from having tales sung of your deeds in those parts.\nFor example, if Thranduil sends one of his Knights to challenge the best archer in Lake-town to a contest of archery, and the Elf-knight wins, then takes this benefit, word of the Elf-knight’s prowess with a bow would win her friends in all cultures other than Lake-town.\nOfficer: When you take this mark, you gain four Command dice, which are d6s. A Command die is expended when you use it. You regain all of your Command dice when you finish a short or long rest. As a bonus action you can give a Command die to any ally who serves your liege-lord, is within 60 feet and in line of sight. That ally can roll their Command die and add the number rolled to any ability check, attack or damage roll. \nOnly fellow Knights or soldiers of your liege lord can benefit from this ability. You may only give these dice to fellow player-heroes if they have been introduced to your liege and been accepted as allies of your cause.\nKnight’s Strike: You may spend Inspiration to strike with added fury, adding 3d6 damage to your attack."
+      },
+      {
+        "name": "Famed Protector",
+        "level": 15,
+        "description": "At 15th level, so long as you are within 30 feet of your Charge, you are immune to the Charmed, Frightened and Stunned conditions. Furthermore, you cannot become unconscious or incapacitated unless you have failed three death saves (at which point you die)."
+      },
+      {
+        "name": "Sacrifice",
+        "level": 18,
+        "description": "At 18th level, any time your Charge takes hit point damage or suffers a condition, if you are within 30 feet of your charge you may throw yourself in harm’s way, suffering the damage or condition instead. If the source of damage or condition grants a saving throw, you are assumed to have failed it; however, if it is an ongoing condition that grants saving throws, you may attempt them as normal beginning on the round after you used this feature."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.94)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Weaponmaster",
+    "class": "Warrior",
+    "description": "Seeking mastery over themselves as opposed to others, the Weaponmaster specialises in a style of fighting, sometimes even a specific weapon, to a degree other warriors can only dream of.",
+    "features": [
+      {
+        "name": "Style Focus",
+        "level": 3,
+        "description": "When you choose this archetype at 3rd level, you become even more fearsome a foe with your chosen Fighting Style. The Fighting Style chosen at 1st level gains additional abilities. \nArchery \nYou may spend your action aiming. If you attack with your bow next turn, you gain a +2 bonus to the attack and do not suffer disadvantage for attacking at long range.  \nDefence \nYou ignore disadvantage to Stealth checks due to your armour. \nDuelling \nWhen you are wielding a melee weapon in one hand and no other weapons, you may exchange your +2 bonus to damage from Duelling for up to a +2 bonus to attack. \nGreat Weapon Fighting \nYou have advantage while wielding a weapon with the Two-handed or Versatile traits if you are fighting against a creature your size or smaller.\nProtection \nAs a bonus action you may attack with your shield, inflicting 1d6 + Strength modifier points of damage on a hit.\nTwo-Weapon Fighting \nWhen wielding two weapons, you may forsake an attack with either one to give the next opponent to attack you disadvantage on their attack roll."
+      },
+      {
+        "name": "Masteries",
+        "level": 3,
+        "description": "Also at 3rd level, you have mastered a specific weapon. You gain another mastery at 7th , 10th, 15th and 18th levels.\nChoose from the following masteries.\nBirthright\nYou have acquired a weapon of fine make and long lineage. Give your weapon a name. When you first acquire this weapon, you gain advantage on any Charisma (Intimidation) or (Persuasion) ability checks while you carry it. At 3rd level, the weapon grants a +1 bonus to all attack and damage rolls. At 7th level the weapon gains one of the following qualities, and gains a further quality at 10th and 15th level.\n\n• \nBalanced: At the start of your turn, you may transfer the weapon’s bonus to attack to your AC. This bonus remains until the start of your next turn.\n\n• \nBaleful: A baleful weapon inflicts a critical hit on a natural roll of 19 or 20."
+      }
+    ],
+    "source": "(Adventures in Middle-earth Player's Guide, p.95)",
+    "_source_manual": "AIPG"
   }
 ]

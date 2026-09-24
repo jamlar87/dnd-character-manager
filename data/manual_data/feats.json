@@ -811,5 +811,264 @@
     "description": "You have mastered the use of ranged weapons to cripple your target from a distance. When you score a critical hit on a ranged attack roll, you can stun the target until the start of your next turn instead of doubling the damage.",
     "source": "(Margreve Player's Guide, p.35)",
     "_source_manual": "MPG"
+  },
+  {
+    "name": "Force of Will",
+    "prerequisite": "",
+    "description": "You have truly become one with your weapon; it acts as an extension of your will and you will not be denied. Any damage dealt by this weapon is considered to deal radiant damage, enabling it to bypass resistances and immunities that normally protect against your weapon type.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.97)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Guild Member",
+    "prerequisite": "",
+    "description": "You have gained membership in an organisation of warriors, such as the Bowman’s Guild of Lake-town or the Royal Archers of Dale. That organisation’s base becomes a Sanctuary for you and any companions, and the organisation will happily provide support for your endeavours in the form of food, shelter, access to training grounds and lore, and other means short of marching to war (though they might be convinced to do so).",
+    "source": "(Adventures in Middle-earth Player's Guide, p.97)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Lethal",
+    "prerequisite": "You must be 10th level or higher to take this Mastery.",
+    "description": "You know how to strike and strike hard. Your attacks add your proficiency bonus or your ability modifier; whichever is higher, to their damage.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.97)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Old Enemies",
+    "prerequisite": "",
+    "description": "Choose a foe, preferably one you personally have fought or your people regularly battle against. You gain that foe’s language and have advantage on Charisma (Deception) and (Intimidation), and Wisdom (Insight) ability checks involving them. When you are fighting against your chosen foe, whenever you roll for damage, you can re-roll your weapon’s damage dice and use either total.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.97)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Weaponmaster’s Challenge",
+    "prerequisite": "",
+    "description": "Nominate another ally in this battle. As long as the number of enemies you have slain in this encounter remains within 3 of the number of enemies the nominated ally has slain, you both gain a +1 bonus to attacks. After you have used this ability, you cannot use it again until you have finished a long rest.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.97)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Cultural Heirloom",
+    "prerequisite": "4th level or higher",
+    "description": "Your efforts on behalf of your people have not gone unnoticed – you are gifted an item of your choice from the list of your people’s Cultural Heirlooms, (see list starting on page 156). If lost or broken, heirlooms can be replaced at Sanctuaries. See the Loremaster’s Guide for more information on Sanctuaries.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.100)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Dour-handed",
+    "prerequisite": "8th level or higher",
+    "description": "When you throw a weapon or bend your bow, your hand is steady and your aim is sure.\nRaise the damage of all of your successful ranged attacks by half your proficiency bonus, rounded up.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.100)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Expertise",
+    "prerequisite": "",
+    "description": "You have practised a skill until it has become as natural as breathing.\nChoose a skill you are proficient in. Double your proficiency bonus on skill checks made with the chosen skill.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.100)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fell-handed",
+    "prerequisite": "8th level or higher",
+    "description": "You have learned to put all your strength into your blows in hand-to-hand battle.\nRaise the damage of all of your successful melee attacks by half your proficiency bonus, rounded up.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.100)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Sturdy",
+    "prerequisite": "",
+    "description": "You descend from a hardy line and recover far more quickly than most others.\nYou may re-roll Hit Dice spent during short rests and take the higher result.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.100)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Birthright",
+    "prerequisite": "",
+    "description": "\"Bard is not lost!\" he cried. \"He dived from Esgaroth, when the enemy was slain. I am Bard, of the line of Girion; I am the slayer of the Dragon!\"\nBefore the coming of the Dragon, there were noble houses in Dale, with famed lords who were bold and famously hard to kill. You are a direct descendant of one of the ancient illustrious households that were powerful in the city of Dale of old. You receive a +1 bonus on all Dexterity saving throws. If you are reduced to 0 hit points, but not killed outright, you are considered to have already successfully passed 1 death saving throw.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.101)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fierce Shot",
+    "prerequisite": "",
+    "description": "The great bow twanged … the arrow smote and vanished, barb, shaft and feather…\nYou have learnt to bend your bow so fiercely that you hear its string crack like a whip when it sends its arrows flying.\nRoll your damage die twice and keep the better result.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.101)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "King’s Men",
+    "prerequisite": "",
+    "description": "But there was still a company of archers that held their ground among the burning houses.\nThe former glory of the proud hosts of Dale has been restored by King Bard, and so the martial discipline that once made the city powerful is again imparted to all young men and women alike, lest the city be caught unprepared by assailants. You have sworn to protect the city and its king with your life, and in return you are regularly trained by the most expert swordsmen and bowmen of the realm.\nChoose two weapons from the following list: broadswords, long swords, spears, and great bows. You gain proficiency in your two chosen weapons and a +1 bonus to attack rolls made with them.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.101)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Swordmaster",
+    "prerequisite": "",
+    "description": "…and beside them came the men of the Lake with long swords.\nA skilled warrior can use their sword to deflect blows that would have otherwise hit their mark. You have learnt to fight defensively using your weapon to full advantage.\nWhen fighting with either a broadsword or a long sword, add your proficiency bonus to your AC.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.101)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Woeful Foresight",
+    "prerequisite": "",
+    "description": "\"You are always foreboding gloomy things!\" said the others. \"Anything from floods to poisoned fish. Think of something cheerful!\"\nMany citizens of ancient Dale found themselves blessed – or cursed – by a sort of foresight following Smaug’s destruction of the city. As a descendant of one of these bloodlines, you share this gift.\nSometimes, you feel a sense of foreboding that warns you of impending catastrophe and other gloomy events. But the future is always uncertain, and sometimes what you foresee never materialises.\nRaise your Wisdom score by 1 point. Additionally, once every Adventuring phase, you may invoke your power of Woeful Foresight. When this happens, the Loremaster should give you a relevant piece of information regarding adverse events likely to occur during your current adventure. \nIf no such information is available – or the Loremaster prefers not to divulge it – once, before the current Adventuring phase is over, you may choose to automatically succeed at either an attack roll, a saving throw or an ability check (your foresight led to a sudden bout of insight or deeper understanding that helped you at a key moment).\nYour foresight manifests in many forms: it can be a hazy vision, a recurring and enigmatic dream, or a cryptic message borne by a talking bird.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.101)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Brothers to Bears",
+    "prerequisite": "",
+    "description": "\"I once saw him sitting all alone on the top of the Carrock at night watching the moon sinking towards the Misty Mountains, and I heard him growl in the tongue of bears…\"\nBeorn has taught you to heed the call of an ancient animal heritage. When the moon is high in the sky and the world is fully revealed in an argentine glow, no sound escapes your ears, as the night speaks to you in the language of the Wild.\nFrom now on your sight and hearing are greatly enhanced at night, and let you see or hear better than under the light of the sun, and at a greater distance. At night, you have advantage on all Wisdom (Perception) ability checks, you are considered proficient in the Perception skill and you add double your proficiency bonus to checks, instead of your normal proficiency bonus.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.102)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Great Strength",
+    "prerequisite": "",
+    "description": "Standing near was a huge man with a thick black beard and hair, and great bare arms and legs with knotted muscles.\nIncrease your Strength score by 1. As long as you can move freely while fighting, you may profit from your great strength and nimbleness. \nIf you are using the variant encumbrance rules treat your encumbrance as one step lower. For example, if you would be heavily encumbered, you would only count as encumbered..",
+    "source": "(Adventures in Middle-earth Player's Guide, p.102)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Night-goer",
+    "prerequisite": "",
+    "description": "At night you can choose to slip into a dream-like state, and leave your body in spirit form to swiftly travel along the tracks made by animals across the length and breadth of Wilderland. In this state, you can swiftly explore an area within three days of travel, until sunrise wakes you. While this will not give you every detail, you will have a very good idea of the surrounding terrain and where danger may lurk. Your spirit form takes the appearance of a full-grown bear. It is visible to onlookers, and leaves tracks on the ground. While you are outside your body, any action you attempt is resolved using ability checks as usual, but any strenuous activity that causes a loss of hit points wakes you up. Any harm suffered while travelling in spirit form is transferred to your body at the moment of awakening. Once you've used this ability, it cannot be used again until you finish a long rest.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.103)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Skin-coat",
+    "prerequisite": "",
+    "description": "So long as you wear no armour of any kind, you have resistance to non-magical piercing damage.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.103)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Twice-baked Honey-cakes",
+    "prerequisite": "",
+    "description": "The honey-cakes of the Beornings are legendary among travellers. You can march far by eating just a little of them, and they are much more pleasant than cram, the waybread that Dale-men make for journeys in the wild. You have been shown the secret of baking such cakes, and can prepare them for the consumption of all members of your company. When you are on a journey, you and your fellow travelers may remove the first level of exhaustion you acquire.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.103)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Dauntless Guardians",
+    "prerequisite": "",
+    "description": "You have been raised in a land dotted with desolate ruins and burial mounds. You have heard the dead whisper with cold voices out of lonely barrows, while ghostly lights dance on haunted hills. There are few among mortal Men who know more about evil spirits or fear them less than you do… When you first select this virtue you learn how to See the Unseen. You may later reinforce your spirit with Strength of Will by learning it as your undertaking during a Fellowship phase. Finally, you reach the stature of a true Wraith Bane by training as a new undertaking during a later Fellowship phase.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.103)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "See the Unseen",
+    "prerequisite": "",
+    "description": "It is said that the Elven-wise can perceive shades and wraiths that are otherwise invisible to the eyes of Mortals. You have been taught to recognise the signs that betray the haunting of a restless spirit. You are automatically aware of the presence or proximity of ghosts, shades and wraiths of any kind. A successful DC 15 Intelligence (Lore) ability check yields additional information on the nature of the haunting.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Strength of Will",
+    "prerequisite": "",
+    "description": "In moments of fear, your will can strengthen your heart, so that you can withstand the great terror awakened in all Mortals by the denizens of the Unseen world. When an Undead creature forces you to make a Wisdom saving throw against Corruption or any effect that may cause the Frightened condition, you may add your proficiency bonus to the check. If you roll either a 19 or 20 to pass the check, you can allow a number of companions equal to your Wisdom modifier to pass their own checks automatically.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Wraith Bane",
+    "prerequisite": "",
+    "description": "In long centuries of secret strife, the things that hide among the ruins of Arnor have learnt to fear the fell Dúnedain. All of your attacks cause +2 damage to Undead creatures that can be affected by your weapons.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Endurance of the Dúnedain",
+    "prerequisite": "",
+    "description": "The Dúnedain have long endured war against Mordor and the forces of the Great Enemy. They are slow to weary and endure burdens stoically. In battle they are fearsome foes, often able to fight on against overwhelming odds and in spite of grievous wounds. When a blow reduces you to 0 hit points, but does not kill you outright, you may spend Inspiration to regain 1 hit point, remain conscious and continue to take actions.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Foresight of their Kindred",
+    "prerequisite": "",
+    "description": "The Dúnedain still have in a measure the powerful foresight their ancestors possessed in full before their race was diminished. Some Dúnedain perceive the future in dreams, others catch sudden glimpses of what is to be with their waking eyes. Raise your Wisdom score by 1 point. Additionally, once every Adventuring phase, you may invoke your power of Foresight by spending Inspiration. When this happens, the Loremaster should give you a relevant piece of information regarding important events likely to occur during your current adventure. You can seldom foresee exactly what is to befall, but you may gain clear images of where you should go, places to be wary of, a wanderer you can trust and so forth. If no such information is available – or the Loremaster prefers not to divulge it – once, before the current Adventuring phase is over, you may choose to automatically succeed at either an attack roll, a saving throw or an ability check (your Foresight led to a sudden bout of insight or deeper understanding that helped you at a key moment).",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Royalty Revealed",
+    "prerequisite": "Northern Dúnedain only.",
+    "description": "The Rangers of the North belong to a bloodline of Kings, but they have learnt to hide from their enemies in the twilight years of their kingdom. Should you choose to reveal your heritage, your noble bearing will cause your enemies to pause, and your allies to cast away their doubts. You may take a bonus action to reveal yourself in battle, by shouting an ancestral battle-cry or unsheathing a weapon of high lineage, for example, or by showing a device or coat-of-arms during an encounter with someone. Your allies within 10 feet immediately recover 1d6 + your Charisma modifier in hit points. Your enemies within 10 feet must make a Wisdom saving throw against a DC equal to 15+ your Charisma modifier. Failure means they are Frightened of you for 1 minute. While Frightened in this way, a creature must spend its turns trying to move as far away from you as it can, and it cannot willingly move to a space within 30 feet of you. It also cannot take",
+    "source": "(Adventures in Middle-earth Player's Guide, p.104)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Horse-archery",
+    "prerequisite": "",
+    "description": "You are allowed to use a bow from horseback without drawing disadvantage on your attack roll against foes within 5 feet of you. Additionally, you gain a +1 bonus to ranged combat attack rolls while mounted on a horse.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Shield-raising",
+    "prerequisite": "",
+    "description": "When you are using a shield while mounted, your shield increases your Armour Class by +3.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Sword and Spear",
+    "prerequisite": "",
+    "description": "When you are using a broadsword, long sword or a spear while mounted on a horse, you gain a +2 bonus to damage rolls.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Master of Doom",
+    "prerequisite": "",
+    "description": "Doom hung over them, but they faced it silently. Many among your folk believe that the destiny of every man is determined already when he comes first unto this world. But some scorn this belief, deeming that by his own strength a man may master his doom. Wise men consider this to be a thought born of vain pride, and dangerous. What you think is that if you cannot conquer your fate, you will fall while trying. At the start of any Adventuring phase you may choose to temporarily reduce your Wisdom by a number of points up to the total of your Proficiency Bonus. For each point that you reduce your Wisdom you add a number of temporary Hit Points equal to 1d10 + your Constitution modifier to a pool that lasts, unless reduced by damage, till the end of the Adventuring phase. During the following Fellowship phase, anything left in the pool is removed and your Wisdom returns to its normal score. Note that lowering your Wisdom changes your Wisdom modifier and lowering it beneath the number of Shadow points you presently have will instantly render you subject to the Miserable condition (see page 183) and in danger of a Bout of Madness.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Old Songs and Children’s Tales",
+    "prerequisite": "",
+    "description": "\"They are… wise but unlearned, writing no books but singing many songs, after the manner of the children of Men before the Dark Years.\" In these strange days you have learnt that the songs of the old days tell of many things that have been long forgotten, and what is often deemed to be the matter of legends may return to walk under the Sun. There is worth in each word of every rhyme, and wisdom in each dark stave of song that have come down from father to son in the House of Eorl. Yours is an oral culture and you retain far more knowledge of old lore than most. By drawing on old snippets of lore and fragments of stories you can grant yourself advantage on ability checks using the following skills: History, Insight, Investigation, Lore, Medicine, Nature, Performance, Riddle, Survival and Traditions. You can do this a number of times during an Adventuring phase equal to your Intelligence modifier, minimum of 1. This ability covers many strange bits of lore, you may very well know pieces of hidden knowledge about the Shadow, or other seemingly lost tales at the Loremaster’s discretion. It is worth noting that using this ability does not imply that you suddenly burst into song, but rather that you run over snatches of old rhymes from your memory, murmuring a few words or maybe singing softly to yourself.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "A Hunter’s Resolve",
+    "prerequisite": "",
+    "description": "On and on he led them, tireless and swift… You have learnt to tap into the inner strength of the indefatigable and relentless hunter. You may spend Inspiration in order to expend Hit Dice for hit point recovery immediately, including during combat. Once you’ve decided how many Hit Dice to expend, this ability cannot be used again until you’ve taken a short or long rest.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Herbal Remedies",
+    "prerequisite": "",
+    "description": "Radagast … has much lore of herbs and beasts… Mirkwood is shunned by many men and beasts, yet its shadowy eaves are still good for the growing of herbs. You are learning the ancient craft of concocting salves and herbal remedies from your village elders and wise-women. You learn to recognise which herbs qualify as Fragrant Weeds when you first select this virtue, and can master the secrets of Poison Remedies as your undertaking during a Fellowship phase. Fragrant Weeds You have developed the habit of chewing some herbs and roots that are said to bring vigour back into a man’s limbs. As long as you are in a wild area, you can collect enough herbs for their effect to be noticeable: You ignore the effects of one level of exhaustion – the level doesn’t go away, but you don’t suffer the penalty. For example, if you have three levels of exhaustion, you are only penalised as if you had two. Poison Remedies You can find the necessary ingredients to concoct a drink that, when ingested, will help a victim shake off the effects of Spider-poison, or to prepare a salve that when applied to a wound or a bruise will neutralise the action of Orc-poison. Spend Inspiration and make a DC 15 Wisdom (Medicine) ability check to neutralise the effects of a single poison type on all members of your company. The same concoction will grant advantage on all saving throws against poison for the next hour after imbibing.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.115)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hound of Mirkwood",
+    "prerequisite": "",
+    "description": "\"…in trotted… several large, long-bodied grey dogs.\" Your folk have always delighted in training great, long-jawed hounds, stronger than wolves. You have chosen a wolfhound of Wilderland to accompany you in your wanderings and the faithfulness of your hound reinforces your spirit. Raise your Wisdom score by 1 point. Add your proficiency bonus to the Hound’s AC, attack rolls, damage rolls, saving throws and skills. Its hit points are equal to four times your level. The Hound heals using your Hit Dice. The Hound obeys your commands and stays by your side. On your turn, you may use your action to command the Hound to take an Attack, Dash, Dodge, Disengage or Help action. If you have the Extra Attack feature, you can make one weapon attack yourself while commanding your hound to Attack. The training of a Hound of Mirkwood is an endeavour in itself; the teachings of Radagast have turned this craft into an art. When you first choose this virtue, your Hound learns to assist you with one skill as described under Support below. You can train him to Support additional skills, as well as to Fight in combat, as a separate undertaking during later Fellowship phases, as follows: Support You can train your Hound to assist you in one activity. A dog can be trained to support you when making any one of the following ability checks: Charisma (Intimidation), Intelligence (Investigation) or Wisdom (Perception). It takes a Fellowship phase worth of training to teach your dog to complete an additional task. When you make ability checks using one of your Hound’s trained skills, you gain advantage, and count as proficient in the skill even if you are not – if you are proficient, you get to double your proficiency bonus. Fight As a Fellowship phase undertaking, you may train your Hound to Attack, Dash, Disengage, Dodge or Help without requiring a command from you. Each action takes a separate Fellowship phase to train your Hound.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.116)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Natural Watchfulness",
+    "prerequisite": "",
+    "description": "The wood was full of the rumour of him, dreadful tales even among beasts and birds.\nWhether travelling, exploring or even resting, the behaviour of animals can communicate much to those who know how to interpret the signs. It could be the sudden silence of a bird, or the distant rustling of a beast in head-long flight. \nWhile in or near (within a few miles) a forest, you have advantage on all Wisdom (Perception) ability checks. You also gain a +5 bonus to initiative rolls.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.117)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Staunching Song of the Woodmen",
+    "prerequisite": "",
+    "description": "\"They are … singing many songs, after the manner of the children of Men before the Dark Years.\"\nThis song has been taught to the worthiest members of your clan since your people first descended along the banks of the Great River. Its tune echoes Elven songs from a time of war and weapons, and its precious knowledge has been passed with great care from one generation to the next. Singing its words can reduce the loss of a warrior’s life-blood to a trickle, letting it flow back to the heart. \nAfter you finish a short rest, you may sing this song to recover a Hit Die + your Constitution modifier’s worth of damage without expending one of your Hit Dice. By spending Inspiration, you may do the same for all the other members of your company. Your allies roll to recover hit points based on their Hit Dice and Constitution modifier, not yours.",
+    "source": "(Adventures in Middle-earth Player's Guide, p.117)",
+    "_source_manual": "AIPG"
   }
 ]

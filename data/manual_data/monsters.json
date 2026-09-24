@@ -118971,5 +118971,672 @@
     ],
     "source": "(Lonely Mountain Region Guide, p.100)",
     "_source_manual": "LMRG"
+  },
+  {
+    "name": "Cold Shade",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "",
+    "hit_points": "65 (10d8+20)",
+    "speed": "0 ft., fly 50 ft. (hover)",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 17,
+      "constitution": 15,
+      "intelligence": 11,
+      "wisdom": 10,
+      "charisma": 12
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "acid",
+      "fire",
+      "lightning",
+      "thunder",
+      "non-magical bludgeoning",
+      "non-magical piercing",
+      "non-magical slashing"
+    ],
+    "damage_immunities": [
+      "cold",
+      "necrotic",
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "frightened",
+      "grappled",
+      "paralysed",
+      "petrified",
+      "poisoned",
+      "prone",
+      "restrained"
+    ],
+    "senses": "blindsight 30 ft., passive Perception 10",
+    "languages": [],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Fear of Fire",
+        "description": "The Cold Shade is repulsed by the heat of fire. If a torch or other flame comes within 10 feet of it, it suffers Disadvantage on its attack rolls."
+      },
+      {
+        "name": "Ghost-form",
+        "description": "The Cold Shade is insubstantial and cannot be easily hurt by normal means. See the damage and condition resistances and immunities above."
+      },
+      {
+        "name": "Incorporeal Movement",
+        "description": "The Cold Shade can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+      },
+      {
+        "name": "Thing of Terror",
+        "description": "The Cold Shade can use its bonus action to bring a cold chill to the heart of any hero. Any companion within 60 feet must make a DC 15 Wisdom saving throw or be Frightened of the ghost. At the end of the creature's turn it may repeat the saving throw, ending the effect on a success.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Icy Touch",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6+3) necrotic damage and the target must make a DC 13 Constitution saving throw or become Paralysed by the cold. A target can repeat the save at the end of its turn to end the effect."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Bree-land Region Guide, p.101)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Eaves of Mirkwood Goblin Soldier",
+    "size": "Small",
+    "type": "humanoid (orc-kind)",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "Orcish Leathers, shield",
+    "hit_points": "7 (3d6-3)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 12,
+      "constitution": 8,
+      "intelligence": 10,
+      "wisdom": 8,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Stealth": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft, passive Perception 9",
+    "languages": [
+      "Orcish",
+      "Westron"
+    ],
+    "challenge_rating": "1/4",
+    "xp": 50,
+    "features": [
+      {
+        "name": "Nimble Escape",
+        "description": "The Eaves of Mirkwood Goblin can take the Disengage or Hide action as a bonus action on each of its turns."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the Goblin Soldier has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bent Sword",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5ft, one target. Hit: 4 (1d6+1) slashing damage"
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +2 to hit, reach 5ft or range 20/60 ft, one target. Hit: 3 (1d6) piercing damage or 4 (1d8) piercing damage when used as a melee weapon."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.17)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Greymuzzle Hob",
+    "size": "Large",
+    "type": "monstrosity (Warg-kind)",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "natural armour",
+    "hit_points": "42 (5d10+15)",
+    "speed": "50 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 16,
+      "constitution": 16,
+      "intelligence": 7,
+      "wisdom": 12,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Stealth": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [
+      "Wargspeech",
+      "Westron",
+      "Orkish"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Fear Aura",
+        "description": "Any creature hostile to Greymuzzle Hob that starts its turn within 10 feet of it must make a DC 11 Wisdom saving throw, unless Greymuzzle Hob is Incapacitated. On a failed save, the creature is Frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to Greymuzzle Hob's Fear Aura for the next 24 hours."
+      },
+      {
+        "name": "Fear of Fire",
+        "description": "Greymuzzle Hob is fearful of fire. If a torch or other flame comes within 10 feet of it then Greymuzzle Hob suffers Disadvantage on its attack rolls. In addition, Greymuzzle Hob is not able to use its Pack Tactics ability."
+      },
+      {
+        "name": "Keen Hearing and Smell",
+        "description": "Greymuzzle Hob has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+      },
+      {
+        "name": "Pack Tactics",
+        "description": "Greymuzzle Hob has Advantage on an attack roll against a creature if at least one of Greymuzzle Hob's allies (including Goblins) is within 5 feet of the creature and the ally isn't incapacitated."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5ft, one target. Hit: 11 (2d6+4) piercing damage. If the target is a creature, it must make a DC 13 Strength saving throw or be knocked Prone."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.27)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Heddwyn, the Witch-servant of Angmar",
+    "size": "Medium",
+    "type": "human (Evil Men)",
+    "alignment": "",
+    "armor_class": 16,
+    "ac_type": "Ancient Armour of Angmar",
+    "hit_points": "90 (12d8+36)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 6,
+      "Perception": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 15",
+    "languages": [
+      "Orcish",
+      "Westron"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Strike Fear",
+        "description": "As an action, Heddwyn may cause his eyes to flicker red with rage and he howls bestially to chill the hearts of his enemies. Each opponent within 30 ft of the warrior must make a DC 15 Wisdom saving throw or become Frightened until the end of Heddwyn's next turn.",
+        "uses": 1,
+        "recharge": "5-6"
+      },
+      {
+        "name": "Wicked Cunning",
+        "description": "Heddwyn can use his bonus action to activate this ability. For the remainder of the combat, he adds +2 to his Armour Class.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+      },
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+      },
+      {
+        "name": "Frost and Thaw",
+        "description": "Ranged Spell Attack: +5 to hit, range 60 ft, one target. Hit: The target must make a DC 15 Dexterity saving throw. On a failure, it takes 9 (2d6+2) cold damage and its speed is reduced by half until the end of Heddwyn's next turn. On a success it takes half damage and its speed is unaffected."
+      },
+      {
+        "name": "Red Madness",
+        "description": "Each enemy within 60 feet of Heddwyn must make a DC 15 Wisdom saving throw. On a failure, the victim becomes Frightened of Heddwyn and trapped in a red haze of rage. Victims who roll a natural 1 on any attack roll turn on their companions and will strike at them on their next turn. Each victim may, at the end of their turn, attempt another Wisdom saving throw, ending the effect on a success.",
+        "uses": 1,
+        "recharge": "5-6"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Eriador Adventures, p.33)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Dunlending Warrior",
+    "size": "Medium",
+    "type": "human",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "Ring-mail (11 without armour)",
+    "hit_points": "64 (8d8+32)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 19,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 7
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 5,
+      "Perception": 3,
+      "Survival": 3
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 13",
+    "languages": [
+      "Dunlending"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "No Quarter",
+        "description": "When the Dunlending Warrior reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+      },
+      {
+        "name": "Unyielding (Recharge 5-6)",
+        "description": "The Warrior can use his bonus action to gain 8 temporary hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Warrior makes two attacks with his chosen weapon."
+      },
+      {
+        "name": "Great Axe",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+      },
+      {
+        "name": "Great Spear",
+        "description": "Melee Weapon Attack: +5 to hit, reach 10 ft, one target. Hit: 9 (1d12+3) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Eriador Adventures, p.85)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Vig, the Spy",
+    "size": "Medium",
+    "type": "human",
+    "alignment": "",
+    "armor_class": 18,
+    "ac_type": "Deadly Elusiveness, shield",
+    "hit_points": "45 (7d8 + 14)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 17,
+      "constitution": 15,
+      "intelligence": 10,
+      "wisdom": 9,
+      "charisma": 12
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 3,
+      "Sleight of Hand": 5,
+      "Stealth": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 9",
+    "languages": [
+      "Westron"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Deadly Elusiveness",
+        "description": "If Vig does not wear any armour, his Armour Class is 16."
+      },
+      {
+        "name": "Sneaking (Recharge 6)",
+        "description": "Vig can use his bonus action to inflict an extra 7 (2d6) damage to a target he hits with a weapon attack if his target is within 5 feet of Vig's ally.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Vig makes two attacks with his short sword."
+      },
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6 + 3) piercing damage."
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +2 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 3 (1d6) piercing damage or 4 (1d8) piercing damage if used with two hands to make a melee attack."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Erebor Adventures, p.19)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Cut-throat",
+    "size": "Medium",
+    "type": "human",
+    "alignment": "",
+    "armor_class": 14,
+    "ac_type": "Corslet of Mail",
+    "hit_points": "51 (6d8+24)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 13,
+      "constitution": 18,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 5,
+      "Perception": 3,
+      "Survival": 3
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 13",
+    "languages": [
+      "Westron"
+    ],
+    "challenge_rating": "2",
+    "xp": 450,
+    "features": [
+      {
+        "name": "Berserk",
+        "description": "After the first round of combat, the Cut-throat may make a single melee weapon attack as a bonus action on each of its turns."
+      },
+      {
+        "name": "Horrible Strength",
+        "description": "f the Cut-throat makes a successful melee attack, they may use their bonus action to cause additional damage equal to their Strength modifier (+3) to the target."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Cut-throat makes two attacks with their axe."
+      },
+      {
+        "name": "Axe",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 feet, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage when wielded with two hands."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Reckless Hatred",
+        "description": "When reduced to 0 hit points, the Cutthroat can, as a reaction, make a single melee attack against any target within 5 feet before succumbing to death."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Erebor Adventures, p.56)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "The Stalker in the Deeps",
+    "size": "Huge",
+    "type": "aberration (Nameless Thing)",
+    "alignment": "",
+    "armor_class": 15,
+    "ac_type": "Natural Armour",
+    "hit_points": "230 (16d12+128)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 25,
+      "dexterity": 15,
+      "constitution": 27,
+      "intelligence": 8,
+      "wisdom": 11,
+      "charisma": 4
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 11,
+      "Perception": 4,
+      "Stealth": 6,
+      "Survival": 4
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 14",
+    "languages": [
+      "None"
+    ],
+    "challenge_rating": "11",
+    "xp": 7200,
+    "features": [
+      {
+        "name": "Swallow",
+        "description": "After a successful Bite attack, the Stalker can use its bonus action to swallow the target if it is Medium or smaller. Swallowed creatures are Blinded and Restrained and take 13 (2d12) acid damage at the start of each of the Stalker's turns. If the Stalker dies, swallowed creatures are no longer Restrained and exit by using 10 ft of movement. the corpse"
+      },
+      {
+        "name": "Venom",
+        "description": "After a successful Bite attack, the Stalker can use its bonus action to inject venom into its target. The target must make a DC 17 Constitution saving throw. On a failure, the target takes 19 (3d12) poison damage and is Poisoned until it takes a short rest. On a success, the target takes half damage."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +11 to hit, reach 10 ft, one target. Hit: 20 (3d8+7) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Great Might",
+        "description": "The Stalker may use its reaction when it takes damage from a melee or ranged weapon attack to reduce the amount of damage by its Strength modifier (+7), to a minimum of 1 point of damage taken"
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Erebor Adventures, p.148)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Dreorg the Wargling",
+    "size": "Large",
+    "type": "Monstrosity (Warg-kind)",
+    "alignment": "Unknown",
+    "armor_class": 14,
+    "ac_type": "natural armour",
+    "hit_points": "94 (9d10+45)",
+    "speed": "50 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 16,
+      "constitution": 21,
+      "intelligence": 11,
+      "wisdom": 13,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 4,
+      "Stealth": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft, passive Perception 14",
+    "languages": [
+      "Westron",
+      "Wargspeech"
+    ],
+    "challenge_rating": "5",
+    "xp": 1800,
+    "features": [
+      {
+        "name": "Great Leap",
+        "description": "Dreorg is capable of jumping huge distances. He may make a special Dash action to go twice his normal movement in a single jump. Any opponents in melee combat with him when he uses Great Leap get Opportunity Attacks as normal."
+      },
+      {
+        "name": "Keen Hearing and Smell",
+        "description": "Dreorg has Advantage on Wisdom (Perception) checks that rely on hearing or smell."
+      },
+      {
+        "name": "Pack Tactics",
+        "description": "Dreorg has Advantage on an attack roll against a creature if at least one of his allies is within 5 feet of the creature and the ally isn’t Incapacitated."
+      },
+      {
+        "name": "Savage Attack",
+        "description": "When Dreorg scores a critical hit, he does an additional 5 (1d10) damage. This damage is not doubled by the critical hit."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Dreorg makes two attacks: one bite and one claw attack."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 10 (2d6+3) piercing damage. If the target is a creature, it must make a DC 13 Strength saving throw or be knocked Prone."
+      },
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 11 (1d12+5) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Snake-like Speed (Recharge 5-6)",
+        "description": "Dreorg is adept at avoiding injury and can use his reaction to halve the attack damage on an attack that he is aware of."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Rivendell Region Guide, p.80)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Barrow-wight",
+    "size": "Medium",
+    "type": "Undead",
+    "alignment": "",
+    "armor_class": 13,
+    "ac_type": "tattered remnants of armour",
+    "hit_points": "45 (6d8+18)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 13,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Stealth": 3
+    },
+    "damage_resistances": [
+      "non-magical bludgeoning",
+      "piercing",
+      "slashing"
+    ],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "Charmed",
+      "Exhaustion",
+      "Poisoned"
+    ],
+    "senses": "blindsight 30 ft, passive Perception 13",
+    "languages": [
+      "Westron"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Denizen of the Dark",
+        "description": "The Barrow-wight is particularly adept at using the environment and shadows to its benefit. It may take the Hide action, even in plain sight. It makes a Dexterity (Stealth) check and any foes must make an opposed Wisdom (Perception) check to track its movements."
+      },
+      {
+        "name": "Fell Spirit",
+        "description": "When the Barrow-wight would be reduced to 0 hit points, it may use its reaction to add 7 (2d6) temporary hit points.",
+        "uses": 1,
+        "recharge": "5-6"
+      },
+      {
+        "name": "Hate Sunlight",
+        "description": "The Barrow-wight despises the cleansing light of the Sun. If it is exposed to direct bright sunlight, it takes 3 (1d6) psychic damage each round."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Ancient Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+      },
+      {
+        "name": "Chilling Touch",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: The target must make a DC 13 Constitution saving throw or become Stunned until the end of the Barrow-wight's next turn. If the target is already Stunned then the target becomes Unconscious until it completes a short rest instead. Unconscious companions are dragged into the wight's barrow to be sacrificed; if found in time, they may be roused with a DC 10 Wisdom (Medicine) check."
+      },
+      {
+        "name": "Wight Song",
+        "description": "Barrow-wights chant a low, chilling song to subdue their foes with the dark enchantment of their voice. Each creature within 60 feet of the Barrow-wight must make a DC 10 Wisdom saving throw. Creatures that fail the saving throw are Stunned. A Stunned creature can repeat the saving throw at the beginning of its turn, ending the effect on a success.",
+        "uses": 1,
+        "recharge": "day"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Rivendell Region Guide, p.83)",
+    "_source_manual": "RVR"
   }
 ]

@@ -145,6 +145,8 @@ def book_plan() -> list[tuple[str, str, dict]]:
         by_fname[Path(m.get("filename") or "").name.lower()] = m
 
     plan = []
+    no_text: list[str] = []
+    skipped: dict[str, str] = {}
     seen_engine: set[str] = set()
     folded = set(meta.get("source_manuals") or [])
     for app_slug, entry in pdf_map.items():
@@ -153,16 +155,47 @@ def book_plan() -> list[tuple[str, str, dict]]:
         if not m and app_slug in manuals:
             m = manuals[app_slug]
         if not m:
+            skipped[app_slug] = "not matched to a PDF the engine can see"
             continue
         eng_slug = m["slug"]
         if eng_slug in seen_engine:
+            skipped[app_slug] = "same book as another slug (ingested once)"
             continue  # the same book under a second app slug (W1 vs WPOTMQ): ingest once
         seen_engine.add(eng_slug)
         if app_slug in folded or eng_slug in folded:
             continue  # already folded into the merged data (see _meta.json source_manuals)
         if not (CACHE / f"{app_slug}.txt").exists() and not (CACHE / f"{eng_slug}.txt").exists():
+            # No cached text, so there is nothing to extract from. Record it so the cleanup pass can
+            # cache it (which is how WLL and WGE were recovered) instead of losing it.
+            no_text.append(app_slug)
+            skipped[app_slug] = "no cached text"
             continue
         plan.append((app_slug, eng_slug, m))
+
+    # Nothing the plan drops should be silent. Write every skip with its reason, plus the actionable
+    # subset (no cached text) that the cleanup pass can actually fix by caching it.
+    try:
+        (MERGED.parent / ".ingest_skipped.json").write_text(
+            json.dumps(skipped, indent=1, sort_keys=True))
+    except Exception:  # noqa: BLE001
+        pass
+    if no_text:
+        try:
+            (MERGED.parent / ".ingest_no_text.json").write_text(
+                json.dumps(sorted(set(no_text)), indent=1))
+        except Exception:  # noqa: BLE001
+            pass
+    else:
+        try:
+            (MERGED.parent / ".ingest_no_text.json").unlink()
+        except Exception:  # noqa: BLE001
+            pass
+    if skipped:
+        by_reason: dict[str, int] = {}
+        for reason in skipped.values():
+            by_reason[reason] = by_reason.get(reason, 0) + 1
+        log(f"  {len(skipped)} book(s) not in this plan: "
+            + "; ".join(f"{n} × {r}" for r, n in sorted(by_reason.items())))
 
     def rank(item):
         slug = item[0]

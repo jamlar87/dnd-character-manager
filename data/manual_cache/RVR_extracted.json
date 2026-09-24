@@ -1,0 +1,3017 @@
+{
+  "races": [
+    {
+      "name": "High Elf of Rivendell",
+      "source": "Rivendell Region Guide p.116-117",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 2,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Wisdom score increases by 2 and you may increase any two other attributes by 1 each."
+        },
+        {
+          "name": "Adventuring Age",
+          "description": "500 to 1000. The High Elves of Rivendell are creatures from another age. They may become adventurers any time after they reach adulthood, although they are unlikely to venture beyond Imladris until they are half a millennia or more old. Even though a starting High Elf is far more 'experienced' than those of other cultures, he is still young and weak compared to his elder kin, and so is unlikely to be more than a thousand years old."
+        },
+        {
+          "name": "Size",
+          "description": "Elves range from 5 to over 6 feet tall, with slender builds. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Night Vision",
+          "description": "Accustomed to walking under the revered starlight, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light."
+        },
+        {
+          "name": "The Eyes of Elves",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Elvish Dreams",
+          "description": "Your sleep is not like that of mortals. When you sleep, you can choose to send your mind into an \"Elvish Dream\" retaining full consciousness of your surroundings and you needn't close your eyes. Four hours spent in such dreams acts on you as if you had rested an entire night."
+        },
+        {
+          "name": "Against the Unseen",
+          "description": "High Elves can perceive creatures that dwell in the wraith-world, be they spirits or ghosts, even when they are normally Invisible to the eyes of the living (including Unclad and Invisible Ringwraiths). Additionally, High Elves are immune to the Frightened condition when the source of that condition is an undead creature."
+        },
+        {
+          "name": "Elf-wise",
+          "description": "You have fought against the Dark Lord for years uncounted, and will continue to strive against the Enemy. You are proficient in Corruption checks. A Corruption check is any Wisdom saving throw that risks 1 or more Shadow points for failure."
+        },
+        {
+          "name": "Beset by Woe",
+          "description": "High Elves cannot ever truly forget the taint of the Shadow once it has left its mark on their spirit. Whenever you undertake to Heal Corruption, you"
+        }
+      ],
+      "subraces": [],
+      "description": "High Elves of Rivendell are a noble and ancient people, known for their grace, wisdom, and connection to the Last Homely House.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom score increases by 2; two other ability scores of your choice increase by 1 each."
+        },
+        "Adventuring Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor/lifespan trait; no direct mechanical combat effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Night Vision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "The Eyes of Elves": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Perception"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Elvish Dreams": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can remain fully conscious of surroundings while sleeping; 4 hours of Elvish Dream counts as a full long rest."
+        },
+        "Against the Unseen": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Frightened"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can perceive creatures in the wraith-world (spirits, ghosts, Unclad and Invisible Ringwraiths) even when normally invisible. Immunity to Frightened applies only when the source is an undead creature."
+        },
+        "Elf-wise": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Proficient in Corruption checks (Wisdom saving throws that risk Shadow points on failure)."
+        },
+        "Beset by Woe": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Trait description is incomplete; appears to impose a penalty or restriction when undertaking to Heal Corruption."
+        }
+      }
+    },
+    {
+      "name": "High Elves of Rivendell",
+      "source": "Rivendell Region Guide p.118-119",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Westron (the Common Tongue)",
+        "Sindarin",
+        "Quenya"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Corruption Checks",
+          "description": "You are proficient in Corruption checks. A Corruption check is any Wisdom saving throw that risks 1 or more Shadow points for failure."
+        },
+        {
+          "name": "Beset by Woe",
+          "description": "High Elves cannot ever truly forget the taint of the Shadow once it has left its mark on their spirit. Whenever you undertake to Heal Corruption, you immediately lose 1 point of temporary Shadow and gain 1 point of permanent Shadow. You may then make an ability check to remove temporary Shadow points as normal (see page 200 of the Player's Guide)."
+        },
+        {
+          "name": "The Tools of War",
+          "description": "You have proficiency with daggers, spears, great spears, short swords, long swords, short bows and great bows."
+        },
+        {
+          "name": "Subtlety of Craft",
+          "description": "You have proficiency in one artisan's tool of your choice."
+        },
+        {
+          "name": "Languages",
+          "description": "In addition to Westron (the Common Tongue), you can speak, read and write Sindarin. You also use Quenya, the Ancient Tongue, in song and high matters of lore."
+        }
+      ],
+      "subraces": [],
+      "description": "High Elves of Rivendell are a race of elves described in the Rivendell Region Guide.",
+      "_effects": {
+        "Corruption Checks": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Proficient in Corruption checks (Wisdom saving throws that risk Shadow points on failure)."
+        },
+        "Beset by Woe": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When undertaking to Heal Corruption, immediately lose 1 temporary Shadow point and gain 1 permanent Shadow point, then may make an ability check to remove temporary Shadow points as normal."
+        },
+        "The Tools of War": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Dagger",
+            "Spear",
+            "Great spear",
+            "Short sword",
+            "Long sword",
+            "Short bow",
+            "Great bow"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Subtlety of Craft": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "One artisan's tool of your choice"
+          ],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Westron (Common Tongue) and Sindarin; uses Quenya in song and high matters of lore."
+        }
+      }
+    }
+  ],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Erestor's Travelling Cordial",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "As soon as Frodo had swallowed a little of the warm and fragrant liquor he felt a new strength of heart, and the heavy drowsiness left his limbs. If the company is leaving Rivendell to embark on a mission considered by Elrond to be a matter of great importance, it is possible that the guide of the fellowship will be entrusted with a flask of travelling cordial. Generally, a flask contains enough Miruvor for about thirty sips. Heroes may sip from the flask once a day (taking more than that does not have any additional beneficial effect). A sip removes 1d4 levels of Exhaustion and returns 1 Hit Die to the hero. See page 139 of the Adventures in Middle-earth Loremaster's Guide for more information.",
+      "source": "Rivendell Region Guide p.18"
+    },
+    {
+      "name": "Erestor's Medicinal Tonic",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "\"You will soon be sound again. Elrond has cured you: he has tended you for days, ever since you were brought in.\" Erestor's tonic is a strong, aromatic liquor, both pungent and sweet in taste. Master Elrond uses it to prepare different warm concoctions, to be drank by those he is assisting. Sometimes, he serves it straight, in a small glass, as it helps greatly in relieve the pain of the wounded. Companions that take a sip of the tonic whilst taking a short rest double the effectiveness of the first Hit Die they spend during that rest. Roll the die, add your Constitution modifier and then double that result. A companion that is given the tonic while by treated by another character during a long rest not only recovers all of their hit points but can either recover all of their Hit Dice (instead of half) or remove a condition. If the hero is being tended to by Elrond, he may grant both benefits in a single long rest.",
+      "source": "Rivendell Region Guide p.18"
+    },
+    {
+      "name": "The Iron Crown of Angmar",
+      "type": "Wondrous Artefact",
+      "rarity": "artefact",
+      "requires_attunement": false,
+      "description": "At the time of his relentless war against the Northern Realm of the Dúnedain, the Lord of the Nazgûl commanded that a heavy crown of iron be forged in Carn Dûm, using the blades that belonged to those princes of Arnor that he defeated on the field of battle or by black treachery. As the war progressed, the crown became heavier, as many prongs were added to it. When the Witch-king deserted Angmar to flee south, he left his crown in the keeping of his Steward. And there it remained, in a secret cell under the main tower of Carn Dûm. The Iron Crown of Angmar is too large and heavy to be worn by any Mortal or Elf. Should its location become known, the Rangers of the North would do anything to find it; the blades that adorn it have been taken from many lords who gave their lives in the wars against Angmar. But the Lord of the Ringwraiths would be even more relentless to find it first, should he discover that the crown was not lost; he reserved a special place on its crown for any sword belonging to an Heir of Elendil… The Iron Crown of Angmar is the equivalent of a Wondrous Artefact with a Greater Blessing to Intimidation, but it is heavily cursed: it is considered Owned (by the Witch-king), Hunted and carrying a Shadow Taint for 4 Shadow points (see Cursed Items, starting on page 99).",
+      "source": "Rivendell Region Guide p.53"
+    },
+    {
+      "name": "Runes of Clarity",
+      "type": "Wondrous item (helm)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven\nItem: Helm\nSpecial: Bane\nA helm bearing Runes of Clarity can help a hero focus on her enemies. By spending Inspiration, she gains Advantage on attack rolls against a bane creature until the end of the combat. The wearer must take a short or long rest before using this ability again.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Runes of Protection",
+      "type": "Armor (heavy armour)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven\nItem: Heavy armour\nThis armour was crafted and ensorcelled such that it grants powerful protection against a singular damage type. The Loremaster will choose bludgeoning, piercing or slashing. When wearing the armour, you have resistance to non-magical damage of that type.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Sigil of Guarding",
+      "type": "Wondrous item (helm)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven, Númenórean\nItem: Helm\nA helm with this sigil allows the wearer to anticipate the most dangerous strokes of an enemy. When struck by a critical blow, a hero can spend a Hit Die to take only half of the damage dealt.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Smiting",
+      "type": "Weapon (close combat weapon)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven\nItem: Close combat weapon\nThis weapon is larger and heavier than others of its kind and is designed to produce profound effects upon those it makes contact with. When you score a critical hit with this weapon, you may elect to not do any bonus damage and instead force the target to make a Strength saving throw (DC equal to 12 plus your Proficiency Bonus). If the target fails the saving throw it is thrown 10 feet in a direction of your choice and is knocked Prone.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Superior Runes of Protection",
+      "type": "Armor (heavy armour)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven\nItem: Heavy armour\nThis armour was crafted and ensorcelled to provide extraordinary protection against ordinary weapons. When you take non-magical damage from an attack, you may spend Inspiration and two Hit Dice to negate that damage.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Swiftness",
+      "type": "Weapon (close combat weapon)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven, Númenórean\nItem: Close combat weapon\nThis weapon is exceptionally balanced and feels natural to even the least experienced of its wielders. You may use your bonus action to make a single melee attack with this weapon.",
+      "source": "Rivendell Region Guide p.99"
+    },
+    {
+      "name": "Ruby on Golden Chain",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A ruby that, by firelight, seems to glimmer with an inner flame even after the fire has been extinguished. Set onto a golden chain, whose fine links can only be Elven-make. Worth 50 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Adamant Ring",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "An adamant ring that catches the weakest of lights, even when deep underground. Its size suggests it was made for the fingers of a Dwarf. Worth 30 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Coronet of Erebor",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A coronet studded with sparkling white gems, made long ago for the Dwarven nobles of Erebor. Worth 40 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Green Gem Brooch",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A green gem the colour of the first shoots of spring, set into a golden brooch in the shape of a leaf. Possibly of Westernesse craft. Worth 20 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Pearl Circlet of Forochel",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "An iridescent pearl set within a simple silver circlet, recovered from the sea of the Cape of Forochel. The circlet is of Westernesse make. It is said that if one stares into the pearl for long enough, you can see into the past… or the future. Worth 120 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Amethyst Silver Ring",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A pink-hued amethyst set into an intricately carved silver ring. The script carved upon it is in Quenya and says \"I leave my heart to you.\" Worth 40 gold pieces.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Silver Circlet of Traditions",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A silver circlet, the wearer of which finds their tongue similarly silvered (a Blessing to Traditions).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "War-horn of the Northern Kingdom",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A war-horn, made by the people of the Northern Kingdom, and whose booming voice strikes fear in all foes (a Blessing to Intimidation).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Golden Torc of Feasting",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A golden torc, inscribed with images of feasting and merry-making that lends grace to the voice of its wearer (a Blessing to Performance).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Elven-carved Wooden Staff",
+      "type": "Staff",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "An Elven-carved wooden staff, which cause deer tracks — and others besides — to reveal themselves to the bearer (a Blessing to Survival).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Cloak of Comforting Words",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A cloak lined with both enchantment and — more prosaically — fur, which makes the words of the wearer all the more comforting (a Blessing to Persuasion).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Ring of Silvered Steel",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A ring made from silvered steel that reflects the innermost thoughts of any in its presence (a Blessing to Insight).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Dwarven Iron Ring",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A simple Dwarven ring of iron that makes the hammer blows of the wearer strike the anvil with effortless precision (a Blessing to smith’s tools).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Rod of Leechcraft",
+      "type": "Rod",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A short rod that was once the symbol of the art of leechcraft in the city of Belegost, and that instills a sense of peace and calm to a patient (a Blessing to Medicine).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Golden Circlet of Dwarven Runes",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A golden circlet carved with Dwarven runes that causes the wearer to find precisely what he is looking for (a Blessing to Investigation).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Ring of Sharpened Wits",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A magical ring, capable of sharpening the wits of any who wear it (a Blessing to Riddle).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Elven Cloak of Blending",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A cloak of Elven make, the weave of which magically allows the wearer to blend seamlessly into his surroundings (a Blessing to Stealth).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Walking Stick of Elven Rhymes",
+      "type": "Staff",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A walking stick tightly wound with an endless spiral of Elven rhymes, which, when read aloud, seems to make the miles pass by all the faster (a Blessing to Survival).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Coil of Elven Rope",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A coil of fine Elven rope that can be furled out endlessly and, once tied, will never come untied unless the owner commands it so (a Blessing to Athletics).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Seeing-stone",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A seeing-stone, which, when held up to the dawn, shows what some hint of what has gone before in this place (a Blessing to History).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Broken Mirror Shard",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A broken shard taken from a mirror that once stood in an Elven manor, and through which ghosts of the past may still be seen - albeit fractured in time and place (a Blessing to Lore).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Knife of Pathfinding",
+      "type": "Weapon",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A simple knife that seems to cut a path through thickets and bushes with the utmost ease (a Blessing to Survival).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Ivory Horn of the Ancient Queen",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "An ivory horn that has been engraved with images of defeated foes paying tribute to an ancient queen. When lifted to the lips of its bearer it makes not a sound, but men are compelled to bow down before her (a Blessing to Intimidation).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Golden Ring of Clarity",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A beautiful golden ring that glistens with the light of the sun, even at night, and that bestows a clarity of vision to its wearer (a Blessing to Perception).",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "The Raven Axe of Arnor",
+      "type": "Weapon (Long-hafted Axe)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "An axe of Númenórean craftsmanship, its broad head engraved with images of ravens and other carrion birds. Its age suggests it was crafted during the time that Arnor’s successor kingdoms struggled against the armies of the Witch-king of Angmar, and it is wound with spells to drive the restless spirits of the North back to their graves. Craftsmanship: Númenórean. Banes: Evil Men, Undead. Qualities: 1. Raging 2. Superior Fell 3. Keen.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "The Coat of Shining Stars",
+      "type": "Armor (Heavy Mail)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "In sunlight, this coat of Mithril chain seems dull and ancient, although it remains sturdy and well maintained. It is only underground, by the light of a torch or lamp, that it reveals the quality for which it is named: its mail links glisten, as though it were sewn from the stars themselves. Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Cunning Make 2. Runes of Protection (Bludgeoning) 3. Mithril Armour.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "The Red Axe of Ruin",
+      "type": "Weapon (Great Axe)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "This axe was forever stained red with the blood of Orcs at the Battle of Azanulbizar. Some say it was the axe of Nar, others Dain, but whoever wields it can cut a bloody swathe through rank after rank of Goblin. Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Gleam of Terror 2. Grievous 3. Runes of Victory.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "The Crown of Spiderhollow",
+      "type": "Armor (Helm)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "At first glance this delicate headpiece looks to have been woven from spider webs and ivy, but closer inspection reveals that it is carved from wood so delicately that it only appears so. Craftsmanship: Elven. Banes: Spiders. Qualities: 1. Ancient Close-fitting 2. Runes of Clarity 3.-",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Bow of Celebrían",
+      "type": "Weapon (Short Bow)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Whilst never actually owned by Elrond’s departed wife, this delicate bow is named in her honour for it was used on the tragic hunt for the Orcs that once captured her. Craftsmanship: Elven. Banes: Orc-kind. Qualities: 1. Sure Shot 2. Keen 3. Biting Dart.",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Rune-shield of Ossiriand",
+      "type": "Armor (Great Shield)",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "So-called because, according to Dwarf legend, its wielder could use it to hold back the seven rivers of Ossiriand themselves. Whether there is any truth in the legend is rather difficult to prove, but it is certainly effective at holding back onrushing tides of Orcs. Aside from its ornate brass boss, cast in the shape of a roaring mountain lion’s head, this sturdy iron shield appears somewhat plain … except under certain moons, when its surface takes on an almost mirrored sheen and secret Dwarven runes glisten and gleam. Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Reinforced 2. Rune-scored Shield 3.-",
+      "source": "Magical Treasure Index"
+    },
+    {
+      "name": "Iron Shield with Mountain Lion's Head",
+      "type": "Armor (shield)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "st in the shape of a roaring mountain lion's head, this sturdy iron shield appears somewhat plain … except under certain moons, when its surface takes on an almost mirrored sheen and secret Dwarven runes glisten and gleam",
+      "source": "Unknown"
+    },
+    {
+      "name": "Great Golden Two-Handed Cup",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A great, golden, two-handed cup, it is carved with bird and flowers, their eyes and petals jewels. Worth 100 gold pieces, sentimental to the Dwarves of Erebor.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Necklace of Five Hundred Emeralds",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A necklace made of five hundred emeralds as green as grass, gifted to the Dwarves of Erebor by Girion, Lord of Dale. Worth 100 gold pieces, sentimental to the Bardings.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Belt of Pearls and Crystals",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A belt of pearls and crystals, made to accompany the Mithril Coat. Worth 60 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Belt Crusted with Scarlet Stones",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A belt crusted with scarlet stones. Worth 40 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Helm of Figured Leather",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A helm of figured leather, strengthened with steel and studded about the brow with white gems. Worth 60 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "The Diamond Studs of Old Took",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A pair of diamond studs that fasten themselves and never come undone until ordered (Blessing of Traditions)",
+      "source": "Unknown"
+    },
+    {
+      "name": "The Arkenstone",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This great white gem was the greatest prize ever found by the Dwarves. Named the Heart of the Mountain, the Arkenstone of Thrain, it is a globe with a thousand facets. It shines like silver in firelight, like water in the sun, like snow under the stars and like rain upon the Moon. (Greater Blessing of Persuasion).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Silver-scored Clarinet",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "This seemingly simple instrument makes music as clear and beautiful as any other, enchanting all who hear it (Blessing of Performance).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Searching Stick",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A gnarled old walking stave that, when poked about into dark and dusty corners, has a habit of turning up just what is required (Blessing of Investigation).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Orcrist",
+      "type": "Long Sword",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven. Banes: Orcs. Qualities: 1. Luminescence 2. Raging 3. Superior Grievous. Notes: A sword with a jewelled hilt, Orcrist was crafted by the High Elves of Gondolin for use in the Goblin-wars. Its name means Goblin-cleaver, but the Goblins know it better by the name Biter.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Sting",
+      "type": "Short Sword",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven. Banes: Orcs. Qualities: 1. Luminescence 2. Superior Keen 3. Superior Grievous. Notes: To a Man or an Elf, this blade might only be a dagger, but to a Hobbit it is akin to a short sword. Forged in Gondolin by Elven-smiths, this blade glows blue in the presence of Orcs and their foul kin.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Mithril Coat",
+      "type": "Coat of Mail",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Ancient Cunning Make 2. Mithril Armour 3. -. Notes: This small mail shirt was once wrought for a young Elf-prince in the ancient past. It is made of Mithril and can turn even the most grievous of blows.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Silver Ring-mail",
+      "type": "Ring-mail",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Ancient Cunning Make 2. Ancient Close-fitting 3. -. Notes: Once gifted to the son of Girion, the Lord of Dale, this mail coat was wrought of silver but was as strong as triple steel. Its like has never been seen before or since.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Shield of the Dead",
+      "type": "Shield",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Superior Reinforced 2. Rune-scored Shield 3. -. Notes: This shield, ornately decorated by a Dwarven craftsman of ancient Erebor, was made for a warrior now-long dead.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Axe Under the Mountain",
+      "type": "Axe",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Superior Fell 2. Gleam of Terror 3. -. Notes: This silver-hafted axe was once wielded by the King Under the Mountain and was believed lost when Smaug the Terrible drove the Dwarves from the Lonely Mountain. Perhaps it was recovered when his hoard was divided among the victors of The Battle of Five Armies.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Great Pearl in Golden Brooch",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A great pearl set in an elaborate golden brooch carved with images of the sea. It is said to have been made in the lost Dwarven city of Belegost. Worth 40 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Ruby on Silver Chain",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A ruby hanging from a simple silver chain made by the Men of Westernesse. It is said that, on the coldest nights, the ruby is always warm. Worth 60 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Golden Necklace with Amethysts",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A great golden necklace of Dwarven-make, set about with dozens of tiny amethysts that sparkle in the sunlight. It was once worn by the finest beauty of Beleriand, or so the Dwarves would have you believe. Worth 40 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Silver Tiara with Diamond",
+      "type": "Precious object",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A delicate silver tiara decorated with a single diamond at the peak, of such workmanship it could only have been made in Eregion. Worth 100 gold pieces.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Ring of Westernesse",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A ring crafted by the Men of Westernesse. When worn on the left hand it allows the wearer to find what was thought lost; when worn on the right hand it allows the wearer to hide what must not be found (a Blessing to Investigation and Stealth).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Circlet of Clear Sight",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "An otherwise unremarkable circlet that makes the wearer's sight crystal clear (a Blessing to Perception).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Walking Stick of Pathfinding",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A walking stick that seems to lead the way along untrodden paths (a Blessing to Survival).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Slippers of White Deer Hide",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A pair of soft leather slippers made from the hide of a white deer, that mask the footsteps of the wearer (a Blessing to Stealth).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Ring of Honeyed Words",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A beautifully carved ring of gold that gilds the wearer's honeyed words (a Blessing to Traditions).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Sword Sheath of Victory Procession",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A sword sheath wound about with images of an ancient victory procession, perhaps dating to the First Age of the world. When a sword is drawn from this sheath, all who see it are compelled to bow down in honour to the bearer (a Greater Blessing to Intimidation).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Silver Clasped Collar",
+      "type": "Wondrous Artefact",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "A silver clasped collar that makes everything the wearer say seem agreeable (a Blessing to Persuasion).",
+      "source": "Unknown"
+    },
+    {
+      "name": "Blade of Arahel",
+      "type": "Long Sword",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Númenórean. Banes: Evil Men, Undead. Qualities: 1. Keen 2. Raging 3. -. Notes: A finely made but unadorned long sword, this blade was said to have belonged to Arahel, one of the first chieftains of the Dúnedain.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Moruin",
+      "type": "Great Bow",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven. Banes: n/a. Qualities: 1. Grievous 2. Biting Dart 3. -. Notes: The wood that this bow was made from was hewed in ancient days from a Mallorn tree that had been blackened by the fires of war. Something of those dark days remains in the wood.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Helm of Belegost",
+      "type": "Helm",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Dwarven. Banes: n/a. Qualities: 1. Close-fitting 2. Ancient Cunning-make 3. -. Notes: This slight, silvered-steel helm was once worn by a warrior of Belegost; what became of him has been lost to the annals of time, but the helm itself remains pristine.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Hollin-ward",
+      "type": "Shield",
+      "rarity": "Legendary",
+      "requires_attunement": false,
+      "description": "Craftsmanship: unknown. Banes: unknown. Qualities: unknown. Notes: unknown.",
+      "source": "Unknown"
+    },
+    {
+      "name": "Hauberk of the Last Alliance",
+      "type": "Scale Hauberk",
+      "rarity": "",
+      "requires_attunement": false,
+      "description": "Craftsmanship: Elven\nBanes: n/a\nQualities: \n1. Elven-craft  2. Ancient Cunning Make\n3. -\nNotes: When the smiths of Eregion fled to Imladris, they began to prepare the Elven stronghold for war against the Dark Lord. These pieces of armour were among the finest of their craft – light and supple for those who marched long hours in pursuit of the enemy but strong enough to turn aside many an Orcish blade and arrow.",
+      "source": ""
+    },
+    {
+      "name": "Lesser Ring",
+      "type": "Ring",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "You have inherited a lesser ring, one of the many magic rings that the smiths of Eregion made as essays in their craft before it was fully developed. While certainly not comparable to the major works of those gifted craftsmen, this magic ring is a powerful and dangerous artefact, to be kept secret and safe. Choose one of your attributes, when making an ability check using the attribute you may spend a Hit Die to gain Advantage on the check. However, the temptations of such power weigh heavily on your heart. If you use this benefit and fail the check anyways you gain 1 point of Shadow.",
+      "source": "Rivendell Region Guide p.121"
+    },
+    {
+      "name": "Spear of the Last Alliance (Great Spear)",
+      "type": "Weapon (spear)",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Thousands of spears were forged in the smithies of Imladris to arm the hosts of Gil-galad, and their long staves of ash were capped by a long spike at the other end. When you succeed at an attack roll using a Spear of the Last Alliance, you may spend Inspiration to make a second attack roll against a different opponent that is within the weapon’s reach.",
+      "source": "Rivendell Region Guide p.121"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Great Bow",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d8+2 piercing",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "RVR"
+    },
+    {
+      "name": "Leather Corslet",
+      "type": "Armor",
+      "subtype": "light",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "RVR"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Glorfindel",
+      "size": "Medium",
+      "type": "Elf",
+      "alignment": "",
+      "armor_class": 18,
+      "ac_type": "Elven-mail, Shield",
+      "hit_points": "171 (18d8+90)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 16,
+        "constitution": 20,
+        "intelligence": 16,
+        "wisdom": 18,
+        "charisma": 15
+      },
+      "saving_throws": {
+        "dexterity": 8,
+        "constitution": 10
+      },
+      "skills": {
+        "Athletics": 9,
+        "History": 8,
+        "Perception": 9,
+        "Performance": 7,
+        "Shadow-lore": 8
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 19",
+      "languages": [
+        "Quenya",
+        "Sindarin",
+        "Westron"
+      ],
+      "challenge_rating": "15",
+      "xp": 13000,
+      "features": [
+        {
+          "name": "Elven-mail",
+          "description": "Glorfindel wears a shirt of mail that was forged in Gondolin, for the wars of another Age."
+        },
+        {
+          "name": "Protector of Imladris (Lair Action)",
+          "description": "If Glorfindel is within sight of Rivendell, he may regain 10 (3d6) hit points as a lair action."
+        },
+        {
+          "name": "Legendary",
+          "description": "Glorfindel may take two legendary actions each turn. Each legendary action allows him to either use either his Parry or Light of the Blessed Realm abilities without using his reaction or attack with his Sword of the Eldar."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Glorfindel can make three attacks with his Sword of the Eldar."
+        },
+        {
+          "name": "Sword of the Eldar",
+          "description": "Melee Weapon Attack: +12 to hit, reach 5 ft, one target. Hit: 11 (1d8+7) magical slashing damage or 12 (1d10+7) magical slashing damage if wielded with two hands."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Hallowed Servant",
+          "description": "When Glorfindel would be reduced to 0 hit points by a damage source, he may use his reaction to add 21 (6d6) temporary hit points."
+        },
+        {
+          "name": "Light of the Blessed Realm",
+          "description": "Within Glorfindel resides the power to defy the servants of the Enemy. When an enemy uses an ability that requires an action he may use his reaction to negate that ability."
+        },
+        {
+          "name": "Parry",
+          "description": "Glorfindel adds 5 to his AC against one melee attack that would hit him. To do so, he must see the attacker and be wielding a melee weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.17"
+    },
+    {
+      "name": "Asfaloth",
+      "size": "Large",
+      "type": "Beast (Destrier)",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "45 (6d10+12)",
+      "speed": "70 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 14,
+        "constitution": 15,
+        "intelligence": 8,
+        "wisdom": 12,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Trained Warhorse",
+          "description": "In addition to the normal actions of a controlled mount, a rider may instruct Asfaloth to Charge or Attack with his Hooves."
+        },
+        {
+          "name": "Elven Steed",
+          "description": "If a rider is forced to make any saving throw while mounted on Asfaloth, they automatically have Advantage on that saving throw. If Asfaloth is uncontrolled he will still follow the instructions of Glorfindel."
+        },
+        {
+          "name": "Trample",
+          "description": "If Asfaloth moves at least 20 feet straight towards a creature and then successfully strikes that creature with his Hooves then the target must make a DC 14 Strength saving throw or be knocked Prone. If the target is knocked Prone then Asfaloth may use his bonus action to make another Hooves attack."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Hooves",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 11 (2d6+4) bludgeoning damage. If Asfaloth bears a rider when he attacks, the rider must make a DC 5 Dexterity saving throw to remain mounted."
+        },
+        {
+          "name": "Charge",
+          "description": "When Asfaloth takes this action, he gains additional movement equal to his speed. He must expend all of his movement this round. A rider that takes the Attack action this turn gains +4 to their damage rolls."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.17"
+    },
+    {
+      "name": "Aiwiel",
+      "size": "Medium",
+      "type": "Elf",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "Leather Corslet",
+      "hit_points": "66 (12d8+12)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 13,
+        "intelligence": 17,
+        "wisdom": 15,
+        "charisma": 19
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 5,
+        "Perception": 4,
+        "Performance": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [
+        "Quenya",
+        "Sindarin",
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Two-weapon Attack",
+          "description": "When Aiwiel makes a Dagger attack, she may use her bonus action to make a second Dagger attack, using the same to hit and damage values."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60, one target. Hit: 5 (1d4+3) piercing damage."
+        },
+        {
+          "name": "Song of Urgency",
+          "description": "Aiwiel may use her action to sing encouragement to her allies. Heroes that hear the song are moved to act with haste. A hero may use his reaction and spend Inspiration. Those that do gain +2 to AC, Advantage on Dexterity saving throws and an additional action on their turn. The action can only be used to Attack (one weapon attack only), Dash, Disengage, Hide or Use an Object. The effect lasts until the end of Aiwiel’s next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.36"
+    },
+    {
+      "name": "Crebain of Tharbad",
+      "size": "Small",
+      "type": "Beast",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "7 (2d6)",
+      "speed": "5 ft, fly 60 ft",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 16,
+        "constitution": 10,
+        "intelligence": 7,
+        "wisdom": 15,
+        "charisma": 5
+      },
+      "saving_throws": {
+        "dexterity": 5
+      },
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Flyby",
+          "description": "The crebain doesn’t provoke Opportunity Attacks when it flies out of an enemy’s reach."
+        },
+        {
+          "name": "Keen Sight",
+          "description": "The crebain has Advantage on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 1 slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.75"
+    },
+    {
+      "name": "Crebain",
+      "size": "Small",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "13 (3d6)",
+      "speed": "10 ft., fly 50 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 5
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Flyby",
+          "description": "The crebain doesn't provoke Opportunity Attacks when it flies out of an enemy's reach."
+        },
+        {
+          "name": "Keen Sight",
+          "description": "The crebain has Advantage on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 1 slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.76"
+    },
+    {
+      "name": "Greater Stone-troll",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "chaotic evil",
+      "armor_class": 16,
+      "ac_type": "natural armour",
+      "hit_points": "126 (12d10+60)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 12,
+        "constitution": 20,
+        "intelligence": 10,
+        "wisdom": 7,
+        "charisma": 6
+      },
+      "saving_throws": {
+        "dexterity": 4
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 8",
+      "languages": [
+        "Westron",
+        "Orcish"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Sunlight Curse",
+          "description": "Stone-trolls become Petrified and turn into stone if they are touched by the bright light of the sun. Once the sun rises, a Stone-troll must make a DC 10 Dexterity saving throw at the beginning of its turn in order to find enough cover to avoid being turned to stone. On a failure, the Stone-troll becomes Petrified."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Stone-troll makes two attacks: one with its troll-club and one slam."
+        },
+        {
+          "name": "Troll-club",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 14 (2d8+5) bludgeoning damage."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 16 (2d10+5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.76"
+    },
+    {
+      "name": "Goblin of Carn Dûm",
+      "size": "Small",
+      "type": "Humanoid (Orc-kind)",
+      "alignment": "neutral evil",
+      "armor_class": 13,
+      "ac_type": "Orcish Leathers",
+      "hit_points": "13 (3d6+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 15,
+        "constitution": 13,
+        "intelligence": 8,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 4,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 30 ft, darkvision 60 ft, passive Perception 13",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Craven",
+          "description": "If the Goblin starts its turn with 6 or less hit points, it must make a DC 10 Wisdom saving throw. On a failure, it becomes Frightened and must use its Dash or Disengage action to move away from any enemies. If movement is impossible, it will take the Dodge action instead."
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "This creature despises the cleansing light of the Sun. If it is exposed to direct bright sunlight, it takes 3 (1d6) psychic damage each round."
+        },
+        {
+          "name": "Hatred (Dúnedain and High Elves) (Recharge 5-6)",
+          "description": "The Goblins of Carn Dûm both hate and fear those who defeated their master, the Dúnedain and the High Elves of Rivendell. A Goblin can use its bonus action to gain Advantage on attacks against them this round."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bent Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        },
+        {
+          "name": "Bow of Horn",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage. The victim must also make a DC 13 Constitution saving throw or be poisoned for 1 minute."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.77"
+    },
+    {
+      "name": "Hill-man of Rhudaur",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "Hide Armour",
+      "hit_points": "27 (5d8+5)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 10,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Shadow-lore": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Hatred (Dúnedain)",
+          "description": "Recharge 5-6. Once, long ago, Rhudaur was under the dominion of the Dúnedain. While their hatred is centuries old, it has not grown cold. A Hill-man can use his bonus action to gain Advantage on any attack rolls against a Ranger this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Raven Spirits",
+          "description": "Rumours say that when a Hill-man dies his spirit returns as a raven, to watch over his folk and spy on his dark master's foes. No one knows for certain if their sorcery is still so strong, but when the Hill-men are about, the ravens are never far away… When the first Hillman dies in combat, a flock of ravens swoops down on the battlefield. When this happens, all enemies of the Hill-men have Disadvantage on their attack rolls until the end of combat. Each raven has AC 12 and 1 hit point but they have no attacks and are so numerous that defeating them with weaponry is almost hopeless."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Orc-axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage or 6 (1d8+2) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Curse of the Hill-men (1/day)",
+          "description": "The Hill-man can use his action to target a single hero who must then make a Corruption check, a DC 15 Wisdom saving throw. On a failure, the hero loses Inspiration and gains a point of Shadow. On a success the hero still loses Inspiration. If the hero does not have Inspiration, they gain Disadvantage on their next ability check, attack roll or saving throw.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.78"
+    },
+    {
+      "name": "Orc of Mount Gram",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "cobbled-together Orc armour, shield",
+      "hit_points": "26 (4d8+8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 13,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 4,
+        "Riddle": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Hatred (Hobbits)",
+          "description": "Recharge 5-6. The Orc can use its bonus action to gain Advantage on any attack rolls against a Hobbit this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, the Orc has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bent Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) slashing damage."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.79"
+    },
+    {
+      "name": "Bloodstump the Hunter",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "bits of previous victims' armour",
+      "hit_points": "138 (12d10+72)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 8,
+        "constitution": 23,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "Strength": 8,
+        "Constitution": 10,
+        "Wisdom": 3
+      },
+      "skills": {
+        "Perception": 6,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 16",
+      "languages": [
+        "Westron",
+        "Orcish"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Cruel Stroke",
+          "description": "Recharge 5-6. If Bloodstump has just hit with his Great Black Mace, he may spend his bonus action to turn the attack into a critical hit.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Hideous Toughness",
+          "description": "Recharge after a short or long rest. Bloodstump can endure enormous damage. He may spend an action to growl menacingly at his foes and then gain a pool of 10 (3d6) temporary hit points that last till the end of the fight if not removed by combat damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Bloodstump makes a successful melee attack, he may use his bonus action to cause 5 additional damage of the same type to the target."
+        },
+        {
+          "name": "Hunter",
+          "description": "Bloodstump doubles his Proficiency Bonus for all Wisdom (Perception) checks (included above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Bloodstump makes two attacks: one bite and one strike with his mace."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 10 (2d4+5) slashing damage."
+        },
+        {
+          "name": "Great Black Mace",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 18 (2d12+5) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.79"
+    },
+    {
+      "name": "Dreorg the Wargling",
+      "size": "Large",
+      "type": "Monstrosity (Warg-kind)",
+      "alignment": "Unknown",
+      "armor_class": 14,
+      "ac_type": "natural armour",
+      "hit_points": "94 (9d10+45)",
+      "speed": "50 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 16,
+        "constitution": 21,
+        "intelligence": 11,
+        "wisdom": 13,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 4,
+        "Stealth": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 14",
+      "languages": [
+        "Westron",
+        "Wargspeech"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Great Leap",
+          "description": "Dreorg is capable of jumping huge distances. He may make a special Dash action to go twice his normal movement in a single jump. Any opponents in melee combat with him when he uses Great Leap get Opportunity Attacks as normal."
+        },
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "Dreorg has Advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "Dreorg has Advantage on an attack roll against a creature if at least one of his allies is within 5 feet of the creature and the ally isn’t Incapacitated."
+        },
+        {
+          "name": "Savage Attack",
+          "description": "When Dreorg scores a critical hit, he does an additional 5 (1d10) damage. This damage is not doubled by the critical hit."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Dreorg makes two attacks: one bite and one claw attack."
+        },
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 10 (2d6+3) piercing damage. If the target is a creature, it must make a DC 13 Strength saving throw or be knocked Prone."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 11 (1d12+5) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Snake-like Speed (Recharge 5-6)",
+          "description": "Dreorg is adept at avoiding injury and can use his reaction to halve the attack damage on an attack that he is aware of."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.80"
+    },
+    {
+      "name": "Rine, Queen of Castle Hill",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "Unknown",
+      "armor_class": 16,
+      "ac_type": "cobbled-together armour",
+      "hit_points": "150 (12d10+84)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 22,
+        "dexterity": 16,
+        "constitution": 25,
+        "intelligence": 10,
+        "wisdom": 7,
+        "charisma": 6
+      },
+      "saving_throws": {
+        "Dexterity": 6
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 8",
+      "languages": [
+        "Westron",
+        "Orcish"
+      ],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Hatred (Dwarves) (Recharge 5-6)",
+          "description": "Rine detests Dwarves. She can use her bonus action to gain Advantage on attacks against them this round."
+        },
+        {
+          "name": "Suit of Armour",
+          "description": "Rine has Advantage on her Dexterity saving throws due to her Sunlight Curse as most of her body is shielded from the sun by her armour."
+        },
+        {
+          "name": "Sunlight Curse",
+          "description": "Stone-trolls become Petrified and turn into stone if they are touched by the bright light of the sun. Once the sun rises, Rine must make a DC 10 Dexterity saving throw at the beginning of her turn in order to find enough cover to avoid being turned to stone. On a failure, she becomes Petrified."
+        },
+        {
+          "name": "Weak Spot",
+          "description": "If Rine uses a special ability that uses an action (her Smashing Blow), any heroes that are within range may use their reaction to make a single attack. For this attack only, Rine is considered vulnerable to Piercing, Slashing and Bludgeoning damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Rine makes two attacks with her Troll-club."
+        },
+        {
+          "name": "Troll-club",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft, one target. Hit: 15 (2d8+6) bludgeoning damage."
+        },
+        {
+          "name": "Smashing Blow",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft, one target. Hit: 15 (2d18+6) bludgeoning damage and the target must make a DC 16 Strength saving throw or become Prone. Miss: the target must make a DC 13 Dexterity saving throw or become Prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.81"
+    },
+    {
+      "name": "Radgul",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "Unknown",
+      "armor_class": 18,
+      "ac_type": "cobbled-together Orc armour, Huge Hide-shield",
+      "hit_points": "59 (7d8+28)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 11,
+        "constitution": 18,
+        "intelligence": 17,
+        "wisdom": 12,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 5,
+        "Investigation": 5,
+        "Persuasion": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Orcish",
+        "Black Speech",
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Hatred (Hobbits) (Recharge 5-6)",
+          "description": "Radgul can use his bonus action to gain Advantage on any attack rolls against a Hobbit this round."
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If Radgul makes a successful melee attack, he may use his bonus action to cause 3 additional damage of the same type to the target."
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, Radgul has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Orcish Scimitar",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 8 (2d4+3) slashing damage."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Radgul can inspire his allies with his sly words and half-empty promises. He may use his reaction to utter a command or shout a warning whenever a non-hostile creature, that he can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.82"
+    },
+    {
+      "name": "Barrow-wight",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "tattered remnants of armour",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 13",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Denizen of the Dark",
+          "description": "The Barrow-wight is particularly adept at using the environment and shadows to its benefit. It may take the Hide action, even in plain sight. It makes a Dexterity (Stealth) check and any foes must make an opposed Wisdom (Perception) check to track its movements."
+        },
+        {
+          "name": "Fell Spirit",
+          "description": "When the Barrow-wight would be reduced to 0 hit points, it may use its reaction to add 7 (2d6) temporary hit points.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "The Barrow-wight despises the cleansing light of the Sun. If it is exposed to direct bright sunlight, it takes 3 (1d6) psychic damage each round."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Ancient Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Chilling Touch",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: The target must make a DC 13 Constitution saving throw or become Stunned until the end of the Barrow-wight's next turn. If the target is already Stunned then the target becomes Unconscious until it completes a short rest instead. Unconscious companions are dragged into the wight's barrow to be sacrificed; if found in time, they may be roused with a DC 10 Wisdom (Medicine) check."
+        },
+        {
+          "name": "Wight Song",
+          "description": "Barrow-wights chant a low, chilling song to subdue their foes with the dark enchantment of their voice. Each creature within 60 feet of the Barrow-wight must make a DC 10 Wisdom saving throw. Creatures that fail the saving throw are Stunned. A Stunned creature can repeat the saving throw at the beginning of its turn, ending the effect on a success.",
+          "uses": 1,
+          "recharge": "day"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.83"
+    },
+    {
+      "name": "Bog Soldier",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 8,
+      "ac_type": "",
+      "hit_points": "22 (4d8+4)",
+      "speed": "20 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 6,
+        "constitution": 13,
+        "intelligence": 3,
+        "wisdom": 7,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "darkvision 60 ft, passive Perception 8",
+      "languages": [
+        "None"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Undead Fortitude",
+          "description": "If damage reduces the Bog Soldier to 0 hit points, it must make a Constitution saving throw with a DC of 5 + the damage taken, unless the damage is radiant or from a critical hit. On a success, the Bog Soldier drops to 1 hit point instead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 4 (1d6+1) piercing damage."
+        },
+        {
+          "name": "Grasping Claws",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: the target is Grappled (Escape DC 11) and the Bog Soldier can spend an action to drag the character into the deepest part of the muck… see the Bog combat scenery entry on page 91 of the Loremaster's Guide."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.84"
+    },
+    {
+      "name": "Fell Wraith",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Wraith-like, Shield",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 15,
+        "constitution": 17,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Non-magical bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 12",
+      "languages": [
+        "Westron",
+        "Adûnaic",
+        "Sindarin"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of it, the Fell Wraith suffers Disadvantage on its attack rolls."
+        },
+        {
+          "name": "Unnatural Vitality",
+          "description": "The Fell Wraith can use its bonus action to regain 6 (1d12) hit points. It cannot use this ability to exceed its normal hit point maximum."
+        },
+        {
+          "name": "Wraith-like",
+          "description": "The Fell Wraith has resistance to all non-magical weapon damage and its base Armour Class is equal to 10 plus twice its Dexterity modifier."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 4 (1d6+1) piercing damage or 5 (1d6+1) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Strike Fear",
+          "description": "As an action, the Fell Wraith may force each opponent within 30 ft to make a DC 14 Wisdom saving throw or become Frightened until the end of the the Wraith's next turn.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.84"
+    },
+    {
+      "name": "Spectre",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "54 (12d8)",
+      "speed": "0 ft, fly 50 ft (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 14,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "non-magical bludgeoning",
+        "piercing and slashing"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Frightened",
+        "Grappled",
+        "Paralysed",
+        "Petrified",
+        "Poisoned",
+        "Prone",
+        "Restrained"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 11",
+      "languages": [
+        "Those it knew in life"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Black Dread",
+          "description": "When forced to make a Wisdom saving throw against this creature targets automatically have Disadvantage on the roll."
+        },
+        {
+          "name": "Ghost-form",
+          "description": "This creature is insubstantial and cannot be easily hurt by normal means. See the damage and condition resistances and immunities above."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The creature can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Grieve",
+          "description": "As an action, the creature may force each opponent within 30 ft to make a DC 15 Wisdom saving throw (with Disadvantage, see above) or experience a harrowing sorrow, causing him to gain 3 (1d4+1) Shadow points. If the target rolls a 1 on the saving throw, the target is also Stunned until the end of the Spectre's next turn.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Visions of Torment",
+          "description": "As an action, the creature can force one target within 60 feet to make a DC 15 Wisdom saving throw (with Disadvantage, see above) or take psychic damage equal to 2 (1d4) plus its total Shadow score."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.85"
+    },
+    {
+      "name": "The Wight-king",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "tattered remnants of armour",
+      "hit_points": "104 (11d8+55)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 13,
+        "constitution": 21,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 15
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 4,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing and slashing"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 14",
+      "languages": [
+        "Adûnaic",
+        "Westron"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Barrow of the Dead",
+          "description": "If the Wight-king is in the Barrow-downs, he may use a Lair action to call the evil spirits of Tyrn Gorthad to him: 3 (1d4+1) Barrow-wights arrive at the end of his next turn.",
+          "uses": 1,
+          "recharge": "6"
+        },
+        {
+          "name": "Denizen of the Dark",
+          "description": "The Wight-king is particularly adept at using the environment and shadows to its benefit. He may take the Hide action, even in plain sight. He makes a Dexterity (Stealth) check and any foes must make an opposed Wisdom (Perception) check to track his movements."
+        },
+        {
+          "name": "Hate Sunlight",
+          "description": "The Wight-king despises the cleansing light of the Sun. If he is exposed to direct bright sunlight, he takes 3 (1d6) psychic damage each round."
+        },
+        {
+          "name": "Unnatural Vitality",
+          "description": "The Wight-king can use his bonus action to regain 6 (1d12) hit points. He cannot use this ability to exceed his normal hit point maximum."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Wight-king makes an attack with his sword and his Chilling Touch."
+        },
+        {
+          "name": "Ancient Sword",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) piercing damage."
+        },
+        {
+          "name": "Chilling Touch",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: The target must make a DC 14 Constitution saving throw or become Stunned until the end of the Wight-king's next turn. If the target is already Stunned then the target becomes Unconscious until it completes a short rest instead. Unconscious companions are dragged into the Wight-king's barrow to be sacrificed; if found in time, they may be roused with a DC 10 Wisdom (Medicine) check."
+        },
+        {
+          "name": "Darker than the Darkness",
+          "description": "The Wight-king can spend his action to summon a supernatural darkness. It is centred on the wight and extends out to a radius of 15 feet. Torches and other non-magical light sources do not pierce the darkness. A magical light can counter the darkness effect but does not dispel it. The darkness lasts until the Wight-king is slain or he spends a bonus action to cancel the effect.",
+          "uses": 1,
+          "recharge": "1/day"
+        },
+        {
+          "name": "Wight-king Song",
+          "description": "The King chants a low, chilling song to subdue his foes with the dark enchantment of his voice. Each creature within 60 feet of the Wight-king must make a DC 13 Wisdom saving throw. Creatures that fail the saving throw are Stunned. A Stunned creature can repeat the saving throw at the beginning of its turn, ending the effect on a success.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.86"
+    },
+    {
+      "name": "The Lord of the Nazgûl, Unclad and Invisible",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "190 (20d8+100)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 21,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 20
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 10,
+        "Perception": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing",
+        "cold",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 16",
+      "languages": [
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "13",
+      "xp": 10000,
+      "features": [
+        {
+          "name": "The Black Captain",
+          "description": "The Nazgûl are fearsome opponents, but they are made even more formidable when encountered together with their Chieftain. If the Lord is accompanied by one or more Nazgûl, a target forced by any Ringwraith to make a saving throw makes that roll at Disadvantage."
+        },
+        {
+          "name": "Legendary",
+          "description": "The Lord can take two Legendary actions each turn to use either his Black Breath, Spell of Prohibition or Thing of Terror abilities."
+        },
+        {
+          "name": "Thing of Shadow",
+          "description": "The Ringwraith is Invisible."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Black Breath",
+          "description": "The Lord can use his action to target a creature within 10 feet. That creature must make a DC 16 Constitution saving throw. On a failure, the creature gains 1 Shadow point and becomes Unconscious. The creature may be revived as an action, but is Miserable until it takes a long rest. On a success, the creature gains 1 Shadow point but remains awake. If a Ringwraith targets an Unconscious creature then it is subject to The Black Shadow (see page 75)."
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "The Lord can direct its terrible will upon any Frightened mortal (Dwarf, Hobbit or Man) such that the victim becomes an agent for the Enemy. The Ringwraith may use its action to force the target to make a DC 16 Wisdom saving throw. On a failure, see The Shadow of Fear (page 74)."
+        },
+        {
+          "name": "Spell of Prohibition",
+          "description": "The Lord can use his action to force one creature within 30 feet to make a DC 16 Wisdom saving throw. On a failure, the target is Stunned until the end of the Ringwraith's next turn and drops any items that it is carrying."
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Lord can use his action to cause any number of targets within 60 feet of him to make a DC 16 Wisdom saving throw. Those that fail are Frightened until the end of the Ringwraith's next turn."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Rivendell Region Guide p.88"
+    },
+    {
+      "name": "The Lord of the Nazgûl as Dark Undead",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "190 (20d8+100)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 15,
+        "constitution": 21,
+        "intelligence": 14,
+        "wisdom": 12,
+        "charisma": 20
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 10,
+        "Perception": 6
+      },
+      "damage_resistances": [
+        "non-magical bludgeoning",
+        "piercing and slashing",
+        "cold",
+        "psychic"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Blinded",
+        "Deafened",
+        "Frightened",
+        "Paralysed",
+        "Petrified",
+        "Stunned"
+      ],
+      "senses": "Truesight 30 ft (otherwise blind), passive Perception 16",
+      "languages": [
+        "Black Speech",
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "13",
+      "xp": 10000,
+      "features": [
+        {
+          "name": "The Black Captain",
+          "description": "The Nazgûl are fearsome opponents, but they are made even more formidable when encountered together with their Chieftain. If the Lord is accompanied by one or more Nazgûl, a target forced by any Ringwraith to make a saving throw makes that roll at Disadvantage."
+        },
+        {
+          "name": "Deadly Voice",
+          "description": "The Ringwraiths scream at their enemies with long-drawn wails that rise to a deafeningly high piercing note. The Lord can use his bonus action to make a Frightened creature become Stunned until the end of the Lord’s next turn."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "If a torch or other flame comes within 10 feet of him, the Lord suffers Disadvantage on his attack rolls."
+        },
+        {
+          "name": "Legendary",
+          "description": "The Lord can take two Legendary actions each turn to use either his Black Breath, Spell of Prohibition or Thing of Terror abilities."
+        },
+        {
+          "name": "Unyielding (Recharge 5-6)",
+          "description": "The Lord can use his bonus action to gain 10 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Lord makes one attack with his Black Sword and one with his Morgul-knife or Claw."
+        },
+        {
+          "name": "Black Sword of Mordor",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage. The Ringwraith can use his bonus action to add 5 (1d6+2) necrotic damage."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) slashing damage."
+        },
+        {
+          "name": "Morgul-knife",
+          "description": "Melee Weapon Attack: +9 to hit, reach 5 ft, one target. Hit: 6 (1d4+4) piercing damage and see Morgul-knives, page 88."
+        },
+        {
+          "name": "Black Breath",
+          "description": "The Lord can use his action to target a creature within 10 feet. That creature must make a DC 16 Constitution saving throw. On a failure, the creature gains 1 Shadow point and becomes Unconscious. They may be revived as an action, but are Miserable until it takes a long rest. On a success, the creature gains 1 Shadow point but remains awake. If a Ringwraith targets an Unconscious creature then it is subject to The Black Shadow (see page 75)."
+        },
+        {
+          "name": "Shadow of Fear",
+          "description": "The Lord can direct its terrible will upon any Frightened mortal (Dwarf, Hobbit or Man) such that the victim becomes an agent for the Enemy. The Ringwraith may use its action to force the target to make a DC 16 Wisdom saving throw. On a failure, see The Shadow of Fear (page 74)."
+        },
+        {
+          "name": "Spell of Prohibition",
+          "description": "The Lord can use his action to force one creature within 30 feet to make a DC 16 Wisdom saving throw. On a failure, the target is Stunned until the end of the Ringwraith’s next turn and drops any items that they are carrying."
+        },
+        {
+          "name": "Thing of Terror",
+          "description": "The Lord can use his action to cause any number of targets within 60 feet of him to make a DC 16 Wisdom saving throw. Those that fail are Frightened until the end of the Ringwraith’s next turn."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Dwimmerlaik",
+          "description": "If a hero strikes the Lord with a critical hit, he may use his reaction to invoke this ability. The hero must make a DC 16 Strength saving throw. On a failure, the hero’s weapon shatters, and the hero receives the damage instead of the Ringwraith. Legendary weapons might not be destroyed, but are lost as a cold pain shoots through the hero’s body and she drops the weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Evils of the North p.89"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Elrond",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "110 (20d8+20)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 20,
+        "wisdom": 19,
+        "charisma": 17
+      },
+      "saving_throws": {
+        "intelligence": 9,
+        "wisdom": 8
+      },
+      "skills": {
+        "History": 9,
+        "Insight": 8,
+        "Lore": 13,
+        "Medicine": 12,
+        "Traditions": 9
+      },
+      "features": [
+        {
+          "name": "Elven-hauberk",
+          "description": "If Elrond ever went to war, he would wear the armour that he bore as Gil-galad's herald, a hauberk crafted by Damron the smith himself. It is so cunningly made that Elrond adds his full Dexterity modifier to his Armour Class."
+        },
+        {
+          "name": "Leader of Imladris (Lair Action)",
+          "description": "If Elrond is near Rivendell, he may use a Lair Action to summon an Elf-Lord (Loremaster's Guide, page 77) to aid him. The Elf-Lord arrives at the end of Elrond's next turn."
+        },
+        {
+          "name": "Legendary",
+          "description": "Elrond may take two legendary actions each turn. Each legendary action allows him to either use his Foresight ability without using his reaction, attack with his Spear of the Last Alliance or use his Hands of the Healer ability."
+        },
+        {
+          "name": "The Ring of Air",
+          "description": "Elrond can use his bonus action to interact with something in the environment at range (for example an old tree might suddenly tumble down, or a stream temporarily swell to a torrent when an enemy crosses it) to create combat scenery. Or he may cloak an ally with the ring's magic. That ally gains a +4 bonus to their AC until the end of Elrond's next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Elrond can make two attacks with his Spear of the Last Alliance."
+        },
+        {
+          "name": "Spear of the Last Alliance",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage. On a hit, the Elf-Lord can use his bonus action to make another attack at another target within reach."
+        },
+        {
+          "name": "Hands of the Healer",
+          "description": "In combat, Elrond can use his action to restore 8 (1d8+4) hit points to a creature within 5 feet of him. Outside of combat he can spend 10 minutes with a creature to remove a condition. He may also spend 10 minutes with a creature to restore all of its hit points. If he does so, he cannot use this ability again until he takes a short or long rest."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elrond, Master of Rivendell, is the Lore-master of Imladris, appearing as neither old nor young, combining the wisdom of a king and the vigour of a strong warrior. He wears a circlet of silver upon his dark hair, and in his eyes are the memories of years uncounted.",
+      "role": "Patron",
+      "is_enemy": false,
+      "xp_reward": 8400,
+      "source": "Rivendell Region Guide p.14"
+    },
+    {
+      "name": "Arwen",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Seeing Arwen",
+          "description": "When heroes see Arwen for the first time, they receive Inspiration immediately. Also, they can remember the wisdom behind Undómiel’s eyes and once during the following Adventuring phase gain Inspiration automatically."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Arwen is the daughter of Elrond. Dark of hair, Arwen has the bearing of a queen, and a beauty that can be only that of someone who belongs to the Fair Folk: young, and yet betraying the wisdom accumulated in many years.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rivendell Region Guide p.16"
+    },
+    {
+      "name": "Erestor",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Erestor is probably the most prominent individual in the household of Elrond, second only to Glorfindel. He is counted among the wise, and he is the chief of Elrond’s personal counsellors. He is also a scribe and an illuminator of manuscripts – many books and parchments kept in Rivendell have been written and decorated by the skilled hand of Erestor. But his cunning is not limited to that. In a small building filled with glass vessels of many shapes and sizes, Erestor prepares miruvor, the precious cordial of Imladris. The wise Elf distils it using more than one hundred herbs",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Rivendell Region Guide p.17"
+    },
+    {
+      "name": "Elrohir",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "85 (10d8+40)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 16,
+        "constitution": 18,
+        "intelligence": 17,
+        "wisdom": 15,
+        "charisma": 14
+      },
+      "saving_throws": {
+        "Dexterity": 6,
+        "Wisdom": 5
+      },
+      "skills": {
+        "Animal Handling": 5,
+        "Perception": 5,
+        "Survival": 5,
+        "Riddle": 6
+      },
+      "features": [
+        {
+          "name": "Hatred (Orc-kind)",
+          "description": "Elrohir remembers the terrible fate that Orc-kind inflicted upon his mother. He will use his bonus action to gain Advantage on attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Hawk's Eye",
+          "description": "Elrohir can use his bonus action to negate Disadvantage due to being at long range for this turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Many Long Leagues",
+          "description": "If Elrohir is with the Company on a journey then a companion can spend Inspiration to allow a long rest. This ability can only be used once per journey."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Elrohir can make two attacks with either his Long Sword or his Great Bow."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 9 (1d8+5) slashing damage or 10 (1d10+5) slashing damage if used with two hands."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft, one target. Hit: 7 (1d8+3) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Shield",
+        "Long Sword",
+        "Great Bow"
+      ],
+      "spellcasting": null,
+      "description": "Twin warrior son of Elrond, dark-haired and grey-eyed, eager to fight the shadow.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 2300,
+      "source": "Rivendell Region Guide p.20"
+    },
+    {
+      "name": "Elladan",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 17,
+      "hit_points": "85 (10d8+40)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 20,
+        "constitution": 18,
+        "intelligence": 15,
+        "wisdom": 17,
+        "charisma": 13
+      },
+      "saving_throws": {
+        "Dexterity": 8,
+        "Wisdom": 6
+      },
+      "skills": {
+        "Athletics": 6,
+        "History": 5,
+        "Perception": 9,
+        "Traditions": 5
+      },
+      "features": [
+        {
+          "name": "Hatred (Orc-kind)",
+          "description": "Elladan will never forget his mother's suffering at the hands of Orc-kind. He will use his bonus action to gain Advantage on attacks against them this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Hunter",
+          "description": "Elladan gains +3 to all of his Perception checks (included above)."
+        },
+        {
+          "name": "Well-travelled",
+          "description": "If Elladan is with the Company and they are travelling in Eastern Eriador or the Western Vales then the Guide rolls 1d8+4 for the Embarkation Roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Elladan can make two attacks with either his Broadsword or his Great Bow."
+        },
+        {
+          "name": "Broadsword",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 9 (1d8+3) slashing damage."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +8 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Broadsword",
+        "Great Bow"
+      ],
+      "spellcasting": null,
+      "description": "Twin warrior son of Elrond, dark-haired and grey-eyed, eager to fight the shadow.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 2300,
+      "source": "Rivendell Region Guide p.21"
+    },
+    {
+      "name": "Burzash, Orc Warlord",
+      "race": "Great Orc",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "One among the many Orcs that are being drawn out of their lairs in the mountains to journey north towards Carn Dûm, Burzash is not satisfied leading only his own tribe. Moving across Angmar, Burzash has set his will to dominating lesser Orcs and uniting them under his banner. He is a fierce creature, commanding and merciless. Gathering Orcs, Goblins and Hill-men to him, he moves across the Grey Waste, slaughtering those who do not bow to his will. Burzash is a Great Orc, as seen in the Adventures in Middle-earth Loremaster's Guide on page 97. He typically travels with a large warband composed of Goblins of Carn Dûm (see page 77), Hill-men of Rhudaur (see page 77-78), and reinforced by a pair of great Mountain-Trolls (page 109 of the Loremaster's Guide) whom he had attracted to his service under the promise of war and slaughter. The entire warband counts as Bloodthirsty and are a Vengeful Band.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Rivendell Region Guide p.52"
+    },
+    {
+      "name": "The Steward of Carn Dûm",
+      "race": "Fell Wraith",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "When the Witch-king was forced to abandon Carn Dûm following his defeat, the fortress was not fully destroyed, as its foundations were too strong even for the Men of the West to shatter. In its deepest recesses many creatures were allowed to endure, and many dwell there still. Among those wretched shades lurks he who was once deemed to be a sorcerer of dark and terrible power: the Steward of Carn Dûm. At the time of the witch-realm, he could be spied on the highest battlements of the black citadel of Carn Dûm, as he gazed down upon the frozen and black realm, casting his auspices at the service of the Witch-king. The Steward of the citadel has never left the dungeons of the broken fortress, as he was appointed a task he will never betray. When the Lord of the Nazgûl left Carn Dûm to go and fight at the Battle of Fornost, he left the Iron Crown of Angmar in his keeping. Thus the life of the Steward was spared the wreck of that defeat, and the crown didn't follow the Witch-king in his flight. In the centuries that followed, the Steward was slowly consumed by the power residing in the Iron Crown: he become a Fell Wraith, a weak reflection of its Master. The Steward of Carn Dûm today is a shade among shades, perpetually wrapped in a robe of rich crimson, his facial features hidden beneath the shadows of his heavy hood. He haunts the deepest cells of the dark capital of ancient Angmar, where he patiently awaits the return of the Morgul-lord. Once this happens, he will kneel once more before the Lord of the Nazgûl and will offer him what he has kept secret for centuries: the Iron Crown of Angmar. The Steward is a Fell Wraith possessing both Black Dread and Wicked Cunning. He knows Words of Power and Terror as well, ranking him at Challenge 4.",
+      "role": "Enemy",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Rivendell Region Guide p.52-53"
+    },
+    {
+      "name": "Arbarad",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "65 (10d8+20)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 15,
+        "constitution": 14,
+        "intelligence": 15,
+        "wisdom": 16,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 4,
+        "Perception": 7,
+        "Survival": 5
+      },
+      "features": [
+        {
+          "name": "Deadly Names",
+          "description": "Arbarad can spend his bonus action to add 3 (1d6) radiant damage to a servant of the Enemy that he has just struck in combat."
+        },
+        {
+          "name": "Hunter",
+          "description": "Arbarad gains +2 to all of his Perception checks (included above)."
+        },
+        {
+          "name": "Secret Places",
+          "description": "If Arbarad is in the South Downs, the Weather Hills or the North Downs he always knows a place where the Company may take a long rest. It requires a successful Audience for Arbarad to lead them there, however."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Arbarad can make two attacks with either his Long Sword or his Great Bow."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage or 6 (1d10+1) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Melee Weapon Attack: +4 to hit, range 150/600 ft, one target. Hit: 6 (1d8+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This stoic, travel-worn wanderer spends many days scouring the land, watching for trespassing creatures and looking for any ancient testimony of the lost realm of his people. While dedicated to his tasks, Arbarad is also always ready to help lost wanderers find their way back to the road, should they become lost in the maze-like hills.",
+      "role": "The Warden of Amon Sûl",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Rivendell Region Guide p.57"
+    },
+    {
+      "name": "Talandil",
+      "race": "Human",
+      "class_name": "Ranger",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "60 (8d8+24)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 11,
+        "constitution": 17,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 10
+      },
+      "saving_throws": {},
+      "skills": {
+        "Lore": 3,
+        "Perception": 5,
+        "Pipe": 3,
+        "Riddle": 3,
+        "Survival": 5
+      },
+      "features": [
+        {
+          "name": "Long-pipe",
+          "description": "Talandil can make a DC 15 Intelligence (Pipe) check as an action. On a success, he makes his next ability check with Advantage."
+        },
+        {
+          "name": "Many Long Leagues",
+          "description": "If Talandil is with the Company on a journey then a companion can spend Inspiration to allow a long rest. This ability can only be used once per journey."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Talandil can make two attacks with his Long Sword."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with two hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Talandil, Ranger of the North Downs. When a Ranger has served for many years out in the Wild, he is allowed to return to his family. But Talandil had no family to return to. Having reached a considerable age, Talandil doesn't wander the land either, and he rarely leaves the North Downs. He is the self-appointed guardian of Fornost Erain, and he knows many songs and tales of that city when it was the northern fortress of the kings.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 700,
+      "source": "Rivendell Region Guide p.60"
+    },
+    {
+      "name": "Kyna",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "39 (6d8+12)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 12,
+        "wisdom": 13,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Nature": 3,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "Region-lore (Enedwaith)",
+          "description": "If Kyna is with the Company for a journey that begins or ends in the Enedwaith or Tharbad, the Guide rolls 1d8+4 for the Embarkation Roll."
+        },
+        {
+          "name": "Hatred (Orc-kind)",
+          "description": "Kyna and her folk hate Orcs and she will spend her bonus action to gain Advantage on attack rolls against them whenever she can.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 feet or range 20/60 feet, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 150/600 feet, one target. Hit: 7 (1d8+3) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Though the Wild Men of Enedwaith rarely travel inland as far as Tharbad, Kyna is an adventurous young woman. Boasting her desire to fish in \"unchallenged waters\", she leaves her village for weeks on end to reach the crumbling town. The ruins fascinate her, and she often spends more hours exploring them than tending to her duties as a huntress and fisherwoman for her people. She knows the fens west of Tharbad quite well, better than any other of her kind. Though she is curious regarding the travellers who pass through the realm, she is wary of the many threats that plague the waters surrounding the Greyflood.",
+      "role": "Notable Character",
+      "is_enemy": false,
+      "xp_reward": 200,
+      "source": "Rivendell Region Guide p.67"
+    },
+    {
+      "name": "Bradan",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "44 (8d8+8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Insight": 4,
+        "Perception": 4,
+        "Stealth": 5
+      },
+      "features": [
+        {
+          "name": "Secret Folk",
+          "description": "If Bradan is making a roll to hide from others, to detect an ambush, discover a trap or discover treachery he has Advantage on the check. This will most commonly be applied to Insight, Investigation, Perception and Stealth checks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 feet, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Young and eager to prove himself, Bradan is a young scout from Dunland, known among his tribemates as a man whose long stride and quick feet has led him far and wide across his homeland. Having recently come into manhood, Bradan has been charged by his chieftain with the exploration of the lands north of the borders of Dunland. Though he speaks only a few words in the Common Speech, Bradan is curious when he encounters strangers. Typically, he observes them from a distance and retreats if he falls under their gaze. Bradan doesn't know why his chieftain is seeking news from the north, though he suspects that his lord is reporting to a greater, unknown master.",
+      "role": "Notable Character",
+      "is_enemy": false,
+      "xp_reward": 450,
+      "source": "Rivendell Region Guide p.67"
+    },
+    {
+      "name": "Thark",
+      "race": "Hill-man of Rhudaur",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Big",
+          "description": "Thark gains the Big feature. (See page 116 of the Loremaster's Guide.)"
+        },
+        {
+          "name": "Commanding Voice",
+          "description": "Thark gains the Commanding Voice reaction. (See page 119 of the Loremaster's Guide.)"
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Among the Hill-men of Angmar is Thark, their chieftain. Broad and swarthy, his piercing eyes are the colour of night and his face is marred by countless scars of war and survival. Any wanderer who treads the many tracks and broken roads of Angmar coming from the south may encounter Thark and his faithful. Facing a well-equipped Company, Thark won't be openly hostile, but will offer his service as a guide and scout. Should his offer be refused, then Thark will resort to threats, requiring the payment of a tribute. In both cases, Thark won't fight directly, but will lead the Company towards a more favourable confrontation: the lair of a Mountain Troll, a den of Goblins, or an encampment of his people.",
+      "role": "Chieftain of Angmar",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Loremaster's Guide p.123-124"
+    },
+    {
+      "name": "Cirmacar",
+      "race": "High Elf",
+      "class_name": "Warden",
+      "subclass": "",
+      "level": 1,
+      "alignment": "",
+      "armor_class": 14,
+      "hit_points": "10 (1d8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 12,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 17,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Acrobatics": 2,
+        "Animal Handling": 5,
+        "Athletics": 1,
+        "Deception": -1,
+        "History": 0,
+        "Insight": 5,
+        "Intimidation": -1,
+        "Investigation": 0,
+        "Lore": 0,
+        "Medicine": 3,
+        "Nature": 0,
+        "Perception": 5,
+        "Performance": -1,
+        "Persuasion": -1,
+        "Riddle": 0,
+        "Shadow-lore": 0,
+        "Sleight of Hand": 2,
+        "Stealth": 4,
+        "Survival": 5,
+        "Traditions": 2
+      },
+      "features": [
+        {
+          "name": "Night Vision",
+          "description": "dim light 60 ft as bright light, in darkness as if it is dim light."
+        },
+        {
+          "name": "Elvish Dreams",
+          "description": "four hours of dream resting per night"
+        },
+        {
+          "name": "Against the Unseen",
+          "description": "You can perceive creatures in the wraith-world (Invisible undead) and are immune to becoming Frightened by the undead."
+        },
+        {
+          "name": "Beset by Woe",
+          "description": "When you undertake to Heal Corruption, gain 1 permanent Shadow and lose 1 temporary Shadow before making your check."
+        },
+        {
+          "name": "Troubling to the Wise",
+          "description": "you know some of the Great and the Good and can sometimes receive favours from them. You also might know hiding places in some castles and cities that you visit."
+        },
+        {
+          "name": "Warden's Gift",
+          "description": "you have one Gift die (a d6). You can grant that die to an ally who may use it in the next 10 minutes and add it to one ability check, attack roll or saving throw. You regain the Gift die after a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Ever Watchful",
+          "description": "spend a few hours travelling and talking with locals to make a DC 12 Intelligence (Investigation) check with Advantage. Success means you know news, rumours and important individuals. Failure means you know some, but don't know what is true"
+        },
+        {
+          "name": "Cautious",
+          "description": "You are considered in your actions, lest your carelessness give Shadow agents an opportunity."
+        },
+        {
+          "name": "Dark Secrets",
+          "description": "The best way to elude and defeat your hunters is to learn more about them. You study all you can about the Shadow."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Bow",
+          "description": "Atk Bonus: +4, Damage/Type: 1d8+2 piercing"
+        },
+        {
+          "name": "Dagger",
+          "description": "Atk Bonus: +4, Damage/Type: 1d4+2 piercing"
+        }
+      ],
+      "equipment": [
+        "A slate blue travelling cloak",
+        "travelling gear for the current season",
+        "a backpack or saddlebags",
+        "a belt dagger",
+        "boots",
+        "a white jewel on a chain of silver",
+        "smith's tools",
+        "a great bow",
+        "20 arrows",
+        "a leather corslet and shield"
+      ],
+      "spellcasting": null,
+      "description": "High elf of Rivendell, Warden. You have dwelt in Imladris since its founding, leaving only once in your long years when Gil-galad called all banners to him and the Last Alliance of Elves and Men stormed the Black Land of Mordor.",
+      "role": "Player Character",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The One Ring RPG - Loremaster's Screen & Rivendell Compendium"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Introduction",
+    "Evils of the North",
+    "The Eye of Mordor",
+    "Blank Magical Treasure Index",
+    "A Barren and Pathless Country",
+    "The Regions of Eastern Eriador",
+    "High Elf of Rivendell character sheet",
+    "Not all that Glitters...",
+    "A History of Eriador",
+    "Imladris",
+    "High Elves of Rivendell",
+    "Blank Legendary Weapons and Armour sheet",
+    "Index",
+    "Ancient and Forgotten Treasures"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 14,
+  "_book_slug": "RVR",
+  "_book_title": "rivendellregionguide",
+  "_completed": true,
+  "_timestamp": 1790288484.9065619
+}

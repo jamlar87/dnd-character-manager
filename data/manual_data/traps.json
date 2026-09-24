@@ -6398,5 +6398,105 @@
     "description": "A roachling pit is an entirely bizarre form of terrain made by congealing, spinning, and reforming raw shadow into demonic termite mounds or hollow dunes and curved pits, usually found on the plains with an enticing body of pure rainwater at the bottom.",
     "source": "(Book of Ebon Tides, p.134)",
     "_source_manual": "EBT"
+  },
+  {
+    "name": "The Woodcurse",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "The blood of a Beast or Monstrosity spills within the borders of the Margreve Forest. This trigger can occur once per week per square mile of the Margreve.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The triggering creature can make a DC 19 CHA save to resist the compulsion of the Margreve. If the creature fails its saving throw or willingly accepts the compulsion, it gains the following features and obeys the will of the Margreve for a year and a day. Increase the creature's CR by 1. A Humanoid can only willingly be affected by the curse, dripping their blood and swearing fealty to the forest. An agent of the Margreve gains the following features: Enhanced Senses. The agent gains bloodsense or tremorsense at 60 feet. If it already has one of these senses, the distance is doubled. Agent of the Forest. While in the Margreve, the agent has advantage on all Perception, Stealth, and Survival checks. Bark and Bite. The agent's natural weapons and armor grow shaggier and more deadly. The agent's AC can never be lower than 16 and its attacks deal an additional 7 (2d6) damage of the same type as the attack. Forest's Fury. Whenever the agent or a part of the Margreve takes at least 10 damage, the agent flies into a rage for 1 minute, gaining resistance to all damage (except for psychic damage) and gaining advantage on the first attack it makes on its turn. Woodcursed. The agent is immune to charm, compulsion, or enchantment imposed by anything other than the Margreve. The agent is unable to work against the Margreve's goals or pursue its own goals, including its own instincts or needs.",
+    "save_dc": 19,
+    "save_ability": "Charisma",
+    "damage": "",
+    "damage_type": "",
+    "area": "",
+    "description": "Through the bond of spilled blood, the Margreve chains a creature to its service. Resolution: The agent can attempt to break the compulsion early, making a DC 19 CHA save once a day until three consecutive successes are made. A remove curse spell or similar magic grants advantage on one saving throw to break the compulsion, but only a wish spell can break the curse immediately, removing all benefits.",
+    "source": "(Marauders of the Margreve, p.8)",
+    "_source_manual": "MOM"
+  },
+  {
+    "name": "Troll Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A companion stumbles into a Troll's snare trap",
+    "detection": {
+      "dc": 0,
+      "skill": "Perception",
+      "detail": "The Look-out must make a Perception check. Failure indicates the companion gets hauled into the air by a rope about the ankle as the hero stumbles into a Troll's snare trap."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The companion gets hauled into the air by a rope about the ankle. The hero takes 7 (2d6) bludgeoning damage from the snare.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "7 (2d6)",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "Trolls are famously dull-witted, but one or two seem to have picked up a new trick. A snare trap that hauls a hero into the air by the ankle.",
+    "source": "(Eriador Adventures, p.46)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Large Hunting Trap",
+    "type": "mechanical",
+    "danger": "setback",
+    "trigger": "A creature that steps on the plate",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "It causes 1d6 piercing damage when triggered, requires a DC 15 Strength check to free the trapped creature and causes 1d4 piercing damage on a failed check.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "1d6",
+    "damage_type": "piercing",
+    "area": "",
+    "description": "A larger version of the hunting trap.",
+    "source": "(Eriador Adventures, p.78)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "The Falling Block",
+    "type": "mechanical",
+    "danger": "dangerous",
+    "trigger": "One member of the Company must lure or drive the Dragon through the gate, while another springs the trap.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": ""
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "The falling block inflicts 38 (7d10) points of bludgeoning damage. The Dragon is considered Grappled by the block until it uses its action and succeeds at a DC 30 Strength (Athletics) check.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "38 (7d10)",
+    "damage_type": "bludgeoning",
+    "area": "",
+    "description": "An old Dwarf-trap in the Great Hall that can be used to pin the Dragon.",
+    "source": "(Erebor Adventures, p.95)",
+    "_source_manual": "EREA"
   }
 ]

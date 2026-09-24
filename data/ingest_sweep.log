@@ -5726,4 +5726,1373 @@ No new entries in this chapter.
 Stats: 1 chunks → 1 raw → 1 valid → 1 new
   npcs: 1 — The Vagrant Sage
   [4/9] Agents of the Margreve (7,805 chars)
-    Chunk 0 (7,805 chars) → 
+    Chunk 0 (7,805 chars) → 8 items {'magic_items': 7, 'traps': 1} (5.6s)
+
+── Chapter Readout: Agents of the Margreve ──
+Stats: 1 chunks → 8 raw → 8 valid → 8 new
+  magic_items: 7 — House Stross Insignia, Scrimshaw Horn, Solar Burst Pendant, Broken Steering Lever, Hedge Mage's Cookbook, Green Knight's Favor, Onyx Mirror
+  traps: 1 — The Woodcurse
+  [5/9] Hunts and Chases (3,173 chars)
+    Chunk 0 (3,173 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Hunts and Chases ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [6/9] Old Medicine (11,382 chars)
+    Chunk 0 (4,539 chars) → 0 items {} (0.9s)
+    Chunk 1 (7,243 chars) → 0 items {} (1.2s)
+
+── Chapter Readout: Old Medicine ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [7/9] [Ad] Tales of the Valiant (583 chars)
+    Chunk 0 (583 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: [Ad] Tales of the Valiant ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [8/9] [Ad] Deep Magic (1,608 chars)
+    Chunk 0 (1,608 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: [Ad] Deep Magic ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [9/9] [Ad] Tome of Beasts I (839 chars)
+    Chunk 0 (839 chars) → 0 items {} (1.1s)
+
+── Chapter Readout: [Ad] Tome of Beasts I ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+
+  ✓ Extraction complete: 9 new entries across 9 chapter(s)
+    magic_items: 7 — House Stross Insignia, Scrimshaw Horn, Solar Burst Pendant, Broken Steering Lever, Hedge Mage's Cookbook (+2 more)
+    npcs: 1 — The Vagrant Sage
+    traps: 1 — The Woodcurse
+  magic_items.json: +7 (skipped 0 duplicate(s)) → 923 total
+  npcs.json: +1 (skipped 0 duplicate(s)) → 546 total
+  traps.json: +1 (skipped 0 duplicate(s)) → 257 total
+
+_meta.json updated: totals{'magic_items': 7, 'npcs': 1, 'traps': 1}, source_manuals+MOM, pdf_map[MOM]
+Appended 9 entries from MOM
+  Spell sources enriched: 319/319
+  Items with page numbers: 944
+  Race sources enriched: 57/57
+[subrace migration] Extended 32 manual races → core subraces
+  Class sources enriched: 19/19
+  Subclass sources enriched: 76
+  Subrace sources enriched: 10
+  Trait sources loaded: 51
+  Background sources enriched: 13/14
+0 source string(s) normalized to (Marauders of the Margreve, p.N)
+[2026-09-24 16:00:11]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:00:11]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:00:12]   service restarted so the repaired paths are served
+[2026-09-24 16:00:12]   service restarted so the repaired paths are served
+[2026-09-24 16:00:12]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 0 display name(s) normalised; totals {'races': 111, 'spells': 329, 'magic_items': 923, 'equipment': 286, 'monsters': 1748, 'npcs': 546, 'feats': 115, 'backgrounds': 57, 'subclasses': 123, 'traps': 257}
+[2026-09-24 16:00:12]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 0 display name(s) normalised; totals {'races': 111, 'spells': 329, 'magic_items': 923, 'equipment': 286, 'monsters': 1748, 'npcs': 546, 'feats': 115, 'backgrounds': 57, 'subclasses': 123, 'traps': 257}
+[2026-09-24 16:00:15] --- BLRG (bree landregionguide) ---
+[2026-09-24 16:00:15] --- BLRG (bree landregionguide) ---
+
+============================================================
+Processing: bree landregionguide (BLRG)
+  PDF: DnD-Manuals/5e TLOTR Setting/Bree-Land Region Guide/bree_landregionguide.pdf (27594 KB)
+  Text cached (425,744 chars)
+  Detected 12 chapters from TOC:
+    p4-6: Introduction
+    p7-8: A History of the Bree-land
+    p9-29: Bree-land & Around
+    p30-36: The Prancing Pony
+    p37-42: Adventuring in Bree
+    p43-46: Dwarves of the Blue Mountains
+    p47-51: Foes to Freeze the Heart
+    p52-65: An Empty Land
+    p66-86: Old Bones and Skin
+    p87-111: Strange Men, Strange Roads
+    p112-125: Holed Up in Staddle
+    p126-9999: Index
+  12 chapter(s) with text retained
+  12 chapter(s), 0 completed, 0 with errors
+
+  [1/12] Introduction (7,364 chars)
+    Chunk 0 (7,354 chars) → 0 items {} (1.1s)
+
+── Chapter Readout: Introduction ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/12] A History of the Bree-land (5,651 chars)
+    Chunk 0 (5,651 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: A History of the Bree-land ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [3/12] Bree-land & Around (68,366 chars)
+    Chunk 0 (6,085 chars) → 0 items {} (0.8s)
+    Chunk 1 (7,555 chars) → 2 items {'monsters': 2} (3.9s)
+    Chunk 2 (3,961 chars) → 1 items {'npcs': 1} (2.5s)
+    Chunk 3 (7,517 chars) → 0 items {} (1.1s)
+    Chunk 4 (7,899 chars) → 0 items {} (1.0s)
+    Chunk 5 (4,874 chars) → 0 items {} (1.2s)
+    Chunk 6 (7,446 chars) → 2 items {'npcs': 2} (3.6s)
+    Chunk 7 (7,006 chars) → 2 items {'npcs': 2} (4.2s)
+    Chunk 8 (7,147 chars) → 1 items {'npcs': 1} (2.8s)
+    Chunk 9 (7,106 chars) → 2 items {'npcs': 2} (4.0s)
+    Chunk 10 (5,765 chars) → 1 items {'npcs': 1} (2.5s)
+
+── Chapter Readout: Bree-land & Around ──
+Stats: 11 chunks → 11 raw → 11 valid → 11 new
+  monsters: 2 — Ruby Boffin, Hallas
+  npcs: 9 — Hallas, Matthew Mugwort, Twyc Greenleaf, Tad Tillfield, Anna Wintermoss, Jack the Forsaken, Grandmother Tunnelly, Oswald Breeker, the Squire of Combe (+1 more)
+  [4/12] The Prancing Pony (16,182 chars)
+    Chunk 0 (7,008 chars) → 1 items {'npcs': 1} (2.6s)
+    Chunk 1 (7,208 chars) → 13 items {'equipment': 13} (3.1s)
+    Chunk 2 (2,766 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: The Prancing Pony ──
+Stats: 3 chunks → 14 raw → 14 valid → 14 new
+  equipment: 13 — Regular or Hobbit-sized Room, per night, Company-sized Room, per night, Fancy Room, per night, Hot Bath, Stabling, per animal, per night, Ale, per tankard, Wine, per glass, Meal, per person (+5 more)
+  npcs: 1 — Barnabas Butterbur
+  [5/12] Adventuring in Bree (21,605 chars)
+    Chunk 0 (4,030 chars) → 0 items {} (1.0s)
+    Chunk 1 (4,877 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,767 chars) → 0 items {} (1.3s)
+    Chunk 3 (6,127 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Adventuring in Bree ──
+Stats: 4 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [6/12] Dwarves of the Blue Mountains (8,803 chars)
+    Chunk 0 (6,967 chars) → 1 items {'races': 1} (3.2s)
+    Chunk 1 (2,236 chars) → 1 items {'magic_items': 1} (1.6s)
+    ⚠ Validation issues: 1
+      - Item Harp of the Halls: unknown rarity=unknown
+
+── Chapter Readout: Dwarves of the Blue Mountains ──
+Stats: 2 chunks → 2 raw → 2 valid → 2 new
+  magic_items: 1 — Harp of the Halls
+  races: 1 — Dwarf of the Blue Mountains
+  [7/12] Foes to Freeze the Heart (16,837 chars)
+    Chunk 0 (6,040 chars) → 3 items {'monsters': 3} (5.9s)
+    Chunk 1 (7,771 chars) → 3 items {'monsters': 3} (6.9s)
+    Chunk 2 (3,826 chars) → 2 items {'monsters': 2} (4.2s)
+
+── Chapter Readout: Foes to Freeze the Heart ──
+Stats: 3 chunks → 8 raw → 8 valid → 8 new
+  monsters: 8 — Oakman, Swamp Goblin, Two-headed Troll, White Wolf of the North, The Ogre of Midgewater, The Old Troll, Brigand, Mountebank
+  [8/12] An Empty Land (54,100 chars)
+    Chunk 0 (7,953 chars) → 0 items {} (0.8s)
+    Chunk 1 (6,826 chars) → 0 items {} (0.8s)
+    Chunk 2 (7,405 chars) → 0 items {} (1.0s)
+    Chunk 3 (7,623 chars) → 0 items {} (1.1s)
+    Chunk 4 (6,318 chars) → 0 items {} (0.8s)
+    Chunk 5 (7,666 chars) → 0 items {} (1.0s)
+    Chunk 6 (6,330 chars) → 0 items {} (1.0s)
+    Chunk 7 (6,743 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: An Empty Land ──
+Stats: 8 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [9/12] Old Bones and Skin (72,063 chars)
+    Chunk 0 (6,956 chars) → 0 items {} (1.5s)
+    Chunk 1 (6,900 chars) → 0 items {} (1.0s)
+    Chunk 2 (6,951 chars) → 1 items {'npcs': 1} (2.4s)
+    Chunk 3 (3,969 chars) → 0 items {} (1.2s)
+    Chunk 4 (4,796 chars) → 0 items {} (1.3s)
+    Chunk 5 (4,432 chars) → 0 items {} (0.8s)
+    Chunk 6 (4,063 chars) → 0 items {} (1.2s)
+    Chunk 7 (4,656 chars) → 0 items {} (0.8s)
+    Chunk 8 (4,418 chars) → 0 items {} (1.2s)
+    Chunk 9 (7,264 chars) → 0 items {} (1.2s)
+    Chunk 10 (6,785 chars) → 0 items {} (0.9s)
+    Chunk 11 (7,261 chars) → 0 items {} (1.0s)
+    Chunk 12 (7,597 chars) → 0 items {} (0.9s)
+    Chunk 13 (1,212 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: Old Bones and Skin ──
+Stats: 14 chunks → 1 raw → 1 valid → 1 new
+  npcs: 1 — Tomas Heatherton
+  [10/12] Strange Men, Strange Roads (84,304 chars)
+    Chunk 0 (6,973 chars) → 0 items {} (1.0s)
+    Chunk 1 (6,815 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,154 chars) → 3 items {'magic_items': 3} (2.6s)
+    Chunk 3 (5,881 chars) → 1 items {'npcs': 1} (2.6s)
+    Chunk 4 (6,599 chars) → 5 items {'monsters': 1, 'npcs': 4} (5.5s)
+    Chunk 5 (6,355 chars) → 6 items {'monsters': 2, 'npcs': 4} (8.0s)
+    Chunk 6 (7,843 chars) → 3 items {'magic_items': 1, 'npcs': 2} (5.2s)
+    Chunk 7 (5,937 chars) → 1 items {'monsters': 1} (2.9s)
+    Chunk 8 (4,439 chars) → 0 items {} (1.0s)
+    Chunk 9 (7,689 chars) → 0 items {} (1.1s)
+    Chunk 10 (4,325 chars) → 0 items {} (1.0s)
+    Chunk 11 (7,281 chars) → 0 items {} (1.2s)
+    Chunk 12 (4,179 chars) → 0 items {} (0.8s)
+    Chunk 13 (4,296 chars) → 0 items {} (0.9s)
+    Chunk 14 (4,137 chars) → 0 items {} (0.9s)
+    Intra-book dedup: removed 2 duplicate(s)
+    ⚠ Validation issues: 1
+      - Item Amulet with Gorlanc's Rune: unknown rarity=unknown
+
+── Chapter Readout: Strange Men, Strange Roads ──
+Stats: 15 chunks → 17 raw → 17 valid → 17 new
+  2 intra-chapter duplicates removed
+  magic_items: 3 — The Ring of Seven Jewels, Flask of Rivendell Tonic, Amulet with Gorlanc's Rune
+  monsters: 4 — Vogar, Narvig or Narvi, Berelas, Cold Shade
+  npcs: 10 — Edoric, Eoin, the Bree-lander, Vig, Brother of Vogar, Narvig, Son of Vig, Narvig, Narvi the Young, Hirlinon of Gondor, Follower of Gorlanc, Berelas, the Ringbearer (+2 more)
+  [11/12] Holed Up in Staddle (47,421 chars)
+    Chunk 0 (5,506 chars) → 0 items {} (1.0s)
+    Chunk 1 (7,057 chars) → 0 items {} (0.9s)
+    Chunk 2 (4,543 chars) → 0 items {} (0.8s)
+    Chunk 3 (7,504 chars) → 1 items {'magic_items': 1} (1.3s)
+    Chunk 4 (7,987 chars) → 0 items {} (0.9s)
+    Chunk 5 (4,497 chars) → 0 items {} (1.0s)
+    Chunk 6 (7,072 chars) → 0 items {} (1.2s)
+    Chunk 7 (6,055 chars) → 1 items {'npcs': 1} (2.4s)
+    ⚠ Validation issues: 1
+      - Item The Gardener's Sickle: unknown rarity=unknown
+
+── Chapter Readout: Holed Up in Staddle ──
+Stats: 8 chunks → 2 raw → 2 valid → 2 new
+  magic_items: 1 — The Gardener's Sickle
+  npcs: 1 — Gorlanc
+  [12/12] Index (15,954 chars)
+    Chunk 0 (7,786 chars) → 0 items {} (0.9s)
+    Chunk 1 (715 chars) → 0 items {} (0.8s)
+    Chunk 2 (8,041 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Index ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+
+  Race detail extraction for 1 race(s)...
+    Race second-pass: Dwarf of the Blue Mountains (11,427 chars context) → 0 traits, 0 ASI bonuses
+    ⚠ Validation issues: 3
+      - Item Harp of the Halls: unknown rarity=unknown
+      - Item Amulet with Gorlanc's Rune: unknown rarity=unknown
+      - Item The Gardener's Sickle: unknown rarity=unknown
+
+  Auto-wiring trait effects for 1 race(s)...
+      Wiring 11 traits → 11 wired
+
+  ✓ Extraction complete: 55 new entries across 12 chapter(s)
+    equipment: 13 — Regular or Hobbit-sized Room, per night, Company-sized Room, per night, Fancy Room, per night, Hot Bath, Stabling, per animal, per night (+8 more)
+    magic_items: 5 — Harp of the Halls, The Ring of Seven Jewels, Flask of Rivendell Tonic, Amulet with Gorlanc's Rune, The Gardener's Sickle
+    monsters: 14 — Ruby Boffin, Hallas, Oakman, Swamp Goblin, Two-headed Troll (+9 more)
+    npcs: 22 — Hallas, Matthew Mugwort, Twyc Greenleaf, Tad Tillfield, Anna Wintermoss (+17 more)
+    races: 1 — Dwarf of the Blue Mountains
+  races.json: +1 (skipped 0 duplicate(s)) → 112 total
+  magic_items.json: +4 (skipped 1 duplicate(s)) → 927 total
+  equipment.json: +11 (skipped 2 duplicate(s)) → 297 total
+  monsters.json: +1 (skipped 13 duplicate(s)) → 1749 total
+  npcs.json: +22 (skipped 0 duplicate(s)) → 568 total
+
+_meta.json updated: totals{'races': 1, 'magic_items': 4, 'equipment': 11, 'monsters': 1, 'npcs': 22}, source_manuals+BLRG, pdf_map[BLRG]
+Appended 39 entries from BLRG
+  races.json: 1 source(s) normalized
+  magic_items.json: 4 source(s) normalized
+  equipment.json: 11 source(s) normalized
+  monsters.json: 1 source(s) normalized
+  npcs.json: 22 source(s) normalized
+39 source string(s) normalized to (Bree-land Region Guide, p.N)
+[2026-09-24 16:03:32]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:03:32]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:03:32]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 39 display name(s) normalised; totals {'races': 112, 'spells': 329, 'magic_items': 927, 'equipment': 297, 'monsters': 1749, 'npcs': 568, 'feats': 115, 'backgrounds': 57, 'subclasses': 123, 'traps': 257}
+[2026-09-24 16:03:32]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 39 display name(s) normalised; totals {'races': 112, 'spells': 329, 'magic_items': 927, 'equipment': 297, 'monsters': 1749, 'npcs': 568, 'feats': 115, 'backgrounds': 57, 'subclasses': 123, 'traps': 257}
+[2026-09-24 16:03:34]   !! ACTION-TYPE GAP after BLRG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:03:34]   !! ACTION-TYPE GAP after BLRG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:03:34]      
+[2026-09-24 16:03:34]      
+[2026-09-24 16:03:34]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:03:34]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:03:34]      =========================== short test summary info ============================
+[2026-09-24 16:03:34]      =========================== short test summary info ============================
+[2026-09-24 16:03:34]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:03:34]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:03:34]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:03:34]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:03:34]      1 failed, 1 warning in 0.20s
+[2026-09-24 16:03:34]      1 failed, 1 warning in 0.20s
+[2026-09-24 16:03:34] --- AIPG (adventuresinmiddle earthplayersguide) ---
+[2026-09-24 16:03:34] --- AIPG (adventuresinmiddle earthplayersguide) ---
+
+============================================================
+Processing: adventuresinmiddle earthplayersguide (AIPG)
+  PDF: DnD-Manuals/5e TLOTR Setting/Player's Guide/adventuresinmiddle_earthplayersguide.pdf (69956 KB)
+  Text cached (558,871 chars)
+  Detected 15 chapters from TOC:
+    p6-9: Foreword
+    p10-23: Wilderland
+    p24-29: Overview
+    p30-61: Cultures
+    p62-99: Classes
+    p100-119: Virtues
+    p120-145: Backgrounds
+    p146-163: Equipment
+    p164-179: Journeys
+    p180-191: The Shadow
+    p192-197: Audiences
+    p198-202: The Fellowship Phase
+    p203-217: Pre-generated Character Sheets
+    p218-222: Index
+    p223-9999: Rules Summaries
+  15 chapter(s) with text retained
+  15 chapter(s), 0 completed, 0 with errors
+
+  [1/15] Foreword (4,450 chars)
+    Chunk 0 (4,446 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Foreword ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/15] Wilderland (32,909 chars)
+    Chunk 0 (6,276 chars) → 0 items {} (1.1s)
+    Chunk 1 (7,564 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,476 chars) → 0 items {} (1.0s)
+    Chunk 3 (5,985 chars) → 0 items {} (0.8s)
+    Chunk 4 (7,194 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Wilderland ──
+Stats: 5 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [3/15] Overview (13,944 chars)
+    Chunk 0 (7,938 chars) → 0 items {} (1.1s)
+    Chunk 1 (6,392 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Overview ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [4/15] Cultures (67,678 chars)
+    Chunk 0 (7,489 chars) → 0 items {} (0.8s)
+    Chunk 1 (5,686 chars) → 1 items {'races': 1} (2.0s)
+    Chunk 2 (6,201 chars) → 1 items {'races': 1} (2.3s)
+    Chunk 3 (7,383 chars) → 2 items {'races': 2} (2.7s)
+    Chunk 4 (5,745 chars) → 1 items {'races': 1} (3.9s)
+    Chunk 5 (5,154 chars) → 1 items {'races': 1} (2.7s)
+    Chunk 6 (6,529 chars) → 1 items {'races': 1} (2.7s)
+    Chunk 7 (6,986 chars) → 3 items {'races': 3} (3.0s)
+    Chunk 8 (7,817 chars) → 2 items {'races': 2} (3.1s)
+    Chunk 9 (7,051 chars) → 3 items {'races': 3} (3.0s)
+    Chunk 10 (5,613 chars) → 1 items {'races': 1} (2.2s)
+    Intra-book dedup: removed 2 duplicate(s), upgraded 1 with better version
+    ⚠ Validation issues: 1
+      - Race Dwarves of the Lonely Mountain: no traits or subraces — may be incomplete
+    Deduped 1 entries already in base data
+
+── Chapter Readout: Cultures ──
+Stats: 11 chunks → 14 raw → 14 valid → 13 new
+  2 intra-chapter duplicates removed
+  1 SRD/base duplicates removed
+  races: 13 — Barding, Beorning, Dúnedain, Dwarves of the Lonely Mountain, Mirkwood Elf, Hobbit, Men of Bree, Stoor (+5 more)
+  ⚠️ Race 'Dwarves of the Lonely Mountain' missing ASI
+  ⚠️ Race 'Dwarves of the Lonely Mountain' has no traits
+  [5/15] Classes (99,129 chars)
+    Chunk 0 (7,258 chars) → 0 items {} (1.2s)
+    Chunk 1 (7,944 chars) → 1 items {'subclasses': 1} (2.0s)
+    Chunk 2 (7,941 chars) → 2 items {'subclasses': 2} (7.1s)
+    Chunk 3 (6,190 chars) → 0 items {} (0.9s)
+    Chunk 4 (6,697 chars) → 1 items {'subclasses': 1} (2.5s)
+    Chunk 5 (7,811 chars) → 2 items {'subclasses': 2} (5.4s)
+    Chunk 6 (6,783 chars) → 1 items {'subclasses': 1} (3.1s)
+    Chunk 7 (5,455 chars) → 1 items {'subclasses': 1} (3.0s)
+    Chunk 8 (6,608 chars) → 1 items {'subclasses': 1} (7.8s)
+    Chunk 9 (6,804 chars) → 3 items {'subclasses': 3} (6.6s)
+    Chunk 10 (5,914 chars) → 1 items {'subclasses': 1} (5.3s)
+    Chunk 11 (7,955 chars) → 1 items {'subclasses': 1} (3.9s)
+    Chunk 12 (6,236 chars) → 2 items {'subclasses': 2} (4.1s)
+    Chunk 13 (5,702 chars) → 1 items {'subclasses': 1} (1.6s)
+    Chunk 14 (6,284 chars) → 2 items {'subclasses': 2} (5.8s)
+    Chunk 15 (3,533 chars) → 5 items {'feats': 5} (2.5s)
+    Intra-book dedup: removed 3 duplicate(s), upgraded 2 with better version
+      ⚠ Stripped 1 cross-contaminated feature(s) from The Rider: ['Intimidating Presence']
+    ⚠ Validation issues: 1
+      - Subclass Weaponmaster: only 2 features — may be incomplete
+
+── Chapter Readout: Classes ──
+Stats: 16 chunks → 21 raw → 21 valid → 21 new
+  3 intra-chapter duplicates removed
+  feats: 5 — Force of Will, Guild Member, Lethal, Old Enemies, Weaponmaster’s Challenge
+  subclasses: 16 — Master Healer, Master Scholar, The Rider, Foe-Hammer, Treasure Hunter, Agent, Burglar, The Wanderer (+8 more)
+  [6/15] Virtues (52,633 chars)
+    Chunk 0 (6,700 chars) → 13 items {'feats': 13} (6.0s)
+    Chunk 1 (6,993 chars) → 10 items {'feats': 10} (5.6s)
+    Chunk 2 (6,717 chars) → 0 items {} (1.3s)
+    Chunk 3 (5,844 chars) → 0 items {} (1.0s)
+    Chunk 4 (6,836 chars) → 0 items {} (1.0s)
+    Chunk 5 (6,057 chars) → 1 items {'monsters': 1} (1.6s)
+    Chunk 6 (6,395 chars) → 1 items {'monsters': 1} (1.8s)
+    Chunk 7 (7,590 chars) → 9 items {'monsters': 1, 'feats': 8} (7.0s)
+    Chunk 8 (2,687 chars) → 3 items {'monsters': 1, 'feats': 2} (2.9s)
+    Intra-book dedup: removed 1 duplicate(s), upgraded 1 with better version
+    ⚠ Validation issues: 1
+      - Monster Hound: rejected (missing AC=13, HP=)
+
+── Chapter Readout: Virtues ──
+Stats: 9 chunks → 36 raw → 35 valid → 35 new
+  1 intra-chapter duplicates removed
+  1 entries rejected by validation
+  feats: 32 — Cultural Heirloom, Dour-handed, Expertise, Fell-handed, Sturdy, Birthright, Fierce Shot, King’s Men (+24 more)
+  monsters: 3 — Servant, Esquire, Hound of Mirkwood
+  [7/15] Backgrounds (66,544 chars)
+    Chunk 0 (5,466 chars) → 1 items {'backgrounds': 1} (1.8s)
+    Chunk 1 (5,449 chars) → 1 items {'backgrounds': 1} (1.9s)
+    Chunk 2 (5,629 chars) → 1 items {'backgrounds': 1} (1.7s)
+    Chunk 3 (6,201 chars) → 2 items {'backgrounds': 2} (2.5s)
+    Chunk 4 (5,417 chars) → 2 items {'backgrounds': 2} (2.6s)
+    Chunk 5 (5,808 chars) → 2 items {'backgrounds': 2} (3.0s)
+    Chunk 6 (6,331 chars) → 1 items {'backgrounds': 1} (1.9s)
+    Chunk 7 (5,591 chars) → 1 items {'backgrounds': 1} (2.1s)
+    Chunk 8 (6,784 chars) → 1 items {'backgrounds': 1} (2.3s)
+    Chunk 9 (6,200 chars) → 1 items {'backgrounds': 1} (1.9s)
+    Chunk 10 (7,974 chars) → 2 items {'backgrounds': 2} (2.8s)
+    Chunk 11 (4,087 chars) → 1 items {'backgrounds': 1} (1.7s)
+    Intra-book dedup: removed 2 duplicate(s)
+    ⚠ Validation issues: 6
+      - Background Loyal Servant: 1 unknown skill(s) stripped: ['Traditions']
+      - Background Emissary of your People: 1 unknown skill(s) stripped: ['Traditions']
+      - Background Fallen Scion: 1 unknown skill(s) stripped: ['Traditions']
+      - Background The Harrowed: 1 unknown skill(s) stripped: ['Lore']
+      - Background Oathsworn: 1 unknown skill(s) stripped: ['Traditions']
+
+── Chapter Readout: Backgrounds ──
+Stats: 12 chunks → 14 raw → 14 valid → 14 new
+  2 intra-chapter duplicates removed
+  backgrounds: 14 — Loyal Servant, Doomed to Die, Driven from Home, Emissary of your People, Fallen Scion, The Harrowed, Hunted by the Shadow, Lure of the Road (+6 more)
+  [8/15] Equipment (49,387 chars)
+    Chunk 0 (7,729 chars) → 0 items {} (0.8s)
+    Chunk 1 (7,863 chars) → 30 items {'equipment': 30} (6.8s)
+    Chunk 2 (7,083 chars) → 72 items {'equipment': 72} (10.3s)
+    Chunk 3 (7,760 chars) → 25 items {'equipment': 25} (4.1s)
+    Chunk 4 (3,985 chars) → 22 items {'magic_items': 8, 'equipment': 14} (5.9s)
+    Chunk 5 (7,375 chars) → 12 items {'magic_items': 12} (7.7s)
+    Chunk 6 (4,887 chars) → 8 items {'magic_items': 8} (5.0s)
+    Chunk 7 (5,397 chars) → 8 items {'magic_items': 8} (5.0s)
+    Intra-book dedup: removed 19 duplicate(s), upgraded 19 with better version
+    ⚠ Validation issues: 25
+      - Item Dalish Longbow (great bow): unknown rarity=Cultural Heirloom
+      - Item Spear of King Bladorthin (spear): unknown rarity=Cultural Heirloom
+      - Item The Tower Shields of Dale (great shield): unknown rarity=Cultural Heirloom
+      - Item Giant-slaying Spear (great spear): unknown rarity=Cultural Heirloom
+      - Item Noble Armour (leather corslet): unknown rarity=Cultural Heirloom
+    Deduped 65 entries already in base data
+
+── Chapter Readout: Equipment ──
+Stats: 8 chunks → 158 raw → 158 valid → 93 new
+  19 intra-chapter duplicates removed
+  65 SRD/base duplicates removed
+  equipment: 59 — Leather jerkin, Leather corslet, Hide, Corslet of Mail, Scale hauberk, Heavy mail, Great Shield, Great Club (+51 more)
+  magic_items: 34 — Dalish Longbow (great bow), Spear of King Bladorthin (spear), The Tower Shields of Dale (great shield), Giant-slaying Spear (great spear), Noble Armour (leather corslet), Splitting Axe (axe or great axe), Heirloom of Elder Days, Star of the Dúnedain (+26 more)
+  [9/15] Journeys (44,617 chars)
+    Chunk 0 (7,465 chars) → 0 items {} (1.0s)
+    Chunk 1 (7,341 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,972 chars) → 0 items {} (0.8s)
+    Chunk 3 (7,432 chars) → 0 items {} (1.1s)
+    Chunk 4 (7,509 chars) → 0 items {} (0.9s)
+    Chunk 5 (6,949 chars) → 0 items {} (1.0s)
+    Chunk 6 (2,134 chars) → 0 items {} (1.2s)
+
+── Chapter Readout: Journeys ──
+Stats: 7 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [10/15] The Shadow (27,836 chars)
+    Chunk 0 (5,410 chars) → 0 items {} (0.9s)
+    Chunk 1 (7,388 chars) → 0 items {} (0.9s)
+    Chunk 2 (7,794 chars) → 0 items {} (1.0s)
+    Chunk 3 (7,623 chars) → 0 items {} (0.8s)
+    Chunk 4 (1,217 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: The Shadow ──
+Stats: 5 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [11/15] Audiences (11,358 chars)
+    Chunk 0 (7,976 chars) → 0 items {} (1.0s)
+    Chunk 1 (3,776 chars) → 0 items {} (1.2s)
+
+── Chapter Readout: Audiences ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [12/15] The Fellowship Phase (16,863 chars)
+    Chunk 0 (7,309 chars) → 0 items {} (1.1s)
+    Chunk 1 (7,481 chars) → 0 items {} (1.0s)
+    Chunk 2 (2,873 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: The Fellowship Phase ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [13/15] Pre-generated Character Sheets (31,823 chars)
+    Chunk 0 (7,990 chars) → 2 items {'npcs': 2} (4.4s)
+    Chunk 1 (4,831 chars) → 0 items {} (0.9s)
+    Chunk 2 (7,330 chars) → 2 items {'npcs': 2} (4.6s)
+    Chunk 3 (5,891 chars) → 1 items {'npcs': 1} (3.7s)
+    Chunk 4 (7,332 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Pre-generated Character Sheets ──
+Stats: 5 chunks → 5 raw → 5 valid → 5 new
+  npcs: 5 — Lifstan, son of Leiknir, Beran of the Mountains, Caranthiel, Trotter, The Bride
+  [14/15] Index (17,641 chars)
+    Chunk 0 (7,992 chars) → 0 items {} (1.0s)
+    Chunk 1 (6,548 chars) → 0 items {} (0.9s)
+    Chunk 2 (3,705 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Index ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [15/15] Rules Summaries (9,587 chars)
+    Chunk 0 (3,007 chars) → 0 items {} (0.7s)
+    Chunk 1 (6,979 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Rules Summaries ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+
+  Race detail extraction for 13 race(s)...
+    Race second-pass: Barding (11,358 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Beorning (11,344 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Dúnedain (11,408 chars context) → 8 traits, 2 ASI bonuses
+    Race second-pass: Dwarves of the Lonely Mountain (11,430 chars context) → 5 traits, 1 ASI bonuses
+    Race second-pass: Mirkwood Elf (11,412 chars context) → 10 traits, 2 ASI bonuses
+    Race second-pass: Hobbit (11,406 chars context) → 9 traits, 1 ASI bonuses
+    Race second-pass: Men of Bree (11,411 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Stoor (11,405 chars context) → 0 traits, 0 ASI bonuses
+    Race second-pass: Fallowhide (11,410 chars context) → 2 traits, 1 ASI bonuses
+    Race second-pass: Men of the Lake (11,415 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Men of Minas Tirith (11,373 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Riders of Rohan (11,415 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Woodmen of Wilderland (11,421 chars context) → 7 traits, 1 ASI bonuses
+
+  Subclass detail extraction for 16 subclass(es)...
+      Subclass second-pass: Master Healer (12,000 chars) → 0 features
+      Subclass second-pass: Master Scholar (12,000 chars) → 0 features
+      Subclass second-pass: The Rider (12,000 chars) → 0 features
+      Subclass second-pass: Foe-Hammer (12,000 chars) → 4 features
+      Subclass second-pass: Treasure Hunter (12,000 chars) → 0 features
+      Subclass second-pass: Agent (12,000 chars) → 0 features
+      Subclass second-pass: Burglar (12,000 chars) → 0 features
+      Subclass second-pass: The Wanderer (12,000 chars) → 0 features
+      Subclass second-pass: Hunter of Beasts (12,000 chars) → 0 features
+      Subclass second-pass: Hunter of Shadows (12,000 chars) → 0 features
+      Subclass second-pass: Warden (12,000 chars) → 1 features
+      Subclass second-pass: Counsellor (12,000 chars) → 0 features
+      Subclass second-pass: Herald (12,000 chars) → 0 features
+      Subclass second-pass: Bounder (12,000 chars) → 0 features
+      Subclass second-pass: Knight (12,000 chars) → 0 features
+      Subclass second-pass: Weaponmaster (12,000 chars) → 1 features
+    ⚠ Validation issues: 25
+      - Item Dalish Longbow (great bow): unknown rarity=Cultural Heirloom
+      - Item Spear of King Bladorthin (spear): unknown rarity=Cultural Heirloom
+      - Item The Tower Shields of Dale (great shield): unknown rarity=Cultural Heirloom
+      - Item Giant-slaying Spear (great spear): unknown rarity=Cultural Heirloom
+      - Item Noble Armour (leather corslet): unknown rarity=Cultural Heirloom
+
+  Auto-wiring trait effects for 13 race(s)...
+      Wiring 7 traits → 7 wired
+      Wiring 7 traits → 7 wired
+      Wiring 8 traits → 8 wired
+      Wiring 5 traits → 5 wired
+      Wiring 10 traits → 7 wired
+      Wiring 9 traits → 9 wired
+      Wiring 7 traits → 7 wired
+      Wiring 1 traits → 1 wired
+      Wiring 2 traits → 2 wired
+      Wiring 7 traits → 7 wired
+      Wiring 7 traits → 7 wired
+      Wiring 7 traits → 7 wired
+      Wiring 7 traits → 7 wired
+
+  ✓ Extraction complete: 181 new entries across 15 chapter(s)
+    backgrounds: 14 — Loyal Servant, Doomed to Die, Driven from Home, Emissary of your People, Fallen Scion (+9 more)
+    equipment: 59 — Leather jerkin, Leather corslet, Hide, Corslet of Mail, Scale hauberk (+54 more)
+    feats: 37 — Force of Will, Guild Member, Lethal, Old Enemies, Weaponmaster’s Challenge (+32 more)
+    magic_items: 34 — Dalish Longbow (great bow), Spear of King Bladorthin (spear), The Tower Shields of Dale (great shield), Giant-slaying Spear (great spear), Noble Armour (leather corslet) (+29 more)
+    monsters: 3 — Servant, Esquire, Hound of Mirkwood
+    npcs: 5 — Lifstan, son of Leiknir, Beran of the Mountains, Caranthiel, Trotter, The Bride
+    races: 13 — Barding, Beorning, Dúnedain, Dwarves of the Lonely Mountain, Mirkwood Elf (+8 more)
+    subclasses: 16 — Master Healer, Master Scholar, The Rider, Foe-Hammer, Treasure Hunter (+11 more)
+  races.json: +11 (skipped 2 duplicate(s)) → 123 total
+  magic_items.json: +19 (skipped 15 duplicate(s)) → 946 total
+  equipment.json: +52 (skipped 7 duplicate(s)) → 349 total
+  monsters.json: +0 (skipped 3 duplicate(s)) → 1749 total
+  npcs.json: +5 (skipped 0 duplicate(s)) → 573 total
+  feats.json: +37 (skipped 0 duplicate(s)) → 152 total
+  backgrounds.json: +14 (skipped 0 duplicate(s)) → 71 total
+  subclasses.json: +16 (skipped 0 duplicate(s)) → 139 total
+
+_meta.json updated: totals{'races': 11, 'magic_items': 19, 'equipment': 52, 'npcs': 5, 'feats': 37, 'backgrounds': 14, 'subclasses': 16}, source_manuals+AIPG, pdf_map[AIPG]
+Appended 154 entries from AIPG
+  races.json: 11 source(s) normalized
+  magic_items.json: 19 source(s) normalized
+  equipment.json: 52 source(s) normalized
+  npcs.json: 5 source(s) normalized
+  feats.json: 37 source(s) normalized
+  backgrounds.json: 14 source(s) normalized
+  subclasses.json: 16 source(s) normalized
+154 source string(s) normalized to (Adventures in Middle-earth Player's Guide, p.N)
+[2026-09-24 16:10:15]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:10:15]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:10:15]   service restarted so the repaired paths are served
+[2026-09-24 16:10:15]   service restarted so the repaired paths are served
+[2026-09-24 16:10:15]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 154 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 946, 'equipment': 349, 'monsters': 1749, 'npcs': 573, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 257}
+[2026-09-24 16:10:15]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 154 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 946, 'equipment': 349, 'monsters': 1749, 'npcs': 573, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 257}
+[2026-09-24 16:10:17]   !! ACTION-TYPE GAP after AIPG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:10:17]   !! ACTION-TYPE GAP after AIPG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:10:17]      
+[2026-09-24 16:10:17]      
+[2026-09-24 16:10:17]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:10:17]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:10:17]      =========================== short test summary info ============================
+[2026-09-24 16:10:17]      =========================== short test summary info ============================
+[2026-09-24 16:10:17]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:10:17]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:10:17]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:10:17]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:10:17]      1 failed, 1 warning in 0.19s
+[2026-09-24 16:10:17]      1 failed, 1 warning in 0.19s
+[2026-09-24 16:10:17] --- LMG (adventuresinmiddle earthloremastersguide) ---
+[2026-09-24 16:10:17] --- LMG (adventuresinmiddle earthloremastersguide) ---
+
+============================================================
+Processing: adventuresinmiddle earthloremastersguide (LMG)
+  PDF: DnD-Manuals/5e TLOTR Setting/Loremaster's Guide/adventuresinmiddle_earthloremastersguide.pdf (55927 KB)
+  Text cached (102,842 chars)
+  Detected 12 chapters from TOC:
+    p6-7: Foreword
+    p8-37: Setting and The Tale of Years
+    p38-43: Before the Game
+    p44-53: The Adventuring Phase
+    p54-63: Journeys Expanded
+    p64-86: Non-Player Characters and Audiences Expanded
+    p87-121: Adversaries and Battle
+    p122-139: Wondrous, Legendary and Healing items
+    p140-145: Magic in Middle-earth
+    p146-154: The Fellowship Phase
+    p155-155: Adventures in Middle-earth Player’s Guide Errata and Rules Clarifications
+    p156-9999: Index
+  3 chapter(s) with text retained
+  3 chapter(s), 0 completed, 0 with errors
+
+  [1/3] Foreword (5,263 chars)
+    Chunk 0 (5,263 chars) → 0 items {} (1.1s)
+
+── Chapter Readout: Foreword ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/3] Setting and The Tale of Years (76,500 chars)
+    Chunk 0 (6,686 chars) → 0 items {} (0.9s)
+    Chunk 1 (6,163 chars) → 0 items {} (0.8s)
+    Chunk 2 (7,485 chars) → 0 items {} (1.2s)
+    Chunk 3 (7,623 chars) → 0 items {} (0.9s)
+    Chunk 4 (6,615 chars) → 0 items {} (0.9s)
+    Chunk 5 (7,855 chars) → 4 items {'monsters': 1, 'npcs': 3} (4.9s)
+    Chunk 6 (6,768 chars) → 1 items {'magic_items': 1} (1.6s)
+    Chunk 7 (7,800 chars) → 0 items {} (1.1s)
+    Chunk 8 (7,309 chars) → 0 items {} (0.9s)
+    Chunk 9 (7,336 chars) → 1 items {'monsters': 1} (2.3s)
+    Chunk 10 (7,843 chars) → 0 items {} (0.9s)
+    Chunk 11 (1,333 chars) → 0 items {} (1.0s)
+    ⚠ Validation issues: 1
+      - Item Ornately Carved Pipe: unknown rarity=unknown
+
+── Chapter Readout: Setting and The Tale of Years ──
+Stats: 12 chunks → 6 raw → 6 valid → 6 new
+  magic_items: 1 — Ornately Carved Pipe
+  monsters: 2 — Eaves of Mirkwood Goblin Soldier, Greymuzzle Hob
+  npcs: 3 — Snorri, the smith, Borri, the whittler, Hár, the stone mason
+  [3/3] Before the Game (7,313 chars)
+    Chunk 0 (7,313 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Before the Game ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+    ⚠ Validation issues: 1
+      - Item Ornately Carved Pipe: unknown rarity=unknown
+
+  ✓ Extraction complete: 6 new entries across 3 chapter(s)
+    magic_items: 1 — Ornately Carved Pipe
+    monsters: 2 — Eaves of Mirkwood Goblin Soldier, Greymuzzle Hob
+    npcs: 3 — Snorri, the smith, Borri, the whittler, Hár, the stone mason
+  magic_items.json: +1 (skipped 0 duplicate(s)) → 947 total
+  monsters.json: +2 (skipped 0 duplicate(s)) → 1751 total
+  npcs.json: +3 (skipped 0 duplicate(s)) → 576 total
+
+_meta.json updated: totals{'magic_items': 1, 'monsters': 2, 'npcs': 3}, source_manuals+LMG, pdf_map[LMG]
+Appended 6 entries from LMG
+  magic_items.json: 1 source(s) normalized
+  monsters.json: 2 source(s) normalized
+  npcs.json: 3 source(s) normalized
+6 source string(s) normalized to (Adventures in Middle-earth Loremaster's Guide, p.N)
+[2026-09-24 16:10:51]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:10:51]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:10:51]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 6 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 947, 'equipment': 349, 'monsters': 1751, 'npcs': 576, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 257}
+[2026-09-24 16:10:51]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 6 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 947, 'equipment': 349, 'monsters': 1751, 'npcs': 576, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 257}
+[2026-09-24 16:10:52]   !! ACTION-TYPE GAP after LMG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:10:52]   !! ACTION-TYPE GAP after LMG: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:10:52]      
+[2026-09-24 16:10:52]      
+[2026-09-24 16:10:52]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:10:52]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:10:52]      =========================== short test summary info ============================
+[2026-09-24 16:10:52]      =========================== short test summary info ============================
+[2026-09-24 16:10:52]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:10:52]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:10:52]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:10:52]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:10:52]      1 failed, 1 warning in 0.19s
+[2026-09-24 16:10:52]      1 failed, 1 warning in 0.19s
+[2026-09-24 16:10:52] --- ERIA (eriadoradventures) ---
+[2026-09-24 16:10:52] --- ERIA (eriadoradventures) ---
+
+============================================================
+Processing: eriadoradventures (ERIA)
+  PDF: DnD-Manuals/5e TLOTR Setting/Eriador Adventures/eriadoradventures.pdf (32794 KB)
+  Text cached (510,867 chars)
+  Detected 8 chapters from TOC:
+    p4-6: Introduction
+    p7-35: Nightmares of Angmar
+    p36-60: Harder than Stone
+    p61-74: Concerning Archers
+    p75-91: The Company of the Wain
+    p92-109: What Lies Beneath
+    p110-140: Shadows Over Tyrn Gorthad
+    p141-9999: Index
+  8 chapter(s) with text retained
+  8 chapter(s), 0 completed, 0 with errors
+
+  [1/8] Introduction (9,056 chars)
+    Chunk 0 (7,323 chars) → 0 items {} (1.2s)
+    Chunk 1 (2,127 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Introduction ──
+Stats: 2 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/8] Nightmares of Angmar (99,784 chars)
+    Chunk 0 (7,312 chars) → 0 items {} (1.0s)
+    Chunk 1 (3,967 chars) → 1 items {'monsters': 1} (2.1s)
+    Chunk 2 (7,821 chars) → 0 items {} (0.9s)
+    Chunk 3 (7,813 chars) → 0 items {} (0.8s)
+    Chunk 4 (7,565 chars) → 0 items {} (1.0s)
+    Chunk 5 (7,792 chars) → 0 items {} (1.2s)
+    Chunk 6 (7,474 chars) → 0 items {} (0.9s)
+    Chunk 7 (4,681 chars) → 0 items {} (1.1s)
+    Chunk 8 (6,788 chars) → 0 items {} (0.9s)
+    Chunk 9 (7,767 chars) → 0 items {} (1.4s)
+    Chunk 10 (6,439 chars) → 1 items {'monsters': 1} (2.6s)
+    Chunk 11 (4,048 chars) → 0 items {} (1.2s)
+    Chunk 12 (7,195 chars) → 0 items {} (0.9s)
+    Chunk 13 (7,242 chars) → 0 items {} (0.8s)
+    Chunk 14 (6,542 chars) → 1 items {'monsters': 1} (3.5s)
+    Chunk 15 (5,327 chars) → 1 items {'monsters': 1} (2.3s)
+
+── Chapter Readout: Nightmares of Angmar ──
+Stats: 16 chunks → 4 raw → 4 valid → 4 new
+  monsters: 4 — Savage Wolfdog, The Lurker in the Long Valley, Heddwyn, the Witch-servant of Angmar, Heddwyn as a Spirit-Warg
+  [3/8] Harder than Stone (89,482 chars)
+    Chunk 0 (7,126 chars) → 1 items {'npcs': 1} (1.9s)
+    Chunk 1 (7,354 chars) → 0 items {} (1.0s)
+    Chunk 2 (4,414 chars) → 1 items {'monsters': 1} (2.1s)
+    Chunk 3 (4,676 chars) → 1 items {'monsters': 1} (2.0s)
+    Chunk 4 (7,103 chars) → 0 items {} (1.1s)
+    Chunk 5 (5,964 chars) → 0 items {} (0.8s)
+    Chunk 6 (7,718 chars) → 1 items {'traps': 1} (2.0s)
+    Chunk 7 (4,798 chars) → 0 items {} (0.9s)
+    Chunk 8 (4,897 chars) → 0 items {} (1.2s)
+    Chunk 9 (7,132 chars) → 0 items {} (0.9s)
+    Chunk 10 (4,452 chars) → 0 items {} (1.1s)
+    Chunk 11 (4,495 chars) → 0 items {} (1.1s)
+    Chunk 12 (4,516 chars) → 0 items {} (0.9s)
+    Chunk 13 (4,167 chars) → 0 items {} (0.8s)
+    Chunk 14 (4,857 chars) → 0 items {} (1.1s)
+    Chunk 15 (7,838 chars) → 2 items {'monsters': 2} (4.1s)
+    Chunk 16 (4,375 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Harder than Stone ──
+Stats: 17 chunks → 6 raw → 6 valid → 6 new
+  monsters: 4 — Ruthless Bandit, Amos, Lesser Stone-Troll, Ettin Guardian, Captain Mormog
+  npcs: 1 — Gondril
+  traps: 1 — Troll Trap
+  [4/8] Concerning Archers (49,327 chars)
+    Chunk 0 (6,260 chars) → 0 items {} (1.3s)
+    Chunk 1 (4,633 chars) → 0 items {} (0.9s)
+    Chunk 2 (4,398 chars) → 0 items {} (0.9s)
+    Chunk 3 (7,001 chars) → 0 items {} (0.9s)
+    Chunk 4 (4,901 chars) → 0 items {} (1.0s)
+    Chunk 5 (6,955 chars) → 1 items {'monsters': 1} (2.9s)
+    Chunk 6 (4,565 chars) → 1 items {'monsters': 1} (2.6s)
+    Chunk 7 (7,545 chars) → 0 items {} (0.9s)
+    Chunk 8 (6,264 chars) → 1 items {'magic_items': 1} (1.6s)
+
+── Chapter Readout: Concerning Archers ──
+Stats: 9 chunks → 3 raw → 3 valid → 3 new
+  magic_items: 1 — The Bow of Rufus Took
+  monsters: 2 — Archer of the Green Company, Wraith of Carn Dûm
+  [5/8] The Company of the Wain (61,623 chars)
+    Chunk 0 (7,623 chars) → 0 items {} (1.3s)
+    Chunk 1 (7,566 chars) → 5 items {'equipment': 2, 'npcs': 1, 'traps': 2} (4.1s)
+    Chunk 2 (7,536 chars) → 1 items {'npcs': 1} (2.4s)
+    Chunk 3 (4,544 chars) → 0 items {} (1.0s)
+    Chunk 4 (4,253 chars) → 2 items {'equipment': 2} (1.1s)
+    Chunk 5 (4,542 chars) → 0 items {} (1.0s)
+    Chunk 6 (4,708 chars) → 0 items {} (1.0s)
+    Chunk 7 (7,051 chars) → 1 items {'monsters': 1} (2.1s)
+    Chunk 8 (6,383 chars) → 0 items {} (1.0s)
+    Chunk 9 (7,592 chars) → 1 items {'monsters': 1} (2.3s)
+    Chunk 10 (3,823 chars) → 0 items {} (0.8s)
+    Deduped 1 entries already in base data
+
+── Chapter Readout: The Company of the Wain ──
+Stats: 11 chunks → 10 raw → 10 valid → 9 new
+  1 SRD/base duplicates removed
+  equipment: 3 — Large Hunting Trap, Firework, Wilma's Furs
+  monsters: 2 — Dunlending Warrior, Thelred
+  npcs: 2 — Caradog, Uathach, Treacherous Fortune-teller
+  traps: 2 — Hunting Trap, Large Hunting Trap
+  [6/8] What Lies Beneath (61,909 chars)
+    Chunk 0 (7,358 chars) → 0 items {} (0.9s)
+    Chunk 1 (7,030 chars) → 2 items {'monsters': 2} (3.4s)
+    Chunk 2 (5,909 chars) → 1 items {'npcs': 1} (1.9s)
+    Chunk 3 (4,666 chars) → 0 items {} (1.3s)
+    Chunk 4 (5,811 chars) → 4 items {'npcs': 4} (6.1s)
+    Chunk 5 (7,118 chars) → 0 items {} (1.0s)
+    Chunk 6 (7,082 chars) → 0 items {} (0.9s)
+    Chunk 7 (4,635 chars) → 0 items {} (1.2s)
+    Chunk 8 (4,812 chars) → 0 items {} (1.1s)
+    Chunk 9 (4,508 chars) → 0 items {} (1.0s)
+    Chunk 10 (6,980 chars) → 1 items {'monsters': 1} (3.1s)
+
+── Chapter Readout: What Lies Beneath ──
+Stats: 11 chunks → 8 raw → 8 valid → 8 new
+  monsters: 3 — Hiraval, Edrahil, Húldrahir
+  npcs: 5 — Edrahil, Elwin, Herbert, Fay, Folulf and Arnulf
+  [7/8] Shadows Over Tyrn Gorthad (114,948 chars)
+    Chunk 0 (7,707 chars) → 0 items {} (1.2s)
+    Chunk 1 (4,374 chars) → 0 items {} (1.0s)
+    Chunk 2 (4,890 chars) → 0 items {} (1.0s)
+    Chunk 3 (4,334 chars) → 0 items {} (0.9s)
+    Chunk 4 (4,810 chars) → 0 items {} (0.9s)
+    Chunk 5 (6,170 chars) → 0 items {} (0.9s)
+    Chunk 6 (4,918 chars) → 0 items {} (1.1s)
+    Chunk 7 (6,373 chars) → 0 items {} (1.0s)
+    Chunk 8 (4,745 chars) → 1 items {'equipment': 1} (1.3s)
+    Chunk 9 (6,453 chars) → 1 items {'monsters': 1} (3.6s)
+    Chunk 10 (4,933 chars) → 0 items {} (1.1s)
+    Chunk 11 (4,815 chars) → 0 items {} (1.0s)
+    Chunk 12 (4,795 chars) → 0 items {} (1.1s)
+    Chunk 13 (4,617 chars) → 0 items {} (1.0s)
+    Chunk 14 (7,574 chars) → 0 items {} (0.9s)
+    Chunk 15 (7,734 chars) → 2 items {'monsters': 2} (3.7s)
+    Chunk 16 (4,009 chars) → 0 items {} (0.8s)
+    Chunk 17 (7,360 chars) → 0 items {} (0.9s)
+    Chunk 18 (7,760 chars) → 0 items {} (1.1s)
+    Chunk 19 (7,737 chars) → 0 items {} (0.9s)
+    Chunk 20 (6,836 chars) → 0 items {} (0.8s)
+    ⚠ Validation issues: 1
+      - Equipment Gandalf's Torch: missing cost/weight
+
+── Chapter Readout: Shadows Over Tyrn Gorthad ──
+Stats: 21 chunks → 4 raw → 4 valid → 4 new
+  equipment: 1 — Gandalf's Torch
+  monsters: 3 — The Deadly One, Thieving Dwarf, Lófar Light-finger
+  [8/8] Index (18,341 chars)
+    Chunk 0 (7,768 chars) → 0 items {} (1.0s)
+    Chunk 1 (3,070 chars) → 0 items {} (0.9s)
+    Chunk 2 (8,296 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Index ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+    ⚠ Validation issues: 1
+      - Equipment Gandalf's Torch: missing cost/weight
+
+  ✓ Extraction complete: 34 new entries across 8 chapter(s)
+    equipment: 4 — Large Hunting Trap, Firework, Wilma's Furs, Gandalf's Torch
+    magic_items: 1 — The Bow of Rufus Took
+    monsters: 18 — Savage Wolfdog, The Lurker in the Long Valley, Heddwyn, the Witch-servant of Angmar, Heddwyn as a Spirit-Warg, Ruthless Bandit (+13 more)
+    npcs: 8 — Gondril, Caradog, Uathach, Treacherous Fortune-teller, Edrahil, Elwin (+3 more)
+    traps: 3 — Troll Trap, Hunting Trap, Large Hunting Trap
+  magic_items.json: +1 (skipped 0 duplicate(s)) → 948 total
+  equipment.json: +4 (skipped 0 duplicate(s)) → 353 total
+  monsters.json: +2 (skipped 16 duplicate(s)) → 1753 total
+  npcs.json: +8 (skipped 0 duplicate(s)) → 584 total
+  traps.json: +2 (skipped 1 duplicate(s)) → 259 total
+
+_meta.json updated: totals{'magic_items': 1, 'equipment': 4, 'monsters': 2, 'npcs': 8, 'traps': 2}, source_manuals+ERIA, pdf_map[ERIA]
+Appended 17 entries from ERIA
+  magic_items.json: 1 source(s) normalized
+  equipment.json: 4 source(s) normalized
+  monsters.json: 2 source(s) normalized
+  npcs.json: 8 source(s) normalized
+  traps.json: 2 source(s) normalized
+17 source string(s) normalized to (Eriador Adventures, p.N)
+[2026-09-24 16:14:02]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:14:02]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:14:02]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 17 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 948, 'equipment': 353, 'monsters': 1753, 'npcs': 584, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 259}
+[2026-09-24 16:14:02]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 17 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 948, 'equipment': 353, 'monsters': 1753, 'npcs': 584, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 259}
+[2026-09-24 16:14:04]   !! ACTION-TYPE GAP after ERIA: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:14:04]   !! ACTION-TYPE GAP after ERIA: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:14:04]      
+[2026-09-24 16:14:04]      
+[2026-09-24 16:14:04]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:14:04]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:14:04]      =========================== short test summary info ============================
+[2026-09-24 16:14:04]      =========================== short test summary info ============================
+[2026-09-24 16:14:04]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:14:04]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:14:04]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:14:04]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:14:04]      1 failed, 1 warning in 0.22s
+[2026-09-24 16:14:04]      1 failed, 1 warning in 0.22s
+[2026-09-24 16:14:04] --- EREA (ereboradventures) ---
+[2026-09-24 16:14:04] --- EREA (ereboradventures) ---
+
+============================================================
+Processing: ereboradventures (EREA)
+  PDF: DnD-Manuals/5e TLOTR Setting/Erebor Adventures/ereboradventures.pdf (48274 KB)
+  Text cached (521,854 chars)
+  Detected 2 chapters from TOC:
+    p1-1: 1
+    p2-9999: 2
+  2 chapter(s) with text retained
+  2 chapter(s), 0 completed, 0 with errors
+
+  [1/2] 1 (126 chars)
+
+── Chapter Readout: 1 ──
+Stats: 0 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/2] 2 (519,097 chars)
+    Chunk 0 (7,418 chars) → 0 items {} (0.9s)
+    Chunk 1 (7,271 chars) → 0 items {} (1.1s)
+    Chunk 2 (6,163 chars) → 0 items {} (1.0s)
+    Chunk 3 (6,193 chars) → 0 items {} (1.0s)
+    Chunk 4 (4,338 chars) → 0 items {} (1.6s)
+    Chunk 5 (4,880 chars) → 0 items {} (0.8s)
+    Chunk 6 (6,252 chars) → 1 items {'magic_items': 1} (2.0s)
+    Chunk 7 (7,033 chars) → 0 items {} (1.1s)
+    Chunk 8 (7,130 chars) → 2 items {'magic_items': 1, 'monsters': 1} (3.3s)
+    Chunk 9 (7,612 chars) → 2 items {'monsters': 2} (3.6s)
+    Chunk 10 (6,564 chars) → 0 items {} (1.0s)
+    Chunk 11 (6,156 chars) → 2 items {'monsters': 2} (4.1s)
+    Chunk 12 (6,624 chars) → 0 items {} (1.0s)
+    Chunk 13 (6,590 chars) → 0 items {} (0.8s)
+    Chunk 14 (7,991 chars) → 0 items {} (1.0s)
+    Chunk 15 (4,675 chars) → 0 items {} (0.8s)
+    Chunk 16 (7,556 chars) → 0 items {} (1.2s)
+    Chunk 17 (6,338 chars) → 1 items {'magic_items': 1} (1.8s)
+    Chunk 18 (6,518 chars) → 0 items {} (1.3s)
+    Chunk 19 (6,206 chars) → 2 items {'monsters': 1, 'npcs': 1} (3.2s)
+    Chunk 20 (4,174 chars) → 0 items {} (0.9s)
+    Chunk 21 (7,512 chars) → 0 items {} (1.0s)
+    Chunk 22 (5,804 chars) → 0 items {} (1.3s)
+    Chunk 23 (7,779 chars) → 8 items {'magic_items': 1, 'npcs': 7} (5.7s)
+    Chunk 24 (7,494 chars) → 0 items {} (1.2s)
+    Chunk 25 (5,203 chars) → 0 items {} (1.1s)
+    Chunk 26 (7,625 chars) → 0 items {} (0.8s)
+    Chunk 27 (7,111 chars) → 1 items {'monsters': 1} (3.1s)
+    Chunk 28 (4,503 chars) → 2 items {'monsters': 2} (3.3s)
+    Chunk 29 (7,376 chars) → 0 items {} (1.0s)
+    Chunk 30 (6,987 chars) → 1 items {'monsters': 1} (2.5s)
+    Chunk 31 (7,542 chars) → 1 items {'monsters': 1} (1.8s)
+    Chunk 32 (7,481 chars) → 0 items {} (1.0s)
+    Chunk 33 (3,626 chars) → 0 items {} (0.9s)
+    Chunk 34 (7,452 chars) → 0 items {} (1.2s)
+    Chunk 35 (6,210 chars) → 0 items {} (0.9s)
+    Chunk 36 (7,689 chars) → 0 items {} (1.0s)
+    Chunk 37 (5,795 chars) → 0 items {} (1.2s)
+    Chunk 38 (7,106 chars) → 0 items {} (0.9s)
+    Chunk 39 (7,704 chars) → 0 items {} (0.7s)
+    Chunk 40 (6,532 chars) → 3 items {'magic_items': 1, 'monsters': 2} (4.0s)
+    Chunk 41 (6,908 chars) → 0 items {} (1.3s)
+    Chunk 42 (4,843 chars) → 0 items {} (1.1s)
+    Chunk 43 (7,737 chars) → 0 items {} (0.9s)
+    Chunk 44 (6,984 chars) → 0 items {} (0.9s)
+    Chunk 45 (7,982 chars) → 0 items {} (1.1s)
+    Chunk 46 (5,422 chars) → 1 items {'magic_items': 1} (1.5s)
+    Chunk 47 (4,019 chars) → 0 items {} (1.1s)
+    Chunk 48 (7,824 chars) → 1 items {'monsters': 1} (3.2s)
+    Chunk 49 (4,802 chars) → 1 items {'traps': 1} (1.8s)
+    Chunk 50 (3,997 chars) → 0 items {} (1.1s)
+    Chunk 51 (7,349 chars) → 0 items {} (0.9s)
+    Chunk 52 (6,081 chars) → 6 items {'npcs': 6} (7.0s)
+    Chunk 53 (7,781 chars) → 3 items {'npcs': 3} (3.9s)
+    Chunk 54 (4,366 chars) → 0 items {} (0.8s)
+    Chunk 55 (7,182 chars) → 0 items {} (1.3s)
+    Chunk 56 (6,434 chars) → 0 items {} (0.8s)
+    Chunk 57 (7,768 chars) → 0 items {} (0.8s)
+    Chunk 58 (7,779 chars) → 1 items {'monsters': 1} (2.9s)
+    Chunk 59 (6,893 chars) → 0 items {} (1.3s)
+    Chunk 60 (7,018 chars) → 1 items {'monsters': 1} (2.4s)
+    Chunk 61 (6,045 chars) → 2 items {'magic_items': 1, 'monsters': 1} (3.5s)
+    Chunk 62 (6,801 chars) → 0 items {} (1.3s)
+    Chunk 63 (6,562 chars) → 0 items {} (0.9s)
+    Chunk 64 (6,959 chars) → 1 items {'monsters': 1} (2.2s)
+    Chunk 65 (5,794 chars) → 1 items {'monsters': 1} (1.9s)
+    Chunk 66 (7,056 chars) → 1 items {'monsters': 1} (2.8s)
+    Chunk 67 (7,178 chars) → 0 items {} (0.9s)
+    Chunk 68 (4,349 chars) → 0 items {} (1.0s)
+    Chunk 69 (6,451 chars) → 0 items {} (1.2s)
+    Chunk 70 (6,596 chars) → 0 items {} (1.2s)
+    Chunk 71 (6,644 chars) → 0 items {} (0.8s)
+    Chunk 72 (3,747 chars) → 0 items {} (0.9s)
+    Chunk 73 (4,834 chars) → 0 items {} (1.2s)
+    Chunk 74 (7,246 chars) → 0 items {} (1.0s)
+    Chunk 75 (6,865 chars) → 0 items {} (0.8s)
+    Chunk 76 (7,288 chars) → 0 items {} (1.3s)
+    Chunk 77 (5,777 chars) → 0 items {} (0.9s)
+    Chunk 78 (7,735 chars) → 1 items {'monsters': 1} (2.4s)
+    Chunk 79 (4,535 chars) → 0 items {} (0.8s)
+    Chunk 80 (5,864 chars) → 0 items {} (1.0s)
+    Chunk 81 (4,483 chars) → 0 items {} (1.0s)
+    Chunk 82 (4,467 chars) → 2 items {'magic_items': 1, 'monsters': 1} (4.8s)
+    Chunk 83 (7,621 chars) → 2 items {'monsters': 2} (6.0s)
+    Chunk 84 (6,198 chars) → 1 items {'monsters': 1} (3.1s)
+    Chunk 85 (8,560 chars) → 0 items {} (0.8s)
+    Intra-book dedup: removed 2 duplicate(s)
+    ⚠ Validation issues: 4
+      - Item The Silver Needle: unknown rarity=unknown
+      - Item Thrun's Marvellous Thrush: unknown rarity=unknown
+      - Item Nameless, The Elven Spear: unknown rarity=Elven craftsmanship
+      - Item The Mornamir (Black Jewel): unknown rarity=unknown
+
+── Chapter Readout: 2 ──
+Stats: 86 chunks → 49 raw → 49 valid → 49 new
+  2 intra-chapter duplicates removed
+  magic_items: 8 — The Black Scabbard, The Silver Needle, Thrun's Marvellous Thrush, Coat of Silver Mail, The Aegis of Dale, Nameless, The Elven Spear, The Mornamir (Black Jewel), Morgul-knife
+  monsters: 23 — Vig, the Spy, Kasper the Bandit, Swain the Enforcer, Longo's Trusted Bandits, Longo, Gunvar's Men-at-Arms, Firbul, Cut-throat (+15 more)
+  npcs: 17 — Lord Gunvar, Thegn Jofur, Lord Hakon, Domi, King Bard, King Dáin Ironfoot, Dwalin, Morlach (Sorcerer of Forod) (+9 more)
+  traps: 1 — The Falling Block
+    ⚠ Validation issues: 4
+      - Item The Silver Needle: unknown rarity=unknown
+      - Item Thrun's Marvellous Thrush: unknown rarity=unknown
+      - Item Nameless, The Elven Spear: unknown rarity=Elven craftsmanship
+      - Item The Mornamir (Black Jewel): unknown rarity=unknown
+
+  ✓ Extraction complete: 49 new entries across 2 chapter(s)
+    magic_items: 8 — The Black Scabbard, The Silver Needle, Thrun's Marvellous Thrush, Coat of Silver Mail, The Aegis of Dale (+3 more)
+    monsters: 23 — Vig, the Spy, Kasper the Bandit, Swain the Enforcer, Longo's Trusted Bandits, Longo (+18 more)
+    npcs: 17 — Lord Gunvar, Thegn Jofur, Lord Hakon, Domi, King Bard (+12 more)
+    traps: 1 — The Falling Block
+  magic_items.json: +7 (skipped 1 duplicate(s)) → 955 total
+  monsters.json: +3 (skipped 20 duplicate(s)) → 1756 total
+  npcs.json: +14 (skipped 3 duplicate(s)) → 598 total
+  traps.json: +1 (skipped 0 duplicate(s)) → 260 total
+
+_meta.json updated: totals{'magic_items': 7, 'monsters': 3, 'npcs': 14, 'traps': 1}, source_manuals+EREA, pdf_map[EREA]
+Appended 25 entries from EREA
+  magic_items.json: 7 source(s) normalized
+  monsters.json: 3 source(s) normalized
+  npcs.json: 14 source(s) normalized
+  traps.json: 1 source(s) normalized
+25 source string(s) normalized to (Erebor Adventures, p.N)
+[2026-09-24 16:17:20]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:17:20]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:17:21]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 25 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 955, 'equipment': 353, 'monsters': 1756, 'npcs': 598, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 260}
+[2026-09-24 16:17:21]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 25 display name(s) normalised; totals {'races': 123, 'spells': 329, 'magic_items': 955, 'equipment': 353, 'monsters': 1756, 'npcs': 598, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 260}
+[2026-09-24 16:17:22]   !! ACTION-TYPE GAP after EREA: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:17:22]   !! ACTION-TYPE GAP after EREA: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:17:22]      
+[2026-09-24 16:17:22]      
+[2026-09-24 16:17:22]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:17:22]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:17:22]      =========================== short test summary info ============================
+[2026-09-24 16:17:22]      =========================== short test summary info ============================
+[2026-09-24 16:17:22]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:17:22]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:17:22]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:17:22]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:17:22]      1 failed, 1 warning in 0.20s
+[2026-09-24 16:17:22]      1 failed, 1 warning in 0.20s
+[2026-09-24 16:17:22] --- RVR (rivendellregionguide) ---
+[2026-09-24 16:17:22] --- RVR (rivendellregionguide) ---
+
+============================================================
+Processing: rivendellregionguide (RVR)
+  PDF: DnD-Manuals/5e TLOTR Setting/Rivendell Region Guide/rivendellregionguide.pdf (51072 KB)
+  Text cached (451,047 chars)
+  Detected 14 chapters from TOC:
+    p4-5: Introduction
+    p6-26: Imladris
+    p27-33: A History of Eriador
+    p34-68: The Regions of Eastern Eriador
+    p69-89: Evils of the North
+    p90-96: Ancient and Forgotten Treasures
+    p97-109: Not all that Glitters...
+    p110-115: The Eye of Mordor
+    p116-121: High Elves of Rivendell
+    p122-136: A Barren and Pathless Country
+    p137-138: High Elf of Rivendell character sheet
+    p139-139: Blank Magical Treasure Index
+    p140-140: Blank Legendary Weapons and Armour sheet
+    p141-9999: Index
+  14 chapter(s) with text retained
+  14 chapter(s), 0 completed, 0 with errors
+
+  [1/14] Introduction (5,286 chars)
+    Chunk 0 (5,286 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Introduction ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/14] Imladris (61,071 chars)
+    Chunk 0 (5,334 chars) → 0 items {} (0.8s)
+    Chunk 1 (4,868 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,137 chars) → 0 items {} (0.8s)
+    Chunk 3 (6,970 chars) → 1 items {'npcs': 1} (3.3s)
+    Chunk 4 (7,579 chars) → 4 items {'monsters': 2, 'npcs': 2} (6.0s)
+    Chunk 5 (6,068 chars) → 2 items {'magic_items': 2} (2.5s)
+    Chunk 6 (7,695 chars) → 2 items {'npcs': 2} (4.0s)
+    Chunk 7 (4,382 chars) → 0 items {} (0.8s)
+    Chunk 8 (7,086 chars) → 0 items {} (1.1s)
+    Chunk 9 (7,551 chars) → 0 items {} (1.2s)
+    ⚠ Validation issues: 2
+      - Item Erestor's Travelling Cordial: unknown rarity=unknown
+      - Item Erestor's Medicinal Tonic: unknown rarity=unknown
+
+── Chapter Readout: Imladris ──
+Stats: 10 chunks → 9 raw → 9 valid → 9 new
+  magic_items: 2 — Erestor's Travelling Cordial, Erestor's Medicinal Tonic
+  monsters: 2 — Glorfindel, Asfaloth
+  npcs: 5 — Elrond, Arwen, Erestor, Elrohir, Elladan
+  [3/14] A History of Eriador (24,244 chars)
+    Chunk 0 (7,934 chars) → 0 items {} (1.1s)
+    Chunk 1 (7,474 chars) → 0 items {} (0.8s)
+    Chunk 2 (6,499 chars) → 0 items {} (0.8s)
+    Chunk 3 (3,535 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: A History of Eriador ──
+Stats: 4 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [4/14] The Regions of Eastern Eriador (101,843 chars)
+    Chunk 0 (7,229 chars) → 0 items {} (1.0s)
+    Chunk 1 (6,001 chars) → 1 items {'monsters': 1} (2.2s)
+    Chunk 2 (5,914 chars) → 0 items {} (0.9s)
+    Chunk 3 (6,382 chars) → 0 items {} (0.9s)
+    Chunk 4 (6,084 chars) → 0 items {} (1.2s)
+    Chunk 5 (5,458 chars) → 0 items {} (1.1s)
+    Chunk 6 (6,033 chars) → 0 items {} (0.9s)
+    Chunk 7 (6,616 chars) → 0 items {} (0.8s)
+    Chunk 8 (5,476 chars) → 0 items {} (1.0s)
+    Chunk 9 (6,044 chars) → 3 items {'magic_items': 1, 'npcs': 2} (4.9s)
+    Chunk 10 (6,366 chars) → 0 items {} (1.1s)
+    Chunk 11 (5,952 chars) → 1 items {'npcs': 1} (2.6s)
+    Chunk 12 (6,938 chars) → 1 items {'npcs': 1} (1.8s)
+    Chunk 13 (6,053 chars) → 1 items {'npcs': 1} (2.4s)
+    Chunk 14 (6,334 chars) → 0 items {} (0.8s)
+    Chunk 15 (7,036 chars) → 0 items {} (0.9s)
+    Chunk 16 (6,248 chars) → 2 items {'npcs': 2} (4.0s)
+    Chunk 17 (2,477 chars) → 0 items {} (0.7s)
+    Intra-book dedup: removed 1 duplicate(s)
+    ⚠ Validation issues: 1
+      - Item The Iron Crown of Angmar: unknown rarity=artefact
+
+── Chapter Readout: The Regions of Eastern Eriador ──
+Stats: 18 chunks → 8 raw → 8 valid → 8 new
+  1 intra-chapter duplicates removed
+  magic_items: 1 — The Iron Crown of Angmar
+  monsters: 1 — Aiwiel
+  npcs: 6 — Burzash, Orc Warlord, The Steward of Carn Dûm, Arbarad, Talandil, Kyna, Bradan
+  [5/14] Evils of the North (67,012 chars)
+    Chunk 0 (7,472 chars) → 0 items {} (1.1s)
+    Chunk 1 (7,656 chars) → 0 items {} (0.8s)
+    Chunk 2 (4,212 chars) → 0 items {} (0.9s)
+    Chunk 3 (7,410 chars) → 1 items {'monsters': 1} (2.0s)
+    Chunk 4 (5,820 chars) → 4 items {'monsters': 4} (6.6s)
+    Chunk 5 (6,393 chars) → 3 items {'monsters': 3} (6.4s)
+    Chunk 6 (7,420 chars) → 4 items {'monsters': 4} (7.2s)
+    Chunk 7 (6,305 chars) → 3 items {'monsters': 3} (5.9s)
+    Chunk 8 (6,436 chars) → 2 items {'monsters': 2} (5.7s)
+    Chunk 9 (7,362 chars) → 1 items {'monsters': 1} (3.3s)
+    Chunk 10 (4,523 chars) → 1 items {'monsters': 1} (4.7s)
+    ⚠ Validation issues: 1
+      - Monster Bloodstump: rejected (missing AC=0, HP=)
+    Deduped 1 entries already in base data
+
+── Chapter Readout: Evils of the North ──
+Stats: 11 chunks → 19 raw → 18 valid → 17 new
+  1 SRD/base duplicates removed
+  1 entries rejected by validation
+  monsters: 17 — Crebain of Tharbad, Crebain, Greater Stone-troll, Goblin of Carn Dûm, Hill-man of Rhudaur, Orc of Mount Gram, Bloodstump the Hunter, Dreorg the Wargling (+9 more)
+  [6/14] Ancient and Forgotten Treasures (21,860 chars)
+    Chunk 0 (7,150 chars) → 0 items {} (1.2s)
+    Chunk 1 (6,785 chars) → 0 items {} (1.0s)
+    Chunk 2 (6,517 chars) → 0 items {} (1.2s)
+    Chunk 3 (2,607 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: Ancient and Forgotten Treasures ──
+Stats: 4 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [7/14] Not all that Glitters... (34,982 chars)
+    Chunk 0 (6,485 chars) → 0 items {} (0.8s)
+    Chunk 1 (6,918 chars) → 6 items {'magic_items': 6} (3.0s)
+    Chunk 2 (6,548 chars) → 0 items {} (1.0s)
+    Chunk 3 (7,912 chars) → 30 items {'magic_items': 30} (9.2s)
+    Chunk 4 (7,708 chars) → 31 items {'magic_items': 31} (9.4s)
+    Chunk 5 (1,234 chars) → 3 items {'magic_items': 3} (2.2s)
+    Intra-book dedup: removed 2 duplicate(s)
+    ⚠ Validation issues: 52
+      - Item Runes of Clarity: unknown rarity=unknown
+      - Item Runes of Protection: unknown rarity=unknown
+      - Item Sigil of Guarding: unknown rarity=unknown
+      - Item Smiting: unknown rarity=unknown
+      - Item Superior Runes of Protection: unknown rarity=unknown
+
+── Chapter Readout: Not all that Glitters... ──
+Stats: 6 chunks → 68 raw → 68 valid → 68 new
+  2 intra-chapter duplicates removed
+  magic_items: 68 — Runes of Clarity, Runes of Protection, Sigil of Guarding, Smiting, Superior Runes of Protection, Swiftness, Ruby on Golden Chain, Adamant Ring (+60 more)
+  [8/14] The Eye of Mordor (16,959 chars)
+    Chunk 0 (5,470 chars) → 0 items {} (0.9s)
+    Chunk 1 (6,309 chars) → 0 items {} (0.8s)
+    Chunk 2 (5,980 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: The Eye of Mordor ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [9/14] High Elves of Rivendell (16,593 chars)
+    Chunk 0 (5,258 chars) → 1 items {'races': 1} (3.3s)
+    Chunk 1 (7,329 chars) → 1 items {'races': 1} (2.2s)
+    Chunk 2 (4,804 chars) → 2 items {'magic_items': 2} (1.7s)
+    ⚠ Validation issues: 2
+      - Item Lesser Ring: unknown rarity=unknown
+      - Item Spear of the Last Alliance (Great Spear): unknown rarity=unknown
+
+── Chapter Readout: High Elves of Rivendell ──
+Stats: 3 chunks → 4 raw → 4 valid → 4 new
+  magic_items: 2 — Lesser Ring, Spear of the Last Alliance (Great Spear)
+  races: 2 — High Elf of Rivendell, High Elves of Rivendell
+  ⚠️ Race 'High Elves of Rivendell' missing ASI
+  [10/14] A Barren and Pathless Country (68,936 chars)
+    Chunk 0 (3,316 chars) → 0 items {} (1.0s)
+    Chunk 1 (5,301 chars) → 0 items {} (1.1s)
+    Chunk 2 (7,946 chars) → 1 items {'npcs': 1} (2.0s)
+    Chunk 3 (5,576 chars) → 0 items {} (1.1s)
+    Chunk 4 (5,709 chars) → 0 items {} (0.8s)
+    Chunk 5 (5,239 chars) → 0 items {} (1.0s)
+    Chunk 6 (5,170 chars) → 0 items {} (1.5s)
+    Chunk 7 (5,383 chars) → 0 items {} (1.0s)
+    Chunk 8 (5,722 chars) → 0 items {} (1.0s)
+    Chunk 9 (5,365 chars) → 0 items {} (0.9s)
+    Chunk 10 (6,019 chars) → 0 items {} (1.0s)
+    Chunk 11 (4,466 chars) → 0 items {} (1.0s)
+    Chunk 12 (5,268 chars) → 0 items {} (0.8s)
+    Chunk 13 (3,656 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: A Barren and Pathless Country ──
+Stats: 14 chunks → 1 raw → 1 valid → 1 new
+  npcs: 1 — Thark
+  [11/14] High Elf of Rivendell character sheet (4,376 chars)
+    Chunk 0 (4,367 chars) → 7 items {'races': 1, 'equipment': 5, 'npcs': 1} (6.5s)
+    ⚠ Validation issues: 5
+      - Equipment Great Bow: missing cost/weight
+      - Equipment Dagger: missing cost/weight
+      - Equipment Leather Corslet: missing cost/weight
+      - Equipment Shield: missing cost/weight
+      - Equipment Smith's Tools: missing cost/weight
+    Deduped 3 entries already in base data
+
+── Chapter Readout: High Elf of Rivendell character sheet ──
+Stats: 1 chunks → 7 raw → 7 valid → 4 new
+  3 SRD/base duplicates removed
+  equipment: 2 — Great Bow, Leather Corslet
+  npcs: 1 — Cirmacar
+  races: 1 — High Elf of Rivendell
+  [12/14] Blank Magical Treasure Index (2,268 chars)
+    Chunk 0 (2,268 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Blank Magical Treasure Index ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [13/14] Blank Legendary Weapons and Armour sheet (1,384 chars)
+    Chunk 0 (1,368 chars) → 0 items {} (0.8s)
+
+── Chapter Readout: Blank Legendary Weapons and Armour sheet ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [14/14] Index (17,399 chars)
+    Chunk 0 (7,963 chars) → 0 items {} (0.8s)
+    Chunk 1 (2,136 chars) → 0 items {} (1.0s)
+    Chunk 2 (8,044 chars) → 0 items {} (0.9s)
+
+── Chapter Readout: Index ──
+Stats: 3 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+
+  Race detail extraction for 3 race(s)...
+    Race second-pass: High Elf of Rivendell (11,421 chars context) → 0 traits, 0 ASI bonuses
+    Race second-pass: High Elves of Rivendell (11,423 chars context) → 0 traits, 0 ASI bonuses
+    Race second-pass: High Elf of Rivendell (11,421 chars context) → 0 traits, 0 ASI bonuses
+    Intra-book dedup: removed 1 duplicate(s)
+    ⚠ Validation issues: 59
+      - Item Erestor's Travelling Cordial: unknown rarity=unknown
+      - Item Erestor's Medicinal Tonic: unknown rarity=unknown
+      - Item The Iron Crown of Angmar: unknown rarity=artefact
+      - Item Runes of Clarity: unknown rarity=unknown
+      - Item Runes of Protection: unknown rarity=unknown
+
+  Auto-wiring trait effects for 2 race(s)...
+      Wiring 10 traits → 10 wired
+      Wiring 5 traits → 5 wired
+
+  ✓ Extraction complete: 110 new entries across 14 chapter(s)
+    equipment: 2 — Great Bow, Leather Corslet
+    magic_items: 73 — Erestor's Travelling Cordial, Erestor's Medicinal Tonic, The Iron Crown of Angmar, Runes of Clarity, Runes of Protection (+68 more)
+    monsters: 20 — Glorfindel, Asfaloth, Aiwiel, Crebain of Tharbad, Crebain (+15 more)
+    npcs: 13 — Elrond, Arwen, Erestor, Elrohir, Elladan (+8 more)
+    races: 2 — High Elf of Rivendell, High Elves of Rivendell
+  races.json: +2 (skipped 0 duplicate(s)) → 125 total
+  magic_items.json: +37 (skipped 36 duplicate(s)) → 992 total
+  equipment.json: +0 (skipped 2 duplicate(s)) → 353 total
+  monsters.json: +2 (skipped 18 duplicate(s)) → 1758 total
+  npcs.json: +13 (skipped 0 duplicate(s)) → 611 total
+
+_meta.json updated: totals{'races': 2, 'magic_items': 37, 'monsters': 2, 'npcs': 13}, source_manuals+RVR, pdf_map[RVR]
+Appended 54 entries from RVR
+  races.json: 2 source(s) normalized
+  magic_items.json: 37 source(s) normalized
+  monsters.json: 2 source(s) normalized
+  npcs.json: 13 source(s) normalized
+54 source string(s) normalized to (Rivendell Region Guide, p.N)
+[2026-09-24 16:21:27]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:21:27]   1 pdf_map path(s) re-pointed at the real file
+[2026-09-24 16:21:27]   service restarted so the repaired paths are served
+[2026-09-24 16:21:27]   service restarted so the repaired paths are served
+[2026-09-24 16:21:28]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 54 display name(s) normalised; totals {'races': 125, 'spells': 329, 'magic_items': 992, 'equipment': 353, 'monsters': 1758, 'npcs': 611, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 260}
+[2026-09-24 16:21:28]   ok: 0 entr(ies) added, 0 source slug(s) remapped, 54 display name(s) normalised; totals {'races': 125, 'spells': 329, 'magic_items': 992, 'equipment': 353, 'monsters': 1758, 'npcs': 611, 'feats': 152, 'backgrounds': 71, 'subclasses': 139, 'traps': 260}
+[2026-09-24 16:21:30]   19 book(s) not in this plan: 7 × not matched to a PDF the engine can see; 12 × same book as another slug (ingested once)
+[2026-09-24 16:21:31]   !! ACTION-TYPE GAP after RVR: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:21:31]   !! ACTION-TYPE GAP after RVR: a limited-use trait has no registered action type — add it to FEATURE_ACTION_TYPES in data.py
+[2026-09-24 16:21:31]      
+[2026-09-24 16:21:31]      
+[2026-09-24 16:21:31]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:21:31]      -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[2026-09-24 16:21:31]      =========================== short test summary info ============================
+[2026-09-24 16:21:31]      =========================== short test summary info ============================
+[2026-09-24 16:21:31]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:21:31]      FAILED tests/test_sheet_helpers_regression.py::TestFeatureActionTypeCoverage::test_runtime_limited_use_keys_resolve_via_clean_strip
+[2026-09-24 16:21:31]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:21:31]      !!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+[2026-09-24 16:21:31]      1 failed, 1 warning in 0.37s
+[2026-09-24 16:21:31]      1 failed, 1 warning in 0.37s
+[2026-09-24 16:21:31] --- RRG (rhovanionregionguide) ---
+[2026-09-24 16:21:31] --- RRG (rhovanionregionguide) ---
+
+============================================================
+Processing: rhovanionregionguide (RRG)
+  PDF: DnD-Manuals/5e TLOTR Setting/Rhovannion Region Guide/rhovanionregionguide.pdf (66412 KB)
+  Text cached (428,314 chars)
+  Detected 5 chapters from TOC:
+    p4-5: Introduction
+    p6-69: The Lands of the River
+    p70-123: The Greatest of the forests
+    p124-138: New Adversaries
+    p139-9999: Index
+  5 chapter(s) with text retained
+  5 chapter(s), 0 completed, 0 with errors
+
+  [1/5] Introduction (4,636 chars)
+    Chunk 0 (4,636 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Introduction ──
+Stats: 1 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [2/5] The Lands of the River (204,824 chars)
+    Chunk 0 (6,567 chars) → 0 items {} (0.8s)
+    Chunk 1 (5,887 chars) → 0 items {} (1.0s)
+    Chunk 2 (4,299 chars) → 0 items {} (0.9s)
+    Chunk 3 (7,038 chars) → 0 items {} (0.9s)
+    Chunk 4 (6,114 chars) → 0 items {} (1.0s)
+    Chunk 5 (6,893 chars) → 

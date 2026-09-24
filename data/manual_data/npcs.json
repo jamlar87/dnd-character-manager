@@ -19241,5 +19241,2923 @@
     "xp_reward": 0,
     "source": "(Lonely Mountain Region Guide)",
     "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Vagrant Sage",
+    "race": "Folk of Leng",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Personality Traits",
+        "description": "Atypically solitary folk of Leng (see Tome of Beasts 1). Asks many rhetorical questions. Deeply knowledgeable, self-proclaimed historian. Head in the clouds. Likes to show off seemingly worthless trinkets."
+      },
+      {
+        "name": "Bonds",
+        "description": "His precious relics."
+      },
+      {
+        "name": "Flaws",
+        "description": "Has a hard time staying in the here and now."
+      },
+      {
+        "name": "Wants",
+        "description": "To acquire relics and learn more of the history of the region."
+      },
+      {
+        "name": "Talking to the Vagrant Sage",
+        "description": "He is taciturn and cagey at first, though can be drawn out of his shell if the PCs willingly sit through at least 1 hour of his ramblings on the history of the Margreve, the Crossroads, and House Stross. Once they have gained his trust, he offers the following:\n• Though unwilling to divulge why he seeks these relics (a motive you can develop as you play), the Vagrant Sage pays fairly for relics according to their rarity. Use the Relic Payout table as a guide.\n• If given a relic, he muses on its historical significance (see Margrevian Relics)."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Patchwork robes. Hunched shoulders. Carries his small home on his back. Endless pouches and packs.",
+    "role": "Quest giver",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Marauders of the Margreve, p.5)",
+    "_source_manual": "MOM"
+  },
+  {
+    "name": "Hallas",
+    "race": "Dúnadan",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Bonus Action: Temporary Hit Points",
+        "description": "his bonus action to gain 10 temporary hit points."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Hallas can make two attacks with his Long Sword or Short Bow."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if wielded with two hands."
+      },
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 4 (1d6+1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Once esquire to Talandil, the guardian of Fornost Erain (see Rivendell Region Guide, page 60), Hallas is wise in old lore and a shrewd tactician, a veteran of many battles fought in the Trollshaws. But among his many talents is an unguessable one: Hallas often enters the Shire with his son from Sarn Ford, posing as a merchant visiting the Southfarthing to buy pipe-weed. This way Hallas keeps himself up to date with any Shire gossip, and fills the pipes of his men with the best leaf. Motivation: Even the meekest and meanest are worthy of our protection. Expectations: \"Fair words can hide foul intent\" -2 if the companions are not plain-spoken; \"Scorn and doubt are our lot\" +1 if the heroes are kind and respectful.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.13)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Matthew Mugwort",
+    "race": "Hobbit",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 10,
+    "hit_points": "9 (2d6+2)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 11,
+      "constitution": 13,
+      "intelligence": 15,
+      "wisdom": 12,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Insight": 3,
+      "Intimidation": 4,
+      "Perception": 3,
+      "Pipe": 4,
+      "Traditions": 4
+    },
+    "features": [
+      {
+        "name": "Bolster",
+        "description": "If Matthew is present for an Audience, his support can sway others. The spokesperson for the Company can make a DC 15 Persuasion (Charisma) check with Disadvantage to impress him, on a success the Company has Advantage on all other checks during the Audience."
+      },
+      {
+        "name": "Confound",
+        "description": "If Matthew is present for an Audience, he can bluster a storm of opinions that can turn the tide against outsiders. The spokesperson for the Company must make a DC 12 Charisma saving throw or gain Disadvantage on all further checks during the Audience."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Hazel Rod",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft, one target. Hit: 1 bludgeoning damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Small Hobbit, Challenge 0 (0 XP). Senses passive Perception 13. Languages Westron.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.19)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Twyc Greenleaf",
+    "race": "Human",
+    "class_name": "Reeve",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Old Twyc is in his third term as Reeve. He attributes his snowy-white hair and weariness to the demands of his high office; everyone else points out that he is well into his seventh decade, and that he spends more time snoozing than working in the Reeve's House. He entrusts virtually all business of managing Bree to his young (and ambitious) assistant, Cole. The one thing that shakes him out of his lethargy is crime; as Reeve, he is the judge of Bree, and is infamously stern when it comes to the perpetrators of violence or cruelty. Motivation: Justice will be done, in the name of Bree. Expectations: \"Evil will out, in the end\" +2 if the heroes bring solid evidence of wrongdoing to him; \"This isn't the place for fairy stories\" -2 if the Company speaks of spirits, magic or other outlandish things.",
+    "role": "Reeve of Bree",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.20)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Tad Tillfield",
+    "race": "Human",
+    "class_name": "Warden",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "13 (3d8)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 2,
+      "Investigation": 2,
+      "Perception": 3
+    },
+    "features": [
+      {
+        "name": "Defender of That Which He Loves",
+        "description": "If Tad is fighting in defense of Bree, he can use his bonus action to gain 10 temporary hit points.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Shield-strike",
+        "description": "If Tad has just struck with his club, he can use his bonus action to slam his shield into his target. The creature takes 2 points of bludgeoning damage and must make a DC 11 Strength saving throw or become Prone.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Club",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 3 (1d4+1) bludgeoning damage."
+      }
+    ],
+    "equipment": [
+      "Hide Armour",
+      "Shield",
+      "Club"
+    ],
+    "spellcasting": null,
+    "description": "Young Tad is a newly commissioned Warden of Bree. Indeed, he is so excited about becoming a Warden that he has thrown himself wholeheartedly into his new role. He rushes around Bree-land on Important Missions and Warden Business, never stinting or shirking.",
+    "role": "Warden",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Bree-land Region Guide, p.21)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Anna Wintermoss",
+    "race": "Human",
+    "class_name": "Schoolmistress",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 13,
+    "hit_points": "35 (7d8+7)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 17,
+      "constitution": 12,
+      "intelligence": 19,
+      "wisdom": 15,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 2,
+      "History": 6,
+      "Performance": 2,
+      "Riddle": 6,
+      "Shadow-lore": 6
+    },
+    "features": [
+      {
+        "name": "Cruel Stroke",
+        "description": "If Anna's attack has just hit, she may spend her bonus action to turn her attack into a critical hit.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Distraction Attack",
+        "description": "Anna can use her bonus action to feint or otherwise distract her opponent. The target must make a DC 13 Wisdom saving throw or she gains Advantage on her attacks this round."
+      },
+      {
+        "name": "Wicked Cunning",
+        "description": "Anna can use her bonus action to activate this ability. For the remainder of the combat, she has +4 to her AC.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "She makes three melee attacks with her Dagger."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d4+3) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Dagger"
+    ],
+    "spellcasting": null,
+    "description": "Anna runs the school in Bree, teaching the youths of Bree their letters and numbers. She's not a native of the North — she came up the Greenway five years ago, pursued by strange men who chased her right to the end of Bree-land. Anna never talks about her past, but from her accent and speech, she must come from the distant South. When not teaching, she sometimes wanders the Barrow-downs, as if looking for a particular tomb.",
+    "role": "Schoolmistress",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Bree-land Region Guide, p.22)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Jack the Forsaken",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 13,
+    "hit_points": "39 (6d8+12)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 4,
+      "Perception": 5,
+      "Stealth": 3,
+      "Survival": 3,
+      "Traditions": 2
+    },
+    "features": [
+      {
+        "name": "Expert",
+        "description": "Jack doubles his Proficiency Bonus for Deception and Perception (included above)."
+      },
+      {
+        "name": "Nimble Escape",
+        "description": "Jack can take the Disengage or Hide action as a bonus action on each of his turns."
+      },
+      {
+        "name": "Sneak Attack",
+        "description": "Once per turn, Jack deals an extra 3 (1d6) damage when he hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 feet of his ally that isn't Incapacitated and he doesn't have Disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+      },
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "In appearance Jack is scruffy, with a wiry frame and a face that tells the story of a tough life, despite his apparent young years. His countenance is rough, and he lacks most manners. However he is a survivor, eking out a meagre living, helping people as best as his bad habits and bitter experiences will allow.",
+    "role": "Innkeeper",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Bree-land Region Guide, p.23)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Grandmother Tunnelly",
+    "race": "Hobbit",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 10,
+    "hit_points": "14 (4d6)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 10,
+      "constitution": 11,
+      "intelligence": 13,
+      "wisdom": 14,
+      "charisma": 18
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 8,
+      "History": 3,
+      "Persuasion": 6,
+      "Traditions": 5
+    },
+    "features": [
+      {
+        "name": "Expert",
+        "description": "Grandmother Tunnelly doubles her Proficiency Bonus for Intimidation and Traditions (included above)."
+      },
+      {
+        "name": "Lord of Her Domain",
+        "description": "Grandmother Tunnelly only meets with visitors in the ancient and richly decorated halls of the Great Smial. She imposes Disadvantage on the Introduction Check for an Audience."
+      },
+      {
+        "name": "Stubborn Will",
+        "description": "If a speaker in an Audience with Grandmother Tunnelly wishes to propose a course of action adverse to her wishes, the speaker must first make a DC 14 Charisma saving throw."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Umbrella",
+        "description": "Melee Weapon Attack: +1 to hit, reach 5 ft, one target. Hit: 1 bludgeoning damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Grandmother Tunnelly is a Small Hobbit with a commanding presence, known for her expertise in intimidation and traditions.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.25)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Oswald Breeker, the Squire of Combe",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "52 (7d8+21)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 11,
+      "constitution": 17,
+      "intelligence": 16,
+      "wisdom": 18,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Lore": 5,
+      "Shadow-lore": 5,
+      "Survival": 6,
+      "Traditions": 5
+    },
+    "features": [
+      {
+        "name": "Duellist",
+        "description": "Oswald is more skilled with a sword than most Bree-folk know, add +2 to his damage (included below)."
+      },
+      {
+        "name": "Unyielding (Recharge 5-6)",
+        "description": "Oscar can use his bonus action to gain 6 temporary hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Oscar makes two melee attacks with his Long Sword."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d8+5) slashing damage or 10 (1d10+5) slashing damage if wielded with two hands."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Great Might (Recharge 5-6)",
+        "description": "Oscar can use his reaction when struck to reduce the damage he takes by 3, to a minimum of 1.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "equipment": [
+      "Corslet of Mail",
+      "Shield",
+      "Long Sword"
+    ],
+    "spellcasting": null,
+    "description": "Oswald Breeker is the richest and most miserly man in Bree-land, living in a big house at the edge of Combe. He is not popular among the Bree-folk.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Bree-land Region Guide, p.26)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Harry Talltree",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "48 (8d8+16)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 19,
+      "constitution": 15,
+      "intelligence": 11,
+      "wisdom": 14,
+      "charisma": 12
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 4,
+      "Stealth": 6,
+      "Survival": 4
+    },
+    "features": [
+      {
+        "name": "Battle-wise",
+        "description": "Harry has Advantage on initiative checks."
+      },
+      {
+        "name": "Savage Assault",
+        "description": "When Harry rolls a natural 18 or 19 on his attack roll, he may use his bonus action to make a single additional melee attack against the same opponent."
+      },
+      {
+        "name": "Warrior's Charge",
+        "description": "Harry gains Advantage on all attacks made in the first round of combat."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Axe",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+      }
+    ],
+    "equipment": [
+      "Leather Corslet",
+      "Great Axe"
+    ],
+    "spellcasting": null,
+    "description": "The current holder of the office of Royal Forester is Harry Talltree, a giant of a man. Despite his astounding size (seven feet if he's an inch) and prodigious girth, he is quiet as a mouse when moving through the forests. He carries a huge wood-chopping axe with him everywhere he goes, and knows how to use it on more than just trees.",
+    "role": "Royal Forester of Archet",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Bree-land Region Guide, p.28)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Barnabas Butterbur",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 9,
+    "hit_points": "22 (4d8+4)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 9,
+      "constitution": 13,
+      "intelligence": 15,
+      "wisdom": 16,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "History": 4,
+      "Insight": 7,
+      "Perception": 7,
+      "Performance": 5,
+      "Riddle": 4,
+      "Traditions": 6
+    },
+    "features": [
+      {
+        "name": "Expert",
+        "description": "Butterbur doubles his Proficiency Bonus for both Insight and Perception (included above)."
+      },
+      {
+        "name": "Friendly and Inquisitive",
+        "description": "Butterbur doubles his Proficiency Bonus for Traditions (included above) and counts as Friendly during any Audience."
+      },
+      {
+        "name": "Storehouse of Knowledge",
+        "description": "Butterbur knows much about the Bree-land. A hero that spends a short rest talking to him can automatically begin a journey that starts from Bree on Paths Both Swift and True."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Staff",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 4 (1d6+1) bludgeoning damage or 5 (1d8+1) bludgeoning damage if wielded with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Barnabas Butterbur is one of the most important men in Bree, and cleverer than he seems. He may have a thousand things on his mind, nine hundred and ninety of which are errands and orders and shopping lists and gossip from Bree, but he knows that Bree is but a small place in a wide, wilder world - he knows something about Mordor for example, and has met Gandalf, and more besides.",
+    "role": "Innkeeper",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Bree-land Region Guide, p.31)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Tomas Heatherton",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "11 (2d8+2)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 15,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Survival": 2
+    },
+    "features": [
+      {
+        "name": "Reckless",
+        "description": "Tomas may use his bonus action to gain Advantage on attack rolls until the start of his next turn but all attacks on him also have Advantage."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Shield",
+      "Dagger"
+    ],
+    "spellcasting": null,
+    "description": "Young Tom Heatherton is a strapping youth, with a mop of dark hair and the start of what might be a beard one day. Like most young men, he fancies himself to be wiser, cleverer and more dangerous than his elders. For a Bree-lander, he's impatient and ambitious, and dreams of travelling over the mountains to distant lands like Dale, and using his uncle's fortune to set himself up as a merchant prince.",
+    "role": "Neutral",
+    "is_enemy": false,
+    "xp_reward": 50,
+    "source": "(Bree-land Region Guide, p.71)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Edoric",
+    "race": "Human (Enedwaith/Dunlending)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "45 (6d8+18)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 19,
+      "dexterity": 11,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6,
+      "Perception": 4,
+      "Survival": 4
+    },
+    "features": [
+      {
+        "name": "Leadership",
+        "description": "As a bonus action, Edoric can command a nearby ally that has not yet acted this round. That creature takes its turn immediately after Edoric."
+      },
+      {
+        "name": "Unyielding (Recharge 5-6)",
+        "description": "Edoric can use his bonus action to gain 6 temporary hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 7 (1d6+4) piercing damage or 8 (1d8+4) if used with two hands to make a melee attack."
+      }
+    ],
+    "equipment": [
+      "Ring-mail",
+      "Spear"
+    ],
+    "spellcasting": null,
+    "description": "Edoric is of the Enedwaith, kin to the Dunlendings, who dwell far to the south of Eriador along the coast, near where the Greyflood empties into the sea. Edoric is not the name he was given by his mother, but the name he uses when travelling in the North. His is a restless soul; he has not seen the land of his birth in twenty years, and he knows he shall die on the Road. He is an experienced caravan guide; he has led traders from the Blue Mountains to the Great Ford, but he has never gone east of the Anduin. He's fiercely protective of those in his care; all he has in his life is his professional reputation.",
+    "role": "Caravan Guide",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Bree-land Region Guide, p.94)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Eoin, the Bree-lander",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Eoin is a young man of Bree. This is his first journey outside Bree-land; he travelled from Bree as far as the High Pass, and now believes he has seen all the world. He's a simple, honest fellow, hired by Edoric because he has a strong back and follows orders. Game Rules: Eoin uses the Town Guard statistics on page 69 of the Loremaster's Guide.",
+    "role": "Scout",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.95)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Vig, Brother of Vogar",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Old Vig is the eldest of the four Dwarves in the caravan, and their leader. He is a smith, and if he once dreamed of forging swords and shields for some King under the Mountain, he has long since put those dreams aside. He is a tinker, fixing pots and pans. Game Rules: Use the Dwarf statistics on page 78 of the Loremaster's Guide for Vig. Vig is deeply indebted to Mirabar, and owes him a fortune. He ran into debt when his brother Vogar was wounded by an Orc, and Vig had to stop working in the forge to care for him. The forge burnt down, and Vig had to borrow money from Mirabar to survive. Now, he is a homeless wandering tinker-smith, trying to scrape together enough coin to repay the money-lender. In game terms, Vig owes around 50 gold pieces to Mirabar.",
+    "role": "Leader",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.95)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Narvig, Son of Vig",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The elder son of Vig, Narvig feels his father's shame very keenly. He would do anything to relieve Vig's suffering and restore his pride. Narvig is clearly the liaison between the Dwarves and the other travellers. He's the only one who speaks to Edoric or Eoin.",
+    "role": "Liaison",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.96)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Narvig",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "22 (4d8+4)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 17,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Persuasion": 3
+    },
+    "features": [
+      {
+        "name": "Reckless",
+        "description": "The young Dwarf may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Broad Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Narvig is clearly the liaison between the Dwarves and the other travellers. He's the only one who speaks to Edoric or Eoin. He would do anything to relieve Vig's suffering and restore his pride. Narvig intends to give the stolen items to Mirabar, freeing his father Vig from the debt he owes.",
+    "role": "Neutral",
+    "is_enemy": false,
+    "xp_reward": 50,
+    "source": "(Bree-land Region Guide, p.97)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Narvi the Young",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "22 (4d8+4)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 17,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Stealth": 5
+    },
+    "features": [
+      {
+        "name": "Reckless",
+        "description": "The young Dwarf may choose to gain Advantage on all attacks he makes in a round, but all attacks on him gain Advantage until the start of his next turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Broad Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The youngest of the Dwarves, Narvi is something of a scoundrel. He dreams of going to Erebor and becoming as wealthy as the kings of old, and is frustrated by his father's debts and his uncle's illness. Narvi always wants the quick fix, the easy answer. Narvi's the mastermind of the 'plan' to steal from Berelas.",
+    "role": "Neutral",
+    "is_enemy": false,
+    "xp_reward": 50,
+    "source": "(Bree-land Region Guide, p.97)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Hirlinon of Gondor, Follower of Gorlanc",
+    "race": "Human",
+    "class_name": "Mountebank",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Hirlinon comes from the land of Gondor, far to the South. He is one of Gorlanc's followers, a secret worshipper of the Enemy. He has seen the power of Mordor; he knows the gathering strength of the Enemy, and he knows that the Free Peoples cannot hope to stand against it. He has succumbed to despair, and come out the other side filled with malice and secret loathing for the common folk. He now delights in tricking people out of their money and causing suffering, because what else is there to do? The Enemy will soon rule all of Middle-earth, so why should Hirlinon not have some merriment at the expense of others before the day is done? Game Rules: Hirlinon is a Mountebank, see page 51 for his statistics.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.97)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Berelas, the Ringbearer",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "58 (9d8+18)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 20,
+      "constitution": 14,
+      "intelligence": 12,
+      "wisdom": 11,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Performance": 4,
+      "Shadow-lore": 3
+    },
+    "features": [
+      {
+        "name": "Cold be Hand and Heart",
+        "description": "If Berelas has just successfully made a melee attack, she can use her bonus action to channel some of the Cold Shade's power. The target takes 1d8 necrotic damage and can't regain hit points until the start of her next turn."
+      },
+      {
+        "name": "Shade-caller",
+        "description": "As a bonus action, Berelas can summon the Cold Shade. It arrives at the end of her next turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 7 (1d4+5) piercing damage."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +7 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Berelas is older than she looks. She was one of the Woodmen captives taken into Dol Guldur, and there she learned terrible secrets of the Enemy. Released, she fell into the service of a lesser evil, Gorlanc the Sorcerer. Despite all these horrors, she has not entirely fallen to the Shadow, and is still capable of mercy and even kindness. She serves Gorlanc because she fears the Enemy, and believes that only a strong hero can hope to stand against Sauron when he returns. She sees Gorlanc like a younger, more forceful Radagast, and hopes that if she brings him the Ring and helps him grow in power, he will be able to drive away the Shadow. Berelas is deluding herself in this – Gorlanc is a servant of Sauron, or at best a rival like Saruman the White, not a hero – but she has no other hope to cling to. Berelas carries a Wondrous Artefact, the Ring of Seven Jewels, on a chain around her neck.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 450,
+    "source": "(Bree-land Region Guide, p.98)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Berelas",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Healer",
+        "description": "She's a talented healer, much more so than Hirlinon. Anything of actual potency that he sells from his wagon of cure-alls was made by her."
+      },
+      {
+        "name": "Ring of Seven Jewels",
+        "description": "Berelas carries a Wondrous Artefact, the Ring of Seven Jewels, on a chain around her neck. She won't wear the Ring herself, but if she or the Ring are threatened, she calls a Shade from Gorlanc (see The Cold Shade, page 101). If the caravan is attacked by night, or if Berelas or Hirlinon are ambushed, then the Cold Shade automatically appears to protect them. During the day, the Shade is less powerful and less supernaturally aware of danger, so Berelas must consciously summon the creature. She might also summon the Shade if she suspects the caravan is being spied upon, and send it out to hunt for nearby Player-heroes."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "Ring of Seven Jewels"
+    ],
+    "spellcasting": null,
+    "description": "A talented healer who travels with the caravan. She carries the Ring of Seven Jewels and can summon the Cold Shade to protect it.",
+    "role": "Caravan member",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.99)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Mirabar of Dorwinion",
+    "race": "Human",
+    "class_name": "Merchant",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Merchant",
+        "description": "Mirabar is a merchant from the Land of Vineyards; he brings cloth from the East and trades it for gems and crafted items from the Blue Mountains. Most of the baggage ponies in the caravan belong to him, and he's the one who hired Edoric. Some years ago, he loaned a large sum of money to the dwarf-smith Vig, and he wants that debt repaid. When Vig protested that he didn't have the coin to repay Mirabar, the merchant decided to accompany the caravan himself (he normally dwells in the Vales of Anduin, across the mountains)."
+      },
+      {
+        "name": "Surface Details",
+        "description": "An old man, with a face like an aged crow, all beak and dark wary eyes. He's bundled in furs despite the warm weather; he has many rings of gold on his old fingers. He's the only member of the caravan to ride instead of walking."
+      },
+      {
+        "name": "First Impressions",
+        "description": "If he makes it as far as Bree, it'll be something of a miracle. He seems half-dead from the journey."
+      },
+      {
+        "name": "Close Associates",
+        "description": "No one. Edoric and Eoin obey his commands, but he doesn't welcome their company. He tolerates Berelas, glares at Hirlinon, and has little time for the Dwarves, who seem subdued in his presence."
+      },
+      {
+        "name": "Digging Deeper",
+        "description": "Mirabar keeps a ledger of accounts with him, and there's a column of red ink with Vig's name on it. The Player-heroes could learn this by sneaking into the camp and reading the journal, or by eavesdropping on Mirabar when he makes snide comments about Vig's indebtedness. He hates the Rangers, believing them to be nothing more than bandits. He blames them for the loss of several of his trade caravans en route to the Blue Mountains (in truth, the Dúnedain have saved far more of Mirabar's caravans from meeting grisly ends, but there's no reasoning with such prejudice)."
+      },
+      {
+        "name": "Secrets",
+        "description": "Mirabar believes he nearly died at the Forsaken Inn. He's sure that he glimpsed Death come to claim him and carry him away beyond the circles of the world. What he actually saw was the Shade sent by Gorlanc, the one that killed Mallor, but Mirabar's convinced that he's going to die on his journey. He's debating whether to forgive Vig his debt as a last kindness, or write up a letter to his business partners transferring the lien on the loan to them."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "An old merchant from Dorwinion, traveling with the caravan to collect a debt from Vig. He is prejudiced against Rangers and fears he will die on the journey.",
+    "role": "Caravan leader",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Bree-land Region Guide, p.99)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Gorlanc",
+    "race": "Human (Evil Men)",
+    "class_name": "Sorcerer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Evil",
+    "armor_class": 12,
+    "hit_points": "65 (10d8+20)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 15,
+      "constitution": 14,
+      "intelligence": 19,
+      "wisdom": 17,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 5,
+      "Persuasion": 5
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Bewilder (1/day)",
+        "description": "Gorlanc still has enough magic to temporarily distract his foes. He can use his action to make all creatures within 30 feet make a DC 13 Wisdom saving throw or become Stunned for 1d4+1 rounds. While the effect lasts, he may use his bonus action to make a melee attack against a Stunned creature."
+      },
+      {
+        "name": "Enervation (Recharge 5-6)",
+        "description": "Gorlanc points at a creature and snarls in a dark tongue some sorcerous malediction. The target must make a DC 13 Strength saving throw. On a failure, the target is weakened: it may only move or take an action (not both) on its turn and has Disadvantage on attack rolls. And the end of its turn, the target may repeat the saving throw, ending the effect on a success."
+      },
+      {
+        "name": "Poisoned Dagger",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage and the target must make a DC 13 Constitution saving throw or become Poisoned until they take a long rest."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A foul-smelling old man with a ragged beard, wearing a mixture of tattered robes and fine but Hobbit-sized clothing. He is a sorcerer, tomb robber, and self-proclaimed lord of the North.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 450,
+    "source": "(Bree-land Region Guide, p.125)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Lifstan, son of Leiknir",
+    "race": "Barding",
+    "class_name": "Warrior",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "11",
+    "speed": "30 feet",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 13,
+      "constitution": 11,
+      "intelligence": 8,
+      "wisdom": 16,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Insight": 5
+    },
+    "features": [
+      {
+        "name": "Clear Eyed",
+        "description": "You have proficiency in the Insight skill. (See page 33)"
+      },
+      {
+        "name": "Second Wind",
+        "description": "On your turn, use a bonus action to regain hit points equal to 1d10 + your Warrior level. You must finish a short or long rest before you can use it again. (See page 92)",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Lore of the Lost",
+        "description": "When you hear about a new region or ruin for the first time, you probably know at least a bit of lore about it and where you can likely find even more information.(See page 140)"
+      },
+      {
+        "name": "Cultural Virtue: Swordmaster",
+        "description": "You have learnt to fight defensively using your weapon to full advantage. When fighting with either a broadsword or a long sword, you gain a +1 bonus to your AC."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Broadsword",
+        "description": "+4 to hit, 1d8+2 slashing"
+      },
+      {
+        "name": "Short Bow",
+        "description": "+5 to hit, 1d6+1 piercing. You can shoot your short bow 80 feet, or up to 320 feet with disadvantage on the attack roll."
+      }
+    ],
+    "equipment": [
+      "Ring mail",
+      "shield",
+      "broadsword",
+      "short bow with a quiver of 20 arrows",
+      "fur-lined travelling cloak",
+      "travelling gear for the current season",
+      "bedroll",
+      "backpack",
+      "comfortable boots",
+      "rope",
+      "amulet of a raven's feather"
+    ],
+    "spellcasting": null,
+    "description": "Barding Warrior 1, Seeker of the Lost background, Lure of Power shadow weakness.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Player's Guide, p.204)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Beran of the Mountains",
+    "race": "Beorning",
+    "class_name": "Warden",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "9",
+    "speed": "30 feet",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 12,
+      "constitution": 10,
+      "intelligence": 9,
+      "wisdom": 14,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 2
+    },
+    "features": [
+      {
+        "name": "Angry",
+        "description": "You have proficiency in the Intimidation skill. (See page 35)"
+      },
+      {
+        "name": "Warden's Gift",
+        "description": "You can inspire others through stirring words, through music or by your presence alone. (See page 87)"
+      },
+      {
+        "name": "Ever Watchful",
+        "description": "Wardens make a point of keeping up with the latest news both local and from afar, as well as making an effort to know the wise and the powerful. (See page 87)"
+      },
+      {
+        "name": "Inseparable",
+        "description": "You are always close at hand when your master is concerned, though your presence is often ignored. (See page 121)"
+      },
+      {
+        "name": "Cultural Virtue: Night-goer",
+        "description": "At night you can choose to slip into a dream-like state, and leave your body in spirit form to swiftly travel along the tracks made by animals across the length and breadth of Wilderland. (See pages 102-103)"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "+5 to hit, 1d6+3 piercing"
+      },
+      {
+        "name": "Dagger",
+        "description": "+5 to hit, 1d4+3 piercing. You can throw your dagger 20 feet, or up to 60 feet with disadvantage on the attack roll."
+      },
+      {
+        "name": "Great Bow",
+        "description": "+2 to hit, 1d8+2 piercing. You can shoot your great bow 150 feet, or up to 600 feet with disadvantage on the attack roll."
+      }
+    ],
+    "equipment": [
+      "Brightly coloured travelling cloak",
+      "travelling gear for the current season",
+      "backpack",
+      "belt",
+      "dagger",
+      "boots",
+      "necklace of orc-teeth",
+      "short sword",
+      "great bow with a quiver of 20 arrows",
+      "leather corslet",
+      "shield"
+    ],
+    "spellcasting": null,
+    "description": "Beorning Warden 1, Loyal Servant background, Lure of Power shadow weakness.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Player's Guide, p.206)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Caranthiel",
+    "race": "Elves of Mirkwood",
+    "class_name": "Scholar",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 13,
+    "hit_points": "10 (1d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 15,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 13,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Night Vision",
+        "description": "Accustomed to the twilight forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You cannot see in complete darkness."
+      },
+      {
+        "name": "Dreams of Elder Days",
+        "description": "You have learnt to recover from your exertions even while engaging in a repetitive task, like walking, or rowing in a boat. When you finish a short rest, you automatically recover a number of hit points equal to your constitution modifier without expending Hit Dice."
+      },
+      {
+        "name": "Hands of the Healer",
+        "description": "You know how to treat wounds and cure illness and poison. You have a pool of healing tricks and techniques that replenishes when you take a short rest. (See page 64)"
+      },
+      {
+        "name": "News from Afar",
+        "description": "You know many things that are hidden from most and tidings of distant events tend to reach you with astonishing speed. (See page 64)"
+      },
+      {
+        "name": "Tongues of Many Peoples",
+        "description": "You know a little of many languages. You can hold a simple conversation in any of the tongues of Men or Elves, and know a few common phrases in the tongues of the other peoples – enough to offer a greeting, shout a warning, or insult someone  (See page 64)"
+      },
+      {
+        "name": "Sigil of Your Master",
+        "description": "As an emissary you are entitled to a certain consideration amongst foreign peoples. (See page 126)"
+      },
+      {
+        "name": "The Eyes of Elves",
+        "description": "See page 43"
+      },
+      {
+        "name": "A Whisper Through the Leaves",
+        "description": "See page 43"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 1d6+2 piercing damage. (versatile 1d8+2). You can throw your spear 20 feet, or up to 60 feet with disadvantage on the attack roll."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 1d4+2 piercing damage. You can throw your dagger 20 feet, or up to 60 feet with disadvantage on the attack roll."
+      },
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 1d6+2 piercing damage. You can shoot your short bow 80 feet, or up to 320 feet with disadvantage on the attack roll."
+      }
+    ],
+    "equipment": [
+      "Leather jerkin",
+      "spear",
+      "short bow and quiver of 20 arrows",
+      "grey traveling cloak",
+      "traveling gear for the current season",
+      "backpack",
+      "belt dagger",
+      "boots",
+      "a white jewel on a chain of silver",
+      "healing kit",
+      "smith’s tools"
+    ],
+    "spellcasting": null,
+    "description": "Caranthiel is a Scholar of the Elves of Mirkwood, an Emissary of Your People.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Player's Guide, p.210)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Trotter",
+    "race": "Hobbits of the Shire",
+    "class_name": "Wanderer",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 13,
+    "hit_points": "12 (1d10)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 8,
+      "dexterity": 16,
+      "constitution": 15,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Noble Pursuits",
+        "description": "See page 47"
+      },
+      {
+        "name": "The Art of Disappearing",
+        "description": "See page 47"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1d6-1 slashing damage."
+      },
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft., one target. Hit: 1d6+3 piercing damage. You can shoot your short bow 80 feet, or up to 320 feet with disadvantage on the attack roll."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Trotter is a Wanderer of the Hobbits of the Shire, with the Lure of the Road.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Player's Guide, p.212)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "The Bride",
+    "race": "Woodmen of Wilderland",
+    "class_name": "Slayer",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "13 (1d12)",
+    "speed": "30 feet",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 15,
+      "constitution": 13,
+      "intelligence": 9,
+      "wisdom": 11,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "strength": 4,
+      "constitution": 3
+    },
+    "skills": {
+      "Acrobatics": 2,
+      "Animal Handling": 1,
+      "Athletics": 2,
+      "Deception": 2,
+      "History": 1,
+      "Insight": 2,
+      "Intimidation": 2,
+      "Investigation": 1,
+      "Lore": 1,
+      "Medicine": 1,
+      "Nature": 1,
+      "Perception": 2,
+      "Performance": 2,
+      "Persuasion": 2,
+      "Riddle": 1,
+      "Shadow-lore": 1,
+      "Sleight of Hand": 2,
+      "Stealth": 2,
+      "Survival": 2,
+      "Traditions": 1
+    },
+    "features": [
+      {
+        "name": "Battle-fury",
+        "description": "On your turn, you can enter a Battle-fury as a bonus action. (See page 72)"
+      },
+      {
+        "name": "Unarmored Defence",
+        "description": "While you are not wearing any armour, your Armour Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield (but not a great shield) and still gain this benefit. (See page 73)"
+      },
+      {
+        "name": "Pathetic and Bedraggled",
+        "description": "You can take on the mien of a sad, desperate and despondent figure. As long as you are not threatening, strangers will take pity on you and give you a warm place to sleep for the night, hot food and a bit of comfort. (See page 138)"
+      },
+      {
+        "name": "Cultural Virtue: Hound of Mirkwood",
+        "description": "Cultural Virtue: Hound of Mirkwood."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Axe",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 1d12+2 slashing damage."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 1d4+2 piercing damage. You can throw your dagger 20 feet, or up to 60 feet with disadvantage on the attack roll."
+      }
+    ],
+    "equipment": [
+      "Hide armour",
+      "great axe",
+      "traveling cloak",
+      "travelling gear for the current season",
+      "belt dagger",
+      "a hunting trap"
+    ],
+    "spellcasting": null,
+    "description": "You were born west of the Great River, in one of the villages nearest the mountains. You were scarcely fifteen when you first saw him who would become your groom, at a folk-moot held at Mountain hall, in a time when the Orcs were sorely threatening your people. Only a few months later you moved across the river to be near him, as he was from the folk dwelling in the forest. As you waited for your wedding, you learned how to seek a prey among the trees, and your love for the hunt rivalled that for your future husband. One night, only a handful of days before your wedding-day, he left with a company of men from the village, refusing to bring you with him and giving no explanations. Only his faithful hound returned, grievously wounded. When the elders of the village saw the claw marks on the hound they shook their heads, speaking of the dreaded Beast of Mirkwood...",
+    "role": "Player Character",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Player's Guide, p.214)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Snorri, the smith",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "gold hilted sword",
+      "plain but well-made smith's tools"
+    ],
+    "spellcasting": null,
+    "description": "The leader of the gang of three, Snorri is a snowy haired, wily old Dwarf. He stands four feet tall. He wears a dark grey cloak and has an eyepatch over his left eye. This doesn't stop him making good use of the gold hilted sword that hangs from his baldric. His leather pack contains plain but well-made smith's tools. His good eye is like a bright pebble, and it is clear that he doesn't miss much. Snorri's voice is a gravelly croak after years at the forge. He is a thoughtful chap, not quick to anger or pass judgement. He identifies the leader of the Company and shakes their hand in greeting.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.18)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Borri, the whittler",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "wooden whistle",
+      "wood working tools",
+      "long stemmed pipe"
+    ],
+    "spellcasting": null,
+    "description": "Borri is the youngest of the trio, and stands at three feet, nine inches in height. He wears a green hooded cloak with a golden tassel on the hood. His hair and beard are red, and shorter than is normally seen on a travelling Dwarf. Lively and inquisitive, he has a wooden whistle in his satchel, which he enjoys playing whenever there is a chance to do so. Borri carries a set of wood working tools, which he can turn to almost any fine task, be it carving toys, or whistles. Borri speaks quickly, and often asks obvious questions. His inexperience can make him seem less clever than he actually is. Borri smokes a long stemmed pipe. Borri will make a point of shaking everyone's hand a little too eagerly, a little too quickly, for a little too long.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.18)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Hár, the stone mason",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "axe",
+      "broad-bladed knife",
+      "leather roll of fine stone working tools",
+      "drum and beater",
+      "short stemmed pipe"
+    ],
+    "spellcasting": null,
+    "description": "The tallest of the three, Hár stands some four feet six inches tall. He wears a blue cloak over a dull grey corslet of mail. His hair is iron grey, and his full beard is kept neatly combed. Hár carries an axe and a broad-bladed knife hangs from his belt. In his knapsack he keeps a leather roll of fine stone working tools, and a drum and beater. He has a fine deep singing voice. Hár is an exceptional judge of character. He will listen more than he speaks, and when he does speak it is slow and deep, and only when he has something of use to say. Often he will simply nod or shake his head and suck on his short stemmed pipe. When it comes to greetings, Hàr keeps his hands firmly in his belt.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Adventures in Middle-earth Loremaster's Guide, p.18)",
+    "_source_manual": "LMG"
+  },
+  {
+    "name": "Gondril",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 12,
+    "hit_points": "16 (3d8+3)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 10,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 10,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "History": 5,
+      "Investigation": 5,
+      "Lore": 5
+    },
+    "features": [
+      {
+        "name": "Subtlety of Craft",
+        "description": "Gondril is proficient with mason's tools and has a set with her at all times."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with both hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "An Elvish stone-mason sent to assess the Last Bridge.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Eriador Adventures, p.37)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Caradog",
+    "race": "Human (Dunlending)",
+    "class_name": "Hunter",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Evil",
+    "armor_class": 13,
+    "hit_points": "45 (7d8+14)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 1,
+      "Perception": 3,
+      "Survival": 3
+    },
+    "features": [
+      {
+        "name": "No Quarter",
+        "description": "When Caradog reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+      },
+      {
+        "name": "Wild Onset",
+        "description": "Caradog can use his bonus action to impose Disadvantage on his attack roll. If he succeeds anyways add +4 to his damage roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Spear",
+        "description": "Melee Weapon Attack: +4 to hit, reach 10 ft, one target. Hit: 8 (1d12+2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A hunter from Dunland, he doesn't talk much, and is gruff and curt if approached. He is a violent, cruel man, capable of inflicting suffering upon animals as well as any other living creature without any regret or remorse.",
+    "role": "Minion of Uathach",
+    "is_enemy": true,
+    "xp_reward": 200,
+    "source": "(Eriador Adventures, p.78)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Uathach, Treacherous Fortune-teller",
+    "race": "Human (Evil Men)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Evil",
+    "armor_class": 12,
+    "hit_points": "60 (11d8+11)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 14,
+      "constitution": 13,
+      "intelligence": 15,
+      "wisdom": 13,
+      "charisma": 19
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 7,
+      "History": 5,
+      "Insight": 4,
+      "Lore": 5,
+      "Perception": 4,
+      "Persuasion": 7
+    },
+    "features": [
+      {
+        "name": "Bandolier of Knives",
+        "description": "As a bonus action, Uathach can hurl a cluster of small blades at any opponent within 10 feet. The target must make a DC 15 Dexterity saving throw or suffer 6 (1d6+3) slashing damage.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Poisoned Knife",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage and the target must make a DC 15 Constitution saving throw or become Stunned until they complete a short rest. If this attack causes the target to reach 0 hit points and the saving throw is failed, it is killed outright."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A woman in her thirties clad in voluminous robes and silks, presenting herself as Uathach of Tharbad, a blind fortune-teller who lost her sight in the practice of fire-gazing. She is not gifted with foresight, she is simply very cunning.",
+    "role": "Treacherous Fortune-teller",
+    "is_enemy": true,
+    "xp_reward": 1800,
+    "source": "(Eriador Adventures, p.80)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Edrahil",
+    "race": "Human (Dúnedain)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+      },
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft, one target. Hit: 6 (1d6+3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Edrahil has spent many months training as Hiraval's squire, cleaning the Ranger's supplies, preparing food and treating his master with due deference. He will join his father, and the companions, on the coming adventure. Edrahil is capable, calm and energetic. He is interested in any Elves or Dwarves in the party and will pepper them with questions about their adventures, hoping one day that he too can stand against the Shadow. If given the opportunity, he will form strong friendships with any Hobbit hero.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Eriador Adventures, p.96)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Elwin",
+    "race": "Human (Man of Bree)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "22 (3d8+9)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 15,
+      "wisdom": 10,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "Persuasion": 5,
+      "Survival": 2,
+      "Traditions": 6
+    },
+    "features": [
+      {
+        "name": "Friendly and Inquisitive",
+        "description": "Elwin is Friendly to all newcomers during Audiences"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Ring-mail",
+      "Shield",
+      "Short Sword"
+    ],
+    "spellcasting": null,
+    "description": "Elwin is a young Man of Bree, charismatic and quick-witted. In time, he could make a good leader, but for the moment he is a bit too naive and unwary. He grew up listening eagerly to all the old stories told about the time of the King, when all the land was united under one Crown. All his life he dreamt of buried treasure and the lost heritage of a heroic time, and one day he decided to leave home and go look for adventure.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Eriador Adventures, p.99)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Herbert",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "22 (4d8+4)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 12,
+      "constitution": 13,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 5,
+      "Intimidation": 4
+    },
+    "features": [
+      {
+        "name": "Warg-hunter",
+        "description": "Herbert can spend his bonus action to gain Advantage on attack rolls versus wolves this round.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d4+3) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Hide",
+      "Shield",
+      "Spear",
+      "Dagger"
+    ],
+    "spellcasting": null,
+    "description": "Shorter than the average Breelander and with a rough tangle of blond hair, Herbert would be considered handsome if it weren't for a permanent sneer etched upon his face. A fellow already prone to jealousy, Herbert has secretly envied Elwin and his status as the groups' guide since they first met, and this sentiment is starting to turn into hate under the influence of Húldrahir (see page 105). It will not be long before Herbert decides enough is enough and tries to take Elwin's place.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Eriador Adventures, p.99)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Fay",
+    "race": "Hobbit",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "14 (4d6)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 18,
+      "constitution": 11,
+      "intelligence": 12,
+      "wisdom": 15,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Riddle": 3,
+      "Sleight of Hand": 6,
+      "Stealth": 6
+    },
+    "features": [
+      {
+        "name": "Fair Shot",
+        "description": "Fay gains a +1 attack bonus to simple ranged weapons (included below)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Bow",
+        "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft, one target. Hit: 7 (1d6+4) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Leather Corslet",
+      "Short Bow"
+    ],
+    "spellcasting": null,
+    "description": "Enemies often underestimate the capabilities of this Hobbit-lass from Staddle, often to their disadvantage. Fay met Elwin in Bree when he caught her attempting to pick his money pouch, during last year's autumn festivities. Seeing a misguided potential in her, Elwin lectured the Hobbit girl about heroes and adventures, and a companionship was forged. Fay is the best archer in the band of outlaws and has a cutting sense of humour, of which Herbert has been on the receiving end too many times for his liking.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Eriador Adventures, p.100)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Folulf and Arnulf",
+    "race": "Human (Woodmen)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "15 (2d8+6)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 17,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 5,
+      "Survival": 5
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Axe",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with two hands."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft, one target. Hit: 6 (1d8+2) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Scale Hauberk",
+      "Axe",
+      "Great Bow"
+    ],
+    "spellcasting": null,
+    "description": "Two Woodmen, Folulf and Arnulf hail from distant Wilderland. They made the journey across the Misty Mountains just a few months ago and met Elwin and his companions on the East Road. The young Breelander was elated at having met travellers from so far away, and insisted that they join his fellowship. The two brothers gladly accepted what they deemed was a true-hearted proposal, and they joined the company. Folulf, the more superstitious of the two Woodmen, believes the manor to be haunted. A creeping shadow that crawls amongst the ruins during the night plagues his dreams. He will freely comment on this if given the chance.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 100,
+    "source": "(Eriador Adventures, p.100)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Lord Gunvar",
+    "race": "Human",
+    "class_name": "Barding Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Gunvar is a tall man in his mid to later 40s, with black hair shot through with silver and sharp green eyes that miss little. His ambition and strong dislike for the current political situation in Dale has brought him to forge an alliance with Niping, as he thinks that the smith's schemes will undermine the stability of King Bard's rule. Gunvar's ultimate goal is to replace the current king with Lord Hakon, who he believes would make for a far better ruler than Bard. Gunvar is a Barding Noble (see page 46 of the Lonely Mountain Region Guide). He is always accompanied by several of his Men-at-Arms (see below), at least one for each Player-hero.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.39)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Thegn Jofur",
+    "race": "Human (Barding)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A minor noble who has become one of King Bard's chief counsellors, competing with Lord Hakon for premiership. Though not formally appointed to the role, the two courtiers carry the greater part of the burden of running the kingdom whilst the king grieves.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.46)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Domi",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A famed Dwarven scholar from the Blue Mountains who made a great discovery while researching the royal annals of Durin's Folk. He found a travelling chest bearing King Thrór of Erebor's sigil containing correspondence between King Thrór and Girion, Lord of Dale. He was abducted while travelling to Dale.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.46)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "King Dáin Ironfoot",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "King of Erebor. If the matter of the traitor goes unresolved, Dáin is publicly angry with the Company, but wishes them well in private, citing 'Dwarven politics' as the problem. If they exposed Niping, the king rewards each companion with a small bag of gems worth 10 gold pieces.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.46)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Morlach (Sorcerer of Forod)",
+    "race": "",
+    "class_name": "Sorcerer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The Sorcerer of Forod. After a brief meeting with Lord Hakon, a new plan for the ruin of Dale and Erebor was born. Morlach placed a cunning Snaga tracker under Hakon's command.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.47)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Nefgeir, the Innkeeper",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The innkeeper has seen good times and bad over the course of his 60 years. His hair and prodigious sideburns have long since gone grey, and his voice is like the sound of stone breaking. Nefgeir was once an accomplished fisherman, a career that left him with a great store of patience, a useful virtue in his line of work. After the destruction of the old Esgaroth, Nefgeir abandoned his former trade and opened the inn. The innkeeper views the running of The Pike with great severity, as many suppliers and customers have learned to their cost. This notwithstanding, he is welcoming to strangers and a kind word and a bit of respect for Traditions goes a long way with him.",
+    "role": "Innkeeper",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.100)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Orsmid, Metalworker",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Sitting by the table closest to the fire and drinking alone is Orsmid, a man that doesn’t seem to belong to the usual crowd of merchants and fishermen. He is a smith and a sculptor, working with all kinds of metals, currently tasked by the town council to create the bronze statue of Bard the Bowman. A wiry, dark grey beard covers a face, which is missing a few teeth, while deep crags on his face and hands betray Orsmid’s true age: the master smith has spent almost seven decades upon Middle-earth. Orsmid, like Nefgeir, has witnessed the destruction that Smaug brought to the old city. The sculptor and the innkeeper seem to appreciate one another’s company in that way that old men who have shared a hardship are wont to do. Despite being born in Lake-town and claiming to be a full-blooded native of Esgaroth, Orsmid counts himself among King Bard’s staunchest supporters and he speaks about the Bowman in a manner more befitting a young man talking about his hero. He fought by Bard’s side as a spearman at the Battle of Five Armies: he bears a nasty scar to show for it, a puckered pale ridge striking across his chest, a gift from a Great Bat. Orsmid is a humble fellow and though he graciously thanks well-wishers and admirers of his work, he spends most of the evening slowly sipping at his ale and smiling warmly at the younger patrons celebrating around him. Not a man who is prone to talking, a companion might get him to open up a bit with a successful DC 10 Charisma (Performance) check or talk of his craft. He might speak of how pleased he is to be able to devote his talent to the legacy of Lake-town before he’s “too old to be of much use” and then broadly grinning. If asked about the black gem to serve as the Black Arrow’s head, Orsmid says only that he is honoured to contribute to the lasting glory of Bard with his own personal treasure.",
+    "role": "Metalworker",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.100)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Magan, Apprentice to Orsmid",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "At some point during the evening, a tall young woman enters the inn and approaches Orsmid with a concerned look in her eyes. They seem to know each other very well, and after a brief exchange, Orsmid dismisses her with a nod and a paternal smile. If the companions are talking to Orsmid when the woman arrives, they are introduced briefly to Magan, Orsmid’s apprentice. She came just to recommend her master not to stay up all night, as he will need his strength for the following morning’s work. When Orsmid agrees to her recommendation, she leaves.",
+    "role": "Apprentice",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.101)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Holti, Antique Dealer",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A middle-aged merchant visiting from Dale, where he owns a curiosity shop. He is a man always on the lookout for a deal, or continually making things out to be more valuable than they are. With an unflinching smile and disturbingly nice teeth, Holti is in Lake-town to determine if there is coin to be made by hauling some of his ‘valuables’ here for the anniversary celebrations. He wears a ridiculous hat which sprouts two brightly coloured feathers. If approached, Holti is amiable but lets the companions know it’s ‘after hours’ and business can wait until morning. If they press — a successful DC 10 Charisma (Persuasion) check or by invoking the Trading trait — he’ll make comments about news of the Dwarven gem-cutters of the Glittering Gate experiencing a peculiar absence of precious stones and the associated rise in price, something he finds odd.",
+    "role": "Antique Dealer",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.101)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Haldis",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A fisherwoman, Haldis is young and bright-eyed, her clothes always smelling faintly of fish. She wears a small golden fish hook tucked into her hat as a lucky charm. Unlike many of her lake-going peers, Haldis fishes in the waters below Lake-town itself. Smaller quarry to be sure, and considered unwholesome by other fishermen, who in truth ignore how Haldis manages to catch the fish that dart among the timbers of the city. Haldis is held by other patrons to be very quiet, too quiet than is considered normal, to say the truth. And when Haldis talks not everyone is able to make head or tails of what she says. But she is harmless and good-natured, and everyone loves her. If approached politely with a DC 10 Intelligence (Traditions) check, Haldis shares a number of sinister stories about town children who have gone missing. According to her, they were devoured by the ‘Guttermaw’, a creature escaped from the deepest recesses of the Lonely Mountain and is now swimming in the waters of the Long Lake.",
+    "role": "Fisherwoman",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.101)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Eutaric of Woodland Hall",
+    "race": "Human (Woodman of Mirkwood)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Called ‘Shepherd’ by his friends, Eutaric is a Woodman of Mirkwood, in Lake-town to visit the family of his wife, Aefre. Small by the standards of Men, with a short brown beard and shaggy hair, he bears a finely crafted bow that is worn with years of use. Eutaric is quick with a jest and free with his coin when buying drinks and will respond favourably to simple courtesy or to True-hearted individuals. He is always eager to hear tales from throughout Wilderland.",
+    "role": "Visitor",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.101)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Eutaric",
+    "race": "Woodman",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Insight",
+        "description": "Despite his friendly demeanour, a successful DC 10 Wisdom (Insight) check suggests that Eutaric is intently searching the crowd for someone (in truth, he is hunting for an old enemy and the trip to visit his wife's family is but an excuse to seek out his quarry. He will not speak of it, unless befriended by a fellow Woodman)."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "finely crafted bow"
+    ],
+    "spellcasting": null,
+    "description": "Small by the standards of Men, with a short brown beard and shaggy hair, he bears a finely crafted bow that is worn with years of use. Eutaric is quick with a jest and free with his coin when buying drinks and will respond favourably to simple courtesy or to True-hearted individuals. He is always eager to hear tales from throughout Wilderland.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.102)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Aefre",
+    "race": "Barding",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Insight",
+        "description": "Aefre is capable of seeing through simple deceptions, and can often tell the heart of a person with a glance."
+      },
+      {
+        "name": "Animal Handling",
+        "description": "She responds favourably to any hero who has a pet, and a DC 10 Intelligence (Nature) or Wisdom (Animal Handling) check will see her greet the companions almost as family."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Aefre, wife to Eutaric, is a Barding. She is the daughter of Arn, the chieftain of a family of herders from the Upper Marches. Some years ago, Eutaric was passing through the lands to the east of Dale and managed to impress Arn over the course of one summer. Finding himself with a thinning herd and ever more mouths to feed, Arn was quick to send Aefre off to marry Eutaric. Though initially an arrangement, their bond grew into a loving one and Aefre now oversees the affairs of their home in Woodland Hall. She is gentle but firm, and is very skilled at resolving the small disputes that can arise amongst folk on a farmstead. She is short with a sweet nature and a crooked smile.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.102)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Magan",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Motivation and Expectations",
+        "description": "Magan loves Orsmid as a father-figure and makes no effort to disguise her affection for the old man. As a crafter she's fond of Dwarf-folk and the Company gains an automatic +1 Expectation if there are any Dwarves present. Apply a -2 Expectation modifier if the heroes are dismissive of her master or criticise her decision to become a sculptor and smith."
+      },
+      {
+        "name": "Introduction",
+        "description": "Magan has sought out the Company specifically. Any Barding, Dwarf, or Man of the Lake will have Advantage on their initial Traditions check."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Magan receives her guests in her workwear, her pale hair cut shorter than is fashionable and tied back with a bit of leather scrap. She has served as an apprentice to Orsmid for six years and is his disciple and heir.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Erebor Adventures, p.102)",
+    "_source_manual": "EREA"
+  },
+  {
+    "name": "Elrond",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "110 (20d8+20)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 16,
+      "constitution": 12,
+      "intelligence": 20,
+      "wisdom": 19,
+      "charisma": 17
+    },
+    "saving_throws": {
+      "intelligence": 9,
+      "wisdom": 8
+    },
+    "skills": {
+      "History": 9,
+      "Insight": 8,
+      "Lore": 13,
+      "Medicine": 12,
+      "Traditions": 9
+    },
+    "features": [
+      {
+        "name": "Elven-hauberk",
+        "description": "If Elrond ever went to war, he would wear the armour that he bore as Gil-galad's herald, a hauberk crafted by Damron the smith himself. It is so cunningly made that Elrond adds his full Dexterity modifier to his Armour Class."
+      },
+      {
+        "name": "Leader of Imladris (Lair Action)",
+        "description": "If Elrond is near Rivendell, he may use a Lair Action to summon an Elf-Lord (Loremaster's Guide, page 77) to aid him. The Elf-Lord arrives at the end of Elrond's next turn."
+      },
+      {
+        "name": "Legendary",
+        "description": "Elrond may take two legendary actions each turn. Each legendary action allows him to either use his Foresight ability without using his reaction, attack with his Spear of the Last Alliance or use his Hands of the Healer ability."
+      },
+      {
+        "name": "The Ring of Air",
+        "description": "Elrond can use his bonus action to interact with something in the environment at range (for example an old tree might suddenly tumble down, or a stream temporarily swell to a torrent when an enemy crosses it) to create combat scenery. Or he may cloak an ally with the ring's magic. That ally gains a +4 bonus to their AC until the end of Elrond's next turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Elrond can make two attacks with his Spear of the Last Alliance."
+      },
+      {
+        "name": "Spear of the Last Alliance",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage. On a hit, the Elf-Lord can use his bonus action to make another attack at another target within reach."
+      },
+      {
+        "name": "Hands of the Healer",
+        "description": "In combat, Elrond can use his action to restore 8 (1d8+4) hit points to a creature within 5 feet of him. Outside of combat he can spend 10 minutes with a creature to remove a condition. He may also spend 10 minutes with a creature to restore all of its hit points. If he does so, he cannot use this ability again until he takes a short or long rest."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Elrond, Master of Rivendell, is the Lore-master of Imladris, appearing as neither old nor young, combining the wisdom of a king and the vigour of a strong warrior. He wears a circlet of silver upon his dark hair, and in his eyes are the memories of years uncounted.",
+    "role": "Patron",
+    "is_enemy": false,
+    "xp_reward": 8400,
+    "source": "(Rivendell Region Guide, p.14)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Arwen",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Seeing Arwen",
+        "description": "When heroes see Arwen for the first time, they receive Inspiration immediately. Also, they can remember the wisdom behind Undómiel’s eyes and once during the following Adventuring phase gain Inspiration automatically."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Arwen is the daughter of Elrond. Dark of hair, Arwen has the bearing of a queen, and a beauty that can be only that of someone who belongs to the Fair Folk: young, and yet betraying the wisdom accumulated in many years.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide, p.16)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Erestor",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Erestor is probably the most prominent individual in the household of Elrond, second only to Glorfindel. He is counted among the wise, and he is the chief of Elrond’s personal counsellors. He is also a scribe and an illuminator of manuscripts – many books and parchments kept in Rivendell have been written and decorated by the skilled hand of Erestor. But his cunning is not limited to that. In a small building filled with glass vessels of many shapes and sizes, Erestor prepares miruvor, the precious cordial of Imladris. The wise Elf distils it using more than one hundred herbs",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide, p.17)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Elrohir",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "85 (10d8+40)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 20,
+      "dexterity": 16,
+      "constitution": 18,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 14
+    },
+    "saving_throws": {
+      "Dexterity": 6,
+      "Wisdom": 5
+    },
+    "skills": {
+      "Animal Handling": 5,
+      "Perception": 5,
+      "Survival": 5,
+      "Riddle": 6
+    },
+    "features": [
+      {
+        "name": "Hatred (Orc-kind)",
+        "description": "Elrohir remembers the terrible fate that Orc-kind inflicted upon his mother. He will use his bonus action to gain Advantage on attacks against them this round.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Hawk's Eye",
+        "description": "Elrohir can use his bonus action to negate Disadvantage due to being at long range for this turn.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Many Long Leagues",
+        "description": "If Elrohir is with the Company on a journey then a companion can spend Inspiration to allow a long rest. This ability can only be used once per journey."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Elrohir can make two attacks with either his Long Sword or his Great Bow."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 9 (1d8+5) slashing damage or 10 (1d10+5) slashing damage if used with two hands."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft, one target. Hit: 7 (1d8+3) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Leather Corslet",
+      "Shield",
+      "Long Sword",
+      "Great Bow"
+    ],
+    "spellcasting": null,
+    "description": "Twin warrior son of Elrond, dark-haired and grey-eyed, eager to fight the shadow.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Rivendell Region Guide, p.20)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Elladan",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "85 (10d8+40)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 20,
+      "constitution": 18,
+      "intelligence": 15,
+      "wisdom": 17,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "Dexterity": 8,
+      "Wisdom": 6
+    },
+    "skills": {
+      "Athletics": 6,
+      "History": 5,
+      "Perception": 9,
+      "Traditions": 5
+    },
+    "features": [
+      {
+        "name": "Hatred (Orc-kind)",
+        "description": "Elladan will never forget his mother's suffering at the hands of Orc-kind. He will use his bonus action to gain Advantage on attacks against them this round.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Hunter",
+        "description": "Elladan gains +3 to all of his Perception checks (included above)."
+      },
+      {
+        "name": "Well-travelled",
+        "description": "If Elladan is with the Company and they are travelling in Eastern Eriador or the Western Vales then the Guide rolls 1d8+4 for the Embarkation Roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Elladan can make two attacks with either his Broadsword or his Great Bow."
+      },
+      {
+        "name": "Broadsword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 9 (1d8+3) slashing damage."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +8 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Leather Corslet",
+      "Broadsword",
+      "Great Bow"
+    ],
+    "spellcasting": null,
+    "description": "Twin warrior son of Elrond, dark-haired and grey-eyed, eager to fight the shadow.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Rivendell Region Guide, p.21)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Burzash, Orc Warlord",
+    "race": "Great Orc",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "One among the many Orcs that are being drawn out of their lairs in the mountains to journey north towards Carn Dûm, Burzash is not satisfied leading only his own tribe. Moving across Angmar, Burzash has set his will to dominating lesser Orcs and uniting them under his banner. He is a fierce creature, commanding and merciless. Gathering Orcs, Goblins and Hill-men to him, he moves across the Grey Waste, slaughtering those who do not bow to his will. Burzash is a Great Orc, as seen in the Adventures in Middle-earth Loremaster's Guide on page 97. He typically travels with a large warband composed of Goblins of Carn Dûm (see page 77), Hill-men of Rhudaur (see page 77-78), and reinforced by a pair of great Mountain-Trolls (page 109 of the Loremaster's Guide) whom he had attracted to his service under the promise of war and slaughter. The entire warband counts as Bloodthirsty and are a Vengeful Band.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide, p.52)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "The Steward of Carn Dûm",
+    "race": "Fell Wraith",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "When the Witch-king was forced to abandon Carn Dûm following his defeat, the fortress was not fully destroyed, as its foundations were too strong even for the Men of the West to shatter. In its deepest recesses many creatures were allowed to endure, and many dwell there still. Among those wretched shades lurks he who was once deemed to be a sorcerer of dark and terrible power: the Steward of Carn Dûm. At the time of the witch-realm, he could be spied on the highest battlements of the black citadel of Carn Dûm, as he gazed down upon the frozen and black realm, casting his auspices at the service of the Witch-king. The Steward of the citadel has never left the dungeons of the broken fortress, as he was appointed a task he will never betray. When the Lord of the Nazgûl left Carn Dûm to go and fight at the Battle of Fornost, he left the Iron Crown of Angmar in his keeping. Thus the life of the Steward was spared the wreck of that defeat, and the crown didn't follow the Witch-king in his flight. In the centuries that followed, the Steward was slowly consumed by the power residing in the Iron Crown: he become a Fell Wraith, a weak reflection of its Master. The Steward of Carn Dûm today is a shade among shades, perpetually wrapped in a robe of rich crimson, his facial features hidden beneath the shadows of his heavy hood. He haunts the deepest cells of the dark capital of ancient Angmar, where he patiently awaits the return of the Morgul-lord. Once this happens, he will kneel once more before the Lord of the Nazgûl and will offer him what he has kept secret for centuries: the Iron Crown of Angmar. The Steward is a Fell Wraith possessing both Black Dread and Wicked Cunning. He knows Words of Power and Terror as well, ranking him at Challenge 4.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide, p.52)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Arbarad",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "65 (10d8+20)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 15,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 16,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "History": 4,
+      "Perception": 7,
+      "Survival": 5
+    },
+    "features": [
+      {
+        "name": "Deadly Names",
+        "description": "Arbarad can spend his bonus action to add 3 (1d6) radiant damage to a servant of the Enemy that he has just struck in combat."
+      },
+      {
+        "name": "Hunter",
+        "description": "Arbarad gains +2 to all of his Perception checks (included above)."
+      },
+      {
+        "name": "Secret Places",
+        "description": "If Arbarad is in the South Downs, the Weather Hills or the North Downs he always knows a place where the Company may take a long rest. It requires a successful Audience for Arbarad to lead them there, however."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Arbarad can make two attacks with either his Long Sword or his Great Bow."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft, one target. Hit: 5 (1d8+1) slashing damage or 6 (1d10+1) slashing damage if wielded with two hands."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Melee Weapon Attack: +4 to hit, range 150/600 ft, one target. Hit: 6 (1d8+2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "This stoic, travel-worn wanderer spends many days scouring the land, watching for trespassing creatures and looking for any ancient testimony of the lost realm of his people. While dedicated to his tasks, Arbarad is also always ready to help lost wanderers find their way back to the road, should they become lost in the maze-like hills.",
+    "role": "The Warden of Amon Sûl",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Rivendell Region Guide, p.57)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Talandil",
+    "race": "Human",
+    "class_name": "Ranger",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "60 (8d8+24)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 11,
+      "constitution": 17,
+      "intelligence": 12,
+      "wisdom": 16,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Lore": 3,
+      "Perception": 5,
+      "Pipe": 3,
+      "Riddle": 3,
+      "Survival": 5
+    },
+    "features": [
+      {
+        "name": "Long-pipe",
+        "description": "Talandil can make a DC 15 Intelligence (Pipe) check as an action. On a success, he makes his next ability check with Advantage."
+      },
+      {
+        "name": "Many Long Leagues",
+        "description": "If Talandil is with the Company on a journey then a companion can spend Inspiration to allow a long rest. This ability can only be used once per journey."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Talandil can make two attacks with his Long Sword."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Talandil, Ranger of the North Downs. When a Ranger has served for many years out in the Wild, he is allowed to return to his family. But Talandil had no family to return to. Having reached a considerable age, Talandil doesn't wander the land either, and he rarely leaves the North Downs. He is the self-appointed guardian of Fornost Erain, and he knows many songs and tales of that city when it was the northern fortress of the kings.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Rivendell Region Guide, p.60)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Kyna",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "39 (6d8+12)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 12,
+      "wisdom": 13,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 4,
+      "Nature": 3,
+      "Survival": 3
+    },
+    "features": [
+      {
+        "name": "Region-lore (Enedwaith)",
+        "description": "If Kyna is with the Company for a journey that begins or ends in the Enedwaith or Tharbad, the Guide rolls 1d8+4 for the Embarkation Roll."
+      },
+      {
+        "name": "Hatred (Orc-kind)",
+        "description": "Kyna and her folk hate Orcs and she will spend her bonus action to gain Advantage on attack rolls against them whenever she can.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 feet or range 20/60 feet, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 150/600 feet, one target. Hit: 7 (1d8+3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Though the Wild Men of Enedwaith rarely travel inland as far as Tharbad, Kyna is an adventurous young woman. Boasting her desire to fish in \"unchallenged waters\", she leaves her village for weeks on end to reach the crumbling town. The ruins fascinate her, and she often spends more hours exploring them than tending to her duties as a huntress and fisherwoman for her people. She knows the fens west of Tharbad quite well, better than any other of her kind. Though she is curious regarding the travellers who pass through the realm, she is wary of the many threats that plague the waters surrounding the Greyflood.",
+    "role": "Notable Character",
+    "is_enemy": false,
+    "xp_reward": 200,
+    "source": "(Rivendell Region Guide, p.67)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Bradan",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "44 (8d8+8)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 17,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 15,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Insight": 4,
+      "Perception": 4,
+      "Stealth": 5
+    },
+    "features": [
+      {
+        "name": "Secret Folk",
+        "description": "If Bradan is making a roll to hide from others, to detect an ambush, discover a trap or discover treachery he has Advantage on the check. This will most commonly be applied to Insight, Investigation, Perception and Stealth checks."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 feet, one target. Hit: 6 (1d6+3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Young and eager to prove himself, Bradan is a young scout from Dunland, known among his tribemates as a man whose long stride and quick feet has led him far and wide across his homeland. Having recently come into manhood, Bradan has been charged by his chieftain with the exploration of the lands north of the borders of Dunland. Though he speaks only a few words in the Common Speech, Bradan is curious when he encounters strangers. Typically, he observes them from a distance and retreats if he falls under their gaze. Bradan doesn't know why his chieftain is seeking news from the north, though he suspects that his lord is reporting to a greater, unknown master.",
+    "role": "Notable Character",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Rivendell Region Guide, p.67)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Thark",
+    "race": "Hill-man of Rhudaur",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Big",
+        "description": "Thark gains the Big feature. (See page 116 of the Loremaster's Guide.)"
+      },
+      {
+        "name": "Commanding Voice",
+        "description": "Thark gains the Commanding Voice reaction. (See page 119 of the Loremaster's Guide.)"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Among the Hill-men of Angmar is Thark, their chieftain. Broad and swarthy, his piercing eyes are the colour of night and his face is marred by countless scars of war and survival. Any wanderer who treads the many tracks and broken roads of Angmar coming from the south may encounter Thark and his faithful. Facing a well-equipped Company, Thark won't be openly hostile, but will offer his service as a guide and scout. Should his offer be refused, then Thark will resort to threats, requiring the payment of a tribute. In both cases, Thark won't fight directly, but will lead the Company towards a more favourable confrontation: the lair of a Mountain Troll, a den of Goblins, or an encampment of his people.",
+    "role": "Chieftain of Angmar",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide, p.123)",
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "Cirmacar",
+    "race": "High Elf",
+    "class_name": "Warden",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "10 (1d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 14,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 17,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {
+      "Acrobatics": 2,
+      "Animal Handling": 5,
+      "Athletics": 1,
+      "Deception": -1,
+      "History": 0,
+      "Insight": 5,
+      "Intimidation": -1,
+      "Investigation": 0,
+      "Lore": 0,
+      "Medicine": 3,
+      "Nature": 0,
+      "Perception": 5,
+      "Performance": -1,
+      "Persuasion": -1,
+      "Riddle": 0,
+      "Shadow-lore": 0,
+      "Sleight of Hand": 2,
+      "Stealth": 4,
+      "Survival": 5,
+      "Traditions": 2
+    },
+    "features": [
+      {
+        "name": "Night Vision",
+        "description": "dim light 60 ft as bright light, in darkness as if it is dim light."
+      },
+      {
+        "name": "Elvish Dreams",
+        "description": "four hours of dream resting per night"
+      },
+      {
+        "name": "Against the Unseen",
+        "description": "You can perceive creatures in the wraith-world (Invisible undead) and are immune to becoming Frightened by the undead."
+      },
+      {
+        "name": "Beset by Woe",
+        "description": "When you undertake to Heal Corruption, gain 1 permanent Shadow and lose 1 temporary Shadow before making your check."
+      },
+      {
+        "name": "Troubling to the Wise",
+        "description": "you know some of the Great and the Good and can sometimes receive favours from them. You also might know hiding places in some castles and cities that you visit."
+      },
+      {
+        "name": "Warden's Gift",
+        "description": "you have one Gift die (a d6). You can grant that die to an ally who may use it in the next 10 minutes and add it to one ability check, attack roll or saving throw. You regain the Gift die after a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Ever Watchful",
+        "description": "spend a few hours travelling and talking with locals to make a DC 12 Intelligence (Investigation) check with Advantage. Success means you know news, rumours and important individuals. Failure means you know some, but don't know what is true"
+      },
+      {
+        "name": "Cautious",
+        "description": "You are considered in your actions, lest your carelessness give Shadow agents an opportunity."
+      },
+      {
+        "name": "Dark Secrets",
+        "description": "The best way to elude and defeat your hunters is to learn more about them. You study all you can about the Shadow."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Bow",
+        "description": "Atk Bonus: +4, Damage/Type: 1d8+2 piercing"
+      },
+      {
+        "name": "Dagger",
+        "description": "Atk Bonus: +4, Damage/Type: 1d4+2 piercing"
+      }
+    ],
+    "equipment": [
+      "A slate blue travelling cloak",
+      "travelling gear for the current season",
+      "a backpack or saddlebags",
+      "a belt dagger",
+      "boots",
+      "a white jewel on a chain of silver",
+      "smith's tools",
+      "a great bow",
+      "20 arrows",
+      "a leather corslet and shield"
+    ],
+    "spellcasting": null,
+    "description": "High elf of Rivendell, Warden. You have dwelt in Imladris since its founding, leaving only once in your long years when Gil-galad called all banners to him and the Last Alliance of Elves and Men stormed the Black Land of Mordor.",
+    "role": "Player Character",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Rivendell Region Guide)",
+    "_source_manual": "RVR"
   }
 ]

@@ -1,0 +1,233 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Ornately Carved Pipe",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "Smoking this pipe gives excellent powers of concentration, and given the chance to smoke it, grants the smoker a +1 bonus to a Riddle check once per long rest. It is also a great pipe to use in the Game of Smoke Rings, giving +1 to all rolls made as part of that game.",
+      "source": "The Eaves of Mirkwood p.19"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Eaves of Mirkwood Goblin Soldier",
+      "size": "Small",
+      "type": "humanoid (orc-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Orcish Leathers, shield",
+      "hit_points": "7 (3d6-3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 8,
+        "intelligence": 10,
+        "wisdom": 8,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 9",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Nimble Escape",
+          "description": "The Eaves of Mirkwood Goblin can take the Disengage or Hide action as a bonus action on each of its turns."
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, the Goblin Soldier has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bent Sword",
+          "description": "Melee Weapon Attack: +3 to hit, reach 5ft, one target. Hit: 4 (1d6+1) slashing damage"
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +2 to hit, reach 5ft or range 20/60 ft, one target. Hit: 3 (1d6) piercing damage or 4 (1d8) piercing damage when used as a melee weapon."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Eaves of Mirkwood p.17"
+    },
+    {
+      "name": "Greymuzzle Hob",
+      "size": "Large",
+      "type": "monstrosity (Warg-kind)",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "natural armour",
+      "hit_points": "42 (5d10+15)",
+      "speed": "50 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 16,
+        "constitution": 16,
+        "intelligence": 7,
+        "wisdom": 12,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 14",
+      "languages": [
+        "Wargspeech",
+        "Westron",
+        "Orkish"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Fear Aura",
+          "description": "Any creature hostile to Greymuzzle Hob that starts its turn within 10 feet of it must make a DC 11 Wisdom saving throw, unless Greymuzzle Hob is Incapacitated. On a failed save, the creature is Frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to Greymuzzle Hob's Fear Aura for the next 24 hours."
+        },
+        {
+          "name": "Fear of Fire",
+          "description": "Greymuzzle Hob is fearful of fire. If a torch or other flame comes within 10 feet of it then Greymuzzle Hob suffers Disadvantage on its attack rolls. In addition, Greymuzzle Hob is not able to use its Pack Tactics ability."
+        },
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "Greymuzzle Hob has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "Greymuzzle Hob has Advantage on an attack roll against a creature if at least one of Greymuzzle Hob's allies (including Goblins) is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5ft, one target. Hit: 11 (2d6+4) piercing damage. If the target is a creature, it must make a DC 13 Strength saving throw or be knocked Prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "The Eaves of Mirkwood p.27"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Snorri, the smith",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "gold hilted sword",
+        "plain but well-made smith's tools"
+      ],
+      "spellcasting": null,
+      "description": "The leader of the gang of three, Snorri is a snowy haired, wily old Dwarf. He stands four feet tall. He wears a dark grey cloak and has an eyepatch over his left eye. This doesn't stop him making good use of the gold hilted sword that hangs from his baldric. His leather pack contains plain but well-made smith's tools. His good eye is like a bright pebble, and it is clear that he doesn't miss much. Snorri's voice is a gravelly croak after years at the forge. He is a thoughtful chap, not quick to anger or pass judgement. He identifies the leader of the Company and shakes their hand in greeting.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Eaves of Mirkwood p.18"
+    },
+    {
+      "name": "Borri, the whittler",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "wooden whistle",
+        "wood working tools",
+        "long stemmed pipe"
+      ],
+      "spellcasting": null,
+      "description": "Borri is the youngest of the trio, and stands at three feet, nine inches in height. He wears a green hooded cloak with a golden tassel on the hood. His hair and beard are red, and shorter than is normally seen on a travelling Dwarf. Lively and inquisitive, he has a wooden whistle in his satchel, which he enjoys playing whenever there is a chance to do so. Borri carries a set of wood working tools, which he can turn to almost any fine task, be it carving toys, or whistles. Borri speaks quickly, and often asks obvious questions. His inexperience can make him seem less clever than he actually is. Borri smokes a long stemmed pipe. Borri will make a point of shaking everyone's hand a little too eagerly, a little too quickly, for a little too long.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Eaves of Mirkwood p.18"
+    },
+    {
+      "name": "Hár, the stone mason",
+      "race": "Dwarf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [
+        "axe",
+        "broad-bladed knife",
+        "leather roll of fine stone working tools",
+        "drum and beater",
+        "short stemmed pipe"
+      ],
+      "spellcasting": null,
+      "description": "The tallest of the three, Hár stands some four feet six inches tall. He wears a blue cloak over a dull grey corslet of mail. His hair is iron grey, and his full beard is kept neatly combed. Hár carries an axe and a broad-bladed knife hangs from his belt. In his knapsack he keeps a leather roll of fine stone working tools, and a drum and beater. He has a fine deep singing voice. Hár is an exceptional judge of character. He will listen more than he speaks, and when he does speak it is slow and deep, and only when he has something of use to say. Often he will simply nod or shake his head and suck on his short stemmed pipe. When it comes to greetings, Hàr keeps his hands firmly in his belt.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Eaves of Mirkwood p.18"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Foreword",
+    "Setting and The Tale of Years",
+    "Before the Game"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 3,
+  "_book_slug": "LMG",
+  "_book_title": "adventuresinmiddle earthloremastersguide",
+  "_completed": true,
+  "_timestamp": 1790287849.437226
+}

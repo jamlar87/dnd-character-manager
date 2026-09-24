@@ -3483,5 +3483,793 @@
     "weight": 0,
     "source": "(Lonely Mountain Region Guide)",
     "_source_manual": "LMRG"
+  },
+  {
+    "name": "Regular or Hobbit-sized Room, per night",
+    "type": "Service",
+    "subtype": "Lodging",
+    "damage": "",
+    "properties": [],
+    "cost": "9c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Company-sized Room, per night",
+    "type": "Service",
+    "subtype": "Lodging",
+    "damage": "",
+    "properties": [],
+    "cost": "2s",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Fancy Room, per night",
+    "type": "Service",
+    "subtype": "Lodging",
+    "damage": "",
+    "properties": [],
+    "cost": "5s",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Hot Bath",
+    "type": "Service",
+    "subtype": "Bath",
+    "damage": "",
+    "properties": [],
+    "cost": "6c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Stabling, per animal, per night",
+    "type": "Service",
+    "subtype": "Stabling",
+    "damage": "",
+    "properties": [],
+    "cost": "2c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Ale, per tankard",
+    "type": "Food and Drink",
+    "subtype": "Drink",
+    "damage": "",
+    "properties": [],
+    "cost": "1c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Wine, per glass",
+    "type": "Food and Drink",
+    "subtype": "Drink",
+    "damage": "",
+    "properties": [],
+    "cost": "3c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Meal, per person",
+    "type": "Food and Drink",
+    "subtype": "Meal",
+    "damage": "",
+    "properties": [],
+    "cost": "6c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Pipe-weed (Southlinch from Staddle), 10 uses",
+    "type": "Trade Good",
+    "subtype": "Pipe-weed",
+    "damage": "",
+    "properties": [],
+    "cost": "1s",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Pony for Hire, per day",
+    "type": "Service",
+    "subtype": "Mount",
+    "damage": "",
+    "properties": [],
+    "cost": "6c",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Pony for Sale (worn and dispirited)",
+    "type": "Mount",
+    "subtype": "Pony",
+    "damage": "",
+    "properties": [],
+    "cost": "4s",
+    "weight": 0,
+    "source": "(Bree-land Region Guide)",
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Leather jerkin",
+    "type": "Armor",
+    "subtype": "Light Armour",
+    "damage": "",
+    "properties": [],
+    "cost": "10s",
+    "weight": 10,
+    "armor_class": "11+Dex modifier",
+    "strength": "",
+    "stealth": "",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Leather corslet",
+    "type": "Armor",
+    "subtype": "Light Armour",
+    "damage": "",
+    "properties": [],
+    "cost": "45s",
+    "weight": 13,
+    "armor_class": "12+Dex modifier",
+    "strength": "",
+    "stealth": "",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Corslet of Mail",
+    "type": "Armor",
+    "subtype": "Medium Armour",
+    "damage": "",
+    "properties": [],
+    "cost": "50s",
+    "weight": 20,
+    "armor_class": "13+Dex modifier (Max 2)",
+    "strength": "",
+    "stealth": "",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Scale hauberk",
+    "type": "Armor",
+    "subtype": "Medium Armour",
+    "damage": "",
+    "properties": [],
+    "cost": "60s",
+    "weight": 45,
+    "armor_class": "14+Dex modifier (Max 2)",
+    "strength": "",
+    "stealth": "Disadvantage",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Heavy mail",
+    "type": "Armor",
+    "subtype": "Heavy Armour",
+    "damage": "",
+    "properties": [],
+    "cost": "75s",
+    "weight": 55,
+    "armor_class": "16",
+    "strength": "Str 13",
+    "stealth": "Disadvantage",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Great Shield",
+    "type": "Armor",
+    "subtype": "Shields",
+    "damage": "",
+    "properties": [],
+    "cost": "30s",
+    "weight": 35,
+    "armor_class": "+4",
+    "strength": "Str 13",
+    "stealth": "Disadvantage",
+    "description": "Huge and round or barrel-shaped, these shields are carried in battle by the sturdiest of warriors, and are considered too cumbersome and unwieldy by many. Great shields can only be used by Size Medium or larger warriors.",
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Great Club",
+    "type": "Weapon",
+    "subtype": "Simple Melee Weapons",
+    "damage": "1d8 bludgeoning",
+    "properties": [
+      "Two-handed"
+    ],
+    "cost": "48c",
+    "weight": 10,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hand-Axe",
+    "type": "Weapon",
+    "subtype": "Simple Melee Weapons",
+    "damage": "1d6 slashing",
+    "properties": [
+      "Light",
+      "thrown (range 20/60)"
+    ],
+    "cost": "5s",
+    "weight": 2,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Short Bow",
+    "type": "Weapon",
+    "subtype": "Simple Ranged Weapons",
+    "damage": "1d6 piercing",
+    "properties": [
+      "Ammunition (range 80/320)",
+      "two-handed"
+    ],
+    "cost": "25s",
+    "weight": 2,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Axe",
+    "type": "Weapon",
+    "subtype": "Martial Melee Weapons",
+    "damage": "1d8 slashing",
+    "properties": [
+      "Versatile (1d10)"
+    ],
+    "cost": "10s",
+    "weight": 4,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Great Axe",
+    "type": "Weapon",
+    "subtype": "Martial Melee Weapons",
+    "damage": "1d12 slashing",
+    "properties": [
+      "Heavy",
+      "two-handed"
+    ],
+    "cost": "30s",
+    "weight": 7,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Great Spear",
+    "type": "Weapon",
+    "subtype": "Martial Melee Weapons",
+    "damage": "1d12 piercing",
+    "properties": [
+      "Heavy",
+      "reach",
+      "two-handed"
+    ],
+    "cost": "20s",
+    "weight": 9,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Heavy Scimitar",
+    "type": "Weapon",
+    "subtype": "Martial Melee Weapons",
+    "damage": "2d6 slashing",
+    "properties": [
+      "Heavy",
+      "two-handed"
+    ],
+    "cost": "50s",
+    "weight": 6,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Long Sword",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 slashing",
+    "properties": [
+      "Versatile (1d10)"
+    ],
+    "cost": "40s",
+    "weight": 3,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Short Sword",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d6 piercing",
+    "properties": [
+      "Finesse",
+      "light"
+    ],
+    "cost": "10s",
+    "weight": 2,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Broadsword",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 slashing",
+    "properties": [
+      "Finesse"
+    ],
+    "cost": "30s",
+    "weight": 3,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Jeweller's tools",
+    "type": "Artisan's tools",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Pipe Smoking supplies",
+    "type": "Artisan's tools",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fiddle",
+    "type": "Musical Instrument",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Clothes, spring & summer traveller's",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2s",
+    "weight": 4,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Clothes, fall & winter traveller's",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5s",
+    "weight": 8,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Dalish Fireworks",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1g",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Dwarven Toys",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1s to 5g",
+    "weight": 1,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Jug",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5c",
+    "weight": 4,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Ladder (10 feet)",
+    "type": "Adventuring gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1c",
+    "weight": 25,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Spring and Summer Travelling Gear",
+    "type": "Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "9s",
+    "weight": 49,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Autumn and Winter Travelling Gear",
+    "type": "Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "18s",
+    "weight": 54,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Athelas",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "30s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hagweed",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "40s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Kingcup",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "30s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Reedmace",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "20s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Shadow-thorn",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Water lily (Red)",
+    "type": "Herb",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "3g",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Pipe",
+    "type": "Tool",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Pipeweed",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Feast (per person)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Pouch of Pipe-weed (10 uses)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "3s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Traveller's Inn (per night)",
+    "type": "Lodging",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "75c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Traveller's Inn, Fancy (per night)",
+    "type": "Lodging",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Standard of Living: Poor (per day)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Standard of Living: Frugal (per day)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Standard of Living: Martial (per day)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "8c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Standard of Living: Prosperous (per day)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "12c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Standard of Living: Rich (per day)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Glass of Wine",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "9c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Glass of Dorwinion Wine",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Wine skin",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Bottle of Dorwinion Wine",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Meals - Frugal (per day)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Meals - Martial (per day)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "8c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Meals - Prosperous (per day)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "12c",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Meals - Rich (per day)",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1s",
+    "weight": 0,
+    "source": "(Adventures in Middle-earth Player's Guide)",
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Large Hunting Trap",
+    "type": "Trap",
+    "subtype": "",
+    "damage": "1d6 piercing",
+    "properties": [],
+    "cost": "10s",
+    "weight": 0,
+    "source": "(Eriador Adventures)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Firework",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 0,
+    "source": "(Eriador Adventures)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Wilma's Furs",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 0,
+    "source": "(Eriador Adventures)",
+    "_source_manual": "ERIA"
+  },
+  {
+    "name": "Gandalf's Torch",
+    "type": "Adventuring Gear",
+    "subtype": "Torch",
+    "damage": "1d2 fire",
+    "properties": [
+      "burns for 3 hours",
+      "bright light 30-foot radius",
+      "dim light additional 20 feet",
+      "melee attack for 1d2 fire damage"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "(Eriador Adventures)",
+    "_source_manual": "ERIA"
   }
 ]

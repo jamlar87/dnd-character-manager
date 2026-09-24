@@ -1,7 +1,64 @@
 {
   "races": [],
   "spells": [],
-  "magic_items": [],
+  "magic_items": [
+    {
+      "name": "House Stross Insignia",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This torn and faded officer's patch still bears intact embroidery depicting three black wings arranged like a triskelion.\n\nVagrant Sage's Musings. \"For 600 years, House Stross ruled with iron fists and silvered tongues. Their retainers and footmen enforced their will when coin couldn't buy it. Now, that noble merchant house is little more than a footnote.\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Scrimshaw Horn",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Intricate depictions of battles, voyages, and snapshots of life cover this ivory horn from some large beast.\n\nVagrant Sage's Musings. \"Impressive! I've heard of a cavern, fed by plunging waters, where primal and prehistoric beasts still graze. Did this horn come from one of them I wonder? Or perhaps from a sea beast of the Middle Sea or the Nieder Straits? If so, who might have brought it here of all places?\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Solar Burst Pendant",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A tarnished pendant stylized like a sun bordered by silvered lances of starlight. Sockets for gems or crystals contain crusts of loamy dirt.\n\nVagrant Sage's Musings. \"The Order of the Undying Sun has always been committed to thwarting corruption and the forces of shadow, but where were their oaths when House Stross ruled with silver-coated corruption? What are those oaths worth now?\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Broken Steering Lever",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Grimy oil coats this ruptured brass lever assembly. Dwarven runes denote direction at equal points around an attached flywheel.\n\nVagrant Sage's Musings. \"Ah yes, the fabled craftsdwarfship of Templeforge. Judging by the state of disrepair, it would appear that not even Volund's blessings could keep aloft the airship this part once belonged to.\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Hedge Mage's Cookbook",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This well-used, leatherbound journal is less a collection of recipes and more a series of fieldnotes on the Old Ways, the curiosities of the fey, and the intricacies of witchcraft and hedge magic.\n\nVagrant Sage's Musings. \"I wonder what arcane secrets reside within these pages. And I worry whether the owner of this little tome wants it back, what cost there may be in keeping it.\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Green Knight's Favor",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This moss-soft handkerchief is darkly stained as if it were pressed between fresh green leaves. Airing it out releases puffs of stale pollen.\n\nVagrant Sage's Musings. \"A champion's trifle, likely a favor passed from an aristocrat, or a Fey Lord or Lady. Does possessing such a trinket denote the honor and dignity a green knight is meant to embody? Or is it a beacon in the wood to bring its owner forward?\"",
+      "source": "p.7"
+    },
+    {
+      "name": "Onyx Mirror",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "This flat, inky-black stone fits into an open palm. Light seems unwilling to grace its surface despite reflections showing readily across its plane.\n\nVagrant Sage's Musings. \"Have you heard tale of the Weft of Shadows? He was a master thief who purloined fey treasures from the Summer Lands centuries ago. Some speculate that the Weft of Shadows keeps in contact with his agents still, using mirrors crafted of pure shadow made solid.\"",
+      "source": "p.7"
+    }
+  ],
   "equipment": [],
   "monsters": [],
   "npcs": [
@@ -53,16 +110,48 @@
   "feats": [],
   "backgrounds": [],
   "subclasses": [],
-  "traps": [],
-  "_chapters_completed": [
-    "Marauders of the Margreve",
-    "Landmarks of the Great Northern Road",
-    "Side Quest: The Relic Hunt"
+  "traps": [
+    {
+      "name": "The Woodcurse",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "The blood of a Beast or Monstrosity spills within the borders of the Margreve Forest. This trigger can occur once per week per square mile of the Margreve.",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The triggering creature can make a DC 19 CHA save to resist the compulsion of the Margreve. If the creature fails its saving throw or willingly accepts the compulsion, it gains the following features and obeys the will of the Margreve for a year and a day. Increase the creature's CR by 1. A Humanoid can only willingly be affected by the curse, dripping their blood and swearing fealty to the forest. An agent of the Margreve gains the following features: Enhanced Senses. The agent gains bloodsense or tremorsense at 60 feet. If it already has one of these senses, the distance is doubled. Agent of the Forest. While in the Margreve, the agent has advantage on all Perception, Stealth, and Survival checks. Bark and Bite. The agent's natural weapons and armor grow shaggier and more deadly. The agent's AC can never be lower than 16 and its attacks deal an additional 7 (2d6) damage of the same type as the attack. Forest's Fury. Whenever the agent or a part of the Margreve takes at least 10 damage, the agent flies into a rage for 1 minute, gaining resistance to all damage (except for psychic damage) and gaining advantage on the first attack it makes on its turn. Woodcursed. The agent is immune to charm, compulsion, or enchantment imposed by anything other than the Margreve. The agent is unable to work against the Margreve's goals or pursue its own goals, including its own instincts or needs.",
+      "save_dc": 19,
+      "save_ability": "Charisma",
+      "damage": "",
+      "damage_type": "",
+      "area": "",
+      "description": "Through the bond of spilled blood, the Margreve chains a creature to its service. Resolution: The agent can attempt to break the compulsion early, making a DC 19 CHA save once a day until three consecutive successes are made. A remove curse spell or similar magic grants advantage on one saving throw to break the compulsion, but only a wish spell can break the curse immediately, removing all benefits.",
+      "source": "p.8"
+    }
   ],
-  "_current_chapter": "Agents of the Margreve",
+  "_chapters_completed": [
+    "[Ad] Deep Magic",
+    "Old Medicine",
+    "Landmarks of the Great Northern Road",
+    "Side Quest: The Relic Hunt",
+    "Agents of the Margreve",
+    "Hunts and Chases",
+    "[Ad] Tome of Beasts I",
+    "Marauders of the Margreve",
+    "[Ad] Tales of the Valiant"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
   "_total_chapters": 9,
   "_book_slug": "MOM",
   "_book_title": "Marauders of the Margreve",
-  "_completed": false,
-  "_timestamp": 1790287186.3984697
+  "_completed": true,
+  "_timestamp": 1790287210.6553023
 }

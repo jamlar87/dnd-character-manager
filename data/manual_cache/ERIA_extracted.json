@@ -1,0 +1,1650 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "The Bow of Rufus Took",
+      "type": "Weapon (bow)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "The bow of Rufus Took is enchanted, made for him by an Elf in the Woody End in days long gone by. It is possible that once it is returned to Bilbo, it might be lent out again, but only to a Hobbit of the Shire. If a Player-hero is lucky enough to wield the bow, he will first discover that it is a Sure Shot and later on learn that arrows fired from it are Biting Darts to Orc-kind (see pages 135 & 138 in the Loremaster's Guide). The grip is wound with leather and fastened with a brass tack inscribed with the initials 'RT'.",
+      "source": "Eriador Adventures p.74"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Large Hunting Trap",
+      "type": "Trap",
+      "subtype": "",
+      "damage": "1d6 piercing",
+      "properties": [],
+      "cost": "10s",
+      "weight": 0,
+      "source": "ERIA"
+    },
+    {
+      "name": "Firework",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "1 gp",
+      "weight": 0,
+      "source": "ERIA"
+    },
+    {
+      "name": "Wilma's Furs",
+      "type": "Adventuring Gear",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "2 gp",
+      "weight": 0,
+      "source": "ERIA"
+    },
+    {
+      "name": "Gandalf's Torch",
+      "type": "Adventuring Gear",
+      "subtype": "Torch",
+      "damage": "1d2 fire",
+      "properties": [
+        "burns for 3 hours",
+        "bright light 30-foot radius",
+        "dim light additional 20 feet",
+        "melee attack for 1d2 fire damage"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "ERIA"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Savage Wolfdog",
+      "size": "Medium",
+      "type": "Beast",
+      "alignment": "",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "16 (3d8+3)",
+      "speed": "40 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 4,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Keen Smell",
+          "description": "The Savage Wolfdog has Advantage on Wisdom (Perception) checks that rely on smell."
+        },
+        {
+          "name": "Quick and Cunning (1/day)",
+          "description": "The Savage Wolfdog may Dash and then use its bonus action to make a single attack with its Cruel Jaws.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Savage Wolfdog makes two attacks with its Cruel Jaws."
+        },
+        {
+          "name": "Cruel Jaws",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) slashing damage and the target must make a DC 13 Strength saving throw or become Prone."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Nightmares of Angmar"
+    },
+    {
+      "name": "The Lurker in the Long Valley",
+      "size": "Huge",
+      "type": "aberration (Nameless Thing)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Natural armour",
+      "hit_points": "162 (12d12+84)",
+      "speed": "40 ft, climb 40 ft",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 10,
+        "constitution": 24,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "Prone"
+      ],
+      "senses": "darkvision 60 ft, passive Perception 13",
+      "languages": [],
+      "challenge_rating": "8",
+      "xp": 3900,
+      "features": [
+        {
+          "name": "Horrible Strength",
+          "description": "If the Lurker makes a successful melee attack, it may use its bonus action to cause 5 additional damage of the same type to the target."
+        },
+        {
+          "name": "Unyielding (Recharge 5-6)",
+          "description": "The Lurker can use its bonus action to gain 14 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Blade-like Legs (Recharge 5-6)",
+          "description": "The Lurker can use its bonus action to slash at everything nearby. Each target within 5 feet of the Lurker must make a DC 16 Dexterity saving throw, taking 26 (4d6+12) slashing damage or half as much damage on a successful one.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Pincer Crush",
+          "description": "Melee Attack: +8 to hit, reach 10 ft, one target. Hit: 14 (2d8+5) bludgeoning damage and the target must make a DC 17 Strength saving throw or become Grappled (Escape DC 17). If the Lurker already has a Grappled target, it may use its action to inflict 23 (4d8+5) bludgeoning damage instead."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.25"
+    },
+    {
+      "name": "Heddwyn, the Witch-servant of Angmar",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Ancient Armour of Angmar",
+      "hit_points": "90 (12d8+36)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 6,
+        "Perception": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 15",
+      "languages": [
+        "Orcish",
+        "Westron"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Strike Fear",
+          "description": "As an action, Heddwyn may cause his eyes to flicker red with rage and he howls bestially to chill the hearts of his enemies. Each opponent within 30 ft of the warrior must make a DC 15 Wisdom saving throw or become Frightened until the end of Heddwyn's next turn.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Wicked Cunning",
+          "description": "Heddwyn can use his bonus action to activate this ability. For the remainder of the combat, he adds +2 to his Armour Class.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Frost and Thaw",
+          "description": "Ranged Spell Attack: +5 to hit, range 60 ft, one target. Hit: The target must make a DC 15 Dexterity saving throw. On a failure, it takes 9 (2d6+2) cold damage and its speed is reduced by half until the end of Heddwyn's next turn. On a success it takes half damage and its speed is unaffected."
+        },
+        {
+          "name": "Red Madness",
+          "description": "Each enemy within 60 feet of Heddwyn must make a DC 15 Wisdom saving throw. On a failure, the victim becomes Frightened of Heddwyn and trapped in a red haze of rage. Victims who roll a natural 1 on any attack roll turn on their companions and will strike at them on their next turn. Each victim may, at the end of their turn, attempt another Wisdom saving throw, ending the effect on a success.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Nightmares of Angmar p.33"
+    },
+    {
+      "name": "Heddwyn as a Spirit-Warg",
+      "size": "Medium",
+      "type": "apparition",
+      "alignment": "",
+      "armor_class": 18,
+      "ac_type": "Deadly Elusiveness",
+      "hit_points": "45 (6d8+18)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 19,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 4,
+        "Intimidation": 5,
+        "Perception": 4
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing and slashing from non-magical attacks"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Deadly Elusiveness",
+          "description": "Heddwyn's Spirit-Warg form has an Armour Class equal to 10 plus twice his Dexterity modifier."
+        },
+        {
+          "name": "Great Leap",
+          "description": "The Spirit-Warg is capable of jumping vast distances. It may make a special Dash action to go twice its normal movement in a single jump. Any opponents in melee combat with the Spirit-Warg when it uses Great Leap get opportunity attacks as normal."
+        },
+        {
+          "name": "Pack Tactics",
+          "description": "The Spirit-Warg has Advantage on an attack roll against a creature if at least one of its allies is within 5 feet of the creature and that ally isn't Incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.34"
+    },
+    {
+      "name": "Ruthless Bandit",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Leather Corslet",
+      "hit_points": "18 (4d8)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 15,
+        "constitution": 11,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Coward",
+          "description": "When injured, the Bandit suffers Disadvantage on all combat rolls."
+        },
+        {
+          "name": "No Quarter",
+          "description": "When the Bandit reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        },
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.40"
+    },
+    {
+      "name": "Amos, Lesser Stone-Troll",
+      "size": "Large",
+      "type": "Giant (troll-kind)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "natural armour",
+      "hit_points": "67 (9d10+18)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 10,
+        "constitution": 15,
+        "intelligence": 8,
+        "wisdom": 7,
+        "charisma": 6
+      },
+      "saving_throws": {
+        "dexterity": 2
+      },
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 8",
+      "languages": [
+        "Westron",
+        "Orcish"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Sunlight Curse",
+          "description": "Stone-trolls become Petrified and turn into stone if they are touched by the bright light of the sun. In direct sunlight, a Stone-troll must make a DC 10 Dexterity saving throw at the beginning of its turn in order to find enough cover to avoid being turned to stone. On a failure, the Stone-troll becomes Petrified."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spiked Troll-club",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 14 (2d10+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Harder than Stone p.41"
+    },
+    {
+      "name": "Ettin Guardian",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 9,
+      "ac_type": "",
+      "hit_points": "161 (14d10+84)",
+      "speed": "20 ft",
+      "ability_scores": {
+        "strength": 21,
+        "dexterity": 8,
+        "constitution": 23,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 4
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "non-magical piercing",
+        "non-magical slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "tremorsense 60 ft, passive Perception 15",
+      "languages": [],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Horrible Strength",
+          "description": "If the Ettin makes a successful melee attack, it may use its bonus action to cause 5 additional damage of the same type to the target."
+        },
+        {
+          "name": "Two-headed",
+          "description": "Ettins with two heads are much harder to catch unawares. Any attempts at Stealth are made with Disadvantage and the Ettin gains Advantage on both active and passive Perception checks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Crushing Blow",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 18 (2d12+5) bludgeoning damage."
+        },
+        {
+          "name": "Seize Victim (Recharge 5-6)",
+          "description": "The Ettin may choose to spend an action grabbing a creature within 5 feet of them. The target is automatically Grappled if it is of Medium size or smaller. To escape the Troll's grasp, the target must use an action to escape: they must succeed on a DC 15 Strength (Athletics) or Dexterity (Acrobatics). If the creature fails, it takes 5 bludgeoning damage and remains Grappled. An Ettin can seize a number of victims up to the number of hands that it possesses, but cannot use Crushing Blow if it does not have a free hand."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.58"
+    },
+    {
+      "name": "Captain Mormog",
+      "size": "Large",
+      "type": "Giant (Troll-kind)",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "close-fitting mesh",
+      "hit_points": "154 (11d10+99)",
+      "speed": "40 ft",
+      "ability_scores": {
+        "strength": 24,
+        "dexterity": 13,
+        "constitution": 28,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 5,
+        "Perception": 5,
+        "Survival": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 15",
+      "languages": [],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Hideous Toughness (Recharge after a short or long rest)",
+          "description": "The Olog-hai can endure enormous damage. By spending an action reciting words of power in the Black Speech, the Captain gains a pool of 10 (3d6) temporary hit points that last till the end of the fight if not removed by combat damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Horrible Strength",
+          "description": "If the Captain makes a successful melee attack, it may use its bonus action to cause 7 additional damage of the same type to the target."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Captain makes three attacks: two with its notched blade and one with its claw."
+        },
+        {
+          "name": "Notched Sword",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 16 (2d8+7) slashing damage (heavy two-handed weapon)."
+        },
+        {
+          "name": "Jagged Claw",
+          "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 9 (1d4+7) slashing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Fearsome (Recharge 5-6)",
+          "description": "The Captain may use its reaction when it is struck by an enemy to activate this ability. That enemy must make a DC 15 Wisdom saving throw. If it fails the saving throw the attack fails and it becomes Frightened of the Captain until the end of the Captain's next turn."
+        },
+        {
+          "name": "Parry",
+          "description": "The Captain adds +4 to its AC against one melee attack that would hit it. To do so, the creature must see the attacker and be wielding a melee weapon."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.59"
+    },
+    {
+      "name": "Archer of the Green Company",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "33 (6d8+6)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "non-magical bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Frightened",
+        "Grappled",
+        "Paralysed",
+        "Petrified",
+        "Poisoned",
+        "Prone",
+        "Restrained"
+      ],
+      "senses": "blindsight 90 ft, passive Perception 10",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Ghost-form",
+          "description": "The Archer is insubstantial and cannot be easily hurt by normal means. See the damage and condition resistances and immunities above."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "The Archer can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spectral Arrows (Recharge 5-6)",
+          "description": "The Archer targets one creature within 90 feet. That creature must make a DC 15 Dexterity saving throw or suffer 6 (1d6+3) magical piercing damage from a rain of seemingly real missile fire.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Grieve",
+          "description": "When the archer reaches 0 hit points, it may use its reaction to force each opponent within 30 ft to make a DC 15 Wisdom saving throw or experience a harrowing sorrow, causing it to gain 3 (1d4+1) Shadow points. If the target rolls a 1 on the saving throw, the target is also Stunned until the end of its next turn."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.68"
+    },
+    {
+      "name": "Wraith of Carn Dûm",
+      "size": "Medium",
+      "type": "Undead",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Wraith-like, Shield",
+      "hit_points": "52 (8d8+16)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Non-magical bludgeoning, piercing and slashing"
+      ],
+      "damage_immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Poisoned"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 11",
+      "languages": [
+        "Westron",
+        "Black Speech"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Unnatural Vitality",
+          "description": "The Wraith can use its bonus action to regain 6 (1d12) hit points. It cannot use this ability to exceed its normal hit point maximum."
+        },
+        {
+          "name": "Wraith-like",
+          "description": "The Wraith has resistance to all non-magical weapon damage. See page 74 of Rivendell Region Guide."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if used with two hands."
+        },
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 4 (1d6+1) piercing damage or 5 (1d6+1) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Dreadful Spells (Recharge 5-6)",
+          "description": "One foe within 30 feet must make a DC 15 Wisdom saving throw. If the target fails, it gains 1 Shadow point and becomes Paralysed for a number of rounds equal to its current Shadow Point total. A Player-hero can spend Inspiration to break this spell."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.70"
+    },
+    {
+      "name": "Dunlending Warrior",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Ring-mail (11 without armour)",
+      "hit_points": "64 (8d8+32)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 19,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 5,
+        "Perception": 3,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [
+        "Dunlending"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "No Quarter",
+          "description": "When the Dunlending Warrior reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+        },
+        {
+          "name": "Unyielding (Recharge 5-6)",
+          "description": "The Warrior can use his bonus action to gain 8 temporary hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Warrior makes two attacks with his chosen weapon."
+        },
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+        },
+        {
+          "name": "Great Spear",
+          "description": "Melee Weapon Attack: +5 to hit, reach 10 ft, one target. Hit: 9 (1d12+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.85"
+    },
+    {
+      "name": "Thelred",
+      "size": "Medium",
+      "type": "human (Evil Men)",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Leather Corslet, Shield",
+      "hit_points": "67 (9d8+28)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 15,
+        "charisma": 13
+      },
+      "saving_throws": {},
+      "skills": {
+        "Animal Handling": 6,
+        "Persuasion": 3,
+        "Traditions": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 12",
+      "languages": [
+        "Understands Rohirric",
+        "Westron"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Rider",
+          "description": "Thelred is often found astride his palfrey (riding horse)."
+        },
+        {
+          "name": "Born to the Saddle",
+          "description": "Thelred has Advantage on all Wisdom (Animal Handling) checks."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Poisoned Spears",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d6+2) piercing damage or 6 (1d8+2) piercing damage if used with two hands to make a melee attack and the target must make a DC 15 Constitution saving throw or become Stunned until they complete a short rest. If this attack causes the target to reach 0 hit points and the saving throw is failed, it is killed outright."
+        },
+        {
+          "name": "Charge",
+          "description": "Thelred must be mounted to take this action. His mount gains 120 feet of movement, all of which must be expended this round. If Theldred takes the Attack action this turn he gains +4 to his damage rolls."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.89"
+    },
+    {
+      "name": "Hiraval",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Ring-mail, Shield",
+      "hit_points": "82 (11d8+33)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 11,
+        "constitution": 17,
+        "intelligence": 14,
+        "wisdom": 16,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 5,
+        "Perception": 9,
+        "Pipe": 5,
+        "Shadow-lore": 5,
+        "Survival": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 19",
+      "languages": [
+        "Westron",
+        "Sindarin"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Endurance of the Dúnedain",
+          "description": "Hiraval may continue to act normally for one round after being reduced to 0 hit points."
+        },
+        {
+          "name": "Hunter",
+          "description": "Hiraval gains +3 to all of his Perception checks (included above)."
+        },
+        {
+          "name": "Long-pipe",
+          "description": "Hiraval can make a DC 15 Intelligence (Pipe) check as an action. On a success, he makes his next ability check with Advantage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Hiraval can make two attacks with his Long Sword or Short Bow."
+        },
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage or 9 (1d10+4) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft, one target. Hit: 3 (1d6) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.95"
+    },
+    {
+      "name": "Edrahil",
+      "size": "Medium",
+      "type": "human",
+      "alignment": "",
+      "armor_class": 17,
+      "ac_type": "Corslet of Mail, Shield",
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 15,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {
+        "Nature": 4,
+        "Medicine": 3,
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Westron",
+        "Sindarin"
+      ],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Foresighted",
+          "description": "Edrahil may use his bonus action to have a sudden insight into the best course of action. He has Advantage on all ability checks, attack rolls and saving throws until the beginning of his next turn.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.95"
+    },
+    {
+      "name": "Húldrahir",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "",
+      "armor_class": 16,
+      "ac_type": "Deadly Elusiveness",
+      "hit_points": "102 (12d8+48)",
+      "speed": "0 ft, fly 50 ft (hover)",
+      "ability_scores": {
+        "strength": 1,
+        "dexterity": 17,
+        "constitution": 19,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 12
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "Acid",
+        "fire",
+        "lightning",
+        "thunder",
+        "non-magical bludgeoning",
+        "piercing and slashing"
+      ],
+      "damage_immunities": [
+        "cold",
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "Charmed",
+        "Exhaustion",
+        "Frightened",
+        "Grappled",
+        "Paralysed",
+        "Petrified",
+        "Poisoned",
+        "Prone",
+        "Restrained"
+      ],
+      "senses": "blindsight 30 ft, passive Perception 11",
+      "languages": [
+        "Westron",
+        "Sindarin"
+      ],
+      "challenge_rating": "7",
+      "xp": 2900,
+      "features": [
+        {
+          "name": "Deadly Elusiveness",
+          "description": "Húldrahir's AC is 16."
+        },
+        {
+          "name": "Ghost-form",
+          "description": "Húldrahir is insubstantial and cannot be easily hurt by normal means. See the damage and condition resistances and immunities above."
+        },
+        {
+          "name": "Incorporeal Movement",
+          "description": "Húldrahir can move through other creatures and objects as if they were difficult terrain. He takes 5 (1d10) force damage if he ends his turn inside an object."
+        },
+        {
+          "name": "Legendary",
+          "description": "Húldrahir has 2 Legendary actions. At the end of another creature's turn he can spend a Legendary action to use his Visions of Torment ability. Spent Legendary actions are regained at the start of his turn."
+        },
+        {
+          "name": "Relentless Dread (Lair Action)",
+          "description": "Húldrahir may use his lair action to force a single creature within 60 feet to make a Wisdom saving throw with the DC equal to its current Shadow score. If the creature fails, it experiences a bout of madness at the beginning of its next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Grieve",
+          "description": "As an action, Húldrahir may force each opponent within 30 ft to make a DC 15 Wisdom saving throw or experience a harrowing sorrow, causing it to gain 3 (1d4+1) Shadow points. If the target rolls a 1 on the saving throw, the target is also Stunned until the end of Húldrahir's next turn.",
+          "recharge": "5-6"
+        },
+        {
+          "name": "Visions of Torment",
+          "description": "As an action, Húldrahir can force one target within 60 feet to make a DC 15 Wisdom saving throw or take psychic damage equal to 2 (1d4) plus its total Shadow score."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.108-109"
+    },
+    {
+      "name": "The Deadly One",
+      "size": "Medium",
+      "type": "humanoid (Orc-kind)",
+      "alignment": "",
+      "armor_class": 18,
+      "ac_type": "Deadly Elusiveness",
+      "hit_points": "114 (12d8+60)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 19,
+        "dexterity": 18,
+        "constitution": 21,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 10
+      },
+      "saving_throws": {
+        "strength": 8,
+        "constitution": 9,
+        "wisdom": 5
+      },
+      "skills": {
+        "Intimidation": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft, passive Perception 11",
+      "languages": [
+        "Orcish"
+      ],
+      "challenge_rating": "9",
+      "xp": 5000,
+      "features": [
+        {
+          "name": "Cruel Stroke",
+          "description": "If The Deadly One's attack has just hit, it may spend its bonus action to activate this ability. The attack becomes a critical hit.",
+          "uses": 1,
+          "recharge": "5-6"
+        },
+        {
+          "name": "Horde of Goblins",
+          "description": "The Deadly One can summon 1d4+1 Goblins of Carn Dûm, which arrive at the end of its next turn.",
+          "uses": 0,
+          "recharge": "lair action"
+        },
+        {
+          "name": "Legendary",
+          "description": "The Deadly One has 1 Legendary action. It may spend a Legendary action to attack with its Notched Scimitar or use its Commanding Voice without consuming its reaction. A spent Legendary action is regained at the start of its turn.",
+          "uses": 1,
+          "recharge": "turn"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "While in sunlight, The Deadly One has Disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Notched Scimitar",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft, one target. Hit: 13 (2d8+4) slashing damage. Miss: If the target has a melee weapon, it must make a DC 14 Strength saving throw or become disarmed."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "The Deadly One can inspire its allies with gutterable barks that promise horiffic ends. It may use its reaction to utter a command or shout a warning when a non-hostile creature, that it can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        },
+        {
+          "name": "Fearsome",
+          "description": "When the Deadly One is struck, it may activate this ability. The attacker must make a DC 15 Wisdom saving throw. If it fails the saving throw the attack fails and it becomes Frightened of The Deadly One until the end of its next turn.",
+          "uses": 1,
+          "recharge": "5-6"
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.122"
+    },
+    {
+      "name": "Thieving Dwarf",
+      "size": "Medium",
+      "type": "Dwarf",
+      "alignment": "",
+      "armor_class": 14,
+      "ac_type": "Corslet of Mail",
+      "hit_points": "45 (6d8+18)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 13,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Sleight of Hand": 3,
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "No Quarter",
+          "description": "When the Dwarf reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+        },
+        {
+          "name": "Sneak Attack",
+          "description": "Once per turn, the Thieving Dwarf deals an extra 3 (1d6) damage when it hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 feet of an ally of the Dwarf that isn't Incapacitated and the Dwarf doesn't have Disadvantage on the attack roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft, one target. Hit: 4 (1d6+1) piercing damage."
+        },
+        {
+          "name": "Great Axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 8 (1d12+2) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.130"
+    },
+    {
+      "name": "Lófar Light-finger",
+      "size": "Medium",
+      "type": "Dwarf",
+      "alignment": "",
+      "armor_class": 15,
+      "ac_type": "Corslet of Mail",
+      "hit_points": "60 (8d8+24)",
+      "speed": "25 ft",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 15,
+        "constitution": 16,
+        "intelligence": 11,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 6,
+        "Sleight of Hand": 4,
+        "Stealth": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [
+        "Westron"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Sneak Attack",
+          "description": "Once per turn, Lófar deals an extra 3 (1d6) damage when he hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 feet of an ally of Lófar that isn't Incapacitated and Lófar doesn't have Disadvantage on the attack roll."
+        },
+        {
+          "name": "Terrorise",
+          "description": "Lófar targets up to three intelligent creatures they can see within 30 feet. If there are more Dwarves present than targets of this ability, then those targets must succeed on a DC 13 Wisdom saving throw or become Frightened until the end of Lófar's next turn."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Mattock",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 9 (2d6+2) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Commanding Voice",
+          "description": "Lófar can inspire his allies with whispered promises of retribution. He may use his reaction to utter a command or shout a warning when a non-hostile creature, that it can see within 30 feet, is about to make an attack roll or a saving throw. The target can add a d6 Command Die to that roll, provided it can hear and understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit from this effect."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Eriador Adventures p.130"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Gondril",
+      "race": "Elf",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 12,
+      "hit_points": "16 (3d8+3)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 12,
+        "intelligence": 17,
+        "wisdom": 10,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "History": 5,
+        "Investigation": 5,
+        "Lore": 5
+      },
+      "features": [
+        {
+          "name": "Subtlety of Craft",
+          "description": "Gondril is proficient with mason's tools and has a set with her at all times."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Long Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with both hands."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "An Elvish stone-mason sent to assess the Last Bridge.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Eriador Adventures p.37"
+    },
+    {
+      "name": "Caradog",
+      "race": "Human (Dunlending)",
+      "class_name": "Hunter",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Evil",
+      "armor_class": 13,
+      "hit_points": "45 (7d8+14)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 13,
+        "charisma": 9
+      },
+      "saving_throws": {},
+      "skills": {
+        "Intimidation": 1,
+        "Perception": 3,
+        "Survival": 3
+      },
+      "features": [
+        {
+          "name": "No Quarter",
+          "description": "When Caradog reduces an enemy to 0 hit points that enemy is considered to already have failed one death save."
+        },
+        {
+          "name": "Wild Onset",
+          "description": "Caradog can use his bonus action to impose Disadvantage on his attack roll. If he succeeds anyways add +4 to his damage roll."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Great Spear",
+          "description": "Melee Weapon Attack: +4 to hit, reach 10 ft, one target. Hit: 8 (1d12+2) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A hunter from Dunland, he doesn't talk much, and is gruff and curt if approached. He is a violent, cruel man, capable of inflicting suffering upon animals as well as any other living creature without any regret or remorse.",
+      "role": "Minion of Uathach",
+      "is_enemy": true,
+      "xp_reward": 200,
+      "source": "Eriador Adventures p.78"
+    },
+    {
+      "name": "Uathach, Treacherous Fortune-teller",
+      "race": "Human (Evil Men)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Evil",
+      "armor_class": 12,
+      "hit_points": "60 (11d8+11)",
+      "speed": "30 ft",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 14,
+        "constitution": 13,
+        "intelligence": 15,
+        "wisdom": 13,
+        "charisma": 19
+      },
+      "saving_throws": {},
+      "skills": {
+        "Deception": 7,
+        "History": 5,
+        "Insight": 4,
+        "Lore": 5,
+        "Perception": 4,
+        "Persuasion": 7
+      },
+      "features": [
+        {
+          "name": "Bandolier of Knives",
+          "description": "As a bonus action, Uathach can hurl a cluster of small blades at any opponent within 10 feet. The target must make a DC 15 Dexterity saving throw or suffer 6 (1d6+3) slashing damage.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Poisoned Knife",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 4 (1d4+2) piercing damage and the target must make a DC 15 Constitution saving throw or become Stunned until they complete a short rest. If this attack causes the target to reach 0 hit points and the saving throw is failed, it is killed outright."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A woman in her thirties clad in voluminous robes and silks, presenting herself as Uathach of Tharbad, a blind fortune-teller who lost her sight in the practice of fire-gazing. She is not gifted with foresight, she is simply very cunning.",
+      "role": "Treacherous Fortune-teller",
+      "is_enemy": true,
+      "xp_reward": 1800,
+      "source": "Eriador Adventures p.80"
+    },
+    {
+      "name": "Edrahil",
+      "race": "Human (Dúnedain)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        },
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 80/320 ft, one target. Hit: 6 (1d6+3) piercing damage."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Edrahil has spent many months training as Hiraval's squire, cleaning the Ranger's supplies, preparing food and treating his master with due deference. He will join his father, and the companions, on the coming adventure. Edrahil is capable, calm and energetic. He is interested in any Elves or Dwarves in the party and will pepper them with questions about their adventures, hoping one day that he too can stand against the Shadow. If given the opportunity, he will form strong friendships with any Hobbit hero.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Eriador Adventures p.96"
+    },
+    {
+      "name": "Elwin",
+      "race": "Human (Man of Bree)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "22 (3d8+9)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 16,
+        "intelligence": 15,
+        "wisdom": 10,
+        "charisma": 17
+      },
+      "saving_throws": {},
+      "skills": {
+        "Persuasion": 5,
+        "Survival": 2,
+        "Traditions": 6
+      },
+      "features": [
+        {
+          "name": "Friendly and Inquisitive",
+          "description": "Elwin is Friendly to all newcomers during Audiences"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Sword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 5 (1d6+2) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Ring-mail",
+        "Shield",
+        "Short Sword"
+      ],
+      "spellcasting": null,
+      "description": "Elwin is a young Man of Bree, charismatic and quick-witted. In time, he could make a good leader, but for the moment he is a bit too naive and unwary. He grew up listening eagerly to all the old stories told about the time of the King, when all the land was united under one Crown. All his life he dreamt of buried treasure and the lost heritage of a heroic time, and one day he decided to leave home and go look for adventure.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Eriador Adventures p.99"
+    },
+    {
+      "name": "Herbert",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 15,
+      "hit_points": "22 (4d8+4)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 17,
+        "dexterity": 12,
+        "constitution": 13,
+        "intelligence": 10,
+        "wisdom": 11,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 5,
+        "Intimidation": 4
+      },
+      "features": [
+        {
+          "name": "Warg-hunter",
+          "description": "Herbert can spend his bonus action to gain Advantage on attack rolls versus wolves this round.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Spear",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 6 (1d6+3) piercing damage or 7 (1d8+3) piercing damage if used with two hands to make a melee attack."
+        },
+        {
+          "name": "Dagger",
+          "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 5 (1d4+3) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Hide",
+        "Shield",
+        "Spear",
+        "Dagger"
+      ],
+      "spellcasting": null,
+      "description": "Shorter than the average Breelander and with a rough tangle of blond hair, Herbert would be considered handsome if it weren't for a permanent sneer etched upon his face. A fellow already prone to jealousy, Herbert has secretly envied Elwin and his status as the groups' guide since they first met, and this sentiment is starting to turn into hate under the influence of Húldrahir (see page 105). It will not be long before Herbert decides enough is enough and tries to take Elwin's place.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Eriador Adventures p.99"
+    },
+    {
+      "name": "Fay",
+      "race": "Hobbit",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "14 (4d6)",
+      "speed": "25 ft.",
+      "ability_scores": {
+        "strength": 13,
+        "dexterity": 18,
+        "constitution": 11,
+        "intelligence": 12,
+        "wisdom": 15,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Riddle": 3,
+        "Sleight of Hand": 6,
+        "Stealth": 6
+      },
+      "features": [
+        {
+          "name": "Fair Shot",
+          "description": "Fay gains a +1 attack bonus to simple ranged weapons (included below)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Short Bow",
+          "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft, one target. Hit: 7 (1d6+4) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Leather Corslet",
+        "Short Bow"
+      ],
+      "spellcasting": null,
+      "description": "Enemies often underestimate the capabilities of this Hobbit-lass from Staddle, often to their disadvantage. Fay met Elwin in Bree when he caught her attempting to pick his money pouch, during last year's autumn festivities. Seeing a misguided potential in her, Elwin lectured the Hobbit girl about heroes and adventures, and a companionship was forged. Fay is the best archer in the band of outlaws and has a cutting sense of humour, of which Herbert has been on the receiving end too many times for his liking.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Eriador Adventures p.100"
+    },
+    {
+      "name": "Folulf and Arnulf",
+      "race": "Human (Woodmen)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 16,
+      "hit_points": "15 (2d8+6)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 17,
+        "charisma": 11
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 5,
+        "Survival": 5
+      },
+      "features": [],
+      "actions": [
+        {
+          "name": "Axe",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with two hands."
+        },
+        {
+          "name": "Great Bow",
+          "description": "Ranged Weapon Attack: +4 to hit, range 150/600 ft, one target. Hit: 6 (1d8+2) piercing damage."
+        }
+      ],
+      "equipment": [
+        "Scale Hauberk",
+        "Axe",
+        "Great Bow"
+      ],
+      "spellcasting": null,
+      "description": "Two Woodmen, Folulf and Arnulf hail from distant Wilderland. They made the journey across the Misty Mountains just a few months ago and met Elwin and his companions on the East Road. The young Breelander was elated at having met travellers from so far away, and insisted that they join his fellowship. The two brothers gladly accepted what they deemed was a true-hearted proposal, and they joined the company. Folulf, the more superstitious of the two Woodmen, believes the manor to be haunted. A creeping shadow that crawls amongst the ruins during the night plagues his dreams. He will freely comment on this if given the chance.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 100,
+      "source": "Eriador Adventures p.100"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "Troll Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A companion stumbles into a Troll's snare trap",
+      "detection": {
+        "dc": 0,
+        "skill": "Perception",
+        "detail": "The Look-out must make a Perception check. Failure indicates the companion gets hauled into the air by a rope about the ankle as the hero stumbles into a Troll's snare trap."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "The companion gets hauled into the air by a rope about the ankle. The hero takes 7 (2d6) bludgeoning damage from the snare.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "7 (2d6)",
+      "damage_type": "bludgeoning",
+      "area": "",
+      "description": "Trolls are famously dull-witted, but one or two seem to have picked up a new trick. A snare trap that hauls a hero into the air by the ankle.",
+      "source": "Eriador Adventures p.46"
+    },
+    {
+      "name": "Hunting Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature that steps on the plate",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "A creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 piercing damage and stop moving. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typically 3 feet long). A creature can use its action to make a DC 13 Strength check, freeing itself or another creature within its reach on a success. Each failed check deals 1 piercing damage to the trapped creature.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "1d4",
+      "damage_type": "piercing",
+      "area": "",
+      "description": "A normal hunting trap.",
+      "source": "Eriador Adventures p.78"
+    },
+    {
+      "name": "Large Hunting Trap",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A creature that steps on the plate",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": ""
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "It causes 1d6 piercing damage when triggered, requires a DC 15 Strength check to free the trapped creature and causes 1d4 piercing damage on a failed check.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "1d6",
+      "damage_type": "piercing",
+      "area": "",
+      "description": "A larger version of the hunting trap.",
+      "source": "Eriador Adventures p.78"
+    }
+  ],
+  "_chapters_completed": [
+    "Introduction",
+    "What Lies Beneath",
+    "Shadows Over Tyrn Gorthad",
+    "The Company of the Wain",
+    "Concerning Archers",
+    "Index",
+    "Nightmares of Angmar",
+    "Harder than Stone"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 8,
+  "_book_slug": "ERIA",
+  "_book_title": "eriadoradventures",
+  "_completed": true,
+  "_timestamp": 1790288041.4337614
+}

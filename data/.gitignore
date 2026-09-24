@@ -4,3 +4,6 @@ ingestion.log
 *.bak
 app.log*
 .last_service_restart
+.ingest_no_text.json
+.last_end_report
+.ingest_skipped.json

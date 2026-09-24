@@ -12569,5 +12569,2022 @@
       }
     },
     "_source_manual": "LMRG"
+  },
+  {
+    "name": "Dwarf of the Blue Mountains",
+    "source": "(Bree-land Region Guide, p.43)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Westron",
+      "secret language of the Dwarves"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Constitution score increases by 2."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "50 to 100. Dwarves generally start their life on the road in their fifties, and do not usually consider retiring before their nineties. Around that time, they feel they can no longer stay away from their family, or want to dedicate themselves solely to the perfection of their crafts. But Dwarves can remain active until they are more than two hundred years old, and may return to adventuring if a great need arises, like the opportunity to avenge an old insult or injury, or to recover a treasure or reclaim a long-lost dwarf-hold. A healthy Dwarf who avoids a violent death can reach 250 years of age."
+      },
+      {
+        "name": "Size",
+        "description": "Dwarves generally stand between 4 to 5 feet tall and can weigh upwards of 160 lbs. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 25 feet. Your speed is not reduced by wearing heavy armour."
+      },
+      {
+        "name": "Night Vision (Dwarf)",
+        "description": "Accustomed to life underground, you have superior vision in dim conditions. You can see in dim light within 60 feet of you as if it were bright light, but you cannot see in the dark."
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Weapons of the Trade",
+        "description": "You have proficiency with axes, hand-axes and mattocks."
+      },
+      {
+        "name": "Tool Proficiency",
+        "description": "You gain proficiency with the artisan's tools of your choice: jeweller's tools, mason's tools, miner's tools, smith's tools, or woodcarver's tools. You also gain proficiency in one musical instrument of your choice."
+      },
+      {
+        "name": "Singer of the Old Songs",
+        "description": "You have proficiency in the Performance skill."
+      },
+      {
+        "name": "Tales of Days Gone By",
+        "description": "You have proficiency in either the History or Lore skill (your choice) and increase your Intelligence score by 1."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Westron, the Common Tongue of Eriador. You can also speak, read and write the secret language of your people, which has never been shared with any others."
+      }
+    ],
+    "subraces": [],
+    "description": "An extraordinarily venerable Dwarf of the Blue Mountains, Iari has decided that he wishes to see the restored Kingdom Under the Mountain before he dies.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Constitution score increases by 2."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor/lifespan information only; no mechanical effects."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 25,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Speed is not reduced by wearing heavy armor."
+      },
+      "Night Vision (Dwarf)": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Sees in dim light within 60 feet as if it were bright light, but cannot see in darkness (this is dim-light vision, not true darkvision)."
+      },
+      "Dwarven Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Poison"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws against poison."
+      },
+      "Weapons of the Trade": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Axes",
+          "Hand-axes",
+          "Mattocks"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Tool Proficiency": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "Jeweller's tools",
+          "Mason's tools",
+          "Miner's tools",
+          "Smith's tools",
+          "Woodcarver's tools",
+          "Musical instrument (one of choice)"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose one artisan's tools from the listed options; also gain proficiency in one musical instrument of choice."
+      },
+      "Singer of the Old Songs": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Performance"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Tales of Days Gone By": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "History",
+          "Lore"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose either History or Lore skill proficiency; Intelligence score increases by 1."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Westron (Common Tongue of Eriador) and the secret dwarven language."
+      }
+    },
+    "_source_manual": "BLRG"
+  },
+  {
+    "name": "Barding",
+    "source": "(Adventures in Middle-earth Player's Guide, p.33)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Dalish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Constitution score increases by 1 and you may increase two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. Bardings don't usually become adventurers before their 16th year of age, and rarely continue beyond their forties, when they retire to serve their family and folk."
+      },
+      {
+        "name": "Size",
+        "description": "Most Bardings stand between 5 and 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Clear Eyed",
+        "description": "You have proficiency in the Insight skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Barding Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Dalish – an archaic version of the Common Speech."
+      }
+    ],
+    "subraces": [],
+    "description": "Bardings are the men of Dale, a prosperous folk known for their trade and craftsmanship. They are sturdy and stand between 5 and 6 feet tall.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Constitution score increases by 1; two additional ability scores of your choice increase by 1."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Clear Eyed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Insight"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Gain one Barding Cultural Virtue of your choice (see source material for options)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Dalish."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Dwarves of the Lonely Mountain",
+    "source": "(Adventures in Middle-earth Player's Guide, p.38)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Dalish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Dwarven Combat Training",
+        "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer."
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Dwarven Toughness",
+        "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
+      },
+      {
+        "name": "Night Vision",
+        "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+      },
+      {
+        "name": "Road Wisdom",
+        "description": "You have proficiency in the Survival skill."
+      }
+    ],
+    "subraces": [],
+    "description": "Dwarves of the Lonely Mountain are sturdy and resilient, with thick beards and a strong connection to their ancestral home of Erebor.",
+    "_effects": {
+      "Dwarven Combat Training": {
+        "weapon_profs": [
+          "Battleaxe",
+          "Handaxe",
+          "Light hammer",
+          "Warhammer"
+        ]
+      },
+      "Dwarven Resilience": {
+        "damage_resist": [
+          "Poison"
+        ],
+        "notes": "Advantage on saving throws against poison"
+      },
+      "Dwarven Toughness": {
+        "hp_per_level": 1
+      },
+      "Night Vision": {
+        "darkvision": 60
+      },
+      "Road Wisdom": {
+        "skill_profs": [
+          "Survival"
+        ]
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Mirkwood Elf",
+    "source": "(Adventures in Middle-earth Player's Guide, p.43)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Woodland tongue",
+      "Sindarin",
+      "Common Tongue"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity score increases by 2 and your Wisdom score increases by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "100 to 500. Elves are invulnerable to age, and may become adventurers at any time after they reach adulthood (at about a century of age). Considering the level of ability of a starting hero, players should avoid choosing an excessively venerable age for their character."
+      },
+      {
+        "name": "Size",
+        "description": "Elves range from 5 to over 6 feet tall, with slender builds. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Night Vision",
+        "description": "Accustomed to twilight forests and the night sky, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light."
+      },
+      {
+        "name": "The Eyes of Elves",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Elvish Dreams",
+        "description": "Your sleep is not like that of mortals. When you sleep, you can choose to send your mind into an “Elvish Dream” retaining full consciousness of your surroundings and you needn’t close your eyes. Four hours spent in such dreams acts on you as if you had rested an entire night."
+      },
+      {
+        "name": "The Tools of War",
+        "description": "You have proficiency with daggers, spears, broadswords, short swords, and short bows."
+      },
+      {
+        "name": "A Whisper Through the Leaves",
+        "description": "You have proficiency in the Stealth skill. You have advantage on Stealth skill checks whenever you are in a forest and can make Hide attempts even when only lightly obscured by foliage."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak the old language of your people, the Woodland tongue, along with the ability to speak, read, and write Sindarin. You can also speak the Common Tongue."
+      }
+    ],
+    "subraces": [],
+    "description": "Mirkwood Elves are slender, tall Elves ranging from 5 to over 6 feet, accustomed to twilight forests and the night sky, and are staunch fighters dedicated to resisting the encroaching darkness.",
+    "_effects": {
+      "Ability Score Increase": {},
+      "Adventuring Age": {},
+      "Size": {},
+      "Speed": {
+        "speed": 30
+      },
+      "Night Vision": {
+        "darkvision": 60
+      },
+      "The Eyes of Elves": {
+        "skill_profs": [
+          "Perception"
+        ]
+      },
+      "Elvish Dreams": {
+        "notes": "Can retain full consciousness of surroundings while sleeping; 4 hours of Elvish Dream counts as a full night's rest."
+      },
+      "The Tools of War": {
+        "weapon_profs": [
+          "Dagger",
+          "Spear",
+          "Broadsword",
+          "Shortsword",
+          "Shortbow"
+        ]
+      },
+      "A Whisper Through the Leaves": {
+        "skill_profs": [
+          "Stealth"
+        ],
+        "notes": "Advantage on Stealth checks in forests; can attempt to hide when only lightly obscured by foliage."
+      },
+      "Languages": {
+        "notes": "Can speak Woodland tongue, Sindarin (speak/read/write), and Common."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Hobbit",
+    "source": "(Adventures in Middle-earth Player's Guide, p.46)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity score increases by 2."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "25-60. Hobbits do not easily abandon their comfortable lives, but when they do they usually wait at least for their coming of age at 33. But a particularly reckless Hobbit might feel the call to adventure when in his tweens, as Hobbits call their twenties. Hobbits generally pass early in their second century, remaining fairly healthy until the very end of their twilight years."
+      },
+      {
+        "name": "Size",
+        "description": "Hobbits are generally just slightly under three feet tall and weigh around 50 lbs. Your size is Small."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 25 feet."
+      },
+      {
+        "name": "Resilient",
+        "description": "You have advantage on saving throws against Corruption."
+      },
+      {
+        "name": "Hobbit Nimbleness",
+        "description": "You can move through the space of any creature who is at least one size larger than yours."
+      },
+      {
+        "name": "Noble Pursuits",
+        "description": "You have proficiency with short bows. You gain proficiency with one artisan’s tool of your choice: brewer’s supplies, carpenter’s tools, cartographer’s tools, cook’s utensils, gardener’s tools, potter’s tools, smith’s tools, weaver’s tools, or woodcarver’s tools. You also gain proficiency with pipes."
+      },
+      {
+        "name": "Hobbit Elusiveness",
+        "description": "You have proficiency in the Stealth skill."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write the Common Tongue, or Westron as the scholars have it. Whatever native tongue the Hobbits once had is all but gone, save for a few unique words such as “mathom” – an object one has no immediate use for, but for whatever reason, is unwilling to throw away."
+      }
+    ],
+    "subraces": [
+      {
+        "name": "Harfoot",
+        "asi": {
+          "wis": 1
+        },
+        "traits": [
+          {
+            "name": "Unobtrusive",
+            "description": "You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you."
+          }
+        ],
+        "description": "Harfoot family line of Hobbits."
+      },
+      {
+        "name": "Stoor",
+        "asi": {
+          "con": 2
+        },
+        "traits": [],
+        "description": "Stoor family line of Hobbits."
+      },
+      {
+        "name": "Fallowhide",
+        "asi": {
+          "int": 1
+        },
+        "traits": [
+          {
+            "name": "Student of Old Lore",
+            "description": "You have proficiency in the Lore skill and with calligrapher's supplies."
+          }
+        ],
+        "description": "Fallowhide family line of Hobbits."
+      }
+    ],
+    "description": "Hobbits are a small folk, generally just slightly under three feet tall and weighing around 50 lbs. They live in peace and relative prosperity, seldom trading with other folk except for the occasional travelling Dwarves.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity score increases by 2."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor/roleplay trait; no mechanical effects."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Small."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 25,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Resilient": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws against Corruption."
+      },
+      "Hobbit Nimbleness": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can move through the space of any creature at least one size larger."
+      },
+      "Noble Pursuits": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Shortbow"
+        ],
+        "tool_profs": [
+          "Brewer's supplies",
+          "Carpenter's tools",
+          "Cartographer's tools",
+          "Cook's utensils",
+          "Gardener's tools",
+          "Potter's tools",
+          "Smith's tools",
+          "Weaver's tools",
+          "Woodcarver's tools",
+          "Pipes"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Proficiency with short bows; proficiency with one artisan's tool of choice from the listed options; proficiency with pipes."
+      },
+      "Hobbit Elusiveness": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Stealth"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Common (Westron)."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Men of Bree",
+    "source": "(Adventures in Middle-earth Player's Guide, p.49)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Westron"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1 and you may increase two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. In the rare cases where Bree-folk go adventuring at all, they do it when the strength of youth is in their limbs, and usually return home to settle down before their fortieth year."
+      },
+      {
+        "name": "Size",
+        "description": "Most Big Bree-folk tend to be broad, rather than tall, and few are very much larger than 5 feet in height. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Crossroad Glance",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Bree-folk Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Westron, heavily accented with the rough brogue of Bree-land."
+      }
+    ],
+    "subraces": [],
+    "description": "Most Big Bree-folk tend to be broad, rather than tall, and few are very much larger than 5 feet in height.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 1; two additional ability scores of your choice increase by 1."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Crossroad Glance": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Perception"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Gain one Bree-folk Cultural Virtue of your choice (effects depend on the chosen virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Westron."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Stoor",
+    "source": "(Adventures in Middle-earth Player's Guide, p.48)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Constitution score increases by 2."
+      }
+    ],
+    "subraces": [],
+    "description": "The Stoor are one of the Little Bree-folk, a hobbit-like people who may be declared as hailing from Bree-land. They are among the families who never wanted much to do with Bree.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Constitution score increases by 2."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Fallowhide",
+    "source": "(Adventures in Middle-earth Player's Guide, p.48)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Intelligence score increases by 1."
+      },
+      {
+        "name": "Student of Old Lore",
+        "description": "You have proficiency in the Lore skill and with calligrapher's supplies."
+      }
+    ],
+    "subraces": [],
+    "description": "Fallowhides are a family line of Hobbits, one of the three original breeds, known for their scholarly pursuits and interest in old lore.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Intelligence score increases by 1."
+      },
+      "Student of Old Lore": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "Calligrapher's supplies"
+        ],
+        "skill_profs": [
+          "Lore"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Men of the Lake",
+    "source": "(Adventures in Middle-earth Player's Guide, p.51)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 1
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Dalish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Charisma score increases by 1 and you may increase any two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. Men of the Lake don't usually become adventurers before their 16th year of age, and rarely continue beyond their forties, when they retire to serve their family and folk."
+      },
+      {
+        "name": "Size",
+        "description": "Most Men of the Lake stand between 5 and 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Natural Born Traders",
+        "description": "You have proficiency in the Persuasion skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Men of the Lake Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Dalish – an archaic version of the Common Speech."
+      }
+    ],
+    "subraces": [],
+    "description": "Men of the Lake are Northmen of Dale and Esgaroth, standing between 5 and 6 feet tall, who value resourcefulness and daring above nobility and lineage.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Charisma score increases by 1; choose two additional ability scores to increase by 1 each."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Natural Born Traders": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Persuasion"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants one Men of the Lake Cultural Virtue of choice (effects depend on the chosen virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Dalish."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Men of Minas Tirith",
+    "source": "(Adventures in Middle-earth Player's Guide, p.52)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Sindarin",
+      "Westron"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Intelligence score increases by 1 and you may increase any two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring age",
+        "description": "16 to 40. The Men of Minas Tirith don't usually become adventurers before their 16th year of age, and rarely continue beyond their forties, when they return to their cities to serve their family and Steward."
+      },
+      {
+        "name": "Size",
+        "description": "Most Men of Minas Tirith stand between 5 and 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Proud Heritage",
+        "description": "You are proficient in the History skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Men of Minas Tirith Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write both Sindarin and Westron, the Common Tongue."
+      }
+    ],
+    "subraces": [],
+    "description": "The Men of Minas Tirith are a Prosperous culture of Gondor, standing between 5 and 6 feet tall, known for their proud heritage and comfortable lives supported by trade wealth.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Intelligence score increases by 1; may increase any two additional ability scores by 1."
+      },
+      "Adventuring age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor/roleplay age range only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Proud Heritage": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "History"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Gain one Men of Minas Tirith Cultural Virtue of your choice (varies by virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Sindarin and Westron (Common Tongue)."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Riders of Rohan",
+    "source": "(Adventures in Middle-earth Player's Guide, p.56)",
+    "asi": {
+      "wisdom": 1,
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Tongue of Rohan",
+      "Westron",
+      "Sindarin"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1 and you may increase two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. The Riders of Rohan don’t usually become adventurers before their 16th year of age, when they are considered to be adults, and rarely continue beyond their forties when thoughts turn to looking after hearth and home."
+      },
+      {
+        "name": "Size",
+        "description": "The Riders of Rohan, men and women, are generally tall. Generally well over 5 feet and often above 6 feet. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Horse Lords",
+        "description": "You have proficiency in the Animal Handling skill."
+      },
+      {
+        "name": "Starting Virtue",
+        "description": "You gain one Riders of Rohan Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak the tongue of Rohan which is loosely related to the tongue of the Anduin Vales. You can also speak Westron and easily make yourself understood in accented Sindarin."
+      }
+    ],
+    "subraces": [],
+    "description": "The Riders of Rohan are generally tall men and women, often well over 5 feet and frequently above 6 feet, known for their simple folkways and mastery of horses.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 1; two additional ability scores increase by 1."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor/roleplay age range only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Horse Lords": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Animal Handling"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Starting Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants one Riders of Rohan Cultural Virtue of choice (effects depend on chosen virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak the tongue of Rohan, Westron, and accented Sindarin."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "Woodmen of Wilderland",
+    "source": "(Adventures in Middle-earth Player's Guide, p.58)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Vale of Anduin Tongue"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Dexterity score increases by 1 and you may increase two additional ability scores by 1."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "16-30. Woodmen don't usually become adventurers before their 16th year of age, and rarely continue beyond their forties, when they retire to serve their family and folk."
+      },
+      {
+        "name": "Size",
+        "description": "Most Woodmen stand between 5 and 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Woodcrafty",
+        "description": "You have proficiency in the Survival skill."
+      },
+      {
+        "name": "Virtue",
+        "description": "You gain one Woodmen of Wilderland Cultural Virtue of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak the Vale of Anduin Tongue – an archaic version of the Common Speech, closely related to Dalish."
+      }
+    ],
+    "subraces": [],
+    "description": "Woodmen are a hardy folk who carve a living from meagre hunts, charcoal burning, and animal breeding, standing between 5 and 6 feet tall with a frugal culture shaped by constant struggle against the Wild.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Dexterity score increases by 1; two additional ability scores of your choice increase by 1."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor only; no mechanical effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Woodcrafty": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Survival"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Virtue": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants one Woodmen of Wilderland Cultural Virtue of your choice (effects depend on the chosen virtue)."
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak the Vale of Anduin Tongue."
+      }
+    },
+    "_source_manual": "AIPG"
+  },
+  {
+    "name": "High Elf of Rivendell",
+    "source": "(Rivendell Region Guide, p.116)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 2,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 2 and you may increase any two other attributes by 1 each."
+      },
+      {
+        "name": "Adventuring Age",
+        "description": "500 to 1000. The High Elves of Rivendell are creatures from another age. They may become adventurers any time after they reach adulthood, although they are unlikely to venture beyond Imladris until they are half a millennia or more old. Even though a starting High Elf is far more 'experienced' than those of other cultures, he is still young and weak compared to his elder kin, and so is unlikely to be more than a thousand years old."
+      },
+      {
+        "name": "Size",
+        "description": "Elves range from 5 to over 6 feet tall, with slender builds. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Night Vision",
+        "description": "Accustomed to walking under the revered starlight, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light."
+      },
+      {
+        "name": "The Eyes of Elves",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Elvish Dreams",
+        "description": "Your sleep is not like that of mortals. When you sleep, you can choose to send your mind into an \"Elvish Dream\" retaining full consciousness of your surroundings and you needn't close your eyes. Four hours spent in such dreams acts on you as if you had rested an entire night."
+      },
+      {
+        "name": "Against the Unseen",
+        "description": "High Elves can perceive creatures that dwell in the wraith-world, be they spirits or ghosts, even when they are normally Invisible to the eyes of the living (including Unclad and Invisible Ringwraiths). Additionally, High Elves are immune to the Frightened condition when the source of that condition is an undead creature."
+      },
+      {
+        "name": "Elf-wise",
+        "description": "You have fought against the Dark Lord for years uncounted, and will continue to strive against the Enemy. You are proficient in Corruption checks. A Corruption check is any Wisdom saving throw that risks 1 or more Shadow points for failure."
+      },
+      {
+        "name": "Beset by Woe",
+        "description": "High Elves cannot ever truly forget the taint of the Shadow once it has left its mark on their spirit. Whenever you undertake to Heal Corruption, you"
+      }
+    ],
+    "subraces": [],
+    "description": "High Elves of Rivendell are a noble and ancient people, known for their grace, wisdom, and connection to the Last Homely House.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Wisdom score increases by 2; two other ability scores of your choice increase by 1 each."
+      },
+      "Adventuring Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Flavor/lifespan trait; no direct mechanical combat effect."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Night Vision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 60,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "The Eyes of Elves": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [
+          "Perception"
+        ],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Elvish Dreams": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can remain fully conscious of surroundings while sleeping; 4 hours of Elvish Dream counts as a full long rest."
+      },
+      "Against the Unseen": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [
+          "Frightened"
+        ],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can perceive creatures in the wraith-world (spirits, ghosts, Unclad and Invisible Ringwraiths) even when normally invisible. Immunity to Frightened applies only when the source is an undead creature."
+      },
+      "Elf-wise": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Proficient in Corruption checks (Wisdom saving throws that risk Shadow points on failure)."
+      },
+      "Beset by Woe": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Trait description is incomplete; appears to impose a penalty or restriction when undertaking to Heal Corruption."
+      }
+    },
+    "_source_manual": "RVR"
+  },
+  {
+    "name": "High Elves of Rivendell",
+    "source": "(Rivendell Region Guide, p.118)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Westron (the Common Tongue)",
+      "Sindarin",
+      "Quenya"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Corruption Checks",
+        "description": "You are proficient in Corruption checks. A Corruption check is any Wisdom saving throw that risks 1 or more Shadow points for failure."
+      },
+      {
+        "name": "Beset by Woe",
+        "description": "High Elves cannot ever truly forget the taint of the Shadow once it has left its mark on their spirit. Whenever you undertake to Heal Corruption, you immediately lose 1 point of temporary Shadow and gain 1 point of permanent Shadow. You may then make an ability check to remove temporary Shadow points as normal (see page 200 of the Player's Guide)."
+      },
+      {
+        "name": "The Tools of War",
+        "description": "You have proficiency with daggers, spears, great spears, short swords, long swords, short bows and great bows."
+      },
+      {
+        "name": "Subtlety of Craft",
+        "description": "You have proficiency in one artisan's tool of your choice."
+      },
+      {
+        "name": "Languages",
+        "description": "In addition to Westron (the Common Tongue), you can speak, read and write Sindarin. You also use Quenya, the Ancient Tongue, in song and high matters of lore."
+      }
+    ],
+    "subraces": [],
+    "description": "High Elves of Rivendell are a race of elves described in the Rivendell Region Guide.",
+    "_effects": {
+      "Corruption Checks": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Proficient in Corruption checks (Wisdom saving throws that risk Shadow points on failure)."
+      },
+      "Beset by Woe": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "When undertaking to Heal Corruption, immediately lose 1 temporary Shadow point and gain 1 permanent Shadow point, then may make an ability check to remove temporary Shadow points as normal."
+      },
+      "The Tools of War": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Dagger",
+          "Spear",
+          "Great spear",
+          "Short sword",
+          "Long sword",
+          "Short bow",
+          "Great bow"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Subtlety of Craft": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [
+          "One artisan's tool of your choice"
+        ],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Westron (Common Tongue) and Sindarin; uses Quenya in song and high matters of lore."
+      }
+    },
+    "_source_manual": "RVR"
   }
 ]
