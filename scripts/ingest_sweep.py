@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -249,6 +250,25 @@ def main() -> int:
                 continue
             remapped = remap_source_slug(eng_slug, app_slug)
             renamed = normalize_display(app_slug)
+            # Ingestion cites the first page of the chunk it read, so a record can name the
+            # right book and the wrong page (GGR monsters all pointed at p.8/p.21, the chapter
+            # openings, instead of their bestiary pages). The repair pass rewrites only the page
+            # number, and only when it can find the record's own heading.
+            repaired = 0
+            try:
+                proc = subprocess.run(
+                    [sys.executable, "scripts/repair_page_citations.py", "--apply",
+                     "--slug", app_slug],
+                    cwd=HERE, capture_output=True, text=True, timeout=600)
+                m = re.search(r"page citations corrected: (\d+)", proc.stdout or "")
+                repaired = int(m.group(1)) if m else 0
+                if repaired:
+                    log(f"  {repaired} page citation(s) corrected")
+                if proc.returncode:
+                    log(f"  repair pass returned {proc.returncode}: "
+                        f"{(proc.stderr or '').strip()[-200:]}")
+            except Exception as exc:  # noqa: BLE001
+                log(f"  repair pass failed: {type(exc).__name__}: {exc}")
             post = counts()
             shrink = {c: (pre[c], post[c]) for c in CATEGORIES if post[c] < pre[c]}
             if shrink:

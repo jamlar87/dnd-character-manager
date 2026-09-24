@@ -31,11 +31,22 @@ CATEGORIES = ("races", "spells", "magic_items", "equipment", "monsters",
 
 
 def load_pages(slug: str) -> dict[int, str]:
+    """Page number -> text for a book's cache.
+
+    Caches are not uniform: most write `--- PAGE 7 ---`, but the two-column scans (TTP) write
+    `--- PAGE 7 (left) ---` / `(right)`, and a regex that demanded the bare form silently
+    returned {} for them — reported as "no page markers" when the markers were there all along.
+    Both halves of a page are concatenated, not overwritten.
+    """
     path = HERE / "data" / "manual_cache" / f"{slug}.txt"
     if not path.exists():
         return {}
-    parts = re.split(r"--- PAGE (\d+) ---", path.read_text(errors="replace"))
-    return {int(parts[i]): parts[i + 1] for i in range(1, len(parts) - 1, 2)}
+    parts = re.split(r"---\s*PAGE\s+(\d+)[^-]*---", path.read_text(errors="replace"))
+    pages: dict[int, str] = {}
+    for i in range(1, len(parts) - 1, 2):
+        n = int(parts[i])
+        pages[n] = pages.get(n, "") + parts[i + 1]
+    return pages
 
 
 def name_on_pages(pages: dict[int, str], needle: str, cited: int, window: int) -> tuple[list[int], list[int]]:
