@@ -5290,7 +5290,7 @@
     "role": "Warden of Syngorn",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(Tal'Dorei Campaign Setting Reborn, p.63)",
+    "source": "(Tal'Dorei Campaign Setting Reborn, p.197)",
     "_source_manual": "TCSR"
   },
   {
@@ -5557,7 +5557,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(Guildmasters' Guide to Ravnica, p.22)",
+    "source": "(Guildmasters' Guide to Ravnica, p.4)",
     "_source_manual": "GGR"
   },
   {
@@ -13936,7 +13936,7 @@
     "role": "Quest Giver / Potential Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.17)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.49)",
     "_source_manual": "ToA"
   },
   {
@@ -13960,7 +13960,7 @@
     "role": "Quest Giver / Potential Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.17)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.49)",
     "_source_manual": "ToA"
   },
   {
@@ -14161,7 +14161,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.17)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.48)",
     "_source_manual": "ToA"
   },
   {
@@ -14185,7 +14185,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.17)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.48)",
     "_source_manual": "ToA"
   },
   {
@@ -14209,7 +14209,7 @@
     "role": "Ally",
     "is_enemy": false,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.17)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.48)",
     "_source_manual": "ToA"
   },
   {
@@ -14374,7 +14374,7 @@
     "role": "Enemy",
     "is_enemy": true,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.42)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.5)",
     "_source_manual": "ToA"
   },
   {
@@ -14398,7 +14398,7 @@
     "role": "Enemy",
     "is_enemy": true,
     "xp_reward": 0,
-    "source": "(D&D 5E  Tomb of Annihilation, p.60)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.90)",
     "_source_manual": "ToA"
   },
   {
@@ -14587,5 +14587,2356 @@
     "xp_reward": 0,
     "source": "(D&D 5E  Tomb of Annihilation, p.122)",
     "_source_manual": "ToA"
+  },
+  {
+    "name": "Grum'shar",
+    "race": "Half-orc",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Relentless Endurance",
+        "description": "When reduced to 0 hit points, he drops to 1 hit point instead (but can't do this again until he finishes a long rest)."
+      },
+      {
+        "name": "Darkvision",
+        "description": "He has darkvision out to a range of 60 feet."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Grum'shar is a half-orc apprentice wizard and low-end Xanathar Guild boss. He attacks the characters in the hope of salvaging his reputation.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.28)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Vincent Trench",
+    "race": "Rakshasa",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Evil",
+    "armor_class": 16,
+    "hit_points": "110 (13d8+52)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 17,
+      "constitution": 18,
+      "intelligence": 13,
+      "wisdom": 16,
+      "charisma": 20
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 10,
+      "Insight": 8
+    },
+    "features": [
+      {
+        "name": "Limited Magic Immunity",
+        "description": "The rakshasa can't be affected or detected by spells of 6th level or lower unless it wishes to be. It has advantage on saving throws against all other spells and magical effects."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The rakshasa's innate spellcasting ability is Charisma (spell save DC 18, +10 to hit with spell attacks). The rakshasa can innately cast the following spells, requiring no material components:\nAt will: detect thoughts, disguise self, mage hand, minor illusion\n3/day each: charm person, detect magic, invisibility, major image, suggestion\n1/day each: dominate person, fly, plane shift, true seeing"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Claw",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 9 (2d6+2) slashing damage, and if the target is a creature, it must succeed on a DC 18 Constitution saving throw or be cursed with rakish vulnerability. The curse lasts until removed by the remove curse spell or other magic."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Vincent Trench, a human detective and the owner of the Tiger's Eye. He speaks concisely, dresses in a sharp suit, and smokes a slim pipe. Vincent is in fact a rakshasa named Valantajar that always casts disguise self on itself before seeing visitors.",
+    "role": "Detective",
+    "is_enemy": false,
+    "xp_reward": 7200,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.32)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Hurv Taldred",
+    "race": "Illuskan",
+    "class_name": "Cult Fanatic",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Shadow Transformation",
+        "description": "The Gralhunds paid a necromancer to perform a ritual on Hurv and his mastiffs. After sundown, the physical forms of these figures melt away, and they become three shadows until dawn."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A menacing groundskeeper named Hurv Taldred (LE male Illuskan cult fanatic) and his two quiet mastiffs.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.53)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Ike",
+    "race": "Human",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A stableboy named Ike (commoner), who sleeps here at night. Ike is away (either picking up food for the horses or out drinking with friends) if the characters arrive during the day.",
+    "role": "Neutral",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.36)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Losser Mirklav",
+    "race": "Lightfoot Halfling",
+    "class_name": "Mage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Evil",
+    "armor_class": 0,
+    "hit_points": "31 (9d6)",
+    "speed": "25 ft.",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Racial Traits",
+        "description": "He is Small, and his walking speed is 25 feet. He can move through the space of a Medium or larger creature. He has advantage on saving throws against being frightened. He speaks Common and Halfling."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "He has the animate dead and blight spells prepared, instead of counterspell and greater invisibility. All his spell slots are currently expended."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "spellbook bound in stitched flesh that contains all his prepared spells",
+      "key to the padlocked door in area B8",
+      "4d10 gp in a pouch made of elf skin and cinched with a rope made of woven dwarf hair"
+    ],
+    "spellcasting": null,
+    "description": "Losser Mirklav is a lightfoot halfling mage, with these changes: He is chaotic evil and has 31 (9d6) hit points. He has these racial traits: He is Small, and his walking speed is 25 feet. He can move through the space of a Medium or larger creature. He has advantage on saving throws against being frightened. He speaks Common and Halfling. He has the animate dead and blight spells prepared, instead of counterspell and greater invisibility. All his spell slots are currently expended.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.5)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Thrakkus the Butcher",
+    "race": "Dragonborn",
+    "class_name": "Berserker",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Chaotic Evil",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Breath Weapon",
+        "description": "He can use his action to exhale a 15-foot cone of fire (but can't do this again until he finishes a short or long rest); each creature in the cone must make a DC 13 Dexterity saving throw, taking 2d6 fire damage on a failed save, or half as much damage on a successful one.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Damage Resistance",
+        "description": "He has resistance to fire damage."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Thrakkus is a dragonborn berserker of red dragon ancestry, with these changes: He is chaotic evil. He has these racial traits: He can use his action to exhale a 15-foot cone of fire (but can't do this again until he finishes a short or long rest); each creature in the cone must make a DC 13 Dexterity saving throw, taking 2d6 fire damage on a failed save, or half as much damage on a successful one. He has resistance to fire damage. He speaks Common and Draconic.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.91)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Barok Clanghammer (Aurinax)",
+    "race": "Gold Dragon (adult, in dwarf form)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Disguise",
+        "description": "The dwarf, who calls himself Barok Clanghammer, is really the adult gold dragon Aurinax (see appendix B) in disguise. He guards the gold for Lord Dagult Neverember and holds the dragonstaff of Ahghairon (see appendix A) in exchange for his services."
+      },
+      {
+        "name": "Personality",
+        "description": "Aurinax is patient, wise, merciful, and vigilant. He remains in humanoid form until combat breaks out."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "staff carved and painted to resemble a pair of entwined dragons—one red, one gold",
+      "dragonstaff of Ahghairon"
+    ],
+    "spellcasting": null,
+    "description": "An aged dwarf clutching a staff carved and painted to resemble a pair of entwined dragons—one red, one gold. Despite the dwarf's age, his eyes are steady and bright. He is really the adult gold dragon Aurinax in disguise, guarding the gold for Lord Dagult Neverember.",
+    "role": "Guardian / potential ally or enemy",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Willifort Crowelle",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "As the Cassalanters' chief butler and Lord Victoro's personal attendant, Willifort Crowelle makes a point of knowing everything that transpires within the villa. If the Cassalanters have guests, he escorts them during their entire visit, using stealth if necessary. He ushers nosy guests away from areas or objects that might link the Cassalanters with the Asmodeus-worshiping cult.",
+    "role": "Butler",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Tisstna Khyret",
+    "race": "Tiefling",
+    "class_name": "Cult Fanatic",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Madame Khyret is the personal attendant to Ammalia Cassalanter and is the family's chief housemaid. Madame Khyret dresses in a long black gown and wears a headdress with black tassels. She is an aging tiefling cult fanatic, and she spends most of her time in the master sitting room (area C19).",
+    "role": "Housemaid",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Laiba \"Nana\" Rosse",
+    "race": "Tiefling",
+    "class_name": "Cult Fanatic",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Laiba Rosse, better known as \"Nana,\" is the caretaker and private tutor for Terenzio and Elzerina, and she does her best to keep track of their every move. Even so, the two often sneak away from her watchful eye. Nana dresses in flowing red robes. She is a female tiefling cult fanatic who relaxes in the twins' playroom (area C17) when she's not with the children.",
+    "role": "Caretaker",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Jandar Chergoba",
+    "race": "Tiefling",
+    "class_name": "Cult Fanatic",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "As the head chef of Cassalanter Villa, Jandar determines each day's menu and oversees all activity in the kitchen. Jandar is a male tiefling cult fanatic. He is often in the kitchen (area C10).",
+    "role": "Chef",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Breena Bafflestone",
+    "race": "Rock Gnome",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "7 (2d6)",
+    "speed": "25 ft.",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Gnome Racial Traits",
+        "description": "They have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic. Their walking speed is 25 feet. They have darkvision out to a range of 60 feet. They speak Common and Gnomish."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A rock gnome named Breena Bafflestone monitors the machinery at all times. Nearby is a copper speaking tube, which enables her to communicate with the control room command center (area U7b).",
+    "role": "Engineer aboard the Scarlet Marpenoth",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Breena Baffiestone",
+    "race": "Rock Gnome",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A rock gnome named Breena Baffiestone monitors the machinery at all times.",
+    "role": "Engineer",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Lorella Middenpump",
+    "race": "Rock Gnome",
+    "class_name": "Engineer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Lorella sits in the pilot's swivel chair, which is bolted to the floor and can be lowered or raised.",
+    "role": "Engineer",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Tervaround Waggletop",
+    "race": "Rock Gnome",
+    "class_name": "Engineer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Three rock gnome engineers named Lorella Middenpump, Tervaround Waggletop, and Anverth Leffery are on duty here.",
+    "role": "Engineer",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Anverth Leffery",
+    "race": "Rock Gnome",
+    "class_name": "Engineer",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Three rock gnome engineers named Lorella Middenpump, Tervaround Waggletop, and Anverth Leffery are on duty here.",
+    "role": "Engineer",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Karabal L'enz",
+    "race": "Drow",
+    "class_name": "Elite Warrior",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Two drow elite warriors named Karabal L'enz and Marro Qaz'arrt guard the control room and keep the gnomes on task.",
+    "role": "Guard",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Marro Qaz'arrt",
+    "race": "Drow",
+    "class_name": "Elite Warrior",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Two drow elite warriors named Karabal L'enz and Marro Qaz'arrt guard the control room and keep the gnomes on task.",
+    "role": "Guard",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Manafret Cherryport",
+    "race": "Halfling (Lightfoot)",
+    "class_name": "Mage",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral Evil",
+    "armor_class": 12,
+    "hit_points": "31 (9d6)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "features": [
+      {
+        "name": "Halfling Racial Traits",
+        "description": "He is Small, and his walking speed is 25 feet. He can move through the space of a Medium or larger creature. He has advantage on saving throws against being frightened. He speaks Common and Halfling."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4+2) piercing damage."
+      }
+    ],
+    "equipment": [
+      "assassin's blood (vial)"
+    ],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 14,
+      "attack_bonus": 6,
+      "spells": [
+        {
+          "level": 0,
+          "name": "Mage Hand",
+          "note": "used to cut vegetables"
+        },
+        {
+          "level": 0,
+          "name": "Light"
+        },
+        {
+          "level": 0,
+          "name": "Prestidigitation"
+        },
+        {
+          "level": 1,
+          "name": "Detect Magic"
+        },
+        {
+          "level": 1,
+          "name": "Mage Armor"
+        },
+        {
+          "level": 1,
+          "name": "Magic Missile"
+        },
+        {
+          "level": 1,
+          "name": "Shield"
+        },
+        {
+          "level": 2,
+          "name": "Misty Step"
+        },
+        {
+          "level": 2,
+          "name": "Suggestion"
+        },
+        {
+          "level": 3,
+          "name": "Counterspell"
+        },
+        {
+          "level": 3,
+          "name": "Fly"
+        },
+        {
+          "level": 3,
+          "name": "Lightning Bolt"
+        },
+        {
+          "level": 4,
+          "name": "Greater Invisibility"
+        },
+        {
+          "level": 4,
+          "name": "Ice Storm"
+        },
+        {
+          "level": 5,
+          "name": "Cone of Cold"
+        }
+      ]
+    },
+    "description": "Manafret Cherryport is a portly halfling mage and one of Manshoon's lieutenants. He loves to cook and uses his mage hand cantrip to cut vegetables.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 2300,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.150)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Manshoon",
+    "race": "Human",
+    "class_name": "Archwizard",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "Staff of Power"
+    ],
+    "spellcasting": null,
+    "description": "Manshoon is a handsome young male human in elegant robes, though he is much older than he looks. He is an evil archwizard and leader of the Zhentarim. He has a metal appendage attached to the withered stump of his left arm. He is not spoiling for a fight and will try to convince the characters to work for him.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.156)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Jelenn Urmbrusk",
+    "race": "Tethyrian human",
+    "class_name": "Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Masked Lord",
+        "description": "Jelenn is a Masked Lord of Waterdeep, occupied with Masked Lord business."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Jelenn (N female Tethyrian human noble) is a proud woman in her fifties who desperately wants to get out of debt. Several bad investments ruined her money-lending business, and most of her reliable customers have turned to other providers such as the Cassalanters. Jelenn could have borrowed money from any of a number of nobles in the city or sold off some of the property her family owns in Waterdeep, but doing so would have turned her private financial woes into local gossip. Fear of that exposure led her to borrow money from the Zhentarim instead-a decision she has come to regret. The Zhents working for Manshoon promise to keep their relationship secret on the condition that she do everything in her power to further the group's welfare in Waterdeep.",
+    "role": "Masked Lord of Waterdeep",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Ahmaergo",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "lawful evil",
+    "armor_class": 18,
+    "hit_points": "143 (22d8 + 44)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 20,
+      "dexterity": 15,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 14,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "str": 9,
+      "con": 6
+    },
+    "skills": {
+      "Athletics": 9,
+      "Intimidation": 5,
+      "Perception": 6
+    },
+    "features": [
+      {
+        "name": "Dwarven Resilience",
+        "description": "Ahmaergo has advantage on saving throws against being poisoned."
+      },
+      {
+        "name": "Indomitable (2/Day)",
+        "description": "Ahmaergo can reroll a saving throw that he fails. He must use the new roll.",
+        "uses": 2,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Second Wind (Recharges after a Short or Long Rest)",
+        "description": "As a bonus action, Ahmaergo can regain 20 hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Ahmaergo makes three attacks with his greataxe."
+      },
+      {
+        "name": "Greataxe",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 11 (1d12 + 5) slashing damage, plus 7 (2d6) slashing damage if Ahmaergo has more than half his hit points remaining."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 100/400 ft., one target. Hit: 7 (1d10 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Ahmaergo, Xanathar's majordomo, has a fascination with minotaurs. Although outwardly civil, the shield dwarf is as devious and corrupt as the worst devil, yet also unflinchingly loyal to his beholder master. After the beholder, Ahmaergo is the most influential member of the Xanathar Guild.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.193)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Ammalia Cassalanter",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 9,
+    "alignment": "lawful evil",
+    "armor_class": 12,
+    "hit_points": "45 (10d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6,
+      "Insight": 4,
+      "Persuasion": 5
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "Ammalia is a 9th-level spellcaster. Her spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). She has the following wizard spells prepared:\nCantrips (at will): friends, mage hand, mending, message\n1st level (4 slots): charm person, mage armor, magic missile\n2nd level (3 slots): hold person, invisibility, suggestion\n3rd level (3 slots): fireball, haste, tongues\n4th level (3 slots): confusion, stoneskin\n5th level (1 slot): hold monster"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Quarterstaff",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d6 - 1) bludgeoning damage, or 3 (1d8 - 1) bludgeoning damage if used with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 14,
+      "to_hit": 6,
+      "spells": {
+        "cantrips": [
+          "friends",
+          "mage hand",
+          "mending",
+          "message"
+        ],
+        "1st": [
+          "charm person",
+          "mage armor",
+          "magic missile"
+        ],
+        "2nd": [
+          "hold person",
+          "invisibility",
+          "suggestion"
+        ],
+        "3rd": [
+          "fireball",
+          "haste",
+          "tongues"
+        ],
+        "4th": [
+          "confusion",
+          "stoneskin"
+        ],
+        "5th": [
+          "hold monster"
+        ]
+      }
+    },
+    "description": "The vainglorious lady of House Cassalanter is schooled in the arcane arts. Like her husband Victoro, she worships Asmodeus. When they were young, Ammalia and Victoro signed a contract with the archdevil, trading the souls of their children for power, good health, and long life. The soul of Osvaldo, their eldest son, was taken immediately, and he was transformed into a chain devil. The souls of the younger twins, Terenzio and Elzerina, will be taken when they turn nine years old. A provision in the contract allows the Cassalanters to buy their way out of it, but doing so requires a tremendous amount of coin and a mass sacrifice of unfortunate people. While Victoro hunts for Dagult Neverember's lost cache of gold, Ammalia makes plans to host a poisoned feast in celebration of Founders' Day. Ammalia is well mannered, well read, well traveled, and exceptionally shrewd. She is known for driving a hard bargain. Her hobby is lepidopterology, and her estate has the most beautiful butterfly garden. She allows her youngest children to play in the garden under her supervision.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.193)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Bard",
+    "race": "Humanoid",
+    "class_name": "Bard",
+    "subclass": "",
+    "level": 4,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "44 (8d8 + 8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 14
+    },
+    "saving_throws": {
+      "dexterity": 4,
+      "wisdom": 3
+    },
+    "skills": {
+      "Acrobatics": 4,
+      "Perception": 5,
+      "Performance": 6
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The bard is a 4th-level spellcaster. Its spellcasting ability is Charisma (spell save DC 12, +4 to hit with spell attacks). It has the following bard spells prepared:\nCantrips (at will): friends, mage hand, vicious mockery\n1st level (4 slots): charm person, healing word, heroism, sleep, thunderwave\n2nd level (3 slots): invisibility, shatter"
+      },
+      {
+        "name": "Song of Rest",
+        "description": "The bard can perform a song while taking a short rest. Any ally who hears the song regains an extra 1d6 hit points if it spends any Hit Dice to regain hit points at the end of that rest. The bard can confer this benefit on itself as well."
+      },
+      {
+        "name": "Taunt (2/Day)",
+        "description": "The bard can use a bonus action on its turn to target one creature within 30 feet of it. If the target can hear the bard, the target must succeed on a DC 12 Charisma saving throw or have disadvantage on ability checks, attack rolls, and saving throws until the start of the bard's next turn.",
+        "uses": 2,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+      },
+      {
+        "name": "Shortbow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 12,
+      "to_hit": 4,
+      "spells": {
+        "cantrips": [
+          "friends",
+          "mage hand",
+          "vicious mockery"
+        ],
+        "1st": [
+          "charm person",
+          "healing word",
+          "heroism",
+          "sleep",
+          "thunderwave"
+        ],
+        "2nd": [
+          "invisibility",
+          "shatter"
+        ]
+      }
+    },
+    "description": "Bards are gifted poets, storytellers, and entertainers who travel far and wide, commonly found performing in taverns or in the company of jolly bands of adventurers, rough-and-tumble mercenaries, or wealthy patrons.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Barnibus Blastwind",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 7,
+    "alignment": "lawful good",
+    "armor_class": 10,
+    "hit_points": "24 (7d8 - 7)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 10,
+      "constitution": 9,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "intelligence": 5,
+      "wisdom": 4
+    },
+    "skills": {
+      "Arcana": 5,
+      "Insight": 6,
+      "Investigation": 7,
+      "Perception": 4
+    },
+    "features": [
+      {
+        "name": "Special Equipment",
+        "description": "Barnibus carries a wand of magic detection."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Barnibus is a 7th-level spellcaster. His spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). He has the following wizard spells prepared:\nCantrips (at will): blade ward, light, mage hand, message\n1st level (4 slots): comprehend languages, identify, mage armor, shield\n2nd level (3 slots): detect thoughts, suggestion\n3rd level (3 slots): clairvoyance, sending\n4th level (1 slot): locate creature, Otiluke's resilient sphere"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +2 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 2 (1d4) piercing damage."
+      }
+    ],
+    "equipment": [
+      "wand of magic detection"
+    ],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 13,
+      "to_hit": 5,
+      "spells": {
+        "cantrips": [
+          "blade ward",
+          "light",
+          "mage hand",
+          "message"
+        ],
+        "1st": [
+          "comprehend languages",
+          "identify",
+          "mage armor",
+          "shield"
+        ],
+        "2nd": [
+          "detect thoughts",
+          "suggestion"
+        ],
+        "3rd": [
+          "clairvoyance",
+          "sending"
+        ],
+        "4th": [
+          "locate creature",
+          "Otiluke's resilient sphere"
+        ]
+      }
+    },
+    "description": "Barnibus works for the Watchful Order of Magists and Protectors, investigating crimes that involve the use of magic. He comes across as prickly and secretive, confiding only in Saeth Cromley, a retired sergeant of the City Watch who assists in many of his investigations. A lifelong bachelor, Barnibus has a small, tidy estate in the Sea Ward that he inherited from his grandmother. When not serving the Watchful Order, he spends his days reading and writing books in his library. Barnibus uses spells that help him investigate crimes, pry secrets from the minds of suspects, and locate missing persons. He finds violence appalling and would never use his magic to inflict harm on others—even those who harm him.",
+    "role": "Investigator for the Watchful Order of Magists and Protectors",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Black Viper",
+    "race": "Human",
+    "class_name": "Rogue",
+    "subclass": "",
+    "level": 0,
+    "alignment": "chaotic neutral",
+    "armor_class": 16,
+    "hit_points": "84 (13d8 + 26)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 18,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 11,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "dexterity": 7,
+      "intelligence": 3
+    },
+    "skills": {
+      "Acrobatics": 7,
+      "Athletics": 3,
+      "Perception": 3,
+      "Sleight of Hand": 7,
+      "Stealth": 7
+    },
+    "features": [
+      {
+        "name": "Cunning Action",
+        "description": "On each of her turns, the Black Viper can use a bonus action to take the Dash, Disengage, or Hide action."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the Black Viper is subjected to an effect that allows her to make a Dexterity saving throw to take only half damage, she instead takes no damage if she succeeds on the saving throw, and only half damage if she fails. She can't use this trait if she's incapacitated."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "The Black Viper deals an extra 14 (4d6) damage when she hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the Black Viper that isn't incapacitated and the Black Viper doesn't have disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Black Viper makes three attacks with her rapier."
+      },
+      {
+        "name": "Rapier",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+      },
+      {
+        "name": "Hand Crossbow",
+        "description": "Ranged Weapon Attack: +7 to hit, range 30/120 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The Black Viper was a notorious burglar, pickpocket, mugger, and assassin who died a century ago, after a long and nefarious career. Esvele Rosznar, a brash young noble, has recently adopted the Black Viper's persona to lead a secret life of crime. Like many other nobles, Esvele gossips about the Black Viper's exploits to lend credence to the villain's mystique.",
+    "role": "Criminal",
+    "is_enemy": true,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Davil Starsong",
+    "race": "Elf",
+    "class_name": "Bard",
+    "subclass": "",
+    "level": 12,
+    "alignment": "Neutral",
+    "armor_class": 15,
+    "hit_points": "82 (15d8 + 15)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 16,
+      "wisdom": 12,
+      "charisma": 17
+    },
+    "saving_throws": {
+      "dex": 5,
+      "cha": 6
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6,
+      "Insight": 4,
+      "Perception": 4,
+      "Performance": 6
+    },
+    "features": [
+      {
+        "name": "Fey Ancestry",
+        "description": "Davil has advantage on saving throws against being charmed, and magic can't put him to sleep."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Davil is a 12th-level spellcaster. His spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). He has the following bard spells prepared:\nCantrips (at will): mage hand, mending, minor illusion, vicious mockery\n1st level (4 slots): cure wounds, disguise self, sleep\n2nd level (3 slots): crown of madness, invisibility, suggestion\n3rd level (3 slots): nondetection, sending, tongues\n4th level (3 slots): compulsion, freedom of movement, polymorph\n5th level (2 slots): dominate person, greater restoration\n6th level (1 slot): Otto's irresistible dance"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Charisma",
+      "save_dc": 14,
+      "to_hit": 6,
+      "level": 12,
+      "class": "Bard",
+      "spells": {
+        "cantrips": [
+          "mage hand",
+          "mending",
+          "minor illusion",
+          "vicious mockery"
+        ],
+        "1st": [
+          "cure wounds",
+          "disguise self",
+          "sleep"
+        ],
+        "2nd": [
+          "crown of madness",
+          "invisibility",
+          "suggestion"
+        ],
+        "3rd": [
+          "nondetection",
+          "sending",
+          "tongues"
+        ],
+        "4th": [
+          "compulsion",
+          "freedom of movement",
+          "polymorph"
+        ],
+        "5th": [
+          "dominate person",
+          "greater restoration"
+        ],
+        "6th": [
+          "Otto's irresistible dance"
+        ]
+      }
+    },
+    "description": "Davil Starsong is a member of the Doom Raiders and a leader of the Black Network's Waterdeep division. He can put the characters in contact with other leaders.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.200)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Istrid Horn",
+    "race": "Dwarf",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 9,
+    "alignment": "Neutral Evil",
+    "armor_class": 18,
+    "hit_points": "117 (18d8 + 36)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 17,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "con": 5,
+      "wis": 6
+    },
+    "skills": {
+      "Intimidation": 4,
+      "Religion": 3
+    },
+    "features": [
+      {
+        "name": "Dwarven Resilience",
+        "description": "Istrid has advantage on saving throws against being poisoned."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Istrid is a 9th-level spellcaster. Her spellcasting ability is Wisdom (spell save DC 14, +6 to hit with spell attacks). She has the following cleric spells prepared:\nCantrips (at will): light, mending, sacred flame, spare the dying\n1st level (4 slots): divine favor, guiding bolt, healing word, shield of faith\n2nd level (3 slots): lesser restoration, magic weapon, hold person, silence, spiritual weapon\n3rd level (3 slots): beacon of hope, crusader's mantle, dispel magic, revivify, spirit guardians, water walk\n4th level (3 slots): banishment, freedom of movement, guardian of faith, stoneskin\n5th level (1 slot): flame strike, mass cure wounds, hold monster"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Istrid makes two melee attacks."
+      },
+      {
+        "name": "Maul",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 8 (2d6 + 1) bludgeoning damage."
+      },
+      {
+        "name": "Treasure Sense (3/Day)",
+        "description": "Istrid magically pinpoints precious metals and stones, such as coins and gems, within 60 feet of her."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 14,
+      "to_hit": 6,
+      "level": 9,
+      "class": "Cleric",
+      "spells": {
+        "cantrips": [
+          "light",
+          "mending",
+          "sacred flame",
+          "spare the dying"
+        ],
+        "1st": [
+          "divine favor",
+          "guiding bolt",
+          "healing word",
+          "shield of faith"
+        ],
+        "2nd": [
+          "lesser restoration",
+          "magic weapon",
+          "hold person",
+          "silence",
+          "spiritual weapon"
+        ],
+        "3rd": [
+          "beacon of hope",
+          "crusader's mantle",
+          "dispel magic",
+          "revivify",
+          "spirit guardians",
+          "water walk"
+        ],
+        "4th": [
+          "banishment",
+          "freedom of movement",
+          "guardian of faith",
+          "stoneskin"
+        ],
+        "5th": [
+          "flame strike",
+          "mass cure wounds",
+          "hold monster"
+        ]
+      }
+    },
+    "description": "Istrid Horn is the Black Network's Master of Trade and Coin in Waterdeep. She operates an illegal lending operation out of a heavily guarded warehouse in the Dock Ward.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 3900,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.200)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Skeemo Weirdbottle",
+    "race": "Gnome",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 9,
+    "alignment": "Neutral Evil",
+    "armor_class": 12,
+    "hit_points": "72 (16d6 + 16)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6,
+      "Perception": 4,
+      "Performance": 5
+    },
+    "features": [
+      {
+        "name": "Gnome Cunning",
+        "description": "Skeemo has advantage on Intelligence, Wisdom, and Charisma saving throws against magic."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Skeemo is a 9th-level spellcaster. His spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). He has the following wizard spells prepared:\nCantrips (at will): fire bolt, light, mage hand, prestidigitation\n1st level (4 slots): detect magic, mage armor, magic missile, shield\n2nd level (3 slots): misty step, suggestion\n3rd level (3 slots): counterspell, fireball, fly\n4th level (3 slots): greater invisibility, ice storm\n5th level (1 slot): cone of cold"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 14,
+      "to_hit": 6,
+      "level": 9,
+      "class": "Wizard",
+      "spells": {
+        "cantrips": [
+          "fire bolt",
+          "light",
+          "mage hand",
+          "prestidigitation"
+        ],
+        "1st": [
+          "detect magic",
+          "mage armor",
+          "magic missile",
+          "shield"
+        ],
+        "2nd": [
+          "misty step",
+          "suggestion"
+        ],
+        "3rd": [
+          "counterspell",
+          "fireball",
+          "fly"
+        ],
+        "4th": [
+          "greater invisibility",
+          "ice storm"
+        ],
+        "5th": [
+          "cone of cold"
+        ]
+      }
+    },
+    "description": "Skeemo Weirdbottle is the Master of Magic for the Black Network in Waterdeep, operating a cover shop called Weirdbottle's Concoctions in the Trades Ward.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.200)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Tashlyn Yafeera",
+    "race": "Human",
+    "class_name": "Fighter",
+    "subclass": "",
+    "level": 9,
+    "alignment": "Neutral",
+    "armor_class": 18,
+    "hit_points": "149 (23d8 + 46)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 15,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "str": 8,
+      "con": 6
+    },
+    "skills": {
+      "Athletics": 8,
+      "Intimidation": 5,
+      "Perception": 6
+    },
+    "features": [
+      {
+        "name": "Indomitable (2/Day)",
+        "description": "Tashlyn can reroll a saving throw that she fails. She must use the new roll."
+      },
+      {
+        "name": "Second Wind (Recharges after a Short or Long Rest)",
+        "description": "As a bonus action, Tashlyn can regain 20 hit points."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Tashlyn makes three attacks with her greatsword or her shortbow."
+      },
+      {
+        "name": "Greatsword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage, plus 7 (2d6) slashing damage if Tashlyn has more than half her hit points remaining."
+      },
+      {
+        "name": "Shortbow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage, plus 7 (2d6) piercing damage if Tashlyn has more than half her hit points remaining."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Tashlyn Yafeera is Master of Arms and Mercenaries for the Waterdeep Zhentarim. She provides armor, weapons, and training to sellswords on the Black Network's payroll.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.200)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Tashlyn",
+    "race": "Unknown",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Greatsword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage, plus 7 (2d6) slashing damage if Tashlyn has more than half her hit points remaining."
+      },
+      {
+        "name": "Shortbow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage, plus 7 (2d6) piercing damage if Tashlyn has more than half her hit points remaining."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Tashlyn is a member of the Black Network.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.201)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Laeral Silverhand",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 19,
+    "alignment": "chaotic good",
+    "armor_class": 18,
+    "hit_points": "228 (24d8 + 120)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 17,
+      "constitution": 20,
+      "intelligence": 20,
+      "wisdom": 20,
+      "charisma": 19
+    },
+    "saving_throws": {
+      "int": 11,
+      "wis": 11
+    },
+    "skills": {
+      "Arcana": 17,
+      "History": 17,
+      "Insight": 11,
+      "Perception": 11,
+      "Persuasion": 10
+    },
+    "features": [
+      {
+        "name": "Special Equipment",
+        "description": "Laeral wears a white robe of the archmagi (accounted for in her statistics). She wields a flame tongue longsword."
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "While wearing her robe of the archmagi, Laeral has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Laeral is a 19th-level spellcaster. Her spellcasting ability is Intelligence (spell save DC 21, +13 to hit with spell attacks). Laeral has the following wizard spells prepared:\nCantrips (at will): light, mage hand, minor illusion, prestidigitation, ray of frost\n1st level (at will): detect magic, disguise self, magic missile, shield\n2nd level (at will): detect thoughts, invisibility, misty step\n3rd level (3 slots): counterspell, fly, sending, tongues\n4th level (3 slots): banishment, greater invisibility, Otiluke's resilient sphere\n5th level (3 slots): cone of cold, geas, Rary's telepathic bond\n6th level (2 slots): globe of invulnerability, mass suggestion\n7th level (1 slot): prismatic spray, teleport\n8th level (1 slot): feeblemind, power word stun\n9th level (1 slot): time stop"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Laeral makes three attacks with her silver hair and flame tongue, in any combination. She can cast one of her cantrips or 1st-level spells before or after making these attacks."
+      },
+      {
+        "name": "Silver Hair",
+        "description": "Melee Weapon Attack: +11 to hit, reach 5 ft., one target. Hit: 7 (2d6) force damage, and the target must succeed on a DC 19 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+      },
+      {
+        "name": "Flame Tongue",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage plus 7 (2d6) fire damage, or 6 (1d10 + 1) slashing damage plus 7 (2d6) fire damage when used with two hands."
+      },
+      {
+        "name": "Spellfire (Recharges after a Long Rest)",
+        "description": "Magical, heatless, silver fire harmlessly erupts from Laeral and surrounds her until she is incapacitated or until she uses an action to quench it. She gains one of the following benefits of her choice, which lasts until the silver fire ends:\n• She can breathe underwater.\n• She can survive without food and water.\n• She is immune to magic that would ascertain her thoughts, truthfulness, alignment, or creature type.\n• She gains resistance to cold damage, and she is unharmed by temperatures as low as -50 degrees Fahrenheit.\nWhile the silver fire is present, she has the following additional action options:\n• Cast the cure wounds spell. The target regains 1d8 + 5 hit points. After Laeral takes this action, roll a d6. On a roll of 1, the silver fire disappears.\n• Cast the revivify spell without material components. After Laeral takes this action, roll a d6. On a roll of 1-2, the silver fire disappears.\n• Release a 60-foot line of silver fire that is 5 feet wide or a 30-foot cone of silver fire. Objects in the area that aren't being worn or carried take 26 (4d12) fire damage. Each creature in the area must succeed on a DC 21 Dexterity saving throw, taking 26 (4d12) fire damage on a failed save, or half as much damage on a successful one. After Laeral takes this action, roll a d6. On a roll of 1-3, the silver fire disappears."
+      }
+    ],
+    "equipment": [
+      "robe of the archmagi",
+      "flame tongue longsword"
+    ],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 21,
+      "attack_bonus": 13,
+      "level": 19,
+      "spells": {
+        "cantrips": [
+          "light",
+          "mage hand",
+          "minor illusion",
+          "prestidigitation",
+          "ray of frost"
+        ],
+        "1st": [
+          "detect magic",
+          "disguise self",
+          "magic missile",
+          "shield"
+        ],
+        "2nd": [
+          "detect thoughts",
+          "invisibility",
+          "misty step"
+        ],
+        "3rd": [
+          "counterspell",
+          "fly",
+          "sending",
+          "tongues"
+        ],
+        "4th": [
+          "banishment",
+          "greater invisibility",
+          "Otiluke's resilient sphere"
+        ],
+        "5th": [
+          "cone of cold",
+          "geas",
+          "Rary's telepathic bond"
+        ],
+        "6th": [
+          "globe of invulnerability",
+          "mass suggestion"
+        ],
+        "7th": [
+          "prismatic spray",
+          "teleport"
+        ],
+        "8th": [
+          "feeblemind",
+          "power word stun"
+        ],
+        "9th": [
+          "time stop"
+        ]
+      }
+    },
+    "description": "Anamanue Laeral Silverhand was born in the Year of the Cowl (765 DR), the fifth of seven daughters of the goddess Mystra. Each of the Seven Sisters is a powerful and ageless beauty with a penchant for arcane magic. Long ago, Laeral ruled a kingdom called Stornanter and held the title of Witch-Queen of the North. After that, she led a band of adventurers called the Nine. She met and married Khelben Arunsun, who would later become the Blackstaff, the Lord Mage of Waterdeep. After Khelben died, Laeral retired from public life. She resurfaced after the Spellplague and the Sundering, weakened by Mystra's death, rebirth, and withdrawal from the world.",
+    "role": "Open Lord of Waterdeep",
+    "is_enemy": false,
+    "xp_reward": 18000,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.208)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Manshoon Simulacrum",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 18,
+    "alignment": "lawful evil",
+    "armor_class": 12,
+    "hit_points": "",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 23,
+      "wisdom": 15,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Simulacrum",
+        "description": "Manshoon uses the simulacrum spell to create a magical duplicate of himself as needed. He has customized the spell to increase his simulacrum's hit points at the expense of its spellcasting ability. Manshoon can have only one simulacrum at any given time, and he uses it as a subordinate to command his Zhentarim minions in the field. If his simulacrum is destroyed, Manshoon creates another. Each simulacrum has the statistics of Manshoon, with these changes: The simulacrum has no special equipment. Consequently, it has AC 12 and lacks the Magic Resistance trait and the Staff of Power action option. It loses all spell slots of 6th level and higher. It has a challenge rating of 8 (3,900 XP)."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A magical duplicate of Manshoon created via the simulacrum spell, used to command Zhentarim minions in the field.",
+    "role": "Subordinate",
+    "is_enemy": true,
+    "xp_reward": 3900,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.208)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Yegg",
+    "race": "Goblin",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "12",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A fat, cantankerous goblin with 12 hit points named Yegg. Yegg is the chief cook for the Cragmaws, and he viciously bullies his unwilling assistants as they go about the work of putting food on the tribe's table. If Yegg is killed, any goblins left alive flee to the east or west, avoiding the north door because of the trap in area 2.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.37)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Lhupo",
+    "race": "Goblin",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "12",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Lhupo (a goblin with 12 hit points) and two ordinary goblins that serve as his 'acolytes.' They all wear filthy robes over their armor, but none of them possess divine powers (although Lhupo claims to hear Maglubiyet speaking to him).",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.38)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "King Grol",
+    "race": "Bugbear",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "45",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "King Grol is a fierce old bugbear with 45 hit points. He rules the Cragmaws through pure intimidation. Age has stooped his shoulders and hunched his back, but he remains surprisingly agile and strong. He is demanding and vindictive, and no Cragmaw dares to cross him.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.40)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Snarl",
+    "race": "Wolf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "18",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Snarl is a wolf with 18 hit points, attending King Grol.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.40)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Vyerith",
+    "race": "Doppelganger",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Vyerith is a doppelganger disguised as a female drow, a messenger from the Black Spider, come to collect Gundren Rockseeker and the map of Wave Echo Cave from King Grol.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.40)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Gundren Rockseeker",
+    "race": "Dwarf",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "0",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Gundren Rockseeker is a dwarf commoner. He is unconscious but stable at 0 hit points.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.40)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Targor Bloodsword",
+    "race": "Hobgoblin",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "20",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Targor Bloodsword is a hobgoblin with 20 hit points who leads a returning war band. He has long aspired to lead the Cragmaw tribe.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.40)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Nundro Rockseeker",
+    "race": "Dwarf",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Nundro is a dwarf commoner and the youngest of the three Rockseeker brothers. He was captured by Nezznar and interrogated harshly. He is grateful if rescued and offers to tag along.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Lost Mine of Phandelver, p.50)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Cuth Swift",
+    "race": "Human",
+    "class_name": "Commoner",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "2",
+    "speed": "30 ft.",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A limping man, husband of Linan Swift, down to 2 hit points from an earlier fight.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen, p.8)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Carlon Amoffel",
+    "race": "Human",
+    "class_name": "Spy",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Harper Tattoo",
+        "description": "characters discover a Harper tattoo on his arm if they dig him up"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The buried man is Carlon Amoffel. He is a human spy and a member of the Harpers. He has nothing but the loincloth he was buried in. Amoffel has Harper contacts in Waterdeep and knows his way around the city. He can be a useful ally when this caravan reaches its destination.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Wessic the Wizened",
+    "race": "Human",
+    "class_name": "Veteran",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "45 (7d8+14)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 13,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 11,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 5,
+      "Perception": 2
+    },
+    "features": [],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The veteran makes two longsword attacks. If it has a shortsword drawn, it can also make a shortsword attack."
+      },
+      {
+        "name": "Longsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8+3) slashing damage, or 8 (1d10+3) slashing damage if used with two hands."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6+3) piercing damage."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10+1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Wessic, a human veteran of sixty years, is resting here the first time the characters show up. Wessic sleeps in his armor and keeps his weapon stowed under his bed, within easy reach. If awakened, he fights fiercely and shouts loudly for help; this usually brings Talis and the other guards, but not the Trepsin the troll or the lodge's human and kobold servants. If reduced to half his hit points, he attempts to surrender.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 700,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen, p.70)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Raggnar Redtooth",
+    "race": "Human",
+    "class_name": "Veteran",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 10,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Secret Cult Bribery",
+        "description": "Secretly takes bribes from the Cult of the Dragon. Strangers are never really welcome in his tavern, but they get service while he informs Captain Othelstan by sending a messenger."
+      },
+      {
+        "name": "Violent Past",
+        "description": "Raggnar has a violent past and is treated as an unarmored veteran (AC 10). He keeps his weapons behind the bar."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The owner of the Golden Tankard tavern. Seems friendly enough but secretly takes bribes from the Cult of the Dragon.",
+    "role": "Tavern Owner / Cult Informant",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen, p.75)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Pharblex",
+    "race": "Bullywug",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 6,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Amphibious",
+        "description": "Pharblex can breathe air and water."
+      },
+      {
+        "name": "Poison Strike (3/Day)",
+        "description": "Once per turn, when Pharblex hits with a melee attack, he can expend a use of this trait to deal an extra 9 (2d8) poison damage.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Pharblex is a 6th-level spellcaster that uses Wisdom as his spellcasting ability (spell save DC 13, +5 to hit with spell attacks). Pharblex has the following spells prepared from the druid spell list:\nCantrips (at will): druidcraft, guidance, poison cloud\n1st level (4 slots): cure wounds, entangle, healing word, thunderwave\n2nd level (3 slots): barkskin, beast sense, spike growth\n3rd level (3 slots): plant growth, water walk"
+      },
+      {
+        "name": "Standing Leap",
+        "description": "As part of his movement and without a running start, Pharblex can long jump up to 20 feet and high jump up to 10 feet."
+      },
+      {
+        "name": "Swamp Camouflage",
+        "description": "Pharblex has advantage on Dexterity (Stealth) checks made to hide in swampy terrain."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Pharblex attacks twice, once with his bite and once with his spear."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or ranged 20 ft./60 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Pharblex is a bullywug druid with a challenge rating of 3 (700 XP).",
+    "role": "",
+    "is_enemy": true,
+    "xp_reward": 700,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Rezmir",
+    "race": "Half-black dragon",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "neutral evil",
+    "armor_class": 13,
+    "hit_points": "90 (12d8 + 36)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 16,
+      "constitution": 16,
+      "intelligence": 15,
+      "wisdom": 12,
+      "charisma": 14
+    },
+    "saving_throws": {
+      "dex": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 5,
+      "Stealth": 9
+    },
+    "features": [
+      {
+        "name": "Special Equipment",
+        "description": "Rezmir has the Black Dragon Mask, Hazirawn, and an insignia of claws (see appendix C for all items)."
+      },
+      {
+        "name": "Amphibious",
+        "description": "Rezmir can breathe air and water."
+      },
+      {
+        "name": "Dark Advantage",
+        "description": "Once per turn, Rezmir can deal an extra 10 (3d6) damage when she hits with a weapon attack, provided Rezmir has advantage on the attack roll."
+      },
+      {
+        "name": "Draconic Majesty",
+        "description": "While wearing no armor and wearing the Black Dragon Mask, Rezmir adds her Charisma bonus to her AC (included)."
+      },
+      {
+        "name": "Immolation",
+        "description": "When Rezmir is reduced to 0 hit points, her body disintegrates into a pile of ash."
+      },
+      {
+        "name": "Legendary Resistance (1/Day)",
+        "description": "If Rezmir fails a saving throw while wearing the Black Dragon Mask, she can choose to succeed instead.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Greatsword (Hazirawn)",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) slashing damage plus 7 (2d6) necrotic damage. If the target is a creature, it can't regain hit points for 1 minute. The target can make a DC 15 Constitution saving throw at the end of each of its turns, ending this effect early on a success."
+      },
+      {
+        "name": "Caustic Bolt",
+        "description": "Ranged Spell Attack: +8 to hit, range 90 ft., one target. Hit: 18 (4d8) acid damage."
+      },
+      {
+        "name": "Acid Breath (Recharge 5-6)",
+        "description": "Rezmir breathes acid in a 30-foot line that is 5 feet wide. Each creature in the line must make a DC 14 Dexterity saving throw, taking 22 (5d8) acid damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Rezmir is a half-black dragon with a challenge rating of 7 (2,900 XP).",
+    "role": "",
+    "is_enemy": true,
+    "xp_reward": 2900,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Talis the White",
+    "race": "Half-elf",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 9,
+    "alignment": "lawful evil",
+    "armor_class": 18,
+    "hit_points": "58 (9d8 + 18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 10,
+      "wisdom": 16,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "wis": 6,
+      "cha": 6
+    },
+    "skills": {
+      "Deception": 6,
+      "Insight": 6,
+      "Perception": 6,
+      "Persuasion": 6
+    },
+    "features": [
+      {
+        "name": "Special Equipment",
+        "description": "Talis has +7 scale mail and a wand of winter (see appendix C)."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "Talis has advantage on saving throws against being charmed, and magic can't put her to sleep."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Talis is a 9th-level spellcaster that uses Wisdom as her spellcasting ability (spell save DC 14, +6 to hit with spell attacks). Talis has the following spells prepared from the cleric spell list:\nCantrips (at will): guidance, resistance, thaumaturgy\n1st level (4 slots): command, cure wounds, healing word, inflict wounds\n2nd level (3 slots): blindness/deafness, lesser restoration, spiritual weapon (spear)\n3rd level (3 slots): dispel magic, mass healing word, sending\n4th level (3 slots): death ward, freedom of movement\n5th level (1 slot): insect plague"
+      },
+      {
+        "name": "Winter Strike (3/Day)",
+        "description": "Once per turn, when Talis hits with a melee attack, she can expend a use of this trait to deal an extra 9 (2d8) cold damage.",
+        "uses": 3,
+        "recharge": "long rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or ranged 20 ft./60 ft., one target. Hit: 6 (1d6 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Talis the White is a half-elf cleric with a challenge rating of 5 (1,800 XP).",
+    "role": "",
+    "is_enemy": true,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Connerad Brawnanvil",
+    "race": "Shield Dwarf",
+    "class_name": "Fighter",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Ideals",
+        "description": "Honor, respect (\"A sturdy axe, a strong hand to hold it, and a straight fight are all we dwarves need to end this little problem.\")"
+      },
+      {
+        "name": "Personality Traits",
+        "description": "Hot tempered, suspicious"
+      },
+      {
+        "name": "Pledged Resources",
+        "description": "Dwarf soldiers and dwarf-forged armaments and siege weapons"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Son of Banak Brawnanvil and a former king of Mithral Hall, Connerad has made the long journey from Mithral Hall to act as the Lords' Alliance delegate for the dwarves of the North, including Citadel Adbar and Citadel Felbarr. Even though Connerad hates dragons, devils, and cultists alike, he is as stubborn as a mule about committing troops anywhere but his homeland. The dwarven kingdoms in the North have lost many people in recent years, and the dwarves that remain are struggling to retain ancient lands only recently reclaimed. He knows the adventurers only by reputation, and desires tangible proof that they have the mettle and wits to lead soldiers and dwarves before he'll make a serious commitment. Like Ontharr Frume of the Order of the Gauntlet, Connerad responds well to bold demonstrations of heroism. However, he is personally and deeply insulted by any slight against dwarves or intrusions by the characters into dwarven affairs. His reactions to the adventurers' exploits determine how he votes in the fourth council.",
+    "role": "Ambassador, Lords' Alliance delegate",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Ulder Ravengard",
+    "race": "Human",
+    "class_name": "Fighter",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Neutral",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Ideals",
+        "description": "Responsibility, glory (\"I am trusted with protecting thousands of lives, and I will not betray that trust no matter what my personal desires.\")"
+      },
+      {
+        "name": "Interaction Traits",
+        "description": "Honest"
+      },
+      {
+        "name": "Pledged Resources",
+        "description": "Flaming Fist warriors and expert advisers to train conscript troops"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Ulder Ravengard is the leader of the Flaming Fist—the military might of Baldur's Gate. He has the greatest martial acumen of anyone at the council (and probably in the whole Lords' Alliance). He can also muster more soldiers than any other delegate, and he is not bashful about saying so. His place is at the head of the war council and the front of the battle—but he will take that place only if the party proves worthy of his trust. Ravengard is a stern warrior dedicated to discipline and results. Having risen through the ranks of the Flaming Fist by the might of his blade and the sharpness of his wits, he sometimes lacks sophistication and tact, but he possesses an unwavering commitment to the law. More comfortable working with soldiers than adventurers, Ravengard is used to giving orders and having them obeyed without question. Though Baldur's Gate is still recovering from the havoc caused by the resurrection within the city of Bhaal, god of murder, the metropolis remains one of Faerun's most populous, wealthy, and powerful cities. Ravengard recognizes his duty to protect the city above all else, and the Flaming Fist's tired reserves are desperately needed for reconstruction and policing. However, he would love to see the Flaming Fist take a leading role in the fight against the Cult of the Dragon, if only to give the defenders of Baldur's Gate a stature befitting the greatest city in Faerun. This opportunity for glory makes Ravengard receptive to the adventurers' overtures, as long as their plans and decisions promise stability and discipline.",
+    "role": "Marshal, leader of the Flaming Fist",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Taern \"Thunderspell\" Hornblade",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Lawful Good",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Ideals",
+        "description": "Logic, greater good (\"Calculated risks are necessary to win this war, and no one is likely to emerge unscathed.\")"
+      },
+      {
+        "name": "Interaction Traits",
+        "description": "Ponderous, curious"
+      },
+      {
+        "name": "Pledged Resources",
+        "description": "The army of Silverymoon (the Knights in Silver) and Silverymoon conscript troops"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Taern Hornblade has lived an unnaturally long life by consuming potions of longevity. The wizard led Silverymoon for many years as high mage, but",
+    "role": "High Mage, Lords' Alliance delegate",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Taern Hornblade",
+    "race": "Human",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Taern Hornblade has lived an unnaturally long life by consuming potions of longevity. The wizard led Silverymoon for many years as high mage, but eventually ceded control to Methrammar, leader of the city's army and son of its most famous ruler, Alustriel. Though Methrammar remains leader of Silverymoon and a member of the Lords' Alliance, he is too forthright and earnest to succeed as a diplomat. As such, Taern was sent to the Council of Waterdeep in his stead.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Barking Seal",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Chieftain of the Ice Hunters tribe. He does all the talking for the villagers along with the shaman. He knows a little of a rough Illuskan dialect. He proposes a contest: the village's champion against any warrior among the strangers.",
+    "role": "Chieftain",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Bonecarver",
+    "race": "Human",
+    "class_name": "Druid",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Tribal shaman, female. She does all the talking for the villagers along with the chieftain. She claims a dragon known as Old White Death was killed a year ago by frost giants. She aids Orcaheart during the duel by surreptitiously casting cure wounds. She brings the characters a platter of slightly spoiled raw fish with poison added.",
+    "role": "Shaman",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
+  },
+  {
+    "name": "Orcaheart",
+    "race": "Human",
+    "class_name": "Gladiator",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Village champion, male. He fights one-on-one against a character in a duel if the characters refuse to leave the iceberg. The fight continues until one contestant is unconscious and dying.",
+    "role": "Champion",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  The Rise of Tiamat)",
+    "_source_manual": "RoT"
   }
 ]

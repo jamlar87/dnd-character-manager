@@ -3201,5 +3201,219 @@
     "weight": 0,
     "source": "(D&D 5E  Tomb of Annihilation)",
     "_source_manual": "ToA"
+  },
+  {
+    "name": "Gold Trade Bar",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 5,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Painting of a Dwarf Miner",
+    "type": "Art Object",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5d10 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Silvered Warhammer",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 bludgeoning",
+    "properties": [
+      "versatile (1d10)"
+    ],
+    "cost": "115 gp",
+    "weight": 2,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Steel Mirror",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 gp",
+    "weight": 0.5,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Scarlet Marpenoth (Submarine)",
+    "type": "Vehicle",
+    "subtype": "Submarine",
+    "damage": "",
+    "properties": [
+      "AC 20",
+      "300 hit points",
+      "damage threshold 15",
+      "immunity to poison and psychic damage",
+      "requires at least one pilot and one engineer to operate",
+      "maximum speed of 2 miles per hour",
+      "can hold up to 10 passengers plus 2 tons of cargo",
+      "worth 15,000 gp intact"
+    ],
+    "cost": "15000 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Lantanese Diving Suit",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Dented Plate Armor",
+    "type": "Armor",
+    "subtype": "heavy",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Black Leather Armor",
+    "type": "Armor",
+    "subtype": "light",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Quarterstaff (fine)",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d6 bludgeoning",
+    "properties": [
+      "versatile (1d8)"
+    ],
+    "cost": "10 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Lost Mine of Phandelver)",
+    "_source_manual": "LMoP"
+  },
+  {
+    "name": "Ermine Pelt",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Fox Pelt",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Mithral Clasp",
+    "type": "Wondrous item",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "750 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Fine Dining Silver",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "300 gp",
+    "weight": 50,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Crossbow Bolts (20)",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 1.5,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Mithral-Inlaid Spear",
+    "type": "Weapon",
+    "subtype": "simple melee",
+    "damage": "1d6 piercing",
+    "properties": [
+      "thrown (range 20/60)",
+      "versatile (1d8)"
+    ],
+    "cost": "50 gp",
+    "weight": 3,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Mug of Beer",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "3 cp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Mug of Strong Mead",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Plate of Sausage, Stewed Cabbage, and Heavy Black Bread",
+    "type": "Food and Drink",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "4 cp",
+    "weight": 0,
+    "source": "(D&D 5E  Tyranny of Dragons  Hoard of the Dragon Queen)",
+    "_source_manual": "HotDQ"
   }
 ]

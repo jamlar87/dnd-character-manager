@@ -71759,7 +71759,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(The Rise of Tiamat, p.12)",
+    "source": "(The Rise of Tiamat, p.36)",
     "_source_manual": "RoT"
   },
   {
@@ -80506,7 +80506,7 @@
         "description": "The dragon beats its wings. Each creature within 10 feet of the dragon must succeed on a DC 18 Dexterity saving throw or take 13 (2d6+6) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed."
       }
     ],
-    "source": "(Tomb of Annihilation, p.14)",
+    "source": "(Tomb of Annihilation, p.7)",
     "_source_manual": "ToA"
   },
   {
@@ -80922,7 +80922,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Tomb of Annihilation, p.137)",
+    "source": "(Tomb of Annihilation, p.138)",
     "_source_manual": "ToA"
   },
   {
@@ -81445,7 +81445,7 @@
     "actions": [],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Tomb of Annihilation, p.52)",
+    "source": "(Tomb of Annihilation, p.165)",
     "_source_manual": "ToA"
   },
   {
@@ -81665,7 +81665,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Tomb of Annihilation, p.71)",
+    "source": "(Tomb of Annihilation, p.180)",
     "_source_manual": "ToA"
   },
   {
@@ -81707,7 +81707,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Tomb of Annihilation, p.71)",
+    "source": "(Tomb of Annihilation, p.180)",
     "_source_manual": "ToA"
   },
   {
@@ -81749,7 +81749,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Tomb of Annihilation, p.71)",
+    "source": "(Tomb of Annihilation, p.180)",
     "_source_manual": "ToA"
   },
   {
@@ -88832,7 +88832,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Volo's Guide to Monsters, p.55)",
+    "source": "(Volo's Guide to Monsters, p.4)",
     "_source_manual": "VGM"
   },
   {
@@ -95752,7 +95752,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Warlock Lairs: Into the Wilds, p.3)",
+    "source": "(Warlock Lairs: Into the Wilds, p.153)",
     "_source_manual": "WLL"
   },
   {
@@ -95812,7 +95812,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Warlock Lairs: Into the Wilds, p.2)",
+    "source": "(Warlock Lairs: Into the Wilds, p.169)",
     "_source_manual": "WLL"
   },
   {
@@ -96277,7 +96277,7 @@
     ],
     "reactions": [],
     "legendary_actions": [],
-    "source": "(Warlock Lairs: Into the Wilds, p.3)",
+    "source": "(Warlock Lairs: Into the Wilds, p.173)",
     "_source_manual": "WLL"
   },
   {
@@ -101232,7 +101232,7 @@
         "description": "Ayo issues orders to one ally she can see within 30 feet of herself. If the target can see or hear Ayo, it can spend its reaction to move up to its speed. This movement doesn't provoke opportunity attacks."
       }
     ],
-    "source": "(Call of the Netherdeep, p.12)",
+    "source": "(Call of the Netherdeep, p.4)",
     "_source_manual": "CotN"
   },
   {
@@ -117425,5 +117425,141 @@
     "legendary_actions": [],
     "source": "(D&D 5E  Tomb of Annihilation)",
     "_source_manual": "ToA"
+  },
+  {
+    "name": "Giant Mimic (Banquet Table)",
+    "size": "Large",
+    "type": "monstrosity (shapechanger)",
+    "alignment": "neutral",
+    "armor_class": 12,
+    "ac_type": "natural armor",
+    "hit_points": "75 (10d10 + 20)",
+    "speed": "15 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 12,
+      "constitution": 15,
+      "intelligence": 5,
+      "wisdom": 13,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Stealth": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "acid"
+    ],
+    "condition_immunities": [
+      "prone"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 11",
+    "languages": [],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Shapechanger",
+        "description": "The mimic can use its action to polymorph into an object or back into its true, amorphous form. Its statistics are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+      },
+      {
+        "name": "Adhesive (Object Form Only)",
+        "description": "The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic is also grappled by it (escape DC 13). Ability checks made to escape this grapple have disadvantage."
+      },
+      {
+        "name": "False Appearance (Object Form Only)",
+        "description": "While the mimic remains motionless, it is indistinguishable from an ordinary object."
+      },
+      {
+        "name": "Grappler",
+        "description": "The mimic has advantage on attack rolls against any creature grappled by it."
+      },
+      {
+        "name": "Household Treatment",
+        "description": "The mimic is well treated by the Cassalanters and won't harm any member of the household. It obeys only Lord and Lady Cassalanter."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "As an action, it can make three attacks: two with its pseudopods and one with its bite."
+      },
+      {
+        "name": "Pseudopod",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage. If the mimic is in object form, the target is subjected to its Adhesive trait."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) piercing damage plus 4 (1d8) acid damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Waterdeep  Dragon Heist, p.123)",
+    "_source_manual": "WDH"
+  },
+  {
+    "name": "Swarm of Mechanical Spiders",
+    "size": "Medium",
+    "type": "swarm of Tiny constructs",
+    "alignment": "unaligned",
+    "armor_class": 12,
+    "ac_type": "natural armor",
+    "hit_points": "22 (5d8)",
+    "speed": "20 ft., climb 20 ft.",
+    "ability_scores": {
+      "strength": 3,
+      "dexterity": 13,
+      "constitution": 10,
+      "intelligence": 1,
+      "wisdom": 7,
+      "charisma": 1
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [
+      "bludgeoning",
+      "piercing",
+      "slashing"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "frightened",
+      "paralyzed",
+      "petrified",
+      "prone",
+      "poisoned",
+      "exhaustion"
+    ],
+    "senses": "blindsight 10 ft., passive Perception 8",
+    "languages": [],
+    "challenge_rating": "1/2",
+    "xp": 100,
+    "features": [
+      {
+        "name": "Swarm",
+        "description": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny insect. The swarm can't regain hit points or gain temporary hit points."
+      },
+      {
+        "name": "Construct Nature",
+        "description": "The swarm doesn't require air, food, drink, or sleep."
+      },
+      {
+        "name": "Vulnerability to Lightning",
+        "description": "The swarm has vulnerability to lightning damage."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bites",
+        "description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Waterdeep  Dragon Heist)",
+    "_source_manual": "WDH"
   }
 ]

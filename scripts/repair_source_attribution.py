@@ -65,8 +65,31 @@ def display_for(slug: str) -> str:
     return (app_main._get_source_slug_map().get(slug) or {}).get("display") or slug
 
 
+def cache_is_stale(slug: str) -> bool:
+    """True when the cached text holds far less than the PDF offers.
+
+    A thin cache makes a name look absent from a book that really contains it, so the only
+    re-attributions worth applying are those whose original book cannot be judged.
+    """
+    import fitz
+    try:
+        pdf_map = json.loads((MERGED / "_meta.json").read_text()).get("pdf_map", {})
+        rel = (pdf_map.get(slug) or {}).get("path") or ""
+        pdf = HERE / "manuals" / str(rel)
+        cache = HERE / "data" / "manual_cache" / f"{slug}.txt"
+        if not pdf.exists() or not cache.exists():
+            return True
+        doc = fitz.open(str(pdf))
+        real = sum(len(p.get_text("text")) for p in doc)
+        doc.close()
+        return real > 1000 and cache.stat().st_size < 0.6 * real
+    except Exception:
+        return False
+
+
 def main() -> int:
     apply = "--apply" in sys.argv
+    apply_books = "--apply-books" in sys.argv
     show = 12
     if "--show" in sys.argv:
         show = int(sys.argv[sys.argv.index("--show") + 1])
@@ -128,7 +151,13 @@ def main() -> int:
                 continue
 
             where = [s for s, blob in books.items() if any(k in blob for k in keys)]
-            if len(where) == 1:
+            # Prefer candidates the app can actually open: a stale slug whose own cache still
+            # exists (WS -> WSE "Shadows Envy", TLT -> TTLT "The Tortured Land") otherwise looks
+            # ambiguous when only one of the two is a real library book.
+            openable_hits = [s for s in where if s in openable]
+            if len(openable_hits) == 1:
+                book_fixes.append((cat, name, slug, cited, openable_hits[0], it))
+            elif len(where) == 1:
                 book_fixes.append((cat, name, slug, cited, where[0], it))
             elif where:
                 ambiguous.append(f"{cat}/{name}: cited {slug} p.{cited}; in {len(where)} books: {where[:4]}")
@@ -154,17 +183,43 @@ def main() -> int:
 
     # Apply: page fixes rewrite the number; re-attributions change the book and the display.
     touched = Counter()
+    skipped_book: list[str] = []
     for cat, name, slug, cited, target, it in page_fixes:
         it["source"] = re.sub(r"p\.\d+\)$", f"p.{target})", str(it["source"]))
         touched[cat] += 1
-    for cat, name, slug, cited, target, it in book_fixes:
+
+    for cat, name, slug, cited, target, it in (book_fixes if apply_books else []):
+        # Only when the book it currently cites cannot be judged: a missing slug, or a cache too
+        # thin to have found the name in. Otherwise the likelier cause is a name the app composes
+        # or a reprint, and "fixing" it would move a correct record onto a book that merely
+        # reprints it.
+        if slug in openable and not cache_is_stale(slug):
+            skipped_book.append(f"{cat}/{name}: {slug} p.{cited} -> {target} (cited book intact)")
+            continue
         pgs = load_pages(target)
         page = find_in_book(pgs, name) if pgs else None
+        if page is None and pgs:
+            # The heading lookup is strict (it exists to avoid citing a table-of-contents). For a
+            # re-attribution the book is already known to contain the name, so fall back to the
+            # first page carrying every significant word of it.
+            words = [w for w in re.findall(r"[a-z0-9]+", name.lower()) if len(w) > 3]
+            for pno in sorted(pgs):
+                blob = pgs[pno].lower()
+                if words and all(w in blob for w in words):
+                    page = pno
+                    break
         if page is None:
             continue  # cannot place it in the new book: leave for a human
         it["_source_manual"] = target
         it["source"] = f"({display_for(target)}, p.{page})"
         touched[cat] += 1
+    if book_fixes and not apply_books:
+        print(f"\n{len(book_fixes)} re-attribution(s) NOT applied — book changes need --apply-books.")
+    for row in skipped_book[:show]:
+        print(f"   held back: {row}")
+    if skipped_book:
+        print(f"   ({len(skipped_book)} re-attribution(s) held back: the cited book is intact, so the "
+              f"name is likelier an app-composed label or a reprint than a wrong book)")
 
     for cat in CATEGORIES:
         if not touched[cat]:
