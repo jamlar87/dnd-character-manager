@@ -312,6 +312,14 @@ FEATURE_ACTION_TYPES = {
     "fey step":                        ("Bonus Action", "Cast misty step (racial teleport up to 30 ft)"),
     "blessing of the raven queen":     ("Bonus Action", "Teleport up to 30 ft; resist damage after teleporting"),
     "drow magic":                      ("Action", "Cast faerie fire or darkness (racial)"),
+    # Traits from the Monsters of the Multiverse races (added by the library ingestion).
+    # Every LIMITED_USE key must resolve to an action type, or the sheet cannot render it:
+    # tests/test_sheet_helpers_regression.py::test_runtime_limited_use_keys_resolve_via_clean_strip
+    "astral knowledge":                ("Special", "Long-rest choice: proficiency in one skill and one weapon or tool"),
+    "fairy magic":                     ("Action", "Cast druidcraft, faerie fire, or enlarge/reduce (racial)"),
+    "rabbit hop":                      ("Bonus Action", "Jump 5 ft x prof bonus, no opportunity attacks (PB uses per long rest)"),
+    "serpentine spellcasting":         ("Action", "Cast poison spray, animal friendship, or suggestion (racial)"),
+    "student of war":                  ("Special", "Proficiency with one type of artisan's tools (passive)"),
     "duergar magic":                   ("Action", "Cast enlarge/reduce (enlarge) or invisibility on yourself"),
     "infernal legacy":                 ("Special", "Cast darkness (action) or hellish rebuke (reaction, when damaged)"),
     "call to the wave":                ("Action", "Cast create or destroy water (racial)"),

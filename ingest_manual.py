@@ -268,17 +268,61 @@ def _call_ollama(prompt: str) -> str | None:
         return None
 
 
+def _call_openrouter(prompt: str, model: str | None = None) -> str | None:
+    """Tier: OpenRouter (free models available). Off by default — see INGEST_LLM_ORDER.
+
+    Measured on a real 7k chunk (MPMM pp.32-37): two of three free models returned HTTP 429
+    immediately, and the one that answered took 144s and produced no usable items. Free is
+    workable for a page, not for a 3000-chunk library; keep the paid tier first unless a
+    specific model has been shown to behave.
+    """
+    key = _load_env_key("OPENROUTER_API_KEY")
+    if not key:
+        return None
+    model = model or os.environ.get("OPENROUTER_MODEL", "qwen/qwen3.8-27b:free")
+    try:
+        body = json.dumps({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.1,
+            "max_tokens": 4096,
+        }).encode()
+        req = urllib.request.Request(
+            "https://openrouter.ai/api/v1/chat/completions",
+            data=body,
+            headers={"Content-Type": "application/json",
+                     "Authorization": f"Bearer {key}",
+                     "X-Title": "DnD Character Manager ingestion"},
+        )
+        with urllib.request.urlopen(req, timeout=LLM_TIMEOUT) as resp:
+            result = json.loads(resp.read())
+        return result["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"  [OpenRouter] {e}")
+        return None
+
+
 def _call_llm(prompt: str) -> str | None:
-    """Tiered LLM chain: DeepSeek V4 Pro → Gemini → Ollama."""
-    result = _call_deepseek(prompt, model="deepseek-chat")
-    if result:
-        return result
-    print("  DeepSeek failed, trying Gemini...")
-    result = _call_gemini(prompt)
-    if result:
-        return result
-    print("  Gemini failed, trying Ollama...")
-    return _call_ollama(prompt)
+    """Tiered LLM chain. Order via INGEST_LLM_ORDER (default deepseek,gemini,ollama).
+
+    Set it to e.g. "gemini,deepseek" to run a sweep on the free tier first, or
+    "openrouter,deepseek" to try OpenRouter's free models — both are slower and free tiers
+    throw transient 429/503s, so the paid tier stays in the chain as the safety net.
+    """
+    order = [s.strip() for s in
+             os.environ.get("INGEST_LLM_ORDER", "deepseek,gemini,ollama").split(",") if s.strip()]
+    tiers = {"deepseek": _call_deepseek, "gemini": _call_gemini,
+             "openrouter": _call_openrouter, "ollama": _call_ollama}
+    for i, name in enumerate(order):
+        fn = tiers.get(name)
+        if not fn:
+            continue
+        if i:
+            print(f"  {order[i - 1]} failed, trying {name}...")
+        result = fn(prompt)
+        if result:
+            return result
+    return None
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -330,6 +374,19 @@ def _try_parse_json(raw: str) -> dict | None:
         return json.loads(raw)
     except json.JSONDecodeError:
         pass
+
+    # 1b. Strip a markdown code fence. DeepSeek returns bare JSON; free/other models
+    #     (Gemini, OpenRouter) wrap it in ```json … ```, and the later repair attempts
+    #     cannot see through it — their last-ditch regex only matches two levels deep,
+    #     while an extraction response is three or more. Without this, a perfectly good
+    #     response parses to nothing and the run looks like the model found no items.
+    fenced = re.search(r"```(?:json)?\s*(.+?)\s*```", raw, re.S)
+    if fenced:
+        inner = fenced.group(1)
+        try:
+            return json.loads(inner)
+        except json.JSONDecodeError:
+            raw = inner
 
     # 2. Remove control characters (0x00-0x1F except \t, \n, \r)
     cleaned = _clean_json_controls(raw)
