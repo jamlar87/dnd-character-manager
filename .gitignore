@@ -14,3 +14,8 @@ static/sheet-ref.js
 static/dm-monsters.js
 static/dm-library.js
 static/ref-portraits/
+
+# ingestion sweep runtime files (not history)
+data/.ingest_sweep.lock
+data/.ingest_sweep.done
+data/ingest_sweep.log
