@@ -4657,4 +4657,122 @@ No new entries in this chapter.
     Chunk 6 (6,403 chars) → 2 items {'monsters': 2} (5.6s)
     Chunk 7 (7,758 chars) → 1 items {'monsters': 1} (4.4s)
     Chunk 8 (6,212 chars) → 3 items {'monsters': 2, 'npcs': 1} (7.1s)
-    Chunk 9 (6,877 chars) → 
+    Chunk 9 (6,877 chars) → 2 items {'monsters': 2} (4.6s)
+    Chunk 10 (5,614 chars) → 2 items {'monsters': 2} (3.7s)
+    Chunk 11 (6,223 chars) → 3 items {'monsters': 3} (5.2s)
+    Chunk 12 (6,041 chars) → 2 items {'monsters': 2} (4.6s)
+    Chunk 13 (6,868 chars) → 2 items {'monsters': 2} (4.6s)
+    Chunk 14 (2,481 chars) → 1 items {'monsters': 1} (3.0s)
+    Intra-book dedup: removed 2 duplicate(s), upgraded 1 with better version
+
+── Chapter Readout: Monsters and NPCs ──
+Stats: 15 chunks → 29 raw → 29 valid → 29 new
+  2 intra-chapter duplicates removed
+  monsters: 28 — Bearfolk Druid, Bearfolk Thunderstomper, Bearfolk, Birch Siren, Darakhul General, Gnomish Distiller, Keeper of Hounds, Keeper of Ravens (+20 more)
+  npcs: 1 — Ectius
+  [10/13] Magic Items and Trickery (63,334 chars)
+    Chunk 0 (5,229 chars) → 4 items {'magic_items': 4} (2.5s)
+    Chunk 1 (4,611 chars) → 7 items {'magic_items': 7} (4.2s)
+    Chunk 2 (4,551 chars) → 7 items {'magic_items': 7} (4.6s)
+    Chunk 3 (4,317 chars) → 11 items {'magic_items': 11} (4.7s)
+    Chunk 4 (6,762 chars) → 10 items {'magic_items': 10} (6.3s)
+    Chunk 5 (4,180 chars) → 4 items {'magic_items': 4} (3.5s)
+    Chunk 6 (4,424 chars) → 6 items {'magic_items': 6} (3.6s)
+    Chunk 7 (4,205 chars) → 8 items {'magic_items': 8} (4.5s)
+    Chunk 8 (4,918 chars) → 1 items {'magic_items': 1} (3.5s)
+    Chunk 9 (4,632 chars) → 2 items {'magic_items': 2} (3.1s)
+    Chunk 10 (4,767 chars) → 7 items {'magic_items': 7} (5.0s)
+    Chunk 11 (4,154 chars) → 5 items {'magic_items': 5} (3.2s)
+    Chunk 12 (4,790 chars) → 7 items {'magic_items': 7} (4.6s)
+    Chunk 13 (6,993 chars) → 10 items {'magic_items': 10} (6.1s)
+    Intra-book dedup: removed 5 duplicate(s), upgraded 3 with better version
+    ⚠ Validation issues: 2
+      - Item Helm of the Black Opal: unknown rarity=unknown
+      - Item Dowsing Rod: unknown rarity=unknown
+
+── Chapter Readout: Magic Items and Trickery ──
+Stats: 14 chunks → 84 raw → 84 valid → 84 new
+  5 intra-chapter duplicates removed
+  magic_items: 84 — Bearskin Cloak, Boots of Dancing, Boots of Shadow Walking, Cloak of Splendor, Cloak of the Raven, Earrings of Eclipse, Emerald Goblet, Gloves of the Walking Shade (+76 more)
+  [11/13] Appendix: Life in the Shadow Realm (39,833 chars)
+    Chunk 0 (7,265 chars) → 38 items {'magic_items': 38} (10.1s)
+    Chunk 1 (6,506 chars) → 0 items {} (1.2s)
+    Chunk 2 (6,343 chars) → 0 items {} (0.9s)
+    Chunk 3 (6,494 chars) → 0 items {} (0.8s)
+    Chunk 4 (6,632 chars) → 0 items {} (1.0s)
+    Chunk 5 (3,706 chars) → 0 items {} (0.8s)
+    Chunk 6 (5,283 chars) → 2 items {'magic_items': 2} (1.4s)
+    ⚠ Validation issues: 2
+      - Item Shadowsphere Pendent: unknown rarity=unknown
+      - Item Luminous Shard: unknown rarity=unknown
+
+── Chapter Readout: Appendix: Life in the Shadow Realm ──
+Stats: 7 chunks → 40 raw → 40 valid → 40 new
+  magic_items: 40 — Dancing Shadow Amulet, Shadow Umbrella, Floating Hat, Animated Goblet, Animated Cutlery, Glittering Shadow Powder, Glimmering Hair Comb, Flawless Raiment (+32 more)
+  [12/13] Appendix: Shadow Realm Encounters (29,265 chars)
+    Chunk 0 (6,736 chars) → 0 items {} (0.9s)
+    Chunk 1 (6,533 chars) → 0 items {} (0.9s)
+    Chunk 2 (7,942 chars) → 0 items {} (0.9s)
+    Chunk 3 (6,415 chars) → 0 items {} (0.9s)
+    Chunk 4 (3,234 chars) → 0 items {} (0.7s)
+
+── Chapter Readout: Appendix: Shadow Realm Encounters ──
+Stats: 5 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+  [13/13] Appendix: Shadow Realm  Creatures by Terrain (41,937 chars)
+    Chunk 0 (7,945 chars) → 0 items {} (0.8s)
+    Chunk 1 (7,181 chars) → 0 items {} (1.0s)
+    Chunk 2 (7,367 chars) → 0 items {} (0.8s)
+    Chunk 3 (6,745 chars) → 0 items {} (0.9s)
+    Chunk 4 (5,124 chars) → 0 items {} (0.9s)
+    Chunk 5 (8,464 chars) → 0 items {} (1.0s)
+    Chunk 6 (1,480 chars) → 0 items {} (1.0s)
+
+── Chapter Readout: Appendix: Shadow Realm  Creatures by Terrain ──
+Stats: 7 chunks → 0 raw → 0 valid → 0 new
+No new entries in this chapter.
+
+  Race detail extraction for 17 race(s)...
+    Race second-pass: Bearfolk (11,326 chars context) → 6 traits, 1 ASI bonuses
+    Race second-pass: Shadowborn Bearfolk (11,419 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Darakhul (11,408 chars context) → 7 traits, 0 ASI bonuses
+    Race second-pass: Shadow Fey (11,410 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Lunar Elf (11,409 chars context) → 7 traits, 1 ASI bonuses
+    Race second-pass: Sable Elf (11,267 chars context) → 3 traits, 2 ASI bonuses
+    Race second-pass: Shadow Goblin (11,413 chars context) → 5 traits, 1 ASI bonuses
+    Race second-pass: Umbral Human (11,295 chars context) → 10 traits, 0 ASI bonuses
+    Race second-pass: Changeling Umbral Human (11,423 chars context) → 3 traits, 1 ASI bonuses
+    Race second-pass: Gifted Umbral Human (11,419 chars context) → 3 traits, 1 ASI bonuses
+    Race second-pass: Quickstep (11,388 chars context) → 10 traits, 2 ASI bonuses
+    Race second-pass: Ratatosk (11,408 chars context) → 9 traits, 2 ASI bonuses
+    Race second-pass: Stygian Shade (11,413 chars context) → 12 traits, 1 ASI bonuses
+    Race second-pass: Sublime Ravenfolk (11,417 chars context) → 9 traits, 2 ASI bonuses
+    Race second-pass: Unbound Satarre (11,415 chars context) → 10 traits, 2 ASI bonuses
+    Race second-pass: Wyrd Gnome (11,260 chars context) → 3 traits, 1 ASI bonuses
+
+  Subclass detail extraction for 10 subclass(es)...
+      Subclass second-pass: Circle of Shadows (12,000 chars) → 5 features
+      Subclass second-pass: College of Shadow (12,000 chars) → 0 features
+      Subclass second-pass: Keeper Domain (12,000 chars) → 7 features
+      Subclass second-pass: Light Weaver Sorcerous Origin (12,000 chars) → 5 features
+      Subclass second-pass: Mother of Sorrows (12,000 chars) → 6 features
+      Subclass second-pass: Shadow Arcane Tradition (12,000 chars) → 5 features
+      Subclass second-pass: Shadow Domain (12,000 chars) → 7 features
+      Subclass second-pass: Umbral Binder (12,000 chars) → 5 features
+      Subclass second-pass: Shadow Gnawer (12,000 chars) → 4 features
+      Subclass second-pass: Way of the Prophet (12,000 chars) → 5 features
+    ⚠ Validation issues: 17
+      - Spell Bitter Wind: unknown school=evocation (weather)
+      - Spell Ebon Tide: unknown school=unknown
+      - Spell Fire Dance: unknown school=illusion (elemental)
+      - Spell Fireflies: unknown school=evocation (fey)
+      - Spell Gloaming: unknown school=evocation (shadow)
+
+  Auto-wiring trait effects for 17 race(s)...
+      Wiring 6 traits → 6 wired
+      Wiring 7 traits → 7 wired
+      Wiring 9 traits → 9 wired
+      Wiring 7 traits → 7 wired
+      Wiring 7 traits → 6 wired
+      Wiring 4 traits → 4 wired
+      Wiring 13 traits → 

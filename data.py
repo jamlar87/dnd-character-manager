@@ -178,7 +178,7 @@ FEATURE_DESCRIPTIONS = {
     "aura of courage": "You and friendly creatures within 10 feet of you can't be frightened while you are conscious.",
     "aura of protection": "Whenever you or a friendly creature within 10 feet of you must make a saving throw, the creature gains a bonus to the saving throw equal to your Charisma modifier (with a minimum bonus of +1). You must be conscious to grant this bonus.",
     "bardic inspiration": "As a bonus action, you can inspire one creature within 60 feet. The creature gains one Bardic Inspiration die (a d6). Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes.",
-    "channel divinity: abjure enemy": "As an action, you present your holy symbol and speak a prayer of denunciation, causing one fi end or undead within 60 feet that can see or hear you to make a Wisdom saving throw.",
+    "channel divinity: abjure enemy": "As an action, you present your holy symbol and speak a prayer of denunciation, causing one fiend or undead within 60 feet that can see or hear you to make a Wisdom saving throw.",
     "channel divinity: destructive wrath": "When you roll lightning or thunder damage, you can use your Channel Divinity to deal maximum damage, instead of rolling.",
     "channel divinity: preserve life": "As an action, you present your holy symbol and evoke healing energy that can restore a number of hit points equal to five times your cleric level.",
     "channel divinity: turn undead": "As an action, you present your holy symbol and speak a prayer censuring the undead. Each undead that can see or hear you within 30 feet must make a Wisdom saving throw.",
@@ -210,7 +210,6 @@ FEATURE_DESCRIPTIONS = {
     "channel divinity: sacred weapon": "As an action, you can imbue one weapon that you are holding with positive energy, using your Channel Divinity.",
     "channel divinity: war god's blessing": "When a creature within 30 feet of you makes an attack roll, you can use your reaction to grant that creature a +10 bonus to the roll.",
     "channel divinity: natures wrath": "As an action, you can cause spectral vines to ensnare a creature within 10 feet.",
-    "channel divinity: abjure enemy": "As an action, you present your holy symbol and speak a prayer of denunciation, causing one fiend or undead within 60 feet to make a Wisdom save.",
     "channel divinity: turn the unholy": "As an action, you present your holy symbol and speak a prayer censuring fiends and undead.",
     "channel divinity: turn the faithless": "As an action, you present your holy symbol and speak a prayer censuring fey and fiends.",
     "channel divinity": "You can channel divine energy to fuel magical effects. You start with one use per short rest.",
@@ -901,7 +900,6 @@ LIMITED_USE = {
     # Wizard (PHB p.115) — Signature Spell, 2 free casts/short rest (one per chosen spell)
     "signature spell":     {"min": 2, "max": 2,  "recharge": "short", "class": "Wizard", "per": "fixed"},
     # ── Racial Traits ──
-    "breath weapon":        {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
     "fey step":             {"min": 1, "max": 1,  "recharge": "short", "class": "", "per": "fixed"},
     "blessing of the raven queen": {"min": 1, "max": 1, "recharge": "long", "class": "", "per": "fixed"},
     "drow magic":           {"min": 1, "max": 1,  "recharge": "long", "class": "", "per": "fixed"},
