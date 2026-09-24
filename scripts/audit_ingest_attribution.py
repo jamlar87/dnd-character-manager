@@ -157,14 +157,24 @@ def main() -> int:
             name = str(it.get("name") or "")
             per_book[slug] += 1
 
-            # 1. opens? (an alias slug whose book is openable under another slug is fine;
-            #    "Homebrew"/"SRD" are not books and are not a wiring error)
-            openable = slug in pdf_map or any(s in pdf_map for s in aliases.get(slug, {slug}))
+            # 1. opens? A slug present in pdf_map is not enough: the path has to resolve to a file, or
+            #    /api/reference/open/<slug> answers "PDF not found" and the badge fails. Eleven books
+            #    were in exactly that state (PHB, MM, DMG, XGE…) after the engine rewrote their paths.
+            entry = pdf_map.get(slug) or {}
+            manual_path = entry.get("path") if isinstance(entry, dict) else None
+            file_ok = bool(manual_path) and (HERE / "manuals" / str(manual_path)).exists()
+            openable = (slug in pdf_map and file_ok) or any(
+                s in pdf_map and (HERE / "manuals" / str((pdf_map[s] or {}).get("path") or "")).exists()
+                for s in aliases.get(slug, {slug}))
             if not openable:
                 if slug.strip().lower() in NON_BOOK_SOURCES:
                     non_book.append(f"{cat}/{name}: source is {slug!r}, which is not a library book")
                     continue
-                bad_slug.append(f"{cat}/{name}: _source_manual {slug!r} is not an openable slug")
+                if slug in pdf_map:
+                    bad_slug.append(f"{cat}/{name}: {slug} is in pdf_map but its file does not resolve "
+                                    f"({manual_path!r}) — badge would answer 'PDF not found'")
+                else:
+                    bad_slug.append(f"{cat}/{name}: _source_manual {slug!r} is not an openable slug")
                 continue
 
             # 2. display resolves, and names this same book?

@@ -269,6 +269,19 @@ def main() -> int:
                         f"{(proc.stderr or '').strip()[-200:]}")
             except Exception as exc:  # noqa: BLE001
                 log(f"  repair pass failed: {type(exc).__name__}: {exc}")
+            # The engine rewrites this book's pdf_map entry using the filename it discovered,
+            # and for eleven existing books that name does not exist in manuals/ — the book
+            # became unopenable (open/<slug> answered "PDF not found") though it was on disk.
+            # Re-point at the real file after every fold so no book can be left unopenable.
+            try:
+                mp = subprocess.run(
+                    [sys.executable, "scripts/repair_manual_paths.py", "--apply"],
+                    cwd=HERE, capture_output=True, text=True, timeout=300)
+                mm = re.search(r"pdf_map entries re-pointed: (\d+)", mp.stdout or "")
+                if mm and int(mm.group(1)):
+                    log(f"  {mm.group(1)} pdf_map path(s) re-pointed at the real file")
+            except Exception as exc:  # noqa: BLE001
+                log(f"  pdf_map path check failed: {type(exc).__name__}: {exc}")
             post = counts()
             shrink = {c: (pre[c], post[c]) for c in CATEGORIES if post[c] < pre[c]}
             if shrink:
