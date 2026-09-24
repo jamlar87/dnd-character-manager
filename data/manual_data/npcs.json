@@ -17685,5 +17685,1561 @@
     "xp_reward": 0,
     "source": "(Creature Codex, p.411)",
     "_source_manual": "CC"
+  },
+  {
+    "name": "Ectius",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Legendary Actions",
+        "description": "Ectius regains spent legendary actions at the start of their turn: Saber. Ectius makes a Starmetal Saber attack. Burn Away (2 actions). Ectius ends one spell, magical effect, or condition currently affecting them. Name the Stars (3 actions). Ectius invokes the true name of a star and summons a portion of its power. The star appears in an unoccupied space Ectius can see. The star is a 20-foot-radius sphere. When the star appears, each creature (other than Ectius) within its area must make a DC 19 Constitution saving throw, taking 33 (6d10) radiant damage on a failed save or half as much damage on a successful one. A creature trying to move while within the star must make a successful DC 19 Strength (Athletics) check to escape its gravitational pull. If it fails the check, it can't move. The star disappears on the next initiative count of 20."
+      },
+      {
+        "name": "Radiant Lord's Lair",
+        "description": "Ectius dwells in a magnificent observatory built among the spires of the Starry Court. It is here that the radiant lord conducts never-ending research to discover the true name of each star in the heavens. The observatory is a beautiful structure forged from glass and gold, infused with Ectius's power."
+      },
+      {
+        "name": "Lair Actions",
+        "description": "On initiative count 20 (losing initiative ties), Ectius takes a lair action to cause one of the following effects. Ectius can't use the same effect 2 rounds in a row: Searing starlight rains down from the ceiling within the lair. Each creature of Ectius's choice within the lair takes radiant damage equal to its own Constitution score. The entirety of the lair is illuminated in sunlight. It reverts to normal light at the beginning of next initiative count 20. The ambient temperature of the lair rises drastically. All creatures in the lair who aren't immune to fire damage must succeed on a DC 15 Constitution saving throw or gain one level of exhaustion."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Ectius is a radiant lord who dwells in a magnificent observatory built among the spires of the Starry Court.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 0,
+    "source": "(Book of Ebon Tides, p.180)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sir Opinicus Stonecloud",
+    "race": "Dwarf",
+    "class_name": "Knight",
+    "subclass": "",
+    "level": 0,
+    "alignment": "Neutral",
+    "armor_class": 18,
+    "hit_points": "135 (18d8 + 54)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 12,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 9
+    },
+    "saving_throws": {
+      "dex": 5,
+      "con": 7
+    },
+    "skills": {
+      "Animal Handling": 6,
+      "Perception": 6,
+      "Survival": 6
+    },
+    "features": [
+      {
+        "name": "Deadly Dive",
+        "description": "If Sir Opinicus moves at least 20 feet straight toward a target while mounted on Swiftbeak and flying and then hits the target with a lance or longsword attack on the same turn, Swiftbeak can make a rake attack against that creature as a bonus action."
+      },
+      {
+        "name": "Graceful Landing (1/Day)",
+        "description": "When Sir Opinicus falls, he descends 60 feet per round and takes no damage from falling.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Griffon Knight",
+        "description": "Sir Opinicus has trained for years on the backs of griffons and is adept at coordinating his strikes with theirs. If both Sir Opinicus and his griffon mount hit the same target on the same turn, the target takes 13 (3d8) piercing damage at the end of Sir Opinicus' turn. In addition, while Sir Opinicus is mounted on a griffon, the griffon can't be charmed or frightened."
+      },
+      {
+        "name": "Locked Saddle",
+        "description": "Sir Opinicus can't be knocked prone, dismounted, or moved against his will while mounted. If his mount's movement or aerial maneuvers (such as Swiftbeak's Barrel Roll action) would force Sir Opinicus to make a saving throw or ability check to avoid falling off his mount, he automatically succeeds."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Sir Opinicus makes three attacks with his lance or his longsword. If he is riding a griffon, the griffon can then make one beak or claws attack. If the griffon is Swiftbeak, the griffon can use his Barrel Roll in place of his beak or claw attack, if it is available."
+      },
+      {
+        "name": "Lance",
+        "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 9 (1d12 + 4) piercing damage."
+      },
+      {
+        "name": "Longsword",
+        "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 4) slashing damage, or 8 (1d10 + 4) slashing damage if used with two hands."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+      },
+      {
+        "name": "Patch Up (Recharge 6)",
+        "description": "Sir Opinicus' mount regains 18 (4d8) hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "equipment": [
+      "chain mail",
+      "shield",
+      "lance",
+      "longsword",
+      "heavy crossbow"
+    ],
+    "spellcasting": null,
+    "description": "Sir Opinicus Stonecloud is a dwarf knight of the Order, a griffon rider with a sharp tongue and a long memory. He is a seasoned warrior who trains on the backs of griffons and coordinates his strikes with his mount.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(Margreve Player's Guide, p.6)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Sir Opinicus",
+    "race": "Human",
+    "class_name": "Knight",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Bow",
+        "description": "Ranged Weapon Attack: +5 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+      },
+      {
+        "name": "Patch Up (Recharge 6)",
+        "description": "Sir Opinicus' mount regains 18 (4d8) hit points."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A knight who rides a griffon named Swiftbeak.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Margreve Player's Guide, p.7)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Munin, Keeper of Records",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A venerable Dwarf of many winters, Munin is the head archivist of the Chamber of Marzabul under Erebor. Lore of the elder days that exists nowhere else in the North, save perhaps the halls of Rivendell, lies within his charge. Companions with the support of King Dáin, or another noteworthy Dwarf, may be able to get his assistance in researching old records, as his memory remains quite sharp, though he is short with outsiders and any he considers to be wasting his time. Munin has a long white beard that just touches the floor. Unfortunately, despite his amazing grasp of ancient lore, dealing with Munin can be trying; at his advanced age (well over 200) his hearing is failing, however, he refuses to accept this and abhors shouting as he believes it implies disrespect.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.20)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Roäc the Raven",
+    "race": "Raven",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The chief of the great ravens of Ravenhill, Roäc is ancient even for one of his kind. When Thorin and company came to Erebor for vengeance upon Smaug, Roäc was already more than 150 years old, and marked by age. It was Roäc who flew to Thorin's Company with news that Smaug had been slain by Bard the Bowman, and who sent his ravens to Dáin of the Iron Hills with word to bring reinforcements to protect the treasure of Erebor. The son of Carc, said by the Dwarves to be the greatest lord of the ravens ever to have lived, Roäc has inherited much of his noble father's wisdom. He rightly warned Thorin that the treasure that had brought him to Erebor would be his death, and even now is a trusted ally and counsellor to the Dwarves. Roäc is now so ancient that he rarely leaves his mountainside nest, but his ravens range",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.20)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Roäc",
+    "race": "Raven",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Motivation",
+        "description": "Of highest importance is the safety of the Mountain."
+      },
+      {
+        "name": "Expectations",
+        "description": "+1 if the Company announces that they will abide by Roäc's advice — he's used to stubborn Dwarves and pleased that his wisdom does not fall on deaf ears. -2 if they do not treat him as an equal — despite his great age his knowledge is vast."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "The son of Carc, said by the Dwarves to be the greatest lord of the ravens ever to have lived, Roäc has inherited much of his noble father's wisdom. He rightly warned Thorin that the treasure that had brought him to Erebor would be his death, and even now is a trusted ally and counsellor to the Dwarves. Roäc is now so ancient that he rarely leaves his mountainside nest, but his ravens range far and see all — there is no movement within the north of Wilderland that Roäc does not know of.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.21)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Glóin the Emissary",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {
+      "Persuasion": 5
+    },
+    "features": [
+      {
+        "name": "Motivation",
+        "description": "I am a representative of King Dáin and I will bear myself accordingly, no matter the situation."
+      },
+      {
+        "name": "Expectations",
+        "description": "+1 if the Company expressing willingness to compromise — Gloin knows that diplomacy is built on both parties giving up a little; -2 if they have a Elf of Mirkwood as their speaker — Gloin has never forgotten his rough treatment at their hands."
+      },
+      {
+        "name": "Customisation",
+        "description": "Add Persuasion +5 to the Dwarf-Lord's list of skills to represent Gloin. In battle he wields the Axe Under the Mountain (Superior Fell, Gleam of Terror)."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "Axe Under the Mountain (Superior Fell, Gleam of Terror)"
+    ],
+    "spellcasting": null,
+    "description": "The skill of most Dwarves, it is said, lies in their hands, whether they are wielding tools or weapons. While Glóin is a veteran of a great many battles, and can swing an axe with the best of them, his tongue is his truest tool and weapon. Since the Battle of Five Armies, Glóin has swiftly become one of the most favoured of Dáin's envoys. He is trusted to advance the interests of the Lonely Mountain in such a way as to make Erebor's position clear, while not unduly upsetting allies. A trying position, but Glóin does it with grace, even on the rare occasions when he has to deal with Wood Elves, who he regards poorly. Glóin serves as the Kingdom under the Mountain's main ambassador to Esgaroth. He has a well-appointed mansion in Lake-town where he spends several weeks a year, working on a wide variety of trade issues with the Men of the Lake. His valiant son Gimli regularly accompanies him on his journeys on Erebor's behalf. Glóin is exceedingly well-spoken and generally kindly to all (save Wood Elves). Glóin favours white garments, or brightly coloured ones trimmed with white, matching the colour of his forked beard.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.21)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Óin the Healer",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {
+      "Medicine": 5
+    },
+    "features": [
+      {
+        "name": "Motivation",
+        "description": "Are you friend or foe? Do you oppose the King under the Mountain? Answer quickly, for you have an impatient Dwarf in your face!"
+      },
+      {
+        "name": "Expectations",
+        "description": "+1 if the heroes answer directly without bluster; +2 if they are willing to laugh at themselves"
+      },
+      {
+        "name": "Customisation",
+        "description": "Add Medicine +5 to the Dwarf-Lord to represent Ori's skill with herbs."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Óin is Glóin's older brother. The two have little in common, save their knack for building fires and their love for one another. Where Glóin is subtle, Óin is blunt. Where Glóin can make even the most unpleasant news easier to hear, Óin is brutally, painfully honest. Far more belligerent than his younger brother, Óin remains a fierce warrior but a skilled healer. His expertise with herbs, potions and salves is profound, almost rivalling that of the Elves of Rivendell. Like his brother, Óin too, has become an emissary for Dain, but Óin is typically sent on longer journeys to folk who prefer action to fair speech. Óin has a sharp sense of humour, though he skewers himself as readily as others he meets on the road. Óin keeps his beard short, a habit he developed after a particularly unpleasant encounter with spiders in Mirkwood. He favours brown garments, the better to go unnoticed in the Wild.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.21)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Bifur the Trader",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Motivation",
+        "description": "I am looking for trustworthy sorts who are willing to brave the Wild on behalf of the King."
+      },
+      {
+        "name": "Expectations",
+        "description": "+2 if the Company are well-worn — Bifur cares little for fancy clothes or exquisite manners; -1 if they're shy about money matters — he expects to pay for good service, though not too much, of course."
+      },
+      {
+        "name": "Customisation",
+        "description": "Add \"Walking Songs. If the companions travel with Bifur, once upon the journey they can make a DC 10 Charisma (Performance) check. If successful, the hero gains Inspiration.\" to the Dwarf-Lord entry."
+      }
+    ],
+    "actions": [],
+    "equipment": [
+      "elaborately carved walking cane bound with strands of Mithril",
+      "mattock"
+    ],
+    "spellcasting": null,
+    "description": "Bifur is the son of a smith from the Iron Hills and a far-travelled Dwarf, who has seen much of the North and the West. After the Battle of Five Armies, Bifur took on a position as one of Dáin's emissaries to Erebor's trading partners. He now spends much of his time travelling between Ironthorpe, near the Iron Hills, and the Lonely Mountain, ensuring that the regular shipments of ore that move along the road between the two don't go 'astray'. Bifur is a sturdy middle-aged Dwarf with silver streaking his black beard. He carries an elaborately carved walking cane bound with strands of Mithril, a family heirloom, though his mattock is often near to hand as well. Bifur occasionally needs the help of adventurous sorts to guard especially valuable shipments or look into unusual matters he has heard about on the road. Bifur tends to speak in quick bursts of words, saying several things at once in rapid succession, before falling silent for an uncomfortably long amount of time afterwards.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.22)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Bofur the Miner",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [],
+    "equipment": [
+      "mattock"
+    ],
+    "spellcasting": null,
+    "description": "Bifur's cousin and Bombur's brother, Bofur was raised in the hard environs of the Blue Mountains. A miner and occasional explorer, Bofur developed a real thirst for adventure during his travels with Thorin's Company. Favouring his mattock in battle, Bofur proved himself a skilled warrior, time and again fighting fearlessly to protect his king.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.22)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Bombur",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "65 (10d8+20)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 8,
+      "constitution": 14,
+      "intelligence": 17,
+      "wisdom": 18,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 7,
+      "Insight": 8,
+      "Perception": 8,
+      "Performance": 7
+    },
+    "features": [
+      {
+        "name": "Expertise",
+        "description": "Bombur doubles his Proficiency Bonus for certain skills, noted above."
+      },
+      {
+        "name": "Riddling Words",
+        "description": "If Bombur spends 10 minutes with a creature, it must succeed at a DC 14 Wisdom saving throw or become Charmed until Bombur gives the creature a reason to doubt his sincerity or it takes a long rest."
+      },
+      {
+        "name": "Sneak Attack",
+        "description": "Once per turn, Bombur deals an extra 3 (1d6) damage when he hits a target with a weapon attack and has Advantage on the attack roll, or the target is within 5 feet of an ally and he doesn't have Disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) magical piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Bofur's brother and Bifur's cousin, Bombur's immense size and voracious appetite caused frequent problems on the Quest for Erebor, but his culinary skills and uncanny ability to sniff out provisions in the unlikeliest of environments along with his jolly nature made his presence essential to the morale of the party. Bombur is a well-known and beloved figure in both Dale and Erebor, a frequent guest in the dining halls and kitchens of both kingdoms. Since the Battle of Five Armies, he has dedicated himself to ensuring that good food is readily available in the North and has quietly backed several spice merchants and taverns.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.24)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Balin",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "82 (11d8+33)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 14,
+      "wisdom": 19,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 3,
+      "Perception": 10,
+      "Survival": 7,
+      "Traditions": 6
+    },
+    "features": [
+      {
+        "name": "Chinks in the Armour",
+        "description": "Balin can use his bonus action to make a Wisdom (Perception) check against the AC of his target. If he succeeds, his first successful attack roll this round counts as a critical hit.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Expert",
+        "description": "Balin doubles his Proficiency Bonus for Perception and Traditions (included above)."
+      },
+      {
+        "name": "Khazâd ai-mênu!",
+        "description": "If Balin's attack misses, he may use his bonus action to make another attack against the same target."
+      },
+      {
+        "name": "Old Hatred",
+        "description": "When Balin is fighting Orc-kind with a melee weapon, he can re-roll his weapon's damage die and use either total."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Balin makes three attacks with his great axe."
+      },
+      {
+        "name": "Great Axe",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage."
+      }
+    ],
+    "equipment": [
+      "magical Silver Ring-mail",
+      "great axe"
+    ],
+    "spellcasting": null,
+    "description": "Balin is a renowned Dwarf of Thorin's Company, now a lord of Erebor. He is wise and perceptive, with a deep hatred of Orcs.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Lonely Mountain Region Guide, p.25)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Dwalin",
+    "race": "Dwarf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "104 (11d8+55)",
+    "speed": "25 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 10,
+      "constitution": 20,
+      "intelligence": 11,
+      "wisdom": 12,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 5,
+      "Perception": 4
+    },
+    "features": [
+      {
+        "name": "Leadership",
+        "description": "As a bonus action, Dwalin can command a nearby Dwarf other than himself to act. That Dwarf takes its turn immediately after Dwalin."
+      },
+      {
+        "name": "Old Hatred",
+        "description": "When Dwalin is fighting Orc-kind with a melee weapon, he can re-roll his weapon's damage die and use either total."
+      },
+      {
+        "name": "Unyielding",
+        "description": "Dwalin can use his bonus action to gain 10 temporary hit points.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Dwalin makes three attacks with his great axe."
+      },
+      {
+        "name": "Great Axe",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) slashing damage"
+      }
+    ],
+    "equipment": [
+      "Dwarf-wrought Hauberk",
+      "great axe"
+    ],
+    "spellcasting": null,
+    "description": "Dwalin is a ruthless and skilled warrior, staunch supporter of Thorin Oakenshield, and informal head of the Stone Guard.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 2900,
+    "source": "(Lonely Mountain Region Guide, p.26)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Bard the Dragon-slayer, King of Dale",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Audience with the King",
+        "description": "Hard-voiced and frequently of sombre mood, Bard is a proud, practical man, shaped by his former life as a captain. He is widely famed for being true to his word, no matter the personal cost. The Bowman reads hearts well, and is quick to see the worth of an individual. King Bard can most frequently be found in the Royal Palace, though he occasionally wanders the Market Square, with bodyguard in tow. When the crown grows heavy, he leaves the city to hunt on horseback in the lands to the west. Bard is a tall, imposing man, hale even as the years add increasing amounts of silver to his once black hair, with a sharp glance and a taciturn manner. Only his queen has the knack of getting him to smile regularly."
+      },
+      {
+        "name": "Motivation",
+        "description": "I have great ambitions for Dale: to make a kingdom in the North that all may see as a shining example of the Free Peoples’ best qualities."
+      },
+      {
+        "name": "Expectations",
+        "description": "+1 if the heroes bring important news to King Bard; -3 if they ply him with unwise courtesies or spurious allegations."
+      },
+      {
+        "name": "Bard as a Patron",
+        "description": "The Bowman concerns himself far more with action than words. Those who accept his patronage are not likely to find themselves at court much. Many of the tasks that Bard will ask of his followers involve furthering his ambitions by advancing the interests of Dale or occasionally by assisting his allies. This will likely see the Company sent into the wild to investigate monstrous threats or lending their weapons to defend a far-flung settlement from raiders. Bard can be made a patron of the Company if they have directly aided him during an Adventuring phase. Characters who have Bard as their patron may choose"
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Bard the Dragon-slayer, King of Dale. A grim but worthy man; stern but forthright in word and deed. Widely regarded as a good king, not easily swayed by idle politics and ever mindful of the welfare of his people.",
+    "role": "Patron",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.51)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "King Bard",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 17,
+    "hit_points": "90 (12d8+36)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 20,
+      "constitution": 17,
+      "intelligence": 11,
+      "wisdom": 15,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Animal Handling": 5,
+      "Insight": 5,
+      "Perception": 5,
+      "Survival": 5,
+      "Traditions": 3
+    },
+    "features": [
+      {
+        "name": "Disciplined",
+        "description": "Bard may use his bonus action to grant himself Advantage on all attack rolls this round.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Eagle-feathered Arrow",
+        "description": "As a bonus action Bard draws this special arrow and attacks with his Great Bow. A successful hit causes a critical hit and any creature Medium size or smaller must make a DC 17 Strength saving throw or become Prone.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Hard Eyed",
+        "description": "Bard scores a critical hit on rolls of 18, 19 or 20."
+      },
+      {
+        "name": "Hawk's Eye",
+        "description": "Bard may use this ability as a bonus action. He does not suffer Disadvantage on attack rolls due to being at long range this turn."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Bard makes three attacks with his great bow."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +8 to hit, range 150/600 ft, one target. Hit: 9 (1d8+5) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "King Bard, the Dragon-slayer, ruler of Dale. A grim, socially reticent king who can be made a patron of the Company.",
+    "role": "Patron",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Lonely Mountain Region Guide, p.52)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Elstan, First Captain of Dale",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 21,
+    "hit_points": "65 (10d8+20)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 11,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 11,
+      "charisma": 15
+    },
+    "saving_throws": {
+      "Constitution": 4,
+      "Wisdom": 2
+    },
+    "skills": {},
+    "features": [
+      {
+        "name": "Aegis of Dale",
+        "description": "Elstan bears a magical shield forged in Erebor for the protection of the new kingdom. While he bears it, he has Advantage on death saving throws and can use his bonus action to gain 10 temporary hit points."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Elstan makes two longsword attacks."
+      },
+      {
+        "name": "Longsword (Bitter Birthright)",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft, one target. Hit: 9 (1d8+5) piercing damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Commanding Voice",
+        "description": "Elstan may use his reaction to utter a command when a non-hostile creature he can see within 30 ft is about to make an attack roll or a saving throw. The target adds a d6 Command Die to that roll, provided it can understand the message. A creature can benefit from only one Command Die at a time, and creatures that possess Commanding Voice cannot benefit."
+      },
+      {
+        "name": "Parry",
+        "description": "Elstan adds 2 to his AC against one melee attack that would hit him. He must be aware of the incoming attack in order to parry."
+      }
+    ],
+    "equipment": [
+      "Heavy mail",
+      "magical shield (Aegis of Dale)",
+      "Longsword (Bitter Birthright)"
+    ],
+    "spellcasting": null,
+    "description": "Among the first to swear loyalty to King Bard, Elstan is a widely famed, and beloved, warrior. Ever at the forefront of battles and swift to offer aid to beset farmers, Elstan spends almost as much time in the Upper Marches as he does in Dale. Elstan commands the Royal Barracks and sets the example that many of the Royal Archers strive to emulate. Ironically, he's only a passing archer, but he is a master swordsman.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 1100,
+    "source": "(Lonely Mountain Region Guide, p.53)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Brindal, Enterprising Thief",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "33 (6d8+6)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 18,
+      "constitution": 13,
+      "intelligence": 14,
+      "wisdom": 11,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Sleight of Hand": 8,
+      "Stealth": 8
+    },
+    "features": [
+      {
+        "name": "Expert",
+        "description": "Brindal doubles her Proficiency Bonus for Sleight of Hand and Stealth."
+      },
+      {
+        "name": "Nimble Escape",
+        "description": "Brindal can take the Disengage or Hide action as a bonus action on each of her turns."
+      },
+      {
+        "name": "Sneak Attack",
+        "description": "Once per turn, Brindal deals an extra 3 (1d6) damage when she hits a target with a weapon attack and has Advantage on the attack roll, or when the target is within 5 ft of an ally of Brindal that isn't Incapacitated and she doesn't have Disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) piercing damage"
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Snake-like Speed",
+        "description": "Brindal is adept at avoiding injury and can use her reaction to halve the attack damage on an attack that she is aware of.",
+        "uses": 1,
+        "recharge": "5-6"
+      }
+    ],
+    "equipment": [
+      "Leather corslet",
+      "Short Sword"
+    ],
+    "spellcasting": null,
+    "description": "Though the people of Dale are widely thought to be true and noble, not all aspire to honourable lives. Brindal is a young woman who lost much when Lake-town burned. Barely fifteen when the fires claimed her family, she followed many of her people to find a new home in Dale. Bitterness crept into her heart as riches finally began to flow into the city, but only a little silver found its way to her. Now, Brindal seeks to fill the emptiness left by the loss of her family and all she held dear with hoarded gold. She leads a small band of thieves based out of the Brokenstone who regularly ply the streets of Dale, picking the pockets of idle shoppers and keeping an ear out for useful secrets she can parley to interested parties. She has begun to hold Bardings in contempt, and the darkness of her spirit deepens with every season.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 450,
+    "source": "(Lonely Mountain Region Guide, p.53)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Brindal",
+    "race": "",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Snake-like Speed",
+        "description": "Brindal is adept at avoiding injury and can use her reaction to halve the attack damage on an attack that she is aware of.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) piercing damage"
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Brindal is a companion with the Snake-like Speed reaction. She is within 5 ft of an ally of Brindal that isn't Incapacitated and she doesn't have Disadvantage on the attack roll.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.54)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Lord Bryni",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 18,
+    "hit_points": "71 (13d8+13)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 14,
+      "constitution": 13,
+      "intelligence": 16,
+      "wisdom": 11,
+      "charisma": 18
+    },
+    "saving_throws": {},
+    "skills": {
+      "Animal Handling": 2,
+      "History": 5,
+      "Persuasion": 6,
+      "Survival": 2
+    },
+    "features": [
+      {
+        "name": "Iron Will",
+        "description": "Bryni is haughty and his heart has grown cold. If the heroes have accrued any negative modifiers in an audience with him, the Final Audience check is made with Disadvantage."
+      },
+      {
+        "name": "Savage Assault",
+        "description": "When Bryni rolls a natural 18 or 19, he may, as a bonus action, make a single additional melee attack against the same opponent."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Bryni makes two attacks with his long sword."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 7 (1d8+3) slashing damage or 8 (1d10+3) slashing damage if used with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Lord Bryni is a haughty noble who resembles the hero he aspires to be, with long flowing dark hair, a proud, lordly gaze, and a habit for wearing shining mail and red cloaks even when not dressing for battle.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.58)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Garrick",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "65 (10d8+20)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 19,
+      "constitution": 15,
+      "intelligence": 13,
+      "wisdom": 12,
+      "charisma": 20
+    },
+    "saving_throws": {},
+    "skills": {
+      "Sleight of Hand": 6,
+      "Stealth": 6,
+      "Survival": 3
+    },
+    "features": [
+      {
+        "name": "Bodyguards",
+        "description": "Garrick is always surrounded by Thugs and Outlaws whose duty it is to protect their leader. At least one Thug or Outlaw in his retinue gains the Thrall (Garrick) special reaction ability (see below)."
+      },
+      {
+        "name": "Nimble Escape",
+        "description": "Garrick can take the Disengage or Hide action as a bonus action on each of his turns."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Broadsword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 8 (1d8+4) slashing damage."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Garrick is a short, furrow-browed man with little time to bandy words with civilised folk. He is eager to whet his weapons with the blood of those who threaten the land.",
+    "role": "Enemy",
+    "is_enemy": true,
+    "xp_reward": 450,
+    "source": "(Lonely Mountain Region Guide, p.58)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Hakon, Barding Noble",
+    "race": "Human",
+    "class_name": "Noble",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 0,
+    "hit_points": "",
+    "speed": "",
+    "ability_scores": {},
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Motivation",
+        "description": "Only by valour and force can the North be free — diplomacy and contrition are but ways for our enemies to worm their way into our hearts."
+      },
+      {
+        "name": "Expectations",
+        "description": "+1 if the Company are the sort who prefer problems that can be solved with quick and decisive sword-work; +2 if they are mostly Men-folk (Hakon has little trust for Dwarves or Elves); -2 if they seem the type to ask too many questions and poke into dark corners."
+      }
+    ],
+    "actions": [],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Once a powerful merchant of Esgaroth, now a courtier of Dale. Hakon's family directly descends from the noble bloodlines of Dale. In his late forties with long, grey hair, Hakon dresses in what finery he can still afford and plays the part of the loyal courtier; but while he smiles freely, his eyes betray nothing but contempt.",
+    "role": "Courtier",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide, p.61)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Lord Hakon",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 18,
+    "hit_points": "97 (15d8+30)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 12,
+      "constitution": 14,
+      "intelligence": 17,
+      "wisdom": 13,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 9,
+      "Insight": 7,
+      "Perception": 7,
+      "Traditions": 9
+    },
+    "features": [
+      {
+        "name": "Expert",
+        "description": "Hakon doubles his Proficiency Bonus for his skills (included above)."
+      },
+      {
+        "name": "Twisted Words",
+        "description": "Lord Hakon is never far from his own followers and even commands the respect (so far) of the City Guard. If attacked in a public place, he can spend his bonus action to summon appropriate aid, which arrives at the end of his next turn. Slaying those who believe they’re saving Hakon from banditry is a Misdeed worthy of several Shadow points."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Hakon makes three attacks with his sword."
+      },
+      {
+        "name": "Long Sword",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d8+2) slashing damage or 7 (1d10+2) slashing damage if wielded with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Lord Hakon is a cunning and deceptive human noble who commands respect and wields a long sword in battle.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 2300,
+    "source": "(Lonely Mountain Region Guide, p.62)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Rugash the Serpent, Orc-Chieftain",
+    "race": "Orc",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "52 (8d8+16)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 18,
+      "constitution": 15,
+      "intelligence": 16,
+      "wisdom": 14,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "constitution": 4,
+      "wisdom": 3
+    },
+    "skills": {
+      "Insight": 4,
+      "Perception": 4,
+      "Stealth": 6
+    },
+    "features": [
+      {
+        "name": "Stealthy",
+        "description": "Rugash may use his bonus action each round to Hide."
+      },
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, Rugash has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Rugash makes two attacks with his scimitar or his whip."
+      },
+      {
+        "name": "Orcish Scimitar",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 9 (2d4+4) slashing damage. Two-handed."
+      },
+      {
+        "name": "Whip",
+        "description": "Melee Weapon Attack: +4 to hit, reach 10 ft, one target. Hit: 4 (1d4+2) slashing damage."
+      },
+      {
+        "name": "Call for Aid",
+        "description": "Rugash always keeps a few of his lads back in case of trouble. He can use his action to summon them. 2d4 Orc Soldiers arrive in 1d4+1 rounds. If Rugash is slain before they arrive, they will likely avoid the Company unless the Loremaster deems otherwise."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Rugash is a cunning and subtle Orc chieftain who leads a successful tribe on the Waste, known for his stealth and strategic mind.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.62)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Erna",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 14,
+    "hit_points": "49 (9d8+9)",
+    "speed": "40 ft",
+    "ability_scores": {
+      "strength": 18,
+      "dexterity": 13,
+      "constitution": 13,
+      "intelligence": 15,
+      "wisdom": 14,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 6,
+      "Nature": 4,
+      "Lore": 4,
+      "Survival": 4
+    },
+    "features": [
+      {
+        "name": "Battle-fury",
+        "description": "Erna can use her bonus action to enter a Fury. While in this state, she has Advantage on Strength checks and saving throws, gains +4 damage to her attacks and has resistance to non-magical bludgeoning, piercing and slashing damage. It ends after 1 minute or if she is Unconscious, or ends her turn without having attacked a hostile creature or taken damage since her previous turn."
+      },
+      {
+        "name": "Dragon-touched",
+        "description": "Erna has Advantage on any saving throws caused by Dragons. Any Intelligence (Lore) checks that she makes about Dragons are at Advantage as well."
+      },
+      {
+        "name": "Reckless",
+        "description": "Erna may choose to gain Advantage on all attacks she makes in a round, but all attacks on her gain Advantage until the start of her next turn."
+      },
+      {
+        "name": "Region-lore (The Waste)",
+        "description": "If Erna is with the Company for a journey that begins or ends in the Waste, the Guide rolls 1d8+4 for the Embarkation Roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Erna makes two attacks with her spear or great bow."
+      },
+      {
+        "name": "Spear",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft or range 20/60 ft, one target. Hit: 7 (1d6+4) piercing damage or 8 (1d8+4) piercing damage if used with two hands to make a melee attack."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 150/600 ft, one target. Hit: 5 (1d8+1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Erna is a vengeful hunter who lost her family to Smaug and now stalks the Waste seeking dragon lairs, driven by rage and a desire for revenge.",
+    "role": "",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.63)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Ellaras",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "66 (12d8+12)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 18,
+      "constitution": 13,
+      "intelligence": 17,
+      "wisdom": 15,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "History": 5,
+      "Lore": 5,
+      "Perception": 6,
+      "Survival": 6
+    },
+    "features": [
+      {
+        "name": "Desperate",
+        "description": "If Ellaras begins his turn with 33 or less hit points, he gains Advantage on all his attack rolls."
+      },
+      {
+        "name": "Expert",
+        "description": "Ellaras doubles his Proficiency Bonus for Perception and Survival (included above)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Ellaras makes two attacks with his dagger or bow."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft or range 20/60, one target. Hit: 6 (1d4+4) piercing damage."
+      },
+      {
+        "name": "Bow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 80/320 ft, one target. Hit: 8 (1d8+4) piercing damage."
+      }
+    ],
+    "equipment": [
+      "Leather Corslet",
+      "Dagger",
+      "Bow"
+    ],
+    "spellcasting": null,
+    "description": "Long ago, as Men reckon time, Ellaras was part of a company of Elves that set forth from the Woodland Realm on a quest of great secrecy into the Emyn Duir, the Mountains of Mirkwood. Ellaras was found, months later, poisoned and raving, his hair white and his eyes wild, near the borders of the Woodland Realm. Now Ellaras searches for something amidst the abandoned Dwarf-holds of the Grey Mountains.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.67)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Galion",
+    "race": "Elf",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 16,
+    "hit_points": "52 (8d8+16)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 18,
+      "constitution": 14,
+      "intelligence": 15,
+      "wisdom": 10,
+      "charisma": 13
+    },
+    "saving_throws": {},
+    "skills": {
+      "Athletics": 2,
+      "Lore": 4,
+      "Perception": 5
+    },
+    "features": [
+      {
+        "name": "Deadly Shot",
+        "description": "At the start of his turn, Galion may use his bonus action to aim. His speed becomes 0. If he does so then he has Advantage on all ranged weapon attacks he makes this round."
+      },
+      {
+        "name": "Hawk's Eye",
+        "description": "Galion may use this ability as a bonus action. He does not suffer Disadvantage on attack rolls due to being at long range this turn."
+      },
+      {
+        "name": "Hunter",
+        "description": "Galion doubles his Proficiency Bonus for Perception checks (included above)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Galion can make two attacks with either his Short Sword or his Great Bow."
+      },
+      {
+        "name": "Short Sword",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft, one target. Hit: 7 (1d6+4) piercing damage."
+      },
+      {
+        "name": "Great Bow",
+        "description": "Ranged Weapon Attack: +6 to hit, range 150/600 ft, one target. Hit: 8 (1d8+4) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Once the personal cupbearer of the Elf-King, Galion is was consigned to the Long Marshes for drunkenness since the famous escape of a group of Dwarves from the royal halls. Now he and a small band of Mirkwood Elves patrol the marshes and make sure that none of its dangerous inhabitants make their way into the lands of Thranduil.",
+    "role": "Patrol leader",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(Lonely Mountain Region Guide, p.74)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Loore",
+    "race": "Human",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "",
+    "armor_class": 11,
+    "hit_points": "45 (7d8+14)",
+    "speed": "40 ft",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 11,
+      "constitution": 15,
+      "intelligence": 13,
+      "wisdom": 18,
+      "charisma": 8
+    },
+    "saving_throws": {},
+    "skills": {
+      "Animal Handling": 6,
+      "Perception": 8,
+      "Survival": 8
+    },
+    "features": [
+      {
+        "name": "Focused",
+        "description": "Loore displays amazing discipline in combat. He has 3 Focus points, which he regains when he takes a short or long rest. He can use his bonus action and spend one Focus point on his turn to take the Dash, Disengage or Dodge action or to make another attack with his great spear.",
+        "uses": 3,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Grey Hawk",
+        "description": "In combat, Loore can use his bonus action to command his friend to aid him against all attackers. Until the start of his next turn, all attack rolls against him are at Disadvantage. The Grey Hawk is too quick and clever to be the target of any normal attack."
+      },
+      {
+        "name": "Expert",
+        "description": "Loore doubles his Proficiency Bonus for Perception and Survival (included above)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Spear",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 9 (1d12+3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "A hunter of the Nether Marches, Loore regularly wanders over the wide grasslands, going wherever the wind or his mood takes him. A tracker without peer, there is nowhere on the steppes to flee where Loore cannot eventually follow. Loore keeps several birds of prey near him at all times, most often a beautiful grey hawk and a small prairie falcon. He also keeps a great secret, for Loore is a direct descendant of the ancient kings of old and he speaks the languages of all birds.",
+    "role": "Notable Character",
+    "is_enemy": false,
+    "xp_reward": 450,
+    "source": "(Lonely Mountain Region Guide, p.79)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Móna, Daughter of Ginar",
+    "race": "Dwarf (Dwarves of the Iron Hills)",
+    "class_name": "Warrior",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 15,
+    "hit_points": "13 (1d10)",
+    "speed": "25 feet",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 15,
+      "constitution": 17,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 8
+    },
+    "saving_throws": {
+      "strength": 4,
+      "dexterity": 2,
+      "constitution": 5,
+      "intelligence": 0,
+      "wisdom": 2,
+      "charisma": -1
+    },
+    "skills": {
+      "Acrobatics": 2,
+      "Animal Handling": 2,
+      "Athletics": 4,
+      "Deception": -1,
+      "History": 0,
+      "Insight": 2,
+      "Intimidation": 1,
+      "Investigation": 0,
+      "Lore": 0,
+      "Medicine": 2,
+      "Nature": 0,
+      "Perception": 4,
+      "Performance": -1,
+      "Persuasion": -1,
+      "Riddle": 0,
+      "Shadow-lore": 0,
+      "Sleight of Hand": 2,
+      "Stealth": 2,
+      "Survival": 4,
+      "Traditions": 0
+    },
+    "features": [
+      {
+        "name": "Tools for War",
+        "description": "You have proficiency with axes, hand-axes, great axes, hammers, mattocks and warhammers."
+      },
+      {
+        "name": "Proficiencies",
+        "description": "Proficient with miner's tools and flute"
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Dalish, which is the tongue of the Bardings, who speak an older version of the Common Tongue. You can also speak, read and write the secret language of your people, which has never been shared with others."
+      },
+      {
+        "name": "Hardened",
+        "description": "Part of the reason that you have accepted your fate is that you have seen too much death and misfortune already. It's your turn."
+      },
+      {
+        "name": "Enemy-lore (Orc-kind)",
+        "description": "Not only are you doomed to die, but you are sure by whose hands it will be. You won't make it easy for them."
+      },
+      {
+        "name": "Night Vision",
+        "description": "you can see in dim light 60 ft as bright light, but cannot see in the dark"
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "You have Advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Stonecunning",
+        "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your Proficiency Bonus to the check, instead of your normal Proficiency Bonus."
+      },
+      {
+        "name": "Dark Foreboding",
+        "description": "You can get some sense of the Shadow's presence. You might be able to sense if an Orc warband is part of a larger force or if a particular ruin is blighted by the Enemy."
+      },
+      {
+        "name": "Great Weapon Fighting",
+        "description": "When you roll a 1 or 2 for damage on your great axe, you can reroll the damage die. You must keep the new result."
+      },
+      {
+        "name": "Second Wind",
+        "description": "On your turn you can use your bonus action to regain 1d10+1 hit points. You must take a short or long rest before using this again.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Great Axe",
+        "description": "Atk Bonus +4, Damage 1d12+2 slashing"
+      },
+      {
+        "name": "Short Bow",
+        "description": "Atk Bonus +4, Damage 1d6+2 piercing. You can shoot your short bow up to 80 feet, or up to 320 feet with Disadvantage."
+      }
+    ],
+    "equipment": [
+      "A heavy woollen travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a backpack",
+      "boots",
+      "corslet of mail",
+      "greataxe",
+      "shield",
+      "short bow with 20 arrows"
+    ],
+    "spellcasting": null,
+    "description": "Móna, Daughter of Ginar, is a stout warrior of the Iron Hills who fought at the Battle of Five Armies in the host of Dáin Ironfoot. She is doomed to die and seeks to inspire her company by her selfless example.",
+    "role": "Ally",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Barin Greycloak",
+    "race": "Dwarf",
+    "class_name": "Wanderer",
+    "subclass": "",
+    "level": 1,
+    "alignment": "",
+    "armor_class": 12,
+    "hit_points": "12 (1d10)",
+    "speed": "25 feet",
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 10,
+      "constitution": 15,
+      "intelligence": 8,
+      "wisdom": 16,
+      "charisma": 12
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [
+      {
+        "name": "Tools for War",
+        "description": "You have proficiency with axes, hand-axes, great axes, hammers and mattocks."
+      },
+      {
+        "name": "Proficiencies",
+        "description": "Proficient with mason's tools and harp"
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Dalish, which is the tongue of the Bardings, who speak an older version of the Common Tongue. You can also speak, read and write the secret language of your people, which has never been shared with others."
+      },
+      {
+        "name": "Night Vision",
+        "description": "You can see in dim light 60 ft as bright light, but cannot see in the dark"
+      },
+      {
+        "name": "Dwarven Resilience",
+        "description": "You have Advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Stonecunning",
+        "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your Proficiency Bonus to the check, instead of your normal Proficiency Bonus."
+      },
+      {
+        "name": "Born to the Road",
+        "description": "When beginning a journey where you serve as Guide for the Company, you may spend Inspiration instead of making an Embarkation Roll. You may choose one of the following results: Fine Weather, Paths Both Swift and True or Hidden from the Shadow."
+      },
+      {
+        "name": "Pathetic and Bedraggled",
+        "description": "Folks often take pity on you and offer you a meal or a safe place to stay."
+      },
+      {
+        "name": "Known lands",
+        "description": "You have 6 regions that you know well. See page 82 of the Player's Guide for more information."
+      },
+      {
+        "name": "Ways of the Wild",
+        "description": "You have Advantage on Survival checks to track someone and can fill in for any missing journey roles."
+      },
+      {
+        "name": "Cultural Virtue",
+        "description": "None."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Mattock",
+        "description": "+4 to hit, 2d6 +2 piercing"
+      },
+      {
+        "name": "Great Bow",
+        "description": "+2 to hit, 1d8 piercing. You can shoot your great bow up to 150 feet, or up to 600 feet with Disadvantage."
+      }
+    ],
+    "equipment": [
+      "A travelling cloak",
+      "travelling gear for the current season",
+      "a bedroll",
+      "a belt dagger",
+      "hunting trap",
+      "hide armour",
+      "mattock",
+      "shield",
+      "great bow"
+    ],
+    "spellcasting": null,
+    "description": "You grew up wandering the Grey Mountain Narrows, ever in the shadow of your ancestral home. Occasionally you mustered up the courage to venture into the mountains themselves, delving in empty caves and holes, trading what you brought down from the mountains with the Men of Lake-town. Now, with Erebor rebuilt, you wonder if somewhere, deep in the mountains, the mansion of your kin might also be regained, and you seek out a company of heroes to aid you in your search.",
+    "role": "Player Character",
+    "is_enemy": false,
+    "xp_reward": 0,
+    "source": "(Lonely Mountain Region Guide)",
+    "_source_manual": "LMRG"
   }
 ]

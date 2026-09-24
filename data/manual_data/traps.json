@@ -6223,5 +6223,180 @@
     "description": "A magical trap in the Study that animates paper into swarms of ravens (constructs with vulnerability to fire) when the secret doors are opened by anyone but Xonthal.",
     "source": "(The Rise of Tiamat)",
     "_source_manual": "RoT"
+  },
+  {
+    "name": "Doomsand",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature starts its turn in doomsand",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "Similar in most ways to standard quicksand, doomsand follows the same rules for sinking and escaping."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Follows the same rules for sinking and escaping as standard quicksand."
+    },
+    "effect": "A creature that starts its turn in doomsand must succeed on a DC 12 Wisdom saving throw or become despondent (see Shadow Corruption below). When the creature finishes a long rest, it can repeat the saving throw, ending the effect on a success.",
+    "save_dc": 12,
+    "save_ability": "Wisdom",
+    "damage": "",
+    "damage_type": "",
+    "area": "Marshes and swamps, or in deserts as fine dust",
+    "description": "Similar in most ways to standard quicksand, doomsand follows the same rules for sinking and escaping. This ashen-gray slurry is infused with the nature of shadow, and it drains the resolve from those in its grasp.",
+    "source": "(Book of Ebon Tides, p.75)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Hungry Gloom",
+    "type": "hazard",
+    "danger": "setback",
+    "trigger": "Entering an area of hungry gloom",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "An area of hungry gloom appears particularly dark and grim, swallowing light."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "An area of light that overlaps hungry gloom has its illumination reduced by one step (bright light becomes dim, dim light becomes darkness). Darkvision can't improve the ambient light conditions in the area. Shadow-touched creatures (see Shadow Corruption below) can see in hungry gloom as if it were bright light.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "Some areas of the Shadow Realm—or places in the mortal world where the barrier to the Shadow Realm is thin",
+    "description": "Some areas of the Shadow Realm—or places in the mortal world where the barrier to the Shadow Realm is thin—develop hungry gloom. An area of hungry gloom appears particularly dark and grim, swallowing light.",
+    "source": "(Book of Ebon Tides, p.75)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Leaden Clouds",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "Being beneath a leaden cloud of sorrow",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "These dark, heavy clouds oppress the spirit of those beneath them, serving as a sort of psychic weight."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "Certain items, such as emerald goblets (see Chapter 10), and spells, such as aid, calm emotions, enthrall, and lesser restoration, and even a barbarian's Rage ability negate the effects of leaden clouds."
+    },
+    "effect": "Creatures under a leaden cloud of sorrow must succeed on a DC 12 Wisdom or Charisma saving throw to make an attack, cast a spell, or move at more than a standard walking pace (though they can still defend themselves normally).",
+    "save_dc": 12,
+    "save_ability": "Wisdom or Charisma",
+    "damage": "",
+    "damage_type": "",
+    "area": "Beneath a leaden cloud of sorrow",
+    "description": "These dark, heavy clouds oppress the spirit of those beneath them, serving as a sort of psychic weight.",
+    "source": "(Book of Ebon Tides, p.75)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Radiant Well",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature enters a radiant well",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "This form of well resembles a beacon of light at the surface, though it swallows up anything thrown into it. A radiant well is a planar link to one of the celestial planes, and it sheds searing, bright daylight in a 60-foot radius around itself and up into the clouds."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Any creature entering a radiant well falls for 1 round and then is ejected upward at relatively high speed from another well within 2d20 miles (for evil creatures, this increases to 1d100 miles). The force of being ejected from the well propels a Small or smaller creature up about 30 feet before falling to the ground beside the well (potentially taking normal falling damage). Medium and Large creatures are pushed up about 15 feet, and Huge or larger creatures simply land at the edge of the well. Particularly large or active radiant wells sometimes inflict radiant damage on evil-aligned creatures.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "radiant",
+    "area": "60-foot radius of bright daylight around the well",
+    "description": "This form of well resembles a beacon of light at the surface, though it swallows up anything thrown into it. A radiant well is a planar link to one of the celestial planes, and it sheds searing, bright daylight in a 60-foot radius around itself and up into the clouds.",
+    "source": "(Book of Ebon Tides, p.75)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Mire",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature steps into shadow mire",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "This resembles dark water and is indistinguishable from water at night—leaves and reeds may float on it, and it reflects moonlight normally."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": ""
+    },
+    "effect": "Stepping into shadow mire generates an immediate, oversized wave that radiates from the creature entering the mire, knocking down all in its path. Any creatures within 30 feet, which are smaller than the creature stepping into the mire, must succeed on a DC 13 Strength (Athletics) or Dexterity (Acrobatics) saving throw or be knocked prone by the wave. The creature in the center of the mire will be covered by the shadow mire as it rolls back to its point.",
+    "save_dc": 13,
+    "save_ability": "Strength (Athletics) or Dexterity (Acrobatics)",
+    "damage": "",
+    "damage_type": "",
+    "area": "30 feet around the creature stepping into the mire",
+    "description": "Usually found along the shores of ponds, lakes, and streams, shadow mire is a concentration of pure shadow matter that has eaten away the soil, roots, and plants of a place and replaced them with a thin layer of viscous purple-black gloop.",
+    "source": "(Book of Ebon Tides, p.75)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Whispering Room",
+    "type": "magical",
+    "danger": "dangerous",
+    "trigger": "A creature takes a long rest in this room",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The haunting is not hidden; its effects are experienced directly by anyone resting in the room."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "To end the haunting and bring rest to the ghost, Loris's murderer, Hiernanda Kitza (LE human archmage), now a powerful magic user, must spend a full night in the room—this may result in her death or a transfer of the whisper-curse, the constant sound of accusing whispers surrounding Kitza."
+    },
+    "effect": "A creature that takes a long rest in this room is wracked by vivid dreams, which rapidly alternate from a warm embrace and the sound of whispered endearments to skeletal hands wrapped around the dreamer's throat and the sound of hissed curses. At the end of the long rest, the creature gains no benefit from the rest, takes 10 (3d6) psychic damage, and gains one level of exhaustion. A successful DC 20 Wisdom saving throw avoids the psychic damage but not the other effects.",
+    "save_dc": 20,
+    "save_ability": "Wisdom",
+    "damage": "10 (3d6)",
+    "damage_type": "psychic",
+    "area": "The Whispering Room",
+    "description": "The inn's most opulent room, called the Whispering Room by the staff, is haunted by the spirit of Loris Treik, a maiden who was seduced by Gunrik Stoll and murdered in the room by Stoll's jealous human mistress, Hiernanda Kitza. Loris's ghost rarely appears in the room, preferring to haunt the dreams of those who sleep in it.",
+    "source": "(Book of Ebon Tides, p.86)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Roachling Pit",
+    "type": "hazard",
+    "danger": "dangerous",
+    "trigger": "A creature approaches or rests near the water at the bottom of the pit; the slippery slope makes it difficult to leave, and creatures that stay near the water overnight or for a long rest slowly sink with the stones and the pool of water.",
+    "detection": {
+      "dc": 0,
+      "skill": "",
+      "detail": "The pit appears as a gentle hollow or dip in the landscape with an enticing body of water at the bottom surrounded by reeds or trees, or as a set of stones or a small mesa with a pure water spring. No specific detection DC is given."
+    },
+    "disarm": {
+      "dc": 0,
+      "method": "",
+      "detail": "No disarm method is provided."
+    },
+    "effect": "The gentle slope around the water is often quite slippery, making it difficult to leave the area around the water. Creatures must make a strong effort to climb back up the slope. Creatures that stay near the water overnight or for a long rest slowly sink with the stones and the pool of water, and on waking, may find themselves 30 or 40 feet below the level of the surroundings. The walls of the pit are commonly pockmarked with niches, tunnels, and small dwelling spaces, often inhabited.",
+    "save_dc": 0,
+    "save_ability": "",
+    "damage": "",
+    "damage_type": "",
+    "area": "A gentle hollow or dip in the landscape with a body of water at the bottom, or a set of stones or small mesa with a pure water spring.",
+    "description": "A roachling pit is an entirely bizarre form of terrain made by congealing, spinning, and reforming raw shadow into demonic termite mounds or hollow dunes and curved pits, usually found on the plains with an enticing body of pure rainwater at the bottom.",
+    "source": "(Book of Ebon Tides, p.134)",
+    "_source_manual": "EBT"
   }
 ]

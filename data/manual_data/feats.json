@@ -769,5 +769,47 @@
     "description": "The show is yours to command. You determine what performers take center stage and when, and you design the exciting and bloody final act of the show-meaning that you decide who lives and who dies. You might adopt an ominous or overwrought title, such as Choreographer of Flame or the Dramaturge. A troupe of 3d10 + 20 Rakdos performers is at your service, and you can call on 2d4 blood witches to aid you with their magic (see chapter 6 for these stat blocks). You're probably also considered a significant public enemy by the Azorius, but they can't arrest you if they can't catch you.",
     "source": "(Guildmasters' Guide to Ravnica, p.83)",
     "_source_manual": "GGR"
+  },
+  {
+    "name": "Forest Denizen",
+    "prerequisite": "",
+    "description": "You are familiar with the ways of the forest. You gain the following benefits:\n• Increase your Wisdom score by 1, to a maximum of 20.\n• You can discern if a plant or fungal growth is safe to eat.\n• You learn to speak, read, and write Sylvan.\n• You have advantage on Strength (Athletics) and Dexterity (Acrobatics) checks you make to escape from being grappled or restrained as long as you are being grappled or restrained by nonmagical vegetation or a beast's action such as a giant frog's bite or a spider's web.",
+    "source": "(Margreve Player's Guide, p.34)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Forest-Bound",
+    "prerequisite": "Druid and the performance of a service as specified by the forest",
+    "description": "You bind yourself to the forest for which you performed a service and gain the following benefits:\n• Increase your Constitution or Wisdom score by 1, to a maximum of 20.\n• You have advantage on Wisdom (Survival) checks made within your bound forest.\n• You can cast spells with the \"forest-bound\" requirement as if you were a Circle of Oaks druid (see page 17). To prepare such a spell, it must be of a level for which you have spell slots. If the forest to which you are bound is ever destroyed or if you break your bond with the forest (such as through destruction of your forest), you lose access to these spells. At your GM's discretion, you can bind yourself to a new forest (if your forest was destroyed) or make amends to your bound forest (if you broke your bond).",
+    "source": "(Margreve Player's Guide, p.35)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Friend of the Forest",
+    "prerequisite": "",
+    "description": "After spending some time in forests, you have attuned yourself to the ways of the woods and the creatures in it. You learn the treeheal (see page 49) cantrip and two other druid cantrips of your choice. You also learn the speak with animals spell and can cast it once without expending a spell slot. Once you cast it, you must finish a short or long rest before you can cast it in this way again. Your spellcasting ability for these spells is Wisdom.",
+    "source": "(Margreve Player's Guide, p.35)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Harrier",
+    "prerequisite": "The Shadow Traveler shadow fey trait or the ability to cast the misty step spell",
+    "description": "You have learned to maximize the strategic impact of your misty step. You appear in a flash and, while your foe is disoriented, attack with deadly precision. You gain the following benefits:\n• Increase your Strength or Dexterity score by 1, to a maximum of 20.\n• When you use your Shadow Traveler trait or cast misty step, you have advantage on the next attack you make before the end of your turn.",
+    "source": "(Margreve Player's Guide, p.35)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Stalker",
+    "prerequisite": "",
+    "description": "You are an expert at hunting prey. You are never more at home than when on a hunt, and your quarry rarely escapes you. You gain the following benefits:\n• You gain proficiency in the Stealth and Survival skills.\n• You have advantage on Wisdom (Survival) checks made to track a creature you have seen in the past 24 hours.",
+    "source": "(Margreve Player's Guide, p.35)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Stunning Sniper",
+    "prerequisite": "Proficiency with a ranged weapon",
+    "description": "You have mastered the use of ranged weapons to cripple your target from a distance. When you score a critical hit on a ranged attack roll, you can stun the target until the start of your next turn instead of doubling the damage.",
+    "source": "(Margreve Player's Guide, p.35)",
+    "_source_manual": "MPG"
   }
 ]

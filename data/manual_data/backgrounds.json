@@ -1165,5 +1165,34 @@
     "description": "An optional feature that you can choose in place of the feature normally granted by your background.",
     "source": "(Hoard of the Dragon Queen)",
     "_source_manual": "HotDQ"
+  },
+  {
+    "name": "Forest Dweller",
+    "skill_proficiencies": [
+      "Nature",
+      "Survival"
+    ],
+    "tool_proficiencies": [
+      "Woodcarver's tools",
+      "herbalism kit"
+    ],
+    "languages": [
+      "Sylvan"
+    ],
+    "equipment": [
+      "A set of common clothes",
+      "a hunting trap",
+      "a wood staff",
+      "a whetstone",
+      "an explorer's pack",
+      "a pouch containing 5 gp"
+    ],
+    "feature": {
+      "name": "Forester",
+      "description": "Your experience living, hunting, and foraging in the woods gives you a wealth of experience to draw upon when you are traveling within a forest. If you spend 1 hour observing, examining, and exploring your surroundings while in a forest, you are able to identify a safe location to rest. The area is protected from all but the most extreme elements and from the non-magical native beasts of the forest. In addition, you are able to find sufficient kindling for a small fire throughout the night."
+    },
+    "description": "You are a creature of the forest, born and reared under a canopy of green. You expected to live all your days in the Margreve, at one with the green things of the world, until an unforeseen occurrence, traumatic or transformative, drove you from your familiar home and into the larger world. Civilization is strange to you, the open sky unfamiliar, and the bizarre ways of the so-called civilized world run counter to the truths of the Old Ways.",
+    "source": "(Margreve Player's Guide)",
+    "_source_manual": "MPG"
   }
 ]

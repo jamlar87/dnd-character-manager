@@ -1,0 +1,1151 @@
+{
+  "races": [],
+  "spells": [
+    {
+      "name": "Stone River",
+      "level": 4,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (standing stones)",
+      "duration": "8 hours or until spell cast",
+      "description": "You call on a circle of standing stones to assist you in shifting the flow of magical energy though ley lines for the duration. Doing so requires a successful Intelligence (Arcana) or Wisdom (Religion) check; on a failed check, the change to a ley line does not happen. A successful check allows one of the following changes, depending on the check total.\n\nCHECK CHANGE\n11 Extinguish weak ley line\n12 Modify weak ley line (change its character)\n13 Move weak ley line (up to 2d12 miles + caster level)\n12 Dampen strong ley line to a weak one\n14 Modify strong ley line (change its character)\n15 Move strong ley line (up to 1d12 miles + caster level)\n16 Dampen titanic ley line to a strong one\n18 Modify titanic ley line (change its character)\n20 Move titanic ley line (up to caster level in miles)\n\nAfter you have successfully manipulated a ley line, you can call on its energies to empower other spells. Once a single spell is cast with the modified ley line, your manipulation of it ends, and the ley line collapses back into its usual shape and channels.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": true,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Feed the Forest",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "1 hour",
+      "description": "When cast in the Margreve, this spell feeds a constant trickle of magical energy into the forest. For the duration of the spell, you can cast spells of 1st level or lower without the forest siphoning power from the spell as it normally does. The forest remains aware of you and may interdict or attack you for other reasons.",
+      "higher_levels": "If feed the forest is cast with a spell slot of 2nd level or higher, the duration increases 1 hour per slot level above 1st, and the level of magic masked is equal to the level of the slot expended.",
+      "classes": [
+        "all"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Porevit's Mantle",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M",
+      "duration": "1 hour",
+      "description": "You take on the physical characteristics of the terrain around you. Grass and tiny mushrooms sprout in your hair, moss beards your chin, and your flesh takes on the mottled hue of leaf green and bark brown. This effect provides a +2 bonus to Stealth checks in the appropriate terrain.",
+      "higher_levels": "If this spell is cast with a 2nd level or higher spell slot, one additional creature is affected per slot above 1st.",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Self",
+      "level": 0,
+      "school": "unknown",
+      "casting_time": "",
+      "range": "",
+      "components": "V, S",
+      "duration": "1 hour",
+      "description": "When cast in the Margreve, this spell feeds a constant trickle of magical energy into the forest. For the duration of the spell, you can cast spells of 1st level or lower without the forest siphoning power from the spell as it normally does. The forest remains aware of you and may interdict or attack you for other reasons.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Snap the Leash",
+      "level": 2,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a used leash or similar object)",
+      "duration": "Instantaneous",
+      "description": "Choose a beast that you can see within range. If the beast's Intelligence is 4 or higher, the spell fails. The beast must make a Wisdom saving throw; on a failed save, you remove the shackles of domestication from the creature's mind, causing it to entirely forget being broken or trained. Mounts refuse to be ridden, and other animals forget any tricks learned and obedience taught. Other memories are not affected, so creatures may remain drawn to those who have treated them kindly and aggressive toward those who have harmed them. The animal can be domesticated again, but the trainer must start from scratch. This spell is only partly effective against animal companions, familiars, and paladin mounts. Although it removes any tricks such creatures know, the bond between creature and master is otherwise unaffected.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Spy My Shadow",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You whisper a fey rhyme to your shadow, bringing it to life as a tenebrous spy that can slip under doors, between shutters, and through the narrowest of cracks. You can stretch your shadow up to ten times your height and move it as you desire. It remains two-dimensional and cannot interact with physical objects. You can spy through your shadow's eyes and ears as if they were your own, but magically enhanced senses do not work through this spell. You can utilize the Stealth skill normally if trying to keep your shadow's presence a secret: it gains advantage on Dexterity (Stealth) checks in dim lighting but disadvantage on Dexterity (Stealth) checks in brightly lit areas.",
+      "higher_levels": "",
+      "classes": [
+        "Sorcerer",
+        "Wizard",
+        "Warlock"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Step Like Me",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (blood, hair, or a personal item of target)",
+      "duration": "24 hours",
+      "description": "Choose a creature within one size category of yourself that you can see within range. The target must succeed on a Constitution saving throw or you steal its footsteps. For the duration of the spell, you leave the tracks of the target, while it leaves tracks as if it were you. In addition, those capable of identifying creatures through tremorsense mistake you for a creature of the target's kind.",
+      "higher_levels": "",
+      "classes": [
+        "Ranger",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "TMFRV"
+    },
+    {
+      "name": "Yarila's Bounty",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 hour",
+      "description": "The sun's life-giving energy heals and sustains your body. For the duration, you heal 1 hit point at the start of each of your turns whenever you are bathed in direct sunlight; 30 minutes or more of exposure also provides a day's normal nourishment. In dim light, the spell's healing is reduced to 1 hit point per minute. Normal or magical darkness suppresses the spell's effect entirely. While in sunlight, the target can ignore 1 level of exhaustion (the level is only temporarily removed). Undead are especially vulnerable to this spell. If a targeted undead fails its Wisdom save, it gains the poisoned condition and suffers radiant damage instead of healing while in sunlight.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "TMFRV"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Enchanted Apple",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Upon her death, the Singing Tree turns bone white, resembling an ashen-faced woman of great beauty, clasping a bright red apple. The apple radiates a strong aura of enchantment magic. An identify spell does not reveal the magical property of the apple, only that it is a permanent effect. Anyone who bites the apple receives a permanent +1 increase to Charisma; after a single bite is taken, the apple withers and turns to dust. The apple cannot be preserved and will wither soon after being removed from the tree.",
+      "source": "Adventure p.60"
+    },
+    {
+      "name": "Silver Mirror with Ebony Handle",
+      "type": "Treasure",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A silver mirror with an ebony handle (75 gp).",
+      "source": "Adventure p.60"
+    },
+    {
+      "name": "Scrimshaw Comb",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "Aside from being carved from bone, this comb is a beautiful example of functional art. It has 3 charges. As an action, you can expend a charge to cast invisibility. Unlike the standard version of this spell, you are invisible only to undead creatures. But you can attack creatures who are not undead (and thus unaffected by the spell) without ending the effect. Casting a spell breaks the effect as normal. The comb regains 1d3 expended charges daily at dawn.",
+      "source": "p.62"
+    },
+    {
+      "name": "Harvester (The Hollow Man's Sickle)",
+      "type": "Weapon (sickle)",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "This +1 sickle (attunement is not required to benefit from the magical bonus) is made of ancient wood, bleached and smoothed by time, and it is actually a part of the Singing Tree itself. The sickle is a heavy, two-handed weapon that weighs 10 pounds. It deals slashing damage equal to 5 (2d4) plus the wielder's Strength modifier. Harvester is draped with the remains of ancient corn dolls and mummified rodents as well as recently killed animals. The fresh kills come from the Hollow Man's recent visits to the village and offer a valuable clue to reaching the singing tree. The sickle directs the Hollow Man to the Singing Tree's chosen victims as though the wielder had cast the find the path spell. An attuned wielder can cast tree stride once per day, requiring no components. Any wooden construct wielding the weapon returns to full hit points at midnight. Upon the death of the Singing Tree, Harvester reverts to a +1 sickle, losing all other powers.",
+      "source": "p.62"
+    },
+    {
+      "name": "Ageless Honey",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Crafted only by the Honey Queens of the Old Margreve from honeys made from the pollen of the effildawnan flower, a small spoonful of this purple-tinged honey causes you to fall into a deep sleep for 1 month (a successful DC 20 Constitution saving throw reduces this time to 1 day). During this time, you are subject to neither aging nor hunger.",
+      "source": "p.80"
+    },
+    {
+      "name": "Magic Honey (Potion of Greater Healing)",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A fourth vial holds a magic honey that operates identically to a potion of greater healing.",
+      "source": "The Honey Queen p.78"
+    },
+    {
+      "name": "Honey Lamp",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A honey lamp, resting in a bowl, illuminates the room.",
+      "source": "The Honey Queen p.78"
+    },
+    {
+      "name": "Spell Scroll (Cure Wounds)",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell cure wounds.",
+      "source": "The Honey Queen p.78"
+    },
+    {
+      "name": "Spell Scroll (Pass without Trace)",
+      "type": "Scroll",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell pass without trace.",
+      "source": "The Honey Queen p.78"
+    },
+    {
+      "name": "Spell Scroll (Mage Armor)",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell mage armor.",
+      "source": "The Honey Queen p.78"
+    },
+    {
+      "name": "Spell Scroll (Magic Missile)",
+      "type": "Scroll",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "A spell scroll containing the spell magic missile.",
+      "source": "The Honey Queen p.78"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Pumpkin Jack",
+      "size": "Medium",
+      "type": "fey",
+      "alignment": "chaotic neutral",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "78 (12d8 + 24)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 18,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 12,
+        "charisma": 18
+      },
+      "saving_throws": {
+        "wis": 4
+      },
+      "skills": {
+        "Perception": 4,
+        "Stealth": 7
+      },
+      "damage_resistances": [
+        "bludgeoning, piercing, and slashing from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 14",
+      "languages": [
+        "Common",
+        "Elvish",
+        "Umbral"
+      ],
+      "challenge_rating": "6",
+      "xp": 2300,
+      "features": [
+        {
+          "name": "Innate Spellcasting",
+          "description": "Pumpkin Jack's innate spellcasting ability is Charisma. He can cast the following spell innately, requiring no material components:\nAt will: misty step (when in shadows, dim light, or darkness only)"
+        },
+        {
+          "name": "Master of the Shadow Roads",
+          "description": "Pumpkin Jack can use the shadow roads to travel to anywhere in Midgard in just 1d3 days. He arrives after dusk, or in a dimly lit or dark area, within 1d6 miles of the desired location. If Pumpkin Jack has been sent after a specific individual and has an item of their clothing or a lock of their hair, he appears within 30 feet of the target."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Pumpkin Jack makes two claw attacks."
+        },
+        {
+          "name": "Claw",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 12 (2d8 + 4) slashing damage. If the target is frightened, it takes an additional 10 (3d6) psychic damage from this attack."
+        },
+        {
+          "name": "Frightful Presence",
+          "description": "Each creature within 60 feet of Pumpkin Jack and aware of him must succeed on a DC 15 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to Pumpkin Jack's Frightful Presence for the next 24 hours."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Relentless Stalker",
+          "description": "When an adjacent creature moves away from Pumpkin Jack, he can use his reaction to cast misty step."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "Wrath of the River King p.38"
+    },
+    {
+      "name": "Bull",
+      "size": "Large",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "25 (3d10 + 9)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 2,
+        "wisdom": 9,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 9",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Charge",
+          "description": "If the bull moves at least 30 feet in a straight line toward a target and then hits it with a gore attack on the same turn, the target takes an extra 3 (1d6) piercing damage."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Hooves",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 9 (2d4 + 4) bludgeoning damage."
+        },
+        {
+          "name": "Gore",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.60"
+    },
+    {
+      "name": "Hollow Man",
+      "size": "Medium",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 16,
+      "ac_type": "natural armor",
+      "hit_points": "76 (8d10 + 32)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 10,
+        "constitution": 18,
+        "intelligence": 3,
+        "wisdom": 11,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {
+        "Athletics": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic",
+        "bludgeoning, piercing and slashing from nonmagical weapons that aren't adamantine"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "understands the languages of its creator but can't speak"
+      ],
+      "challenge_rating": "5",
+      "xp": 5900,
+      "features": [
+        {
+          "name": "Animate Wood Ward (1/day)",
+          "description": "The Hollow Man can animate one wood ward that it can see and is within 60 feet of it. The wood ward follows simple instructions from the Hollow Man.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Immutable Form",
+          "description": "The Hollow Man is immune to any spell or effect that would alter its form."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The Hollow Man has advantage on saving throws against spells or other magical effects."
+        },
+        {
+          "name": "Magic Weapons",
+          "description": "The Hollow Man's attacks are magical."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Hollow Man makes two slam attacks or two weapon attacks with Harvester."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
+        },
+        {
+          "name": "Harvester",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 9 (2d4 + 4) slashing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.60"
+    },
+    {
+      "name": "Singing Tree",
+      "size": "Large",
+      "type": "plant",
+      "alignment": "neutral evil",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "66 (6d12 + 24)",
+      "speed": "10 ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 8,
+        "constitution": 20,
+        "intelligence": 12,
+        "wisdom": 16,
+        "charisma": 14
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning, piercing and slashing from nonmagical weapons"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Druidic",
+        "Elvish",
+        "Sylvan"
+      ],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Thirteen Heads",
+          "description": "The tree begins the adventure with a single mummified head and then adds another for each successful mission the Hollow Man carries out. Instead of targeting the creature, opponents can target the heads. Each head has AC 13 and 5 hit points. Damage to the heads does not reduce the Singing Tree's hit points. Without any heads, the Singing Tree cannot use Sing or Weep."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The Singing Tree makes two slam attacks."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 2) bludgeoning damage, and a Medium or smaller target is grappled (escape DC 12). Until the grapple ends, the target is also restrained and takes 5 (1d6 + 2) bludgeoning damage at the start of each of its turns as the Singing Tree constricts it."
+        },
+        {
+          "name": "Weep (Recharge 5–6)",
+          "description": "The Singing Tree casts conjure animals, requiring no components. The Singing Tree does not need to maintain concentration for the summoned animals to remain friendly to it.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Sing",
+          "description": "The Singing Tree's song targets a creature within 45 feet that can hear it. The target must make a successful DC 13 Wisdom save or be affected as if by the confusion spell. The target can repeat the save at the end of its turn. The effect ends on a successful save or if the Singing Tree stops singing. While singing, the tree can take other actions. A creature that saves is immune to this effect for the next 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Adventure p.61"
+    },
+    {
+      "name": "Swarm of Bees",
+      "size": "Medium",
+      "type": "swarm of tiny beasts",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "",
+      "hit_points": "36 (8d8)",
+      "speed": "5 ft., fly 30 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 18,
+        "constitution": 11,
+        "intelligence": 1,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "senses": "blindsight 10 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Swarm",
+          "description": "The swarm can occupy another creature's space, and vice versa. The swarm can move through any opening large enough for a Tiny insect. The swarm cannot regain hit points or gain temporary hit points."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +3 to hit, range 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm is at half its hit points or fewer. The target must make a DC 10 Constitution saving throw, taking 1 poison damage on a failed save."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.62"
+    },
+    {
+      "name": "Wood Ward",
+      "size": "Medium",
+      "type": "construct",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "20 (2d10 +8)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 11,
+        "dexterity": 12,
+        "constitution": 18,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 1
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "poison",
+        "psychic",
+        "bludgeoning",
+        "piercing and slashing from nonmagical weapons that aren't adamantine"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 11",
+      "languages": [
+        "understands the languages of its creator but can't speak"
+      ],
+      "challenge_rating": "1",
+      "xp": 200,
+      "features": [
+        {
+          "name": "Immutable Form",
+          "description": "The wood ward is immune to any spell or effect that would alter its form."
+        },
+        {
+          "name": "Magic Resistance",
+          "description": "The wood ward has advantage on saving throws against spells or other magical effects."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "The wood ward makes two slam attacks or uses its Horror Gaze."
+        },
+        {
+          "name": "Slam",
+          "description": "Melee Weapon Attack: +2 to hit, reach 5 ft. one target. Hit: 2 (1d4) bludgeoning damage."
+        },
+        {
+          "name": "Horror Gaze (1/day)",
+          "description": "All creatures within a 30-foot cone of the wood ward that it can see make a DC 10 Charisma saving throw. On a failed save, the target is frightened of the wood ward for 1 minute. The target may repeat the saving throw at the end of each of its turns, ending the effect on a success. If the saving throw succeeds, the target is immune to this wood ward's gaze for 24 hours."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.62"
+    },
+    {
+      "name": "Duxt",
+      "size": "Small",
+      "type": "fey",
+      "alignment": "lawful evil",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "7 (2d6)",
+      "speed": "25 ft., climb 25 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 10,
+        "wisdom": 9,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "dex": 4
+      },
+      "skills": {
+        "Athletics": 2,
+        "Perception": 1,
+        "Stealth": 4
+      },
+      "damage_resistances": [
+        "force"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Spell Immunity",
+          "description": "magic missile"
+        },
+        {
+          "name": "Special Equipment",
+          "description": "Duxt wears a brooch of shielding, which gives him resistance to force damage and immunity to damage from the magic missile spell (both included above)."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Shortsword",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Dart",
+          "description": "Ranged Weapon Attack: +4 to hit, range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.79"
+    },
+    {
+      "name": "Giant Bee",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "18 (4d8)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 12",
+      "languages": [],
+      "challenge_rating": "1/2",
+      "xp": 100,
+      "features": [
+        {
+          "name": "Sedating Smoke",
+          "description": "When the giant bee enters a sufficiently smoky area for the first time or ends its turn there, it must succeed on a DC 12 Constitution saving throw or be affected as if by the slow spell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.79"
+    },
+    {
+      "name": "Young Giant Queen Bee",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "33 (6d8 + 6)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 17,
+        "constitution": 12,
+        "intelligence": 5,
+        "wisdom": 10,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common"
+      ],
+      "challenge_rating": "2",
+      "xp": 450,
+      "features": [
+        {
+          "name": "Sedating Smoke",
+          "description": "When the young giant queen bee enters a sufficiently smoky area for the first time or ends her turn there, she must make a DC 12 Constitution saving throw or be affected as by the slow spell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage and the target must make a DC 12 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.79"
+    },
+    {
+      "name": "The Honey Queen",
+      "size": "Large",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 16,
+      "ac_type": "mage armor",
+      "hit_points": "60 (8d10 + 16)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 10,
+        "wisdom": 10,
+        "charisma": 16
+      },
+      "saving_throws": {
+        "con": 5,
+        "cha": 6
+      },
+      "skills": {
+        "Insight": 3,
+        "Perception": 3,
+        "Persuasion": 6
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 13",
+      "languages": [
+        "Common",
+        "Sylvan"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Command Bees",
+          "description": "As a bonus action, the Honey Queen can command any number of bees or giant bees telepathically, giving them simple orders. They must be visible to her when she issues the command but will continue to follow orders until they are carried out even if they move out of sight. Awakened or otherwise intelligent bees can resist this effect with a successful DC 15 Charisma saving throw."
+        },
+        {
+          "name": "Sedating Smoke",
+          "description": "When the Honey Queen enters a sufficiently smoky area for the first time or ends her turn there, she must succeed on a DC 12 Constitution saving throw or be affected as if by the slow spell."
+        },
+        {
+          "name": "Spellcaster",
+          "description": "The Honey Queen is a 4th-level spellcaster. Her casting ability is Charisma (spell save DC 13, +5 to hit with spell attacks). She has the following spells prepared:\nCantrips (at will): friends, mage hand, minor illusion, poison spray, prestidigitation\n1st level (4 slots): charm person, entangle, mage armor, sleep\n2nd level (3 slots): hold person, scorching ray, suggestion"
+        }
+      ],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 9 (2d6 + 3) piercing damage and the target must make a DC 13 Constitution saving throw, taking 10 (3d6) poison damage on a failed save and gaining the poisoned condition until the end of its next turn, or half as much damage on a successful one."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.79-80"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Anya Gristlegrot",
+      "race": "Ogress (green hag stats, size Large)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Cursing Stick",
+          "description": "Cursing Stick (recharges after a long rest). Anya points a gnarled wooden stick at a single creature within 30 feet and utters a powerful curse. If the creature fails a DC 12 Wisdom saving throw, Anya polymorphs the target into a giant frog, or transforms its head into a donkey's. The target remains under the curse until it fulfills a special challenge set by Anya (e.g. stealing a leprechaun's pot of gold, winning a race with a quickling), the target drops to 0 hp or dies, or Anya's cursing stick is destroyed. The cursing stick is AC 15 and has 10 hp. It takes Anya a day to craft a replacement. The cursed creature is limited in the actions it can perform by the nature of its new form, and cannot speak.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This nine-foot-tall ogress has greenish skin, a bulbous nose covered in pimples, and a mouth filled with crooked and broken teeth. She reeks of a heady combination of sweat and patchouli. Anya has few friends among the other revelers. She resents most fey, particularly elves, for looking down their perfectly formed noses at her, and likes nothing more than to see them taken down a peg or two. Anya hates the Holly Queen for humiliating her at the last winter revels and longs for revenge. She spends a lot of time brooding on her lowly status, and is quick to anger, but can be won over with flattery focusing on how fearsome and devious she is. Anya sometimes has potions and other minor magic items for sale. Anya has the stats of a green hag, but her size is Large.",
+      "role": "Neutral / Potential ally or antagonist",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wrath of the River King p.37"
+    },
+    {
+      "name": "Gerribbit",
+      "race": "Elf (polymorphed into giant frog)",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Curse of the Cursing Stick",
+          "description": "Gerribbit is cursed to remain a frog until he wins a big, slobbery kiss from a hairy dwarf, half-orc, or satyr. He has had no luck so far but that doesn't stop him from leaping beside any suitable character in the hopes they will kiss him. Gerribbit tries his best to communicate with the characters but can only say \"gerribbit.\" If they are able to talk to him with speak with animals, he explains his predicament and begs for their help. If Gerribbit returns to his true form, he will tell them that events in the nearby human village of Riverbend have angered the River King, and its inhabitants may soon come under attack by the fey; see Wrath of the River King."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Until a few days ago, Gerribbit was Solanquis, a young and arrogant minor elf noble at the River King's Court. Now he is a giant frog. The foppish youth made the mistake of upsetting Anya Gristlegrot by failing to treat her with respect, and the angry ogress polymorphed the hapless elf into his present form with her cursing stick.",
+      "role": "Ally / Quest hook",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wrath of the River King p.37"
+    },
+    {
+      "name": "Holly Queen",
+      "race": "Shadow fey",
+      "class_name": "Enchantress",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Holly Queen's Badge",
+          "description": "The winners of the dancing contest at the winter revel each get to dance with the Holly Queen in turn. As they twirl around together, she will whisper in their ear, asking them if they are willing to wear her badge. Those that say yes may find themselves performing a service for the queen in the future and may even be whisked off to spend the summer months at her castle in the Shadow Realm."
+        },
+        {
+          "name": "Pumpkin Jack's Candle",
+          "description": "The Holly Queen has been given Pumpkin Jack's candle by a pombero (see Tome of Beasts) named Gloamwalker who wanted to curry favor with her. If the characters ask her respectfully, she is willing to exchange it for a \"small service.\" The Holly Queen has heard whispers of goblin raids and kidnappings in the human village of Riverbend and would like the characters to find out what is going on; see Wrath of the River King."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This raven-haired shadow fey enchantress (see Tome of Beasts) is a guest of honor at the winter revel, and usually attends the spring and autumn revels, but is seen at the summer revel only rarely. She wears a holly crown with bright red berries on her horned head, and dresses in long black robes adorned with winter wolf fur. A tiny robin redbreast perches on her shoulder. The Holly Queen is a loyal vassal of the Moonlit King, and is out of favor at the Courts of the Shadow Fey while the Queen of Night and Magic and her Summer Court are in the ascendant. Quiet, observant, and somewhat sorrowful, she comes to the revels to keep abreast of affairs among the elves of the Arbonesse and to gather intelligence on the River Court.",
+      "role": "Ally / Quest giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Wrath of the River King p.37"
+    },
+    {
+      "name": "Pumpkin Jack",
+      "race": "Fey bogeyman",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "This fey bogeyman makes his home in the Shadow Realm, venturing into the Material Plane to frighten mortals at the behest of his mistress, the Queen of Night and Magic. A terrifying figure with a grinning, evil-looking jack-o-lantern for a head and long, wicked",
+      "role": "Antagonist",
+      "is_enemy": true,
+      "xp_reward": 0,
+      "source": "Wrath of the River King p.37"
+    },
+    {
+      "name": "Terelsa Garlook",
+      "race": "Human",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Go-Between",
+          "description": "Terelsa Garlook is a go-between, an agent who knows how to hire the right people for any sort of job: domestic, dangerous, mundane, or odd. Although she avoids strictly illegal commissions, she sometimes works for less than savory characters who often want, for obvious reasons, to remain anonymous. She also does occasional work for the city government."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Terelsa Garlook is a go-between, an agent who knows how to hire the right people for any sort of job: domestic, dangerous, mundane, or odd. Although she avoids strictly illegal commissions, she sometimes works for less than savory characters who often want, for obvious reasons, to remain anonymous. She also does occasional work for the city government.",
+      "role": "Quest Giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "The Honey Queen p.70"
+    },
+    {
+      "name": "Baba Migori",
+      "race": "Human",
+      "class_name": "Druid",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Wild Shape (Air Elemental)",
+          "description": "She actually turns into an air elemental and flies away through the trees."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Baba Migori, also called Grandmother Migori, is a powerful druid who is very familiar with the forest. She often tests travelers for their worthiness. Uninterested in fighting, she quickly disappears in the wind if attacked.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Margreve Adventure p.71"
+    },
+    {
+      "name": "Elsee Barkcot",
+      "race": "Bearfolk",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Irrational Fear of Spiders",
+          "description": "She has an irrational fear of spiders."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Elsee Barkcot is the mother of a bearfolk family living in a small cottage just north of a clearing. Her youngest son, Obiah, is trapped in a tree by a giant spider.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Margreve Adventure p.71"
+    },
+    {
+      "name": "Frauleene",
+      "race": "Alseid",
+      "class_name": "Herbalist",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Injured Leg",
+          "description": "She is not armed and has an injured leg. She can only just keep ahead of the savage ogre that wants to torment and consume her."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Frauleene is a young, female alseid and an herbalist. She was caught off guard by an ogre while gathering plants in the forest. She knows where to find Queen's Glade and can lead the characters in that direction.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Margreve Adventure p.71"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [
+    {
+      "name": "A Floor of Honey",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "The wax floor of the tunnel is rigged to break when stepped on, trapping the feet of trespassers in a glue-like honey.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Spotting the trap requires a successful DC 15 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "None",
+        "detail": "The trap cannot be disabled, but it can be avoided."
+      },
+      "effect": "If the trap is triggered, the character must make a successful DC 12 Dexterity saving throw to avoid falling through and becoming grappled (escape DC 12).",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "The wax floor of the tunnel, just 10 feet beyond the meeting room.",
+      "description": "A wax floor rigged to break when stepped on, trapping the feet of trespassers in a glue-like honey.",
+      "source": "Unknown p.74"
+    },
+    {
+      "name": "A Thin Floor and a Short Fall",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "The wax floor is constructed in such a way as to break when someone reaches the designated area.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Spotting the trap requires a DC 15 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "None",
+        "detail": "The trap cannot be disabled, but it can be avoided."
+      },
+      "effect": "Old giant bee stingers line the floor at the bottom of the pit, embedded in wax. Avoiding the stingers requires a successful DC 12 Dexterity saving throw. A character who is unable to avoid the stingers takes 3 (1d6) piercing damage and must make a DC 10 Constitution saving throw, taking 7 (2d6) poison damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "3 (1d6) piercing and 7 (2d6) poison",
+      "damage_type": "piercing and poison",
+      "area": "The trapped hallway.",
+      "description": "A wax floor constructed to break when someone reaches the designated area, dropping them onto old giant bee stingers embedded in wax at the bottom of a pit.",
+      "source": "Unknown p.74"
+    },
+    {
+      "name": "Thin Wax Floor",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "The wax floor is constructed to break when someone reaches the designated area.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Spotting the trap and avoiding it requires a DC 15 Wisdom (Perception) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "No disarm method specified."
+      },
+      "effect": "Those who are caught in it fall 20 feet, taking 2d6 bludgeoning damage. The soft earthen walls of the pit make getting out difficult, requiring a DC 25 Strength (Athletics) check. If the characters attempt to climb out at the corners, the DC is decreased to 20.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "2d6",
+      "damage_type": "bludgeoning",
+      "area": "Designated area of the hallway",
+      "description": "This hallway has been trapped to prevent intruders from reaching the chambers of the Honey Queen.",
+      "source": "Adventure p.76"
+    }
+  ],
+  "_chapters_completed": [
+    "The Fingers of Derende",
+    "Magic in the Margreve",
+    "The Old Margreve Gazetteer",
+    "Margreve Sites, Inhabitants, and Adventure Hooks",
+    "The Honey Queen",
+    "Tales of the Old Margreve",
+    "Hollow"
+  ],
+  "_current_chapter": "The Vengeful Heart",
+  "_total_chapters": 19,
+  "_book_slug": "TMFRV",
+  "_book_title": "Tales Margreve 5E FINAL REOPTIMIZED v2",
+  "_completed": false,
+  "_timestamp": 1790287058.9175951
+}

@@ -1,0 +1,2838 @@
+{
+  "races": [
+    {
+      "name": "Alseid",
+      "source": "Margreve Player's Guide p.8-9",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 40,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Alseid reach maturity by the age of 20. They can live well beyond 100 years, but it is unknown just how old they can become."
+        },
+        {
+          "name": "Size",
+          "description": "Alseid stand over 6 feet tall and weigh around 300 pounds. Your size is Medium."
+        },
+        {
+          "name": "Alignment",
+          "description": "Alseid are generally chaotic neutral, though variations are common,particularly among those rare few who leave their people."
+        },
+        {
+          "name": "Speed",
+          "description": "Alseid are fast for their size, with a base speed of 40 feet."
+        },
+        {
+          "name": "Type",
+          "description": "You are of the monstrosity type."
+        },
+        {
+          "name": "Darkvision",
+          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+        },
+        {
+          "name": "Alseid Weapon Training",
+          "description": "You have proficiency with spears and shortbows."
+        },
+        {
+          "name": "Light Hooves",
+          "description": "You have proficiency in the Stealth skill."
+        },
+        {
+          "name": "Quadruped",
+          "description": "The mundane details of the structures of humanoids can present considerable obstacles for you. You have to squeeze when moving through trapdoors, manholes, and similar structures even when a Medium humanoid wouldn’t have to squeeze. In addition, ladders, stairs, and similar structures are difficult terrain for you."
+        },
+        {
+          "name": "Woodfriend",
+          "description": "When in a forest, you leave no tracks and can automatically discern true north."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Elvish."
+        }
+      ],
+      "subraces": [],
+      "description": "Alseid are tall, quadrupedal fey creatures with antlers that signify status, standing over 6 feet tall and weighing around 300 pounds.",
+      "_effects": {
+        "Ability Score Increase": {},
+        "Age": {},
+        "Size": {},
+        "Alignment": {},
+        "Speed": {
+          "speed": 40
+        },
+        "Type": {},
+        "Darkvision": {
+          "darkvision": 60
+        },
+        "Alseid Weapon Training": {
+          "weapon_profs": [
+            "Spear",
+            "Shortbow"
+          ]
+        },
+        "Light Hooves": {
+          "skill_profs": [
+            "Stealth"
+          ]
+        },
+        "Quadruped": {
+          "notes": "Must squeeze through trapdoors, manholes, and similar structures even when a Medium humanoid wouldn't have to. Ladders, stairs, and similar structures are difficult terrain."
+        },
+        "Woodfriend": {
+          "notes": "In a forest, leaves no tracks and can automatically discern true north."
+        },
+        "Languages": {}
+      }
+    },
+    {
+      "name": "Erina",
+      "source": "Midgard Heroes Handbook p.10-11",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 60,
+      "languages": [
+        "Erina",
+        "Common or Sylvan"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and you can choose to increase either your Wisdom or Charisma score by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Erina reach maturity around fifteen years and can live up to sixty years, though some erina burrow elders have memories of events which suggest erina can live much longer."
+        },
+        {
+          "name": "Alignment",
+          "description": "Erina are good-hearted and extremely social creatures who have a difficult time adapting to the laws of other species."
+        },
+        {
+          "name": "Size",
+          "description": "Erina average about 3 feet tall and weigh about 50 pounds. Your size is Small."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet."
+        },
+        {
+          "name": "Darkvision",
+          "description": "Accustomed to life in the dark burrows of your people, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+        },
+        {
+          "name": "Hardy",
+          "description": "The erina diet of snakes and venomous insects has made them hardy. You have advantage on saving throws against poison, and you have resistance against poison damage."
+        },
+        {
+          "name": "Spines",
+          "description": "Erina grow needle-sharp spines in small clusters atop their heads and along their backs. While you are grappling a creature or while a creature is grappling you, it takes 2 (1d4) piercing damage at the start of your turn."
+        },
+        {
+          "name": "Keen Senses",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Digger",
+          "description": "You have a burrowing speed of 20 feet, but you can use it to only move through earth and sand, not mud, ice, or rock."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak Erina and either Common or Sylvan."
+        }
+      ],
+      "subraces": [],
+      "description": "Erina are hedgehog-folk who average about 3 feet tall and weigh about 50 pounds, with needle-sharp spines in small clusters atop their heads and along their backs.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2; choose Wisdom +1 or Charisma +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Hardy": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Poison"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison"
+        },
+        "Spines": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "While grappling or grappled, creature takes 2 (1d4) piercing damage at the start of your turn"
+        },
+        "Keen Senses": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Perception"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Digger": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Burrowing speed of 20 feet, usable only through earth and sand (not mud, ice, or rock)"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speaks Erina and either Common or Sylvan"
+        }
+      }
+    },
+    {
+      "name": "Piney",
+      "source": "Margreve Player's Guide p.12-13",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Piney"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Pineys have the same lifespans as humans, reaching maturity in their late teens."
+        },
+        {
+          "name": "Alignment",
+          "description": "Pineys living in their villages follow their own code diligently. They owe no allegiance to the gods, nor do they aspire to being paragons of good or evil. Pineys who leave the Margreve tend to have respect for laws, but they struggle to adopt moral stances. For these reasons, pineys tend towards lawful and neutral alignments."
+        },
+        {
+          "name": "Size",
+          "description": "Like humans, pineys vary widely in height and build, from barely 5 feet to well over 6 feet tall. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Margreve Within",
+          "description": "As a piney adventuring beyond the Margreve, you have lost the more extreme, occasionally monstrous, qualities of your forest-dwelling kin. Nonetheless, the magic of the elder forest marks you. You can meet your daily alimentary needs by consuming a suitable amount of food or by standing in direct sunlight for 30 minutes. In addition, your organs are partially made from plant matter. You have advantage on saving throws against poison, and you have resistance against poison damage."
+        },
+        {
+          "name": "Margreve Without",
+          "description": "Regardless of the time and distance between you and the Margreve, the forest’s influence on you manifests in the form of strange alterations to your body. Although you are humanoid, your connection to the Margreve marks you with plant‑like characteristics. Create a growth of your own in consultation with your GM or pick one from the following list: • Your skin is rough with harmless cracks resembling tree bark. • Heavily-perfumed flowers grow wherever your body hair is dense. They can be plucked, but they grow back within a few days. • Your eyes are twice as large as a human’s, and their color is a changing swirl of green and brown. • Your finger and toe nails are wood. • Your major joints (shoulder, hip, knee) creak like tree branches when you move."
+        },
+        {
+          "name": "Roots",
+          "description": "You have a deep and pragmatic connection with the natural world. You are proficient in the Nature and Survival skills."
+        },
+        {
+          "name": "Darkvision",
+          "description": "A life lived under the canopy of the forest has provided you with the ability to see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common, and you can speak Piney, which has no written form."
+        }
+      ],
+      "subraces": [],
+      "description": "Pineys are humanoid beings marked by the magic of the Margreve forest, with plant-like characteristics such as bark-like skin, wooden nails, or flowers growing in their hair. They vary widely in height and build, similar to humans.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2, Wisdom score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Margreve Within": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Poison"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison. Can meet daily alimentary needs by consuming a suitable amount of food or by standing in direct sunlight for 30 minutes. Organs are partially made from plant matter."
+        },
+        "Margreve Without": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Cosmetic plant-like characteristics chosen by player/GM; no direct mechanical effect."
+        },
+        "Roots": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Nature",
+            "Survival"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common; can speak Piney (no written form)."
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Agonizing Mark",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You choose a creature you can see within range to mark as your prey, and a jagged ray of black energy issues forth from you. Until the spell ends, each time you deal damage to the target it must make a Charisma saving throw. On a failed save, it falls prone as its body is filled with torturous agony.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Cleric",
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Ambush",
+      "level": 1,
+      "school": "illusion",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "S, M (a raven's feather or a bit of panther fur)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "The forest floor swirls and shifts around you to welcome you into its embrace. While in a forest, you have advantage on Dexterity (Stealth) checks to Hide. While hidden in a forest, you have advantage on your next Initiative check. The spell ends if you attack or cast a spell.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd-level or higher, you can affect one additional creature for each slot level above 1st. The spell ends if you or any target of this spell attacks or casts a spell.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Bestial Fury",
+      "level": 2,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You instill primal fury into a creature you can see within range. The target must make a Charisma saving throw; a creature can choose to fail this saving throw. On a failure, the target must use its action to attack its nearest enemy it can see with unarmed strikes or natural weapons. For the duration, the target's attacks deal an extra 1d6 damage of the same type dealt by its weapon, and the target can't be charmed or frightened. If there are no enemies within reach, the target can use its action to repeat the saving throw, ending the effect on a success. This spell has no effect on undead or constructs.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3nd level or higher, you can target one additional creature for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Bleating Call",
+      "level": 2,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "S, M (a bit of fur or hair from a young beast or humanoid)",
+      "duration": "1 minute",
+      "description": "You create a sound on a point within range. The sound's volume can range from a whisper to a scream, and it can be any sound you choose. The sound continues unabated throughout the duration, or you can make discrete sounds at different times before the spell ends. Each creature that starts its turn within 30 feet of the sound and can hear it must make a Wisdom saving throw. On a failed save, the target must take the Dash or Disengage action and move toward the sound by the safest available route on each of its turns. When it arrives to the source of the sound, the target must use its action to examine the sound. Once it has examined the sound, the target determines the sound is illusory and can no longer hear it, ending the spell's effects on that target and preventing the target from being affected by the sound again for the duration of the spell. If a target takes damage from you or a creature friendly to you, it is no longer under the effects of this spell. Creatures that can't be charmed are immune to this spell.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Bleed",
+      "level": 1,
+      "school": "necromancy",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "V, S, M (a drop of blood)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Crackling energy coats the blade of one weapon you are carrying that deals slashing damage. Until the spell ends, when you hit a target with the weapon, the weapon deals an extra 1d4 necrotic damage and the target must succeed on a Constitution saving throw. On a failed save, the target suffers a bleeding wound. Each time you hit a target with this weapon while the target suffers from a bleeding wound, your weapon deals an extra 1 necrotic damage for each time you have previously hit the target with this weapon (to a maximum of 10 necrotic damage). Any creature can take an action to stanch the bleeding wound with a successful Wisdom (Medicine) check against your spell save DC. The wound also closes if the target receives magical healing. This spell has no effect on undead or constructs.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Bloodhound",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a drop of ammonia)",
+      "duration": "8 hours",
+      "description": "You touch a willing creature to grant it an enhanced sense of smell. For the duration, that creature has advantage on Wisdom (Perception) checks that rely on smell and on Wisdom (Survival) checks to follow tracks.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a 3rd-level spell slot, you also grant the target blindsight out to a range of 30 feet for the duration. The target can't use its blindsight while unable to smell, and it has disadvantage on saving throws related to strong smells such as a ghast's Stench trait.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Blood Offering",
+      "level": 3,
+      "school": "necromancy",
+      "casting_time": "1 minute",
+      "range": "Touch",
+      "components": "V, S, M (at least 1 cubic inch of flesh from the target corpse, which the spell consumes)",
+      "duration": "Instantaneous",
+      "description": "You touch the corpse of a target creature that isn't undead or a construct and consume its life force. You must have dealt damage to the creature before it died, and it must have been dead for no more than 1 hour. The creature can be restored to life only by means of a true resurrection or a wish spell.\nYou regain 1d4 hit points per CR of the target creature (minimum of 1d4).",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Cobra Fangs",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a drop of snake venom or a patch of snakeskin)",
+      "duration": "1 minute",
+      "description": "The spell causes the target to grow great, snake-like fangs. An unwilling creature must make a Wisdom saving throw to avoid the effect. The spell fails if the target already has a bite attack that deals poison damage. If the target doesn't have a bite attack, it gains one. The target is proficient with the bite, and it adds its Strength modifier to the attack and damage rolls. The damage is piercing and the damage die is a d4.\nWhen the target hits a creature with its bite attack, the creature must make a Constitution saving throw, taking 3d6 poison damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the target's bite counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Conjure Fey Hound",
+      "level": 5,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a wooden or metal whistle)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You summon a fey hound to fight by your side. A hound of the night (Tome of Beasts, p. 251) appears in an unoccupied space that you can see within range. The hound disappears when it drops to 0 hit points or when the spell ends.\nThe summoned hound is friendly to you and your companions. Roll initiative for the summoned hound, which has its own turns. It obeys any verbal commands that you issue to it (no action required by you). If you don't issue any commands to the hound, it stands by your side and attacks nearby creatures that are hostile to you but otherwise takes no actions.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 7th level or higher, you summon two hounds. When you cast this spell using a 9th-level spell slot, you summon three hounds.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Conjure Forest Defender",
+      "level": 6,
+      "school": "conjuration (forest-bound)",
+      "casting_time": "1 hour",
+      "range": "30 feet",
+      "components": "V, S, M (one humanoid body, which the spell consumes)",
+      "duration": "Until destroyed",
+      "description": "When you cast this spell in a forest, you fasten sticks and twigs around a body. The body comes to life as a forest defender, which uses the statistics of a vine golem (Tales of the Old Margreve, p. 189). The forest defender is friendly to you and your companions. Roll initiative for the forest defender, which has its own turns. It obeys any verbal or mental commands that you issue to it (no action required by you), as long as you remain within the forest defender's line of sight. If you don't issue any commands to the forest defender, if you are out of its line of sight, or if you are unconscious, it defends itself from hostile creatures but otherwise takes no actions. A body sacrificed to form the forest defender is permanently destroyed and can be restored to life only by means of a true resurrection or a wish spell. You can have only one forest defender under your control at a time. If you cast this spell again, the previous forest defender crumbles to dust.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a 9th level spell slot, you summon two forest defenders instead of one, and you can control up to two forest defenders at a time.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Cure Beast",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 bonus action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "A beast of your choice that you can see within range regains a number of hit points equal to 1d6 + your spellcasting modifier.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d6 for each slot level above 1st.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Cure Wounds (partial - name not shown)",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 bonus action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "A beast of your choice that you can see within range regains a number of hit points equal to 1d6 + your spellcasting modifier.",
+      "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d6 for each slot level above 1st.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Cynophobia",
+      "level": 3,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a dog's tooth)",
+      "duration": "8 hours",
+      "description": "Choose a creature that you can see within range. The target must succeed on a Wisdom saving throw or develop an overriding fear of canids, such as dogs, wolves, foxes, and worgs. For the duration, the first time the target sees a canid, the target must succeed on a Wisdom saving throw or become frightened of that canid until the end of its next turn. Each time the target sees a different canid, it must make the saving throw. In addition, the target has disadvantage on ability checks and attack rolls while a canid is within 10 feet of it.",
+      "higher_levels": "When you cast this spell using a 5th-level spell slot, the duration is 24 hours. When you use a 7th-level spell slot, , the duration is 1 month. When you use a spell slot of 8th level or higher, the spell lasts until it is dispelled.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Forest Native",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a clump of soil taken from the forest)",
+      "duration": "1 hour",
+      "description": "While in a forest, you touch a willing creature and infuse it with the forest's energy, creating a bond between the creature and the forest. For the duration of the spell, if the creature is within the forest, difficult terrain composed of natural, nonmagical vegetation doesn't cost it extra movement. In addition, the creature has advantage on saving throws against environmental effects such as excessive heat or cold or high altitude.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Forest Sanctuary",
+      "level": 9,
+      "school": "abjuration",
+      "casting_time": "1 minute",
+      "range": "300 feet",
+      "components": "V, S, M (a bowl of fresh rainwater and a tree branch from the target forest)",
+      "duration": "24 hours",
+      "description": "While in a forest, you create a protective, 200-foot cube on a point you can see within range. The atmosphere inside the cube has the lighting, temperature, and moisture that is most ideal for the forest, regardless of the lighting or weather outside the area. The cube is transparent and creatures and objects can move freely through it. The cube protects the area inside it from storms, strong winds, and floods, including those created by magic such as control weather, control water, meteor swarm, or ley storm. Such spells can't be cast while the spellcaster is within the cube. An elemental creature with storm-like traits (such as an elemental lord's Tempest trait) has those traits suppressed while within the area. You can create a permanently protected area by casting this spell at the same location every day for one year.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Going in Circles",
+      "level": 3,
+      "school": "illusion",
+      "casting_time": "10 minutes",
+      "range": "Sight",
+      "components": "V, S, M (a piece of the target terrain)",
+      "duration": "24 hours",
+      "description": "You make natural terrain in a 1 mile cube difficult to traverse. A creature in the affected area has disadvantage on Wisdom (Survival) checks to follow tracks or travel safely through the area as paths through the terrain seem to twist and turn nonsensically. The terrain itself isn't changed, only the perception of those inside it. A creature who succeeds on two Wisdom (Survival) checks while within the terrain discerns the illusion for what it is and sees the illusory twists and turns superimposed on the terrain. A creature that re-enters the area after exiting it before the spell ends is affected by the spell even if it previously succeeded in traversing the terrain. A creature with truesight can see through the illusion and is unaffected by the spell. A creature that casts find the path automatically succeeds in discovering a way out of the terrain. When you cast this spell, you can designate a password. A creature that speaks the password as it enters the area automatically sees the illusion and is unaffected by the spell. If you cast this spell on the same spot every day for one year, the illusion lasts until it is dispelled.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Greater Ley Protection",
+      "level": 7,
+      "school": "abjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a 20-foot cube of antimagic within range that specifically protects against ley line magic. Ley line spells and magical effects up to level 7 that target a creature within the cube have no effect on that target. Any active ley line spells or magical effects up to level 7 on a creature or an object in the cube is suppressed while the creature or object is in it. The area of a ley line spell or magical effect up to level 7 can't extend into the cube. If the cube overlaps an area of ley line magic, such as greater ley pulse, the part of the area that is covered by the cube is suppressed. The cube has no effect on other types of magic or spells. You can exclude specific individuals within the cube from the protection.",
+      "higher_levels": "When you cast this spell using a spell slot of 9th level or higher, its duration is concentration, up to 1 hour.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Hamstring",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "S",
+      "duration": "Instantaneous",
+      "description": "You create a barbed arrow of eldritch energy and send it at a target you can see within range. Make a ranged spell attack against the target. On a hit, the target takes 1d4 force damage, and it can't take reactions until the end of its next turn. The spell's damage increases by 1d4 when you reach 5th level (2d4), 11th level (3d4), and 17th level (4d4).",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Harry",
+      "level": 4,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a bit of fur from a game animal)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You instill an irresistible sense of insecurity and terror in the target. The target must make a Wisdom saving throw. On a failed save, the target has disadvantage on Dexterity (Stealth) checks to avoid your notice and is frightened of you while you are within its line of sight. While you are within 1 mile of the target, you have advantage on Wisdom (Survival) checks to track the target, and the target can't take a long rest, terrified you are just around the corner. The target can repeat the saving throw once every 10 minutes, ending the spell on a success. On a successful save, the target isn't affected, and you can't use this spell against it again for 24 hours.",
+      "higher_levels": "When you cast this spell with a 6th-level spell slot, the duration is concentration, up to 8 hours and the target can repeat the saving throw once each hour. When you use a spell slot of 8th level or higher, the duration is concentration, up to 24 hours, and the target can repeat the saving throw every 8 hours.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Harrying Hounds",
+      "level": 5,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "180 feet",
+      "components": "V, S, M (a tuft of fur from a hunting dog)",
+      "duration": "8 hours",
+      "description": "When you cast this spell, choose a direction (north, south, northeast, etc.). Each creature in a 20-foot-radius sphere centered on a point you choose within range must succeed on a Wisdom saving throw when you cast this spell or be affected by it. When an affected creature travels, it travels at a fast pace in the opposite direction of the direction you chose as it believes a pack of dogs or wolves follows it from the chosen direction. When an affected creature isn't traveling, it is frightened of your chosen direction. The affected creature occasionally hears howls or sees glowing eyes in the darkness at the edge of its vision in that direction. An affected creature will not stop at",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Heart-Seeking Arrow",
+      "level": 4,
+      "school": "transmutation",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "V",
+      "duration": "Concentration, up to 1 minute",
+      "description": "The next time you make a ranged weapon attack during the spell's duration, the weapon's ammunition, or the weapon itself if it's a thrown weapon, seeks its target's vital organs. Make the attack roll as normal. On a hit, the weapon deals an extra 6d6 damage of the same type dealt by the weapon, or half as much damage on a miss as it streaks unerringly toward its target. If this attack reduces the target to 0 hit points, the target has disadvantage on its next death saving throw, and, if it dies, it can be restored to life only by means of a true resurrection or a wish spell. This spell has no effect on undead or constructs.",
+      "higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the extra damage on a hit increases by 1d6 for each slot level above 4th.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Hobble",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 bonus action",
+      "range": "30 feet",
+      "components": "V, S, M (a broken rabbit's foot)",
+      "duration": "Instantaneous",
+      "description": "You create an ethereal trap in the space of a target you can see within range. The target must succeed on a Dexterity saving throw or its speed is halved until the end of its next turn.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Hunter's Endurance",
+      "level": 1,
+      "school": "enchantment",
+      "casting_time": "1 minute",
+      "range": "Self",
+      "components": "V, S, M (a fingernail, lock of hair, bit of fur, or drop of blood from the target, if unfamiliar)",
+      "duration": "24 hours",
+      "description": "You call on the land to sustain you as you hunt your quarry. Describe or name a creature that is familiar to you. If you aren't familiar with the target creature, you must use a fingernail, lock of hair, bit of fur, or drop of blood from it as a material component to target that creature with this spell. Until the spell ends, you have advantage on all Wisdom (Perception) and Wisdom (Survival) checks to find and track the target, and you must actively pursue the target as if under a geas. In addition, you don't suffer from exhaustion levels you gain from pursuing your quarry, such as from lack of rest or environmental hazards between you and the target, while the spell is active. When the spell ends, you suffer from all levels of exhaustion that were suspended by the spell. The spell ends only after 24 hours, when the target is dead, when the target is on a different plane, or when the target is restrained in your line of sight.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Hunting Stand",
+      "level": 4,
+      "school": "conjuration",
+      "casting_time": "1 minute",
+      "range": "120 feet",
+      "components": "V, S, M (a crude model of the stand)",
+      "duration": "8 hours",
+      "description": "You make a 10-foot-cube camouflaged shelter nestled in the branches of a tree or among a collection of stones. The shelter can hold as many as twelve Medium or smaller creatures. The atmosphere inside the shelter is comfortable and dry, regardless of the weather outside. The shelter's camouflage provides a modicum of concealment to its inhabitants. A creature outside the shelter has disadvantage on Wisdom (Perception) and Intelligence (Investigation) checks to detect or locate a creature within the shelter.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Illuminate Spoor",
+      "level": 1,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a firefly)",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You touch a set of tracks created by a single creature. That set of tracks and all other tracks made by the same creature give off a faint glow. You and up to three creatures you designate when you cast this spell can see the glow. A creature that can see the glow automatically succeeds on Wisdom (Survival) checks to track that creature. If the tracks are covered by obscuring objects such as leaves or mud, you and the creatures you designate have advantage on Wisdom (Survival) checks to follow the tracks. If the creature leaving the tracks changes its tracks, such as by adding or removing footwear, the glow stops where the tracks change. Until the spell ends, you can use an action to touch and illuminate a new set of tracks.",
+      "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the duration is concentration, up to 8 hours. When you use a spell slot of 5th level or higher, the duration is concentration, up to 24 hours.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Instant Snare",
+      "level": 2,
+      "school": "abjuration",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a loop of twine)",
+      "duration": "24 hours",
+      "description": "You create a snare on a point you can see within range. You can leave the snare as a magical trap, or you can use your reaction to trigger the trap when a Larger or smaller creature you can see moves within 10 feet of the snare. If you leave the snare as a trap, a creature must succeed on an Intelligence (Investigation) or Wisdom (Perception) check against your spell save DC to find the trap.\nWhen a Large or smaller creature moves within 5 feet of the snare, the trap triggers. The creature must succeed on a Dexterity saving throw or be magically pulled into the air. The creature is restrained and hangs upside down 5 feet above the snare's location for 1 minute. A restrained creature can repeat the saving throw at the end of each of its turns, escaping the snare on a success. Alternatively, a creature, including the restrained target, can use its action to make an Intelligence (Arcana) check against your spell save DC. On a success, the restrained creature is freed, and the snare resets itself 1 minute later. If the creature succeeds on the check by 5 or more, the snare is destroyed instead.\nThis spell alerts you with a ping in your mind when the trap is triggered if you are within 1 mile of the snare. This ping awakens you if you are sleeping.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, you can create one additional snare for each slot level above 3rd. When you receive the mental ping that a trap was triggered, you know which snare was triggered if you have more than one.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Killing Fields",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "10 minutes",
+      "range": "300 feet",
+      "components": "V, S, M (a game animal, which must be sacrificed as part of casting the spell)",
+      "duration": "24 hours",
+      "description": "You invoke primal spirits of nature to transform natural terrain in a 100-foot cube in range into a private hunting preserve. The area can't include manufactured structures and if such a structure exists in the area, the spell ends.\nWhile you are conscious and within the area, you are aware of the presence and direction, though not exact location, of each beast and monstrosity with an Intelligence of 3 or lower in the area. When a beast or monstrosity with an Intelligence of 3 or lower tries to leave the area, it must make a Wisdom saving throw. On a failure, it is disoriented, uncertain of its surroundings or direction, and remains within the area for 1 hour. On a success, it leaves the area.\nWhen you cast this spell, you can specify individuals that are helped by the area's effects. All other creatures in the area are hindered by the area's effects. You can also specify a password that, when spoken aloud, gives the speaker the benefits of being helped by the area's effects.\nKilling fields creates the following effects within the area.\nPack Hunters. A helped creature has advantage on attack rolls against a hindered creature if at least one helped ally is within 5 feet of the hindered creature and the helped ally isn't incapacitated.\nSlaying. Once per turn, when a helped creature hits with any weapon, the weapon deals an extra 1d6 damage of the same type dealt by its weapon to a hindered creature.\nTracking. A helped creature has advantage on Wisdom (Survival) and Dexterity (Stealth) checks against a hindered creature.\nYou can create a permanent killing field by casting this spell in the same location every day for one year. Structures built in the area after the killing field is permanent don't end the spell.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Legion of Rabid Squirrels",
+      "level": 3,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (an acorn or nut)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "While in a forest, you call a legion of rabid squirrels from the nearby trees on a point you can see within range. The squirrels form into a swarm that uses the statistics of a swarm of poisonous snakes, except it has a climbing speed of 30 feet rather than a swimming speed. The legion of squirrels is friendly to you and your companions. Roll initiative for the legion, which has its own turns. The legion of squirrels obeys your verbal commands (no action required by you). If you don't issue any commands to the legion, it defends itself from hostile creatures, but otherwise takes no actions. If you command it to move further than 60 feet from you, the spell ends and the legion disperses back into the forest. A canid, such as a dog, wolf, fox, or worg, has disadvantage on attack rolls against targets that are not the legion of rabid squirrels while the swarm is within 60 feet of the canid. When the spell ends, the squirrels disperse back into the forest.\nThe GM has the creature's statistics.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 4th level or higher, the legion's poison damage increases by 1d6 for each slot level above 3rd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Lesser Ley Protection",
+      "level": 5,
+      "school": "abjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a 10-foot cube of antimagic within range that specifically protects against ley line magic. Ley line spells and magical effects up to level 5 that target a creature within the cube have no effect on that target. Any active ley line spells or magical effects up to level 5 on a creature or an object in the cube is suppressed while the creature or object is in it. The area of a ley line spell or magical effect up to level 5 can't extend into the cube. If the cube overlaps an area of ley line magic, such as lesser ley pulse, the part of the area that is covered by the cube is suppressed. The cube has no effect on other types of magic or spells. You can exclude specific individuals within the cube from the protection.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 7th level or higher, its duration is concentration, up to 1 hour.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Ley Disturbance",
+      "level": 3,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "1 hour",
+      "description": "While in your bound forest, you tune your senses to any disturbances of ley energy flowing through it. For the duration, you are aware of any ley line manipulation or ley spell casting within 5 miles of you. You know the approximate distance and general direction to each disturbance within that range, but you don't know its exact location. This doesn't allow you to locate the ley lines themselves, just any use or modification of them.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Looping Trail",
+      "level": 4,
+      "school": "transmutation",
+      "casting_time": "1 minute",
+      "range": "Touch",
+      "components": "V, S, M (a piece of rope twisted into a loop)",
+      "duration": "8 hours",
+      "description": "You touch a trail no more than 1 mile in length, reconfiguring it to give it switchbacks and curves that make the trail loop back on itself. For the duration, the trail makes subtle changes in its configuration and in the surrounding environment to give the impression of forward progression along a continuous path. A creature on the trail must succeed on a Wisdom (Survival) check to notice the trail is leading it in a closed loop.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Maim",
+      "level": 5,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "Your hands become black claws bathed in necrotic energy. Make a melee spell attack against a creature you can reach. On a hit, the target takes 4d6 necrotic damage and a section of its body of your choosing withers:\nUpper Limb. The target has disadvantage on Strength ability checks, and, if it has the Multiattack action, it has disadvantage on its first attack roll each round.\nLower Limb. The target's speed is reduced by 10 feet, and it has disadvantage on Dexterity ability checks.\nBody. Choose one damage type: bludgeoning, piercing, or slashing. The target loses its resistance to that damage type. If the target doesn't have resistance to the chosen damage type, it is vulnerable to that damage type instead.\nThe effect is permanent until removed by remove curse, greater restoration, or similar magic.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Mark Prey",
+      "level": 2,
+      "school": "divination",
+      "casting_time": "1 bonus action",
+      "range": "120 feet",
+      "components": "V",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You choose a creature you can see within range as your prey. Until the spell ends, you have advantage on Wisdom (Perception) and Wisdom (Survival) checks to find or track your prey. In addition, the target is outlined in light that only you can see. Any attack roll you make against your prey has advantage if you can see it, and your prey can't benefit from being invisible against you. If the target drops to 0 hit points before this spell ends, you can use a bonus action on a subsequent turn to mark a new target as your prey.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 4th level, you can maintain your concentration on the spell for up to 8 hours. When you use a spell slot of 5th level or higher, you can maintain your concentration on the spell for up to 24 hours.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Monstrous Empathy",
+      "level": 3,
+      "school": "enchantment",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a morsel of food)",
+      "duration": "24 hours",
+      "description": "This spell lets you forge a connection with a monstrosity. Choose a monstrosity that you can see within range. It must see and hear you. If the monstrosity's Intelligence is 4 or higher, the spell fails. Otherwise, the monstrosity must succeed on a Wisdom saving throw or be charmed by you for the spell's duration. If you or one of your companions harms the target, the spell ends.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 4th level or higher, you can affect one additional monstrosity for each slot level above 3rd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Mud Pack",
+      "level": 1,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a clump of mud)",
+      "duration": "1 hour",
+      "description": "This spell covers you or a willing creature you touch in mud consistent with the surrounding terrain. For the duration, the spell protects the target from extreme cold and heat, allowing the target to automatically succeed on Constitution saving throws against environmental hazards related to temperature. In addition, the target has advantage on Dexterity (Stealth) checks while traveling at a slow pace in the terrain related to the component for this spell.\nIf the target is subject to heavy precipitation for 1 minute, the precipitation removes the mud, ending the spell.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the duration is 8 hours and you can target up to ten willing creatures within 30 feet of you.",
+      "classes": [],
+      "ritual": true,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Nip at the Heels",
+      "level": 2,
+      "school": "illusion",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a dog's tooth)",
+      "duration": "1 minute",
+      "description": "You create an illusory pack of wild dogs that bark and nip at a target. Choose one creature that you can see within range to make a Wisdom saving throw. If it fails, the target has disadvantage on ability checks and attack rolls for the duration, as it is distracted by the dogs. At the end of each of its turns, the target can make a Wisdom saving throw. On a success, the spell ends. A target that is at least 10 feet off the ground (in a tree, flying, etc.) has advantage on the saving throw, staying just out of range of the jumping and barking dogs.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Primal Infusion",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (a bit of fur from a carnivorous animal)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You channel the fury of nature, drawing on its power. Until the spell ends, you gain the following benefits:\n• You gain 30 temporary hit points. If any of these remain when the spell ends, they are lost.\n• You have advantage on attack rolls when one of your allies is within 5 feet of the target and the ally isn't incapacitated.\n• Your weapon attacks deal an extra 1d10 damage of the same type dealt by the weapon on a hit.\n• You gain a +2 bonus to AC.\n• You have proficiency in Constitution saving throws.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Quick Time",
+      "level": 4,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (any seed)",
+      "duration": "Instantaneous",
+      "description": "Just as the forest sees animals and people moving very rapidly compared to its own sense of time, you make the target move rapidly in time compared to you. The target increases in age by 1 year. For example, you can plant a seed and cast this spell, causing the plant to rapidly sprout up from the soil, or you can cast this spell on a newly-hatched duckling, causing it to become a full-grown duck. If the target is a creature with an Intelligence of 3 or higher, it must succeed on a Constitution saving throw to resist the aging. It can choose to fail the saving throw.\nIf the target is a nonmagical weapon, it ages and takes a permanent and cumulative –1 penalty to damage rolls. If its penalty drops to –5, the weapon is destroyed. If the target is nonmagical armor or a shield, it ages and takes a permanent and cumulative –1 penalty to the AC it offers. Armor reduced to an AC of 10 or a shield that drops to a +0 bonus is destroyed. If the object is being worn or carried, the creature wearing or carrying it must succeed on a Dexterity saving throw to avoid the corrosion.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 5th level or higher, you increase the target's age by one additional year or increase the cumulative penalty to a weapon's damage or an armor's AC by 1 for each slot level above 4th.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Revive Beast",
+      "level": 2,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (emeralds worth 100 gp, which the spell consumes)",
+      "duration": "Instantaneous",
+      "description": "You touch a beast that has died within the last minute. That beast returns to life with 1 hit points. This spell can't return to life a beast that has died of old age, nor can it restore any missing body parts.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Ast",
+      "level": 2,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (emeralds worth 100 gp, which the spell consumes)",
+      "duration": "Instantaneous",
+      "description": "You touch a beast that has died within the last minute. That beast returns to life with 1 hit points. This spell can't return to life a beast that has died of old age, nor can it restore any missing body parts.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Scentless",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (1 ounce of pure water)",
+      "duration": "1 hour",
+      "description": "You touch a willing creature or object that is not being worn or carried. For the duration, the target gives off no odor. A creature that relies on smell has disadvantage on Wisdom (Perception) checks to detect the target and Wisdom (Survival) checks to track the target. The target is invisible to a creature that relies solely on smell to sense its surroundings. This spell has no effect on targets with unusually strong scents, such as ghasts.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Shadow's Brand",
+      "level": 2,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "S",
+      "duration": "Until dispelled",
+      "description": "You draw a rune or inscription no larger than your hand on the target. The target must succeed on a Constitution saving throw or be branded with the mark on a location of your choosing. The brand appears as an unintelligible mark to most creatures. Those who understand the Umbral language recognize it as a mark indicating the target is an enemy of the shadow fey. Shadow fey who view the brand see it outlined in a faint glow. The brand can be hidden by mundane means, such as clothing, but it can be removed only by the remove curse spell. While branded, the target has disadvantage on ability checks when interacting socially with shadow fey.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Shadow Tree",
+      "level": 2,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a willow branch)",
+      "duration": "10 minutes",
+      "description": "This spell temporarily draws a willow tree from the Shadow Realm to the location you designate within range. The tree is 5 feet in diameter and 20 feet tall. When you cast the spell, you can specify individuals who can interact with the tree. All other creatures see the tree as a shadow version of itself and can't grasp or climb it, passing through its shadowy substance. A creature that can interact with the tree and that has Sunlight Sensitivity or Sunlight Hypersensitivity is protected from sunlight while within 20 feet of the tree. A creature that can interact with the tree can climb into its branches, which gives the creature half cover.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Storm of Wings",
+      "level": 4,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a drop of honey)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a storm of spectral birds, bats, or flying insects in a 15-foot-radius sphere on a point you can see within range. The storm spreads around corners, and its area is lightly obscured. Each creature in the storm when it appears and each a creature that starts its turn in the storm is affected by the storm. As a bonus action on your turn, you can move the storm up to 30 feet. As an action on your turn, you can change the storm from one type to another, such as from a storm of bats to a storm of insects. Bats. The creature takes 4d6 necrotic damage, and its speed is halved while within the storm as the bats cling to it and drain its blood. Birds. The creature takes 4d6 slashing damage, and it has disadvantage on attack rolls while within the storm as the birds fly in the way of the creature's attacks. Insects. The creature takes 4d6 poison damage, and it must make a Constitution saving throw each time it casts a spell while within the storm. On a failure, the creature fails to cast the spell, losing the action but not the spell slot.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "MPG"
+    },
+    {
+      "name": "Tracer",
+      "level": 3,
+      "school": "divination",
+      "casting_time": "1 bonus action",
+      "range": "Self",
+      "components": "V, S, M (a drop of bright paint)",
+      "duration": "8 hours",
+      "description": "When you cast this spell and as a bonus action on each of your turns until the spell ends, you can imbue a piece of ammunition you fire from a ranged weapon with a tiny, invisible beacon. If a ranged attack roll with an imbued piece of ammunition hits a target, the beacon is transferred to the target. The weapon that fired the ammunition is attuned to the beacon and becomes warm to the touch when it points in the direction of the target as long as the target is on the same plane of existence as you. You can have only one tracer target at a time. If you put a tracer on a different target, the effect on the previous target ends. A creature must succeed on an Intelligence (Arcana) check against your spell save DC to notice the magical beacon.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Tree Heal",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You touch a plant and it regains 1d4 hit points. Alternatively, you can cure it of one disease or remove pests from it. Once you cast this spell on a plant or plant creature, you can't cast it on that target again for 24 hours. This spell can be used only on plants and plant creatures.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    },
+    {
+      "name": "Tree Speak",
+      "level": 1,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "1 minute",
+      "description": "You touch a tree and ask it one question about anything that might have happened in its immediate vicinity (such as, \"Who passed by here?\"). You get a mental sensation of the response, which takes the duration of the spell. Trees do not have a human sense of time, so the tree might answer with something that happened last night or a hundred years ago. The sensation you receive may include sight, hearing, vibration, or smell, all from the perspective of the tree. Trees are particularly attentive to anything which may harm the forest and always report such activities when questioned. If you cast this spell on a tree that contains a merged Circle of Oaks druid or other creature that can merge with trees, such as a dryad, you can freely communicate with the merged creature for the duration of the spell.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "MPG"
+    }
+  ],
+  "magic_items": [
+    {
+      "name": "Charm of Restoration",
+      "type": "Wondrous item",
+      "rarity": "common",
+      "requires_attunement": false,
+      "description": "This fist-sized ball of tightly-wound green fronds contains the bark of a magical piney plant with curative properties. A natural loop is formed from one of the fronds, allowing the charm to be hung from a pack, belt, or weapon pommel. As long as you carry this charm, whenever you are targeted by a spell or magical effect that restores your hit points, you regain an extra 1 hit point.",
+      "source": "Margreve p.50"
+    },
+    {
+      "name": "Bracelet of the Fire Tender",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This piney bracelet is made of twelve small, roasted pinecones lashed together with lengths of dried sinew. It smells of pine and woodsmoke. It is uncomfortable to wear over bare skin. While wearing this bracelet, you do not have disadvantage on Wisdom (Perception) checks that rely on sight when looking in areas lightly obscured by nonmagical smoke or fog.",
+      "source": "Margreve p.50"
+    },
+    {
+      "name": "Circlet of Holly",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "While wearing this circlet, you gain the following benefits: Language of the Fey. You speak and understand Sylvan. Friend of the Fey. You have advantage on ability checks to interact socially with fey creatures. Poison Sense. You know if any food or drink you are holding contains poison.",
+      "source": "Margreve p.50"
+    },
+    {
+      "name": "Moon Through the Trees",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "This piney charm is comprised of six polished river stones bound into the shape of a star with glue made from the connective tissues of animals. The reflective surfaces of the stones shimmer with a magical iridescence. While you are within 20 feet of a living tree, you can use a bonus action to become invisible for 1 minute. While invisible, you can use a bonus action to become visible. If you do, each creature of your choice within 30 feet of you must succeed on a DC 15 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat this saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to this charm's blinding feature for the next 24 hours.",
+      "source": "Margreve p.50"
+    },
+    {
+      "name": "Rowan Staff",
+      "type": "Staff",
+      "rarity": "very rare",
+      "requires_attunement": true,
+      "description": "Favored by those with ties to nature and death, this staff can be wielded as a magic quarterstaff that grants a +1 bonus to attack and damage rolls made with it. While holding it, you have an advantage on saving throws against spells. The staff has 10 charges for the following properties. It regains 1d4 + 1 expended charges daily at midnight, though it regains all its charges if it is bathed in moonlight at midnight. If you expend the last charge, roll a d20. On a 1, the staff loses its properties and becomes a nonmagical quarterstaff. Spell. While holding this staff, you can use an action to expend 1 or more of its charges to cast animate dead, using your spell save DC and spellcasting ability. The target bones or corpse can be a Medium or smaller humanoid or beast. Each charge animates a separate target. These undead creatures are under your control for 24 hours. You can use an action to expend 1 charge each day to reassert your control of up to four undead creatures created by this staff for another 24 hours. Deanimate. You can use an action to strike an undead creature with the staff in combat. If the attack hits, the target must succeed on a DC 17 Constitution saving throw or revert to an inanimate pile of bones or corpse in its space. If the undead has the Incorporeal Movement trait, it is destroyed instead. Deanimating an undead creature expends a number of charges equal to twice the challenge rating of the creature (minimum of 1). If the staff doesn't have enough charges to deanimate the target, the staff doesn't deanimate the target.",
+      "source": "Margreve p.51"
+    },
+    {
+      "name": "Sickle of Thorns",
+      "type": "Weapon (sickle)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to attack and damage rolls made with this weapon. As an action, you can swing the sickle to cut nonmagical vegetation up to 60 feet away from you. Each cut is a separate action with one action equaling one swing of your arm. Thus, you can lead a party through a jungle or briar thicket at a normal pace, simply swinging the sickle back and forth ahead of you to clear the path. It can't be used to cut trunks of saplings larger than 1 inch in diameter. It also can't cut through unliving wood (such as a door or wall). When you hit a plant creature with a melee attack with this weapon, that target takes an extra 1d6 slashing damage. This weapon can make very precise cuts, such as to cut fruit or flowers high up in a tree without damaging the tree.",
+      "source": "Margreve p.51"
+    },
+    {
+      "name": "Ward Against Wild Appetites",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "Seventeen animal teeth of various sizes hang together on a simple leather thong, and each tooth is dyed a different color using pigments from plants native to piney villages. When a beast or monstrosity with an Intelligence of 4 or lower targets you with an attack, it has disadvantage on the attack roll if the attack is a bite. You must be wearing the necklace to gain this benefit.",
+      "source": "Margreve p.52"
+    },
+    {
+      "name": "Star Charm",
+      "type": "Wondrous item",
+      "rarity": "unknown",
+      "requires_attunement": false,
+      "description": "s comprised of six polished river stones bound into the shape of a star with glue made from the connective tissues of animals. The reflective surfaces of the stones shimmer with a magical iridescence. While you are within 20 feet of a living tree, you can use a bonus action to become invisible for 1 minute. While invisible, you can use a bonus action to become visible. If you do, each creature of your choice within 30 feet of you must succeed on a DC 15 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat this saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to this charm's blinding feature for the next 24 hours.",
+      "source": "p.51"
+    }
+  ],
+  "equipment": [],
+  "monsters": [
+    {
+      "name": "Swiftbeak",
+      "size": "Large",
+      "type": "monstrosity",
+      "alignment": "lawful neutral",
+      "armor_class": 16,
+      "ac_type": "scale mail barding",
+      "hit_points": "95 (10d10 + 40)",
+      "speed": "30 ft., fly 80 ft.",
+      "ability_scores": {
+        "strength": 20,
+        "dexterity": 15,
+        "constitution": 18,
+        "intelligence": 8,
+        "wisdom": 13,
+        "charisma": 8
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 7
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60 ft., passive Perception 17",
+      "languages": [
+        "Common"
+      ],
+      "challenge_rating": "5",
+      "xp": 1800,
+      "features": [
+        {
+          "name": "Keen Sight",
+          "description": "Swiftbeak has advantage on Wisdom (Perception) checks that rely on sight."
+        },
+        {
+          "name": "Trained Mount",
+          "description": "If Swiftbeak is subjected to an effect that allows him to make a Dexterity saving throw to take only half damage while he has a rider, the griffon instead takes no damage if he succeeds on the saving throw, and only half damage if he fails."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Swiftbeak makes three attacks: one with his beak and two with his claws."
+        },
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 9 (1d8 + 5) piercing damage."
+        },
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) slashing damage."
+        },
+        {
+          "name": "Rake",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) slashing damage and, if the target is Medium or smaller, it is grappled (escape DC 16). Until this grapple ends, the target is restrained and Swiftbeak can't make claws attacks against other targets."
+        },
+        {
+          "name": "Barrel Roll (Recharge 5–6; While Flying Only)",
+          "description": "Swiftbeak rolls in the air and scratches nearby enemies. Each creature within 10 feet of Swiftbeak must make a DC 15 Dexterity saving throw, taking 21 (6d6) slashing damage on a failed save, or half as much damage on a successful one. In addition, each creature riding Swiftbeak must succeed on a DC 15 Dexterity saving throw or fall off him."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Unknown p.7"
+    },
+    {
+      "name": "Swarm of Owls",
+      "size": "Medium",
+      "type": "swarm of Tiny beasts",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "60 (11d8 + 11)",
+      "speed": "5 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {},
+      "skills": {
+        "Perception": 5,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "senses": "darkvision 120 ft., passive Perception 15",
+      "languages": [],
+      "challenge_rating": "3",
+      "xp": 700,
+      "features": [
+        {
+          "name": "Flyby",
+          "description": "The swarm of owls doesn’t provoke opportunity attacks when it flies out of an enemy’s reach."
+        },
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The swarm of owls has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        },
+        {
+          "name": "Swarm",
+          "description": "The swarm of owls can occupy another creature’s space and vice versa, and the swarm can move through any openings large enough for a Tiny owl. The swarm can’t regain hp or gain temporary hp."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target in the swarm’s space. Hit: 14 (4d6) slashing damage, or 7 (2d6) slashing damage if the swarm has half its hp or fewer."
+        },
+        {
+          "name": "Screech (Recharge 5–6)",
+          "description": "The swarm of owls releases a screech in a 15-foot cone. Each creature in that area must make a DC 13 Constitution saving throw. On a failure, a creature takes 18 (4d8) thunder damage and is deafened until the end of its next turn. On a success, a creature takes half the damage and isn’t deafened."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tome of Beasts p.369 (as referenced)"
+    },
+    {
+      "name": "Alligator",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "20 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 10,
+        "constitution": 13,
+        "intelligence": 2,
+        "wisdom": 10,
+        "charisma": 5
+      },
+      "saving_throws": {
+        "Str": 4,
+        "Con": 3
+      },
+      "skills": {
+        "Stealth": 2
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Hold Breath",
+          "description": "The alligator can hold its breath for 15 minutes."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target is grappled (escape DC 12). Until this grapple ends, the target is restrained, and the alligator can't bite another target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.53"
+    },
+    {
+      "name": "Alligator Turtle",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 15,
+      "ac_type": "natural armor",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "20 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 12,
+        "constitution": 13,
+        "intelligence": 2,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "Str": 4,
+        "Con": 3
+      },
+      "skills": {
+        "Stealth": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 11",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Hold Breath",
+          "description": "The turtle can hold its breath for 1 hour."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 10 ft., one target. Hit: 5 (1d6 + 2) slashing damage and the target is grappled (escape DC 12). Until this grapple ends, the turtle can't bite another target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.53"
+    },
+    {
+      "name": "Forest Falcon",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "13 (3d6 + 3)",
+      "speed": "20 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 5
+      },
+      "saving_throws": {
+        "dex": 5,
+        "wis": 4
+      },
+      "skills": {
+        "Perception": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Falcon Dive",
+          "description": "If the falcon is flying and dives at least 20 feet straight toward a target, it has advantage on the next attack roll it makes against that target before the end of its turn. If the attack hits, it deals an extra 2 (1d4) damage to the target."
+        },
+        {
+          "name": "Keen Sight",
+          "description": "The falcon has advantage on Wisdom (Perception) checks that rely on sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Beak",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.54"
+    },
+    {
+      "name": "Giant Honey Bee",
+      "size": "Small",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "9 (2d6 + 2)",
+      "speed": "10 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 8,
+        "dexterity": 15,
+        "constitution": 12,
+        "intelligence": 6,
+        "wisdom": 12,
+        "charisma": 8
+      },
+      "saving_throws": {
+        "str": 1,
+        "dex": 4
+      },
+      "skills": {
+        "Survival": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 30 ft., passive Perception 11",
+      "languages": [
+        "Bee Dance"
+      ],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [],
+      "actions": [
+        {
+          "name": "Sting",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 4 (1d4 + 2) piercing damage and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one. If the poison damage reduces the target to 0 hp, the target is stable but poisoned for 1 hour, even after regaining hp, and is paralyzed while poisoned in this way."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.54"
+    },
+    {
+      "name": "Giant Bombardier Beetle",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 14,
+      "ac_type": "natural armor",
+      "hit_points": "13 (2d8 + 4)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 14,
+        "constitution": 15,
+        "intelligence": 3,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {
+        "con": 4
+      },
+      "skills": {},
+      "damage_resistances": [
+        "fire"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 30 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
+        },
+        {
+          "name": "Spray",
+          "description": "Ranged Weapon Attack: +4 to hit, range 15/30 ft., one target. Hit: 7 (2d4 + 2) fire damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.55"
+    },
+    {
+      "name": "Giant Leech",
+      "size": "Small",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "7 (2d6)",
+      "speed": "15 ft., swim 30 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 16,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 10,
+        "charisma": 2
+      },
+      "saving_throws": {
+        "dex": 5,
+        "con": 2
+      },
+      "skills": {
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "tremorsense 30 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Amphibious",
+          "description": "The leech can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) piercing damage, and the leech attaches to the target. While attached, the leech doesn't attack. Instead, at the start of each of the leech's turns, the target loses 5 (1d4 + 3) hp due to blood loss. The leech can detach itself by spending 5 feet of its movement. It does so after it drains 15 hp of blood from the target or the target dies. A creature, including the target, can use its action to detach the leech."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "p.55"
+    },
+    {
+      "name": "Giant Mongoose",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "13 (2d8 + 4)",
+      "speed": "30 ft.",
+      "ability_scores": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 14,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "con": 4,
+        "wis": 4
+      },
+      "skills": {
+        "Athletics": 2,
+        "Stealth": 5
+      },
+      "damage_resistances": [
+        "poison"
+      ],
+      "damage_immunities": [],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "senses": "darkvision 60 ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The mongoose has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+        }
+      ],
+      "reactions": [
+        {
+          "name": "Defensive Roll",
+          "description": "The mongoose adds its Athletics bonus to its AC against one attack that would hit it. To do so, the mongoose must see the attacker."
+        }
+      ],
+      "legendary_actions": [],
+      "source": "p.55"
+    },
+    {
+      "name": "Great Grey Owl",
+      "size": "Small",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "10 (3d6)",
+      "speed": "5 ft., fly 60 ft.",
+      "ability_scores": {
+        "strength": 5,
+        "dexterity": 16,
+        "constitution": 11,
+        "intelligence": 3,
+        "wisdom": 14,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "dex": 5,
+        "wis": 4
+      },
+      "skills": {
+        "Perception": 4,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 120 ft., passive Perception 14",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Flyby",
+          "description": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach."
+        },
+        {
+          "name": "Keen Hearing and Sight",
+          "description": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Talons",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.56"
+    },
+    {
+      "name": "Grove Bear",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "natural armor",
+      "hit_points": "13 (2d8 + 4)",
+      "speed": "40 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "str": 5,
+        "con": 4
+      },
+      "skills": {
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Grappler",
+          "description": "The bear has advantage on attack rolls against any creature grappled by it."
+        },
+        {
+          "name": "Keen Smell",
+          "description": "The bear has advantage on Wisdom (Perception) checks that rely on smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Claws",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) slashing damage and the target is grappled (escape DC 13). Until this grapple ends, the bear can't use its claws on another target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.56"
+    },
+    {
+      "name": "Howler Baboon",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "13 (2d8 + 4)",
+      "speed": "30 ft., climb 30 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 14,
+        "intelligence": 6,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "str": 4,
+        "wis": 3
+      },
+      "skills": {
+        "Athletics": 4,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Pack Tactics",
+          "description": "The baboon has advantage on attack rolls against a creature if at least one of the baboon's allies is within 5 feet of the creature and the ally isn't incapacitated."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Fist",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage."
+        },
+        {
+          "name": "Rock",
+          "description": "Ranged Weapon Attack: +4 to hit, reach 20/60 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.56"
+    },
+    {
+      "name": "Margreve Hound",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "40 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 13,
+        "constitution": 12,
+        "intelligence": 3,
+        "wisdom": 12,
+        "charisma": 7
+      },
+      "saving_throws": {
+        "str": 4,
+        "dex": 3
+      },
+      "skills": {
+        "Athletics": 4,
+        "Perception": 3
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 13",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Keen Hearing and Smell",
+          "description": "The hound has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage, and the target is grappled (escape DC 12). Until this grapple ends, the hound can't bite another target."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.57"
+    },
+    {
+      "name": "Margreve Stag",
+      "size": "Medium",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 12,
+      "ac_type": "",
+      "hit_points": "11 (2d8 + 2)",
+      "speed": "50 ft.",
+      "ability_scores": {
+        "strength": 15,
+        "dexterity": 14,
+        "constitution": 12,
+        "intelligence": 2,
+        "wisdom": 10,
+        "charisma": 6
+      },
+      "saving_throws": {
+        "str": 4,
+        "dex": 4
+      },
+      "skills": {
+        "Athletics": 4
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Charge",
+          "description": "If the stag moves at least 20 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 7 (2d6) damage. If the target is a creature it must succeed on a DC 12 Strength saving throw or be knocked prone."
+        },
+        {
+          "name": "Standing Leap",
+          "description": "The stag's long jump is up to 20 feet and its high jump is 10 feet, with or without a running start."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Ram",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
+        },
+        {
+          "name": "Hooves",
+          "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) bludgeoning damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.57"
+    },
+    {
+      "name": "Strossen Bat",
+      "size": "Small",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 13,
+      "ac_type": "",
+      "hit_points": "7 (2d6)",
+      "speed": "5 ft., fly 40 ft.",
+      "ability_scores": {
+        "strength": 6,
+        "dexterity": 16,
+        "constitution": 10,
+        "intelligence": 1,
+        "wisdom": 10,
+        "charisma": 2
+      },
+      "saving_throws": {
+        "dex": 5,
+        "con": 2
+      },
+      "skills": {
+        "Perception": 2,
+        "Stealth": 5
+      },
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "blindsight 60 ft., passive Perception 12",
+      "languages": [],
+      "challenge_rating": "1/4",
+      "xp": 50,
+      "features": [
+        {
+          "name": "Echolocation",
+          "description": "The bat can't use its blindsight while deafened."
+        },
+        {
+          "name": "Keen Hearing",
+          "description": "The bat has advantage on Wisdom (Perception) checks that rely on hearing."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) piercing damage, and the bat attaches to its target. While attached, the bat doesn't attack. Instead, at the start of each of the bat's turns, the target loses 5 (1d4 + 3) hp due to blood loss. The bat can detach itself by spending 5 feet of its movement. It does so after it drains 15 hp of blood from the target or the target dies. A creature, including the target, can use its action to detach the bat."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Tales of the Old Margreve p.57"
+    }
+  ],
+  "npcs": [
+    {
+      "name": "Sir Opinicus Stonecloud",
+      "race": "Dwarf",
+      "class_name": "Knight",
+      "subclass": "",
+      "level": 0,
+      "alignment": "Neutral",
+      "armor_class": 18,
+      "hit_points": "135 (18d8 + 54)",
+      "speed": "25 ft.",
+      "ability_scores": {
+        "strength": 18,
+        "dexterity": 12,
+        "constitution": 16,
+        "intelligence": 10,
+        "wisdom": 14,
+        "charisma": 9
+      },
+      "saving_throws": {
+        "dex": 5,
+        "con": 7
+      },
+      "skills": {
+        "Animal Handling": 6,
+        "Perception": 6,
+        "Survival": 6
+      },
+      "features": [
+        {
+          "name": "Deadly Dive",
+          "description": "If Sir Opinicus moves at least 20 feet straight toward a target while mounted on Swiftbeak and flying and then hits the target with a lance or longsword attack on the same turn, Swiftbeak can make a rake attack against that creature as a bonus action."
+        },
+        {
+          "name": "Graceful Landing (1/Day)",
+          "description": "When Sir Opinicus falls, he descends 60 feet per round and takes no damage from falling.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Griffon Knight",
+          "description": "Sir Opinicus has trained for years on the backs of griffons and is adept at coordinating his strikes with theirs. If both Sir Opinicus and his griffon mount hit the same target on the same turn, the target takes 13 (3d8) piercing damage at the end of Sir Opinicus' turn. In addition, while Sir Opinicus is mounted on a griffon, the griffon can't be charmed or frightened."
+        },
+        {
+          "name": "Locked Saddle",
+          "description": "Sir Opinicus can't be knocked prone, dismounted, or moved against his will while mounted. If his mount's movement or aerial maneuvers (such as Swiftbeak's Barrel Roll action) would force Sir Opinicus to make a saving throw or ability check to avoid falling off his mount, he automatically succeeds."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Multiattack",
+          "description": "Sir Opinicus makes three attacks with his lance or his longsword. If he is riding a griffon, the griffon can then make one beak or claws attack. If the griffon is Swiftbeak, the griffon can use his Barrel Roll in place of his beak or claw attack, if it is available."
+        },
+        {
+          "name": "Lance",
+          "description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 9 (1d12 + 4) piercing damage."
+        },
+        {
+          "name": "Longsword",
+          "description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 4) slashing damage, or 8 (1d10 + 4) slashing damage if used with two hands."
+        },
+        {
+          "name": "Heavy Crossbow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+        },
+        {
+          "name": "Patch Up (Recharge 6)",
+          "description": "Sir Opinicus' mount regains 18 (4d8) hit points.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "equipment": [
+        "chain mail",
+        "shield",
+        "lance",
+        "longsword",
+        "heavy crossbow"
+      ],
+      "spellcasting": null,
+      "description": "Sir Opinicus Stonecloud is a dwarf knight of the Order, a griffon rider with a sharp tongue and a long memory. He is a seasoned warrior who trains on the backs of griffons and coordinates his strikes with his mount.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 5000,
+      "source": "Book Name p.6"
+    },
+    {
+      "name": "Sir Opinicus",
+      "race": "Human",
+      "class_name": "Knight",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [],
+      "actions": [
+        {
+          "name": "Bow",
+          "description": "Ranged Weapon Attack: +5 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+        },
+        {
+          "name": "Patch Up (Recharge 6)",
+          "description": "Sir Opinicus' mount regains 18 (4d8) hit points."
+        }
+      ],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "A knight who rides a griffon named Swiftbeak.",
+      "role": "Ally",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Unknown p.7"
+    }
+  ],
+  "feats": [
+    {
+      "name": "Forest Denizen",
+      "prerequisite": "",
+      "description": "You are familiar with the ways of the forest. You gain the following benefits:\n• Increase your Wisdom score by 1, to a maximum of 20.\n• You can discern if a plant or fungal growth is safe to eat.\n• You learn to speak, read, and write Sylvan.\n• You have advantage on Strength (Athletics) and Dexterity (Acrobatics) checks you make to escape from being grappled or restrained as long as you are being grappled or restrained by nonmagical vegetation or a beast's action such as a giant frog's bite or a spider's web.",
+      "source": "p.34"
+    },
+    {
+      "name": "Forest-Bound",
+      "prerequisite": "Druid and the performance of a service as specified by the forest",
+      "description": "You bind yourself to the forest for which you performed a service and gain the following benefits:\n• Increase your Constitution or Wisdom score by 1, to a maximum of 20.\n• You have advantage on Wisdom (Survival) checks made within your bound forest.\n• You can cast spells with the \"forest-bound\" requirement as if you were a Circle of Oaks druid (see page 17). To prepare such a spell, it must be of a level for which you have spell slots. If the forest to which you are bound is ever destroyed or if you break your bond with the forest (such as through destruction of your forest), you lose access to these spells. At your GM's discretion, you can bind yourself to a new forest (if your forest was destroyed) or make amends to your bound forest (if you broke your bond).",
+      "source": "p.35"
+    },
+    {
+      "name": "Friend of the Forest",
+      "prerequisite": "",
+      "description": "After spending some time in forests, you have attuned yourself to the ways of the woods and the creatures in it. You learn the treeheal (see page 49) cantrip and two other druid cantrips of your choice. You also learn the speak with animals spell and can cast it once without expending a spell slot. Once you cast it, you must finish a short or long rest before you can cast it in this way again. Your spellcasting ability for these spells is Wisdom.",
+      "source": "p.35"
+    },
+    {
+      "name": "Harrier",
+      "prerequisite": "The Shadow Traveler shadow fey trait or the ability to cast the misty step spell",
+      "description": "You have learned to maximize the strategic impact of your misty step. You appear in a flash and, while your foe is disoriented, attack with deadly precision. You gain the following benefits:\n• Increase your Strength or Dexterity score by 1, to a maximum of 20.\n• When you use your Shadow Traveler trait or cast misty step, you have advantage on the next attack you make before the end of your turn.",
+      "source": "p.35"
+    },
+    {
+      "name": "Stalker",
+      "prerequisite": "",
+      "description": "You are an expert at hunting prey. You are never more at home than when on a hunt, and your quarry rarely escapes you. You gain the following benefits:\n• You gain proficiency in the Stealth and Survival skills.\n• You have advantage on Wisdom (Survival) checks made to track a creature you have seen in the past 24 hours.",
+      "source": "p.35"
+    },
+    {
+      "name": "Stunning Sniper",
+      "prerequisite": "Proficiency with a ranged weapon",
+      "description": "You have mastered the use of ranged weapons to cripple your target from a distance. When you score a critical hit on a ranged attack roll, you can stun the target until the start of your next turn instead of doubling the damage.",
+      "source": "p.35"
+    }
+  ],
+  "backgrounds": [
+    {
+      "name": "Forest Dweller",
+      "skill_proficiencies": [
+        "Nature",
+        "Survival"
+      ],
+      "tool_proficiencies": [
+        "Woodcarver's tools",
+        "herbalism kit"
+      ],
+      "languages": [
+        "Sylvan"
+      ],
+      "equipment": [
+        "A set of common clothes",
+        "a hunting trap",
+        "a wood staff",
+        "a whetstone",
+        "an explorer's pack",
+        "a pouch containing 5 gp"
+      ],
+      "feature": {
+        "name": "Forester",
+        "description": "Your experience living, hunting, and foraging in the woods gives you a wealth of experience to draw upon when you are traveling within a forest. If you spend 1 hour observing, examining, and exploring your surroundings while in a forest, you are able to identify a safe location to rest. The area is protected from all but the most extreme elements and from the non-magical native beasts of the forest. In addition, you are able to find sufficient kindling for a small fire throughout the night."
+      },
+      "description": "You are a creature of the forest, born and reared under a canopy of green. You expected to live all your days in the Margreve, at one with the green things of the world, until an unforeseen occurrence, traumatic or transformative, drove you from your familiar home and into the larger world. Civilization is strange to you, the open sky unfamiliar, and the bizarre ways of the so-called civilized world run counter to the truths of the Old Ways.",
+      "source": "MPG"
+    }
+  ],
+  "subclasses": [
+    {
+      "name": "Path of the Hive Tender",
+      "class": "Barbarian",
+      "description": "The bearfolk of the Northlands are renowned for their use of bee hives as sources of sustenance and defense. Among the most powerful of these northern bearfolk warriors are the Hive Tenders of the Bear Maiden. Their deep connection with the primal magic of the Bear Maiden allows them to summon and control swarms of magical bee spirits who aid them in defending the tribes.",
+      "features": [
+        {
+          "name": "Restriction: Bearfolk",
+          "level": 3,
+          "description": "You can choose this barbarian primal path only if you are a bearfolk."
+        },
+        {
+          "name": "Honey of the Bear Maiden",
+          "level": 3,
+          "description": "When you choose this path at 3rd level, you can forage for 1d4 servings of blessed honey each day. To forage, you must be in an environment where bees are naturally found. A creature can use its action to consume one serving of blessed honey. Each serving of blessed honey can have one of the following effects. Golden! Nonmagical light sources you are carrying do not shed dim light, instead they shed golden, bright light to the limit of their range until the end of your next long rest. Hearty! You recover one additional level of exhaustion after you finish your next long rest, and the honey provides you with enough nourishment to sustain you for two days. Smooth! A single bee escorts you until the end of your next long rest. You can use a bonus action to command the bee to sting one creature within 30 feet of you for 1 piercing damage. The bee dies after dealing this damage. Sweet! You exude a sweet, floral aroma until you finish a long rest. While exuding this aroma, you have advantage on Wisdom (Animal Handling) checks when interacting with beasts with an Intelligence of 3 or lower. A creature can benefit from only one serving of blessed honey at a time. Once you use this feature, you can't use it again until you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Raging Swarm",
+          "level": 3,
+          "description": "At 3rd level, magical bee spirits appear within 5 feet of you when you rage. The bees can't be targeted by attacks, spells, or effects, and they vanish when your rage ends. As a bonus action, you can command the bee spirits to swarm around a single creature within 60 feet of you. The bee spirits return to you at the start of your next turn. While the bee spirits are swarming the target, it has disadvantage on ranged weapon attack rolls, and, if the target casts a spell with a somatic component, it must succeed on a Constitution saving throw or fail to cast the spell, losing the action but not the spell slot. The DC for this saving throw equals 8 + your proficiency bonus + your Constitution modifier."
+        },
+        {
+          "name": "Defensive Formation",
+          "level": 6,
+          "description": "Beginning at 6th level, while raging, you have resistance to poison damage and can't be poisoned. If you are poisoned when you enter your rage, the effect is suspended for the duration of the rage."
+        },
+        {
+          "name": "Upon Buzzing Wings",
+          "level": 10,
+          "description": "When you reach 10th level, you can use a bonus action while raging to command the bee spirits to lift you into the air. If you do so, you gain a flying speed of 30 feet until the end of your turn."
+        },
+        {
+          "name": "Bees for Teeth",
+          "level": 14,
+          "description": "At 14th level, you can use a bonus action while raging to make a bite attack. This attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. A creature damaged by this attack must succeed on a Constitution saving throw or be poisoned until the end of its next turn. The DC for this saving throw equals 8 + your proficiency bonus + your Constitution modifier."
+        }
+      ],
+      "source": "Margreve Player's Guide p.14-15"
+    },
+    {
+      "name": "Path of the Shadow Chewer",
+      "class": "Barbarian",
+      "description": "Bearfolk who live in their enclaves of light in the shadow realm keep the darkness at bay thanks to the green magic of Freyr and Freya. When the shadows gather too close to the borders of their land, the bearfolk call upon the wild warriors known as the Shadow Chewers. Sometimes called “Angels of Freyr,” these fearsome heroes bring tooth, claw, and radiance to bear against the darkness.",
+      "features": [
+        {
+          "name": "Restriction: Bearfolk",
+          "level": 3,
+          "description": "You can choose this barbarian primal path only if you are a bearfolk."
+        },
+        {
+          "name": "Teeth of the Sun",
+          "level": 3,
+          "description": "When you adopt this path at 3rd level, your bite’s damage die is a d8. At 7th level, your bite attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and your bite’s damage die is a d10. At 11th level, your bite’s damage die is a d12."
+        },
+        {
+          "name": "Chew Shadows",
+          "level": 3,
+          "description": "At 3rd level, you are imbued with radiant power when you rage. While raging, you shed bright light in a 10‑foot radius and dim light an additional 10 feet. This light is immune to the effects of magical darkness and can’t be dispelled; however, it can’t pass through solid objects and otherwise behaves like normal light. In addition, while raging, you can choose for your bite attack to do radiant damage instead of piercing damage."
+        },
+        {
+          "name": "Divine Sustenance",
+          "level": 6,
+          "description": "As a bonus action at 6th level, each creature of your choice, including yourself, in the light shed by your Chew Shadows feature regains hp equal to half your barbarian level. This feature can restore a creature to no more than half its hit point maximum. You can use this ability only once per rage.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Emboldening Light",
+          "level": 10,
+          "description": "Starting at 10th level, you and friendly creatures in the bright light shed by your Chew Shadows feature are immune to the frightened condition. When you reach 18th level, this benefit extends to friendly creatures in both the bright and dim light shed by your Chew Shadows feature."
+        },
+        {
+          "name": "Rage of the Roaring Sun",
+          "level": 14,
+          "description": "As a bonus action at 14th level, each creature of your choice in the light shed by your Chew Shadows feature takes radiant damage equal to half your barbarian level. You can use this ability only once per rage.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Midgard Heroes Handbook p.15-16"
+    },
+    {
+      "name": "Path of the Roaring Sun",
+      "class": "Barbarian",
+      "description": "A barbarian subclass that imbues the barbarian with radiant power when raging, shedding light and gaining divine abilities.",
+      "features": [
+        {
+          "name": "Chew Shadows",
+          "level": 3,
+          "description": "At 3rd level, you are imbued with radiant power when you rage. While raging, you shed bright light in a 10-foot radius and dim light an additional 10 feet. This light is immune to the effects of magical darkness and can’t be dispelled; however, it can’t pass through solid objects and otherwise behaves like normal light. In addition, while raging, you can choose for your bite attack to do radiant damage instead of piercing damage."
+        },
+        {
+          "name": "Divine Sustenance",
+          "level": 6,
+          "description": "As a bonus action at 6th level, each creature of your choice, including yourself, in the light shed by your Chew Shadows feature regains hp equal to half your barbarian level. This feature can restore a creature to no more than half its hit point maximum. You can use this ability only once per rage.",
+          "uses": 1,
+          "recharge": "per rage"
+        },
+        {
+          "name": "Emboldening Light",
+          "level": 10,
+          "description": "Starting at 10th level, you and friendly creatures in the bright light shed by your Chew Shadows feature are immune to the frightened condition. When you reach 18th level, this benefit extends to friendly creatures in both the bright and dim light shed by your Chew Shadows feature."
+        },
+        {
+          "name": "Rage of the Roaring Sun",
+          "level": 14,
+          "description": "As a bonus action at 14th level, each creature of your choice in the light shed by your Chew Shadows feature takes radiant damage equal to half your barbarian level. You can use this ability only once per rage.",
+          "uses": 1,
+          "recharge": "per rage"
+        }
+      ],
+      "source": "Midgard Heroes Handbook? (page unknown)"
+    },
+    {
+      "name": "Hunt Domain",
+      "class": "Cleric",
+      "description": "A divine domain for clerics devoted to gods of the hunt, granting blessings to ensure successful hunts and protect communities.",
+      "features": [
+        {
+          "name": "Hunting Domain Spells",
+          "level": 1,
+          "description": "CLERIC LEVEL DOMAIN SPELLS 1st bloodhound*, illuminate spoor* 3rd instant snare*, mark prey* 5th going in circles*, tracer* 7th heart-seeking arrow*, hunting stand* 9th harrying hounds*, maim* *indicates a spell found in this book"
+        },
+        {
+          "name": "Blessing of the Hunter",
+          "level": 1,
+          "description": "At 1st level, you gain proficiency in Survival. You can use your action to touch a willing creature other than yourself to give it advantage on Wisdom (Survival) checks. This blessing lasts for 1 hour or until you use this feature again."
+        },
+        {
+          "name": "Bonus Proficiency",
+          "level": 1,
+          "description": "At 1st level, you gain proficiency with martial weapons."
+        },
+        {
+          "name": "Channel Divinity: Heart Strike",
+          "level": 2,
+          "description": "Starting at 2nd level, you can use your Channel Divinity to inflict grievous wounds. When you hit a creature with a weapon attack, you can use your Channel Divinity to add +5 to the attack’s damage. If you score a critical hit with the attack, add +10 to the attack’s damage instead."
+        }
+      ],
+      "source": "Midgard Heroes Handbook? (page unknown)"
+    },
+    {
+      "name": "Circle of Oaks",
+      "class": "Druid",
+      "description": "Each ancient forest of Midgard is a sentient entity, always aware of what transpires under its canopy. Although some have developed potent defenses, especially in their Hearts, they have tolerated alliances with those committed to their protection and restoration. Chief among these alliances are the Circle of Oaks druids.",
+      "features": [
+        {
+          "name": "Bonus Cantrip",
+          "level": 2,
+          "description": "When you choose the Circle of Oaks at 2nd level, you learn the tree heal (see page 49) druid cantrip. Members of your circle often touch each tree they pass as they stroll through a wooded area, just in case the tree may be in need of assistance."
+        },
+        {
+          "name": "Forest Binding",
+          "level": 2,
+          "description": "Starting at 2nd level, you can request to be bound to a specific forest, gaining access to certain spells. This binding is conditional upon the good will of the forest and is never given automatically. Typically, the forest requires a service of you before binding you to it. Such service might include replanting trees in an area destroyed by war or fire, eliminating a great pestilence within the forest, removing certain contaminants from the forest's borders, or opposing an enemy of the forest. You can be bound to only one forest at a time. If you later bind yourself to another forest, you lose your connection to the previous one. Most forests will not permit gearforged, dwarves, kobolds, or dragonborn to bind with them; however, exceptions have been made if the candidate performed a great service for the forest."
+        },
+        {
+          "name": "Circle of Oaks Spells",
+          "level": 3,
+          "description": "Your bonded forest infuses you with some of its power, giving you the ability to cast certain spells. At 3rd, 5th, 7th, 9th, 11th, 13th, 15th, and 17th level you gain access to spells associated with your bond to the forest. Some of these spells are available to you only while you are bonded to a forest. Such spells have the \"forest-bound\" qualifier listed next to their school of magic. If you are no longer bonded to a forest you lose the ability to cast forest-bound spells until you renew your bond with your forest or bond with a new forest. You can cast forest-bound spells outside your bound forest, unless the spell specifically states you must be within your bound forest. Once you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you. Consult the Circle of Oaks Spells table for the list of circle spells. CIRCLE OF OAKS SPELLS DRUID LEVEL CIRCLE SPELLS 3rd forest native*, tree speak* 5th legion of squirrels*, ley disturbance* 7th freedom of movement, quick time* 9th commune with nature, lesser ley protection* 11th conjure forest defender* 13th greater ley protection* 15th control weather 17th forest sanctuary* *indicates a spell found in this book"
+        },
+        {
+          "name": "Tree Walking",
+          "level": 6,
+          "description": "Starting at 6th level, once per turn, you can use half of your movement to step magically into one living tree within your reach and emerge from a second living tree within 60 feet of the first tree, appearing in an unoccupied space within 5 feet of the second tree. Both trees must be Large or bigger. Any worn or carried possessions travel with you, but you can't bring other creatures with you. At 14th level, the second tree can be up to 100 feet away from the first."
+        },
+        {
+          "name": "Tree Merging",
+          "level": 10,
+          "description": "Starting at 10th level, you can merge your spirit with that of a tree within 5 feet of you as an action. While merged, your body resides in the Shadow Realm, petrified and invisible, while your spirit is aware of happenings in the vicinity of the tree. If you spend 6 hours merged with a tree in your bound forest, you gain the benefits of finishing a long rest. You can't communicate with anyone outside of the tree unless"
+        }
+      ],
+      "source": "Midgard Worldbook p.17-18"
+    },
+    {
+      "name": "Circle of Owls",
+      "class": "Druid",
+      "description": "The Court of Owls once served as a pilgrimage site for the ancient elves, but it secretly was also the hub of a network of spies. When the library of the court was burned to prevent its knowledge from falling into the wrong hands, some volumes escaped destruction. Druids of the Circle of Owls maintain their tradition of spying and gathering knowledge and, occasionally, of permanently silencing those who would misuse knowledge. The Circle of Owls druids draw on the power of their namesakes, moving about the world unnoticed as they see and hear what others try desperately to hide. These druids maintain closer relationships with the shadow fey than most. They find this relationship advantageous, though often tense, in their pursuit of secrets. Along with access to shadow fey agents and information, Circle of Owls druids regularly make bargains with strange owl-like creatures known as stryx (Tome of Beasts, p. 369). The stryx are natives of the Shadow Realm and find the Circle of Owls druids to their liking. Some stryx even serve Circle of Owls druids as familiars, at the GM’s discretion.",
+      "features": [
+        {
+          "name": "Circle Spells",
+          "level": 2,
+          "description": "The ever present eyes and ears of the natural world impart magical knowledge to you. At 2nd level, you learn the message cantrip. At 3rd, 5th, 7th, and 9th level you gain access to the spells listed for that level in the Circle of Owls Spells table. Once you gain access to a circle spell, you always have it prepared, and it doesn’t count against the number of spells you can prepare each day. If you gain access to a spell that doesn’t appear on the druid spell list, the spell is nonetheless a druid spell for you. CIRCLE OF OWLS SPELLS DRUID LEVEL CIRCLE SPELLS 3rd detect thoughts, invisibility 5th nondetection, sending 7th arcane eye, private sanctum 9th modify memory, scrying"
+        },
+        {
+          "name": "Bonus Proficiency",
+          "level": 2,
+          "description": "When you choose this circle at 2nd level, you gain proficiency in either the Deception or Stealth skill."
+        },
+        {
+          "name": "On Silent Wings",
+          "level": 2,
+          "description": "At 2nd level, you learn to magically slip beneath the notice of even those who watch you. You can take the Hide action even when a creature can see you or when you have nothing to obscure you from the sight of a creature that can see you. You remain hidden in this way until the end of your next turn. If at that time you haven’t found something to obscure you, you are no longer hidden. You can use this feature a number of times equal to your Wisdom modifier (a minimum of once). You regain all expended uses when you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Owl’s Eyes",
+          "level": 6,
+          "description": "At 6th level, you can cast clairvoyance once. When you cast the spell in this way, you don’t require components, and the casting time is 1 action. You can choose for the invisible sensor to instead be visible as an owl. Once you use this feature you can’t use it again until you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Shadow Flight",
+          "level": 10,
+          "description": "At 10th level, you can slip partially into shadow for a short time. As an action, you can cast the etherealness spell. When you cast the spell in this way, its duration is concentration, up to 1 minute. Once you use this feature, you can’t use it again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Parliament of Owls",
+          "level": 14,
+          "description": "When you reach 14th level, you can disperse your form into a great swirling storm of owls. As an action, you can use your Wild Shape to become a swarm of owls (see sidebar)."
+        }
+      ],
+      "source": "Tome of Beasts p.19-20"
+    },
+    {
+      "name": "Circle of Roses",
+      "class": "Druid",
+      "description": "Druids of the Circle of Roses bend the power of nature to influence the minds and hearts of those around them, soothing sorrow, crushing with terror, and ensnaring hearts in equal measure. They create sweet and bitter perfumes that carry their power to any who inhale the scent.",
+      "features": [
+        {
+          "name": "Circle Spells",
+          "level": 2,
+          "description": "Your deep bond with the ebb and flow of nature grants you knowledge of certain spells. At 2nd level, you learn the friends cantrip. At 3rd, 5th, 7th, and 9th level you gain access to the spells listed for that level in the Circle of Roses Spells table. Once you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you.\n\nCIRCLE OF ROSES SPELLS\nDRUID LEVEL | CIRCLE SPELLS\n3rd | calm emotions, suggestion\n5th | hypnotic pattern, tongues\n7th | confusion, phantasmal killer\n9th | dominate person, geas"
+        },
+        {
+          "name": "Bonus Proficiency",
+          "level": 2,
+          "description": "When you choose this circle at 2nd level, you gain proficiency in one skill chosen from the following: Deception, Intimidation, or Persuasion."
+        },
+        {
+          "name": "Bittersweet Perfume",
+          "level": 2,
+          "description": "Starting at 2nd level, you can expend one use of Wild Shape as an action to create a floral perfume that manipulates the minds of those who breathe it, rather than transforming into a beast form. One creature of your choice within 10 feet of you must make a Charisma saving throw against your spell save DC. On each of your turns while the perfume lasts, you can use an action to choose a different creature to affect with your perfume. On a failure, the creature is charmed or frightened by you (your choice) for as long as it remains in your perfume and for 1 minute after it leaves the area. If it ends its turn outside the area, the creature can repeat the saving throw, ending the effect on itself on a success. If you or your allies attack or harm the charmed creature, it is no longer charmed. If the creature's saving throw is successful or if the effect ends for it, it is immune to your perfume for the next 24 hours. A creature that doesn't breathe or that is immune to poison is immune to your perfume. The perfume lasts for 10 minutes or until you use your Wild Shape again.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Overpowering Remedy",
+          "level": 6,
+          "description": "At 6th level, your perfume can affect one creature of your choice within 20 feet of you, and you can use the scent of your perfume to unravel harmful effects. When you use your Bittersweet Perfume, you can choose to end one disease or one condition affecting a creature in your perfume instead of charming or frightening it. The condition removed can be charmed, frightened, or poisoned."
+        },
+        {
+          "name": "Rose's Thorns",
+          "level": 10,
+          "description": "At 10th level, you can stab thorns at the minds of those who dare raise their hand against you. When a creature within 20 feet of you hits you with an attack, you can use your reaction to force the creature to make a Wisdom saving throw against your spell save DC. On a failed save, the creature takes 1d10 psychic damage."
+        },
+        {
+          "name": "Lingering Perfume",
+          "level": 14,
+          "description": "When you reach 14th level, a whiff of your perfume surrounds you at all times and lingers in your wake. You are immune to harmful gasses and vapors, you have advantage on saving throws against be charmed or frightened, and your Bittersweet Perfume now lasts for 1 hour or until you use your Wild Shape again. In addition, you can intensify the power of your perfume. When a creature becomes charmed or frightened by your Bittersweet Perfume, you can use a bonus action to wrap some of your perfume around it. That creature is considered to be within your perfume, no matter how far it moves away from you, for 1 hour or until you use your Wild Shape again. Once you use this feature, you can't use it again until you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Midgard Heroes Handbook p.21-22"
+    },
+    {
+      "name": "Griffon Scout",
+      "class": "Ranger",
+      "description": "The elves of the Griffon Court are practical and disciplined, well suited to surviving in their isolated holding on a windswept crag jutting out of the Margreve. Trained by elven court veterans, rangers of the Griffon Scout archetype learn to move swiftly and stealthily both on foot and while mounted, gathering information on their enemies or delivering devastating hit-and-run raids with precision and coordination.",
+      "features": [
+        {
+          "name": "Griffon Scout Spells",
+          "level": 3,
+          "description": "You learn an additional spell when you reach certain levels in this class, as shown in the Griffon Scout Spells table. The spell counts as a ranger spell for you, but it doesn't count against the number of ranger spells you know.\n\nGRIFFON SCOUT SPELLS\nRANGER LEVEL | SPELLS\n3rd | featherfall\n5th | find steed\n9th | haste\n13th | greater invisibility\n17th | telepathic bond"
+        },
+        {
+          "name": "Mounted Scout",
+          "level": 3,
+          "description": "At 3rd level, you have advantage on Dexterity (Stealth) checks while mounted, and your Dexterity (Stealth) checks apply to both you and your mount."
+        },
+        {
+          "name": "Skirmisher's Step",
+          "level": 3,
+          "description": "At 3rd level, when you move at least 20 feet straight toward a creature and hit it with a melee weapon attack in the same turn, that attack deals an extra 1d8 damage of the same type dealt by the weapon to the target, and, when you or your mount move out of the target's reach before the end of your next turn, you don't provoke an opportunity attack from the target."
+        },
+        {
+          "name": "Coordinated Strikes",
+          "level": 7,
+          "description": "Starting at 7th level, you can deliver punishing flurries of attacks in perfect coordination with your allies. When one of your allies hits a target within 30 feet of you with an attack, you can use your reaction to make one weapon attack against that target."
+        },
+        {
+          "name": "Griffon Wings",
+          "level": 11,
+          "description": "At 11th level, when you cast find steed, you can choose for your steed to take the form of a griffon, though it is a fey instead of a monstrosity."
+        },
+        {
+          "name": "Strike and Fade",
+          "level": 15,
+          "description": "Starting at 15th level, when you or your mount move at least 20 feet during your turn, you become an evasive blur. Until the start of your next turn, a creature that attacks you has disadvantage on the first attack roll it makes against you or your mount."
+        }
+      ],
+      "source": "Unknown p.23"
+    },
+    {
+      "name": "Grove Warden",
+      "class": "Ranger",
+      "description": "Fiercely protective of their territory, the alseid herds form a close bond with the Margreve. In return for their diligent protection, the forest offered its blessing to dedicated alseid rangers. In recent years, woodsy adventurers of other races who have earned the alseids' trust also received this blessing, though their numbers are scant. These Grove Wardens can tap into the living magic of the Margreve and call upon its aid. Their senses travel through the plants and earth of the woods, and the very land rises up to strike down the ranger's enemies.",
+      "features": [
+        {
+          "name": "Grove Warden Magic",
+          "level": 3,
+          "description": "Starting at 3rd level, you learn an additional spell when you reach certain levels in this class, as shown in the Grove Warden Spells table. The spell counts as a ranger spell for you, but it doesn't count against the number of ranger spells you know.\n\nGROVE WARDEN SPELLS\nRANGER LEVEL | SPELLS\n3rd | entangle\n5th | branding smite\n9th | speak with plants\n13th | hallucinatory terrain\n17th | animate objects"
+        },
+        {
+          "name": "Whispers of the Forest",
+          "level": 3,
+          "description": "At 3rd level, when you use your Primeval Awareness feature while within a forest, you add humanoids to the list of creature types you can sense. When sensing humanoids, you know the general direction of the creatures, and you know if a humanoid is solitary, in a small group of up to 5 humanoids, or a pack of more than 5 humanoids."
+        },
+        {
+          "name": "Margreve's Will",
+          "level": 3,
+          "description": "At 3rd level, you can magically draw on the living essence of the land to hamper your foes. As a bonus action, choose one creature you can see within 60 feet of you. Your next weapon attack against that creature has advantage. If that attack hits, the creature's speed is reduced by 10 feet until the start of your next turn. When you reach 11th level in this class, if that attack hits, the creature's speed is instead halved until the start of your next turn."
+        },
+        {
+          "name": "Intruder's Bane",
+          "level": 7,
+          "description": "At 7th level, you can command the land around you to come to your aid. As a bonus action, choose a point you can see on the ground within 60 feet. You cause the area within 15 feet of that point to undulate and warp. Each creature in the area must make a Dexterity saving throw against your spell save DC. On a failure, a creature is pushed up to 15 feet in a direction of your choice and knocked prone. Once you use this feature, you can't use it again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Wrath of the Forest",
+          "level": 11,
+          "description": "At 11th level, you can call on the land in your vicinity to strike at your enemies. When you take the Attack action, you can use a bonus action to make a rock, branch, root, or other small object attack a creature within 30 feet of you. You are proficient with the attack, it counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and you add your Dexterity modifier to the attack and damage rolls. The damage is of a type appropriate to the surroundings and the damage die is a d8."
+        }
+      ],
+      "source": "Unknown p.23"
+    },
+    {
+      "name": "Spear of the Weald",
+      "class": "Ranger",
+      "description": "The alseid who inhabit the ancient Margreve forest have long defended the limits of their home. These forest warriors can make a dizzying variety of ranged and melee attacks in quick succession, using ancient magic to flash across the battlefield.",
+      "features": [
+        {
+          "name": "Restriction: Alseid",
+          "level": 3,
+          "description": "You can choose this archetype only if you are an alseid."
+        },
+        {
+          "name": "Weald Spear",
+          "level": 3,
+          "description": "When you choose this archetype at 3rd level, you gain the ability to call forth a magical, wooden spear from the Bright Land into your empty hand as a bonus action. The spear disappears if it is more than 5 feet away from you for 1 minute or more. It also disappears if you use this feature again, if you dismiss the weapon (no action required), or if you die. You are proficient with the weapon while you wield it. The spear's range is 20/60 feet, and, when you throw the spear, it reappears in your hand after the attack. The spear's damage die is a d8, and it has the finesse and reach properties. At 7th level, your weald spear attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and your Weald Spear's damage die is a d10. At 11th level, your Weald Spear's damage die is a d12."
+        },
+        {
+          "name": "Touch of the Bright Land",
+          "level": 3,
+          "description": "The touch of the Bright Land is always on your spear, hinting at its otherworldly ties. Beginning at 3rd level, when you summon your Weald Spear, choose one of the following effects:\nEntwined. Your spear appears to be wrapped in writhing green vines which occasionally coalesce into the shape of a slender, grasping hand. The hand points in the direction of the Margreve.\nAflame. Your spear is ensorcelled in heatless, white, magical flames whose intensity rises and falls to reflect your mood. When you are at your happiest, it sheds bright light in a 5-foot radius and dim light for an additional 5 feet.\nEverblooming. Your spear is covered in small wildflowers that bloom, die, bud, and bloom again within minutes. Pollinating insects are often drawn to your spear as the spear constantly exudes a pleasant, floral fragrance.\nMoonlit. Your spear appears as a pale, white length of wooden moonlight. A trail of star-like motes travels behind the spear's point."
+        },
+        {
+          "name": "Canopy",
+          "level": 7,
+          "description": "Beginning at 7th level, when a creature within 30 feet of you, including yourself, is targeted by a ranged weapon attack, you can use your reaction to summon a magical canopy of glowing leaves and branches over the target. The target has resistance to the damage dealt by the attack, and the canopy bursts into shredded leaves afterwards. You must then finish a short or long rest to use your Canopy again. At 11th level, you can use your Canopy twice between rests. At 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Steps of the Forest God",
+          "level": 11,
+          "description": "When you reach 11th level, you gain a minor use of the Elfroads. After you make a successful ranged weapon attack with your Weald Spear, you can use a bonus action to teleport to an unoccupied space within 10 feet of your target."
+        },
+        {
+          "name": "Overwhelm",
+          "level": 15,
+          "description": "At 15th level, after you make a successful melee weapon attack with your Weald Spear against a creature, you can use a bonus action to make one ranged weapon attack with it against a different creature. You don't have disadvantage on the ranged attack roll from being within 5 feet of the first creature, however, you can still have disadvantage on the attack roll from being within 5 feet of other creatures."
+        }
+      ],
+      "source": "Margreve Player's Guide p.24-25"
+    },
+    {
+      "name": "The Underfoot",
+      "class": "Rogue",
+      "description": "Though most rogues prefer ambushing their opponents from the shadows, erina rogues ambush their opponents from below. These Underfoot use druidic magic and their natural aptitude for burrowing to defend their forest homes. An elite order of burrow warriors exists in every erina colony. These highly-trained warriors are known as the Underfoot. Using a combination of guerilla attacks and druidic magic, the Underfoot are a force to be reckoned with, diving into fights nose-forward.",
+      "features": [
+        {
+          "name": "Restriction: Erina",
+          "level": 3,
+          "description": "You can choose this roguish archetype only if you are an erina."
+        },
+        {
+          "name": "Spellcasting",
+          "level": 3,
+          "description": "When you reach 3rd level, you gain the ability to cast spells drawn from the magic of the wilds.\nCantrips: You learn three cantrips: shillelagh and two other cantrips of your choice from the druid spell list. You learn another druid cantrip of your choice at 10th level.\nSpell Slots: The Underfoot Spellcasting table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend one of these slots at the spell's level or higher. You regain all expended spell slots when you finish a long rest. For example, if you know the 1st-level spell longstrider and have a 1st-level and a 2nd-level spell slot available, you can cast longstrider using either slot.\nSpells Known of 1st-Level and Higher: You know three 1st level druid spells of your choice, two of which you must choose from the divination and transmutation spells on the druid spell list. The Spells Known column of the Underfoot Spellcasting table shows when you learn more druid spells of 1st level or higher. Each of these spells must be a divination or transmutation spell of your choice, and must be of a level for which you have spell slots. The spells you learn at 8th, 14th, and 20th level can be from any school of magic. When you gain a level in this class, you can choose one of the druid spells you know and replace it with another spell from the druid spell list. The new spell must be of a level for which you have spell slots, and it must be a divination or transmutation spell, unless you're replacing the spell you gained at 3rd, 8th, 14th, or 20th level.\nSpellcasting Ability: Wisdom is your spellcasting ability for your druid spells. Your magic draws upon your connection with the natural world. You use your Wisdom whenever a spell refers to your spellcasting ability. In addition, you use your Wisdom modifier when setting the saving throw DC for a druid spell you cast and when making an attack roll with one.\nSpell save DC = 8 + your proficiency bonus + your Wisdom modifier\nSpell attack modifier = your proficiency bonus + your Wisdom modifier"
+        }
+      ],
+      "source": "Margreve Player's Guide p.25"
+    },
+    {
+      "name": "The Hunter in Darkness",
+      "class": "Warlock",
+      "description": "The Hunter in Darkness was one of the first shadow fey, but, after time, it succumbed to the power of the Shadow Realm and became something more. It is an entity that sees all creatures as prey and enjoys instilling fear in its prey. It prefers intelligent prey over mere beasts as their fear tastes so much sweeter. Hunters, particularly those among the shadow fey, who display impressive prowess for hunting peak its interest. The Hunter in Darkness often bestows its power on such individuals to spread fear further than the Hunter can by itself. Because of the similarities in their goals, many people speculate that the Hunter in Darkness is a mask of the Fey Lord of the Hunt or the Blood God.",
+      "features": [
+        {
+          "name": "Expanded Spell List",
+          "level": 1,
+          "description": "The Hunter in Darkness lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nHUNTER IN DARKNESS EXPANDED SPELLS\nSPELL LEVEL | SPELLS\n1st | bloodhound*, hunter's endurance*\n2nd | instant snare*, mark prey*\n3rd | clairvoyance, nondetection\n4th | harry*, heart-seeking arrow*\n5th | killing fields*, legend lore\n\n*indicates a spell found in this book"
+        },
+        {
+          "name": "Savage Hunter",
+          "level": 1,
+          "description": "Starting at 1st level, when you reduce a hostile creature to 0 hp, its nearest ally within 30 feet of you must succeed on a Wisdom saving throw against your warlock spell save DC or be frightened of you until the end of its next turn."
+        },
+        {
+          "name": "Step into Shadow",
+          "level": 6,
+          "description": "Beginning at 6th level, you can disappear into darkness and reappear next to an enemy. As a bonus action while in dim light or darkness, you can disappear in a puff of inky smoke and reappear in an unoccupied space that is also in dim light or darkness within 5 feet of a creature within 30 feet of you. If the creature is frightened and you make a melee weapon attack roll against it, you have advantage on the attack roll.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Strike from the Dark",
+          "level": 10,
+          "description": "Beginning at 10th level, your patron's constant hunger for fear inures you to it. You are immune to being frightened. In addition, when you are in dim light or darkness and you hit a creature with a weapon attack, it must succeed on a Wisdom saving throw against your warlock spell save DC or be frightened of you for 1 minute or until it takes any damage."
+        },
+        {
+          "name": "Avatar of Death",
+          "level": 14,
+          "description": "Starting at 14th level, if you reduce a target to 0 hp with a weapon attack, you can use a bonus action to force each ally of the target within 30 feet of you to make a Wisdom saving throw against your warlock spell save DC. On a failure, the creature is frightened of you for 1 minute or until it takes any damage. If a creature is immune to being frightened, it is instead stunned until the end of its next turn.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "The Hunter in Darkness and Your Pact Boons",
+          "level": 3,
+          "description": "When you select your pact boon at 3rd level, it is altered by your patron in the following ways.\nPact of the Chain: Your familiar is a hunting hound made of shadow, and it uses the statistics of a wolf.\nPact of the Blade: Your pact weapon can be a longbow or shortbow in addition to a melee weapon. You must provide arrows for the weapon.\nPact of the Tome: Your tome contains descriptions of tracks made by a multitude of creatures. If you consult your tome for 1 minute while inspecting tracks, you can identify the type of creature that left the tracks (such as a winter wolf), though not the creature's name or specific appearance (such as Frosttooth, the one-eyed leader of a notorious pack that terrorizes the area)."
+        }
+      ],
+      "source": "Midgard Heroes Handbook p.26-27"
+    },
+    {
+      "name": "The Old Wood",
+      "class": "Warlock",
+      "description": "A warlock patron that is a sentient forest, granting its emissaries the claws and teeth of the woods to defend and serve it.",
+      "features": [
+        {
+          "name": "Old Wood Expanded Spells",
+          "level": 1,
+          "description": "Your connection to the forest allows you to choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nOLD WOOD EXPANDED SPELLS\nSPELL LEVEL\nSPELLS\n1st\nanimal friendship, poreveit's mantle*\n2nd\nsnap the leash*, spike growth\n3rd\nconjure animals, protection from energy\n4th\nconjure woodland beings, giant insect\n5th\ntree stride, yarila's bounty*\n*see Tales of the Old Margreve"
+        },
+        {
+          "name": "Sap Magic",
+          "level": 1,
+          "description": "At 1st level, your patron bestows upon you the ability to absorb magic from nearby spellcasting. When a creature casts a spell of a level you can cast or lower within 30 feet of you, you can use your reaction to synthesize the magic. The spell resolves as normal, but you have a 25% chance of regaining hit points equal to your warlock level + your Charisma modifier (minimum of 1 hit point)."
+        },
+        {
+          "name": "Forest's Defender",
+          "level": 1,
+          "description": "At 1st level, your patron gifts you with the skills necessary to defend it. You gain proficiency with shields, and you learn the shillelagh cantrip. Shillelagh counts as a warlock cantrip for you, but it doesn't count against your number of cantrips known."
+        },
+        {
+          "name": "Predatory Grace",
+          "level": 6,
+          "description": "Starting at 6th level, you are able to cast pass without trace without expending a spell slot. Once you use this feature, you can't use it again until you finish a short or long rest. In addition, difficult terrain caused by roots, underbrush, and other natural forest terrain costs you no extra movement. You can pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Nature's Endurance",
+          "level": 10,
+          "description": "At 10th level, your patron has suffused your body with a portion of its ability to withstand harmful magic. You gain resistance to damage from spells of a level you can cast or lower."
+        },
+        {
+          "name": "Avatar of the Wood",
+          "level": 14,
+          "description": "Starting at 14th level, you can channel the power of the forest to physically transform, taking on many of its aspects. Your legs, arms, and torso elongate, your body becomes covered in thick, dark bark, and branches sprout from your head as your hair recedes. You can transform as a bonus action and the transformation lasts 1 minute. While transformed, you gain the following benefits:\n• Your Armor Class is 16 plus your Dexterity modifier.\n• You gain tremorsense with a radius of 30 feet, and your attacks can reach 5 feet further.\n• Your hands become claws, and you can use the Attack action to attack with the claws. You are proficient with the claws, and the claws count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. You add your Charisma modifier to your attack and damage rolls with the claws. The damage is slashing and the damage die is a d6. If you have the Pact of the Blade feature, your claw attack benefits from your invocations as if it was a pact weapon.\n• Your Sap Magic feature changes to Arcasynthesis: When a spell of 5th level or lower is cast within 60 feet of you, you can use your reaction to synthesize the magic. The spell resolves as normal, but you have a 50% chance of regaining 1d10 hp per level of the spell cast.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "The Old Wood and Your Pact Boons",
+          "level": 3,
+          "description": "When you select your pact boon at 3rd level, it is altered by your patron in the following ways:\nPact of the Chain. When you conjure your familiar or change its form, you can choose the form of an awakened shrub or child of the briar (Tome of Beasts, p. 56) in addition to the usual familiar choices.\nPact of the Blade. The blade of the Old Wood is a weapon made of wood and thorns and grows out of your palm. When you cast shillelagh, your Pact Blade is affected by the spell, regardless of the form your Pact Blade takes.\nPact of the Tome. The Old Wood grows a tome for you. The tome's cover is hardened bark from the forest's native trees, and its pages are leaves, whose color changes with the seasons. If you want to add a new spell to your book, you must first plant it in the ground. After 1 hour, the book emerges from the soil with the new spell inscribed on its leaves. If your tome is lost or destroyed, you must return to your patron forest for it to grow you a new one."
+        }
+      ],
+      "source": "Tales of the Old Margreve p.28-29"
+    },
+    {
+      "name": "Courser Mage",
+      "class": "Wizard",
+      "description": "A tradition more focused on stalking prey than reading dozens of books, courser mages generally choose more subtle spells that aid in finding or hiding from their enemies. They learn to imbue their arrows with spell energy to deliver more deadly shots.",
+      "features": [
+        {
+          "name": "Stalking Savant",
+          "level": 2,
+          "description": "At 2nd level, you gain proficiency with longbows and shortbows, and you gain proficiency in the Stealth skill. In addition, you can still perform the somatic components of wizard spells even when you have a longbow or shortbow in one or both hands."
+        },
+        {
+          "name": "Unseen Assailant",
+          "level": 2,
+          "description": "Starting at 2nd level, as a bonus action, you can choose a target you can see within 60 feet of you and become invisible to that target until the start of your next turn. Once the effect ends, you can't use this feature on that target again until you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Spell Arrow",
+          "level": 6,
+          "description": "Beginning at 6th level, you can imbue an arrow you fire from a longbow or shortbow with magical energy. As a bonus action, you can expend a 1st-level spell slot to cause the next arrow you fire to magically deal an extra 2d4 force damage to the target on a hit. If you expend a spell slot of 2nd level or higher, the extra damage increases by 1d4 for each slot level above 1st."
+        },
+        {
+          "name": "Pinpoint Weakness",
+          "level": 10,
+          "description": "Beginning at 10th level, when you hit a creature with an arrow imbued by your Spell Arrow feature, your next ranged weapon attack against that creature has advantage."
+        },
+        {
+          "name": "Multitudinous Arrows",
+          "level": 14,
+          "description": "Starting at 14th level, you can attack twice, instead of once, whenever you take the Attack action with a longbow or shortbow on your turn. If you use your Spell Arrow feature, you can imbue both arrows with arcane power by expending one spell slot. If you imbue two arrows with this feature, you can't cast spells other than cantrips until the end of your next turn."
+        }
+      ],
+      "source": "Unknown p.31"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "Margreve Player's Guide",
+    "How to Rein Your Griffon",
+    "Spells",
+    "Class Options",
+    "Races",
+    "Magic Items",
+    "Sidebars",
+    "Background and Feats"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 8,
+  "_book_slug": "MPG",
+  "_book_title": "Tales Margreve Players Guide 5E DnD",
+  "_completed": true,
+  "_timestamp": 1790286689.0676386
+}

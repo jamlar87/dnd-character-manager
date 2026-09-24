@@ -4253,5 +4253,916 @@
     ],
     "source": "(Sword Coast Adventurer's Guide, p.141)",
     "_source_manual": "SCAG"
+  },
+  {
+    "name": "Circle of Shadows",
+    "class": "Druid",
+    "description": "Druids who belong to the Circle of Shadows embrace the primal power of darkness as the purest distillation of the natural world. While other druids might concern themselves with balance, the Circle of Shadows understands that all things eventually return to darkness, so it must be understood.",
+    "features": [
+      {
+        "name": "Umbral Form",
+        "level": 2,
+        "description": "Starting at 2nd level, as a bonus action, you can expend a use of your Wild Shape feature to take on a shadowy umbral form, rather than transforming into a beast.\nWhile in your umbral form, you retain your statistics, but your body becomes transparent like smoke. The form lasts for 10 minutes. It ends early if you dismiss it (no action required), are incapacitated, die, or use this feature again.\nWhile you are in this form, you gain the following features:\n• While in dim light or darkness, you can take the Hide action as a bonus action.\n• You can move through a space as narrow as 1 inch wide without squeezing.\n• When a creature you can see hits you with a melee attack, you can use your reaction to deal cold damage equal to your proficiency bonus to that creature."
+      },
+      {
+        "name": "Circle Spells",
+        "level": 3,
+        "description": "You have embraced the powers of shadow, a dark force that suffuses reality. Your connection to this energy grants you access to some spells when you reach 3rd, 5th, 7th, and 9th level in this class as shown on the Circle of Shadow Spells table.\nOnce you gain access to one of these spells, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you.\nCIRCLE OF SHADOW SPELLS\nCleric Level | Spells\n2nd | bane, false life\n3rd | darkness, darkvision\n5th | blink, fear\n7th | black tentacles, greater invisibility\n9th | cone of cold, dream"
+      },
+      {
+        "name": "Dark Servant",
+        "level": 6,
+        "description": "At 6th level, you gain the ability to awaken shadows to do your bidding. As a bonus action, you can target a creature that you can see within 30 feet. That creature's shadow comes to life as a separate creature under your command, using the shadow stat block.\nThe shadow appears in an unoccupied space within 5 feet of the target and can act immediately. The shadow acts on your initiative, it must spend its turn moving toward the target by the most direct route, and it can use its action only to attack the target (and no action is required by you to command the shadow). If the shadow hits with an attack, instead of doing any damage, the target instead has disadvantage on the first attack or saving throw it makes before the start of the shadow's next turn.\nThe shadow disappears if it is reduced to 0 hit points, if its target is reduced to 0 hit points, or after 5 minutes.\nYou can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Shadow Mass",
+        "level": 10,
+        "description": "At 10th level, your Umbral Form grows in power. While in this form, you gain the following additional benefits:\n• You gain a fly speed equal to your normal speed, and you can hover.\n• You have resistance to all bludgeoning, piercing, and slashing damage from nonmagical attacks."
+      },
+      {
+        "name": "Darkness Falls",
+        "level": 14,
+        "description": "At 14th level, you can use an action to emit a 15-foot-radius sphere of magical darkness centered on yourself. The sphere moves with you, and its darkness spreads around corners. When you create the sphere, you can designate any number of creatures that can see through the darkness, but otherwise, a creature with darkvision can't see through it, and nonmagical light can't illuminate it.\nThe sphere lasts for 1 minute, until you are incapacitated, or until it comes into contact with sunlight. If any of this effect's area overlaps with an area of light created by a spell of 7th level or lower, the spell that created the light is dispelled.\nOnce you use this feature, you cannot do so again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.41)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "College of Shadow",
+    "class": "Bard",
+    "description": "Fear of darkness is one of the most primal emotions, and bards of the College of Shadow manipulate such fears to enhance their artistry. These bards weave the gray boundaries between light and dark to terrify and inspire captive audiences.",
+    "features": [
+      {
+        "name": "Dancing Shadows",
+        "level": 3,
+        "description": "When you join the College of Shadow at 3rd level, you gain the ability to weave a pocket of protective shadows.\nAs a bonus action, you can expend a Bardic Inspiration to create a 20-foot-radius sphere of shifting shadows centered on you. The sphere moves with you, spreads around corners, and lasts for 1 minute or until you are incapacitated or die.\nAllied creatures (including you) standing in the sphere have half cover, and creatures outside the sphere have disadvantage on Wisdom (Perception) checks made to perceive anything inside the sphere. Darkvision does not nullify this effect. Creatures that don't rely on eyesight are immune to this effect.\nIf any of this effect's area overlaps with an area of light created by a spell of 2nd level or lower, the spell that created the light is dispelled."
+      },
+      {
+        "name": "Fear of the Dark",
+        "level": 3,
+        "description": "Also at 3rd level, your intimate knowledge of darkness allows you to harness its frightful properties to the fullest and keep your allies grounded. While in dim light or darkness, you and any allies that can see you have advantage against fear effects. Additionally, any hostile creatures that can see you roll with disadvantage against fear effects."
+      },
+      {
+        "name": "Shade Step",
+        "level": 6,
+        "description": "At 6th level, shadow gathers around those you inspire. Immediately after a creature adds one of your Bardic Inspiration dice to its ability check, attack roll, or saving throw, the creature can magically teleport up to 30 feet to an unoccupied space it can see. Moving in this manner does not provoke attacks of opportunity."
+      },
+      {
+        "name": "Night Music",
+        "level": 14,
+        "description": "At 14th level, you can imbue your spellcasting with the full energy and terror of night. When you cast a spell, you can spend your reaction to also choose a number of creatures within 60 feet of you who saw and heard you cast the spell, up to a number equal to your Charisma modifier (minimum of one). Each target must succeed on a Charisma saving throw against your spell save DC or be frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.43)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Keeper Domain",
+    "class": "Cleric",
+    "description": "The Keeper domain focuses on social bonds and well-regulated communities. These communities might be as small as an adventuring party or as large as a city, but all require safety and comfort to thrive. Keeper domain clerics excel in leadership positions and are the first to take up arms when their homes or allies need protection.",
+    "features": [
+      {
+        "name": "Keeper Domain Spells",
+        "level": 1,
+        "description": "Cleric Level 1st: command, hunter's mark; 3rd: calm emotions, warding bond; 5th: beacon of hope, spirit guardians; 7th: death ward, guardian of faith; 9th: hallow, telepathic bond"
+      },
+      {
+        "name": "Blessed Chosen",
+        "level": 1,
+        "description": "Starting at 1st level, you can assert your divine will to protect your allies. When an enemy within 30 feet of you that you can see attacks one of your allies, you can use your reaction to impose disadvantage on the attack roll before it hits or misses. You can use this feature a number of times equal to your Wisdom modifier (a minimum of once). You regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Bonus Proficiencies",
+        "level": 1,
+        "description": "Also at 1st level, you gain proficiency with martial weapons. You also gain proficiency in the Persuasion skill."
+      },
+      {
+        "name": "Channel Divinity: Divine Initiative",
+        "level": 2,
+        "description": "Starting at 2nd level, you can use your Channel Divinity to enhance your allies' potential. As an action, you present your holy symbol and choose a number of creatures that you can see and that can see you within 60 feet of you, up to a number equal to your Wisdom modifier (minimum of one). Each of them gains 5 temporary hit points. When a target gains these temporary hit points, they can immediately use their reaction to make one weapon attack. The number of temporary hit points increases when you reach certain levels in this class, increasing to 8 at 6th level, 11 at 8th level, and 14 at 17th level."
+      },
+      {
+        "name": "Fighting Fit",
+        "level": 6,
+        "description": "At 6th level, you gain the ability to shore up your allies' reserves. As a reaction, when you or an ally that you can see within 30 feet of you is charmed, frightened, paralyzed, or stunned, you can remove that condition. You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Hobbling Strike",
+        "level": 8,
+        "description": "At 8th level, you gain the ability to infuse your weapon strikes with divine energy. Once on each of your turns when you hit a creature with a weapon attack, the target must make a Strength saving throw against your spell save DC or be knocked prone. When you reach 14th level, the target's speed is also halved until the start of your next turn."
+      },
+      {
+        "name": "Duty Over Death",
+        "level": 17,
+        "description": "Starting at 17th level, you can exert your power to call companions back from the brink of death. When an ally you can see within 60 feet of you is reduced to 0 hit points but not killed outright, they instead remain conscious and regain hit points equal to half their maximum hit points. You can use this feature only if you aren't incapacitated. Once you use this feature, you can't do so again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.44)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Light Weaver Sorcerous Origin",
+    "class": "Sorcerer",
+    "description": "Your powers are drawn from the spark of light kindled within you. In places of great darkness, there are always those born with the affinity for light, and every shadow must have a shining source. The magic within you represents cosmic balance, and like the light, your magic flickers from radiance to darkness moment to moment.",
+    "features": [
+      {
+        "name": "Trick of the Light",
+        "level": 1,
+        "description": "Starting at 1st level, you can see normally in darkness, both magical and nonmagical, to a distance of 60 feet."
+      },
+      {
+        "name": "Flickering Aura",
+        "level": 1,
+        "description": "Starting at 1st level, you can choose whether your magic is light-shifted or dark-shifted. You can change your choice at the end of a long rest. While light-shifted you can use an action to emit an aura of bright light in a 15-foot-radius sphere centered on yourself. While the aura persists, you can use a bonus action to expand or reduce its radius of bright light by 5 feet, to a maximum of 30 feet each or a minimum of 10 feet. While dark-shifted you gain the same ability, but you project an aura of nonmagical darkness."
+      },
+      {
+        "name": "Refraction Shield",
+        "level": 6,
+        "description": "At 6th level, you can manipulate the light around you for protection. As a bonus action, you can spend 3 sorcery points to magically create a shield of light. While the shield is in place, whenever a creature within 5 feet of you hits you with a melee attack, the shield flashes with searing energy, and the attacker takes 2d8 radiant damage if you are light-shifted or 2d8 necrotic damage if you are dark-shifted. The shield disappears if you fall unconscious or after 10 minutes."
+      },
+      {
+        "name": "Aura Magnification",
+        "level": 14,
+        "description": "Starting at 14th level, your manipulation of the light around you becomes masterful. While light-shifted, your Flickering Aura produces sunlight. While dark-shifted, your aura produces magical darkness. If any of this aura's area overlaps with an area of light or darkness created by a spell equal to or lower than the level of your highest available spell slot, the spell that created the light or darkness is dispelled."
+      },
+      {
+        "name": "Spell Blind",
+        "level": 18,
+        "description": "Beginning at 18th level, your spell energy overwhelms your target's perceptions. As an action, you can spend 5 sorcery points to empower your Flickering Aura. For 1 minute or until you lose your concentration (as if you were casting a concentration spell), each hostile creature that starts its turn within 60 feet of you must succeed on a Constitution saving throw or be blinded until the aura ends."
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.45)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Mother of Sorrows",
+    "class": "Warlock",
+    "description": "Universal suffering has given rise to an enigmatic being known as the Mother of Sorrows, and warlocks who bind themselves to her cause seek to spread her poisonous vengeance. The Mother of Sorrows was born from the suffering of parents who have lost children to pestilence, disease, and treachery, and her gifts grant warlocks the power to avenge the thousands of sorrows laid at her feet.",
+    "features": [
+      {
+        "name": "Expanded Spell List",
+        "level": 1,
+        "description": "The Mother of Sorrows lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nEXPANDED SPELL LIST\nSpell Level | Spells\n1st | detect poison and disease, inflict wounds\n2nd | ray of enfeeblement, silence\n3rd | stinking cloud, vampiric touch\n4th | greater invisibility, phantasmal killer\n5th | cloudkill, contagion"
+      },
+      {
+        "name": "Poison Soul",
+        "level": 1,
+        "description": "Starting at 1st level, your affinity for poison becomes supernatural. Any poison damage you deal ignores any resistance or immunity."
+      },
+      {
+        "name": "Venomous Mark",
+        "level": 1,
+        "description": "Also at 1st level, as a bonus action, choose one creature you can see within 30 feet of you. The target is cursed for 1 minute. The curse ends early if the target dies, you die, or you are incapacitated. Until the curse ends, you deal an extra 1d6 poison damage to the target whenever you hit it with a spell attack. (You can only apply this damage once per spell even if there are multiple spell attack instances, such as with eldritch blast.) \nIf the target drops to 0 hit points before the curse ends, you can use a bonus action on a subsequent turn of yours to curse a new creature. Only one creature can be affected with a venomous mark at any given time."
+      },
+      {
+        "name": "Sickening Revenge",
+        "level": 6,
+        "description": "Starting at 6th level, you can take vengeance on those who harm you. When you take damage, you can use your reaction to attempt to poison the creature that damaged you. The triggering creature must make a Constitution saving throw against your warlock spell save DC or become poisoned for 1 minute. An affected creature can repeat the saving throw at the end of each of its turns, ending the condition on a success.\nOnce you use this feature, you can’t use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Dark Inoculation",
+        "level": 10,
+        "description": "Starting at 10th level, your poisonous magic has infused your body. You are immune to disease, poison damage, and the poisoned condition."
+      },
+      {
+        "name": "Touch of Sorrow",
+        "level": 14,
+        "description": "Starting at 14th level, when you hit a creature with an attack, you can use this feature to infuse the target with your sorrow. The target must make a Wisdom saving throw or be paralyzed and poisoned for 24 hours. The creature remains paralyzed until it takes damage or is no longer poisoned. \nYou must finish a short or long rest before you can use this feature again.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.46)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Arcane Tradition",
+    "class": "Wizard",
+    "description": "The powers of shadow are an obsession for wizards who follow the Shadow Arcane tradition. Because they understand shadow’s tantalizing powers—and seek to learn more—these practitioners infuse their very beings with it to discover its secrets firsthand.",
+    "features": [
+      {
+        "name": "Shadow Symbiote",
+        "level": 2,
+        "description": "At 2nd level, you bond a living shadow to your body, wearing it like a second skin. While you are bonded in this way, you gain the following:\n• You gain darkvision out to a range of 60 feet. If you already have darkvision, its range is extended by 60 feet.\n• You can see in magical darkness out to a range of 30 feet. \n• You have sunlight sensitivity, and while in sunlight, you have disadvantage on attack rolls as well as on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Dark Transfusion",
+        "level": 2,
+        "description": "Starting at 2nd level, you can feed energy to your symbiote to transform it. As a bonus action, you can expend two spell slots to recover one spell slot equal to or less than the total combined value of the expended spell slots. For example, you could expend a 1st-level spell slot and a 2nd-level spell slot to recover one 3rd-level spell slot."
+      },
+      {
+        "name": "Orb of Night",
+        "level": 6,
+        "description": "At 6th level, your shadow symbiote can expand to hide you from foes. When a creature makes an attack roll against you, you can use your reaction to encase yourself in a 10-foot-radius sphere of magical darkness (imposing disadvantage on attacks against you if a creature cannot see through magical darkness). If the triggering target hits you with the attack, you can’t use this feature on the attacker again until you finish a long rest. The darkness persists until the beginning of your next turn.\nYou must choose to use this feature before knowing whether the attack hits or misses. Creatures that don’t rely on eyesight are immune to this effect."
+      },
+      {
+        "name": "From the Shadows",
+        "level": 10,
+        "description": "Starting at 10th level, your shadow symbiote camouflages you, allowing you to get the drop on your enemies. Whenever you roll initiative while in dim light or darkness, you are automatically hidden from all creatures at least 10 feet away from you. You are no longer hidden if you move, attack, or cast a spell."
+      },
+      {
+        "name": "Second Skin",
+        "level": 14,
+        "description": "Starting at 14th level, your shadow symbiote shares your pain. While in dim light or darkness, you have a +2 to AC and resistance to all bludgeoning, piercing, and slashing damage."
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.47)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Domain",
+    "class": "Cleric",
+    "description": "The Shadow domain embraces the darkness that surrounds all things and manipulates the transitory gray that separates light from dark. Shadow domain clerics walk a subtle path, frequently changing allegiances and preferring to operate unseen.",
+    "features": [
+      {
+        "name": "Shadow Domain Spells",
+        "level": 1,
+        "description": "Cleric Level 1st: bane, false life; 3rd: blindness/deafness, darkness; 5th: blink, fear; 7th: black tentacles, greater invisibility; 9th: cone of cold, dream"
+      },
+      {
+        "name": "Cover of Night",
+        "level": 1,
+        "description": "When you choose this domain at 1st level, you gain proficiency in the Stealth skill and darkvision out to a range of 60 feet. If you already have darkvision, its range increases by 30 feet. In addition, when you are in dim light or darkness, you can use a bonus action to Hide."
+      },
+      {
+        "name": "Lengthen Shadow",
+        "level": 1,
+        "description": "Starting at 1st level, you can manipulate your own shadow to extend your reach. When you cast a cleric spell with a range of touch, your shadow can deliver the spell as if you had cast the spell. Your target must be within 15 feet of you, and you must be able to see the target. You can use this feature even if you are in an area where you cast no shadow. When you reach 10th level in this class, your shadow can affect any target you can see within 30 feet of you."
+      },
+      {
+        "name": "Channel Divinity: Shadow Grasp",
+        "level": 2,
+        "description": "Starting at 2nd level, you can use your Channel Divinity to turn a creature’s shadow against them. As an action, choose one creature that you can see within 30 feet of you. That creature must make a Strength saving throw. If the creature fails the saving throw, it is restrained by its shadow until the end of your next turn. If the creature succeeds, it is grappled by its shadow until the end of your next turn. You can use this feature even if the target is in an area where it casts no shadow."
+      },
+      {
+        "name": "Fade to Black",
+        "level": 6,
+        "description": "At 6th level, you can conceal yourself in shadow. As a bonus action when you are in dim light or darkness, you can magically become invisible for 1 minute. This effect ends early if you attack or cast a spell. You can use this feature a number of times equal to your proficiency bonus. You regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Potent Spellcasting",
+        "level": 8,
+        "description": "Starting at 8th level, you add your Wisdom modifier to the damage you deal with any cleric cantrip."
+      },
+      {
+        "name": "Army of Shadow",
+        "level": 17,
+        "description": "At 17th level, you can manipulate multiple shadows simultaneously. When you use Shadow Grasp, you can affect a number of creatures equal to your proficiency bonus."
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.48)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Umbral Binder",
+    "class": "Rogue",
+    "description": "Some rogues are content to steal mere treasures, but umbral binders possess the energies that shape the world. Through secret rites and rituals, these rogues have learned to bind the powers of shadow into themselves and to use its power to fuel their abilities.",
+    "features": [
+      {
+        "name": "Eyes in the Dark",
+        "level": 3,
+        "description": "When you choose this archetype at 3rd level, your experience with the raw magic of shadow affects your senses. You gain darkvision out to a range of 120 feet."
+      },
+      {
+        "name": "Shadow Bind",
+        "level": 3,
+        "description": "Starting at 3rd level, you can perform a special ritual to siphon the power of shadow and bind it to yourself. You can conduct this ritual during a long rest. Performing the ritual requires time spent meditating in nonmagical darkness for at least 1 hour. At the end of the ritual, you choose one of the following effects, which lasts for 24 hours or until you perform the ritual again:\n• When you are in dim light or darkness, as part of your move, you can teleport up to half your speed to an unoccupied space you can see that is also in dim light or darkness. You then have advantage on the first Dexterity (Stealth) check you make before the end of your turn.\n• When you are in dim light or darkness, if you move at least half your speed, you benefit from a perpetual half cover until the start of your next turn: +2 bonus to AC and Dexterity saving throws.\n• When you hit with a melee or ranged weapon attack, you can cause the attack to deal additional cold damage equal to your proficiency bonus. You can use this feature only once on each of your turns."
+      },
+      {
+        "name": "Cloaked Dagger",
+        "level": 9,
+        "description": "At 9th level, shadows hide your every strike. You gain an additional way to use your Sneak Attack. You don't need advantage on the attack roll to use your Sneak Attack against a creature if you are within 30 feet, are in dim light or darkness, and you don't have disadvantage on the attack roll. All the other rules for Sneak Attack still apply to you."
+      },
+      {
+        "name": "Black Magic",
+        "level": 13,
+        "description": "At 13th level, you can draw more power from the shadows bound to you. As a bonus action, you can cast darkness without providing material components. Once you use this feature three times, you cannot do so again until you finish a long rest.\nAdditionally, when you are in an area of dim light or darkness, you can use your action to become invisible. You remain invisible until you make an attack, cast a spell, or are in an area of bright light.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Shadow Grasp",
+        "level": 17,
+        "description": "At 17th level, you can wrap your foes in debilitating shadow. When you deal Sneak Attack damage to a creature, you can force them to make a Dexterity saving throw (DC 8 + your proficiency bonus + your Dexterity modifier). If the save fails, the target is restrained for 1 minute. The restrained target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\nOnce you use this feature, you can't do so again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.49)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Gnawer",
+    "class": "Barbarian",
+    "description": "Dark energy infuses the Shadow Realm, corrupting and corroding everything it touches. Some barbarians intentionally consume this raw shadow, infusing their bodies with shadow energy to manifest potent magical abilities. Many of the barbarians who walk this path do so to absorb harmful shadow magic into themselves in order to protect others from its influence. A smaller group consumes shadow simply because they cannot resist its ever-present temptation.",
+    "features": [
+      {
+        "name": "Shadow Smoke",
+        "level": 3,
+        "description": "Starting at 3rd level, you emanate tendrils of shadow smoke while you rage. The smoke extends 10 feet from you in every direction. Any creature (other than you) that starts its turn in the smoke has disadvantage on its next attack roll."
+      },
+      {
+        "name": "Creeping Fog",
+        "level": 6,
+        "description": "Starting at 6th level, you can burst into a mist of raw shadow and then reassemble yourself somewhere else. As an action, you magically teleport, along with any equipment you are wearing or carrying, up to 60 feet to an unoccupied space you can see. Before or after teleporting, you can make one melee attack."
+      },
+      {
+        "name": "Consume Darkness",
+        "level": 10,
+        "description": "At 10th level, while raging, you can feed on the shadows around you to restore your vitality. While in dim light or darkness, you can use a bonus action to regain hit points equal to 1d12 + your Constitution modifier. For the duration of your rage (up to 1 minute), you regain 1 hit point at the start of each of your turns. Once you use this feature, you must finish a short or long rest before you can use it again.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Corrosive Haze",
+        "level": 14,
+        "description": "At 14th level, your Shadow Smoke is more potent. Any hostile creature that enters the smoke or starts its turn in the smoke must succeed on a Constitution saving throw or be blinded until the beginning of its next turn. The DC equals 8 + your proficiency bonus + your Constitution modifier. Creatures that don’t rely on eyesight are immune to this effect."
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.49)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Way of the Prophet",
+    "class": "Monk",
+    "description": "Monks who follow the Way of the Prophet refuse to cloister the wisdom they have learned. They are driven to spread their knowledge to all the peoples of the land. Some are set on this path by divine intervention. Others take up the prophet's mantle out of a sense of personal obligation, and they all share a deep-rooted faith that empowers their actions.",
+    "features": [
+      {
+        "name": "Wise Words",
+        "level": 3,
+        "description": "When you choose this tradition at 3rd level, you gain proficiency in the Performance and Persuasion skills. Additionally, whenever you roll an ability check using a Charisma-based skill, you can use your Wisdom modifier instead of your Charisma modifier."
+      },
+      {
+        "name": "Charming Aura",
+        "level": 3,
+        "description": "Additionally, when you choose this tradition at 3rd level, you can use your ki to duplicate the effects of certain spells. As an action, you can spend a ki point to cast charm person or command, or you can expend 2 ki points to cast suggestion."
+      },
+      {
+        "name": "Righteous Strike",
+        "level": 6,
+        "description": "At 6th level, when you hit a target with an unarmed strike, you can spend 1 ki point to cause the attack to deal either radiant (if you are good-aligned or neutral-aligned) or necrotic (if you are evil-aligned) damage equal to your proficiency bonus. You can use this feature only once on each of your turns."
+      },
+      {
+        "name": "Blessed Chosen",
+        "level": 11,
+        "description": "Beginning at 11th level, you are protected by the forces who spur your mission. If you are reduced to 0 hit points, you immediately regain hit points equal to your monk level. Alternatively, you can use an action to touch a fallen creature that has been dead for no longer than 10 minutes, and they return to life with hit points equal to your monk level. You must finish a long rest before you can use this feature again.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Force of Personality",
+        "level": 17,
+        "description": "Whenever any creature tries to attack you for the first time on a turn, you can use your reaction to roll a Charisma (Performance or Persuasion) ability check. If your check is higher than the creature's Wisdom ability score, it can't attack you on this turn, and it must choose a new target for its attack, or the attack is wasted."
+      }
+    ],
+    "source": "(Book of Ebon Tides, p.50)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Path of the Hive Tender",
+    "class": "Barbarian",
+    "description": "The bearfolk of the Northlands are renowned for their use of bee hives as sources of sustenance and defense. Among the most powerful of these northern bearfolk warriors are the Hive Tenders of the Bear Maiden. Their deep connection with the primal magic of the Bear Maiden allows them to summon and control swarms of magical bee spirits who aid them in defending the tribes.",
+    "features": [
+      {
+        "name": "Restriction: Bearfolk",
+        "level": 3,
+        "description": "You can choose this barbarian primal path only if you are a bearfolk."
+      },
+      {
+        "name": "Honey of the Bear Maiden",
+        "level": 3,
+        "description": "When you choose this path at 3rd level, you can forage for 1d4 servings of blessed honey each day. To forage, you must be in an environment where bees are naturally found. A creature can use its action to consume one serving of blessed honey. Each serving of blessed honey can have one of the following effects. Golden! Nonmagical light sources you are carrying do not shed dim light, instead they shed golden, bright light to the limit of their range until the end of your next long rest. Hearty! You recover one additional level of exhaustion after you finish your next long rest, and the honey provides you with enough nourishment to sustain you for two days. Smooth! A single bee escorts you until the end of your next long rest. You can use a bonus action to command the bee to sting one creature within 30 feet of you for 1 piercing damage. The bee dies after dealing this damage. Sweet! You exude a sweet, floral aroma until you finish a long rest. While exuding this aroma, you have advantage on Wisdom (Animal Handling) checks when interacting with beasts with an Intelligence of 3 or lower. A creature can benefit from only one serving of blessed honey at a time. Once you use this feature, you can't use it again until you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Raging Swarm",
+        "level": 3,
+        "description": "At 3rd level, magical bee spirits appear within 5 feet of you when you rage. The bees can't be targeted by attacks, spells, or effects, and they vanish when your rage ends. As a bonus action, you can command the bee spirits to swarm around a single creature within 60 feet of you. The bee spirits return to you at the start of your next turn. While the bee spirits are swarming the target, it has disadvantage on ranged weapon attack rolls, and, if the target casts a spell with a somatic component, it must succeed on a Constitution saving throw or fail to cast the spell, losing the action but not the spell slot. The DC for this saving throw equals 8 + your proficiency bonus + your Constitution modifier."
+      },
+      {
+        "name": "Defensive Formation",
+        "level": 6,
+        "description": "Beginning at 6th level, while raging, you have resistance to poison damage and can't be poisoned. If you are poisoned when you enter your rage, the effect is suspended for the duration of the rage."
+      },
+      {
+        "name": "Upon Buzzing Wings",
+        "level": 10,
+        "description": "When you reach 10th level, you can use a bonus action while raging to command the bee spirits to lift you into the air. If you do so, you gain a flying speed of 30 feet until the end of your turn."
+      },
+      {
+        "name": "Bees for Teeth",
+        "level": 14,
+        "description": "At 14th level, you can use a bonus action while raging to make a bite attack. This attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. A creature damaged by this attack must succeed on a Constitution saving throw or be poisoned until the end of its next turn. The DC for this saving throw equals 8 + your proficiency bonus + your Constitution modifier."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.14)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Path of the Shadow Chewer",
+    "class": "Barbarian",
+    "description": "Bearfolk who live in their enclaves of light in the shadow realm keep the darkness at bay thanks to the green magic of Freyr and Freya. When the shadows gather too close to the borders of their land, the bearfolk call upon the wild warriors known as the Shadow Chewers. Sometimes called “Angels of Freyr,” these fearsome heroes bring tooth, claw, and radiance to bear against the darkness.",
+    "features": [
+      {
+        "name": "Restriction: Bearfolk",
+        "level": 3,
+        "description": "You can choose this barbarian primal path only if you are a bearfolk."
+      },
+      {
+        "name": "Teeth of the Sun",
+        "level": 3,
+        "description": "When you adopt this path at 3rd level, your bite’s damage die is a d8. At 7th level, your bite attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and your bite’s damage die is a d10. At 11th level, your bite’s damage die is a d12."
+      },
+      {
+        "name": "Chew Shadows",
+        "level": 3,
+        "description": "At 3rd level, you are imbued with radiant power when you rage. While raging, you shed bright light in a 10‑foot radius and dim light an additional 10 feet. This light is immune to the effects of magical darkness and can’t be dispelled; however, it can’t pass through solid objects and otherwise behaves like normal light. In addition, while raging, you can choose for your bite attack to do radiant damage instead of piercing damage."
+      },
+      {
+        "name": "Divine Sustenance",
+        "level": 6,
+        "description": "As a bonus action at 6th level, each creature of your choice, including yourself, in the light shed by your Chew Shadows feature regains hp equal to half your barbarian level. This feature can restore a creature to no more than half its hit point maximum. You can use this ability only once per rage.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Emboldening Light",
+        "level": 10,
+        "description": "Starting at 10th level, you and friendly creatures in the bright light shed by your Chew Shadows feature are immune to the frightened condition. When you reach 18th level, this benefit extends to friendly creatures in both the bright and dim light shed by your Chew Shadows feature."
+      },
+      {
+        "name": "Rage of the Roaring Sun",
+        "level": 14,
+        "description": "As a bonus action at 14th level, each creature of your choice in the light shed by your Chew Shadows feature takes radiant damage equal to half your barbarian level. You can use this ability only once per rage.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.15)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Path of the Roaring Sun",
+    "class": "Barbarian",
+    "description": "A barbarian subclass that imbues the barbarian with radiant power when raging, shedding light and gaining divine abilities.",
+    "features": [
+      {
+        "name": "Chew Shadows",
+        "level": 3,
+        "description": "At 3rd level, you are imbued with radiant power when you rage. While raging, you shed bright light in a 10-foot radius and dim light an additional 10 feet. This light is immune to the effects of magical darkness and can’t be dispelled; however, it can’t pass through solid objects and otherwise behaves like normal light. In addition, while raging, you can choose for your bite attack to do radiant damage instead of piercing damage."
+      },
+      {
+        "name": "Divine Sustenance",
+        "level": 6,
+        "description": "As a bonus action at 6th level, each creature of your choice, including yourself, in the light shed by your Chew Shadows feature regains hp equal to half your barbarian level. This feature can restore a creature to no more than half its hit point maximum. You can use this ability only once per rage.",
+        "uses": 1,
+        "recharge": "per rage"
+      },
+      {
+        "name": "Emboldening Light",
+        "level": 10,
+        "description": "Starting at 10th level, you and friendly creatures in the bright light shed by your Chew Shadows feature are immune to the frightened condition. When you reach 18th level, this benefit extends to friendly creatures in both the bright and dim light shed by your Chew Shadows feature."
+      },
+      {
+        "name": "Rage of the Roaring Sun",
+        "level": 14,
+        "description": "As a bonus action at 14th level, each creature of your choice in the light shed by your Chew Shadows feature takes radiant damage equal to half your barbarian level. You can use this ability only once per rage.",
+        "uses": 1,
+        "recharge": "per rage"
+      }
+    ],
+    "source": "(Margreve Player's Guide)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Hunt Domain",
+    "class": "Cleric",
+    "description": "A divine domain for clerics devoted to gods of the hunt, granting blessings to ensure successful hunts and protect communities.",
+    "features": [
+      {
+        "name": "Hunting Domain Spells",
+        "level": 1,
+        "description": "CLERIC LEVEL DOMAIN SPELLS 1st bloodhound*, illuminate spoor* 3rd instant snare*, mark prey* 5th going in circles*, tracer* 7th heart-seeking arrow*, hunting stand* 9th harrying hounds*, maim* *indicates a spell found in this book"
+      },
+      {
+        "name": "Blessing of the Hunter",
+        "level": 1,
+        "description": "At 1st level, you gain proficiency in Survival. You can use your action to touch a willing creature other than yourself to give it advantage on Wisdom (Survival) checks. This blessing lasts for 1 hour or until you use this feature again."
+      },
+      {
+        "name": "Bonus Proficiency",
+        "level": 1,
+        "description": "At 1st level, you gain proficiency with martial weapons."
+      },
+      {
+        "name": "Channel Divinity: Heart Strike",
+        "level": 2,
+        "description": "Starting at 2nd level, you can use your Channel Divinity to inflict grievous wounds. When you hit a creature with a weapon attack, you can use your Channel Divinity to add +5 to the attack’s damage. If you score a critical hit with the attack, add +10 to the attack’s damage instead."
+      }
+    ],
+    "source": "(Margreve Player's Guide)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Circle of Oaks",
+    "class": "Druid",
+    "description": "Each ancient forest of Midgard is a sentient entity, always aware of what transpires under its canopy. Although some have developed potent defenses, especially in their Hearts, they have tolerated alliances with those committed to their protection and restoration. Chief among these alliances are the Circle of Oaks druids.",
+    "features": [
+      {
+        "name": "Bonus Cantrip",
+        "level": 2,
+        "description": "When you choose the Circle of Oaks at 2nd level, you learn the tree heal (see page 49) druid cantrip. Members of your circle often touch each tree they pass as they stroll through a wooded area, just in case the tree may be in need of assistance."
+      },
+      {
+        "name": "Forest Binding",
+        "level": 2,
+        "description": "Starting at 2nd level, you can request to be bound to a specific forest, gaining access to certain spells. This binding is conditional upon the good will of the forest and is never given automatically. Typically, the forest requires a service of you before binding you to it. Such service might include replanting trees in an area destroyed by war or fire, eliminating a great pestilence within the forest, removing certain contaminants from the forest's borders, or opposing an enemy of the forest. You can be bound to only one forest at a time. If you later bind yourself to another forest, you lose your connection to the previous one. Most forests will not permit gearforged, dwarves, kobolds, or dragonborn to bind with them; however, exceptions have been made if the candidate performed a great service for the forest."
+      },
+      {
+        "name": "Circle of Oaks Spells",
+        "level": 3,
+        "description": "Your bonded forest infuses you with some of its power, giving you the ability to cast certain spells. At 3rd, 5th, 7th, 9th, 11th, 13th, 15th, and 17th level you gain access to spells associated with your bond to the forest. Some of these spells are available to you only while you are bonded to a forest. Such spells have the \"forest-bound\" qualifier listed next to their school of magic. If you are no longer bonded to a forest you lose the ability to cast forest-bound spells until you renew your bond with your forest or bond with a new forest. You can cast forest-bound spells outside your bound forest, unless the spell specifically states you must be within your bound forest. Once you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you. Consult the Circle of Oaks Spells table for the list of circle spells. CIRCLE OF OAKS SPELLS DRUID LEVEL CIRCLE SPELLS 3rd forest native*, tree speak* 5th legion of squirrels*, ley disturbance* 7th freedom of movement, quick time* 9th commune with nature, lesser ley protection* 11th conjure forest defender* 13th greater ley protection* 15th control weather 17th forest sanctuary* *indicates a spell found in this book"
+      },
+      {
+        "name": "Tree Walking",
+        "level": 6,
+        "description": "Starting at 6th level, once per turn, you can use half of your movement to step magically into one living tree within your reach and emerge from a second living tree within 60 feet of the first tree, appearing in an unoccupied space within 5 feet of the second tree. Both trees must be Large or bigger. Any worn or carried possessions travel with you, but you can't bring other creatures with you. At 14th level, the second tree can be up to 100 feet away from the first."
+      },
+      {
+        "name": "Tree Merging",
+        "level": 10,
+        "description": "Starting at 10th level, you can merge your spirit with that of a tree within 5 feet of you as an action. While merged, your body resides in the Shadow Realm, petrified and invisible, while your spirit is aware of happenings in the vicinity of the tree. If you spend 6 hours merged with a tree in your bound forest, you gain the benefits of finishing a long rest. You can't communicate with anyone outside of the tree unless"
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.17)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Circle of Owls",
+    "class": "Druid",
+    "description": "The Court of Owls once served as a pilgrimage site for the ancient elves, but it secretly was also the hub of a network of spies. When the library of the court was burned to prevent its knowledge from falling into the wrong hands, some volumes escaped destruction. Druids of the Circle of Owls maintain their tradition of spying and gathering knowledge and, occasionally, of permanently silencing those who would misuse knowledge. The Circle of Owls druids draw on the power of their namesakes, moving about the world unnoticed as they see and hear what others try desperately to hide. These druids maintain closer relationships with the shadow fey than most. They find this relationship advantageous, though often tense, in their pursuit of secrets. Along with access to shadow fey agents and information, Circle of Owls druids regularly make bargains with strange owl-like creatures known as stryx (Tome of Beasts, p. 369). The stryx are natives of the Shadow Realm and find the Circle of Owls druids to their liking. Some stryx even serve Circle of Owls druids as familiars, at the GM’s discretion.",
+    "features": [
+      {
+        "name": "Circle Spells",
+        "level": 2,
+        "description": "The ever present eyes and ears of the natural world impart magical knowledge to you. At 2nd level, you learn the message cantrip. At 3rd, 5th, 7th, and 9th level you gain access to the spells listed for that level in the Circle of Owls Spells table. Once you gain access to a circle spell, you always have it prepared, and it doesn’t count against the number of spells you can prepare each day. If you gain access to a spell that doesn’t appear on the druid spell list, the spell is nonetheless a druid spell for you. CIRCLE OF OWLS SPELLS DRUID LEVEL CIRCLE SPELLS 3rd detect thoughts, invisibility 5th nondetection, sending 7th arcane eye, private sanctum 9th modify memory, scrying"
+      },
+      {
+        "name": "Bonus Proficiency",
+        "level": 2,
+        "description": "When you choose this circle at 2nd level, you gain proficiency in either the Deception or Stealth skill."
+      },
+      {
+        "name": "On Silent Wings",
+        "level": 2,
+        "description": "At 2nd level, you learn to magically slip beneath the notice of even those who watch you. You can take the Hide action even when a creature can see you or when you have nothing to obscure you from the sight of a creature that can see you. You remain hidden in this way until the end of your next turn. If at that time you haven’t found something to obscure you, you are no longer hidden. You can use this feature a number of times equal to your Wisdom modifier (a minimum of once). You regain all expended uses when you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Owl’s Eyes",
+        "level": 6,
+        "description": "At 6th level, you can cast clairvoyance once. When you cast the spell in this way, you don’t require components, and the casting time is 1 action. You can choose for the invisible sensor to instead be visible as an owl. Once you use this feature you can’t use it again until you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Shadow Flight",
+        "level": 10,
+        "description": "At 10th level, you can slip partially into shadow for a short time. As an action, you can cast the etherealness spell. When you cast the spell in this way, its duration is concentration, up to 1 minute. Once you use this feature, you can’t use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Parliament of Owls",
+        "level": 14,
+        "description": "When you reach 14th level, you can disperse your form into a great swirling storm of owls. As an action, you can use your Wild Shape to become a swarm of owls (see sidebar)."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.19)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Circle of Roses",
+    "class": "Druid",
+    "description": "Druids of the Circle of Roses bend the power of nature to influence the minds and hearts of those around them, soothing sorrow, crushing with terror, and ensnaring hearts in equal measure. They create sweet and bitter perfumes that carry their power to any who inhale the scent.",
+    "features": [
+      {
+        "name": "Circle Spells",
+        "level": 2,
+        "description": "Your deep bond with the ebb and flow of nature grants you knowledge of certain spells. At 2nd level, you learn the friends cantrip. At 3rd, 5th, 7th, and 9th level you gain access to the spells listed for that level in the Circle of Roses Spells table. Once you gain access to a circle spell, you always have it prepared, and it doesn't count against the number of spells you can prepare each day. If you gain access to a spell that doesn't appear on the druid spell list, the spell is nonetheless a druid spell for you.\n\nCIRCLE OF ROSES SPELLS\nDRUID LEVEL | CIRCLE SPELLS\n3rd | calm emotions, suggestion\n5th | hypnotic pattern, tongues\n7th | confusion, phantasmal killer\n9th | dominate person, geas"
+      },
+      {
+        "name": "Bonus Proficiency",
+        "level": 2,
+        "description": "When you choose this circle at 2nd level, you gain proficiency in one skill chosen from the following: Deception, Intimidation, or Persuasion."
+      },
+      {
+        "name": "Bittersweet Perfume",
+        "level": 2,
+        "description": "Starting at 2nd level, you can expend one use of Wild Shape as an action to create a floral perfume that manipulates the minds of those who breathe it, rather than transforming into a beast form. One creature of your choice within 10 feet of you must make a Charisma saving throw against your spell save DC. On each of your turns while the perfume lasts, you can use an action to choose a different creature to affect with your perfume. On a failure, the creature is charmed or frightened by you (your choice) for as long as it remains in your perfume and for 1 minute after it leaves the area. If it ends its turn outside the area, the creature can repeat the saving throw, ending the effect on itself on a success. If you or your allies attack or harm the charmed creature, it is no longer charmed. If the creature's saving throw is successful or if the effect ends for it, it is immune to your perfume for the next 24 hours. A creature that doesn't breathe or that is immune to poison is immune to your perfume. The perfume lasts for 10 minutes or until you use your Wild Shape again.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Overpowering Remedy",
+        "level": 6,
+        "description": "At 6th level, your perfume can affect one creature of your choice within 20 feet of you, and you can use the scent of your perfume to unravel harmful effects. When you use your Bittersweet Perfume, you can choose to end one disease or one condition affecting a creature in your perfume instead of charming or frightening it. The condition removed can be charmed, frightened, or poisoned."
+      },
+      {
+        "name": "Rose's Thorns",
+        "level": 10,
+        "description": "At 10th level, you can stab thorns at the minds of those who dare raise their hand against you. When a creature within 20 feet of you hits you with an attack, you can use your reaction to force the creature to make a Wisdom saving throw against your spell save DC. On a failed save, the creature takes 1d10 psychic damage."
+      },
+      {
+        "name": "Lingering Perfume",
+        "level": 14,
+        "description": "When you reach 14th level, a whiff of your perfume surrounds you at all times and lingers in your wake. You are immune to harmful gasses and vapors, you have advantage on saving throws against be charmed or frightened, and your Bittersweet Perfume now lasts for 1 hour or until you use your Wild Shape again. In addition, you can intensify the power of your perfume. When a creature becomes charmed or frightened by your Bittersweet Perfume, you can use a bonus action to wrap some of your perfume around it. That creature is considered to be within your perfume, no matter how far it moves away from you, for 1 hour or until you use your Wild Shape again. Once you use this feature, you can't use it again until you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.21)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Griffon Scout",
+    "class": "Ranger",
+    "description": "The elves of the Griffon Court are practical and disciplined, well suited to surviving in their isolated holding on a windswept crag jutting out of the Margreve. Trained by elven court veterans, rangers of the Griffon Scout archetype learn to move swiftly and stealthily both on foot and while mounted, gathering information on their enemies or delivering devastating hit-and-run raids with precision and coordination.",
+    "features": [
+      {
+        "name": "Griffon Scout Spells",
+        "level": 3,
+        "description": "You learn an additional spell when you reach certain levels in this class, as shown in the Griffon Scout Spells table. The spell counts as a ranger spell for you, but it doesn't count against the number of ranger spells you know.\n\nGRIFFON SCOUT SPELLS\nRANGER LEVEL | SPELLS\n3rd | featherfall\n5th | find steed\n9th | haste\n13th | greater invisibility\n17th | telepathic bond"
+      },
+      {
+        "name": "Mounted Scout",
+        "level": 3,
+        "description": "At 3rd level, you have advantage on Dexterity (Stealth) checks while mounted, and your Dexterity (Stealth) checks apply to both you and your mount."
+      },
+      {
+        "name": "Skirmisher's Step",
+        "level": 3,
+        "description": "At 3rd level, when you move at least 20 feet straight toward a creature and hit it with a melee weapon attack in the same turn, that attack deals an extra 1d8 damage of the same type dealt by the weapon to the target, and, when you or your mount move out of the target's reach before the end of your next turn, you don't provoke an opportunity attack from the target."
+      },
+      {
+        "name": "Coordinated Strikes",
+        "level": 7,
+        "description": "Starting at 7th level, you can deliver punishing flurries of attacks in perfect coordination with your allies. When one of your allies hits a target within 30 feet of you with an attack, you can use your reaction to make one weapon attack against that target."
+      },
+      {
+        "name": "Griffon Wings",
+        "level": 11,
+        "description": "At 11th level, when you cast find steed, you can choose for your steed to take the form of a griffon, though it is a fey instead of a monstrosity."
+      },
+      {
+        "name": "Strike and Fade",
+        "level": 15,
+        "description": "Starting at 15th level, when you or your mount move at least 20 feet during your turn, you become an evasive blur. Until the start of your next turn, a creature that attacks you has disadvantage on the first attack roll it makes against you or your mount."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.23)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Grove Warden",
+    "class": "Ranger",
+    "description": "Fiercely protective of their territory, the alseid herds form a close bond with the Margreve. In return for their diligent protection, the forest offered its blessing to dedicated alseid rangers. In recent years, woodsy adventurers of other races who have earned the alseids' trust also received this blessing, though their numbers are scant. These Grove Wardens can tap into the living magic of the Margreve and call upon its aid. Their senses travel through the plants and earth of the woods, and the very land rises up to strike down the ranger's enemies.",
+    "features": [
+      {
+        "name": "Grove Warden Magic",
+        "level": 3,
+        "description": "Starting at 3rd level, you learn an additional spell when you reach certain levels in this class, as shown in the Grove Warden Spells table. The spell counts as a ranger spell for you, but it doesn't count against the number of ranger spells you know.\n\nGROVE WARDEN SPELLS\nRANGER LEVEL | SPELLS\n3rd | entangle\n5th | branding smite\n9th | speak with plants\n13th | hallucinatory terrain\n17th | animate objects"
+      },
+      {
+        "name": "Whispers of the Forest",
+        "level": 3,
+        "description": "At 3rd level, when you use your Primeval Awareness feature while within a forest, you add humanoids to the list of creature types you can sense. When sensing humanoids, you know the general direction of the creatures, and you know if a humanoid is solitary, in a small group of up to 5 humanoids, or a pack of more than 5 humanoids."
+      },
+      {
+        "name": "Margreve's Will",
+        "level": 3,
+        "description": "At 3rd level, you can magically draw on the living essence of the land to hamper your foes. As a bonus action, choose one creature you can see within 60 feet of you. Your next weapon attack against that creature has advantage. If that attack hits, the creature's speed is reduced by 10 feet until the start of your next turn. When you reach 11th level in this class, if that attack hits, the creature's speed is instead halved until the start of your next turn."
+      },
+      {
+        "name": "Intruder's Bane",
+        "level": 7,
+        "description": "At 7th level, you can command the land around you to come to your aid. As a bonus action, choose a point you can see on the ground within 60 feet. You cause the area within 15 feet of that point to undulate and warp. Each creature in the area must make a Dexterity saving throw against your spell save DC. On a failure, a creature is pushed up to 15 feet in a direction of your choice and knocked prone. Once you use this feature, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Wrath of the Forest",
+        "level": 11,
+        "description": "At 11th level, you can call on the land in your vicinity to strike at your enemies. When you take the Attack action, you can use a bonus action to make a rock, branch, root, or other small object attack a creature within 30 feet of you. You are proficient with the attack, it counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and you add your Dexterity modifier to the attack and damage rolls. The damage is of a type appropriate to the surroundings and the damage die is a d8."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.23)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Spear of the Weald",
+    "class": "Ranger",
+    "description": "The alseid who inhabit the ancient Margreve forest have long defended the limits of their home. These forest warriors can make a dizzying variety of ranged and melee attacks in quick succession, using ancient magic to flash across the battlefield.",
+    "features": [
+      {
+        "name": "Restriction: Alseid",
+        "level": 3,
+        "description": "You can choose this archetype only if you are an alseid."
+      },
+      {
+        "name": "Weald Spear",
+        "level": 3,
+        "description": "When you choose this archetype at 3rd level, you gain the ability to call forth a magical, wooden spear from the Bright Land into your empty hand as a bonus action. The spear disappears if it is more than 5 feet away from you for 1 minute or more. It also disappears if you use this feature again, if you dismiss the weapon (no action required), or if you die. You are proficient with the weapon while you wield it. The spear's range is 20/60 feet, and, when you throw the spear, it reappears in your hand after the attack. The spear's damage die is a d8, and it has the finesse and reach properties. At 7th level, your weald spear attack counts as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage, and your Weald Spear's damage die is a d10. At 11th level, your Weald Spear's damage die is a d12."
+      },
+      {
+        "name": "Touch of the Bright Land",
+        "level": 3,
+        "description": "The touch of the Bright Land is always on your spear, hinting at its otherworldly ties. Beginning at 3rd level, when you summon your Weald Spear, choose one of the following effects:\nEntwined. Your spear appears to be wrapped in writhing green vines which occasionally coalesce into the shape of a slender, grasping hand. The hand points in the direction of the Margreve.\nAflame. Your spear is ensorcelled in heatless, white, magical flames whose intensity rises and falls to reflect your mood. When you are at your happiest, it sheds bright light in a 5-foot radius and dim light for an additional 5 feet.\nEverblooming. Your spear is covered in small wildflowers that bloom, die, bud, and bloom again within minutes. Pollinating insects are often drawn to your spear as the spear constantly exudes a pleasant, floral fragrance.\nMoonlit. Your spear appears as a pale, white length of wooden moonlight. A trail of star-like motes travels behind the spear's point."
+      },
+      {
+        "name": "Canopy",
+        "level": 7,
+        "description": "Beginning at 7th level, when a creature within 30 feet of you, including yourself, is targeted by a ranged weapon attack, you can use your reaction to summon a magical canopy of glowing leaves and branches over the target. The target has resistance to the damage dealt by the attack, and the canopy bursts into shredded leaves afterwards. You must then finish a short or long rest to use your Canopy again. At 11th level, you can use your Canopy twice between rests. At 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Steps of the Forest God",
+        "level": 11,
+        "description": "When you reach 11th level, you gain a minor use of the Elfroads. After you make a successful ranged weapon attack with your Weald Spear, you can use a bonus action to teleport to an unoccupied space within 10 feet of your target."
+      },
+      {
+        "name": "Overwhelm",
+        "level": 15,
+        "description": "At 15th level, after you make a successful melee weapon attack with your Weald Spear against a creature, you can use a bonus action to make one ranged weapon attack with it against a different creature. You don't have disadvantage on the ranged attack roll from being within 5 feet of the first creature, however, you can still have disadvantage on the attack roll from being within 5 feet of other creatures."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.24)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "The Underfoot",
+    "class": "Rogue",
+    "description": "Though most rogues prefer ambushing their opponents from the shadows, erina rogues ambush their opponents from below. These Underfoot use druidic magic and their natural aptitude for burrowing to defend their forest homes. An elite order of burrow warriors exists in every erina colony. These highly-trained warriors are known as the Underfoot. Using a combination of guerilla attacks and druidic magic, the Underfoot are a force to be reckoned with, diving into fights nose-forward.",
+    "features": [
+      {
+        "name": "Restriction: Erina",
+        "level": 3,
+        "description": "You can choose this roguish archetype only if you are an erina."
+      },
+      {
+        "name": "Spellcasting",
+        "level": 3,
+        "description": "When you reach 3rd level, you gain the ability to cast spells drawn from the magic of the wilds.\nCantrips: You learn three cantrips: shillelagh and two other cantrips of your choice from the druid spell list. You learn another druid cantrip of your choice at 10th level.\nSpell Slots: The Underfoot Spellcasting table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend one of these slots at the spell's level or higher. You regain all expended spell slots when you finish a long rest. For example, if you know the 1st-level spell longstrider and have a 1st-level and a 2nd-level spell slot available, you can cast longstrider using either slot.\nSpells Known of 1st-Level and Higher: You know three 1st level druid spells of your choice, two of which you must choose from the divination and transmutation spells on the druid spell list. The Spells Known column of the Underfoot Spellcasting table shows when you learn more druid spells of 1st level or higher. Each of these spells must be a divination or transmutation spell of your choice, and must be of a level for which you have spell slots. The spells you learn at 8th, 14th, and 20th level can be from any school of magic. When you gain a level in this class, you can choose one of the druid spells you know and replace it with another spell from the druid spell list. The new spell must be of a level for which you have spell slots, and it must be a divination or transmutation spell, unless you're replacing the spell you gained at 3rd, 8th, 14th, or 20th level.\nSpellcasting Ability: Wisdom is your spellcasting ability for your druid spells. Your magic draws upon your connection with the natural world. You use your Wisdom whenever a spell refers to your spellcasting ability. In addition, you use your Wisdom modifier when setting the saving throw DC for a druid spell you cast and when making an attack roll with one.\nSpell save DC = 8 + your proficiency bonus + your Wisdom modifier\nSpell attack modifier = your proficiency bonus + your Wisdom modifier"
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.25)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "The Hunter in Darkness",
+    "class": "Warlock",
+    "description": "The Hunter in Darkness was one of the first shadow fey, but, after time, it succumbed to the power of the Shadow Realm and became something more. It is an entity that sees all creatures as prey and enjoys instilling fear in its prey. It prefers intelligent prey over mere beasts as their fear tastes so much sweeter. Hunters, particularly those among the shadow fey, who display impressive prowess for hunting peak its interest. The Hunter in Darkness often bestows its power on such individuals to spread fear further than the Hunter can by itself. Because of the similarities in their goals, many people speculate that the Hunter in Darkness is a mask of the Fey Lord of the Hunt or the Blood God.",
+    "features": [
+      {
+        "name": "Expanded Spell List",
+        "level": 1,
+        "description": "The Hunter in Darkness lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nHUNTER IN DARKNESS EXPANDED SPELLS\nSPELL LEVEL | SPELLS\n1st | bloodhound*, hunter's endurance*\n2nd | instant snare*, mark prey*\n3rd | clairvoyance, nondetection\n4th | harry*, heart-seeking arrow*\n5th | killing fields*, legend lore\n\n*indicates a spell found in this book"
+      },
+      {
+        "name": "Savage Hunter",
+        "level": 1,
+        "description": "Starting at 1st level, when you reduce a hostile creature to 0 hp, its nearest ally within 30 feet of you must succeed on a Wisdom saving throw against your warlock spell save DC or be frightened of you until the end of its next turn."
+      },
+      {
+        "name": "Step into Shadow",
+        "level": 6,
+        "description": "Beginning at 6th level, you can disappear into darkness and reappear next to an enemy. As a bonus action while in dim light or darkness, you can disappear in a puff of inky smoke and reappear in an unoccupied space that is also in dim light or darkness within 5 feet of a creature within 30 feet of you. If the creature is frightened and you make a melee weapon attack roll against it, you have advantage on the attack roll.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Strike from the Dark",
+        "level": 10,
+        "description": "Beginning at 10th level, your patron's constant hunger for fear inures you to it. You are immune to being frightened. In addition, when you are in dim light or darkness and you hit a creature with a weapon attack, it must succeed on a Wisdom saving throw against your warlock spell save DC or be frightened of you for 1 minute or until it takes any damage."
+      },
+      {
+        "name": "Avatar of Death",
+        "level": 14,
+        "description": "Starting at 14th level, if you reduce a target to 0 hp with a weapon attack, you can use a bonus action to force each ally of the target within 30 feet of you to make a Wisdom saving throw against your warlock spell save DC. On a failure, the creature is frightened of you for 1 minute or until it takes any damage. If a creature is immune to being frightened, it is instead stunned until the end of its next turn.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "The Hunter in Darkness and Your Pact Boons",
+        "level": 3,
+        "description": "When you select your pact boon at 3rd level, it is altered by your patron in the following ways.\nPact of the Chain: Your familiar is a hunting hound made of shadow, and it uses the statistics of a wolf.\nPact of the Blade: Your pact weapon can be a longbow or shortbow in addition to a melee weapon. You must provide arrows for the weapon.\nPact of the Tome: Your tome contains descriptions of tracks made by a multitude of creatures. If you consult your tome for 1 minute while inspecting tracks, you can identify the type of creature that left the tracks (such as a winter wolf), though not the creature's name or specific appearance (such as Frosttooth, the one-eyed leader of a notorious pack that terrorizes the area)."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.26)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "The Old Wood",
+    "class": "Warlock",
+    "description": "A warlock patron that is a sentient forest, granting its emissaries the claws and teeth of the woods to defend and serve it.",
+    "features": [
+      {
+        "name": "Old Wood Expanded Spells",
+        "level": 1,
+        "description": "Your connection to the forest allows you to choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nOLD WOOD EXPANDED SPELLS\nSPELL LEVEL\nSPELLS\n1st\nanimal friendship, poreveit's mantle*\n2nd\nsnap the leash*, spike growth\n3rd\nconjure animals, protection from energy\n4th\nconjure woodland beings, giant insect\n5th\ntree stride, yarila's bounty*\n*see Tales of the Old Margreve"
+      },
+      {
+        "name": "Sap Magic",
+        "level": 1,
+        "description": "At 1st level, your patron bestows upon you the ability to absorb magic from nearby spellcasting. When a creature casts a spell of a level you can cast or lower within 30 feet of you, you can use your reaction to synthesize the magic. The spell resolves as normal, but you have a 25% chance of regaining hit points equal to your warlock level + your Charisma modifier (minimum of 1 hit point)."
+      },
+      {
+        "name": "Forest's Defender",
+        "level": 1,
+        "description": "At 1st level, your patron gifts you with the skills necessary to defend it. You gain proficiency with shields, and you learn the shillelagh cantrip. Shillelagh counts as a warlock cantrip for you, but it doesn't count against your number of cantrips known."
+      },
+      {
+        "name": "Predatory Grace",
+        "level": 6,
+        "description": "Starting at 6th level, you are able to cast pass without trace without expending a spell slot. Once you use this feature, you can't use it again until you finish a short or long rest. In addition, difficult terrain caused by roots, underbrush, and other natural forest terrain costs you no extra movement. You can pass through nonmagical plants without being slowed by them and without taking damage from them if they have thorns, spines, or a similar hazard.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "Nature's Endurance",
+        "level": 10,
+        "description": "At 10th level, your patron has suffused your body with a portion of its ability to withstand harmful magic. You gain resistance to damage from spells of a level you can cast or lower."
+      },
+      {
+        "name": "Avatar of the Wood",
+        "level": 14,
+        "description": "Starting at 14th level, you can channel the power of the forest to physically transform, taking on many of its aspects. Your legs, arms, and torso elongate, your body becomes covered in thick, dark bark, and branches sprout from your head as your hair recedes. You can transform as a bonus action and the transformation lasts 1 minute. While transformed, you gain the following benefits:\n• Your Armor Class is 16 plus your Dexterity modifier.\n• You gain tremorsense with a radius of 30 feet, and your attacks can reach 5 feet further.\n• Your hands become claws, and you can use the Attack action to attack with the claws. You are proficient with the claws, and the claws count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage. You add your Charisma modifier to your attack and damage rolls with the claws. The damage is slashing and the damage die is a d6. If you have the Pact of the Blade feature, your claw attack benefits from your invocations as if it was a pact weapon.\n• Your Sap Magic feature changes to Arcasynthesis: When a spell of 5th level or lower is cast within 60 feet of you, you can use your reaction to synthesize the magic. The spell resolves as normal, but you have a 50% chance of regaining 1d10 hp per level of the spell cast.\nOnce you use this feature, you can't use it again until you finish a short or long rest.",
+        "uses": 1,
+        "recharge": "short rest"
+      },
+      {
+        "name": "The Old Wood and Your Pact Boons",
+        "level": 3,
+        "description": "When you select your pact boon at 3rd level, it is altered by your patron in the following ways:\nPact of the Chain. When you conjure your familiar or change its form, you can choose the form of an awakened shrub or child of the briar (Tome of Beasts, p. 56) in addition to the usual familiar choices.\nPact of the Blade. The blade of the Old Wood is a weapon made of wood and thorns and grows out of your palm. When you cast shillelagh, your Pact Blade is affected by the spell, regardless of the form your Pact Blade takes.\nPact of the Tome. The Old Wood grows a tome for you. The tome's cover is hardened bark from the forest's native trees, and its pages are leaves, whose color changes with the seasons. If you want to add a new spell to your book, you must first plant it in the ground. After 1 hour, the book emerges from the soil with the new spell inscribed on its leaves. If your tome is lost or destroyed, you must return to your patron forest for it to grow you a new one."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.28)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Courser Mage",
+    "class": "Wizard",
+    "description": "A tradition more focused on stalking prey than reading dozens of books, courser mages generally choose more subtle spells that aid in finding or hiding from their enemies. They learn to imbue their arrows with spell energy to deliver more deadly shots.",
+    "features": [
+      {
+        "name": "Stalking Savant",
+        "level": 2,
+        "description": "At 2nd level, you gain proficiency with longbows and shortbows, and you gain proficiency in the Stealth skill. In addition, you can still perform the somatic components of wizard spells even when you have a longbow or shortbow in one or both hands."
+      },
+      {
+        "name": "Unseen Assailant",
+        "level": 2,
+        "description": "Starting at 2nd level, as a bonus action, you can choose a target you can see within 60 feet of you and become invisible to that target until the start of your next turn. Once the effect ends, you can't use this feature on that target again until you finish a long rest.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Spell Arrow",
+        "level": 6,
+        "description": "Beginning at 6th level, you can imbue an arrow you fire from a longbow or shortbow with magical energy. As a bonus action, you can expend a 1st-level spell slot to cause the next arrow you fire to magically deal an extra 2d4 force damage to the target on a hit. If you expend a spell slot of 2nd level or higher, the extra damage increases by 1d4 for each slot level above 1st."
+      },
+      {
+        "name": "Pinpoint Weakness",
+        "level": 10,
+        "description": "Beginning at 10th level, when you hit a creature with an arrow imbued by your Spell Arrow feature, your next ranged weapon attack against that creature has advantage."
+      },
+      {
+        "name": "Multitudinous Arrows",
+        "level": 14,
+        "description": "Starting at 14th level, you can attack twice, instead of once, whenever you take the Attack action with a longbow or shortbow on your turn. If you use your Spell Arrow feature, you can imbue both arrows with arcane power by expending one spell slot. If you imbue two arrows with this feature, you can't cast spells other than cantrips until the end of your next turn."
+      }
+    ],
+    "source": "(Margreve Player's Guide, p.31)",
+    "_source_manual": "MPG"
   }
 ]

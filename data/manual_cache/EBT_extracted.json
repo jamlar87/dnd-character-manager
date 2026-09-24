@@ -20,20 +20,28 @@
       "size": "Medium",
       "traits": [
         {
-          "name": "Bite",
-          "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage."
+          "name": "Ability Score Increase",
+          "description": "Your Strength score increases by 2."
         },
         {
-          "name": "Natural Armor",
-          "description": "Your hide is thick and tough, granting you a natural AC of 13 + your Dexterity modifier."
+          "name": "Size",
+          "description": "Bearfolk can reach a height of over 7 feet, possessing thick, muscular builds. Your size is Medium."
         },
         {
-          "name": "Powerful Build",
-          "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
         },
         {
-          "name": "Ursine Talent",
-          "description": "You have proficiency in the Athletics and Perception skills."
+          "name": "Jaws of Death",
+          "description": "Your powerful jaws serve you well as a darakhul. When you use your bite attack to make an unarmed strike, you deal piercing damage equal to 1d6 + your Strength modifier."
+        },
+        {
+          "name": "Undead Fortitude",
+          "description": "Your tenacity in life has followed you into undeath. When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can’t use this feature again until you finish a long rest."
+        },
+        {
+          "name": "Language",
+          "description": "You can speak, read, and write Common (if you hail from mortal lands) or Umbral (if native to the Shadow Realm)."
         }
       ],
       "subraces": [
@@ -44,7 +52,93 @@
           "description": "A subrace of bearfolk has arisen in the Shadow Realm: the shadowborn."
         }
       ],
-      "description": "Bearfolk are a race of ursine humanoids known for their inherent iron resolve, thick hides, and powerful jaws. Those from the Shadow Realm's Moonlit Glades are hardened by constant battle against shadow corruption."
+      "description": "Bearfolk are large, muscular humanoids standing over 7 feet tall with thick builds, known for their strength and tenacity.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength score increases by 2."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Jaws of Death": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural weapon: bite attack as an unarmed strike deals 1d6 + Strength modifier piercing damage."
+        },
+        "Undead Fortitude": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When reduced to 0 hit points but not killed outright, can drop to 1 hit point instead. Usable once per long rest."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common or Umbral."
+        }
+      }
     },
     {
       "name": "Shadowborn Bearfolk",
@@ -59,9 +153,28 @@
       },
       "speed": 30,
       "darkvision": 60,
-      "languages": [],
+      "languages": [
+        "Common",
+        "Umbral"
+      ],
       "size": "Medium",
       "traits": [
+        {
+          "name": "Bite",
+          "description": "Your powerful jaws are natural weapons, which you can use to make unarmed strikes. If it hits, you deal 1d6 + your Strength modifier piercing damage."
+        },
+        {
+          "name": "Natural Armor",
+          "description": "Your hide is thick and tough, granting you a natural AC of 13 + your Dexterity modifier."
+        },
+        {
+          "name": "Powerful Build",
+          "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+        },
+        {
+          "name": "Ursine Talent",
+          "description": "You have proficiency in the Athletics and Perception skills."
+        },
         {
           "name": "Ability Score Increase",
           "description": "Your Dexterity score increases by 1."
@@ -72,17 +185,47 @@
         },
         {
           "name": "Darkvision",
-          "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+          "description": "You can see in dim light within 60 feet as though it were bright light and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
         }
       ],
       "subraces": [],
-      "description": "A subrace of bearfolk that has arisen in the Shadow Realm, marked by gray coats from infancy and sometimes possessing strangely arcane black markings."
+      "description": "Shadowborn bearfolk are bearfolk born in the Shadow Realm, marked by gray coats from infancy and sometimes possessing strangely arcane black markings. They resist the darkness more easily than other bearfolk and are often drawn to its presence.",
+      "_effects": {
+        "Bite": {
+          "notes": "Natural weapon: unarmed strike dealing 1d6 + Strength modifier piercing damage."
+        },
+        "Natural Armor": {
+          "natural_armor": {
+            "base_ac": 13,
+            "max_dex": null,
+            "allow_shield": true
+          }
+        },
+        "Powerful Build": {
+          "notes": "Counts as one size larger for carrying capacity and push/drag/lift weight."
+        },
+        "Ursine Talent": {
+          "skill_profs": [
+            "Athletics",
+            "Perception"
+          ]
+        },
+        "Ability Score Increase": {
+          "notes": "Dexterity score increases by 1."
+        },
+        "Cloak of Night": {
+          "notes": "In dim light or darkness: advantage on Dexterity (Stealth) checks and can take the Hide action as a bonus action."
+        },
+        "Darkvision": {
+          "darkvision": 60
+        }
+      }
     },
     {
       "name": "Darakhul",
       "source": "Book of Ebon Tides p.26-27",
       "asi": {},
-      "speed": 0,
+      "speed": 30,
       "darkvision": 60,
       "languages": [
         "Darakhul",
@@ -193,7 +336,43 @@
           "description": "Your darakhul character was a shadow goblin before transforming into a darakhul."
         }
       ],
-      "description": "Darakhul are undead creatures that transitioned imperfectly, retaining humanoid traits but susceptible to effects targeting undead."
+      "description": "Darakhul are undead creatures transformed from various humanoid races, retaining some traits of their former lives while embracing a necrotic existence.",
+      "_effects": {
+        "Darkvision": {
+          "darkvision": 60
+        },
+        "Hunger for Flesh": {
+          "notes": "Must consume 1 pound of raw meat each day or suffer starvation effects. After 24 hours without such a meal, gain one level of exhaustion. While exhausted from this trait, can't regain hit points or remove exhaustion until spending at least 1 hour consuming 10 pounds of raw meat."
+        },
+        "Imperfect Undeath": {
+          "notes": "Counts as humanoid but is susceptible to effects that target undead (e.g., Turn Undead). Can be affected by raise dead effects, which return you as a darakhul. True resurrection or wish can restore you to your original living race."
+        },
+        "Powerful Jaw": {
+          "notes": "Bite is a natural melee weapon usable for unarmed strikes, dealing 1d4 + Strength modifier piercing damage instead of normal bludgeoning."
+        },
+        "Sunlight Sensitivity": {
+          "notes": "Disadvantage on attack rolls and Wisdom (Perception) checks relying on sight when you, your target, or what you're trying to perceive is in direct sunlight."
+        },
+        "Undead Resilience": {
+          "damage_resist": [
+            "Necrotic",
+            "Poison"
+          ],
+          "condition_immune": [
+            "Disease"
+          ],
+          "notes": "Advantage on saving throws against being charmed or poisoned. On finishing a short rest, can reduce exhaustion level by 1 if at least 1 pound of raw meat was ingested in the last 24 hours."
+        },
+        "Undead Vitality": {
+          "notes": "Don't need to breathe. Don't sleep normally; instead enter a 6-hour dormant semiconscious state resembling death, gaining the same benefit as 8 hours of sleep. While dormant, disadvantage on Wisdom (Perception) checks."
+        },
+        "Languages": {
+          "notes": "Can speak, read, and write Darakhul, Umbral, and a language associated with your Heritage Subrace."
+        },
+        "Heritage Subrace": {
+          "notes": "Choose one Heritage Subrace and apply its listed traits."
+        }
+      }
     },
     {
       "name": "Shadow Fey",
@@ -247,7 +426,112 @@
         }
       ],
       "subraces": [],
-      "description": "Shadow fey are a subrace of elf. They enjoy the base elven racial traits, along with the following subrace traits."
+      "description": "Shadow fey are a subrace of elf with skin tending toward alabaster white, ebon black, or subtle grays, and many have horns that range widely in size and shape.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Charisma score increases by 1."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "No mechanical effects."
+        },
+        "Shadow Fey Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Rapier",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Path of Shadows": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can cast misty step when in darkness, dim light, or a shadow large enough to cover your body. Uses per day equal to Charisma modifier (minimum 1), regained on long rest. Charisma is the spellcasting ability."
+        },
+        "Sunlight Sensitivity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Disadvantage on attack rolls and Wisdom (Perception) checks relying on sight when you, the target, or the perceived object is in bright sunlight."
+        },
+        "Traveler in Darkness": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Intelligence (Arcana) checks to learn about a particular shadow road and how it functions."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Elvish and Umbral."
+        }
+      }
     },
     {
       "name": "Lunar Elf",
@@ -301,7 +585,112 @@
         }
       ],
       "subraces": [],
-      "description": "Lunar elves are an offshoot of shadow fey and are quite rare, and their births are typically regarded as an auspicious omen."
+      "description": "Lunar elves are identical in appearance to shadow fey except their skin glows in the dark, and they have luminous silver eyes. Their horns tend to be long, spiraled, and pearlescent.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom score increases by 1."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Luminous": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Emits bright light in a 15-foot radius and dim light for an additional 15 feet. Can suppress to dim light only, suppress completely, or activate at any time without an action. Effect has a level equal to proficiency bonus; dispels darkness spells of equal or lower level in overlapping areas."
+        },
+        "Moon Child": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When in darkness, dim light, or a shadow large enough to cover your body, can cast moonbeam. Uses per day equal to Wisdom modifier (minimum 1), regained on long rest. Wisdom is the spellcasting ability."
+        },
+        "Shadow Fey Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Rapier",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Sunlight Sensitivity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Disadvantage on attack rolls and Wisdom (Perception) checks relying on sight when you, your target, or what you are trying to perceive is in sunlight."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Elvish and Umbral."
+        }
+      }
     },
     {
       "name": "Sable Elf",
@@ -341,7 +730,65 @@
         }
       ],
       "subraces": [],
-      "description": "You are an elf with a deeper affinity for elven magic that sets you apart from most other elves."
+      "description": "Sable elves are dark-eyed, often either red-haired or raven-haired, and silver-skinned. They have tall, willowy frames, similar to other elves, and most carry an irrepressible aura of world-weariness.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Intelligence score increases by 2, Dexterity decreases by 1."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "No mechanical effects."
+        },
+        "Blood Affinity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose a school of magic. Learn one cantrip from that school. At 3rd level, learn one 1st-level spell from that school; at 5th level, learn one 3rd-level spell from that school. Each spell can be cast once per long rest at its lowest level. Spellcasting ability is Intelligence."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Elvish and Umbral."
+        }
+      }
     },
     {
       "name": "Shadow Goblin",
@@ -416,12 +863,209 @@
         }
       ],
       "subraces": [],
-      "description": "Shadow goblins are masters of deception and learn from infancy to take advantage of those who would underestimate them. These creatures share the natural resistance shadow fey have to the corrupting influence of the Shadow Realm, and they demonstrate a surprising affinity for shadow weaving and lunar magic."
+      "description": "Shadow goblins are blue- or purple-skinned goblins with bright orange or (text truncated) eyes, evolved to thrive in the Shadow Realm as servitors and allies of the shadow fey.",
+      "_effects": {
+        "Blood Affinity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Grants spellcasting: learn a cantrip from a chosen school of magic at 1st level, a 1st-level spell from that school at 3rd level, and a 3rd-level spell from that school at 5th level."
+        },
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity score increases by 2, Charisma score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Quick Wit": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Deception",
+            "Insight"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Shadow Camouflage": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Dexterity (Stealth) checks made to hide in dim light or darkness."
+        },
+        "Stink Eye": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Action: target one creature within 30 ft that can see and hear you; Charisma save (DC 8 + Cha mod + proficiency bonus) or have disadvantage on its next ability check, attack roll, or saving throw before the start of your next turn."
+        },
+        "Sunlight Sensitivity": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Disadvantage on attack rolls and Wisdom (Perception) checks relying on sight when you, your target, or what you are trying to perceive is in direct sunlight."
+        },
+        "Unseelie Blessing": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Goblin and Umbral."
+        }
+      }
     },
     {
       "name": "Umbral Human",
       "source": "Book of Ebon Tides p.31",
-      "asi": {},
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
       "speed": 30,
       "darkvision": 60,
       "languages": [
@@ -481,7 +1125,151 @@
           "description": "Changelings are the natural result of humans adapting to a life in the shadows over multiple generations. Originally, humans were stolen from the mortal lands to serve their shadow fey masters—or just on a whim—and many more humans simply got lost on a shadow road or abandoned and ultimately became stranded in the Shadow Realm. And that new life in shadows must ultimately change a mortal. Changelings resemble their cousins from the mortal lands but with the hallmarks of a life in the shadows, similar to how shadow fey differ from other elves. Their skin color tends toward alabaster white, ebon black, or subtle grays. Some have even grown rudimentary horns, like shadow fey. Their appearance may change further in generations to come—perhaps constantly evolving and even drastically diverging in some ways."
         }
       ],
-      "description": "The Shadow Realm twists beings with its magic, and in the case of the umbral humans, this influence can have radical effects. These umbral folk are not merely humans corrupted by shadow but rather slowly transformed by their exposure to shadow over generations, gradually becoming inured to it. These are the changelings."
+      "description": "Umbral humans are humans transformed by generations of exposure to the Shadow Realm, appearing with alabaster white, ebon black, or subtle gray skin, and sometimes rudimentary horns like shadow fey.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one ability score to increase by 2 and a different ability score to increase by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural aging process slows to be similar to that of an elf or shadow fey."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "No mechanical effects."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Dark Infusion": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Cold"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fade Away": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "While standing perfectly still, can use an action to become invisible. Becomes visible again if you move or take an action. Usable a number of times per day equal to your proficiency bonus."
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Umbral."
+        },
+        "Subtypes": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one of two subraces: changelings or the gifted."
+        }
+      }
     },
     {
       "name": "Changeling Umbral Human",
@@ -516,7 +1304,54 @@
         }
       ],
       "subraces": [],
-      "description": "You are a changeling, a human adapted to the shadows, thriving in its embrace."
+      "description": "Changeling umbral humans are humans adapted to the shadows, resembling their mortal cousins but with hallmarks of a life in the shadows. Their skin tends toward alabaster white, ebon black, or subtle grays, and some have even grown rudimentary horns like shadow fey.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Charisma score increases by 1."
+        },
+        "Cover Story": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Deception",
+            "Persuasion"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Gain proficiency in either Deception or Persuasion (player's choice)."
+        },
+        "Shadow Glamour": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can cast disguise self at will as an action."
+        }
+      }
     },
     {
       "name": "Gifted Umbral Human",
@@ -551,7 +1386,53 @@
         }
       ],
       "subraces": [],
-      "description": "You are of the gifted, granted potent fey abilities."
+      "description": "Gifted umbral humans are broken souls—umbral humans who have drunk too deeply of the shadows, often transformed by shadow fey or dark powers. Their appearance varies widely, from seeming normal to resembling shadow fey, sometimes with tails, hooves, or vestigial wings.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom score increases by 1."
+        },
+        "Cursed Infusion": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Necrotic"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Shadow Gift": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one of the following options: (1) Proficiency in one skill of your choice with advantage on checks using it, and disadvantage on checks using a second chosen skill. (2) No need to eat or breathe; only 4 hours needed for a long rest; gain one level of exhaustion that cannot be removed by any means. (3) Base movement speed halved; gain a fly, swim, or climb speed equal to the new halved base speed. (4) Increase one ability score by 6 (max 20); reduce two different ability scores by 2. (5) Gain temporary hit points equal to your Constitution score each day at dawn; cannot spend hit dice to heal during short rests."
+        }
+      }
     },
     {
       "name": "Quickstep",
@@ -614,7 +1495,155 @@
         }
       ],
       "subraces": [],
-      "description": "Quicksteps were among the servitors the shadow fey brought with them when they first came to the Shadow Realm. Like the shadow fey, quicksteps are innately resilient to the corruption that infuses the area, and they embrace life in the courts with aplomb."
+      "description": "Quicksteps are small fey with a natural affinity for speed, often found in fey courts and known for their love of finery, sabotage, and dueling.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Charisma +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 50,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fey Ancestry": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep"
+        },
+        "Nimble": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Acrobatics",
+            "Sleight of Hand"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Startling Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "If you move at least 10 feet on your turn, attack rolls against you have disadvantage until the start of your next turn. Does not function if incapacitated or restrained. Usable a number of rounds per day equal to your level."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Elvish and Umbral"
+        }
+      }
     },
     {
       "name": "Ratatosk",
@@ -636,6 +1665,10 @@
       "size": "Tiny or Small (subrace dependent)",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, but your Strength score decreases by 2."
+        },
+        {
           "name": "Age",
           "description": "Ratatosk reach adulthood at age 10 and, due to their celestial nature, live up to 180 years."
         },
@@ -649,7 +1682,7 @@
         },
         {
           "name": "Darkvision",
-          "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+          "description": "You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
         },
         {
           "name": "Grounded Celestial",
@@ -661,7 +1694,7 @@
         },
         {
           "name": "Telepathic",
-          "description": "You can speak telepathically to any creature you can see, provided the creature is within a number of feet of you equal to 10 times your level. You don't need to share a language with the creature for it to understand your telepathic utterances, but the creature must be able to understand at least one language."
+          "description": "You can speak telepathically to any creature you can see, provided the creature is within a number of feet of you equal to 10 times your level. You don’t need to share a language with the creature for it to understand your telepathic utterances, but the creature must be able to understand at least one language."
         },
         {
           "name": "Languages",
@@ -713,7 +1746,135 @@
           "description": "The tradvakt, also called ratatosk warlords, believe themselves to be the guardians and protectors of Yggdrasil and the branches of the World Tree. Larger than their ekorre cousins, the tradvakt train from a young age to master weapons and battle tactics. They act to maintain order in their communities and stamp out dangers that threaten those settlements."
         }
       ],
-      "description": "Resembling squirrels with sleek fur and small tusks, ratatosks form close matriarchal familial units called drays within larger communities called scurries. More adventurous ratatosks often act as planar guides and guardians, though it is not uncommon to find squirrel-folk offering their services as couriers, thieves, or even spies."
+      "description": "Ratatosks resemble squirrels with sleek fur and small tusks, forming close matriarchal familial units called drays within larger communities called scurries. They are insatiable tricksters and celestial beings attuned to the mortal world.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity score increases by 2, Strength score decreases by 2."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Reaches adulthood at age 10; lifespan up to 180 years."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Roleplay guidance only; no mechanical effects."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Climb speed of 10 feet."
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Grounded Celestial": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Creature type is Humanoid but is also susceptible to effects that target celestials."
+        },
+        "Sharp Tusks": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Natural weapon (tusks) usable for unarmed strikes; deals 1 piercing damage plus 1d4 psychic damage on hit."
+        },
+        "Telepathic": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak telepathically to any creature it can see within 10 × level feet; creature must understand at least one language; no shared language required."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can understand, read, and write Celestial and Common; speaks via Telepathy."
+        }
+      }
     },
     {
       "name": "Erina (Spiritfarer)",
@@ -783,7 +1944,165 @@
         }
       ],
       "subraces": [],
-      "description": "Spiritfarer erina are erina whose ancestors were forever changed by the Shadow Realm, setting them apart from most other erina."
+      "description": "Spiritfarer erina are erina whose ancestors were forever changed by the Shadow Realm, setting them apart from most other erina.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom +2; choose either Dexterity +1 or Charisma +1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Digger": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Burrow speed 20 feet, usable only through earth and sand (not mud, ice, or rock)."
+        },
+        "Quills": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "On a successful melee attack against a target within 5 feet, deal an additional 3 (1d6) piercing damage."
+        },
+        "Sharp Instincts": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Surprised"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Cannot be surprised except when incapacitated by something other than nonmagical sleep."
+        },
+        "Spirit Tongue": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Knows the message cantrip. At 3rd level can cast charm person (undead only) once per long rest; at 5th level can cast enthrall once per long rest. Wisdom is the spellcasting ability."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speaks Erina and Umbral, plus one of Common, Elvish, or Sylvan."
+        }
+      }
     },
     {
       "name": "Stygian Shade",
@@ -855,7 +2174,183 @@
         }
       ],
       "subraces": [],
-      "description": "Like other shades, stygian shades fade away as the remembrance of them becomes distant. But unlike those other shades, stygian shades, those shades that arise from the waters of the Shadow Realm, remember almost nothing of their previous lives, and they frequently strive to recover even the slightest detail of who they once were, collecting clues about their own past."
+      "description": "Stygian shades are undead beings from the Shadow Realm, born from the waters of the River Styx with almost no memory of their former lives. They appear as they did in life but with a spectral, ghostly quality, driven by an innate desire to recover their lost identities.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2, and one other ability score of your choice increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose Small or Medium size."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Death Mask": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "As an action, force non-undead creatures within 30 ft that can see you to make a DC 13 Wisdom save or be frightened for 1 minute (repeat save at end of each turn). Successful/ended targets immune for 24 hours. Usable a number of times per day equal to your Constitution modifier."
+        },
+        "Ghostly Flesh": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Bludgeoning (nonmagical, non-silvered)",
+            "Piercing (nonmagical, non-silvered)",
+            "Slashing (nonmagical, non-silvered)"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Starting at 3rd level, as an action for 1 minute (or until ended as a bonus action): gain flying speed 30 ft with hover, resistance to bludgeoning/piercing/slashing from nonmagical non-silvered attacks, advantage on checks/saves to escape grapple or against being restrained, and can move through creatures and solid objects as difficult terrain. Ending turn inside an object deals 1d10 force damage. Recharges on long rest."
+        },
+        "Imperfect Undeath": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Counts as humanoid but is also susceptible to effects targeting undead (e.g., Turn Undead). Can be healed by cure wounds. Resurrection spells return you as a shade; true resurrection or wish restores you to your original living race."
+        },
+        "Mysterious Origin": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; choose one question you know the answer to from a list of five."
+        },
+        "Spectral Resilience": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Necrotic"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison and disease."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Umbral and one other language of your choice."
+        }
+      }
     },
     {
       "name": "Sublime Ravenfolk",
@@ -917,7 +2412,142 @@
         }
       ],
       "subraces": [],
-      "description": "Sublime ravenfolk are a subrace of ravenfolk mysteriously drawn to an unknown source within the Shadow Realm, set apart from most other ravenfolk."
+      "description": "Sublime ravenfolk are a subrace of ravenfolk, slighter and shorter than humans, ranging from 4 feet to just shy of 6 feet tall. They are mysteriously drawn to an unknown source within the Shadow Realm.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Charisma +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect"
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effect"
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Constant Tune": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Frightened"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed or frightened"
+        },
+        "Cosmic Musician": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "One musical instrument of your choice"
+          ],
+          "skill_profs": [
+            "Performance"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Sublime Chord": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Action: charm creatures within 30 ft that can hear you; DC 13 Charisma save or charmed 10 minutes; targets have advantage if fighting you or allies; usable once per long rest"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speak, read, and write Common, Ravenfolk, and Umbral"
+        }
+      }
     },
     {
       "name": "Unbound Satarre",
@@ -934,13 +2564,19 @@
       "darkvision": 60,
       "languages": [
         "Umbral",
-        "Abyssal or Infernal or Void Speech"
+        "Abyssal",
+        "Infernal",
+        "Void Speech"
       ],
       "size": "Medium",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2, and your Wisdom score increases by 1. (This trait replaces the base satarre’s Ability Score Increase trait.)"
+        },
+        {
           "name": "Age",
-          "description": "Satarre grow quickly, walking soon after hatching and reaching the development of a 15-year-old human by age 6. They maintain the same appearance until about 50 and then begin a rapid decline. Satarre often die violently, but those who live longer survive to no more than 65 years of age."
+          "description": "Satarre grow quickly, walking soon after hatching and reaching the development of a 15-year‑old human by age 6. They maintain the same appearance until about 50 and then begin a rapid decline. Satarre often die violently, but those who live longer survive to no more than 65 years of age."
         },
         {
           "name": "Alignment",
@@ -956,7 +2592,7 @@
         },
         {
           "name": "Darkvision",
-          "description": "Thanks to your dark planar parentage, you have superior vision in darkness. You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+          "description": "Thanks to your dark planar parentage, you have superior vision in darkness. You can see in dim light within 60 feet of you as if it were bright light and in darkness as if it were dim light. You can’t discern color in darkness, only shades of gray."
         },
         {
           "name": "Keeper of Secrets",
@@ -964,13 +2600,11 @@
         },
         {
           "name": "Portal Sense",
-          "description": "While in a confined space, you instinctively know the direction and distance to the closest nonmagical entrance or exit to the area you are currently in. You also have advantage on any Intelligence (Investigation) or Wisdom (Perception) ability checks made to find secret or invisible doors and magical portals. (This trait replaces the base satarre's A Friend of Death trait.)"
+          "description": "While in a confined space, you instinctively know the direction and distance to the closest nonmagical entrance or exit to the area you are currently in. You also have advantage on any Intelligence (Investigation) or Wisdom (Perception) ability checks made to find secret or invisible doors and magical portals. (This trait replaces the base satarre’s A Friend of Death trait.)"
         },
         {
           "name": "Unraveling Touch",
-          "description": "You can use your action to attempt to tear at the reality that keeps a being together. Choose a creature that you can see within 30 feet. The creature must make a Constitution saving throw. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature that fails the saving throw must use its action each turn to repeat the saving throw as it attempts to keep itself in one piece. On a successful save, the effect ends on the target. Once you use this feature, you cannot do so again until you complete a long rest. (This trait replaces the base satarre's Carrier of Rot trait.)",
-          "uses": 1,
-          "recharge": "long rest"
+          "description": "You can use your action to attempt to tear at the reality that keeps a being together. Choose a creature that you can see within 30 feet. The creature must make a Constitution saving throw. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature that fails the saving throw must use its action each turn to repeat the saving throw as it attempts to keep itself in one piece. On a successful save, the effect ends on the target. Once you use this feature, you cannot do so again until you complete a long rest. (This trait replaces the base satarre’s Carrier of Rot trait.)"
         },
         {
           "name": "Languages",
@@ -978,7 +2612,151 @@
         }
       ],
       "subraces": [],
-      "description": "You are a satarre with a tendency for plane-hopping that sets you apart from most other satarre. You exhibit a few different traits from typical satarre."
+      "description": "Unbound satarre are tall, thin planar travelers with peculiar, segmented limbs, standing 6 to 7 feet tall. They are a subrace of satarre with an instinctual sensitivity to places of transition, compelled to find and widen gateways between worlds.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2, Wisdom score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Keeper of Secrets": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Arcana"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Intelligence (Arcana) checks related to the planes and planar travel. Proficiency in one of History, Insight, or Religion (choice)."
+        },
+        "Portal Sense": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "While in a confined space, instinctively know direction and distance to closest nonmagical entrance/exit. Advantage on Intelligence (Investigation) or Wisdom (Perception) checks to find secret or invisible doors and magical portals."
+        },
+        "Unraveling Touch": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Action: target creature within 30 ft makes CON save (DC 8 + CON mod + prof bonus). On fail, target must use its action each turn to repeat the save; on success, effect ends. Once used, cannot be used again until completing a long rest."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speak, read, and write Umbral and either Abyssal, Infernal, or Void Speech."
+        }
+      }
     },
     {
       "name": "Wyrd Gnome",
@@ -991,16 +2769,21 @@
         "wisdom": 1,
         "charisma": 0
       },
-      "speed": 30,
-      "darkvision": 0,
-      "languages": [],
+      "speed": 25,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Gnomish"
+      ],
       "size": "Small",
       "traits": [
         {
+          "name": "Ability Score Increase",
+          "description": "Your Wisdom score increases by 1."
+        },
+        {
           "name": "Natural Diviner",
-          "description": "You have an innate knack for understanding the world and can catch glimpses of the mysteries of the universe. You know the guidance cantrip. When you reach 3rd level, you can cast the identify spell with this trait, requiring no material components, and starting at 5th level, you can cast the augury spell with it. Once you cast a non-cantrip spell with this trait, you can't do so again until you finish a long rest. Wisdom is your spellcasting ability for these spells.",
-          "uses": 1,
-          "recharge": "long rest"
+          "description": "You have an innate knack for understanding the world and can catch glimpses of the mysteries of the universe. You know the guidance cantrip. When you reach 3rd level, you can cast the identify spell with this trait, requiring no material components, and starting at 5th level, you can cast the augury spell with it. Once you cast a non-cantrip spell with this trait, you can't do so again until you finish a long rest. Wisdom is your spellcasting ability for these spells."
         },
         {
           "name": "Prescience",
@@ -1008,7 +2791,51 @@
         }
       ],
       "subraces": [],
-      "description": "Wyrd gnomes are accomplished arcanists and have a preferred status as servitors to shadow fey, having come with them to the Shadow Realm. Wyrd gnomes possess physical traits typical to the type of gnomes to which they are born, but they are born with two different colored eyes: the right one always blue, the left one always green."
+      "description": "Wyrd gnomes are gnomes with a natural prescience that sets them apart from most other gnomes. They have gathered together in small communities of their own kind over generations.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom score increases by 1."
+        },
+        "Natural Diviner": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Knows the guidance cantrip. At 3rd level can cast identify (no material components) once per long rest. At 5th level can cast augury once per long rest. Wisdom is the spellcasting ability for these spells."
+        },
+        "Prescience": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "After a long rest, roll a d20 and record it. Before the next long rest, can replace one attack roll, saving throw, or ability check made by you or a creature you can see with this roll (must decide before the roll). Bonus to the prescience roll based on nearby wyrd gnomes: +1 if 20 within half a mile, +1 per doubling (max +5)."
+        }
+      }
     }
   ],
   "spells": [
@@ -5292,7 +7119,26 @@
         {
           "name": "Shadow Bind",
           "level": 3,
-          "description": "Starting at 3rd level, you can perform a special ritual to siphon the power of shadow and bind it to yourself. You can conduct this ritual during a long rest. Performing the ritual requires time spent meditating in nonmagical darkness for at least 1 hour. At the end"
+          "description": "Starting at 3rd level, you can perform a special ritual to siphon the power of shadow and bind it to yourself. You can conduct this ritual during a long rest. Performing the ritual requires time spent meditating in nonmagical darkness for at least 1 hour. At the end of the ritual, you choose one of the following effects, which lasts for 24 hours or until you perform the ritual again:\n• When you are in dim light or darkness, as part of your move, you can teleport up to half your speed to an unoccupied space you can see that is also in dim light or darkness. You then have advantage on the first Dexterity (Stealth) check you make before the end of your turn.\n• When you are in dim light or darkness, if you move at least half your speed, you benefit from a perpetual half cover until the start of your next turn: +2 bonus to AC and Dexterity saving throws.\n• When you hit with a melee or ranged weapon attack, you can cause the attack to deal additional cold damage equal to your proficiency bonus. You can use this feature only once on each of your turns."
+        },
+        {
+          "name": "Cloaked Dagger",
+          "level": 9,
+          "description": "At 9th level, shadows hide your every strike. You gain an additional way to use your Sneak Attack. You don't need advantage on the attack roll to use your Sneak Attack against a creature if you are within 30 feet, are in dim light or darkness, and you don't have disadvantage on the attack roll. All the other rules for Sneak Attack still apply to you."
+        },
+        {
+          "name": "Black Magic",
+          "level": 13,
+          "description": "At 13th level, you can draw more power from the shadows bound to you. As a bonus action, you can cast darkness without providing material components. Once you use this feature three times, you cannot do so again until you finish a long rest.\nAdditionally, when you are in an area of dim light or darkness, you can use your action to become invisible. You remain invisible until you make an attack, cast a spell, or are in an area of bright light.",
+          "uses": 3,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Shadow Grasp",
+          "level": 17,
+          "description": "At 17th level, you can wrap your foes in debilitating shadow. When you deal Sneak Attack damage to a creature, you can force them to make a Dexterity saving throw (DC 8 + your proficiency bonus + your Dexterity modifier). If the save fails, the target is restrained for 1 minute. The restrained target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.\nOnce you use this feature, you can't do so again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
         }
       ],
       "source": "Book of Ebon Tides p.49"
@@ -5553,6 +7399,6 @@
   "_total_chapters": 13,
   "_book_slug": "EBT",
   "_book_title": "Book of Ebon Tides",
-  "_completed": false,
-  "_timestamp": 1790285974.7651587
+  "_completed": true,
+  "_timestamp": 1790286138.358168
 }

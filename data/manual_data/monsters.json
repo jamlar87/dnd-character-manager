@@ -118734,5 +118734,242 @@
     "legendary_actions": [],
     "source": "(Creature Codex, p.395)",
     "_source_manual": "CC"
+  },
+  {
+    "name": "Oma Rattenfanger, Keeper of the Plain",
+    "size": "Tiny",
+    "type": "fey",
+    "alignment": "chaotic neutral",
+    "armor_class": 17,
+    "ac_type": "studded leather",
+    "hit_points": "143 (26d4+78)",
+    "speed": "10 ft., fly 60 ft. (hover)",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 20,
+      "constitution": 17,
+      "intelligence": 16,
+      "wisdom": 15,
+      "charisma": 22
+    },
+    "saving_throws": {
+      "dex": 9,
+      "con": 7,
+      "wis": 6
+    },
+    "skills": {
+      "Deception": 10,
+      "Intimidation": 10,
+      "Perception": 6,
+      "Persuasion": 10
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [
+      "charmed",
+      "unconscious"
+    ],
+    "senses": "truesight 60 ft., passive Perception 16",
+    "languages": [
+      "Common",
+      "Elvish",
+      "Umbral"
+    ],
+    "challenge_rating": "12",
+    "xp": 8400,
+    "features": [
+      {
+        "name": "Legendary Resistance (3/Day)",
+        "description": "If Oma fails a saving throw, she can choose to succeed instead.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Shadowy Weapons",
+        "description": "Oma's weapon attacks are magical. When Oma hits with any weapon, the weapon deals an extra 2d8 necrotic damage (included in the attack)."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Oma makes two Mentor's Cane attacks or one Mentor's Cane attack and one Scold attack."
+      },
+      {
+        "name": "Mentor's Cane",
+        "description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one target. Hit: 8 (1d6 + 5) bludgeoning damage plus 9 (2d8) necrotic damage."
+      },
+      {
+        "name": "Scold",
+        "description": "Ranged Spell Attack: +10 to hit, range 120 ft., one target. Hit: 14 (4d6) psychic damage."
+      },
+      {
+        "name": "Call Children (1/Day)",
+        "description": "Oma magically calls 2d4 skeletons or zombies or one orphan of the black (see Tome of Beasts 2). The called creatures arrive in 1d4 rounds, acting as allies of Oma and obeying her spoken commands. The creatures remain for 1 hour or until Oma dies or dismisses them as a bonus action.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Invisibility",
+        "description": "Oma turns invisible until she attacks or uses Call Children or until her concentration ends (as if concentrating on a spell). Any equipment she wears or carries is invisible with her."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(Book of Ebon Tides, p.177)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sark the Bear-skinned",
+    "size": "Medium",
+    "type": "humanoid (Orc-kind)",
+    "alignment": "",
+    "armor_class": 18,
+    "ac_type": "Orc Mail, Shield",
+    "hit_points": "68 (8d8+32)",
+    "speed": "30 ft",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 13,
+      "constitution": 19,
+      "intelligence": 10,
+      "wisdom": 15,
+      "charisma": 17
+    },
+    "saving_throws": {},
+    "skills": {
+      "Intimidation": 5,
+      "Perception": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft, passive Perception 15",
+    "languages": [
+      "Orcish",
+      "Westron"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Bulky Armour",
+        "description": "Sark has Disadvantage on Dexterity checks."
+      },
+      {
+        "name": "Horrible Strength",
+        "description": "If Sark makes a successful melee attack, he may use his bonus action to cause 3 additional damage to the target."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Sark makes two attacks with either his Orc-axe or long spear."
+      },
+      {
+        "name": "Orc-axe",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft, one target. Hit: 6 (1d6+3) slashing damage or 7 (1d8+3) slashing damage if wielded with two hands."
+      },
+      {
+        "name": "Long Spear",
+        "description": "Melee Weapon Attack: +5 to hit, reach 10 ft, one target. Hit: 8 (1d10+3) piercing damage. Heavy, two-handed."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Counterattack (Recharge 5-6)",
+        "description": "If an attack roll misses Sark, he can use his reaction to make an attack roll with Advantage. He must be wielding a melee weapon and able to see his attacker."
+      }
+    ],
+    "legendary_actions": [],
+    "source": "(Lonely Mountain Region Guide, p.71)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Forest Dragon",
+    "size": "Huge",
+    "type": "dragon (Full-grown Long-worm)",
+    "alignment": "",
+    "armor_class": 19,
+    "ac_type": "Natural Armour",
+    "hit_points": "207 (18d12+90)",
+    "speed": "30 ft, climb 30 ft",
+    "ability_scores": {
+      "strength": 24,
+      "dexterity": 22,
+      "constitution": 20,
+      "intelligence": 14,
+      "wisdom": 16,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "Strength": 11,
+      "Dexterity": 10,
+      "Constitution": 9
+    },
+    "skills": {
+      "Athletics": 11,
+      "Stealth": 10,
+      "Survival": 7
+    },
+    "damage_resistances": [
+      "non-magical bludgeoning and slashing (see below)"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 13",
+    "languages": [
+      "Unknown (no one in this Age of the world has heard her speak)"
+    ],
+    "challenge_rating": "12",
+    "xp": 8400,
+    "features": [
+      {
+        "name": "Mirkwood Dweller",
+        "description": "As a bonus action, if the Forest Dragon is within Mirkwood she can gain half-cover from a scenery feature, even if it would not normally provide it.",
+        "uses": 1,
+        "recharge": "5-6"
+      },
+      {
+        "name": "Thing of Terror",
+        "description": "As a bonus action, The Forest Dragon can rear up and display her full strength. Each creature within 60 ft must make a DC 19 Wisdom saving throw or be Frightened until the end of their next turn.",
+        "uses": 1,
+        "recharge": "day"
+      },
+      {
+        "name": "Tough Hide",
+        "description": "The Forest Dragon is resistant to non-magical bludgeoning and slashing damage."
+      },
+      {
+        "name": "Weak Spot",
+        "description": "If the Forest Dragon uses her Crushing Tail-grip any heroes that are within range may use their reaction to make a single attack. For this attack only, she loses her damage resistances and she is vulnerable to all piercing, slashing and bludgeoning damage."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The Forest Dragon makes one Bite and two Rend attacks."
+      },
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +11 to hit, reach 10 ft, one target. Hit: 20 (3d8+7) piercing damage."
+      },
+      {
+        "name": "Rend",
+        "description": "Melee Weapon Attack: +11 to hit, reach 10 ft, one target. Hit: 16 (2d8+7) slashing damage."
+      },
+      {
+        "name": "Crushing Tail-grip",
+        "description": "Melee Weapon Attack: +11 to hit, reach 5 ft, one target. Hit: 13 (1d12+7) bludgeoning damage. The target becomes Grappled (escape DC 21). The Dragon can spend its action to cause 13 (1d12+7) bludgeoning damage to the Grappled foe."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [
+      {
+        "name": "Deadly Tail-grip",
+        "description": "The Forest Dragon causes 13 (1d12+7) bludgeoning damage to a Grappled foe."
+      }
+    ],
+    "source": "(Lonely Mountain Region Guide, p.100)",
+    "_source_manual": "LMRG"
   }
 ]

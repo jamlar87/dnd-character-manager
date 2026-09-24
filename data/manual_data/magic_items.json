@@ -7720,5 +7720,527 @@
     "description": "Chittr'k'k has a pipe of cracked bone inlaid with golden glyphs, a pipe of glowing green jade that shines in the night, a pipe of black glass etched with blasphemous demonic triumphs, and (richest of all) a ruby pipe with mithral inlay in various disturbing patterns, a work of pure chaos artistry. All four of these pipes are associated with a particular gaseous magical effect: fog cloud (bone pipe), cloudkill (jade pipe), cloud of daggers (black glass pipe), and incendiary cloud (ruby pipe). A creature smoking the pipe can cast the associated spell as a bonus action 1/day.",
     "source": "(Creature Codex, p.77)",
     "_source_manual": "CC"
+  },
+  {
+    "name": "Requiem Clay",
+    "type": "Drug (inhaled)",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "When you smoke requiem clay, you summon the spirit of a single deceased person that you personally knew in life. The spirit's image is visible, and its voice can be heard in whispers, but it cannot touch you. You can ask the spirit up to five questions, as the speak with dead spell. The spirit knows only what it knew in life, including the languages it knew. Answers are usually brief, cryptic, or repetitive, and the spirit is under no compulsion to offer a truthful answer if you are hostile to it or if it recognizes you as an enemy. The spirit can't learn new information, doesn't comprehend anything that has happened since it died, and can't speculate about future events. Afterward, you suffer 3 (1d6) poison damage per question asked and must succeed on a Constitution saving throw (DC 10 + 1 per question asked) or become addicted to the drug. If you become addicted, you suffer one level of exhaustion 1d4 days after you last smoked the drug and gain a further level of exhaustion for each week that requiem is not smoked. Levels of exhaustion gained through requiem use do not reduce as normal after taking a long rest. Smoking requiem again eliminates levels of exhaustion gained from abstaining. At the end of each week, you can make a DC 13 Constitution saving throw. Two consecutive weekly successful saving throws are necessary to break the addiction through abstinence. Alternatively, the addiction can be broken with a lesser restoration or heal spell. Price per Dose: 750 gp",
+    "source": "(Book of Ebon Tides, p.133)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Requiem Bliss",
+    "type": "Drug (inhaled)",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "When you smoke requiem bliss, you experience feelings of euphoria. You summon the spirit of a single deceased person whose name you know. The spirit takes on the physical characteristics it had in life and might touch you, though it cannot harm you. You can ask the spirit questions as the speak with dead spell with the following exceptions: you can ask up to ten questions, and the spirit cannot lie to you. In addition, you are simultaneously granted the benefit of the contact other plane spell (without taking psychic damage or going insane) as the summoned spirit consults with others and relates information about a single question that would otherwise be unknown to it. You suffer 3 (1d6) poison damage per question asked and must succeed on a Constitution saving throw (DC 12 + 1 per question asked) or become addicted to the drug. If you become addicted, you suffer two levels of exhaustion 1d4 days after you last smoked the drug and gain a further level of exhaustion for each week that requiem is not smoked. Levels of exhaustion gained through requiem use do not reduce as normal after taking a long rest. Smoking requiem again eliminates levels of exhaustion gained from abstaining. At the end of each week, you can make a DC 15 Constitution saving throw. Three consecutive weekly successful saving throws are necessary to break the addiction through abstinence. Alternatively, the addiction can be broken with a lesser restoration or heal spell. Price per Dose: 2,500 gp",
+    "source": "(Book of Ebon Tides, p.133)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Illusion Seeds",
+    "type": "Wondrous Item",
+    "rarity": "Varies",
+    "requires_attunement": false,
+    "description": "Illusion seeds are wondrous items first created in the Shadow Realm and reliant on a supply of shadow matter to power their effects—each such seed generates an illusion and those illusions can take quite powerful forms. While illusion seeds are fairly permanent in the Shadow Realm, where there is shadow matter to empower and sustain the illusions, they are notably less permanent anywhere else. In the mortal world and on other planes, the effects of illusion seeds last for 2d12 hours and then crumble away in a small burst of glittering light and shadows. To use an illusion seed, its owner merely needs to throw it 5 feet or more from themselves (to avoid being caught in the magical effect). Once expended, their effects are permanent (in the Shadow Realm), though they can be unraveled using dispel magic (DC 13).",
+    "source": "(Book of Ebon Tides, p.199)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Helm of the Black Opal",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "As long as the helm has at least one black opal, you have resistance to necrotic damage. As long as the helm has at least one piece of obsidian, you can use an action and speak a command word to cause one weapon you are holding to sizzle with black flames. The flames are harmless to you and to the weapon. When you hit with an attack using the blazing weapon, the target takes an extra 1d6 fire damage. The flames last until you use a bonus action to speak the command word again or until you drop or stow the weapon. Roll a d20 if you are wearing the helm and take necrotic damage as a result of failing a saving throw against a spell. On a roll of 1, the helm emits shadowy purple rays from its remaining gems. Each creature within 60 feet of the helm other than you must succeed on a DC 17 Dexterity saving throw or be struck by a beam, taking necrotic damage equal to the number of gems in the helm. The helm and its gems are then destroyed.",
+    "source": "(Book of Ebon Tides, p.206)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dowsing Rod",
+    "type": "Rod",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The wood is dark from long centuries spent absorbing the living darkness of the Shadow Realm. When you hold this rod in both hands by its short, forked branches, you feel it gently tugging you toward the closest source of fresh water. If the closest source of fresh water is located underground, the dowsing rod directs you to a spot above the source and then dips its tip down toward the ground. When you use this dowsing rod on the Material Plane, it directs you to bodies of water, such as creeks and ponds. When you use it in the Shadow Realm, where fresh water is much more difficult to find, it directs you to bodies of water, but it might also direct you toward homes with freshwater barrels or to creatures with containers of fresh water on them.",
+    "source": "(Book of Ebon Tides, p.207)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dancing Shadow Amulet",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Wearing this amulet makes your shadow dance and caper in amusing ways.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Umbrella",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This parasol floats near you, protecting you from direct sunlight or from rain.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Floating Hat",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This is a normal hat that always floats a handspan above your head. It tips itself courteously to ladies and gentlemen.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Animated Goblet",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This fine silver goblet floats above the table and will go refill itself from a cask or spring when ordered. It comes when called.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Animated Cutlery",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This fine silver—a knife, fork, and spoon set—will dance for you, create ringing noise (as before a toast), and even carve a roast or stir soup or tea for you.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Glittering Shadow Powder",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This powder adds luminous green, blue, or purple sparkles to your shadow.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Glimmering Hair Comb",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "While this comb remains in your locks, your hair shines and reflects light almost as bright as sunlight on water.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Flawless Raiment",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "These clothes are always clean, dry, fashionable, and well-tailored.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Purifying Canteen",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "The water poured from this canteen is always free of shadow corruption.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Umbral Incense",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This incense draws shadows together in a 5-foot radius and burns for up to 15 minutes. Even in blazing sunlight, the conditions more closely resemble dim light.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dawn Alarm",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "When the moons rise (or the sun, in the mortal realm or Summer Lands), this pale-white stone glows bright yellow, and a songbird sings.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Gilded Shadow",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Your shadow is not black and gray but gold and silver. Your Dexterity (Stealth) checks are all at disadvantage.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sunlight Candle",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This candle burns with the full light of the sun in a 10-foot radius for 2 hours.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Phantasmal Tapestry",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "A traditional tapestry, often showing a unicorn, hippogriff, dragon, hunting party, or similar scene—but animated and often staring at the viewer. Depending on the subject, rabbits twitch, birds wheel about, waves crash on the shore, and wind sways the woven trees.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Perfumed Bath Tent",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This tent resembles a bedroll or small rucksack. When shaken, it becomes a 10-by-10-foot tent complete with a wooden tub of hot water, fragrant pine or rose scents, and towels. It is far too thin to provide much protection against wind, cold, or rain, but it makes a fine way to remove the mud of roads and fields.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Everblooming Vase",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Flowers placed in this vase never fade or wither.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Spider Silk Rope",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "With a sticky end as effective as a grappling hook and a weight of mere ounces, this 50-foot rope assists climbers with foot loops and can fit into a small pocket.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Watchful Bat",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This small bat statue takes on the coloration of its perch and can watch for a particular person, creature, or event. When that person or event is witnessed, it finds you and tell you about it.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Icy Wind Fan",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "With a cooling breeze, the icy wind fan provides comfort on summer days.",
+    "source": "(Book of Ebon Tides, p.211)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Moon Helmet",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This helmet is made entirely of transparent metal, so your vision is not obstructed.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ebony Scabbard",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "A scabbard of purest darkness, it helps you gather shadows about yourself. You may attempt to hide while in plain sight once per day.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Animated Banner",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This banner shows a moving, ferocious form of your heraldic crest, such as a lion rampant or a dragon breathing fire.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Umbral Palanquin",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This palanquin seats one person and is carried by invisible forces. You need never walk anywhere.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ephemeral Tent",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This tent appears fully set when called, complete with brazier of coals, a pair of comfortable beds, and a small table set with nourishing food. It provides limited protection against bitter cold, storm winds, and heavy rain. Poor conditions may shred it.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Reins",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "These black reins with silver bells are hardly visible, but they are highly effective in transmitting your wishes to a mount. All Wisdom (Animal Handling) checks when dealing with a mount fitted with shadow reins have advantage.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Mooncatcher's Delight",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This small amulet always draws moonlight to you. You'll never stand in darkness.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Phantasmal Feast",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "A deep-red tablecloth woven of shadows, it creates enough nutritious food for two creatures when placed on a table.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Dog Shadow",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Your shadow resembles a faithful dog, which is watchful and barks when creatures approach. You cannot be surprised.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Sunlight Lantern",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This hooded lantern burns with the full light of the sun in a 30-foot radius with dim light for an additional 30 feet. It burns for 6 hours on enchanted oil and can be damped to a 5-foot radius as needed.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Umbral Hunting Hounds",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Two shadowy hounds that come when called. You have advantage on Wisdom (Survival) checks to follow a trail using scent.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadow Fanfare",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "A set of silver trumpets announces your arrival every time you enter a room.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Spider Silk Boat",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "The size of a handkerchief, it becomes a small, two-person rowboat when shaken out. It must be rowed normally but can be returned to kerchief size once you reach shore.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ghost Jar",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This jar can hold one ghost or phantom, which answers questions or moans hauntingly from time to time. If a second question is asked on any given day, a successful DC 14 Charisma (Persuasion) check is required, or the ghost departs.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Whispering Pebble",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "A small stone that whispers nonsense without pause. If left alone in a room, it always sounds as if a conversation is happening, but the gist of it is never clear. If addressed, the stone falls silent.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Illusory Tower",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This gleaming, transparent stone tower contains a single set of spiral stairs up to a height of about 50 feet. At the top, a flat platform and battlements provide an excellent view in all directions. The tower provides no cover or protection but is useful for seeing into the distance.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Evergroomed Kit",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This pouch is made of oiled leather and holds various grooming products: such as shampoo, hair oil, a comb, a shaving razor, pressed powder, and a hand mirror. On spending 1 minute grooming yourself with the items from this kit, you are clean and fresh, hair perfectly styled, makeup party ready.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Feline Ring",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This silver band creates an adorable illusory kitten. The kitten appears from behind a chair, someone's leg, or other cover and frolics and tumbles about. If approached, it flees and disappears once it's behind total cover.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Spectral Kestrel",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This translucent bird of prey perches on your shoulder or wrist, keen-eyed and waiting. It can follow simple commands (such as fly, return, fetch, and harry) and has advantage on Wisdom (Perception) checks.",
+    "source": "(Book of Ebon Tides, p.212)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Shadowsphere Pendent",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This marble-sized glass sphere holds a tiny, shifting wisp of shadow or black smoke. The wisp is constantly moving and changing.",
+    "source": "(Book of Ebon Tides, p.222)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Luminous Shard",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "This crystalline shard is 1 foot long and sharp as a knife. It glows softly whenever music is played in its vicinity.",
+    "source": "(Book of Ebon Tides, p.222)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Ward Against Wild Appetites",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Seventeen animal teeth of various sizes hang together on a simple leather thong, and each tooth is dyed a different color using pigments from plants native to piney villages. When a beast or monstrosity with an Intelligence of 4 or lower targets you with an attack, it has disadvantage on the attack roll if the attack is a bite. You must be wearing the necklace to gain this benefit.",
+    "source": "(Margreve Player's Guide, p.52)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Star Charm",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "s comprised of six polished river stones bound into the shape of a star with glue made from the connective tissues of animals. The reflective surfaces of the stones shimmer with a magical iridescence. While you are within 20 feet of a living tree, you can use a bonus action to become invisible for 1 minute. While invisible, you can use a bonus action to become visible. If you do, each creature of your choice within 30 feet of you must succeed on a DC 15 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat this saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to this charm's blinding feature for the next 24 hours.",
+    "source": "(Margreve Player's Guide, p.51)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "The Arkenstone of Thráin",
+    "type": "Wondrous Artefact",
+    "rarity": "artefact",
+    "requires_attunement": false,
+    "description": "Found in the deep mines of Erebor in the earliest days of the Dwarf-hold's founding, this pale jewel – known as \"the Heart of the Mountain\" – is the greatest treasure ever unearthed by the Dwarves. The skill of the Dwarf-smiths transformed the already beautiful stone into a fist-sized orb, with a thousand flawless facets; it shines with an inner luminescence, but when the merest sliver of outer light falls upon it, it gleams like water in the sunlight, shot through with the colours of the rainbow. In the centuries after its discovery, the Arkenstone became an heirloom of the Kings of Durin's folk. Thráin's son, Thorin, carried it away into the Grey Mountains where it remained until King Thrór brought it back to the Great Hall of Thráin. When the Dragon Smaug sacked Erebor, the Arkenstone was thought lost, lying among Smaug's treasure trove in the bottommost cellar until Bilbo Baggins discovered it and gave it to Bard. After the Battle of Five Armies, enmity was set aside between the leaders of the Dwarves, Elves and Men, and Bard of Dale placed the Heart of the Mountain in Thorin's tomb. Nearly a thousand years after its discovery, the Arkenstone is buried once more beneath the Lonely Mountain. The Arkenstone is a Wondrous Artefact with a Greater Blessing of Intimidation (See the Loremaster's Guide, page 127).",
+    "source": "(Lonely Mountain Region Guide)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Runes of Resilience",
+    "type": "Armour, Helm",
+    "rarity": "Enchanted Quality",
+    "requires_attunement": false,
+    "description": "Craftsmanship: Dwarven \nItem: Armour, Helm \nThis particular set of armour is engraved with runes of protective magic that assist the wearer in recovery. \nWhile wearing armour with this Enchanted Quality, you have Advantage on death saving throws.",
+    "source": "(Lonely Mountain Region Guide, p.31)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Venomed",
+    "type": "Close combat weapon",
+    "rarity": "Enchanted Quality",
+    "requires_attunement": false,
+    "description": "Craftsmanship: Dwarven \nItem: Close combat weapon \nOld legends preserved in the chamber of records in Erebor and whispered among the Northmen tell how Dwarves of Eastern mansions came under the Shadow and turned to evil. No one is alive today who could confirm such tales, but in treasure-hoards it is still possible to find instruments of war of Dwarven craftsmanship, marked with baleful runes that no smith of Durin’s folk would confess to know; engravings capable to make a foe sick. \nWhen you are using a weapon bestowed with this Quality and you inflict damage on an adversary for the first time, your foe is considered to be Poisoned for a number of rounds equal to your Shadow rating (minimum of 1 round). Using this weapon against those who do not serve the Enemy directly (for example, against misguided Men or beasts who are defending their home or young) is a Misdeed worthy of Shadow points.",
+    "source": "(Lonely Mountain Region Guide, p.31)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "A set of keys forged of a variety of precious metals",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A set of keys forged of a variety of precious metals. The keys range in size from those used to open a locket to a massive key that must have opened an equally massive lock and door. The larger keys are decorated with geometric designs of inlaid gemstone dust, precious metals and rare minerals.",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Dragon-bane",
+    "type": "Weapon",
+    "rarity": "legendary",
+    "requires_attunement": false,
+    "description": "In a past age, the Elves and the Dwarves found themselves with a common enemy and bent their prodigious skills to creating weapons that might slay a Great Worm. In the Third Age, such weapons are all but lost, in no small part due to the efforts of the Dragons themselves. A Legendary Weapon of either Elven or Dwarven Craftsmanship may have Dragons selected as its Bane creature, as described on page 133 of the Loremaster's Guide.",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Dragon-scale Brooch",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A small brooch fashioned from part of a Dragon's scale, supposedly from Scatha himself. (Contains a Greater Blessing of Riddle, see page 127 of the Loremaster's Guide.)",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "The Black Arrow of Bard",
+    "type": "Arrow",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Type: Arrow. Craftsmanship: Dwarven (Erebor). Banes: Dragons. Enchanted Qualities: 1. Sure Shot 2. Superior Keen 3. Superior Fell. Notes: Said to have been forged in the Lonely Mountain, the Black Arrow was passed down the line of Girion until Bard the Bowman slew Smaug with it. Whether this is that same arrow is unknown, although many a Barding would claim it was so.",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Scatha's Tooth",
+    "type": "Axe",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Type: Axe. Craftsmanship: Dwarven (Erebor). Banes: —. Enchanted Qualities: 1. Gleam of Terror 2. Fell 3. Curse of Weakness (Dragon-sickness). Notes: When Fram slew the Dragon Scatha, he took his hoard as his own, much to the dismay of the Dwarves of the Grey Mountains. As recompense he sent them a handful of the Dragon's teeth, one of which is embedded in the haft of this axe. Although the blade strikes true, something of the Dragon's greed remains about it.",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Biting-storm",
+    "type": "Great Spear",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Type: Great Spear. Craftsmanship: Dwarven and Elven (Khazad-dûm and Eregion). Banes: Dragon. Qualities: 1. Superior Grievous 2. Fierce (see page 30). Notes: Forged in Khazad-dûm and wound with the spells of the Elves of Eregion, Biting-storm was fashioned with one purpose in mind: to pierce the heart of a terrible Dragon, whose name has long been lost to legend.",
+    "source": "(Lonely Mountain Region Guide, p.96)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Ironfoot Hauberk (Ring-mail)",
+    "type": "Armor",
+    "rarity": "Heirloom",
+    "requires_attunement": false,
+    "description": "The ancient weaponsmiths of your folk possessed the secret of forging a hauberk of steel mail, made of a fine and flexible mesh that is especially comfortable and lightweight (for a suit of metal armour). You do not have Disadvantage on Stealth checks when wearing the Ironfoot Hauberk. Furthermore, if you have Dexterity of 12 or higher, the armour provides AC 15.",
+    "source": "(Lonely Mountain Region Guide, p.131)",
+    "_source_manual": "LMRG"
+  },
+  {
+    "name": "Worm Axe",
+    "type": "Weapon (Great Axe)",
+    "rarity": "",
+    "requires_attunement": false,
+    "description": "A Worm Axe is a double-headed weapon used by the Dwarves in their wars against the Dragons. Its hooked end can bite into the armoured skin of a Great Worm. When a creature with a Weak Spot exposes it and you use your reaction to strike, you have Advantage on your attack roll.",
+    "source": "(Lonely Mountain Region Guide, p.134)",
+    "_source_manual": "LMRG"
   }
 ]

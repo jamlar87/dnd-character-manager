@@ -5162,5 +5162,53 @@
     "concentration": false,
     "source": "(Creature Codex)",
     "_source_manual": "CC"
+  },
+  {
+    "name": "Shuffle",
+    "level": 7,
+    "school": "enchantment",
+    "casting_time": "1 action",
+    "range": "Self (20-foot radius)",
+    "components": "V, M (a gray ribbon)",
+    "duration": "Concentration, up to 1 minute",
+    "description": "All creatures in a 20-foot-radius sphere centered on you that have fewer hit points than you when you cast the spell are compelled to dance a swaying, side-to-side shuffle-step. Any creature that can't be charmed is immune to the effects of this spell. An affected creature has its movement halved, cannot use reactions, and can make only one weapon or spell attack on its turn. At the beginning of its turn, a creature in the area can choose to take 1d4 levels of exhaustion to end the effect of this spell on itself. A creature that has gained levels of exhaustion from this spell can remove all of them upon finishing a short rest.",
+    "higher_levels": "",
+    "classes": [],
+    "ritual": false,
+    "concentration": true,
+    "source": "(Book of Ebon Tides)",
+    "_source_manual": "EBT"
+  },
+  {
+    "name": "Cure Wounds (partial - name not shown)",
+    "level": 1,
+    "school": "evocation",
+    "casting_time": "1 bonus action",
+    "range": "60 feet",
+    "components": "V, S",
+    "duration": "Instantaneous",
+    "description": "A beast of your choice that you can see within range regains a number of hit points equal to 1d6 + your spellcasting modifier.",
+    "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the healing increases by 1d6 for each slot level above 1st.",
+    "classes": [],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Margreve Player's Guide)",
+    "_source_manual": "MPG"
+  },
+  {
+    "name": "Ast",
+    "level": 2,
+    "school": "necromancy",
+    "casting_time": "1 action",
+    "range": "Touch",
+    "components": "V, S, M (emeralds worth 100 gp, which the spell consumes)",
+    "duration": "Instantaneous",
+    "description": "You touch a beast that has died within the last minute. That beast returns to life with 1 hit points. This spell can't return to life a beast that has died of old age, nor can it restore any missing body parts.",
+    "higher_levels": "",
+    "classes": [],
+    "ritual": false,
+    "concentration": false,
+    "source": "(Margreve Player's Guide)",
+    "_source_manual": "MPG"
   }
 ]
