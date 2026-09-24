@@ -1642,7 +1642,7 @@
   },
   {
     "name": "Tortle",
-    "source": "(The Tortle Package, p.4)",
+    "source": "(Monsters of the Multiverse, p.34)",
     "asi": {
       "strength": 2,
       "dexterity": 0,
@@ -1661,7 +1661,39 @@
     "traits": [
       {
         "name": "Ability Score Increase",
-        "description": "Your Strength score increases by 2, and your Wisdom score increases by 1."
+        "description": "When determining your character's ability scores, increase one score by 2 and increase a different score by 1, or increase three different scores by 1. Follow this rule regardless of the method you use to determine the scores, such as rolling or point buy."
+      },
+      {
+        "name": "Creature Type",
+        "description": "You are a Humanoid."
+      },
+      {
+        "name": "Claws",
+        "description": "You have claws that you can use to make unarmed strikes. When you hit with them, the strike deals 1d6 + your Strength modifier slashing damage, instead of the bludgeoning damage normal for an unarmed strike.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Hold Breath",
+        "description": "You can hold your breath for up to 1 hour.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Natural Armor",
+        "description": "Your shell provides you a base AC of 17 (your Dexterity modifier doesn't affect this number). You can't wear light, medium, or heavy armor, but if you are using a shield, you can apply the shield's bonus as normal.",
+        "uses": 0,
+        "recharge": ""
+      },
+      {
+        "name": "Nature's Intuition",
+        "description": "Thanks to your mystical connection to nature, you gain proficiency with one of the following skills of your choice: Animal Handling, Medicine, Nature, Perception, Stealth, or Survival."
+      },
+      {
+        "name": "Shell Defense",
+        "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to your AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can't increase, you have disadvantage on Dexterity saving throws, you can't take reactions, and the only action you can take is a bonus action to emerge from your shell.",
+        "uses": 0,
+        "recharge": ""
       },
       {
         "name": "Age",
@@ -1678,36 +1710,6 @@
       {
         "name": "Speed",
         "description": "Your base walking speed is 30 feet."
-      },
-      {
-        "name": "Claws",
-        "description": "Your claws are natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal slashing damage equal to 1d4 + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike.",
-        "uses": 0,
-        "recharge": ""
-      },
-      {
-        "name": "Hold Breath",
-        "description": "You can hold your breath for up to 1 hour at a time. Tortles aren't natural swimmers, but they can remain underwater for some time before needing to come up for air.",
-        "uses": 0,
-        "recharge": ""
-      },
-      {
-        "name": "Natural Armor",
-        "description": "Due to your shell and the shape of your body, you are ill-suited to wearing armor. Your shell provides ample protection, however; it gives you a base AC of 17 (your Dexterity modifier doesn't affect this number). You gain no benefit from wearing armor, but if you are using a shield, you can apply the shield's bonus as normal.",
-        "uses": 0,
-        "recharge": ""
-      },
-      {
-        "name": "Shell Defense",
-        "description": "You can withdraw into your shell as an action. Until you emerge, you gain a +4 bonus to AC, and you have advantage on Strength and Constitution saving throws. While in your shell, you are prone, your speed is 0 and can't increase, you have disadvantage on Dexterity saving throws, you can't take reactions, and the only action you can take is a bonus action to emerge from your shell.",
-        "uses": 0,
-        "recharge": ""
-      },
-      {
-        "name": "Survival Instinct",
-        "description": "You gain proficiency in the Survival skill. Tortles have finely honed survival instincts.",
-        "uses": 0,
-        "recharge": ""
       },
       {
         "name": "Languages",
@@ -1878,7 +1880,7 @@
         "notes": ""
       }
     },
-    "_source_manual": "TTP"
+    "_source_manual": "MPMM"
   },
   {
     "name": "Hollow One",

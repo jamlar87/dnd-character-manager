@@ -179,8 +179,9 @@ def test_suppression_list_does_not_shadow_a_live_source():
 
 
 # Empty: every source in data/manual_data now resolves to a book the app can open. The
-# last holdout was Tortle's "(Monsters of the Multiverse, p.34)" — that PDF isn't in the
-# library, so the race is now cited to The Tortle Package p.4, the printing we do have.
+# Tortle has moved twice: it was ingested from Monsters of the Multiverse, repointed to The
+# Tortle Package while MPMM was not owned, and restored to MPMM once that PDF was wired in as
+# slug MPMM (scripts/restore_tortle_mpmm.py). Both books resolve now.
 KNOWN_UNRESOLVABLE = {}
 
 

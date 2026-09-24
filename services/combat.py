@@ -138,7 +138,7 @@ def _build_racial_traits(char: dict) -> list:
 # Tusks deals a flat 1 + 1d4), but the attack roll still adds STR.
 _NATURAL_WEAPON_ATTACKS = {
     "Claws":       {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Molefolk, Thri-kreen (legacy)
-    "Tortle::Claws": {"damage": "1d4", "type": "slashing", "source_note": "natural weapon (unarmed strike)"},   # Tortle — The Tortle Package p.4
+    "Tortle::Claws": {"damage": "1d6", "type": "slashing", "source_note": "natural weapon (unarmed strike)"},   # Tortle — Monsters of the Multiverse p.34
     "Cat's Claws": {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Tabaxi
     "Talons":      {"damage": "1d4", "type": "slashing",  "source_note": "natural weapon (unarmed strike)"},   # Aarakocra
     "Bite":        {"damage": "1d6", "type": "piercing",  "source_note": "natural weapon (unarmed strike)"},   # Lizardfolk, Bearfolk, Thri-kreen
