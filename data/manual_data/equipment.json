@@ -2971,5 +2971,235 @@
     "weight": 0,
     "source": "(D&D 5E  Guildmasters' Guide to Ravnica)",
     "_source_manual": "GGR"
+  },
+  {
+    "name": "Iron Ingot",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 10,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Adamantine Ingot",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ore Cart",
+    "type": "Vehicle",
+    "subtype": "Mine Cart",
+    "damage": "",
+    "properties": [
+      "Can be shunted onto side passages using a crowbar",
+      "Brake can fail (10% chance per use if old)",
+      "Requires dinosaur to pull up track"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dragon-Shaped Medal and Chain (Gold)",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarf-Made Breastplate",
+    "type": "Armor",
+    "subtype": "medium",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarf-Made Helmet",
+    "type": "Armor",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarf-Made Shield",
+    "type": "Armor",
+    "subtype": "shield",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarf-Made Warhammer",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 bludgeoning",
+    "properties": [
+      "versatile (1d10)"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Dwarf-Made Battleaxe",
+    "type": "Weapon",
+    "subtype": "martial melee",
+    "damage": "1d8 slashing",
+    "properties": [
+      "versatile (1d10)"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Arrows (20)",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Artisan's Tools",
+    "type": "Tools",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ivory Back Scratcher",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Holy Symbol of Bahamut",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "25 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Belt Pouch",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Diamond (500 gp)",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "500 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Peridot Gemstone",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "500 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Brittle arrow",
+    "type": "Ammunition",
+    "subtype": "",
+    "damage": "1 piercing",
+    "properties": [
+      "shatters on impact"
+    ],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Acererak's Scepter",
+    "type": "Weapon",
+    "subtype": "mace",
+    "damage": "1d6 bludgeoning",
+    "properties": [],
+    "cost": "",
+    "weight": 12,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Hornet Mask",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "250 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Small Jade Key (crocodile-shaped)",
+    "type": "Treasure",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
   }
 ]

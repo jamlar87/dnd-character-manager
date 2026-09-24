@@ -116926,5 +116926,504 @@
     "legendary_actions": [],
     "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.189)",
     "_source_manual": "GGR"
+  },
+  {
+    "name": "Pirate (Bandit)",
+    "size": "Medium",
+    "type": "humanoid (any race)",
+    "alignment": "any non-lawful alignment",
+    "armor_class": 12,
+    "ac_type": "leather armor",
+    "hit_points": "11 (2d8+2)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 12,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 10",
+    "languages": [
+      "any one language (usually Common)"
+    ],
+    "challenge_rating": "1/8",
+    "xp": 25,
+    "features": [],
+    "actions": [
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6+1) slashing damage."
+      },
+      {
+        "name": "Light Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 80/320 ft., one target. Hit: 5 (1d8+1) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.343)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "King of Feathers",
+    "size": "Huge",
+    "type": "monstrosity",
+    "alignment": "unaligned",
+    "armor_class": 13,
+    "ac_type": "natural armor",
+    "hit_points": "200",
+    "speed": "50 ft.",
+    "ability_scores": {
+      "strength": 25,
+      "dexterity": 10,
+      "constitution": 19,
+      "intelligence": 2,
+      "wisdom": 12,
+      "charisma": 9
+    },
+    "saving_throws": {},
+    "skills": {},
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 11",
+    "languages": [],
+    "challenge_rating": "8",
+    "xp": 3900,
+    "features": [
+      {
+        "name": "Legendary Resistance (3/Day)",
+        "description": "If the King of Feathers fails a saving throw, it can choose to succeed instead.",
+        "uses": 3,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "It can innately cast misty step at will, requiring no components. Its spellcasting ability is Wisdom."
+      },
+      {
+        "name": "Keen Senses",
+        "description": "It can see invisible creatures and objects as if they were visible."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Bite",
+        "description": "Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 33 (4d12 + 7) piercing damage. If the target is a Medium or smaller creature, it is grappled (escape DC 17). Until this grapple ends, the target is restrained, and the tyrannosaurus can't bite another target."
+      },
+      {
+        "name": "Tail",
+        "description": "Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 20 (3d8 + 7) bludgeoning damage."
+      },
+      {
+        "name": "Summon Swarm (Recharge 5-6)",
+        "description": "The King of Feathers exhales a swarm of insects (wasps) that forms in a space within 20 feet of it. The swarm acts as an ally of the King of Feathers and takes its turn immediately after it. The swarm disperses after 1 minute. It can't use the Summon Swarm action while it is grappling a creature with its jaws.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.106)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Tomb Dwarf",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "neutral evil",
+    "armor_class": 14,
+    "ac_type": "studded leather",
+    "hit_points": "45 (6d8+18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 13,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Stealth": 4
+    },
+    "damage_resistances": [
+      "necrotic",
+      "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+    ],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 13",
+    "languages": [
+      "the languages it knew in life"
+    ],
+    "challenge_rating": "3",
+    "xp": 700,
+    "features": [
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, the tomb dwarf has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Battleaxe",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8+2) slashing damage, or 7 (1d10+2) slashing damage if used with two hands."
+      },
+      {
+        "name": "Light Crossbow",
+        "description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 6 (1d8+2) piercing damage."
+      },
+      {
+        "name": "Life Drain",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6+2) necrotic damage. The target must succeed on a DC 13 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Withers",
+    "size": "Medium",
+    "type": "undead",
+    "alignment": "neutral evil",
+    "armor_class": 14,
+    "ac_type": "studded leather",
+    "hit_points": "45 (6d8+18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 15,
+      "dexterity": 14,
+      "constitution": 16,
+      "intelligence": 16,
+      "wisdom": 13,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 3,
+      "Stealth": 4
+    },
+    "damage_resistances": [
+      "necrotic",
+      "bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered"
+    ],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "charmed",
+      "exhaustion",
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 13",
+    "languages": [
+      "the languages it knew in life"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Sunlight Sensitivity",
+        "description": "While in sunlight, Withers has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Withers is a 9th-level spellcaster. His spellcasting ability is Intelligence (spell save DC 13; +5 to hit with spell attacks). He has the following wizard spells prepared:\nCantrips (at will): acid splash, mage hand, minor illusion, prestidigitation\n1st level (4 slots): detect magic, expeditious retreat, featherfall, thunderwave\n2nd level (3 slots): darkness, hold person, rope trick\n3rd level (3 slots): dispel magic, lightning bolt\n4th level (3 slots): blight, wall of fire\n5th level (1 slot): telekinesis"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Battleaxe",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8+2) slashing damage, or 7 (1d10+2) slashing damage if used with two hands."
+      },
+      {
+        "name": "Life Drain",
+        "description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6+2) necrotic damage. The target must succeed on a DC 13 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the target finishes a long rest. The target dies if this effect reduces its hit point maximum to 0."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Albino Dwarf Spirit Warrior",
+    "size": "Medium",
+    "type": "humanoid (dwarf)",
+    "alignment": "any alignment",
+    "armor_class": 13,
+    "ac_type": "hide armor",
+    "hit_points": "30 (4d8 + 12)",
+    "speed": "25 ft.",
+    "ability_scores": {
+      "strength": 13,
+      "dexterity": 13,
+      "constitution": 17,
+      "intelligence": 12,
+      "wisdom": 14,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 4,
+      "Stealth": 3,
+      "Survival": 4
+    },
+    "damage_resistances": [
+      "poison"
+    ],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [
+      "Common",
+      "Dwarvish"
+    ],
+    "challenge_rating": "1",
+    "xp": 200,
+    "features": [
+      {
+        "name": "Dwarven Resilience",
+        "description": "The dwarf has advantage on saving throws against poison."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The dwarf's innate spellcasting ability is Wisdom. It can innately cast the following spells, requiring no material components:\n1/day each: hunter's mark, jump, pass without trace, speak with animals, speak with plants"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Handaxe",
+        "description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d6 + 1) slashing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.210)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Liara Portyr",
+    "size": "Medium",
+    "type": "humanoid (human)",
+    "alignment": "lawful evil",
+    "armor_class": 15,
+    "ac_type": "studded leather, shield",
+    "hit_points": "84 (13d8 + 26)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 12,
+      "constitution": 15,
+      "intelligence": 14,
+      "wisdom": 14,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "con": 4,
+      "wis": 4
+    },
+    "skills": {
+      "Athletics": 5,
+      "Deception": 5,
+      "Insight": 4,
+      "Intimidation": 5
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 12",
+    "languages": [
+      "Common",
+      "Draconic",
+      "Dwarvish"
+    ],
+    "challenge_rating": "4",
+    "xp": 1100,
+    "features": [
+      {
+        "name": "Brave",
+        "description": "Liara has advantage on saving throws against being frightened."
+      },
+      {
+        "name": "Flaming Fury",
+        "description": "Once per turn, when Liara hits a creature with a melee weapon, she can cause fire to magically erupt from her weapon and deal an extra 10 (3d6) fire damage to the target."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Liara makes three melee attacks."
+      },
+      {
+        "name": "Battleaxe",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage when used with two hands."
+      },
+      {
+        "name": "Heavy Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.226)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Mwaxanare",
+    "size": "Medium",
+    "type": "humanoid (human)",
+    "alignment": "lawful neutral",
+    "armor_class": 10,
+    "ac_type": "",
+    "hit_points": "13 (3d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 6,
+      "dexterity": 10,
+      "constitution": 11,
+      "intelligence": 13,
+      "wisdom": 12,
+      "charisma": 16
+    },
+    "saving_throws": {},
+    "skills": {
+      "Deception": 5,
+      "Nature": 3,
+      "Persuasion": 5,
+      "Religion": 3
+    },
+    "damage_resistances": [],
+    "damage_immunities": [],
+    "condition_immunities": [],
+    "senses": "passive Perception 11",
+    "languages": [
+      "Auran",
+      "Common",
+      "telepathy 30 ft."
+    ],
+    "challenge_rating": "1/8",
+    "xp": 25,
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "Mwaxanare is a 2nd-level spellcaster. Her spellcasting ability is Charisma (spell save DC 13, +5 to hit with spell attacks). She regains her expended spell slots when she finishes a short or long rest. She knows the following warlock spells:\nCantrips (at will): eldritch blast, mage hand\n1st level (2 slots): charm person, protection from evil and good, unseen servant"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +2 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 2 (1d4) piercing damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation, p.228)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ras Nsi",
+    "size": "Medium",
+    "type": "monstrosity (shapechanger, yuan-ti)",
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "ac_type": "bracers of defense",
+    "hit_points": "127 (17d8 + 51) reduced to 107; subtract 1 for each day that passes during the adventure",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 17,
+      "dexterity": 16,
+      "constitution": 17,
+      "intelligence": 18,
+      "wisdom": 18,
+      "charisma": 21
+    },
+    "saving_throws": {
+      "Con": 6,
+      "Wis": 7
+    },
+    "skills": {
+      "Deception": 8,
+      "Persuasion": 8,
+      "Religion": 7,
+      "Stealth": 6
+    },
+    "damage_resistances": [],
+    "damage_immunities": [
+      "poison"
+    ],
+    "condition_immunities": [
+      "poisoned"
+    ],
+    "senses": "darkvision 60 ft., passive Perception 14",
+    "languages": [
+      "Abyssal",
+      "Common",
+      "Draconic"
+    ],
+    "challenge_rating": "7",
+    "xp": 2900,
+    "features": [
+      {
+        "name": "Special Equipment",
+        "description": "Ras Nsi wears bracers of defense, wields a flame tongue longsword, and carries a sending stone matched to one carried by the guide Salida (see chapter 1)."
+      },
+      {
+        "name": "Shapechanger",
+        "description": "Ras Nsi can use his action to polymorph into a Medium snake or back into his yuan-ti form. His statistics are the same in each form. Any equipment he is wearing or carrying isn't transformed. He doesn't change form if he dies."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "Ras Nsi's innate spellcasting ability is Charisma (spell save DC 16). He can innately cast the following spells, requiring no material components:\nAt will: animal friendship (snakes only)\n3/day: suggestion"
+      },
+      {
+        "name": "Spellcasting",
+        "description": "Ras Nsi is an 11th-level spellcaster. His spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). Ras Nsi has the following wizard spells prepared:\nCantrips (at will): chill touch, fire bolt, mage hand, mending, poison spray\n1st level (4 slots): expeditious retreat, false life, magic missile, shield\n2nd level (3 slots): blindness/deafness, hold person, misty step\n3rd level (3 slots): animate dead, counterspell, fireball\n4th level (3 slots): blight, polymorph\n5th level (2 slots): contact other plane, geas\n6th level (1 slot): create undead"
+      },
+      {
+        "name": "Magic Resistance",
+        "description": "Ras Nsi has advantage on saving throws against spells and other magical effects."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "Ras Nsi makes three melee attacks, but can use Constrict only once."
+      },
+      {
+        "name": "Bite (Snake Form Only)",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 5 (1d4 + 3) piercing damage plus 7 (2d6) poison damage."
+      },
+      {
+        "name": "Constrict",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one creature. Hit: 10 (2d6 + 3) bludgeoning damage, and the target is grappled (escape DC 14). Until this grapple ends, the target is restrained, and Ras Nsi can't constrict another target."
+      },
+      {
+        "name": "Flame Tongue Longsword (Yuan-ti Form Only)",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage when used with two hands, plus 7 (2d6) fire damage."
+      }
+    ],
+    "reactions": [],
+    "legendary_actions": [],
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
   }
 ]

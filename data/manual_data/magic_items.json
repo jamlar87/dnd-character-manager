@@ -7045,5 +7045,410 @@
     "description": "When you activate this charm, you can cast the enhance ability (3rd-level version), enlarge/reduce, or gaseous form spell. The charm vanishes after you activate it.",
     "source": "(D&D 5E  Guildmasters' Guide to Ravnica, p.173)",
     "_source_manual": "GGR"
+  },
+  {
+    "name": "Spell Scroll of Commune with Nature",
+    "type": "Scroll",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A spell scroll of commune with nature.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Spell Scroll (Lesser Restoration)",
+    "type": "Scroll",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A spell scroll bears the words of a single spell, written in a mystical cipher. If the spell is on your class's spell list, you can read the scroll and cast its spell without providing any material components. Otherwise, the scroll is unintelligible. Casting the spell by reading the scroll requires the spell's normal casting time. Once the spell is cast, the words on the scroll fade, and it crumbles to dust. If the casting is interrupted, the scroll is lost. This scroll contains the lesser restoration spell (save DC 13).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.200)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Sending Stone",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Sending stones come in pairs, with each smooth stone carved to match the other so the pairing is easily recognized. While you touch one stone, you can use an action to cast the sending spell from it. The target is the bearer of the other stone. If no creature bears the other stone, you know that fact as soon as you use the stone and don't cast the spell. Once sending is cast through the stones, they can't be used again until the next dawn. If one of the stones in a pair is destroyed, the other one becomes nonmagical.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.199)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Moradin's Gauntlet",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Resting atop one crate is a gauntlet made of gold and sized for an adult dwarf. The dwarves of Chult call it Moradin's Gauntlet, and it's customarily worn by the overseers of Hrakhamar. It is finely crafted and worth 2,500 gp, though a wealthy dwarf would pay twice that much to acquire it.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.72)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Mithral Breastplate",
+    "type": "Armor (medium)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Most of the dwarves' possessions were burned or melted by dragon fire, but one skeleton wears a mithral breastplate that survived the flames.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.60)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "+1 Battleaxe (Bob)",
+    "type": "Weapon (battleaxe)",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "One of the dwarf-made battleaxes is actually a +1 battleaxe that floats on water and other liquids, and grants its bearer advantage on Strength (Athletics) checks made to swim. Etched into the haft of the battleaxe are Dethek (Dwarvish) runes that spell the weapon's name: Bob.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.60)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Control Amulet for Shield Guardian",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "The queen wears a bronze and adamantine medallion that has the word \"Vorn\" etched into it. This is the control amulet for a shield guardian (see \"Vorn,\" page 83). None of the goblins have any notion the amulet is related to the object they venerate as a minor deity.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.90)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Tortoise-Shell Shield",
+    "type": "Armor (shield)",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A detect magic spell reveals an aura of transmutation magic around the shield hanging on the wall. The shield has a minor magical property: words spoken by the shield's bearer are amplified and sound ten times louder than normal. The tortoise-shell shield belongs to Sekelok, and only he is allowed to touch it.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.117)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Holy Symbol of Dendar the Night Serpent",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Fenthaza wears a holy symbol of Dendar the Night Serpent (25 gp) around her neck.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.117)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "A black leather quiver embroidered with a quartz-studded sta",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A black leather quiver embroidered with a quartz-studded star map (75 gp).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.117)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Ceremonial Dagger in a Gold Scabbard",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A ceremonial dagger in a gold scabbard embossed with a scene of stampeding jungle animals (25 gp).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.117)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Staff of Striking (Cursed)",
+    "type": "Staff",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Devlin's staff is a staff of striking, but any character who attunes to it transforms into a goat-humanoid hybrid over the course of 3 days. Tieflings are immune to this curse. Throughout the first day, shaggy fur begins to grow all over the cursed character's body. After 24 hours, the character's eyes become goat-like, and stumpy horns sprout from the brow. On the last day, the character's fingers and toes meld into double digits, and the horns grow to full length. This transformation doesn't prevent the character from wielding weapons or casting spells. Remove curse, greater restoration, or any other effect that ends a curse restores the character's original appearance, but only a wish spell can rid the staff of its power to transform those who attune to it.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.141)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Sapphire Cord",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The dao wears two sapphire cords (1,250 gp each).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Platinum Armband",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Two platinum armbands engraved with dueling dragons (750 gp each).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Topaz Belly-Button Gemstone",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "A topaz belly-button gemstone (500 gp).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Potion of Poison (disguised as Potion of Supreme Healing)",
+    "type": "Potion",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "Inside the sarcophagus are a potion of poison disguised as a potion of supreme healing.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Petrified Gruog Egg (functions as Pearl of Power)",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "A petrified gruog egg that functions as a pearl of power. A spellcaster that attunes to the egg also gains resistance to poison damage. The egg turns to dust and is destroyed if it leaves the Tomb of the Nine Gods (but see \"Lost Treasures,\" page 189).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.143)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Manual of Golems (Clay)",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "A manual of golems (clay) lies open on his desk next to a spellbook containing all the spells he has prepared.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Skeletal Songbird",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Withers's skeletal songbird is tame but cantankerous. It can't fly, but it can be sold to a buyer in Port Nyanzaru for 75 gp.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Bronze Mask",
+    "type": "Wondrous item",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "Withers's bronze mask is worth 25 gp.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.148)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Crystal Eye",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The nonmagical crystal eye is one of the ten keys needed to open the vault of the beholder (area 44).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.32)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wand of Wonder (Spiral Horn)",
+    "type": "Wand",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "The sarcophagus contains the fragile bones of an almiraj (I'jin's animal form; see appendix D), as well as its spiral horn, which functions as a wand of wonder. The horn turns to dust and is destroyed if it leaves the Tomb of the Nine Gods (but see \"Lost Treasures,\" page 189).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.35)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Bravus's Yellow Turban",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "Bravus's yellow turban is set with a peridot gemstone (500 gp).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.35)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Iron Sphere",
+    "type": "Wondrous item",
+    "rarity": "unique",
+    "requires_attunement": false,
+    "description": "The iron sphere is hollow and immobile, and it remains inert while the drape covers it. Belchorzh can use its telekinetic eye ray to remove the drape at any time, revealing the sphere and causing it to emit a magical magnetic field. Each creature in the room wearing metal armor is pulled to the sphere and becomes stuck to it, as does any metal weapon or object that isn't secured or being held. Any creature stuck to the sphere is restrained until the magnetic field deactivates. Any ranged attack made in the chamber that uses ammunition made wholly or partly from metal has disadvantage on the attack roll; if the attack misses, the ammunition becomes stuck to the sphere. Throwing the black drape over the sphere renders it temporarily inert, with creatures and objects stuck to it falling to the floor. A successful dispel magic (DC 16) cast on the sphere dispels the Nystul's magic aura spell, permanently deactivates the magnetic field, and causes the sphere to crash to the floor. This sends a web of cracks through the marble, negating the floor's frictionless effect and allowing creatures to move across it normally. The sphere also deactivates and falls if it comes into contact with an antimagic field or is destroyed. The sphere is a Large object with AC 20; 100 hit points; resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks; and immunity to poison and psychic damage. It weighs 1,000 pounds. While the magnetic field is active, any attack made against the sphere with a metal weapon automatically hits, though the weapon becomes stuck to the sphere after impact.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.157)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Clay Chameleon Statuette",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "A clay chameleon statuette covered in crystal beads that change colors (25 gp)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.157)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Painted Gold Masks",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "Three painted gold masks sized for children and shaped like the faces of a bat, a monkey, and a parrot, respectively (75 gp each)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.157)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Gold Coronet",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "A gold coronet shaped like an octopus with mother-of-pearl eyes (2,500 gp)",
+    "source": "(D&D 5E  Tomb of Annihilation, p.157)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "+1 Shield",
+    "type": "Armor",
+    "rarity": "uncommon",
+    "requires_attunement": false,
+    "description": "A bronze +1 shield shaped like a screaming devil's face",
+    "source": "(D&D 5E  Tomb of Annihilation, p.157)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Necklace of Fireballs (cursed)",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": false,
+    "description": "A necklace of fireballs with eight beads remaining. Acererak placed a curse on the necklace, which can be revealed by an identify spell. When any creature dons the cursed necklace, all its beads detonate at once. Each creature in a 20-foot-radius sphere centered on the exploding necklace must make a DC 15 Dexterity saving throw, taking 56 (16d6) fire damage on a failed save, or half as much damage on a successful one. The wearer of the necklace fails the saving throw automatically. A remove curse spell or similar magic removes the curse from the necklace.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.53)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Opalescent Bracelet",
+    "type": "Wondrous item",
+    "rarity": "common",
+    "requires_attunement": false,
+    "description": "Ten opalescent bracelets (75 gp each) made from the shell of a flail snail (Unkh's animal form; see appendix D).",
+    "source": "(D&D 5E  Tomb of Annihilation, p.152)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Red Key",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The recipient gains a charm of the ghoul. This charm allows you to use an action to eat a mouthful of flesh from a humanoid that has been dead no longer than 1 day. When you do, you regain 3d8 + 3 hit points. Once used three times, the charm goes away.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.168)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Magic scepter (adamantine head)",
+    "type": "Rod",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "The adamantine head of which reduces the juggernaut to 0 hit points and turns it to dust on contact. While the juggernaut is inert, no attack roll is needed to strike it with the scepter. If the juggernaut has been awakened, a character can use the scepter to make a melee weapon attack against the juggernaut, reducing it to 0 hit points and turning it to dust on a hit.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.173)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Strawbundle's Charm",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "While you have Strawbundle in your possession, this charm allows you to cast the etherealness spell as an action, no components required. After it is used three times, the charm vanishes.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.180)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Clay No-Face's Charm",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "While you have Clay No-Face in your possession, you don't need to eat, drink, or breathe. These benefits last for 30 days while the doll is in your possession, after which the charm vanishes from you.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.180)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Joho's Charm",
+    "type": "Wondrous item",
+    "rarity": "unknown",
+    "requires_attunement": false,
+    "description": "While you have Joho in your possession, it grants you the benefit of a helm of comprehending languages. This benefit lasts for 7 days while the doll is in your possession, after which the charm vanishes from you.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.180)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Obo'laka's ring of protection",
+    "type": "Ring",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Obo'laka's ring of protection (area 10). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Moa's staff of the python",
+    "type": "Staff",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Moa's staff of the python (area 14). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Wongo's mace of terror",
+    "type": "Weapon (mace)",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Wongo's mace of terror (area 16). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Papazotl's amulet of health",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Papazotl's amulet of health (area 22). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Nangnang's egg-shaped pearl of power",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Nangnang's egg-shaped pearl of power (area 24). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "I'jin's horn-shaped wand of wonder",
+    "type": "Wand",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include I'jin's horn-shaped wand of wonder (area 35). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Kubazan's bracers of archery",
+    "type": "Wondrous item",
+    "rarity": "uncommon",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Kubazan's bracers of archery (area 42). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Shagambi's instrument of the bards",
+    "type": "Wondrous item",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Shagambi's instrument of the bards (area 48). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Unkh's robe of scintillating colors",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": true,
+    "description": "Certain magic items- specifically those in which the spirits of the nine trickster gods reside- turn to dust and are destroyed as soon as they exit the tomb. These items include Unkh's robe of scintillating colors (area 55). If, in your estimation, a player did an extraordinary job roleplaying a trickster god's flaw, the god's spirit might reward that player's character by allowing its magic item to exist outside the tomb, provided that character is attuned to the item when it leaves the tomb.",
+    "source": "(D&D 5E  Tomb of Annihilation, p.189)",
+    "_source_manual": "ToA"
+  },
+  {
+    "name": "Flame Tongue Longsword",
+    "type": "Weapon (longsword)",
+    "rarity": "rare",
+    "requires_attunement": true,
+    "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage when used with two hands, plus 7 (2d6) fire damage.",
+    "source": "(D&D 5E  Tomb of Annihilation)",
+    "_source_manual": "ToA"
   }
 ]
