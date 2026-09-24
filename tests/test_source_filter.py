@@ -348,9 +348,12 @@ def test_manual_titles_labels_known_books(client):
 
 def test_manual_titles_match_covers_data_slug_aliases(client):
     manuals = {m["slug"]: m for m in client.get("/api/reference/manual-titles").json()["manuals"]}
-    # Loremaster's Guide: the file is slug LMG2, the data references slug LMG.
-    lmg2 = manuals["LMG2"]
-    assert "LMG" in lmg2["match"] and "LMG2" in lmg2["match"]
+    # Loremaster's Guide: its file is shared by slugs LMG2 and LMG, and the data references both.
+    # Which of the two survives the by-path de-duplication depends on which one carries data, so
+    # find the entry by its alias list instead of assuming the survivor is LMG2.
+    entry = next((m for m in manuals.values() if "LMG2" in (m.get("match") or [])), None)
+    assert entry, "no manual-titles entry covers the LMG2 alias of the Loremaster's Guide"
+    assert "LMG" in entry["match"] and "LMG2" in entry["match"]
     assert all(isinstance(m["match"], list) and m["match"] for m in manuals.values())
     assert all(m["slug"] in m["match"] for m in manuals.values())
 

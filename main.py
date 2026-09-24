@@ -2672,11 +2672,13 @@ def _manual_titles() -> list[dict]:
     tested = set((meta or {}).get("source_manuals", []) or [])  # books with extracted data
 
     seen_paths: dict[str, dict] = {}
+    by_path: dict[str, list[str]] = {}   # every slug per file: a shared file IS an alias
     for slug, info in pdf_map.items():
         path = (info or {}).get("path", "")
         if not path:
             continue
         basename = path.rsplit("/", 1)[-1]
+        by_path.setdefault(path.lstrip("DnD-Manuals/").lower(), []).append(slug)
         if _NON_MANUAL_RE.search(basename):
             continue
         title = _TITLE_OVERRIDES.get(basename.lower())
@@ -2688,9 +2690,9 @@ def _manual_titles() -> list[dict]:
         key = path.lstrip("DnD-Manuals/").lower()
         prev = seen_paths.get(key)
         if prev is None:
-            seen_paths[key] = {"slug": slug, "title": title}
+            seen_paths[key] = {"slug": slug, "title": title, "key": key}
         elif slug in tested and prev["slug"] not in tested:
-            seen_paths[key] = {"slug": slug, "title": title}  # prefer the slug with data
+            seen_paths[key] = {"slug": slug, "title": title, "key": key}  # prefer the slug with data
     # Alias slugs that share the entry's title (data may reference either).
     slug_map = _get_source_slug_map()
     by_display: dict[str, list[str]] = {}
@@ -2702,6 +2704,9 @@ def _manual_titles() -> list[dict]:
     out = []
     for entry in seen_paths.values():
         aliases = set(by_display.get(entry["title"].strip().lower(), []))
+        # A slug with no curated display (LMG2) never joins by_display, so a data string naming it
+        # would not match its picker entry. Sharing a file is the stronger, hand-kept-free signal.
+        aliases.update(by_path.get(entry.pop("key", ""), []))
         aliases.add(entry["slug"])
         entry["match"] = sorted(aliases)
         out.append(entry)
