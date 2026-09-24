@@ -1,0 +1,1717 @@
+{
+  "races": [
+    {
+      "name": "Shield Dwarf",
+      "source": "SCAG p.104",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Dwarvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Dwarven Resilience",
+          "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+        },
+        {
+          "name": "Dwarven Combat Training",
+          "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer."
+        },
+        {
+          "name": "Tool Proficiency",
+          "description": "You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools."
+        },
+        {
+          "name": "Stonecunning",
+          "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus."
+        },
+        {
+          "name": "Dwarven Armor Training",
+          "description": "You have proficiency with light and medium armor."
+        }
+      ],
+      "subraces": [],
+      "description": "Shield dwarves are a sturdy and reclusive folk, known for their settlements in mountainous regions and their resilience in harsh environments.",
+      "_effects": {
+        "Dwarven Resilience": {
+          "damage_resist": [
+            "Poison"
+          ],
+          "notes": "Advantage on saving throws against poison (not full condition immunity)"
+        },
+        "Dwarven Combat Training": {
+          "weapon_profs": [
+            "Battleaxe",
+            "Handaxe",
+            "Light hammer",
+            "Warhammer"
+          ]
+        },
+        "Tool Proficiency": {
+          "tool_profs": [
+            "Smith's tools",
+            "Brewer's supplies",
+            "Mason's tools"
+          ]
+        },
+        "Stonecunning": {
+          "notes": "Treated as proficient in History for stonework-related checks, with doubled proficiency bonus"
+        },
+        "Dwarven Armor Training": {
+          "armor_profs": [
+            "Light armor",
+            "Medium armor"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Gold Dwarf",
+      "source": "SCAG p.104",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Dwarvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2."
+        },
+        {
+          "name": "Dwarven Resilience",
+          "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+        },
+        {
+          "name": "Dwarven Combat Training",
+          "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer."
+        },
+        {
+          "name": "Tool Proficiency",
+          "description": "You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools."
+        },
+        {
+          "name": "Stonecunning",
+          "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus."
+        },
+        {
+          "name": "Dwarven Toughness",
+          "description": "Your hit point maximum increases by 1, and it increases by 1 every time you gain a level."
+        }
+      ],
+      "subraces": [],
+      "description": "Gold dwarves are stocky and muscular, averaging about 4 feet tall, with brown skin, black or brown hair, and brown or hazel eyes, with green eyes rare (and considered lucky). Males grow full beards that they keep oiled and well groomed, and both genders wear their hair long and often elaborately braided.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2."
+        },
+        "Dwarven Resilience": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Poison"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison."
+        },
+        "Dwarven Combat Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Battleaxe",
+            "Handaxe",
+            "Light hammer",
+            "Warhammer"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Tool Proficiency": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [
+            "Smith's tools",
+            "Brewer's supplies",
+            "Mason's tools"
+          ],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one of the listed artisan's tools."
+        },
+        "Stonecunning": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "For Intelligence (History) checks related to the origin of stonework, treated as proficient in History and add double proficiency bonus instead of normal proficiency bonus."
+        },
+        "Dwarven Toughness": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 1,
+          "natural_armor": null,
+          "notes": ""
+        }
+      }
+    },
+    {
+      "name": "Gray Dwarf (Duergar)",
+      "source": "SCAG p.104",
+      "asi": {
+        "strength": 1,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 120,
+      "languages": [
+        "Common",
+        "Dwarvish",
+        "Undercommon"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Superior Darkvision",
+          "description": "Your darkvision has a radius of 120 feet."
+        },
+        {
+          "name": "Extra Language",
+          "description": "You can speak, read, and write Undercommon."
+        },
+        {
+          "name": "Duergar Resilience",
+          "description": "You have advantage on saving throws against illusions and against being charmed or paralyzed."
+        },
+        {
+          "name": "Duergar Magic",
+          "description": "When you reach 3rd level, you can cast the enlarge/reduce spell on yourself once with this trait, using only the spell's enlarge option. When you reach 5th level, you can cast the invisibility spell on yourself once with this trait. You don't need material components for either spell, and you can't cast them while you're in direct sunlight, although sunlight has no effect on them once cast. You regain the ability to cast these spells with this trait when you finish a long rest. Intelligence is your spellcasting ability for these spells.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Sunlight Sensitivity",
+          "description": "You have disadvantage on attack rolls and on Wisdom (Perception) checks that rely on sight when you, the target of your attack, or whatever you are trying to perceive is in direct sunlight."
+        }
+      ],
+      "subraces": [],
+      "description": "The gray dwarves, or duergar, live deep in the Underdark. After delving deeper than any other dwarves, they were enslaved by mind flayers for eons. Although they eventually won their freedom, these grim, ashen-skinned dwarves now take slaves of their own and are as tyrannical as their former masters.",
+      "_effects": {
+        "Superior Darkvision": {
+          "darkvision": 120
+        },
+        "Extra Language": {
+          "notes": "Can speak, read, and write Undercommon."
+        },
+        "Duergar Resilience": {
+          "condition_immune": [
+            "Charmed",
+            "Paralyzed"
+          ],
+          "notes": "Advantage on saving throws against illusions."
+        },
+        "Duergar Magic": {
+          "notes": "At 3rd level, can cast enlarge/reduce (enlarge only) once per long rest; at 5th level, can cast invisibility once per long rest. No material components. Cannot cast while in direct sunlight. Intelligence is the spellcasting ability."
+        },
+        "Sunlight Sensitivity": {
+          "notes": "Disadvantage on attack rolls and Wisdom (Perception) checks relying on sight when you, the target, or what you are trying to perceive is in direct sunlight."
+        }
+      }
+    },
+    {
+      "name": "Moon Elf",
+      "source": "SCAG p.105",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Keen Senses",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+        },
+        {
+          "name": "Trance",
+          "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        },
+        {
+          "name": "Elf Weapon Training",
+          "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+        },
+        {
+          "name": "Cantrip",
+          "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+        },
+        {
+          "name": "Extra Language",
+          "description": "You can speak, read, and write one extra language of your choice."
+        }
+      ],
+      "subraces": [],
+      "description": "Moon elves are a subrace of elves known for their pale skin and affinity for magic, often found in Faerûn.",
+      "_effects": {
+        "Keen Senses": {
+          "skill_profs": [
+            "Perception"
+          ]
+        },
+        "Fey Ancestry": {
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ],
+          "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep."
+        },
+        "Trance": {
+          "notes": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        },
+        "Elf Weapon Training": {
+          "weapon_profs": [
+            "Longsword",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ]
+        },
+        "Cantrip": {
+          "notes": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+        },
+        "Extra Language": {
+          "notes": "You can speak, read, and write one extra language of your choice."
+        }
+      }
+    },
+    {
+      "name": "Sun Elf",
+      "source": "SCAG p.106",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Keen Senses",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+        },
+        {
+          "name": "Trance",
+          "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        },
+        {
+          "name": "Elf Weapon Training",
+          "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+        },
+        {
+          "name": "Cantrip",
+          "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+        },
+        {
+          "name": "Extra Language",
+          "description": "You can speak, read, and write one extra language of your choice."
+        }
+      ],
+      "subraces": [],
+      "description": "Sun elves are a subrace of high elves known for their golden hair and bronze skin, often possessing a haughty and confident demeanor.",
+      "_effects": {
+        "Keen Senses": {
+          "skill_profs": [
+            "Perception"
+          ]
+        },
+        "Fey Ancestry": {
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ]
+        },
+        "Trance": {
+          "notes": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        },
+        "Elf Weapon Training": {
+          "weapon_profs": [
+            "Longsword",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ]
+        },
+        "Cantrip": {
+          "notes": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+        },
+        "Extra Language": {
+          "notes": "You can speak, read, and write one extra language of your choice."
+        }
+      }
+    },
+    {
+      "name": "Wood Elf",
+      "source": "SCAG p.106",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 35,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Fleet of Foot",
+          "description": "Your base walking speed increases to 35 feet."
+        },
+        {
+          "name": "Mask of the Wild",
+          "description": "You can attempt to hide even when you are only lightly obscured by foliage, heavy rain, falling snow, mist, and other natural phenomena."
+        },
+        {
+          "name": "Elf Weapon Training",
+          "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+        },
+        {
+          "name": "Keen Senses",
+          "description": "You have proficiency in the Perception skill."
+        },
+        {
+          "name": "Fey Ancestry",
+          "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+        },
+        {
+          "name": "Trance",
+          "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+        }
+      ],
+      "subraces": [],
+      "description": "Wood elves are reclusive and close to nature, with copperish skin, hair of brown and green, and eyes of green, brown, or hazel. They are lithe and agile, dwelling in forests and woodlands.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Wisdom +1"
+        },
+        "Fleet of Foot": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 35,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Mask of the Wild": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can attempt to hide even when only lightly obscured by natural phenomena (foliage, heavy rain, falling snow, mist, etc.)"
+        },
+        "Elf Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Longsword",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Keen Senses": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Perception"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fey Ancestry": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Charmed",
+            "Sleep"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep"
+        },
+        "Trance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Don't need to sleep; meditate 4 hours for benefits of 8 hours of sleep"
+        }
+      }
+    },
+    {
+      "name": "Strongheart Halfling",
+      "source": "SCAG p.104",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 1,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Halfling"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and your Constitution score increases by 1."
+        },
+        {
+          "name": "Lucky",
+          "description": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
+        },
+        {
+          "name": "Brave",
+          "description": "You have advantage on saving throws against being frightened."
+        },
+        {
+          "name": "Halfling Nimbleness",
+          "description": "You can move through the space of any creature that is of a size larger than yours."
+        },
+        {
+          "name": "Stout Resilience",
+          "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+        }
+      ],
+      "subraces": [],
+      "description": "Strongheart halflings are shorter on average than their lightfoot kin, with rounder faces. They have the skin tones and hair colors of humans, most having brown hair, but often with blond or black hair and blue or green eyes.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Constitution +1"
+        },
+        "Lucky": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "When you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll."
+        },
+        "Brave": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [
+            "Frightened"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against being frightened."
+        },
+        "Halfling Nimbleness": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can move through the space of any creature that is a size larger than yours."
+        },
+        "Stout Resilience": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Poison"
+          ],
+          "damage_immune": [],
+          "condition_immune": [
+            "Poisoned"
+          ],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on saving throws against poison."
+        }
+      }
+    },
+    {
+      "name": "Ghostwise Halfling",
+      "source": "SCAG p.110",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Halfling"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Wisdom score increases by 1."
+        },
+        {
+          "name": "Silent Speech",
+          "description": "You can speak telepathically to any creature within 30 feet of you. The creature understands you only if the two of you share a language. You can speak telepathically in this way to one creature at a time."
+        }
+      ],
+      "subraces": [],
+      "description": "Ghostwise halflings are the rarest of the hin, found only in the Chondalwood and a few other isolated forests, clustered in tight-knit clans. They are clannish and mistrustful of outsiders.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Increases Wisdom score by 1."
+        },
+        "Silent Speech": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak telepathically to any creature within 30 feet that shares a language, one creature at a time."
+        }
+      }
+    },
+    {
+      "name": "Deep Gnome (Svirfneblin)",
+      "source": "SCAG p.115",
+      "asi": {
+        "strength": 0,
+        "dexterity": 1,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 120,
+      "languages": [
+        "Common",
+        "Gnomish",
+        "Undercommon"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Superior Darkvision",
+          "description": "Your darkvision has a radius of 120 feet."
+        },
+        {
+          "name": "Stone Camouflage",
+          "description": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain."
+        },
+        {
+          "name": "Extra Language",
+          "description": "You can speak, read, and write Undercommon."
+        }
+      ],
+      "subraces": [],
+      "description": "Also known as svirfneblin, the deep gnomes of the Underdark are a stark contrast to their surface kin, dour and serious compared to the cheerful and generally optimistic rock gnomes and forest gnomes.",
+      "_effects": {
+        "Superior Darkvision": {
+          "darkvision": 120
+        },
+        "Stone Camouflage": {
+          "notes": "Advantage on Dexterity (Stealth) checks to hide in rocky terrain"
+        },
+        "Extra Language": {
+          "notes": "Can speak, read, and write Undercommon"
+        }
+      }
+    },
+    {
+      "name": "Tiefling Variant (Asmodeus Bloodline)",
+      "source": "SCAG p.118",
+      "asi": {},
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Infernal"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Hellfire",
+          "description": "Once you reach 3rd level, you can cast the burning hands spell once per day as a 2nd-level spell. This trait replaces the hellish rebuke spell of the Infernal Legacy trait.",
+          "uses": 1,
+          "recharge": "long rest"
+        },
+        {
+          "name": "Winged",
+          "description": "You have bat-like wings sprouting from your shoulder blades. You have a flying speed of 30 feet. This trait replaces the Infernal Legacy trait."
+        }
+      ],
+      "subraces": [],
+      "description": "A tiefling variant descended from Asmodeus, exhibiting different qualities than standard tieflings, including hellfire magic and bat-like wings.",
+      "_effects": {
+        "Hellfire": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Grants the ability to cast burning hands once per day as a 2nd-level spell starting at 3rd level. This trait replaces the hellish rebuke spell of the Infernal Legacy trait."
+        },
+        "Winged": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Grants a flying speed of 30 feet. This trait replaces the Infernal Legacy trait."
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Booming Blade",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "5 feet",
+      "components": "V, M (a weapon)",
+      "duration": "1 round",
+      "description": "As part of the action used to cast this spell, you must make a melee attack with a weapon against one creature within the spell's range, otherwise the spell fails. On a hit, the target suffers the attack's normal effects, and it becomes sheathed in booming energy until the start of your next turn. If the target willingly moves before then, it immediately takes 1d8 thunder damage, and the spell ends.",
+      "higher_levels": "This spell's damage increases when you reach higher levels. At 5th level, the melee attack deals an extra 1d8 thunder damage to the target, and the damage the target takes for moving increases to 2d8. Both damage rolls increase by 1d8 at 11th level and 17th level.",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "SCAG"
+    },
+    {
+      "name": "Green-Flame Blade",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "5 feet",
+      "components": "V, M (a weapon)",
+      "duration": "Instantaneous",
+      "description": "As part of the action used to cast this spell, you must make a melee attack with a weapon against one creature within the spell's range, otherwise the spell fails. On a hit, the target suffers the attack's normal effects, and green fire leaps from the target to a different creature of your choice that you can see within 5 feet of it. The second creature takes fire damage equal to your spellcasting ability modifier.",
+      "higher_levels": "This spell's damage increases when you reach higher levels. At 5th level, the melee attack deals an extra 1d8 fire damage to the target, and the fire damage to the second creature increases to 1d8 + your spellcasting ability modifier. Both damage rolls increase by 1d8 at 11th level and 17th level.",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "SCAG"
+    },
+    {
+      "name": "Lightning Lure",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "15 feet",
+      "components": "V",
+      "duration": "Instantaneous",
+      "description": "You create a lash of lightning energy that strikes at one creature of your choice that you can see within range. The target must succeed on a Strength saving throw or be pulled up to 10 feet in a straight line toward you and then take 1d8 lightning damage if it is within 5 feet of you.",
+      "higher_levels": "This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "SCAG"
+    },
+    {
+      "name": "Sword Burst",
+      "level": 0,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "5 feet",
+      "components": "V",
+      "duration": "Instantaneous",
+      "description": "You create a momentary circle of spectral blades that sweep around you. Each creature within range, other than you, must succeed on a Dexterity saving throw or take 1d6 force damage.",
+      "higher_levels": "This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "classes": [
+        "Sorcerer",
+        "Warlock",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "SCAG"
+    }
+  ],
+  "magic_items": [],
+  "equipment": [
+    {
+      "name": "Spiked Armor",
+      "type": "Armor",
+      "subtype": "medium",
+      "damage": "",
+      "properties": [],
+      "cost": "75 gp",
+      "weight": 45,
+      "description": "Spiked armor is a rare type of medium armor made by dwarves. It consists of a leather coat and leggings covered with spikes that are usually made of metal. AC: 14 + Dexterity modifier (max 2). Stealth: Disadvantage.",
+      "source": "SCAG"
+    }
+  ],
+  "monsters": [],
+  "npcs": [],
+  "feats": [
+    {
+      "name": "Svirfneblin Magic",
+      "prerequisite": "Gnome (deep gnome)",
+      "description": "You have inherited the innate spellcasting ability of your ancestors. This ability allows you to cast nondetection on yourself at will, without needing a material component. You can also cast each of the following spells once with this ability: blindness/deafness, blur, and disguise self. You regain the ability to cast these spells when you finish a long rest. Intelligence is your spellcasting ability for these spells.",
+      "source": "SCAG p.115"
+    }
+  ],
+  "backgrounds": [
+    {
+      "name": "City Watch",
+      "skill_proficiencies": [
+        "Athletics",
+        "Insight"
+      ],
+      "tool_proficiencies": [],
+      "languages": [
+        "Two of your choice"
+      ],
+      "equipment": [
+        "A uniform in the style of your unit and indicative of your rank",
+        "a horn with which to summon help",
+        "a set of manacles",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Watcher's Eye",
+        "description": "Your experience in enforcing the law, and dealing with lawbreakers, gives you a feel for local laws and criminals. You can easily find the local outpost of the watch or a similar organization, and just as easily pick out the dens of criminal activity in a community, although you're more likely to be welcome in the former locations rather than the latter."
+      },
+      "description": "You have served the community where you grew up, standing as its first line of defense against crime. You aren't a soldier, directing your gaze outward at possible enemies. Instead, your service to your hometown was to help police its populace, protecting the citizenry from lawbreakers and malefactors of every stripe.",
+      "source": "Sword Coast Adventurer's Guide p.145"
+    },
+    {
+      "name": "Clan Crafter",
+      "skill_proficiencies": [
+        "History",
+        "Insight"
+      ],
+      "tool_proficiencies": [
+        "One type of artisan's tools"
+      ],
+      "languages": [
+        "Dwarvish or one other of your choice if you already speak Dwarvish"
+      ],
+      "equipment": [
+        "A set of artisan's tools with which you are proficient",
+        "a maker's mark chisel used to mark your handiwork with the symbol of the clan of crafters you learned your skill from",
+        "a set of traveler's clothes",
+        "a pouch containing 5 gp and a gem worth 10 gp"
+      ],
+      "feature": {
+        "name": "Respect of the Stout Folk",
+        "description": "As well respected as clan crafters are among outsiders, no one esteems them quite so highly as dwarves do. You always have free room and board in any place where shield dwarves or gold dwarves dwell, and the individuals in such a settlement might vie among themselves to determine who can offer you (and possibly your compatriots) the finest accommodations and assistance."
+      },
+      "description": "The Stout Folk are well known for their artisanship and the worth of their handiworks, and you have been trained in that ancient tradition. For years you labored under a dwarf master of the craft, enduring long hours and dismissive, sour-tempered treatment in order to gain the fine skills you possess today.",
+      "source": "Sword Coast Adventurer's Guide p.146"
+    },
+    {
+      "name": "Cloistered Scholar",
+      "skill_proficiencies": [
+        "History"
+      ],
+      "tool_proficiencies": [],
+      "languages": [
+        "Two of your choice"
+      ],
+      "equipment": [
+        "The scholar's robes of your cloister",
+        "a writing kit (small pouch with a quill, ink, folded parchment, and a small penknife)",
+        "a borrowed book on the subject of your current study",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Library Access",
+        "description": "Though others must often endure extensive interviews and significant fees to gain access to even the most common archives in your library, you have free and easy access to the majority of the library, though it might also have repositories of lore that are too valuable, magical, or secret to permit anyone immediate access.\nYou have a working knowledge of your cloister's personnel and bureaucracy, and you know how to navigate those connections with some ease.\nAdditionally, you are likely to gain preferential treatment at other libraries across the Realms, as professional courtesy shown to a fellow scholar."
+      },
+      "description": "As a child, you were inquisitive when your playmates were possessive or raucous. In your formative years, you found your way to one of Faerûn's great institutes of learning, where you were apprenticed and taught that knowledge is a more valuable treasure than gold or gems. Now you are ready to leave your home—not to abandon it, but to quest for new lore to add to its storehouse of knowledge.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Courtier",
+      "skill_proficiencies": [
+        "Insight",
+        "Persuasion"
+      ],
+      "tool_proficiencies": [],
+      "languages": [
+        "Two of your choice"
+      ],
+      "equipment": [
+        "A set of fine clothes",
+        "a pouch containing 5 gp"
+      ],
+      "feature": {
+        "name": "Court Functionary",
+        "description": "Your knowledge of how bureaucracies function lets you gain access to the records and inner workings of any noble court or government you encounter. You know who the movers and shakers are, whom to go to for the favors you seek, and what the current intrigues of interest in the group are."
+      },
+      "description": "You served as a courtier in a noble court or bureaucratic organization, honing abilities that serve you well as an adventurer.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Faction Agent",
+      "skill_proficiencies": [
+        "Insight"
+      ],
+      "tool_proficiencies": [],
+      "languages": [
+        "Two of your choice"
+      ],
+      "equipment": [
+        "Badge or emblem of your faction",
+        "a copy of a seminal faction text (or a code-book for a covert faction)",
+        "a set of common clothes",
+        "a pouch containing 15 gp"
+      ],
+      "feature": {
+        "name": "Safe Haven",
+        "description": "As a faction agent, you have access to a secret network of supporters and operatives who can provide assistance on your adventures. You know a set of secret signs and passwords you can use to identify such operatives, who can provide you with access to a hidden safe house, free room and board, or assistance in finding information. These agents never risk their lives for you or risk revealing their true identities."
+      },
+      "description": "You served as an agent of a particular faction in Faerun, operating openly or secretly depending on the faction and its goals.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Far Traveler",
+      "skill_proficiencies": [
+        "Insight",
+        "Perception"
+      ],
+      "tool_proficiencies": [
+        "Any one musical instrument or gaming set of your choice, likely something native to your homeland"
+      ],
+      "languages": [
+        "Any one of your choice"
+      ],
+      "equipment": [
+        "One set of traveler's clothes",
+        "any one musical instrument or gaming set you are proficient with",
+        "poorly wrought maps from your homeland that depict where you are in Faerun",
+        "a small piece of jewelry worth 10 gp in the style of your homeland's craftsmanship",
+        "a pouch containing 5 gp"
+      ],
+      "feature": {
+        "name": "",
+        "description": ""
+      },
+      "description": "You are from a distant place, one so remote that few of the common folk in the North realize that it exists, and chances are good that even if some people you meet have heard of your homeland, they know merely the name and perhaps a few outrageous stories.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Inheritor",
+      "skill_proficiencies": [
+        "Survival"
+      ],
+      "tool_proficiencies": [
+        "Gaming set or musical instrument"
+      ],
+      "languages": [
+        "Any one of your choice"
+      ],
+      "equipment": [
+        "Your inheritance",
+        "A set of traveler's clothes",
+        "Any items with which you are proficient",
+        "A pouch containing 15 gp"
+      ],
+      "feature": {
+        "name": "Inheritance",
+        "description": "Choose or randomly determine your inheritance from among the possibilities in the table below. Work with your Dungeon Master to come up with details: Why is your inheritance so important, and what is its full story? You might prefer for the DM to invent these details as part of the game, allowing you to learn more about your inheritance as your character does.\n\nThe Dungeon Master is free to use your inheritance as a story hook, sending you on quests to learn more about its history or true nature, or confronting you with foes who want to claim it for themselves or prevent you from learning what you seek. The DM also determines the properties of your inheritance and how they figure into the item's history and importance. For instance, the object might be a minor magic item, or one that begins with a modest ability and increases in potency with the passage of time. Or, the true nature of your inheritance might not be apparent at first and is revealed only when certain conditions are met.\n\nWhen you begin your adventuring career, you can decide whether to tell your companions about your in-"
+      },
+      "description": "You are the heir to something of great value- not mere coin or wealth, but an object that has been entrusted to you and you alone. Your inheritance might have come directly to you from a member of your family, by right of birth, or it could have been left to you by a friend, a mentor, a teacher, or someone else important in your life. The revelation of your inheritance changed your life, and might have set you on the path to adventure, but it could also come with many dangers, including those who covet your gift and want to take it from you- by force, if need be.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Knight of the Order",
+      "skill_proficiencies": [
+        "Persuasion"
+      ],
+      "tool_proficiencies": [
+        "One type of gaming set or musical instrument"
+      ],
+      "languages": [
+        "One of your choice"
+      ],
+      "equipment": [
+        "One set of traveler's clothes",
+        "a signet, banner or seal representing your place or rank in the order",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Knightly Regard",
+        "description": "You receive shelter and succor from members of your knightly order and those who are sympathetic to its aims. If your order is a religious one, you can gain aid from temples and other religious communities of your deity. Knights of civic orders can get help from the community- whether a lone settlement or a great nation- that they serve, and knights of philosophical orders can find help from those they have aided in pursuit of their ideals, and those who share those ideals. This help comes in the form of shelter and meals, and healing when appropriate, as well as occasionally risky assistance, such as a band of local citizens rallying to"
+      },
+      "description": "You belong to an order of knights who have sworn oaths to achieve a certain goal. The nature of this goal depends on the order you serve, but in your eyes it is without question a vital and honorable endeavor.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Mercenary Veteran",
+      "skill_proficiencies": [
+        "Athletics",
+        "Persuasion"
+      ],
+      "tool_proficiencies": [
+        "One type of gaming set",
+        "vehicles (land)"
+      ],
+      "languages": [],
+      "equipment": [
+        "A uniform of your company (traveler's clothes in quality)",
+        "an insignia of your rank",
+        "a gaming set of your choice",
+        "a pouch containing the remainder of your last wages (10 gp)"
+      ],
+      "feature": {
+        "name": "Mercenary Life",
+        "description": "You know the mercenary life as only someone who has experienced it can. You are able to identify mercenary companies by their emblems, and you know a little about any such company, including the names and reputations of its commanders and leaders, and who has hired them recently. You can find the taverns and festhalls where mercenaries abide in any area, as long as you speak the language. You can find mercenary work between adventures sufficient to maintain a comfortable lifestyle (see \"Practicing a Profession\" under \"Downtime Activities\" in chapter 8 of the Player's Handbook)."
+      },
+      "description": "As a sell-sword who fought battles for coin, you're well acquainted with risking life and limb for a chance at a share of treasure. Now, you look forward to fighting foes and reaping even greater rewards as an adventurer.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Urban Bounty Hunter",
+      "skill_proficiencies": [
+        "Deception",
+        "Insight",
+        "Persuasion",
+        "Stealth"
+      ],
+      "tool_proficiencies": [
+        "one type of gaming set",
+        "one musical instrument",
+        "thieves' tools"
+      ],
+      "languages": [],
+      "equipment": [
+        "A set of clothes appropriate to your duties",
+        "a pouch containing 20 gp"
+      ],
+      "feature": {
+        "name": "Ear to the Ground",
+        "description": "You are in frequent contact with people in the segment of society that your chosen quarries move through. These people might be associated with the criminal underworld, the rough-and-tumble folk of the streets, or members of high society. This connection comes in the form of a contact in any city you visit, a person who provides information about the people and places of the local area."
+      },
+      "description": "Before you became an adventurer, your life was already full of conflict and excitement, because you made a living tracking down people for pay. Unlike some people who collect bounties, though, you aren't a savage who follows quarry into or through the wilderness. You're involved in a lucrative trade, in the place where you live, that routinely tests your skills and survival instincts. What's more, you aren't alone, as a bounty hunter in the wild would be: you routinely interact with both the criminal subculture and other bounty hunters, maintaining contacts in both areas to help you succeed.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Uthgardt Tribe Member",
+      "skill_proficiencies": [
+        "Athletics",
+        "Survival"
+      ],
+      "tool_proficiencies": [
+        "One type of musical instrument or artisan's tools"
+      ],
+      "languages": [
+        "One of your choice"
+      ],
+      "equipment": [
+        "A hunting trap",
+        "a totemic token or set of tattoos marking your loyalty to Uthgar and your tribal totem",
+        "a set of traveler's clothes",
+        "a pouch containing 10 gp"
+      ],
+      "feature": {
+        "name": "Uthgardt Heritage",
+        "description": "You have an excellent knowledge of not only your tribe's territory, but also the terrain and natural resources of the rest of the North. You are familiar enough with any wilderness area that you find twice as much food and water as you normally would when you forage there. Additionally, you can call upon the hospitality of your people, and those folk allied with your tribe, often including members of druid circles, tribes of nomadic elves, the Harpers, and the priesthoods devoted to the gods of the First Circle."
+      },
+      "description": "Though this section details the Uthgardt specifically, either it or the outlander background from the Player's Handbook can be used for a character whose origin lies with one of the other barbarian tribes in Faerun.",
+      "source": "SCAG"
+    },
+    {
+      "name": "Waterdhavian Noble",
+      "skill_proficiencies": [
+        "History",
+        "Persuasion"
+      ],
+      "tool_proficiencies": [
+        "One type of gaming set or one musical instrument"
+      ],
+      "languages": [
+        "One of your choice"
+      ],
+      "equipment": [
+        "A set of fine clothes",
+        "a signet ring or brooch",
+        "a scroll of pedigree",
+        "a skin of fine zzar or wine",
+        "a purse containing 20 gp"
+      ],
+      "feature": {
+        "name": "Kept in Style",
+        "description": "While you are in Waterdeep or elsewhere in the North your house sees to your everyday needs. Your name and signet are sufficient to cover most of your expenses; the inns, taverns, and festhalls you frequent are glad to record your debt and send an accounting to your family's estate in Waterdeep to settle what you owe. This advantage enables you to live a comfortable lifestyle without having to pay 2 gp a day for it, or reduces the cost of a wealthy or aristocratic lifestyle by that amount. You may not maintain a less affluent lifestyle and use the difference as income-the benefit is a line of credit, not an actual monetary reward."
+      },
+      "description": "You are a scion of one of the great noble families of Waterdeep. Human families who jealously guard their privilege and place in the City of Splendors, Waterdhavian nobles have a reputation across Faerûn for being eccentric, spoiled, venal, and, above all else, rich.",
+      "source": "SCAG"
+    }
+  ],
+  "subclasses": [
+    {
+      "name": "Path of the Battlerager",
+      "class": "Barbarian",
+      "description": "Known as Kuldjargh (literally \"axe idiot\") in Dwarvish, battleragers are dwarf followers of the gods of war and take the Path of the Battlerager. They specialize in wearing bulky, spiked armor and throwing themselves into combat, striking with their body itself and giving themselves over to the fury of battle.",
+      "features": [
+        {
+          "name": "Restriction: Dwarves Only",
+          "level": 3,
+          "description": "Only dwarves can follow the Path of the Battlerager. The battlerager fills a particular niche in dwarven society and culture.\nYour DM can lift this restriction to better suit the campaign. The restriction exists for the Forgotten Realms. It might not apply to your DM's setting or your DM's version of the Realms."
+        },
+        {
+          "name": "Battlerager Armor",
+          "level": 3,
+          "description": "When you choose this path at 3rd level, you gain the ability to use spiked armor (see the \"Spiked Armor\" sidebar) as a weapon.\nWhile you are wearing spiked armor and are raging, you can use a bonus action to make one melee weapon attack with your armor spikes against a target within 5 feet of you. If the attack hits, the spikes deal 1d4 piercing damage. You use your Strength modifier for the attack and damage rolls.\nAdditionally, when you use the Attack action to grapple a creature, the target takes 3 piercing damage if your grapple check succeeds."
+        },
+        {
+          "name": "Reckless Abandon",
+          "level": 6,
+          "description": "Beginning at 6th level, when you use Reckless Attack while raging, you also gain temporary hit points equal to your Constitution modifier (minimum of 1). They vanish if any of them are left when your rage ends."
+        },
+        {
+          "name": "Battlerager Charge",
+          "level": 10,
+          "description": "Beginning at 10th level, you can take the Dash action as a bonus action while you are raging."
+        },
+        {
+          "name": "Spiked Retribution",
+          "level": 14,
+          "description": "Starting at 14th level, when a creature within 5 feet of you hits you with a melee attack, the attacker takes 3 piercing damage if you are raging, aren't incapacitated, and are wearing spiked armor."
+        }
+      ],
+      "source": "SCAG p.121"
+    },
+    {
+      "name": "Path of the Totem Warrior",
+      "class": "Barbarian",
+      "description": "If you follow the Path of the Totem Warrior from the Player's Handbook, you have access to the options presented here.",
+      "features": [
+        {
+          "name": "Totem Spirit",
+          "level": 3,
+          "description": "These options are available to you when you choose a totem animal at 3rd level."
+        }
+      ],
+      "source": "SCAG p.122"
+    },
+    {
+      "name": "Path of the Totem Warrior (Uthgardt Totems)",
+      "class": "Barbarian",
+      "description": "Additional totem spirit options for the Path of the Totem Warrior, corresponding to the totems of the Uthgardt barbarians of the North.",
+      "features": [
+        {
+          "name": "Uthgardt Totems Table",
+          "level": 3,
+          "description": "The totems of the Uthgardt barbarians of the North (described in chapter 5) correspond to the spirits of the Path of the Totem Warrior as shown in the following table. Totem Spirit: Black Lion — Tiger; Black Raven — Eagle; Blue Bear — Bear; Gray Wolf — Wolf; Great Worm — Wolf; Griffon — Eagle; Red Tiger — Tiger; Sky Pony — Eagle, with the Elk Aspect of the Beast; Thunderbeast — Bear, with the Tiger Totemic Attunement; Tree Ghost — Bear, with speak with plants in place of the normal rituals for the Spirit Seeker feature. As with the spirits in the Player's Handbook, the options here require a physical object incorporating some part of the totem beast, and you might acquire minor physical attributes associated with your totem spirit, such as a prominent nose if you have an elk totem spirit or catlike eyes if you have a tiger totem spirit. Also, your totem spirit might be an animal similar to one listed here but more suitable to your homeland, such as a horse or stag, rather than an elk, or a lion, panther, or other big cat, rather than a tiger."
+        },
+        {
+          "name": "Elk (Totem Spirit)",
+          "level": 3,
+          "description": "While you're raging and aren't wearing heavy armor, your walking speed increases by 15 feet. The spirit of the elk makes you extraordinarily swift."
+        },
+        {
+          "name": "Tiger (Totem Spirit)",
+          "level": 3,
+          "description": "While raging, you can add 10 feet to your long jump distance and 3 feet to your high jump distance. The spirit of the tiger empowers your leaps."
+        },
+        {
+          "name": "Elk (Aspect of the Beast)",
+          "level": 6,
+          "description": "Whether mounted or on foot, your travel pace is doubled, as is the travel pace of up to ten companions while they're within 60 feet of you and you're not incapacitated (see chapter 8 in the Player's Handbook for more information about travel pace). The elk spirit helps you roam far and fast."
+        },
+        {
+          "name": "Tiger (Aspect of the Beast)",
+          "level": 6,
+          "description": "You gain proficiency in two skills from the following list: Athletics, Acrobatics, Stealth, and Survival. The cat spirit hones your survival instincts."
+        },
+        {
+          "name": "Elk (Totemic Attunement)",
+          "level": 14,
+          "description": "While raging, you can use a bonus action during your move to pass through the space of a Large or smaller creature. That creature must succeed on a Strength saving throw (DC 8 + your Strength bonus + your proficiency bonus) or be knocked prone and take bludgeoning damage equal to 1d12 + your Strength modifier."
+        },
+        {
+          "name": "Tiger (Totemic Attunement)",
+          "level": 14,
+          "description": "While you're raging, if you move at least 20 feet in a straight line toward a Large or smaller target right before making a melee weapon attack against it, you can use a bonus action to make an additional melee weapon attack against it."
+        }
+      ],
+      "source": "SCAG p.121"
+    },
+    {
+      "name": "Arcana Domain",
+      "class": "Cleric",
+      "description": "A cleric domain focused on magic and the arcane, granting abilities to abjure otherworldly creatures, break spells, and master wizard spells.",
+      "features": [
+        {
+          "name": "Arcane Abjuration",
+          "level": 2,
+          "description": "As an action, you present your holy symbol, and one celestial, elemental, fey, or fiend of your choice that is within 30 feet of you must make a Wisdom saving throw, provided that the creature can see or hear you. If the creature fails its saving throw, it is turned for 1 minute or until it takes any damage.\n\nA turned creature must spend its turns trying to move as far away from you as it can, and it can't willingly end its move in a space within 30 feet of you. It also can't take reactions. For its action, it can only use the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action.\n\nAfter you reach 5th level, when a creature fails its saving throw against your Arcane Abjuration feature, the creature is banished for 1 minute (as in the banishment spell, no concentration required) if it isn't on its plane of origin and its challenge rating is at or below a certain threshold, as shown on the Arcane Banishment table.\n\nARCANE BANISHMENT\nCleric Level | Banishes Creatures of CR ...\n5th | 1/2 or lower\n8th | 1 or lower\n11th | 2 or lower\n14th | 3 or lower\n17th | 4 or lower",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Spell Breaker",
+          "level": 6,
+          "description": "Starting at 6th level, when you restore hit points to an ally with a spell of 1st level or higher, you can also end one spell of your choice on that creature. The level of the spell you end must be equal to or lower than the level of the spell slot you use to cast the healing spell."
+        },
+        {
+          "name": "Potent Spellcasting",
+          "level": 8,
+          "description": "Starting at 8th level, you add your Wisdom modifier to the damage you deal with any cleric cantrip."
+        },
+        {
+          "name": "Arcane Mastery",
+          "level": 17,
+          "description": "At 17th level, you choose four spells from the wizard spell list, one from each of the following levels: 6th, 7th, 8th, and 9th. You add them to your list of domain spells. Like your other domain spells, they are always prepared and count as cleric spells for you."
+        }
+      ],
+      "source": "SCAG p.125"
+    },
+    {
+      "name": "Purple Dragon Knight",
+      "class": "Fighter",
+      "description": "Purple Dragon knights are warriors who hail from the kingdom of Cormyr. Pledged to protect the crown, they take the fight against evil beyond their kingdom's borders. They are tasked with wandering the land as knights errant, relying on their judgment, bravery, and fidelity to the code of chivalry to guide them in defeating evildoers.",
+      "features": [
+        {
+          "name": "Rallying Cry",
+          "level": 3,
+          "description": "When you choose this archetype at 3rd level, you learn how to inspire your allies to fight on past their injuries.\nWhen you use your Second Wind feature, you can choose up to three creatures within 60 feet of you that are allied with you. Each one regains hit points equal to your fighter level, provided that the creature can see or hear you."
+        },
+        {
+          "name": "Royal Envoy",
+          "level": 7,
+          "description": "A Purple Dragon knight serves as an envoy of the Cormyrean crown. Knights of high standing are expected to conduct themselves with grace.\nAt 7th level, you gain proficiency in the Persuasion skill. If you are already proficient in it, you gain proficiency in one of the following skills of your choice: Animal Handling, Insight, Intimidation, or Performance.\nYour proficiency bonus is doubled for any ability check you make that uses Persuasion. You receive this benefit regardless of the skill proficiency you gain from this feature."
+        },
+        {
+          "name": "Inspiring Surge",
+          "level": 10,
+          "description": "Starting at 10th level, when you use your Action Surge feature, you can choose one creature within 60 feet of you that is allied with you. That creature can make one melee or ranged weapon attack with its reaction, provided that it can see or hear you.\nStarting at 17th level, you can choose two allies within 60 feet of you, rather than one."
+        },
+        {
+          "name": "Bulwark",
+          "level": 15,
+          "description": "Beginning at 15th level, you can extend the benefit of your Indomitable feature to an ally. When you decide to use Indomitable to reroll an Intelligence, a Wisdom, or a Charisma saving throw and you aren't incapacitated, you can choose one ally within 60 feet of you that also failed its saving throw against the same effect. If that creature can see or hear you, it can reroll its saving throw and must use the new roll."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.128"
+    },
+    {
+      "name": "Way of the Long Death",
+      "class": "Monk",
+      "description": "A monastic tradition that explores the mysteries of death, granting monks the ability to drain life force and stave off death.",
+      "features": [
+        {
+          "name": "Touch of Death",
+          "level": 3,
+          "description": "Starting when you choose this tradition at 3rd level, your study of death allows you to extract vitality from another creature as it nears its demise. When you reduce a creature within 5 feet of you to 0 hit points, you gain temporary hit points equal to your Wisdom modifier + your monk level (minimum of 1 temporary hit point)."
+        },
+        {
+          "name": "Hour of Reaping",
+          "level": 6,
+          "description": "At 6th level, you gain the ability to unsettle or terrify those around you as an action, for your soul has been touched by the shadow of death. When you take this action, each creature within 30 feet of you that can see you must succeed on a Wisdom saving throw or be frightened of you until the end of your next turn."
+        },
+        {
+          "name": "Mastery of Death",
+          "level": 11,
+          "description": "Beginning at 11th level, you use your familiarity with death to escape its grasp. When you are reduced to 0 hit points, you can expend 1 ki point (no action required) to have 1 hit point instead."
+        },
+        {
+          "name": "Touch of the Long Death",
+          "level": 17,
+          "description": "Starting at 17th level, your touch can channel the energy of death into a creature. As an action, you touch one creature within 5 feet of you, and you expend 1 to 10 ki points. The target must make a Constitution saving throw, and it takes 2d10 necrotic damage per ki point spent on a failed save, or half as much damage on a successful one."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.130"
+    },
+    {
+      "name": "Way of the Sun Soul",
+      "class": "Monk",
+      "description": "Monks of the Way of the Sun Soul learn to channel their own life energy into searing bolts of light. They teach that meditation can unlock the ability to unleash the indomitable light shed by the soul of every living creature.",
+      "features": [
+        {
+          "name": "Radiant Sun Bolt",
+          "level": 3,
+          "description": "Starting when you choose this tradition at 3rd level, you can hurl searing bolts of magical radiance. You gain a ranged spell attack that you can use with the Attack action. The attack has a range of 30 feet. You are proficient with it, and you add your Dexterity modifier to its attack and damage rolls. Its damage is radiant, and its damage die is a d4. This die changes as you gain monk levels, as shown in the Martial Arts column of the Monk table. When you use the Attack action on your turn to use this special attack, you can spend 1 ki point to make two additional attacks with it as a bonus action."
+        },
+        {
+          "name": "Searing Arc Strike",
+          "level": 6,
+          "description": "At 6th level, you gain the ability to channel your ki into searing waves of energy. Immediately after you take the Attack action on your turn, you can spend 2 ki points to cast the 1st-level spell burning hands as a bonus action. You can spend additional ki points to cast burning hands as a higher level spell. Each additional ki point you spend increases the spell's level by 1. The maximum number of ki points (2 plus any additional points) that you can spend on the spell equals half your monk level (round down)."
+        },
+        {
+          "name": "Searing Sunburst",
+          "level": 11,
+          "description": "At 11th level, you gain the ability to create an orb of light that erupts into a devastating explosion. As an action, you create an orb and hurl it at a point you choose within 150 feet, where it erupts into a sphere of radiant light for a brief but deadly instant. Each creature in that 20-foot-radius sphere must succeed on a Constitution saving throw or take 2d6 radiant damage. A creature doesn't need to make the save if the creature is behind total cover that is opaque. You can increase the sphere's damage by spending ki points. Each point you spend, up to a maximum of 3, increases the damage by 2d6."
+        },
+        {
+          "name": "Sun Shield",
+          "level": 17,
+          "description": "At 17th level, you become wreathed in a luminous aura. You shed bright light in a 30-foot radius and dim light for an additional 30 feet. You can extinguish or restore the light as a bonus action. If a creature hits you with a melee attack while this light shines, you can use your reaction to deal radiant damage to the creature. The radiant damage equals 5 + your Wisdom modifier."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.131"
+    },
+    {
+      "name": "Oath of the Crown",
+      "class": "Paladin",
+      "description": "The Oath of the Crown is sworn by paladins who dedicate themselves to the ideals of civilization and order, often serving as guardians, exemplars, or sentinels in service to a nation or sovereign.",
+      "features": [
+        {
+          "name": "Oath Spells",
+          "level": 3,
+          "description": "You gain oath spells at the paladin levels listed.\n\nOATH OF THE CROWN SPELLS\nPaladin Level 3rd: command, compelled duel\nPaladin Level 5th: warding bond, zone of truth\nPaladin Level 9th: aura of vitality, spirit guardians\nPaladin Level 13th: banishment, guardian of faith\nPaladin Level 17th: circle of power, geas"
+        },
+        {
+          "name": "Channel Divinity: Champion Challenge",
+          "level": 3,
+          "description": "You issue a challenge that compels other creatures to do battle with you. Each creature of your choice that you can see within 30 feet of you must make a Wisdom saving throw. On a failed save, a creature can't willingly move more than 30 feet away from you. This effect ends on the creature if you are incapacitated or die or if the creature is moved more than 30 feet away from you."
+        },
+        {
+          "name": "Channel Divinity: Turn the Tide",
+          "level": 3,
+          "description": "As a bonus action, you can bolster injured creatures with your Channel Divinity. Each creature of your choice that can hear you within 30 feet of you regains hit points equal to 1d6 + your Charisma modifier (minimum of 1) if it has no more than half of its hit points."
+        },
+        {
+          "name": "Divine Allegiance",
+          "level": 7,
+          "description": "Starting at 7th level, when a creature within 5 feet of you takes damage, you can use your reaction to magically substitute your own health for that of the target creature, causing that creature not to take the damage. Instead, you take the damage. This damage to you can't be reduced or prevented in any way."
+        },
+        {
+          "name": "Unyielding Spirit",
+          "level": 15,
+          "description": "Starting at 15th level, you have advantage on saving throws to avoid becoming paralyzed or stunned."
+        },
+        {
+          "name": "Exalted Champion",
+          "level": 20,
+          "description": "At 20th level, your presence on the field of battle is an inspiration to those dedicated to your cause. You can use your action to gain the following benefits for 1 hour:\nYou have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons.\n• Your allies have advantage on death saving throws while within 30 feet of you.\nYou have advantage on Wisdom saving throws, as do your allies within 30 feet of you.\nThis effect ends early if you are incapacitated or die. Once you use this feature, you can't use it again until you finish a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.132"
+    },
+    {
+      "name": "Mastermind",
+      "class": "Rogue",
+      "description": "Your focus is on people and on the influence and secrets they have. Many spies, courtiers, and schemers follow this archetype, leading lives of intrigue. Words are your weapons as often as knives or poison, and secrets and favors are some of your favorite treasures.",
+      "features": [
+        {
+          "name": "Master of Intrigue",
+          "level": 3,
+          "description": "When you choose this archetype at 3rd level, you gain proficiency with the disguise kit, the forgery kit, and one gaming set of your choice. You also learn two languages of your choice. Additionally, you can unerringly mimic the speech patterns and accent of a creature that you hear speak for at least 1 minute, allowing you to pass yourself off as a native speaker of a particular land, provided that you know the language."
+        },
+        {
+          "name": "Master of Tactics",
+          "level": 3,
+          "description": "Starting at 3rd level, you can use the Help action as a bonus action. Additionally, when you use the Help action to aid an ally in attacking a creature, the target of that attack can be within 30 feet of you, rather than 5 feet of you, if the target can see or hear you."
+        },
+        {
+          "name": "Insightful Manipulator",
+          "level": 9,
+          "description": "Starting at 9th level, if you spend at least 1 minute observing or interacting with another creature outside combat, you can learn certain information about its capabilities compared to your own. The DM tells you if the creature is your equal, superior, or inferior in regard to two of the following characteristics of your choice: Intelligence score, Wisdom score, Charisma score, Class levels (if any). At the DM's option, you might also realize you know a piece of the creature's history or one of its personality traits, if it has any."
+        },
+        {
+          "name": "Misdirection",
+          "level": 13,
+          "description": "Beginning at 13th level, you can sometimes cause another creature to suffer an attack meant for you. When you are targeted by an attack while a creature within 5 feet of you is granting you cover against that attack, you can use your reaction to have the attack target that creature instead of you."
+        },
+        {
+          "name": "Soul of Deceit",
+          "level": 17,
+          "description": "Starting at 17th level, your thoughts can't be read by telepathy or other means, unless you allow it. You can present false thoughts by making a Charisma (Deception) check contested by the mind reader's Wisdom (Insight) check. Additionally, no matter what you say, magic that would determine if you are telling the truth indicates you are being truthful, if you so choose, and you can't be compelled to tell the truth by magic."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.135"
+    },
+    {
+      "name": "Swashbuckler",
+      "class": "Rogue",
+      "description": "The Swashbuckler relies on a good understanding of the D&D rules to realize its potential, specifically when it comes to fighting with two weapons.",
+      "features": [
+        {
+          "name": "Fancy Footwork",
+          "level": 3,
+          "description": "When you choose this archetype at 3rd level, you learn how to land a strike and then slip away without reprisal. During your turn, if you make a melee attack against a creature, that creature can't make opportunity attacks against you for the rest of your turn."
+        },
+        {
+          "name": "Rakish Audacity",
+          "level": 3,
+          "description": "Starting at 3rd level, your unmistakable confidence propels you into battle. You can add your Charisma modifier to your initiative rolls. In addition, you don't need advantage on your attack roll to use your Sneak Attack if no creature other than your target is within 5 feet of you. All the other rules for the Sneak Attack class feature still apply to you."
+        },
+        {
+          "name": "Panache",
+          "level": 9,
+          "description": "At 9th level, your charm becomes extraordinarily beguiling. As an action, you can make a Charisma (Persuasion) check contested by a creature's Wisdom (Insight) check. The creature must be able to hear you, and the two of you must share a language. If you succeed on the check and the creature is hostile to you, it has disadvantage on attack rolls against targets other than you and can't make opportunity attacks against targets other than you. This effect lasts for 1 minute, until one of your companions attacks the target or affects it with a spell, or until you and the target are more than 60 feet apart. If you succeed on the check and the creature isn't hostile to you, it is charmed by you for 1 minute. While charmed, it regards you as a friendly acquaintance. This effect ends immediately if you or your companions do anything harmful to it."
+        },
+        {
+          "name": "Elegant Maneuver",
+          "level": 13,
+          "description": "Starting at 13th level, you can use a bonus action on your turn to gain advantage on the next Dexterity (Acrobatics) or Strength (Athletics) check you make during the same turn."
+        },
+        {
+          "name": "Master Duelist",
+          "level": 17,
+          "description": "Beginning at 17th level, your mastery of the blade lets you turn failure into success in combat. If you miss with an attack roll, you can roll it again with advantage. Once you do so, you can't use this feature again until you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "source": "SCAG p.135"
+    },
+    {
+      "name": "Storm Sorcery",
+      "class": "Sorcerer",
+      "description": "Your innate magic comes from the power of elemental air. Many with this power can trace their magic back to a near-death experience caused by the Great Rain, but perhaps you were born during a howling gale so powerful that folk still tell stories of it, or your lineage might include the influence of potent air creatures such as vaati or djinn. Whatever the case, the magic of the storm permeates your being. Storm sorcerers are invaluable members of a ship's crew. Their magic allows them to exert control over wind and weather in their immediate area. Their abilities also prove useful in repelling attacks by sahuagin, pirates, and other waterborne threats.",
+      "features": [
+        {
+          "name": "Wind Speaker",
+          "level": 1,
+          "description": "The arcane magic you command is infused with elemental air. You can speak, read, and write Primordial. (Knowing this language allows you to understand and be understood by those who speak its dialects: Aquan, Auran, Ignan, and Terran.)"
+        },
+        {
+          "name": "Tempestuous Magic",
+          "level": 1,
+          "description": "Starting at 1st level, you can use a bonus action on your turn to cause whirling gusts of elemental air to briefly surround you, immediately before or after you cast a spell of 1st level or higher. Doing so allows you to fly up to 10 feet without provoking opportunity attacks."
+        },
+        {
+          "name": "Heart of the Storm",
+          "level": 6,
+          "description": "At 6th level, you gain resistance to lightning and thunder damage. In addition, whenever you start casting a spell of 1st level or higher that deals lightning or thunder damage, stormy magic erupts from you. This eruption causes creatures of your choice that you can see within 10 feet of you to take lightning or thunder damage (choose each time this ability activates) equal to half your sorcerer level."
+        },
+        {
+          "name": "Storm Guide",
+          "level": 6,
+          "description": "At 6th level, you gain the ability to subtly control the weather around you. If it is raining, you can use an action to cause the rain to stop falling in a 20-foot-radius sphere centered on you. You can end this effect as a bonus action. If it is windy, you can use a bonus action each round to choose the direction that the wind blows in a 100-foot-radius sphere centered on you. The wind blows in that direction until the end of your next turn. This feature doesn't alter the speed of the wind."
+        },
+        {
+          "name": "Storm's Fury",
+          "level": 14,
+          "description": "Starting at 14th level, when you are hit by a melee attack, you can use your reaction to deal lightning damage to the attacker. The damage equals your sorcerer level. The attacker must also make a Strength saving throw against your sorcerer spell save DC. On a failed save, the attacker is pushed in a straight line up to 20 feet away from you."
+        },
+        {
+          "name": "Wind Soul",
+          "level": 18,
+          "description": "At 18th level, you gain immunity to lightning and thunder damage. You also gain a magical flying speed of 60 feet. As an action, you can reduce your flying speed to 30 feet for 1 hour and choose a number of creatures within 30 feet of you equal to 3 + your Charisma modifier. The chosen creatures gain a magical flying speed of 30 feet for 1 hour. Once you reduce your flying speed in this way, you can't do so again until you finish a short or long rest."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.137"
+    },
+    {
+      "name": "The Undying",
+      "class": "Warlock",
+      "description": "Death holds no sway over your patron, who has unlocked the secrets of everlasting life, although such a prize—like all power—comes at a price. Once mortal, the Undying has seen mortal lifetimes pass like the seasons, like the flicker of endless days and nights. It has the secrets of the ages to share, secrets of life and death.",
+      "features": [
+        {
+          "name": "Expanded Spell List",
+          "level": 1,
+          "description": "The Undying lets you choose from an expanded list of spells when you learn a warlock spell. The following spells are added to the warlock spell list for you.\n\nUNDYING EXPANDED SPELLS\nSpell Level | Spells\n1st | false life, ray of sickness\n2nd | blindness/deafness, silence\n3rd | feign death, speak with dead\n4th | aura of life, death ward\n5th | contagion, legend lore"
+        },
+        {
+          "name": "Among the Dead",
+          "level": 1,
+          "description": "Starting at 1st level, you learn the spare the dying cantrip, which counts as a warlock cantrip for you. You also have advantage on saving throws against any disease.\n\nAdditionally, undead have difficulty harming you. If an undead targets you directly with an attack or a harmful spell, that creature must make a Wisdom saving throw against your spell save DC (an undead needn't make the save when it includes you in an area effect, such as the explosion of fireball). On a failed save, the creature must choose a new target or forfeit targeting someone instead of you, potentially wasting the attack or spell. On a successful save, the creature is immune to this effect for 24"
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide p.139"
+    },
+    {
+      "name": "Bladesinging",
+      "class": "Wizard",
+      "description": "Bladesingers are elves who bravely defend their people and lands. They are elf wizards who master a school of sword fighting grounded in a tradition of arcane magic. In combat, a bladesinger uses a series of intricate, elegant maneuvers that fend off harm and allow the bladesinger to channel magic into devastating attacks and a cunning defense.",
+      "features": [
+        {
+          "name": "Restriction: Elves Only",
+          "level": 2,
+          "description": "Only elves and half-elves can choose the bladesinger arcane tradition. In the world of Faerûn, elves closely guard the secrets of bladesinging. Your DM can lift this restriction to better suit the campaign. The restriction reflects the story of bladesingers in the Forgotten Realms, but it might not apply to your DM's setting or your DM's version of the Realms."
+        }
+      ],
+      "source": "SCAG p.141"
+    },
+    {
+      "name": "Bladesinger",
+      "class": "Wizard",
+      "description": "Only elves and half-elves can choose the bladesinger arcane tradition. In the world of Faerûn, elves closely guard the secrets of bladesinging.",
+      "features": [
+        {
+          "name": "Training in War and Song",
+          "level": 2,
+          "description": "When you adopt this tradition at 2nd level, you gain proficiency with light armor, and you gain proficiency with one type of one-handed melee weapon of your choice. You also gain proficiency in the Performance skill if you don't already have it."
+        },
+        {
+          "name": "Bladesong",
+          "level": 2,
+          "description": "Starting at 2nd level, you can invoke a secret elven magic called the Bladesong, provided that you aren't wearing medium or heavy armor or using a shield. It graces you with supernatural speed, agility, and focus. You can use a bonus action to start the Bladesong, which lasts for 1 minute. It ends early if you are incapacitated, if you don medium or heavy armor or a shield, or if you use two hands to make an attack with a weapon. You can also dismiss the Bladesong at any time you choose (no action required). While your Bladesong is active, you gain the following benefits: You gain a bonus to your AC equal to your Intelligence modifier (minimum of +1). Your walking speed increases by 10 feet. You have advantage on Dexterity (Acrobatics) checks. You gain a bonus to any Constitution saving throw you make to maintain your concentration on a spell. The bonus equals your Intelligence modifier (minimum of +1). You can use this feature twice. You regain all expended uses of it when you finish a short or long rest.",
+          "uses": 2,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Extra Attack",
+          "level": 6,
+          "description": "Starting at 6th level, you can attack twice, instead of once, whenever you take the Attack action on your turn."
+        },
+        {
+          "name": "Song of Defense",
+          "level": 10,
+          "description": "Beginning at 10th level, you can direct your magic to absorb damage while your Bladesong is active. When you take damage, you can use your reaction to expend one spell slot and reduce that damage to you by an amount equal to five times the spell slot's level."
+        },
+        {
+          "name": "Song of Victory",
+          "level": 14,
+          "description": "Starting at 14th level, you add your Intelligence modifier (minimum of +1) to the damage of your melee weapon attacks while your Bladesong is active."
+        }
+      ],
+      "source": "Sword Coast Adventurer's Guide"
+    }
+  ],
+  "traps": [],
+  "_chapters_completed": [
+    "Races of the Realms",
+    "The Sword Coast and the North",
+    "Backgrounds",
+    "Classes",
+    "Preface",
+    "Apendix: Class Options in Other Worlds",
+    "Index",
+    "Sword Coast Adventurer's Guide",
+    "Welcome to the Realms"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 9,
+  "_book_slug": "SCAG",
+  "_book_title": "D&D 5E  Sword Coast Adventurer's Guide",
+  "_completed": true,
+  "_timestamp": 1790281899.534196
+}

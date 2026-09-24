@@ -33,6 +33,9 @@ def main() -> int:
     only = []
     if "--only" in sys.argv:
         only = sys.argv[sys.argv.index("--only") + 1:]
+    force = "--force" in sys.argv
+    if force:
+        only = [a for a in only if not a.startswith("--")]
 
     meta = json.loads((HERE / "data" / "manual_data" / "_meta.json").read_text())
     pdf_map = meta.get("pdf_map", {})
@@ -41,7 +44,8 @@ def main() -> int:
     for slug, entry in sorted(pdf_map.items()):
         if only and slug not in only:
             continue
-        if (CACHE / f"{slug}.txt").exists():
+        cache = CACHE / f"{slug}.txt"
+        if cache.exists() and not force:
             continue
         pdf = MANUALS / str(entry.get("path") or "")
         todo.append((slug, pdf, entry.get("title") or ""))

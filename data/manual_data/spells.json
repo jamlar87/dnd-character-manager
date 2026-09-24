@@ -5126,5 +5126,25 @@
     "concentration": true,
     "description": "You call forth a draconic spirit. It manifests in an unoccupied space that you can see within range. This corporeal form uses the Draconic Spirit stat block. When you cast this spell, choose a family of dragon: chromatic, gem, or metallic. The creature resembles a dragon of the chosen family, which determines certain traits in its stat block. The creature disappears when it drops to 0 hit points or when the spell ends. The creature is an ally to you and your companions. In combat, the creature shares your initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its move to avoid danger. At Higher Levels. When you cast this spell using a spell slot of 6th level or higher, use the higher level wherever the spell's level appears in the stat block.",
     "_source": "Fizban's Treasury of Dragons"
+  },
+  {
+    "name": "Transmute Mud to Rock",
+    "level": 5,
+    "school": "transmutation",
+    "casting_time": "1 action",
+    "range": "120 feet",
+    "components": "V, S, M (a mixture of water and sand)",
+    "duration": "Instantaneous",
+    "description": "Nonmagical mud or quicksand in the area no more than 10 feet deep transforms into soft stone for the spell's duration. Any creature in the mud when it transforms must make a Dexterity saving throw. On a failed save, a creature becomes restrained by the rock. The restrained creature can use an action to try to break free by succeeding on a Strength check (DC 20) or by dealing 25 damage to the rock around it. On a successful save, a creature is shunted safely to the surface to an unoccupied space.",
+    "higher_levels": "",
+    "classes": [
+      "Druid",
+      "Sorcerer",
+      "Wizard"
+    ],
+    "ritual": false,
+    "concentration": false,
+    "source": "(D&D 5E  Elemental Evil Player's Companion)",
+    "_source_manual": "EEPC"
   }
 ]

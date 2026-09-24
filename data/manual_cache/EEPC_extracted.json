@@ -1,0 +1,1825 @@
+{
+  "races": [
+    {
+      "name": "Aarakocra",
+      "source": "Elemental Evil Player's Companion p.3",
+      "asi": {
+        "strength": 0,
+        "dexterity": 2,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Aarakocra",
+        "Auran"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Dexterity score increases by 2, and your Wisdom score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Aarakocra reach maturity by age 3. Compared to humans, aarakocra don’t usually live longer than 30 years."
+        },
+        {
+          "name": "Alignment",
+          "description": "Most aarakocra are good and rarely choose sides when it comes to law and chaos. Tribal leaders and warriors might be lawful, while explorers and adventurers might tend toward chaotic."
+        },
+        {
+          "name": "Size",
+          "description": "Aarakocra are about 5 feet tall. They have thin, lightweight bodies that weigh between 80 and 100 pounds. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet."
+        },
+        {
+          "name": "Flight",
+          "description": "You have a flying speed of 50 feet. To use this speed, you can’t be wearing medium or heavy armor."
+        },
+        {
+          "name": "Talons",
+          "description": "You are proficient with your unarmed strikes, which deal 1d4 slashing damage on a hit."
+        },
+        {
+          "name": "Language",
+          "description": "You can speak, read, and write Common, Aarakocra, and Auran."
+        }
+      ],
+      "subraces": [],
+      "description": "Aarakocra are about 5 feet tall with thin, lightweight bodies weighing between 80 and 100 pounds. They are avian humanoids with feathers and talons.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Dexterity +2, Wisdom +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Flight": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flying speed 50 ft; cannot use while wearing medium or heavy armor"
+        },
+        "Talons": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Proficient with unarmed strikes; unarmed strikes deal 1d4 slashing damage"
+        },
+        "Language": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speak, read, and write Common, Aarakocra, and Auran"
+        }
+      }
+    },
+    {
+      "name": "Deep Gnome (Svirfneblin)",
+      "source": "Elemental Evil Player's Companion p.5",
+      "asi": {
+        "strength": 0,
+        "dexterity": 1,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 120,
+      "languages": [
+        "Common",
+        "Gnomish",
+        "Undercommon"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Superior Darkvision",
+          "description": "Your darkvision has a radius of 120 feet."
+        },
+        {
+          "name": "Stone Camouflage",
+          "description": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain."
+        }
+      ],
+      "subraces": [],
+      "description": "Deep gnomes, also known as svirfneblin, are a rare subrace of gnomes who dwell far below the earth's surface in hidden strongholds, known for their cunning, taciturn nature, and expert mining and gemcutting skills.",
+      "_effects": {
+        "Superior Darkvision": {
+          "darkvision": 120
+        },
+        "Stone Camouflage": {
+          "notes": "Advantage on Dexterity (Stealth) checks to hide in rocky terrain."
+        }
+      }
+    },
+    {
+      "name": "Deep Gnome",
+      "source": "EEPC p.7",
+      "asi": {
+        "strength": 0,
+        "dexterity": 1,
+        "constitution": 0,
+        "intelligence": 2,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 25,
+      "darkvision": 120,
+      "languages": [
+        "Common",
+        "Gnomish",
+        "Undercommon"
+      ],
+      "size": "Small",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Intelligence score increases by 2, and your Dexterity score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Deep gnomes are short-lived for gnomes. They mature at the same rate humans do and are considered full-grown adults by 25. They live 200 to 250 years, although hard toil and the dangers of the Underdark often claim them before their time."
+        },
+        {
+          "name": "Alignment",
+          "description": "Svirfneblin believe that survival depends on avoiding entanglements with other creatures and not making enemies, so they favor neutral alignments. They rarely wish others ill, and they are unlikely to take risks on behalf of others."
+        },
+        {
+          "name": "Size",
+          "description": "A typical svirfneblin stands about 3 to 3½ feet tall and weighs 80 to 120 pounds. Your size is Small."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 25 feet."
+        },
+        {
+          "name": "Superior Darkvision",
+          "description": "Your darkvision has a radius of 120 feet."
+        },
+        {
+          "name": "Gnome Cunning",
+          "description": "You have advantage on all Intelligence, Wisdom, and Charisma saving throws against magic."
+        },
+        {
+          "name": "Stone Camouflage",
+          "description": "You have advantage on Dexterity (stealth) checks to hide in rocky terrain."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common, Gnomish, and Undercommon. The svirfneblin dialect is more guttural than surface Gnomish, and most svirfneblin know only a little bit of Common, but those who deal with outsiders (and that includes you as an adventurer) pick up enough Common to get by in other lands."
+        }
+      ],
+      "subraces": [],
+      "description": "Deep gnomes, or svirfneblin, are short-lived for gnomes, standing about 3 to 3½ feet tall and weighing 80 to 120 pounds. They dwell in the perilous Underdark, favoring neutral alignments and relying on stealth and camouflage in rocky terrain.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Intelligence +2, Dexterity +1"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Small"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 25,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Superior Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 120,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Gnome Cunning": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on all Intelligence, Wisdom, and Charisma saving throws against magic"
+        },
+        "Stone Camouflage": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Advantage on Dexterity (Stealth) checks to hide in rocky terrain"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Speak, read, and write Common, Gnomish, and Undercommon"
+        }
+      }
+    },
+    {
+      "name": "Genasi",
+      "source": "EEPC p.9",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Primordial"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Constitution score increases by 2."
+        },
+        {
+          "name": "Age",
+          "description": "Genasi mature at about the same rate as humans and reach adulthood in their late teens. They live somewhat longer than humans do, up to 120 years."
+        },
+        {
+          "name": "Alignment",
+          "description": "Independent and self-reliant, genasi tend toward a neutral alignment."
+        },
+        {
+          "name": "Size",
+          "description": "Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Primordial. Primordial is a guttural language, filled with harsh syllables and hard consonants."
+        },
+        {
+          "name": "Subraces",
+          "description": "Four major subraces of genasi are found among the worlds of D&D: air genasi, earth genasi, fire genasi, and water genasi. Choose one of these subraces."
+        }
+      ],
+      "subraces": [
+        {
+          "name": "Air Genasi",
+          "asi": {
+            "dex": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Your Dexterity score increases by 1."
+            },
+            {
+              "name": "Unending Breath",
+              "description": "You can hold your breath indefinitely while you're not incapacitated."
+            },
+            {
+              "name": "Mingle with the Wind",
+              "description": "You can cast the levitate spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+              "uses": 1,
+              "recharge": "long rest"
+            }
+          ],
+          "description": "As an air genasi, you are descended from the djinn. As changeable as the weather, your moods shift from calm to wild and violent with little warning, but these storms rarely last long."
+        },
+        {
+          "name": "Earth Genasi",
+          "asi": {
+            "str": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Your Strength score increases by 1."
+            },
+            {
+              "name": "Earth Walk",
+              "description": "You can move across difficult terrain made of earth or stone without expending extra movement."
+            },
+            {
+              "name": "Merge with Stone",
+              "description": "You can cast the pass without trace spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+              "uses": 1,
+              "recharge": "long rest"
+            }
+          ],
+          "description": "As an earth genasi, you are descended from the cruel and greedy dao, though you aren't necessarily evil. You have inherited some measure of control over earth, reveling in superior strength and solid power. You tend to avoid rash decisions, pausing long enough to consider your options before taking action."
+        },
+        {
+          "name": "Fire Genasi",
+          "asi": {
+            "int": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Your Intelligence score increases by 1."
+            },
+            {
+              "name": "Darkvision",
+              "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+            },
+            {
+              "name": "Reach to the Blaze",
+              "description": "You know the produce flame cantrip. Once you reach 3rd level, you can cast the burning hands spell once with this trait as a 1st-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+              "uses": 1,
+              "recharge": "long rest"
+            }
+          ],
+          "description": "As a fire genasi, you have inherited the volatile mood and keen mind of the efreet. You tend toward impatience and making snap judgments. Rather than hide your distinctive appearance, you exult in it."
+        },
+        {
+          "name": "Water Genasi",
+          "asi": {
+            "wis": 1
+          },
+          "traits": [
+            {
+              "name": "Ability Score Increase",
+              "description": "Your Wisdom score increases by 1."
+            },
+            {
+              "name": "Acid Resistance",
+              "description": "You have resistance to acid damage."
+            },
+            {
+              "name": "Amphibious",
+              "description": "You can breathe air and water."
+            },
+            {
+              "name": "Swim",
+              "description": "You have a swimming speed of 30 feet."
+            },
+            {
+              "name": "Call to the Wave",
+              "description": "You know the shape water cantrip. Once you reach 3rd level, you can cast the create or destroy water spell once with this trait as a 2nd-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+              "uses": 1,
+              "recharge": "long rest"
+            }
+          ],
+          "description": "As a water genasi, you are descended from the marids, sea chieftains known for their capriciousness. You have a natural affinity for water and can adapt to life in the sea or on land."
+        }
+      ],
+      "description": "Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. They are touched by elemental power, with subraces reflecting air, earth, fire, or water heritage.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Constitution score increases by 2."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Lifespan up to 120 years."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Tend toward neutral alignment."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Primordial."
+        },
+        "Subraces": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Choose one subrace: air genasi, earth genasi, fire genasi, or water genasi."
+        }
+      }
+    },
+    {
+      "name": "Fire Genasi",
+      "source": "EEPC p.10",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Primordial"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Intelligence score increases by 1."
+        },
+        {
+          "name": "Darkvision",
+          "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. Your ties to the Elemental Plane of Fire make your darkvision unusual: everything you see in darkness is in a shade of red."
+        },
+        {
+          "name": "Fire Resistance",
+          "description": "You have resistance to fire damage."
+        },
+        {
+          "name": "Reach to the Blaze",
+          "description": "You know the produce flame cantrip. Once you reach 3rd level, you can cast the burning hands spell once with this trait as a 1st-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells."
+        }
+      ],
+      "subraces": [],
+      "description": "Nearly all fire genasi are feverishly hot as if burning inside, an impression reinforced by flaming red, coal-black, or ash-gray skin tones. The more human-looking have fiery red hair that writhes under extreme emotion, while more exotic specimens sport actual flames dancing on their heads.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Intelligence score increases by 1."
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Darkvision sees in shades of red."
+        },
+        "Fire Resistance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Fire"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Reach to the Blaze": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Knows the produce flame cantrip. At 3rd level, can cast burning hands once per long rest as a 1st-level spell. Constitution is the spellcasting ability for these spells."
+        }
+      }
+    },
+    {
+      "name": "Water Genasi",
+      "source": "EEPC p.10",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Primordial"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Wisdom score increases by 1."
+        },
+        {
+          "name": "Acid Resistance",
+          "description": "You have resistance to acid damage."
+        },
+        {
+          "name": "Amphibious",
+          "description": "You can breathe air and water."
+        },
+        {
+          "name": "Swim",
+          "description": "You have a swimming speed of 30 feet."
+        },
+        {
+          "name": "Call to the Wave",
+          "description": "You know the shape water cantrip (see chapter 2). When you reach 3rd level, you can cast the create or destroy water spell as a 2nd-level spell once with this trait, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells."
+        }
+      ],
+      "subraces": [],
+      "description": "Most water genasi look as if they just finished bathing, with beads of moisture collecting on their skin and hair. They smell of fresh rain and clean water, with blue or green skin common and somewhat overlarge, blue-black eyes.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom score increases by 1."
+        },
+        "Acid Resistance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Acid"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Amphibious": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can breathe air and water."
+        },
+        "Swim": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Swimming speed of 30 feet."
+        },
+        "Call to the Wave": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Knows the shape water cantrip. At 3rd level, can cast create or destroy water as a 2nd-level spell once per long rest. Constitution is the spellcasting ability for these spells."
+        }
+      }
+    },
+    {
+      "name": "Goliath",
+      "source": "EEPC p.10",
+      "asi": {
+        "strength": 2,
+        "dexterity": 0,
+        "constitution": 1,
+        "intelligence": 0,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Strength score increases by 2, and your Constitution score increases by 1."
+        },
+        {
+          "name": "Age",
+          "description": "Goliaths have lifespans comparable to humans. They enter adulthood in their late teens and usually live less than a century."
+        },
+        {
+          "name": "Alignment",
+          "description": "Goliath society, with its clear roles and tasks, has a strong lawful bent. The goliath sense of fairness, balanced with an emphasis on self-sufficiency and personal accountability, pushes them toward neutrality."
+        },
+        {
+          "name": "Size",
+          "description": "Goliaths are between 7 and 8 feet tall and weigh between 280 and 340 pounds. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Natural Athlete",
+          "description": "You have proficiency in the Athletics skill."
+        },
+        {
+          "name": "Stone's Endurance",
+          "description": "You can focus yourself to occasionally shrug off injury. When you take damage, you can use your reaction to roll a d12. Add your Constitution modifier to the number rolled, and reduce the damage by that total. After you use this trait, you can't use it again until you finish a short or long rest."
+        },
+        {
+          "name": "Powerful Build",
+          "description": "You count as one size larger when determining your carrying capacity and the weight you can push, drag, or lift."
+        },
+        {
+          "name": "Mountain Born",
+          "description": "You're acclimated to high altitude, including elevations above 20,000 feet. You're also naturally adapted to cold climates, as described in chapter 5 of the Dungeon Master's Guide."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Giant."
+        }
+      ],
+      "subraces": [],
+      "description": "Goliaths are between 7 and 8 feet tall and weigh between 280 and 340 pounds, with a strong lawful bent and a sense of fairness balanced by self-sufficiency.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Strength score increases by 2, Constitution score increases by 1."
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Flavor only; no mechanical effects."
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium."
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Natural Athlete": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [
+            "Athletics"
+          ],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Stone's Endurance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Reaction to reduce damage by 1d12 + Constitution modifier; usable once per short or long rest."
+        },
+        "Powerful Build": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Count as one size larger for carrying capacity and for weight you can push, drag, or lift."
+        },
+        "Mountain Born": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Acclimated to high altitude (including above 20,000 feet) and naturally adapted to cold climates."
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Giant."
+        }
+      }
+    }
+  ],
+  "spells": [
+    {
+      "name": "Abi-Dalzim's Horrid Wilting",
+      "level": 8,
+      "school": "necromancy",
+      "casting_time": "1 action",
+      "range": "150 feet",
+      "components": "V, S, M (a bit of sponge)",
+      "duration": "Instantaneous",
+      "description": "You draw the moisture from every creature in a 30-foot cube centered on a point you choose within range. Each creature in that area must make a Constitution saving throw. Constructs and undead aren't affected, and plants and water elementals make this saving throw with disadvantage. A creature takes 10d8 necrotic damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Absorb Elements",
+      "level": 1,
+      "school": "abjuration",
+      "casting_time": "1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage",
+      "range": "Self",
+      "components": "S",
+      "duration": "1 round",
+      "description": "The spell captures some of the incoming energy, lessening its effect on you and storing it for your next melee attack. You have resistance to the triggering damage type until the start of your next turn. Also, the first time you hit with a melee attack on your next turn, the target takes an extra 1d6 damage of the triggering type, and the spell ends.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each slot level above 1st.",
+      "classes": [
+        "Druid",
+        "Ranger",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Aganazzar's Scorcher",
+      "level": 2,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a red dragon's scale)",
+      "duration": "Instantaneous",
+      "description": "A line of roaring flame 30 feet long and 5 feet wide emanates from you in a direction you choose. Each creature in the line must make a Dexterity saving throw. A creature takes 3d8 fire damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for each slot level above 2nd.",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Beast Bond",
+      "level": 1,
+      "school": "divination",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S, M (a bit of fur wrapped in a cloth)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You establish a telepathic link with one beast you touch that is friendly to you or charmed by you. The spell fails if the beast's Intelligence is 4 or higher. Until the spell ends, the link is active while you and the beast are within line of sight of each other. Through the link, the beast can understand your telepathic messages to it, and it can telepathically communicate simple emotions and concepts back to you. While the link is active, the beast gains advantage on attack rolls against any creature within 5 feet of you that you can see.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Ranger"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Bones of the Earth",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You cause up to six pillars of stone to burst from places on the ground that you can see within range. Each pillar is a cylinder that has a diameter of 5 feet and a height of up to 30 feet. The ground where a pillar appears must be wide enough for its diameter, and you can target ground under a creature if that creature is Medium or smaller. Each pillar has AC 5 and 30 hit points. When reduced to 0 hit points, a pillar crumbles into rubble, which creates an area of difficult terrain with a 10-foot radius. The rubble lasts until cleared.\nIf a pillar is created under a creature, that creature must succeed on a Dexterity saving throw or be lifted by the pillar. A creature can choose to fail the save.\nIf a pillar is prevented from reaching its full height because of a ceiling or other obstacle, a creature on the pillar takes 6d6 bludgeoning damage and is restrained, pinched between the pillar and the obstacle. The restrained creature can use an action to make a Strength or Dexterity check (the creature's choice) against the spell's saving throw DC. On a success, the creature is no longer restrained and must either move off the pillar or fall off it.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 7th level or higher, you can create two additional pillars for each slot level above 6th.",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Catapult",
+      "level": 1,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "150 feet",
+      "components": "S",
+      "duration": "Instantaneous",
+      "description": "Choose one object weighing 1 to 5 pounds within range that isn't being worn or carried. The object flies in a straight line up to 90 feet in a direction you choose before falling to the ground, stopping early if it impacts against a solid surface. If the object would strike a creature, that creature must make a Dexterity saving throw. On a failed save, the object strikes the target and stops moving. In either case, both the object and the creature or solid surface take 3d8 bludgeoning damage.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the maximum weight of objects that you can target with this spell increases by 5 pounds, and the damage increases by 1d8, for each slot level above 1st.",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Create Bonfire",
+      "level": 0,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You create a bonfire on ground that you can see within range. Until the spells ends, the bonfire fills a 5-foot cube. Any creature in the bonfire's space when you cast the spell must succeed on a Dexterity saving throw or take 1d8 fire damage. A creature must also make the saving throw when it enters the bonfire's space for the first time on a turn or ends its turn there.",
+      "higher_levels": "The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Control Flames",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "S",
+      "duration": "Instantaneous or 1 hour (see below)",
+      "description": "You choose nonmagical flame that you can see within range and that fits within a 5-foot cube. You affect it in one of the following ways:\n• You instantaneously expand the flame 5 feet in one direction, provided that wood or other fuel is present in the new location.\n• You instantaneously extinguish the flames within the cube.\n• You double or halve the area of bright light and dim light cast by the flame, change its color, or both. The change lasts for 1 hour.\n• You cause simple shapes—such as the vague form of a creature, an inanimate object, or a location—to appear within the flames and animate as you like. The shapes last for 1 hour.\nIf you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Control Winds",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "300 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You take control of the air in a 100-foot cube that you can see within range. Choose one of the following effects when you cast the spell. The effect lasts for the spell's duration, unless you use your action on a later turn to switch to a different effect. You can also use your action to temporarily halt the effect or to restart one you've halted.\nGusts. A wind picks up within the cube, continually blowing in a horizontal direction that you choose. You choose the intensity of the wind: calm, moderate, or strong. If the wind is moderate or strong, ranged weapon attacks that pass through it or that are made against targets within the cube have disadvantage on their attack rolls. If the wind is strong, any creature moving against the wind must spend 1 extra foot of movement for each foot moved.\nDowndraft. You cause a sustained blast of strong wind to blow downward from the top of the cube. Ranged weapon attacks that pass through the cube or that are made against targets within it have disadvantage on their attack rolls. A creature must make a Strength saving throw if it flies into the cube for the first time on a turn or starts its turn there flying. On a failed save, the creature is knocked prone.\nUpdraft. You cause a sustained updraft within the cube, rising upward from the cube's bottom edge. Creatures that end a fall within the cube take only half damage from the fall. When a creature in the cube makes a vertical jump, the creature can jump up to 10 feet higher than normal.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Dust Devil",
+      "level": 2,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a pinch of dust)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Choose an unoccupied 5-foot cube of air that you can see within range. An elemental force that resembles a dust devil appears in the cube and lasts for the spell's duration.\nAny creature that ends its turn within 5 feet of the dust devil must make a Strength saving throw. On a failed save, the creature takes 1d8 bludgeoning damage and is pushed 10 feet away. On a successful save, the creature takes half as much damage and isn't pushed.\nAs a bonus action, you can move the dust devil up to 30 feet in any direction. If the dust devil moves over sand, dust, loose dirt, or small gravel, it sucks up the material and forms a 10-foot-radius cloud of debris around itself that lasts until the start of your next turn. The cloud heavily obscures its area.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Earthbind",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "300 feet",
+      "components": "V",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Choose one creature you can see within range. Yellow strips of magical energy loop around the creature. The target must succeed on a Strength saving throw or its flying speed (if any) is reduced to 0 feet for the spell's duration. An airborne creature affected by this spell descends at 60 feet per round until it reaches the ground or the spell ends.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Earth Tremor",
+      "level": 1,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self (10-foot radius)",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You cause a tremor in the ground in a 10-foot radius. Each creature other than you in that area must make a Dexterity saving throw. On a failed save, a creature takes 1d6 bludgeoning damage and is knocked prone. If the ground in that area is loose earth or stone, it becomes difficult terrain until cleared.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d6 for each slot level above 1st.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Elemental Bane",
+      "level": 4,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Choose one creature you can see within range, and choose one of the following damage types: acid, cold, fire, lightning, or thunder. The target must succeed on a Constitution saving throw or be affected by the spell for its duration. The first time each turn the affected target takes damage of the chosen type, the target takes an extra 2d6 damage of that type. Moreover, the target loses any resistance to that damage type until the spell ends.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 5th level or higher, you can target one additional creature for each slot level above 4th. The creatures must be within 30 feet of each other when you target them.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Erupting Earth",
+      "level": 3,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a piece of obsidian)",
+      "duration": "Instantaneous",
+      "description": "Choose a point you can see on the ground within range. A fountain of churned earth and stone erupts in a 20-foot cube centered on that point. Each creature in that area must make a Dexterity saving throw. A creature takes 3d12 bludgeoning damage on a failed save, or half as much damage on a successful one. Additionally, the ground in that area becomes difficult terrain until cleared away. Each 5-foot-square portion of the area requires at least 1 minute to clear by hand.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d12 for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Flame Arrows",
+      "level": 3,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You touch a quiver containing arrows or bolts. When a target is hit by a ranged weapon attack using a piece of ammunition drawn from the quiver, the target takes an extra 1d6 fire damage. The spell's magic ends on the piece of ammunition when it hits or misses, and the spell ends when twelve pieces of ammunition have been drawn from the quiver.",
+      "higher_levels": "When you cast this spell using a spell slot of 4th level or higher, the number of pieces of ammunition you can affect with this spell increases by two for each slot level above 3rd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Frostbite",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You cause numbing frost to form on one creature that you can see within range. The target must make a Constitution saving throw. On a failed save, the target takes 1d6 cold damage, and it has disadvantage on the next weapon attack roll it makes before the end of its next turn.",
+      "higher_levels": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Gust",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "You seize the air and compel it to create one of the following effects at a point you can see within range:\n• One Medium or smaller creature that you choose must succeed on a Strength saving throw or be pushed up to 5 feet away from you.\n• You create a small blast of air capable of moving one object that is neither held nor carried and that weighs no more than 5 pounds. The object is pushed up to 10 feet away from you. It isn't pushed with enough force to cause damage.\n• You create a harmless sensory affect using air, such as causing leaves to rustle, wind to slam shutters shut, or your clothing to ripple in a breeze.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Ice Knife",
+      "level": 1,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "S, M (a drop of water or piece of ice)",
+      "duration": "Instantaneous",
+      "description": "You create a shard of ice and fling it at one creature within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 piercing damage. Hit or miss, the shard then explodes. The target and each creature within 5 feet of the point where the ice exploded must succeed on a Dexterity saving throw or take 2d6 cold damage.",
+      "higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the cold damage increases by 1d6 for each slot level above 1st.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Immolation",
+      "level": 5,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V",
+      "duration": "Concentration, up to 1 minute",
+      "description": "Flames wreathe one creature you can see within range. The target must make a Dexterity saving throw. It takes 7d6 fire damage on a failed save, or half as much damage on a successful one. On a failed save, the target also burns for the spell's duration. The burning target sheds bright light in a 30-foot radius and dim light for an additional 30 feet. At the end of each of its turns, the target repeats the saving throw. It takes 3d6 fire damage on a failed save, and the spell ends on a successful one. These magical flames can't be extinguished through nonmagical means.\nIf damage from this spell reduces a target to 0 hit points, the target is turned to ash.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Investiture of Flame",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "Flames race across your body, shedding bright light in a 30-foot radius and dim light for an additional 30 feet for the spell's duration. The flames don't harm you. Until the spell ends, you gain the following benefits:\n• You are immune to fire damage and have resistance to cold damage.\n• Any creature that moves within 5 feet of you for the first time on a turn or ends its turn there takes 1d10 fire damage.\n• You can use your action to create a line of fire 15 feet long and 5 feet wide extending from you in a direction you choose. Each creature in the line must make a Dexterity saving throw. A creature takes 4d8 fire damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Investiture of Ice",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "Until the spell ends, ice rimes your body, and you gain the following benefits:\n• You are immune to cold damage and have resistance to fire damage.\n• You can move across difficult terrain created by ice or snow without spending extra movement.\n• The ground in a 10-foot radius around you is icy and is difficult terrain for creatures other than you. The radius moves with you.\n• You can use your action to create a 15-foot cone of freezing wind extending from your outstretched hand in a direction you choose. Each creature in the cone must make a Constitution saving throw. A creature takes 4d6 cold damage on a failed save, or half as much damage on a successful one. A creature that fails its save against this effect has its speed halved until the start of your next turn.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Investiture of Stone",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "Until the spell ends, bits of rock spread across your body, and you gain the following benefits:\n• You have resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons.\n• You can use your action to create a small earthquake on the ground in a 15-foot radius centered on you. Other creatures on that ground must succeed on a Dexterity saving throw or be knocked prone.\n• You can move across difficult terrain made of earth or stone without spending extra movement. You can move through solid earth or stone as if it was air and without destabilizing it, but you can't end your movement there. If you do so, you are ejected to the nearest unoccupied space, this spell ends, and you are stunned until the end of your next turn.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Investiture of Wind",
+      "level": 6,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "Until the spell ends, wind whirls around you, and you gain the following benefits:\n• Ranged weapon attacks made against you have disadvantage on the attack roll.\n• You gain a flying speed of 60 feet. If you are still flying when the spell ends, you fall, unless you can somehow prevent it.\n• You can use your action to create a 15-foot cube of swirling wind centered on a point you can see within 60 feet of you. Each creature in that area must make a Constitution saving throw. A creature takes 2d10 bludgeoning damage on a failed save, or half as much damage on a successful one. If a Large or smaller creature fails the save, that creature is also pushed up to 10 feet away from the center of the cube.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Maelstrom",
+      "level": 5,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (paper or leaf in the shape of a funnel)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "A mass of 5-foot-deep water appears and swirls in a 30-foot radius centered on a point you can see within range. The point must be on ground or in a body of water. Until the spell ends, that area is difficult terrain, and any creature that starts its turn there must succeed on a Strength saving throw or take 6d6 bludgeoning damage and be pulled 10 feet toward the center.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Magic Stone",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 bonus action",
+      "range": "Touch",
+      "components": "V, S",
+      "duration": "1 minute",
+      "description": "You touch one to three pebbles and imbue them with magic. You or someone else can make a ranged spell attack with one of the pebbles by throwing it or hurling it with a sling. If thrown, it has a range of 60 feet. If someone else attacks with the pebble, that attacker adds your spellcasting ability modifier, not the attacker's, to the attack roll. On a hit, the target takes bludgeoning damage equal to 1d6 + your spellcasting ability modifier. Hit or miss, the spell then ends on the stone.\nIf you cast this spell again, the spell ends early on any pebbles still affected by it.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Maximilian's Earthen Grasp",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "V, S, M (a miniature hand sculpted from clay)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You choose a 5-foot-square unoccupied space on the ground that you can see within range. A Medium hand made from compacted soil rises there and reaches for one creature you can see within 5 feet of it. The target must make a Strength saving throw. On a failed save, the target takes 2d6 bludgeoning damage and is restrained for the spell's duration.\nAs an action, you can cause the hand to crush the restrained target, who must make a Strength saving throw. It takes 2d6 bludgeoning damage on a failed save, or half as much damage on a successful one.\nTo break out, the restrained target can make a Strength check against your spell save DC. On a success, the target escapes and is no longer restrained by the hand.\nAs an action, you can cause the hand to reach for a different creature or to move to a different unoccupied space within range. The hand releases a restrained target if you do either.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Melf's Minute Meteors",
+      "level": 3,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S, M (niter, sulfur, and pine tar formed into a bead)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You create six tiny meteors in your space. They float in the air and orbit you for the spell's duration. When you cast the spell—and as a bonus action on each of your turns thereafter—you can expend one or two of the meteors, sending them streaking toward a point or points you choose within 120 feet of you. Once a meteor reaches its destination or impacts against a solid surface, the meteor explodes. Each creature within 5 feet of the point where the meteor explodes must make a Dexterity saving throw. A creature takes 2d6 fire damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 4th level or higher, the number of meteors created increases by two for each slot level above 3rd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Mold Earth",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "S",
+      "duration": "Instantaneous or 1 hour (see below)",
+      "description": "You choose a portion of dirt or stone that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:\n• If you target an area of loose earth, you can instantaneously excavate it, move it along the ground, and deposit it up to 5 feet away. This movement doesn't have enough force to cause damage.\n• You cause shapes, colors, or both to appear on the dirt or stone, spelling out words, creating images, or shaping patterns. The changes last for 1 hour.\n• If the dirt or stone you target is on the ground, you cause it to become difficult terrain. Alternatively, you can cause the ground to become normal terrain if it is already difficult terrain. This change lasts for 1 hour.\nIf you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Primordial Ward",
+      "level": 6,
+      "school": "abjuration",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You have resistance to acid, cold, fire, lightning, and thunder damage for the spell's duration.\nWhen you take damage of one of those types, you can use your reaction to gain immunity to that type of damage, including against the triggering damage. If you do so, the resistances end, and you have the immunity until the end of your next turn, at which time the spell ends.",
+      "higher_levels": "",
+      "classes": [
+        "Druid"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Pyrotechnics",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S",
+      "duration": "Instantaneous",
+      "description": "Choose an area of flame that you can see and that can fit within a 5-foot cube within range. You can extinguish the fire in that area, and you create either fireworks or smoke.\nFireworks. The target explodes with a dazzling display of colors. Each creature within 10 feet of the target must succeed on a Constitution saving throw or become blinded until the end of your next turn.\nSmoke. Thick black smoke spreads out from the target in a 20-foot radius, moving around corners. The area of the smoke is heavily obscured. The smoke persists for 1 minute or until a strong wind disperses it.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Shape Water",
+      "level": 0,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "30 feet",
+      "components": "S",
+      "duration": "Instantaneous or 1 hour (see below)",
+      "description": "You choose an area of water that you can see within range and that fits within a 5-foot cube. You manipulate it in one of the following ways:\n• You instantaneously move or otherwise change the flow of the water as you direct, up to 5 feet in any direction. This movement doesn't have enough force to cause damage.\n• You cause the water to form into simple shapes and animate at your direction. This change lasts for 1 hour.\n• You change the water's color or opacity. The water must be changed in the same way throughout. This change lasts for 1 hour.\n• You freeze the water, provided that there are no creatures in it. The water unfreezes in 1 hour.\nIf you cast this spell multiple times, you can have no more than two of its non-instantaneous effects active at a time, and you can dismiss such an effect as an action.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Skywrite",
+      "level": 2,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "Sight",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 hour",
+      "description": "You cause up to ten words to form in a part of the sky you can see. The words appear to be made of cloud and remain in place for the spell's duration. The words dissipate when the spell ends. A strong wind can disperse the clouds and end the spell early.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": true,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Snilloc's Snowball Swarm",
+      "level": 2,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (a piece of ice or a small white rock chip)",
+      "duration": "Instantaneous",
+      "description": "A flurry of magic snowballs erupts from a point you choose within range. Each creature in a 5-foot-radius sphere centered on that point must make a Dexterity saving throw. A creature takes 3d6 cold damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d6 for each slot level above 2nd.",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Storm Sphere",
+      "level": 4,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "150 feet",
+      "components": "V, S",
+      "duration": "Concentration, up to 1 minute",
+      "description": "A 20-foot-radius sphere of whirling air springs into existence centered on a point you choose within range. The sphere remains for the spell's duration. Each creature in the sphere when it appears or that ends its turn there must succeed on a Strength saving throw or take 2d6 bludgeoning damage. The sphere's space is difficult terrain. Until the spell ends, you can use a bonus action on each of your turns to cause a bolt of lightning to leap from the center of the sphere toward one creature you choose within 60 feet of the center. Make a ranged spell attack. You have advantage on the attack roll if the target is in the sphere. On a hit, the target takes 4d6 lightning damage. Creatures within 30 feet of the sphere have disadvantage on Wisdom (Perception) checks made to listen.",
+      "higher_levels": "When you cast this spell using a spell slot of 5th level or higher, the damage increases for each of its effects by 1d6 for each slot level above 4th.",
+      "classes": [],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Thunderclap",
+      "level": 0,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self (5-foot radius)",
+      "components": "S",
+      "duration": "Instantaneous",
+      "description": "You create a burst of thunderous sound, which can be heard 100 feet away. Each creature other than you within 5 feet of you must make a Constitution saving throw. On a failed save, the creature takes 1d6 thunder damage.",
+      "higher_levels": "The spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Tidal Wave",
+      "level": 3,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a drop of water)",
+      "duration": "Instantaneous",
+      "description": "You conjure up a wave of water that crashes down on an area within range. The area can be up to 30 feet long, up to 10 feet wide, and up to 10 feet tall. Each creature in that area must make a Dexterity saving throw. On a failure, a creature takes 4d8 bludgeoning damage and is knocked prone. On a success, a creature takes half as much damage and isn't knocked prone. The water then spreads out across the ground in all directions, extinguishing unprotected flames in its area and within 30 feet of it.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Transmute Rock",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (clay and water)",
+      "duration": "Instantaneous",
+      "description": "You choose an area of stone or mud that you can see that fits within a 40-foot cube and that is within range, and choose one of the following effects. Transmute Rock to Mud. Nonmagical rock of any sort in the area becomes an equal volume of thick and flowing mud that remains for the spell's duration. If you cast the spell on an area of ground, it becomes muddy enough that creatures can sink into it. Each foot that a creature moves through the mud costs 4 feet of movement, and any creature on the ground when you cast the spell must make a Strength saving throw. A creature must also make this save the first time it enters the area on a turn or ends its turn there. On a failed save, a creature sinks into the mud and is restrained, though it can use an action to end the restrained condition on itself by pulling itself free of the mud. If you cast the spell on a ceiling, the mud falls. Any creature under the mud when it falls must make a Dexterity saving throw. A creature takes 4d8 bludgeoning damage on a failed save, or half as much damage on a successful one.",
+      "higher_levels": "",
+      "classes": [],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Transmute Mud to Rock",
+      "level": 5,
+      "school": "transmutation",
+      "casting_time": "1 action",
+      "range": "120 feet",
+      "components": "V, S, M (a mixture of water and sand)",
+      "duration": "Instantaneous",
+      "description": "Nonmagical mud or quicksand in the area no more than 10 feet deep transforms into soft stone for the spell's duration. Any creature in the mud when it transforms must make a Dexterity saving throw. On a failed save, a creature becomes restrained by the rock. The restrained creature can use an action to try to break free by succeeding on a Strength check (DC 20) or by dealing 25 damage to the rock around it. On a successful save, a creature is shunted safely to the surface to an unoccupied space.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Vitriolic Sphere",
+      "level": 4,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "150 feet",
+      "components": "V, S, M (a drop of giant slug bile)",
+      "duration": "Instantaneous",
+      "description": "You point at a place within range, and a glowing 1-foot ball of emerald acid streaks there and explodes in a 20-foot radius. Each creature in that area must make a Dexterity saving throw. On a failed save, a creature takes 10d4 acid damage and 5d4 acid damage at the end of its next turn. On a successful save, a creature takes half the initial damage and no damage at the end of its next turn.",
+      "higher_levels": "At Higher Levels. When you cast this spell using a spell slot of 5th level or higher, the initial damage increases by 2d4 for each slot level above 4th.",
+      "classes": [
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": false,
+      "source": "EEPC"
+    },
+    {
+      "name": "Wall of Sand",
+      "level": 3,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (a handful of sand)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You conjure up a wall of swirling sand on the ground at a point you can see within range. You can make the wall up to 30 feet long, 10 feet high, and 10 feet thick, and it vanishes when the spell ends. It blocks line of sight but not movement. A creature is blinded while in the wall's space and must spend 3 feet of movement for every 1 foot it moves there.",
+      "higher_levels": "",
+      "classes": [
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Wall of Water",
+      "level": 3,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "60 feet",
+      "components": "V, S, M (a drop of water)",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "You conjure up a wall of water on the ground at a point you can see within range. You can make the wall up to 30 feet long, 10 feet high, and 1 foot thick, or you can make a ringed wall up to 20 feet in diameter, 20 feet high, and 1 foot thick. The wall vanishes when the spell ends. The wall's space is difficult terrain.\nAny ranged weapon attack that enters the wall's space has disadvantage on the attack roll, and fire damage is halved if the fire effect passes through the wall to reach its target. Spells that deal cold damage that pass through the wall cause the area of the wall they pass through to freeze solid (at least a 5-foot square section is frozen). Each 5-foot-square frozen section has AC 5 and 15 hit points. Reducing a frozen section to 0 hit points destroys it. When a section is destroyed, the wall's water doesn't fill it.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Warding Wind",
+      "level": 2,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "Self",
+      "components": "V",
+      "duration": "Concentration, up to 10 minutes",
+      "description": "A strong wind (20 miles per hour) blows around you in a 10-foot radius and moves with you, remaining centered on you. The wind lasts for the spell's duration.\nThe wind has the following effects:\n• It deafens you and other creatures in its area.\n• It extinguishes unprotected flames in its area that are torch-sized or smaller.\n• The area is difficult terrain for creatures other than you.\n• The attack rolls of ranged weapon attacks have disadvantage if they pass in or out of the wind.\n• It hedges out vapor, gas, and fog that can be dispersed by strong wind.",
+      "higher_levels": "",
+      "classes": [
+        "Bard",
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Watery Sphere",
+      "level": 4,
+      "school": "conjuration",
+      "casting_time": "1 action",
+      "range": "90 feet",
+      "components": "V, S, M (a droplet of water)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "You conjure up a sphere of water with a 10-foot radius on a point you can see within range. The sphere can hover in the air, but no more than 10 feet off the ground. The sphere remains for the spell's duration.\nAny creature in the sphere's space must make a Strength saving throw. On a successful save, a creature is ejected from that space to the nearest unoccupied space outside it. A Huge or larger creature succeeds on the saving throw automatically. On a failed save, a creature is restrained by the sphere and is engulfed by the water. At the end of each of its turns, a restrained target can repeat the saving throw.\nThe sphere can restrain a maximum of four Medium or smaller creatures or one Large creature. If the sphere restrains a creature in excess of these numbers, a random creature that was already restrained by the sphere falls out of it and lands prone in a space within 5 feet of it.\nAs an action, you can move the sphere up to 30 feet in a straight line. If it moves over a pit, cliff, or other drop, it safely descends until it is hovering 10 feet over ground. Any creature restrained by the sphere moves with it. You can ram the sphere into creatures, forcing them to make the saving throw, but no more than once per turn.\nWhen the spell ends, the sphere falls to the ground and extinguishes all normal flames within 30 feet of it. Any creature restrained by the sphere is knocked prone in the space where it falls.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    },
+    {
+      "name": "Whirlwind",
+      "level": 7,
+      "school": "evocation",
+      "casting_time": "1 action",
+      "range": "300 feet",
+      "components": "V, M (a piece of straw)",
+      "duration": "Concentration, up to 1 minute",
+      "description": "A whirlwind howls down to a point on the ground you specify. The whirlwind is a 10-foot-radius, 30-foot-high cylinder centered on that point. Until the spell ends, you can use your action to move the whirlwind up to 30 feet in any direction along the ground. The whirlwind sucks up any Medium or smaller objects that aren't secured to anything and that aren't worn or carried by anyone.\nA creature must make a Dexterity saving throw the first time on a turn that it enters the whirlwind or that the whirlwind enters its space, including when the whirlwind first appears. A creature takes 10d6 bludgeoning damage on a failed save, or half as much damage on a successful one. In addition, a Large or smaller creature that fails the save must succeed on a Strength saving throw or become restrained in the whirlwind until the spell ends. When a creature starts its turn restrained by the whirlwind, the creature is pulled 5 feet higher inside it, unless the creature is at the top. A restrained creature moves with the whirlwind and falls when the spell ends, unless the creature has some means to stay aloft.\nA restrained creature can use an action to make a Strength or Dexterity check against your spell save DC. If successful, the creature is no longer restrained by the whirlwind and is hurled 3d6 × 10 feet away from it in a random direction.",
+      "higher_levels": "",
+      "classes": [
+        "Druid",
+        "Sorcerer",
+        "Wizard"
+      ],
+      "ritual": false,
+      "concentration": true,
+      "source": "EEPC"
+    }
+  ],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [],
+  "feats": [
+    {
+      "name": "Svirfneblin Magic",
+      "prerequisite": "Gnome (deep gnome)",
+      "description": "You have inherited the innate spellcasting ability of your ancestors. This ability allows you to cast nondetection on yourself at will, without needing a material component. You can also cast each of the following spells once with this ability: blindness/deafness, blur, and disguise self. You regain the ability to cast these spells when you finish a long rest. Intelligence is your spellcasting ability for these spells, and you cast them at their lowest possible levels.",
+      "source": "EEPC p.7"
+    }
+  ],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "D&D 5E  Elemental Evil Player's Companion"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 1,
+  "_book_slug": "EEPC",
+  "_book_title": "D&D 5E  Elemental Evil Player's Companion",
+  "_completed": true,
+  "_timestamp": 1790282004.143278
+}

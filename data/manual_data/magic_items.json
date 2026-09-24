@@ -6766,5 +6766,185 @@
     "description": "This thick liquid tastes sweet with a hint of herbal notes. One hour after consuming this honey, you must make a DC 19 Constitution saving throw. On a failure, you suffer a level of exhaustion.",
     "source": "(Field Guide to Floral Dragons, p.194)",
     "_source_manual": "FGFD"
+  },
+  {
+    "name": "Silver Sword",
+    "type": "Weapon (greatsword)",
+    "rarity": "legendary",
+    "requires_attunement": false,
+    "description": "In ancient times, gith knights created special weapons to combat their mind flayer masters. These silver swords channel the force of the wielder's will, dealing psychic as well as physical damage. A githyanki can't become a knight until it masters the singular discipline needed to will such a blade into existence. A silver sword is equivalent to a greatsword, and takes on the properties of a +3 greatsword in the hands of its creator. In the eyes of the githyanki, each silver sword is a priceless relic and a work of art. Githyanki knights will hunt down and destroy any non-githyanki that dares to carry or wield a silver sword, reclaiming it for their people.",
+    "source": "(D&D 5E  Monster Manual, p.159)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Heartstone",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "This lustrous black gem allows a night hag to become ethereal while it is in her possession. The touch of a heartstone also cures any disease. Crafting a heartstone takes 30 days.",
+    "source": "(D&D 5E  Monster Manual, p.179)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Soul Bag",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "When an evil humanoid dies as a result of a night hag's Nightmare Haunting, the hag catches the soul in this black sack made of stitched flesh. A soul bag can hold only one evil soul at a time, and only the night hag who crafted the bag can catch a soul with it. Crafting a soul bag takes 7 days and a humanoid sacrifice (whose flesh is used to make the bag).",
+    "source": "(D&D 5E  Monster Manual, p.179)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Ioun Stone (Absorption)",
+    "type": "Wondrous item",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you. Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.176)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Bead of ... (table)",
+    "type": "Wondrous item",
+    "rarity": "",
+    "requires_attunement": false,
+    "description": "d20 | Bead of ... | Spell\n1-6 | Blessing | Bless\n7-12 | Curing | Cure wounds (2nd level) or lesser restoration\n13-16 | Favor | Greater restoration\n17-18 | Smiting | Branding smite\n19 | Summons | Planar ally\n20 | Wind walking | Wind walk",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.184)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Health",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "Your Constitution score increases by 2, up to a maximum of 22.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Protection",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "You gain a +1 bonus to AC and saving throws.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Magic Resistance",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "You have advantage on saving throws against spells and other magical effects.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Understanding",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "Your Wisdom score increases by 2, up to a maximum of 22.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Valhalla",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "This blessing grants you the power to summon spirit warriors, as if you had blown a silver horn of Valhalla. Once you use this blessing, you can't use it again until 7 days have passed.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Weapon Enhancement",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "One nonmagical weapon in your possession becomes a +1 weapon whenever you wield it.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Blessing of Wound Closure",
+    "type": "Blessing",
+    "rarity": "very rare",
+    "requires_attunement": false,
+    "description": "This blessing grants you the benefits of a periapt of wound closure.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.227)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of Animal Conjuring",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This charm allows you to cast the conjure animals spell (3rd-level version) as an action. Once used three times, the charm vanishes from you.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of Darkvision",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This charm allows you to cast the darkvision spell as an action, no components required. Once used three times, the charm goes away.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of Feather Falling",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This charm grants you the benefits of a ring of feather falling. These benefits last for 10 days, after which the charm vanishes from you.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of Heroism",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This charm allows you to give yourself the benefit of a potion of heroism as an action. Once you do so, the charm vanishes from you.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of the Slayer",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "One sword in your possession becomes a dragon slayer or giant slayer (DM's choice) for the next 9 days. The charm then vanishes from you and the weapon returns to normal.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Charm of Vitality",
+    "type": "Charm",
+    "rarity": "varies",
+    "requires_attunement": false,
+    "description": "This charm allows you to give yourself the benefit of a potion of vitality as an action. Once you do so, the charm vanishes from you.",
+    "source": "(D&D 5E  Dungeon Master's Guide, p.228)",
+    "_source_manual": "DMG"
+  },
+  {
+    "name": "Crystal ball (legendary)",
+    "type": "Wondrous item",
+    "rarity": "legendary",
+    "requires_attunement": true,
+    "description": "",
+    "source": "(D&D 5E  Xanathar's Guide to Everything, p.159)",
+    "_source_manual": "XGE"
+  },
+  {
+    "name": "Horn of Valhalla (iron)",
+    "type": "Wondrous item",
+    "rarity": "legendary",
+    "requires_attunement": false,
+    "description": "",
+    "source": "(D&D 5E  Xanathar's Guide to Everything, p.175)",
+    "_source_manual": "XGE"
   }
 ]

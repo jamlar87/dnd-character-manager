@@ -21,7 +21,7 @@
     "weight": 0,
     "source": "(Call of the Netherdeep)",
     "_source_manual": "CotN",
-    "description": "A magical potion that restores 2d4+2 hit points when drunk. The most common healing potion found throughout Faer\u00fbn."
+    "description": "A magical potion that restores 2d4+2 hit points when drunk. The most common healing potion found throughout Faerûn."
   },
   {
     "name": "Quiver of 20 Arrows",
@@ -313,11 +313,11 @@
     "subtype": "ranged",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
     "_source_manual": "EGW",
-    "description": "Crossbow. A weapon worth \u2014."
+    "description": "Crossbow. A weapon worth —."
   },
   {
     "name": "+1 scimitar",
@@ -325,11 +325,11 @@
     "subtype": "martial melee",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(Explorer's Guide to Wildemount)",
     "_source_manual": "EGW",
-    "description": "+1 scimitar. A weapon worth \u2014."
+    "description": "+1 scimitar. A weapon worth —."
   },
   {
     "name": "Dynamite",
@@ -373,11 +373,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Traveler's Clothes. Standard adventuring gear worth \u2014."
+    "description": "Traveler's Clothes. Standard adventuring gear worth —."
   },
   {
     "name": "Priestly Vestments",
@@ -385,11 +385,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Priestly Vestments. Standard adventuring gear worth \u2014."
+    "description": "Priestly Vestments. Standard adventuring gear worth —."
   },
   {
     "name": "Common Wine (40 gallons)",
@@ -397,11 +397,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Common Wine (40 gallons). Trade Good worth \u2014."
+    "description": "Common Wine (40 gallons). Trade Good worth —."
   },
   {
     "name": "Salt (80 pounds)",
@@ -409,11 +409,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 80,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Salt (80 pounds). Trade Good worth \u2014."
+    "description": "Salt (80 pounds). Trade Good worth —."
   },
   {
     "name": "Wedding Gown and Veil",
@@ -457,11 +457,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Quaal's Feather Token (anchor). A wondrous item worth \u2014."
+    "description": "Quaal's Feather Token (anchor). A wondrous item worth —."
   },
   {
     "name": "Griffon Saddle",
@@ -521,11 +521,11 @@
     "subtype": "",
     "damage": "",
     "properties": [],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 0,
     "source": "(The Tortle Package)",
     "_source_manual": "TTP",
-    "description": "Dark Purple Ink (10 gallons). Trade Good worth \u2014."
+    "description": "Dark Purple Ink (10 gallons). Trade Good worth —."
   },
   {
     "name": "Comb made out of whalebone",
@@ -587,11 +587,11 @@
       "Special",
       "two-handed"
     ],
-    "cost": "\u2014",
+    "cost": "—",
     "weight": 6,
     "source": "(Wayfinder's Guide to Eberron)",
     "_source_manual": "WGE",
-    "description": "Double-bladed weapon. A weapon worth \u2014. Properties: Special, two-handed."
+    "description": "Double-bladed weapon. A weapon worth —. Properties: Special, two-handed."
   },
   {
     "name": "Airship",
@@ -1332,7 +1332,7 @@
     "properties": [],
     "cost": "",
     "weight": 0,
-    "description": "An arcane focus is a special item\u2014an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item\u2014designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus, as described in chapter 10.",
+    "description": "An arcane focus is a special item—an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item—designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus, as described in chapter 10.",
     "source": "(Player's Handbook)",
     "_source_manual": "PHB"
   },
@@ -2635,5 +2635,284 @@
     "source": "(Xanathar's Guide to Everything)",
     "_source_manual": "XGE",
     "description": "Poisoner's Tools. A tool worth  used with appropriate skill checks."
+  },
+  {
+    "name": "Acid",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "2d6 acid",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Alchemist's Fire",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Silvered Weapons",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Antitoxin",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A creature that drinks this vial of liquid gains advantage on saving throws against poison for 1 hour. It confers no benefit to undead or constructs.",
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ball Bearings",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "As an action, you can spill these tiny metal balls from their pouch to cover a level area 10 feet square. A creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone. A creature moving through the area at half speed doesn't need to make the saving throw.",
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Chain",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "A chain has 10 hit points. It can be burst with a successful DC 20 Strength check.",
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Holy Water",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "",
+    "weight": 0,
+    "description": "As an action, you can splash the contents of this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. In either case, make a ranged attack against a target creature, treating the holy water as an improvised weapon. If the target is a fiend or undead, it takes 2d6 radiant damage.",
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Oil",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "5 fire damage",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Poison, Basic",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "1d4 poison",
+    "properties": [],
+    "cost": "100 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Rations",
+    "type": "Adventuring Gear",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 sp",
+    "weight": 2,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Stabling (per day)",
+    "type": "Tack, Harness, and Drawn Vehicles",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 sp",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Wheat (1 lb.)",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 cp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Flour (1 lb.) or one chicken",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 cp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Iron (1 lb.) or 1 sq. yd. of canvas",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 sp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Copper (1 lb.) or 1 sq. yd. of cotton cloth",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 sp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Ginger (1 lb.) or one goat",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "1 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Cinnamon or pepper (1 lb.), or one sheep",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Cloves (1 lb.) or one pig",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "3 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Silver (1 lb.) or 1 sq. yd. of linen",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "5 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Silk (1 sq. yd.) or one cow",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "10 gp",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Saffron (1 lb.) or one ox",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "15 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Gold (1 lb.)",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "50 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Platinum (1 lb.)",
+    "type": "Trade Good",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "500 gp",
+    "weight": 1,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Coach cab (between towns)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "3 cp per mile",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Hireling (Skilled)",
+    "type": "Service",
+    "subtype": "",
+    "damage": "",
+    "properties": [],
+    "cost": "2 gp per day",
+    "weight": 0,
+    "source": "(D&D 5E  Player's Handbook)",
+    "_source_manual": "PHB"
   }
 ]

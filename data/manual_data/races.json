@@ -9833,5 +9833,1146 @@
       }
     },
     "_source_manual": "MPMM"
+  },
+  {
+    "name": "Elf (High Elf)",
+    "source": "(D&D 5E  Player's Handbook, p.23)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Cantrip",
+        "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      {
+        "name": "Extra Language",
+        "description": "You can speak, read, and write one extra language of your choice."
+      },
+      {
+        "name": "Elf Weapon Training",
+        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+      }
+    ],
+    "subraces": [],
+    "description": "High elves are pale-skinned with alabaster skin sometimes tinged with blue, often having hair of silver-white, black, or blue, and eyes of blue or green flecked with gold.",
+    "_effects": {
+      "Cantrip": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Knows one wizard cantrip of choice; Intelligence is the spellcasting ability for it."
+      },
+      "Extra Language": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write one extra language of choice."
+      },
+      "Elf Weapon Training": {
+        "armor_profs": [],
+        "weapon_profs": [
+          "Longsword",
+          "Shortsword",
+          "Shortbow",
+          "Longbow"
+        ],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      }
+    },
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Halfling (Stout Subrace)",
+    "source": "(D&D 5E  Player's Handbook, p.28)",
+    "asi": {},
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Stout Resilience",
+        "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+      }
+    ],
+    "subraces": [
+      {
+        "name": "Stout",
+        "asi": {
+          "con": 1
+        },
+        "traits": [
+          {
+            "name": "Stout Resilience",
+            "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+          }
+        ],
+        "description": "You're hardier than average and have some resistance to poison. Some say that stouts have dwarven blood. In the Forgotten Realms, these halflings are called stronghearts, and they're most common in the south."
+      }
+    ],
+    "description": "Halflings are a small race known for their hardiness and resistance to poison, with the stout subrace being particularly resilient.",
+    "_effects": {
+      "Stout Resilience": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [
+          "Poison"
+        ],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on saving throws against poison."
+      }
+    },
+    "_source_manual": "PHB"
+  },
+  {
+    "name": "Tiefling (Baalzebul)",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.21)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Maladomini",
+        "description": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the ray of sickness spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the crown of madness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+      }
+    ],
+    "subraces": [],
+    "description": "Tieflings linked to Baalzebul can corrupt others both physically and psychically.",
+    "_effects": {
+      "Legacy of Maladomini": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the thaumaturgy cantrip. At 3rd level, can cast ray of sickness as a 2nd-level spell once per long rest. At 5th level, can cast crown of madness once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Fierna Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.21)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Phlegethos",
+        "description": "You know the friends cantrip. When you reach 3rd level, you can cast the charm person spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the suggestion spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "A master manipulator, Fierna grants tieflings tied to her forceful personalities.",
+    "_effects": {
+      "Legacy of Phlegethos": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the friends cantrip. At 3rd level, can cast charm person as a 2nd-level spell once per long rest. At 5th level, can cast suggestion once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Glasya Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.22)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Malbolge",
+        "description": "You know the minor illusion cantrip. When you reach 3rd level, you can cast the disguise self spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the invisibility spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Glasya, Hell's criminal mastermind, grants her tieflings magic that is useful for committing heists.",
+    "_effects": {
+      "Legacy of Malbolge": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the minor illusion cantrip. At 3rd level, can cast disguise self once per long rest. At 5th level, can cast invisibility once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Levistus Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.22)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 1,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Stygia",
+        "description": "You know the ray of frost cantrip. When you reach 3rd level, you can cast the armor of Agathys spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the darkness spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Frozen Stygia is ruled by Levistus, an archdevil known for offering bargains to those who face an inescapable doom.",
+    "_effects": {
+      "Legacy of Stygia": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the ray of frost cantrip (Charisma-based). At 3rd level, can cast armor of Agathys as a 2nd-level spell once per long rest. At 5th level, can cast darkness once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Mammon Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.22)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Minauros",
+        "description": "You know the mage hand cantrip. When you reach 3rd level, you can cast the Tenser's floating disk spell once with this trait and regain the ability to do so when you finish a short or long rest. When you reach 5th level, you can cast the arcane lock spell once with this trait, requiring no material component, and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "The great miser Mammon loves coins above all else. Tieflings tied to him excel at gathering and safeguarding wealth.",
+    "_effects": {
+      "Legacy of Minauros": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the mage hand cantrip. At 3rd level, can cast Tenser's floating disk once per short or long rest. At 5th level, can cast arcane lock once per long rest without material components. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Mephistopheles Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.23)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Cania",
+        "description": "You know the mage hand cantrip. When you reach 3rd level, you can cast the burning hands spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the flame blade spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "In the frozen realm of Cania, Mephistopheles offers arcane power to those who entreat with him. Tieflings linked to him master some arcane magic.",
+    "_effects": {
+      "Legacy of Cania": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the mage hand cantrip. At 3rd level, can cast burning hands as a 2nd-level spell once per long rest. At 5th level, can cast flame blade once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Zariel Tiefling",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.23)",
+    "asi": {
+      "strength": 1,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 2
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Legacy of Avernus",
+        "description": "You know the thaumaturgy cantrip. When you reach 3rd level, you can cast the searing smite spell as a 2nd-level spell once with this trait and regain the ability to do so when you finish a long rest. When you reach 5th level, you can cast the branding smite spell once with this trait and regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells.",
+        "uses": 1,
+        "recharge": "long rest"
+      }
+    ],
+    "subraces": [],
+    "description": "Tieflings with a blood tie to Zariel are stronger than the typical tiefling and receive magical abilities that aid them in battle.",
+    "_effects": {
+      "Legacy of Avernus": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the thaumaturgy cantrip. At 3rd level, can cast searing smite as a 2nd-level spell once per long rest. At 5th level, can cast branding smite once per long rest. Charisma is the spellcasting ability for these spells."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Svirfneblin (Deep Gnome)",
+    "source": "(D&D 5E  Mordenkainen's Tome of Foes, p.115)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 1,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 120,
+    "languages": [
+      "Common",
+      "Gnomish",
+      "Undercommon"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Superior Darkvision",
+        "description": "Your darkvision has a radius of 120 feet."
+      },
+      {
+        "name": "Stone Camouflage",
+        "description": "You have advantage on Dexterity (Stealth) checks to hide in rocky terrain and underground."
+      },
+      {
+        "name": "Extra Language",
+        "description": "You can speak, read, and write Undercommon."
+      }
+    ],
+    "subraces": [],
+    "description": "Svirfneblin, or deep gnomes, are a subrace of gnomes adapted to life in the Underdark. They tend to weigh 80 to 120 pounds, mature at the same rate as humans, and live 200 to 250 years. They favor neutral alignments and believe survival depends on avoiding entanglements with other creatures.",
+    "_effects": {
+      "Superior Darkvision": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": 120,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Stone Camouflage": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Advantage on Dexterity (Stealth) checks to hide in rocky terrain and underground."
+      },
+      "Extra Language": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Undercommon."
+      }
+    },
+    "_source_manual": "MTF"
+  },
+  {
+    "name": "Shield Dwarf",
+    "source": "(D&D 5E  Sword Coast Adventurer's Guide, p.104)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Dwarvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Dwarven Resilience",
+        "description": "You have advantage on saving throws against poison, and you have resistance against poison damage."
+      },
+      {
+        "name": "Dwarven Combat Training",
+        "description": "You have proficiency with the battleaxe, handaxe, light hammer, and warhammer."
+      },
+      {
+        "name": "Tool Proficiency",
+        "description": "You gain proficiency with the artisan's tools of your choice: smith's tools, brewer's supplies, or mason's tools."
+      },
+      {
+        "name": "Stonecunning",
+        "description": "Whenever you make an Intelligence (History) check related to the origin of stonework, you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus."
+      },
+      {
+        "name": "Dwarven Armor Training",
+        "description": "You have proficiency with light and medium armor."
+      }
+    ],
+    "subraces": [],
+    "description": "Shield dwarves are a sturdy and reclusive folk, known for their settlements in mountainous regions and their resilience in harsh environments.",
+    "_effects": {
+      "Dwarven Resilience": {
+        "damage_resist": [
+          "Poison"
+        ],
+        "notes": "Advantage on saving throws against poison (not full condition immunity)"
+      },
+      "Dwarven Combat Training": {
+        "weapon_profs": [
+          "Battleaxe",
+          "Handaxe",
+          "Light hammer",
+          "Warhammer"
+        ]
+      },
+      "Tool Proficiency": {
+        "tool_profs": [
+          "Smith's tools",
+          "Brewer's supplies",
+          "Mason's tools"
+        ]
+      },
+      "Stonecunning": {
+        "notes": "Treated as proficient in History for stonework-related checks, with doubled proficiency bonus"
+      },
+      "Dwarven Armor Training": {
+        "armor_profs": [
+          "Light armor",
+          "Medium armor"
+        ]
+      }
+    },
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Moon Elf",
+    "source": "(D&D 5E  Sword Coast Adventurer's Guide, p.105)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Keen Senses",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+      },
+      {
+        "name": "Trance",
+        "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      },
+      {
+        "name": "Elf Weapon Training",
+        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+      },
+      {
+        "name": "Cantrip",
+        "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      {
+        "name": "Extra Language",
+        "description": "You can speak, read, and write one extra language of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "Moon elves are a subrace of elves known for their pale skin and affinity for magic, often found in Faerûn.",
+    "_effects": {
+      "Keen Senses": {
+        "skill_profs": [
+          "Perception"
+        ]
+      },
+      "Fey Ancestry": {
+        "condition_immune": [
+          "Charmed",
+          "Sleep"
+        ],
+        "notes": "Advantage on saving throws against being charmed; magic can't put you to sleep."
+      },
+      "Trance": {
+        "notes": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      },
+      "Elf Weapon Training": {
+        "weapon_profs": [
+          "Longsword",
+          "Shortsword",
+          "Shortbow",
+          "Longbow"
+        ]
+      },
+      "Cantrip": {
+        "notes": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      "Extra Language": {
+        "notes": "You can speak, read, and write one extra language of your choice."
+      }
+    },
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Sun Elf",
+    "source": "(D&D 5E  Sword Coast Adventurer's Guide, p.106)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 2,
+      "constitution": 0,
+      "intelligence": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Elvish"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Keen Senses",
+        "description": "You have proficiency in the Perception skill."
+      },
+      {
+        "name": "Fey Ancestry",
+        "description": "You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+      },
+      {
+        "name": "Trance",
+        "description": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. (The Common word for such meditation is \"trance.\") While meditating, you can dream after a fashion; such dreams are actually mental exercises that have become reflexive through years of practice. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      },
+      {
+        "name": "Elf Weapon Training",
+        "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+      },
+      {
+        "name": "Cantrip",
+        "description": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      {
+        "name": "Extra Language",
+        "description": "You can speak, read, and write one extra language of your choice."
+      }
+    ],
+    "subraces": [],
+    "description": "Sun elves are a subrace of high elves known for their golden hair and bronze skin, often possessing a haughty and confident demeanor.",
+    "_effects": {
+      "Keen Senses": {
+        "skill_profs": [
+          "Perception"
+        ]
+      },
+      "Fey Ancestry": {
+        "condition_immune": [
+          "Charmed",
+          "Sleep"
+        ]
+      },
+      "Trance": {
+        "notes": "Elves don't need to sleep. Instead, they meditate deeply, remaining semiconscious, for 4 hours a day. After resting in this way, you gain the same benefit that a human does from 8 hours of sleep."
+      },
+      "Elf Weapon Training": {
+        "weapon_profs": [
+          "Longsword",
+          "Shortsword",
+          "Shortbow",
+          "Longbow"
+        ]
+      },
+      "Cantrip": {
+        "notes": "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it."
+      },
+      "Extra Language": {
+        "notes": "You can speak, read, and write one extra language of your choice."
+      }
+    },
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Ghostwise Halfling",
+    "source": "(D&D 5E  Sword Coast Adventurer's Guide, p.110)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 0,
+      "intelligence": 0,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "speed": 25,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Halfling"
+    ],
+    "size": "Small",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Wisdom score increases by 1."
+      },
+      {
+        "name": "Silent Speech",
+        "description": "You can speak telepathically to any creature within 30 feet of you. The creature understands you only if the two of you share a language. You can speak telepathically in this way to one creature at a time."
+      }
+    ],
+    "subraces": [],
+    "description": "Ghostwise halflings are the rarest of the hin, found only in the Chondalwood and a few other isolated forests, clustered in tight-knit clans. They are clannish and mistrustful of outsiders.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Increases Wisdom score by 1."
+      },
+      "Silent Speech": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak telepathically to any creature within 30 feet that shares a language, one creature at a time."
+      }
+    },
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Tiefling Variant (Asmodeus Bloodline)",
+    "source": "(D&D 5E  Sword Coast Adventurer's Guide, p.118)",
+    "asi": {},
+    "speed": 30,
+    "darkvision": 60,
+    "languages": [
+      "Common",
+      "Infernal"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Hellfire",
+        "description": "Once you reach 3rd level, you can cast the burning hands spell once per day as a 2nd-level spell. This trait replaces the hellish rebuke spell of the Infernal Legacy trait.",
+        "uses": 1,
+        "recharge": "long rest"
+      },
+      {
+        "name": "Winged",
+        "description": "You have bat-like wings sprouting from your shoulder blades. You have a flying speed of 30 feet. This trait replaces the Infernal Legacy trait."
+      }
+    ],
+    "subraces": [],
+    "description": "A tiefling variant descended from Asmodeus, exhibiting different qualities than standard tieflings, including hellfire magic and bat-like wings.",
+    "_effects": {
+      "Hellfire": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants the ability to cast burning hands once per day as a 2nd-level spell starting at 3rd level. This trait replaces the hellish rebuke spell of the Infernal Legacy trait."
+      },
+      "Winged": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Grants a flying speed of 30 feet. This trait replaces the Infernal Legacy trait."
+      }
+    },
+    "_source_manual": "SCAG"
+  },
+  {
+    "name": "Genasi",
+    "source": "(D&D 5E  Elemental Evil Player's Companion, p.9)",
+    "asi": {
+      "strength": 0,
+      "dexterity": 0,
+      "constitution": 2,
+      "intelligence": 0,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "speed": 30,
+    "darkvision": 0,
+    "languages": [
+      "Common",
+      "Primordial"
+    ],
+    "size": "Medium",
+    "traits": [
+      {
+        "name": "Ability Score Increase",
+        "description": "Your Constitution score increases by 2."
+      },
+      {
+        "name": "Age",
+        "description": "Genasi mature at about the same rate as humans and reach adulthood in their late teens. They live somewhat longer than humans do, up to 120 years."
+      },
+      {
+        "name": "Alignment",
+        "description": "Independent and self-reliant, genasi tend toward a neutral alignment."
+      },
+      {
+        "name": "Size",
+        "description": "Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. Your size is Medium."
+      },
+      {
+        "name": "Speed",
+        "description": "Your base walking speed is 30 feet."
+      },
+      {
+        "name": "Languages",
+        "description": "You can speak, read, and write Common and Primordial. Primordial is a guttural language, filled with harsh syllables and hard consonants."
+      },
+      {
+        "name": "Subraces",
+        "description": "Four major subraces of genasi are found among the worlds of D&D: air genasi, earth genasi, fire genasi, and water genasi. Choose one of these subraces."
+      }
+    ],
+    "subraces": [
+      {
+        "name": "Air Genasi",
+        "asi": {
+          "dex": 1
+        },
+        "traits": [
+          {
+            "name": "Ability Score Increase",
+            "description": "Your Dexterity score increases by 1."
+          },
+          {
+            "name": "Unending Breath",
+            "description": "You can hold your breath indefinitely while you're not incapacitated."
+          },
+          {
+            "name": "Mingle with the Wind",
+            "description": "You can cast the levitate spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "As an air genasi, you are descended from the djinn. As changeable as the weather, your moods shift from calm to wild and violent with little warning, but these storms rarely last long."
+      },
+      {
+        "name": "Earth Genasi",
+        "asi": {
+          "str": 1
+        },
+        "traits": [
+          {
+            "name": "Ability Score Increase",
+            "description": "Your Strength score increases by 1."
+          },
+          {
+            "name": "Earth Walk",
+            "description": "You can move across difficult terrain made of earth or stone without expending extra movement."
+          },
+          {
+            "name": "Merge with Stone",
+            "description": "You can cast the pass without trace spell once with this trait, requiring no material components, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for this spell.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "As an earth genasi, you are descended from the cruel and greedy dao, though you aren't necessarily evil. You have inherited some measure of control over earth, reveling in superior strength and solid power. You tend to avoid rash decisions, pausing long enough to consider your options before taking action."
+      },
+      {
+        "name": "Fire Genasi",
+        "asi": {
+          "int": 1
+        },
+        "traits": [
+          {
+            "name": "Ability Score Increase",
+            "description": "Your Intelligence score increases by 1."
+          },
+          {
+            "name": "Darkvision",
+            "description": "You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+          },
+          {
+            "name": "Reach to the Blaze",
+            "description": "You know the produce flame cantrip. Once you reach 3rd level, you can cast the burning hands spell once with this trait as a 1st-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "As a fire genasi, you have inherited the volatile mood and keen mind of the efreet. You tend toward impatience and making snap judgments. Rather than hide your distinctive appearance, you exult in it."
+      },
+      {
+        "name": "Water Genasi",
+        "asi": {
+          "wis": 1
+        },
+        "traits": [
+          {
+            "name": "Ability Score Increase",
+            "description": "Your Wisdom score increases by 1."
+          },
+          {
+            "name": "Acid Resistance",
+            "description": "You have resistance to acid damage."
+          },
+          {
+            "name": "Amphibious",
+            "description": "You can breathe air and water."
+          },
+          {
+            "name": "Swim",
+            "description": "You have a swimming speed of 30 feet."
+          },
+          {
+            "name": "Call to the Wave",
+            "description": "You know the shape water cantrip. Once you reach 3rd level, you can cast the create or destroy water spell once with this trait as a 2nd-level spell, and you regain the ability to cast it this way when you finish a long rest. Constitution is your spellcasting ability for these spells.",
+            "uses": 1,
+            "recharge": "long rest"
+          }
+        ],
+        "description": "As a water genasi, you are descended from the marids, sea chieftains known for their capriciousness. You have a natural affinity for water and can adapt to life in the sea or on land."
+      }
+    ],
+    "description": "Genasi are as varied as their mortal parents but are generally built like humans, standing anywhere from 5 feet to over 6 feet tall. They are touched by elemental power, with subraces reflecting air, earth, fire, or water heritage.",
+    "_effects": {
+      "Ability Score Increase": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Constitution score increases by 2."
+      },
+      "Age": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Lifespan up to 120 years."
+      },
+      "Alignment": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Tend toward neutral alignment."
+      },
+      "Size": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Size is Medium."
+      },
+      "Speed": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": 30,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": ""
+      },
+      "Languages": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Can speak, read, and write Common and Primordial."
+      },
+      "Subraces": {
+        "armor_profs": [],
+        "weapon_profs": [],
+        "tool_profs": [],
+        "skill_profs": [],
+        "damage_resist": [],
+        "damage_immune": [],
+        "condition_immune": [],
+        "speed": null,
+        "darkvision": null,
+        "hp_per_level": 0,
+        "natural_armor": null,
+        "notes": "Choose one subrace: air genasi, earth genasi, fire genasi, or water genasi."
+      }
+    },
+    "_source_manual": "EEPC"
   }
 ]

@@ -12875,5 +12875,976 @@
     "xp_reward": 0,
     "source": "(The Wild Sheep Chase, p.2)",
     "_source_manual": "WSC"
+  },
+  {
+    "name": "Acolyte",
+    "race": "any race",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 1,
+    "alignment": "any alignment",
+    "armor_class": 10,
+    "hit_points": "9 (2d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "wisdom": 14,
+      "charisma": 11
+    },
+    "saving_throws": {},
+    "skills": {
+      "Medicine": 4,
+      "Religion": 2
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The acolyte is a 1st-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The acolyte has following cleric spells prepared:\nCantrips (at will): light, sacred flame, thaumaturgy\n1st level (3 slots): bless, cure wounds, sanctuary"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Club",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 12,
+      "to_hit": 4,
+      "spells": {
+        "cantrips": [
+          "light",
+          "sacred flame",
+          "thaumaturgy"
+        ],
+        "1st": [
+          "bless",
+          "cure wounds",
+          "sanctuary"
+        ]
+      }
+    },
+    "description": "Acolytes are junior members of a clergy, usually answerable to a priest. They perform a variety of functions in a temple and are granted minor spellcasting power by their deities.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 50,
+    "source": "(D&D 5E  Monster Manual, p.342)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Archmage",
+    "race": "any race",
+    "class_name": "Wizard",
+    "subclass": "",
+    "level": 18,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "99 (18d8 + 18)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 10,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 20,
+      "wisdom": 15,
+      "charisma": 16
+    },
+    "saving_throws": {
+      "int": 9,
+      "wis": 6
+    },
+    "skills": {
+      "Arcana": 13,
+      "History": 13
+    },
+    "features": [
+      {
+        "name": "Magic Resistance",
+        "description": "The arch mage has advantage on saving throws against spells and other magical effects."
+      },
+      {
+        "name": "Spellcasting",
+        "description": "The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The arch mage can cast disguise self and invisibility at will and has the following wizard spells prepared:\nCantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp\n1st level (4 slots): detect magic, identify, mage armor, magic missile\n2nd level (3 slots): detect thoughts, mirror image, misty step\n3rd level (3 slots): counterspell, fly, lightning bolt\n4th level (3 slots): banishment, fire shield, stoneskin\n5th level (3 slots): cone of cold, scrying, wall of force\n6th level (1 slot): globe of invulnerability\n7th level (1 slot): teleport\n8th level (1 slot): mind blank\n9th level (1 slot): time stop\n*The archmage casts these spells on itself before combat."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 17,
+      "to_hit": 9,
+      "spells": {
+        "cantrips": [
+          "fire bolt",
+          "light",
+          "mage hand",
+          "prestidigitation",
+          "shocking grasp"
+        ],
+        "1st": [
+          "detect magic",
+          "identify",
+          "mage armor",
+          "magic missile"
+        ],
+        "2nd": [
+          "detect thoughts",
+          "mirror image",
+          "misty step"
+        ],
+        "3rd": [
+          "counterspell",
+          "fly",
+          "lightning bolt"
+        ],
+        "4th": [
+          "banishment",
+          "fire shield",
+          "stoneskin"
+        ],
+        "5th": [
+          "cone of cold",
+          "scrying",
+          "wall of force"
+        ],
+        "6th": [
+          "globe of invulnerability"
+        ],
+        "7th": [
+          "teleport"
+        ],
+        "8th": [
+          "mind blank"
+        ],
+        "9th": [
+          "time stop"
+        ]
+      }
+    },
+    "description": "Archmages are powerful (and usually quite old) spellcasters dedicated to the study of the arcane arts. Benevolent ones counsel kings and queens, while evil ones rule as tyrants and pursue lichdom. Those who are neither good nor evil sequester themselves in remote towers to practice their magic without interruption. An archmage typically has one or more apprentice mages, and an archmage's abode has numerous magical wards and guardians to discourage interlopers.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 8400,
+    "source": "(D&D 5E  Monster Manual, p.342)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Assassin",
+    "race": "any race",
+    "class_name": "Rogue",
+    "subclass": "Assassin",
+    "level": 8,
+    "alignment": "any non-good alignment",
+    "armor_class": 15,
+    "hit_points": "78 (12d8 + 24)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 16,
+      "constitution": 14,
+      "intelligence": 13,
+      "wisdom": 11,
+      "charisma": 10
+    },
+    "saving_throws": {
+      "dex": 7,
+      "int": 5
+    },
+    "skills": {
+      "Acrobatics": 7,
+      "Deception": 4,
+      "Perception": 4,
+      "Stealth": 11
+    },
+    "features": [
+      {
+        "name": "Assassinate",
+        "description": "During its first turn, the assassin has advantage on attack rolls against any creature that hasn't taken a turn. Any hit the assassin scores against a surprised creature is a critical hit."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the assassin is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the assassin instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "The assassin deals an extra 13 (4d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the assassin that isn't incapacitated and the assassin doesn't have disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The assassin makes two shortsword attacks."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage, and the target must make a DC 15 Constitution saving throw, taking 24 (7d6) poison damage on a failed save, or half as much damage on a successful one."
+      },
+      {
+        "name": "Light Crossbow",
+        "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft., one target. Hit: 7 (1d8 + 3) piercing damage, and the target must make a DC 15 Constitution saving throw, taking 24 (7d6) poison damage on a failed save, or half as much damage on a successful one."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Trained in the use of poison, assassins are remorseless killers who work for nobles, guildmasters, sovereigns, and anyone else who can afford them.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 3900,
+    "source": "(D&D 5E  Monster Manual, p.343)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Bandit",
+    "race": "any race",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "any non-lawful alignment",
+    "armor_class": 12,
+    "hit_points": "11 (2d8 + 2)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 12,
+      "constitution": 12,
+      "intelligence": 10,
+      "wisdom": 10,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {},
+    "features": [],
+    "actions": [
+      {
+        "name": "Scimitar",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) slashing damage."
+      },
+      {
+        "name": "Light Crossbow",
+        "description": "Ranged Weapon Attack: +3 to hit, range 80 ft./320 ft., one target. Hit: 5 (1d8 + 1) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 25,
+    "source": "(D&D 5E  Monster Manual, p.343)",
+    "_source_manual": "MM"
+  },
+  {
+    "name": "Evoker",
+    "race": "Medium humanoid (any race)",
+    "class_name": "Wizard",
+    "subclass": "Evoker",
+    "level": 12,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "66 (12d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 5
+    },
+    "skills": {
+      "Arcana": 7,
+      "History": 7
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The evoker is a 12th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). The evoker has the following wizard spells prepared:\nCantrips (at will): fire bolt,* light,* prestidigitation, ray of frost*\n1st level (4 slots): burning hands,* mage armor, magic missile*\n2nd level (3 slots): mirror image, misty step, shatter*\n3rd level (3 slots): counterspell, fireball,* lightning bolt*\n4th level (3 slots): ice storm,* stoneskin\n5th level (2 slots): Bigby's hand,* cone of cold*\n6th level (1 slot): chain lightning,* wall of ice*\n*Evocation spell"
+      },
+      {
+        "name": "Sculpt Spells",
+        "description": "When the evoker casts an evocation spell that forces other creatures it can see, it can choose a number of them equal to 1 + the spell's level. These creatures automatically succeed on their saving throws against the spell. If a successful save means a chosen creature would take half damage from the spell, it instead takes no damage from it."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Quarterstaff",
+        "description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 2 (1d6 - 1) bludgeoning damage, or 3 (1d8 - 1) bludgeoning damage if used with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 12,
+      "spells": {
+        "cantrips": [
+          "fire bolt",
+          "light",
+          "prestidigitation",
+          "ray of frost"
+        ],
+        "1st": [
+          "burning hands",
+          "mage armor",
+          "magic missile"
+        ],
+        "2nd": [
+          "mirror image",
+          "misty step",
+          "shatter"
+        ],
+        "3rd": [
+          "counterspell",
+          "fireball",
+          "lightning bolt"
+        ],
+        "4th": [
+          "ice storm",
+          "stoneskin"
+        ],
+        "5th": [
+          "Bigby's hand",
+          "cone of cold"
+        ],
+        "6th": [
+          "chain lightning",
+          "wall of ice"
+        ]
+      }
+    },
+    "description": "Evokers are specialist wizards who harness magical energy and elemental forces to destroy. Many tend to be hotheaded and aggressive. Others are cold and reserved, unleashing their power at just the right moment to exploit an opponent's weakness.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(D&D 5E  Volo's Guide to Monsters)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Illusionist",
+    "race": "Medium humanoid (any race)",
+    "class_name": "Wizard",
+    "subclass": "Illusionist",
+    "level": 7,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "38 (7d8 + 7)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 13,
+      "intelligence": 16,
+      "wisdom": 11,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "int": 5,
+      "wis": 2
+    },
+    "skills": {
+      "Arcana": 5,
+      "History": 5
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The illusionist is a 7th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). The illusionist has the following wizard spells prepared:\nCantrips (at will): dancing lights, mage hand, minor illusion, poison spray\n1st level (4 slots): color spray,* disguise self,* mage armor, magic missile\n2nd level (3 slots): invisibility,* mirror image,* phantasmal force*\n3rd level (3 slots): major image,* phantom steed*\n4th level (1 slot): phantasmal killer*\n*Illusion spell of 1st level or higher"
+      },
+      {
+        "name": "Displacement",
+        "description": "Recharges after the Illusionist Casts an Illusion Spell of 1st Level or Higher. As a bonus action, the illusionist projects an illusion that makes the illusionist appear to be standing in a place a few inches from its actual location, causing any creature to have disadvantage on attack rolls against the illusionist. The effect ends if the illusionist takes damage, it is incapacitated, or its speed becomes 0.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Quarterstaff",
+        "description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 2 (1d6-1) bludgeoning damage, or 3 (1d8 - 1) bludgeoning damage if used with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 13,
+      "to_hit": 5,
+      "level": 7,
+      "spells": {
+        "cantrips": [
+          "dancing lights",
+          "mage hand",
+          "minor illusion",
+          "poison spray"
+        ],
+        "1st": [
+          "color spray",
+          "disguise self",
+          "mage armor",
+          "magic missile"
+        ],
+        "2nd": [
+          "invisibility",
+          "mirror image",
+          "phantasmal force"
+        ],
+        "3rd": [
+          "major image",
+          "phantom steed"
+        ],
+        "4th": [
+          "phantasmal killer"
+        ]
+      }
+    },
+    "description": "Illusionists are specialist wizards who twist light, sound, shadow, and even minds to create false and quasi-real effects. They can be flamboyant and use their powers in spectacular and obvious ways, or quiet and subtle, using their magic to conceal the truth.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(D&D 5E  Volo's Guide to Monsters)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Kraken Priest",
+    "race": "Medium humanoid (any race)",
+    "class_name": "",
+    "subclass": "",
+    "level": 0,
+    "alignment": "any evil alignment",
+    "armor_class": 10,
+    "hit_points": "75 (10d8 + 30)",
+    "speed": "30 ft., swim 30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 10,
+      "constitution": 16,
+      "intelligence": 10,
+      "wisdom": 15,
+      "charisma": 14
+    },
+    "saving_throws": {},
+    "skills": {
+      "Perception": 5
+    },
+    "features": [
+      {
+        "name": "Amphibious",
+        "description": "The priest can breathe air and water."
+      },
+      {
+        "name": "Innate Spellcasting",
+        "description": "The priest's spellcasting ability is Wisdom (spell save DC 13, +5 to hit with spell attacks). It can innately cast the following spells, requiring no material components:\nAt will: command, create or destroy water\n3/day each: control water, darkness, water breathing, water walk\n1/day each: call lightning, Evard's black tentacles"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Thunderous Touch",
+        "description": "Melee Spell Attack: +5 to hit, reach 5 ft., one creature. Hit: 27 (5d10) thunder damage."
+      },
+      {
+        "name": "Voice of the Kraken",
+        "description": "Recharges after a Short or Long Rest. A kraken speaks through the priest with a thunderous voice audible within 300 feet. Creatures of the priest's choice that can hear the kraken's words (which are spoken in Abyssal, Infernal, or Primordial) must succeed on a DC 14 Charisma saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.",
+        "uses": 1,
+        "recharge": "short rest"
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 13,
+      "to_hit": 5,
+      "innate": true,
+      "spells": {
+        "at_will": [
+          "command",
+          "create or destroy water"
+        ],
+        "3_per_day": [
+          "control water",
+          "darkness",
+          "water breathing",
+          "water walk"
+        ],
+        "1_per_day": [
+          "call lightning",
+          "Evard's black tentacles"
+        ]
+      }
+    },
+    "description": "A kraken can seem godlike to folk who have witnessed its fury. Those who mistake its might for divine power and those who seek to appease the monster through veneration are sometimes rewarded with power, to serve thereafter as kraken priests.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Volo's Guide to Monsters, p.215)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Martial Arts Adept",
+    "race": "any race",
+    "class_name": "Monk",
+    "subclass": "",
+    "level": 0,
+    "alignment": "any alignment",
+    "armor_class": 16,
+    "hit_points": "60 (11d8 + 11)",
+    "speed": "40 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 17,
+      "constitution": 13,
+      "intelligence": 11,
+      "wisdom": 16,
+      "charisma": 10
+    },
+    "saving_throws": {},
+    "skills": {
+      "Acrobatics": 5,
+      "Insight": 5,
+      "Stealth": 5
+    },
+    "features": [
+      {
+        "name": "Unarmored Defense",
+        "description": "While the adept is wearing no armor and wielding no shield, its AC includes its Wisdom modifier."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The adept makes three unarmed strikes or three dart attacks."
+      },
+      {
+        "name": "Unarmed Strike",
+        "description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage. If the target is a creature, the adept can choose one of the following additional effects: • The target must succeed on a DC 13 Strength saving throw or drop one item it is holding (adept's choice). • The target must succeed on a DC 13 Dexterity saving throw or be knocked prone. • The target must succeed on a DC 13 Constitution saving throw or be stunned until the end of the adept's next turn."
+      },
+      {
+        "name": "Dart",
+        "description": "Ranged Weapon Attack: +5 to hit, range 20/60 ft., one target. Hit: 5 (1d4 + 3) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Martial arts adepts are disciplined monks with extensive training in hand-to-hand combat. Some protect monasteries; others travel the world seeking enlightenment or new forms of combat to master. A few become bodyguards, trading their combat prowess and loyalty for food and lodging.",
+    "role": "Any",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(D&D 5E  Volo's Guide to Monsters, p.215)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Master Thief",
+    "race": "any race",
+    "class_name": "Rogue",
+    "subclass": "",
+    "level": 0,
+    "alignment": "any alignment",
+    "armor_class": 16,
+    "hit_points": "84 (13d8 + 26)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 11,
+      "dexterity": 18,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 11,
+      "charisma": 12
+    },
+    "saving_throws": {
+      "dex": 7,
+      "int": 3
+    },
+    "skills": {
+      "Acrobatics": 7,
+      "Athletics": 3,
+      "Perception": 3,
+      "Sleight of Hand": 7,
+      "Stealth": 7
+    },
+    "features": [
+      {
+        "name": "Cunning Action",
+        "description": "On each of its turns, the thief can use a bonus action to take the Dash, Disengage, or Hide action."
+      },
+      {
+        "name": "Evasion",
+        "description": "If the thief is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the thief instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+      },
+      {
+        "name": "Sneak Attack (1/Turn)",
+        "description": "The thief deals an extra 14 (4d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the thief that isn't incapacitated and the thief doesn't have disadvantage on the attack roll."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The thief makes three attacks with its shortsword."
+      },
+      {
+        "name": "Shortsword",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 7 (1d6 + 4) piercing damage."
+      },
+      {
+        "name": "Light Crossbow",
+        "description": "Ranged Weapon Attack: +7 to hit, range 80/320 ft., one target. Hit: 8 (1d8 + 4) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Master thieves are known for perpetrating daring heists. They tend to develop a reputation and a cult of personality. A master thief might \"retire\" from hands-on work to run a thieves' guild, spearhead some covert enterprise, or enjoy a quiet life of luxury.",
+    "role": "Any",
+    "is_enemy": false,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Volo's Guide to Monsters, p.215)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Necromancer",
+    "race": "any race",
+    "class_name": "Wizard",
+    "subclass": "Necromancy",
+    "level": 12,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "66 (12d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 12,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 7,
+      "wis": 5
+    },
+    "skills": {
+      "Arcana": 7,
+      "History": 7
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The necromancer is a 12th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 15, +7 to hit with spell attacks). The necromancer has the following wizard spells prepared: Cantrips (at will): chill touch, dancing lights, mage hand, mending; 1st level (4 slots): false life,* mage armor, ray of sickness*; 2nd level (3 slots): blindness/deafness,* ray of enfeeblement,* web; 3rd level (3 slots): animate dead,* bestow curse,* vampiric touch*; 4th level (3 slots): blight,* dimension door, stoneskin; 5th level (2 slots): Bigby's hand, cloudkill; 6th level (1 slot): circle of death*; * Necromancy spell of 1st level or higher"
+      },
+      {
+        "name": "Crim Harvest (1/Turn)",
+        "description": "When necromancer kills a creature that is neither a construct nor undead with a spell of 1st level or higher, the necromancer regains hit points equal to twice the spell's level, or three times if it is a necromancy spell."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Withering Touch",
+        "description": "Melee Spell Attack: +7 to hit, reach 5 ft., one creature. Hit: 5 (2d4) necrotic damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 15,
+      "attack_bonus": 7,
+      "level": 12,
+      "spells": {
+        "cantrips": [
+          "chill touch",
+          "dancing lights",
+          "mage hand",
+          "mending"
+        ],
+        "1st": [
+          "false life",
+          "mage armor",
+          "ray of sickness"
+        ],
+        "2nd": [
+          "blindness/deafness",
+          "ray of enfeeblement",
+          "web"
+        ],
+        "3rd": [
+          "animate dead",
+          "bestow curse",
+          "vampiric touch"
+        ],
+        "4th": [
+          "blight",
+          "dimension door",
+          "stoneskin"
+        ],
+        "5th": [
+          "Bigby's hand",
+          "cloudkill"
+        ],
+        "6th": [
+          "circle of death"
+        ]
+      }
+    },
+    "description": "Necromancers are specialist wizards who study the interaction of life, death, and undeath. Some like to dig up corpses to create undead slaves. A few use their powers for good, becoming hunters of the undead and risking their lives to save others.",
+    "role": "Any",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(D&D 5E  Volo's Guide to Monsters, p.216)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Swashbuckler",
+    "race": "any race",
+    "class_name": "Rogue",
+    "subclass": "Swashbuckler",
+    "level": 0,
+    "alignment": "any non-lawful alignment",
+    "armor_class": 17,
+    "hit_points": "66 (12d8 + 12)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 12,
+      "dexterity": 18,
+      "constitution": 12,
+      "intelligence": 14,
+      "wisdom": 11,
+      "charisma": 15
+    },
+    "saving_throws": {},
+    "skills": {
+      "Acrobatics": 8,
+      "Athletics": 5,
+      "Persuasion": 6
+    },
+    "features": [
+      {
+        "name": "Lightfooted",
+        "description": "The swashbuckler can take the Dash or Disengage action as a bonus action on each of its turns."
+      },
+      {
+        "name": "Suave Defense",
+        "description": "While the swashbuckler is wearing light or no armor and wielding no shield, its AC includes its Charisma modifier."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The swashbuckler makes three attacks: one with a dagger and two with its rapier."
+      },
+      {
+        "name": "Dagger",
+        "description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 6 (1d4 + 4) piercing damage."
+      },
+      {
+        "name": "Rapier",
+        "description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": null,
+    "description": "Swashbucklers are charming ne'er-do-wells who live by their own codes of honor. They crave notoriety, often indulge in romantic trysts, and eke out livings as pirates and corsairs, rarely staying in one place for too long.",
+    "role": "Any",
+    "is_enemy": false,
+    "xp_reward": 700,
+    "source": "(D&D 5E  Volo's Guide to Monsters, p.216)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "Transmuter",
+    "race": "Medium humanoid (any race)",
+    "class_name": "Wizard",
+    "subclass": "Transmuter",
+    "level": 9,
+    "alignment": "any alignment",
+    "armor_class": 12,
+    "hit_points": "40 (9d8)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 9,
+      "dexterity": 14,
+      "constitution": 11,
+      "intelligence": 17,
+      "wisdom": 12,
+      "charisma": 11
+    },
+    "saving_throws": {
+      "int": 6,
+      "wis": 4
+    },
+    "skills": {
+      "Arcana": 6,
+      "History": 6
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The transmuter is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The transmuter has the following wizard spells prepared:\nCantrips (at will): light, mending, prestidigitation, ray of frost\n1st level (4 slots): chromatic orb, expeditious retreat,* mage armor\n2nd level (3 slots): alter self,* hold person, knock*\n3rd level (3 slots): blink,* fireball, slow*\n4th level (3 slots): polymorph,* stoneskin\n5th level (1 slot): telekinesis*\n*Transmutation spell of 1st level or higher"
+      },
+      {
+        "name": "Transmuter's Stone",
+        "description": "The transmuter carries a magic stone it crafted that grants its bearer one of the following effects:\n• Darkvision out to a range of 60 feet\n• An extra 10 feet of speed while the bearer is unencumbered\n• Proficiency with Constitution saving throws\n• Resistance to acid, cold, fire, lightning, or thunder damage (transmuter's choice whenever the transmuter chooses this benefit)\nIf the transmuter has the stone and casts a transmutation spell of 1st level or higher, it can change the effect of the stone."
+      }
+    ],
+    "actions": [
+      {
+        "name": "Quarterstaff",
+        "description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d6-1) bludgeoning damage, or 3 (1d8-1) bludgeoning damage if used with two hands."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Intelligence",
+      "save_dc": 14,
+      "to_hit": 6,
+      "level": 9,
+      "spells": {
+        "cantrips": [
+          "light",
+          "mending",
+          "prestidigitation",
+          "ray of frost"
+        ],
+        "1st": [
+          "chromatic orb",
+          "expeditious retreat",
+          "mage armor"
+        ],
+        "2nd": [
+          "alter self",
+          "hold person",
+          "knock"
+        ],
+        "3rd": [
+          "blink",
+          "fireball",
+          "slow"
+        ],
+        "4th": [
+          "polymorph",
+          "stoneskin"
+        ],
+        "5th": [
+          "telekinesis"
+        ]
+      }
+    },
+    "description": "Transmuters are specialist wizards who embrace change, rail against the status quo, and view magical transmutation as a path to riches, enlightenment, or apotheosis.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 1800,
+    "source": "(D&D 5E  Volo's Guide to Monsters)",
+    "_source_manual": "VGM"
+  },
+  {
+    "name": "War Priest",
+    "race": "Medium humanoid (any race)",
+    "class_name": "Cleric",
+    "subclass": "",
+    "level": 9,
+    "alignment": "any alignment",
+    "armor_class": 18,
+    "hit_points": "117 (18d8 + 36)",
+    "speed": "30 ft.",
+    "ability_scores": {
+      "strength": 16,
+      "dexterity": 10,
+      "constitution": 14,
+      "intelligence": 11,
+      "wisdom": 17,
+      "charisma": 13
+    },
+    "saving_throws": {
+      "con": 6,
+      "wis": 7
+    },
+    "skills": {
+      "Intimidation": 5,
+      "Religion": 4
+    },
+    "features": [
+      {
+        "name": "Spellcasting",
+        "description": "The priest is a 9th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 15, +7 to hit with spell attacks). It has the following cleric spells prepared:\nCantrips (at will): light, mending, sacred flame, spare the dying\n1st level (4 slots): divine favor, guiding bolt, healing word, shield of faith\n2nd level (3 slots): lesser restoration, magic weapon, prayer of healing, silence, spiritual weapon\n3rd level (3 slots): beacon of hope, crusader's mantle, dispel magic, revivify, spirit guardians, water walk\n4th level (3 slots): banishment, freedom of movement, guardian of faith, stoneskin\n5th level (1 slot): flame strike, mass cure wounds, hold monster"
+      }
+    ],
+    "actions": [
+      {
+        "name": "Multiattack",
+        "description": "The priest makes two melee attacks."
+      },
+      {
+        "name": "Maul",
+        "description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) bludgeoning damage."
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Guided Strike (Recharges after a Short or Long Rest)",
+        "description": "The priest grants a +10 bonus to an attack roll made by itself or another creature within 30 feet of it. The priest can make this choice after the roll is made but before it hits or misses."
+      }
+    ],
+    "equipment": [],
+    "spellcasting": {
+      "ability": "Wisdom",
+      "save_dc": 15,
+      "to_hit": 7,
+      "level": 9,
+      "spells": {
+        "cantrips": [
+          "light",
+          "mending",
+          "sacred flame",
+          "spare the dying"
+        ],
+        "1st": [
+          "divine favor",
+          "guiding bolt",
+          "healing word",
+          "shield of faith"
+        ],
+        "2nd": [
+          "lesser restoration",
+          "magic weapon",
+          "prayer of healing",
+          "silence",
+          "spiritual weapon"
+        ],
+        "3rd": [
+          "beacon of hope",
+          "crusader's mantle",
+          "dispel magic",
+          "revivify",
+          "spirit guardians",
+          "water walk"
+        ],
+        "4th": [
+          "banishment",
+          "freedom of movement",
+          "guardian of faith",
+          "stoneskin"
+        ],
+        "5th": [
+          "flame strike",
+          "mass cure wounds",
+          "hold monster"
+        ]
+      }
+    },
+    "description": "War priests worship deities of war and combat. They plan tactics, lead soldiers into battle, confront enemy spellcasters, and tend to casualties. A war priest might command an army or serve as a warlord's right hand on the battlefield.",
+    "role": "NPC",
+    "is_enemy": false,
+    "xp_reward": 5000,
+    "source": "(D&D 5E  Volo's Guide to Monsters)",
+    "_source_manual": "VGM"
   }
 ]

@@ -1,0 +1,1858 @@
+{
+  "races": [
+    {
+      "name": "Eladrin",
+      "source": "DMG p.286",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 1,
+        "wisdom": 0,
+        "charisma": 0
+      },
+      "speed": 30,
+      "darkvision": 0,
+      "languages": [
+        "Common",
+        "Elvish"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Intelligence score increases by 1."
+        },
+        {
+          "name": "Elf Weapon Training",
+          "description": "You have proficiency with the longsword, shortsword, shortbow, and longbow."
+        },
+        {
+          "name": "Fey Step",
+          "description": "You can cast the misty step spell once using this trait. You regain the ability to do so when you finish a short or long rest.",
+          "uses": 1,
+          "recharge": "short rest"
+        }
+      ],
+      "subraces": [],
+      "description": "Creatures of magic with strong ties to nature, eladrin live in the twilight realm of the Feywild. Their cities sometimes cross over to the Material Plane, appearing briefly in mountain valleys or deep forest glades before fading back into the Feywild.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Intelligence score increases by 1."
+        },
+        "Elf Weapon Training": {
+          "armor_profs": [],
+          "weapon_profs": [
+            "Longsword",
+            "Shortsword",
+            "Shortbow",
+            "Longbow"
+          ],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Fey Step": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can cast misty step once per short or long rest."
+        }
+      }
+    },
+    {
+      "name": "Aasimar",
+      "source": "DMG p.286",
+      "asi": {
+        "strength": 0,
+        "dexterity": 0,
+        "constitution": 0,
+        "intelligence": 0,
+        "wisdom": 1,
+        "charisma": 2
+      },
+      "speed": 30,
+      "darkvision": 60,
+      "languages": [
+        "Common",
+        "Celestial"
+      ],
+      "size": "Medium",
+      "traits": [
+        {
+          "name": "Ability Score Increase",
+          "description": "Your Wisdom score increases by 1, and your Charisma score increases by 2."
+        },
+        {
+          "name": "Age",
+          "description": "Aasimar mature at the same rate as humans but live a few years longer."
+        },
+        {
+          "name": "Alignment",
+          "description": "Due to their celestial heritage, aasimar are often good. However, some aasimar fall into evil, rejecting their heritage."
+        },
+        {
+          "name": "Size",
+          "description": "Aasimar are built like well-proportioned humans. Your size is Medium."
+        },
+        {
+          "name": "Speed",
+          "description": "Your base walking speed is 30 feet."
+        },
+        {
+          "name": "Darkvision",
+          "description": "Thanks to your celestial heritage, you have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
+        },
+        {
+          "name": "Celestial Resistance",
+          "description": "You have resistance to necrotic damage and radiant damage."
+        },
+        {
+          "name": "Celestial Legacy",
+          "description": "You know the light cantrip. Once you reach 3rd level, you can cast the lesser restoration spell once with this trait, and you regain the ability to do so when you finish a long rest. Once you reach 5th level, you can cast the daylight spell once with this trait as a 3rd-level spell, and you regain the ability to do so when you finish a long rest. Charisma is your spellcasting ability for these spells."
+        },
+        {
+          "name": "Languages",
+          "description": "You can speak, read, and write Common and Celestial."
+        }
+      ],
+      "subraces": [],
+      "description": "Aasimar are built like well-proportioned humans, bearing a celestial heritage that manifests in their radiant and necrotic resistances and innate magical abilities.",
+      "_effects": {
+        "Ability Score Increase": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Wisdom +1, Charisma +2"
+        },
+        "Age": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Alignment": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Size": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Size is Medium"
+        },
+        "Speed": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": 30,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Darkvision": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": 60,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Celestial Resistance": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [
+            "Necrotic",
+            "Radiant"
+          ],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": ""
+        },
+        "Celestial Legacy": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Knows light cantrip; at 3rd level can cast lesser restoration once per long rest; at 5th level can cast daylight once per long rest as 3rd-level spell; Charisma is spellcasting ability for these spells"
+        },
+        "Languages": {
+          "armor_profs": [],
+          "weapon_profs": [],
+          "tool_profs": [],
+          "skill_profs": [],
+          "damage_resist": [],
+          "damage_immune": [],
+          "condition_immune": [],
+          "speed": null,
+          "darkvision": null,
+          "hp_per_level": 0,
+          "natural_armor": null,
+          "notes": "Can speak, read, and write Common and Celestial"
+        }
+      }
+    }
+  ],
+  "spells": [],
+  "magic_items": [
+    {
+      "name": "Alchemy Jug",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This ceramic jug appears to be able to hold a gallon of liquid and weighs 12 pounds whether full or empty. Sloshing sounds can be heard from within the jug when it is shaken, even if the jug is empty.\nYou can use an action and name one liquid from the table below to cause the jug to produce the chosen liquid. Afterward, you can uncork the jug as an action and pour that liquid out, up to 2 gallons per minute. The maximum amount of liquid the jug can produce depends on the liquid you named.\nOnce the jug starts producing a liquid, it can't produce a different one, or more of one that has reached its maximum, until the next dawn.\nLiquid Max Amount\nAcid 8 ounces\nBasic poison 1/2 ounce\nBeer 4 gallons\nHoney 1 gallon\nMayonnaise 2 gallons\nOil 1 quart\nVinegar 2 gallons\nWater, fresh 8 gallons\nWater, salt 12 gallons\nWine 1 gallon",
+      "source": "DMG p.150"
+    },
+    {
+      "name": "Apparatus of Kwalish",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "This item first appears to be a Large sealed iron barrel weighing 500 pounds. The barrel has a hidden catch, which can be found with a successful DC 20 Intelligence (Investigation) check. Releasing the catch unlocks a hatch at one end of the barrel, allowing two Medium or smaller creatures to crawl inside. Ten levers are set in a row at the far end, each in a neutral position, able to move either up or down. When certain levers are used, the apparatus transforms to resemble a giant lobster. The apparatus of Kwalish is a Large object with the following statistics: Armor Class: 20, Hit Points: 200, Speed: 30 ft., swim 30 ft. (or 0 ft. for both if the legs and tail aren't extended), Damage Immunities: poison, psychic. To be used as a vehicle, the apparatus requires one pilot. While the apparatus's hatch is closed, the compartment is airtight and watertight. The compartment holds enough air for 10 hours of breathing, divided by the number of breathing creatures inside. The apparatus floats on water. It can also go underwater to a depth of 900 feet. Below that, the vehicle takes 2d6 bludgeoning damage per minute from pressure. A creature in the compartment can use an action to move as many as two of the apparatus's levers up or down. After each use, a lever goes back to its neutral position. Each lever, from left to right, functions as shown in the Apparatus of Kwalish Levers table.",
+      "source": "DMG p.151"
+    },
+    {
+      "name": "Cap of Water Breathing",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While wearing this cap underwater, you can speak its command word as an action to create a bubble of air around your head. It allows you to breathe normally underwater. This bubble stays with you until you speak the command word again, the cap is removed, or you are no longer underwater.",
+      "source": "DMG p.157"
+    },
+    {
+      "name": "Cloak of Invisibility",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "While wearing this cloak, you can pull its hood over your head to cause yourself to become invisible. While you are invisible, anything you are carrying or wearing is invisible with you. You become visible when you cease wearing the hood. Pulling the hood up or down requires an action. Deduct the time you are invisible, in increments of 1 minute, from the cloak's maximum duration of 2 hours. After 2 hours of use, the cloak ceases to function. For every uninterrupted period of 12 hours the cloak goes unused, it regains 1 hour of duration.",
+      "source": "DMG p.158"
+    },
+    {
+      "name": "Daern's Instant Fortress",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You can use an action to place this 1-inch metal cube on the ground and speak its command word. The cube rapidly grows into a fortress that remains until you use an action to speak the command word that dismisses it, which works only if the fortress is empty.\n\nThe fortress is a square tower, 20 feet on a side and 30 feet high, with arrow slits on all sides and a battlement atop it. Its interior is divided into two floors, with a ladder running along one wall to connect them. The ladder ends at a trapdoor leading to the roof. When activated, the tower has a small door on the side facing you. The door opens only at your command, which you can speak as a bonus action. It is immune to the knock spell and similar magic, such as that of a chime of opening.\n\nEach creature in the area where the fortress appears must make a DC 15 Dexterity saving throw, taking 10d10 bludgeoning damage on a failed save, or half as much damage on a successful one. In either case, the creature is pushed to an unoccupied space outside but next to the fortress. Objects in the area that aren't being worn or carried take this damage and are pushed automatically.\n\nThe tower is made of adamantine, and its magic prevents it from being tipped over. The roof, the door, and the walls each have 100 hit points, immunity to damage from nonmagical weapons excluding siege weapons, and resistance to all other damage. Only a wish spell can repair the fortress (this use of the spell counts as replicating a spell of 8th level or lower). Each casting of wish causes the roof, the door, or one wall to regain 50 hit points.",
+      "source": "DMG p.160"
+    },
+    {
+      "name": "Driftglobe",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This small sphere of thick glass weighs 1 pound. If you are within 60 feet of it, you can speak its command word and cause it to emanate the light or daylight spell. Once used, the daylight effect can't be used again until the next dawn.\nYou can speak another command word as an action to make the illuminated globe rise into the air and float no more than 5 feet off the ground. The globe hovers in this way until you or another creature grasps it. If you move more than 60 feet from the hovering globe, it follows you until it is within 60 feet of you. It takes the shortest route to do so. If prevented from moving, the globe sinks gently to the ground and becomes inactive, and its light winks out.",
+      "source": "DMG p.166"
+    },
+    {
+      "name": "Efreeti Chain",
+      "type": "Armor (chain mail)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "While wearing this armor, you gain a +3 bonus to AC, you are immune to fire damage, and you can understand and speak Primordial. In addition, you can stand on and walk across molten rock as if it were solid ground.",
+      "source": "DMG p.167"
+    },
+    {
+      "name": "Elixir of Health",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "When you drink this potion, it cures any disease afflicting you, and it removes the blinded, deafened, paralyzed, and poisoned conditions. The clear red liquid has tiny bubbles of light in it.",
+      "source": "DMG p.168"
+    },
+    {
+      "name": "Glamoured Studded Leather",
+      "type": "Armor (studded leather)",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "While wearing this armor, you gain a +1 bonus to AC. You can also use a bonus action to speak the armor's command word and cause the armor to assume the appearance of a normal set of clothing or some other kind of armor. You decide what it looks like, including color, style, and accessories, but the armor retains its normal bulk and weight. The illusory appearance lasts until you use this property again or remove the armor.",
+      "source": "DMG p.172"
+    },
+    {
+      "name": "Gloves of Thievery",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "These gloves are invisible while worn. While wearing them, you gain a +5 bonus to Dexterity (Sleight of Hand) checks and Dexterity checks made to pick locks.",
+      "source": "DMG p.172"
+    },
+    {
+      "name": "Heward's Handy Haversack",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This backpack has a central pouch and two side pouches, each of which is an extradimensional space. Each side pouch can hold up to 20 pounds of material, not exceeding a volume of 2 cubic feet. The large central pouch can hold up to 8 cubic feet or 80 pounds of material. The backpack always weighs 5 pounds, regardless of its contents.\nPlacing an object in the haversack follows the normal rules for interacting with objects. Retrieving an item from the haversack requires you to use an action. When you reach into the haversack for a specific item, the item is always magically on top.\nThe haversack has a few limitations. If it is overloaded, or if a sharp object pierces it or tears it, the haversack ruptures and is destroyed. If the haversack is destroyed, its contents are lost forever, although an artifact always turns up again somewhere. If the haversack is turned inside out, its contents spill forth, unharmed, and the haversack must be put right before it can be used again. If a breathing creature is placed within the haversack, the creature can survive for up to 10 minutes, after which time it begins to suffocate.\nPlacing the haversack inside an extradimensional space created by a bag of holding, portable hole, or similar item instantly destroys both items and opens a gate to the Astral Plane. The gate originates where the one item was placed inside the other. Any creature within 10-feet of the gate is sucked through it and deposited in a random location on the Astral Plane. The gate then closes. The gate is one-way only and can't be reopened.",
+      "source": "DMG p.174"
+    },
+    {
+      "name": "Instrument of the Bards",
+      "type": "Wondrous item",
+      "rarity": "rarity varies (requires attunement by a bard)",
+      "requires_attunement": true,
+      "description": "An instrument of the bards is an exquisite example of its kind, superior to an ordinary instrument in every way. Seven types of these instruments exist, each named after a legendary bard college. The following table lists the spells common to all instruments, as well as the spells specific to each one and its rarity. A creature that attempts to play the instrument without being attuned to it must succeed on a DC 15 Wisdom saving throw or take 2d4 psychic damage. You can use an action to play the instrument and cast one of its spells. Once the instrument has been used to cast a spell, it can't be used to cast that spell again until the next dawn. The spells use your spellcasting ability and spell save DC. When you use the instrument to cast a spell that causes targets to become charmed on a failed save, the targets have disadvantage on the saving throw. This effect applies whether you are using the instrument as the source of the spell or as a spellcasting focus. All instruments: Fly, invisibility, levitate, protection from evil and good, plus the spells listed for the particular instrument. Anstruth harp (Very rare): Control weather, cure wounds (5th level), wall of thorns. Canaith mandolin (Rare): Cure wounds (3rd level), dispel magic, protection from energy (lightning only). Cli lyre (Rare): Stone shape, wall of fire, wind wall. Doss lute (Uncommon): Animal friendship, protection from energy (fire only), protection from poison. Fochlucan bandore (Uncommon): Entangle, faerie fire, shillelagh, speak with animals. Mac-Fuirmidh cittern (Uncommon): Barkskin, cure wounds, fog cloud. Ollamh harp (Legendary): Confusion, control weather, fire storm.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Absorption)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "While this pale lavender ellipsoid orbits your head, you can use your reaction to cancel a spell of 4th level or lower cast by a creature you can see and targeting only you. Once the stone has canceled 20 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Agility)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Dexterity score increases by 2, to a maximum of 20, while this deep red sphere orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Awareness)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You can't be surprised while this dark blue rhomboid orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Fortitude)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Constitution score increases by 2, to a maximum of 20, while this pink rhomboid orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Greater Absorption)",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "While this marbled lavender and green ellipsoid orbits your head, you can use your reaction to cancel a spell of 8th level or lower cast by a creature you can see and targeting only you. Once the stone has canceled 50 levels of spells, it burns out and turns dull gray, losing its magic. If you are targeted by a spell whose level is higher than the number of spell levels the stone has left, the stone can't cancel it.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Insight)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Wisdom score increases by 2, to a maximum of 20, while this incandescent blue sphere orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Intellect)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Intelligence score increases by 2, to a maximum of 20, while this marbled scarlet and blue sphere orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Leadership)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Charisma score increases by 2, to a maximum of 20, while this marbled pink and green sphere orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Mastery)",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "Your proficiency bonus increases by 1 while this pale green prism orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Protection)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You gain a +1 bonus to AC while this dusty rose prism orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Regeneration)",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": false,
+      "description": "You regain 15 hit points at the end of each hour this pearly white spindle orbits your head, provided that you have at least 1 hit point.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Reserve)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This vibrant purple prism stores spells cast into it, holding them until you use them. The stone can store up to 3 levels worth of spells at a time. When found, it contains 1d4 - 1 levels of stored spells chosen by the DM. Any creature can cast a spell of 1st through 3rd level into the stone by touching it as the spell is cast. The spell has no effect, other than to be stored in the stone. If the stone can't hold the spell, the spell is expended without effect. The level of the slot used to cast the spell determines how much space it uses. While this stone orbits your head, you can cast any spell stored in it. The spell uses the slot level, spell save DC, spell attack bonus, and spellcasting ability of the original caster, but is otherwise treated as if you cast the spell. The spell cast from the stone is no longer stored in it, freeing up space.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Strength)",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Strength score increases by 2, to a maximum of 20, while this pale blue rhomboid orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Ioun Stone (Sustenance)",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "You don't need to eat or drink while this clear spindle orbits your head.",
+      "source": "DMG p.176"
+    },
+    {
+      "name": "Iron Bands of Bilarro",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This rusty iron sphere measures 3 inches in diameter and weighs 1 pound. You can use an action to speak the command word and throw the sphere at a Huge or smaller creature you can see within 60 feet of you. As the sphere moves through the air, it opens into a tangle of metal bands. Make a ranged attack roll with an attack bonus equal to your Dexterity modifier plus your proficiency bonus. On a hit, the target is restrained until you take a bonus action to speak the command word again to release it. Doing so, or missing with the attack, causes the bands to contract and become a sphere once more. A creature, including the one restrained, can use an action to make a DC 20 Strength check to break the iron bands. On a success, the item is destroyed, and the restrained creature is freed. If the check fails, any further attempts made by that creature automatically fail until 24 hours have elapsed. Once the bands are used, they can't be used again until the next dawn.",
+      "source": "DMG p.177"
+    },
+    {
+      "name": "Keoghtom's Ointment",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "This glass jar, 3 inches in diameter, contains 1d4 + 1 doses of a thick mixture that smells faintly of aloe. The jar and its contents weigh 1/2 pound. As an action, one dose of the ointment can be swallowed or applied to the skin. The creature that receives it regains 2d8 + 2 hit points, ceases to be poisoned, and is cured of any disease.",
+      "source": "DMG p.179"
+    },
+    {
+      "name": "Mariner's Armor",
+      "type": "Armor (light, medium, or heavy)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While wearing this armor, you have a swimming speed equal to your walking speed. In addition, whenever you start your turn underwater with 0 hit points, the armor causes you to rise 60 feet toward the surface. The armor is decorated with fish and shell motifs.",
+      "source": "DMG p.181"
+    },
+    {
+      "name": "Bead of ... (table)",
+      "type": "Wondrous item",
+      "rarity": "",
+      "requires_attunement": false,
+      "description": "d20 | Bead of ... | Spell\n1-6 | Blessing | Bless\n7-12 | Curing | Cure wounds (2nd level) or lesser restoration\n13-16 | Favor | Greater restoration\n17-18 | Smiting | Branding smite\n19 | Summons | Planar ally\n20 | Wind walking | Wind walk",
+      "source": "DMG p.184"
+    },
+    {
+      "name": "Nolzur's Marvelous Pigments",
+      "type": "Wondrous item",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Typically found in 1d4 pots inside a fine wooden box with a brush (weighing 1 pound in total), these pigments allow you to create three-dimensional objects by painting them in two dimensions. The paint flows from the brush to form the desired object as you concentrate on its image.\nEach pot of paint is sufficient to cover 1,000 square feet of a surface, which lets you create inanimate objects or terrain features-such as a door, a pit, flowers, trees, cells, rooms, or weapons- that are up to 10,000 cubic feet. It takes 10 minutes to cover 100 square feet.\nWhen you complete the painting, the object or terrain feature depicted becomes a real, nonmagical object. Thus, painting a door on a wall creates an actual door that can be opened to whatever is beyond. Painting a pit on a floor creates a real pit, and its depth counts against the total area of objects you create.\nNothing created by the pigments can have a value greater than 25 gp. If you paint an object of greater value (such as a diamond or a pile of gold), the object looks authentic, but close inspection reveals it is made from paste, bone, or some other worthless material.\nIf you paint a form of energy such as fire or lightning, the energy appears but dissipates as soon as you complete the painting, doing no harm to anything.",
+      "source": "DMG p.184"
+    },
+    {
+      "name": "Potion of Fire Breath",
+      "type": "Potion",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "After drinking this potion, you can use a bonus action to exhale fire at a target within 30 feet of you. The target must make a DC 13 Dexterity saving throw, taking 4d6 fire damage on a failed save, or half as much damage on a successful one. The effect ends after you exhale the fire three times or when 1 hour has passed.\nThis potion's orange liquid flickers, and smoke fills the top of the container and wafts out whenever it is opened.",
+      "source": "DMG p.187"
+    },
+    {
+      "name": "Potion of Invulnerability",
+      "type": "Potion",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "For 1 minute after you drink this potion, you have resistance to all damage. The potion's syrupy liquid looks like liquified iron.",
+      "source": "DMG p.188"
+    },
+    {
+      "name": "Potion of Longevity",
+      "type": "Potion",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "When you drink this potion, your physical age is reduced by 1d6 + 6 years, to a minimum of 13 years. Each time you subsequently drink a potion of longevity, there is 10 percent cumulative chance that you instead age by 1d6 + 6 years. Suspended in this amber liquid are a scorpion's tail, an adder's fang, a dead spider, and a tiny heart that, against all reason, is still beating. These ingredients vanish when the potion is opened.",
+      "source": "DMG p.188"
+    },
+    {
+      "name": "Potion of Vitality",
+      "type": "Potion",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "When you drink this potion, it removes any exhaustion you are suffering and cures any disease or poison affecting you. For the next 24 hours, you regain the maximum number of hit points for any Hit Die you spend. The potion's crimson liquid regularly pulses with dull light, calling to mind a heartbeat.",
+      "source": "DMG p.188"
+    },
+    {
+      "name": "Quaal's Feather Token",
+      "type": "Wondrous item",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "This tiny object looks like a feather. Different types of feather tokens exist, each with a different single-use effect. The DM chooses the kind of token or determines it randomly. d100 Feather Token 01-20 Anchor 21-35 Bird 36-50 Fan 51-65 Swan boat 66-90 Tree 91-00 Whip Anchor. You can use an action to touch the token to a boat or ship. For the next 24 hours, the vessel can't be moved by any means. Touching the token to the vessel again ends the effect. When the effect ends, the token disappears. Bird. You can use an action to toss the token 5 feet into the air. The token disappears and an enormous, multicolored bird takes its place. The bird has the statistics of a roc (see the Monster Manual), but it obeys your simple commands and can't attack. It can carry up to 500 pounds while flying at its maximum speed (16 miles an hour for a maximum of 144 miles per day, with a one-hour rest for every 3 hours of flying), or 1,000 pounds at half that speed. The bird disappears after flying its maximum distance for a day or if it drops to 0 hit points. You can dismiss the bird as an action. Fan. If you are on a boat or ship, you can use an action to toss the token up to 10 feet in the air. The token disappears, and a giant flapping fan takes its place. The fan floats and creates a wind strong enough to fill the sails of one ship, increasing its speed by 5 miles per hour for 8 hours. You can dismiss the fan as an action. Swan Boat. You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot-wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action. Tree. You must be outdoors to use this token. You can use an action to touch it to an unoccupied space on the ground. The token disappears, and in its place a nonmagical oak tree springs into existence. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius. Whip. You can use an action to throw the token to a point within 10 feet of you. The token disappears, and a floating whip takes its place. You can then use a bonus action to make a melee spell attack against a creature within 10 feet of the whip, with an attack bonus of +9. On a hit, the target takes 1d6 + 5 force damage. As a bonus action on your turn, you can direct the whip to fly up to 20 feet and repeat the attack against a creature within 10 feet of it. The whip disappears after 1 hour, when you use an action to dismiss it, or when you are incapacitated or die.",
+      "source": "DMG p.188"
+    },
+    {
+      "name": "Quiver of Ehlonna",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Each of the quiver's three compartments connects to an extradimensional space that allows the quiver to hold numerous items while never weighing more than 2 pounds. The shortest compartment can hold up to sixty arrows, bolts, or similar objects. The midsize compartment holds up to eighteen javelins or similar objects. The longest compartment holds up to six long objects, such as bows, quarterstaffs, or spears. You can draw any item the quiver contains as if doing so from a regular quiver or scabbard.",
+      "source": "DMG p.189"
+    },
+    {
+      "name": "Rod of the Pact Keeper",
+      "type": "Rod",
+      "rarity": "uncommon (+1), rare (+2), or very rare (+3)",
+      "requires_attunement": true,
+      "description": "While holding this rod, you gain a bonus to spell attack rolls and to the saving throw DCs of your warlock spells. The bonus is determined by the rod's rarity. In addition, you can regain one warlock spell slot as an action while holding the rod. You can't use this property again until you finish a long rest.",
+      "source": "DMG p.197"
+    },
+    {
+      "name": "Rod of Resurrection",
+      "type": "Rod",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "The rod has 5 charges. While you hold it, you can use an action to cast one of the following spells from it: heal (expends 1 charge) or resurrection (expends 5 charges). The rod regains 1 expended charge daily at dawn. If the rod is reduced to 0 charges, roll a d20. On a 1, the rod disappears in a burst of radiance.",
+      "source": "DMG p.197"
+    },
+    {
+      "name": "Saddle of the Cavalier",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While in this saddle on a mount, you can't be dismounted against your will if you're conscious, and attack rolls against the mount have disadvantage.",
+      "source": "DMG p.199"
+    },
+    {
+      "name": "Scroll of Protection",
+      "type": "Scroll",
+      "rarity": "rare",
+      "requires_attunement": false,
+      "description": "Each scroll of protection works against a specific type of creature chosen by the DM or determined randomly by rolling on the following table.\n\nd100 | Creature Type\n01-10 | Aberrations\n11-20 | Beasts\n21-30 | Celestials\n31-40 | Elementals\n41-50 | Fey\n51-75 | Fiends\n76-80 | Plants\n81-00 | Undead\n\nUsing an action to read the scroll encloses you in a invisible barrier that extends from you to form a 5-foot-radius, 10-foot-high cylinder. For 5 minutes, this barrier prevents creatures of the specified type from entering or affecting anything within the cylinder.\nThe cylinder moves with you and remains centered on you. However, if you move in such a way that a creature of the specified type would be inside the cylinder, the effect ends.\nA creature can attempt to overcome the barrier by using an action to make a DC 15 Charisma check. On a success, the creature ceases to be affected by the barrier.",
+      "source": "DMG p.199"
+    },
+    {
+      "name": "Sending Stones",
+      "type": "Wondrous item",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "Sending stones come in pairs, with each smooth stone carved to match the other so the pairing is easily recognized. While you touch one stone, you can use an action to cast the sending spell from it. The target is the bearer of the other stone. If no creature bears the other stone, you know that fact as soon as you use the stone and don't cast the spell.\nOnce sending is cast through the stones, they can't be used again until the next dawn. If one of the stones in a pair is destroyed, the other one becomes nonmagical.",
+      "source": "DMG p.199"
+    },
+    {
+      "name": "Sentinel Shield",
+      "type": "Armor (shield)",
+      "rarity": "uncommon",
+      "requires_attunement": false,
+      "description": "While holding this shield, you have advantage on initiative rolls and Wisdom (Perception) checks. The shield is emblazoned with a symbol of an eye.",
+      "source": "DMG p.199"
+    },
+    {
+      "name": "Shield, +1, +2, or +3",
+      "type": "Armor (shield)",
+      "rarity": "uncommon (+1), rare (+2), or very rare (+3)",
+      "requires_attunement": false,
+      "description": "While holding this shield, you have a bonus to AC determined by the shield's rarity. This bonus is in addition to the shield's normal bonus to AC.",
+      "source": "DMG p.200"
+    },
+    {
+      "name": "Staff of the Adder",
+      "type": "Staff",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "You can use a bonus action to speak this staff's command word and make the head of the staff become that of an animate poisonous snake for 1 minute. By using another bonus action to speak the command word again, you return the staff to its normal inanimate form.\nYou can make a melee attack using the snake head, which has a reach of 5 feet. Your proficiency bonus applies to the attack roll. On a hit, the target takes 1d6 piercing damage and must succeed on a DC 15 Constitution saving throw or take 3d6 poison damage.\nThe snake head can be attacked while it is animate. It has an Armor Class of 15 and 20 hit points. If the head drops to 0 hit points, the staff is destroyed. As long as it's not destroyed, the staff regains all lost hit points when it reverts to its inanimate form.",
+      "source": "DMG p.203"
+    },
+    {
+      "name": "Sword of Answering",
+      "type": "Weapon (longsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "In the world of Greyhawk, only nine of these blades are known to exist. Each is patterned after the legendary sword Fragarach, which is variously translated as \"Final Word.\" Each of the nine swords has its own name and alignment, and each bears a different gem in its pommel.\nName | Alignment | Gem\nAnswerer | Chaotic good | Emerald\nBack Talker | Chaotic evil | Jet\nConcluder | Lawful neutral | Amethyst\nLast Quip | Chaotic neutral | Tourmaline\nRebutter | Neutral good | Topaz\nReplier | Neutral | Peridot\nRetorter | Lawful good | Aquamarine\nScather | Lawful evil | Garnet\nSquelcher | Neutral evil | Spinel\nYou gain a +3 bonus to attack and damage rolls made with this sword. In addition, while you hold the sword, you can use your reaction to make one melee attack with it against any creature in your reach that deals damage to you. You have advantage on the attack roll, and any damage dealt with this special attack ignores any damage immunity or resistance the target has.",
+      "source": "DMG p.206"
+    },
+    {
+      "name": "Sword of Vengeance",
+      "type": "Weapon (any sword)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "You gain a +1 bonus to attack and damage rolls made with this magic weapon.\nCurse. This sword is cursed and possessed by a vengeful spirit. Becoming attuned to it extends the curse to you. As long as you remain cursed, you are unwilling to part with the sword, keeping it on your person at all times. While attuned to this weapon, you have disadvantage on attack rolls made with weapons other than this one.\nIn addition, while the sword is on your person, you must succeed on a DC 15 Wisdom saving throw whenever you take damage in combat. On a failed save, you must attack the creature that damaged you until you drop to 0 hit points or it does, or until you can't reach the creature to make a melee attack against it.\nYou can break the curse in the usual ways. Alternatively, casting banishment on the sword forces the vengeful spirit to leave it. The sword then becomes a +1 weapon with no other properties.",
+      "source": "DMG p.206"
+    },
+    {
+      "name": "Tentacle Rod",
+      "type": "Rod",
+      "rarity": "rare",
+      "requires_attunement": true,
+      "description": "Made by the drow, this rod is a magic weapon that ends in three rubbery tentacles. While holding the rod, you can use an action to direct each tentacle to attack a creature you can see within 15 feet of you. Each tentacle makes a melee attack roll with a +9 bonus. On a hit, the tentacle deals 1d6 bludgeoning damage. If you hit a target with all three tentacles, it must make a DC 15 Constitution saving throw. On a failure, the creature's speed is halved, it has disadvantage on Dexterity saving throws, and it can't use reactions for 1 minute. Moreover, on each of its turns, it can take either an action or a bonus action, but not both. At the end of each of its turns, it can repeat the saving throw, ending the effect on itself on a success.",
+      "source": "DMG p.208"
+    },
+    {
+      "name": "Tome of the Stilled Tongue",
+      "type": "Wondrous item",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "This thick leather-bound volume has a desiccated tongue pinned to the front cover. Five of these tomes exist, and it's unknown which one is the original. The grisly cover decoration on the first tome of the stilled tongue once belonged to a treacherous former servant of the lich-god Vecna, keeper of secrets. The tongues pinned to the covers of the four copies came from other spellcasters who crossed Vecna. The first few pages of each tome are filled with indecipherable scrawls. The remaining pages are blank and pristine. If you can attune to this item, you can use it as a spellbook and an arcane focus. In addition, while holding the tome, you can use a bonus action to cast a spell you have written in this tome, without expending a spell slot or using any verbal or somatic components. Once used, this property of the tome can't be used again until the next dawn. While attuned to the book, you can remove the tongue from the book's cover. If you do so, all spells written in the book are permanently erased. Vecna watches anyone using this tome. He can also write cryptic messages in the book. These messages appear at midnight and fade away after they are read.",
+      "source": "DMG p.208"
+    },
+    {
+      "name": "Weapon of Warning",
+      "type": "Weapon (any)",
+      "rarity": "uncommon",
+      "requires_attunement": true,
+      "description": "This magic weapon warns you of danger. While the weapon is on your person, you have advantage on initiative rolls. In addition, you and any of your companions within 30 feet of you can't be surprised, except when incapacitated by something other than nonmagical sleep. The weapon magically awakens you and your companions within range if any of you are sleeping naturally when combat begins.",
+      "source": "DMG p.213"
+    },
+    {
+      "name": "Blackrazor",
+      "type": "Weapon (greatsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "point maximum. These hit points fade after 24 hours. As long as these temporary hit points last and you keep Blackrazor in hand, you have advantage on attack roll . saving throws, and ability checks. If you hit an undead with this weapon, you take ldlO necrotic damage and the target regains ldlO hit point If this necrotic damage reduces you to 0 hit points, Blackrazor devours your soul. Soul Hunter. While you hold the weapon. you are aware of the presence of Tiny or larger creatures within 60 feet of you that aren't constructs or undead. You also can't be charmed or frightened. Blackrazor can cast the haste spell on you once per day. It decides when to cast the spell and maintains concentration on it so that you don't have to. Sentience. Blackrazor is a sentient chaotic neutral weapon with an Intelligence of 17, a Wisdom of 10, and a Charisma of 19. It has hearing and darkvision out to a range of 120 feet. The weapon can speak, read, and understand Common, and can communicate with its wielder telepathically. Its voice is deep and echoing. While you are attuned to it, Blackrazor also understands every language you know. Personality. Blackrazor speaks with an imperious tone, as though accustomed to being obeyed. The sword's purpose is to consume souls. It doesn't care whose souls it eats, including the wielder's. The word believes that all matter and energy sprang from a void of negative energy and will one day return to it. Blackrazor is meant to hurry that process along. Despite its nihilism, Blackrazor feels a strange kinship to Wave and Whelm, two other weapons locked away under White Plume Mountain. It wants the three weapons to be united again and wielded together in combat, even though it violently disagrees with Whelm and finds Wave tedious. Blackrazor's hunger for souls must be regularly fed. If the sword goes three days or more without consuming a soul, a conflict between it and its wielder occurs at the next sunset.",
+      "source": "DMG p.216"
+    },
+    {
+      "name": "Moonblade",
+      "type": "Weapon (longsword)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Of all the magic items created by the elves, one of the most prized and jealously guarded is a moon blade. In ancient times, nearly all elven noble houses claimed one uch blade. Over the centuries, some blades have faded from the world, their magic lost as family lines have become extinct. Other blades have vanished with their bearers during great quests. Thus, only a few of these weapons remain. A moonblade passes down from parent to child. The sword chooses its bearer and remains bonded to that person for life. If the bearer dies, another heir can claim the blade. If no worthy heir exists, the sword lies dormant. It functions like a normallongsword until a worthy soul finds it and lays claim to its power. Amoonblade serves only one master at a time. The attunement process requires a special ritual in the throne room of an elven regent or in a temple dedicated to the elven gods. A moon blade won't serve anyone it regards as craven, erratic, corrupt, or at odds with preserving and protecting elvenkind. If the blade rejects you, you make ability checks, attack rolls, and saving throws with disadvantage for 24 hours. If the blade accepts you, you become attuned to it and a new rune appears on the blade. You remain attuned to the weapon until you die or the weapon is destroyed. A moonblade has one rune on its blade for each master it has served (typically 1d6 + 1). The first rune always grants a +1 bonus to attack and damage rolls made with this magic weapon. Each rune beyond the first grants the moon blade an additional property. The DM chooses each property or determines it randomly on the Moon Blade P roperties table. MOONBLADE PROPERTIES d1 00 Property 01-40 Increase the bonus to attack and damage rolls by 1, to a maximum of +3. Reroll if the moonblade already has a +3 bonus. 41-80 The moonblade gai ns a randomly determined minor property (see \"Special Features\" earlier in this chapter). 81-82 The moonblade gains the finesse property. 83-84 The moonblade gains the thrown property (range 20/60 feet). 85-86 The moonblade functions as a defender. 87-90 The moon blade scores a critical hit on a roll of 19 or 20. 91-92 When you hit with an attack using the moon blade, the attack an extra 1d6 slashing damage. 93-94 When you hit a creature of a specific type (such as dragon , fiend , or undead) with the moonblade, the target takes an extra 1d6 damage of one of these types: acid, cold, fire, lightning, o r thunder. 95-96 You can use a bonus action to cause the moonblade to flash brightly. Each creature that can see you and is within 30 feet of you must succeed on a DC 15 Constitution saving throw or become blinded for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. This property can't be used again until you take a short rest while attuned to the weapon . 97-98 The moonblade fun ctions as a ring of spell storing. 99 You can use an action to call forth an elfshadow, provided that you don't already have one serving you. The elfshadow appears in an unoccupied space within 120 feet of you. It uses the statistics for a shadow from the Monster Manual, except it is neutral, immune to effects that turn undead, and doesn't create new shadows. You control this creature, deciding how it acts and moves. It remai ns until it drops to 0 hit points or you dismiss it as an action . 00 The moonblade functions as a vorpal sword. Sentience. A moon blade is a sentient neutral good weapon with an Intelligence of 12, a Wisdom of 10, and a Charisma of 12. It has hearing and darkvision out to a range of 120 feet. The weapon communicates by transmitting emotions, sending a tingling sensation through the wielder's hand",
+      "source": "DMG p.217"
+    },
+    {
+      "name": "Wave",
+      "type": "Weapon (trident)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Held in the dungeon of White Plume Mountain, this trident is an exquisite weapon engraved with images of waves, shells, and sea creatures. Although you must worship a god of the sea to attune to this weapon, Wave happily accepts new converts. You gain a +3 bonus to attack and damage rolls made with this magic weapon. If you score a critical hit with it, the target takes extra necrotic damage equal to half its hit point maximum. The weapon also functions as a trident offish command and a weapon of warning. It can confer the benefit of a cap of water breathing while you hold it, and you can use it as a cube of force by choosing the effect, instead of pressing cube sides to select it. Sentience. Wave is a sentient weapon of neutral alignment, with an Intelligence of 14, a Wisdom of 10, and a Charisma of 18. It has hearing and darkvision out to a range of 120 feet. The weapon communicates telepathically with its wielder and can speak, read, and understand Aquan. It can also speak with aquatic animals as if using a speak with animals spell, using telepathy to involve its wielder in the conversation. Personality. When it grows restless, Wave has a habit of humming tunes that vary from sea chanteys to sacred hymns of the sea gods. Wave zealously desires to convert mortals to the worship of one or more sea gods, or else to consign the faithless to death. Conflict arises if the wielder fails to further the weapon's objectives in the world. The trident has a nostalgic attachment to the place where it was forged, a desolate island called Thunderforge. A sea god imprisoned a family of storm giants there, and the giants forged Wave in an act of devotion to- or rebellion against-that god. Wave harbors a secret doubt about its own nature and purpose. For all its devotion to the sea gods, Wave fears that it was intended to bring about a particular sea god's demise. This destiny is something Wave might not be able to avert.",
+      "source": "DMG p.218"
+    },
+    {
+      "name": "Whelm",
+      "type": "Weapon (warhammer)",
+      "rarity": "legendary",
+      "requires_attunement": true,
+      "description": "Whelm is a powerful warhammer forged by dwarves and lost in the dungeon of White Plume Mountain. You gain a +3 bonus to attack and damage rolls made with this magic weapon. At dawn the day after you first make an attack roll with Whelm, you develop a fear of being outdoors that persists as long as you remain attuned to the weapon. This causes you to have disadvantage on attack rolls, saving throws, and ability checks while you can see the daytime sky. Thrown Weapon. Whelm has the thrown property, with a normal range of 20 feet and a long range of 60 feet. When you hit with a ranged weapon attack using it, the target takes an extra 1d8 bludgeoning damage, or an extra 2d8 bludgeoning damage if the target is a giant. Each time you throw the weapon, it flies back to your hand after the attack. If you don't have a hand free, the weapon lands at your feet. Shock Wave. You can use an action to strike the ground with Whelm and send a shock wave out from the point of impact. Each creature of your choice on the ground within 60 feet of that point must succeed on a DC 15 Constitution saving throw or become stunned for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. Once used, this property can't be used again until the next dawn. Supernatural Awareness. While you are holding the weapon, it alerts you to the location of any secret or concealed doors within 30 feet of you. In addition, you can use an action to cast detect evil and good or locate object from the weapon. Once you cast either spell, you can't cast it from the weapon again until the next dawn. Sentience. Whelm is a sentient lawful neutral weapon with an Intelligence of 15, a Wisdom of 12, and a Charisma of 15. It has hearing and darkvision out to a range of 120 feet. The weapon communicates telepathically with its wielder and can speak, read, and understand Dwarvish. Giant, and Goblin. It shouts battle cries in Dwarvish when used in combat. Personality. Whelm's purpose is to slaughter giants and goblinoids. It also seeks to protect dwarves against all enemies. Conflict arises if the wielder fails to destroy goblins and giants or to protect dwarves. Whelm has ties to the dwarf clan that created it, variously called the Dankil or the Mightyhammer clan. It longs to be returned to that clan. It would do anything to protect those dwarves from harm. The hammer also carries a secret shame. Centuries ago, a dwarf named Ctenmiir wielded it valiantly for a time. But Ctenmiir was turned into a vampire. His will was strong enough that he bent Whelm to his evil purposes, even killing members of his own clan.",
+      "source": "DMG p.218"
+    },
+    {
+      "name": "Axe of the Dwarvish Lords",
+      "type": "Weapon (battleaxe)",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "The Axe of the Dwarvish Lords is a magic weapon that grants a +3 bonus to attack and damage rolls made with it. The axe also functions as a belt of dwarvenkind, a dwarven thrower, and a sword of sharpness.\n\nRandom Properties. The axe has the following randomly determined properties:\n2 minor beneficial properties\n1 major beneficial property\n2 minor detrimental properties\n\nBlessings of Moradin. If you are a dwarf attuned to the axe, you gain the following benefits:\nYou have immunity to poison damage.\nThe range of your darkvision increases by 60 feet.\nYou gain proficiency with artisan's tools related to blacksmithing, brewing, and stonemasonry.\n\nConjure Earth Elemental. If you are holding the axe, you can use your action to cast the conjure elemental spell from it, summoning an earth elemental. You can't use this property again until the next dawn.\n\nTravel the Depths. You can use an action to touch the axe to a fixed piece of dwarven stonework and cast the teleport spell from the axe. If your intended destination is underground, there is no chance of a mishap or arriving somewhere unexpected. You can't use this property again until 3 days have passed.\n\nCurse. The axe bears a curse that affects any non-dwarf that becomes attuned to it. Even if the attunement ends, the curse remains. With each passing day, the creature's physical appearance and stature become more dwarflike. After seven days, the creature looks like a typical dwarf, but the creature neither loses its racial traits nor gains the racial traits of a dwarf. The physical changes wrought by the axe aren't considered magical in nature (and therefore can't be dispelled), but they can be undone by any effect that removes a curse, such as a greater restoration or remove curse spell.\n\nDestroying the Axe. The only way to destroy the axe is to melt it down in the Earthheart Forge, where it was created. It must remain in the burning forge for fifty years before it finally succumbs to the fire and is consumed.",
+      "source": "DMG p.223"
+    },
+    {
+      "name": "Book of Exalted Deeds",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "Wondrous item, artifact (requires attunement by a creature of good alignment)\n\nThe definitive treatise on all that is good in the multiverse, the fabled Book of Exalted Deeds figures prominently in many religions. Rather than being a scripture devoted to a particular faith, the book's various authors filled the pages with their own vision of true virtue, providing guidance for defeating evil.\n\nThe Book of Exalted Deeds rarely lingers in one place. As soon as the book is read, it vanishes to some other corner of the multiverse where its moral guidance can bring light to a darkened world. Although attempts have been made to copy the work, efforts to do so fail to capture its magical nature or translate the benefits it offers to those pure of heart and firm of purpose.\n\nA heavy clasp, wrought to look like angel wings, keeps the book's contents secure. Only a creature of good alignment that is attuned to the book can release the clasp that holds it shut. Once the book is opened, the attuned creature must spend 80 hours reading and studying the book to digest its contents and gain its benefits. Other creatures that peruse the book's open pages can read the text but glean no deeper meaning and reap no benefits. An evil creature that tries to read from the book takes 24d6 radiant damage. This damage ignores resistance and immunity, and can't be reduced or avoided by any means. A creature reduced to 0 hit points by this damage disappears in a blinding flash and is destroyed, leaving its possessions behind.\n\nBenefits granted by the Book of Exalted Deeds last only as long as you strive to do good. If you fail to perform at least one act of kindness or generosity within the span of 10 days, or if you willingly perform an evil act, you lose all the benefits granted by the book.\n\nRandom Properties. The Book of Exalted Deeds has the following random properties:\n2 minor beneficial properties\n2 major beneficial properties\n\nIncreased Wisdom. After you spend the requisite amount of time reading and studying the book, your Wisdom score increases by 2, to a maximum of 24. You can't gain this benefit from the book more than once.\n\nEnlightened Magic. Once you've read and studied the book, any spell slot you expend to cast a cleric or paladin spell counts as a spell slot of one level higher.\n\nHalo. Once you've read and studied the book, you gain a protective halo. This halo sheds bright light in a 10-foot radius and dim light for an additional 10 feet. You can dismiss or manifest the halo as a bonus action. While present, the halo gives you advantage on Charisma (Persuasion) checks made to interact with good creatures and Charisma (Intimidation) checks made to interact with evil creatures. In addition, fiends and undead within the halo's bright light make attack rolls against you with disadvantage.\n\nDestroying the Book. It is rumored that the Book of Exalted Deeds can't be destroyed as long as good exists in the multiverse. However, drowning the book in the River Styx removes all writing and imagery from its pages and renders the book powerless for 1d100 years.",
+      "source": "DMG p.222"
+    },
+    {
+      "name": "Book of Vile Darkness",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "The Book of Vile Darkness touches on every evil in the cosmos. A character can use the lore the book contains to unearth terrible secrets no mortal should know. Among the contents a character might find are the following, plus whatever else you choose:\n\nVile Apotheosis. The book could hold a ritual that allows a character to become a lich or death knight.\n\nTrue Names. The true names of any number of fiends might be in the book.\n\nDark Magic. Several spells of horrific evil of the DM's design and choosing could be in the book. Spells could impose dreadful curses, disfigure others, require human sacrifice, afflict creatures with crippling pain, spread vile plagues, and so on.\n\nA creature attuned to the book must spend 80 hours reading and studying it to digest its contents and reap its benefits. The creature can then freely modify the book's contents, provided that those modifications advance evil and expand the lore already contained within.\n\nWhenever a non-evil creature attunes to the Book of Vile Darkness, that creature must make a DC 17 Charisma saving throw. On a failed save, the creature's alignment changes to neutral evil.\n\nThe Book of Vile Darkness remains with you only as long as you strive to work evil in the world. If you fail to perform at least one evil act within the span of 10 days, or if you willingly perform a good act, the book disappears. If you die while attuned to the book, an entity of great evil claims your soul. You can't be restored to life by any means while your soul remains imprisoned.\n\nRandom Properties. The Book of Vile Darkness has the following random properties:\n3 minor beneficial properties\n1 major beneficial property\n3 minor detrimental properties\n2 major detrimental properties\n\nAdjusted Ability Scores. After you spend the requisite amount of time reading and studying the book, one ability score of your choice increases by 2, to a maximum of 24. Another ability score of your choice decreases by 2, to a minimum of 3. The book can't adjust your ability scores again.\n\nMark of Darkness. After you spend the requisite amount of time reading and studying the book, you acquire a physical disfigurement as a hideous sign of your devotion to vile darkness. An evil rune might appear on your face, your eyes might become glossy black, or horns might sprout from your forehead. Or you might become wizened and hideous, lose all facial features, gain a forked tongue, or some other feature the DM chooses. The mark of darkness grants you advantage on Charisma (Persuasion) checks made to interact with evil creatures and Charisma (Intimidation) checks made to interact with non-evil creatures.\n\nCommand Evil. While you are attuned to the book and holding it, you can use an action to cast the dominate monster spell on an evil target (save DC 18). You can't use this property again until the next dawn.\n\nDark Lore. You can reference the Book of Vile Darkness whenever you make an Intelligence check to recall information about some aspect of evil, such as lore about demons. When you do so, double your proficiency bonus on that check.\n\nDark Speech. While you carry the Book of Vile Darkness and are attuned to it, you can use an action to recite word from its pages in a foul language known as Dark Speech. Each time you do so, you take 1d12",
+      "source": "DMG p.223"
+    },
+    {
+      "name": "Eye of Vecna",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "The Eye of Vecna and the Hand of Vecna might be found together or separately. The eye looks like a bloodshot organ torn free from the socket. To attune to the eye, you must gouge out your own eye and press the artifact into the empty socket. The eye grafts itself to your head and remains there until you die. Once in place, the eye transforms into a golden eye with a slit for a pupil, much like that of a cat. If the eye is ever removed, you die. Random Properties. The Eye of Vecna and the Hand of Vecna each have the following random properties: 1 minor beneficial property, 1 major beneficial property, 1 minor detrimental property. Properties of the Eye. Your alignment changes to neutral evil, and you gain the following benefits: You have truesight. You can use an action to see as if you were wearing a ring of X-ray vision. You can end this effect as a bonus action. The eye has 8 charges. You can use an action and expend 1 or more charges to cast one of the following spells (save DC 18) from it: clairvoyance (2 charges), crown of madness (1 charge), disintegrate (4 charges), dominate monster (5 charges), or eyebite (4 charges). The eye regains 1d4 + 4 expended charges daily at dawn. Each time you cast a spell from the eye, there is a 5 percent chance that Vecna tears your soul from your body, devours it, and then takes control of the body like a puppet. If that happens, you become an NPC under the DM's control. Properties of the Eye and Hand. If you are attuned to both the hand and eye, you gain the following additional benefits: You are immune to disease and poison. Using the eye's X-ray vision never causes you to suffer exhaustion. You experience premonitions of danger and, unless you are incapacitated, can't be surprised. If you start your turn with at least 1 hit point, you regain 1d10 hit points. You can use an action to cast wish. This property can be used again until 30 days have passed. Destroying the Eye and Hand. If the Eye of Vecna and the Hand of Vecna are both attached to the same creature, and that creature is slain by the Sword of Kas, both the eye and the hand burst into flame, turn to ash, and are forever destroyed.",
+      "source": "DMG p.224"
+    },
+    {
+      "name": "Hand of Vecna",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "The Eye of Vecna and the Hand of Vecna might be found together or separately. The hand is a mummified and shriveled left extremity. To attune to the hand, you must lop off your left hand at the wrist and the press the artifact against the stump. The hand grafts itself to your arm and becomes a functioning appendage. If the hand is ever removed, you die. Random Properties. The Eye of Vecna and the Hand of Vecna each have the following random properties: 1 minor beneficial property, 1 major beneficial property, 1 minor detrimental property. Properties of the Hand. Your alignment changes to neutral evil, and you gain the following benefits: Your Strength score becomes 20, unless it is already 20 or higher. Any melee spell attack you make with the hand, or any melee weapon attack made with a weapon held by it, deals an extra 2d8 cold damage on a hit. The hand has 8 charges. You can use an action and expend 1 or more charges to cast one of the following spells (save DC 18) from it: finger of death (5 charges), sleep (1 charge), slow (2 charges), or teleport (3 charges). The hand regains 1d4 + 4 expended charges daily at dawn. Each time you cast a spell from the hand, it casts the suggestion spell on you (save DC 18), demanding that you commit an evil act. The hand might have a specific act in mind or leave it up to you. Properties of the Eye and Hand. If you are attuned to both the hand and eye, you gain the following additional benefits: You are immune to disease and poison. Using the eye's X-ray vision never causes you to suffer exhaustion. You experience premonitions of danger and, unless you are incapacitated, can't be surprised. If you start your turn with at least 1 hit point, you regain 1d10 hit points. If a creature has a skeleton, you can attempt to turn its bones to jelly with a touch of the Hand of Vecna. You can do so by using an action to make a melee attack against a creature you can reach, using your choice of your melee attack bonus for weapons or spells. On a hit, the target must succeed on a DC 18 Constitution saving throw or drop to 0 hit points. You can use an action to cast wish. This property can be used again until 30 days have passed. Destroying the Eye and Hand. If the Eye of Vecna and the Hand of Vecna are both attached to the same creature, and that creature is slain by the Sword of Kas, both the eye and the hand burst into flame, turn to ash, and are forever destroyed.",
+      "source": "DMG p.224"
+    },
+    {
+      "name": "Sword of Kas",
+      "type": "Wondrous item",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "When Vecna grew in power, he appointed an evil and ruthless lieutenant, Kas the Bloody Handed, to act as his bodyguard and right hand. This despicable villain served as advisor, warlord, and assassin. His successes earned him Vecna's admiration and a reward: a sword with as dark a pedigree as the man who would wield it. For a long time, Kas faithfully served the lich but as Kas's power grew, so did his hubris. His sword urged him to supplant Vecna, so that they could rule the lich's empire in Vecna's stead. Legend says Vecna's destruction came at Kas's hand, but Vecna also wrought his rebellious lieutenant's doom, leaving only Kas's sword behind. The world was made brighter thereby. The Sword of Kas is a magic, sentient longsword that grants a +3 bonus to attack and damage rolls made with it. It scores a critical hit on a roll of 19 or 20, and deals an extra 2d10 slashing damage to undead. If the sword isn't bathed in blood within 1 minute of being drawn from its scabbard, its wielder must make a DC 15 Charisma saving throw. On a successful save, the wielder take 3d6 psychic damage. On a failed save, the wielder is dominated by the sword, as if by the dominate monster spell, and the sword demands that it be bathed in blood. The spell effect ends when the sword's demand is met. Random Properties. The Sword of Kas has the following random properties: • 1 minor beneficial property • 1 major beneficial property • 1 minor detrimental property • 1 major detrimental property Spirit of Kas. While the sword is on your person, you add a d10 to your initiative at the start of every combat. In addition, when you use an action to attack with the sword, you can transfer some or all of its attack bonus to your Armor Class instead. The adjusted bonuses remain in effect until the start of your next turn. Spells. While the sword is on your person, you can use an action to cast one of the following spells (save 18) from it: call lightning, divine word, or finger of death. Once you use the sword to cast a spell, you can't cast that spell again from it until the next dawn. Sentience. The Sword of Kas is a sentient chaotic evil weapon with an Intelligence of 15, a Wisdom of 13, and a Charisma of 16. It has hearing and darkvision out to a range of 120 feet. The weapon communicates telepathically with its wielder and can speak, read, and understand Common. Personality. The sword's purpose is to bring ruin to Vecna. Killing Vecna's worshipers, destroying the lich's works, and foiling his machinations all help to fulfill this goal. The Sword of Kas also seeks to destroy anyone corrupted by the Eye and Hand of Vecna. The sword's obsession with those artifacts eventually becomes a fixation for its wielder. Destroying the Sword. A creature attuned to both the Eye of Vecna and the Hand of Vecna can use the wish property of those combined artifacts to unmake the Sword of Kas. The creature must cast the wish spell and make a Charisma check contested by the Charisma check of the sword. The sword must be within 30 feet of the creature, or the spell fails. If the sword wins the contest, nothing happens, and the wish spell is wasted. If the sword loses the contest, it is destroyed.",
+      "source": "DMG p.226"
+    },
+    {
+      "name": "Wand of Orcus",
+      "type": "Wand",
+      "rarity": "artifact",
+      "requires_attunement": true,
+      "description": "The ghastly Wand of Orcus rarely leaves Orcus's side. The device, as evil as its creator, shares the demon lord's aims to snuff out the lives of all living things and bind the Material Plane in the stasis of undeath. Orcus allows the wand to slip from his grasp from time to time. When it does, it magically appears wherever its master senses an opportunity to achieve some fell goal.\n\nMade from bones as hard as iron, the wand is topped with a magically enlarged skull that once belonged to a human hero slain by Orcus. The wand can magically change in size to better conform to the grip of its user. Plants wither, drinks spoil, flesh rots, and vermin thrive in the wand's presence.\n\nAny creature besides Orcus that tries to attune to the wand must make a DC 17 Constitution saving throw. On a successful save, the creature takes 10d6 necrotic damage. On a failed save, the creature dies and rises as a zombie.\n\nIn the hands of one who is attuned to it, the wand can be wielded as a magic mace that grants a +3 bonus to attack and damage rolls made with it. The wand deals an extra 2d12 necrotic damage on a hit.\n\nRandom Properties. The Wand of Orcus has the following random properties:\n• 2 minor beneficial properties\n• 1 major beneficial property\n• 2 minor detrimental properties\n• 1 major detrimental property\n\nThe detrimental properties of the Wand of Orcus are suppressed while the wand is attuned to Orcus himself.\n\nProtection. You gain a +3 bonus to Armor Class while holding the wand.\n\nSpells. The wand has 7 charges. While holding it, you can use an action and expend 1 or more of its charges to cast one of the following spells (save DC 18) from it: animate dead (1 charge), blight (2 charges), circle of death (3 charges), finger of death (3 charges), power word kill (4 charges), or speak with dead (1 charge). The wand regains 1d4 + 3 expended charges daily at dawn.\n\nWhile attuned to the wand, Orcus or a follower blessed by him can cast each of the wand's spells using 2 fewer charges (minimum of 0).\n\nCall Undead. While you are holding the wand, you can use an action to conjure skeletons and zombies, calling forth as many of them as you can divide 500 hit points among, each undead having average hit points (see the Monster Manual for statistics). The undead magically rise up from the ground or otherwise form in unoccupied spaces within 300 feet of you and obey your commands until they are destroyed or until dawn of the next day, when they collapse into inanimate piles of bones and rotting corpses. Once you use this property of the wand, you can't use it again until the next dawn.\n\nWhile attuned to the wand, Orcus can summon any kind of undead, not just skeletons and zombies. The undead don't perish or disappear at dawn the following day, remaining until Orcus dismisses them.\n\nSentience. The Wand of Orcus is a sentient, chaotic evil item with an Intelligence of 16, a Wisdom of 12, and a Charisma of 16. It has hearing and darkvision out to a range of 120 feet.\n\nThe wand communicates telepathically with its wielder and can speak, read, and understand Abyssal and Common.\n\nPersonality. The wand's purpose is to help satisfy Orcus's desire to slay everything in the multiverse. The wand is cold, cruel, nihilistic, and bereft of humor. In order to further its master's goals, the wand feigns devotion to its current user and makes grandiose promises that it has no intention of fulfilling, such as vowing to help its user overthrow Orcus.\n\nDestroying the Wand. Destroying the Wand of Orcus requires that it be taken to the Positive Energy Plane by the ancient hero whose skull surmounts it. For this to happen, the long-lost hero must first be restored to life—no easy task, given the fact that Orcus has imprisoned the hero's soul and keeps it hidden and well guarded. Bathing the wand in positive energy causes it to crack and explode, but unless the above conditions are met, the wand instantly reforms on Orcus's layer of the Abyss.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Health",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Constitution score increases by 2, up to a maximum of 22.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Protection",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "You gain a +1 bonus to AC and saving throws.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Magic Resistance",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "You have advantage on saving throws against spells and other magical effects.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Understanding",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "Your Wisdom score increases by 2, up to a maximum of 22.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Valhalla",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This blessing grants you the power to summon spirit warriors, as if you had blown a silver horn of Valhalla. Once you use this blessing, you can't use it again until 7 days have passed.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Weapon Enhancement",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "One nonmagical weapon in your possession becomes a +1 weapon whenever you wield it.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Blessing of Wound Closure",
+      "type": "Blessing",
+      "rarity": "very rare",
+      "requires_attunement": false,
+      "description": "This blessing grants you the benefits of a periapt of wound closure.",
+      "source": "DMG p.227"
+    },
+    {
+      "name": "Charm of Animal Conjuring",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm allows you to cast the conjure animals spell (3rd-level version) as an action. Once used three times, the charm vanishes from you.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of Darkvision",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm allows you to cast the darkvision spell as an action, no components required. Once used three times, the charm goes away.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of Feather Falling",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm grants you the benefits of a ring of feather falling. These benefits last for 10 days, after which the charm vanishes from you.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of Heroism",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm allows you to give yourself the benefit of a potion of heroism as an action. Once you do so, the charm vanishes from you.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of Restoration",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm has 6 charges. You can use an action to expend some of its charges to cast one of the following spells: greater restoration (4 charges) or lesser restoration (2 charges). Once all its charges have been expended, the charm vanishes from you.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of the Slayer",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "One sword in your possession becomes a dragon slayer or giant slayer (DM's choice) for the next 9 days. The charm then vanishes from you and the weapon returns to normal.",
+      "source": "DMG p.228"
+    },
+    {
+      "name": "Charm of Vitality",
+      "type": "Charm",
+      "rarity": "varies",
+      "requires_attunement": false,
+      "description": "This charm allows you to give yourself the benefit of a potion of vitality as an action. Once you do so, the charm vanishes from you.",
+      "source": "DMG p.228"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Airship",
+      "type": "Vehicle",
+      "subtype": "Airborne",
+      "cost": "20,000 gp",
+      "speed": "8 mph",
+      "crew": 10,
+      "passengers": 20,
+      "cargo": "1 ton",
+      "ac": 13,
+      "hp": 300,
+      "damage_threshold": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Ballista",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "16 (3d10) piercing",
+      "properties": [
+        "Ranged Weapon Attack: +6 to hit",
+        "range 120/480 ft.",
+        "one target",
+        "takes one action to load, one action to aim, one action to fire"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Cannon",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "44 (8d10) bludgeoning",
+      "properties": [
+        "Ranged Weapon Attack: +6 to hit",
+        "range 600/2,400 ft.",
+        "one target",
+        "takes one action to load, one action to aim, one action to fire"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Cauldron, Suspended",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "10 (3d6) fire",
+      "properties": [
+        "DC 15 Dexterity saving throw",
+        "10-foot-square area",
+        "takes three actions to fill, one action to tip"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Mangonel",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "27 (5d10) bludgeoning",
+      "properties": [
+        "Ranged Weapon Attack: +5 to hit",
+        "range 200/800 ft. (can't hit targets within 60 feet of it)",
+        "one target",
+        "takes two actions to load, two actions to aim, one action to fire"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Ram",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "16 (3d10) bludgeoning",
+      "properties": [
+        "Melee Weapon Attack: +8 to hit",
+        "reach 5 ft.",
+        "one object",
+        "requires minimum of four Medium creatures to operate",
+        "operators have total cover against attacks from above"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Siege Tower",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "",
+      "properties": [
+        "mobile wooden structure",
+        "Medium or smaller creatures can use to reach top of walls up to 40 feet high",
+        "creature in tower has total cover from attacks outside"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Trebuchet",
+      "type": "Vehicle",
+      "subtype": "Siege Equipment",
+      "damage": "44 (8d10) bludgeoning",
+      "properties": [
+        "Ranged Weapon Attack: +5 to hit",
+        "range 300/1,200 ft. (can't hit targets within 60 feet of it)",
+        "one target",
+        "takes two actions to load, two actions to aim, one action to fire"
+      ],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Bomb",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "150 gp",
+      "weight": 1,
+      "source": "DMG"
+    },
+    {
+      "name": "Gunpowder (powder horn)",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "3d6 fire",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Gunpowder (keg)",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "7d6 fire",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Dynamite",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "3d6 bludgeoning",
+      "properties": [],
+      "cost": "",
+      "weight": 0,
+      "source": "DMG"
+    },
+    {
+      "name": "Dynamite (stick)",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "3d6 bludgeoning",
+      "properties": [
+        "As an action, a creature can light a stick of dynamite and throw it at a point up to 60 feet away. Each creature within 5 feet of that point must make a DC 12 Dexterity saving throw, taking 3d6 bludgeoning damage on a failed save, or half as much damage on a successful one.",
+        "A character can bind sticks of dynamite together so they explode at the same time. Each additional stick increases the damage by 1d6 (to a maximum of 10d6) and the burst radius by 5 feet (to a maximum of 20 feet).",
+        "Dynamite can be rigged with a longer fuse to explode after a set amount of time, usually 1 to 6 rounds. Roll initiative for the dynamite. After the set number of rounds goes by, the dynamite explodes on that initiative."
+      ],
+      "cost": "",
+      "weight": 1,
+      "source": "DMG"
+    },
+    {
+      "name": "Grenade, fragmentation",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "5d6 piercing",
+      "properties": [
+        "As an action, a character can throw a grenade at a point up to 60 feet away. With a grenade launcher, the character can propel the grenade up to 120 feet away. Each creature within 20 feet of an exploding fragmentation grenade must make a DC 15 Dexterity saving throw, taking 5d6 piercing damage on a failed save, or half as much damage on a successful one."
+      ],
+      "cost": "",
+      "weight": 1,
+      "source": "DMG"
+    },
+    {
+      "name": "Grenade, smoke",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [
+        "One round after a smoke grenade lands, it emits a cloud of smoke that creates a heavily obscured area in a 20-foot radius. A moderate wind (at least 10 miles per hour) disperses the smoke in 4 rounds; a strong wind (20 or more miles per hour) disperses it in 1 round."
+      ],
+      "cost": "",
+      "weight": 2,
+      "source": "DMG"
+    },
+    {
+      "name": "Grenade launcher",
+      "type": "Weapon",
+      "subtype": "",
+      "damage": "",
+      "properties": [
+        "With a grenade launcher, the character can propel the grenade up to 120 feet away."
+      ],
+      "cost": "",
+      "weight": 7,
+      "source": "DMG"
+    },
+    {
+      "name": "Pistol",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d10 piercing",
+      "properties": [
+        "Ammunition (range 30/90), loading"
+      ],
+      "cost": "250 gp",
+      "weight": 3,
+      "source": "DMG"
+    },
+    {
+      "name": "Musket",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "1d12 piercing",
+      "properties": [
+        "Ammunition (range 40/120), loading, two-handed"
+      ],
+      "cost": "500 gp",
+      "weight": 10,
+      "source": "DMG"
+    },
+    {
+      "name": "Bullets (10)",
+      "type": "Ammunition",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 1,
+      "source": "DMG"
+    },
+    {
+      "name": "Pistol, automatic",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "2d6 piercing",
+      "properties": [
+        "Ammunition (range 50/150), reload (15 shots)"
+      ],
+      "cost": "",
+      "weight": 3,
+      "source": "DMG"
+    },
+    {
+      "name": "Revolver",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "2d8 piercing",
+      "properties": [
+        "Ammunition (range 40/120), reload (6 shots)"
+      ],
+      "cost": "",
+      "weight": 3,
+      "source": "DMG"
+    },
+    {
+      "name": "Rifle, hunting",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "2d10 piercing",
+      "properties": [
+        "Ammunition (range 80/240), reload (5 shots), two-handed"
+      ],
+      "cost": "",
+      "weight": 8,
+      "source": "DMG"
+    },
+    {
+      "name": "Rifle, automatic",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "2d8 piercing",
+      "properties": [
+        "Ammunition (range 80/240), burst fire, reload (30 shots), two-handed"
+      ],
+      "cost": "",
+      "weight": 8,
+      "source": "DMG"
+    },
+    {
+      "name": "Shotgun",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "2d8 piercing",
+      "properties": [
+        "Ammunition (range 30/90), reload (2 shots), two-handed"
+      ],
+      "cost": "",
+      "weight": 7,
+      "source": "DMG"
+    },
+    {
+      "name": "Laser pistol",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "3d6 radiant",
+      "properties": [
+        "Ammunition (range 40/120), reload (50 shots)"
+      ],
+      "cost": "",
+      "weight": 2,
+      "source": "DMG"
+    },
+    {
+      "name": "Antimatter rifle",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "6d8 necrotic",
+      "properties": [
+        "Ammunition (range 120/360), reload (2 shots), two-handed"
+      ],
+      "cost": "",
+      "weight": 10,
+      "source": "DMG"
+    },
+    {
+      "name": "Laser rifle",
+      "type": "Weapon",
+      "subtype": "martial ranged",
+      "damage": "3d8 radiant",
+      "properties": [
+        "Ammunition (range 100/300), reload (30 shots), two-handed"
+      ],
+      "cost": "",
+      "weight": 7,
+      "source": "DMG"
+    },
+    {
+      "name": "Energy cell",
+      "type": "Ammunition",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "",
+      "weight": 0.3125,
+      "source": "DMG"
+    },
+    {
+      "name": "Gunpowder, keg",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "250 gp",
+      "weight": 20,
+      "source": "DMG"
+    },
+    {
+      "name": "Gunpowder, powder horn",
+      "type": "Explosive",
+      "subtype": "",
+      "damage": "",
+      "properties": [],
+      "cost": "35 gp",
+      "weight": 2,
+      "source": "DMG"
+    }
+  ],
+  "monsters": [
+    {
+      "name": "Larva",
+      "size": "Medium",
+      "type": "fiend",
+      "alignment": "neutral evil",
+      "armor_class": 9,
+      "ac_type": "",
+      "hit_points": "9 (2d8)",
+      "speed": "20 ft.",
+      "ability_scores": {
+        "strength": 9,
+        "dexterity": 9,
+        "constitution": 10,
+        "intelligence": 6,
+        "wisdom": 10,
+        "charisma": 2
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "passive Perception 10",
+      "languages": [
+        "understands the languages it knew in life but can't speak"
+      ],
+      "challenge_rating": "0",
+      "xp": 10,
+      "features": [],
+      "actions": [
+        {
+          "name": "Bite",
+          "description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 1 (1d4-1) piercing damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "Chapter 2: Creating a Multiverse"
+    },
+    {
+      "name": "Avatar of Death",
+      "size": "Medium",
+      "type": "undead",
+      "alignment": "neutral evil",
+      "armor_class": 20,
+      "ac_type": "",
+      "hit_points": "half the hit point maximum of its summoner",
+      "speed": "60 ft., fly 60 ft. (hover)",
+      "ability_scores": {
+        "strength": 16,
+        "dexterity": 16,
+        "constitution": 16,
+        "intelligence": 16,
+        "wisdom": 16,
+        "charisma": 16
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "unconscious"
+      ],
+      "senses": "darkvision 60 ft., truesight 60 ft., passive Perception 13",
+      "languages": [
+        "all languages known to its summoner"
+      ],
+      "challenge_rating": "-",
+      "xp": 0,
+      "features": [
+        {
+          "name": "Incorporeal Movement",
+          "description": "The avatar can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+        },
+        {
+          "name": "Turning Immunity",
+          "description": "The avatar is immune to features that turn undead."
+        }
+      ],
+      "actions": [
+        {
+          "name": "Reaping Scythe",
+          "description": "The avatar sweeps its spectral scythe through a creature within 5 feet of it, dealing 7 (1d8 + 3) slashing damage plus 4 (1d8) necrotic damage."
+        }
+      ],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "DMG p.164"
+    },
+    {
+      "name": "Giant Fly",
+      "size": "Large",
+      "type": "beast",
+      "alignment": "unaligned",
+      "armor_class": 11,
+      "ac_type": "",
+      "hit_points": "19 (3d10 + 3)",
+      "speed": "30 ft., fly 60ft.",
+      "ability_scores": {
+        "strength": 14,
+        "dexterity": 13,
+        "constitution": 13,
+        "intelligence": 2,
+        "wisdom": 10,
+        "charisma": 3
+      },
+      "saving_throws": {},
+      "skills": {},
+      "damage_resistances": [],
+      "damage_immunities": [],
+      "condition_immunities": [],
+      "senses": "darkvision 60ft., passive Perception 10",
+      "languages": [],
+      "challenge_rating": "",
+      "xp": 0,
+      "features": [],
+      "actions": [],
+      "reactions": [],
+      "legendary_actions": [],
+      "source": "DMG p.169"
+    }
+  ],
+  "npcs": [],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [
+    {
+      "name": "Death Domain",
+      "class": "Cleric",
+      "description": "The Death domain is concerned with the forces that cause death, as well as the negative energy that gives rise to undead creatures. Deities of this domain embody murder, pain, disease or poison, and the underworld.",
+      "features": [
+        {
+          "name": "Death Domain Spells",
+          "level": 1,
+          "description": "Cleric Level 1st: false life, ray of sickness; 3rd: blindness/deafness, ray of enfeeblement; 5th: animate dead, vampiric touch; 7th: blight, death ward; 9th: antilife shell, cloudkill"
+        },
+        {
+          "name": "Bonus Proficiency",
+          "level": 1,
+          "description": "When the cleric chooses this domain at 1st level, he or she gains proficiency with martial weapons."
+        },
+        {
+          "name": "Reaper",
+          "level": 1,
+          "description": "At 1st level, the cleric learns one necromancy cantrip of his or her choice from any spell list. When the cleric casts a necromancy cantrip that normally targets only one creature, the spell can instead target two creatures within range and within 5 feet of each other."
+        },
+        {
+          "name": "Channel Divinity: Touch of Death",
+          "level": 2,
+          "description": "Starting at 2nd level, the cleric can use Channel Divinity to destroy another creature's life force by touch. When the cleric hits a creature with a melee attack, the cleric can use Channel Divinity to deal extra necrotic damage to the target. The damage equals 5 + his or her cleric level.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Inescapable Destruction",
+          "level": 6,
+          "description": "Starting at 6th level, the cleric's ability to channel negative energy becomes more potent. Necrotic damage dealt by the character's cleric spells and Channel Divinity options ignores resistance to necrotic damage."
+        },
+        {
+          "name": "Divine Strike",
+          "level": 8,
+          "description": "At 8th level, the cleric gains the ability to infuse his or her weapon strikes with necrotic energy. Once on each of the cleric's turns when he or she hits a creature with a weapon attack, the cleric can cause the attack to deal an extra 1d8 necrotic damage to the target. When the cleric reaches 14th level, the extra damage increases to 2d8."
+        },
+        {
+          "name": "Improved Reaper",
+          "level": 17,
+          "description": "Starting at 17th level, when the cleric casts a necromancy spell of 1st through 5th level that targets only one creature, the spell can instead target two creatures within range and within 5 feet of each other. If the spell consumes its material components, the cleric must provide them for each target."
+        }
+      ],
+      "source": "D&D 5e (page 96-97)"
+    },
+    {
+      "name": "Oathbreaker",
+      "class": "Paladin",
+      "description": "An Oathbreaker is a paladin who breaks his or her sacred oaths to pursue some dark ambition or serve an evil power. Whatever light burned in the paladin's heart has been extinguished. Only darkness remains.",
+      "features": [
+        {
+          "name": "Oathbreaker Spells",
+          "level": 3,
+          "description": "An Oathbreaker paladin loses previously gained oath spells and instead gains the following Oathbreaker spells at the paladin levels listed. 3rd: hellish rebuke, inflict wounds; 5th: crown of madness, darkness; 9th: animate dead, bestow curse; 13th: blight, confusion; 17th: contagion, dominate person"
+        },
+        {
+          "name": "Channel Divinity: Control Undead",
+          "level": 3,
+          "description": "As an action, the paladin targets one undead creature he or she can see within 30 feet of him or her. The target must make a Wisdom saving throw. On a failed save, the target must obey the paladin's commands for the next 24 hours, or until the paladin uses this Channel Divinity option again. An undead whose challenge rating is equal to or greater than the paladin's level is immune to this effect.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Channel Divinity: Dreadful Aspect",
+          "level": 3,
+          "description": "As an action, the paladin channels the darkest emotions and focuses them into a burst of magical menace. Each creature of the paladin's choice within 30 feet of the paladin must make a Wisdom saving throw if it can see the paladin. On a failed save, the target is frightened of the paladin for 1 minute. If a creature frightened by this effect ends its turn more than 30 feet away from the paladin, it can attempt another Wisdom saving throw to end the effect on it.",
+          "uses": 1,
+          "recharge": "short rest"
+        },
+        {
+          "name": "Aura of Hate",
+          "level": 7,
+          "description": "Starting at 7th level, the paladin, as well any fiends and undead within 10 feet of the paladin, gains a bonus to melee weapon damage rolls equal to the paladin's Charisma modifier (minimum of +1). A creature can benefit from this feature from only one paladin at a time. At 18th level, the range of this aura increases to 30 feet."
+        },
+        {
+          "name": "Supernatural Resistance",
+          "level": 15,
+          "description": "At 15th level, the paladin gains resistance to bludgeoning, piercing, and slashing damage from nonmagical weapons."
+        },
+        {
+          "name": "Dread Lord",
+          "level": 20,
+          "description": "At 20th-level, the paladin can, as an action, surround himself or herself with an aura of gloom that lasts for 1 minute. The aura reduces any bright light in a 30-foot radius around the paladin to dim light. Whenever an enemy that is frightened by the paladin starts its turn in the aura, it takes 4d10 psychic damage. Additionally, the paladin and creatures he or she chooses in the aura are draped in deeper shadow. Creatures that rely on sight have disadvantage on attack rolls against creatures draped in this shadow. While the aura lasts, the paladin can use a bonus action on his or her turn to cause the shadows in the aura to attack one creature. The paladin makes a melee spell attack against the target. If the attack hits, the target takes necrotic damage equal to 3d10 + the paladin's Charisma modifier. After activating the aura, the paladin can't do so again until he or she finishes a long rest.",
+          "uses": 1,
+          "recharge": "long rest"
+        }
+      ],
+      "source": "D&D 5e (page 97)"
+    }
+  ],
+  "traps": [
+    {
+      "name": "Brown Mold",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "When a creature moves to within 5 feet of the mold for the first time on a turn or starts its turn there",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No ability check is required to spot a hazard unless it is hidden. A hazard that resembles something benign, such as a patch of slime or mold, can be correctly identified with a successful Intelligence (Nature) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "A patch of brown mold exposed to an effect that deals cold damage is instantly destroyed."
+      },
+      "effect": "A patch of brown mold typically covers a 10-foot square, and the temperature within 30 feet of it is always frigid. When a creature moves to within 5 feet of the mold for the first time on a turn or starts its turn there, it must make a DC 12 Constitution saving throw, taking 22 (4d10) cold damage on a failed save, or half as much damage on a successful one. Brown mold is immune to fire, and any source of fire brought within 5 feet of a patch causes it to instantly expand outward in the direction of the fire, covering a 10-foot-square area (with the source of the fire at the center of that area).",
+      "save_dc": 12,
+      "save_ability": "Constitution",
+      "damage": "22 (4d10)",
+      "damage_type": "cold",
+      "area": "10-foot square",
+      "description": "Brown mold feeds on warmth, drawing heat from anything around it.",
+      "source": "DMG p.105"
+    },
+    {
+      "name": "Green Slime",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "A creature that comes into contact with green slime",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No ability check is required to spot a hazard unless it is hidden. A hazard that resembles something benign, such as a patch of slime or mold, can be correctly identified with a successful Intelligence (Nature) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "The slime can be scraped off or destroyed. Sunlight, any effect that cures disease, and any effect that deals cold, fire, or radiant damage destroys a patch of green slime."
+      },
+      "effect": "A patch of green slime covers a 5-foot square, has blindsight out to a range of 30 feet, and drops from walls and ceilings when it detects movement below it. Beyond that, it has no ability to move. A creature aware of the slime's presence can avoid being struck by it with a successful DC 10 Dexterity saving throw. Otherwise, the slime can't be avoided as it drops. A creature that comes into contact with green slime takes 5 (1d10) acid damage. The creature takes the damage again at the start of each of its turns until the slime is scraped off or destroyed. Against wood or metal, green slime deals 11 (2d10) acid damage each round, and any nonmagical wood or metal weapon or tool used to scrape off the slime is effectively destroyed.",
+      "save_dc": 10,
+      "save_ability": "Dexterity",
+      "damage": "5 (1d10)",
+      "damage_type": "acid",
+      "area": "5-foot square",
+      "description": "This acidic slime devours flesh, organic material, and metal on contact. Bright green, wet, and sticky, it clings to walls, floors, and ceilings in patches.",
+      "source": "DMG p.105"
+    },
+    {
+      "name": "Webs",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "A creature entering a webbed area for the first time on a turn or starting its turn there",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No ability check is required to spot a hazard unless it is hidden. A hazard that resembles something benign, such as a patch of slime or mold, can be correctly identified with a successful Intelligence (Nature) check."
+      },
+      "disarm": {
+        "dc": 12,
+        "method": "Strength (Athletics) or Dexterity (Acrobatics)",
+        "detail": "A restrained creature can use its action to try to escape, doing so with a successful DC 12 Strength (Athletics) or Dexterity (Acrobatics) check."
+      },
+      "effect": "These web-filled areas are difficult terrain. Moreover, a creature entering a webbed area for the first time on a turn or starting its turn there must succeed on a DC 12 Dexterity saving throw or become restrained by the webs. Each 10-foot cube of giant webs has AC 10, 15 hit points, vulnerability to fire, and immunity to bludgeoning, piercing, and psychic damage.",
+      "save_dc": 12,
+      "save_ability": "Dexterity",
+      "damage": "",
+      "damage_type": "",
+      "area": "10-foot cube",
+      "description": "Giant spiders weave thick, sticky webs across passages and at the bottom of pits to snare prey.",
+      "source": "DMG p.105"
+    },
+    {
+      "name": "Yellow Mold",
+      "type": "hazard",
+      "danger": "dangerous",
+      "trigger": "If touched",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "No ability check is required to spot a hazard unless it is hidden. A hazard that resembles something benign, such as a patch of slime or mold, can be correctly identified with a successful Intelligence (Nature) check."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Sunlight or any amount of fire damage instantly destroys one patch of yellow mold."
+      },
+      "effect": "Yellow mold grows in dark places, and one patch covers a 5-foot square. If touched, the mold ejects a cloud of spores that fills a 10-foot cube originating from the mold. Any creature in the area must succeed on a DC 15 Constitution saving throw or take 11 (2d10) poison damage and become poisoned for 1 minute. While poisoned in this way, the creature takes 5 (1d10) poison damage at the start of each of its turns. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a successful save.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "11 (2d10)",
+      "damage_type": "poison",
+      "area": "10-foot cube",
+      "description": "Yellow mold grows in dark places, and one patch covers a 5-foot square.",
+      "source": "DMG p.105"
+    },
+    {
+      "name": "Collapsing Roof",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A trip wire stretched 3 inches off the ground between two support beams. When triggered, the unstable ceiling collapses.",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "The DC to spot the trip wire is 10. Anyone who inspects the beams can easily determine that they are merely wedged in place. The ceiling above the trip wire is in bad repair, and anyone who can see it can tell that it's in danger of collapse."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 15 Dexterity check using thieves' tools disables the trip wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "When the trap is triggered, the unstable ceiling collapses. Any creature in the area beneath the unstable section must succeed on a DC 15 Dexterity saving throw, taking 22 (4d10) bludgeoning damage on a failed save, or half as much damage on a successful one. Once the trap is triggered, the floor of the area is filled with rubble and becomes difficult terrain.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "bludgeoning",
+      "area": "The area beneath the unstable section of ceiling",
+      "description": "This trap uses a trip wire to collapse the supports keeping an unstable section of a ceiling in place.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Falling Net",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "A trip wire 3 inches off the ground stretched between two columns or trees releases a net suspended from the ceiling.",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "The net is hidden by cobwebs or foliage. The DC to spot the trip wire and net is 10."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 15 Dexterity check using thieves' tools breaks the trip wire harmlessly. A character without thieves' tools can attempt this check with disadvantage using any edged weapon or edged tool. On a failed check, the trap triggers."
+      },
+      "effect": "When the trap is triggered, the net is released, covering a 10-foot-square area. Those in the area are trapped under the net and restrained, and those that fail a DC 10 Strength saving throw are also knocked prone. A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success. The net has AC 10 and 20 hit points. Dealing 5 slashing damage to the net (AC 10) destroys a 5-foot-square section of it, freeing any creature trapped in that section.",
+      "save_dc": 10,
+      "save_ability": "Strength",
+      "damage": "",
+      "damage_type": "",
+      "area": "10-foot-square area",
+      "description": "This trap uses a trip wire to release a net suspended from the ceiling.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Fire-Breathing Statue",
+      "type": "magical",
+      "danger": "dangerous",
+      "trigger": "Activated when an intruder steps on a hidden pressure plate, releasing a magical gout of flame from a nearby statue. The trap activates when more than 20 pounds of weight is placed on the pressure plate.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "The DC is 15 to spot the pressure plate, as well as faint scorch marks on the floor and walls. A spell or other effect that can sense the presence of magic, such as detect magic, reveals an aura of evocation magic around the statue."
+      },
+      "disarm": {
+        "dc": 13,
+        "method": "dispel magic",
+        "detail": "Wedging an iron spike or other object under the pressure plate prevents the trap from activating. A successful dispel magic (DC 13) cast on the statue destroys the trap."
+      },
+      "effect": "The statue releases a 30-foot cone of fire. Each creature in the fire must make a DC 13 Dexterity saving throw, taking 22 (4d10) fire damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 13,
+      "save_ability": "Dexterity",
+      "damage": "22 (4d10)",
+      "damage_type": "fire",
+      "area": "30-foot cone",
+      "description": "This trap is activated when an intruder steps on a hidden pressure plate, releasing a magical gout of flame from a nearby statue. The statue can be of anything, including a dragon or a wizard casting a spell.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Simple Pit",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "Anyone stepping on the cloth covering the pit falls through and pulls the cloth down into the pit.",
+      "detection": {
+        "dc": 10,
+        "skill": "Perception",
+        "detail": "The DC to spot the pit is 10."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": ""
+      },
+      "effect": "Falling into the pit, taking damage based on the pit's depth (usually 10 feet, but some pits are deeper).",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The pit",
+      "description": "A simple pit trap is a hole dug in the ground. The hole is covered by a large cloth anchored on the pit's edge and camouflaged with dirt and debris.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Hidden Pit",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "When a creature steps on the cover, it swings open like a trapdoor, causing the intruder to spill into the pit below.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "A successful DC 15 Wisdom (Perception) check discerns an absence of foot traffic over the section of floor that forms the pit's cover. A successful DC 15 Intelligence (Investigation) check is necessary to confirm that the trapped section of floor is actually the cover of a pit."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Once the pit trap is detected, an iron spike or similar object can be wedged between the pit's cover and the surrounding floor in such a way as to prevent the cover from opening, thereby making it safe to cross. The cover can also be magically held shut using the arcane lock spell or similar magic."
+      },
+      "effect": "The intruder falls into the pit below. The pit is usually 10 or 20 feet deep but can be deeper.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The pit",
+      "description": "This pit has a cover constructed from material identical to the floor around it.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Locking Pit",
+      "type": "mechanical",
+      "danger": "setback",
+      "trigger": "When a creature steps on the cover, it swings open like a trapdoor, causing the intruder to spill into the pit below. After a creature falls into the pit, the cover snaps shut to trap its victim inside.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "Identical to a hidden pit trap: A successful DC 15 Wisdom (Perception) check discerns an absence of foot traffic over the section of floor that forms the pit's cover. A successful DC 15 Intelligence (Investigation) check is necessary to confirm that the trapped section of floor is actually the cover of a pit."
+      },
+      "disarm": {
+        "dc": 20,
+        "method": "Strength",
+        "detail": "A successful DC 20 Strength check is necessary to pry the cover open. The cover can also be smashed open (determine the cover's statistics using the guidelines in chapter 8). A character in the pit can also attempt to disable the spring mechanism from the inside with a DC (truncated)."
+      },
+      "effect": "The intruder falls into the pit below, and the cover snaps shut to trap its victim inside.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "The pit",
+      "description": "This pit trap is identical to a hidden pit trap, with one key exception: the trap door that covers the pit is spring-loaded.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Spiked Pit",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "A creature falls into the pit",
+      "detection": {
+        "dc": 0,
+        "skill": "",
+        "detail": "Not specified in this text"
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Not specified in this text"
+      },
+      "effect": "A creature falling into the pit takes 11 (2d10) piercing damage from the spikes, in addition to any falling damage. Even nastier versions have poison smeared on the spikes. In that case, anyone taking piercing damage from the spikes must also make a DC 13 Constitution saving throw, taking an 22 (4d10) poison damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 13,
+      "save_ability": "Constitution",
+      "damage": "11 (2d10) piercing, plus 22 (4d10) poison (if poisoned)",
+      "damage_type": "piercing and poison",
+      "area": "Pit",
+      "description": "This pit trap is a simple, hidden, or locking pit trap with sharpened wooden or iron spikes at the bottom.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Poison Darts",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "When a creature steps on a hidden pressure plate, or when more than 20 pounds of weight is placed on the pressure plate",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "The DC to spot the tiny holes in the walls is 15. With a successful DC 15 Intelligence (Investigation) check, a character can deduce the presence of the pressure plate from variations in the mortar and stone used to create it, compared to the surrounding floor."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Wedging an iron spike or other object under the pressure plate prevents the trap from activating. Stuffing the holes with cloth or wax prevents the darts contained within from launching."
+      },
+      "effect": "The trap activates when more than 20 pounds of weight is placed on the pressure plate, releasing four darts. Each dart makes a ranged attack with a +8 bonus against a random target within 10 feet of the pressure plate (vision is irrelevant to this attack roll). (If there are no targets in the area, the darts don't hit anything.) A target that is hit takes 2 (1d4) piercing damage and must succeed on a DC 15 Constitution saving throw, taking 11 (2d10) poison damage on a failed save, or half as much damage on a successful one.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "2 (1d4) piercing, plus 11 (2d10) poison",
+      "damage_type": "piercing and poison",
+      "area": "Within 10 feet of the pressure plate",
+      "description": "When a creature steps on a hidden pressure plate, poison-tipped darts shoot from spring-loaded or pressurized tubes cleverly embedded in the surrounding walls.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Poison Needle",
+      "type": "mechanical",
+      "danger": "dangerous",
+      "trigger": "Opening the chest without the proper key causes the needle to spring out",
+      "detection": {
+        "dc": 20,
+        "skill": "Investigation",
+        "detail": "A successful DC 20 Intelligence (Investigation) check allows a character to deduce the trap's presence from alterations made to the lock to accommodate the needle."
+      },
+      "disarm": {
+        "dc": 15,
+        "method": "Dexterity (thieves' tools)",
+        "detail": "A successful DC 15 Dexterity check using thieves' tools disarms the trap, removing the needle from the lock. Unsuccessfully attempting to pick the lock triggers the trap."
+      },
+      "effect": "When the trap is triggered, the needle extends 3 inches straight out from the lock. A creature within range takes 1 piercing damage and 11 (2d10) poison damage, and must succeed on a DC 15 Constitution saving throw or be poisoned for 1 hour.",
+      "save_dc": 15,
+      "save_ability": "Constitution",
+      "damage": "1 piercing, plus 11 (2d10) poison",
+      "damage_type": "piercing and poison",
+      "area": "3 inches from the lock",
+      "description": "A poisoned needle is hidden within a treasure chest's lock, or in something else that a creature might open.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Rolling Sphere",
+      "type": "mechanical",
+      "danger": "deadly",
+      "trigger": "When 20 or more pounds of pressure are placed on this trap's pressure plate, a hidden trapdoor in the ceiling opens, releasing a 10-foot-diameter rolling sphere of solid stone.",
+      "detection": {
+        "dc": 15,
+        "skill": "Perception",
+        "detail": "With a successful DC 15 Wisdom (Perception) check, a character can spot the trapdoor and pressure plate. A search of the floor accompanied by a successful DC 15 Intelligence (Investigation) check reveals variations in the mortar and stone that betray the pressure plate's presence. The same check made while inspecting the ceiling notes variations in the stonework that reveal the trapdoor."
+      },
+      "disarm": {
+        "dc": 0,
+        "method": "",
+        "detail": "Wedging an iron spike or other object under the pressure plate prevents the trap from activating."
+      },
+      "effect": "Activation of the sphere requires all creatures present to roll initiative. The sphere rolls initiative with a +8 bonus. On its turn, it moves 60 feet in a straight line. The sphere can move through creatures' spaces, and creatures can move through its space, treating it as difficult terrain. Whenever the sphere enters a creature's space or a creature enters its space while it's rolling, that creature must succeed on a DC 15 Dexterity saving throw or take 55 (10d10) bludgeoning damage and be knocked prone. The sphere stops when it hits a wall or similar barrier. It can't go around corners, but smart dungeon builders incorporate gentle, curving turns into nearby passages that allow the sphere to keep moving. As an action, a creature within 5 feet of the sphere can attempt to slow it down with a DC 20 Strength check. On a successful check, the sphere's speed is reduced by 15 feet. If the sphere's speed drops to 0, it stops moving and is no longer a threat.",
+      "save_dc": 15,
+      "save_ability": "Dexterity",
+      "damage": "55 (10d10)",
+      "damage_type": "bludgeoning",
+      "area": "60-foot line",
+      "description": "When 20 or more pounds of pressure are placed on this trap's pressure plate, a hidden trapdoor in the ceiling opens, releasing a 10-foot-diameter rolling sphere of solid stone.",
+      "source": "DMG p.122"
+    },
+    {
+      "name": "Sphere of Annihilation",
+      "type": "magical",
+      "danger": "deadly",
+      "trigger": "Any matter that enters it is instantly obliterated",
+      "detection": {
+        "dc": 20,
+        "skill": "Arcana",
+        "detail": "A successful DC 20 Intelligence (Arcana) check reveals that the mouth contains a sphere of annihilation that can't be controlled or moved."
+      },
+      "disarm": {
+        "dc": 18,
+        "method": "dispel magic",
+        "detail": "A successful dispel magic (DC 18) removes this enchantment."
+      },
+      "effect": "Magical, impenetrable darkness fills the gaping mouth of a stone face carved into a wall. The mouth is 2 feet in diameter and roughly circular. No sound issues from it, no light can illuminate the inside of it, and any matter that enters it is instantly obliterated. Some versions of the trap include an enchantment placed on the stone face, such that specified creatures feel an overwhelming urge to approach it and crawl inside its mouth. This effect is otherwise like the sympathy aspect of the antipathy/sympathy spell.",
+      "save_dc": 0,
+      "save_ability": "",
+      "damage": "",
+      "damage_type": "",
+      "area": "2-foot-diameter mouth",
+      "description": "Magical, impenetrable darkness fills the gaping mouth of a stone face carved into a wall.",
+      "source": "DMG p.122"
+    }
+  ],
+  "_chapters_completed": [
+    "Introduction",
+    "Appendix B: Monster Lists",
+    "Appendix D: Dungeon Master Inspiration",
+    "Appendix A: Random Dungeons",
+    "Master of Rules",
+    "Master of Worlds",
+    "Index",
+    "Appendix C: Maps",
+    "Master of Adventures"
+  ],
+  "_chapter_errors": {},
+  "_current_chapter": "",
+  "_total_chapters": 9,
+  "_book_slug": "DMG",
+  "_book_title": "D&D 5E  Dungeon Master's Guide",
+  "_completed": true,
+  "_timestamp": 1790279673.688646
+}
