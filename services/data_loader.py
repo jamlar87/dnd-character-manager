@@ -16,6 +16,7 @@ from typing import Any
 
 from data import FEATURE_DESCRIPTIONS, RACIAL_TRAIT_DESCS, RACIAL_TRAIT_EFFECTS
 from services.items import _resolve_source
+from services.sources import is_placeholder_source
 
 
 @lru_cache(maxsize=128)
@@ -198,6 +199,10 @@ def _validate_manual_sources() -> None:
             src = entry.get("source", "")
             slug = (entry.get("_source_manual") or "").strip()
             if not src:
+                continue
+            if is_placeholder_source(src):
+                warnings.append(f"  ⚠ {fn}: {name} — placeholder source {src[:60]!r}: the book "
+                                "was never determined, so nothing upstream can resolve it")
                 continue
             if not _SOURCE_VALID_CLEAN.match(src):
                 warnings.append(f"  ⚠ {fn}: {name} — bad format: '{src[:80]}'")

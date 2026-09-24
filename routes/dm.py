@@ -20,6 +20,7 @@ from main import ALIGNMENTS
 from routes.characters.sheet import allocate_ability_scores, calc_hp, get_equipment_for_level, get_spells_for_level
 from routes.characters.ai_routes import _calculate_ac, _pick_skills
 from services.leveling import PROFICIENCY_BONUS, get_class_features
+from services.sources import clean_source_display
 
 router = APIRouter()
 
@@ -119,7 +120,7 @@ async def dm_tools(request: Request):
             "features": json.dumps(mn.get("features", [])),
             "inventory": json.dumps(mn.get("equipment", [])),
             "notes": mn.get("description", ""),
-            "source": mn.get("source", "Manual"),
+            "source": clean_source_display(mn.get("source"), "Manual"),
             "xp_reward": mn.get("xp_reward", 0),
             "strength": scores.get("strength", 0) if has_stats else 0,
             "dexterity": scores.get("dexterity", 0) if has_stats else 0,
@@ -674,7 +675,7 @@ async def dm_npcs_list(request: Request):
             "challenge_rating": mn.get("challenge_rating"),
             "inventory": mn.get("equipment", []),
             "notes": mn.get("description", ""),
-            "source": mn.get("source", "Manual"),
+            "source": clean_source_display(mn.get("source"), "Manual"),
             "xp_reward": mn.get("xp_reward", 0),
             "_narrative": not has_stats,
         })
@@ -718,7 +719,7 @@ async def dm_npc_detail(npc_id: int, request: Request):
             "features": mn.get("features", []),
             "inventory": mn.get("equipment", []),
             "notes": mn.get("description", ""),
-            "source": mn.get("source", "Manual"),
+            "source": clean_source_display(mn.get("source"), "Manual"),
             "xp_reward": mn.get("xp_reward", 0),
             "strength": scores.get("strength", 0) if has_stats else 0,
             "dexterity": scores.get("dexterity", 0) if has_stats else 0,
@@ -832,7 +833,7 @@ def _monster_card_payload(m: dict) -> dict:
         "ac": ac_val if ac_val is not None else "?",
         "hp": m.get("hit_points", 0),
         "xp": m.get("xp", 0),
-        "src": m.get("source", "") or "",
+        "src": clean_source_display(m.get("source")),
     }
 
 
@@ -885,7 +886,7 @@ def _manual_npc_payload(n: dict) -> dict:
         "ac": n.get("ac", 10),
         "role": n.get("role", ""),
         "al": n.get("alignment", ""),
-        "src": n.get("source", "") or "",
+        "src": clean_source_display(n.get("source")),
         "notes": n.get("notes", "") or "",
         "narr": 1 if n.get("_narrative") else 0,
     }
