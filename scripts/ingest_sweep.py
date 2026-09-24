@@ -280,6 +280,27 @@ def main() -> int:
                 mm = re.search(r"pdf_map entries re-pointed: (\d+)", mp.stdout or "")
                 if mm and int(mm.group(1)):
                     log(f"  {mm.group(1)} pdf_map path(s) re-pointed at the real file")
+                    # main.py caches the manual index in memory, so a re-pointed path is invisible —
+                    # the badge keeps answering "PDF not found" — until the process restarts. Serve
+                    # it now. Throttled to once per 10 minutes: a restart interrupts whatever request
+                    # is in flight, and an idle sweep must not blip the app every few minutes.
+                    stamp = MERGED.parent / ".last_service_restart"
+                    try:
+                        last = float(stamp.read_text().strip()) if stamp.exists() else 0.0
+                    except Exception:  # noqa: BLE001
+                        last = 0.0
+                    if time.time() - last >= 600:
+                        try:
+                            r = subprocess.run(
+                                ["sudo", "-n", "systemctl", "restart", "dnd-character-manager"],
+                                capture_output=True, text=True, timeout=60)
+                            if r.returncode == 0:
+                                stamp.write_text(str(int(time.time())))
+                                log("  service restarted so the repaired paths are served")
+                            else:
+                                log(f"  service restart skipped (rc={r.returncode}) — badges stay stale")
+                        except Exception as exc:  # noqa: BLE001
+                            log(f"  service restart failed: {type(exc).__name__}: {exc}")
             except Exception as exc:  # noqa: BLE001
                 log(f"  pdf_map path check failed: {type(exc).__name__}: {exc}")
             post = counts()

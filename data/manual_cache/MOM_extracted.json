@@ -1,0 +1,68 @@
+{
+  "races": [],
+  "spells": [],
+  "magic_items": [],
+  "equipment": [],
+  "monsters": [],
+  "npcs": [
+    {
+      "name": "The Vagrant Sage",
+      "race": "Folk of Leng",
+      "class_name": "",
+      "subclass": "",
+      "level": 0,
+      "alignment": "",
+      "armor_class": 0,
+      "hit_points": "",
+      "speed": "",
+      "ability_scores": {},
+      "saving_throws": {},
+      "skills": {},
+      "features": [
+        {
+          "name": "Personality Traits",
+          "description": "Atypically solitary folk of Leng (see Tome of Beasts 1). Asks many rhetorical questions. Deeply knowledgeable, self-proclaimed historian. Head in the clouds. Likes to show off seemingly worthless trinkets."
+        },
+        {
+          "name": "Bonds",
+          "description": "His precious relics."
+        },
+        {
+          "name": "Flaws",
+          "description": "Has a hard time staying in the here and now."
+        },
+        {
+          "name": "Wants",
+          "description": "To acquire relics and learn more of the history of the region."
+        },
+        {
+          "name": "Talking to the Vagrant Sage",
+          "description": "He is taciturn and cagey at first, though can be drawn out of his shell if the PCs willingly sit through at least 1 hour of his ramblings on the history of the Margreve, the Crossroads, and House Stross. Once they have gained his trust, he offers the following:\n• Though unwilling to divulge why he seeks these relics (a motive you can develop as you play), the Vagrant Sage pays fairly for relics according to their rarity. Use the Relic Payout table as a guide.\n• If given a relic, he muses on its historical significance (see Margrevian Relics)."
+        }
+      ],
+      "actions": [],
+      "equipment": [],
+      "spellcasting": null,
+      "description": "Patchwork robes. Hunched shoulders. Carries his small home on his back. Endless pouches and packs.",
+      "role": "Quest giver",
+      "is_enemy": false,
+      "xp_reward": 0,
+      "source": "Margreve Player's Guide p.5-6"
+    }
+  ],
+  "feats": [],
+  "backgrounds": [],
+  "subclasses": [],
+  "traps": [],
+  "_chapters_completed": [
+    "Marauders of the Margreve",
+    "Landmarks of the Great Northern Road",
+    "Side Quest: The Relic Hunt"
+  ],
+  "_current_chapter": "Agents of the Margreve",
+  "_total_chapters": 9,
+  "_book_slug": "MOM",
+  "_book_title": "Marauders of the Margreve",
+  "_completed": false,
+  "_timestamp": 1790287186.3984697
+}
