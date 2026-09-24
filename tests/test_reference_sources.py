@@ -67,10 +67,16 @@ def test_empty_source_is_not_a_placeholder_but_still_takes_the_fallback():
 
 
 def test_reported_npcs_carry_a_real_book():
-    """The three names from the report, pinned to the evidence-backed attributions."""
+    """The three names from the report, pinned to the evidence-backed attributions.
+
+    Nar'I Xibrindas was pinned to WDH p.21, but no line of p.21 contains the name in the cached
+    text. Its entry is the appendix-B stat block at p.212 ("NAR'L XIBRINDAS ... named Nar'I
+    Xibrindas"). A page repair had moved it to p.5, the book's pronunciation guide, where the name
+    sits alone on a line and so looked like a heading.
+    """
     want = {
         "Finethir Shinebright": ("(The Wild Sheep Chase, p.2)", "WSC"),
-        "Nar'I Xibrindas": ("(Waterdeep: Dragon Heist, p.21)", "WDH"),
+        "Nar'I Xibrindas": ("(Waterdeep: Dragon Heist, p.212)", "WDH"),
         "Victoro Cassalanter": ("(Waterdeep: Dragon Heist, p.218)", "WDH"),
     }
     npcs = {n["name"]: n for n in json.loads((MANUAL / "npcs.json").read_text())}

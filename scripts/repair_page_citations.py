@@ -47,6 +47,21 @@ def is_toc_line(text: str, needle: str) -> bool:
     return False
 
 
+_PHONETIC = re.compile(r"\b[A-Z]{2,}-[A-Za-z'’-]{2,}")   # NAR-ul, KAS-ah-lan-ter, awl-SEE-door
+
+
+def looks_like_name_list(text: str) -> bool:
+    """True for a glossary-shaped page: a pronunciation guide or dramatis personae.
+
+    Such a page names the record without being its entry, and its lines look exactly like
+    headings. WDH p.5 is a two-column pronunciation list, and the citation for Nar'I Xibrindas
+    landed there instead of the appendix-B stat block on p.212 — the name sits on its own line,
+    so the heading test matched. Phonetic tokens ("NAR-ul zeh-BRIN-das") give it away; a real
+    entry page does not carry four or more of them.
+    """
+    return len(_PHONETIC.findall(text)) >= 4
+
+
 def heading_page(pages: dict[int, str], name: str) -> int | None:
     """Page whose line *is* the name (a heading), not a page that merely mentions it."""
     words = [w for w in re.findall(r"[A-Za-z0-9'-]+", name) if len(w) > 2]
@@ -54,6 +69,8 @@ def heading_page(pages: dict[int, str], name: str) -> int | None:
         return None
     pattern = re.compile(r"[\s\-–—:,'’]*".join(re.escape(w) for w in words), re.I)
     for n in sorted(pages):
+        if looks_like_name_list(pages[n]):
+            continue
         for raw_line in pages[n].split("\n"):
             line = raw_line.strip()
             if not line or len(line) > len(name) + 12:
@@ -82,6 +99,8 @@ def find_in_book(pages: dict[int, str], name: str) -> int | None:
     for n in sorted(pages):
         text = pages[n]
         if len(text.strip()) < 800:      # front matter, contents, index: too thin to be the entry
+            continue
+        if looks_like_name_list(text):   # pronunciation guide / roster: names it, is not its entry
             continue
         flat = re.sub(r"\s+", " ", text)
         if re.search(pattern, flat, re.I) and not is_toc_line(text, pattern):
