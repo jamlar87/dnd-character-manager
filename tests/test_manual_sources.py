@@ -72,11 +72,9 @@ PDF_PAGE_RANGES = {
 
 CLEAN_FORMAT = re.compile(r'^\([A-Za-z][^)]+\)$')
 
-# Citations past the end of their book that are knowingly left for a human. Neither name below
-# appears in ANY cached book's text, so the real source cannot be decided from the name; both cite
-# p.191 inside a 26-page adventure. Guessing a book would be worse than flagging it — same call as
-# the WS/TLT records in test_source_slugs_are_library_books. Keep this list tiny and commented.
-KNOWN_OUT_OF_RANGE = {("resistance", "SDQ"), ("ring of cold energy resistance", "SDQ")}
+# No known-bad citations remain. When one appears, add it here WITH the evidence that
+# made it undecidable (name in no cached book, page past the book), never just to go green.
+KNOWN_OUT_OF_RANGE: set[tuple[str, str]] = set()
 PAGE_FORMAT = re.compile(r'^\(([^,]+),\s*p\.(\d+)\)$')
 NO_PAGE_FORMAT = re.compile(r'^\(([^)]+)\)$')
 

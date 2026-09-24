@@ -29,6 +29,9 @@ sys.path.insert(0, str(HERE))
 CATEGORIES = ("races", "spells", "magic_items", "equipment", "monsters",
               "npcs", "feats", "backgrounds", "subclasses", "traps")
 
+sys.path.insert(0, str(HERE / "scripts"))
+from page_fit import pdf_page_counts  # noqa: E402  (shared with the cleanup cron)
+
 
 def load_pages(slug: str) -> dict[int, str]:
     """Page number -> text for a book's cache.
@@ -133,6 +136,8 @@ def main() -> int:
 
     per_book: collections.Counter = collections.Counter()
     bad_slug, bad_display, bad_book, bad_page, bad_file = [], [], [], [], []
+    bad_range: list[str] = []
+    pdf_counts = pdf_page_counts(pdf_map)
     bad_book_absent: list[str] = []
     page_markerless: list[str] = []
     loose_pages: list[str] = []
@@ -190,6 +195,14 @@ def main() -> int:
 
             # 3. does the cited page contain the name?
             page = int(parsed.group(2)) if parsed else None
+            # A page past the end of the real PDF is not merely unverifiable — the slug is wrong.
+            # 141 records citing a 7-page book with pages 10-168 hid here as "cannot verify",
+            # because the check below only ever compared against the cached text.
+            real_pages = pdf_counts.get(slug)
+            if page and real_pages and page > real_pages:
+                bad_range.append(f"{cat}/{name}: cites {slug} p.{page}, but that PDF has only "
+                                 f"{real_pages} pages — the page cannot exist in that book")
+                continue
             if page and name and name.lower() not in ("", "unknown"):
                 pages = pages_cache.setdefault(slug, load_pages(slug))
                 if not pages:
@@ -241,7 +254,8 @@ def main() -> int:
         print(f"   {slug:8} {n:5}{flag}")
     print(f"\ntotal: {sum(per_book.values())} | citations cross-checked against book text: {checked_pages}\n")
 
-    for label, rows in (("slug not openable", bad_slug),
+    for label, rows in (("cited page cannot exist in its book", bad_range),
+                        ("slug not openable", bad_slug),
                         ("citation does not resolve (badge would alert)", bad_display),
                         ("citation names a different book", bad_book),
                         ("name is nowhere in the cited book (attribution suspect)", bad_book_absent),
@@ -264,7 +278,7 @@ def main() -> int:
     print(f"source is not a library book (Homebrew/SRD — informational): {len(non_book)}")
     for row in non_book[:args.show]:
         print(f"   - {row}")
-    ok = not (bad_slug or bad_display or bad_book or bad_page or bad_file)
+    ok = not (bad_slug or bad_display or bad_book or bad_page or bad_file or bad_range)
     print("\nRESULT:", "all wired correctly" if ok else "problems above")
     return 0 if ok else 1
 
