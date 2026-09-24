@@ -18,13 +18,10 @@ from services.sources import clean_source_display, is_placeholder_source
 REPO = Path(__file__).resolve().parent.parent
 MANUAL = REPO / "data" / "manual_data"
 
-# Records left as-is on purpose: no book can be evidenced for them, and the loader
-# replaces the displayed source anyway. Anything else is a regression.
-KNOWN_GAPS = {
-    ("races.json", "Xvart"),
-    ("subclasses.json", "Tempest Domain"),
-    ("subclasses.json", "Trickery Domain"),
-}
+# Records left as-is on purpose, with no book that can be evidenced for them.
+# Empty since 2026-09-24: the last three (Xvart, Tempest Domain, Trickery Domain) were
+# attributed to Volo's Guide to Monsters p.200 and Player's Handbook p.62.
+KNOWN_GAPS: set[tuple[str, str]] = set()
 
 # Every phrasing of "we never worked out the book" that has appeared in the data.
 PLACEHOLDERS = [
@@ -120,3 +117,51 @@ def test_generated_dm_library_asset_has_no_placeholder():
     if not asset.exists():
         pytest.skip("dm-library.js not generated yet (first DM-tools render)")
     assert "Unknown Source" not in asset.read_text()
+
+
+def test_race_page_map_agrees_with_the_record():
+    """A page map entry OVERRIDES the displayed source, so a stale entry there beats a
+    correct record — that is how Xvart ended up served as 'PHB 2014 p.55', a book with no
+    xvart anywhere in it."""
+    page_map = json.loads((REPO / "data/page_maps/race_page_map.json").read_text())
+    races = {r["name"]: r for r in json.loads((MANUAL / "races.json").read_text())}
+    assert page_map["xvart"] == {"page": 200, "source_str": "VGM p.200"}
+    assert races["Xvart"]["source"] == "(Volo's Guide to Monsters, p.200)"
+    assert races["Xvart"]["_source_manual"] == "VGM"
+
+
+def test_page_maps_agree_with_the_records_they_override():
+    """A subclass's displayed source comes from class_page_map.json; the book it names must
+    be the one the record names, and the page must match, or the badge lies."""
+    page_map = json.loads((REPO / "data/page_maps/class_page_map.json").read_text())
+    subs = {s["name"]: s for s in json.loads((MANUAL / "subclasses.json").read_text())}
+    expected = {"Tempest Domain": "PHB", "Trickery Domain": "PHB",
+                "Arcana Domain": "SCAG", "The Undying": "SCAG"}
+    for name, slug in expected.items():
+        mapped = page_map.get(name.lower())
+        assert mapped, f"{name} missing from the class page map"
+        assert mapped["source_str"].upper().startswith(slug), mapped
+        assert subs[name]["_source_manual"] == slug
+        assert re.search(rf"p\.\s*{mapped['page']}", subs[name]["source"]), (
+            f"{name}: record says {subs[name]['source']!r}, map says {mapped['source_str']!r}")
+
+
+def test_suppression_list_does_not_shadow_a_live_source():
+    """_knownMissingSources silences a badge click without a word, so it must never name a
+    source that exists in the data — that would hide a click that actually works."""
+    js = (REPO / "static/dm_tools.js").read_text()
+    m = re.search(r"const _knownMissingSources = new Set\(\[(.*?)\]\);", js, re.S)
+    assert m, "_knownMissingSources not found in static/dm_tools.js"
+    entries = {e.lower().strip() for e in re.findall(r"'([^']*)'", m.group(1))}
+    live = set()
+    for path in MANUAL.glob("*.json"):
+        try:
+            doc = json.loads(path.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        records = doc if isinstance(doc, list) else list(doc.values())
+        for rec in records:
+            if isinstance(rec, dict) and rec.get("source"):
+                live.add(str(rec["source"]).lower().strip())
+    shadowing = sorted(entries & live)
+    assert shadowing == [], f"suppression list hides real sources: {shadowing[:5]}"

@@ -2,71 +2,12 @@
 // ── Source reference: click 📚 badge → open PDF ──
 /* SOURCE_SLUG_MAP and NAMED_ITEM_TYPES set by template */  // server-side weapon/armor classification
 const _missingSourceAlerted = new Set();
-const _knownMissingSources = new Set([
-  'page 157', 'page 180', 'page 20', 'page 24', 'page 27', 'page 30',
-  'page 39', 'page 42', 'page 59', 'page 60', 'unknown page', 'page 55',
-  'page 126', 'page 15-16', 'page 17-18', 'page 34-35', 'page 35',
-  'unknown source', 'unknown sourcebook', 'unknown sourcebook page',
-  'unknown (page not determinable)', 'unknown (page not determinable from text)',
-  'unknown (text provided)', 'unknown source (page not determinable)',
-  'unknown source (page not determinable from text)', 'unknown source (page 37)',
-  'unknown (text fragment)', 'unknown source (stat block only)',
-  'sourcebook', 'sourcebook page', 'adventure text',
-  'adventure text (page 18)', 'adventure text (page 19)', 'adventure text p.46',
-  'baldur\'s gate: descent into avernus', 'mythic odysseys of theros',
-  '225', 'r66', '~66', '~99',
-  '!89', '103-104', '104', '145', '168', '169', '45',
-  'p.103', 'p.131', 'p.136', 'p.136-137', 'p.141', 'p.170-171', 'p.171',
-  'p.172-173', 'p.173', 'p.174', 'p.174-175', 'p.35-36', 'p.51',
-  'page 10-11', 'page 11', 'page 135', 'page 30', 'page 34',
-  'page 34-35', 'page 35', 'page 47', 'page 49', 'page 60',
-  'page 17-18', 'page 179', 'page 179-180', 'page 18-19', 'page 180',
-  'page 19-20', 'page 23',
-  'dungeon master\'s tools p.?', 'unknown (mind flayer section)',
-  'unknown (beholders section)', 'unknown (fragmentary text)',
-  'unknown (page 3-4)', 'unknown (page 47)', 'unknown (page 6)',
-  'unknown (page rzg)', 'unknown (sourcebook text provided)',
-  'unknown (stat block from text)', 'unknown (text fragment)',
-  'unknown source (adventure text)', 'unknown source (nilbog stat block)',
-  'unknown source (page 54 indicated in text)', 'unknown source (stat block only)',
-  'unknown source p.67', 'unknown sourcebook p.13-14',
-  'unknown sourcebook p.15-17', 'unknown sourcebook page',
-  'page 10-11', 'page 11', 'page 135', 'page 17-18',
-  'page 179', 'page 179-180', 'page 18-19', 'page 180',
-  'page 19-20', 'page 23', 'page 30', 'page 34',
-  'page 34-35', 'page 35', 'page 47', 'page 49', 'page 60',
-  'page 6', 'page 6-7', 'page 7', 'page 8', 'page 9', 'page 94',
-  'page 96', 'page 97', 'pages 11-12', 'pages 12-13',
-  'pages 17-19', 'pages 19-20', 'pages 30-31',
-  'what lies beneath', 'the night messengers', 'radiance lost',
-  'the green knight of the woods', 'the eel hounds',
-  'the deeper woods and the fey roads', 'siege of the false mill',
-  'river court rogue\'s gallery', 'the lands about the mountain',
-  'dark waters', 'shadows in the north', 'nightmares of angmar',
-  'harder than stone', 'the company of the wain', 'imladris',
-  'shadows over tyrn gorthad', 'krenko\'s hideout',
-  'loremaster\'s guide (page inferred from text)',
-  'dungeon master\'s tools', 'appendix a | monsters & npcs 30',
-  'appendix a | monsters & npcs 31',
-  'chapter 6 | friends and foes', 'chapter 6 i bestiary',
-  'warlock', 'dinosaurs page', 'sourcebook',
-  '169', 'page 5', 'page 10-11', 'page 23', 'page 26-27',
-  'page 30', 'page 49', 'page 54', 'page 55', 'page 152',
-  'page 180', 'page 191', 'page 15-16',
-  'magic items and trickery', 'baubles of the darkened druids',
-  'wondrous, legendary and healing items (page 139)',
-  'dungeon master\'s tools p.?', 'the night messengers',
-  'adventure text', 'unknown (mind flayer section)',
-  'appendix c: magic items', 'appendix a | magic items',
-  'appendix b | magic items', 'appendix a: magic items',
-  'appendix b: magic items', 'appendix c: council scorecard',
-  'appendix c | discoveries', 'appendix 1 | monster & npc statistics',
-  'appendix c p.206',
-  'chapter 2, the land of chult, page 57',
-  'page 59', 'page 29', 'page 8', 'page 7', 'page 9', 'page 27',
-  'page 157', 'page 201', 'page 203', 'page 180', 'page 8',
-  'page 180', 'page 191', '161', '169',
-]);
+// Sources openSourceRef() stays quiet about. It was seeded with ~200 hand-added
+// strings from an earlier data cleanup ("page 157", "unknown page", ...); all of them
+// went stale on 2026-09-24, when every reference source that could not name a real book
+// was attributed or removed. Keep it empty unless a genuinely unopenable source
+// reappears — openSourceRef alerts once per source, which is the honest behaviour.
+const _knownMissingSources = new Set([]);
 function openSourceRef(src, slug) {
   if (!src || src.startsWith('SRD')) return;
   if (_knownMissingSources.has(src.toLowerCase().trim())) return;

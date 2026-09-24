@@ -85,6 +85,10 @@ RACE_FIXES = {
                     "EEPC genasi section, recorded page matches"),
     "Water Genasi": ("Elemental Evil Player's Companion", 10, "EEPC",
                      "EEPC genasi section, recorded page matches"),
+    "Xvart": ("Volo's Guide to Monsters", 200, "VGM",
+              "VGM index lists 'Xvart ... 200', and p.200's stat block carries the traits this "
+              "record stores (Overbearing Pack, Raxivort's Tongue); the recorded page 55 pointed "
+              "at the PHB, which has no xvart at all"),
 }
 
 SUBCLASS_FIXES = {
@@ -92,18 +96,26 @@ SUBCLASS_FIXES = {
                       "SCAG p.125 is the Arcana Domain; recorded page matches"),
     "The Undying": ("Sword Coast Adventurer's Guide", 139, "SCAG",
                     "SCAG p.139 is the undying patron; recorded page matches"),
+    "Tempest Domain": ("Player's Handbook", 62, "PHB",
+                       "the app's own class_page_map.json says 'PHB 2014 p.62' for this domain, "
+                       "and the PHB is the only book that prints it"),
+    "Trickery Domain": ("Player's Handbook", 62, "PHB",
+                        "the app's own class_page_map.json says 'PHB 2014 p.62' for this domain"),
 }
 
-# No evidence for a book. Left alone deliberately: the loader replaces the displayed
-# source for these, so rewriting would only touch the file while risking a worse value.
-SKIP = {
-    "Xvart": "recorded p.55 matches no book containing the name (VGM holds it at p.200); the "
-             "loader already serves a non-placeholder value",
-    "Tempest Domain": "recorded p.6 matches no book containing it; the displayed source comes "
-                      "from the subclass page map",
-    "Trickery Domain": "recorded p.6 matches no book containing it; the displayed source comes "
-                       "from the subclass page map",
+# data/page_maps/*.json entries OVERRIDE the displayed source at load time, so a wrong
+# entry there beats a correct record.  map file -> key -> (page, source_str, evidence)
+PAGE_MAP_FIXES = {
+    "race_page_map.json": {
+        "xvart": (200, "VGM p.200",
+                  "the map said 'PHB 2014 p.55' but no PHB page holds a xvart; VGM p.200 does"),
+    },
 }
+
+# Records with no evidence for a book. Left alone deliberately: the loader replaces the
+# displayed source for these, so rewriting would only touch the file while risking a worse
+# value.  (Empty since 2026-09-24 — all placeholders are now attributed.)
+SKIP: dict[str, str] = {}
 
 TARGETS = [("npcs.json", "npcs", NPC_FIXES), ("feats.json", "feats", FEAT_FIXES),
            ("races.json", "races", RACE_FIXES), ("subclasses.json", "subclasses", SUBCLASS_FIXES)]
@@ -149,6 +161,29 @@ def main():
         if args.apply:
             path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
         print(f"  -> {fname}: {changed} rewritten\n")
+        total += changed
+
+    # Page maps override the displayed source at load time, so fix them in the same pass.
+    pm_dir = REPO / "data" / "page_maps"
+    for mname, mfixes in PAGE_MAP_FIXES.items():
+        mpath = pm_dir / mname
+        doc = json.loads(mpath.read_text())
+        changed = 0
+        for key, (page, source_str, why) in mfixes.items():
+            cur = doc.get(key)
+            if isinstance(cur, dict) and cur.get("page") == page and cur.get("source_str") == source_str:
+                print(f"  = {mname:<20} {key:<24} already {source_str}")
+                continue
+            was = cur.get("source_str") if isinstance(cur, dict) else cur
+            print(f"  {mname:<20} {key:<24} {str(was):<24} -> {source_str:<16} [{why[:56]}]")
+            if args.apply:
+                if changed == 0:
+                    shutil.copy2(mpath, BACKUP / mname)
+                doc[key] = {"page": page, "source_str": source_str}
+            changed += 1
+        if args.apply and changed:
+            mpath.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+        print(f"  -> {mname}: {changed} rewritten\n")
         total += changed
 
     print(f"total rewritten: {total}")
